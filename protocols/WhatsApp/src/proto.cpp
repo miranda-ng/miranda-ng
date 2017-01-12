@@ -261,7 +261,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 	nlhr.headersCount = _countof(s_registerHeaders);
 	nlhr.flags = NLHRF_HTTP11 | NLHRF_SSL;
 
-	NETLIBHTTPREQUEST* pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)g_hNetlibUser, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST* pnlhr = Netlib_HttpTransaction(g_hNetlibUser, &nlhr);
 
 	const wchar_t *ptszTitle = TranslateT("Registration");
 	if (pnlhr == NULL) {

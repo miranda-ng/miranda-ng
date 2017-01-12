@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HANDLE hNetlibUser;
+HNETLIBUSER hNetlibUser;
 
 static void arrayToHex(BYTE* data, size_t datasz, char* res)
 {
@@ -122,7 +122,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 
 	while (result == 0xBADBAD) {
 		// download the page
-		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
+		NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
 		if (nlhrReply) {
 			int i;
 
@@ -189,7 +189,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 			ShowMessage(0, TranslateT("Cannot upload Version Info. Host unreachable."));
 		}
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+		Netlib_FreeHttpRequest(nlhrReply);
 	}
 
 	mir_free(szRedirUrl);

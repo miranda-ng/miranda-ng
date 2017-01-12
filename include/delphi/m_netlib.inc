@@ -466,59 +466,7 @@ type
 	  szIp :array[0..0,0..63] of AnsiChar;
   end;
 
-const
-{
-  Get connection Information
-  wParam=(WPARAM)IP filter 1 - return global only IPv6 address, 0 all IPs
-  Returns (INT_PTR)(NETLIBIPLIST*) numeric IP address address array
-  the last element of the array is all 0s, 0 if not successful
-}
-  MS_NETLIB_GETMYIP:PAnsiChar = 'Netlib/GetMyIP';
-
   {
-    wParam : HANDLE
-    lParam : Pointer to a initialised TNETLIBHTTPREQUEST structure
-    Affect : Send an HTTP request over a connection, see notes
-    Returns: The number of bytes on success, SOCKET_ERROR on failure
-    Notes  : HANDLE must of been returned by MS_NETLIB_OPENCONNECTION,,
-             If you use NLHRF_SMARTAUTHHEADER and NTLM auth is in use then
-             full NTLM auth transcation occurs, comprising sending the
-             domain, getting the challenge, sending the response.
-             NETLIBHTTPREQUEST.resultCode and NETLIBHTTPREQUEST.szResultDescr are
-             ignored by this service.
-    Errors : ERROR_INVALID_PARAMETER, MS_NETLIB_SEND (return codes)
-  }
-  MS_NETLIB_SENDHTTPREQUEST:PAnsiChar = 'Netlib/SendHttpRequest';
-
-  {
-    wParam : HANDLE
-    lParam : 0
-    Affect : Receive HTTP headers, see notes
-    Returns: A pointer to a TNETLIBHTTPREQUEST structure on success, NULL(0) on failure
-    Notes  : The returned pointer must be freed after it's done with
-             use MS_NETLIB_FREEHTTPREQUESTSTRUCT.
-             -
-             HANDLE must be returned by MS_NETLIB_OPENCONNECTION
-             -
-             Return^.pData=NIL and Return^.dataLength=0 always
-             -
-             The returned data should be retrieved using MS_NETLIB_RECV once
-             the headers have been parsed.
-             If headers haven't finished within 60 seconds the function returns
-             NULL(0) and ERROR_TIMEOUT
-    Errors : ERROR_INVALID_PARAMETER, any MS_NETLIB_RECV or select()
-             ERROR_HANDLE_EOF (connection closed bfore headers complete)
-             ERROR_TIMEOUT (headers still not complete after 60 seconds)
-             ERROR_BAD_FORMAT (invalid character or line ending in headers, or first line is blank)
-             ERROR_BUFFER_OVERFLOW (each header line must be less than 4096 chars long)
-             ERROR_INVALID_DATA (first header line is malformed ("http/[01].[0-9] [0-9]+ .*", or no colon in subsequent line)
-
-  }
-  MS_NETLIB_RECVHTTPHEADERS:PAnsiChar = 'Netlib/RecvHttpHeaders';
-
-  {
-    wParam : 0
-    lParam : Pointer returned by MS_NETLIB_RECVHTTPHEADERS to free
     Affect : Free the memory used by a TNETLIBHTTPREQUEST structure, see notes
     Returns: [non zero] on success, NULL(0) on failure
     Notes  : This service should only be used with memory pointers returned
@@ -526,7 +474,8 @@ const
     Errors : ERROR_INVALID_PARAMETER
 
   }
-  MS_NETLIB_FREEHTTPREQUESTSTRUCT:PAnsiChar = 'Netlib/FreeHttpRequestStruct';
+
+function Netlib_FreeHttpRequest(param:PNETLIBHTTPREQUEST) : bytebool; stdcall; external AppDll;
 
   {
     wParam : HANDLE
@@ -564,7 +513,8 @@ const
     Errors : ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY
              Errors returned by the aforementioned internally used functions
   }
-  MS_NETLIB_HTTPTRANSACTION:PAnsiChar = 'Netlib/HttpTransaction';
+
+function Netlib_HttpTransaction(nlu:THANDLE; param:PNETLIBHTTPREQUEST) : PNETLIBHTTPREQUEST; stdcall; external AppDll;
 
   {
     Affect : Send data over an open connection see notes

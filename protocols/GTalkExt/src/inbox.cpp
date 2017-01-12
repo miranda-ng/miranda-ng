@@ -51,7 +51,7 @@ const NETLIBHTTPHEADER HEADER_URL_ENCODED = { "Content-Type", "application/x-www
 #define NLH_INVALID      0
 #define NLH_USER         'USER'
 
-LPSTR HttpPost(HANDLE hUser, LPSTR reqUrl, LPSTR reqParams)
+LPSTR HttpPost(HNETLIBUSER hUser, LPSTR reqUrl, LPSTR reqParams)
 {
 	NETLIBHTTPREQUEST nlhr = { sizeof(nlhr) };
 	nlhr.requestType = REQUEST_POST;
@@ -62,11 +62,11 @@ LPSTR HttpPost(HANDLE hUser, LPSTR reqUrl, LPSTR reqParams)
 	nlhr.pData = reqParams;
 	nlhr.dataLength = (int)mir_strlen(reqParams);
 
-	NLHR_PTR pResp((NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hUser, (LPARAM)&nlhr));
+	NLHR_PTR pResp(Netlib_HttpTransaction(hUser, &nlhr));
 	return ((pResp && pResp->resultCode == HTTP_OK) ? mir_strdup(pResp->pData) : nullptr);
 }
 
-LPSTR MakeRequest(HANDLE hUser, LPSTR reqUrl, LPSTR reqParamsFormat, LPSTR p1, LPSTR p2)
+LPSTR MakeRequest(HNETLIBUSER hUser, LPSTR reqUrl, LPSTR reqParamsFormat, LPSTR p1, LPSTR p2)
 {
 	ptrA encodedP1(mir_urlEncode(p1)), encodedP2(mir_urlEncode(p2));
 	size_t size = mir_strlen(reqParamsFormat) + 1 + mir_strlen(encodedP1) + mir_strlen(encodedP2);
@@ -104,7 +104,7 @@ void DoOpenUrl(LPSTR tokenResp, LPSTR url)
 	Utils_OpenUrl(composedUrl);
 }
 
-BOOL AuthAndOpen(HANDLE hUser, LPSTR url, LPSTR mailbox, LPSTR pwd)
+BOOL AuthAndOpen(HNETLIBUSER hUser, LPSTR url, LPSTR mailbox, LPSTR pwd)
 {
 	ptrA authResp(MakeRequest(hUser, AUTH_REQUEST_URL, AUTH_REQUEST_PARAMS, mailbox, pwd));
 	if (!authResp)
@@ -127,7 +127,7 @@ struct OPEN_URL_HEADER {
 	LPCSTR acc;
 };
 
-HANDLE FindNetUserHandle(LPCSTR acc)
+HNETLIBUSER FindNetUserHandle(LPCSTR acc)
 {
 	IJabberInterface *ji = getJabberApi(acc);
 	if (!ji)
@@ -140,7 +140,7 @@ void OpenUrlThread(void *param)
 {
 	OPEN_URL_HEADER* data = (OPEN_URL_HEADER*)param;
 
-	HANDLE hUser = FindNetUserHandle(data->acc);
+	HNETLIBUSER hUser = FindNetUserHandle(data->acc);
 	if (!hUser || !AuthAndOpen(hUser, data->url, data->mailbox, data->pwd))
 		Utils_OpenUrl(data->url);
 	free(data);

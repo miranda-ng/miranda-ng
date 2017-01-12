@@ -498,12 +498,10 @@ struct NETLIBHTTPREQUEST
 #define MS_NETLIB_SENDHTTPREQUEST   "Netlib/SendHttpRequest"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Receive HTTP headers
-// wParam = (WPARAM)(HANDLE)hConnection
-// lParam = 0
-// Returns a pointer to a NETLIBHTTPREQUEST structure on success, NULL on
-// failure.
-// Call MS_NETLIB_FREEHTTPREQUESTSTRUCT to free this.
+// Receives HTTP headers
+//
+// Returns a pointer to a NETLIBHTTPREQUEST structure on success, NULL on failure.
+// Call Netlib_FreeHttpRequest() to free this.
 // hConnection must have been returned by MS_NETLIB_OPENCONNECTION
 // nlhr->pData = NULL and nlhr->dataLength = 0 always. The requested data should
 // be retrieved using MS_NETLIB_RECV once the header has been parsed.
@@ -516,22 +514,21 @@ struct NETLIBHTTPREQUEST
 //    ERROR_BUFFER_OVERFLOW (each header line must be less than 4096 chars long)
 //    ERROR_INVALID_DATA (first header line is malformed ("http/[01].[0-9] [0-9]+ .*", or no colon in subsequent line)
 
-#define MS_NETLIB_RECVHTTPHEADERS  "Netlib/RecvHttpHeaders"
+EXTERN_C MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HANDLE hConnection, int flags = 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Free the memory used by a NETLIBHTTPREQUEST structure
-// wParam = 0
-// lParam = (LPARAM)(NETLIBHTTPREQUEST*)pnlhr
-// Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
+//
+// Returns true on success, false on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
 // This should only be called on structures returned by
 // MS_NETLIB_RECVHTTPHEADERS or MS_NETLIB_HTTPTRANSACTION. Calling it on an
 // arbitrary structure will have disastrous results.
 // Errors: ERROR_INVALID_PARAMETER
 
-#define MS_NETLIB_FREEHTTPREQUESTSTRUCT  "Netlib/FreeHttpRequestStruct"
+EXTERN_C MIR_APP_DLL(bool) Netlib_FreeHttpRequest(NETLIBHTTPREQUEST*);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// smart pointer for NETLIBHTTPREQUEST via a call of MS_NETLIB_FREEHTTPREQUESTSTRUCT
+// smart pointer for NETLIBHTTPREQUEST via a call of Netlib_FreeHttpRequest()
 
 #ifdef __cplusplus
 class NLHR_PTR
@@ -550,7 +547,7 @@ public:
 	__inline NETLIBHTTPREQUEST* operator=(NETLIBHTTPREQUEST *p)
 	{
 		if (_p)
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)(NETLIBHTTPREQUEST*)_p);
+			Netlib_FreeHttpRequest(_p);
 		_p = p;
 		return _p;
 	}
@@ -558,18 +555,16 @@ public:
 	__inline NETLIBHTTPREQUEST* operator->() const { return _p; }
 	__inline ~NLHR_PTR()
 	{
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)(NETLIBHTTPREQUEST*)_p);
+		Netlib_FreeHttpRequest(_p);
 	}
 };
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Do an entire HTTP transaction
-// wParam = (WPARAM)(HANDLE)hUser
-// lParam = (LPARAM)(NETLIBHTTPREQUEST*)&nlhr
-// Returns a pointer to another NETLIBHTTPREQUEST structure on success, NULL on
-// failure.
-// Call MS_NETLIB_FREEHTTPREQUESTSTRUCT to free this.
+//
+// Returns a pointer to another NETLIBHTTPREQUEST structure on success, NULL on failure.
+// Call Netlib_FreeHttpRequest() to free this.
 // hUser must have been returned by MS_NETLIB_REGISTERUSER
 // nlhr.szUrl should be a full HTTP URL. If it does not start with http:// , that
 // will be assumed (but it's best not to use this fact, for reasons of
@@ -593,7 +588,7 @@ public:
 // Errors: ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY, anything from the above
 //    list of functions
 
-#define MS_NETLIB_HTTPTRANSACTION   "Netlib/HttpTransaction"
+EXTERN_C MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_HttpTransaction(HNETLIBUSER hNlu, NETLIBHTTPREQUEST *pRequest);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Send data over a connection

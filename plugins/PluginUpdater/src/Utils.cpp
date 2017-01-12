@@ -259,7 +259,7 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 	bool ret = false;
 	for (int i = 0; !ret && i < MAX_RETRIES; i++) {
 		Netlib_LogfW(hNetlibUser,L"Downloading file %s to %s (attempt %d)",pFileURL->tszDownloadURL,pFileURL->tszDiskPath, i+1);
-		NETLIBHTTPREQUEST *pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
+		NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
 		if (pReply) {
 			nlc = pReply->nlc;
 			if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
@@ -270,7 +270,7 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 					if (crc != pFileURL->CRCsum) {
 						// crc check failed, try again
 						Netlib_LogfW(hNetlibUser,L"crc check failed for file %s",pFileURL->tszDiskPath);
-						CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
+						Netlib_FreeHttpRequest(pReply);
 						continue;
 					}
 				}
@@ -296,9 +296,9 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 				}
 				ret = true;
 			}
-			else
-				Netlib_LogfW(hNetlibUser,L"Downloading file %s failed with error %d",pFileURL->tszDownloadURL,pReply->resultCode);
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
+			else Netlib_LogfW(hNetlibUser,L"Downloading file %s failed with error %d",pFileURL->tszDownloadURL,pReply->resultCode);
+			
+			Netlib_FreeHttpRequest(pReply);
 		}
 		else {
 			Netlib_LogfW(hNetlibUser,L"Downloading file %s failed, host is propably temporary down.",pFileURL->tszDownloadURL);

@@ -68,7 +68,7 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 	req.szUrl = szUrl;
 	req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_REDIRECT;
 
-	NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+	NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
 	if (resp == NULL) {
 		debugLogA("getAvatarFileInfo(): No response from HTTP request");
 		return false;
@@ -76,7 +76,7 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 
 	if (resp->resultCode != 200 || !resp->dataLength || !resp->pData) {
 		debugLogA("getAvatarFileInfo(): Invalid response code from HTTP request");
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+		Netlib_FreeHttpRequest(resp);
 		return false;
 	}
 
@@ -118,14 +118,14 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 				}
 			}
 		}
-
-	} else {
+	}
+	else {
 		debugLogA("getAvatarFileInfo(): Invalid response code from HTTP request, unknown format");
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+		Netlib_FreeHttpRequest(resp);
 		return false;
 	}
 
-	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+	Netlib_FreeHttpRequest(resp);
 	return true;
 }
 
@@ -250,7 +250,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			req.szUrl = data->szAvatarURL;
 			req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_REDIRECT;
 
-			NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+			NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
 			if (resp) {
 				if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 					int file_fd;
@@ -276,7 +276,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 					}
 				}
 				else debugLogA("avatarrequestthread(): Invalid response code from HTTP request");
-				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+				Netlib_FreeHttpRequest(resp);
 			}
 			else debugLogA("avatarrequestthread(): No response from HTTP request");
 
@@ -436,7 +436,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	//send request
 	int resultSuccess = 0;
 	int needRepeat = 0;
-	NETLIBHTTPREQUEST* resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+	NETLIBHTTPREQUEST* resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
 	if (resp) {
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 			debugLogA("setavatarthread(): 1 resp.data= %s", resp->pData);
@@ -447,7 +447,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 				needRepeat = 1;
 			}
 		}
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+		Netlib_FreeHttpRequest(resp);
 	} else {
 		debugLogA("setavatarthread(): No response from HTTP request");
 	}
@@ -471,18 +471,17 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 		req.pData = data;
 		req.dataLength = int(dataLen);
 
-		resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+		resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
 		if (resp) {
 			if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 				debugLogA("setavatarthread(): 2 resp.data= %s", resp->pData);
 				resultSuccess = 1;
-			} else {
-				debugLogA("setavatarthread(): Invalid response code from HTTP request [%d]", resp->resultCode);
 			}
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
-		} else {
-			debugLogA("setavatarthread(): No response from HTTP request");
+			else debugLogA("setavatarthread(): Invalid response code from HTTP request [%d]", resp->resultCode);
+
+			Netlib_FreeHttpRequest(resp);
 		}
+		else debugLogA("setavatarthread(): No response from HTTP request");
 	}
 
 	//clean and end thread

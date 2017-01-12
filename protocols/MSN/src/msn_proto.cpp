@@ -541,26 +541,24 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 			if (nloc.flags & NLOCF_SSL) nlhr.flags |= NLHRF_SSL;
 			HANDLE nlc = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
 
-			if (nlc && CallService(MS_NETLIB_SENDHTTPREQUEST, (WPARAM)nlc, (LPARAM)&nlhr) != SOCKET_ERROR &&
-				(nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_RECVHTTPHEADERS, (WPARAM)nlc, 0))) 
-			{
-					if (nlhrReply->resultCode == 200 || nlhrReply->resultCode == 206) {
-						INT_PTR dw;
-						char buf[1024];
+			if (nlc && CallService(MS_NETLIB_SENDHTTPREQUEST, (WPARAM)nlc, (LPARAM)&nlhr) != SOCKET_ERROR && (nlhrReply = Netlib_RecvHttpHeaders(nlc))) {
+				if (nlhrReply->resultCode == 200 || nlhrReply->resultCode == 206) {
+					INT_PTR dw;
+					char buf[1024];
 
-						ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, ft, 0);
-						while (!ft->bCanceled && ft->std.currentFileProgress < ft->std.currentFileSize &&
-							(dw = Netlib_Recv(nlc, buf, sizeof(buf), MSG_NODUMP))>0 && dw!=SOCKET_ERROR) 
-						{
-							_write(ft->fileId, buf, dw);
-							ft->std.totalProgress += dw;
-							ft->std.currentFileProgress += dw;
-							ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
-						}
-						if (ft->std.currentFileProgress == ft->std.currentFileSize) ft->std.currentFileNumber++;
-
+					ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, ft, 0);
+					while (!ft->bCanceled && ft->std.currentFileProgress < ft->std.currentFileSize &&
+						(dw = Netlib_Recv(nlc, buf, sizeof(buf), MSG_NODUMP))>0 && dw!=SOCKET_ERROR) 
+					{
+						_write(ft->fileId, buf, dw);
+						ft->std.totalProgress += dw;
+						ft->std.currentFileProgress += dw;
+						ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 					}
-					CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+					if (ft->std.currentFileProgress == ft->std.currentFileSize) ft->std.currentFileNumber++;
+
+				}
+				Netlib_FreeHttpRequest(nlhrReply);
 			}
 			Netlib_CloseHandle(nlc);
 			mir_free((char*)nloc.szHost);

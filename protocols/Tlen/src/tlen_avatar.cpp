@@ -267,7 +267,7 @@ static void TlenGetAvatarThread(void *ptr)
 		req.headers = NULL;
 		req.dataLength = 0;
 		req.szUrl = request;
-		NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)data->proto->m_hNetlibUser, (LPARAM)&req);
+		NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(data->proto->m_hNetlibUser, &req);
 		if (item != NULL)
 			item->newAvatarDownloading = FALSE;
 
@@ -297,7 +297,7 @@ static void TlenGetAvatarThread(void *ptr)
 				}
 				else RemoveAvatar(data->proto, hContact);
 			}
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+			Netlib_FreeHttpRequest(resp);
 		}
 		mir_free(request);
 		mir_free(login);
@@ -334,13 +334,13 @@ struct TLENREMOVEAVATARTHREADDATA
 static void TlenRemoveAvatarRequestThread(void *ptr) {
 	TLENREMOVEAVATARTHREADDATA *data = (TLENREMOVEAVATARTHREADDATA*)ptr;
 	NETLIBHTTPREQUEST *req = (NETLIBHTTPREQUEST *)data->req;
-	NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)data->proto->m_hNetlibUser, (LPARAM)req);
+	NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(data->proto->m_hNetlibUser, req);
 	mir_free(req->szUrl);
 	mir_free(req->headers);
 	mir_free(req->pData);
 	mir_free(req);
 	if (resp != NULL) {
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+		Netlib_FreeHttpRequest(resp);
 		RemoveAvatar(data->proto, NULL);
 	}
 	mir_free(data);
@@ -379,9 +379,9 @@ static void TlenUploadAvatarRequestThread(void *ptr)
 {
 	TLENUPLOADAVATARTHREADDATA *data = (TLENUPLOADAVATARTHREADDATA *) ptr;
 	NETLIBHTTPREQUEST *req = data->req;
-	NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)data->proto->m_hNetlibUser, (LPARAM)req);
+	NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(data->proto->m_hNetlibUser, req);
 	if (checkUploadAvatarResponse(data->proto, resp)) {
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+		Netlib_FreeHttpRequest(resp);
 		SetAvatar(data->proto, NULL, NULL, data->data, data->length, PA_FORMAT_PNG);
 	}
 	mir_free(req->szUrl);

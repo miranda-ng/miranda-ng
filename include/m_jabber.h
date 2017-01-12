@@ -157,7 +157,7 @@ struct IJabberInterface
 	virtual LPTSTR STDMETHODCALLTYPE GetResourceFeatures(LPCTSTR jid) = 0;
 
 	// Returns the connection handle
-	virtual HANDLE STDMETHODCALLTYPE GetHandle(void) = 0;
+	virtual HNETLIBUSER STDMETHODCALLTYPE GetHandle(void) = 0;
 };
 
 /*

@@ -66,7 +66,7 @@ begin
   nlu.szSettingsModule:='dummy';
   hTmpNetLib:=Netlib_RegisterUser(@nlu);
 
-  resp:=pointer(CallService(MS_NETLIB_HTTPTRANSACTION,hTmpNetLib,lparam(@req)));
+  resp:=Netlib_HttpTransaction(hTmpNetLib,@req);
   if resp<>nil then
   begin
     if resp^.resultCode=200 then
@@ -82,7 +82,7 @@ begin
     begin
       result:=pAnsiChar(int_ptr(resp^.resultCode and $0FFF));
     end;
-    CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,lparam(resp));
+    Netlib_FreeHttpRequest(resp);
   end;
 
   Netlib_CloseHandle(hTmpNetLib);

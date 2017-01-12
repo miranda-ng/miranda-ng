@@ -146,9 +146,9 @@ public:
 
 		Netlib_Logf(nlu, "Send request to %s", szUrl);
 
-		NETLIBHTTPREQUEST* response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)nlu, (LPARAM)this);
+		NETLIBHTTPREQUEST* response = Netlib_HttpTransaction(nlu, this);
 		HttpResponse* result = new HttpResponse(response, this);
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+		Netlib_FreeHttpRequest(response);
 
 		return result;
 	}

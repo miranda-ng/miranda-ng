@@ -108,7 +108,7 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 		resp.code = pnlhr->resultCode;
 		resp.data = pnlhr->pData ? pnlhr->pData : "";
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pnlhr);
+		Netlib_FreeHttpRequest(pnlhr);
 	}
 	else {
 		parent->debugLogA("!!! No response from server (time-out)");
@@ -1192,8 +1192,7 @@ bool facebook_client::save_url(const std::string &url, const std::wstring &filen
 	req.flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_PERSISTENT | NLHRF_NODUMP;
 	req.nlc = nlc;
 
-	resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService(MS_NETLIB_HTTPTRANSACTION,
-		reinterpret_cast<WPARAM>(handle_), reinterpret_cast<LPARAM>(&req)));
+	resp = Netlib_HttpTransaction(handle_, &req);
 
 	bool ret = false;
 
@@ -1215,7 +1214,7 @@ bool facebook_client::save_url(const std::string &url, const std::wstring &filen
 			ret = _waccess(filename.c_str(), 0) == 0;
 		}
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+		Netlib_FreeHttpRequest(resp);
 	}
 	else {
 		nlc = NULL;

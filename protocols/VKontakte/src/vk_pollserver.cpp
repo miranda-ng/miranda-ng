@@ -201,7 +201,7 @@ int CVkProto::PollServer()
 	req.timeout = 30000;
 	req.nlc = m_pollingConn;
 
-	while ((reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req)) == NULL) {
+	while ((reply = Netlib_HttpTransaction(m_hNetlibUser, &req)) == NULL) {
 		debugLogA("CVkProto::PollServer is dead");
 		m_pollingConn = NULL;
 		if (iPollConnRetry && !m_bTerminated) {
@@ -239,14 +239,14 @@ int CVkProto::PollServer()
 		|| (reply->resultCode >= 500 && reply->resultCode <= 509)) {
 		debugLogA("CVkProto::PollServer is dead. Error code - %d", reply->resultCode);
 		m_pollingConn = NULL;
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
+		Netlib_FreeHttpRequest(reply);
 		ShutdownSession();
 		return 0;
 	}
 
 	m_pollingConn = reply->nlc;
 
-	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
+	Netlib_FreeHttpRequest(reply);
 	debugLogA("CVkProto::PollServer return %d", retVal);
 	return retVal;
 }

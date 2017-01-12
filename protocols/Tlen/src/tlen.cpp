@@ -198,7 +198,7 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM, LPARAM)
 		req.pData = form;
 		req.dataLength = (int)mir_strlen(form);
 		req.szUrl = "http://poczta.o2.pl/login.html";
-		resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+		resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
 		if (resp != NULL) {
 			if (resp->resultCode / 100 == 2 || resp->resultCode == 302) {
 				int i;
@@ -217,7 +217,7 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM, LPARAM)
 					}
 				}
 			}
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+			Netlib_FreeHttpRequest(resp);
 		}
 	}
 	mir_free(login);

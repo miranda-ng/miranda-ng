@@ -286,7 +286,7 @@ bool SkypeToken::Refresh(bool bForce)
 	}
 
 	m_proto->mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_proto->hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_proto->hNetlibUserHttps, &nlhr);
 	m_proto->mHttpsTS = clock();
 
 	if (nlhrReply)  {
@@ -312,7 +312,7 @@ bool SkypeToken::Refresh(bool bForce)
 				bRet=true;
 			}
 		}
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+		Netlib_FreeHttpRequest(nlhrReply);
 	} else m_proto->hHttpsConnection = NULL;
 	return bRet;
 }
@@ -795,7 +795,7 @@ bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService
 
 	// Query
 	mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUserHttps, &nlhr);
 	mHttpsTS = clock();
 	if (nlhrReply)  {
 		hHttpsConnection = nlhrReply->nlc;
@@ -816,7 +816,7 @@ bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService
 				}
 			}
 		}
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+		Netlib_FreeHttpRequest(nlhrReply);
 	} else hHttpsConnection = NULL;
 	return bRet;
 }
@@ -1117,7 +1117,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 	// Get oauth20 login data
 	nlhr.szUrl = AUTH_URL;
 	mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUserHttps, &nlhr);
 	mHttpsTS = clock();
 
 	if (nlhrReply)  {
@@ -1142,7 +1142,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 				nlhr.flags &= (~NLHRF_REDIRECT);
 				mHttpsTS = clock();
 				nlhr.nlc = hHttpsConnection;
-				NETLIBHTTPREQUEST *nlhrReply2 = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+				NETLIBHTTPREQUEST *nlhrReply2 = Netlib_HttpTransaction(hNetlibUserHttps, &nlhr);
 				mHttpsTS = clock();
 				if (nlhrReply2) {
 					char *pszURL=NULL, *pAccessToken, *pEnd;
@@ -1171,14 +1171,14 @@ int CMsnProto::MSN_AuthOAuth(void)
 							pszURL = param.pszURL;
 							mir_free(authCookies);
 							authCookies = nlhr.headers[1].szValue = param.pszCookies;
-							CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply2);
+							Netlib_FreeHttpRequest(nlhrReply2);
 							nlhrReply2 = NULL;
 							bAskingForAuth = false;
 							bPassportAuth = false;
 						}
 					}
 					setByte("PassportAuth", bPassportAuth);
-					CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+					Netlib_FreeHttpRequest(nlhrReply);
 					nlhrReply = nlhrReply2;
 
 					if (pszURL &&
@@ -1245,8 +1245,9 @@ int CMsnProto::MSN_AuthOAuth(void)
 
 							/* Request MappingContainer */
 							mHttpsTS = clock();
-							if (nlhrReply) CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
-							nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+							if (nlhrReply)
+								Netlib_FreeHttpRequest(nlhrReply);
+							nlhrReply = Netlib_HttpTransaction(hNetlibUserHttps, &nlhr);
 							mHttpsTS = clock();
 							if (nlhrReply) {
 								hHttpsConnection = nlhrReply->nlc;
@@ -1275,8 +1276,10 @@ int CMsnProto::MSN_AuthOAuth(void)
 				else hHttpsConnection = NULL;
 			}
 		}
-		if (nlhrReply) CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
-	} else hHttpsConnection = NULL;
+		if (nlhrReply)
+			Netlib_FreeHttpRequest(nlhrReply);
+	}
+	else hHttpsConnection = NULL;
 
 	if (retVal<=0) authSkypeComToken.Clear(); else {
 		if (bPassportAuth) {

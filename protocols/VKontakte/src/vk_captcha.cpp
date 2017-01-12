@@ -38,7 +38,7 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 		req.szUrl = (LPSTR)szUrl;
 		req.flags = VK_NODUMPHEADERS;
 
-		NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+		NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, &req);
 		if (reply == NULL)
 			return false;
 

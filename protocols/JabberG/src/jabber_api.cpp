@@ -353,7 +353,7 @@ LPTSTR CJabberProto::GetResourceFeatures(LPCTSTR jid)
 	return str;
 }
 
-HANDLE CJabberProto::GetHandle()
+HNETLIBUSER CJabberProto::GetHandle()
 {
 	return m_hNetlibUser;
 }

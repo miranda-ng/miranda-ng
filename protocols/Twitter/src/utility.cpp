@@ -111,8 +111,7 @@ http::response mir_twitter::slurp(const std::string &url, http::method meth, OAu
 	req.nlc = httpPOST_;
 	http::response resp_data;
 	ppro_->debugLogA("**SLURP - just before calling HTTPTRANSACTION");
-	NETLIBHTTPREQUEST *resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService(MS_NETLIB_HTTPTRANSACTION,
-		reinterpret_cast<WPARAM>(handle_), reinterpret_cast<LPARAM>(&req)));
+	NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(handle_, &req);
 	ppro_->debugLogA("**SLURP - HTTPTRANSACTION complete.");
 	if (resp) {
 		ppro_->debugLogA("**SLURP - the server has responded!");
@@ -120,7 +119,7 @@ http::response mir_twitter::slurp(const std::string &url, http::method meth, OAu
 		resp_data.code = resp->resultCode;
 		resp_data.data = resp->pData ? resp->pData : "";
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+		Netlib_FreeHttpRequest(resp);
 	}
 	else {
 		httpPOST_ = NULL;
@@ -130,16 +129,14 @@ http::response mir_twitter::slurp(const std::string &url, http::method meth, OAu
 	return resp_data;
 }
 
-bool save_url(HANDLE hNetlib, const std::string &url, const std::wstring &filename)
+bool save_url(HNETLIBUSER hNetlib, const std::string &url, const std::wstring &filename)
 {
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.flags = NLHRF_HTTP11 | NLHRF_REDIRECT;
 	req.szUrl = const_cast<char*>(url.c_str());
 
-	NETLIBHTTPREQUEST *resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService(MS_NETLIB_HTTPTRANSACTION,
-		reinterpret_cast<WPARAM>(hNetlib), reinterpret_cast<LPARAM>(&req)));
-
+	NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(hNetlib, &req);
 	if (resp) {
 		bool success = (resp->resultCode == 200);
 		if (success) {
@@ -154,7 +151,7 @@ bool save_url(HANDLE hNetlib, const std::string &url, const std::wstring &filena
 			fclose(f);
 		}
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+		Netlib_FreeHttpRequest(resp);
 		return success;
 	}
 

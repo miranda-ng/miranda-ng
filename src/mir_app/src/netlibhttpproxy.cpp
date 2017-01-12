@@ -185,7 +185,7 @@ static bool NetlibHttpGatewayOscarPost(NetlibConnection *nlc, const char *buf, i
 				NetlibHttpSetLastErrorUsingHttpResult(nlhrReply->resultCode);
 				res = false;
 			}
-			NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+			Netlib_FreeHttpRequest(nlhrReply);
 		}
 		else res = false;
 	}
@@ -304,7 +304,7 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags)
 
 		if (nlhrReply->resultCode >= 300) {
 			int resultCode = nlhrReply->resultCode;
-			NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+			Netlib_FreeHttpRequest(nlhrReply);
 
 			if (nlc->nlhpi.szHttpGetUrl && resultCode != 404) {
 				Netlib_Logf(nlu, "Error received from proxy, retrying");
@@ -324,7 +324,7 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags)
 		if (nlhrReply->dataLength) {
 			if (peek) {
 				nlc->szProxyBuf.Append(nlhrReply->pData, nlhrReply->dataLength);
-				NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+				Netlib_FreeHttpRequest(nlhrReply);
 				return HttpGatewayReadSetResult(nlc, buf, len, peek);
 			}
 
@@ -337,16 +337,16 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags)
 			else
 				nlc->szProxyBuf.Empty();
 
-			NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+			Netlib_FreeHttpRequest(nlhrReply);
 			return bytes;
 		}
 		else {
 			if ((peek && nlc->szProxyBuf.GetLength() != 0) || nlhrReply->pData) {
-				NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+				Netlib_FreeHttpRequest(nlhrReply);
 				return HttpGatewayReadSetResult(nlc, buf, len, peek);
 			}
 		}
-		NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+		Netlib_FreeHttpRequest(nlhrReply);
 	}
 
 	SetLastError(ERROR_GEN_FAILURE);
@@ -371,15 +371,15 @@ int NetlibInitHttpConnection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENC
 
 		if (nlhrReply->resultCode != 200) {
 			NetlibHttpSetLastErrorUsingHttpResult(nlhrReply->resultCode);
-			NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+			Netlib_FreeHttpRequest(nlhrReply);
 			return 0;
 		}
 	}
 	if (!nlu->user.pfnHttpGatewayInit(nlc, nloc, nlhrReply)) {
-		NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+		Netlib_FreeHttpRequest(nlhrReply);
 		return 0;
 	}
-	NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+	Netlib_FreeHttpRequest(nlhrReply);
 
 	/*
 	 * Gena01 - Ok, we should be able to use just POST. Needed for Yahoo, NO GET requests

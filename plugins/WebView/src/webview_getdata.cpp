@@ -134,7 +134,7 @@ void GetData(void *param)
 		db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Updating..."));
 		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_DND); // download 
 
-		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST *) CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM) hNetlibUser, (LPARAM) & nlhr);
+		NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
 		if (nlhrReply) {
 			if (nlhrReply->resultCode < 200 || nlhrReply->resultCode >= 300) {
 				db_set_w(hContact, MODULENAME, "Status", ID_STATUS_AWAY);
@@ -169,7 +169,7 @@ void GetData(void *param)
 		else if (nlhrReply)
 			DownloadSuccess = 1;
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM) nlhrReply);
+		Netlib_FreeHttpRequest(nlhrReply);
 
 		if (DownloadSuccess)
 			SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Download successful; about to process data..."));

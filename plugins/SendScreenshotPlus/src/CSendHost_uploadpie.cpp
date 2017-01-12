@@ -66,7 +66,7 @@ void CSendHost_UploadPie::SendThread(void* obj)
 {
 	CSendHost_UploadPie* self = (CSendHost_UploadPie*)obj;
 	/// send DATA and wait for m_nlreply
-	NETLIBHTTPREQUEST* reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)g_hNetlibUser, (LPARAM)&self->m_nlhr);
+	NETLIBHTTPREQUEST* reply = Netlib_HttpTransaction(g_hNetlibUser, &self->m_nlhr);
 	self->HTTPFormDestroy(&self->m_nlhr);
 	if (reply) {
 		if (reply->resultCode >= 200 && reply->resultCode < 300 && reply->dataLength) {
@@ -88,7 +88,7 @@ void CSendHost_UploadPie::SendThread(void* obj)
 			
 			if (url) {
 				mir_free(self->m_URL), self->m_URL = mir_strdup(url);
-				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
+				Netlib_FreeHttpRequest(reply);
 				self->svcSendMsgExit(url); return;
 			}
 			else {/// check error mess from server
@@ -102,7 +102,7 @@ void CSendHost_UploadPie::SendThread(void* obj)
 		}
 		else self->Error(SS_ERR_RESPONSE, self->m_pszSendTyp, reply->resultCode);
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
+		Netlib_FreeHttpRequest(reply);
 	}
 	else self->Error(SS_ERR_NORESPONSE, self->m_pszSendTyp, self->m_nlhr.resultCode);
 

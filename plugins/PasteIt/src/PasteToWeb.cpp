@@ -542,7 +542,7 @@ wchar_t* PasteToWeb::SendToWeb(char* url, std::map<std::string, std::string>& he
 	}
 
 	nlhr.headersCount = nHeaders;
-	NETLIBHTTPREQUEST* nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)g_hNetlibUser, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST* nlhrReply = Netlib_HttpTransaction(g_hNetlibUser, &nlhr);
 	if (nlhrReply != NULL)
 	{
 		if (nlhrReply->resultCode == 200)
@@ -557,7 +557,7 @@ wchar_t* PasteToWeb::SendToWeb(char* url, std::map<std::string, std::string>& he
 			}
 		}
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+		Netlib_FreeHttpRequest(nlhrReply);
 	}
 	delete[] httpHeaders;
 	for (std::list<char*>::iterator it = mallBuf.begin(); it != mallBuf.end(); ++it)

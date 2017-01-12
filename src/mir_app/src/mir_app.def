@@ -354,3 +354,5 @@ Netlib_LogW @354
 Netlib_Logf @355
 Netlib_LogfW @356
 Netlib_GetConnNlu @357
+Netlib_RecvHttpHeaders @358
+Netlib_HttpTransaction @359

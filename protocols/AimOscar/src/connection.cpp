@@ -280,7 +280,7 @@ void CAimProto::aim_connection_clientlogin(void)
 	req.pData = buf.GetBuffer();
 	req.dataLength = buf.GetLength();
 
-	NLHR_PTR resp(CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req));
+	NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, &req));
 	if (!resp || !resp->dataLength) {
 		broadcast_status(ID_STATUS_OFFLINE);
 		return;
@@ -312,7 +312,7 @@ void CAimProto::aim_connection_clientlogin(void)
 		};
 		req.headers = headers2;
 
-		resp = CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+		resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
 	}
 
 	if (!resp || !resp->dataLength) {

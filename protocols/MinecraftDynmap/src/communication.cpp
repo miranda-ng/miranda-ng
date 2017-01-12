@@ -81,7 +81,7 @@ http::response MinecraftDynmapProto::sendRequest(const int request_type, std::st
 	debugLogA("@@@@@ Sending request to '%s'", nlhr.szUrl);
 
 	// Send the request	
-	NETLIBHTTPREQUEST *pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *pnlhr = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
 
 	mir_free(nlhr.headers);
 
@@ -111,7 +111,7 @@ http::response MinecraftDynmapProto::sendRequest(const int request_type, std::st
 
 		// debugLogA("&&&&& Got response: %s", resp.data.c_str());
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pnlhr);
+		Netlib_FreeHttpRequest(pnlhr);
 	} else {
 		debugLogA("!!!!! No response from server (time-out)");
 		resp.code = HTTP_CODE_FAKE_DISCONNECTED;

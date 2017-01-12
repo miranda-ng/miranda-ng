@@ -324,17 +324,17 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NE
 
 	if (nlhrReply->resultCode < 200 || nlhrReply->resultCode >= 300) {
 		if (nlhrReply->resultCode == 403 && nlc->dnsThroughProxy) {
-			NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+			Netlib_FreeHttpRequest(nlhrReply);
 			nlc->dnsThroughProxy = 0;
 			return NetlibInitHttpsConnection(nlc, nlu, nloc);
 		}
 
 		NetlibHttpSetLastErrorUsingHttpResult(nlhrReply->resultCode);
 		Netlib_Logf(nlu, "%s %d: %s request failed (%u %s)", __FILE__, __LINE__, nlu->settings.proxyType == PROXYTYPE_HTTP ? "HTTP" : "HTTPS", nlhrReply->resultCode, nlhrReply->szResultDescr);
-		NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+		Netlib_FreeHttpRequest(nlhrReply);
 		return 0;
 	}
-	NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+	Netlib_FreeHttpRequest(nlhrReply);
 	return true; // connected
 }
 

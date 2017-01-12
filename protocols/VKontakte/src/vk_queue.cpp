@@ -55,7 +55,7 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		}
 
 		debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->szUrl);
-		NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)pReq);
+		NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
 		if (reply != NULL) {
 			if (pReq->m_pFunc != NULL)
 				(this->*(pReq->m_pFunc))(reply, pReq); // may be set pReq->bNeedsRestart 
@@ -63,7 +63,7 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			if (pReq->m_bApiReq)
 				m_hAPIConnection = reply->nlc;
 
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
+			Netlib_FreeHttpRequest(reply);
 		}
 		else if (pReq->bIsMainConn) {
 			if (IsStatusConnecting(m_iStatus))

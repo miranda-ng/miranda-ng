@@ -276,7 +276,7 @@ public:
 
 		Netlib_Logf(nlu, "Send request to %s", szUrl);
 
-		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)nlu, (LPARAM)(NETLIBHTTPREQUEST*)this);
+		return Netlib_HttpTransaction(nlu, this);
 	}
 };
 

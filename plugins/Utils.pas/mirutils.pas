@@ -441,8 +441,7 @@ begin
   else
     hTmpNetLib:=hNetLib;
 
-  resp:=pointer(CallService(MS_NETLIB_HTTPTRANSACTION,hTmpNetLib,lparam(@req)));
-
+  resp:=Netlib_HttpTransaction(hTmpNetLib,@req);
   if resp<>nil then
   begin
     if resp^.resultCode=200 then
@@ -453,7 +452,7 @@ begin
     begin
       result:=PAnsiChar(int_ptr(resp^.resultCode and $0FFF));
     end;
-    CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,lparam(resp));
+    Netlib_FreeHttpRequest(resp);
   end;
 
   if (hNetLib=0) and (nlu.flags<>0) then
@@ -494,8 +493,7 @@ begin
     hNetLib:=Netlib_RegisterUser(@nlu);
   end;
 
-  resp:=pointer(CallService(MS_NETLIB_HTTPTRANSACTION,hNetLib,lparam(@req)));
-
+  resp:=Netlib_HttpTransaction(hNetLib,@req);
   if resp<>nil then
   begin
     if resp^.resultCode=200 then
@@ -513,25 +511,14 @@ begin
       // get new location
       for i:=0 to resp^.headersCount-1 do
       begin
-        //MessageBox(0,resp^.headers[i].szValue, resp^.headers[i].szName,MB_OK);
         if StrCmp(resp^.headers^[i].szName,'Location')=0 then
         begin
           result:=GetFile(resp^.headers^[i].szValue,save_file,hNetLib,recurse_count+1);
           break;
         end
       end;
-    end
-    else
-    begin
-{
-      _stprintf(buff, TranslateT("Failed to download \"%s\" - Invalid response, code %d"), plugin_name, resp->resultCode);
-
-      ShowError(buff);
-      AnsiChar *ts = GetAString(buff);
-      NLog(ts);
-}
     end;
-    CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,lparam(resp));
+    Netlib_FreeHttpRequest(resp);
 
     if nlu.flags<>0 then
       Netlib_CloseHandle(hNetLib);
@@ -620,8 +607,7 @@ begin
   nlu.szSettingsModule:='dummy';
   hNetLib:=Netlib_RegisterUser(@nlu);
 
-  resp:=pointer(CallService(MS_NETLIB_HTTPTRANSACTION,hNetLib,lparam(@req)));
-
+  resp:=Netlib_HttpTransaction(hNetLib,@req);
   if resp<>nil then
   begin
     if resp^.resultCode=200 then
@@ -634,7 +620,7 @@ begin
 //      if result<>0 then
 //        DeleteObject(SendMessage(wnd,STM_SETIMAGE,IMAGE_BITMAP,result)); //!!
     end;
-    CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,lparam(resp));
+    Netlib_FreeHttpRequest(resp);
   end;
   Netlib_CloseHandle(hNetLib);
 end;

@@ -61,13 +61,13 @@ bool CMsnProto::loadHttpAvatar(AvatarQueueEntry *p)
 	nlhr.headers = (NETLIBHTTPHEADER*)&nlbhHeaders;
 	nlhr.headersCount = 1;
 
-	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
 	if (nlhrReply == NULL)
 		return false;
 
 	if (nlhrReply->resultCode != 200 || nlhrReply->dataLength == 0) {
 LBL_Error:
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+		Netlib_FreeHttpRequest(nlhrReply);
 		return false;
 	}
 
@@ -90,7 +90,7 @@ LBL_Error:
 	_close(fileId);
 
 	ProtoBroadcastAck(p->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
-	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+	Netlib_FreeHttpRequest(nlhrReply);
 	return true;
 }
 

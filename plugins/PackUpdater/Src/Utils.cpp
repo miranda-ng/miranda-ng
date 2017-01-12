@@ -28,7 +28,8 @@ INT Period;
 wchar_t tszDialogMsg[2048] = { 0 };
 FILEINFO* pFileInfo = NULL;
 FILEURL* pFileUrl = NULL;
-HANDLE hCheckThread = NULL, hNetlibUser = NULL;
+HANDLE hCheckThread = NULL;
+HNETLIBUSER hNetlibUser = NULL;
 MYOPTIONS MyOptions = { 0 };
 aPopups PopupsList[POPUPS];
 LPCTSTR Title = { 0 }, Text = { 0 };
@@ -125,7 +126,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	nlhr.headers[3].szValue = "no-cache";
 
 	bool ret = false;
-	NETLIBHTTPREQUEST *pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
 
 	if (pReply) {
 		if (200 == pReply->resultCode && pReply->dataLength > 0) {
@@ -136,7 +137,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 			if (hFile)
 				CloseHandle(hFile);
 		}
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
+		Netlib_FreeHttpRequest(pReply);
 	}
 
 	mir_free(szUrl);

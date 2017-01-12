@@ -60,7 +60,7 @@ void CSendHost_Imgur::SendThread(void* obj)
 {
 	CSendHost_Imgur* self = (CSendHost_Imgur*)obj;
 	/// send DATA and wait for m_nlreply
-	NETLIBHTTPREQUEST* reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)g_hNetlibUser, (LPARAM)&self->m_nlhr);
+	NETLIBHTTPREQUEST* reply = Netlib_HttpTransaction(g_hNetlibUser, &self->m_nlhr);
 	self->HTTPFormDestroy(&self->m_nlhr);
 	if (reply) {
 		if (reply->dataLength) {
@@ -79,14 +79,14 @@ void CSendHost_Imgur::SendThread(void* obj)
 					self->m_URLthumb[thumblen] = 'm'; // 320x320, see http://api.imgur.com/models/image
 					mir_strcpy(self->m_URLthumb + thumblen + 1, self->m_URL + thumblen);
 				}
-				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
+				Netlib_FreeHttpRequest(reply);
 				self->svcSendMsgExit(self->m_URL); return;
 			}
 			else self->Error(SS_ERR_RESPONSE, self->m_pszSendTyp, GetJSONInteger(reply->pData, reply->dataLength, "status", 0));
 		}
 		else self->Error(SS_ERR_RESPONSE, self->m_pszSendTyp, reply->resultCode);
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
+		Netlib_FreeHttpRequest(reply);
 	}
 	else self->Error(SS_ERR_NORESPONSE, self->m_pszSendTyp, self->m_nlhr.resultCode);
 

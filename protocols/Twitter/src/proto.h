@@ -113,7 +113,7 @@ private:
 	mir_cs avatar_lock_;
 	mir_cs twitter_lock_;
 
-	HANDLE hAvatarNetlib_;
+	HNETLIBUSER hAvatarNetlib_;
 	HANDLE hMsgLoop_;
 	mir_twitter twit_;
 

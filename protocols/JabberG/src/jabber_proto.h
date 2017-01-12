@@ -849,7 +849,8 @@ public:
 	int       STDMETHODCALLTYPE AddFeatures(LPCTSTR szFeatures);    // Adds features to the list of features returned by the client.
 	int       STDMETHODCALLTYPE RemoveFeatures(LPCTSTR szFeatures); // Removes features from the list of features returned by the client.
 	LPTSTR    STDMETHODCALLTYPE GetResourceFeatures(LPCTSTR jid);   // Returns all features supported by JID in format "feature1\0feature2\0...\0featureN\0\0". You must free returned string using mir_free().
-	HANDLE    STDMETHODCALLTYPE GetHandle();                        // Returns connection handle
+	
+	HNETLIBUSER STDMETHODCALLTYPE GetHandle();  // Returns connection handle
 
 private:
 	JabberFeatCapPairDynamic *FindFeature(LPCTSTR szFeature);

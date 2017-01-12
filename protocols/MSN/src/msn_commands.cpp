@@ -476,7 +476,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 			nlhr.nlc = hHttpsConnection;
 
 			mHttpsTS = clock();
-			nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+			nlhrReply = Netlib_HttpTransaction(hNetlibUserHttps, &nlhr);
 			mHttpsTS = clock();
 			if (nlhrReply) {
 				hHttpsConnection = nlhrReply->nlc;
@@ -491,7 +491,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 					}
 				}
 
-				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+				Netlib_FreeHttpRequest(nlhrReply);
 			}  else hHttpsConnection = NULL;
 
 			if (fileSize) {

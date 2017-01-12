@@ -550,13 +550,13 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 			(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0) | MSG_NODUMP;
 
 		if (resultCode == 100)
-			nlhrReply = (NETLIBHTTPREQUEST*)NetlibHttpRecvHeaders((WPARAM)nlc, hflags);
+			nlhrReply = (NETLIBHTTPREQUEST*)Netlib_RecvHttpHeaders(nlc, hflags);
 
 		else if (resultCode == 307 || ((resultCode == 301 || resultCode == 302) && (nlhr->flags & NLHRF_REDIRECT))) { // redirect
 			pszUrl = NULL;
 
 			if (nlhr->requestType == REQUEST_HEAD)
-				nlhrReply = (NETLIBHTTPREQUEST*)NetlibHttpRecvHeaders((WPARAM)nlc, hflags);
+				nlhrReply = (NETLIBHTTPREQUEST*)Netlib_RecvHttpHeaders(nlc, hflags);
 			else
 				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags);
 
@@ -598,7 +598,7 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 		}
 		else if (resultCode == 401 && !doneAuthHeader) { //auth required
 			if (nlhr->requestType == REQUEST_HEAD)
-				nlhrReply = (NETLIBHTTPREQUEST*)NetlibHttpRecvHeaders((WPARAM)nlc, hflags);
+				nlhrReply = (NETLIBHTTPREQUEST*)Netlib_RecvHttpHeaders(nlc, hflags);
 			else
 				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags);
 
@@ -632,7 +632,7 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 		}
 		else if (resultCode == 407 && !doneProxyAuthHeader) { //proxy auth required
 			if (nlhr->requestType == REQUEST_HEAD)
-				nlhrReply = (NETLIBHTTPREQUEST*)NetlibHttpRecvHeaders((WPARAM)nlc, hflags);
+				nlhrReply = Netlib_RecvHttpHeaders(nlc, hflags);
 			else
 				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags);
 
@@ -673,14 +673,14 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 			replaceStr(pszAuthHdr, NULL);
 
 		if (nlhrReply) {
-			NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+			Netlib_FreeHttpRequest(nlhrReply);
 			nlhrReply = NULL;
 		}
 	}
 
 	if (count == 0) bytesSent = SOCKET_ERROR;
 	if (nlhrReply)
-		NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+		Netlib_FreeHttpRequest(nlhrReply);
 
 	//clean up
 	mir_free(pszProxyAuthHdr);
@@ -694,14 +694,13 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 	return bytesSent;
 }
 
-INT_PTR NetlibHttpFreeRequestStruct(WPARAM, LPARAM lParam)
+MIR_APP_DLL(bool) Netlib_FreeHttpRequest(NETLIBHTTPREQUEST *nlhr)
 {
-	NETLIBHTTPREQUEST *nlhr = (NETLIBHTTPREQUEST*)lParam;
-
 	if (nlhr == NULL || nlhr->cbSize != sizeof(NETLIBHTTPREQUEST) || nlhr->requestType != REQUEST_RESPONSE) {
 		SetLastError(ERROR_INVALID_PARAMETER);
-		return 0;
+		return false;
 	}
+
 	if (nlhr->headers) {
 		for (int i = 0; i < nlhr->headersCount; i++) {
 			NETLIBHTTPHEADER &p = nlhr->headers[i];
@@ -714,16 +713,16 @@ INT_PTR NetlibHttpFreeRequestStruct(WPARAM, LPARAM lParam)
 	mir_free(nlhr->szResultDescr);
 	mir_free(nlhr->szUrl);
 	mir_free(nlhr);
-	return 1;
+	return true;
 }
 
 #define NHRV_BUF_SIZE 8192
 
-INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HANDLE hConnection, int flags)
 {
-	NetlibConnection *nlc = (NetlibConnection*)wParam;
+	NetlibConnection *nlc = (NetlibConnection*)hConnection;
 	if (!NetlibEnterNestedCS(nlc, NLNCS_RECV))
-		return 0;
+		return NULL;
 
 	DWORD dwRequestTimeoutTime = GetTickCount() + HTTPRECVDATATIMEOUT;
 	NETLIBHTTPREQUEST *nlhr = (NETLIBHTTPREQUEST*)mir_calloc(sizeof(NETLIBHTTPREQUEST));
@@ -732,20 +731,20 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 	nlhr->requestType = REQUEST_RESPONSE;
 
 	int firstLineLength = 0;
-	if (!HttpPeekFirstResponseLine(nlc, dwRequestTimeoutTime, lParam | MSG_PEEK, &nlhr->resultCode, &nlhr->szResultDescr, &firstLineLength)) {
+	if (!HttpPeekFirstResponseLine(nlc, dwRequestTimeoutTime, flags | MSG_PEEK, &nlhr->resultCode, &nlhr->szResultDescr, &firstLineLength)) {
 		NetlibLeaveNestedCS(&nlc->ncsRecv);
-		NetlibHttpFreeRequestStruct(0, (LPARAM)nlhr);
-		return 0;
+		Netlib_FreeHttpRequest(nlhr);
+		return NULL;
 	}
 
 	char *buffer = (char*)_alloca(NHRV_BUF_SIZE + 1);
-	int bytesPeeked = Netlib_Recv(nlc, buffer, min(firstLineLength, NHRV_BUF_SIZE), lParam | MSG_DUMPASTEXT);
+	int bytesPeeked = Netlib_Recv(nlc, buffer, min(firstLineLength, NHRV_BUF_SIZE), flags | MSG_DUMPASTEXT);
 	if (bytesPeeked != firstLineLength) {
 		NetlibLeaveNestedCS(&nlc->ncsRecv);
-		NetlibHttpFreeRequestStruct(0, (LPARAM)nlhr);
+		Netlib_FreeHttpRequest(nlhr);
 		if (bytesPeeked != SOCKET_ERROR)
 			SetLastError(ERROR_HANDLE_EOF);
-		return 0;
+		return NULL;
 	}
 
 	// Make sure all headers arrived
@@ -753,7 +752,7 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 	int headersCount = 0;
 	bytesPeeked = 0;
 	for (bool headersCompleted = false; !headersCompleted;) {
-		bytesPeeked = RecvWithTimeoutTime(nlc, dwRequestTimeoutTime, buffer, NHRV_BUF_SIZE, lParam | MSG_DUMPASTEXT | MSG_NOTITLE);
+		bytesPeeked = RecvWithTimeoutTime(nlc, dwRequestTimeoutTime, buffer, NHRV_BUF_SIZE, flags | MSG_DUMPASTEXT | MSG_NOTITLE);
 		if (bytesPeeked == 0)
 			break;
 
@@ -780,8 +779,8 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 	// Receive headers
 	if (bytesPeeked <= 0) {
 		NetlibLeaveNestedCS(&nlc->ncsRecv);
-		NetlibHttpFreeRequestStruct(0, (LPARAM)nlhr);
-		return 0;
+		Netlib_FreeHttpRequest(nlhr);
+		return NULL;
 	}
 
 	nlhr->headersCount = headersCount;
@@ -796,7 +795,7 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 
 		char *pColon = strchr(pbuffer, ':');
 		if (pColon == NULL) {
-			NetlibHttpFreeRequestStruct(0, (LPARAM)nlhr); nlhr = NULL;
+			Netlib_FreeHttpRequest(nlhr); nlhr = NULL;
 			SetLastError(ERROR_INVALID_DATA);
 			break;
 		}
@@ -814,14 +813,11 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 	}
 
 	NetlibLeaveNestedCS(&nlc->ncsRecv);
-	return (INT_PTR)nlhr;
+	return nlhr;
 }
 
-INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_HttpTransaction(HNETLIBUSER nlu, NETLIBHTTPREQUEST *nlhr)
 {
-	NetlibUser *nlu = (NetlibUser*)wParam;
-	NETLIBHTTPREQUEST *nlhr = (NETLIBHTTPREQUEST*)lParam, *nlhrReply;
-
 	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_OUTGOING) ||
 		nlhr == NULL || nlhr->cbSize != sizeof(NETLIBHTTPREQUEST) ||
 		nlhr->szUrl == NULL || nlhr->szUrl[0] == 0)
@@ -888,8 +884,9 @@ INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 		(nlhr->flags & NLHRF_NODUMP ? MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
 		(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
 
+	NETLIBHTTPREQUEST *nlhrReply;
 	if (nlhr->requestType == REQUEST_HEAD)
-		nlhrReply = (NETLIBHTTPREQUEST*)NetlibHttpRecvHeaders((WPARAM)nlc, 0);
+		nlhrReply = Netlib_RecvHttpHeaders(nlc);
 	else
 		nlhrReply = NetlibHttpRecv(nlc, hflags, dflags);
 
@@ -905,7 +902,7 @@ INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 	}
 	else nlhrReply->nlc = nlc;
 
-	return (INT_PTR)nlhrReply;
+	return nlhrReply;
 }
 
 void NetlibHttpSetLastErrorUsingHttpResult(int result)
@@ -1011,12 +1008,12 @@ NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection *nlc, DWORD hflags, DWORD dfl
 	int cenc = 0, cenctype = 0, close = 0;
 
 next:
-	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)NetlibHttpRecvHeaders((WPARAM)nlc, hflags);
+	NETLIBHTTPREQUEST *nlhrReply = Netlib_RecvHttpHeaders(nlc, hflags);
 	if (nlhrReply == NULL)
 		return NULL;
 
 	if (nlhrReply->resultCode == 100) {
-		NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+		Netlib_FreeHttpRequest(nlhrReply);
 		goto next;
 	}
 
@@ -1050,7 +1047,7 @@ next:
 		if (chunked) {
 			chunksz = NetlibHttpRecvChunkHeader(nlc, true, dflags | (cenctype ? MSG_NODUMP : 0));
 			if (chunksz == SOCKET_ERROR) {
-				NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+				Netlib_FreeHttpRequest(nlhrReply);
 				return NULL;
 			}
 			dataLen = chunksz;
@@ -1067,7 +1064,7 @@ next:
 
 				if (recvResult == 0) break;
 				if (recvResult == SOCKET_ERROR) {
-					NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+					Netlib_FreeHttpRequest(nlhrReply);
 					return NULL;
 				}
 				nlhrReply->dataLength += recvResult;
@@ -1081,7 +1078,7 @@ next:
 					nlhrReply->pData = (char*)mir_realloc(nlhrReply->pData, dataBufferAlloced);
 					if (nlhrReply->pData == NULL) {
 						SetLastError(ERROR_OUTOFMEMORY);
-						NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+						Netlib_FreeHttpRequest(nlhrReply);
 						return NULL;
 					}
 				}
@@ -1093,7 +1090,7 @@ next:
 
 			chunksz = NetlibHttpRecvChunkHeader(nlc, false, dflags | MSG_NODUMP);
 			if (chunksz == SOCKET_ERROR) {
-				NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
+				Netlib_FreeHttpRequest(nlhrReply);
 				return NULL;
 			}
 			dataLen += chunksz;

@@ -201,27 +201,24 @@ INT_PTR NetlibHttpUrlEncode(WPARAM wParam, LPARAM lParam);
 extern mir_cs csNetlibUser;
 extern LIST<NetlibUser> netlibUser;
 
-//netlibautoproxy.c
+// netlibautoproxy.c
 void NetlibLoadIeProxy(void);
 void NetlibUnloadIeProxy(void);
 char* NetlibGetIeProxy(char *szUrl);
 bool NetlibGetIeProxyConn(NetlibConnection *nlc, bool forceHttps);
 
-//netlibbind.c
+// netlibbind.c
 int NetlibFreeBoundPort(NetlibBoundPort *nlbp);
 INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam);
 bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn);
 
-//netlibhttp.c
+// netlibhttp.c
 INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam);
-INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam);
-INT_PTR NetlibHttpFreeRequestStruct(WPARAM wParam, LPARAM lParam);
-INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam);
 void NetlibHttpSetLastErrorUsingHttpResult(int result);
 NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection* nlc, DWORD hflags, DWORD dflags, bool isConnect = false);
 void NetlibConnFromUrl(const char* szUrl, bool secur, NETLIBOPENCONNECTION &nloc);
 
-//netlibhttpproxy.c
+// netlibhttpproxy.c
 int NetlibInitHttpConnection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc);
 int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags);
 int NetlibHttpGatewayPost(NetlibConnection *nlc, const char *buf, int len, int flags);
@@ -231,13 +228,13 @@ INT_PTR NetlibHttpGatewaySetInfo(WPARAM wParam, LPARAM lParam);
 INT_PTR NetlibHttpSetPollingTimeout(WPARAM wParam, LPARAM lParam);
 INT_PTR NetlibHttpSetSticky(WPARAM wParam, LPARAM lParam);
 
-//netliblog.c
+// netliblog.c
 void NetlibLogShowOptions(void);
 void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int flags);
 void NetlibLogInit(void);
 void NetlibLogShutdown(void);
 
-//netlibopenconn.c
+// netlibopenconn.c
 DWORD DnsLookup(NetlibUser *nlu, const char *szHost);
 int WaitUntilReadable(SOCKET s, DWORD dwTimeout, bool check = false);
 int WaitUntilWritable(SOCKET s, DWORD dwTimeout);
@@ -246,15 +243,15 @@ bool NetlibReconnect(NetlibConnection *nlc);
 INT_PTR NetlibOpenConnection(WPARAM wParam, LPARAM lParam);
 INT_PTR NetlibStartSsl(WPARAM wParam, LPARAM lParam);
 
-//netlibopts.c
+// netlibopts.c
 int NetlibOptInitialise(WPARAM wParam, LPARAM lParam);
 void NetlibSaveUserSettingsStruct(const char *szSettingsModule, NETLIBUSERSETTINGS *settings);
 
-//netlibpktrecver.c
+// netlibpktrecver.c
 INT_PTR NetlibPacketRecverCreate(WPARAM wParam, LPARAM lParam);
 INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam);
 
-//netlibsock.c
+// netlibsock.c
 #define NL_SELECT_READ  0x0001
 #define NL_SELECT_WRITE 0x0002
 #define NL_SELECT_ALL   (NL_SELECT_READ+NL_SELECT_WRITE)
@@ -268,7 +265,7 @@ char* NetlibAddressToString(SOCKADDR_INET_M* addr);
 void NetlibGetConnectionInfo(NetlibConnection* nlc, NETLIBCONNINFO *connInfo);
 NETLIBIPLIST* GetMyIp(unsigned flags);
 
-//netlibupnp.c
+// netlibupnp.c
 bool NetlibUPnPAddPortMapping(WORD intport, char *proto,
 							  WORD *extport, DWORD *extip, bool search);
 void NetlibUPnPDeletePortMapping(WORD extport, char* proto);
@@ -276,7 +273,7 @@ void NetlibUPnPCleanup(void*);
 void NetlibUPnPInit(void);
 void NetlibUPnPDestroy(void);
 
-//netlibsecurity.c
+// netlibsecurity.c
 void   NetlibSecurityInit(void);
 void   NetlibDestroySecurityProvider(HANDLE hSecurity);
 HANDLE NetlibInitSecurityProvider(const wchar_t* szProvider, const wchar_t* szPrincipal);

@@ -55,7 +55,7 @@ namespace MediaUploader
 		nlhr.pData = (char*)allVector.data();
 		nlhr.dataLength = (int)allVector.size();
 
-		NETLIBHTTPREQUEST *pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)g_hNetlibUser, (LPARAM)&nlhr);
+		NETLIBHTTPREQUEST *pnlhr = Netlib_HttpTransaction(g_hNetlibUser, &nlhr);
 
 		string data = pnlhr->pData;
 

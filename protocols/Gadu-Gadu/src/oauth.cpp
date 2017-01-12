@@ -311,7 +311,7 @@ int GGPROTO::oauth_receivetoken()
 	req.headersCount = 3;
 	req.headers = httpHeaders;
 
-	NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+	NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
 	if (resp) {
 		nlc = resp->nlc; 
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
@@ -329,7 +329,7 @@ int GGPROTO::oauth_receivetoken()
 			mir_free(xmlAction);
 		}
 		else debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+		Netlib_FreeHttpRequest(resp);
 	}
 	else debugLogA("oauth_receivetoken(): No response from HTTP request");
 
@@ -356,9 +356,11 @@ int GGPROTO::oauth_receivetoken()
 	req.pData = str;
 	req.dataLength = (int)mir_strlen(str);
 
-	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
-	if (resp) CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
-	else debugLogA("oauth_receivetoken(): No response from HTTP request");
+	resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
+	if (resp)
+		Netlib_FreeHttpRequest(resp);
+	else
+		debugLogA("oauth_receivetoken(): No response from HTTP request");
 
 	// 3. Obtaining an Access Token
 	debugLogA("oauth_receivetoken(): Obtaining an Access Token...");
@@ -381,7 +383,7 @@ int GGPROTO::oauth_receivetoken()
 	httpHeaders[1].szName  = "Authorization";
 	httpHeaders[1].szValue = str;
 
-	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+	resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
 	if (resp) {
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 			wchar_t *xmlAction = mir_a2u(resp->pData);
@@ -399,7 +401,7 @@ int GGPROTO::oauth_receivetoken()
 		}
 		else debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
 		Netlib_CloseHandle(resp->nlc);
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+		Netlib_FreeHttpRequest(resp);
 	}
 	else debugLogA("oauth_receivetoken(): No response from HTTP request");
 

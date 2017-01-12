@@ -862,7 +862,7 @@ bool CMsnProto::MSN_ABRefreshClist(unsigned int nTry)
 
 	// Query addressbook
 	mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUserHttps, &nlhr);
 	mHttpsTS = clock();
 	if (nlhrReply)  {
 		hHttpsConnection = nlhrReply->nlc;
@@ -946,8 +946,9 @@ bool CMsnProto::MSN_ABRefreshClist(unsigned int nTry)
 			authSkypeComToken.Clear();
 			if (MSN_AuthOAuth() > 0) return MSN_ABRefreshClist(1);
 		}
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
-	} else hHttpsConnection = NULL;
+		Netlib_FreeHttpRequest(nlhrReply);
+	}
+	else hHttpsConnection = NULL;
 	return bRet;
 }
 

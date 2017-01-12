@@ -898,7 +898,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 		nlhr.szUrl = avs[i].Url;
 		nlhr.nlc = hHttpCon;
 
-		NETLIBHTTPREQUEST * res = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&nlhr);
+		NETLIBHTTPREQUEST * res = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
 		if (res) {
 			hHttpCon = res->nlc;
 			if (res->resultCode == 200 && res->dataLength) {
@@ -941,7 +941,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					}
 				}
 			}
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)res);
+			Netlib_FreeHttpRequest(res);
 		}
 		else hHttpCon = NULL;
 	}

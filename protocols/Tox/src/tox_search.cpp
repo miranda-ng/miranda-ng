@@ -57,7 +57,7 @@ ToxHexAddress ResolveToxAddressFromDns(const char *dnsQuery)
 	return address;
 }
 
-ToxHexAddress ResolveToxAddressFromToxme(HANDLE hNetlib, const char *query)
+ToxHexAddress ResolveToxAddressFromToxme(HNETLIBUSER hNetlib, const char *query)
 {
 	ToxHexAddress address = ToxHexAddress::Empty();
 
@@ -87,7 +87,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 
 	char *query = (char*)arg;
 	char *name = strtok(query, "@");
-	char *domain = strtok(NULL, "");
+	// char *domain = strtok(NULL, "");
 
 	/*int resolved = 0;
 

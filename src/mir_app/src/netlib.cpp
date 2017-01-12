@@ -503,9 +503,6 @@ int LoadNetlibModule(void)
 	CreateServiceFunction(MS_NETLIB_SETSTICKYHEADERS, NetlibHttpSetSticky);
 	CreateServiceFunction(MS_NETLIB_GETSOCKET, NetlibGetSocket);
 	CreateServiceFunction(MS_NETLIB_SENDHTTPREQUEST, NetlibHttpSendRequest);
-	CreateServiceFunction(MS_NETLIB_RECVHTTPHEADERS, NetlibHttpRecvHeaders);
-	CreateServiceFunction(MS_NETLIB_FREEHTTPREQUESTSTRUCT, NetlibHttpFreeRequestStruct);
-	CreateServiceFunction(MS_NETLIB_HTTPTRANSACTION, NetlibHttpTransaction);
 	CreateServiceFunction(MS_NETLIB_SELECT, NetlibSelect);
 	CreateServiceFunction(MS_NETLIB_SELECTEX, NetlibSelectEx);
 	CreateServiceFunction(MS_NETLIB_SHUTDOWN, NetlibShutdown);

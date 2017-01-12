@@ -36,7 +36,7 @@ public:
 		nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 		nlu.szSettingsModule = QUOTES_PROTOCOL_NAME;
 		nlu.ptszDescriptiveName = TranslateT("Quotes HTTP connections");
-		g_hNetLib = reinterpret_cast<HANDLE>(Netlib_RegisterUser(&nlu));
+		g_hNetLib = Netlib_RegisterUser(&nlu);
 		return (NULL != g_hNetLib);
 	}
 
@@ -83,8 +83,7 @@ public:
 		NETLIBHTTPREQUEST* pReply = NULL;
 		{
 			mir_cslock lck(m_mx);
-			pReply = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService(MS_NETLIB_HTTPTRANSACTION,
-				reinterpret_cast<WPARAM>(g_hNetLib), reinterpret_cast<LPARAM>(&nlhr)));
+			pReply = Netlib_HttpTransaction(g_hNetLib, &nlhr);
 		}
 
 		if (pReply) {
@@ -109,7 +108,7 @@ public:
 				bResult = true;
 			}
 
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, reinterpret_cast<LPARAM>(pReply));
+			Netlib_FreeHttpRequest(pReply);
 		}
 
 		mir_free(nlhr.headers);
@@ -118,13 +117,13 @@ public:
 	}
 
 private:
-	static HANDLE g_hNetLib;
+	static HNETLIBUSER g_hNetLib;
 	typedef std::vector<char> TBuffer;
 	mutable TBuffer m_aURL;
 	mutable mir_cs m_mx;
 };
 
-HANDLE CImplMI::g_hNetLib = NULL;
+HNETLIBUSER CImplMI::g_hNetLib = NULL;
 
 CHTTPSession::CHTTPSession()
 	: m_pImpl(new CImplMI)

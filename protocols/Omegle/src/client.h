@@ -117,9 +117,9 @@ public:
 
 	// Netlib handle
 
-	HANDLE handle_;
+	HNETLIBUSER handle_;
 
-	void set_handle(HANDLE h)
+	void set_handle(HNETLIBUSER h)
 	{
 		handle_ = h;
 	}

@@ -31,7 +31,7 @@ class mir_twitter : public twitter
 {
 public:
 	mir_twitter() : twitter(), handle_(NULL), httpPOST_(NULL) {}
-	void set_handle(PROTO_INTERFACE *ppro, HANDLE h)
+	void set_handle(PROTO_INTERFACE *ppro, HNETLIBUSER h)
 	{
 		ppro_ = ppro;
 		handle_ = h;
@@ -86,7 +86,7 @@ protected:
 	http::response slurp(const std::string &,http::method, OAuthParameters );
 
 	HANDLE httpPOST_;
-	HANDLE handle_;
+	HNETLIBUSER handle_;
 	PROTO_INTERFACE *ppro_;
 };
 
@@ -95,4 +95,4 @@ inline void mbcs_to_tcs(UINT code_page, const char *mbstr, wchar_t *tstr, int tl
 	MultiByteToWideChar(code_page, 0, mbstr, -1, tstr, tlen);
 }
 
-bool save_url(HANDLE hNetlib,const std::string &url,const std::wstring &filename);
+bool save_url(HNETLIBUSER hNetlib,const std::string &url,const std::wstring &filename);

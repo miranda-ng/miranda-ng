@@ -397,7 +397,7 @@ DWORD MraAvatarsHttpTransaction(HANDLE hConnection, DWORD dwRequestType, LPCSTR 
 	if (dwSent == SOCKET_ERROR || !dwSent)
 		return GetLastError();
 
-	NETLIBHTTPREQUEST *pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_RECVHTTPHEADERS, (WPARAM)hConnection, 0);
+	NETLIBHTTPREQUEST *pnlhr = Netlib_RecvHttpHeaders(hConnection);
 	if (!pnlhr)
 		return GetLastError();
 
@@ -428,7 +428,7 @@ DWORD MraAvatarsHttpTransaction(HANDLE hConnection, DWORD dwRequestType, LPCSTR 
 
 	if (pdwResultCode)
 		*pdwResultCode = pnlhr->resultCode;
-	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pnlhr);
+	Netlib_FreeHttpRequest(pnlhr);
 	return 0;
 }
 

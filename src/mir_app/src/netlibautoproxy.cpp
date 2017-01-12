@@ -144,19 +144,16 @@ static void GetFile(char* szUrl, AUTO_PROXY_SCRIPT_BUFFER &buf)
 	nlhr.szUrl = szUrl;
 
 	// download the page
-	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)NetlibHttpTransaction((WPARAM)&nlu, (LPARAM)&nlhr);
-
-	if (nlhrReply)
-	{
-		if (nlhrReply->resultCode == 200)
-		{
+	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(&nlu, &nlhr);
+	if (nlhrReply) {
+		if (nlhrReply->resultCode == 200) {
 			buf.lpszScriptBuffer = nlhrReply->pData;
 			buf.dwScriptBufferSize = nlhrReply->dataLength + 1;
 
 			nlhrReply->dataLength = 0;
 			nlhrReply->pData = NULL;
 		}
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+		Netlib_FreeHttpRequest(nlhrReply);
 	}
 }
 

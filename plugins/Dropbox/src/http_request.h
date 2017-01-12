@@ -155,11 +155,11 @@ public:
 			mir_free(pData);
 	}
 
-	NETLIBHTTPREQUEST* Send(HANDLE hNetlibConnection)
+	NETLIBHTTPREQUEST* Send(HNETLIBUSER hNetlibConnection)
 	{
 		m_szUrl.Replace('\\', '/');
 		szUrl = m_szUrl.GetBuffer();
-		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibConnection, (LPARAM)this);
+		return Netlib_HttpTransaction(hNetlibConnection, this);
 	}
 };
 
