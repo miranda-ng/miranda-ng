@@ -32,7 +32,6 @@ class facebook_client
 public:
 
 	////////////////////////////////////////////////////////////
-
 	// Client definition
 
 	facebook_client()
@@ -198,11 +197,11 @@ public:
 	std::map<int, time_t> messages_timestamp;
 	
 	bool loading_history;
-	HANDLE  loading_history_lock_;
+	HANDLE loading_history_lock_;
 
-	bool    channel();
-	bool	activity_ping();
-	int		send_message(int seqid, MCONTACT, const std::string &message_text, std::string *error_text, const std::string &captchaPersistData = "", const std::string &captcha = "");
+	bool channel();
+	bool activity_ping();
+	int  send_message(int seqid, MCONTACT, const std::string &message_text, std::string *error_text, const std::string &captchaPersistData = "", const std::string &captcha = "");
 
 	////////////////////////////////////////////////////////////
 
@@ -218,12 +217,10 @@ public:
 	bool save_url(const std::string &url,const std::wstring &filename, HANDLE &nlc);
 
 	////////////////////////////////////////////////////////////
-
 	// Netlib handle
 
-	HANDLE handle_;
-
-	void set_handle(HANDLE h)
+	HNETLIBUSER handle_;
+	void set_handle(HNETLIBUSER h)
 	{
 		handle_ = h;
 	}

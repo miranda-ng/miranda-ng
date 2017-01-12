@@ -140,13 +140,13 @@ public:
 			mir_free(pData);
 	}
 
-	HttpResponse* Send(HANDLE hConnection)
+	HttpResponse* Send(HNETLIBUSER nlu)
 	{
 		szUrl = m_url.GetBuffer();
 
-		Netlib_Logf(Netlib_GetConnNlu(hConnection), "Send request to %s", szUrl);
+		Netlib_Logf(nlu, "Send request to %s", szUrl);
 
-		NETLIBHTTPREQUEST* response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hConnection, (LPARAM)this);
+		NETLIBHTTPREQUEST* response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)nlu, (LPARAM)this);
 		HttpResponse* result = new HttpResponse(response, this);
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 

@@ -17,8 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-RequestQueue::RequestQueue(HANDLE hConnection) :
-hConnection(hConnection), requests(1)
+RequestQueue::RequestQueue(HNETLIBUSER _nlu) :
+	nlu(_nlu), requests(1)
 {
 	isTerminated = true;
 	hRequestQueueThread = NULL;
@@ -70,7 +70,7 @@ void RequestQueue::Send(HttpRequest *request, HttpResponseCallback response, voi
 
 void RequestQueue::Execute(RequestQueueItem *item)
 {
-	NETLIBHTTPREQUEST *response = item->request->Send(hConnection);
+	NETLIBHTTPREQUEST *response = item->request->Send(nlu);
 	if (item->responseCallback != NULL)
 		item->responseCallback(response, item->arg);
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);

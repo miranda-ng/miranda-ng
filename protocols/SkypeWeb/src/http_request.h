@@ -263,7 +263,7 @@ public:
 		mir_free(headers);
 	}
 
-	virtual NETLIBHTTPREQUEST* Send(HANDLE hConnection)
+	virtual NETLIBHTTPREQUEST* Send(HNETLIBUSER nlu)
 	{
 		if (url.Find("://") == -1)
 			url.Insert(0, ((flags & NLHRF_SSL) ? "https://" : "http://"));
@@ -274,9 +274,9 @@ public:
 			dataLength = (int)mir_strlen(pData);
 		}
 
-		Netlib_Logf(Netlib_GetConnNlu(hConnection), "Send request to %s", szUrl);
+		Netlib_Logf(nlu, "Send request to %s", szUrl);
 
-		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hConnection, (LPARAM)(NETLIBHTTPREQUEST*)this);
+		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)nlu, (LPARAM)(NETLIBHTTPREQUEST*)this);
 	}
 };
 
