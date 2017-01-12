@@ -187,7 +187,7 @@ struct NetlibPacketRecver {
 
 //netlib.c
 void NetlibFreeUserSettingsStruct(NETLIBUSERSETTINGS *settings);
-void NetlibDoClose(NetlibConnection *nlc, bool noShutdown = false);
+void NetlibDoCloseSocket(NetlibConnection *nlc, bool noShutdown = false);
 void NetlibInitializeNestedCS(NetlibNestedCriticalSection *nlncs);
 void NetlibDeleteNestedCS(NetlibNestedCriticalSection *nlncs);
 #define NLNCS_SEND  0

@@ -184,7 +184,7 @@ static NetlibConnection* NetlibHttpProcessUrl(NETLIBHTTPREQUEST *nlhr, NetlibUse
 		bool sameHost = mir_strcmp(nlc->nloc.szHost, nloc.szHost) == 0 && nlc->nloc.wPort == nloc.wPort;
 
 		if (!httpProxy && !sameHost) {
-			NetlibDoClose(nlc);
+			NetlibDoCloseSocket(nlc);
 
 			mir_free((char*)nlc->nloc.szHost);
 			nlc->nloc = nloc;
@@ -1151,7 +1151,7 @@ next:
 	if (close &&
 		(nlc->proxyType != PROXYTYPE_HTTP || nlc->nloc.flags & NLOCF_SSL) &&
 		(!isConnect || nlhrReply->resultCode != 200))
-		NetlibDoClose(nlc);
+		NetlibDoCloseSocket(nlc);
 
 	return nlhrReply;
 }

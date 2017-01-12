@@ -382,6 +382,11 @@ struct NETLIBHTTPPROXYINFO
 #define Netlib_GetBase64EncodedBufferSize(cbDecoded)  (((cbDecoded)*4+11)/12*4+1)
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Gets HNETLIBUSER owner of a connection
+
+EXTERN_C MIR_APP_DLL(HNETLIBUSER) Netlib_GetConnNlu(HANDLE hConn);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Converts string representation of IP and port into numerical SOCKADDR_INET
 // IPv4 could supplied in formats address:port or address
 // IPv6 could supplied in formats [address]:port or [address]

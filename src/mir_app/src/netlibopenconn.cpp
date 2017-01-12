@@ -660,7 +660,7 @@ static bool my_connect(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 
 static int NetlibHttpFallbackToDirect(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
 {
-	NetlibDoClose(nlc, true);
+	NetlibDoCloseSocket(nlc, true);
 
 	Netlib_Logf(nlu, "Fallback to direct connection");
 
@@ -800,7 +800,7 @@ bool NetlibReconnect(NetlibConnection *nlc)
 		}
 
 		if (!opened)
-			NetlibDoClose(nlc, true);
+			NetlibDoCloseSocket(nlc, true);
 	}
 
 	if (!opened) {

@@ -230,7 +230,9 @@ static INT_PTR NetlibSetUserSettings(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-void NetlibDoClose(NetlibConnection *nlc, bool noShutdown)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void NetlibDoCloseSocket(NetlibConnection *nlc, bool noShutdown)
 {
 	if (nlc->s == INVALID_SOCKET) return;
 
@@ -278,7 +280,7 @@ MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 					HttpGatewayRemovePacket(nlc, -1);
 				else {
 					if (nlc->s != INVALID_SOCKET)
-						NetlibDoClose(nlc, nlc->termRequested);
+						NetlibDoCloseSocket(nlc, nlc->termRequested);
 					if (nlc->s2 != INVALID_SOCKET)
 						closesocket(nlc->s2);
 					nlc->s2 = INVALID_SOCKET;
@@ -318,6 +320,8 @@ MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 	return 1;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static INT_PTR NetlibGetSocket(WPARAM wParam, LPARAM)
 {
 	SOCKET s;
@@ -343,6 +347,8 @@ static INT_PTR NetlibGetSocket(WPARAM wParam, LPARAM)
 	}
 	return s;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR NetlibStringToAddressSrv(WPARAM wParam, LPARAM lParam)
 {
@@ -370,6 +376,16 @@ INT_PTR NetlibGetMyIp(WPARAM wParam, LPARAM)
 {
 	return (INT_PTR)GetMyIp((unsigned)wParam);
 }
+
+MIR_APP_DLL(HNETLIBUSER) Netlib_GetConnNlu(HANDLE hConn)
+{
+	if (GetNetlibHandleType(hConn) != NLH_CONNECTION)
+		return NULL;
+
+	return ((NetlibConnection*)hConn)->nlu;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR NetlibShutdown(WPARAM wParam, LPARAM)
 {
