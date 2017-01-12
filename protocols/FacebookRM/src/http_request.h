@@ -287,7 +287,7 @@ public:
 			dataLength = (int)mir_strlen(pData);
 		}
 
-		Netlib_Logf(NULL, "Send request to %s", szUrl);
+		Netlib_Logf(Netlib_GetConnNlu(hConnection), "Send request to %s", szUrl);
 
 		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hConnection, (LPARAM)(NETLIBHTTPREQUEST*)this);
 	}
