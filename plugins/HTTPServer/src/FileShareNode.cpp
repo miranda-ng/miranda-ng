@@ -83,7 +83,7 @@ CLShareUser::~CLShareUser()
 
 void CLShareUser::CloseSocket()
 {
-	SOCKET s = CallService(MS_NETLIB_GETSOCKET, (WPARAM)hConnection, 0);
+	SOCKET s = Netlib_GetSocket(hConnection);
 	if (s != INVALID_SOCKET) {
 		shutdown(s, SD_SEND);
 		int nBytesRead;

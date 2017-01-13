@@ -375,7 +375,7 @@ LBL_FatalError:
 	// Determine local IP
 	if (info.conn.useSSL) {
 		debugLogA("Intializing SSL connection");
-		if (!CallService(MS_NETLIB_STARTSSL, (WPARAM)info.s, 0)) {
+		if (!Netlib_StartSsl(info.s, NULL)) {
 			debugLogA("SSL intialization failed");
 			if (!info.bIsReg)
 				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
@@ -413,11 +413,10 @@ LBL_FatalError:
 				if (dwIdle >= dwConnectionKeepAliveInterval)
 					dwIdle = dwConnectionKeepAliveInterval - 10; // now!
 
-				NETLIBSELECT nls = { 0 };
-				nls.cbSize = sizeof(NETLIBSELECT);
+				NETLIBSELECT nls = {};
 				nls.dwTimeout = dwConnectionKeepAliveInterval - dwIdle;
 				nls.hReadConns[0] = info.s;
-				int nSelRes = CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls);
+				int nSelRes = Netlib_Select(&nls);
 				if (nSelRes == -1) // error
 					break;
 				else if (nSelRes == 0 && m_bSendKeepAlive) {
@@ -905,10 +904,7 @@ void CJabberProto::OnProcessProceed(HXML node, ThreadData *info)
 		bool isHosted = gtlk && !gtlk[10] && mir_strcmpi(info->conn.server, "gmail.com") &&
 			mir_strcmpi(info->conn.server, "googlemail.com");
 
-		NETLIBSSL ssl = { 0 };
-		ssl.cbSize = sizeof(ssl);
-		ssl.host = isHosted ? info->conn.manualHost : info->conn.server;
-		if (!CallService(MS_NETLIB_STARTSSL, (WPARAM)info->s, (LPARAM)&ssl)) {
+		if (!Netlib_StartSsl(info->s, isHosted ? info->conn.manualHost : info->conn.server)) {
 			debugLogA("SSL initialization failed");
 			info->send("</stream:stream>");
 			info->shutdown();

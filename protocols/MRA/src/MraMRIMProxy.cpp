@@ -126,7 +126,6 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 						while (--dwCurConnectReTryCount && pmmpd->hConnection == NULL);
 
 					if (pmmpd->hConnection) {
-						nls.cbSize = sizeof(nls);
 						nls.dwTimeout = (MRA_TIMEOUT_DIRECT_CONN*1000*2);
 						nls.hReadConns[0] = pmmpd->hConnection;
 						bContinue = TRUE;
@@ -137,7 +136,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 						MraSendPacket(nls.hReadConns[0], 0, MRIM_CS_PROXY_HELLO, &pmmpd->mguidSessionID, sizeof(MRA_GUID));
 
 						while (bContinue) {
-							switch (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls)) {
+							switch (Netlib_Select(&nls)) {
 							case SOCKET_ERROR:
 							case 0:// Time out
 								dwRetErrorCode = GetLastError();

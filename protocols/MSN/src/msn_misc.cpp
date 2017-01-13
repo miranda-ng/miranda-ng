@@ -1396,7 +1396,7 @@ void MSN_MakeDigest(const char* chl, char* dgst)
 
 char* GetGlobalIp(void)
 {
-	NETLIBIPLIST* ihaddr = (NETLIBIPLIST*)CallService(MS_NETLIB_GETMYIP, 1, 0);
+	NETLIBIPLIST *ihaddr = Netlib_GetMyIp(true);
 	for (unsigned i = 0; i < ihaddr->cbNum; ++i)
 		if (strchr(ihaddr->szIp[i], ':'))
 			return mir_strdup(ihaddr->szIp[i]);

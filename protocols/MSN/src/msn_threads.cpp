@@ -177,7 +177,7 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 	}
 
 	if (usingGateway)
-		CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(info->s), info->mGatewayTimeout);
+		Netlib_SetPollingTimeout(info->s, info->mGatewayTimeout);
 
 	debugLogA("Connected with handle=%08X", info->s);
 
@@ -318,8 +318,7 @@ void CMsnProto::MSN_CloseConnections(void)
 {
 	mir_cslockfull lck(m_csThreads);
 
-	NETLIBSELECTEX nls = { 0 };
-	nls.cbSize = sizeof(nls);
+	NETLIBSELECTEX nls = {};
 
 	for (int i = 0; i < m_arThreads.getCount(); i++) {
 		ThreadData &T = m_arThreads[i];
@@ -329,7 +328,7 @@ void CMsnProto::MSN_CloseConnections(void)
 		case SERVER_SWITCHBOARD:
 			if (T.s != NULL && !T.sessionClosed && !T.termPending) {
 				nls.hReadConns[0] = T.s;
-				int res = CallService(MS_NETLIB_SELECTEX, 0, (LPARAM)&nls);
+				int res = Netlib_SelectEx(&nls);
 				if (res >= 0 || nls.hReadStatus[0] == 0)
 					T.sendTerminate();
 			}
@@ -616,13 +615,12 @@ void ThreadData::applyGatewayData(HANDLE hConn, bool isPoll)
 
 	proto->debugLogA("applying '%s' to %08X [%08X]", szHttpPostUrl, this, GetCurrentThreadId());
 
-	NETLIBHTTPPROXYINFO nlhpi = { 0 };
-	nlhpi.cbSize = sizeof(nlhpi);
+	NETLIBHTTPPROXYINFO nlhpi = {};
 	nlhpi.flags = NLHPIF_HTTP11;
 	nlhpi.szHttpGetUrl = NULL;
 	nlhpi.szHttpPostUrl = szHttpPostUrl;
 	nlhpi.combinePackets = 5;
-	CallService(MS_NETLIB_SETHTTPPROXYINFO, (WPARAM)hConn, (LPARAM)&nlhpi);
+	Netlib_SetHttpProxyInfo(hConn, &nlhpi);
 }
 
 void ThreadData::getGatewayUrl(char* dest, int destlen, bool isPoll)

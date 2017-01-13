@@ -255,8 +255,8 @@ int CAimProto::aim_client_ready(HANDLE hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 
-	NETLIBCONNINFO connInfo = { sizeof(connInfo) };
-	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hServerConn, (LPARAM)&connInfo);
+	NETLIBCONNINFO connInfo = {};
+	Netlib_GetConnectionInfo(hServerConn, &connInfo);
 
 	m_internal_ip = connInfo.dwIpv4;
 

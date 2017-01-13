@@ -367,3 +367,13 @@ Netlib_GetMorePackets @367
 Netlib_FreeHttpRequest @368
 Netlib_AddressToString @369
 Netlib_StringToAddress @370
+Netlib_Select @371
+Netlib_SelectEx @372
+Netlib_SendHttpRequest @373
+Netlib_SetStickyHeaders @374
+Netlib_SetPollingTimeout @375
+Netlib_GetSocket @376
+Netlib_StartSsl @377
+Netlib_GetConnectionInfo @378
+Netlib_GetMyIp @379
+Netlib_SetHttpProxyInfo @380

@@ -186,7 +186,6 @@ int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLI
 				if (ft->pfts.currentFileProgress) _lseeki64(fid, ft->pfts.currentFileProgress, SEEK_SET);
 
 				NETLIBSELECT tSelect = { 0 };
-				tSelect.cbSize = sizeof(tSelect);
 				tSelect.hReadConns[0] = ft->hConn;
 
 				ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
@@ -203,7 +202,8 @@ int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLI
 
 					if (clock() >= lNotify) {
 						ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
-						if (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&tSelect)) break;
+						if (Netlib_Select(&tSelect))
+							break;
 
 						lNotify = clock() + 500;
 					}

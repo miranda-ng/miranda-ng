@@ -65,8 +65,8 @@ void aim_direct_connection_initiated(HANDLE hNewConnection, DWORD, void* extra)/
 {
 	CAimProto *ppro = (CAimProto*)extra;
 
-	NETLIBCONNINFO connInfo = { sizeof(connInfo) };
-	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hNewConnection, (LPARAM)&connInfo);
+	NETLIBCONNINFO connInfo = {};
+	Netlib_GetConnectionInfo(hNewConnection, &connInfo);
 
 	ppro->debugLogA("Buddy connected: %s", connInfo.szIpPort);
 

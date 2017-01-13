@@ -27,6 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HANDLE hConnectionHeaderMutex, hSendEvent, hRecvEvent;
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(int) Netlib_Send(HANDLE hConn, const char *buf, int len, int flags)
 {
 	NetlibConnection *nlc = (NetlibConnection*)hConn;
@@ -55,6 +57,8 @@ MIR_APP_DLL(int) Netlib_Send(HANDLE hConn, const char *buf, int len, int flags)
 
 	return result;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_APP_DLL(int) Netlib_Recv(HANDLE hConn, char *buf, int len, int flags)
 {
@@ -89,7 +93,9 @@ MIR_APP_DLL(int) Netlib_Recv(HANDLE hConn, char *buf, int len, int flags)
 	return recvResult;
 }
 
-static int ConnectionListToSocketList(HANDLE *hConns, fd_set *fd, int& pending)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int ConnectionListToSocketList(const HANDLE *hConns, fd_set *fd, int& pending)
 {
 	FD_ZERO(fd);
 	for (int i = 0; hConns[i] && hConns[i] != INVALID_HANDLE_VALUE && i < FD_SETSIZE; i++) {
@@ -105,10 +111,9 @@ static int ConnectionListToSocketList(HANDLE *hConns, fd_set *fd, int& pending)
 	return 1;
 }
 
-INT_PTR NetlibSelect(WPARAM, LPARAM lParam)
+MIR_APP_DLL(int) Netlib_Select(NETLIBSELECT *nls)
 {
-	NETLIBSELECT *nls = (NETLIBSELECT*)lParam;
-	if (nls == NULL || nls->cbSize != sizeof(NETLIBSELECT)) {
+	if (nls == NULL) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return SOCKET_ERROR;
 	}
@@ -133,10 +138,9 @@ INT_PTR NetlibSelect(WPARAM, LPARAM lParam)
 	return select(0, &readfd, &writefd, &exceptfd, nls->dwTimeout == INFINITE ? NULL : &tv);
 }
 
-INT_PTR NetlibSelectEx(WPARAM, LPARAM lParam)
+MIR_APP_DLL(int) Netlib_SelectEx(NETLIBSELECTEX *nls)
 {
-	NETLIBSELECTEX *nls = (NETLIBSELECTEX*)lParam;
-	if (nls == NULL || nls->cbSize != sizeof(NETLIBSELECTEX)) {
+	if (nls == NULL) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return SOCKET_ERROR;
 	}
@@ -190,6 +194,8 @@ INT_PTR NetlibSelectEx(WPARAM, LPARAM lParam)
 	return rc;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(bool) Netlib_StringToAddress(const char *str, SOCKADDR_INET_M *addr)
 {
 	if (!str) return false;
@@ -216,9 +222,13 @@ MIR_APP_DLL(char*) Netlib_AddressToString(sockaddr_in *addr)
 	return NULL;
 }
 
-void NetlibGetConnectionInfo(NetlibConnection *nlc, NETLIBCONNINFO *connInfo)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(int) Netlib_GetConnectionInfo(HANDLE hConnection, NETLIBCONNINFO *connInfo)
 {
-	if (!nlc || !connInfo || connInfo->cbSize < sizeof(NETLIBCONNINFO)) return;
+	NetlibConnection *nlc = (NetlibConnection*)hConnection;
+	if (!nlc || !connInfo)
+		return 1;
 
 	sockaddr_in sin = { 0 };
 	int len = sizeof(sin);
@@ -227,7 +237,10 @@ void NetlibGetConnectionInfo(NetlibConnection *nlc, NETLIBCONNINFO *connInfo)
 		connInfo->dwIpv4 = sin.sin_family == AF_INET ? htonl(sin.sin_addr.s_addr) : 0;
 		strncpy_s(connInfo->szIpPort, ptrA(Netlib_AddressToString(&sin)), _TRUNCATE);
 	}
+	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 inline bool IsAddrGlobal(const IN6_ADDR *a)
 {
@@ -235,7 +248,7 @@ inline bool IsAddrGlobal(const IN6_ADDR *a)
 	return High != 0 && High != 0xf0;
 }
 
-static NETLIBIPLIST* GetMyIpv6(unsigned flags)
+MIR_APP_DLL(NETLIBIPLIST*) Netlib_GetMyIp(bool bGlobalOnly)
 {
 	addrinfo *air = NULL, *ai, hints = { 0 };
 	const char *szMyHost = "";
@@ -249,7 +262,7 @@ static NETLIBIPLIST* GetMyIpv6(unsigned flags)
 	unsigned n = 0;
 	for (ai = air; ai; ai = ai->ai_next) {
 		SOCKADDR_INET_M *iaddr = (SOCKADDR_INET_M*)ai->ai_addr;
-		if (ai->ai_family == AF_INET || (ai->ai_family == AF_INET6 && (!(flags & 1) || IsAddrGlobal(&iaddr->Ipv6.sin6_addr))))
+		if (ai->ai_family == AF_INET || (ai->ai_family == AF_INET6 && (!bGlobalOnly || IsAddrGlobal(&iaddr->Ipv6.sin6_addr))))
 			++n;
 	}
 
@@ -259,7 +272,7 @@ static NETLIBIPLIST* GetMyIpv6(unsigned flags)
 	unsigned i = 0;
 	for (ai = air; ai; ai = ai->ai_next) {
 		sockaddr_in6 *iaddr = (sockaddr_in6*)ai->ai_addr;
-		if (ai->ai_family == AF_INET || (ai->ai_family == AF_INET6 && (!(flags & 1) || IsAddrGlobal(&iaddr->sin6_addr)))) {
+		if (ai->ai_family == AF_INET || (ai->ai_family == AF_INET6 && (!bGlobalOnly || IsAddrGlobal(&iaddr->sin6_addr)))) {
 			char *szIp = Netlib_AddressToString((sockaddr_in*)iaddr);
 			if (szIp)
 				strncpy_s(addr->szIp[i++], szIp, _TRUNCATE);
@@ -288,9 +301,4 @@ static NETLIBIPLIST* GetMyIpv4(void)
 		strncpy_s(addr->szIp[i], inet_ntoa(*(PIN_ADDR)he->h_addr_list[i]), _TRUNCATE);
 
 	return addr;
-}
-
-NETLIBIPLIST* GetMyIp(unsigned flags)
-{
-	return GetMyIpv6(flags);
 }

@@ -1305,14 +1305,13 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 
 static void __cdecl TlenKeepAliveThread(void *ptr)
 {
-	NETLIBSELECT nls = {0};
-
 	TlenProtocol *proto = (TlenProtocol *)ptr;
-	nls.cbSize = sizeof(NETLIBSELECT);
+
+	NETLIBSELECT nls = {};
 	nls.dwTimeout = 60000;	// 60000 millisecond (1 minute)
 	nls.hExceptConns[0] = proto->threadData->s;
 	for (;;) {
-		if (CallService(MS_NETLIB_SELECT, 0, (LPARAM) &nls) != 0)
+		if (Netlib_Select(&nls) != 0)
 			break;
 		if (proto->tlenOptions.sendKeepAlive)
 			TlenSend(proto, " \t ");

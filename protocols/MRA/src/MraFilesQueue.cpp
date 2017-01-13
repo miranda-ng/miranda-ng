@@ -729,7 +729,6 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 
 		bFailed = TRUE;
 		bConnected = FALSE;
-		nls.cbSize = sizeof(nls);
 		pfts.cbSize = sizeof(pfts);
 		pfts.hContact = dat->hContact;
 		pfts.flags = (PFTS_RECEIVING | PFTS_UNICODE);//		pfts.sending = dat->bSending;	//true if sending, false if receiving
@@ -818,7 +817,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 							ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
 
 							while (bContinue) {
-								switch (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls)) {
+								switch (Netlib_Select(&nls)) {
 								case SOCKET_ERROR:
 								case 0:// Time out
 									dwRetErrorCode = GetLastError();

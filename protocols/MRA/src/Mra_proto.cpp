@@ -148,12 +148,11 @@ DWORD CMraProto::MraGetNLBData(CMStringA &szHost, WORD *pwPort)
 		while (--dwCurConnectReTryCount && nls.hReadConns[0] == NULL);
 
 	if (nls.hReadConns[0]) {
-		nls.cbSize = sizeof(nls);
 		nls.dwTimeout = 1000 * getDword("TimeOutReceiveNLB", MRA_DEFAULT_TIMEOUT_RECV_NLB);
 		InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 
 		while (m_iStatus != ID_STATUS_OFFLINE && bContinue) {
-			switch (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls)) {
+			switch (Netlib_Select(&nls)) {
 			case SOCKET_ERROR:
 			case 0:// Time out
 				bContinue = FALSE;
@@ -218,8 +217,8 @@ DWORD CMraProto::MraNetworkDispatcher()
 	dwCMDNum = 0;
 	MraSendCMD(MRIM_CS_HELLO, NULL, 0);
 	while (m_iStatus != ID_STATUS_OFFLINE && bContinue) {
-		DWORD dwSelectRet = CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls);
-		if (SOCKET_ERROR == dwSelectRet) {
+		int iSelectRet = Netlib_Select(&nls);
+		if (SOCKET_ERROR == iSelectRet) {
 			if (m_iStatus != ID_STATUS_OFFLINE) {
 				dwRetErrorCode = GetLastError();
 				ShowFormattedErrorMessage(L"Disconnected, socket error", dwRetErrorCode);
@@ -267,7 +266,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 			}
 		}
 
-		if (dwSelectRet == 0) // Time out
+		if (iSelectRet == 0) // Time out
 			continue;
 
 		// expand receive buffer dynamically

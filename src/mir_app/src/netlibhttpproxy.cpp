@@ -243,6 +243,8 @@ int NetlibHttpGatewayPost(NetlibConnection *nlc, const char *buf, int len, int f
 	return len;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 #define NETLIBHTTP_RETRYCOUNT   3
 #define NETLIBHTTP_RETRYTIMEOUT 2000
 
@@ -353,6 +355,8 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags)
 	return SOCKET_ERROR;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int NetlibInitHttpConnection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
 {
 	NETLIBHTTPREQUEST *nlhrReply = NULL;
@@ -398,14 +402,12 @@ int NetlibInitHttpConnection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENC
 	return 1;
 }
 
-INT_PTR NetlibHttpGatewaySetInfo(WPARAM wParam, LPARAM lParam)
-{
-	NETLIBHTTPPROXYINFO *nlhpi = (NETLIBHTTPPROXYINFO*)lParam;
-	NetlibConnection *nlc = (NetlibConnection*)wParam;
+/////////////////////////////////////////////////////////////////////////////////////////
 
-	if (GetNetlibHandleType(nlc) != NLH_CONNECTION || nlhpi == NULL ||
-		nlhpi->cbSize < (sizeof(NETLIBHTTPPROXYINFO) - sizeof(int)) ||
-		nlhpi->szHttpPostUrl == NULL) {
+MIR_APP_DLL(int) Netlib_SetHttpProxyInfo(HANDLE hConnection, const NETLIBHTTPPROXYINFO *nlhpi)
+{
+	NetlibConnection *nlc = (NetlibConnection*)hConnection;
+	if (GetNetlibHandleType(nlc) != NLH_CONNECTION || nlhpi == NULL || nlhpi->szHttpPostUrl == NULL) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
@@ -414,7 +416,7 @@ INT_PTR NetlibHttpGatewaySetInfo(WPARAM wParam, LPARAM lParam)
 	mir_free(nlc->nlhpi.szHttpPostUrl);
 
 	nlc->nlhpi.combinePackets = 1;
-	memcpy(&nlc->nlhpi, nlhpi, min(nlhpi->cbSize, sizeof(*nlhpi)));
+	memcpy(&nlc->nlhpi, nlhpi, sizeof(*nlhpi));
 	if (nlc->nlhpi.combinePackets == 0)
 		nlc->nlhpi.combinePackets = 1;
 
@@ -423,23 +425,26 @@ INT_PTR NetlibHttpGatewaySetInfo(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-INT_PTR NetlibHttpSetSticky(WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(int) Netlib_SetStickyHeaders(HNETLIBUSER nlu, const char *szHeaders)
 {
-	NetlibUser *nu = (NetlibUser*)wParam;
-	if (GetNetlibHandleType(nu) != NLH_USER)
+	if (GetNetlibHandleType(nlu) != NLH_USER)
 		return ERROR_INVALID_PARAMETER;
 	
-	replaceStr(nu->szStickyHeaders, (char*)lParam); // pointer is ours
+	replaceStr(nlu->szStickyHeaders, szHeaders); // pointer is ours
 	return 0;
 }
 
-INT_PTR NetlibHttpSetPollingTimeout(WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(int) Netlib_SetPollingTimeout(HANDLE hConnection, int iTimeout)
 {
-	NetlibConnection *nlc = (NetlibConnection*)wParam;
+	NetlibConnection *nlc = (NetlibConnection*)hConnection;
 	if (GetNetlibHandleType(nlc) != NLH_CONNECTION)
 		return -1;
 	
 	int oldTimeout = nlc->pollingTimeout;
-	nlc->pollingTimeout = lParam;
+	nlc->pollingTimeout = iTimeout;
 	return oldTimeout;
 }

@@ -771,7 +771,7 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 	Netlib_Logf(nlu, "(%d) Connected to %s:%d", nlc->s, nloc->szHost, nloc->wPort);
 
 	if (NLOCF_SSL & nloc->flags)
-		return NetlibStartSsl((WPARAM)nlc, 0) != 0;
+		return Netlib_StartSsl(nlc, 0) != 0;
 
 	return true;
 }
@@ -851,14 +851,14 @@ MIR_APP_DLL(HANDLE) Netlib_OpenConnection(NetlibUser *nlu, const NETLIBOPENCONNE
 	return nlc;
 }
 
-INT_PTR NetlibStartSsl(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Netlib_StartSsl(HANDLE hConnection, const char *szHost)
 {
-	NetlibConnection *nlc = (NetlibConnection*)wParam;
+	NetlibConnection *nlc = (NetlibConnection*)hConnection;
 	if (nlc == NULL)
 		return 0;
 
-	NETLIBSSL *sp = (NETLIBSSL*)lParam;
-	const char *szHost = sp ? sp->host : nlc->nloc.szHost;
+	if (szHost == NULL)
+		szHost = nlc->nloc.szHost;
 
 	Netlib_Logf(nlc->nlu, "(%d %s) Starting SSL negotiation", nlc->s, szHost);
 	nlc->hSsl = sslApi.connect(nlc->s, szHost, nlc->nlu->settings.validateSSL);

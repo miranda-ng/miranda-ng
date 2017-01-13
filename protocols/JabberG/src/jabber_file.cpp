@@ -175,8 +175,8 @@ void JabberFileServerConnection(JABBER_SOCKET hConnection, DWORD /*dwRemoteIP*/,
 {
 	CJabberProto *ppro = (CJabberProto*)extra;
 
-	NETLIBCONNINFO connInfo = { sizeof(connInfo) };
-	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hConnection, (LPARAM)&connInfo);
+	NETLIBCONNINFO connInfo = {};
+	Netlib_GetConnectionInfo(hConnection, &connInfo);
 
 	wchar_t szPort[10];
 	mir_snwprintf(szPort, L"%d", connInfo.wPort);

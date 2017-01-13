@@ -225,10 +225,6 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags);
 int NetlibHttpGatewayPost(NetlibConnection *nlc, const char *buf, int len, int flags);
 void HttpGatewayRemovePacket(NetlibConnection *nlc, int pck);
 
-INT_PTR NetlibHttpGatewaySetInfo(WPARAM wParam, LPARAM lParam);
-INT_PTR NetlibHttpSetPollingTimeout(WPARAM wParam, LPARAM lParam);
-INT_PTR NetlibHttpSetSticky(WPARAM wParam, LPARAM lParam);
-
 // netliblog.c
 void NetlibLogShowOptions(void);
 void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int flags);
@@ -241,7 +237,6 @@ int WaitUntilReadable(SOCKET s, DWORD dwTimeout, bool check = false);
 int WaitUntilWritable(SOCKET s, DWORD dwTimeout);
 bool NetlibDoConnect(NetlibConnection *nlc);
 bool NetlibReconnect(NetlibConnection *nlc);
-INT_PTR NetlibStartSsl(WPARAM wParam, LPARAM lParam);
 
 // netlibopts.c
 int NetlibOptInitialise(WPARAM wParam, LPARAM lParam);
@@ -252,15 +247,8 @@ void NetlibSaveUserSettingsStruct(const char *szSettingsModule, const NETLIBUSER
 #define NL_SELECT_WRITE 0x0002
 #define NL_SELECT_ALL   (NL_SELECT_READ+NL_SELECT_WRITE)
 
-INT_PTR NetlibSelect(WPARAM wParam, LPARAM lParam);
-INT_PTR NetlibSelectEx(WPARAM wParam, LPARAM lParam);
-
-void NetlibGetConnectionInfo(NetlibConnection* nlc, NETLIBCONNINFO *connInfo);
-NETLIBIPLIST* GetMyIp(unsigned flags);
-
 // netlibupnp.c
-bool NetlibUPnPAddPortMapping(WORD intport, char *proto,
-							  WORD *extport, DWORD *extip, bool search);
+bool NetlibUPnPAddPortMapping(WORD intport, char *proto, WORD *extport, DWORD *extip, bool search);
 void NetlibUPnPDeletePortMapping(WORD extport, char* proto);
 void NetlibUPnPCleanup(void*);
 void NetlibUPnPInit(void);

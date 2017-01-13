@@ -99,9 +99,6 @@ EXTERN_C MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *pDescr);
 // Once it has passed to Netlib, Netlib is the owner of it, the caller should not refer to the memory
 // In any way after this point.
 // 
-// wParam = (WPARAM)hNetLibUser
-// lParam = (LPARAM)(char*)szHeaders
-// 
 // NOTE: The szHeaders parameter should be a NULL terminated string following the HTTP header syntax.
 // This string will be injected verbatim, thus the user should be aware of setting strings that are not
 // headers. This service is NOT THREAD SAFE, only a single thread is expected to set the headers and a single
@@ -110,7 +107,7 @@ EXTERN_C MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *pDescr);
 // Version 0.3.2a+ (2003/10/27)
 // 
 
-#define MS_NETLIB_SETSTICKYHEADERS "Netlib/SetStickyHeaders"
+EXTERN_C MIR_APP_DLL(int) Netlib_SetStickyHeaders(HNETLIBUSER nlu, const char *szHeaders);
 
 /* Notes on HTTP gateway usage
 When a connection is initiated through an HTTP proxy using
@@ -336,8 +333,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) Netlib_OpenConnection(HNETLIBUSER nlu, const NETLIB
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Sets the required information for an HTTP proxy connection
-// wParam = (WPARAM)(HANDLE)hConnection
-// lParam = (LPARAM)(NETLIBHTTPPROXYINFO*)&nlhpi
+//
 // Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
 // This function is designed to be called from within pfnHttpGatewayInit
 // See notes below MS_NETLIB_REGISTERUSER.
@@ -350,19 +346,18 @@ EXTERN_C MIR_APP_DLL(HANDLE) Netlib_OpenConnection(HNETLIBUSER nlu, const NETLIB
 
 struct NETLIBHTTPPROXYINFO
 {
-	int cbSize;
 	DWORD flags;
 	char *szHttpPostUrl;
 	char *szHttpGetUrl;
 	int firstGetSequence, firstPostSequence;
 	int combinePackets;
 };
-#define MS_NETLIB_SETHTTPPROXYINFO   "Netlib/SetHttpProxyInfo"
+
+EXTERN_C MIR_APP_DLL(int) Netlib_SetHttpProxyInfo(HANDLE hConnection, const NETLIBHTTPPROXYINFO *nlhpi);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Gets the SOCKET associated with a netlib handle
-// wParam = (WPARAM)(HANDLE)hNetlibHandle
-// lParam = 0
+//
 // Returns the SOCKET on success, INVALID_SOCKET on failure
 // hNetlibHandle should have been returned by MS_NETLIB_BINDPORT or
 // MS_NETLIB_OPENCONNECTION only.
@@ -370,7 +365,9 @@ struct NETLIBHTTPPROXYINFO
 // HTTP proxy in which case calling send() or recv() will totally break things.
 // Errors: ERROR_INVALID_PARAMETER
 
-#define MS_NETLIB_GETSOCKET    "Netlib/GetSocket"
+EXTERN_C MIR_APP_DLL(UINT_PTR) Netlib_GetSocket(HANDLE hConnection);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 #define Netlib_GetBase64DecodedBufferSize(cchEncoded)  (((cchEncoded)>>2)*3)
 #define Netlib_GetBase64EncodedBufferSize(cbDecoded)  (((cbDecoded)*4+11)/12*4+1)
@@ -394,23 +391,20 @@ EXTERN_C MIR_APP_DLL(bool)  Netlib_StringToAddress(const char *str, sockaddr_in 
 // Get connection Information
 // IPv4 will be supplied in formats address:port or address
 // IPv6 will be supplied in formats [address]:port or [address]
-// wParam = (WPARAM)(HANDLE)hConnection
-// lParam = (LPARAM)(NETLIBCONNINFO*) pointer to the connection information structure to fill
 // Returns 0 if successful
 
 struct NETLIBCONNINFO
 {
-	int cbSize;
 	char szIpPort[64];
 	unsigned dwIpv4;
 	WORD wPort;
 };
 
-#define MS_NETLIB_GETCONNECTIONINFO  "Netlib/GetConnectionInfo"
+EXTERN_C MIR_APP_DLL(int) Netlib_GetConnectionInfo(HANDLE hConnection, NETLIBCONNINFO *connInfo);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Get connection Information
-// wParam = (WPARAM)IP filter 1 - return global only IPv6 address, 0 all IPs
+// Gets connection Information
+//
 // Returns (INT_PTR)(NETLIBIPLIST*) numeric IP address address array
 // the last element of the array is all 0s, 0 if not successful
 
@@ -420,7 +414,7 @@ struct NETLIBIPLIST
 	char szIp[1][64];
 };
 
-#define MS_NETLIB_GETMYIP  "Netlib/GetMyIP"
+EXTERN_C MIR_APP_DLL(NETLIBIPLIST*) Netlib_GetMyIp(bool bGlobalOnly);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Send an HTTP request over a connection
@@ -620,41 +614,35 @@ EXTERN_C MIR_APP_DLL(int) Netlib_Recv(HANDLE hConn, char *buf, int len, int flag
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Determine the status of one or more connections
-// wParam = 0
-// lParam = (LPARAM)(NETLIBSELECT*)&nls
-// Returns the number of ready connections, SOCKET_ERROR on failure,
-// 0 if the timeout expired.
+// Returns the number of ready connections, SOCKET_ERROR on failure, 0 if the timeout expired.
 // All handles passed to this function must have been returned by either
 // MS_NETLIB_OPENCONNECTION or MS_NETLIB_BINDPORT.
-// The last handle in each list must be followed by either NULL or
-// INVALID_HANDLE_VALUE.
+// The last handle in each list must be followed by either NULL or INVALID_HANDLE_VALUE.
 // Errors: ERROR_INVALID_HANDLE, ERROR_INVALID_DATA, anything from select()
 
 struct NETLIBSELECT
 {
-	int cbSize;
-	DWORD dwTimeout;      // in milliseconds, INFINITE is acceptable
+	DWORD dwTimeout; // in milliseconds, INFINITE is acceptable
 	HANDLE hReadConns[FD_SETSIZE+1];
 	HANDLE hWriteConns[FD_SETSIZE+1];
 	HANDLE hExceptConns[FD_SETSIZE+1];
 };
 
+EXTERN_C MIR_APP_DLL(int) Netlib_Select(NETLIBSELECT *nls);
+
 struct NETLIBSELECTEX
 {
-	int cbSize;
-	DWORD dwTimeout;      // in milliseconds, INFINITE is acceptable
+	DWORD dwTimeout; // in milliseconds, INFINITE is acceptable
 	HANDLE hReadConns[FD_SETSIZE+1];
 	HANDLE hWriteConns[FD_SETSIZE+1];
 	HANDLE hExceptConns[FD_SETSIZE+1];
 
-	/* Added in v0.3.3+ */
 	BOOL hReadStatus[FD_SETSIZE+1]; /* out, [in, expected to be FALSE] */
 	BOOL hWriteStatus[FD_SETSIZE+1]; /* out, [in, expected to be FALSE] */
 	BOOL hExceptStatus[FD_SETSIZE+1]; /* out, [in, expected to be FALSE] */
 };
 
-#define MS_NETLIB_SELECT	   "Netlib/Select"
-#define MS_NETLIB_SELECTEX	   "Netlib/SelectEx"
+EXTERN_C MIR_APP_DLL(int) Netlib_SelectEx(NETLIBSELECTEX *nls);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Shutdown connection
@@ -711,22 +699,14 @@ EXTERN_C MIR_APP_DLL(int) Netlib_GetMorePackets(HANDLE hReceiver, NETLIBPACKETRE
 // Returns previous timeout value
 // Errors: -1
 
-#define MS_NETLIB_SETPOLLINGTIMEOUT "Netlib/SetPollingTimeout"
+EXTERN_C MIR_APP_DLL(int) Netlib_SetPollingTimeout(HANDLE hConnection, int iTimeout);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Makes connection SSL
-// wParam = (WPARAM)(HANDLE)hConn
-// lParam = (LPARAM)(NETLIBSSL*)&nlssl or null if no certficate validation required
+//
 // Returns 0 on failure 1 on success
 
-#define MS_NETLIB_STARTSSL "Netlib/StartSsl"
-
-struct NETLIBSSL
-{
-	int cbSize;
-	const char *host; // Expected host name
-	int flags;        // Reserved
-};
+EXTERN_C MIR_APP_DLL(int) Netlib_StartSsl(HANDLE hConnection, const char *host);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // netlib log funcitons

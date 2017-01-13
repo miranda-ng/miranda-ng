@@ -137,7 +137,7 @@ int CIcqProto::connectNewServer(serverthread_info *info)
 
 		hServerConn = NetLib_OpenConnection(m_hNetlibUser, NULL, &nloc);
 		if (hServerConn && info->newServerSSL) /* Start SSL session if requested */
-			if (!CallService(MS_NETLIB_STARTSSL, (WPARAM)hServerConn, 0))
+			if (!Netlib_StartSsl(hServerConn, NULL))
 				NetLib_CloseConnection(&hServerConn, FALSE);
 
 		if (hServerConn) {

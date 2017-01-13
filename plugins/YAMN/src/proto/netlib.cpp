@@ -62,12 +62,12 @@ void CNLClient::SSLify() throw(DWORD)
 	#ifdef DEBUG_COMM
 	SSL_DebugLog("Staring SSL...");
 	#endif
-	int socket = CallService(MS_NETLIB_GETSOCKET, (WPARAM)hConnection, 0);
+	int socket = Netlib_GetSocket(hConnection);
 	if (socket != INVALID_SOCKET) {
 		#ifdef DEBUG_COMM
 		SSL_DebugLog("Staring netlib core SSL");
 		#endif
-		if (CallService(MS_NETLIB_STARTSSL, (WPARAM)hConnection, 0)) {
+		if (Netlib_StartSsl(hConnection, NULL)) {
 			#ifdef DEBUG_COMM
 			SSL_DebugLog("Netlib core SSL started");
 			#endif
@@ -180,12 +180,10 @@ char* CNLClient::Recv(char *buf, int buflen) throw(DWORD)
 			throw NetworkError = (DWORD)ENL_RECVALLOC;
 
 		if (!isTLSed) {
-			NETLIBSELECT nls;
-			memset(&nls, 0, sizeof(NETLIBSELECT));
-			nls.cbSize = sizeof(NETLIBSELECT);
+			NETLIBSELECT nls = {};
 			nls.dwTimeout = 60000;
 			nls.hReadConns[0] = hConnection;
-			switch (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls)) {
+			switch (Netlib_Select(&nls)) {
 			case SOCKET_ERROR:
 				free(buf);
 				SystemError = WSAGetLastError();

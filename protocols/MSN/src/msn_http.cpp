@@ -38,13 +38,12 @@ static ThreadData* FindThreadConn(HANDLE hConn)
 
 int msn_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQUEST*)
 {
-	NETLIBHTTPPROXYINFO nlhpi = { 0 };
-	nlhpi.cbSize = sizeof(nlhpi);
+	NETLIBHTTPPROXYINFO nlhpi = {};
 	nlhpi.szHttpGetUrl = NULL;
 	nlhpi.szHttpPostUrl = "messenger.hotmail.com";
 	nlhpi.flags = NLHPIF_HTTP11;
 	nlhpi.combinePackets = MSN_PACKETS_COMBINE;
-	return CallService(MS_NETLIB_SETHTTPPROXYINFO, (WPARAM)hConn, (LPARAM)&nlhpi);
+	return Netlib_SetHttpProxyInfo(hConn, &nlhpi);
 }
 
 //=======================================================================================

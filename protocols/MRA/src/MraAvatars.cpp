@@ -157,8 +157,6 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 	INTERNET_TIME itAvatarLastModifiedTimeServer;
 	WCHAR szErrorText[2048];
 
-	nls.cbSize = sizeof(nls);
-
 	Thread_SetName("MRA: AvatarsThreadProc");
 
 	HANDLE hThreadEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -256,7 +254,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 									nls.hReadConns[0] = hConnection;
 
 									while (bContinue) {
-										switch (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls)) {
+										switch (Netlib_Select(&nls)) {
 										case SOCKET_ERROR:
 										case 0:// Time out
 											dwErrorCode = GetLastError();

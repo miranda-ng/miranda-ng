@@ -369,9 +369,9 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_heade
 			debugLogA("Unable to connect to ICQ new family server.");
 		// we want the handler to be called even if the connecting failed
 		else if (bServerSSL) { /* Start SSL session if requested */
-			debugLogA("(%p) Starting SSL negotiation", CallService(MS_NETLIB_GETSOCKET, (WPARAM)hConnection, 0));
+			debugLogA("(%p) Starting SSL negotiation", Netlib_GetSocket(hConnection));
 
-			if (!CallService(MS_NETLIB_STARTSSL, (WPARAM)hConnection, 0)) {
+			if (!Netlib_StartSsl(hConnection, NULL)) {
 				debugLogA("Unable to connect to ICQ new family server, SSL could not be negotiated");
 				NetLib_CloseConnection(&hConnection, FALSE);
 			}

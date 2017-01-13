@@ -31,7 +31,7 @@ int ThreadData::send(const char data[], size_t datalen)
 
 	if (proto->usingGateway && !(mType == SERVER_FILETRANS || mType == SERVER_P2P_DIRECT)) {
 		mGatewayTimeout = 2;
-		CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(s), mGatewayTimeout);
+		Netlib_SetPollingTimeout(s, mGatewayTimeout);
 	}
 
 	int rlen = Netlib_Send(s, data, (int)datalen);
@@ -113,13 +113,13 @@ int ThreadData::recv(char* data, size_t datalen)
 {
 	if (!proto->usingGateway) {
 		resetTimeout();
-		NETLIBSELECT nls = { 0 };
-		nls.cbSize = sizeof(nls);
+
+		NETLIBSELECT nls = {};
 		nls.dwTimeout = 1000;
 		nls.hReadConns[0] = s;
 
 		for (;;) {
-			int ret = CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls);
+			int ret = Netlib_Select(&nls);
 			if (ret < 0) {
 				proto->debugLogA("Connection abortively closed, error %d", WSAGetLastError());
 				return ret;
@@ -149,13 +149,13 @@ LBL_RecvAgain:
 			if (sessionClosed || isTimeout()) return 0;
 			if ((mGatewayTimeout += 2) > 20) mGatewayTimeout = 20;
 
-			CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(s), mGatewayTimeout);
+			Netlib_SetPollingTimeout(s, mGatewayTimeout);
 			goto LBL_RecvAgain;
 		}
 		else {
 			resetTimeout();
 			mGatewayTimeout = 1;
-			CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(s), mGatewayTimeout);
+			Netlib_SetPollingTimeout(s, mGatewayTimeout);
 		}
 	}
 

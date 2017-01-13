@@ -1410,8 +1410,8 @@ void MSN_ConnectionProc(HANDLE hNewConnection, DWORD /* dwRemoteIP */, void* ext
 
 	proto->debugLogA("File transfer connection accepted");
 
-	NETLIBCONNINFO connInfo = { sizeof(connInfo) };
-	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hNewConnection, (LPARAM)&connInfo);
+	NETLIBCONNINFO connInfo = {};
+	Netlib_GetConnectionInfo(hNewConnection, &connInfo);
 
 	ThreadData* T = proto->MSN_GetThreadByPort(connInfo.wPort);
 	if (T != NULL && T->s == NULL) {

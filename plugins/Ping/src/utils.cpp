@@ -101,7 +101,7 @@ INT_PTR PluginPing(WPARAM, LPARAM lParam)
 		if (s) {
 			LINGER l;
 			char buf[1024];
-			SOCKET socket = (SOCKET)CallService(MS_NETLIB_GETSOCKET, (WPARAM)s, (LPARAM)NLOCF_HTTP);
+			SOCKET socket = Netlib_GetSocket(s);
 			l.l_onoff = 1;
 			l.l_linger = 0;
 			setsockopt(socket, SOL_SOCKET, SO_LINGER, (char *)&l, sizeof(l));

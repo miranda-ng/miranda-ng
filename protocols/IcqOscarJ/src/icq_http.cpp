@@ -37,7 +37,6 @@ int icq_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQUEST *
 	DWORD dwSid1, dwSid2, dwSid3, dwSid4;
 	BYTE *buf;
 	char szSid[33], szHttpServer[256], szHttpGetUrl[300], szHttpPostUrl[300];
-	NETLIBHTTPPROXYINFO nlhpi = {0};
 
 	if (nlhr->dataLength < 31)
 	{
@@ -68,15 +67,14 @@ int icq_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQUEST *
 	memcpy(szHttpServer, buf, wIpLen);
 	szHttpServer[wIpLen] = '\0';
 
-	nlhpi.cbSize = sizeof(nlhpi);
+	NETLIBHTTPPROXYINFO nlhpi = {};
 	nlhpi.flags = NLHPIF_USEPOSTSEQUENCE;
 	nlhpi.szHttpGetUrl = szHttpGetUrl;
 	nlhpi.szHttpPostUrl = szHttpPostUrl;
 	nlhpi.firstPostSequence = 1;
 	mir_snprintf(szHttpGetUrl, "http://%s/monitor?sid=%s", szHttpServer, szSid);
 	mir_snprintf(szHttpPostUrl, "http://%s/data?sid=%s&seq=", szHttpServer, szSid);
-
-	return CallService(MS_NETLIB_SETHTTPPROXYINFO, (WPARAM)hConn, (LPARAM)&nlhpi);
+	return Netlib_SetHttpProxyInfo(hConn, &nlhpi);
 }
 
 

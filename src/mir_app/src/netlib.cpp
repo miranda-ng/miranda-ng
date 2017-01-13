@@ -123,7 +123,7 @@ static INT_PTR GetNetlibUserSettingInt(const char *szUserModule, const char *szS
 	return dbv.dVal;
 }
 
-static char *GetNetlibUserSettingString(const char *szUserModule, const char *szSetting)
+static char* GetNetlibUserSettingString(const char *szUserModule, const char *szSetting)
 {
 	char *szRet = db_get_sa(NULL, szUserModule, szSetting);
 	if (szRet == NULL)
@@ -316,21 +316,21 @@ MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR NetlibGetSocket(WPARAM wParam, LPARAM)
+MIR_APP_DLL(UINT_PTR) Netlib_GetSocket(HANDLE hConnection)
 {
 	SOCKET s;
-	if (wParam == 0) {
+	if (hConnection == 0) {
 		s = INVALID_SOCKET;
 		SetLastError(ERROR_INVALID_PARAMETER);
 	}
 	else {
 		WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
-		switch (GetNetlibHandleType((void*)wParam)) {
+		switch (GetNetlibHandleType(hConnection)) {
 		case NLH_CONNECTION:
-			s = ((NetlibConnection*)wParam)->s;
+			s = ((NetlibConnection*)hConnection)->s;
 			break;
 		case NLH_BOUNDPORT:
-			s = ((NetlibBoundPort*)wParam)->s;
+			s = ((NetlibBoundPort*)hConnection)->s;
 			break;
 		default:
 			s = INVALID_SOCKET;
@@ -343,17 +343,6 @@ static INT_PTR NetlibGetSocket(WPARAM wParam, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-INT_PTR NetlibGetConnectionInfoSrv(WPARAM wParam, LPARAM lParam)
-{
-	NetlibGetConnectionInfo((NetlibConnection*)wParam, (NETLIBCONNINFO*)lParam);
-	return 0;
-}
-
-INT_PTR NetlibGetMyIp(WPARAM wParam, LPARAM)
-{
-	return (INT_PTR)GetMyIp((unsigned)wParam);
-}
 
 MIR_APP_DLL(HNETLIBUSER) Netlib_GetConnNlu(HANDLE hConn)
 {
@@ -471,16 +460,6 @@ int LoadNetlibModule(void)
 
 	hConnectionOpenMutex = connectionTimeout ? CreateMutex(NULL, FALSE, NULL) : NULL;
 	g_LastConnectionTick = GetTickCount();
-
-	CreateServiceFunction(MS_NETLIB_SETHTTPPROXYINFO, NetlibHttpGatewaySetInfo);
-	CreateServiceFunction(MS_NETLIB_SETSTICKYHEADERS, NetlibHttpSetSticky);
-	CreateServiceFunction(MS_NETLIB_GETSOCKET, NetlibGetSocket);
-	CreateServiceFunction(MS_NETLIB_SELECT, NetlibSelect);
-	CreateServiceFunction(MS_NETLIB_SELECTEX, NetlibSelectEx);
-	CreateServiceFunction(MS_NETLIB_SETPOLLINGTIMEOUT, NetlibHttpSetPollingTimeout);
-	CreateServiceFunction(MS_NETLIB_STARTSSL, NetlibStartSsl);
-	CreateServiceFunction(MS_NETLIB_GETCONNECTIONINFO, NetlibGetConnectionInfoSrv);
-	CreateServiceFunction(MS_NETLIB_GETMYIP, NetlibGetMyIp);
 
 	hRecvEvent = CreateHookableEvent(ME_NETLIB_FASTRECV);
 	hSendEvent = CreateHookableEvent(ME_NETLIB_FASTSEND);

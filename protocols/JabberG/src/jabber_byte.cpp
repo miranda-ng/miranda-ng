@@ -91,8 +91,8 @@ void JabberByteSendConnection(HANDLE hConn, DWORD /*dwRemoteIP*/, void* extra)
 	char* buffer;
 	int datalen;
 
-	NETLIBCONNINFO connInfo = { sizeof(connInfo) };
-	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hConn, (LPARAM)&connInfo);
+	NETLIBCONNINFO connInfo = {};
+	Netlib_GetConnectionInfo(hConn, &connInfo);
 
 	mir_snwprintf(szPort, L"%u", connInfo.wPort);
 	ppro->debugLogA("bytestream_send_connection incoming connection accepted: %s", connInfo.szIpPort);
@@ -220,7 +220,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 			jbt->hSendEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 			query << XCHILD(L"streamhost") << XATTR(L"jid", m_ThreadInfo->fullJID) << XATTR(L"host", _A2T(localAddr)) << XATTRI(L"port", nlb.wPort);
 
-			NETLIBIPLIST* ihaddr = (NETLIBIPLIST*)CallService(MS_NETLIB_GETMYIP, 1, 0);
+			NETLIBIPLIST* ihaddr = Netlib_GetMyIp(true);
 			for (unsigned i=0; i < ihaddr->cbNum; i++)
 				if (mir_strcmp(localAddr, ihaddr->szIp[i]))
 					query << XCHILD(L"streamhost") << XATTR(L"jid", m_ThreadInfo->fullJID) << XATTR(L"host", _A2T(ihaddr->szIp[i])) << XATTRI(L"port", nlb.wPort);

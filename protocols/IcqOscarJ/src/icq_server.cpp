@@ -63,7 +63,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 		SAFE_FREE((void**)&infoParam);
 
 		if (hServerConn && m_bSecureConnection) {
-			if (!CallService(MS_NETLIB_STARTSSL, (WPARAM)hServerConn, 0)) {
+			if (!Netlib_StartSsl(hServerConn, 0)) {
 				icq_LogMessage(LOG_ERROR, LPGEN("Unable to connect to ICQ login server, SSL could not be negotiated"));
 				SetCurrentStatus(ID_STATUS_OFFLINE);
 				NetLib_CloseConnection(&hServerConn, TRUE);
