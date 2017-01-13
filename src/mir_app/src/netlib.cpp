@@ -465,7 +465,6 @@ int LoadNetlibModule(void)
 	hSendEvent = CreateHookableEvent(ME_NETLIB_FASTSEND);
 
 	NetlibUPnPInit();
-	NetlibSecurityInit();
 	NetlibLoadIeProxy();
 	return 0;
 }

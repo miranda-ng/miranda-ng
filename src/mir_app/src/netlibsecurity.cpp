@@ -73,7 +73,9 @@ static void ReportSecError(SECURITY_STATUS scRet, int line)
 	Netlib_Logf(NULL, "Security error 0x%x on line %u (%s)", scRet, line, szMsgBuf);
 }
 
-HANDLE NetlibInitSecurityProvider(const wchar_t* szProvider, const wchar_t* szPrincipal)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(HANDLE) Netlib_InitSecurityProvider(const wchar_t *szProvider, const wchar_t *szPrincipal)
 {
 	HANDLE hSecurity = NULL;
 
@@ -109,12 +111,9 @@ HANDLE NetlibInitSecurityProvider(const wchar_t* szProvider, const wchar_t* szPr
 	return hSecurity;
 }
 
-HANDLE NetlibInitSecurityProvider(const char* szProvider, const char* szPrincipal)
-{
-	return NetlibInitSecurityProvider(_A2T(szProvider), _A2T(szPrincipal));
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
-void NetlibDestroySecurityProvider(HANDLE hSecurity)
+MIR_APP_DLL(void) Netlib_DestroySecurityProvider(HANDLE hSecurity)
 {
 	if (hSecurity == NULL)
 		return;
@@ -136,6 +135,8 @@ void NetlibDestroySecurityProvider(HANDLE hSecurity)
 		--ntlmCnt;
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chlsz)
 {
@@ -201,7 +202,9 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 	return mir_base64_encode(response, ressz);
 }
 
-char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const wchar_t* login, const wchar_t* psw, bool http, unsigned& complete)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const wchar_t *login, const wchar_t *psw, bool http, unsigned &complete)
 {
 	if (hSecurity == NULL || ntlmCnt == 0)
 		return NULL;
@@ -212,7 +215,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 	ULONG contextAttributes;
 	char *szOutputToken;
 
-	NtlmHandleType* hNtlm = (NtlmHandleType*)hSecurity;
+	NtlmHandleType *hNtlm = (NtlmHandleType*)hSecurity;
 	if (mir_wstrcmpi(hNtlm->szProvider, L"Basic")) {
 		bool isGSSAPI = mir_wstrcmpi(hNtlm->szProvider, L"GSSAPI") == 0;
 		wchar_t *szProvider = isGSSAPI ? (wchar_t*)L"Kerberos" : hNtlm->szProvider;
@@ -304,9 +307,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 				hNtlm->hasDomain = domainLen != 0;
 			}
 
-			SECURITY_STATUS sc = AcquireCredentialsHandle(NULL, szProvider,
-				SECPKG_CRED_OUTBOUND, NULL, hNtlm->hasDomain ? &auth : NULL, NULL, NULL,
-				&hNtlm->hClientCredential, &tokenExpiration);
+			SECURITY_STATUS sc = AcquireCredentialsHandle(NULL, szProvider, SECPKG_CRED_OUTBOUND, NULL, hNtlm->hasDomain ? &auth : NULL, NULL, NULL, &hNtlm->hClientCredential, &tokenExpiration);
 			if (sc != SEC_E_OK) {
 				ReportSecError(sc, __LINE__);
 				return NULL;
@@ -339,20 +340,12 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		szOutputToken = mir_base64_encode((PBYTE)outputSecurityToken.pvBuffer, outputSecurityToken.cbBuffer);
 	}
 	else {
-		if (!login || !psw) return NULL;
+		if (!login || !psw)
+			return NULL;
 
-		char *szLogin = mir_u2a(login);
-		char *szPassw = mir_u2a(psw);
-
-		size_t authLen = mir_strlen(szLogin) + mir_strlen(szPassw) + 5;
-		char *szAuth = (char*)alloca(authLen);
-
-		int len = mir_snprintf(szAuth, authLen, "%s:%s", szLogin, szPassw);
-		szOutputToken = mir_base64_encode((BYTE*)szAuth, len);
+		CMStringA szAuth(FORMAT, "%S:%S", login, psw);
+		szOutputToken = mir_base64_encode((BYTE*)szAuth.c_str(), szAuth.GetLength());
 		complete = true;
-
-		mir_free(szPassw);
-		mir_free(szLogin);
 	}
 
 	if (szOutputToken == NULL)
@@ -361,67 +354,12 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 	if (!http)
 		return szOutputToken;
 
-	ptrA szProvider(mir_u2a(hNtlm->szProvider));
-	size_t resLen = mir_strlen(szOutputToken) + mir_strlen(szProvider) + 10;
-	char *result = (char*)mir_alloc(resLen);
-	mir_snprintf(result, resLen, "%s %s", szProvider, szOutputToken);
+	CMStringA szResult(FORMAT, "%S %s", hNtlm->szProvider, szOutputToken);
 	mir_free(szOutputToken);
-	return result;
+	return szResult.Detach();
 }
 
-///////////////////////////////////////////////////////////////////////////////
-
-static INT_PTR InitSecurityProviderService(WPARAM, LPARAM lParam)
+MIR_APP_DLL(char*) Netlib_NtlmCreateResponse(HANDLE hProvider, char *szChallenge, wchar_t *pwszLogin, wchar_t *pwszPassword, unsigned &complete)
 {
-	HANDLE hSecurity = NetlibInitSecurityProvider((char*)lParam, NULL);
-	return (INT_PTR)hSecurity;
-}
-
-static INT_PTR InitSecurityProviderService2(WPARAM, LPARAM lParam)
-{
-	NETLIBNTLMINIT2 *req = (NETLIBNTLMINIT2*)lParam;
-	if (req == NULL || req->cbSize < sizeof(*req))
-		return 0;
-
-	if (req->flags & NNR_UNICODE)
-		return (INT_PTR)NetlibInitSecurityProvider(req->szProviderName, req->szPrincipal);
-	return (INT_PTR)NetlibInitSecurityProvider((char*)req->szProviderName, (char*)req->szPrincipal);
-}
-
-static INT_PTR DestroySecurityProviderService(WPARAM, LPARAM lParam)
-{
-	NetlibDestroySecurityProvider((HANDLE)lParam);
-	return 0;
-}
-
-static INT_PTR NtlmCreateResponseService(WPARAM wParam, LPARAM lParam)
-{
-	NETLIBNTLMREQUEST *req = (NETLIBNTLMREQUEST*)lParam;
-	if (req == NULL)
-		return 0;
-
-	unsigned complete = 0;
-	char *response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge, _A2T(req->userName), _A2T(req->password), false, complete);
-	return (INT_PTR)response;
-}
-
-static INT_PTR NtlmCreateResponseService2(WPARAM wParam, LPARAM lParam)
-{
-	NETLIBNTLMREQUEST2 *req = (NETLIBNTLMREQUEST2*)lParam;
-	if (req == NULL || req->cbSize < sizeof(*req))
-		return 0;
-
-	if (req->flags & NNR_UNICODE)
-		return (INT_PTR)NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge, req->szUserName, req->szPassword, false, req->complete);
-
-	return (INT_PTR)NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge, _A2T((char*)req->szUserName), _A2T((char*)req->szPassword), false, req->complete);
-}
-
-void NetlibSecurityInit(void)
-{
-	CreateServiceFunction(MS_NETLIB_INITSECURITYPROVIDER, InitSecurityProviderService);
-	CreateServiceFunction(MS_NETLIB_INITSECURITYPROVIDER2, InitSecurityProviderService2);
-	CreateServiceFunction(MS_NETLIB_DESTROYSECURITYPROVIDER, DestroySecurityProviderService);
-	CreateServiceFunction(MS_NETLIB_NTLMCREATERESPONSE, NtlmCreateResponseService);
-	CreateServiceFunction(MS_NETLIB_NTLMCREATERESPONSE2, NtlmCreateResponseService2);
+	return NtlmCreateResponseFromChallenge(hProvider, szChallenge, pwszLogin, pwszPassword, false, complete);
 }

@@ -53,14 +53,14 @@ LBL_Invalid:
 		if (!getSpn(szSpn, _countof(szSpn)) && !mir_strcmp(mechanism, "GSSAPI"))
 			goto LBL_Invalid;
 
-	if ((hProvider = Netlib_InitSecurityProvider2(szProvider, szSpn)) == NULL)
+	if ((hProvider = Netlib_InitSecurityProvider(szProvider, szSpn)) == NULL)
 		bIsValid = false;
 }
 
 TNtlmAuth::~TNtlmAuth()
 {
 	if (hProvider != NULL)
-		Netlib_DestroySecurityProvider(NULL, hProvider);
+		Netlib_DestroySecurityProvider(hProvider);
 }
 
 bool TNtlmAuth::getSpn(wchar_t* szSpn, size_t dwSpnLen)
@@ -106,9 +106,9 @@ char* TNtlmAuth::getInitialRequest()
 
 	// This generates login method advertisement packet
 	if (info->conn.password[0] != 0)
-		return Netlib_NtlmCreateResponse2(hProvider, "", info->conn.username, info->conn.password, &complete);
+		return Netlib_NtlmCreateResponse(hProvider, "", info->conn.username, info->conn.password, complete);
 
-	return Netlib_NtlmCreateResponse2(hProvider, "", NULL, NULL, &complete);
+	return Netlib_NtlmCreateResponse(hProvider, "", NULL, NULL, complete);
 }
 
 char* TNtlmAuth::getChallenge(const wchar_t *challenge)
@@ -118,9 +118,9 @@ char* TNtlmAuth::getChallenge(const wchar_t *challenge)
 
 	ptrA text((!mir_wstrcmp(challenge, L"=")) ? mir_strdup("") : mir_u2a(challenge));
 	if (info->conn.password[0] != 0)
-		return Netlib_NtlmCreateResponse2(hProvider, text, info->conn.username, info->conn.password, &complete);
+		return Netlib_NtlmCreateResponse(hProvider, text, info->conn.username, info->conn.password, complete);
 	
-	return Netlib_NtlmCreateResponse2(hProvider, text, NULL, NULL, &complete);
+	return Netlib_NtlmCreateResponse(hProvider, text, NULL, NULL, complete);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

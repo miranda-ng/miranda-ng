@@ -731,77 +731,19 @@ EXTERN_C MIR_APP_DLL(int) Netlib_LogfW(HNETLIBUSER hUser, const wchar_t *fmt, ..
 // Inits a required security provider. Right now only NTLM is supported
 // Returns HANDLE = NULL on error or non-null value on success
 // Known providers: Basic, NTLM, Negotiate, Kerberos, GSSAPI - (Kerberos SASL)
-#define MS_NETLIB_INITSECURITYPROVIDER "Netlib/InitSecurityProvider"
 
-static __inline HANDLE Netlib_InitSecurityProvider(char* szProviderName)
-{
-	return (HANDLE)CallService(MS_NETLIB_INITSECURITYPROVIDER, 0, (LPARAM)szProviderName);
-}
-
-typedef struct {
-	size_t cbSize;
-	const wchar_t* szProviderName;
-	const wchar_t* szPrincipal;
-	unsigned flags;
-}
-	NETLIBNTLMINIT2;
-
-#define MS_NETLIB_INITSECURITYPROVIDER2 "Netlib/InitSecurityProvider2"
-
-static __inline HANDLE Netlib_InitSecurityProvider2(const wchar_t* szProviderName, const wchar_t* szPrincipal)
-{
-	NETLIBNTLMINIT2 temp = { sizeof(temp), szProviderName, szPrincipal, NNR_TCHAR };
-	return (HANDLE)CallService(MS_NETLIB_INITSECURITYPROVIDER2, 0, (LPARAM)&temp);
-}
+EXTERN_C MIR_APP_DLL(HANDLE) Netlib_InitSecurityProvider(const wchar_t *szProviderName, const wchar_t *szPrincipal = NULL);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Destroys a security provider's handle, provided by Netlib_InitSecurityProvider.
 // Right now only NTLM is supported
 
-#define MS_NETLIB_DESTROYSECURITYPROVIDER "Netlib/DestroySecurityProvider"
-
-__forceinline void Netlib_DestroySecurityProvider(char* szProviderName, HANDLE hProvider)
-{
-	CallService(MS_NETLIB_DESTROYSECURITYPROVIDER, (WPARAM)szProviderName, (LPARAM)hProvider);
-}
+EXTERN_C MIR_APP_DLL(void) Netlib_DestroySecurityProvider(HANDLE hProvider);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Returns the NTLM response string. The result value should be freed using mir_free
 
-struct NETLIBNTLMREQUEST
-{
-	char *szChallenge;
-	char *userName;
-	char *password;
-};
-
-#define MS_NETLIB_NTLMCREATERESPONSE "Netlib/NtlmCreateResponse"
-
-	__forceinline char* Netlib_NtlmCreateResponse(HANDLE hProvider, char* szChallenge, char* login, char* psw)
-{
-	NETLIBNTLMREQUEST temp = { szChallenge, login, psw };
-	return (char*)CallService(MS_NETLIB_NTLMCREATERESPONSE, (WPARAM)hProvider, (LPARAM)&temp);
-}
-
-struct NETLIBNTLMREQUEST2
-{
-	size_t cbSize;
-	const char *szChallenge;
-	const wchar_t *szUserName;
-	const wchar_t *szPassword;
-	unsigned complete;
-	unsigned flags;
-};
-
-#define MS_NETLIB_NTLMCREATERESPONSE2 "Netlib/NtlmCreateResponse2"
-
-static __inline char* Netlib_NtlmCreateResponse2(HANDLE hProvider, char* szChallenge, wchar_t* szLogin, wchar_t* szPass, unsigned *complete)
-{
-	NETLIBNTLMREQUEST2 temp = { sizeof(temp), szChallenge, szLogin, szPass, *complete, NNR_TCHAR };
-	char *res = (char*)CallService(MS_NETLIB_NTLMCREATERESPONSE2, (WPARAM)hProvider, (LPARAM)&temp);
-	*complete = temp.complete;
-	return res;
-}
+EXTERN_C MIR_APP_DLL(char*) Netlib_NtlmCreateResponse(HANDLE hProvider, char *szChallenge, wchar_t *szLogin, wchar_t *szPass, unsigned &complete);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Netlib hooks (0.8+)

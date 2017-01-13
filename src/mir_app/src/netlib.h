@@ -255,9 +255,5 @@ void NetlibUPnPInit(void);
 void NetlibUPnPDestroy(void);
 
 // netlibsecurity.c
-void   NetlibSecurityInit(void);
-void   NetlibDestroySecurityProvider(HANDLE hSecurity);
-HANDLE NetlibInitSecurityProvider(const wchar_t* szProvider, const wchar_t* szPrincipal);
-HANDLE NetlibInitSecurityProvider(const char* szProvider, const char* szPrincipal);
 char*  NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const wchar_t* login, const wchar_t* psw,
 									   bool http, unsigned& complete);

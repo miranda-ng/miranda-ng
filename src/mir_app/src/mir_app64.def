@@ -377,3 +377,6 @@ Netlib_StartSsl @377
 Netlib_GetConnectionInfo @378
 Netlib_GetMyIp @379
 Netlib_SetHttpProxyInfo @380
+Netlib_DestroySecurityProvider @381
+Netlib_InitSecurityProvider @382
+Netlib_NtlmCreateResponse @383

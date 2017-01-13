@@ -215,7 +215,7 @@ struct HttpSecurityContext
 	{
 		if (!m_hNtlmSecurity) return;
 
-		NetlibDestroySecurityProvider(m_hNtlmSecurity);
+		Netlib_DestroySecurityProvider(m_hNtlmSecurity);
 		m_hNtlmSecurity = NULL;
 		mir_free(m_szHost); m_szHost = NULL;
 		mir_free(m_szProvider); m_szProvider = NULL;
@@ -248,7 +248,7 @@ struct HttpSecurityContext
 				_strlwr(szSpnStr.GetBuffer() + 5);
 				Netlib_Logf(nlu, "Host SPN: %s", szSpnStr);
 			}
-			m_hNtlmSecurity = NetlibInitSecurityProvider(szProvider, szSpnStr.IsEmpty() ? NULL : szSpnStr.c_str());
+			m_hNtlmSecurity = Netlib_InitSecurityProvider(_A2T(szProvider), szSpnStr.IsEmpty() ? NULL : _A2T(szSpnStr.c_str()));
 			if (m_hNtlmSecurity) {
 				m_szProvider = mir_strdup(szProvider);
 				m_szHost = mir_strdup(szHost);
