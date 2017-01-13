@@ -94,25 +94,6 @@ int GetActualStatus(PROTOCOLSETTINGEX *protoSetting)
 	return protoSetting->status;
 }
 
-// helper, from core
-static wchar_t* GetDefaultMessage(int status)
-{
-	switch (status) {
-	case ID_STATUS_AWAY:       return TranslateT("I've been away since %time%.");
-	case ID_STATUS_NA:         return TranslateT("Give it up, I'm not in!");
-	case ID_STATUS_OCCUPIED:   return TranslateT("Not right now.");
-	case ID_STATUS_DND:        return TranslateT("Give a guy some peace, would ya?");
-	case ID_STATUS_FREECHAT:   return TranslateT("I'm a chatbot!");
-	case ID_STATUS_ONLINE:     return TranslateT("Yep, I'm here.");
-	case ID_STATUS_OFFLINE:    return TranslateT("Nope, not here.");
-	case ID_STATUS_INVISIBLE:  return TranslateT("I'm hiding from the mafia.");
-	case ID_STATUS_ONTHEPHONE: return TranslateT("That'll be the phone.");
-	case ID_STATUS_OUTTOLUNCH: return TranslateT("Mmm... food.");
-	case ID_STATUS_IDLE:       return TranslateT("idleeeeeeee");
-	}
-	return NULL;
-}
-
 wchar_t* GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
 {
 	if (ps->szMsg != NULL) {// custom message set
@@ -127,7 +108,6 @@ wchar_t* GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
 
 static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
 {
-
 	int i, j, pstatus = 0, gstatus = 0;
 
 	for (i = 0; i < protoList->getCount(); i++)
