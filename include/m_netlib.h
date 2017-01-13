@@ -57,9 +57,9 @@ struct NETLIBOPENCONNECTION;
 // See notes below this function for the behaviour of HTTP gateways
 // Errors: ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY, ERROR_DUP_NAME
 
-typedef int (*NETLIBHTTPGATEWAYINITPROC)(HANDLE hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPREQUEST *nlhr);
-typedef int (*NETLIBHTTPGATEWAYBEGINPROC)(HANDLE hConn, NETLIBOPENCONNECTION *nloc);
-typedef int (*NETLIBHTTPGATEWAYWRAPSENDPROC)(HANDLE hConn, PBYTE buf, int len, int flags);
+typedef int (*NETLIBHTTPGATEWAYINITPROC)(HNETLIBCONN hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPREQUEST *nlhr);
+typedef int (*NETLIBHTTPGATEWAYBEGINPROC)(HNETLIBCONN hConn, NETLIBOPENCONNECTION *nloc);
+typedef int (*NETLIBHTTPGATEWAYWRAPSENDPROC)(HNETLIBCONN hConn, PBYTE buf, int len, int flags);
 typedef PBYTE (*NETLIBHTTPGATEWAYUNWRAPRECVPROC)(NETLIBHTTPREQUEST *nlhr, PBYTE buf, int len, int *outBufLen, void *(*NetlibRealloc)(void*, size_t));
 
 struct NETLIBUSER
@@ -258,12 +258,11 @@ EXTERN_C MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE h);
 /* pExtra was added during 0.3.4+, prior its just two args, since we use the cdecl convention
 it shouldnt matter */
 
-typedef void (*NETLIBNEWCONNECTIONPROC_V2)(HANDLE hNewConnection, DWORD dwRemoteIP, void *pExtra);
-typedef void (*NETLIBNEWCONNECTIONPROC)(HANDLE hNewConnection, DWORD dwRemoteIP);
+typedef void (*NETLIBNEWCONNECTIONPROC_V2)(HNETLIBCONN hNewConnection, DWORD dwRemoteIP, void *pExtra);
+typedef void (*NETLIBNEWCONNECTIONPROC)(HNETLIBCONN hNewConnection, DWORD dwRemoteIP);
 
 struct NETLIBBIND
 {
-	int cbSize;
 	union { // new code should use V2
 		NETLIBNEWCONNECTIONPROC pfnNewConnection;
 		NETLIBNEWCONNECTIONPROC_V2 pfnNewConnectionV2;
@@ -278,12 +277,12 @@ struct NETLIBBIND
 	WORD  wExPort;        // set on return, host byte order
 };
 
-EXTERN_C MIR_APP_DLL(HANDLE) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *nlb);
+EXTERN_C MIR_APP_DLL(HNETLIBBIND) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *nlb);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Open a connection
 //
-// Returns a HANDLE to the new connection on success, NULL on failure
+// Returns a HNETLIBCONN to the new connection on success, NULL on failure
 // hUser must have been returned by MS_NETLIB_REGISTERUSER
 // Internally this function is the equivalent of socket(), gethostbyname(),
 // connect()
@@ -326,10 +325,10 @@ struct NETLIBOPENCONNECTION
 	unsigned int timeout;
 	/* optional, called in the context of the thread that issued the attempt, if it returns 0 the connection attempt is
 	stopped, the remaining timeout value can also be adjusted */
-	int (*waitcallback) (unsigned int * timeout);
+	int (*waitcallback) (unsigned int *timeout);
 };
 
-EXTERN_C MIR_APP_DLL(HANDLE) Netlib_OpenConnection(HNETLIBUSER nlu, const NETLIBOPENCONNECTION *nloc);
+EXTERN_C MIR_APP_DLL(HNETLIBCONN) Netlib_OpenConnection(HNETLIBUSER nlu, const NETLIBOPENCONNECTION *nloc);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Sets the required information for an HTTP proxy connection
@@ -353,7 +352,7 @@ struct NETLIBHTTPPROXYINFO
 	int combinePackets;
 };
 
-EXTERN_C MIR_APP_DLL(int) Netlib_SetHttpProxyInfo(HANDLE hConnection, const NETLIBHTTPPROXYINFO *nlhpi);
+EXTERN_C MIR_APP_DLL(int) Netlib_SetHttpProxyInfo(HNETLIBCONN hConnection, const NETLIBHTTPPROXYINFO *nlhpi);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Gets the SOCKET associated with a netlib handle
@@ -365,7 +364,7 @@ EXTERN_C MIR_APP_DLL(int) Netlib_SetHttpProxyInfo(HANDLE hConnection, const NETL
 // HTTP proxy in which case calling send() or recv() will totally break things.
 // Errors: ERROR_INVALID_PARAMETER
 
-EXTERN_C MIR_APP_DLL(UINT_PTR) Netlib_GetSocket(HANDLE hConnection);
+EXTERN_C MIR_APP_DLL(UINT_PTR) Netlib_GetSocket(HNETLIBCONN hConnection);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -375,7 +374,7 @@ EXTERN_C MIR_APP_DLL(UINT_PTR) Netlib_GetSocket(HANDLE hConnection);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Gets HNETLIBUSER owner of a connection
 
-EXTERN_C MIR_APP_DLL(HNETLIBUSER) Netlib_GetConnNlu(HANDLE hConn);
+EXTERN_C MIR_APP_DLL(HNETLIBUSER) Netlib_GetConnNlu(HNETLIBCONN hConn);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Converts numerical representation of IP in SOCKADDR_INET into string representation with IP and port
@@ -400,7 +399,7 @@ struct NETLIBCONNINFO
 	WORD wPort;
 };
 
-EXTERN_C MIR_APP_DLL(int) Netlib_GetConnectionInfo(HANDLE hConnection, NETLIBCONNINFO *connInfo);
+EXTERN_C MIR_APP_DLL(int) Netlib_GetConnectionInfo(HNETLIBCONN hConnection, NETLIBCONNINFO *connInfo);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Gets connection Information
@@ -468,11 +467,11 @@ struct NETLIBHTTPREQUEST
 	int dataLength;		 // must be 0 for REQUEST_GET/REQUEST_CONNECT
 	int resultCode;
 	char *szResultDescr;
-	HANDLE nlc;
+	HNETLIBCONN nlc;
 	int timeout;
 };
 
-EXTERN_C MIR_APP_DLL(int) Netlib_SendHttpRequest(HANDLE hConnection, NETLIBHTTPREQUEST *pRec);
+EXTERN_C MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN hConnection, NETLIBHTTPREQUEST *pRec);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Receives HTTP headers
@@ -491,7 +490,7 @@ EXTERN_C MIR_APP_DLL(int) Netlib_SendHttpRequest(HANDLE hConnection, NETLIBHTTPR
 //    ERROR_BUFFER_OVERFLOW (each header line must be less than 4096 chars long)
 //    ERROR_INVALID_DATA (first header line is malformed ("http/[01].[0-9] [0-9]+ .*", or no colon in subsequent line)
 
-EXTERN_C MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HANDLE hConnection, int flags = 0);
+EXTERN_C MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HNETLIBCONN hConnection, int flags = 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Free the memory used by a NETLIBHTTPREQUEST structure
@@ -586,7 +585,7 @@ EXTERN_C MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_HttpTransaction(HNETLIBUSER hNlu
 #define MSG_DUMPSSL            0x200000	 // this is SSL traffic. For dump filtering only.
 #define MSG_NOTITLE            0x400000	 // skip date, time & protocol from dump
 
-EXTERN_C MIR_APP_DLL(int) Netlib_Send(HANDLE hConn, const char *buf, int len, int flags = 0);
+EXTERN_C MIR_APP_DLL(int) Netlib_Send(HNETLIBCONN hConn, const char *buf, int len, int flags = 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Receive data over a connection
@@ -610,7 +609,7 @@ EXTERN_C MIR_APP_DLL(int) Netlib_Send(HANDLE hConn, const char *buf, int len, in
 // 						  nlu.pfnHttpGatewayUnwrapRecv, socket(), connect(),
 // 						  MS_NETLIB_SENDHTTPREQUEST
 
-EXTERN_C MIR_APP_DLL(int) Netlib_Recv(HANDLE hConn, char *buf, int len, int flags = 0);
+EXTERN_C MIR_APP_DLL(int) Netlib_Recv(HNETLIBCONN hConn, char *buf, int len, int flags = 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Determine the status of one or more connections
@@ -623,9 +622,9 @@ EXTERN_C MIR_APP_DLL(int) Netlib_Recv(HANDLE hConn, char *buf, int len, int flag
 struct NETLIBSELECT
 {
 	DWORD dwTimeout; // in milliseconds, INFINITE is acceptable
-	HANDLE hReadConns[FD_SETSIZE+1];
-	HANDLE hWriteConns[FD_SETSIZE+1];
-	HANDLE hExceptConns[FD_SETSIZE+1];
+	HNETLIBCONN hReadConns[FD_SETSIZE + 1];
+	HNETLIBCONN hWriteConns[FD_SETSIZE + 1];
+	HNETLIBCONN hExceptConns[FD_SETSIZE + 1];
 };
 
 EXTERN_C MIR_APP_DLL(int) Netlib_Select(NETLIBSELECT *nls);
@@ -633,9 +632,9 @@ EXTERN_C MIR_APP_DLL(int) Netlib_Select(NETLIBSELECT *nls);
 struct NETLIBSELECTEX
 {
 	DWORD dwTimeout; // in milliseconds, INFINITE is acceptable
-	HANDLE hReadConns[FD_SETSIZE+1];
-	HANDLE hWriteConns[FD_SETSIZE+1];
-	HANDLE hExceptConns[FD_SETSIZE+1];
+	HNETLIBCONN hReadConns[FD_SETSIZE + 1];
+	HNETLIBCONN hWriteConns[FD_SETSIZE + 1];
+	HNETLIBCONN hExceptConns[FD_SETSIZE + 1];
 
 	BOOL hReadStatus[FD_SETSIZE+1]; /* out, [in, expected to be FALSE] */
 	BOOL hWriteStatus[FD_SETSIZE+1]; /* out, [in, expected to be FALSE] */
@@ -647,7 +646,7 @@ EXTERN_C MIR_APP_DLL(int) Netlib_SelectEx(NETLIBSELECTEX *nls);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Shutdown connection
 
-EXTERN_C MIR_APP_DLL(void) Netlib_Shutdown(HANDLE h);
+EXTERN_C MIR_APP_DLL(void) Netlib_Shutdown(HNETLIBCONN h);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Create a packet receiver
@@ -660,7 +659,7 @@ EXTERN_C MIR_APP_DLL(void) Netlib_Shutdown(HANDLE h);
 // have arbitrarily large packets.
 // Errors: ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY
 
-EXTERN_C MIR_APP_DLL(HANDLE) Netlib_CreatePacketReceiver(HANDLE hConnection, int iMaxSize);
+EXTERN_C MIR_APP_DLL(HANDLE) Netlib_CreatePacketReceiver(HNETLIBCONN hConnection, int iMaxSize);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Get the next set of packets from a packet receiver
@@ -694,19 +693,18 @@ EXTERN_C MIR_APP_DLL(int) Netlib_GetMorePackets(HANDLE hReceiver, NETLIBPACKETRE
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Sets a gateway polling timeout interval
-// wParam = (WPARAM)(HANDLE)hConn
-// lParam = (LPARAM)timeout
+//
 // Returns previous timeout value
 // Errors: -1
 
-EXTERN_C MIR_APP_DLL(int) Netlib_SetPollingTimeout(HANDLE hConnection, int iTimeout);
+EXTERN_C MIR_APP_DLL(int) Netlib_SetPollingTimeout(HNETLIBCONN hConnection, int iTimeout);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Makes connection SSL
 //
 // Returns 0 on failure 1 on success
 
-EXTERN_C MIR_APP_DLL(int) Netlib_StartSsl(HANDLE hConnection, const char *host);
+EXTERN_C MIR_APP_DLL(int) Netlib_StartSsl(HNETLIBCONN hConnection, const char *host);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // netlib log funcitons

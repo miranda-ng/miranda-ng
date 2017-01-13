@@ -29,7 +29,7 @@
 
 #include "stdafx.h"
 
-int icq_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQUEST *nlhr)
+int icq_httpGatewayInit(HNETLIBCONN hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQUEST *nlhr)
 {
 	// initial response from ICQ http gateway
 	size_t wLen, wVersion, wType;
@@ -79,7 +79,7 @@ int icq_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQUEST *
 
 
 
-int icq_httpGatewayBegin(HANDLE hConn, NETLIBOPENCONNECTION* nloc)
+int icq_httpGatewayBegin(HNETLIBCONN hConn, NETLIBOPENCONNECTION* nloc)
 { // open our "virual data connection"
 	icq_packet packet;
 	size_t serverNameLen;
@@ -99,7 +99,7 @@ int icq_httpGatewayBegin(HANDLE hConn, NETLIBOPENCONNECTION* nloc)
 
 
 
-int icq_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags)
+int icq_httpGatewayWrapSend(HNETLIBCONN hConn, PBYTE buf, int len, int flags)
 {
 	PBYTE sendBuf = buf;
 	int sendLen = len;
@@ -192,7 +192,7 @@ PBYTE icq_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST*, PBYTE buf, int len, int* out
 
 
 
-int icq_httpGatewayWalkTo(HANDLE hConn, NETLIBOPENCONNECTION* nloc)
+int icq_httpGatewayWalkTo(HNETLIBCONN hConn, NETLIBOPENCONNECTION* nloc)
 { // this is bad simplification - for avatars to work we need to handle
 	// two "virtual connections" at the same time
 	icq_packet packet;

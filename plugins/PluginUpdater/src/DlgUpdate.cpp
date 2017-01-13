@@ -67,7 +67,7 @@ static void ApplyUpdates(void *param)
 	SafeCreateDirectory(tszFileTemp);
 
 	// 2) Download all plugins
-	HANDLE nlc = NULL;
+	HNETLIBCONN nlc = NULL;
 	for (int i=0; i < todo.getCount(); i++) {
 		ListView_EnsureVisible(hwndList, i, FALSE);
 		if (!todo[i].bEnabled) {
@@ -419,7 +419,7 @@ static void DlgUpdateSilent(void *param)
 	SafeCreateDirectory(tszFileTemp);
 
 	// 2) Download all plugins
-	HANDLE nlc = NULL;
+	HNETLIBCONN nlc = NULL;
 	// Count all updates that have been enabled
 	int count = 0;
 	for (int i = 0; i < UpdateFiles.getCount(); i++) {

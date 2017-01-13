@@ -208,7 +208,7 @@ void FacebookProto::StickerAsSmiley(std::string sticker, const std::string &url,
 
 	// Check if we have this sticker already and download it if not
 	if (GetFileAttributes(filename.c_str()) == INVALID_FILE_ATTRIBUTES) {
-		HANDLE nlc = NULL;
+		HNETLIBCONN nlc = NULL;
 		facy.save_url(url, filename, nlc);
 		Netlib_CloseHandle(nlc);
 	}

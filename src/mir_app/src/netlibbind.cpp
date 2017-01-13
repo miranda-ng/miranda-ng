@@ -174,15 +174,13 @@ static void NetlibBindAcceptThread(void* param)
 	Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread: (%p) thread for port %u closed", nlbp->s, nlbp->wPort);
 }
 
-MIR_APP_DLL(HANDLE) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *nlb)
+MIR_APP_DLL(HNETLIBBIND) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *nlb)
 {
 	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_INCOMING) ||
 		nlb == NULL || nlb->pfnNewConnection == NULL) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
-	if (nlb->cbSize != sizeof(NETLIBBIND))
-		return 0;
 
 	NetlibBoundPort *nlbp = (NetlibBoundPort*)mir_calloc(sizeof(NetlibBoundPort));
 	nlbp->handleType = NLH_BOUNDPORT;

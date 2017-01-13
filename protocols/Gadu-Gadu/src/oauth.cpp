@@ -286,7 +286,7 @@ int GGPROTO::oauth_receivetoken()
 {
 	char szUrl[256], uin[32], *str, *token = NULL, *token_secret = NULL;
 	int res = 0;
-	HANDLE nlc = NULL;
+	HNETLIBCONN nlc = NULL;
 
 	UIN2IDA( getDword(GG_KEY_UIN, 0), uin);
 	char *password = getStringA(GG_KEY_PASSWORD);

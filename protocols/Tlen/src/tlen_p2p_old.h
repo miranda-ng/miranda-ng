@@ -57,12 +57,12 @@ extern void TlenP2PPacketSetType(TLEN_FILE_PACKET *packet, DWORD type);
 extern void TlenP2PPacketSetLen(TLEN_FILE_PACKET *packet, DWORD len);
 extern void TlenP2PPacketPackDword(TLEN_FILE_PACKET *packet, DWORD data);
 extern void TlenP2PPacketPackBuffer(TLEN_FILE_PACKET *packet, char *buffer, int len);
-extern int TlenP2PPacketSend(HANDLE s, TLEN_FILE_PACKET *packet);
-extern TLEN_FILE_PACKET* TlenP2PPacketReceive(HANDLE s);
+extern int TlenP2PPacketSend(HNETLIBCONN s, TLEN_FILE_PACKET *packet);
+extern TLEN_FILE_PACKET* TlenP2PPacketReceive(HNETLIBCONN s);
 extern void TlenP2PEstablishOutgoingConnection(TLEN_FILE_TRANSFER *ft, BOOL sendAck);
-extern TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, HANDLE s, TLEN_LIST list, BOOL sendAck);
-extern HANDLE TlenP2PListen(TLEN_FILE_TRANSFER *ft);
-extern void TlenP2PStopListening(HANDLE s);
+extern TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, HNETLIBCONN s, TLEN_LIST list, BOOL sendAck);
+extern HNETLIBCONN TlenP2PListen(TLEN_FILE_TRANSFER *ft);
+extern void TlenP2PStopListening(HNETLIBCONN s);
 
 void __cdecl TlenProcessP2P(XmlNode *node, void *userdata);
 

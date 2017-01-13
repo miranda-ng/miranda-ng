@@ -32,22 +32,26 @@ struct chatnav_param
 
 struct chat_list_item
 {
-    char* id;
-    char* cookie;
-    HANDLE hconn;
-    unsigned short cid;
+	char* id;
+	char* cookie;
+	HNETLIBCONN hconn;
+	unsigned short cid;
 	unsigned short seqno;
-    unsigned short exchange;
-    unsigned short instance;
+	unsigned short exchange;
+	unsigned short instance;
 	char* CHAT_COOKIE;
 	int CHAT_COOKIE_LENGTH;
 
-    chat_list_item(char* tid, char* tcookie, unsigned short ex, unsigned short in)
-    { id = mir_strdup(tid); cid = get_random(); seqno = 0; hconn = NULL;
-      cookie = mir_strdup(tcookie); exchange = ex; instance = in; }
+	chat_list_item(char* tid, char* tcookie, unsigned short ex, unsigned short in)
+	{
+		id = mir_strdup(tid); cid = get_random(); seqno = 0; hconn = NULL;
+		cookie = mir_strdup(tcookie); exchange = ex; instance = in;
+	}
 
-    ~chat_list_item()
-    { mir_free(id); mir_free(cookie); }
+	~chat_list_item()
+	{
+		mir_free(id); mir_free(cookie);
+	}
 };
 
 #endif

@@ -568,12 +568,12 @@ struct ThreadData
    STRLIST       mJoinedIdentContactsWLID;
    char*         mInitialContactWLID;
 
-   TInfoType     mType;            // thread type
-   MsnThreadFunc mFunc;            // thread entry point
-   char          mServer[80];      // server name
-   char			 mState[128];	   // state on XFR
+   TInfoType     mType;              // thread type
+   MsnThreadFunc mFunc;              // thread entry point
+   char          mServer[80];        // server name
+   char			 mState[128];	       // state on XFR
 
-   HANDLE        s;               // NetLib connection for the thread
+	HNETLIBCONN   s;                  // NetLib connection for the thread
    HANDLE        mIncomingBoundPort; // Netlib listen for the thread
    HANDLE        hWaitEvent;
    WORD          mIncomingPort;
@@ -608,7 +608,7 @@ struct ThreadData
    size_t        mDataSize;
 
    //----| methods |---------------------------------------------------------------------
-   void          applyGatewayData(HANDLE hConn, bool isPoll);
+	void          applyGatewayData(HNETLIBCONN hConn, bool isPoll);
    void          getGatewayUrl(char* dest, int destlen, bool isPoll);
    void          processSessionData(const char* xMsgr, const char* xHost);
    void          startThread(MsnThreadFunc , CMsnProto *prt);

@@ -29,7 +29,7 @@
 
 #include "stdafx.h"
 
-void icq_newConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, void *pExtra);
+void icq_newConnectionReceived(HNETLIBCONN hNewConnection, DWORD dwRemoteIP, void *pExtra);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // ICQ Server thread
@@ -152,7 +152,8 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	NetLib_SafeCloseHandle(&info.hPacketRecver);
 
 	// Close DC port
-	NetLib_SafeCloseHandle(&info.hDirectBoundPort);
+	Netlib_CloseHandle(info.hDirectBoundPort);
+	info.hDirectBoundPort = NULL;
 
 	// disable auto info-update thread
 	icq_EnableUserLookup(FALSE);

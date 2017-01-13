@@ -49,7 +49,7 @@ struct filetransfer: public basic_filetransfer
   DWORD dwTransferSpeed;
   DWORD dwBytesDone, dwFileBytesDone;
   int fileId;
-  HANDLE hConnection;
+  HNETLIBCONN hConnection;
   DWORD dwLastNotify;
   int   nVersion;   // Was this sent with a v7 or a v8 packet?
   BOOL bDC;         // Was this received over a DC or through server?
@@ -65,7 +65,7 @@ struct filetransfer: public basic_filetransfer
 struct directconnect
 {
   MCONTACT hContact;
-  HANDLE hConnection;
+  HNETLIBCONN hConnection;
   DWORD dwConnectionCookie;
   int type;
   WORD wVersion;

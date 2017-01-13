@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef PROXY_H
 #define PROXY_H
 
-int proxy_initialize_send(HANDLE connection,char* sn, char* cookie);
-int proxy_initialize_recv(HANDLE connection,char* sn, char* cookie,unsigned short port_check);
+int proxy_initialize_send(HNETLIBCONN connection, char* sn, char* cookie);
+int proxy_initialize_recv(HNETLIBCONN connection, char* sn, char* cookie, unsigned short port_check);
 
 #endif

@@ -63,7 +63,7 @@ static void ApplyDownloads(void *param)
 
 	VARSW tszMirandaPath(L"%miranda_path%");
 
-	HANDLE nlc = NULL;
+	HNETLIBCONN nlc = NULL;
 	for (int i=0; i < todo.getCount(); ++i) {
 		ListView_EnsureVisible(hwndList, i, FALSE);
 		if (todo[i].bEnabled) {

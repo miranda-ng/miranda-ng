@@ -336,7 +336,6 @@ struct CJabberHttpAuthParams
 /*******************************************************************
  * Global data structures and data type definitions
  *******************************************************************/
-typedef HANDLE JABBER_SOCKET;
 
 #define CAPS_BOOKMARK         0x0001
 #define CAPS_BOOKMARKS_LOADED 0x8000
@@ -371,7 +370,7 @@ struct ThreadData
 	char*    buffer;
 
 	// network support
-	JABBER_SOCKET s;
+	HNETLIBCONN s;
 	HANDLE iomutex; // protects i/o operations
 	CJabberProto *proto;
 
@@ -442,7 +441,7 @@ struct filetransfer
 	PROTOFILETRANSFERSTATUS std;
 
 	JABBER_FT_TYPE type;
-	JABBER_SOCKET s;
+	HNETLIBCONN s;
 	JABBER_FILE_STATE state;
 	wchar_t *jid;
 	int    fileId;

@@ -56,7 +56,7 @@ struct icq_cookie_info : public MZeroedObject
 struct cookie_family_request
 {
 	WORD wFamily;
-	void (CIcqProto::*familyHandler)(HANDLE hConn, char* cookie, size_t cookieLen);
+	void (CIcqProto::*familyHandler)(HNETLIBCONN hConn, char* cookie, size_t cookieLen);
 };
 
 struct cookie_offline_messages

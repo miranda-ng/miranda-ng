@@ -41,7 +41,7 @@ char** CAimProto::get_status_msg_loc(int status)
 	return NULL;
 }
 
-int CAimProto::aim_set_away(HANDLE hServerConn, unsigned short &seqno, const char *amsg, bool set)//user info
+int CAimProto::aim_set_away(HNETLIBCONN hServerConn, unsigned short &seqno, const char *amsg, bool set)//user info
 {
 	unsigned short offset = 0;
 	char *html_msg = NULL;
@@ -71,7 +71,7 @@ int CAimProto::aim_set_away(HANDLE hServerConn, unsigned short &seqno, const cha
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_set_status(HANDLE hServerConn, unsigned short &seqno, unsigned long status_type)
+int CAimProto::aim_set_status(HNETLIBCONN hServerConn, unsigned short &seqno, unsigned long status_type)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE + TLV_HEADER_SIZE * 2];
@@ -80,7 +80,7 @@ int CAimProto::aim_set_status(HANDLE hServerConn, unsigned short &seqno, unsigne
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_set_statusmsg(HANDLE hServerConn, unsigned short &seqno, const char *msg)//user info
+int CAimProto::aim_set_statusmsg(HNETLIBCONN hServerConn, unsigned short &seqno, const char *msg)//user info
 {
 	size_t msg_size = mir_strlen(msg);
 
@@ -106,7 +106,7 @@ int CAimProto::aim_set_statusmsg(HANDLE hServerConn, unsigned short &seqno, cons
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_query_away_message(HANDLE hServerConn, unsigned short &seqno, const char* sn)
+int CAimProto::aim_query_away_message(HNETLIBCONN hServerConn, unsigned short &seqno, const char* sn)
 {
 	unsigned short offset = 0;
 	unsigned short sn_length = (unsigned short)mir_strlen(sn);

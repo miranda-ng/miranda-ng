@@ -28,9 +28,9 @@ struct file_transfer
 
 	char icbm_cookie[8];
 
-	HANDLE hConn;
+	HNETLIBCONN hConn;
 	HANDLE hResumeEvent;
-	HANDLE hDirectBoundPort;
+	HNETLIBBIND hDirectBoundPort;
 
 	char* file;
 	char* message;

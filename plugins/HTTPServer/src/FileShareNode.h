@@ -23,7 +23,7 @@
 
 class CLShareUser {
 public:
-	CLShareUser(HANDLE hCon, in_addr stAdd);
+	CLShareUser(HNETLIBCONN hCon, in_addr stAdd);
 	virtual ~CLShareUser();
 	CLShareUser * pclNext;
 	in_addr stAddr;
@@ -35,7 +35,7 @@ public:
 	virtual const char * pszCustomInfo() = NULL;
 	void CloseSocket();
 protected:
-	HANDLE hConnection;
+	HNETLIBCONN hConnection;
 	DWORD dwSpeed;
 };
 

@@ -180,7 +180,7 @@ void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo *pInfo)
 	}
 }
 
-BOOL CJabberProto::FtSend(HANDLE hConn, filetransfer *ft)
+BOOL CJabberProto::FtSend(HNETLIBCONN hConn, filetransfer *ft)
 {
 	struct _stati64 statbuf;
 	int fd;
@@ -532,7 +532,7 @@ BOOL CJabberProto::FtHandleIbbRequest(HXML iqNode, BOOL bOpen)
 	return FALSE;
 }
 
-int CJabberProto::FtReceive(HANDLE, filetransfer *ft, char* buffer, int datalen)
+int CJabberProto::FtReceive(HNETLIBCONN, filetransfer *ft, char* buffer, int datalen)
 {
 	if (ft->create() == -1)
 		return -1;

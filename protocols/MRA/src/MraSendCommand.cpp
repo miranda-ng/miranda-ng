@@ -498,7 +498,7 @@ DWORD CMraProto::MraChangeUserBlogStatus(DWORD dwFlags, const CMStringW &wszText
 	return MraSendCMD(MRIM_CS_CHANGE_USER_BLOG_STATUS, buf.Data(), buf.Len());
 }
 
-DWORD CMraProto::MraSendPacket(HANDLE hConnection, DWORD dwCmdNum, DWORD dwType, LPVOID lpData, size_t dwDataSize)
+DWORD CMraProto::MraSendPacket(HNETLIBCONN hConnection, DWORD dwCmdNum, DWORD dwType, LPVOID lpData, size_t dwDataSize)
 {
 	LPBYTE lpbData = (LPBYTE)_alloca(dwDataSize + sizeof(mrim_packet_header_t));
 

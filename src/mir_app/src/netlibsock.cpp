@@ -29,9 +29,8 @@ extern HANDLE hConnectionHeaderMutex, hSendEvent, hRecvEvent;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Netlib_Send(HANDLE hConn, const char *buf, int len, int flags)
+MIR_APP_DLL(int) Netlib_Send(HNETLIBCONN nlc, const char *buf, int len, int flags)
 {
-	NetlibConnection *nlc = (NetlibConnection*)hConn;
 	if (!NetlibEnterNestedCS(nlc, NLNCS_SEND))
 		return SOCKET_ERROR;
 
@@ -39,7 +38,7 @@ MIR_APP_DLL(int) Netlib_Send(HANDLE hConn, const char *buf, int len, int flags)
 	if (nlc->usingHttpGateway && !(flags & MSG_RAW)) {
 		if (!(flags & MSG_NOHTTPGATEWAYWRAP) && nlc->nlu->user.pfnHttpGatewayWrapSend) {
 			NetlibDumpData(nlc, (PBYTE)buf, len, 1, flags);
-			result = nlc->nlu->user.pfnHttpGatewayWrapSend((HANDLE)nlc, (PBYTE)buf, len, flags | MSG_NOHTTPGATEWAYWRAP);
+			result = nlc->nlu->user.pfnHttpGatewayWrapSend(nlc, (PBYTE)buf, len, flags | MSG_NOHTTPGATEWAYWRAP);
 		}
 		else result = NetlibHttpGatewayPost(nlc, buf, len, flags);
 	}
@@ -60,9 +59,8 @@ MIR_APP_DLL(int) Netlib_Send(HANDLE hConn, const char *buf, int len, int flags)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Netlib_Recv(HANDLE hConn, char *buf, int len, int flags)
+MIR_APP_DLL(int) Netlib_Recv(HNETLIBCONN nlc, char *buf, int len, int flags)
 {
-	NetlibConnection *nlc = (NetlibConnection*)hConn;
 	if (!NetlibEnterNestedCS(nlc, NLNCS_RECV))
 		return SOCKET_ERROR;
 
@@ -95,11 +93,11 @@ MIR_APP_DLL(int) Netlib_Recv(HANDLE hConn, char *buf, int len, int flags)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int ConnectionListToSocketList(const HANDLE *hConns, fd_set *fd, int& pending)
+static int ConnectionListToSocketList(const HNETLIBCONN *hConns, fd_set *fd, int& pending)
 {
 	FD_ZERO(fd);
 	for (int i = 0; hConns[i] && hConns[i] != INVALID_HANDLE_VALUE && i < FD_SETSIZE; i++) {
-		NetlibConnection *nlcCheck = (NetlibConnection*)hConns[i];
+		NetlibConnection *nlcCheck = hConns[i];
 		if (nlcCheck->handleType != NLH_CONNECTION && nlcCheck->handleType != NLH_BOUNDPORT) {
 			SetLastError(ERROR_INVALID_DATA);
 			return 0;
@@ -224,7 +222,7 @@ MIR_APP_DLL(char*) Netlib_AddressToString(sockaddr_in *addr)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Netlib_GetConnectionInfo(HANDLE hConnection, NETLIBCONNINFO *connInfo)
+MIR_APP_DLL(int) Netlib_GetConnectionInfo(HNETLIBCONN hConnection, NETLIBCONNINFO *connInfo)
 {
 	NetlibConnection *nlc = (NetlibConnection*)hConnection;
 	if (!nlc || !connInfo)

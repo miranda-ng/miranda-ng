@@ -37,7 +37,7 @@ struct MRA_FILES_QUEUE_ITEM : public LIST_MT_ITEM
 	LPWSTR                lpwszPath;
 	size_t                dwPathSize;
 	bool                  bSending;
-	HANDLE                hConnection;
+	HNETLIBCONN           hConnection;
 	HANDLE                hListen;
 	HANDLE                hThread;
 	HANDLE                hWaitHandle;
@@ -378,7 +378,7 @@ DWORD CMraProto::MraFilesQueueSendMirror(HANDLE hQueue, DWORD dwIDRequest, const
 	return dwRetErrorCode;
 }
 
-bool CMraProto::MraFilesQueueHandCheck(HANDLE hConnection, MRA_FILES_QUEUE_ITEM *dat)
+bool CMraProto::MraFilesQueueHandCheck(HNETLIBCONN hConnection, MRA_FILES_QUEUE_ITEM *dat)
 {
 	if (hConnection && dat) {
 		BYTE btBuff[((MAX_EMAIL_LEN * 2) + (sizeof(MRA_FT_HELLO)* 2) + 8)] = { 0 };
@@ -522,7 +522,6 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 		// копируем адреса в соответствии с правилами и начинаем слушать порт
 		if (getByte("FileSendEnableDirectConn", MRA_DEF_FS_ENABLE_DIRECT_CONN)) {
 			NETLIBBIND nlbBind = {};
-			nlbBind.cbSize = sizeof(nlbBind);
 			nlbBind.pfnNewConnectionV2 = MraFilesQueueConnectionReceived;
 			nlbBind.wPort = 0;
 			nlbBind.pExtra = (LPVOID)dat;
@@ -587,7 +586,7 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 
 // This function is called from the Netlib when someone is connecting to
 // one of our incomming DC ports
-void MraFilesQueueConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, void *pExtra)
+void MraFilesQueueConnectionReceived(HNETLIBCONN hNewConnection, DWORD dwRemoteIP, void *pExtra)
 {
 	if (pExtra) {
 		MRA_FILES_QUEUE_ITEM *dat = (MRA_FILES_QUEUE_ITEM*)pExtra;

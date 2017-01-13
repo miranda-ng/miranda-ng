@@ -122,7 +122,7 @@ struct CAimProto : public PROTO<CAimProto>
 	bool m_list_received;
 
 	//Some main connection stuff
-	HANDLE m_hServerConn; // handle to the main connection
+	HNETLIBCONN m_hServerConn; // handle to the main connection
 
 	unsigned long m_internal_ip;  // our ip
 	unsigned long m_detected_ip;  // our ip
@@ -139,21 +139,21 @@ struct CAimProto : public PROTO<CAimProto>
 	HGENMENU m_hMainMenu[3];
 
 	//Some mail connection stuff
-	HANDLE m_hMailConn;
+	HNETLIBCONN m_hMailConn;
 	unsigned short m_mail_seqno;
 
 	//avatar connection stuff
 	unsigned short m_avatar_seqno;
 	unsigned short m_avatar_id_sm;
 	unsigned short m_avatar_id_lg;
-	HANDLE m_hAvatarConn;
+	HNETLIBCONN m_hAvatarConn;
 	HANDLE m_hAvatarEvent;
 
 	ft_list_type m_ft_list;
 
 	//chatnav connection stuff
 	unsigned short m_chatnav_seqno;
-	HANDLE m_hChatNavConn;
+	HNETLIBCONN m_hChatNavConn;
 	HANDLE m_hChatNavEvent;
 	char MAX_ROOMS;
 
@@ -161,7 +161,7 @@ struct CAimProto : public PROTO<CAimProto>
 
 	//admin connection stuff
 	unsigned short m_admin_seqno;
-	HANDLE m_hAdminConn;
+	HNETLIBCONN m_hAdminConn;
 	HANDLE m_hAdminEvent;
 
 	// privacy settings
@@ -203,10 +203,10 @@ struct CAimProto : public PROTO<CAimProto>
 
 	void   __cdecl get_online_msg_thread( void* arg );
 
-	int    aim_set_away(HANDLE hServerConn, unsigned short &seqno, const char *msg, bool set);//user info
-	int    aim_set_statusmsg(HANDLE hServerConn,unsigned short &seqno,const char *msg);//user info
-	int    aim_set_status(HANDLE hServerConn,unsigned short &seqno,unsigned long status_type);
-	int    aim_query_away_message(HANDLE hServerConn,unsigned short &seqno,const char* sn);
+	int    aim_set_away(HNETLIBCONN hServerConn, unsigned short &seqno, const char *msg, bool set);//user info
+	int    aim_set_statusmsg(HNETLIBCONN hServerConn,unsigned short &seqno,const char *msg);//user info
+	int    aim_set_status(HNETLIBCONN hServerConn,unsigned short &seqno,unsigned long status_type);
+	int    aim_query_away_message(HNETLIBCONN hServerConn,unsigned short &seqno,const char* sn);
 
 	char**  get_status_msg_loc(int status);
 
@@ -230,79 +230,78 @@ struct CAimProto : public PROTO<CAimProto>
 	//////////////////////////////////////////////////////////////////////////////////////
 	// client.cpp
 
-	int    aim_send_connection_packet(HANDLE hServerConn,unsigned short &seqno,char *buf);
-	int    aim_authkey_request(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_auth_request(HANDLE hServerConn,unsigned short &seqno,const char* key,const char* language,
-							const char* country, const char* username, const char* password);
-	int    aim_send_cookie(HANDLE hServerConn,unsigned short &seqno,int cookie_size,char * cookie);
-	int    aim_send_service_request(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_new_service_request(HANDLE hServerConn,unsigned short &seqno,unsigned short service);
-	int    aim_request_rates(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_request_icbm(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_request_offline_msgs(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_set_icbm(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_set_profile(HANDLE hServerConn,unsigned short &seqno,char* amsg);//user info
-	int    aim_request_list(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_activate_list(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_accept_rates(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_set_caps(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_client_ready(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_mail_ready(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_avatar_ready(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_chatnav_ready(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_chat_ready(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_send_message(HANDLE hServerConn,unsigned short &seqno,const char* sn,char* amsg,bool auto_response, bool blast);
-	int    aim_query_profile(HANDLE hServerConn,unsigned short &seqno,char* sn);
-	int    aim_delete_contact(HANDLE hServerConn,unsigned short &seqno,char* sn,unsigned short item_id,unsigned short group_id,unsigned short list, bool nil);
-	int    aim_add_contact(HANDLE hServerConn,unsigned short &seqno,const char* sn,unsigned short item_id,unsigned short group_id,unsigned short list,char* nick=NULL, char* note=NULL);
-	int    aim_mod_group(HANDLE hServerConn,unsigned short &seqno,const char* name,unsigned short group_id,char* members,unsigned short members_length);
-	int    aim_mod_buddy(HANDLE hServerConn,unsigned short &seqno,const char* sn,unsigned short buddy_id,unsigned short group_id,char* nick,char* note);
-	int    aim_ssi_update(HANDLE hServerConn, unsigned short &seqno, bool start);
-	int    aim_ssi_update_preferences(HANDLE hServerConn, unsigned short &seqno);
-	int    aim_keepalive(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_send_file(HANDLE hServerConn,unsigned short &seqno,unsigned long ip, unsigned short port, bool force_proxy, file_transfer *ft);//used when requesting a regular file transfer
-	int    aim_file_ad(HANDLE hServerConn,unsigned short &seqno,char* sn,char* icbm_cookie,bool deny,unsigned short max_ver);
-	int    aim_typing_notification(HANDLE hServerConn,unsigned short &seqno,char* sn,unsigned short type);
-	int    aim_set_idle(HANDLE hServerConn,unsigned short &seqno,unsigned long seconds);
-	int    aim_request_mail(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_activate_mail(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_request_avatar(HANDLE hServerConn,unsigned short &seqno,const char* sn, unsigned short bart_type, const char* hash, unsigned short hash_size);//family 0x0010
-	int    aim_set_avatar_hash(HANDLE hServerConn,unsigned short &seqno, char flags, unsigned short bart_type, unsigned short &id, char size, const char* hash);
-	int    aim_delete_avatar_hash(HANDLE hServerConn,unsigned short &seqno, char flags, unsigned short bart_type, unsigned short &id);
-	int    aim_upload_avatar(HANDLE hServerConn,unsigned short &seqno, unsigned short bart_type, const char* avatar, unsigned short avatar_size);
-	int    aim_search_by_email(HANDLE hServerConn,unsigned short &seqno, const char* email);
-	int    aim_set_pd_info(HANDLE hServerConn, unsigned short &seqno);
-	int    aim_block_buddy(HANDLE hServerConn, unsigned short &seqno, bool remove, const char* sn, unsigned short item_id);
-	int    aim_chatnav_request_limits(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_chatnav_create(HANDLE hServerConn,unsigned short &seqno, char* room, unsigned short exchage);
-	int    aim_chatnav_room_info(HANDLE hServerConn,unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance);
-	int    aim_chat_join_room(HANDLE hServerConn,unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance,unsigned short id);
-	int    aim_chat_send_message(HANDLE hServerConn,unsigned short &seqno, char *amsg);
-	int    aim_chat_invite(HANDLE hServerConn,unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance, char* sn, char* msg);
-	int    aim_chat_deny(HANDLE hServerConn,unsigned short &seqno,char* sn,char* icbm_cookie);
-	int    aim_admin_ready(HANDLE hServerConn,unsigned short &seqno);
-	int    aim_admin_format_name(HANDLE hServerConn,unsigned short &seqno, const char* sn);
-	int    aim_admin_change_password(HANDLE hServerConn,unsigned short &seqno, const char* cur_pw, const char* new_pw);
-	int    aim_admin_change_email(HANDLE hServerConn,unsigned short &seqno, const char* email);
-	int    aim_admin_request_info(HANDLE hServerConn,unsigned short &seqno, const unsigned short &type);
-	int    aim_admin_account_confirm(HANDLE hServerConn,unsigned short &seqno);
+	int    aim_send_connection_packet(HNETLIBCONN hServerConn, unsigned short &seqno, char *buf);
+	int    aim_authkey_request(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_auth_request(HNETLIBCONN hServerConn, unsigned short &seqno, const char* key, const char* language, const char* country, const char* username, const char* password);
+	int    aim_send_cookie(HNETLIBCONN hServerConn, unsigned short &seqno, int cookie_size, char * cookie);
+	int    aim_send_service_request(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_new_service_request(HNETLIBCONN hServerConn, unsigned short &seqno, unsigned short service);
+	int    aim_request_rates(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_request_icbm(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_request_offline_msgs(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_set_icbm(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_set_profile(HNETLIBCONN hServerConn, unsigned short &seqno, char* amsg);//user info
+	int    aim_request_list(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_activate_list(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_accept_rates(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_set_caps(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_client_ready(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_mail_ready(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_avatar_ready(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_chatnav_ready(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_chat_ready(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_send_message(HNETLIBCONN hServerConn, unsigned short &seqno, const char* sn, char* amsg, bool auto_response, bool blast);
+	int    aim_query_profile(HNETLIBCONN hServerConn, unsigned short &seqno, char* sn);
+	int    aim_delete_contact(HNETLIBCONN hServerConn, unsigned short &seqno, char* sn, unsigned short item_id, unsigned short group_id, unsigned short list, bool nil);
+	int    aim_add_contact(HNETLIBCONN hServerConn, unsigned short &seqno, const char* sn, unsigned short item_id, unsigned short group_id, unsigned short list, char* nick = NULL, char* note = NULL);
+	int    aim_mod_group(HNETLIBCONN hServerConn, unsigned short &seqno, const char* name, unsigned short group_id, char* members, unsigned short members_length);
+	int    aim_mod_buddy(HNETLIBCONN hServerConn, unsigned short &seqno, const char* sn, unsigned short buddy_id, unsigned short group_id, char* nick, char* note);
+	int    aim_ssi_update(HNETLIBCONN hServerConn, unsigned short &seqno, bool start);
+	int    aim_ssi_update_preferences(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_keepalive(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_send_file(HNETLIBCONN hServerConn, unsigned short &seqno, unsigned long ip, unsigned short port, bool force_proxy, file_transfer *ft);//used when requesting a regular file transfer
+	int    aim_file_ad(HNETLIBCONN hServerConn, unsigned short &seqno, char* sn, char* icbm_cookie, bool deny, unsigned short max_ver);
+	int    aim_typing_notification(HNETLIBCONN hServerConn, unsigned short &seqno, char* sn, unsigned short type);
+	int    aim_set_idle(HNETLIBCONN hServerConn, unsigned short &seqno, unsigned long seconds);
+	int    aim_request_mail(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_activate_mail(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_request_avatar(HNETLIBCONN hServerConn, unsigned short &seqno, const char* sn, unsigned short bart_type, const char* hash, unsigned short hash_size);//family 0x0010
+	int    aim_set_avatar_hash(HNETLIBCONN hServerConn, unsigned short &seqno, char flags, unsigned short bart_type, unsigned short &id, char size, const char* hash);
+	int    aim_delete_avatar_hash(HNETLIBCONN hServerConn, unsigned short &seqno, char flags, unsigned short bart_type, unsigned short &id);
+	int    aim_upload_avatar(HNETLIBCONN hServerConn, unsigned short &seqno, unsigned short bart_type, const char* avatar, unsigned short avatar_size);
+	int    aim_search_by_email(HNETLIBCONN hServerConn, unsigned short &seqno, const char* email);
+	int    aim_set_pd_info(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_block_buddy(HNETLIBCONN hServerConn, unsigned short &seqno, bool remove, const char* sn, unsigned short item_id);
+	int    aim_chatnav_request_limits(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_chatnav_create(HNETLIBCONN hServerConn, unsigned short &seqno, char* room, unsigned short exchage);
+	int    aim_chatnav_room_info(HNETLIBCONN hServerConn, unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance);
+	int    aim_chat_join_room(HNETLIBCONN hServerConn, unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance, unsigned short id);
+	int    aim_chat_send_message(HNETLIBCONN hServerConn, unsigned short &seqno, char *amsg);
+	int    aim_chat_invite(HNETLIBCONN hServerConn, unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance, char* sn, char* msg);
+	int    aim_chat_deny(HNETLIBCONN hServerConn, unsigned short &seqno, char* sn, char* icbm_cookie);
+	int    aim_admin_ready(HNETLIBCONN hServerConn, unsigned short &seqno);
+	int    aim_admin_format_name(HNETLIBCONN hServerConn, unsigned short &seqno, const char* sn);
+	int    aim_admin_change_password(HNETLIBCONN hServerConn, unsigned short &seqno, const char* cur_pw, const char* new_pw);
+	int    aim_admin_change_email(HNETLIBCONN hServerConn, unsigned short &seqno, const char* email);
+	int    aim_admin_request_info(HNETLIBCONN hServerConn, unsigned short &seqno, const unsigned short &type);
+	int    aim_admin_account_confirm(HNETLIBCONN hServerConn, unsigned short &seqno);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// connection.cpp
 
-	void    aim_connection_authorization( void );
-	void    aim_connection_clientlogin( void );
+	void    aim_connection_authorization(void);
+	void    aim_connection_clientlogin(void);
 
-	void   __cdecl aim_protocol_negotiation( void* );
-	void   __cdecl aim_mail_negotiation( void* );
-	void   __cdecl aim_avatar_negotiation( void* );
-	void   __cdecl aim_chatnav_negotiation( void* );
-	void   __cdecl aim_chat_negotiation( void* );
-	void   __cdecl aim_admin_negotiation( void* );
+	void   __cdecl aim_protocol_negotiation(void*);
+	void   __cdecl aim_mail_negotiation(void*);
+	void   __cdecl aim_avatar_negotiation(void*);
+	void   __cdecl aim_chatnav_negotiation(void*);
+	void   __cdecl aim_chat_negotiation(void*);
+	void   __cdecl aim_admin_negotiation(void*);
 
-	HANDLE aim_connect(const char* server, unsigned short port, bool use_ssl, const char* host = NULL);
-	HANDLE aim_peer_connect(const char* ip, unsigned short port);
-	HANDLE aim_peer_connect(unsigned long ip, unsigned short port);
+	HNETLIBCONN aim_connect(const char* server, unsigned short port, bool use_ssl, const char* host = NULL);
+	HNETLIBCONN aim_peer_connect(const char* ip, unsigned short port);
+	HNETLIBCONN aim_peer_connect(unsigned long ip, unsigned short port);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// direct_connect.cpp
@@ -327,7 +326,7 @@ struct CAimProto : public PROTO<CAimProto>
 	//////////////////////////////////////////////////////////////////////////////////////
 	// packets.cpp
 
-	int    aim_sendflap(HANDLE conn, char type,unsigned short length,const char *buf, unsigned short &seqno);
+	int    aim_sendflap(HNETLIBCONN conn, char type, unsigned short length, const char *buf, unsigned short &seqno);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// proto.cpp
@@ -343,25 +342,25 @@ struct CAimProto : public PROTO<CAimProto>
 	//////////////////////////////////////////////////////////////////////////////////////
 	// server.cpp
 
-	void   snac_md5_authkey(SNAC &snac,HANDLE hServerConn,unsigned short &seqno, const char* username, const char* password);
+	void   snac_md5_authkey(SNAC &snac,HNETLIBCONN hServerConn,unsigned short &seqno, const char* username, const char* password);
 	int    snac_authorization_reply(SNAC &snac);
-	void   snac_supported_families(SNAC &snac, HANDLE hServerConn,unsigned short &seqno);
-	void   snac_supported_family_versions(SNAC &snac,HANDLE hServerConn,unsigned short &seqno);//family 0x0001
-	void   snac_rate_limitations(SNAC &snac,HANDLE hServerConn,unsigned short &seqno);//family 0x0001
-	void   snac_mail_rate_limitations(SNAC &snac,HANDLE hServerConn,unsigned short &seqno);// family 0x0001
-	void   snac_avatar_rate_limitations(SNAC &snac,HANDLE hServerConn,unsigned short &seqno);// family 0x0001
-	void   snac_chatnav_rate_limitations(SNAC &snac,HANDLE hServerConn,unsigned short &seqno);// family 0x0001
-	void   snac_chat_rate_limitations(SNAC &snac,HANDLE hServerConn,unsigned short &seqno);// family 0x0001
-	void   snac_admin_rate_limitations(SNAC &snac,HANDLE hServerConn,unsigned short &seqno);// family 0x0001
+	void   snac_supported_families(SNAC &snac, HNETLIBCONN hServerConn,unsigned short &seqno);
+	void   snac_supported_family_versions(SNAC &snac,HNETLIBCONN hServerConn,unsigned short &seqno);//family 0x0001
+	void   snac_rate_limitations(SNAC &snac,HNETLIBCONN hServerConn,unsigned short &seqno);//family 0x0001
+	void   snac_mail_rate_limitations(SNAC &snac,HNETLIBCONN hServerConn,unsigned short &seqno);// family 0x0001
+	void   snac_avatar_rate_limitations(SNAC &snac,HNETLIBCONN hServerConn,unsigned short &seqno);// family 0x0001
+	void   snac_chatnav_rate_limitations(SNAC &snac,HNETLIBCONN hServerConn,unsigned short &seqno);// family 0x0001
+	void   snac_chat_rate_limitations(SNAC &snac,HNETLIBCONN hServerConn,unsigned short &seqno);// family 0x0001
+	void   snac_admin_rate_limitations(SNAC &snac,HNETLIBCONN hServerConn,unsigned short &seqno);// family 0x0001
 	void   snac_service_redirect(SNAC &snac);// family 0x0001
 	void   snac_self_info(SNAC &snac);//family 0x0001
-	void   snac_icbm_limitations(SNAC &snac,HANDLE hServerConn,unsigned short &seqno);//family 0x0004
+	void   snac_icbm_limitations(SNAC &snac,HNETLIBCONN hServerConn,unsigned short &seqno);//family 0x0004
 	void   snac_user_online(SNAC &snac);
 	void   snac_user_offline(SNAC &snac);
 	void   snac_error(SNAC &snac);//family 0x0003 or x0004
-	void   snac_contact_list(SNAC &snac,HANDLE hServerConn,unsigned short &seqno);
+	void   snac_contact_list(SNAC &snac,HNETLIBCONN hServerConn,unsigned short &seqno);
 	void   snac_message_accepted(SNAC &snac);//family 0x004
-	void   snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned short &seqno);//family 0x0004
+	void   snac_received_message(SNAC &snac,HNETLIBCONN hServerConn,unsigned short &seqno);//family 0x0004
 	void   snac_file_decline(SNAC &snac);//family 0x0004
 	void   snac_received_info(SNAC &snac);//family 0x0002
 	void   snac_typing_notification(SNAC &snac);//family 0x004
@@ -370,7 +369,7 @@ struct CAimProto : public PROTO<CAimProto>
 	void   snac_retrieve_avatar(SNAC &snac);//family 0x0010
 	void   snac_upload_reply_avatar(SNAC &snac);//family 0x0010
 	void   snac_email_search_results(SNAC &snac);//family 0x000A
-	void   snac_chatnav_info_response(SNAC &snac,HANDLE hServerConn,unsigned short &seqno);//family 0x000D
+	void   snac_chatnav_info_response(SNAC &snac,HNETLIBCONN hServerConn,unsigned short &seqno);//family 0x000D
 	void   snac_chat_joined_left_users(SNAC &snac,chat_list_item* item);//family 0x000E
 	void   snac_chat_received_message(SNAC &snac,chat_list_item* item);//family 0x000E
 	void   snac_admin_account_infomod(SNAC &snac);//family 0x0007
@@ -403,7 +402,7 @@ struct CAimProto : public PROTO<CAimProto>
 	MCONTACT contact_from_sn(const char* sn, bool addIfNeeded = false, bool temporary = false);
 
 	void   broadcast_status(int status);
-	bool   wait_conn(HANDLE& hConn, HANDLE& hEvent, unsigned short service);
+	bool   wait_conn(HNETLIBCONN& hConn, HANDLE& hEvent, unsigned short service);
 	bool   is_my_contact(MCONTACT hContact);
 	void   add_contact_to_group(MCONTACT hContact, const char* group);
 	void   set_local_nick(MCONTACT hContact, char* nick, char* note);

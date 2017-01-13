@@ -196,7 +196,7 @@ void CIcqProto::icq_sendCloseConnection()
 	sendServPacket(&packet);
 }
 
-void CIcqProto::icq_requestnewfamily(WORD wFamily, void (CIcqProto::*familyhandler)(HANDLE hConn, char* cookie, size_t cookieLen))
+void CIcqProto::icq_requestnewfamily(WORD wFamily, void (CIcqProto::*familyhandler)(HNETLIBCONN hConn, char* cookie, size_t cookieLen))
 {
 	int bRequestSSL = m_bSecureConnection && (wFamily != ICQ_AVATAR_FAMILY); // Avatar servers does not support SSL
 

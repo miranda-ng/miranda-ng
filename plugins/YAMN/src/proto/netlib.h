@@ -14,10 +14,10 @@ public:
 	inline BOOL Connected() {return hConnection!=NULL;}
 
 protected:
-	HANDLE hConnection;
+	HNETLIBCONN hConnection;
 	BOOL isTLSed;
-	int LocalNetlib_Send(HANDLE hConn,const char *buf,int len,int flags);
-	int LocalNetlib_Recv(HANDLE hConn,char *buf,int len,int flags);
+	int LocalNetlib_Send(HNETLIBCONN hConn, const char *buf, int len, int flags);
+	int LocalNetlib_Recv(HNETLIBCONN hConn, char *buf, int len, int flags);
 };
 
 void SSL_DebugLog(const char *fmt, ...);

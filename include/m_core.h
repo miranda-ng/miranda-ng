@@ -44,9 +44,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifdef MIR_APP_EXPORTS
 	#define MIR_APP_EXPORT __declspec(dllexport)
 	typedef struct NetlibUser* HNETLIBUSER;
+	typedef struct NetlibConnection* HNETLIBCONN;
+	typedef struct NetlibBoundPort* HNETLIBBIND;
 #else
 	#define MIR_APP_EXPORT __declspec(dllimport)
 	DECLARE_HANDLE(HNETLIBUSER);
+	DECLARE_HANDLE(HNETLIBCONN);
+	DECLARE_HANDLE(HNETLIBBIND);
 #endif
 
 #define MIR_APP_DLL(T) MIR_APP_EXPORT T __stdcall

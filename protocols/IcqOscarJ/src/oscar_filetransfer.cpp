@@ -34,7 +34,7 @@ struct oscarthreadstartinfo
 	int type;
 	int incoming;
 	MCONTACT hContact;
-	HANDLE hConnection;
+	HNETLIBCONN hConnection;
 	DWORD dwRemoteIP;
 	oscar_filetransfer *ft;
 	oscar_listener *listener;
@@ -308,8 +308,10 @@ void CIcqProto::ReleaseOscarListener(oscar_listener **pListener)
 {
 	oscar_listener *listener = *pListener;
 	if (listener) { // Close listening port
-		if (listener->hBoundPort)
-			NetLib_SafeCloseHandle(&listener->hBoundPort);
+		if (listener->hBoundPort) {
+			Netlib_CloseHandle(listener->hBoundPort);
+			listener->hBoundPort = NULL;
+		}
 
 		NetLog_Direct("Oscar listener on port %d released.", listener->wPort);
 	}
@@ -675,7 +677,7 @@ void CIcqProto::handleRecvServResponseOFT(BYTE *buf, size_t wLen, DWORD dwUin, c
 }
 
 // This function is called from the Netlib when someone is connecting to our oscar_listener
-static void oft_newConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, void *pExtra)
+static void oft_newConnectionReceived(HNETLIBCONN hNewConnection, DWORD dwRemoteIP, void *pExtra)
 {
 	oscarthreadstartinfo *otsi = (oscarthreadstartinfo*)SAFE_MALLOC(sizeof(oscarthreadstartinfo));
 	oscar_listener *listener = (oscar_listener*)pExtra;

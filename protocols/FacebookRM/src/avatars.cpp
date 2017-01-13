@@ -86,7 +86,7 @@ void FacebookProto::CheckAvatarChange(MCONTACT hContact, const std::string &imag
 
 void FacebookProto::UpdateAvatarWorker(void *)
 {
-	HANDLE nlc = NULL;
+	HNETLIBCONN nlc = NULL;
 
 	debugLogA("*** UpdateAvatarWorker");
 

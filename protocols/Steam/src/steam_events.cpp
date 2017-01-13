@@ -17,13 +17,6 @@ int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-int CSteamProto::OnPreShutdown(WPARAM, LPARAM)
-{
-	Netlib_Shutdown(this->m_hNetlibUser);
-	this->m_hNetlibUser = NULL;
-	return 0;
-}
-
 INT_PTR CSteamProto::OnAccountManagerInit(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)(CSteamOptionsMain::CreateAccountManagerPage(this, (HWND)lParam))->GetHwnd();

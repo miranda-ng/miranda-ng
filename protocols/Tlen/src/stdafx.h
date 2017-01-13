@@ -348,7 +348,7 @@ typedef struct ThreadDataStruct{
 	WORD port;
 	BOOL useEncryption;
 
-	HANDLE s;    //HANDLE from CallService(MS_NETLIB_OPENCONNECTION (tlen_ws.c:68)
+	HNETLIBCONN s;
 	aes_context aes_in_context;
 	aes_context aes_out_context;
 	unsigned char aes_in_iv[16];
@@ -364,7 +364,7 @@ typedef enum { FT_CONNECTING, FT_INITIALIZING, FT_RECEIVING, FT_DONE, FT_ERROR, 
 typedef enum { FT_RECV, FT_SEND} TLEN_FILE_MODE;
 typedef struct TLEN_FILE_TRANSFER_STRUCT{
 	MCONTACT hContact;
-	HANDLE s;
+	HNETLIBCONN s;
 	NETLIBNEWCONNECTIONPROC_V2 pfnNewConnectionV2;
 	TLEN_FILE_STATE state;
 	char *jid;
@@ -437,9 +437,9 @@ void __cdecl TlenServerThread(ThreadData *info);
 // tlen_ws.cpp
 BOOL TlenWsInit(TlenProtocol *proto);
 void TlenWsUninit(TlenProtocol *proto);
-HANDLE TlenWsConnect(TlenProtocol *proto, char *host, WORD port);
-int TlenWsSend(TlenProtocol *proto, HANDLE s, char *data, int datalen);
-int TlenWsRecv(TlenProtocol *proto, HANDLE s, char *data, long datalen);
+HNETLIBCONN TlenWsConnect(TlenProtocol *proto, char *host, WORD port);
+int TlenWsSend(TlenProtocol *proto, HNETLIBCONN s, char *data, int datalen);
+int TlenWsRecv(TlenProtocol *proto, HNETLIBCONN s, char *data, long datalen);
 int TlenWsSendAES(TlenProtocol *proto, char *data, int datalen, aes_context *aes_ctx, unsigned char *aes_iv);
 int TlenWsRecvAES(TlenProtocol *proto, char *data, long datalen, aes_context *aes_ctx, unsigned char *aes_iv);
 

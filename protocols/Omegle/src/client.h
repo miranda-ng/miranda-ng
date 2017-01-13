@@ -57,8 +57,8 @@ public:
 		chatHandle_ = NULL;
 	}
 
-	HANDLE hConnection;
-	HANDLE hEventsConnection;
+	HNETLIBCONN hConnection;
+	HNETLIBCONN hEventsConnection;
 	HANDLE connection_lock_;
 	HANDLE chatHandle_;
 

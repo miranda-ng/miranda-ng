@@ -19,12 +19,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-int CAimProto::aim_send_connection_packet(HANDLE hServerConn, unsigned short &seqno, char *buf)
+int CAimProto::aim_send_connection_packet(HNETLIBCONN hServerConn, unsigned short &seqno, char *buf)
 {
 	return aim_sendflap(hServerConn, 0x01, 4, buf, seqno);
 }
 
-int CAimProto::aim_authkey_request(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_authkey_request(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char *buf = (char*)alloca(SNAC_SIZE + TLV_HEADER_SIZE * 3 + mir_strlen(m_username));
@@ -35,7 +35,7 @@ int CAimProto::aim_authkey_request(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_auth_request(HANDLE hServerConn, unsigned short &seqno, const char* key, const char* language,
+int CAimProto::aim_auth_request(HNETLIBCONN hServerConn, unsigned short &seqno, const char* key, const char* language,
 	const char* country, const char* username, const char* password)
 {
 	unsigned short offset = 0;
@@ -79,7 +79,7 @@ int CAimProto::aim_auth_request(HANDLE hServerConn, unsigned short &seqno, const
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_send_cookie(HANDLE hServerConn, unsigned short &seqno, int cookie_size, char * cookie)
+int CAimProto::aim_send_cookie(HNETLIBCONN hServerConn, unsigned short &seqno, int cookie_size, char * cookie)
 {
 	unsigned short offset = 0;
 	char* buf = (char*)alloca(TLV_HEADER_SIZE * 2 + cookie_size);
@@ -88,7 +88,7 @@ int CAimProto::aim_send_cookie(HANDLE hServerConn, unsigned short &seqno, int co
 	return aim_sendflap(hServerConn, 0x01, offset, buf, seqno);
 }
 
-int CAimProto::aim_send_service_request(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_send_service_request(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE + TLV_HEADER_SIZE * 12];
@@ -108,7 +108,7 @@ int CAimProto::aim_send_service_request(HANDLE hServerConn, unsigned short &seqn
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_new_service_request(HANDLE hServerConn, unsigned short &seqno, unsigned short service)
+int CAimProto::aim_new_service_request(HNETLIBCONN hServerConn, unsigned short &seqno, unsigned short service)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE + 2 + TLV_HEADER_SIZE];
@@ -119,7 +119,7 @@ int CAimProto::aim_new_service_request(HANDLE hServerConn, unsigned short &seqno
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_request_rates(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_request_rates(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE];
@@ -127,7 +127,7 @@ int CAimProto::aim_request_rates(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_accept_rates(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_accept_rates(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE * 2];
@@ -136,7 +136,7 @@ int CAimProto::aim_accept_rates(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_request_icbm(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_request_icbm(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE];
@@ -144,7 +144,7 @@ int CAimProto::aim_request_icbm(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_set_icbm(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_set_icbm(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	const unsigned icbm_flags = ICBM_CHANNEL_MSGS_ALLOWED | ICBM_MISSED_CALLS_ENABLED |
 		ICBM_EVENTS_ALLOWED | ICBM_SMS_SUPPORTED | ICBM_OFFLINE_MSGS_ALLOWED;
@@ -162,7 +162,7 @@ int CAimProto::aim_set_icbm(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_request_offline_msgs(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_request_offline_msgs(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE];
@@ -170,7 +170,7 @@ int CAimProto::aim_request_offline_msgs(HANDLE hServerConn, unsigned short &seqn
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_request_list(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_request_list(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE];
@@ -178,7 +178,7 @@ int CAimProto::aim_request_list(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_activate_list(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_activate_list(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE];
@@ -191,7 +191,7 @@ int CAimProto::aim_activate_list(HANDLE hServerConn, unsigned short &seqno)
 0010   01 00 00 08 00 01 01 00 0a 00 14 00 02 00 08 66  ...............f
 0020   61 63 65 62 6f 6f 6b 00 06 67 6f 6f 67 6c 65     acebook..google
 
-int CAimProto::aim_request_rights(HANDLE hServerConn,unsigned short &seqno)
+int CAimProto::aim_request_rights(HNETLIBCONN hServerConn,unsigned short &seqno)
 {
 	unsigned short offset=0;
 	char buf[SNAC_SIZE+50];
@@ -204,7 +204,7 @@ int CAimProto::aim_request_rights(HANDLE hServerConn,unsigned short &seqno)
 	return aim_sendflap(hServerConn,0x02,offset,buf,seqno);
 }
 */
-int CAimProto::aim_set_caps(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_set_caps(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	int i = 1;
@@ -232,7 +232,7 @@ int CAimProto::aim_set_caps(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_set_profile(HANDLE hServerConn, unsigned short &seqno, char* amsg)//user info
+int CAimProto::aim_set_profile(HNETLIBCONN hServerConn, unsigned short &seqno, char* amsg)//user info
 {
 	aimString str(amsg);
 	const char *charset = str.isUnicode() ? AIM_MSG_TYPE_UNICODE : AIM_MSG_TYPE;
@@ -251,7 +251,7 @@ int CAimProto::aim_set_profile(HANDLE hServerConn, unsigned short &seqno, char* 
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_client_ready(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_client_ready(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 
@@ -288,7 +288,7 @@ int CAimProto::aim_client_ready(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_mail_ready(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_mail_ready(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE + TLV_HEADER_SIZE * 4];
@@ -300,7 +300,7 @@ int CAimProto::aim_mail_ready(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_avatar_ready(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_avatar_ready(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE + TLV_HEADER_SIZE * 4];
@@ -312,7 +312,7 @@ int CAimProto::aim_avatar_ready(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_chatnav_ready(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_chatnav_ready(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE + TLV_HEADER_SIZE * 4];
@@ -324,7 +324,7 @@ int CAimProto::aim_chatnav_ready(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_chat_ready(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_chat_ready(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE + TLV_HEADER_SIZE * 4];
@@ -336,7 +336,7 @@ int CAimProto::aim_chat_ready(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_send_message(HANDLE hServerConn, unsigned short &seqno, const char* sn, char* amsg, bool auto_response, bool blast)
+int CAimProto::aim_send_message(HNETLIBCONN hServerConn, unsigned short &seqno, const char* sn, char* amsg, bool auto_response, bool blast)
 {
 	aimString str(amsg);
 
@@ -380,7 +380,7 @@ int CAimProto::aim_send_message(HANDLE hServerConn, unsigned short &seqno, const
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno) ? 0 : *(int*)icbm_cookie & 0x7fffffff;
 }
 
-int CAimProto::aim_query_profile(HANDLE hServerConn, unsigned short &seqno, char* sn)
+int CAimProto::aim_query_profile(HNETLIBCONN hServerConn, unsigned short &seqno, char* sn)
 {
 	unsigned short offset = 0;
 	unsigned short sn_length = (unsigned short)mir_strlen(sn);
@@ -392,7 +392,7 @@ int CAimProto::aim_query_profile(HANDLE hServerConn, unsigned short &seqno, char
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno) == 0;
 }
 
-int CAimProto::aim_delete_contact(HANDLE hServerConn, unsigned short &seqno, char* sn, unsigned short item_id,
+int CAimProto::aim_delete_contact(HNETLIBCONN hServerConn, unsigned short &seqno, char* sn, unsigned short item_id,
 	unsigned short group_id, unsigned short list, bool nil)
 {
 	unsigned short offset = 0;
@@ -409,7 +409,7 @@ int CAimProto::aim_delete_contact(HANDLE hServerConn, unsigned short &seqno, cha
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_add_contact(HANDLE hServerConn, unsigned short &seqno, const char* sn, unsigned short item_id,
+int CAimProto::aim_add_contact(HNETLIBCONN hServerConn, unsigned short &seqno, const char* sn, unsigned short item_id,
 	unsigned short group_id, unsigned short list, char* nick, char* note)
 {
 	unsigned short offset = 0;
@@ -434,7 +434,7 @@ int CAimProto::aim_add_contact(HANDLE hServerConn, unsigned short &seqno, const 
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_mod_group(HANDLE hServerConn, unsigned short &seqno, const char* name, unsigned short group_id,
+int CAimProto::aim_mod_group(HNETLIBCONN hServerConn, unsigned short &seqno, const char* name, unsigned short group_id,
 	char* members, unsigned short members_length)
 {
 	unsigned short offset = 0;
@@ -451,7 +451,7 @@ int CAimProto::aim_mod_group(HANDLE hServerConn, unsigned short &seqno, const ch
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_mod_buddy(HANDLE hServerConn, unsigned short &seqno, const char* sn,
+int CAimProto::aim_mod_buddy(HNETLIBCONN hServerConn, unsigned short &seqno, const char* sn,
 	unsigned short buddy_id, unsigned short group_id,
 	char* nick, char* note)
 {
@@ -475,7 +475,7 @@ int CAimProto::aim_mod_buddy(HANDLE hServerConn, unsigned short &seqno, const ch
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_set_pd_info(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_set_pd_info(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE + TLV_HEADER_SIZE * 3 + 20];
@@ -496,7 +496,7 @@ int CAimProto::aim_set_pd_info(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_ssi_update_preferences(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_ssi_update_preferences(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE + TLV_HEADER_SIZE * 4 + 100];
@@ -525,7 +525,7 @@ int CAimProto::aim_ssi_update_preferences(HANDLE hServerConn, unsigned short &se
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_ssi_update(HANDLE hServerConn, unsigned short &seqno, bool start)
+int CAimProto::aim_ssi_update(HNETLIBCONN hServerConn, unsigned short &seqno, bool start)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE];
@@ -533,13 +533,13 @@ int CAimProto::aim_ssi_update(HANDLE hServerConn, unsigned short &seqno, bool st
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno) == 0;
 }
 
-int CAimProto::aim_keepalive(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_keepalive(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	return aim_sendflap(hServerConn, 0x05, 4, "\x0\x0\x0\xEE", seqno);
 }
 
 // used when requesting a regular file transfer
-int CAimProto::aim_send_file(HANDLE hServerConn, unsigned short &seqno,
+int CAimProto::aim_send_file(HNETLIBCONN hServerConn, unsigned short &seqno,
 	unsigned long ip, unsigned short port,
 	bool force_proxy, file_transfer *ft)
 {
@@ -618,7 +618,7 @@ int CAimProto::aim_send_file(HANDLE hServerConn, unsigned short &seqno,
 }
 
 
-int CAimProto::aim_file_ad(HANDLE hServerConn, unsigned short &seqno, char* sn, char* icbm_cookie, bool deny, unsigned short)
+int CAimProto::aim_file_ad(HNETLIBCONN hServerConn, unsigned short &seqno, char* sn, char* icbm_cookie, bool deny, unsigned short)
 {
 	unsigned short frag_offset = 0;
 	char msg_frag[10 + AIM_CAPS_LENGTH + TLV_HEADER_SIZE * 2 + 6];
@@ -644,7 +644,7 @@ int CAimProto::aim_file_ad(HANDLE hServerConn, unsigned short &seqno, char* sn, 
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno) == 0;
 }
 
-int CAimProto::aim_typing_notification(HANDLE hServerConn, unsigned short &seqno, char* sn, unsigned short type)
+int CAimProto::aim_typing_notification(HNETLIBCONN hServerConn, unsigned short &seqno, char* sn, unsigned short type)
 {
 	unsigned short offset = 0;
 	unsigned short sn_length = (unsigned short)mir_strlen(sn);
@@ -658,7 +658,7 @@ int CAimProto::aim_typing_notification(HANDLE hServerConn, unsigned short &seqno
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_set_idle(HANDLE hServerConn, unsigned short &seqno, unsigned long seconds)
+int CAimProto::aim_set_idle(HNETLIBCONN hServerConn, unsigned short &seqno, unsigned long seconds)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE + 4];
@@ -667,7 +667,7 @@ int CAimProto::aim_set_idle(HANDLE hServerConn, unsigned short &seqno, unsigned 
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_request_mail(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_request_mail(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE + 34];
@@ -680,7 +680,7 @@ int CAimProto::aim_request_mail(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_activate_mail(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_activate_mail(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE + 17];
@@ -689,7 +689,7 @@ int CAimProto::aim_activate_mail(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_request_avatar(HANDLE hServerConn, unsigned short &seqno, const char* sn, unsigned short bart_type, const char* hash, unsigned short hash_size)
+int CAimProto::aim_request_avatar(HNETLIBCONN hServerConn, unsigned short &seqno, const char* sn, unsigned short bart_type, const char* hash, unsigned short hash_size)
 {
 	unsigned short offset = 0;
 	unsigned char sn_length = (unsigned char)mir_strlen(sn);
@@ -702,7 +702,7 @@ int CAimProto::aim_request_avatar(HANDLE hServerConn, unsigned short &seqno, con
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_set_avatar_hash(HANDLE hServerConn, unsigned short &seqno, char flags, unsigned short bart_type, unsigned short &id, char size, const char* hash)
+int CAimProto::aim_set_avatar_hash(HNETLIBCONN hServerConn, unsigned short &seqno, char flags, unsigned short bart_type, unsigned short &id, char size, const char* hash)
 {
 	unsigned short offset = 0;
 
@@ -734,7 +734,7 @@ int CAimProto::aim_set_avatar_hash(HANDLE hServerConn, unsigned short &seqno, ch
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_delete_avatar_hash(HANDLE hServerConn, unsigned short &seqno, char /*flags*/, unsigned short bart_type, unsigned short & id)
+int CAimProto::aim_delete_avatar_hash(HNETLIBCONN hServerConn, unsigned short &seqno, char /*flags*/, unsigned short bart_type, unsigned short & id)
 {
 	unsigned short offset = 0;
 
@@ -757,7 +757,7 @@ int CAimProto::aim_delete_avatar_hash(HANDLE hServerConn, unsigned short &seqno,
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_upload_avatar(HANDLE hServerConn, unsigned short &seqno, unsigned short bart_type, const char* avatar, unsigned short avatar_size)
+int CAimProto::aim_upload_avatar(HNETLIBCONN hServerConn, unsigned short &seqno, unsigned short bart_type, const char* avatar, unsigned short avatar_size)
 {
 	unsigned short offset = 0;
 	char* buf = (char*)alloca(SNAC_SIZE + 22 + avatar_size);
@@ -768,7 +768,7 @@ int CAimProto::aim_upload_avatar(HANDLE hServerConn, unsigned short &seqno, unsi
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_search_by_email(HANDLE hServerConn, unsigned short &seqno, const char* email)
+int CAimProto::aim_search_by_email(HNETLIBCONN hServerConn, unsigned short &seqno, const char* email)
 {
 	unsigned short offset = 0;
 	char em_length = (char)mir_strlen(email);
@@ -778,7 +778,7 @@ int CAimProto::aim_search_by_email(HANDLE hServerConn, unsigned short &seqno, co
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_chatnav_request_limits(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_chatnav_request_limits(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE];
@@ -786,7 +786,7 @@ int CAimProto::aim_chatnav_request_limits(HANDLE hServerConn, unsigned short &se
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno) ? -1 : 0;
 }
 
-int CAimProto::aim_chatnav_create(HANDLE hServerConn, unsigned short &seqno, char* room, unsigned short exchage)
+int CAimProto::aim_chatnav_create(HNETLIBCONN hServerConn, unsigned short &seqno, char* room, unsigned short exchage)
 {
 	//* Join Pseudo Room (Get's the info we need for the real connection)
 	unsigned short room_len = (unsigned short)mir_strlen(room);
@@ -807,7 +807,7 @@ int CAimProto::aim_chatnav_create(HANDLE hServerConn, unsigned short &seqno, cha
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_chatnav_room_info(HANDLE hServerConn, unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance)
+int CAimProto::aim_chatnav_room_info(HNETLIBCONN hServerConn, unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance)
 {
 	unsigned short offset = 0;
 	unsigned short chat_cookie_len = (unsigned short)mir_strlen(chat_cookie);
@@ -821,7 +821,7 @@ int CAimProto::aim_chatnav_room_info(HANDLE hServerConn, unsigned short &seqno, 
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_chat_join_room(HANDLE hServerConn, unsigned short &seqno, char* chat_cookie,
+int CAimProto::aim_chat_join_room(HNETLIBCONN hServerConn, unsigned short &seqno, char* chat_cookie,
 	unsigned short exchange, unsigned short instance, unsigned short id)
 {
 	unsigned short offset = 0;
@@ -843,7 +843,7 @@ int CAimProto::aim_chat_join_room(HANDLE hServerConn, unsigned short &seqno, cha
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_chat_send_message(HANDLE hServerConn, unsigned short &seqno, char *amsg)
+int CAimProto::aim_chat_send_message(HNETLIBCONN hServerConn, unsigned short &seqno, char *amsg)
 {
 	aimString str(amsg);
 
@@ -872,7 +872,7 @@ int CAimProto::aim_chat_send_message(HANDLE hServerConn, unsigned short &seqno, 
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_chat_invite(HANDLE hServerConn, unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance, char* sn, char* msg)
+int CAimProto::aim_chat_invite(HNETLIBCONN hServerConn, unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance, char* sn, char* msg)
 {
 	unsigned short offset = 0;
 	unsigned short chat_cookie_len = (unsigned short)mir_strlen(chat_cookie);
@@ -906,7 +906,7 @@ int CAimProto::aim_chat_invite(HANDLE hServerConn, unsigned short &seqno, char* 
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_chat_deny(HANDLE hServerConn, unsigned short &seqno, char* sn, char* icbm_cookie)
+int CAimProto::aim_chat_deny(HNETLIBCONN hServerConn, unsigned short &seqno, char* sn, char* icbm_cookie)
 {
 	unsigned short offset = 0;
 	unsigned short sn_length = (unsigned short)mir_strlen(sn);
@@ -922,7 +922,7 @@ int CAimProto::aim_chat_deny(HANDLE hServerConn, unsigned short &seqno, char* sn
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno) == 0;
 }
 
-int CAimProto::aim_admin_ready(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_admin_ready(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE + TLV_HEADER_SIZE * 4];
@@ -934,7 +934,7 @@ int CAimProto::aim_admin_ready(HANDLE hServerConn, unsigned short &seqno)
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_admin_format_name(HANDLE hServerConn, unsigned short &seqno, const char* sn)
+int CAimProto::aim_admin_format_name(HNETLIBCONN hServerConn, unsigned short &seqno, const char* sn)
 {
 	unsigned short offset = 0;
 	unsigned short sn_len = (unsigned short)mir_strlen(sn);
@@ -944,7 +944,7 @@ int CAimProto::aim_admin_format_name(HANDLE hServerConn, unsigned short &seqno, 
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_admin_change_email(HANDLE hServerConn, unsigned short &seqno, const char* email)
+int CAimProto::aim_admin_change_email(HNETLIBCONN hServerConn, unsigned short &seqno, const char* email)
 {
 	unsigned short offset = 0;
 	unsigned short email_len = (unsigned short)mir_strlen(email);
@@ -954,7 +954,7 @@ int CAimProto::aim_admin_change_email(HANDLE hServerConn, unsigned short &seqno,
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_admin_change_password(HANDLE hServerConn, unsigned short &seqno, const char* cur_pw, const char* new_pw)
+int CAimProto::aim_admin_change_password(HNETLIBCONN hServerConn, unsigned short &seqno, const char* cur_pw, const char* new_pw)
 {
 	unsigned short offset = 0;
 	unsigned short cur_pw_len = (unsigned short)mir_strlen(cur_pw);
@@ -966,7 +966,7 @@ int CAimProto::aim_admin_change_password(HANDLE hServerConn, unsigned short &seq
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_admin_request_info(HANDLE hServerConn, unsigned short &seqno, const unsigned short &type)
+int CAimProto::aim_admin_request_info(HNETLIBCONN hServerConn, unsigned short &seqno, const unsigned short &type)
 {
 	// types: 0x01 - nickname, 0x11 - email info, 0x13 - registration status
 	unsigned short offset = 0;
@@ -976,7 +976,7 @@ int CAimProto::aim_admin_request_info(HANDLE hServerConn, unsigned short &seqno,
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
-int CAimProto::aim_admin_account_confirm(HANDLE hServerConn, unsigned short &seqno)
+int CAimProto::aim_admin_account_confirm(HNETLIBCONN hServerConn, unsigned short &seqno)
 {
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE + TLV_HEADER_SIZE];

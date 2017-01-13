@@ -23,7 +23,7 @@ void __cdecl CAimProto::accept_file_thread(void* param)//buddy sending file
 {
 	file_transfer *ft = (file_transfer*)param;
 
-	HANDLE hConn = NULL;
+	HNETLIBCONN hConn = NULL;
 	if (ft->peer_force_proxy)  //peer is forcing proxy
 	{
 		hConn = aim_peer_connect(ft->proxy_ip, get_default_port());

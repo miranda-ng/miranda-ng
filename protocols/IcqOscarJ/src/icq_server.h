@@ -56,7 +56,7 @@ struct serverthread_info
 	bool   bMyAvatarInited;
 
 	HANDLE hPacketRecver;
-	HANDLE hDirectBoundPort;
+	HNETLIBBIND hDirectBoundPort;
 };
 
 #endif /* __ICQ_SERVER_H */

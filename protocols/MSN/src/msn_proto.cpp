@@ -23,10 +23,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static const COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 
-int msn_httpGatewayInit(HANDLE hConn,NETLIBOPENCONNECTION *nloc,NETLIBHTTPREQUEST *nlhr);
-int msn_httpGatewayBegin(HANDLE hConn,NETLIBOPENCONNECTION *nloc);
-int msn_httpGatewayWrapSend(HANDLE hConn,PBYTE buf,int len,int flags);
-PBYTE msn_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST *nlhr,PBYTE buf,int len,int *outBufLen,void *(*NetlibRealloc)(void*,size_t));
+int msn_httpGatewayInit(HNETLIBCONN hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPREQUEST *nlhr);
+int msn_httpGatewayBegin(HNETLIBCONN hConn, NETLIBOPENCONNECTION *nloc);
+int msn_httpGatewayWrapSend(HNETLIBCONN hConn, PBYTE buf, int len, int flags);
+PBYTE msn_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST *nlhr, PBYTE buf, int len, int *outBufLen, void *(*NetlibRealloc)(void*, size_t));
 
 static int CompareLists(const MsnContact *p1, const MsnContact *p2)
 {
@@ -541,7 +541,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 			if (nloc.flags & NLOCF_SSL)
 				nlhr.flags |= NLHRF_SSL;
 			
-			HANDLE nlc = Netlib_OpenConnection(m_hNetlibUser, &nloc);
+			HNETLIBCONN nlc = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 			if (nlc && Netlib_SendHttpRequest(nlc, &nlhr) != SOCKET_ERROR && (nlhrReply = Netlib_RecvHttpHeaders(nlc))) {
 				if (nlhrReply->resultCode == 200 || nlhrReply->resultCode == 206) {
 					INT_PTR dw;

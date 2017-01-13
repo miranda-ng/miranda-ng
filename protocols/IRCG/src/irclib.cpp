@@ -358,7 +358,6 @@ void CIrcProto::DoReceive()
 
 	if (m_info.bIdentServer && m_info.iIdentServerPort != NULL) {
 		NETLIBBIND nb = {};
-		nb.cbSize = sizeof(NETLIBBIND);
 		nb.pfnNewConnectionV2 = DoIdent;
 		nb.pExtra = this;
 		nb.wPort = m_info.iIdentServerPort;
@@ -875,10 +874,8 @@ int CDccSession::SetupConnection()
 	// create a listening socket for outgoing chat/send requests. The remote computer connects to this computer. Used for both chat and filetransfer.
 	if (di->bSender && !di->bReverse) {
 		NETLIBBIND nb = {};
-		nb.cbSize = sizeof(NETLIBBIND);
 		nb.pfnNewConnectionV2 = DoIncomingDcc; // this is the (helper) function to be called once an incoming connection is made. The 'real' function that is called is IncomingConnection()
-		nb.pExtra = (void *)this;
-		nb.wPort = 0;
+		nb.pExtra = this;
 		
 		hBindPort = Netlib_BindPort(m_proto->hNetlibDCC, &nb);
 		if (hBindPort == NULL) {
@@ -954,10 +951,8 @@ int CDccSession::SetupConnection()
 		// hack for passive filetransfers
 		if (di->iType == DCC_SEND && !di->bSender && di->bReverse) {
 			NETLIBBIND nb = {};
-			nb.cbSize = sizeof(NETLIBBIND);
 			nb.pfnNewConnectionV2 = DoIncomingDcc; // this is the (helper) function to be called once an incoming connection is made. The 'real' function that is called is IncomingConnection()
-			nb.pExtra = (void *)this;
-			nb.wPort = 0;
+			nb.pExtra = this;
 
 			hBindPort = Netlib_BindPort(m_proto->hNetlibDCC, &nb);
 			if (hBindPort == NULL) {
@@ -1015,7 +1010,7 @@ int CDccSession::SetupConnection()
 }
 
 // called by netlib for incoming connections on a listening socket (chat/filetransfer)
-int CDccSession::IncomingConnection(HANDLE hConnection, DWORD dwIP)
+int CDccSession::IncomingConnection(HNETLIBCONN hConnection, DWORD dwIP)
 {
 	con = hConnection;
 	if (con == NULL) {
@@ -1380,7 +1375,7 @@ VOID CALLBACK DCCTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 }
 
 // helper function for incoming dcc connections.
-void DoIncomingDcc(HANDLE hConnection, DWORD dwRemoteIP, void * p1)
+void DoIncomingDcc(HNETLIBCONN hConnection, DWORD dwRemoteIP, void * p1)
 {
 	CDccSession *dcc = (CDccSession*)p1;
 	dcc->IncomingConnection(hConnection, dwRemoteIP);
@@ -1388,7 +1383,7 @@ void DoIncomingDcc(HANDLE hConnection, DWORD dwRemoteIP, void * p1)
 
 // ident server
 
-void DoIdent(HANDLE hConnection, DWORD, void* extra)
+void DoIdent(HNETLIBCONN hConnection, DWORD, void* extra)
 {
 	CIrcProto *ppro = (CIrcProto*)extra;
 

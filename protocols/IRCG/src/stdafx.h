@@ -447,7 +447,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	void      AddToJTemp(wchar_t op, CMStringW& sCommand);
 	bool      AddWindowItemData(CMStringW window, const wchar_t *pszLimit, const wchar_t *pszMode, const wchar_t *pszPassword, const wchar_t *pszTopic);
 	INT_PTR   DoEvent(int iEvent, const wchar_t *pszWindow, const wchar_t *pszNick, const wchar_t *pszText, const wchar_t *pszStatus, const wchar_t *pszUserInfo, DWORD_PTR dwItemData, bool bAddToLog, bool bIsMe, time_t timestamp = 1);
-	void      FindLocalIP(HANDLE con);
+	void      FindLocalIP(HNETLIBCONN con);
 	bool      FreeWindowItemData(CMStringW window, CHANNELINFO* wis);
 	bool      IsChannel(const char* sName);
 	bool      IsChannel(const wchar_t* sName);
@@ -502,8 +502,8 @@ struct CIrcProto : public PROTO<CIrcProto>
 
 protected:
 	int codepage;
-	HANDLE con;
-	HANDLE hBindPort;
+	HNETLIBCONN con;
+	HNETLIBBIND hBindPort;
 	void DoReceive();
 	LIST<CDccSession> m_dcc_chats;
 	LIST<CDccSession> m_dcc_xfers;

@@ -16,7 +16,7 @@
 
 #include "stdafx.h"
 
-HANDLE ghConnection;
+HNETLIBCONN ghConnection;
 HANDLE ghPacketReciever;
 BOOL Connected;
 int gbState;
@@ -262,8 +262,6 @@ void Stop()
 		Netlib_CloseHandle(ghPacketReciever);
 	if(ghConnection)
 		Netlib_CloseHandle(ghConnection);
-	if(ghNetlibUser && (ghNetlibUser != INVALID_HANDLE_VALUE))
-		Netlib_Shutdown(ghNetlibUser);
 }
 
 int Init()

@@ -80,7 +80,7 @@ void CJabberProto::IqResultProxyDiscovery(HXML iqNode, CJabberIqInfo *pInfo)
 		SetEvent(jbt->hProxyEvent);
 }
 
-void JabberByteSendConnection(HANDLE hConn, DWORD /*dwRemoteIP*/, void* extra)
+void JabberByteSendConnection(HNETLIBCONN hConn, DWORD /*dwRemoteIP*/, void* extra)
 {
 	CJabberProto *ppro = (CJabberProto*)extra;
 	wchar_t szPort[8];
@@ -193,7 +193,6 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 				localAddr = getStringA("BsDirectAddr");
 
 			NETLIBBIND nlb = {};
-			nlb.cbSize = sizeof(NETLIBBIND);
 			nlb.pfnNewConnectionV2 = JabberByteSendConnection;
 			nlb.pExtra = this;
 			nlb.wPort = 0;	// Use user-specified incoming port ranges, if available
@@ -315,7 +314,7 @@ void CJabberProto::ByteInitiateResult(HXML iqNode, CJabberIqInfo *pInfo)
 		SetEvent(jbt->hProxyEvent);
 }
 
-int CJabberProto::ByteSendParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen)
+int CJabberProto::ByteSendParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen)
 {
 	int nMethods;
 	BYTE data[10];
@@ -428,7 +427,6 @@ void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 {
 	wchar_t *szHost, *szPort;
 	WORD port;
-	HANDLE hConn;
 	char data[3];
 	char* buffer;
 	int datalen, bytesParsed, recvResult;
@@ -454,7 +452,7 @@ void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 	nloc.cbSize = sizeof(nloc);
 	nloc.szHost = mir_u2a(szHost);
 	nloc.wPort = port;
-	hConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
+	HNETLIBCONN hConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 	mir_free((void*)nloc.szHost);
 
 	if (hConn != NULL) {
@@ -490,7 +488,7 @@ void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 			<< XCHILDNS(L"item-not-found", L"urn:ietf:params:xml:ns:xmpp-stanzas"));
 }
 
-int CJabberProto::ByteSendProxyParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen)
+int CJabberProto::ByteSendProxyParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen)
 {
 	int num = datalen;
 
@@ -593,7 +591,6 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 	const wchar_t *sid = NULL, *from = NULL, *to = NULL, *szId = NULL, *szHost, *szPort, *str;
 	int i;
 	WORD port;
-	HANDLE hConn;
 	char data[3];
 	char* buffer;
 	int datalen, bytesParsed, recvResult;
@@ -634,7 +631,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 					nloc.cbSize = sizeof(nloc);
 					nloc.szHost = mir_u2a(szHost);
 					nloc.wPort = port;
-					hConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
+					HNETLIBCONN hConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 					mir_free((void*)nloc.szHost);
 
 					if (hConn == NULL) {
@@ -686,7 +683,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 	debugLogA("Thread ended: type=bytestream_recv");
 }
 
-int CJabberProto::ByteReceiveParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen)
+int CJabberProto::ByteReceiveParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen)
 {
 	int bytesReceived, num = datalen;
 

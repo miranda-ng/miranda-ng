@@ -50,7 +50,7 @@ void __cdecl CMsnProto::msn_keepAliveThread(void*)
 			p2p_clearDormantSessions();
 #endif
 			if (hHttpsConnection && (clock() - mHttpsTS) > 60 * CLOCKS_PER_SEC) {
-				HANDLE hConn = hHttpsConnection;
+				HNETLIBCONN hConn = hHttpsConnection;
 				hHttpsConnection = NULL;
 				Netlib_Shutdown(hConn);
 			}
@@ -608,7 +608,7 @@ ThreadData::~ThreadData()
 	mir_free(mData);
 }
 
-void ThreadData::applyGatewayData(HANDLE hConn, bool isPoll)
+void ThreadData::applyGatewayData(HNETLIBCONN hConn, bool isPoll)
 {
 	char szHttpPostUrl[300];
 	getGatewayUrl(szHttpPostUrl, sizeof(szHttpPostUrl), isPoll);

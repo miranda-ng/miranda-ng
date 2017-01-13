@@ -212,7 +212,6 @@ protected:
 
 	// events
 	int OnModulesLoaded(WPARAM, LPARAM);
-	int OnPreShutdown(WPARAM, LPARAM);
 	int __cdecl OnIdleChanged(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);

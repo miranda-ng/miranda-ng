@@ -1361,7 +1361,7 @@ DWORD ICQWaitForSingleObject(HANDLE hObject, DWORD dwMilliseconds, int bWaitAlwa
 }
 
 
-HANDLE NetLib_OpenConnection(HNETLIBUSER hUser, const char* szIdent, NETLIBOPENCONNECTION* nloc)
+HNETLIBCONN NetLib_OpenConnection(HNETLIBUSER hUser, const char* szIdent, NETLIBOPENCONNECTION* nloc)
 {
 	Netlib_Logf(hUser, "%sConnecting to %s:%u", szIdent ? szIdent : "", nloc->szHost, nloc->wPort);
 
@@ -1371,15 +1371,14 @@ HANDLE NetLib_OpenConnection(HNETLIBUSER hUser, const char* szIdent, NETLIBOPENC
 }
 
 
-HANDLE CIcqProto::NetLib_BindPort(NETLIBNEWCONNECTIONPROC_V2 pFunc, void* lParam, WORD* pwPort, DWORD* pdwIntIP)
+HNETLIBBIND CIcqProto::NetLib_BindPort(NETLIBNEWCONNECTIONPROC_V2 pFunc, void* lParam, WORD* pwPort, DWORD* pdwIntIP)
 {
 	NETLIBBIND nlb = {};
-	nlb.cbSize = sizeof(NETLIBBIND);
 	nlb.pfnNewConnectionV2 = pFunc;
 	nlb.pExtra = lParam;
 	SetLastError(ERROR_INVALID_PARAMETER); // this must be here - NetLib does not set any error :((
 	
-	HANDLE hBoundPort = Netlib_BindPort(m_hDirectNetlibUser, &nlb);
+	HNETLIBBIND hBoundPort = Netlib_BindPort(m_hDirectNetlibUser, &nlb);
 
 	if (pwPort) *pwPort = nlb.wPort;
 	if (pdwIntIP) *pdwIntIP = nlb.dwInternalIP;
@@ -1388,10 +1387,11 @@ HANDLE CIcqProto::NetLib_BindPort(NETLIBNEWCONNECTIONPROC_V2 pFunc, void* lParam
 }
 
 
-void NetLib_CloseConnection(HANDLE *hConnection, int bServerConn)
+void NetLib_CloseConnection(HNETLIBCONN *hConnection, int bServerConn)
 {
 	if (*hConnection) {
-		NetLib_SafeCloseHandle(hConnection);
+		Netlib_CloseHandle(*hConnection);
+		*hConnection = NULL;
 
 		if (bServerConn)
 			FreeGatewayIndex(*hConnection);

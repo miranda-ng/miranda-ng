@@ -20,7 +20,7 @@ Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 HNETLIBUSER hNetlibUser = NULL;
-HANDLE hNetlibHttp;
+HNETLIBCONN hNetlibHttp;
 bool UpdateListFlag = FALSE;
 
 bool IsMyContact(MCONTACT hContact)

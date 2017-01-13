@@ -354,14 +354,14 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_GetConnNlu(HANDLE hConn)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) Netlib_Shutdown(HANDLE h)
+MIR_APP_DLL(void) Netlib_Shutdown(HNETLIBCONN h)
 {
 	if (h) {
 		WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
 		switch (GetNetlibHandleType(h)) {
 		case NLH_CONNECTION:
 			{
-				NetlibConnection *nlc = (NetlibConnection*)h;
+				NetlibConnection *nlc = h;
 				if (!nlc->termRequested) {
 					if (nlc->hSsl) sslApi.shutdown(nlc->hSsl);
 					if (nlc->s != INVALID_SOCKET) shutdown(nlc->s, 2);
@@ -372,7 +372,7 @@ MIR_APP_DLL(void) Netlib_Shutdown(HANDLE h)
 			break;
 
 		case NLH_BOUNDPORT:
-			struct NetlibBoundPort *nlb = (NetlibBoundPort*)h;
+			NetlibBoundPort *nlb = (NetlibBoundPort*)h;
 			if (nlb->s != INVALID_SOCKET)
 				shutdown(nlb->s, 2);
 			break;
@@ -403,10 +403,9 @@ void UnloadNetlibModule(void)
 
 int LoadNetlibModule(void)
 {
-	WSADATA wsadata;
-
 	bModuleInitialized = TRUE;
 
+	WSADATA wsadata;
 	WSAStartup(MAKEWORD(2, 2), &wsadata);
 
 	HookEvent(ME_OPT_INITIALISE, NetlibOptInitialise);

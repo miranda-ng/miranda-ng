@@ -44,8 +44,8 @@ struct JABBER_BYTE_TRANSFER
 	HANDLE hConn;
 	HANDLE hEvent;
 	HXML   iqNode;
-	BOOL (CJabberProto::*pfnSend)(HANDLE hConn, filetransfer *ft);
-	int (CJabberProto::*pfnRecv)(HANDLE hConn, filetransfer *ft, char* buffer, int datalen);
+	BOOL (CJabberProto::*pfnSend)(HNETLIBCONN hConn, filetransfer *ft);
+	int (CJabberProto::*pfnRecv)(HNETLIBCONN hConn, filetransfer *ft, char* buffer, int datalen);
 	void (CJabberProto::*pfnFinal)(BOOL success, filetransfer *ft);
 	filetransfer *ft;
 

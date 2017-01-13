@@ -87,8 +87,8 @@ public:
 	HANDLE events_loop_event_;
 	
 	// Handles
-	HANDLE hConnection;
-	HANDLE hEventsConnection;
+	HNETLIBCONN hConnection;
+	HNETLIBCONN hEventsConnection;
 	HANDLE chatHandle_;
 
 	// Data storage

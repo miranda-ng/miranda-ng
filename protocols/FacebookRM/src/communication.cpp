@@ -1183,7 +1183,7 @@ bool facebook_client::post_status(status_data *status)
 
 //////////////////////////////////////////////////////////////////////////////
 
-bool facebook_client::save_url(const std::string &url, const std::wstring &filename, HANDLE &nlc)
+bool facebook_client::save_url(const std::string &url, const std::wstring &filename, HNETLIBCONN &nlc)
 {
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	NETLIBHTTPREQUEST *resp;

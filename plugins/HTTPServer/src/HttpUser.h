@@ -45,7 +45,7 @@ static char * szParmStr[eLastParam] = {
 
 class CLHttpUser : public CLShareUser {
 public:
-	CLHttpUser(HANDLE hCon, in_addr stAdd);
+	CLHttpUser(HNETLIBCONN hCon, in_addr stAdd);
 	virtual ~CLHttpUser();
 
 	bool bReadGetParameters(char * pszRequest);

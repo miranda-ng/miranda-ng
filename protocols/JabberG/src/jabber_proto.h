@@ -303,10 +303,10 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   IqResultProxyDiscovery(HXML iqNode, CJabberIqInfo *pInfo);
 	void   ByteInitiateResult(HXML iqNode, CJabberIqInfo *pInfo);
 	void   ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt);
-	int    ByteSendParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen);
+	int    ByteSendParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen);
 	void   IqResultStreamActivate(HXML iqNode, CJabberIqInfo *pInfo);
-	int    ByteReceiveParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen);
-	int    ByteSendProxyParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen);
+	int    ByteReceiveParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen);
+	int    ByteSendProxyParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen);
 
 	//---- jabber_caps.cpp ---------------------------------------------------------------
 
@@ -378,7 +378,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	//---- jabber_file.cpp ---------------------------------------------------------------
 
 	int    FileReceiveParse(filetransfer *ft, char* buffer, int datalen);
-	int    FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer, int datalen);
+	int    FileSendParse(HNETLIBCONN s, filetransfer *ft, char* buffer, int datalen);
 
 	void   UpdateChatUserStatus(wchar_t* chat_jid, wchar_t* jid, wchar_t* nick, int role, int affil, int status, BOOL update_nick);
 
@@ -498,9 +498,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	void   OnFtSiResult(HXML iqNode, CJabberIqInfo *pInfo);
 	BOOL   FtIbbSend(int blocksize, filetransfer *ft);
-	BOOL   FtSend(HANDLE hConn, filetransfer *ft);
+	BOOL   FtSend(HNETLIBCONN hConn, filetransfer *ft);
 	void   FtSendFinal(BOOL success, filetransfer *ft);
-	int    FtReceive(HANDLE hConn, filetransfer *ft, char* buffer, int datalen);
+	int    FtReceive(HNETLIBCONN hConn, filetransfer *ft, char* buffer, int datalen);
 	void   FtReceiveFinal(BOOL success, filetransfer *ft);
 
 	//---- jabber_iqid.cpp ---------------------------------------------------------------
@@ -765,12 +765,12 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_ws.c -------------------------------------------------
 
-	JABBER_SOCKET WsConnect(char* host, WORD port);
+	HNETLIBCONN WsConnect(char* host, WORD port);
 
 	BOOL   WsInit(void);
 	void   WsUninit(void);
-	int    WsSend(JABBER_SOCKET s, char* data, int datalen, int flags);
-	int    WsRecv(JABBER_SOCKET s, char* data, long datalen, int flags);
+	int    WsSend(HNETLIBCONN s, char* data, int datalen, int flags);
+	int    WsRecv(HNETLIBCONN s, char* data, long datalen, int flags);
 
 	//---- jabber_xml.c ------------------------------------------------------------------
 

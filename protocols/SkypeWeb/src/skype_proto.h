@@ -139,10 +139,8 @@ private:
 	std::map<std::string, std::string> cookies;
 	static std::map<std::wstring, std::wstring> languages;
 
-	HANDLE m_pollingConnection,
-		m_hPollingThread,
-		m_hTrouterThread,
-		m_TrouterConnection;
+	HNETLIBCONN m_pollingConnection, m_TrouterConnection;
+	HANDLE m_hPollingThread, m_hTrouterThread;
 
 	TRInfo TRouter;
 

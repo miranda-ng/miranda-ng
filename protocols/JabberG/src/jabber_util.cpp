@@ -889,7 +889,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 	Thread_SetName("Jabber: LoadHttpAvatars");
 
 	OBJLIST<JABBER_HTTP_AVATARS> &avs = *(OBJLIST<JABBER_HTTP_AVATARS>*)param;
-	HANDLE hHttpCon = NULL;
+	HNETLIBCONN hHttpCon = NULL;
 	for (int i = 0; i < avs.getCount(); i++) {
 		NETLIBHTTPREQUEST nlhr = { 0 };
 		nlhr.cbSize = sizeof(nlhr);

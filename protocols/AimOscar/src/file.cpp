@@ -530,7 +530,6 @@ void file_transfer::listen(CAimProto* ppro)
 	if (hDirectBoundPort) return;
 
 	NETLIBBIND nlb = {};
-	nlb.cbSize = sizeof(nlb);
 	nlb.pfnNewConnectionV2 = aim_direct_connection_initiated;
 	nlb.pExtra = ppro;
 	hDirectBoundPort = Netlib_BindPort(ppro->m_hNetlibPeer, &nlb);

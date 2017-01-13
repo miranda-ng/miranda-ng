@@ -184,7 +184,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	HANDLE		msnSearchId;
 	HNETLIBUSER	hNetlibUserHttps;
-	HANDLE		hHttpsConnection;
+	HNETLIBCONN hHttpsConnection;
 	HANDLE		hMSNNudge;
 	HANDLE      hPopupError, hPopupHotmail, hPopupNotify;
 

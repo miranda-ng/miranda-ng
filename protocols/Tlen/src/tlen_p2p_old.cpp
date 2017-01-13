@@ -114,7 +114,7 @@ void TlenP2PInit() {
 void TlenP2PUninit() {
 }
 
-int TlenP2PPacketSend(HANDLE s, TLEN_FILE_PACKET *packet)
+int TlenP2PPacketSend(HNETLIBCONN s, TLEN_FILE_PACKET *packet)
 {
 	DWORD sendResult;
 	if (packet != NULL && packet->packet != NULL) {
@@ -126,7 +126,7 @@ int TlenP2PPacketSend(HANDLE s, TLEN_FILE_PACKET *packet)
 	return 1;
 }
 
-TLEN_FILE_PACKET* TlenP2PPacketReceive(HANDLE s)
+TLEN_FILE_PACKET* TlenP2PPacketReceive(HNETLIBCONN s)
 {
 	DWORD type, len, pos;
 	DWORD recvResult = Netlib_Recv(s, (char *)&type, 4, MSG_NODUMP);
@@ -182,7 +182,7 @@ void TlenP2PEstablishOutgoingConnection(TLEN_FILE_TRANSFER *ft, BOOL sendAck)
 	}
 }
 
-TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, HANDLE s, TLEN_LIST list, BOOL sendAck)
+TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, HNETLIBCONN s, TLEN_LIST list, BOOL sendAck)
 {
 	char str[300];
 	DWORD iqId;
@@ -290,7 +290,7 @@ static void __cdecl TlenFileBindSocks5Thread(TLEN_FILE_TRANSFER* ft)
 
 }
 
-static HANDLE TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
+static HNETLIBCONN TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 {	//rfc1928
 	int len;
 	BYTE buf[256];
@@ -300,7 +300,7 @@ static HANDLE TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 	nloc.szHost = sb->szHost;
 	nloc.wPort = sb->wPort;
-	HANDLE s = Netlib_OpenConnection(ft->proto->hFileNetlibUser, &nloc);
+	HNETLIBCONN s = Netlib_OpenConnection(ft->proto->hFileNetlibUser, &nloc);
 	if (s == NULL) {
 //		TlenLog("Connection failed (%d), thread ended", WSAGetLastError());
 		return NULL;
@@ -343,7 +343,7 @@ static HANDLE TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	return s;
 }
 
-static HANDLE TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
+static HNETLIBCONN TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 {	//rfc1928
 	BYTE buf[512];
 	int len, status;
@@ -352,7 +352,7 @@ static HANDLE TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 	nloc.szHost = sb->szHost;
 	nloc.wPort = sb->wPort;
-	HANDLE s = Netlib_OpenConnection(ft->proto->hFileNetlibUser, &nloc);
+	HNETLIBCONN s = Netlib_OpenConnection(ft->proto->hFileNetlibUser, &nloc);
 	if (s == NULL) {
 		ft->proto->debugLogA("Connection failed (%d), thread ended", WSAGetLastError());
 		return NULL;
@@ -441,9 +441,9 @@ static HANDLE TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 }
 
 
-HANDLE TlenP2PListen(TLEN_FILE_TRANSFER *ft)
+HNETLIBCONN TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 {
-	HANDLE s = NULL;
+	HNETLIBCONN s = NULL;
 	int	  useProxy;
 	DBVARIANT dbv;
 	SOCKSBIND sb;
@@ -493,12 +493,11 @@ HANDLE TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 
 	NETLIBBIND nlb = {};
 	if (useProxy<2) {
-		nlb.cbSize = sizeof(NETLIBBIND);
 		nlb.pfnNewConnectionV2 = ft->pfnNewConnectionV2;
 		nlb.wPort = 0;	// Use user-specified incoming port ranges, if available
 		nlb.pExtra = proto;
 		ft->proto->debugLogA("Calling MS_NETLIB_BINDPORT");
-		s = Netlib_BindPort(ft->proto->m_hNetlibUser, &nlb);
+		s = (HNETLIBCONN)Netlib_BindPort(ft->proto->m_hNetlibUser, &nlb);
 		ft->proto->debugLogA("listening on %d",s);
 	}
 	if (useProxy == 0) {

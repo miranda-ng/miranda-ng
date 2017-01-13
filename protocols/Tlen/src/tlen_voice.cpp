@@ -43,7 +43,7 @@ static HBITMAP vuMeterBitmaps[100];
 
 static void TlenVoiceReceiveParse(TLEN_FILE_TRANSFER *ft);
 static void TlenVoiceSendParse(TLEN_FILE_TRANSFER *ft);
-static void TlenVoiceReceivingConnection(HANDLE hNewConnection, DWORD dwRemoteIP, void * pExtra);
+static void TlenVoiceReceivingConnection(HNETLIBCONN hNewConnection, DWORD dwRemoteIP, void * pExtra);
 
 static void CALLBACK TlenVoicePlaybackCallback(HWAVEOUT hwo, UINT uMsg, DWORD* dwInstance, DWORD dwParam1, DWORD)
 {
@@ -297,7 +297,7 @@ static void __cdecl TlenVoiceReceiveThread(void  *arg)
 	NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 	nloc.szHost = ft->hostName;
 	nloc.wPort = ft->wPort;
-	HANDLE s = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
+	HNETLIBCONN s = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
 	if (s != NULL) {
 		ft->s = s;
 		ft->proto->debugLogA("Entering file receive loop");
@@ -322,7 +322,7 @@ static void __cdecl TlenVoiceReceiveThread(void  *arg)
 	else {
 		ft->proto->debugLogA("Connection failed - receiving as server");
 		ft->pfnNewConnectionV2 = TlenVoiceReceivingConnection;
-		s = TlenP2PListen(ft);
+		s = (HNETLIBCONN)TlenP2PListen(ft);
 		if (s != NULL) {
 			SetDlgItemText(ft->proto->voiceDlgHWND, IDC_STATUS, TranslateT("...Waiting for connection..."));
 			ft->s = s;
@@ -362,9 +362,9 @@ static void __cdecl TlenVoiceReceiveThread(void  *arg)
 	TlenP2PFreeFileTransfer(ft);
 }
 
-static void TlenVoiceReceivingConnection(HANDLE hConnection, DWORD, void * pExtra)
+static void TlenVoiceReceivingConnection(HNETLIBCONN hConnection, DWORD, void * pExtra)
 {
-	HANDLE slisten;
+	HNETLIBCONN slisten;
 	TlenProtocol *proto = (TlenProtocol *)pExtra;
 
 	TLEN_FILE_TRANSFER *ft = TlenP2PEstablishIncomingConnection(proto, hConnection, LIST_VOICE, FALSE);
@@ -517,7 +517,7 @@ static void __cdecl TlenVoiceSendingThread(void *arg)
 
 	ft->proto->debugLogA("Thread started: type=voice_send");
 	ft->pfnNewConnectionV2 = TlenVoiceReceivingConnection;
-	HANDLE s = TlenP2PListen(ft);
+	HNETLIBCONN s = (HNETLIBCONN)TlenP2PListen(ft);
 	if (s != NULL) {
 		SetDlgItemText(ft->proto->voiceDlgHWND, IDC_STATUS, TranslateT("...Waiting for connection..."));
 		//ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
@@ -549,7 +549,7 @@ static void __cdecl TlenVoiceSendingThread(void *arg)
 			NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 			nloc.szHost = ft->hostName;
 			nloc.wPort = ft->wPort;
-			HANDLE sock = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
+			HNETLIBCONN sock = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
 			if (sock != NULL) {
 				SetDlgItemText(ft->proto->voiceDlgHWND, IDC_STATUS, TranslateT("...Connecting..."));
 				//ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);

@@ -63,7 +63,7 @@ int aim_writetlvlong64(unsigned short type, unsigned __int64 value, unsigned sho
 }
 
 
-int CAimProto::aim_sendflap(HANDLE hServerConn, char type,unsigned short length,const char *buf, unsigned short &seqno)
+int CAimProto::aim_sendflap(HNETLIBCONN hServerConn, char type, unsigned short length, const char *buf, unsigned short &seqno)
 {
 	mir_cslock lck(SendingMutex);
 	const int slen = FLAP_SIZE + length;

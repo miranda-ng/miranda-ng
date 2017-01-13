@@ -45,7 +45,7 @@ void CJabberProto::WsUninit(void)
 	m_hNetlibUser = NULL;
 }
 
-JABBER_SOCKET CJabberProto::WsConnect(char* host, WORD port)
+HNETLIBCONN CJabberProto::WsConnect(char* host, WORD port)
 {
 	NETLIBOPENCONNECTION nloc = {};
 	nloc.cbSize = sizeof(nloc);
@@ -55,7 +55,7 @@ JABBER_SOCKET CJabberProto::WsConnect(char* host, WORD port)
 	return Netlib_OpenConnection(m_hNetlibUser, &nloc);
 }
 
-int CJabberProto::WsSend(JABBER_SOCKET hConn, char* data, int datalen, int flags)
+int CJabberProto::WsSend(HNETLIBCONN hConn, char* data, int datalen, int flags)
 {
 	m_lastTicks = ::GetTickCount();
 	int len;
@@ -67,7 +67,7 @@ int CJabberProto::WsSend(JABBER_SOCKET hConn, char* data, int datalen, int flags
 	return len;
 }
 
-int CJabberProto::WsRecv(JABBER_SOCKET hConn, char* data, long datalen, int flags)
+int CJabberProto::WsRecv(HNETLIBCONN hConn, char* data, long datalen, int flags)
 {
 	int ret;
 

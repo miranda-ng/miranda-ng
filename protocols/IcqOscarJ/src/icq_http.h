@@ -35,10 +35,10 @@
 #define HTTP_PACKETTYPE_CLOSE        6    /* contains no data */
 #define HTTP_PACKETTYPE_CLOSEREPLY   7    /* contains 1 byte: 0 */
 
-int icq_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPREQUEST *nlhr);
-int icq_httpGatewayBegin(HANDLE hConn, NETLIBOPENCONNECTION *nloc);
-int icq_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags);
+int icq_httpGatewayInit(HNETLIBCONN hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPREQUEST *nlhr);
+int icq_httpGatewayBegin(HNETLIBCONN hConn, NETLIBOPENCONNECTION *nloc);
+int icq_httpGatewayWrapSend(HNETLIBCONN hConn, PBYTE buf, int len, int flags);
 PBYTE icq_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST *nlhr, PBYTE buf, int bufLen, int *outBufLen, void *(*NetlibRealloc)(void *, size_t));
-int icq_httpGatewayWalkTo(HANDLE hConn, NETLIBOPENCONNECTION* nloc);
+int icq_httpGatewayWalkTo(HNETLIBCONN hConn, NETLIBOPENCONNECTION* nloc);
 
 #endif /* __ICQ_HTTP_H */

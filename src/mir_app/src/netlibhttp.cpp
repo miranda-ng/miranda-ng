@@ -367,9 +367,8 @@ static int SendHttpRequestAndData(NetlibConnection *nlc, CMStringA &httpRequest,
 	return bytesSent;
 }
 
-MIR_APP_DLL(int) Netlib_SendHttpRequest(HANDLE hConnection, NETLIBHTTPREQUEST *nlhr)
+MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr)
 {
-	NetlibConnection *nlc = (NetlibConnection*)hConnection;
 	NETLIBHTTPREQUEST *nlhrReply = NULL;
 	HttpSecurityContext httpSecurity;
 
@@ -717,7 +716,7 @@ MIR_APP_DLL(bool) Netlib_FreeHttpRequest(NETLIBHTTPREQUEST *nlhr)
 
 #define NHRV_BUF_SIZE 8192
 
-MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HANDLE hConnection, int flags)
+MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HNETLIBCONN hConnection, int flags)
 {
 	NetlibConnection *nlc = (NetlibConnection*)hConnection;
 	if (!NetlibEnterNestedCS(nlc, NLNCS_RECV))

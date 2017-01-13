@@ -85,7 +85,7 @@ public:
 protected:
 	http::response slurp(const std::string &,http::method, OAuthParameters );
 
-	HANDLE httpPOST_;
+	HNETLIBCONN httpPOST_;
 	HNETLIBUSER handle_;
 	PROTO_INTERFACE *ppro_;
 };

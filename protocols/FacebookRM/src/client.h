@@ -50,9 +50,9 @@ public:
 		loading_history = false;
 	}
 
-	HANDLE hChannelCon;
-	HANDLE hMessagesCon;
-	HANDLE hFcbCon;
+	HNETLIBCONN hChannelCon;
+	HNETLIBCONN hMessagesCon;
+	HNETLIBCONN hFcbCon;
 	HANDLE fcb_conn_lock_;
 
 	// Random generator value for this client
@@ -214,7 +214,7 @@ public:
 	// HTTP communication
 
 	http::response sendRequest(HttpRequest *request);
-	bool save_url(const std::string &url,const std::wstring &filename, HANDLE &nlc);
+	bool save_url(const std::string &url, const std::wstring &filename, HNETLIBCONN &nlc);
 
 	////////////////////////////////////////////////////////////
 	// Netlib handle

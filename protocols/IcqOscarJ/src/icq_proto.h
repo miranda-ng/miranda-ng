@@ -400,7 +400,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	int    GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, const BYTE *hash, size_t hashlen, const wchar_t *file);
 	int    SetAvatarData(MCONTACT hContact, WORD wRef, const BYTE *data, size_t datalen);
 
-	void   StartAvatarThread(HANDLE hConn, char* cookie, size_t cookieLen);
+	void   StartAvatarThread(HNETLIBCONN hConn, char* cookie, size_t cookieLen);
 	void   StopAvatarThread();
 
 	//----| icq_clients.cpp |-------------------------------------------------------------
@@ -533,7 +533,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	int    handleRateItem(rates_queue_item *item, int nQueueType = RQT_DEFAULT, int nMinDelay = 0, BOOL bAllowDelay = TRUE);
 
 	//----| icq_server.cpp |--------------------------------------------------------------
-	HANDLE hServerConn;
+	HNETLIBCONN hServerConn;
 	WORD   wListenPort;
 	WORD   wLocalSequence;
 	UINT   serverThreadId;
@@ -679,7 +679,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	//----| stdpackets.cpp |----------------------------------------------------------
 	void   icq_sendCloseConnection();
 
-	void   icq_requestnewfamily(WORD wFamily, void (CIcqProto::*familyhandler)(HANDLE hConn, char* cookie, size_t cookieLen));
+	void   icq_requestnewfamily(WORD wFamily, void (CIcqProto::*familyhandler)(HNETLIBCONN hConn, char* cookie, size_t cookieLen));
 
 	void   icq_setidle(int bAllow);
 	void   icq_setstatus(WORD wStatus, const char *szStatusNote = NULL);
@@ -876,7 +876,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   AddToSpammerList(DWORD dwUIN);
 	BOOL   IsOnSpammerList(DWORD dwUIN);
 
-	HANDLE NetLib_BindPort(NETLIBNEWCONNECTIONPROC_V2 pFunc, void* lParam, WORD *pwPort, DWORD *pdwIntIP);
+	HNETLIBBIND NetLib_BindPort(NETLIBNEWCONNECTIONPROC_V2 pFunc, void* lParam, WORD *pwPort, DWORD *pdwIntIP);
 
 	MCONTACT HandleFromCacheByUid(DWORD dwUin, const char *szUid);
 	MCONTACT HContactFromUIN(DWORD dwUin, int *Added);

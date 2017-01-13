@@ -42,7 +42,7 @@ struct CIcqProto;
 class avatars_server_connection : public MZeroedObject
 {
 	CIcqProto *ppro;
-	HANDLE hConnection;  // handle to the connection
+	HNETLIBCONN hConnection;  // handle to the connection
 	HANDLE hPacketRecver;
 	WORD   wLocalSequence;
 	mir_cs localSeqMutex, connMutex;
@@ -73,7 +73,7 @@ class avatars_server_connection : public MZeroedObject
 	void     checkRequestQueue();
 
 public:
-	avatars_server_connection(CIcqProto *ppro, HANDLE hConnection, char *pCookie, size_t wCookieLen);
+	avatars_server_connection(CIcqProto *ppro, HNETLIBCONN hConnection, char *pCookie, size_t wCookieLen);
 	virtual ~avatars_server_connection();
 
 	void connectionThread();

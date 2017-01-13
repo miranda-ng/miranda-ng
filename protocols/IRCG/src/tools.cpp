@@ -589,7 +589,7 @@ bool CIrcProto::AddWindowItemData(CMStringW window, const wchar_t* pszLimit, con
 	return false;
 }
 
-void CIrcProto::FindLocalIP(HANDLE hConn) // inspiration from jabber
+void CIrcProto::FindLocalIP(HNETLIBCONN hConn) // inspiration from jabber
 {
 	// Determine local IP
 	int socket = Netlib_GetSocket(hConn);

@@ -8,7 +8,7 @@ INT_PTR CALLBACK MraFilesQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam,
 DWORD	 MraFilesQueueInitialize(DWORD dwFilesTimeOutInterval, HANDLE *phFilesQueueHandle);
 void	 MraFilesQueueDestroy(HANDLE hFilesQueueHandle);
 
-void   MraFilesQueueConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, void *pExtra);
+void   MraFilesQueueConnectionReceived(HNETLIBCONN hNewConnection, DWORD dwRemoteIP, void *pExtra);
 
 HANDLE MraFilesQueueItemProxyByID(HANDLE hFilesQueueHandle, DWORD dwIDRequest);
 DWORD  MraFilesQueueStartMrimProxy(HANDLE hFilesQueueHandle, DWORD dwIDRequest);

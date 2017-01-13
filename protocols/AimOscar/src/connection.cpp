@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HANDLE CAimProto::aim_connect(const char* server, unsigned short port, bool use_ssl, const char* host)
+HNETLIBCONN CAimProto::aim_connect(const char* server, unsigned short port, bool use_ssl, const char* host)
 {
 	NETLIBOPENCONNECTION ncon = { 0 };
 	ncon.cbSize = sizeof(ncon);
@@ -28,7 +28,7 @@ HANDLE CAimProto::aim_connect(const char* server, unsigned short port, bool use_
 	ncon.timeout = 6;
 	ncon.flags = NLOCF_V2;
 	debugLogA("%s:%u", server, port);
-	HANDLE con = Netlib_OpenConnection(m_hNetlibUser, &ncon);
+	HNETLIBCONN con = Netlib_OpenConnection(m_hNetlibUser, &ncon);
 	if (con && use_ssl) {
 		if (!Netlib_StartSsl(con, host)) {
 			Netlib_CloseHandle(con);
@@ -38,7 +38,7 @@ HANDLE CAimProto::aim_connect(const char* server, unsigned short port, bool use_
 	return con;
 }
 
-HANDLE CAimProto::aim_peer_connect(const char* ip, unsigned short port)
+HNETLIBCONN CAimProto::aim_peer_connect(const char* ip, unsigned short port)
 {
 	NETLIBOPENCONNECTION ncon = { 0 };
 	ncon.cbSize = sizeof(ncon);
@@ -49,7 +49,7 @@ HANDLE CAimProto::aim_peer_connect(const char* ip, unsigned short port)
 	return Netlib_OpenConnection(m_hNetlibPeer, &ncon);
 }
 
-HANDLE CAimProto::aim_peer_connect(unsigned long ip, unsigned short port)
+HNETLIBCONN CAimProto::aim_peer_connect(unsigned long ip, unsigned short port)
 {
 	char ips[20];
 	long_ip_to_char_ip(ip, ips);

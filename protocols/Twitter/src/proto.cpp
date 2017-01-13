@@ -191,7 +191,6 @@ int TwitterProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 {
 	switch (event) {
 	case EV_PROTO_ONLOAD:    return OnModulesLoaded(wParam, lParam);
-	case EV_PROTO_ONEXIT:    return OnPreShutdown(wParam, lParam);
 	case EV_PROTO_ONOPTIONS: return OnOptionsInit(wParam, lParam);
 	}
 
@@ -344,13 +343,6 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 	DbEvent_RegisterType(&evt);
 
 	SetAllContactStatuses(ID_STATUS_OFFLINE); // In case we crashed last time
-	return 0;
-}
-
-int TwitterProto::OnPreShutdown(WPARAM, LPARAM)
-{
-	Netlib_Shutdown(m_hNetlibUser);
-	Netlib_Shutdown(hAvatarNetlib_);
 	return 0;
 }
 

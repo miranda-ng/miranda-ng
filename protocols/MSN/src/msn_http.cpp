@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "msn_proto.h"
 
-static ThreadData* FindThreadConn(HANDLE hConn)
+static ThreadData* FindThreadConn(HNETLIBCONN hConn)
 {
 	ThreadData *res = NULL;
 	for (int i = 0; i < g_Instances.getCount() && res == NULL; ++i)
@@ -36,7 +36,7 @@ static ThreadData* FindThreadConn(HANDLE hConn)
 // Fake function - it does nothing but confirms successful session initialization
 //=======================================================================================
 
-int msn_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQUEST*)
+int msn_httpGatewayInit(HNETLIBCONN hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQUEST*)
 {
 	NETLIBHTTPPROXYINFO nlhpi = {};
 	nlhpi.szHttpGetUrl = NULL;
@@ -51,7 +51,7 @@ int msn_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQUEST*)
 // function generates the initial URL depending on a thread type
 //=======================================================================================
 
-int msn_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags)
+int msn_httpGatewayWrapSend(HNETLIBCONN hConn, PBYTE buf, int len, int flags)
 {
 	ThreadData *T = FindThreadConn(hConn);
 	if (T != NULL) {

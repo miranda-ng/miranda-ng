@@ -582,7 +582,7 @@ void HandleNewConnection(void *ch)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void ConnectionOpen(HANDLE hNewConnection, DWORD dwRemoteIP)
+void ConnectionOpen(HNETLIBCONN hNewConnection, DWORD dwRemoteIP)
 {
 	in_addr stAddr;
 	stAddr.S_un.S_addr = htonl(dwRemoteIP);
@@ -639,7 +639,6 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
 		Netlib_GetUserSettings(hNetlibUser, &nus);
 
 		NETLIBBIND nlb = {};
-		nlb.cbSize = sizeof(NETLIBBIND);
 		nlb.pfnNewConnection = ConnectionOpen;
 		if (nus.specifyIncomingPorts && nus.szIncomingPorts && nus.szIncomingPorts[0])
 			nlb.wPort = 0;

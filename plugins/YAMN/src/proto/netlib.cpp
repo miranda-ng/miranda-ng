@@ -116,7 +116,7 @@ void CNLClient::Connect(const char* servername, const int port) throw(DWORD)
 
 //Performs a simple query
 // query- command to send
-int CNLClient::LocalNetlib_Send(HANDLE hConn, const char *buf, int len, int flags)
+int CNLClient::LocalNetlib_Send(HNETLIBCONN hConn, const char *buf, int len, int flags)
 {
 	return Netlib_Send(hConn, buf, len, flags);
 }
@@ -156,7 +156,7 @@ void CNLClient::Send(const char *query) throw(DWORD)
 //You need free() returned buffer, which can be allocated in this function
 //if not success, exception is throwed
 
-int CNLClient::LocalNetlib_Recv(HANDLE hConn, char *buf, int len, int flags)
+int CNLClient::LocalNetlib_Recv(HNETLIBCONN hConn, char *buf, int len, int flags)
 {
 	int iReturn = Netlib_Recv(hConn, buf, len, flags);
 	if (isTLSed) {

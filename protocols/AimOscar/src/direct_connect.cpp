@@ -45,7 +45,7 @@ void __cdecl CAimProto::aim_dc_helper(void* param) //only called when we are ini
 	else {
 		if (!ft->requester && result == 1 && !Miranda_IsTerminated()) {
 			ft->accepted = false;
-			HANDLE hConn = aim_peer_connect(AIM_PROXY_SERVER, get_default_port());
+			HNETLIBCONN hConn = aim_peer_connect(AIM_PROXY_SERVER, get_default_port());
 			if (hConn) {
 				debugLogA("Connected to proxy ip because we want to use a proxy for the file transfer.");
 				ft->requester = true;
@@ -61,7 +61,7 @@ void __cdecl CAimProto::aim_dc_helper(void* param) //only called when we are ini
 	m_ft_list.remove_by_ft(ft);
 }
 
-void aim_direct_connection_initiated(HANDLE hNewConnection, DWORD, void* extra)//for receiving stuff via dc
+void aim_direct_connection_initiated(HNETLIBCONN hNewConnection, DWORD, void* extra)//for receiving stuff via dc
 {
 	CAimProto *ppro = (CAimProto*)extra;
 

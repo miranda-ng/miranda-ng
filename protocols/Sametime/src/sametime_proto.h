@@ -174,7 +174,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	int login_status;
 	bool idle_status;
 	int idle_timerid;
-	HANDLE server_connection;
+	HNETLIBCONN server_connection;
 
 	// conference.cpp
 	InviteQueue invite_queue;

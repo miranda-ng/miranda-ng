@@ -39,7 +39,7 @@ typedef struct {
 	BOOL bStreamClosed;
 	WORD wPacketId;
 	BOOL (CJabberProto::*pfnSend)(int blocksize, filetransfer *ft);
-	int (CJabberProto::*pfnRecv)(HANDLE hConn, filetransfer *ft, char* buffer, int datalen);
+	int (CJabberProto::*pfnRecv)(HNETLIBCONN hConn, filetransfer *ft, char* buffer, int datalen);
 	void (CJabberProto::*pfnFinal)(BOOL success, filetransfer *ft);
 	filetransfer *ft;
 }

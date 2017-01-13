@@ -29,7 +29,7 @@ struct directthreadstartinfo
 {
 	int type;           // Only valid for outgoing connections
 	int incoming;       // 1=incoming, 0=outgoing
-	HANDLE hConnection; // only valid for incoming connections, handle to the connection
+	HNETLIBCONN hConnection; // only valid for incoming connections, handle to the connection
 	MCONTACT hContact;    // Only valid for outgoing connections
 	void* pvExtra;      // Only valid for outgoing connections
 };
@@ -50,7 +50,7 @@ void CIcqProto::CloseContactDirectConns(MCONTACT hContact)
 
 	for (int i = 0; i < directConns.getCount(); i++) {
 		if (!hContact || directConns[i]->hContact == hContact) {
-			HANDLE hConnection = directConns[i]->hConnection;
+			HNETLIBCONN hConnection = directConns[i]->hConnection;
 
 			directConns[i]->hConnection = NULL; // do not allow reuse
 			NetLib_CloseConnection(&hConnection, FALSE);
@@ -105,7 +105,7 @@ int CIcqProto::sendDirectPacket(directconnect* dc, icq_packet* pkt)
 	return nResult;
 }
 
-directthreadstartinfo* CreateDTSI(MCONTACT hContact, HANDLE hConnection, int type)
+directthreadstartinfo* CreateDTSI(MCONTACT hContact, HNETLIBCONN hConnection, int type)
 {
 	directthreadstartinfo *dtsi = (directthreadstartinfo*)SAFE_MALLOC(sizeof(directthreadstartinfo));
 	dtsi->hContact = hContact;
@@ -159,7 +159,7 @@ BOOL CIcqProto::IsDirectConnectionOpen(MCONTACT hContact, int type, int bPassive
 
 // This function is called from the Netlib when someone is connecting to
 // one of our incomming DC ports
-void icq_newConnectionReceived(HANDLE hNewConnection, DWORD, void *pExtra)
+void icq_newConnectionReceived(HNETLIBCONN hNewConnection, DWORD, void *pExtra)
 {
 	// Start a new thread for the incomming connection
 	CIcqProto* ppro = (CIcqProto*)pExtra;

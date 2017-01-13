@@ -39,7 +39,7 @@ static OBJLIST<QueueElem> dlQueue(10);
 static wchar_t cachepath[MAX_PATH];
 static bool threadRunning;
 
-bool InternetDownloadFile(const char *szUrl, char *szDest, HANDLE &hHttpDwnl)
+bool InternetDownloadFile(const char *szUrl, char *szDest, HNETLIBCONN &hHttpDwnl)
 {
 	int result = 0xBADBAD;
 	char *szRedirUrl = NULL;
@@ -127,7 +127,7 @@ void __cdecl SmileyDownloadThread(void*)
 	Thread_SetName("SmileyAdd: SmileyDownloadThread");
 
 	bool needext = false;
-	HANDLE hHttpDwnl = NULL;
+	HNETLIBCONN hHttpDwnl = NULL;
 	WaitForSingleObject(g_hDlMutex, 3000);
 	while (!Miranda_IsTerminated() && dlQueue.getCount()) {
 		ReleaseMutex(g_hDlMutex);

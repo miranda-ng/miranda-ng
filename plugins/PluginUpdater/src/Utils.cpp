@@ -156,7 +156,7 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 	mir_snwprintf(pFileUrl.tszDiskPath, L"%s\\hashes.zip", g_tszTempPath);
 	pFileUrl.CRCsum = 0;
 
-	HANDLE nlc;
+	HNETLIBCONN nlc;
 	bool ret = DownloadFile(&pFileUrl, nlc);
 	Netlib_CloseHandle(nlc);
 
@@ -229,7 +229,7 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 }
 
 
-bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
+bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 {
 	NETLIBHTTPREQUEST nlhr = {0};
 #if MIRANDA_VER < 0x0A00

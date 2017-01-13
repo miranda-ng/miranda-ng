@@ -363,7 +363,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_heade
 		nloc.szHost = pServer;
 		nloc.wPort = wPort;
 
-		HANDLE hConnection = NetLib_OpenConnection(m_hNetlibUser, wFamily == ICQ_AVATAR_FAMILY ? "Avatar " : NULL, &nloc);
+		HNETLIBCONN hConnection = NetLib_OpenConnection(m_hNetlibUser, wFamily == ICQ_AVATAR_FAMILY ? "Avatar " : NULL, &nloc);
 
 		if (hConnection == NULL)
 			debugLogA("Unable to connect to ICQ new family server.");

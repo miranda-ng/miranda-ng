@@ -36,7 +36,7 @@ mir_cs csFileShareListAccess;
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-CLShareUser::CLShareUser(HANDLE hCon, in_addr stAdd)
+CLShareUser::CLShareUser(HNETLIBCONN hCon, in_addr stAdd)
 {
 	hConnection = hCon;
 	stAddr = stAdd;

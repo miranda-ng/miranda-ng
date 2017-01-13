@@ -109,8 +109,6 @@ void CAimProto::start_connection(void*)
 
 			if (login_url == NULL) login_url = mir_strdup(AIM_DEFAULT_SERVER);
 
-
-
 			m_hServerConn = aim_connect(login_url, get_default_port(), false, login_url); //ssl does not work anymore with old authorization algo
 
 			mir_free(login_url);
@@ -133,7 +131,7 @@ void CAimProto::start_connection(void*)
 	}
 }
 
-bool CAimProto::wait_conn(HANDLE& hConn, HANDLE& hEvent, unsigned short service)
+bool CAimProto::wait_conn(HNETLIBCONN &hConn, HANDLE &hEvent, unsigned short service)
 {
 	if (m_iStatus == ID_STATUS_OFFLINE)
 		return false;
@@ -141,7 +139,7 @@ bool CAimProto::wait_conn(HANDLE& hConn, HANDLE& hEvent, unsigned short service)
 		mir_cslock lck(connMutex);
 		if (hConn == NULL && m_hServerConn) {
 			debugLogA("Starting Connection.");
-			hConn = (HANDLE)1;    //set so no additional service request attempts are made while aim is still processing the request
+			hConn = (HNETLIBCONN)1;    //set so no additional service request attempts are made while aim is still processing the request
 			aim_new_service_request(m_hServerConn, m_seqno, service);//general service connection!
 		}
 	}

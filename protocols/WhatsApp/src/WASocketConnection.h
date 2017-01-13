@@ -10,7 +10,7 @@ class WASocketConnection : public ISocketConnection
 	int maxBufRead;
 	bool connected;
 
-	HANDLE hConn;
+	HNETLIBCONN hConn;
 
 public:
 	WASocketConnection(const std::string &dir, int port) throw (WAException);

@@ -142,7 +142,7 @@ static int nUnescapedURI(char * pszURI)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-CLHttpUser::CLHttpUser(HANDLE hCon, in_addr stAdd) : CLShareUser(hCon, stAdd)
+CLHttpUser::CLHttpUser(HNETLIBCONN hCon, in_addr stAdd) : CLShareUser(hCon, stAdd)
 {
 	memset(apszParam, 0, sizeof(apszParam));
 	hFile = INVALID_HANDLE_VALUE;

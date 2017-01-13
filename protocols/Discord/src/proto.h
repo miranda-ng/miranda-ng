@@ -130,9 +130,8 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void ExecuteRequest(AsyncHttpRequest *pReq);
 	AsyncHttpRequest* Push(AsyncHttpRequest *pReq, int iTimeout = 10000);
 
-	HANDLE
-		m_hAPIConnection,  // working connection
-		m_hWorkerThread;   // worker thread handle
+	HANDLE m_hWorkerThread;       // worker thread handle
+	HNETLIBCONN m_hAPIConnection; // working connection
 
 	bool 
 		m_bOnline,         // protocol is online
@@ -146,7 +145,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 		m_szGatewaySessionId;  // current session id
 	
 	HNETLIBUSER m_hGatewayNetlibUser; // the separate netlib user handle for gateways
-	HANDLE m_hGatewayConnection;      // gateway connection
+	HNETLIBCONN m_hGatewayConnection;      // gateway connection
 	
 	void __cdecl GatewayThread(void*);
 	void CDiscordProto::GatewayThreadWorker(void);

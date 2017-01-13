@@ -816,7 +816,7 @@ bool NetlibReconnect(NetlibConnection *nlc)
 	return true;
 }
 
-MIR_APP_DLL(HANDLE) Netlib_OpenConnection(NetlibUser *nlu, const NETLIBOPENCONNECTION *nloc)
+MIR_APP_DLL(HNETLIBCONN) Netlib_OpenConnection(NetlibUser *nlu, const NETLIBOPENCONNECTION *nloc)
 {
 	if (nloc == NULL || nloc->cbSize != sizeof(NETLIBOPENCONNECTION) || nloc->szHost == NULL || nloc->wPort == 0) {
 
@@ -851,7 +851,7 @@ MIR_APP_DLL(HANDLE) Netlib_OpenConnection(NetlibUser *nlu, const NETLIBOPENCONNE
 	return nlc;
 }
 
-MIR_APP_DLL(int) Netlib_StartSsl(HANDLE hConnection, const char *szHost)
+MIR_APP_DLL(int) Netlib_StartSsl(HNETLIBCONN hConnection, const char *szHost)
 {
 	NetlibConnection *nlc = (NetlibConnection*)hConnection;
 	if (nlc == NULL)

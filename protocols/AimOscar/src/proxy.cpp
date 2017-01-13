@@ -134,7 +134,7 @@ void __cdecl CAimProto::aim_proxy_helper(void* param)
 }
 
 
-int proxy_initialize_send(HANDLE connection, char* sn, char* cookie)
+int proxy_initialize_send(HNETLIBCONN connection, char* sn, char* cookie)
 {
 	const char sn_length = (char)mir_strlen(sn);
 	const int len = sn_length + 21 + TLV_HEADER_SIZE + AIM_CAPS_LENGTH;
@@ -152,7 +152,7 @@ int proxy_initialize_send(HANDLE connection, char* sn, char* cookie)
 	return Netlib_Send(connection, buf, offset, 0) >= 0 ? 0 : -1; 
 }
 
-int proxy_initialize_recv(HANDLE connection,char* sn, char* cookie,unsigned short port_check)
+int proxy_initialize_recv(HNETLIBCONN connection, char* sn, char* cookie, unsigned short port_check)
 {
 	const char sn_length = (char)mir_strlen(sn);
 	const int len = sn_length + 23 + TLV_HEADER_SIZE + AIM_CAPS_LENGTH;

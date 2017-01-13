@@ -65,7 +65,6 @@ public:
 	int  __cdecl OnBuildStatusMenu(WPARAM,LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM,LPARAM);
 	int  __cdecl OnModulesLoaded(WPARAM,LPARAM);
-	int  __cdecl OnPreShutdown(WPARAM,LPARAM);
 	int  __cdecl OnPrebuildContactMenu(WPARAM,LPARAM);
 	int  __cdecl OnChatOutgoing(WPARAM,LPARAM);
 

@@ -123,7 +123,7 @@ void SafeReleaseFileTransfer(void **ft);
 struct oscar_connection 
 {
 	MCONTACT hContact;
-	HANDLE hConnection;
+	HNETLIBCONN hConnection;
 	int status;
 	DWORD dwUin;
 	uid_str szUid;
@@ -154,7 +154,7 @@ struct oscar_listener
 {
   CIcqProto *ppro;
   WORD wPort;
-  HANDLE hBoundPort;
+  HNETLIBBIND hBoundPort;
   oscar_filetransfer *ft;
 };
 

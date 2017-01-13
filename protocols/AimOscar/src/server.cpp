@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CAimProto::snac_md5_authkey(SNAC &snac, HANDLE hServerConn, unsigned short &seqno, const char* username, const char* password)//family 0x0017
+void CAimProto::snac_md5_authkey(SNAC &snac, HNETLIBCONN hServerConn, unsigned short &seqno, const char* username, const char* password)//family 0x0017
 {
 	if (snac.subcmp(0x0007))//md5 authkey string
 	{
@@ -83,28 +83,28 @@ int CAimProto::snac_authorization_reply(SNAC &snac)//family 0x0017
 	}
 	return res;
 }
-void CAimProto::snac_supported_families(SNAC &snac, HANDLE hServerConn, unsigned short &seqno)//family 0x0001
+void CAimProto::snac_supported_families(SNAC &snac, HNETLIBCONN hServerConn, unsigned short &seqno)//family 0x0001
 {
 	if (snac.subcmp(0x0003))//server supported service list
 	{
 		aim_send_service_request(hServerConn, seqno);
 	}
 }
-void CAimProto::snac_supported_family_versions(SNAC &snac, HANDLE hServerConn, unsigned short &seqno)//family 0x0001
+void CAimProto::snac_supported_family_versions(SNAC &snac, HNETLIBCONN hServerConn, unsigned short &seqno)//family 0x0001
 {
 	if (snac.subcmp(0x0018))//service list okayed
 	{
 		aim_request_rates(hServerConn, seqno);//request some rate crap
 	}
 }
-void CAimProto::snac_rate_limitations(SNAC &snac, HANDLE hServerConn, unsigned short &seqno)// family 0x0001
+void CAimProto::snac_rate_limitations(SNAC &snac, HNETLIBCONN hServerConn, unsigned short &seqno)// family 0x0001
 {
 	if (snac.subcmp(0x0007)) {
 		aim_accept_rates(hServerConn, seqno);
 		aim_request_icbm(hServerConn, seqno);
 	}
 }
-void CAimProto::snac_mail_rate_limitations(SNAC &snac, HANDLE hServerConn, unsigned short &seqno)// family 0x0001
+void CAimProto::snac_mail_rate_limitations(SNAC &snac, HNETLIBCONN hServerConn, unsigned short &seqno)// family 0x0001
 {
 	if (snac.subcmp(0x0007)) {
 		aim_accept_rates(hServerConn, seqno);
@@ -114,7 +114,7 @@ void CAimProto::snac_mail_rate_limitations(SNAC &snac, HANDLE hServerConn, unsig
 	}
 }
 
-void CAimProto::snac_avatar_rate_limitations(SNAC &snac, HANDLE hServerConn, unsigned short &seqno)// family 0x0001
+void CAimProto::snac_avatar_rate_limitations(SNAC &snac, HNETLIBCONN hServerConn, unsigned short &seqno)// family 0x0001
 {
 	if (snac.subcmp(0x0007)) {
 		aim_accept_rates(hServerConn, seqno);
@@ -123,7 +123,7 @@ void CAimProto::snac_avatar_rate_limitations(SNAC &snac, HANDLE hServerConn, uns
 	}
 }
 
-void CAimProto::snac_chatnav_rate_limitations(SNAC &snac, HANDLE hServerConn, unsigned short &seqno)// family 0x0001
+void CAimProto::snac_chatnav_rate_limitations(SNAC &snac, HNETLIBCONN hServerConn, unsigned short &seqno)// family 0x0001
 {
 	if (snac.subcmp(0x0007)) {
 		aim_accept_rates(hServerConn, seqno);
@@ -131,7 +131,7 @@ void CAimProto::snac_chatnav_rate_limitations(SNAC &snac, HANDLE hServerConn, un
 	}
 }
 
-void CAimProto::snac_chat_rate_limitations(SNAC &snac, HANDLE hServerConn, unsigned short &seqno)// family 0x0001
+void CAimProto::snac_chat_rate_limitations(SNAC &snac, HNETLIBCONN hServerConn, unsigned short &seqno)// family 0x0001
 {
 	if (snac.subcmp(0x0007)) {
 		aim_accept_rates(hServerConn, seqno);
@@ -139,7 +139,7 @@ void CAimProto::snac_chat_rate_limitations(SNAC &snac, HANDLE hServerConn, unsig
 	}
 }
 
-void CAimProto::snac_icbm_limitations(SNAC &snac, HANDLE hServerConn, unsigned short &seqno)//family 0x0004
+void CAimProto::snac_icbm_limitations(SNAC &snac, HNETLIBCONN hServerConn, unsigned short &seqno)//family 0x0004
 {
 	if (snac.subcmp(0x0005)) {
 		switch (m_iDesiredStatus) {
@@ -913,7 +913,7 @@ void CAimProto::delete_ssi_list(SNAC &snac, int &offset)
 	mir_free(name);
 }
 
-void CAimProto::snac_contact_list(SNAC &snac, HANDLE hServerConn, unsigned short &seqno)//family 0x0013
+void CAimProto::snac_contact_list(SNAC &snac, HNETLIBCONN hServerConn, unsigned short &seqno)//family 0x0013
 {
 	if (snac.subcmp(0x0006)) { //contact list
 		debugLogA("Contact List Received");
@@ -988,7 +988,7 @@ void CAimProto::snac_message_accepted(SNAC &snac)//family 0x004
 		mir_free(icbm_cookie);
 	}
 }
-void CAimProto::snac_received_message(SNAC &snac, HANDLE hServerConn, unsigned short &seqno)//family 0x0004
+void CAimProto::snac_received_message(SNAC &snac, HNETLIBCONN hServerConn, unsigned short &seqno)//family 0x0004
 {
 	if (snac.subcmp(0x0007)) {
 		unsigned short channel = snac.ushort(8);
@@ -1744,7 +1744,7 @@ void CAimProto::snac_email_search_results(SNAC &snac)//family 0x000A
 		CAimProto::ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
-void CAimProto::snac_chatnav_info_response(SNAC &snac, HANDLE hServerConn, unsigned short &seqno)//family 0x000D
+void CAimProto::snac_chatnav_info_response(SNAC &snac, HNETLIBCONN hServerConn, unsigned short &seqno)//family 0x000D
 {
 	if (snac.subcmp(0x0009)) {
 		debugLogA("Chat Info Received");
@@ -1901,7 +1901,7 @@ void CAimProto::snac_chat_received_message(SNAC &snac, chat_list_item* item)//fa
 	}
 }
 
-void CAimProto::snac_admin_rate_limitations(SNAC &snac, HANDLE hServerConn, unsigned short &seqno)// family 0x0001
+void CAimProto::snac_admin_rate_limitations(SNAC &snac, HNETLIBCONN hServerConn, unsigned short &seqno)// family 0x0001
 {
 	if (snac.subcmp(0x0007)) {
 		aim_accept_rates(hServerConn, seqno);

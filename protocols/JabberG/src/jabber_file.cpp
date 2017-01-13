@@ -171,7 +171,7 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 	return num;
 }
 
-void JabberFileServerConnection(JABBER_SOCKET hConnection, DWORD /*dwRemoteIP*/, void* extra)
+void JabberFileServerConnection(HNETLIBCONN hConnection, DWORD /*dwRemoteIP*/, void* extra)
 {
 	CJabberProto *ppro = (CJabberProto*)extra;
 
@@ -190,7 +190,7 @@ void JabberFileServerConnection(JABBER_SOCKET hConnection, DWORD /*dwRemoteIP*/,
 	}
 
 	filetransfer *ft = item->ft;
-	JABBER_SOCKET slisten = ft->s;
+	HNETLIBCONN slisten = ft->s;
 	ft->s = hConnection;
 	ppro->debugLogA("Set ft->s to %d (saving %d)", hConnection, slisten);
 
@@ -241,12 +241,11 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	ft->type = FT_OOB;
 
 	NETLIBBIND nlb = {};
-	nlb.cbSize = sizeof(NETLIBBIND);
 	nlb.pfnNewConnectionV2 = JabberFileServerConnection;
 	nlb.pExtra = this;
 	nlb.wPort = 0;	// Use user-specified incoming port ranges, if available
 	
-	info.s = Netlib_BindPort(m_hNetlibUser, &nlb);
+	info.s = (HNETLIBCONN)Netlib_BindPort(m_hNetlibUser, &nlb);
 	if (info.s == NULL) {
 		debugLogA("Cannot allocate port to bind for file server thread, thread ended.");
 		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
@@ -341,7 +340,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	delete ft;
 }
 
-int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer, int datalen)
+int CJabberProto::FileSendParse(HNETLIBCONN s, filetransfer *ft, char* buffer, int datalen)
 {
 	char* p, *q, *eob;
 	char* str;

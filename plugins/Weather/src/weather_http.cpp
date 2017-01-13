@@ -26,7 +26,7 @@ from the web using netlib
 #include "stdafx.h"
 
 HNETLIBUSER hNetlibUser;
-HANDLE hNetlibHttp;
+HNETLIBCONN hNetlibHttp;
 
 static int findHeader(const NETLIBHTTPREQUEST *nlhrReply, const char *hdr)
 {

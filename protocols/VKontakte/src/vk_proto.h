@@ -188,10 +188,12 @@ private:
 		m_pollingTs,
 		m_szAccessToken;
 
-	HANDLE
+	HNETLIBCONN
 		m_pollingConn,
+		m_hAPIConnection;
+
+	HANDLE
 		m_hPollingThread,
-		m_hAPIConnection,
 		m_hPopupClassError,
 		m_hPopupClassNotification,
 		m_evRequestsQueue,

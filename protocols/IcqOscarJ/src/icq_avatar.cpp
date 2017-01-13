@@ -170,7 +170,7 @@ int CIcqProto::IsAvatarChanged(MCONTACT hContact, const BYTE *pHash, size_t nHas
 	return ret;
 }
 
-void CIcqProto::StartAvatarThread(HANDLE hConn, char *cookie, size_t cookieLen) // called from event
+void CIcqProto::StartAvatarThread(HNETLIBCONN hConn, char *cookie, size_t cookieLen) // called from event
 {
 	if (!hConn) {
 		mir_cslock l(m_avatarsMutex); // place avatars lock
@@ -688,7 +688,7 @@ void __cdecl CIcqProto::AvatarThread(avatars_server_connection *pInfo)
 	debugLogA("%s thread ended.", "Avatar");
 }
 
-avatars_server_connection::avatars_server_connection(CIcqProto *_ppro, HANDLE _hConnection, char *_pCookie, size_t _wCookieLen) :
+avatars_server_connection::avatars_server_connection(CIcqProto *_ppro, HNETLIBCONN _hConnection, char *_pCookie, size_t _wCookieLen) :
 	isLoggedIn(false), stopThread(false), isActive(false),
 	ppro(_ppro),
 	pCookie(_pCookie),
@@ -712,8 +712,10 @@ void avatars_server_connection::closeConnection()
 	stopThread = TRUE;
 
 	mir_cslock l(localSeqMutex);
-	if (hConnection)
-		NetLib_SafeCloseHandle(&hConnection);
+	if (hConnection) {
+		Netlib_CloseHandle(hConnection);
+		hConnection = NULL;
+	}
 }
 
 void avatars_server_connection::shutdownConnection()

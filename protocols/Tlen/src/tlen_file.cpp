@@ -144,12 +144,12 @@ static void TlenFileReceiveParse(TLEN_FILE_TRANSFER *ft)
 	}
 }
 
-static void TlenFileReceivingConnection(HANDLE hConnection, DWORD, void * pExtra)
+static void TlenFileReceivingConnection(HNETLIBCONN hConnection, DWORD, void * pExtra)
 {
 	TlenProtocol *proto = (TlenProtocol *)pExtra;
 	TLEN_FILE_TRANSFER *ft = TlenP2PEstablishIncomingConnection(proto, hConnection, LIST_FILE, TRUE);
 	if (ft != NULL) {
-		HANDLE slisten = ft->s;
+		HNETLIBCONN slisten = ft->s;
 		ft->s = hConnection;
 		ft->proto->debugLogA("Set ft->s to %d (saving %d)", hConnection, slisten);
 		ft->proto->debugLogA("Entering send loop for this file connection... (ft->s is hConnection)");
@@ -182,7 +182,7 @@ static void __cdecl TlenFileReceiveThread(void *arg)
 	nloc.szHost = ft->hostName;
 	nloc.wPort = ft->wPort;
 	ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
-	HANDLE s = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
+	HNETLIBCONN s = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
 	if (s != NULL) {
 		ft->s = s;
 		ft->proto->debugLogA("Entering file receive loop");
@@ -378,9 +378,9 @@ static void TlenFileSendParse(TLEN_FILE_TRANSFER *ft)
 	}
 }
 
-static void TlenFileSendingConnection(HANDLE hConnection, DWORD, void * pExtra)
+static void TlenFileSendingConnection(HNETLIBCONN hConnection, DWORD, void * pExtra)
 {
-	HANDLE slisten;
+	HNETLIBCONN slisten;
 	TlenProtocol *proto = (TlenProtocol *)pExtra;
 
 	TLEN_FILE_TRANSFER *ft = TlenP2PEstablishIncomingConnection(proto, hConnection, LIST_FILE, TRUE);
@@ -450,7 +450,7 @@ static void __cdecl TlenFileSendingThread(void *arg)
 	ft->proto->debugLogA("Thread started: type=tlen_file_send");
 	ft->mode = FT_SEND;
 	ft->pfnNewConnectionV2 = TlenFileSendingConnection;
-	HANDLE s = TlenP2PListen(ft);
+	HNETLIBCONN s = TlenP2PListen(ft);
 	if (s != NULL) {
 		ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
 		ft->s = s;
@@ -481,7 +481,7 @@ static void __cdecl TlenFileSendingThread(void *arg)
 			NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 			nloc.szHost = ft->hostName;
 			nloc.wPort = ft->wPort;
-			HANDLE hConn = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
+			HNETLIBCONN hConn = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
 			if (hConn != NULL) {
 				ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
 				ft->s = hConn;

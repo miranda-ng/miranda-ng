@@ -166,7 +166,7 @@ struct CMraProto : public PROTO<CMraProto>
 	HANDLE   hSendQueueHandle, hFilesQueueHandle, hMPopSessionQueue;
 
 	HANDLE   m_heNudgeReceived;
-	HANDLE   m_hConnection;
+	HNETLIBCONN m_hConnection;
 	DWORD	   m_dwNextPingSendTickTime;
 	DWORD    m_dwPingPeriod;
 	volatile DWORD	m_dwThreadWorkerLastPingTime;
@@ -215,7 +215,7 @@ struct CMraProto : public PROTO<CMraProto>
 	DWORD  MraProxyAck(DWORD dwStatus, const CMStringA &szEmail, DWORD dwIDRequest, DWORD dwDataType, const CMStringA &lpszData, const CMStringA &szAddresses, MRA_GUID mguidSessionID);
 	DWORD  MraChangeUserBlogStatus(DWORD dwFlags, const CMStringW &wszText, DWORDLONG dwBlogStatusID);
 
-	DWORD  MraSendPacket(HANDLE hConnection, DWORD dwCMDNum, DWORD dwType, LPVOID lpData, size_t dwDataSize);
+	DWORD  MraSendPacket(HNETLIBCONN hConnection, DWORD dwCMDNum, DWORD dwType, LPVOID lpData, size_t dwDataSize);
 	DWORD  MraSendCMD(DWORD dwType, LPVOID lpData, size_t dwDataSize);
 	DWORD  MraSendQueueCMD(HANDLE hSendQueueHandle, DWORD dwFlags, MCONTACT hContact, DWORD dwAckType, LPBYTE lpbDataQueue, size_t dwDataQueueSize, DWORD dwType, LPVOID lpData, size_t dwDataSize);
 
@@ -289,7 +289,7 @@ struct CMraProto : public PROTO<CMraProto>
 	bool   MraSendReplyBlogStatus(MCONTACT hContact);
 	DWORD  MraSelectEMailDlgShow(MCONTACT hContact, DWORD dwType);
 
-	DWORD	 MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnection);
+	DWORD	 MraMrimProxyConnect(HANDLE hMraMrimProxyData, HNETLIBCONN *phConnection);
 
 	DWORD  MraMPopSessionQueueAddUrl(HANDLE hMPopSessionQueue, const CMStringA &szUrl);
 	DWORD  MraMPopSessionQueueAddUrlAndEMail(HANDLE hMPopSessionQueue, const CMStringA &, CMStringA &szEmail);
@@ -302,7 +302,7 @@ struct CMraProto : public PROTO<CMraProto>
 	DWORD  MraFilesQueueCancel(HANDLE hFilesQueueHandle, DWORD dwIDRequest, BOOL bSendDecline);
 	DWORD  MraFilesQueueStartMrimProxy(HANDLE hFilesQueueHandle, DWORD dwIDRequest);
 	DWORD  MraFilesQueueSendMirror(HANDLE hFilesQueueHandle, DWORD dwIDRequest, const CMStringA &szAddresses);
-	bool   MraFilesQueueHandCheck(HANDLE hConnection, MRA_FILES_QUEUE_ITEM *pmrafqFilesQueueItem);
+	bool   MraFilesQueueHandCheck(HNETLIBCONN hConnection, MRA_FILES_QUEUE_ITEM *pmrafqFilesQueueItem);
 	HANDLE MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *pmrafqFilesQueueItem);
 	HANDLE MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *pmrafqFilesQueueItem);
 	DWORD  MraFilesQueueAccept(HANDLE hFilesQueueHandle, DWORD dwIDRequest, LPCWSTR lpwszPath, size_t dwPathSize);

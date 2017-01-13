@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma warning (disable: 4786)
 
-void DoIdent(HANDLE hConnection, DWORD dwRemoteIP, void* extra);
-void DoIncomingDcc(HANDLE hConnection, DWORD dwRemoteIP, void* extra);
+void DoIdent(HNETLIBCONN hConnection, DWORD dwRemoteIP, void* extra);
+void DoIncomingDcc(HNETLIBCONN hConnection, DWORD dwRemoteIP, void* extra);
 unsigned long ConvertIPToInteger(char * IP);
 char* ConvertIntegerToIP(unsigned long int_ip_addr);
 
@@ -123,8 +123,8 @@ class CDccSession
 {
 protected:
 	CIrcProto* m_proto;
-	HANDLE con;			// connection handle	
-	HANDLE hBindPort;	// handle for listening port
+	HNETLIBCONN con;			// connection handle	
+	HNETLIBBIND hBindPort;	// handle for listening port
 	static int nDcc;	// number of dcc objects
 	unsigned __int64 dwTotal;		// total bytes sent/received
 
@@ -164,7 +164,7 @@ public:
 	int Connect();					
 	void SetupPassive( DWORD adr, DWORD port );
 	int SendStuff(const wchar_t* fmt);
-	int IncomingConnection(HANDLE hConnection, DWORD dwIP);
+	int IncomingConnection(HNETLIBCONN hConnection, DWORD dwIP);
 	int Disconnect();
 };
 

@@ -11,7 +11,7 @@ struct MRA_MRIMPROXY_DATA
 	size_t        dwUserDataSize;
 	MRA_ADDR_LIST malAddrList;    // LPS lps_ip_port
 	MRA_GUID      mguidSessionID; // DWORD session_id[4]
-	HANDLE        hConnection;
+	HNETLIBCONN   hConnection;
 	HANDLE        hWaitHandle;    // internal
 };
 
@@ -69,7 +69,7 @@ void MraMrimProxyCloseConnection(HANDLE hMraMrimProxyData)
 	}
 }
 
-DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnection)
+DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HNETLIBCONN *phConnection)
 {
 	DWORD dwRetErrorCode;
 
