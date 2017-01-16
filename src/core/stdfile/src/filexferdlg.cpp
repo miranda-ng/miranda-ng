@@ -80,7 +80,7 @@ void FillSendData(FileDlgData *dat, DBEVENTINFO& dbei)
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.flags = DBEF_SENT;
 	dbei.timestamp = time(NULL);
-	char *szFileNames = Utf8EncodeT(dat->szFilenames), *szMsg = Utf8EncodeT(dat->szMsg);
+	char *szFileNames = Utf8EncodeW(dat->szFilenames), *szMsg = Utf8EncodeW(dat->szMsg);
 	dbei.flags |= DBEF_UTF;
 
 	dbei.cbBlob = int(sizeof(DWORD) + mir_strlen(szFileNames) + mir_strlen(szMsg) + 2);

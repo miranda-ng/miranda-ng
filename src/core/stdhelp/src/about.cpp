@@ -67,7 +67,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 				wchar_t *ptszMsg;
 				if (ResSize >=3 && pszMsgt[0] == '\xef' && pszMsgt[1] == '\xbb' && pszMsgt[2] == '\xbf')
-					ptszMsg = Utf8DecodeT(pszMsgt + 3);
+					ptszMsg = Utf8DecodeW(pszMsgt + 3);
 				else
 					ptszMsg = mir_a2u_cp(pszMsgt, 1252);
 

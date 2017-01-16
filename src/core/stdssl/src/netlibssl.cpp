@@ -82,7 +82,7 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 	wchar_t szMsgBuf2[512];
 	mir_snwprintf(szMsgBuf2, L"SSL connection failure (%x %u): %s", scRet, line, szMsgBuf);
 
-	char* szMsg = Utf8EncodeT(szMsgBuf2);
+	char* szMsg = Utf8EncodeW(szMsgBuf2);
 	Netlib_Logf(NULL, szMsg);
 	mir_free(szMsg);
 

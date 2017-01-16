@@ -95,7 +95,7 @@ bool CToxProto::InitToxCore(CToxThread *toxThread)
 
 	/*uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
 	tox_self_get_name(toxThread->Tox(), nick);
-	setWString("Nick", ptrW(Utf8DecodeT((char*)nick)));*/
+	setWString("Nick", ptrW(Utf8DecodeW((char*)nick)));*/
 
 	ptrA nick(mir_utf8encodeW(ptrW(getWStringA("Nick"))));
 	tox_self_set_name(toxThread->Tox(), (uint8_t*)(char*)nick, mir_strlen(nick), &error);
@@ -107,7 +107,7 @@ bool CToxProto::InitToxCore(CToxThread *toxThread)
 
 	/*uint8_t statusMessage[TOX_MAX_STATUS_MESSAGE_LENGTH] = { 0 };
 	tox_self_get_status_message(toxThread->Tox(), statusMessage);
-	setWString("StatusMsg", ptrW(Utf8DecodeT((char*)statusMessage)));*/
+	setWString("StatusMsg", ptrW(Utf8DecodeW((char*)statusMessage)));*/
 
 	ptrA statusMessage(mir_utf8encodeW(ptrW(getWStringA("StatusMsg"))));
 	tox_self_set_status_message(toxThread->Tox(), (uint8_t*)(char*)statusMessage, mir_strlen(statusMessage), &error);

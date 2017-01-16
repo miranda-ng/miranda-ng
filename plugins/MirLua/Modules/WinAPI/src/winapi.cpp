@@ -217,10 +217,10 @@ static int lua_GetRegValue(lua_State *L)
 		case REG_SZ:
 		case REG_LINK:
 		case REG_EXPAND_SZ:
-		{
-			ptrA str(Utf8EncodeT((wchar_t*)value));
-			lua_pushlstring(L, str, mir_strlen(str));
-		}
+			{
+				ptrA str(Utf8EncodeW((wchar_t*)value));
+				lua_pushlstring(L, str, mir_strlen(str));
+			}
 			break;
 
 		default:

@@ -55,10 +55,10 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			PROTOACCOUNT* acc = Proto_GetAccount(dbei.szModule);
 
-			wchar_t* lastT = dbei.flags & DBEF_UTF ? Utf8DecodeT(last) : mir_a2u(last);
-			wchar_t* firstT = dbei.flags & DBEF_UTF ? Utf8DecodeT(first) : mir_a2u(first);
-			wchar_t* nickT = dbei.flags & DBEF_UTF ? Utf8DecodeT(nick) : mir_a2u(nick);
-			wchar_t* emailT = dbei.flags & DBEF_UTF ? Utf8DecodeT(email) : mir_a2u(email);
+			wchar_t* lastT = dbei.flags & DBEF_UTF ? Utf8DecodeW(last) : mir_a2u(last);
+			wchar_t* firstT = dbei.flags & DBEF_UTF ? Utf8DecodeW(first) : mir_a2u(first);
+			wchar_t* nickT = dbei.flags & DBEF_UTF ? Utf8DecodeW(nick) : mir_a2u(nick);
+			wchar_t* emailT = dbei.flags & DBEF_UTF ? Utf8DecodeW(email) : mir_a2u(email);
 
 			wchar_t name[128] = L"";
 			int off = 0;
@@ -179,11 +179,11 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			PROTOACCOUNT *acc = Proto_GetAccount(dbei.szModule);
 
-			ptrW lastT(dbei.flags & DBEF_UTF ? Utf8DecodeT(last) : mir_a2u(last));
-			ptrW firstT(dbei.flags & DBEF_UTF ? Utf8DecodeT(first) : mir_a2u(first));
-			ptrW nickT(dbei.flags & DBEF_UTF ? Utf8DecodeT(nick) : mir_a2u(nick));
-			ptrW emailT(dbei.flags & DBEF_UTF ? Utf8DecodeT(email) : mir_a2u(email));
-			ptrW reasonT(dbei.flags & DBEF_UTF ? Utf8DecodeT(reason) : mir_a2u(reason));
+			ptrW lastT(dbei.flags & DBEF_UTF ? Utf8DecodeW(last) : mir_a2u(last));
+			ptrW firstT(dbei.flags & DBEF_UTF ? Utf8DecodeW(first) : mir_a2u(first));
+			ptrW nickT(dbei.flags & DBEF_UTF ? Utf8DecodeW(nick) : mir_a2u(nick));
+			ptrW emailT(dbei.flags & DBEF_UTF ? Utf8DecodeW(email) : mir_a2u(email));
+			ptrW reasonT(dbei.flags & DBEF_UTF ? Utf8DecodeW(reason) : mir_a2u(reason));
 
 			wchar_t name[128] = L"";
 			int off = 0;

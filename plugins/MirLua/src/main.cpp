@@ -74,14 +74,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	hRecvMessage = CreateHookableEvent(MODULE PSR_MESSAGE);
 	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, FilterRecvMessage);
-
-	/*CreateProtoServiceFunction(MODULE, PSR_AUTH, FilterRecvAuth);
-	CreateProtoServiceFunction(MODULE, PSR_FILE, FilterRecvFile);
-	CreateProtoServiceFunction(MODULE, PSR_URL, FilterRecvUrl);
-	CreateProtoServiceFunction(MODULE, PSR_CONTACTS, FilterRecvUrl);
-	CreateProtoServiceFunction(MODULE, PSR_AWAYMSG, FilterRecvUrl);*/
-	
-
 	return 0;
 }
 

@@ -495,9 +495,6 @@ MIR_CORE_DLL(int)   Ucs2toUtf8Len(const wchar_t *src);
 
 MIR_CORE_DLL(BOOL)  Utf8CheckString(const char* str);
 
-#define Utf8DecodeT Utf8DecodeW
-#define Utf8EncodeT Utf8EncodeW
-
 #define mir_utf8decode(A, B)      Utf8Decode(A, B)
 #define mir_utf8decodecp(A, B, C) Utf8DecodeCP(A, B, C)
 #define mir_utf8decodeW(A)   	    Utf8DecodeW(A)
