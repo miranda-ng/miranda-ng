@@ -551,42 +551,20 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact, bool added)
 {
 	debugLogA("CVkProto::DBAddAuthRequest");
 
-	T2Utf szNick(ptrW(db_get_wsa(hContact, m_szModuleName, "Nick")));
-	T2Utf szFirstName(ptrW(db_get_wsa(hContact, m_szModuleName, "FirstName")));
-	T2Utf szLastName(ptrW(db_get_wsa(hContact, m_szModuleName, "LastName")));
+	DB_AUTH_BLOB blob(hContact,
+		T2Utf(ptrW(db_get_wsa(hContact, m_szModuleName, "Nick"))),
+		T2Utf(ptrW(db_get_wsa(hContact, m_szModuleName, "FirstName"))),
+		T2Utf(ptrW(db_get_wsa(hContact, m_szModuleName, "LastName"))), NULL, NULL);
 
-	//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
-	//blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ)
 	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = added ? EVENTTYPE_ADDED : EVENTTYPE_AUTHREQUEST;
-	dbei.cbBlob = (DWORD)(sizeof(DWORD) * 2 + mir_strlen(szNick) + mir_strlen(szFirstName) + mir_strlen(szLastName) + 5);
-
-	PBYTE pCurBlob = dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-
-	*((PDWORD)pCurBlob) = 0; 
-	pCurBlob += sizeof(DWORD); // uin(DWORD) = 0 (DWORD)
-	
-	*((PDWORD)pCurBlob) = (DWORD)hContact;
-	pCurBlob += sizeof(DWORD); // hContact(DWORD)
-
-	mir_strcpy((char*)pCurBlob, szNick); 
-	pCurBlob += mir_strlen(szNick) + 1;
-
-	mir_strcpy((char*)pCurBlob, szFirstName);
-	pCurBlob += mir_strlen(szFirstName) + 1;
-
-	mir_strcpy((char*)pCurBlob, szLastName);
-	pCurBlob += mir_strlen(szLastName) + 1;
-	
-	*pCurBlob = '\0';	//email
-	pCurBlob++;
-	*pCurBlob = '\0';	//reason
-
+	dbei.cbBlob = blob.size();
+	dbei.pBlob = blob;
 	db_event_add(NULL, &dbei);
-	debugLogA("CVkProto::DBAddAuthRequest %s", szNick ? szNick : "<null>");
+	debugLogA("CVkProto::DBAddAuthRequest %s", blob.get_nick() ? blob.get_nick() : "<null>");
 }
 
 MCONTACT CVkProto::MContactFromDbEvent(MEVENT hDbEvent)
@@ -1478,7 +1456,7 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = VK_USER_DEACTIVATE_ACTION;
-	dbei.cbBlob = mir_strlen(vkDeactivateEvent[iDEIdx].szDescription) + 1;
+	dbei.cbBlob = (DWORD)mir_strlen(vkDeactivateEvent[iDEIdx].szDescription) + 1;
 	dbei.pBlob = (PBYTE)mir_strdup(vkDeactivateEvent[iDEIdx].szDescription);
 	dbei.flags = DBEF_UTF | (m_vkOptions.bShowVkDeactivateEvents ? 0 : DBEF_READ);
 	db_event_add(hContact, &dbei);

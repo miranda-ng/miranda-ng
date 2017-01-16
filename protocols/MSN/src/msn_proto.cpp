@@ -276,12 +276,8 @@ MCONTACT __cdecl CMsnProto::AddToListByEvent(int flags, int, MEVENT hDbEvent)
 	if (mir_strcmp(dbei.szModule, m_szModuleName)) return NULL;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return NULL;
 
-	char* nick = (char *)(dbei.pBlob + sizeof(DWORD) * 2);
-	char* firstName = nick + mir_strlen(nick) + 1;
-	char* lastName = firstName + mir_strlen(firstName) + 1;
-	char* email = lastName + mir_strlen(lastName) + 1;
-
-	return AddToListByEmail(email, nick, flags);
+	DB_AUTH_BLOB blob(dbei.pBlob);
+	return AddToListByEmail(blob.get_email(), blob.get_nick(), flags);
 }
 
 int CMsnProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
@@ -333,19 +329,16 @@ int CMsnProto::Authorize(MEVENT hDbEvent)
 	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return 1;
 
-	char *nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
-	char *firstName = nick + mir_strlen(nick) + 1;
-	char *lastName = firstName + mir_strlen(firstName) + 1;
-	char *email = lastName + mir_strlen(lastName) + 1;
+	DB_AUTH_BLOB blob(dbei.pBlob);
 
-	MCONTACT hContact = MSN_HContactFromEmail(email, nick, true, 0);
-	int netId = Lists_GetNetId(email);
+	MCONTACT hContact = MSN_HContactFromEmail(blob.get_email(), blob.get_nick(), true, 0);
+	int netId = Lists_GetNetId(blob.get_email());
 
-	MSN_AddUser(hContact, email, netId, LIST_AL);
-	MSN_AddUser(hContact, email, netId, LIST_BL + LIST_REMOVE);
-	MSN_AddUser(hContact, email, netId, LIST_PL + LIST_REMOVE);
+	MSN_AddUser(hContact, blob.get_email(), netId, LIST_AL);
+	MSN_AddUser(hContact, blob.get_email(), netId, LIST_BL + LIST_REMOVE);
+	MSN_AddUser(hContact, blob.get_email(), netId, LIST_PL + LIST_REMOVE);
 
-	MSN_SetContactDb(hContact, email);
+	MSN_SetContactDb(hContact, blob.get_email());
 	return 0;
 }
 
@@ -369,22 +362,19 @@ int CMsnProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return 1;
 
-	char* nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
-	char* firstName = nick + mir_strlen(nick) + 1;
-	char* lastName = firstName + mir_strlen(firstName) + 1;
-	char* email = lastName + mir_strlen(lastName) + 1;
+	DB_AUTH_BLOB blob(dbei.pBlob);
 
-	MsnContact* msc = Lists_Get(email);
+	MsnContact* msc = Lists_Get(blob.get_email());
 	if (msc == NULL) return 0;
 
-	MSN_AddUser(NULL, email, msc->netId, LIST_PL + LIST_REMOVE);
-	MSN_AddUser(NULL, email, msc->netId, LIST_BL);
-	MSN_AddUser(NULL, email, msc->netId, LIST_RL);
+	MSN_AddUser(NULL, blob.get_email(), msc->netId, LIST_PL + LIST_REMOVE);
+	MSN_AddUser(NULL, blob.get_email(), msc->netId, LIST_BL);
+	MSN_AddUser(NULL, blob.get_email(), msc->netId, LIST_RL);
 
 	if (!(msc->list & (LIST_FL | LIST_LL))) {
 		if (msc->hContact) db_delete_contact(msc->hContact);
 		msc->hContact = NULL;
-		MCONTACT hContact = MSN_HContactFromEmail(email);
+		MCONTACT hContact = MSN_HContactFromEmail(blob.get_email());
 		if (hContact) db_delete_contact(hContact);
 	}
 

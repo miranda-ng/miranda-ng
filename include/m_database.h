@@ -188,6 +188,12 @@ typedef struct
 	{
 		return (flags & (DBEF_SENT | DBEF_READ)) != 0;
 	}
+
+	wchar_t* getString(const char *str) const
+	{
+		return (flags & DBEF_UTF) ? Utf8DecodeW(str) : mir_a2u(str);
+	}
+
 #endif
 } DBEVENTINFO;
 
@@ -643,5 +649,40 @@ __inline DWORD DBGetContactSettingRangedDword(MCONTACT hContact, const char *szM
 }
 
 #endif
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Helper to process the auth req body
+
+/* blob is: 0(DWORD), hContact(DWORD), nick(UTF8), firstName(UTF8), lastName(UTF8), email(UTF8), reason(UTF8) */
+
+#pragma warning(disable : 4251)
+
+class MIR_APP_EXPORT DB_AUTH_BLOB
+{
+	MCONTACT m_hContact;
+	DWORD m_dwUin;
+	ptrA m_szNick, m_szFirstName, m_szLastName, m_szEmail, m_szReason;
+	DWORD m_size;
+
+	PBYTE makeBlob();
+
+public:
+	explicit DB_AUTH_BLOB(MCONTACT hContact, LPCSTR nick, LPCSTR fname, LPCSTR lname, LPCSTR id, LPCSTR reason);
+	explicit DB_AUTH_BLOB(PBYTE blob);
+	~DB_AUTH_BLOB();
+
+	__forceinline operator char*() { return (char*)makeBlob(); }
+	__forceinline operator BYTE*() { return makeBlob(); }
+
+	__forceinline DWORD size() const  { return m_size; }
+
+	__forceinline MCONTACT    get_contact()   const { return m_hContact;    }
+	__forceinline const char* get_nick()      const { return m_szNick;      }
+	__forceinline const char* get_firstName() const { return m_szFirstName; }
+	__forceinline const char* get_lastName()  const { return m_szLastName;  }
+	__forceinline const char* get_email()     const { return m_szEmail;     }
+	__forceinline const char* get_reason()    const { return m_szReason;    }
+	__forceinline DWORD       get_uin()       const { return m_dwUin;       }
+};
 
 #endif // M_DATABASE_H__

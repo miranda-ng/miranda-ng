@@ -1099,31 +1099,21 @@ void FacebookProto::ProcessFriendRequests(void*)
 				isNew = true;
 				setString(hContact, "RequestTime", time.c_str());
 
-				//blob is: uin(DWORD), hContact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
-				//blob is: 0(DWORD), hContact(HANDLE), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
+				DB_AUTH_BLOB blob(hContact, fbu.real_name.c_str(), 0, 0, fbu.user_id.c_str(), reason.c_str());
+
 				DBEVENTINFO dbei = { 0 };
 				dbei.cbSize = sizeof(DBEVENTINFO);
 				dbei.szModule = m_szModuleName;
 				dbei.timestamp = ::time(NULL);
 				dbei.flags = DBEF_UTF;
 				dbei.eventType = EVENTTYPE_AUTHREQUEST;
-				dbei.cbBlob = (DWORD)(sizeof(DWORD) * 2 + fbu.real_name.length() + fbu.user_id.length() + reason.length() + 5);
-
-				PBYTE pCurBlob = dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-				*(PDWORD)pCurBlob = 0; pCurBlob += sizeof(DWORD);                    // UID
-				*(PDWORD)pCurBlob = (DWORD)hContact; pCurBlob += sizeof(DWORD);      // Contact Handle
-				mir_strcpy((char*)pCurBlob, fbu.real_name.data()); pCurBlob += fbu.real_name.length() + 1;	// Nickname
-				*pCurBlob = '\0'; pCurBlob++;                                        // First Name
-				*pCurBlob = '\0'; pCurBlob++;                                        // Last Name
-				mir_strcpy((char*)pCurBlob, fbu.user_id.data()); pCurBlob += fbu.user_id.length() + 1;	// E-mail (we use it for string ID)
-				mir_strcpy((char*)pCurBlob, reason.data()); pCurBlob += reason.length() + 1;	// Reason (we use it for info about common friends)
-
+				dbei.cbBlob = blob.size();
+				dbei.pBlob = blob;
 				db_event_add(0, &dbei);
 			}
 			debugLogA("  < (%s) Friendship request [%s]", (isNew ? "New" : "Old"), time.c_str());
-		} else {
-			debugLogA("!!! Wrong friendship request:\n%s", req.c_str());
 		}
+		else debugLogA("!!! Wrong friendship request:\n%s", req.c_str());
 	}
 
 	facy.handle_success("friendRequests");

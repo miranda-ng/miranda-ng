@@ -1377,53 +1377,30 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, size_t wLen)
 	int bAdded;
 	MCONTACT hContact = HContactFromUID(dwUin, szUid, &bAdded);
 
-	PROTORECVEVENT pre = { 0 };
-	pre.timestamp = time(NULL);
-	pre.lParam = sizeof(DWORD) * 2 + 5;
 	// Prepare reason
 	char *szReason = (char*)SAFE_MALLOC(wReasonLen + 1);
-	int nReasonLen = 0;
 	if (szReason) {
 		memcpy(szReason, buf, wReasonLen);
 		szReason[wReasonLen] = '\0';
-		nReasonLen = (int)mir_strlen(szReason);
 	}
 
 	// Read nick name from DB
-	char *szNick = NULL;
+	char *szNick;
 	if (dwUin)
 		szNick = getSettingStringUtf(hContact, "Nick", NULL);
 	else
 		szNick = null_strdup(szUid);
 
-	size_t nNickLen = mir_strlen(szNick);
-
-	pre.lParam += nNickLen + nReasonLen;
+	DB_AUTH_BLOB blob(hContact, szNick, 0, 0, 0, szReason);
+	*(DWORD*)(PBYTE)blob = dwUin;
 
 	setByte(hContact, "Grant", 1);
 
-	/*blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)*/
-	char *szBlob = (char *)_alloca(pre.lParam);
-	char *pCurBlob = szBlob;
-	*(DWORD*)pCurBlob = dwUin; pCurBlob += sizeof(DWORD);
-	*(DWORD*)pCurBlob = DWORD(hContact); pCurBlob += sizeof(DWORD);
-
-	if (nNickLen) { // if we have nick we add it, otherwise keep trailing zero
-		memcpy(pCurBlob, szNick, nNickLen);
-		pCurBlob += nNickLen;
-	}
-	*pCurBlob = 0; pCurBlob++; // Nick
-	*pCurBlob = 0; pCurBlob++; // FirstName
-	*pCurBlob = 0; pCurBlob++; // LastName
-	*pCurBlob = 0; pCurBlob++; // email
-	if (nReasonLen) {
-		memcpy(pCurBlob, szReason, nReasonLen);
-		pCurBlob += nReasonLen;
-	}
-	*pCurBlob = 0; // Reason
-	pre.szMessage = szBlob;
-
 	// TODO: Change for new auth system, include all known informations
+	PROTORECVEVENT pre = { 0 };
+	pre.timestamp = time(NULL);
+	pre.lParam = blob.size();
+	pre.szMessage = blob;
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 
 	SAFE_FREE(&szNick);

@@ -316,7 +316,7 @@ MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(UINT_PTR) Netlib_GetSocket(HANDLE hConnection)
+MIR_APP_DLL(UINT_PTR) Netlib_GetSocket(HNETLIBCONN hConnection)
 {
 	SOCKET s;
 	if (hConnection == 0) {

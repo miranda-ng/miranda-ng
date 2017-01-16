@@ -175,7 +175,7 @@ MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 
 	DB_AUTH_BLOB blob(dbei.pBlob);
 	
-	MCONTACT hContact = AddContact(ptrA(blob.get_id()));
+	MCONTACT hContact = AddContact(blob.get_email());
 	return hContact;
 }
 

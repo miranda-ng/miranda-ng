@@ -168,11 +168,8 @@ MCONTACT CMraProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 			 !mir_strcmp(dbei.szModule, m_szModuleName) &&
 			 (dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_CONTACTS))
 		{
-			char *nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
-			char *firstName = nick + mir_strlen(nick) + 1;
-			char *lastName = firstName + mir_strlen(firstName) + 1;
-			char *email = lastName + mir_strlen(lastName) + 1;
-			return AddToListByEmail(ptrW(mir_utf8decodeW(email)), ptrW(mir_utf8decodeW(nick)), ptrW(mir_utf8decodeW(firstName)), ptrW(mir_utf8decodeW(lastName)), 0);
+			DB_AUTH_BLOB blob(dbei.pBlob);
+			return AddToListByEmail(dbei.getString(blob.get_email()), dbei.getString(blob.get_nick()), dbei.getString(blob.get_firstName()), dbei.getString(blob.get_lastName()), 0);
 		}
 	}
 	return 0;
@@ -189,14 +186,12 @@ int CMraProto::Authorize(MEVENT hDBEvent)
 		return 1;
 
 	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
-	if (db_event_get(hDBEvent, &dbei))           return 1;
-	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return 1;
-	if (mir_strcmp(dbei.szModule, m_szModuleName))   return 1;
+	if (db_event_get(hDBEvent, &dbei))             return 1;
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)   return 1;
+	if (mir_strcmp(dbei.szModule, m_szModuleName)) return 1;
 
-	LPSTR lpszNick = (LPSTR)(dbei.pBlob + sizeof(DWORD) * 2);
-	LPSTR lpszFirstName = lpszNick + mir_strlen(lpszNick) + 1;
-	LPSTR lpszLastName = lpszFirstName + mir_strlen(lpszFirstName) + 1;
-	MraAuthorize(CMStringA(lpszLastName + mir_strlen(lpszLastName) + 1));
+	DB_AUTH_BLOB blob(dbei.pBlob);
+	MraAuthorize(blob.get_email());
 	return 0;
 }
 
@@ -209,16 +204,12 @@ int CMraProto::AuthDeny(MEVENT hDBEvent, const wchar_t* szReason)
 		return 1;
 
 	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
-	if (db_event_get(hDBEvent, &dbei))           return 1;
-	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return 1;
-	if (mir_strcmp(dbei.szModule, m_szModuleName))   return 1;
+	if (db_event_get(hDBEvent, &dbei))             return 1;
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)   return 1;
+	if (mir_strcmp(dbei.szModule, m_szModuleName)) return 1;
 
-	LPSTR lpszNick = (LPSTR)(dbei.pBlob + sizeof(DWORD) * 2);
-	LPSTR lpszFirstName = lpszNick + mir_strlen(lpszNick) + 1;
-	LPSTR lpszLastName = lpszFirstName + mir_strlen(lpszFirstName) + 1;
-	LPSTR szEmail = lpszLastName + mir_strlen(lpszLastName) + 1;
-
-	MraMessage(FALSE, NULL, 0, 0, szEmail, szReason, NULL, 0);
+	DB_AUTH_BLOB blob(dbei.pBlob);
+	MraMessage(FALSE, NULL, 0, 0, blob.get_email(), szReason, NULL, 0);
 	return 0;
 }
 

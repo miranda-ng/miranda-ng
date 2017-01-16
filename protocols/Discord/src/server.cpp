@@ -116,9 +116,20 @@ void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 	setId(hContact, DB_KEY_ID, m_ownId);
 
 	setByte(hContact, DB_KEY_MFA, root["mfa_enabled"].as_bool());
-	setDword(hContact, DB_KEY_DISCR, root["discriminator"].as_int());
+	setDword(hContact, DB_KEY_DISCR, _wtoi(root["discriminator"].as_mstring()));
 	setWString(hContact, DB_KEY_NICK, root["username"].as_mstring());
 	setWString(hContact, DB_KEY_EMAIL, root["email"].as_mstring());
+
+	switch (root["type"].as_int()) {
+	case 1: // confirmed
+		db_unset(hContact, "CList", "NotOnList");
+		break;
+
+	case 3: // expecting autorization
+		db_set_b(hContact, "CList", "NotOnList", 1);
+		break;
+	}
+
 
 	CMStringW wszNewAvatar(root["avatar"].as_mstring());
 	setWString(hContact, DB_KEY_AVHASH, wszNewAvatar);

@@ -332,30 +332,12 @@ void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 	char reason[MAX_PATH];
 	mir_snprintf(reason, Translate("%s has added you to his or her Friend List"), nickName);
 
-	// blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), sid(ASCIIZ), reason(ASCIIZ)
-	DWORD cbBlob = (DWORD)(sizeof(DWORD)* 2 + mir_strlen(nickName) + mir_strlen(firstName) + mir_strlen(lastName) + mir_strlen(steamId) + mir_strlen(reason) + 5);
-
-	PBYTE pBlob, pCurBlob;
-	pCurBlob = pBlob = (PBYTE)mir_alloc(cbBlob);
-
-	*((PDWORD)pCurBlob) = 0;
-	pCurBlob += sizeof(DWORD);
-	*((PDWORD)pCurBlob) = (DWORD)hContact;
-	pCurBlob += sizeof(DWORD);
-	mir_strcpy((char*)pCurBlob, nickName);
-	pCurBlob += mir_strlen(nickName) + 1;
-	mir_strcpy((char*)pCurBlob, firstName);
-	pCurBlob += mir_strlen(firstName) + 1;
-	mir_strcpy((char*)pCurBlob, lastName);
-	pCurBlob += mir_strlen(lastName) + 1;
-	mir_strcpy((char*)pCurBlob, steamId);
-	pCurBlob += mir_strlen(steamId) + 1;
-	mir_strcpy((char*)pCurBlob, reason);
+	DB_AUTH_BLOB blob(hContact, nickName, firstName, lastName, steamId, reason);
 
 	PROTORECVEVENT recv = { 0 };
 	recv.timestamp = time(NULL);
-	recv.szMessage = (char*)pBlob;
-	recv.lParam = cbBlob;
+	recv.szMessage = blob;
+	recv.lParam = blob.size();
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&recv);
 
 	// remember to not create this event again, unless authorization status changes again

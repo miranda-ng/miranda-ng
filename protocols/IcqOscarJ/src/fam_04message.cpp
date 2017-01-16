@@ -1627,20 +1627,13 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			break;
 		}
 		{
+			DB_AUTH_BLOB blob(hContact, pszMsgField[0], pszMsgField[1], pszMsgField[2], pszMsgField[3], pszMsgField[5]);
+			*(PBYTE)blob = dwUin;
+
 			PROTORECVEVENT pre = { 0 };
 			pre.timestamp = dwTimestamp;
-			pre.lParam = sizeof(DWORD) * 2 + mir_strlen(pszMsgField[0]) + mir_strlen(pszMsgField[1]) + mir_strlen(pszMsgField[2]) + mir_strlen(pszMsgField[3]) + mir_strlen(pszMsgField[5]) + 5;
-
-			// blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
-			char *szBlob, *pCurBlob = szBlob = (char *)_alloca(pre.lParam);
-			*(DWORD*)pCurBlob = dwUin; pCurBlob += sizeof(DWORD);
-			*(DWORD*)pCurBlob = DWORD(hContact); pCurBlob += sizeof(DWORD);
-			mir_strcpy((char*)pCurBlob, pszMsgField[0]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-			mir_strcpy((char*)pCurBlob, pszMsgField[1]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-			mir_strcpy((char*)pCurBlob, pszMsgField[2]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-			mir_strcpy((char*)pCurBlob, pszMsgField[3]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-			mir_strcpy((char*)pCurBlob, pszMsgField[5]);
-			pre.szMessage = (char *)szBlob;
+			pre.lParam = blob.size();
+			pre.szMessage = blob;
 			ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 		}
 		break;

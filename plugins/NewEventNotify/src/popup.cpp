@@ -282,36 +282,20 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 
 	case EVENTTYPE_AUTHREQUEST:
 		if (dbei->pBlob) {
-			char szUin[16];
-			wchar_t szBuf[2048];
-			wchar_t* szNick = NULL;
-			char *pszNick = (char *)dbei->pBlob + 8;
-			char *pszFirst = pszNick + mir_strlen(pszNick) + 1;
-			char *pszLast  = pszFirst + mir_strlen(pszFirst) + 1;
-			char *pszEmail = pszLast + mir_strlen(pszLast) + 1;
+			DB_AUTH_BLOB blob(dbei->pBlob);
 
-			mir_snprintf(szUin, "%d", *((DWORD*)dbei->pBlob));
-			if (mir_strlen(pszNick) > 0) {
-				if (dbei->flags & DBEF_UTF)
-					szNick = mir_utf8decodeW(pszNick);
-				else
-					szNick = mir_a2u(pszNick);
+			wchar_t *szNick = NULL;
+			if (blob.get_nick())
+				szNick = dbei->getString(blob.get_nick());
+			else if (blob.get_email())
+				szNick = dbei->getString(blob.get_email());
+			else if (blob.get_uin()) {
+				char szUin[16];
+				szNick = mir_a2u(itoa(blob.get_uin(), szUin, 10));
 			}
-			else if (mir_strlen(pszEmail) > 0) {
-				if (dbei->flags & DBEF_UTF)
-					szNick = mir_utf8decodeW(pszEmail);
-				else
-					szNick = mir_a2u(pszEmail);
-			}
-			else if (*((DWORD*)dbei->pBlob) > 0)
-				szNick = mir_a2u(szUin);
 
-			if (szNick) {
-				mir_wstrcpy(szBuf, szNick);
-				mir_wstrcat(szBuf, TranslateT(" requested authorization"));
-				mir_free(szNick);
-				comment1 = mir_wstrdup(szBuf);
-			}
+			if (szNick)
+				comment1 = CMStringW(FORMAT, L"%s%s", szNick, TranslateT(" requested authorization")).Detach();
 		}
 		commentFix = POPUP_COMMENT_AUTH;
 		break;

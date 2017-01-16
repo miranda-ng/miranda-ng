@@ -81,33 +81,14 @@ char** CMsnProto::GetStatusMsgLoc(int status)
 // MSN_AddAuthRequest - adds the authorization event to the database
 void CMsnProto::MSN_AddAuthRequest(const char *email, const char *nick, const char *reason)
 {
-	//blob is: UIN=0(DWORD), hContact(DWORD), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), email(ASCIIZ), ""(ASCIIZ)
-
 	MCONTACT hContact = MSN_HContactFromEmail(email, nick, true, true);
 
-	int emaillen = (int)mir_strlen(email);
-
-	if (nick == NULL) nick = "";
-	int nicklen = (int)mir_strlen(nick);
-
-	if (reason == NULL) reason = "";
-	int reasonlen = (int)mir_strlen(reason);
+	DB_AUTH_BLOB blob(hContact, nick, 0, 0, email, reason);
 
 	PROTORECVEVENT pre = { 0 };
 	pre.timestamp = (DWORD)time(NULL);
-	pre.lParam = sizeof(DWORD) + sizeof(HANDLE) + nicklen + emaillen + 5 + reasonlen;
-
-	char* pCurBlob = (char*)alloca(pre.lParam);
-	pre.szMessage = pCurBlob;
-
-	*(PDWORD)pCurBlob = 0; pCurBlob += sizeof(DWORD);                // UID
-	*(PDWORD)pCurBlob = (DWORD)hContact; pCurBlob += sizeof(DWORD);  // Contact Handle
-	mir_strcpy(pCurBlob, nick); pCurBlob += nicklen + 1;                 // Nickname
-	*pCurBlob = '\0'; pCurBlob++;                                    // First Name
-	*pCurBlob = '\0'; pCurBlob++;	                                   // Last Name
-	mir_strcpy(pCurBlob, email); pCurBlob += emaillen + 1;               // E-mail
-	mir_strcpy(pCurBlob, reason);                                        // Reason
-
+	pre.lParam = blob.size();
+	pre.szMessage = blob;
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 }
 

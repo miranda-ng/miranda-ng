@@ -340,23 +340,11 @@ MCONTACT __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, MEV
 		return NULL;
 	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return NULL;
-
-	// EVENTTYPE_CONTACTS is when adding from when we receive contact list (not used in Jabber)
-	// EVENTTYPE_ADDED is when adding from when we receive "You are added" (also not used in Jabber)
-	// Jabber will only handle the case of EVENTTYPE_AUTHREQUEST
-	// EVENTTYPE_AUTHREQUEST is when adding from the authorization request dialog
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return NULL;
 
-	char *nick = (char*)(dbei.pBlob + sizeof(DWORD)*2);
-	char *firstName = nick + mir_strlen(nick) + 1;
-	char *lastName = firstName + mir_strlen(firstName) + 1;
-	char *jid = lastName + mir_strlen(lastName) + 1;
-
-	wchar_t *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeW(jid) : mir_a2u(jid);
-	MCONTACT hContact = (MCONTACT)AddToListByJID(newJid, flags);
-	mir_free(newJid);
-	return hContact;
+	DB_AUTH_BLOB blob(dbei.pBlob);
+	return AddToListByJID(ptrW(dbei.getString(blob.get_email())), flags);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -379,23 +367,18 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return 1;
 
-	char *nick = (char*)(dbei.pBlob + sizeof(DWORD)*2);
-	char *firstName = nick + mir_strlen(nick) + 1;
-	char *lastName = firstName + mir_strlen(firstName) + 1;
-	char *jid = lastName + mir_strlen(lastName) + 1;
+	DB_AUTH_BLOB blob(dbei.pBlob);
+	debugLogW(L"Send 'authorization allowed' to %s", blob.get_email());
 
-	debugLogW(L"Send 'authorization allowed' to %s", jid);
-
-	wchar_t *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeW(jid) : mir_a2u(jid);
+	ptrW newJid(dbei.getString(blob.get_email()));
 
 	m_ThreadInfo->send(XmlNode(L"presence") << XATTR(L"to", newJid) << XATTR(L"type", L"subscribed"));
 
 	// Automatically add this user to my roster if option is enabled
 	if (m_options.AutoAdd == TRUE) {
-		JABBER_LIST_ITEM *item;
-
-		if ((item = ListGetItemPtr(LIST_ROSTER, newJid)) == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
-			debugLogW(L"Try adding contact automatically jid = %s", jid);
+		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, newJid);
+		if (item == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
+			debugLogW(L"Try adding contact automatically jid = %s", blob.get_email());
 			if (MCONTACT hContact = AddToListByJID(newJid, 0)) {
 				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 				// See AddToListByJID() and JabberDbSettingChanged().

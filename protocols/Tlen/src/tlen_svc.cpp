@@ -251,12 +251,8 @@ MCONTACT TlenProtocol::AddToListByEvent(int flags, int, MEVENT hDbEvent)
 		return NULL;
 	}
 
-	char *nick = (char *)dbei.pBlob + sizeof(DWORD) * 2;
-	char *firstName = nick + mir_strlen(nick) + 1;
-	char *lastName = firstName + mir_strlen(firstName) + 1;
-	char *jid = lastName + mir_strlen(lastName) + 1;
-
-	MCONTACT hContact = (MCONTACT)AddToListByJID(this, jid, flags);
+	DB_AUTH_BLOB blob(dbei.pBlob);
+	MCONTACT hContact = (MCONTACT)AddToListByJID(this, blob.get_email(), flags);
 	mir_free(dbei.pBlob);
 	return hContact;
 }
@@ -284,21 +280,17 @@ int TlenProtocol::Authorize(MEVENT hDbEvent)
 		return 1;
 	}
 
-	char *nick = (char *)dbei.pBlob + sizeof(DWORD) * 2;
-	char *firstName = nick + mir_strlen(nick) + 1;
-	char *lastName = firstName + mir_strlen(firstName) + 1;
-	char *jid = lastName + mir_strlen(lastName) + 1;
-
-	TlenSend(this, "<presence to='%s' type='subscribed'/>", jid);
+	DB_AUTH_BLOB blob(dbei.pBlob);
+	TlenSend(this, "<presence to='%s' type='subscribed'/>", blob.get_email());
 
 	// Automatically add this user to my roster if option is enabled
 	if (db_get_b(NULL, m_szModuleName, "AutoAdd", TRUE) == TRUE) {
 		MCONTACT hContact;
-		TLEN_LIST_ITEM *item = TlenListGetItemPtr(this, LIST_ROSTER, jid);
+		TLEN_LIST_ITEM *item = TlenListGetItemPtr(this, LIST_ROSTER, blob.get_email());
 
 		if (item == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
-			debugLogA("Try adding contact automatically jid=%s", jid);
-			if ((hContact = AddToListByJID(this, jid, 0)) != NULL) {
+			debugLogA("Try adding contact automatically jid=%s", blob.get_email());
+			if ((hContact = AddToListByJID(this, blob.get_email(), 0)) != NULL) {
 				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 				// See AddToListByJID() and TlenDbSettingChanged().
 				db_unset(hContact, "CList", "NotOnList");
@@ -333,13 +325,9 @@ int TlenProtocol::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 		return 1;
 	}
 
-	char *nick = (char *)dbei.pBlob + sizeof(DWORD) * 2;
-	char *firstName = nick + mir_strlen(nick) + 1;
-	char *lastName = firstName + mir_strlen(firstName) + 1;
-	char *jid = lastName + mir_strlen(lastName) + 1;
-
-	TlenSend(this, "<presence to='%s' type='unsubscribed'/>", jid);
-	TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item jid='%s' subscription='remove'/></query></iq>", jid);
+	DB_AUTH_BLOB blob(dbei.pBlob);
+	TlenSend(this, "<presence to='%s' type='unsubscribed'/>", blob.get_email());
+	TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item jid='%s' subscription='remove'/></query></iq>", blob.get_email());
 	mir_free(dbei.pBlob);
 	return 0;
 }

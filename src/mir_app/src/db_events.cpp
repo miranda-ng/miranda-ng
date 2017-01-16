@@ -97,7 +97,7 @@ static wchar_t* getEventString(DBEVENTINFO *dbei, LPSTR &buf)
 {
 	LPSTR in = buf;
 	buf += mir_strlen(buf) + 1;
-	return (dbei->flags & DBEF_UTF) ? Utf8DecodeT(in) : mir_a2u(in);
+	return (dbei->flags & DBEF_UTF) ? Utf8DecodeW(in) : mir_a2u(in);
 }
 
 static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatype)
@@ -113,15 +113,12 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 		return 0;
 
 	if (dbei->eventType == EVENTTYPE_AUTHREQUEST || dbei->eventType == EVENTTYPE_ADDED) {
-		// EVENTTYPE_AUTHREQUEST: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
-		// EVENTTYPE_ADDED: uin(DWORD), hContact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
-		DWORD  uin = *(DWORD*)dbei->pBlob;
-		MCONTACT hContact = (MCONTACT)*(DWORD*)(dbei->pBlob + sizeof(DWORD));
-		char  *buf = LPSTR(dbei->pBlob) + sizeof(DWORD)*2;
-		ptrW tszNick(getEventString(dbei, buf));
-		ptrW tszFirst(getEventString(dbei, buf));
-		ptrW tszLast(getEventString(dbei, buf));
-		ptrW tszEmail(getEventString(dbei, buf));
+		DB_AUTH_BLOB blob(dbei->pBlob);
+
+		ptrW tszNick(dbei->getString(blob.get_nick()));
+		ptrW tszFirst(dbei->getString(blob.get_firstName()));
+		ptrW tszLast(dbei->getString(blob.get_lastName()));
+		ptrW tszEmail(dbei->getString(blob.get_email()));
 
 		CMStringW nick, text;
 		if (tszFirst || tszLast) {
@@ -133,21 +130,21 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 				nick.Append(L", ");
 			nick.Append(tszEmail);
 		}
-		if (uin != 0) {
+		if (blob.get_uin() != 0) {
 			if (!nick.IsEmpty())
 				nick.Append(L", ");
-			nick.AppendFormat(L"%d", uin);
+			nick.AppendFormat(L"%d", blob.get_uin());
 		}
 		if (!nick.IsEmpty())
 			nick = L"(" + nick + L")";
 
 		if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
-			ptrW tszReason(getEventString(dbei, buf));
+			ptrW tszReason(dbei->getString(blob.get_reason()));
 			text.Format(TranslateT("Authorization request from %s%s: %s"),
-				(tszNick == NULL) ? cli.pfnGetContactDisplayName(hContact, 0) : tszNick, nick, tszReason);
+				(tszNick == NULL) ? cli.pfnGetContactDisplayName(blob.get_contact(), 0) : tszNick, nick, tszReason);
 		}
 		else text.Format(TranslateT("You were added by %s%s"),
-			(tszNick == NULL) ? cli.pfnGetContactDisplayName(hContact, 0) : tszNick, nick);
+			(tszNick == NULL) ? cli.pfnGetContactDisplayName(blob.get_contact(), 0) : tszNick, nick);
 		return (datatype == DBVT_WCHAR) ? (INT_PTR)mir_wstrdup(text) : (INT_PTR)mir_u2a(text);
 	}
 
@@ -267,48 +264,52 @@ MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *str)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Profile_GetPathA(size_t cbLen, char *pszDest)
+DB_AUTH_BLOB::DB_AUTH_BLOB(MCONTACT hContact, LPCSTR nick, LPCSTR fname, LPCSTR lname, LPCSTR email, LPCSTR reason) :
+	m_hContact(hContact),
+	m_szNick(mir_strdup(nick)),
+	m_szFirstName(mir_strdup(fname)),
+	m_szLastName(mir_strdup(lname)),
+	m_szEmail(mir_strdup(email)),
+	m_szReason(mir_strdup(reason))
 {
-	if (!pszDest || !cbLen)
-		return 1;
-
-	strncpy_s(pszDest, cbLen, _T2A(g_profileDir), _TRUNCATE);
-	return 0;
+	m_size = DWORD(sizeof(DWORD) * 2 + 5 + mir_strlen(m_szNick) + mir_strlen(m_szFirstName) + mir_strlen(m_szLastName) + mir_strlen(m_szEmail) + mir_strlen(m_szReason));
 }
 
-MIR_APP_DLL(int) Profile_GetPathW(size_t cbLen, wchar_t *pwszDest)
+DB_AUTH_BLOB::DB_AUTH_BLOB(PBYTE blob)
 {
-	if (!pwszDest || !cbLen)
-		return 1;
-
-	wcsncpy_s(pwszDest, cbLen, g_profileDir, _TRUNCATE);
-	return 0;
+	PBYTE pCurBlob = blob;
+	pCurBlob += sizeof(DWORD);
+	m_hContact = *(PDWORD)pCurBlob;
+	pCurBlob += sizeof(DWORD);
+	m_szNick = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+	m_szFirstName = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+	m_szLastName = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+	m_szEmail = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+	m_szReason = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+	m_size = DWORD(pCurBlob - blob);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_APP_DLL(int) Profile_GetNameA(size_t cbLen, char *pszDest)
+DB_AUTH_BLOB::~DB_AUTH_BLOB()
 {
-	if (!cbLen || !pszDest)
-		return 1;
-
-	strncpy_s(pszDest, cbLen, ptrA(makeFileName(g_profileName)), _TRUNCATE);
-	return 0;
 }
 
-MIR_APP_DLL(int) Profile_GetNameW(size_t cbLen, wchar_t *pwszDest)
+PBYTE DB_AUTH_BLOB::makeBlob()
 {
-	if (!cbLen || !pwszDest)
-		return 1;
+	PBYTE pBlob, pCurBlob;
+	pCurBlob = pBlob = (PBYTE)mir_alloc(m_size + 1);
 
-	wcsncpy_s(pwszDest, cbLen, g_profileName, _TRUNCATE);
-	return 0;
+	*((PDWORD)pCurBlob) = 0;
+	pCurBlob += sizeof(DWORD);
+	*((PDWORD)pCurBlob) = (DWORD)m_hContact;
+	pCurBlob += sizeof(DWORD);
+
+	mir_snprintf((char*)pCurBlob, m_size - 8, "%s%c%s%c%s%c%s%c%s%c",
+		(m_szNick) ? m_szNick : "", 0,
+		(m_szFirstName) ? m_szFirstName : "", 0,
+		(m_szLastName) ? m_szLastName : "", 0,
+		(m_szEmail) ? m_szEmail : "", 0,
+		(m_szReason) ? m_szReason : 0);
+
+	return pBlob;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_APP_DLL(void) Profile_SetDefault(const wchar_t *pwszPath)
-{
-	extern wchar_t* g_defaultProfile;
-	replaceStrW(g_defaultProfile, pwszPath);
-}

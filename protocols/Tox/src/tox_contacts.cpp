@@ -260,24 +260,12 @@ void CToxProto::OnFriendRequest(Tox*, const uint8_t *pubKey, const uint8_t *mess
 
 	proto->delSetting(hContact, "Auth");
 
+	DB_AUTH_BLOB blob(hContact, 0, 0, 0, (LPCSTR)address, (LPCSTR)message);
+
 	PROTORECVEVENT pre = { 0 };
 	pre.timestamp = time(NULL);
-	pre.lParam = (DWORD)(sizeof(DWORD) * 2 + address.GetLength() + length + 5);
-
-	/*blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), id(ASCIIZ), reason(ASCIIZ)*/
-	PBYTE pBlob, pCurBlob;
-	pCurBlob = pBlob = (PBYTE)mir_calloc(pre.lParam);
-
-	*((PDWORD)pCurBlob) = 0;
-	pCurBlob += sizeof(DWORD);
-	*((PDWORD)pCurBlob) = (DWORD)hContact;
-	pCurBlob += sizeof(DWORD);
-	pCurBlob += 3;
-	mir_strcpy((char *)pCurBlob, address);
-	pCurBlob += address.GetLength() + 1;
-	mir_strcpy((char *)pCurBlob, (char*)message);
-	pre.szMessage = (char*)pBlob;
-
+	pre.lParam = blob.size();
+	pre.szMessage = blob;
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 }
 

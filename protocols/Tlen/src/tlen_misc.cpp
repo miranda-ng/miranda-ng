@@ -38,38 +38,23 @@ void TlenDBAddEvent(TlenProtocol *proto, MCONTACT hContact, int eventType, DWORD
 
 void TlenDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick)
 {
-	char *s;
-	PBYTE pCurBlob;
-	PBYTE pBlob;
-	DWORD cbBlob;
-	MCONTACT hContact;
-
-	if ((hContact=TlenHContactFromJID(proto, jid)) == NULL) {
+	MCONTACT hContact = TlenHContactFromJID(proto, jid);
+	if (hContact == NULL) {
 		hContact = db_add_contact();
 		Proto_AddToContact(hContact, proto->m_szModuleName);
 		// strip resource if present
-		s = TlenLoginFromJID(jid);
+		char *s = TlenLoginFromJID(jid);
 		_strlwr(s);
 		db_set_s(hContact, proto->m_szModuleName, "jid", s);
 		mir_free(s);
 	}
-	else {
-		db_unset(hContact, proto->m_szModuleName, "Hidden");
-	}
+	else db_unset(hContact, proto->m_szModuleName, "Hidden");
+
 	db_set_s(hContact, proto->m_szModuleName, "Nick", nick);
+	
 	proto->debugLogA("auth request: %s, %s", jid, nick);
-	//blob is: uin(DWORD), hContact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
-	//blob is: 0(DWORD), hContact(HANDLE), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), email(ASCIIZ), ""(ASCIIZ)
-	cbBlob = sizeof(DWORD) + sizeof(HANDLE) + (int)mir_strlen(nick) + (int)mir_strlen(jid) + 5;
-	pBlob = pCurBlob = (PBYTE) mir_alloc(cbBlob);
-	*((PDWORD)pCurBlob) = 0; pCurBlob += sizeof(DWORD);
-	*((PDWORD)pCurBlob) = (DWORD)hContact; pCurBlob += sizeof(DWORD);
-	mir_strcpy((char *) pCurBlob, nick); pCurBlob += mir_strlen(nick)+1;
-	*pCurBlob = '\0'; pCurBlob++;		//firstName
-	*pCurBlob = '\0'; pCurBlob++;		//lastName
-	mir_strcpy((char *) pCurBlob, jid); pCurBlob += mir_strlen(jid)+1;
-	*pCurBlob = '\0';					//reason
-	TlenDBAddEvent(proto, NULL, EVENTTYPE_AUTHREQUEST, 0, pBlob, cbBlob);
+	DB_AUTH_BLOB blob(hContact, nick, 0, 0, jid, 0);
+	TlenDBAddEvent(proto, NULL, EVENTTYPE_AUTHREQUEST, 0, blob, blob.size());
 }
 
 char *TlenJIDFromHContact(TlenProtocol *proto, MCONTACT hContact)

@@ -48,28 +48,17 @@ void CJabberProto::DBAddAuthRequest(const wchar_t *jid, const wchar_t *nick)
 	MCONTACT hContact = DBCreateContact(jid, nick, true, true);
 	delSetting(hContact, "Hidden");
 
-	T2Utf szJid(jid);
-	T2Utf szNick(nick);
+	DB_AUTH_BLOB blob(hContact, T2Utf(nick), NULL, NULL, T2Utf(jid), NULL);
 
-	// blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
-	// blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), email(ASCIIZ), ""(ASCIIZ)
 	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
-	dbei.cbBlob = (DWORD)(sizeof(DWORD) * 2 + mir_strlen(szNick) + mir_strlen(szJid) + 5);
-	PBYTE pCurBlob = dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-	*((PDWORD)pCurBlob) = 0; pCurBlob += sizeof(DWORD);
-	*((PDWORD)pCurBlob) = (DWORD)hContact; pCurBlob += sizeof(DWORD);
-	mir_strcpy((char*)pCurBlob, szNick); pCurBlob += mir_strlen(szNick) + 1;
-	*pCurBlob = '\0'; pCurBlob++;		//firstName
-	*pCurBlob = '\0'; pCurBlob++;		//lastName
-	mir_strcpy((char*)pCurBlob, szJid); pCurBlob += mir_strlen(szJid) + 1;
-	*pCurBlob = '\0';					//reason
-
+	dbei.cbBlob = blob.size();
+	dbei.pBlob = blob;
 	db_event_add(NULL, &dbei);
-	debugLogA("Setup DBAUTHREQUEST with nick='%s' jid='%s'", szNick, szJid);
+	debugLogA("Setup DBAUTHREQUEST with nick='%s' jid='%s'", blob.get_nick(), blob.get_email());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
