@@ -25,9 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "netlib.h"
 
-MIR_APP_DLL(HANDLE) Netlib_CreatePacketReceiver(HANDLE hConnection, int iMaxSize)
+MIR_APP_DLL(HANDLE) Netlib_CreatePacketReceiver(HNETLIBCONN nlc, int iMaxSize)
 {
-	NetlibConnection *nlc = (NetlibConnection*)hConnection;
 	if (GetNetlibHandleType(nlc) != NLH_CONNECTION || iMaxSize == 0) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return NULL;

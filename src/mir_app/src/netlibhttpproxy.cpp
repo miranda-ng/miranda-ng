@@ -223,10 +223,7 @@ int NetlibHttpGatewayPost(NetlibConnection *nlc, const char *buf, int len, int f
 	p->dataBufferLen = len;
 	p->next = NULL;
 
-	/*
-	 * Now check to see where to insert this in our queue
-	 */
-
+	// Now check to see where to insert this in our queue
 	mir_cslock lck(nlc->csHttpSequenceNums);
 	if (nlc->pHttpProxyPacketQueue == NULL)
 		nlc->pHttpProxyPacketQueue = p;
@@ -237,9 +234,6 @@ int NetlibHttpGatewayPost(NetlibConnection *nlc, const char *buf, int len, int f
 		t->next = p;
 	}
 
-	/*
-	 * Gena01 - fake a Send!! tell 'em all is ok. We catch errors in Recv.
-	 */
 	return len;
 }
 
@@ -357,7 +351,7 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int NetlibInitHttpConnection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
+int NetlibInitHttpConnection(HNETLIBCONN nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
 {
 	NETLIBHTTPREQUEST *nlhrReply = NULL;
 	{
@@ -385,9 +379,6 @@ int NetlibInitHttpConnection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENC
 	}
 	Netlib_FreeHttpRequest(nlhrReply);
 
-	/*
-	 * Gena01 - Ok, we should be able to use just POST. Needed for Yahoo, NO GET requests
-	 */
 	if (nlc->nlhpi.szHttpPostUrl == NULL) {
 		SetLastError(ERROR_BAD_FORMAT);
 		return 0;
@@ -404,9 +395,8 @@ int NetlibInitHttpConnection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Netlib_SetHttpProxyInfo(HANDLE hConnection, const NETLIBHTTPPROXYINFO *nlhpi)
+MIR_APP_DLL(int) Netlib_SetHttpProxyInfo(HNETLIBCONN nlc, const NETLIBHTTPPROXYINFO *nlhpi)
 {
-	NetlibConnection *nlc = (NetlibConnection*)hConnection;
 	if (GetNetlibHandleType(nlc) != NLH_CONNECTION || nlhpi == NULL || nlhpi->szHttpPostUrl == NULL) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
@@ -438,9 +428,8 @@ MIR_APP_DLL(int) Netlib_SetStickyHeaders(HNETLIBUSER nlu, const char *szHeaders)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Netlib_SetPollingTimeout(HANDLE hConnection, int iTimeout)
+MIR_APP_DLL(int) Netlib_SetPollingTimeout(HNETLIBCONN nlc, int iTimeout)
 {
-	NetlibConnection *nlc = (NetlibConnection*)hConnection;
 	if (GetNetlibHandleType(nlc) != NLH_CONNECTION)
 		return -1;
 	
