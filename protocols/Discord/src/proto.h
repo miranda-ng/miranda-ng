@@ -225,8 +225,9 @@ public:
 	int  __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int  __cdecl OnDbEventRead(WPARAM, LPARAM);
-
+	
 	// dispatch commands
+	void OnCommandFriendRemoved(const JSONNode&);
 	void OnCommandMessage(const JSONNode&);
 	void OnCommandPresence(const JSONNode&);
 	void OnCommandReady(const JSONNode&);
@@ -235,6 +236,8 @@ public:
 
 	void OnLoggedIn();
 	void OnLoggedOut();
+	
+	int  OnDeleteContact(MCONTACT hContact);
 
 	void OnReceiveAuth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveChannels(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

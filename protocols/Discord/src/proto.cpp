@@ -357,6 +357,24 @@ int CDiscordProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int CDiscordProto::OnDeleteContact(MCONTACT hContact)
+{
+	CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
+	if (pUser == NULL || !m_bOnline)
+		return 0;
+
+	if (pUser->channelId)
+		Push(new AsyncHttpRequest(this, REQUEST_DELETE, CMStringA(FORMAT, "/channels/%lld", pUser->channelId), NULL));
+
+	if (pUser->id)
+		Push(new AsyncHttpRequest(this, REQUEST_DELETE, CMStringA(FORMAT, "/users/@me/relationships/%lld", pUser->id), NULL));
+
+	return 0;
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CDiscordProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	return 0;
@@ -379,9 +397,17 @@ int CDiscordProto::OnPreShutdown(WPARAM, LPARAM)
 int CDiscordProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 {
 	switch (event) {
-		case EV_PROTO_ONLOAD:    return OnModulesLoaded(wParam, lParam);
-		case EV_PROTO_ONEXIT:    return OnPreShutdown(wParam, lParam);
-		case EV_PROTO_ONOPTIONS: return OnOptionsInit(wParam, lParam);
+	case EV_PROTO_ONLOAD:
+		return OnModulesLoaded(wParam, lParam);
+
+	case EV_PROTO_ONEXIT:
+		return OnPreShutdown(wParam, lParam);
+
+	case EV_PROTO_ONOPTIONS:
+		return OnOptionsInit(wParam, lParam);
+
+	case EV_PROTO_ONCONTACTDELETED:
+		return OnDeleteContact((MCONTACT)wParam);
 	}
 
 	return 1;

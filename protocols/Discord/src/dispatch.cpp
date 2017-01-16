@@ -33,6 +33,8 @@ static handlers[] = // these structures must me sorted alphabetically
 
 	{ L"READY", &CDiscordProto::OnCommandReady },
 
+	{ L"RELATIONSHIP_REMOVE", &CDiscordProto::OnCommandFriendRemoved },
+
 	{ L"TYPING_START", &CDiscordProto::OnCommandTyping },
 
 	{ L"USER_UPDATE", &CDiscordProto::OnCommandUserUpdate },
@@ -48,6 +50,22 @@ GatewayHandlerFunc CDiscordProto::GetHandler(const wchar_t *pwszCommand)
 	CDiscordCommand tmp = { pwszCommand, NULL };
 	CDiscordCommand *p = (CDiscordCommand*)bsearch(&tmp, handlers, _countof(handlers), sizeof(handlers[0]), pSearchFunc);
 	return (p != NULL) ? p->pFunc : NULL;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// reading a new message
+
+void CDiscordProto::OnCommandFriendRemoved(const JSONNode &pRoot)
+{
+	SnowFlake id = _wtoi64(pRoot["id"].as_mstring());
+	CDiscordUser *pUser = FindUser(id);
+	if (pUser != NULL) {
+		if (pUser->hContact) {
+			if (pUser->bIsPrivate)
+				db_delete_contact(pUser->hContact);
+		}
+		arUsers.remove(pUser);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
