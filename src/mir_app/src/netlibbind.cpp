@@ -179,9 +179,10 @@ MIR_APP_DLL(HNETLIBBIND) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *nlb)
 		return nullptr;
 	}
 
-	NetlibBoundPort *nlbp = (NetlibBoundPort*)mir_calloc(sizeof(NetlibBoundPort));
+	NetlibBoundPort *nlbp = new NetlibBoundPort(nlu, nlb);
 	if (nlbp->s == INVALID_SOCKET && nlbp->s6 == INVALID_SOCKET) {
 		Netlib_Logf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "socket", WSAGetLastError());
+LBL_Error:
 		delete nlbp;
 		return nullptr;
 	}
@@ -226,9 +227,7 @@ MIR_APP_DLL(HNETLIBBIND) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *nlb)
 	}
 	if (!foundPort) {
 		Netlib_Logf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "bind", WSAGetLastError());
-LBL_Error:
-		delete nlbp;
-		return nullptr;
+		goto LBL_Error;
 	}
 
 	if (nlbp->s != INVALID_SOCKET && listen(nlbp->s, 5)) {
@@ -300,6 +299,8 @@ NetlibBoundPort::NetlibBoundPort(HNETLIBUSER _nlu, NETLIBBIND *nlb)
 
 NetlibBoundPort::~NetlibBoundPort()
 {
-	closesocket(s);
-	closesocket(s6);
+	if (s != INVALID_SOCKET)
+		closesocket(s);
+	if (s6 != INVALID_SOCKET)
+		closesocket(s6);
 }
