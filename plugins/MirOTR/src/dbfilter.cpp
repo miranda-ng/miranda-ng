@@ -20,7 +20,7 @@ void CALLBACK DeleteTimerProc(HWND, UINT, UINT_PTR, DWORD) {
 	if (!DeleteEvents.first) return;
 	mir_cslock lck(RemoveChainCS);
 	DeleteEventNode *prev =0, *current, *next;
-	DBEVENTINFO info = { sizeof(info) };
+	DBEVENTINFO info = {};
 	next = DeleteEvents.first;
 	while (current = next) {
 		if (difftime(time(0), current->timestamp) < 1) break;
@@ -113,7 +113,7 @@ int OnDatabaseEventAdded(WPARAM hContact, LPARAM lParam)
 
 	unsigned len = (unsigned)strlen(LANG_INLINE_PREFIX);
 
-	DBEVENTINFO info = { sizeof(info) };
+	DBEVENTINFO info = {};
 	info.cbBlob = len * 2;
 	info.pBlob = (PBYTE)_alloca(info.cbBlob);
 	if (db_event_get(lParam, &info))

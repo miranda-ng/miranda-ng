@@ -27,7 +27,6 @@ begin
           with dbei do
           begin
             fillchar(dbei, sizeof(dbei), 0);
-            dbei.cbSize := sizeof(dbei);
             dbei.szModule := PAnsiChar(proto);
             dbei.timestamp := ImportTU.timestamp(
               RLWORD(pt + i + 5),

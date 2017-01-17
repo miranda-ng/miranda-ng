@@ -132,7 +132,7 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 
 	int histCount = db_event_count(hContact), actCount = 0;
 
-	DBEVENTINFO dbe = { sizeof(dbe) };
+	DBEVENTINFO dbe = {};
 	dbe.cbBlob = db_event_getBlobSize(hEvent);
 	dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob + 1);
 	db_event_get(hEvent, &dbe);

@@ -406,7 +406,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
 	wchar_t szName[CONTAINER_NAMELEN + 1];
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	db_event_get(hDbEvent, &dbei);
 
 	HWND hwnd = M.FindWindow(hContact);

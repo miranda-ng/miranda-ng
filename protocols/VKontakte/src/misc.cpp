@@ -556,7 +556,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact, bool added)
 		T2Utf(ptrW(db_get_wsa(hContact, m_szModuleName, "FirstName"))),
 		T2Utf(ptrW(db_get_wsa(hContact, m_szModuleName, "LastName"))), NULL, NULL);
 
-	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
+	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.flags = DBEF_UTF;
@@ -574,7 +574,7 @@ MCONTACT CVkProto::MContactFromDbEvent(MEVENT hDbEvent)
 		return INVALID_CONTACT_ID;
 
 	DWORD body[2];
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.cbBlob = sizeof(DWORD) * 2;
 	dbei.pBlob = (PBYTE)&body;
 
@@ -713,7 +713,7 @@ void CVkProto::MarkDialogAsRead(MCONTACT hContact)
 	MCONTACT hMContact = db_mc_tryMeta(hContact);
 	while ((hDBEvent = db_event_firstUnread(hContact)) != NULL) 
 	{
-		DBEVENTINFO dbei = { sizeof(dbei) };
+		DBEVENTINFO dbei = {};
 		if (!db_event_get(hDBEvent, &dbei) && !mir_strcmp(m_szModuleName, dbei.szModule))
 		{
 			db_event_markRead(hContact, hDBEvent);
@@ -1451,8 +1451,7 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 	if (iDEIdx == -1)
 		return;
 
-	DBEVENTINFO dbei;
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = VK_USER_DEACTIVATE_ACTION;

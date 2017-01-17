@@ -267,7 +267,7 @@ MCONTACT __cdecl CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 
 MCONTACT __cdecl CMsnProto::AddToListByEvent(int flags, int, MEVENT hDbEvent)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return NULL;
 
@@ -315,7 +315,7 @@ int CMsnProto::Authorize(MEVENT hDbEvent)
 	if (!msnLoggedIn)
 		return 1;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == -1)
 		return 1;
 
@@ -348,7 +348,7 @@ int CMsnProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	if (!msnLoggedIn)
 		return 1;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == -1)
 		return 1;
 
@@ -811,7 +811,7 @@ int CMsnProto::GetInfo(MCONTACT hContact, int)
 int CMsnProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	PROTOSEARCHRESULT **isrList = (PROTOSEARCHRESULT**)pre->szMessage;
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	BYTE *pCurBlob;
 	int i;
 

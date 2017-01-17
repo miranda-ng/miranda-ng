@@ -39,7 +39,6 @@ begin
       while (curxml <> 0) do
       begin
         fillchar(dbei, SizeOf(dbei), 0);
-        dbei.cbSize := SizeOf(dbei);
         dbei.szModule := PAnsiChar(proto);
         if TryStrToInt(xmlgetText(xmlgetChildByPath(curxml, 'time', false)), tm)
         then

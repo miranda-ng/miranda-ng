@@ -33,7 +33,7 @@ namespace Contact {
  **/
 DWORD	WhenAdded(DWORD dwUIN, LPCSTR)
 {
-	DBEVENTINFO	dbei = { sizeof(dbei) };
+	DBEVENTINFO	dbei = {};
 	for (MEVENT edbe = db_event_first(NULL); edbe != NULL; edbe = db_event_next(NULL, edbe)) {
 		// get eventtype and compare
 		if (!DB::Event::GetInfo(edbe, &dbei) && dbei.eventType == EVENTTYPE_ADDED) {
@@ -513,7 +513,6 @@ namespace Event {
 
 bool GetInfo(MEVENT hEvent, DBEVENTINFO *dbei)
 {
-	dbei->cbSize = sizeof(DBEVENTINFO);
 	dbei->cbBlob = 0;
 	dbei->pBlob  = NULL;
 	return db_event_get(hEvent, dbei) != 0;
@@ -531,7 +530,6 @@ bool GetInfo(MEVENT hEvent, DBEVENTINFO *dbei)
 
 bool GetInfoWithData(MEVENT hEvent, DBEVENTINFO *dbei)
 {
-	dbei->cbSize = sizeof(DBEVENTINFO);
 	if (!dbei->cbBlob) {
 		INT_PTR size = db_event_getBlobSize(hEvent);
 		dbei->cbBlob = (size != -1) ? (DWORD)size : 0;

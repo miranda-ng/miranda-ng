@@ -1361,7 +1361,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		}
 
 		for (MEVENT hdbEvent = db_event_last(dat->hContact); hdbEvent; hdbEvent = db_event_prev(dat->hContact, hdbEvent)) {
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			db_event_get(hdbEvent, &dbei);
 			if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
 				dat->lastMessage = dbei.timestamp;
@@ -1421,7 +1421,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 		// show a popup if wanted...
 		if (newData->bWantPopup) {
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			newData->bWantPopup = FALSE;
 			db_event_get(newData->hdbEvent, &dbei);
 			tabSRMM_ShowPopup(dat->hContact, newData->hdbEvent, dbei.eventType, 0, 0, hwndDlg, dat->cache->getActiveProto());
@@ -2738,7 +2738,7 @@ quote_from_last:
 
 				SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXGETSEL, 0, (LPARAM)&sel);
 				if (sel.cpMin == sel.cpMax) {
-					DBEVENTINFO dbei = { sizeof(dbei) };
+					DBEVENTINFO dbei = {};
 					dbei.cbBlob = db_event_getBlobSize(hDBEvent);
 					wchar_t *szText = (wchar_t*)mir_alloc((dbei.cbBlob + 1) * sizeof(wchar_t));   //URLs are made one char bigger for crlf
 					dbei.pBlob = (BYTE*)szText;

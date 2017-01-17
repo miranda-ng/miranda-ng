@@ -415,14 +415,9 @@ static BOOL isValidDbEvent(DBEVENTINFO *dbe, int flags)
 
 static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 {
-	DBEVENTINFO dbe;
 	BOOL bEventOk;
 
 	do {
-		memset(&dbe, 0, sizeof(DBEVENTINFO));
-		dbe.cbSize = sizeof(DBEVENTINFO);
-		dbe.cbBlob = 0;
-		dbe.pBlob = NULL;
 		if (hContact != NULL) {
 			if ((flags & DBE_FIRST) && (flags & DBE_UNREAD)) {
 				hDbEvent = db_event_firstUnread(hContact);
@@ -442,6 +437,7 @@ static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 			MEVENT hMatchEvent = NULL, hSearchEvent = NULL;
 			DWORD matchTimestamp = 0, priorTimestamp = 0;
 
+			DBEVENTINFO dbe = {};
 			if (flags & DBE_FIRST) {
 				for (MCONTACT hSearchContact = db_find_first(); hSearchContact; hSearchContact = db_find_next(hSearchContact)) {
 					hSearchEvent = findDbEvent(hSearchContact, NULL, flags);
@@ -502,7 +498,8 @@ static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 				}
 			}
 		}
-		dbe.cbBlob = 0;
+
+		DBEVENTINFO dbe = {};
 		if (db_event_get(hDbEvent, &dbe))
 			bEventOk = FALSE;
 		else
@@ -569,7 +566,7 @@ static wchar_t* parseDbEvent(ARGUMENTSINFO *ai)
 	if (hDbEvent == NULL)
 		return NULL;
 
-	DBEVENTINFO dbe = { sizeof(dbe) };
+	DBEVENTINFO dbe = {};
 	dbe.cbBlob = db_event_getBlobSize(hDbEvent);
 	dbe.pBlob = (PBYTE)mir_calloc(dbe.cbBlob);
 	if (db_event_get(hDbEvent, &dbe)) {

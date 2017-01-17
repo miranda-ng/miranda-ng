@@ -244,7 +244,6 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 					_dbei->szModule = szAuthEventModule;
 					_dbei->timestamp = dbei->timestamp;
 					_dbei->flags = 0;
-					_dbei->cbSize = sizeof(DBEVENTINFO);
 					_dbei->pBlob = _dbv.pbVal + sizeof(DWORD);
 					db_event_add(hContact,_dbei);
 					db_unset(hContact, PLUGIN_NAME, "AuthEvent");

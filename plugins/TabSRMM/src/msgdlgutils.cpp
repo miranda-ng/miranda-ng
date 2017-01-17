@@ -1120,7 +1120,7 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 		int i;
 		MEVENT hPrevEvent;
 		{
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			// ability to load only current session's history
 			if (dat->bActualHistory)
 				i = dat->cache->getSessionMsgCount();
@@ -1144,7 +1144,7 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 		break;
 
 	case LOADHISTORY_TIME:
-		DBEVENTINFO dbei = { sizeof(dbei) };
+		DBEVENTINFO dbei = {};
 		if (dat->hDbEventFirst == NULL)
 			dbei.timestamp = time(NULL);
 		else

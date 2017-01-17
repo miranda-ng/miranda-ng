@@ -72,7 +72,7 @@ void NotifyUser(Account *curAcc)
 		db_set_w(curAcc->hContact, MODULE_NAME, "Status", ID_STATUS_OCCUPIED);
 		int newMails = (curAcc->oldResults_num == -1) ? (curAcc->results_num) : (curAcc->results_num - curAcc->oldResults_num);
 		if (opt.LogThreads&&newMails > 0) {
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			dbei.eventType = EVENTTYPE_MESSAGE;
 			dbei.flags = DBEF_READ;
 			dbei.szModule = MODULE_NAME;

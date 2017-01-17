@@ -75,7 +75,6 @@ static void SetOpenFileButtonStyle(HWND hwndButton, int enabled)
 
 void FillSendData(FileDlgData *dat, DBEVENTINFO& dbei)
 {
-	dbei.cbSize = sizeof(dbei);
 	dbei.szModule = GetContactProto(dat->hContact);
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.flags = DBEF_SENT;

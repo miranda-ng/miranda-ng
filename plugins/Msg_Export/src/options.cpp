@@ -64,7 +64,7 @@ public:
 		hUser = hU;
 		hDbEvent = hDBE;
 
-		DBEVENTINFO dbei = { sizeof(dbei) };
+		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
 		time = dbei.timestamp;
 	}

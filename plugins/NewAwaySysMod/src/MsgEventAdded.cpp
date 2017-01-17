@@ -65,8 +65,7 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 	ProtoChainSend(ad->hContact, PSS_MESSAGE, 0, (LPARAM)pszReply);
 
 	if (g_AutoreplyOptPage.GetDBValueCopy(IDC_REPLYDLG_LOGREPLY)) { // store in the history
-		DBEVENTINFO dbeo = { 0 };
-		dbeo.cbSize = sizeof(dbeo);
+		DBEVENTINFO dbeo = {};
 		dbeo.eventType = EVENTTYPE_MESSAGE;
 		dbeo.flags = DBEF_SENT | DBEF_UTF;
 		dbeo.szModule = szProto;

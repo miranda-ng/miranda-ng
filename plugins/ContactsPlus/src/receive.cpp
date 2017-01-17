@@ -196,9 +196,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			RebuildGroupCombo(hwndDlg);
 
 			{ // fill listview with received contacts
-				DBEVENTINFO dbe = {0};
-
-				dbe.cbSize = sizeof(DBEVENTINFO);
+				DBEVENTINFO dbe = {};
 				dbe.cbBlob = db_event_getBlobSize(wndData->mhDbEvent);
 				if (dbe.cbBlob != -1)  // this marks an invalid hDbEvent - all smashed anyway...
 					dbe.pBlob = (PBYTE)_alloca(dbe.cbBlob);

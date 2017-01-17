@@ -92,7 +92,6 @@ begin
         while Cardinal(i) < fsz do
         begin
           fillchar(dbei, sizeof(dbei), 0);
-          dbei.cbSize := sizeof(dbei);
           dbei.szModule := PAnsiChar(proto);
           dbei.timestamp := RLInteger(pt + i + $12);
           dbei.timestamp := dbei.timestamp -

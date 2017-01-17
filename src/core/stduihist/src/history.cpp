@@ -146,7 +146,7 @@ static void FillHistoryThread(void* param)
 	int i = db_event_count(hInfo->hContact);
 	SendDlgItemMessage(hInfo->hwnd, IDC_LIST, LB_INITSTORAGE, i, i * 40);
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	int oldBlobSize = 0;
 	MEVENT hDbEvent = db_event_last(hInfo->hContact);
 
@@ -273,7 +273,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEHISTORY), TRUE);
 				MEVENT hDbEvent = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, sel, 0);
 
-				DBEVENTINFO dbei = { sizeof(dbei) };
+				DBEVENTINFO dbei = {};
 				dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 				if ((int)dbei.cbBlob != -1) {
 					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
@@ -295,7 +295,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		if (index == LB_ERR)
 			break;
 
-		DBEVENTINFO dbei = { sizeof(dbei) };
+		DBEVENTINFO dbei = {};
 		int oldBlobSize = 0;
 		MEVENT hDbEventStart = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, index, 0);
 

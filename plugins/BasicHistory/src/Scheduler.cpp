@@ -1280,7 +1280,7 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 		error += L"\n";
 		error += _error;
 
-		DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
+		DBEVENTINFO dbei = {};
 		dbei.szModule = MODULE;
 		dbei.flags = DBEF_UTF | DBEF_READ;
 		dbei.timestamp = time(NULL);

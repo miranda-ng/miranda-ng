@@ -733,7 +733,6 @@ void SendSMSWindowDBAdd(HWND hWndDlg)
 {
 	SEND_SMS_WINDOW_DATA *psswdWindowData = GET_WINDOW_DATA(hWndDlg);
 	if (psswdWindowData) {
-		psswdWindowData->pdbei->cbSize = sizeof(DBEVENTINFO);
 		psswdWindowData->pdbei->szModule = GetModuleName(psswdWindowData->hContact);
 		db_event_add(psswdWindowData->hContact, psswdWindowData->pdbei);
 		MEMFREE(psswdWindowData->pdbei);

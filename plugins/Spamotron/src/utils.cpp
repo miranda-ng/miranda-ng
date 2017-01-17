@@ -458,11 +458,11 @@ int LogToSystemHistory(char *message, char *origmessage)
 {
 	char msg[MAX_BUFFER_LENGTH];
 	time_t tm;
-	DBEVENTINFO dbei;
 
 	if (message == NULL)
 		return 0;
-	dbei.cbSize = sizeof(DBEVENTINFO);
+
+	DBEVENTINFO dbei = {};
 	dbei.timestamp = time(&tm);
 	dbei.szModule = PLUGIN_NAME;
 	dbei.pBlob = (PBYTE)msg;
@@ -488,10 +488,7 @@ void MarkUnread(MCONTACT hContact)
 	if (db_get(hContact, PLUGIN_NAME, "LastMsgEvents", &_dbv) == 0) {
 		pos = _dbv.pbVal;
 		while (pos - _dbv.pbVal < _dbv.cpbVal) {
-			DBEVENTINFO _dbei;
-			memset(&_dbei, 0, sizeof(_dbei));
-			_dbei.cbSize = sizeof(_dbei);
-
+			DBEVENTINFO _dbei = {};
 			memcpy(&_dbei.eventType, pos, sizeof(WORD)); pos += sizeof(WORD);
 			memcpy(&_dbei.flags, pos, sizeof(DWORD)); pos += sizeof(DWORD);
 			memcpy(&_dbei.timestamp, pos, sizeof(DWORD)); pos += sizeof(DWORD);

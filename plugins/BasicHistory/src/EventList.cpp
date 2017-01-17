@@ -38,7 +38,6 @@ HistoryEventList::HistoryEventList() :
 	m_useImportedMessages(true)
 {
 	memset(&m_dbei, 0, sizeof(DBEVENTINFO));
-	m_dbei.cbSize = sizeof(DBEVENTINFO);
 	m_oldBlobSize = 0;
 }
 
@@ -51,7 +50,6 @@ HistoryEventList::HistoryEventList(MCONTACT _hContact, int filter) :
 	m_useImportedMessages(true)
 {
 	memset(&m_dbei, 0, sizeof(DBEVENTINFO));
-	m_dbei.cbSize = sizeof(DBEVENTINFO);
 	m_oldBlobSize = 0;
 	SetDefFilter(filter);
 }
@@ -501,7 +499,7 @@ void HistoryEventList::MargeMessages(const std::vector<IImport::ExternalMessage>
 	std::list<EventTempIndex> tempList;
 	GetTempList(tempList, true, false, m_hContact);
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.szModule = GetContactProto(m_hContact);
 
 	db_set_safety_mode(FALSE);

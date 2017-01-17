@@ -56,7 +56,7 @@ extern "C" __declspec (dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 void RemoveReadEvents(MCONTACT hContact = 0)
 {
-	DBEVENTINFO info = { sizeof(info) };
+	DBEVENTINFO info = {};
 	bool remove;
 
 	mir_cslock lck(list_cs);
@@ -116,7 +116,7 @@ int OnDatabaseEventAdd(WPARAM hContact, LPARAM hDBEvent)
 	if (db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) == 0)
 		return 0;
 	
-	DBEVENTINFO info = { sizeof(info) };
+	DBEVENTINFO info = {};
 	if (!db_event_get(hDBEvent, &info)) {
 		if (info.eventType == EVENTTYPE_MESSAGE) {
 			EventListNode *node = (EventListNode *)malloc(sizeof(EventListNode));

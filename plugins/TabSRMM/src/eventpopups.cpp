@@ -504,7 +504,7 @@ static int PopupUpdateT(MCONTACT hContact, MEVENT hEvent)
 	else
 		szHeader[0] = 0;
 
-	DBEVENTINFO dbe = { sizeof(dbe) };
+	DBEVENTINFO dbe = {};
 	if (pdata->pluginOptions->bPreview && hContact) {
 		dbe.cbBlob = db_event_getBlobSize(hEvent);
 		dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob);
@@ -569,7 +569,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	if (!PluginConfig.g_bPopupAvail)
 		return 0;
 
-	DBEVENTINFO dbe = { sizeof(dbe) };
+	DBEVENTINFO dbe = {};
 	// fix for a crash
 	if (hEvent && (pluginOptions->bPreview || hContact == 0)) {
 		dbe.cbBlob = db_event_getBlobSize(hEvent);

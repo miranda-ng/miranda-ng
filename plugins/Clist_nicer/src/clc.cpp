@@ -70,7 +70,7 @@ static int ClcEventAdded(WPARAM hContact, LPARAM lParam)
 	cfg::dat.t_now = time(NULL);
 
 	if (hContact && lParam) {
-		DBEVENTINFO dbei = { sizeof(dbei) };
+		DBEVENTINFO dbei = {};
 		db_event_get(lParam, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
 			DWORD firstTime = db_get_dw(hContact, "CList", "mf_firstEvent", 0);

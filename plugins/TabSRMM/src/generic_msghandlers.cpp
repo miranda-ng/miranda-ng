@@ -1474,7 +1474,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 	HWND hwndDlg = dat->hwnd, hwndContainer = pContainer->hwnd, hwndTab = GetParent(dat->hwnd);
 	MEVENT hDbEvent = (MEVENT)lParam;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	db_event_get(hDbEvent, &dbei);
 	if (dat->hDbEventFirst == NULL)
 		dat->hDbEventFirst = hDbEvent;

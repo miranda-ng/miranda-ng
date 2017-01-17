@@ -3917,13 +3917,13 @@ begin
     begin
       DBEventInfo := GetEventInfo(hDBEvent);
       DBEventInfo.szModule := nil;
-      Item.Size := Cardinal(DBEventInfo.cbSize) + Cardinal(DBEventInfo.cbBlob);
+      Item.Size := sizeof(DBEventInfo) + Cardinal(DBEventInfo.cbBlob);
     end;
     if Item.Size > 0 then
     begin
       GetMem(Item.Buffer, Item.Size);
-      DataOffset := PAnsiChar(Item.Buffer) + DBEventInfo.cbSize;
-      Move(DBEventInfo, Item.Buffer^, DBEventInfo.cbSize);
+      DataOffset := PAnsiChar(Item.Buffer) + sizeof(DBEventInfo);
+      Move(DBEventInfo, Item.Buffer^, sizeof(DBEventInfo));
       Move(DBEventInfo.pBlob^, DataOffset^, DBEventInfo.cbBlob);
     end;
   end

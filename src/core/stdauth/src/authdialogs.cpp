@@ -38,7 +38,7 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		{
 			//blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 			dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
 			db_event_get(hDbEvent, &dbei);
@@ -161,7 +161,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 			//blob is: uin(DWORD), hcontact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 			dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
 			db_event_get(hDbEvent, &dbei);
@@ -243,7 +243,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		case IDOK:
 			{
-				DBEVENTINFO dbei = { sizeof(dbei) };
+				DBEVENTINFO dbei = {};
 				db_event_get(hDbEvent, &dbei);
 				CallProtoService(dbei.szModule, PS_AUTHALLOW, (WPARAM)hDbEvent, 0);
 
@@ -260,7 +260,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		case IDCANCEL:
 			{
-				DBEVENTINFO dbei = { sizeof(dbei) };
+				DBEVENTINFO dbei = {};
 				db_event_get(hDbEvent, &dbei);
 
 				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_DENYREASON))) {

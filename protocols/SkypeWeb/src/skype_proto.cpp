@@ -161,7 +161,7 @@ MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr)
 MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 {
 	debugLogA(__FUNCTION__);
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return NULL;
 	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == NULL)

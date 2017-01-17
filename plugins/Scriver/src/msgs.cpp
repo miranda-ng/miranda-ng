@@ -91,7 +91,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 {
 	MEVENT hDbEvent = (MEVENT)lParam;
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	db_event_get(hDbEvent, &dbei);
 	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
 		return 0;
@@ -249,7 +249,7 @@ static void RestoreUnreadMessageAlerts(void)
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			dbei.cbBlob = 0;
 			db_event_get(hDbEvent, &dbei);
 			if ((dbei.flags & (DBEF_SENT | DBEF_READ)) || !DbEventIsMessageOrCustom(&dbei))

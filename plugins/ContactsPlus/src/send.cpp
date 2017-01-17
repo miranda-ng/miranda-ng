@@ -398,7 +398,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				break;
 			}
 
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			dbei.szModule = GetContactProto(ackData->hContact);
 			dbei.eventType = EVENTTYPE_CONTACTS;
 			dbei.flags = DBEF_SENT | DBEF_UTF;

@@ -1105,7 +1105,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 					DWORD uin = *((PDWORD)(dbei.pBlob));
 					int n = mir_snwprintf(szTemp, L"%d", uin);
 					if (bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n)) {
-						char *pszEnd = (char *)(dbei.pBlob + dbei.cbSize);
+						char *pszEnd = (char *)(dbei.pBlob + sizeof(dbei));
 						for (int i = 0; i < nStringCount && pszCurBlobPos < pszEnd; i++) {
 							if (*pszCurBlobPos) {
 								if (!bWriteNewLine(hFile, nIndent) ||
@@ -1214,7 +1214,7 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 	if (!db_get_b(hContact, MODULE, "EnableLog", 1))
 		return 0;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	int nSize = db_event_getBlobSize(hDbEvent);
 	if (nSize > 0) {
 		dbei.cbBlob = nSize;

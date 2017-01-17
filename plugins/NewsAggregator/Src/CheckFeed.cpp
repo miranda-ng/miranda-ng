@@ -139,9 +139,7 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 	else
 		message.Replace(L"#<category>#", category);
 
-	DBEVENTINFO olddbei = { 0 };
-	olddbei.cbSize = sizeof(olddbei);
-
+	DBEVENTINFO olddbei = {};
 	bool  MesExist = false;
 	T2Utf pszTemp(message);
 	DWORD cbMemoLen = 10000, cbOrigLen = (DWORD)mir_strlen(pszTemp);

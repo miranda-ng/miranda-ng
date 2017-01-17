@@ -25,7 +25,6 @@ void MirandaContact::fetchSlot(int i)
 
 	ei.hContact = ci.hContact;
 	ei.dbe.cbBlob = db_event_getBlobSize(ci.hEvent);
-	ei.dbe.cbSize = sizeof(ei.dbe);
 
 	if (ei.dbe.cbBlob > ei.nAllocated) {
 		ei.nAllocated = ei.dbe.cbBlob;

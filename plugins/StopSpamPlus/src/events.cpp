@@ -5,8 +5,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 	UNREFERENCED_PARAMETER(wParam);
 	MEVENT hDbEvent = (MEVENT)lParam;
 
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = {};
 	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 	if (-1 == dbei.cbBlob)
 		return 0;

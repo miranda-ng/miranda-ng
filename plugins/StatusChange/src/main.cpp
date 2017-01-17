@@ -48,7 +48,7 @@ static int StatusChangeGetMessage(WPARAM, LPARAM hDbEvent)
 	int status;
 	BOOL read, send, change_status;
 
-	DBEVENTINFO dbe = { sizeof(dbe) };
+	DBEVENTINFO dbe = {};
 	db_event_get(hDbEvent, &dbe);
 
 	status = (int)CallProtoService(dbe.szModule, PS_GETSTATUS, 0, 0);

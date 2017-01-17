@@ -95,7 +95,6 @@ begin
   end;
 
   FillChar(dbeiExisting, SizeOf(dbeiExisting), Byte(0));
-  dbeiExisting.cbSize := SizeOf(dbeiExisting);
   dbeiExisting.cbBlob := 0;
   db_event_get(hExistingDbEvent, @dbeiExisting);
   dwFirstEventTimeStamp := dbeiExisting.timestamp;
@@ -108,7 +107,6 @@ begin
   end;
 
   FillChar(dbeiExisting, SizeOf(dbeiExisting), Byte(0));
-  dbeiExisting.cbSize := SizeOf(dbeiExisting);
   dbeiExisting.cbBlob := 0;
   db_event_get(hExistingDbEvent, @dbeiExisting);
   dwLastEventTimeStamp := dbeiExisting.timestamp;
@@ -134,7 +132,6 @@ begin
     while (hExistingDbEvent <> 0) do
     begin
       FillChar(dbeiExisting, SizeOf(dbeiExisting), Byte(0));
-      dbeiExisting.cbSize := SizeOf(dbeiExisting);
       dbeiExisting.cbBlob := 0;
       db_event_get(hExistingDbEvent, @dbeiExisting);
       // compare event
@@ -208,7 +205,6 @@ var
   s: WideString;
 begin
   FillChar(dbei, SizeOf(dbei), Byte(0));
-  dbei.cbSize := SizeOf(dbei);
   dbei.eventType := EVENTTYPE_MESSAGE;
   dbei.flags := Direction;
   proto := GetContactProto(hContact);
@@ -533,6 +529,7 @@ var
   tempstr: PAnsiChar;
 var
   dbei: TDBEVENTINFO;
+  evSize: integer;
   proto: AnsiString;
   pt: int_ptr;
   fsz: cardinal;

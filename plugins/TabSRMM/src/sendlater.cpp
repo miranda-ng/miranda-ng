@@ -437,7 +437,7 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 		CSendLaterJob *p = m_sendLaterJobList[i];
 		if (p->hProcess == ack->hProcess && p->hTargetContact == ack->hContact && !(p->fSuccess || p->fFailed)) {
 			if (!p->fSuccess) {
-				DBEVENTINFO dbei = { sizeof(dbei) };
+				DBEVENTINFO dbei = {};
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT;
 				dbei.szModule = GetContactProto((p->hContact));

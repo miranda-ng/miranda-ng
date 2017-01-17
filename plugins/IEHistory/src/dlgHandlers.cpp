@@ -172,8 +172,7 @@ DWORD WINAPI WorkerThread(LPVOID lpvData)
 	IEVIEWEVENT ieEvent = data->ieEvent;
 	ieEvent.iType = IEE_LOG_MEM_EVENTS;
 	ieEvent.eventData = ieData;
-	DBEVENTINFO dbInfo = { 0 };
-	dbInfo.cbSize = sizeof(DBEVENTINFO);
+	DBEVENTINFO dbInfo = {};
 	PBYTE buffer = NULL;
 	int newSize, oldSize = 0;
 	while (count < target) {

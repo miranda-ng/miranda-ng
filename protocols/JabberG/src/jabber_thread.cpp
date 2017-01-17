@@ -987,7 +987,7 @@ DWORD JabberGetLastContactMessageTime(MCONTACT hContact)
 
 	DWORD dwTime = 0;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 	if (dbei.cbBlob != -1) {
 		dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
@@ -1146,7 +1146,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 	// chatstates gone event
 	if (hContact && XmlGetChildByTag(node, "gone", "xmlns", JABBER_FEAT_CHATSTATES) && m_options.LogChatstates) {
 		BYTE bEventType = JABBER_DB_EVENT_CHATSTATES_GONE; // gone event
-		DBEVENTINFO dbei = { sizeof(dbei) };
+		DBEVENTINFO dbei = {};
 		dbei.pBlob = &bEventType;
 		dbei.cbBlob = 1;
 		dbei.eventType = EVENTTYPE_JABBER_CHATSTATES;

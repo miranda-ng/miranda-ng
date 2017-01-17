@@ -94,7 +94,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 	if (!hExistingDbEvent)
 		return FALSE;
 
-	DBEVENTINFO dbeiExisting = { sizeof(dbeiExisting) };
+	DBEVENTINFO dbeiExisting = {};
 	db_event_get(hExistingDbEvent, &dbeiExisting);
 	DWORD dwEventTimeStamp = dbeiExisting.timestamp;
 
@@ -117,7 +117,6 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 			return FALSE;
 
 		memset(&dbeiExisting, 0, sizeof(dbeiExisting));
-		dbeiExisting.cbSize = sizeof(dbeiExisting);
 		db_event_get(hExistingDbEvent, &dbeiExisting);
 		dwEventTimeStamp = dbeiExisting.timestamp;
 
@@ -135,7 +134,6 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 	// check for equal timestamps
 	if (dbei.timestamp == dwPreviousTimeStamp) {
 		memset(&dbeiExisting, 0, sizeof(dbeiExisting));
-		dbeiExisting.cbSize = sizeof(dbeiExisting);
 		db_event_get(hPreviousDbEvent, &dbeiExisting);
 
 		if (dbei == dbeiExisting)
@@ -145,7 +143,6 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 		hExistingDbEvent = db_event_next(hContact, hPreviousDbEvent);
 		while (hExistingDbEvent != NULL) {
 			memset(&dbeiExisting, 0, sizeof(dbeiExisting));
-			dbeiExisting.cbSize = sizeof(dbeiExisting);
 			db_event_get(hExistingDbEvent, &dbeiExisting);
 
 			if (dbeiExisting.timestamp != dwPreviousTimeStamp) {
@@ -166,7 +163,6 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 		// look back
 		while (hExistingDbEvent != NULL) {
 			memset(&dbeiExisting, 0, sizeof(dbeiExisting));
-			dbeiExisting.cbSize = sizeof(dbeiExisting);
 			db_event_get(hExistingDbEvent, &dbeiExisting);
 
 			if (dbei.timestamp > dbeiExisting.timestamp) {
@@ -192,7 +188,6 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 		// look forward
 		while (hExistingDbEvent != NULL) {
 			memset(&dbeiExisting, 0, sizeof(dbeiExisting));
-			dbeiExisting.cbSize = sizeof(dbeiExisting);
 			db_event_get(hExistingDbEvent, &dbeiExisting);
 
 			if (dbei.timestamp < dbeiExisting.timestamp) {
@@ -267,7 +262,7 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 
 		T2Utf szEventText(tszBody);
 
-		DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
+		DBEVENTINFO dbei = {};
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.szModule = m_szModuleName;
 		dbei.cbBlob = (DWORD)mir_strlen(szEventText)+1;

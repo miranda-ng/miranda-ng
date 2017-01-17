@@ -180,7 +180,6 @@ begin
     while (hDBEvent <> 0) and not Terminated do
     begin
       ZeroMemory(@Event, SizeOf(Event));
-      Event.cbSize := SizeOf(Event);
       Event.cbBlob := 0;
       db_event_get(hDBEvent, @Event);
       CurTime := Event.Timestamp;

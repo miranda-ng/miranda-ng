@@ -376,7 +376,7 @@ int CSend::OnSend(void *obj, WPARAM, LPARAM lParam)
 
 void CSend::DB_EventAdd(WORD EventType)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.szModule = m_pszProto;
 	dbei.eventType = EventType;
 	dbei.flags = DBEF_SENT;

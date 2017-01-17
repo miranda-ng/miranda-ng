@@ -102,7 +102,7 @@ static wchar_t* getEventString(DBEVENTINFO *dbei, LPSTR &buf)
 
 static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatype)
 {
-	if (dbei == NULL || dbei->szModule == NULL || dbei->cbSize != sizeof(DBEVENTINFO))
+	if (dbei == NULL || dbei->szModule == NULL)
 		return 0;
 
 	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
@@ -308,7 +308,7 @@ PBYTE DB_AUTH_BLOB::makeBlob()
 		(m_szFirstName) ? m_szFirstName : "", 0,
 		(m_szLastName) ? m_szLastName : "", 0,
 		(m_szEmail) ? m_szEmail : "", 0,
-		(m_szReason) ? m_szReason : 0);
+		(m_szReason) ? m_szReason : "", 0);
 
 	return pBlob;
 }

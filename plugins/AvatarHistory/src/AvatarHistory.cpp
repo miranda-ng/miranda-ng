@@ -214,7 +214,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 			PathToRelativeW(history_filename, rel_path);
 			T2Utf blob(rel_path);
 
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			dbei.szModule = GetContactProto(hContact);
 			dbei.flags = DBEF_READ | DBEF_UTF;
 			dbei.timestamp = (DWORD) time(NULL);

@@ -855,7 +855,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 	MEVENT hEvent = srcDb->FindFirstEvent(hContact);
 	for (int i = 0; hEvent; i++, hEvent = srcDb->FindNextEvent(hContact, hEvent)) {
 		// Copy the event and import it
-		DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
+		DBEVENTINFO dbei = {};
 		dbei.cbBlob = srcDb->GetBlobSize(hEvent);
 		if (dbei.cbBlob > cbAlloc) {
 			cbAlloc = dbei.cbBlob + 4096 - dbei.cbBlob % 4096;

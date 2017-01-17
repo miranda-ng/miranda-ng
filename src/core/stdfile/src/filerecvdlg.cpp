@@ -222,7 +222,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			db_event_markRead(dat->hContact, dat->hDbEvent);
 
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			dbei.cbBlob = db_event_getBlobSize(dat->hDbEvent);
 			if (dbei.cbBlob > 4 && dbei.cbBlob <= 8196) {
 				dbei.pBlob = (PBYTE)alloca(dbei.cbBlob + 1);

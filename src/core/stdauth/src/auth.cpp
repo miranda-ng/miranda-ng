@@ -47,7 +47,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	wchar_t szTooltip[256];
 	MEVENT hDbEvent = (MEVENT)lParam;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	db_event_get(lParam, &dbei);
 	if (dbei.flags & (DBEF_SENT | DBEF_READ) || (dbei.eventType != EVENTTYPE_AUTHREQUEST && dbei.eventType != EVENTTYPE_ADDED))
 		return 0;

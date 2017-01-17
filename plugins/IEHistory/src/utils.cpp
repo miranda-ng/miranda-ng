@@ -216,9 +216,7 @@ SearchResult SearchHistory(MCONTACT contact, MEVENT hFirstEvent, void *searchDat
 	int oldSize, newSize;
 	oldSize = newSize = 0;
 
-	DBEVENTINFO dbEvent = { 0 };
-	dbEvent.cbSize = sizeof(dbEvent);
-
+	DBEVENTINFO dbEvent = {};
 	while ((!found) && (hEvent)){
 		newSize = db_event_getBlobSize(hEvent);
 		if (newSize > oldSize)

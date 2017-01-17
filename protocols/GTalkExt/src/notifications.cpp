@@ -192,7 +192,7 @@ static MEVENT AddCListNotification(MCONTACT hContact, LPCSTR acc, POPUPDATAT *da
 {
 	T2Utf szUrl(url), szText(data->lptzText);
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.szModule = (LPSTR)acc;
 	dbei.timestamp = time(NULL);
 	dbei.flags = DBEF_UTF;

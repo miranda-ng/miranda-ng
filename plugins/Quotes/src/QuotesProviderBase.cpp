@@ -456,7 +456,7 @@ void log_to_history(const IQuotesProvider* pProvider,
 	tstring s = format_rate(pProvider, hContact, rsFormat);
 	T2Utf psz(s.c_str());
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.szModule = QUOTES_PROTOCOL_NAME;
 	dbei.timestamp = static_cast<DWORD>(nTime);
 	dbei.flags = DBEF_READ | DBEF_UTF;

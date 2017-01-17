@@ -225,7 +225,7 @@ MCONTACT TlenProtocol::AddToList(int flags, PROTOSEARCHRESULT *psr)
 
 MCONTACT TlenProtocol::AddToListByEvent(int flags, int, MEVENT hDbEvent)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return NULL;
 	if ((dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob)) == NULL)
@@ -262,7 +262,7 @@ int TlenProtocol::Authorize(MEVENT hDbEvent)
 	if (!isOnline)
 		return 1;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)-1)
 		return 1;
 	if ((dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob)) == NULL)
@@ -307,7 +307,7 @@ int TlenProtocol::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	if (!isOnline)
 		return 1;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return 1;
 	if ((dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob)) == NULL)

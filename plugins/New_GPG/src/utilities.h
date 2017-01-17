@@ -50,7 +50,6 @@ public:
 		flags = 0;
 		timestamp = time(0);
 		szModule = 0;
-		cbSize = 0;
 		cbBlob = DWORD(mir_strlen(msg)+1);
 		pBlob = (PBYTE)msg;
 	}
@@ -62,7 +61,6 @@ public:
 		flags = 0;
 		timestamp = time;
 		szModule = 0;
-		cbSize = 0;
 	}
 	db_event(char* msg, DWORD time, int type)
 	{
@@ -75,7 +73,6 @@ public:
 		flags = 0;
 		timestamp = time;
 		szModule = 0;
-		cbSize = 0;
 	}
 	db_event(char* msg, int type)
 	{
@@ -88,7 +85,6 @@ public:
 			eventType = EVENTTYPE_MESSAGE;
 		timestamp = time(0);
 		szModule = 0;
-		cbSize = 0;
 	}
 	db_event(char* msg, DWORD time, int type, DWORD _flags)
 	{
@@ -101,9 +97,9 @@ public:
 		flags = _flags;
 		timestamp = time;
 		szModule = 0;
-		cbSize = 0;
 	}
 };
+
 void HistoryLog(MCONTACT, db_event);
 void fix_line_term(std::string &s);
 void fix_line_term(std::wstring &s);

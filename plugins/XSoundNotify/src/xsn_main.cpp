@@ -103,7 +103,7 @@ static int ProtoAck(WPARAM, LPARAM lParam)
 
 static bool isReceiveMessage(MEVENT hDbEvent)
 {
-	DBEVENTINFO info = { sizeof(info) };
+	DBEVENTINFO info = {};
 	db_event_get(hDbEvent, &info);
 	// i don't understand why it works and how it works, but it works correctly - practice way (методом тыка)
 	// so, i think correct condition would be : eventType == EVENTTYPE_MESSAGE && info.flags & DBEF_READ, but it really isn't

@@ -201,7 +201,7 @@ int DbEventIsShown(DBEVENTINFO *dbei)
 //mir_free() the return value
 static bool CreateRTFFromDbEvent(LogStreamData *dat)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.cbBlob = db_event_getBlobSize(dat->hDbEvent);
 	if (dbei.cbBlob == -1)
 		return false;

@@ -94,7 +94,7 @@ int ReadMsgSMS(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(((CLISTEVENT*)lParam)->hDbEvent)) == -1)
 		return 1;
 	dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
@@ -115,7 +115,7 @@ int ReadAckSMS(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(cle->hDbEvent)) == -1)
 		return 1;
 	dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
@@ -133,7 +133,7 @@ int ReadAckSMS(WPARAM, LPARAM lParam)
 
 void RestoreUnreadMessageAlerts(void)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {

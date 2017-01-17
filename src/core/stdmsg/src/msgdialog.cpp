@@ -506,7 +506,7 @@ void CSrmmWindow::OnInitDialog()
 				if (hPrevEvent == NULL)
 					break;
 
-				DBEVENTINFO dbei = { sizeof(dbei) };
+				DBEVENTINFO dbei = {};
 				m_hDbEventFirst = hPrevEvent;
 				db_event_get(hPrevEvent, &dbei);
 				if (!DbEventIsShown(&dbei))
@@ -515,7 +515,7 @@ void CSrmmWindow::OnInitDialog()
 			break;
 
 		case LOADHISTORY_TIME:
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			if (m_hDbEventFirst == NULL)
 				dbei.timestamp = (DWORD)time(NULL);
 			else
@@ -544,7 +544,7 @@ void CSrmmWindow::OnInitDialog()
 	MEVENT hdbEvent = db_event_last(m_hContact);
 	if (hdbEvent) {
 		do {
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			db_event_get(hdbEvent, &dbei);
 			if ((dbei.eventType == EVENTTYPE_MESSAGE) && !(dbei.flags & DBEF_SENT)) {
 				m_lastMessage = dbei.timestamp;
@@ -1178,7 +1178,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (m_hDbEventFirst == NULL)
 				m_hDbEventFirst = hDbEvent;
 
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			db_event_get(hDbEvent, &dbei);
 			bool isMessage = (dbei.eventType == EVENTTYPE_MESSAGE), isSent = ((dbei.flags & DBEF_SENT) != 0);
 			if (DbEventIsShown(&dbei)) {

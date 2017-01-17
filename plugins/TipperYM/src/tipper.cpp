@@ -110,7 +110,7 @@ int SettingChanged(WPARAM, LPARAM lParam)
 // needed for msg_count_xxx substitutions
 int EventDeleted(WPARAM wParam, LPARAM lParam)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if (!db_event_get(lParam, &dbei))
 		if (dbei.eventType == EVENTTYPE_MESSAGE)
 			db_unset(wParam, MODULE, "LastCountTS");

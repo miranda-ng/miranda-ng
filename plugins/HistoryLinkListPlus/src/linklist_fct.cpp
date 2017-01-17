@@ -378,7 +378,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 					// Perform deep scan
 					if ( actualElement->hEvent != NULL )
 					{
-						DBEVENTINFO dbe = { sizeof(dbe) };
+						DBEVENTINFO dbe = {};
 						dbe.cbBlob = db_event_getBlobSize(actualElement->hEvent);
 						dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob+1);
 						db_event_get(actualElement->hEvent, &dbe);
@@ -612,7 +612,7 @@ void WriteMessage(HWND hDlg, LISTELEMENT *listStart, int actLinePos)
 		if (actualElement->linePos == actLinePos) {
 			MEVENT hEvent = actualElement->hEvent;
 			if (hEvent != NULL ) {
-				DBEVENTINFO dbe = { sizeof(dbe) };
+				DBEVENTINFO dbe = {};
 				dbe.cbBlob = db_event_getBlobSize(hEvent);
 				dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob+1);
 				db_event_get(hEvent, &dbe);
@@ -769,7 +769,7 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart,  LPCTSTR searchString, siz
 				// Perform deep scan
 				if ( actualElement->hEvent != NULL )
 				{
-					DBEVENTINFO dbe = { sizeof(dbe) };
+					DBEVENTINFO dbe = {};
 					dbe.cbBlob = db_event_getBlobSize(actualElement->hEvent);
 					dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob+1);
 					db_event_get(actualElement->hEvent, &dbe);
@@ -1179,7 +1179,7 @@ int DBUpdate(WPARAM wParam, LPARAM hEvent)
 		return 0;
 
 	if(hDlg) {
-		DBEVENTINFO dbe = { sizeof(dbe) };
+		DBEVENTINFO dbe = {};
 		dbe.cbBlob = db_event_getBlobSize(hEvent);
 		dbe.pBlob = (PBYTE)mir_alloc((size_t)dbe.cbBlob+1);
 		db_event_get(hEvent, &dbe);

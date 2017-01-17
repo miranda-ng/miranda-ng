@@ -164,7 +164,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 			if (hContact)
 			{
 				BYTE bEventType = STEAM_DB_EVENT_CHATSTATES_GONE;
-				DBEVENTINFO dbei = { sizeof(dbei) };
+				DBEVENTINFO dbei = {};
 				dbei.pBlob = &bEventType;
 				dbei.cbBlob = 1;
 				dbei.eventType = EVENTTYPE_STEAM_CHATSTATES;

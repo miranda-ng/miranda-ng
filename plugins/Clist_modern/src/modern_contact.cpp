@@ -61,7 +61,7 @@ DWORD CompareContacts2_getLMTime(MCONTACT hContact)
 {
 	MEVENT hDbEvent = db_event_last(hContact);
 	while (hDbEvent) {
-		DBEVENTINFO dbei = { sizeof(dbei) };
+		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
 			return dbei.timestamp;

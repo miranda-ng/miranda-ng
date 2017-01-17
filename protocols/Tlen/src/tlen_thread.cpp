@@ -701,7 +701,7 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 						} else {
 							MEVENT hDbEvent = db_event_last(hContact);
 							if (hDbEvent != NULL) {
-								DBEVENTINFO dbei = { sizeof(dbei) }; 
+								DBEVENTINFO dbei = {}; 
 								db_event_get( hDbEvent, &dbei);
 								if (msgTime < dbei.timestamp) {
 									msgTime = dbei.timestamp + 1;

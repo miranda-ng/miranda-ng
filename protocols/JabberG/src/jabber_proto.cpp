@@ -331,7 +331,7 @@ MCONTACT __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, MEV
 {
 	debugLogA("AddToListByEvent");
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return NULL;
 	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == NULL)
@@ -355,7 +355,7 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 	if (!m_bJabberOnline)
 		return 1;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return 1;
 	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == NULL)
@@ -401,7 +401,7 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 
 	debugLogA("Entering AuthDeny");
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return 1;
 

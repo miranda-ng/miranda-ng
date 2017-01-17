@@ -402,7 +402,7 @@ BYTE CExImContactXML::ExportEvents()
 
 	// read out all events for the current contact
 	for (MEVENT hDbEvent = db_event_first(_hContact); hDbEvent != NULL; hDbEvent = db_event_next(_hContact, hDbEvent)) {
-		DBEVENTINFO	dbei = { sizeof(DBEVENTINFO) };
+		DBEVENTINFO dbei = {};
 		if (DB::Event::GetInfoWithData(hDbEvent, &dbei))
 			continue;
 
@@ -939,7 +939,7 @@ int CExImContactXML::ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent)
 		return ERROR_NOT_ADDED;
 
 	// timestamp must be valid
-	DBEVENTINFO	dbei = { sizeof(dbei) };
+	DBEVENTINFO	dbei = {};
 	xmlEvent->Attribute("time", (LPINT)&dbei.timestamp);
 	if (dbei.timestamp == 0)
 		return ERROR_INVALID_TIMESTAMP;

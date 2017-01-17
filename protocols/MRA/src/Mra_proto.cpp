@@ -559,7 +559,7 @@ bool CMraProto::CmdAuthAck(BinBuffer &buf)
 	if (IsEMailChatAgent(szEmail) == FALSE) {
 		CMStringA szBuff = CreateBlobFromContact(hContact, L"");
 
-		DBEVENTINFO dbei = { sizeof(dbei) };
+		DBEVENTINFO dbei = {};
 		dbei.flags = DBEF_UTF;
 		dbei.szModule = m_szModuleName;
 		dbei.timestamp = (DWORD)_time32(NULL);
@@ -1746,7 +1746,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 
 				CMStringA szBlob = CreateBlobFromContact(hContact, wszMessage);
 				if (bAutoGrantAuth) { // auto grant auth
-					DBEVENTINFO dbei = { sizeof(dbei) };
+					DBEVENTINFO dbei = {};
 					dbei.szModule = m_szModuleName;
 					dbei.timestamp = _time32(NULL);
 					dbei.flags = DBEF_READ | DBEF_UTF;

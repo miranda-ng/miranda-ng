@@ -201,7 +201,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 // handle of contact is set as window-userdata
 int EventAdded(WPARAM wparam, LPARAM hDbEvent)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	db_event_get(hDbEvent, &dbei);
 	if ( !(dbei.flags & DBEF_SENT) || (dbei.flags & DBEF_READ) 
 		|| !db_get_b(NULL, MODULE_NAME, "EnableLastSentTo", 0) 

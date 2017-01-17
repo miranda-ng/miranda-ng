@@ -570,7 +570,7 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 
 void HistoryLog(MCONTACT hContact, db_event evt)
 {
-	DBEVENTINFO Event = { sizeof(Event) };
+	DBEVENTINFO Event = {};
 	Event.szModule = szGPGModuleName;
 	Event.eventType = evt.eventType;
 	Event.flags = evt.flags;

@@ -574,7 +574,7 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 
 			// i think we maybe should just do that DBEF_READ line instead of stopping ALL this code.  have to test.
 			if (tweetToMsg) {
-				DBEVENTINFO dbei = { sizeof(dbei) };
+				DBEVENTINFO dbei = {};
 				dbei.pBlob = (BYTE*)(i->status.text.c_str());
 				dbei.cbBlob = (int)i->status.text.size() + 1;
 				dbei.eventType = TWITTER_DB_EVENT_TYPE_TWEET;

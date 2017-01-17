@@ -477,7 +477,7 @@ void Nudge_SentStatus(CNudgeElement *n, MCONTACT hContact)
 {
 	T2Utf buff(n->senText);
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.timestamp = (DWORD)time(NULL);
@@ -491,7 +491,7 @@ void Nudge_ShowStatus(CNudgeElement *n, MCONTACT hContact, DWORD timestamp)
 {
 	T2Utf buff(n->recText);
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;
 	dbei.eventType = 1;
 	dbei.flags = DBEF_UTF;

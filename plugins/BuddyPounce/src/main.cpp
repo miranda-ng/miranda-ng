@@ -69,7 +69,6 @@ int MsgAck(WPARAM, LPARAM lParam)
 				int reuse = db_get_b(ack->hContact,modname, "Reuse", 0);
 				if (!db_get_ws(ack->hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
 					T2Utf pszUtf(dbv.ptszVal);
-					dbei.cbSize = sizeof(dbei);
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.flags = DBEF_UTF | DBEF_SENT;
 					dbei.szModule = (char*)ack->szModule;

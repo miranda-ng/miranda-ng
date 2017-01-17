@@ -40,7 +40,6 @@ const
 type
   PDBEVENTINFO = ^TDBEVENTINFO;
   TDBEVENTINFO = record
-    cbSize   : int;  // size of the structure
     szModule : PAnsiChar; // module that 'owns' this event and controls the data format
     timestamp: dword; // timestamp in UNIX time
     flags    : dword; // the DBEF_* flags above

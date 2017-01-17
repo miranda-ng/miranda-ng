@@ -916,7 +916,7 @@ retry:
 				else if (!e->event.multilogon_msg.recipients_count && e->event.multilogon_msg.message && *e->event.multilogon_msg.message
 					&& mir_strcmp(e->event.multilogon_msg.message, "\xA0\0"))
 				{
-					DBEVENTINFO dbei = { sizeof(dbei) };
+					DBEVENTINFO dbei = {};
 					dbei.szModule = m_szModuleName;
 					dbei.timestamp = (DWORD)e->event.multilogon_msg.time;
 					dbei.flags = DBEF_SENT | DBEF_UTF;

@@ -32,7 +32,7 @@ STDMETHODIMP_(LONG) CDb3Mmap::GetEventCount(MCONTACT contactID)
 
 STDMETHODIMP_(MEVENT) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 {
-	if (dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 0;
+	if (dbei == NULL) return 0;
 	if (dbei->timestamp == 0) return 0;
 
 	DBEvent dbe;
@@ -266,7 +266,7 @@ STDMETHODIMP_(LONG) CDb3Mmap::GetBlobSize(MEVENT hDbEvent)
 
 STDMETHODIMP_(BOOL) CDb3Mmap::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 {
-	if (dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 1;
+	if (dbei == NULL) return 1;
 	if (dbei->cbBlob > 0 && dbei->pBlob == NULL) {
 		dbei->cbBlob = 0;
 		return 1;

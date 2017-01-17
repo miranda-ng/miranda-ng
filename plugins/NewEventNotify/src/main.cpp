@@ -62,7 +62,7 @@ int HookedNewEvent(WPARAM hContact, LPARAM hDbEvent)
 		return 0;
 
 	//get DBEVENTINFO without pBlob
-	DBEVENTINFO dbe = { sizeof(dbe) };
+	DBEVENTINFO dbe = {};
 	db_event_get(hDbEvent, &dbe);
 
 	//do not show popups for sub-contacts

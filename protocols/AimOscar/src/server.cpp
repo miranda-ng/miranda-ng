@@ -1207,7 +1207,7 @@ void CAimProto::snac_received_message(SNAC &snac, HNETLIBCONN hServerConn, unsig
 					char* buf = (char*)alloca(len);
 					mir_snprintf(buf, len, "%s %s", away, s_msg);
 
-					DBEVENTINFO dbei = { sizeof(dbei) };
+					DBEVENTINFO dbei = {};
 					dbei.szModule = m_szModuleName;
 					dbei.timestamp = (DWORD)time(NULL);
 					dbei.flags = DBEF_SENT | DBEF_UTF;

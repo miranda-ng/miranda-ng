@@ -21,13 +21,13 @@ begin
         i := 0;
         while cardinal(i) < fsz do
         begin
-          dbei.cbSize    := PInteger(pt + i)^;
+          evSize         := PInteger(pt + i)^;
           dbei.szModule  := PAnsiChar(proto);
           dbei.timestamp := PDWORD(pt + i + $08)^;
           dbei.flags     := PDWORD(pt + i + $0C)^;
           dbei.eventtype := PDWORD(pt + i + $10)^;
           dbei.cbBlob    := PDWORD(pt + i + $14)^;
-          dbei.pBlob     := PBYTE(pt + i + dbei.cbSize);
+          dbei.pBlob     := PBYTE(pt + i + evSize);
 
           if not IsDuplicateEvent(DContact.hContact, dbei) then
             if db_event_add(DContact.hContact, @dbei) <> 0 then
@@ -40,7 +40,7 @@ begin
             end
           else
             inc(Duplicates);
-          inc(i, dbei.cbSize + integer(dbei.cbBlob));
+          inc(i, evSize + integer(dbei.cbBlob));
           DoMessage(ITXT_THREAD_PROGRESS, i, 0);
         end;
       end

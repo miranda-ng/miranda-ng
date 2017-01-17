@@ -346,7 +346,7 @@ void SendQueue::logError(const TWindowData *dat, int iSendJobIndex, const wchar_
 		return;
 
 	size_t iMsgLen;
-	DBEVENTINFO	dbei = { sizeof(dbei) };
+	DBEVENTINFO	dbei = {};
 	dbei.eventType = EVENTTYPE_ERRMSG;
 	if (iSendJobIndex >= 0) {
 		dbei.pBlob = (BYTE *)m_jobs[iSendJobIndex].szSendBuffer;
@@ -553,7 +553,7 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT;
 	dbei.szModule = GetContactProto(job.hContact);
@@ -644,8 +644,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 			szNote = TranslateT("The send later feature is not available on this protocol.");
 
 		T2Utf utfText(szNote);
-		DBEVENTINFO dbei;
-		dbei.cbSize = sizeof(dbei);
+		DBEVENTINFO dbei = {};
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.flags = DBEF_SENT | DBEF_UTF;
 		dbei.szModule = GetContactProto(dat->hContact);

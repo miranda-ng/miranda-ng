@@ -346,8 +346,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 				else {
 					bool haveWnd = MSN_MsgWndExist(hContact);
 
-					DBEVENTINFO dbei = { 0 };
-					dbei.cbSize = sizeof(dbei);
+					DBEVENTINFO dbei = {};
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.flags = DBEF_SENT | DBEF_UTF | (haveWnd ? 0 : DBEF_READ) | (isRtl ? DBEF_RTL : 0);
 					dbei.szModule = m_szModuleName;
@@ -1103,7 +1102,7 @@ LBL_InvalidCommand:
 							if (hContact) {
 								// There are messages to be fetched
 								if (hDbEvent = db_event_last(hContact)) {
-									DBEVENTINFO dbei = { sizeof(dbei) };
+									DBEVENTINFO dbei = {};
 									db_event_get(hDbEvent, &dbei);
 									ts = dbei.timestamp;
 								}
@@ -1172,7 +1171,7 @@ LBL_InvalidCommand:
 								/* Protect against double sync (Miranda MSGs only have granularity in seconds) */
 								MEVENT hDbEvent;
 								bool bDuplicate = false;
-								DBEVENTINFO dbei = { sizeof(dbei) };
+								DBEVENTINFO dbei = {};
 								DWORD cbBlob = (DWORD)mir_strlen(message);
 								dbei.cbBlob = cbBlob;
 								BYTE *pszMsgBuf = (BYTE*)mir_calloc(cbBlob);
@@ -1198,7 +1197,6 @@ LBL_InvalidCommand:
 								}
 								else {
 									memset(&dbei, 0, sizeof(dbei));
-									dbei.cbSize = sizeof(dbei);
 									dbei.eventType = EVENTTYPE_MESSAGE;
 									dbei.flags = DBEF_SENT | DBEF_UTF;
 									dbei.szModule = m_szModuleName;

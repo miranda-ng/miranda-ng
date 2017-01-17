@@ -130,7 +130,6 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 {
 	logmsg("HookedNewEvent1");
 	DBEVENTINFO dbe;
-	dbe.cbSize = sizeof(dbe);
 	dbe.cbBlob = db_event_getBlobSize(hDBEvent);
 	if (dbe.cbBlob == -1)
 		return 0;

@@ -395,9 +395,7 @@ INT_PTR OnMenuCommandShowList(WPARAM, LPARAM)
 
 	__time64_t curTime;
 	//DWORD t;
-	DBEVENTINFO dbe;
-	memset(&dbe, 0, sizeof(dbe));
-	dbe.cbSize = sizeof(dbe);
+	DBEVENTINFO dbe = {};
 	BYTE buf[1];
 	dbe.pBlob = buf;
 	MEVENT curEvent;

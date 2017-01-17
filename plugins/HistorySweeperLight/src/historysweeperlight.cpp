@@ -153,7 +153,7 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 
 	// Get first event
 	for (MEVENT hDBEvent = db_event_first(hContact); hDBEvent != NULL; ) {
-		DBEVENTINFO dbei = { sizeof(dbei) };
+		DBEVENTINFO dbei = {};
 		db_event_get(hDBEvent, &dbei);
 
 		// should we stop processing?

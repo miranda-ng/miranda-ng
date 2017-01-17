@@ -469,7 +469,7 @@ int CJabberProto::RcGetUnreadEventsCount()
 		if (jid == NULL) continue;
 
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 			if (dbei.cbBlob == -1)
 				continue;
@@ -556,7 +556,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 				continue;
 				
 			for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
-				DBEVENTINFO dbei = { sizeof(dbei) };
+				DBEVENTINFO dbei = {};
 				dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 				if (dbei.cbBlob == -1)
 					continue;

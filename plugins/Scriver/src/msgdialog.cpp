@@ -798,13 +798,13 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				// This finds the first message to display, it works like shit
 				dat->hDbEventFirst = db_event_firstUnread(dat->hContact);
 				if (dat->hDbEventFirst != NULL) {
-					DBEVENTINFO dbei = { sizeof(dbei) };
+					DBEVENTINFO dbei = {};
 					db_event_get(dat->hDbEventFirst, &dbei);
 					if (DbEventIsMessageOrCustom(&dbei) && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT))
 						notifyUnread = true;
 				}
 
-				DBEVENTINFO dbei = { sizeof(dbei) };
+				DBEVENTINFO dbei = {};
 				MEVENT hPrevEvent;
 				switch (historyMode) {
 				case LOADHISTORY_COUNT:
@@ -851,7 +851,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			{
 				MEVENT hdbEvent = db_event_last(dat->hContact);
 				if (hdbEvent) {
-					DBEVENTINFO dbei = { sizeof(dbei) };
+					DBEVENTINFO dbei = {};
 					do {
 						db_event_get(hdbEvent, &dbei);
 						if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
@@ -1138,7 +1138,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			MEVENT hDbEvent = dat->hDbUnreadEventFirst;
 			dat->hDbUnreadEventFirst = NULL;
 			while (hDbEvent != NULL) {
-				DBEVENTINFO dbei = { sizeof(dbei) };
+				DBEVENTINFO dbei = {};
 				db_event_get(hDbEvent, &dbei);
 				if (!(dbei.flags & DBEF_SENT) && (DbEventIsMessageOrCustom(&dbei) || dbei.eventType == EVENTTYPE_URL))
 					pcli->pfnRemoveEvent(dat->hContact, hDbEvent);
@@ -1257,7 +1257,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case HM_DBEVENTADDED:
 		if (wParam == dat->hContact) {
 			MEVENT hDbEvent = lParam;
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			db_event_get(hDbEvent, &dbei);
 			if (dat->hDbEventFirst == NULL)
 				dat->hDbEventFirst = hDbEvent;
@@ -1618,7 +1618,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					mir_free(buffer);
 				}
 				else {
-					DBEVENTINFO dbei = { sizeof(dbei) };
+					DBEVENTINFO dbei = {};
 					dbei.cbBlob = db_event_getBlobSize(dat->hDbEventLast);
 					if (dbei.cbBlob == 0xFFFFFFFF)
 						break;

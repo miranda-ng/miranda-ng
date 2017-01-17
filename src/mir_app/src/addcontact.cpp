@@ -68,7 +68,7 @@ public:
 		Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_OTHER_ADDCONTACT);
 		if (m_acs.handleType == HANDLE_EVENT) {
 			DWORD dwUin;
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			dbei.cbBlob = sizeof(DWORD);
 			dbei.pBlob = (PBYTE)&dwUin;
 			db_event_get(m_acs.hDbEvent, &dbei);
@@ -85,7 +85,7 @@ public:
 			hContact = 0;
 
 			if (m_acs.handleType == HANDLE_EVENT) {
-				DBEVENTINFO dbei = { sizeof(dbei) };
+				DBEVENTINFO dbei = {};
 				dbei.cbBlob = db_event_getBlobSize(m_acs.hDbEvent);
 				dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 				db_event_get(m_acs.hDbEvent, &dbei);
@@ -178,7 +178,7 @@ public:
 		switch (m_acs.handleType) {
 		case HANDLE_EVENT:
 			{
-				DBEVENTINFO dbei = { sizeof(dbei) };
+				DBEVENTINFO dbei = {};
 				db_event_get(m_acs.hDbEvent, &dbei);
 				hContact = (MCONTACT)CallProtoServiceInt(NULL, dbei.szModule, PS_ADDTOLISTBYEVENT, 0, (LPARAM)m_acs.hDbEvent);
 			}

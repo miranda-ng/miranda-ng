@@ -21,7 +21,7 @@ void CToxProto::SetAllContactsStatus(WORD status)
 MCONTACT CToxProto::GetContactFromAuthEvent(MEVENT hEvent)
 {
 	DWORD body[3];
-	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
+	DBEVENTINFO dbei = {};
 	dbei.cbBlob = sizeof(DWORD) * 2;
 	dbei.pBlob = (PBYTE)&body;
 

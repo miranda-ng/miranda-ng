@@ -41,7 +41,7 @@ MEVENT CSkypeProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, L
 	mir_cslock lock(messageSyncLock);
 	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent))
 	{
-		DBEVENTINFO dbei = { sizeof(dbei) };
+		DBEVENTINFO dbei = {};
 		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 
 		if (dbei.cbBlob < messageIdLength)
@@ -79,7 +79,7 @@ MEVENT CSkypeProto::AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DW
 MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *szContent, const char *szUid, time_t edit_time)
 {
 	mir_cslock lck(m_AppendMessageLock);
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.cbBlob = db_event_getBlobSize(hEvent);
 	mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
 	dbei.pBlob = blob;
@@ -134,8 +134,7 @@ MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *
 
 MEVENT CSkypeProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
 {
-	DBEVENTINFO dbei;
-	dbei.cbSize    = sizeof(dbei);
+	DBEVENTINFO dbei = {};
 	dbei.szModule  = m_szModuleName;
 	dbei.timestamp = timestamp;
 	dbei.eventType = type;

@@ -88,8 +88,7 @@ static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 
 	ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)msg);
 
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = {};
 	dbei.cbBlob = (int)bufsize;
 	dbei.pBlob = (PBYTE)(char*)msg;
 	dbei.eventType = EVENTTYPE_MESSAGE;

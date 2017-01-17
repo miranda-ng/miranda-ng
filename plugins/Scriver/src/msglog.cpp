@@ -114,7 +114,7 @@ int DbEventIsShown(DBEVENTINFO &dbei)
 
 EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEvent)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 	if (dbei.cbBlob == -1)
 		return NULL;

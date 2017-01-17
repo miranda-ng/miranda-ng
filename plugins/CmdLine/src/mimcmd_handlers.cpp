@@ -801,7 +801,6 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 
 							DBEVENTINFO e = { 0 };
 							char module[128];
-							e.cbSize = sizeof(DBEVENTINFO);
 							e.eventType = EVENTTYPE_MESSAGE;
 							e.flags = DBEF_SENT;
 
@@ -1406,7 +1405,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 				char buffer[4096];
 				int count;
 				int contacts = 0;
-				DBEVENTINFO dbEvent = { sizeof(dbEvent) };
+				DBEVENTINFO dbEvent = {};
 
 				reply->code = MIMRES_SUCCESS;
 				mir_snprintf(reply->message, Translate("No unread messages found."));
@@ -1457,7 +1456,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 						reply->code = MIMRES_SUCCESS;
 
 						while (hEvent) {
-							DBEVENTINFO dbEvent = { sizeof(dbEvent) };
+							DBEVENTINFO dbEvent = {};
 							if (!db_event_get(hEvent, &dbEvent)) //if successful call
 								if (!(dbEvent.flags & DBEF_READ))
 									AddHistoryEvent(&dbEvent, contact, reply);
@@ -1499,7 +1498,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 							if (count > 0) {
 								int index = 0;
 								MEVENT hEvent = db_event_first(hContact);
-								DBEVENTINFO dbEvent = { sizeof(DBEVENTINFO) };
+								DBEVENTINFO dbEvent = {};
 								char message[4096];
 								dbEvent.pBlob = (PBYTE)message;
 

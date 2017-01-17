@@ -122,7 +122,7 @@ void StripBBCodesInPlace(wchar_t *ptszText)
 DWORD LastMessageTimestamp(MCONTACT hContact, bool received)
 {
 	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
-		DBEVENTINFO dbei = { sizeof(dbei) };
+		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT) == received)
 			return dbei.timestamp;
@@ -165,7 +165,7 @@ bool UidName(char *szProto, wchar_t *buff, int bufflen)
 wchar_t* GetLastMessageText(MCONTACT hContact, bool received)
 {
 	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
-		DBEVENTINFO dbei = {	sizeof(dbei) };
+		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT) == received) {
 			dbei.pBlob = (BYTE *)alloca(dbei.cbBlob);
@@ -382,7 +382,7 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 
 			MEVENT dbe = db_event_last(hTmpContact);
 			while (dbe != NULL) {
-				DBEVENTINFO dbei = { sizeof(dbei) };
+				DBEVENTINFO dbei = {};
 				if (!db_event_get(dbe, &dbei)) {
 					if (dbei.eventType == EVENTTYPE_MESSAGE) {
 						dwNewTs = max(dwNewTs, dbei.timestamp);

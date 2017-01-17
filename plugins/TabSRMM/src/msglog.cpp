@@ -455,7 +455,6 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	if (streamData->dbei != 0)
 		dbei = *(streamData->dbei);
 	else {
-		dbei.cbSize = sizeof(dbei);
 		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 		if (dbei.cbBlob == -1)
 			return NULL;
@@ -1350,7 +1349,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 	if (streamData.dbei != 0)
 		isSent = (streamData.dbei->flags & DBEF_SENT) != 0;
 	else {
-		DBEVENTINFO dbei = { sizeof(dbei) };
+		DBEVENTINFO dbei = {};
 		db_event_get(hDbEventFirst, &dbei);
 		isSent = (dbei.flags & DBEF_SENT) != 0;
 	}

@@ -296,8 +296,7 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 
 		T2Utf blob(stzLogText);
 
-		DBEVENTINFO dbei = { 0 };
-		dbei.cbSize = sizeof(dbei);
+		DBEVENTINFO dbei = {};
 		dbei.cbBlob = (DWORD)mir_strlen(blob) + 1;
 		dbei.pBlob = (PBYTE)(char*)blob;
 		dbei.eventType = EVENTTYPE_STATUSCHANGE;

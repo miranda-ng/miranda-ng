@@ -158,8 +158,7 @@ static INT_PTR Proto_RecvMessage(WPARAM, LPARAM lParam)
 	ptrA pszTemp;
 	mir_ptr<BYTE> pszBlob;
 
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = {};
 	dbei.flags = DBEF_UTF;
 	dbei.szModule = GetContactProto(ccs->hContact);
 	dbei.timestamp = pre->timestamp;
@@ -187,7 +186,7 @@ static INT_PTR Proto_AuthRecv(WPARAM wParam, LPARAM lParam)
 {
 	PROTORECVEVENT* pre = (PROTORECVEVENT*)lParam;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.szModule = (char*)wParam;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = DBEF_UTF | pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);

@@ -68,7 +68,7 @@ int ProtoAck(WPARAM,LPARAM lparam)
 		time_t ltime;
 		time(&ltime);
 
-		DBEVENTINFO dbei = { sizeof(dbei) };
+		DBEVENTINFO dbei = {};
 		dbei.szModule = "yaRelay";
 		dbei.timestamp = ltime;
 		dbei.flags = DBEF_SENT | DBEF_UTF;
@@ -118,7 +118,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 		return 0;
 
 	// receive message from DB
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.cbBlob = db_event_getBlobSize(hDBEvent);
 	if (dbei.cbBlob == -1)
 		return 0;

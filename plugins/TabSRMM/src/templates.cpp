@@ -341,14 +341,13 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				GetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, tSet->szTemplates[teInfo->inEdit], TEMPLATE_LENGTH);
 			}
 
-			DBEVENTINFO dbei = { 0 };
+			DBEVENTINFO dbei = {};
 			dbei.szModule = dat->szProto;
 			dbei.timestamp = time(NULL);
 			dbei.eventType = (iIndex == 6) ? EVENTTYPE_STATUSCHANGE : EVENTTYPE_MESSAGE;
 			dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
 			if (dbei.eventType == EVENTTYPE_ERRMSG)
 				dbei.szModule = (char *)L"Sample error message";
-			dbei.cbSize = sizeof(dbei);
 			dbei.pBlob = (iIndex == 6) ? (BYTE *)"is now offline (was online)" : (BYTE *)"The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.";
 			dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob) + 1;
 			dbei.flags = (iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0;

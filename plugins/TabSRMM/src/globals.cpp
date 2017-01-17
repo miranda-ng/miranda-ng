@@ -524,7 +524,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 			sendLater->addContact(hContact);
 
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			db_event_get(hDbEvent, &dbei);
 			if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_MESSAGE) {
 				if (M.FindWindow(hContact) != NULL)
@@ -588,7 +588,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 		text.Format(TranslateT("changed status from %s to %s."), szOldStatus, szNewStatus);
 
 	T2Utf szMsg(text);
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.pBlob = (PBYTE)(char*)szMsg;
 	dbei.cbBlob = (int)mir_strlen(szMsg) + 1;
 	dbei.flags = DBEF_UTF | DBEF_READ;

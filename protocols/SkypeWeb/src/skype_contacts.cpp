@@ -54,7 +54,7 @@ void CSkypeProto::SetChatStatus(MCONTACT hContact, int iStatus)
 MCONTACT CSkypeProto::GetContactFromAuthEvent(MEVENT hEvent)
 {
 	DWORD body[3];
-	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
+	DBEVENTINFO dbei = {};
 	dbei.cbBlob = sizeof(DWORD) * 2;
 	dbei.pBlob = (PBYTE)&body;
 

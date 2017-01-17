@@ -25,7 +25,7 @@ CContactCache::~CContactCache()
 
 int __cdecl CContactCache::OnDbEventAdded(WPARAM hContact, LPARAM hEvent)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	db_event_get(hEvent, &dbei);
 	if (dbei.eventType != EVENTTYPE_MESSAGE)
 		return 0;
@@ -86,7 +86,7 @@ void CContactCache::Rebuild()
 		info->rate = 0;
 
 		for (MEVENT hEvent = db_event_last(hContact); hEvent; hEvent = db_event_prev(hContact, hEvent)) {
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			if (!db_event_get(hEvent, &dbei)) {
 				if (float weight = GetEventWeight(timestamp - dbei.timestamp)) {
 					if (dbei.eventType == EVENTTYPE_MESSAGE)

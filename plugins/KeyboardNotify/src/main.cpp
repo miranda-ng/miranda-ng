@@ -200,7 +200,7 @@ BOOL checkGlobalXstatus()
 
 DBEVENTINFO createMsgEventInfo(MCONTACT hContact)
 {
-	DBEVENTINFO einfo = { sizeof(einfo) };
+	DBEVENTINFO einfo = {};
 	einfo.eventType = EVENTTYPE_MESSAGE;
 	einfo.szModule = GetContactProto(hContact);
 	return einfo;
@@ -211,7 +211,7 @@ DBEVENTINFO readEventInfo(MEVENT hDbEvent, MCONTACT hContact)
 	if (hDbEvent == NCONVERS_BLINKID) // we need to handle nconvers' blink event
 		return createMsgEventInfo(hContact);
 
-	DBEVENTINFO einfo = { sizeof(einfo) };
+	DBEVENTINFO einfo = {};
 	db_event_get(hDbEvent, &einfo);
 	return einfo;
 }
@@ -337,7 +337,7 @@ BOOL checkMsgTimestamp(MCONTACT hContact, MEVENT hEventCurrent, DWORD timestampC
 		return TRUE;
 
 	for (MEVENT hEvent = db_event_prev(hContact, hEventCurrent); hEvent; hEvent = db_event_prev(hContact, hEvent)) {
-		DBEVENTINFO einfo = { sizeof(einfo) };
+		DBEVENTINFO einfo = {};
 		if (!db_event_get(hEvent, &einfo)) {
 			if ((einfo.timestamp + wSecondsOlder) <= timestampCurrent)
 				return TRUE;
@@ -399,7 +399,7 @@ BOOL checkXstatus(char *szProto)
 static int PluginMessageEventHook(WPARAM hContact, LPARAM hEvent)
 {
 	//get DBEVENTINFO without pBlob
-	DBEVENTINFO einfo = { sizeof(einfo) };
+	DBEVENTINFO einfo = {};
 	if (!db_event_get(hEvent, &einfo) && !(einfo.flags & DBEF_SENT))
 		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg && checkOpenWindow(hContact) && checkMsgTimestamp(hContact, hEvent, einfo.timestamp)) ||
 			(einfo.eventType == EVENTTYPE_URL     && bFlashOnURL) ||

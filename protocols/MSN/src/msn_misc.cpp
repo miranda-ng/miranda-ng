@@ -851,7 +851,7 @@ void CMsnProto::MSN_FetchRecentMessages(time_t since)
 			if (!(hDbEvent = db_event_last(hContact)))
 				continue;
 
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			db_event_get(hDbEvent, &dbei);
 			if (dbei.timestamp>since) since=dbei.timestamp;
 		}

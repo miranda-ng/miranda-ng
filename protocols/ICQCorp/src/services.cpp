@@ -198,8 +198,7 @@ static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 
 	db_unset(ccs->hContact, "CList", "Hidden");
 
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = {};
 	dbei.szModule = protoName;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
@@ -232,7 +231,6 @@ static INT_PTR icqSendUrl(WPARAM, LPARAM lParam)
 
 static INT_PTR icqRecvUrl(WPARAM, LPARAM lParam)
 {
-	DBEVENTINFO dbei;
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
 	char *pszDescr;
@@ -241,8 +239,8 @@ static INT_PTR icqRecvUrl(WPARAM, LPARAM lParam)
 
 	db_unset(ccs->hContact, "CList", "Hidden");
 	pszDescr = pre->szMessage + mir_strlen(pre->szMessage) + 1;
-	ZeroMemory(&dbei, sizeof(dbei));
-	dbei.cbSize = sizeof(dbei);
+
+	DBEVENTINFO dbei = {};
 	dbei.szModule = protoName;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
@@ -415,7 +413,6 @@ static INT_PTR icqFileCancel(WPARAM, LPARAM lParam)
 
 static INT_PTR icqRecvFile(WPARAM, LPARAM lParam)
 {
-	DBEVENTINFO dbei;
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
 	char *szDesc, *szFile;
@@ -427,8 +424,7 @@ static INT_PTR icqRecvFile(WPARAM, LPARAM lParam)
 	szFile = pre->szMessage + sizeof(DWORD);
 	szDesc = szFile + mir_strlen(szFile) + 1;
 
-	ZeroMemory(&dbei, sizeof(dbei));
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = {};
 	dbei.szModule = protoName;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);

@@ -444,9 +444,7 @@ void FacebookProto::LoadHistory(void *pParam)
 				lastMessageId = msg.message_id;
 
 				// We don't use ProtoChainRecvMsg here as this is just loading of old messages, which we just add to log
-				DBEVENTINFO dbei = { 0 };
-				dbei.cbSize = sizeof(dbei);
-
+				DBEVENTINFO dbei = {};
 				if (msg.type == MESSAGE)
 					dbei.eventType = EVENTTYPE_MESSAGE;
 				else if (msg.type == VIDEO_CALL || msg.type == PHONE_CALL)
@@ -917,9 +915,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				ProtoChainRecvMsg(hContact, &recv);
 			}
 			else {
-				DBEVENTINFO dbei = { 0 };
-				dbei.cbSize = sizeof(dbei);
-
+				DBEVENTINFO dbei = {};
 				if (msg.type == MESSAGE)
 					dbei.eventType = EVENTTYPE_MESSAGE;
 				else if (msg.type == VIDEO_CALL || msg.type == PHONE_CALL)
@@ -1101,8 +1097,7 @@ void FacebookProto::ProcessFriendRequests(void*)
 
 				DB_AUTH_BLOB blob(hContact, fbu.real_name.c_str(), 0, 0, fbu.user_id.c_str(), reason.c_str());
 
-				DBEVENTINFO dbei = { 0 };
-				dbei.cbSize = sizeof(DBEVENTINFO);
+				DBEVENTINFO dbei = {};
 				dbei.szModule = m_szModuleName;
 				dbei.timestamp = ::time(NULL);
 				dbei.flags = DBEF_UTF;

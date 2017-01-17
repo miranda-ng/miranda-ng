@@ -68,7 +68,7 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 	if (hExistingDbEvent == NULL)
 		return FALSE;
 
-	DBEVENTINFO dbeiExisting = { sizeof(dbeiExisting) };
+	DBEVENTINFO dbeiExisting = {};
 	db_event_get(hExistingDbEvent, &dbeiExisting);
 	DWORD dwEventTimeStamp = dbeiExisting.timestamp;
 
@@ -91,7 +91,6 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 			return FALSE;
 
 		memset(&dbeiExisting, 0, sizeof(dbeiExisting));
-		dbeiExisting.cbSize = sizeof(dbeiExisting);
 		db_event_get(hExistingDbEvent, &dbeiExisting);
 		dwEventTimeStamp = dbeiExisting.timestamp;
 
@@ -108,7 +107,6 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 	// check for equal timestamps
 	if (dbei.timestamp == dwPreviousTimeStamp) {
 		memset(&dbeiExisting, 0, sizeof(dbeiExisting));
-		dbeiExisting.cbSize = sizeof(dbeiExisting);
 		db_event_get(hPreviousDbEvent, &dbeiExisting);
 
 		if (IsEqualEvent(dbei, dbeiExisting))
@@ -118,7 +116,6 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 		hExistingDbEvent = db_event_next(hContact, hPreviousDbEvent);
 		while (hExistingDbEvent != NULL) {
 			memset(&dbeiExisting, 0, sizeof(dbeiExisting));
-			dbeiExisting.cbSize = sizeof(dbeiExisting);
 			db_event_get(hExistingDbEvent, &dbeiExisting);
 
 			if (dbeiExisting.timestamp != dwPreviousTimeStamp) {
@@ -139,7 +136,6 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 		// look back
 		while (hExistingDbEvent != NULL) {
 			memset(&dbeiExisting, 0, sizeof(dbeiExisting));
-			dbeiExisting.cbSize = sizeof(dbeiExisting);
 			db_event_get(hExistingDbEvent, &dbeiExisting);
 
 			if (dbei.timestamp > dbeiExisting.timestamp) {
@@ -165,7 +161,6 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 		// look forward
 		while (hExistingDbEvent != NULL) {
 			memset(&dbeiExisting, 0, sizeof(dbeiExisting));
-			dbeiExisting.cbSize = sizeof(dbeiExisting);
 			db_event_get(hExistingDbEvent, &dbeiExisting);
 
 			if (dbei.timestamp < dbeiExisting.timestamp) {

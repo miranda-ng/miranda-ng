@@ -280,7 +280,6 @@ begin
       ccs.lParam         := tlparam(blob);
       Proto_ChainSend(0, @ccs);
 
-      dbei.cbSize   :=sizeof(dbei);
       dbei.cbBlob   :=StrLen(blob);
       dbei.pBlob    :=pByte(blob);
       dbei.eventType:=EVENTTYPE_MESSAGE;

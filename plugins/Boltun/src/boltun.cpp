@@ -201,10 +201,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (!BoltunAutoChat(hContact))
 		return 0;
 
-	DBEVENTINFO dbei;
-	memset(&dbei, 0, sizeof(dbei));
-	dbei.cbSize = sizeof(dbei);
-	dbei.cbBlob = 0;
+	DBEVENTINFO dbei = {};
 	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 	if (dbei.cbBlob == -1)
 		return 0;

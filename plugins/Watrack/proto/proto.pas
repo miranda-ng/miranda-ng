@@ -62,7 +62,6 @@ begin
   FillChar(dbeo,SizeOf(dbeo),0);
   with dbeo do
   begin
-    cbSize   :=SizeOf(dbeo);
     eventType:=atype;
     szModule :=PluginShort;
     if data=nil then

@@ -904,7 +904,7 @@ INT_PTR FacebookProto::OnCancelFriendshipRequest(WPARAM wParam, LPARAM)
 MCONTACT FacebookProto::HContactFromAuthEvent(MEVENT hEvent)
 {
 	DWORD body[2];
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.cbBlob = sizeof(DWORD) * 2;
 	dbei.pBlob = (PBYTE)&body;
 

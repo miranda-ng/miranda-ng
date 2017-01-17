@@ -160,8 +160,7 @@ MCONTACT CMraProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 
 MCONTACT CMraProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 {
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) != -1) {
 		dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
 		if (db_event_get(hDbEvent, &dbei) == 0 &&
@@ -181,7 +180,7 @@ int CMraProto::Authorize(MEVENT hDBEvent)
 {
 	if (!m_bLoggedIn)	return 1;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDBEvent)) == -1)
 		return 1;
 
@@ -199,7 +198,7 @@ int CMraProto::AuthDeny(MEVENT hDBEvent, const wchar_t* szReason)
 {
 	if (!m_bLoggedIn) return 1;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDBEvent)) == -1)
 		return 1;
 
@@ -323,7 +322,7 @@ HANDLE CMraProto::SearchByName(const wchar_t *pszNick, const wchar_t *pszFirstNa
 
 int CMraProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;

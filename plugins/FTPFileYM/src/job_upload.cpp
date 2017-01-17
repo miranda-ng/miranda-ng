@@ -85,7 +85,7 @@ void UploadJob::autoSend()
 	if (szProto == NULL)
 		return;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT;
 	dbei.szModule = szProto;

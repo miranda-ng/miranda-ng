@@ -275,8 +275,6 @@ static int db_UnreadEvents(lua_State *L)
 
 void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 {
-	dbei.cbSize = sizeof(dbei);
-
 	lua_getfield(L, -1, "Module");
 	dbei.szModule = mir_strdup(lua_tostring(L, -1));
 	lua_pop(L, 1);
@@ -694,7 +692,6 @@ void MT<DBEVENTINFO>::Init(lua_State *L, DBEVENTINFO **dbei)
 	MEVENT hDbEvent = luaL_checkinteger(L, 1);
 
 	*dbei = (DBEVENTINFO*)mir_calloc(sizeof(DBEVENTINFO));
-	(*dbei)->cbSize = sizeof(DBEVENTINFO);
 	(*dbei)->cbBlob = db_event_getBlobSize((MEVENT)hDbEvent);
 	(*dbei)->pBlob = (PBYTE)mir_calloc((*dbei)->cbBlob);
 	db_event_get((MEVENT)hDbEvent, (*dbei));

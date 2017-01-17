@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void TlenDBAddEvent(TlenProtocol *proto, MCONTACT hContact, int eventType, DWORD flags, PBYTE pBlob, DWORD cbBlob)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.szModule = proto->m_szModuleName;
 	dbei.timestamp = (DWORD) time(NULL);
 	dbei.flags = flags;

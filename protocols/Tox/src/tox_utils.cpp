@@ -137,7 +137,7 @@ bool CToxProto::IsFileExists(const wchar_t* path)
 
 MEVENT CToxProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, PBYTE pBlob, size_t cbBlob)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.szModule = this->m_szModuleName;
 	dbei.timestamp = timestamp;
 	dbei.eventType = type;

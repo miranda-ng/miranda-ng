@@ -126,8 +126,7 @@ void PasteIt(MCONTACT hContact, int mode)
 			{
 				if (!isChat)
 				{
-					DBEVENTINFO dbei = { 0 };
-					dbei.cbSize = sizeof(dbei);
+					DBEVENTINFO dbei = {};
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.flags = DBEF_SENT;
 					dbei.szModule = szProto;

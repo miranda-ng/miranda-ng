@@ -122,7 +122,7 @@ static int FileEventAdded(WPARAM wParam, LPARAM lParam)
 {
 	DWORD dwSignature;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.cbBlob = sizeof(DWORD);
 	dbei.pBlob = (PBYTE)&dwSignature;
 	db_event_get(lParam, &dbei);
@@ -274,7 +274,7 @@ static void RemoveUnreadFileEvents(void)
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		MEVENT hDbEvent = db_event_firstUnread(hContact);
 		while (hDbEvent) {
-			DBEVENTINFO dbei = { sizeof(dbei) };
+			DBEVENTINFO dbei = {};
 			db_event_get(hDbEvent, &dbei);
 			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && dbei.eventType == EVENTTYPE_FILE)
 				db_event_markRead(hContact, hDbEvent);
@@ -359,7 +359,7 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 	if (pre->fileCount == 0)
 		return 0;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.szModule = GetContactProto(ccs->hContact);
 	dbei.timestamp = pre->timestamp;
 	dbei.eventType = EVENTTYPE_FILE;

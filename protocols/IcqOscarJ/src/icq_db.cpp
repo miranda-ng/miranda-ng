@@ -191,7 +191,7 @@ int CIcqProto::IsICQContact(MCONTACT hContact)
 
 MEVENT CIcqProto::AddEvent(MCONTACT hContact, WORD wType, DWORD dwTime, DWORD flags, size_t cbBlob, PBYTE pBlob)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = dwTime;
 	dbei.flags = flags;

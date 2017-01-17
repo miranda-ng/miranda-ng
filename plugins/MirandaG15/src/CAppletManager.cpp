@@ -662,8 +662,7 @@ void CAppletManager::FinishMessageJob(SMessageJob *pJob)
 			// Only add the message to the history if the contact isn't an irc chatroom
 			if (!(pIRCCon && db_get_b(pJob->hContact, szProto, "ChatRoom", 0) != 0)) {
 				// Add the message to the database
-				DBEVENTINFO dbei = { 0 };
-				dbei.cbSize = sizeof(dbei);
+				DBEVENTINFO dbei = {};
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT | DBEF_UTF;
 				dbei.szModule = szProto;
@@ -817,15 +816,11 @@ void CAppletManager::MarkMessageAsRead(MCONTACT hContact, MEVENT hEvent)
 bool CAppletManager::TranslateDBEvent(CEvent *pEvent, WPARAM hContact, LPARAM hdbevent)
 {
 	// Create struct for dbevent
-	DBEVENTINFO dbevent;
-	memset(&dbevent, 0, sizeof(dbevent));
-	//dbevent.flags |= PREF_UNICODE;
-	dbevent.cbSize = sizeof(dbevent);
+	DBEVENTINFO dbevent = {};
 	dbevent.cbBlob = db_event_getBlobSize(hdbevent);
 	if (dbevent.cbBlob == -1)		// hdbevent is invalid
-	{
 		return false;
-	}
+
 	dbevent.pBlob = (PBYTE)malloc(dbevent.cbBlob);
 	if (db_event_get(hdbevent, &dbevent) != 0) {
 		free(dbevent.pBlob);

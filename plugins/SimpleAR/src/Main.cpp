@@ -151,7 +151,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 		return FALSE;
 
 	// detect size of msg
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if (db_event_get(hDBEvent, &dbei))
 		return 0;
 
@@ -216,7 +216,6 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						T2Utf pszUtf(ptszTemp);
 						ProtoChainSend(hContact, PSS_MESSAGE, 0, pszUtf);
 
-						dbei.cbSize = sizeof(dbei);
 						dbei.eventType = EVENTTYPE_MESSAGE;
 						dbei.flags = DBEF_UTF | DBEF_SENT; //DBEF_READ;
 						dbei.szModule = pszProto;

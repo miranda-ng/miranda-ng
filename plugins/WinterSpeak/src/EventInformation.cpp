@@ -33,7 +33,6 @@ bool EventInformation::isValidEvent(MEVENT event)
 	memset(&m_event_info, 0, sizeof(m_event_info));
 
 	// find out and assign the space we need for the new event
-	m_event_info.cbSize = sizeof(m_event_info);
 	m_event_info.cbBlob = db_event_getBlobSize(event);// CallService(MS_DB_EVENT_GETBLOBSIZE, reinterpret_cast<LPARAM>(event), 0);
 
 	if (-1 == m_event_info.cbBlob)

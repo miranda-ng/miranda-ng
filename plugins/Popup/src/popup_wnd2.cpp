@@ -811,8 +811,7 @@ struct ReplyEditData
 
 void AddMessageToDB(MCONTACT hContact, char *msg)
 {
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = {};
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.szModule = GetContactProto(hContact);

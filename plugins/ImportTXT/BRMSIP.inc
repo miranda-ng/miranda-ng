@@ -34,7 +34,6 @@ begin
         while Cardinal(i) < fsz do
         begin
           fillchar(dbei, sizeof(dbei), 0);
-          dbei.cbSize := sizeof(dbei);
           dbei.szModule := PAnsiChar(proto);
           rsz := RLInteger(pt + i + $08);
           if PByte(pt + i + $10)^ = $00 then

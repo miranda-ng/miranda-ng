@@ -429,7 +429,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, U
 	}
 
 	//get DBEVENTINFO with pBlob if preview is needed (when is test then is off)
-	DBEVENTINFO dbe = { sizeof(dbe) };
+	DBEVENTINFO dbe = {};
 	if (hEvent) {
 		if ((pluginOptions->bPreview || eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST)) {
 			dbe.cbBlob = db_event_getBlobSize(hEvent);
@@ -532,8 +532,7 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 		iEvent++;
 
 		//get DBEVENTINFO with pBlob if preview is needed (when is test then is off)
-		DBEVENTINFO dbe = {0};
-		dbe.cbSize = sizeof(dbe);
+		DBEVENTINFO dbe = {};
 		dbe.pBlob = NULL;
 		dbe.cbBlob = 0;
 		if (pdata->pluginOptions->bPreview && eventData->hEvent) {

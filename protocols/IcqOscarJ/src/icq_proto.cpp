@@ -316,7 +316,7 @@ MCONTACT __cdecl CIcqProto::AddToListByEvent(int flags, int iContact, MEVENT hDb
 	DWORD uin = 0;
 	uid_str uid = { 0 };
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == -1)
 		return 0;
 

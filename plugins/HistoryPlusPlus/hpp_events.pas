@@ -251,7 +251,6 @@ begin
   if RecentEvent <> hDBEvent then
   begin
     ZeroMemory(@RecentEventInfo, SizeOf(RecentEventInfo));
-    RecentEventInfo.cbSize := SizeOf(RecentEventInfo);
     RecentEventInfo.cbBlob := 0;
     db_event_get(hDBEvent, @RecentEventInfo);
     RecentEvent := hDBEvent;
@@ -266,7 +265,6 @@ begin
   if RecentEvent <> hDBEvent then
   begin
     ZeroMemory(@RecentEventInfo, SizeOf(RecentEventInfo));
-    RecentEventInfo.cbSize := SizeOf(RecentEventInfo);
     RecentEventInfo.cbBlob := 0;
     db_event_get(hDBEvent, @RecentEventInfo);
     RecentEvent := hDBEvent;
@@ -428,7 +426,6 @@ var
   BlobSize: integer;
 begin
   ZeroMemory(@Result, SizeOf(Result));
-  Result.cbSize := SizeOf(Result);
   BlobSize := db_event_getBlobSize(hDBEvent);
   if BlobSize > 0 then
   begin

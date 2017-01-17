@@ -377,7 +377,6 @@ begin
           if DbEvent<>0 then
           begin
             ZeroMemory(@dbei,sizeof(dbei));
-            dbei.cbSize:=SizeOf(dbei);
             db_event_get(DbEvent, @dbei);
             res.data:=dbei.timestamp;
             res.text:=TimeToStrW(res.data);

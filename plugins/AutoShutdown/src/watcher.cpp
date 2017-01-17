@@ -92,7 +92,7 @@ static wchar_t* GetMessageText(BYTE **ppBlob, DWORD *pcbBlob)
 static int MsgEventAdded(WPARAM, LPARAM hDbEvent)
 {
 	if (currentWatcherType & SDWTF_MESSAGE) {
-		DBEVENTINFO dbe = { sizeof(dbe) };
+		DBEVENTINFO dbe = {};
 		dbe.cbBlob = db_event_getBlobSize(hDbEvent);
 		dbe.pBlob = (BYTE*)mir_alloc(dbe.cbBlob + 2); /* ensure term zero */
 		if (dbe.pBlob == NULL)

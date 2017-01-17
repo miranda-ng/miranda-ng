@@ -369,17 +369,13 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 
 void CMLan::RecvMessageUrl(CCSDATA* ccs)
 {
-	DBEVENTINFO dbei;
 	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
 
-	memset(&dbei, 0, sizeof(dbei));
-
+	DBEVENTINFO dbei = {};
 	if (!mir_strcmp(ccs->szProtoService, PSR_MESSAGE))
 		dbei.eventType = EVENTTYPE_MESSAGE;
 	else
 		dbei.eventType = EVENTTYPE_URL;
-
-	dbei.cbSize = sizeof(dbei);
 	dbei.szModule = PROTONAME;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = pre->flags & PREF_CREATEREAD ? DBEF_READ : 0;
@@ -989,7 +985,7 @@ void CMLan::RecvFile(CCSDATA* ccs)
 	char *szFile = pre->szMessage + sizeof(DWORD);
 	char *szDesc = szFile + mir_strlen(szFile) + 1;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	DBEVENTINFO dbei = {};
 	dbei.szModule = PROTONAME;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);

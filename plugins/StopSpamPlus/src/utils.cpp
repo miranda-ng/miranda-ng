@@ -16,7 +16,7 @@ bool IsExistMyMessage(MCONTACT hContact)
 {
 	MEVENT hDbEvent = db_event_first(hContact);
 	while (hDbEvent) {
-		DBEVENTINFO dbei = { sizeof(dbei) };
+		DBEVENTINFO dbei = {};
 		if (db_event_get(hDbEvent, &dbei))
 			break;
 
