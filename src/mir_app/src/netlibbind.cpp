@@ -109,14 +109,12 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn)
 	}
 }
 
-int NetlibFreeBoundPort(struct NetlibBoundPort *nlbp)
+int NetlibFreeBoundPort(NetlibBoundPort *nlbp)
 {
-	closesocket(nlbp->s);
-	closesocket(nlbp->s6);
 	if (nlbp->hThread)
 		WaitForSingleObject(nlbp->hThread, INFINITE);
 	Netlib_Logf(nlbp->nlu, "(%u) Port %u closed for incoming connections", nlbp->s, nlbp->wPort);
-	mir_free(nlbp);
+	delete nlbp;
 	return 1;
 }
 
@@ -176,24 +174,16 @@ static void NetlibBindAcceptThread(void* param)
 
 MIR_APP_DLL(HNETLIBBIND) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *nlb)
 {
-	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_INCOMING) ||
-		nlb == NULL || nlb->pfnNewConnection == NULL) {
+	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_INCOMING) || nlb == NULL || nlb->pfnNewConnection == NULL) {
 		SetLastError(ERROR_INVALID_PARAMETER);
-		return 0;
+		return nullptr;
 	}
 
 	NetlibBoundPort *nlbp = (NetlibBoundPort*)mir_calloc(sizeof(NetlibBoundPort));
-	nlbp->handleType = NLH_BOUNDPORT;
-	nlbp->nlu = nlu;
-	nlbp->pfnNewConnectionV2 = nlb->pfnNewConnectionV2;
-
-	nlbp->s = socket(PF_INET, SOCK_STREAM, 0);
-	nlbp->s6 = socket(PF_INET6, SOCK_STREAM, 0);
-	nlbp->pExtra = nlb->pExtra;
 	if (nlbp->s == INVALID_SOCKET && nlbp->s6 == INVALID_SOCKET) {
 		Netlib_Logf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "socket", WSAGetLastError());
-		mir_free(nlbp);
-		return 0;
+		delete nlbp;
+		return nullptr;
 	}
 
 	SOCKADDR_IN sin = { 0 };
@@ -237,10 +227,8 @@ MIR_APP_DLL(HNETLIBBIND) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *nlb)
 	if (!foundPort) {
 		Netlib_Logf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "bind", WSAGetLastError());
 LBL_Error:
-		closesocket(nlbp->s);
-		closesocket(nlbp->s6);
-		mir_free(nlbp);
-		return 0;
+		delete nlbp;
+		return nullptr;
 	}
 
 	if (nlbp->s != INVALID_SOCKET && listen(nlbp->s, 5)) {
@@ -295,4 +283,23 @@ LBL_Error:
 
 	nlbp->hThread = mir_forkthread(NetlibBindAcceptThread, nlbp);
 	return nlbp;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+NetlibBoundPort::NetlibBoundPort(HNETLIBUSER _nlu, NETLIBBIND *nlb)
+	: handleType(NLH_BOUNDPORT),
+	nlu(_nlu)
+{
+	pfnNewConnectionV2 = nlb->pfnNewConnectionV2;
+	pExtra = nlb->pExtra;
+
+	s = socket(PF_INET, SOCK_STREAM, 0);
+	s6 = socket(PF_INET6, SOCK_STREAM, 0);
+}
+
+NetlibBoundPort::~NetlibBoundPort()
+{
+	closesocket(s);
+	closesocket(s6);
 }

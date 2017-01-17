@@ -48,20 +48,6 @@ HANDLE GetIconHandle(const char* name) {
 
 // Dialogs
 
-static BOOL LoadDBCheckState(MinecraftDynmapProto* ppro, HWND hwnd, int idCtrl, const char* szSetting, BYTE bDef = 0)
-{
-	BOOL state = db_get_b(NULL, ppro->m_szModuleName, szSetting, bDef);
-	CheckDlgButton(hwnd, idCtrl, state ? BST_CHECKED : BST_UNCHECKED);
-	return state;
-}
-
-static BOOL StoreDBCheckState(MinecraftDynmapProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
-{
-	BOOL state = IsDlgButtonChecked(hwnd, idCtrl);
-	db_set_b(NULL, ppro->m_szModuleName, szSetting, (BYTE)state);
-	return state;
-}
-
 static void LoadDBText(MinecraftDynmapProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
 {
 	ptrW tstr(db_get_wsa(NULL, ppro->m_szModuleName, szSetting));

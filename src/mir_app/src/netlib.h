@@ -168,8 +168,11 @@ struct NetlibConnection : public MZeroedObject
 	unsigned lastPost;
 };
 
-struct NetlibBoundPort
+struct NetlibBoundPort : public MZeroedObject
 {
+	NetlibBoundPort(HNETLIBUSER nlu, NETLIBBIND *nlb);
+	~NetlibBoundPort();
+
 	int handleType;
 	SOCKET s;
 	SOCKET s6;

@@ -524,8 +524,15 @@ PGENRANDOM pfnRtlGenRandom;
 
 MIR_CORE_DLL(void) Utils_GetRandom(void *pszDest, size_t cbLen)
 {
-	if (pszDest != 0 || cbLen != 0 && pfnRtlGenRandom != NULL)
+	if (pszDest == nullptr || cbLen == 0)
+		return;
+
+	if (pfnRtlGenRandom != NULL)
 		pfnRtlGenRandom(pszDest, (ULONG)cbLen);
-	else
-		memset(pszDest, 0, cbLen);
+	else {
+		srand(time(NULL));
+		BYTE *p = (BYTE*)pszDest;
+		for (size_t i = 0; i < cbLen; i++)
+			p[i] = rand() & 0xFF;
+	}
 }
