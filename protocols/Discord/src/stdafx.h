@@ -58,6 +58,7 @@ extern HWND g_hwndHeartbeat;
 #define DB_KEY_AVHASH    "AvatarHash"
 #define DB_KEY_CHANNELID "ChannelID"
 #define DB_KEY_LASTMSGID "LastMessageID"
+#define DB_KEY_REQAUTH   "ReqAuth"
 
 #define DB_KEY_GROUP    "GroupName"
 #define DB_KEYVAL_GROUP L"Discord"

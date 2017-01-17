@@ -166,9 +166,8 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 	for (auto it = relations.begin(); it != relations.end(); ++it) {
 		const JSONNode &p = *it;
 
-		const JSONNode &user = p["user"];
-		if (user)
-			PrepareUser(user);
+		CDiscordUser *pUser = PrepareUser(p["user"]);
+		ProcessType(pUser, p);
 	}
 
 	const JSONNode &channels = pRoot["private_channels"];

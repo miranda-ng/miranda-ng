@@ -203,6 +203,9 @@ public:
 	virtual HANDLE __cdecl SearchBasic(const wchar_t* id) override;
 	virtual MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr) override;
 	
+	virtual int __cdecl AuthRecv(MCONTACT, PROTORECVEVENT* pre) override;
+	virtual int __cdecl Authorize(MEVENT hDbEvent) override;
+	virtual int __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t* szReason) override;
 	virtual int __cdecl AuthRequest(MCONTACT hContact, const wchar_t*) override;
 
 	virtual int __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt) override;
@@ -261,6 +264,7 @@ public:
 	// Misc
 	void ProcessType(CDiscordUser *pUser, const JSONNode&);
 	void SetServerStatus(int iStatus);
+	void RemoveFriend(SnowFlake id);
 
 	CMStringW GetAvatarFilename(MCONTACT hContact);
 

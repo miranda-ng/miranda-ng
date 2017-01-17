@@ -282,8 +282,7 @@ MCONTACT __cdecl CMsnProto::AddToListByEvent(int flags, int, MEVENT hDbEvent)
 
 int CMsnProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 {
-	Proto_AuthRecv(m_szModuleName, pre);
-	return 0;
+	return Proto_AuthRecv(m_szModuleName, pre);
 }
 
 // PSS_AUTHREQUEST

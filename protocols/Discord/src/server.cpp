@@ -18,6 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// removes a friend from the server
+
+void CDiscordProto::RemoveFriend(SnowFlake id)
+{
+	Push(new AsyncHttpRequest(this, REQUEST_DELETE, CMStringA(FORMAT, "/users/@me/relationships/%lld", id), NULL));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // retrieves server history 
 
 void CDiscordProto::RetrieveHistory(MCONTACT hContact, CDiscordHitoryOp iOp, SnowFlake msgid, int iLimit)
@@ -51,7 +59,6 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 		return;
 
 	DBEVENTINFO dbei = {};
-	dbei.cbSize = sizeof(dbei);
 	dbei.szModule = m_szModuleName;
 	dbei.flags = DBEF_READ | DBEF_UTF;
 	dbei.eventType = EVENTTYPE_MESSAGE;

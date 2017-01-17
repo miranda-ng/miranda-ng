@@ -228,6 +228,9 @@ HANDLE CDiscordProto::SearchBasic(const wchar_t *wszId)
 	return (HANDLE)1; // Success
 }
 
+////////////////////////////////////////////////////////////////////////////////////////
+// Authorization
+
 int CDiscordProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 {
 	ptrW wszUsername(getWStringA(hContact, DB_KEY_NICK));
@@ -241,6 +244,42 @@ int CDiscordProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 	Push(pReq);
 	return 0;
 }
+
+int CDiscordProto::AuthRecv(MCONTACT, PROTORECVEVENT *pre)
+{
+	return Proto_AuthRecv(m_szModuleName, pre);
+}
+
+int CDiscordProto::Authorize(MEVENT hDbEvent)
+{
+	DBEVENTINFO dbei = {};
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1)) return 1;
+	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == NULL) return 1;
+	if (db_event_get(hDbEvent, &dbei)) return 1;
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return 1;
+	if (mir_strcmp(dbei.szModule, m_szModuleName)) return 1;
+
+	MCONTACT hContact = DbGetAuthEventContact(&dbei);
+	CMStringA szUrl(FORMAT, "/users/@me/relationships/%lld", getId(hContact, DB_KEY_ID));
+	Push(new AsyncHttpRequest(this, REQUEST_PUT, szUrl, NULL));
+	return 0;
+}
+
+int CDiscordProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
+{
+	DBEVENTINFO dbei = {};
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1)) return 1;
+	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == NULL) return 1;
+	if (db_event_get(hDbEvent, &dbei)) return 1;
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return 1;
+	if (mir_strcmp(dbei.szModule, m_szModuleName)) return 1;
+
+	MCONTACT hContact = DbGetAuthEventContact(&dbei);
+	RemoveFriend(getId(hContact, DB_KEY_ID));
+	return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
 
 MCONTACT CDiscordProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
@@ -367,7 +406,7 @@ int CDiscordProto::OnDeleteContact(MCONTACT hContact)
 		Push(new AsyncHttpRequest(this, REQUEST_DELETE, CMStringA(FORMAT, "/channels/%lld", pUser->channelId), NULL));
 
 	if (pUser->id)
-		Push(new AsyncHttpRequest(this, REQUEST_DELETE, CMStringA(FORMAT, "/users/@me/relationships/%lld", pUser->id), NULL));
+		RemoveFriend(pUser->id);
 
 	return 0;
 }
