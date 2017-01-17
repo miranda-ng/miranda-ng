@@ -312,7 +312,7 @@ void CleanThread()
 
 void HistoryLog(MCONTACT hContact, char *data, int event_type, int flags)
 {
-	DBEVENTINFO Event = { sizeof(Event) };
+	DBEVENTINFO Event = {};
 	Event.szModule = pluginName;
 	Event.eventType = event_type;
 	Event.flags = flags | DBEF_UTF;
