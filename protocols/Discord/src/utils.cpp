@@ -179,3 +179,31 @@ CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
 	setWString(pUser->hContact, DB_KEY_AVHASH, avatar);
 	return pUser;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::ProcessType(CDiscordUser *pUser, const JSONNode &pRoot)
+{
+	switch (pRoot["type"].as_int()) {
+	case 1: // confirmed
+		db_unset(pUser->hContact, "CList", "NotOnList");
+		delSetting(pUser->hContact, "FakeAuth");
+		break;
+
+	case 3: // expecting authorization
+		db_set_b(pUser->hContact, "CList", "NotOnList", 1);
+		if (!getByte(pUser->hContact, "FakeAuth", 0)) {
+			setByte(pUser->hContact, "FakeAuth", 1);
+
+			CMStringA szId(FORMAT, "%lld", pUser->id);
+			DB_AUTH_BLOB blob(pUser->hContact, T2Utf(pUser->wszUsername), NULL, NULL, szId, NULL);
+
+			PROTORECVEVENT pre = { 0 };
+			pre.timestamp = (DWORD)time(NULL);
+			pre.lParam = blob.size();
+			pre.szMessage = blob;
+			ProtoChainRecv(pUser->hContact, PSR_AUTH, 0, (LPARAM)&pre);
+		}
+		break;
+	}
+}

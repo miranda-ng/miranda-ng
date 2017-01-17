@@ -112,34 +112,29 @@ void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 
 	ptrW wszOldAvatar(getWStringA(hContact, DB_KEY_AVHASH));
 
-	m_ownId = _wtoi64(root["id"].as_mstring());
-	setId(hContact, DB_KEY_ID, m_ownId);
+	SnowFlake id = _wtoi64(root["id"].as_mstring());
+	setId(hContact, DB_KEY_ID, id);
 
 	setByte(hContact, DB_KEY_MFA, root["mfa_enabled"].as_bool());
 	setDword(hContact, DB_KEY_DISCR, _wtoi(root["discriminator"].as_mstring()));
 	setWString(hContact, DB_KEY_NICK, root["username"].as_mstring());
 	setWString(hContact, DB_KEY_EMAIL, root["email"].as_mstring());
 
-	switch (root["type"].as_int()) {
-	case 1: // confirmed
-		db_unset(hContact, "CList", "NotOnList");
-		break;
-
-	case 3: // expecting autorization
-		db_set_b(hContact, "CList", "NotOnList", 1);
-		break;
-	}
-
-
 	CMStringW wszNewAvatar(root["avatar"].as_mstring());
 	setWString(hContact, DB_KEY_AVHASH, wszNewAvatar);
 
 	if (hContact == NULL) {
+		m_ownId = id;
+
 		// if avatar's hash changed, we need to request a new one
 		if (mir_wstrcmp(wszNewAvatar, wszOldAvatar))
 			RetrieveAvatar(NULL);
 
 		OnLoggedIn();
+	}
+	else {
+		CDiscordUser *pUser = FindUser(id);
+		ProcessType(pUser, root);
 	}
 }
 

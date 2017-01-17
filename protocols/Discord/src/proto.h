@@ -227,6 +227,7 @@ public:
 	int  __cdecl OnDbEventRead(WPARAM, LPARAM);
 	
 	// dispatch commands
+	void OnCommandFriendAdded(const JSONNode&);
 	void OnCommandFriendRemoved(const JSONNode&);
 	void OnCommandMessage(const JSONNode&);
 	void OnCommandPresence(const JSONNode&);
@@ -258,6 +259,7 @@ public:
 	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	// Misc
+	void ProcessType(CDiscordUser *pUser, const JSONNode&);
 	void SetServerStatus(int iStatus);
 
 	CMStringW GetAvatarFilename(MCONTACT hContact);

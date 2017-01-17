@@ -33,6 +33,7 @@ static handlers[] = // these structures must me sorted alphabetically
 
 	{ L"READY", &CDiscordProto::OnCommandReady },
 
+	{ L"RELATIONSHIP_ADD", &CDiscordProto::OnCommandFriendAdded },
 	{ L"RELATIONSHIP_REMOVE", &CDiscordProto::OnCommandFriendRemoved },
 
 	{ L"TYPING_START", &CDiscordProto::OnCommandTyping },
@@ -54,6 +55,12 @@ GatewayHandlerFunc CDiscordProto::GetHandler(const wchar_t *pwszCommand)
 
 //////////////////////////////////////////////////////////////////////////////////////
 // reading a new message
+
+void CDiscordProto::OnCommandFriendAdded(const JSONNode &pRoot)
+{
+	CDiscordUser *pUser = PrepareUser(pRoot["user"]);
+	ProcessType(pUser, pRoot);
+}
 
 void CDiscordProto::OnCommandFriendRemoved(const JSONNode &pRoot)
 {
