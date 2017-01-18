@@ -74,6 +74,7 @@ struct WCHAR_PARAM : public PARAM
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const WCHAR_PARAM&);
 
 JSONNode& operator<<(JSONNode &json, const INT_PARAM &param);
+JSONNode& operator<<(JSONNode &json, const INT64_PARAM &param);
 JSONNode& operator<<(JSONNode &json, const BOOL_PARAM &param);
 JSONNode& operator<<(JSONNode &json, const CHAR_PARAM &param);
 JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param);
@@ -176,6 +177,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	LIST<CDiscordUser> arMarkReadQueue;
 
 	OBJLIST<CDiscordUser> arUsers;
+	OBJLIST<SnowFlake> arOwnMessages;
 	CDiscordUser* FindUser(SnowFlake id);
 	CDiscordUser* FindUser(const wchar_t *pwszUsername, int iDiscriminator);
 	CDiscordUser* FindUserByChannel(SnowFlake channelId);

@@ -17,6 +17,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+static int compareMessages(const SnowFlake *p1, const SnowFlake *p2)
+{
+	return *p1 - *p2;
+}
+
 static int compareRequests(const AsyncHttpRequest *p1, const AsyncHttpRequest *p2)
 {
 	return p1->m_iReqNum - p2->m_iReqNum;
@@ -34,6 +39,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	m_wszDefaultGroup(this, DB_KEY_GROUP, DB_KEYVAL_GROUP),
 	m_wszEmail(this, DB_KEY_EMAIL, L""),
 	arMarkReadQueue(1, compareUsers),
+	arOwnMessages(1, compareMessages),
 	arUsers(50, compareUsers)
 {
 	// Services
@@ -345,7 +351,9 @@ int CDiscordProto::SendMsg(MCONTACT hContact, int /*flags*/, const char *pszSrc)
 		return 0;
 
 	CMStringA szUrl(FORMAT, "/channels/%lld/messages", pUser->channelId);
-	JSONNode body; body << WCHAR_PARAM("content", wszText);
+	SnowFlake nonce; Utils_GetRandom(&nonce, sizeof(nonce));
+	JSONNode body; body << WCHAR_PARAM("content", wszText) << INT64_PARAM("nonce", nonce);
+	arOwnMessages.insert(new SnowFlake(nonce));
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveMessage, &body);
 	pReq->pUserInfo = (void*)hContact;
 	Push(pReq);

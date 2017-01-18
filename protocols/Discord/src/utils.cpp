@@ -32,6 +32,14 @@ JSONNode& operator<<(JSONNode &json, const INT_PARAM &param)
 	return json;
 }
 
+JSONNode& operator<<(JSONNode &json, const INT64_PARAM &param)
+{
+	char tmp[100];
+	_i64toa_s(param.iValue, tmp, _countof(tmp), 10);
+	json.push_back(JSONNode(param.szName, tmp));
+	return json;
+}
+
 JSONNode& operator<<(JSONNode &json, const BOOL_PARAM &param)
 {
 	json.push_back(JSONNode(param.szName, param.bValue));

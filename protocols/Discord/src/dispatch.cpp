@@ -81,15 +81,30 @@ void CDiscordProto::OnCommandFriendRemoved(const JSONNode &pRoot)
 void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 {
 	PROTORECVEVENT recv = {};
+	CMStringW wszMessageId = pRoot["id"].as_mstring();
+	SnowFlake messageId = _wtoi64(wszMessageId);
+	SnowFlake nonce = _wtoi64(pRoot["nonce"].as_mstring());
+
+	SnowFlake *p = arOwnMessages.find(&nonce);
+	if (p != NULL) { // own message? skip it
+		debugLogA("skipping own message with nonce=%lld, id=%lld", nonce, messageId);
+		return;
+	}
 
 	CDiscordUser *pUser = PrepareUser(pRoot["author"]);
 	SnowFlake channelId = _wtoi64(pRoot["channel_id"].as_mstring());
-	CMStringW msgId = pRoot["id"].as_mstring();
-	CMStringW wszText = pRoot["content"].as_mstring();
 
-	// if a message has myself as an author, mark it as sent
-	if (pUser->id == 0)
-		return;
+	// if a message has myself as an author, find the author via channel id
+	if (pUser->id == 0) {
+		pUser = FindUserByChannel(channelId);
+		if (pUser == NULL) {
+			debugLogA("skipping message with unknown channel id=%lld", channelId);
+			return;
+		}
+		recv.flags = PREF_CREATEREAD | PREF_SENT;
+	}
+
+	CMStringW wszText = pRoot["content"].as_mstring();
 
 	const JSONNode &edited = pRoot["edited_timestamp"];
 	if (!edited.isnull())
@@ -103,12 +118,12 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 	ptrA buf(mir_utf8encodeW(wszText));
 	recv.timestamp = (DWORD)StringToDate(pRoot["timestamp"].as_mstring());
 	recv.szMessage = buf;
-	recv.lParam = (LPARAM)msgId.c_str();
+	recv.lParam = (LPARAM)wszMessageId.c_str();
 	ProtoChainRecvMsg(pUser->hContact, &recv);
 
 	SnowFlake lastId = getId(pUser->hContact, DB_KEY_LASTMSGID); // as stored in a database
-	if (lastId < _wtoi64(msgId))
-		setId(pUser->hContact, DB_KEY_LASTMSGID, _wtoi64(msgId));
+	if (lastId < messageId)
+		setId(pUser->hContact, DB_KEY_LASTMSGID, messageId);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
