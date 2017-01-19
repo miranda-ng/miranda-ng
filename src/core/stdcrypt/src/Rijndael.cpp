@@ -913,26 +913,6 @@ static const int sm_shifts[3][4][2] =
 	{ { 0, 0 }, { 1, 7 }, { 3, 5 }, { 4, 4 } }
 };
 
-//Auxiliary Functions
-//Multiply two elements of GF(2^m)
-static int Mul(int a, int b)
-{
-	return (a != 0 && b != 0) ? sm_alog[(sm_log[a & 0xFF] + sm_log[b & 0xFF]) % 255] : 0;
-}
-
-//Convenience method used in generating Transposition Boxes
-static int Mul4(int a, char b[])
-{
-	if (a == 0)
-		return 0;
-	a = sm_log[a & 0xFF];
-	int a0 = (b[0] != 0) ? sm_alog[(a + sm_log[b[0] & 0xFF]) % 255] & 0xFF : 0;
-	int a1 = (b[1] != 0) ? sm_alog[(a + sm_log[b[1] & 0xFF]) % 255] & 0xFF : 0;
-	int a2 = (b[2] != 0) ? sm_alog[(a + sm_log[b[2] & 0xFF]) % 255] & 0xFF : 0;
-	int a3 = (b[3] != 0) ? sm_alog[(a + sm_log[b[3] & 0xFF]) % 255] & 0xFF : 0;
-	return a0 << 24 | a1 << 16 | a2 << 8 | a3;
-}
-
 //Null chain
 char const* CRijndael::sm_chain0 = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
 
@@ -963,7 +943,7 @@ int CRijndael::MakeKey(BYTE const* key, char const* chain, int keylength, int bl
 	m_keylength = keylength;
 	m_blockSize = blockSize;
 	//Initialize the chain
-	size_t len = mir_strlen(chain);
+	int len = (int)mir_strlen(chain);
 	if (len >= m_blockSize)
 		memcpy(m_chain0, chain, m_blockSize);
 	else {
@@ -1251,9 +1231,9 @@ void CRijndael::EncryptBlock(char const* in, char* result)
 	}
 }
 
-//Decrypt exactly one block of ciphertext.
-// in         - The ciphertext.
-// result     - The plaintext generated from a ciphertext using the session key.
+// Decrypt exactly one block of ciphertext.
+//  in         - The ciphertext.
+//  result     - The plaintext generated from a ciphertext using the session key.
 void CRijndael::DecryptBlock(char const* in, char* result)
 {
 	if (!m_bKeyInit)
@@ -1280,7 +1260,7 @@ void CRijndael::DecryptBlock(char const* in, char* result)
 		*pi |= ((unsigned char)*(in++) << 8);
 		(*(pi++) |= (unsigned char)*(in++)) ^= m_Kd[0][i];
 	}
-	//Apply Round Transforms
+	// Apply Round Transforms
 	for (int r = 1; r < m_iROUNDS; r++)
 	{
 		for (i = 0; i < BC; i++)
@@ -1291,7 +1271,7 @@ void CRijndael::DecryptBlock(char const* in, char* result)
 		memcpy(t, a, 4 * BC);
 	}
 	int j;
-	//Last Round is Special
+	// Last Round is Special
 	for (i = 0, j = 0; i < BC; i++)
 	{
 		tt = m_Kd[m_iROUNDS][i];
@@ -1307,14 +1287,14 @@ int CRijndael::Encrypt(void const* in, void* result, size_t n)
 	if (!m_bKeyInit)
 		return 1;
 
-	//n should be > 0 and multiple of m_blockSize
-	if (0 == n || n%m_blockSize != 0)
+	// n should be > 0 and multiple of m_blockSize
+	if (0 == n || n % m_blockSize != 0)
 		return 2;
 
 	char const* pin = (char const*)in;
 	char* presult = (char*)result;
 
-	for (int i = 0; i < n / m_blockSize; i++) {
+	for (size_t i = 0; i < n / m_blockSize; i++) {
 		Xor(m_chain, pin);
 		EncryptBlock(m_chain, presult);
 		memcpy(m_chain, presult, m_blockSize);
@@ -1328,14 +1308,15 @@ int CRijndael::Decrypt(void const* in, void* result, size_t n)
 {
 	if (!m_bKeyInit)
 		return 1;
-	//n should be > 0 and multiple of m_blockSize
-	if (0 == n || n%m_blockSize != 0)
+	
+	// n should be > 0 and multiple of m_blockSize
+	if (0 == n || n % m_blockSize != 0)
 		return 2;
 
 	char const* pin = (char const*)in;
 	char* presult = (char*)result;
 
-	for (int i = 0; i < n / m_blockSize; i++) {
+	for (size_t i = 0; i < n / m_blockSize; i++) {
 		DecryptBlock(pin, presult);
 		Xor(presult, m_chain);
 		memcpy(m_chain, pin, m_blockSize);
