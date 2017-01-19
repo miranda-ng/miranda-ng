@@ -117,7 +117,8 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 	}
 
 	// try to find a sender by his channel
-	SnowFlake channelId = _wtoi64(pRoot["channel_id"].as_mstring());
+	CMStringW wszChannelId = pRoot["channel_id"].as_mstring();
+	SnowFlake channelId = _wtoi64(wszChannelId);
 	CDiscordUser *pUser = FindUserByChannel(channelId);
 	if (pUser == NULL) {
 		debugLogA("skipping message with unknown channel id=%lld", channelId);
@@ -125,7 +126,8 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 	}
 
 	// if a message has myself as an author, add some flags
-	if (_wtoi64(pRoot["author"]["id"].as_mstring()) == m_ownId)
+	CMStringW wszUserId = pRoot["author"]["id"].as_mstring();
+	if (_wtoi64(wszUserId) == m_ownId)
 		recv.flags = PREF_CREATEREAD | PREF_SENT;
 
 	CMStringW wszText = pRoot["content"].as_mstring();
@@ -134,20 +136,31 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 	if (!edited.isnull())
 		wszText.AppendFormat(L" (%s %s)", TranslateT("edited at"), edited.as_mstring().c_str());
 
-	if (pUser->channelId != channelId) {
-		debugLogA("failed to process a groupchat message, exiting");
-		return;
-	}
-	
-	ptrA buf(mir_utf8encodeW(wszText));
-	recv.timestamp = (DWORD)StringToDate(pRoot["timestamp"].as_mstring());
-	recv.szMessage = buf;
-	recv.lParam = (LPARAM)wszMessageId.c_str();
-	ProtoChainRecvMsg(pUser->hContact, &recv);
+	if (pUser->bIsPrivate) {
+		ptrA buf(mir_utf8encodeW(wszText));
+		recv.timestamp = (DWORD)StringToDate(pRoot["timestamp"].as_mstring());
+		recv.szMessage = buf;
+		recv.lParam = (LPARAM)wszMessageId.c_str();
+		ProtoChainRecvMsg(pUser->hContact, &recv);
 
-	SnowFlake lastId = getId(pUser->hContact, DB_KEY_LASTMSGID); // as stored in a database
-	if (lastId < messageId)
-		setId(pUser->hContact, DB_KEY_LASTMSGID, messageId);
+		SnowFlake lastId = getId(pUser->hContact, DB_KEY_LASTMSGID); // as stored in a database
+		if (lastId < messageId)
+			setId(pUser->hContact, DB_KEY_LASTMSGID, messageId);
+	}
+	else {
+		CMStringW wszUserName = pRoot["author"]["id"].as_mstring();
+		CMStringW wszUserNick = pRoot["author"]["username"].as_mstring() + L"#" + pRoot["author"]["discriminator"].as_mstring();
+
+		GCDEST gcd = { m_szModuleName, wszChannelId, GC_EVENT_MESSAGE };
+		GCEVENT gce = { &gcd };
+		gce.dwFlags = GCEF_ADDTOLOG;
+		gce.ptszUID = wszUserId;
+		gce.ptszNick = wszUserNick;
+		gce.ptszText = wszText;
+		gce.time = (DWORD)StringToDate(pRoot["timestamp"].as_mstring());
+		gce.bIsMe = _wtoi64(wszUserId) == m_ownId;
+		Chat_Event(&gce);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -210,6 +223,60 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 	CallFunctionAsync(sttStartTimer, this);
 
 	m_szGatewaySessionId = pRoot["session_id"].as_mstring();
+
+	const JSONNode &guilds = pRoot["guilds"];
+	for (auto it = guilds.begin(); it != guilds.end(); ++it) {
+		const JSONNode &p = *it;
+
+		CMStringW wszGuildName = p["name"].as_mstring();
+
+		GCSessionInfoBase *si = Chat_NewSession(GCW_SERVER, m_szModuleName, wszGuildName, wszGuildName);
+		Chat_Control(m_szModuleName, wszGuildName, WINDOW_HIDDEN);
+		Chat_Control(m_szModuleName, wszGuildName, SESSION_ONLINE);
+
+		const JSONNode &members = p["members"];
+		const JSONNode &channels = p["channels"];
+		for (auto itc = channels.begin(); itc != channels.end(); ++itc) {
+			const JSONNode &pch = *itc;
+			if (pch["type"].as_int() != 0)
+				continue;
+
+			CMStringW wszChannelName = pch["name"].as_mstring();
+			CMStringW wszChannelId = pch["id"].as_mstring();
+			SnowFlake channelId = _wtoi64(wszChannelId);
+
+			si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChannelId, wszGuildName + L"#" + wszChannelName);
+			Chat_AddGroup(m_szModuleName, wszChannelId, TranslateT("User"));
+			Chat_Control(m_szModuleName, wszChannelId, WINDOW_HIDDEN);
+			Chat_Control(m_szModuleName, wszChannelId, SESSION_ONLINE);
+
+			CDiscordUser *pUser = FindUserByChannel(channelId);
+			if (pUser == NULL) {
+				// missing channel - create it
+				pUser = new CDiscordUser(channelId);
+				pUser->bIsPrivate = false;
+				pUser->hContact = si->hContact;
+				pUser->channelId = channelId;
+				arUsers.insert(pUser);
+			}
+			pUser->lastMessageId = _wtoi64(pch["last_message_id"].as_mstring());
+
+			setId(pUser->hContact, DB_KEY_CHANNELID, channelId);
+
+			GCDEST gcd = { m_szModuleName, wszChannelId, GC_EVENT_JOIN };
+			GCEVENT gce = { &gcd };
+			for (auto itu = members.begin(); itu != members.end(); ++itu) {
+				const JSONNode &pu = *itu;
+				
+				CMStringW username = pu["user"]["username"].as_mstring() + L"#" + pu["user"]["discriminator"].as_mstring();
+				CMStringW userid = pu["user"]["id"].as_mstring();
+				gce.bIsMe = _wtoi64(userid) == m_ownId;
+				gce.ptszUID = userid;
+				gce.ptszNick = username;
+				Chat_Event(&gce);
+			}
+		}
+	}
 
 	const JSONNode &relations = pRoot["relationships"];
 	for (auto it = relations.begin(); it != relations.end(); ++it) {

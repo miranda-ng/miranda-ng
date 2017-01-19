@@ -425,8 +425,20 @@ int CDiscordProto::OnDeleteContact(MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static COLORREF crCols[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+
 int CDiscordProto::OnModulesLoaded(WPARAM, LPARAM)
 {
+	GCREGISTER gcr = {};
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
+	gcr.nColors = _countof(crCols);
+	gcr.pColors = &crCols[0];
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	Chat_Register(&gcr);
+
+	HookProtoEvent(ME_GC_EVENT, &CDiscordProto::GroupchatEventHook);
+	HookProtoEvent(ME_GC_BUILDMENU, &CDiscordProto::GroupchatMenuHook);
 	return 0;
 }
 

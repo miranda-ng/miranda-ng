@@ -231,6 +231,9 @@ public:
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int  __cdecl OnDbEventRead(WPARAM, LPARAM);
 	
+	int  __cdecl GroupchatEventHook(WPARAM, LPARAM);
+	int  __cdecl GroupchatMenuHook(WPARAM, LPARAM);
+
 	// dispatch commands
 	void OnChannelCreated(const JSONNode&);
 	void OnChannelDeleted(const JSONNode&);

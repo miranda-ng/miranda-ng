@@ -17,7 +17,7 @@
 
 #include <m_system_cpp.h>
 #include <newpluginapi.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 #include <m_clist.h>
 #include <m_database.h>
 #include <m_folders.h>
