@@ -219,7 +219,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 
 	GCREGISTER gcr = {};
 	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
-	gcr.nColors = 16;
+	gcr.nColors = _countof(crCols);
 	gcr.pColors = &crCols[0];
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;

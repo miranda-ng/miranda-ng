@@ -187,7 +187,7 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 /////////////////////////////////////////////////////////////////////////////////////////
 // starts new chat session
 
-EXTERN_C MIR_APP_DLL(int) Chat_NewSession(
+EXTERN_C MIR_APP_DLL(GCSessionInfoBase*) Chat_NewSession(
 	int            iType,      // Use one of the GCW_* flags above to set the type of session
 	const char    *pszModule,  // The name of the protocol owning the session (the same as pszModule when you register)
 	const wchar_t *ptszID,     // The unique identifier for the session.
@@ -197,7 +197,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(
 	mir_cslockfull lck(csChat);
 	MODULEINFO *mi = chatApi.MM_FindModule(pszModule);
 	if (mi == NULL)
-		return GC_ERROR;
+		return NULL;
 
 	// try to restart a session first
 	SESSION_INFO *si = chatApi.SM_FindSession(ptszID, pszModule);
@@ -212,7 +212,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(
 
 		if (chatApi.OnReplaceSession)
 			chatApi.OnReplaceSession(si);
-		return 0;
+		return si;
 	}
 
 	// create a new session
@@ -265,7 +265,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(
 
 	if (chatApi.OnCreateSession)
 		chatApi.OnCreateSession(si, mi);
-	return 0;
+	return si;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

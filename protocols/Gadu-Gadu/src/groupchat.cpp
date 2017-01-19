@@ -344,7 +344,8 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 	int i;
 	for(i = 0; i < recipients_count; i++)
 		chat->recipients[i] = recipients[i];
-	if (sender) chat->recipients[i] = sender;
+	if (sender)
+		chat->recipients[i] = sender;
 
 	// Add contacts
 	for(i = 0; i < chat->recipients_count; i++) {

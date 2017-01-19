@@ -45,7 +45,7 @@
 #include <m_nudge.h>
 #include <m_folders.h>
 #include <m_avatars.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 #include <m_extraicons.h>
 #include <m_music.h>
 #include <m_xstatus.h>

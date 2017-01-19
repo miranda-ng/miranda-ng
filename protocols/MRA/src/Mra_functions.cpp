@@ -526,16 +526,9 @@ MCONTACT CMraProto::MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNe
 		//not already there: add
 		if (IsEMailChatAgent(szEmail)) {
 			CMStringW wszEMail = szEmail;
-			if (Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszEMail, wszEMail) == 0) {
-				BOOL bChatAdded = FALSE;
-				for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-					if (mraGetStringA(hContact, "ChatRoomID", szEMailLocal)) {
-						if (szEMailLocal == szEmail) {
-							bChatAdded = TRUE;
-							break;
-						}
-					}
-				}
+			GCSessionInfoBase *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszEMail, wszEMail);
+			if (si != 0) {
+				bool bChatAdded = (si->hContact != NULL);
 				if (bChatAdded == FALSE)
 					hContact = NULL;
 			}
