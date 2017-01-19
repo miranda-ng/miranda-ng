@@ -561,35 +561,32 @@ json_string JSONWorker::UnfixString(const json_string & value_t, bool flag){
 	const json_char * p = value_t.c_str();
 	while(*p){
 		switch(*p){
-			case JSON_TEXT('\"'):  //quote character
+			case JSON_TEXT('\"'):  // quote character
 				res += JSON_TEXT("\\\"");
 				break;
-			case JSON_TEXT('\t'):	//tab character
+			case JSON_TEXT('\t'):	// tab character
 				res += JSON_TEXT("\\t");
 				break;
-			case JSON_TEXT('\n'):	//newline character
+			case JSON_TEXT('\n'):	// newline character
 				res += JSON_TEXT("\\n");
 				break;
-			case JSON_TEXT('\r'):	//return character
+			case JSON_TEXT('\r'):	// return character
 				res += JSON_TEXT("\\r");
 				break;
-			case JSON_TEXT('\\'):	//backslash
+			case JSON_TEXT('\\'):	// backslash
 				res += JSON_TEXT("\\\\");
 				break;
-			case JSON_TEXT('/'):	//forward slash
+			case JSON_TEXT('/'):	// forward slash
 				res += JSON_TEXT("\\/");
 				break;
-			case JSON_TEXT('\b'):	//backspace
+			case JSON_TEXT('\b'):	// backspace
 				res += JSON_TEXT("\\b");
 				break;
-			case JSON_TEXT('\f'):	//formfeed
+			case JSON_TEXT('\f'):	// formfeed
 				res += JSON_TEXT("\\f");
 				break;
-			case JSON_TEXT('\v'):	//vertical tab
+			case JSON_TEXT('\v'):	// vertical tab
 				res += JSON_TEXT("\\v");
-				break;
-			case JSON_TEXT('\''):	//apostrophe
-				res += JSON_TEXT("\\\'");
 				break;
 			default:
 				/*if (((json_uchar)(*p) < 32) || ((json_uchar)(*p) > 126)) {
