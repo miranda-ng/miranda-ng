@@ -26,6 +26,10 @@ struct CDiscordCommand
 }
 static handlers[] = // these structures must me sorted alphabetically
 {
+	{ L"CHANNEL_CREATE", &CDiscordProto::OnChannelCreated },
+	{ L"CHANNEL_DELETE", &CDiscordProto::OnChannelDeleted },
+
+	{ L"MESSAGE_ACK",    &CDiscordProto::OnCommandMessageAck },
 	{ L"MESSAGE_CREATE", &CDiscordProto::OnCommandMessage },
 	{ L"MESSAGE_UPDATE", &CDiscordProto::OnCommandMessage },
 
@@ -51,6 +55,27 @@ GatewayHandlerFunc CDiscordProto::GetHandler(const wchar_t *pwszCommand)
 	CDiscordCommand tmp = { pwszCommand, NULL };
 	CDiscordCommand *p = (CDiscordCommand*)bsearch(&tmp, handlers, _countof(handlers), sizeof(handlers[0]), pSearchFunc);
 	return (p != NULL) ? p->pFunc : NULL;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// channel operations
+
+void CDiscordProto::OnChannelCreated(const JSONNode &pRoot)
+{
+	CDiscordUser *pUser = PrepareUser(pRoot["user"]);
+	if (pUser != NULL) {
+		pUser->channelId = _wtoi64(pRoot["id"].as_mstring());
+		setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
+	}
+}
+
+void CDiscordProto::OnChannelDeleted(const JSONNode &pRoot)
+{
+	CDiscordUser *pUser = FindUserByChannel(pRoot["channel_id"]);
+	if (pUser != NULL) {
+		pUser->channelId = 0;
+		delSetting(pUser->hContact, DB_KEY_CHANNELID);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -91,18 +116,17 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 		return;
 	}
 
-	CDiscordUser *pUser = PrepareUser(pRoot["author"]);
+	// try to find a sender by his channel
 	SnowFlake channelId = _wtoi64(pRoot["channel_id"].as_mstring());
-
-	// if a message has myself as an author, find the author via channel id
-	if (pUser->id == 0) {
-		pUser = FindUserByChannel(channelId);
-		if (pUser == NULL) {
-			debugLogA("skipping message with unknown channel id=%lld", channelId);
-			return;
-		}
-		recv.flags = PREF_CREATEREAD | PREF_SENT;
+	CDiscordUser *pUser = FindUserByChannel(channelId);
+	if (pUser == NULL) {
+		debugLogA("skipping message with unknown channel id=%lld", channelId);
+		return;
 	}
+
+	// if a message has myself as an author, add some flags
+	if (_wtoi64(pRoot["author"]["id"].as_mstring()) == m_ownId)
+		recv.flags = PREF_CREATEREAD | PREF_SENT;
 
 	CMStringW wszText = pRoot["content"].as_mstring();
 
@@ -124,6 +148,16 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 	SnowFlake lastId = getId(pUser->hContact, DB_KEY_LASTMSGID); // as stored in a database
 	if (lastId < messageId)
 		setId(pUser->hContact, DB_KEY_LASTMSGID, messageId);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// someone changed its status
+
+void CDiscordProto::OnCommandMessageAck(const JSONNode &pRoot)
+{
+	CDiscordUser *pUser = FindUserByChannel(pRoot["channel_id"]);
+	if (pUser != NULL)
+		pUser->lastMessageId = _wtoi64(pRoot["message_id"].as_mstring());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

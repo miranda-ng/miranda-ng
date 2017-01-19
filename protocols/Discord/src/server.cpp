@@ -65,7 +65,8 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 
 	SnowFlake lastId = getId(pUser->hContact, DB_KEY_LASTMSGID); // as stored in a database
 
-	for (auto it = root.begin(); it != root.end(); ++it) {
+	int iNumMessages = 0;
+	for (auto it = root.begin(); it != root.end(); ++it, ++iNumMessages) {
 		JSONNode &p = *it;
 
 		SnowFlake authorid = _wtoi64(p["author"]["id"].as_mstring());
@@ -89,6 +90,10 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 	}
 
 	setId(pUser->hContact, DB_KEY_LASTMSGID, lastId);
+
+	// if we fetched 99 messages, but have smth more to go, continue fetching
+	if (iNumMessages == 99 && lastId < pUser->lastMessageId)
+		RetrieveHistory(pUser->hContact, MSG_AFTER, lastId, 99);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

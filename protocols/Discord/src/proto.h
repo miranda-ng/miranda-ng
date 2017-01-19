@@ -232,9 +232,12 @@ public:
 	int  __cdecl OnDbEventRead(WPARAM, LPARAM);
 	
 	// dispatch commands
+	void OnChannelCreated(const JSONNode&);
+	void OnChannelDeleted(const JSONNode&);
 	void OnCommandFriendAdded(const JSONNode&);
 	void OnCommandFriendRemoved(const JSONNode&);
 	void OnCommandMessage(const JSONNode&);
+	void OnCommandMessageAck(const JSONNode&);
 	void OnCommandPresence(const JSONNode&);
 	void OnCommandReady(const JSONNode&);
 	void OnCommandTyping(const JSONNode&);
