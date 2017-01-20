@@ -1269,7 +1269,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 			CMStringW sID = MakeWndID(sChanName);
 			BYTE btOwnMode = 0;
 
-			if (!Chat_NewSession(GCW_CHATROOM, m_szModuleName, sID, sChanName)) {
+			if (Chat_NewSession(GCW_CHATROOM, m_szModuleName, sID, sChanName)) {
 				PostIrcMessage(L"/MODE %s", sChanName);
 
 				// register the statuses

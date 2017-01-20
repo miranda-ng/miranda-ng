@@ -59,30 +59,25 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	CMStringW sid; 
 	sid.Format(L"%S_%d", m_szModuleName, id);
 	c->m_wszId = mir_wstrdup(sid);
-	Chat_NewSession(GCW_CHATROOM, m_szModuleName, sid, wszTitle);
 
-	GC_INFO gci = {};
-	gci.pszModule = m_szModuleName;
-	gci.pszID = sid;
-	gci.Flags = GCF_BYID | GCF_HCONTACT;
-	Chat_GetInfo(&gci);
-	c->m_hContact = gci.hContact;
+	GCSessionInfoBase *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, sid, wszTitle);
+	c->m_hContact = si->hContact;
 
-	setWString(gci.hContact, "Nick", wszTitle);
+	setWString(si->hContact, "Nick", wszTitle);
 	m_chats.insert(c);
 
 	for (int i = _countof(sttStatuses)-1; i >= 0; i--)
 		Chat_AddGroup(m_szModuleName, sid, TranslateW(sttStatuses[i]));
 
-	setDword(gci.hContact, "vk_chat_id", id);
+	setDword(si->hContact, "vk_chat_id", id);
 
 	CMStringW wszHomepage(FORMAT, L"https://vk.com/im?sel=c%d", id);
-	setWString(gci.hContact, "Homepage", wszHomepage);
+	setWString(si->hContact, "Homepage", wszHomepage);
 	
-	db_unset(gci.hContact, m_szModuleName, "off");
+	db_unset(si->hContact, m_szModuleName, "off");
 
 	if (jnDlg && jnDlg["left"].as_bool())  {
-		setByte(gci.hContact, "off", 1);
+		setByte(si->hContact, "off", 1);
 		m_chats.remove(c);
 		return NULL;
 	}

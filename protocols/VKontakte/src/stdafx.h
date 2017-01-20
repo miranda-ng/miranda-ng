@@ -29,7 +29,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_system_cpp.h>
 
 #include <m_avatars.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 #include <m_clist.h>
 #include <m_database.h>
 #include <m_file.h>
