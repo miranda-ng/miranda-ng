@@ -17,6 +17,53 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+struct WSHeader
+{
+	WSHeader()
+	{
+		memset(this, 0, sizeof(*this));
+	}
+
+	bool init(BYTE *buf, int bufSize)
+	{
+		bIsFinal = (buf[0] & 0x80) != 0;
+		bIsMasked = (buf[1] & 0x80) != 0;
+		opCode = buf[0] & 0x0F;
+		firstByte = buf[1] & 0x7F;
+		headerSize = 2 + (firstByte == 0x7E ? 2 : 0) + (firstByte == 0x7F ? 8 : 0) + (bIsMasked ? 4 : 0);
+		if (bufSize < headerSize)
+			return false;
+
+		payloadSize = 0;
+		switch (firstByte) {
+		case 0x7F:
+			payloadSize += ((uint64_t)buf[2]) << 56;
+			payloadSize += ((uint64_t)buf[3]) << 48;
+			payloadSize += ((uint64_t)buf[4]) << 40;
+			payloadSize += ((uint64_t)buf[5]) << 32;
+			payloadSize += ((uint64_t)buf[6]) << 24;
+			payloadSize += ((uint64_t)buf[7]) << 16;
+			payloadSize += ((uint64_t)buf[8]) << 8;
+			payloadSize += ((uint64_t)buf[9]);
+			break;
+
+		case 0x7E:
+			payloadSize += ((uint64_t)buf[2]) << 8;
+			payloadSize += ((uint64_t)buf[3]);
+			break;
+
+		default:
+			payloadSize = firstByte;
+		}
+		return true;
+	}
+
+	bool bIsFinal, bIsMasked;
+	int opCode, firstByte;
+	int headerSize;
+	uint64_t payloadSize;
+};
+
 //////////////////////////////////////////////////////////////////////////////////////
 // sends a piece of JSON to a server via a websocket, masked
 
@@ -152,7 +199,7 @@ void CDiscordProto::GatewayThreadWorker()
 			break;
 
 		unsigned char buf[2048];
-		int bufSize = Netlib_Recv(m_hGatewayConnection, (char*)buf + offset, _countof(buf) - offset, 0);
+		int bufSize = Netlib_Recv(m_hGatewayConnection, (char*)buf + offset, _countof(buf) - offset, MSG_NODUMP);
 		if (bufSize == 0) {
 			debugLogA("Gateway connection gracefully closed");
 			break;
@@ -167,58 +214,29 @@ void CDiscordProto::GatewayThreadWorker()
 		}
 		offset = 0;
 
-		bool bIsFinal = (buf[0] & 0x80) != 0;
-		bool bIsMasked = (buf[1] & 0x80) != 0;
-		int opCode = buf[0] & 0x0F, firstByte = buf[1] & 0x7F;
-		int headerSize = 2 + (firstByte == 0x7E ? 2 : 0) + (firstByte == 0x7F ? 8 : 0) + (bIsMasked ? 4 : 0);
-		if (bufSize < headerSize) {
+		WSHeader hdr;
+		if (!hdr.init(buf, bufSize)) {
 			offset = bufSize;
 			continue;
 		}
 
-		int dataShift;
-		uint64_t payloadSize = 0;
-		switch (firstByte) {
-		case 0x7F:
-			payloadSize += ((uint64_t)buf[2]) << 56;
-			payloadSize += ((uint64_t)buf[3]) << 48;
-			payloadSize += ((uint64_t)buf[4]) << 40;
-			payloadSize += ((uint64_t)buf[5]) << 32;
-			payloadSize += ((uint64_t)buf[6]) << 24;
-			payloadSize += ((uint64_t)buf[7]) << 16;
-			payloadSize += ((uint64_t)buf[8]) << 8;
-			payloadSize += ((uint64_t)buf[9]);
-			dataShift = 10;
-			break;
-
-		case 0x7E:
-			payloadSize += ((uint64_t)buf[2]) << 8;
-			payloadSize += ((uint64_t)buf[3]);
-			dataShift = 4;
-			break;
-
-		default:
-			payloadSize = firstByte;
-			dataShift = 2;
-		}
-
-		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, final = %d, masked = %d", bufSize, opCode, headerSize, bIsFinal, bIsMasked);
+		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, final = %d, masked = %d", bufSize, hdr.opCode, hdr.headerSize, hdr.bIsFinal, hdr.bIsMasked);
 
 		// we have some additional data, not only opcode
-		if (bufSize > headerSize) {
-			if (bIsFinal && payloadSize < _countof(buf)) { // it fits, no need to reallocate a buffer
+		if (bufSize > hdr.headerSize) {
+			if (hdr.bIsFinal && hdr.payloadSize < _countof(buf)) { // it fits, no need to reallocate a buffer
 				bDataBufAllocated = false;
-				dataBuf = (char*)buf + headerSize;
-				dataBufSize = bufSize - headerSize;
+				dataBuf = (char*)buf + hdr.headerSize;
+				dataBufSize = bufSize - hdr.headerSize;
 			}
 			else {
 				bDataBufAllocated = true;
-				size_t newSize = dataBufSize + payloadSize;
-				size_t currPacketSize = bufSize - headerSize;
+				size_t newSize = dataBufSize + hdr.payloadSize;
+				size_t currPacketSize = bufSize - hdr.headerSize;
 				dataBuf = (char*)mir_realloc(dataBuf, newSize+1);
-				memcpy(dataBuf + dataBufSize, buf + headerSize, currPacketSize);
-				while (currPacketSize < payloadSize) {
-					int result = Netlib_Recv(m_hGatewayConnection, dataBuf + dataBufSize + currPacketSize, int(payloadSize - currPacketSize), 0);
+				memcpy(dataBuf + dataBufSize, buf + hdr.headerSize, currPacketSize);
+				while (currPacketSize < hdr.payloadSize) {
+					int result = Netlib_Recv(m_hGatewayConnection, dataBuf + dataBufSize + currPacketSize, int(hdr.payloadSize - currPacketSize), MSG_NODUMP);
 					if (result == 0) {
 						debugLogA("Gateway connection gracefully closed");
 						break;
@@ -236,30 +254,47 @@ void CDiscordProto::GatewayThreadWorker()
 			dataBuf[dataBufSize] = 0;
 		}
 
-		switch (opCode){
-		case 0: // text packet
-		case 1: // binary packet
-		case 2: // continuation
-			if (bIsFinal) {
-				// process a packet here
-				JSONNode root = JSONNode::parse(dataBuf);
-				if (root)
-					GatewayProcess(root);
+		// read all payloads from the current buffer, one by one
+		int iOffset = 0;
+		while (true) {
+			switch (hdr.opCode) {
+			case 0: // text packet
+			case 1: // binary packet
+			case 2: // continuation
+				if (hdr.bIsFinal) {
+					// process a packet here
+					char c = dataBuf[iOffset + hdr.payloadSize + 1]; dataBuf[iOffset + hdr.payloadSize + 1] = 0;
+					debugLogA("JSON received:\n%s", dataBuf + iOffset);
+					dataBuf[iOffset + hdr.payloadSize + 1] = c;
+
+					JSONNode root = JSONNode::parse(dataBuf + iOffset);
+					if (root)
+						GatewayProcess(root);
+				}
+				break;
+
+			case 8: // close
+				debugLogA("server required to exit");
+				bExit = true;
+				break;
+
+			case 9: // ping
+				debugLogA("ping received");
+				Netlib_Send(m_hGatewayConnection, (char*)buf + hdr.headerSize, bufSize - hdr.headerSize, 0);
+				break;
 			}
-			break;
 
-		case 8: // close
-			debugLogA("server required to exit", dataBufSize);
-			bExit = true;
-			break;
+			if (iOffset + hdr.payloadSize >= dataBufSize)
+				break;
 
-		case 9: // ping
-			debugLogA("ping received", dataBufSize);
-			Netlib_Send(m_hGatewayConnection, (char*)buf + headerSize, bufSize - headerSize, 0);
-			break;
+			iOffset += hdr.payloadSize;
+			if (!hdr.init((BYTE*)dataBuf + iOffset, (int)dataBufSize - iOffset))
+				break;
+
+			iOffset += hdr.headerSize;
 		}
 
-		if (bIsFinal) {
+		if (hdr.bIsFinal) {
 			if (bDataBufAllocated)
 				mir_free(dataBuf);
 			dataBuf = NULL;
@@ -338,5 +373,15 @@ void CDiscordProto::GatewaySendIdentify()
 
 	JSONNode root;
 	root << INT_PARAM("op", 2) << payload;
+	GatewaySend(root);
+}
+
+void CDiscordProto::GatewaySendGuildInfo(SnowFlake id)
+{
+	JSONNode payload(JSON_ARRAY); payload.set_name("d");
+	payload << INT64_PARAM("", id);
+
+	JSONNode root;
+	root << INT_PARAM("op", 12) << payload;
 	GatewaySend(root);
 }

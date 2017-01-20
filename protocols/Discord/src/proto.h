@@ -95,6 +95,7 @@ struct CDiscordUser : public MZeroedObject
 	SnowFlake id;
 	MCONTACT  hContact;
 
+	SnowFlake guildId;
 	SnowFlake channelId;
 	SnowFlake lastMessageId;
 	bool      bIsPrivate;
@@ -156,6 +157,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	void  GatewaySendHeartbeat(void);
 	void  GatewaySendIdentify(void);
+	void  GatewaySendGuildInfo(SnowFlake id);
 
 	GatewayHandlerFunc GetHandler(const wchar_t*);
 
@@ -235,8 +237,9 @@ public:
 	int  __cdecl GroupchatMenuHook(WPARAM, LPARAM);
 
 	// dispatch commands
-	void OnChannelCreated(const JSONNode&);
-	void OnChannelDeleted(const JSONNode&);
+	void OnCommandChannelCreated(const JSONNode&);
+	void OnCommandChannelDeleted(const JSONNode&);
+	void OnCommandGuildSync(const JSONNode&);
 	void OnCommandFriendAdded(const JSONNode&);
 	void OnCommandFriendRemoved(const JSONNode&);
 	void OnCommandMessage(const JSONNode&);

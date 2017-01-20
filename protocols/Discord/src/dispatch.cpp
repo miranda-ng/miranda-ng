@@ -26,8 +26,10 @@ struct CDiscordCommand
 }
 static handlers[] = // these structures must me sorted alphabetically
 {
-	{ L"CHANNEL_CREATE", &CDiscordProto::OnChannelCreated },
-	{ L"CHANNEL_DELETE", &CDiscordProto::OnChannelDeleted },
+	{ L"CHANNEL_CREATE", &CDiscordProto::OnCommandChannelCreated },
+	{ L"CHANNEL_DELETE", &CDiscordProto::OnCommandChannelDeleted },
+
+	{ L"GUILD_SYNC", &CDiscordProto::OnCommandGuildSync },
 
 	{ L"MESSAGE_ACK",    &CDiscordProto::OnCommandMessageAck },
 	{ L"MESSAGE_CREATE", &CDiscordProto::OnCommandMessage },
@@ -60,7 +62,7 @@ GatewayHandlerFunc CDiscordProto::GetHandler(const wchar_t *pwszCommand)
 //////////////////////////////////////////////////////////////////////////////////////
 // channel operations
 
-void CDiscordProto::OnChannelCreated(const JSONNode &pRoot)
+void CDiscordProto::OnCommandChannelCreated(const JSONNode &pRoot)
 {
 	CDiscordUser *pUser = PrepareUser(pRoot["user"]);
 	if (pUser != NULL) {
@@ -69,7 +71,7 @@ void CDiscordProto::OnChannelCreated(const JSONNode &pRoot)
 	}
 }
 
-void CDiscordProto::OnChannelDeleted(const JSONNode &pRoot)
+void CDiscordProto::OnCommandChannelDeleted(const JSONNode &pRoot)
 {
 	CDiscordUser *pUser = FindUserByChannel(pRoot["channel_id"]);
 	if (pUser != NULL) {
@@ -97,6 +99,69 @@ void CDiscordProto::OnCommandFriendRemoved(const JSONNode &pRoot)
 				db_delete_contact(pUser->hContact);
 		}
 		arUsers.remove(pUser);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// reading a new message
+
+void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
+{
+	struct Presence
+	{
+		Presence(SnowFlake _id, int status) :
+			userid(_id),
+			iStatus(status)
+		{}
+
+		SnowFlake userid;
+		int iStatus;
+
+		static int compare(const Presence *p1, const Presence *p2)
+		{	return p1->userid - p2->userid;
+		}
+	};
+
+	OBJLIST<Presence> arPresences(1, &Presence::compare);
+	const JSONNode &pStatuses = pRoot["presences"];
+	for (auto it = pStatuses.begin(); it != pStatuses.end(); ++it) {
+		const JSONNode &s = *it;
+
+		int iStatus = StrToStatus(s["status"].as_mstring());
+		if (iStatus)
+			arPresences.insert(new Presence(_wtoi64(s["user"]["id"].as_mstring()), iStatus));
+	}
+
+	SnowFlake guildId = _wtoi64(pRoot["id"].as_mstring());
+
+	const JSONNode &pMembers = pRoot["members"];
+	for (auto it = pMembers.begin(); it != pMembers.end(); ++it) {
+		const JSONNode &m = *it;
+
+		for (int i = 0; i < arUsers.getCount(); i++) {
+			CDiscordUser &pUser = arUsers[i];
+			if (pUser.guildId != guildId)
+				continue;
+
+			GCDEST gcd = { m_szModuleName, pUser.wszUsername, GC_EVENT_JOIN };
+			GCEVENT gce = { &gcd };
+
+			CMStringW wszUsername = m["user"]["username"].as_mstring() + L"#" + m["user"]["discriminator"].as_mstring();
+			CMStringW wszUserId = m["user"]["id"].as_mstring();
+			SnowFlake userid = _wtoi64(wszUserId);
+			gce.bIsMe = (userid == m_ownId);
+			gce.ptszUID = wszUserId;
+			gce.ptszNick = wszUsername;
+			Chat_Event(&gce);
+
+			int flags = GC_SSE_ONLYLISTED;
+			Presence *p = arPresences.find((Presence*)&userid);
+			if (p && (p->iStatus == ID_STATUS_ONLINE || p->iStatus == ID_STATUS_NA || p->iStatus == ID_STATUS_DND))
+				flags += GC_SSE_ONLINE;
+			else
+				flags += GC_SSE_OFFLINE;
+			Chat_SetStatusEx(m_szModuleName, pUser.wszUsername, flags, wszUserId);
+		}
 	}
 }
 
@@ -182,17 +247,7 @@ void CDiscordProto::OnCommandPresence(const JSONNode &pRoot)
 	if (pUser == NULL)
 		return;
 
-	int iStatus;
-	CMStringW wszStatus = pRoot["status"].as_mstring();
-	if (wszStatus == L"idle")
-		iStatus = ID_STATUS_IDLE;
-	else if (wszStatus == L"online")
-		iStatus = ID_STATUS_ONLINE;
-	else if (wszStatus == L"offline")
-		iStatus = ID_STATUS_OFFLINE;
-	else
-		iStatus = 0;
-
+	int iStatus = StrToStatus(pRoot["status"].as_mstring());
 	if (iStatus != 0)
 		setWord(pUser->hContact, "Status", iStatus);
 
@@ -228,13 +283,14 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 	for (auto it = guilds.begin(); it != guilds.end(); ++it) {
 		const JSONNode &p = *it;
 
+		SnowFlake guildId = _wtoi64(p["id"].as_mstring());
+		GatewaySendGuildInfo(guildId);
 		CMStringW wszGuildName = p["name"].as_mstring();
 
 		GCSessionInfoBase *si = Chat_NewSession(GCW_SERVER, m_szModuleName, wszGuildName, wszGuildName);
 		Chat_Control(m_szModuleName, wszGuildName, WINDOW_HIDDEN);
 		Chat_Control(m_szModuleName, wszGuildName, SESSION_ONLINE);
 
-		const JSONNode &members = p["members"];
 		const JSONNode &channels = p["channels"];
 		for (auto itc = channels.begin(); itc != channels.end(); ++itc) {
 			const JSONNode &pch = *itc;
@@ -259,22 +315,11 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 				pUser->channelId = channelId;
 				arUsers.insert(pUser);
 			}
+			pUser->wszUsername = wszChannelId;
+			pUser->guildId = guildId;
 			pUser->lastMessageId = _wtoi64(pch["last_message_id"].as_mstring());
 
 			setId(pUser->hContact, DB_KEY_CHANNELID, channelId);
-
-			GCDEST gcd = { m_szModuleName, wszChannelId, GC_EVENT_JOIN };
-			GCEVENT gce = { &gcd };
-			for (auto itu = members.begin(); itu != members.end(); ++itu) {
-				const JSONNode &pu = *itu;
-				
-				CMStringW username = pu["user"]["username"].as_mstring() + L"#" + pu["user"]["discriminator"].as_mstring();
-				CMStringW userid = pu["user"]["id"].as_mstring();
-				gce.bIsMe = _wtoi64(userid) == m_ownId;
-				gce.ptszUID = userid;
-				gce.ptszNick = username;
-				Chat_Event(&gce);
-			}
 		}
 	}
 

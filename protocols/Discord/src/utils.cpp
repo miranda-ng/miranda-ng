@@ -24,6 +24,17 @@ void CDiscordProto::SetAllContactStatuses(int status)
 			setWord(hContact, "Status", (WORD)status);
 }
 
+int StrToStatus(const CMStringW &str)
+{
+	if (str == L"idle")
+		return ID_STATUS_IDLE;
+	if (str == L"online")
+		return ID_STATUS_ONLINE;
+	if (str == L"offline")
+		return ID_STATUS_OFFLINE;
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 JSONNode& operator<<(JSONNode &json, const INT_PARAM &param)
