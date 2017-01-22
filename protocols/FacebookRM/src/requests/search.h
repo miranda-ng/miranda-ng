@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright ï¿½ 2011-17 Robert Pï¿½sel
+Copyright © 2011-17 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -23,12 +23,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _FACEBOOK_REQUEST_SEARCH_H_
 #define _FACEBOOK_REQUEST_SEARCH_H_
 
+#define SEARCH_TYPE_PEOPLE "people"
+#define SEARCH_TYPE_PAGES "pages"
+// other type for searching is "events" or "groups", but that's pointless to search in Miranda
+
 // searching
 class SearchRequest : public HttpRequest
 {
 public:
-	SearchRequest(bool mobileBasicWorks, const char *query, int s, int pn, const char *ssid) :
-		HttpRequest(REQUEST_GET, FORMAT, "%s/search/people/", mobileBasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE)
+	SearchRequest(bool mobileBasicWorks, const char *type, const char *query, int s, int pn, const char *ssid) :
+		HttpRequest(REQUEST_GET, FORMAT, "%s/search/%s/", mobileBasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE, type)
 	{
 		flags |= NLHRF_REDIRECT;
 
