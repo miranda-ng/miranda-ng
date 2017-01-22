@@ -1286,9 +1286,19 @@ void FacebookProto::SearchIdAckThread(void *targ)
 {
 	facy.handle_entry("searchIdAckThread");
 
-	std::string search = utils::url::encode(T2Utf((wchar_t*)targ).str());
+	std::string search = T2Utf((wchar_t*)targ).str();
+	if (search.find(FACEBOOK_SERVER_DOMAIN "/") != std::string::npos) {
+		// User entered URL, let's extract id/username from it
+		std::string id = utils::text::source_get_value2(&search, "/profile.php?id=", "&#", true);
+		if (id.empty()) {
+			// This link probably contains username (if user entered proper profile url)
+			id = utils::text::source_get_value2(&search, FACEBOOK_SERVER_DOMAIN "/", "?&#", true);
+		}
+		search = id;
+	}
+	search = utils::url::encode(search);
 
-	if (!isOffline())
+	if (!isOffline() && !search.empty())
 	{
 		http::response resp = facy.sendRequest(new ProfileRequest(facy.mbasicWorks, search.c_str()));
 
