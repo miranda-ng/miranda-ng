@@ -1208,106 +1208,100 @@ void FacebookProto::SearchAckThread(void *targ)
 {
 	facy.handle_entry("searchAckThread");
 
-	// We want to search separately people and then pages
-	for (int searchType = 0; searchType < 2; searchType++) {
-		// searchType: 0 = search people, 1 = search pages
-		bool searchPages = (searchType == 1);
+	int count = 0;
+	std::string search = utils::url::encode(T2Utf((wchar_t *)targ).str());
+	std::string ssid;
+	int pn = 1;
 
-		int count = 0;
-		std::string search = utils::url::encode(T2Utf((wchar_t *)targ).str());
-		std::string ssid;
-		int pn = 1;
+	while (count < 50 && !isOffline())
+	{
+		SearchRequest *request = new SearchRequest(facy.mbasicWorks, search.c_str(), count, pn, ssid.c_str());
+		http::response resp = facy.sendRequest(request);
 
-		while (count < 50 && !isOffline())
+		if (resp.code == HTTP_CODE_OK)
 		{
-			SearchRequest *request = new SearchRequest(facy.mbasicWorks, searchPages ? SEARCH_TYPE_PAGES : SEARCH_TYPE_PEOPLE, search.c_str(), count, pn, ssid.c_str());
-			http::response resp = facy.sendRequest(request);
+			std::string items = utils::text::source_get_value(&resp.data, 4, "<body", "</form", "<table", "</table>");
 
-			if (resp.code == HTTP_CODE_OK)
-			{
-				std::string items = utils::text::source_get_value(&resp.data, 4, "<body", "</form", "<table", "</table>");
+			std::string::size_type pos = 0;
+			std::string::size_type pos2 = 0;
 
-				std::string::size_type pos = 0;
-				std::string::size_type pos2 = 0;
+			while ((pos = items.find("<tr", pos)) != std::string::npos) {
+				std::string item = items.substr(pos, items.find("</tr>", pos) - pos);
+				pos++; count++;
 
-				while ((pos = items.find("<tr", pos)) != std::string::npos) {
-					std::string item = items.substr(pos, items.find("</tr>", pos) - pos);
-					pos++; count++;
+				std::string id;
+				std::string type; // Type of search result: 69=group, 274=page, 844=event, 2048=contact
+				std::string name = utils::text::source_get_value(&item, 3, "<a", ">", "</");
+				std::string surname;
+				std::string nick;
+				std::string common = utils::text::source_get_value(&item, 4, "</a>", "<span", ">", "</span>");
 
-					std::string id = utils::text::source_get_value2(&item, "?id=", "&\"");
-					if (id.empty()) {
-						id = utils::text::source_get_value2(&item, "?ids=", "&\"");
-					}
-					if (id.empty()) {
-						// For pages that user already likes we must parse "sld" value
-						// We could parse it for all contacts this way, but above solution is more effective
-						std::string url = utils::text::source_get_value(&item, 3, "<a", "href=\"", "\"");
-						std::string sld = utils::text::source_get_value2(&url, "sld=", "&\"", true);
-						// sld is Base64 encoded and then URL encoded string. So replace potential "%3D" with "="
-						utils::text::replace_all(&sld, "%3D", "=");
-						// decode Base64 string
-						ptrA data_((char*)mir_base64_decode(sld.c_str(), 0));
-						if (data_) {
-							std::string data = data_;
-							id = utils::text::source_get_value2(&data, "\"ent_id\":", ",}");
-						}
-					}
-
-					std::string name = utils::text::source_get_value(&item, 3, "<a", ">", "</");
-					std::string surname;
-					std::string nick;
-					std::string common = utils::text::source_get_value(&item, 4, "</a>", "<span", ">", "</span>");
-
-					if (searchPages) {
-						// When searching pages we use whole name as nick and use prefix
-						nick = m_pagePrefix + " " + name;
-						name = "";
-						if (common.empty()) {
-							// Pages has additional data in <div>, not in <span> as people
-							common = utils::text::source_get_value(&item, 4, "</a>", "<div", ">", "</div>");
-						}
-					} else {
-						// When searching for people we try to parse nick and split first/last name
-						if ((pos2 = name.find("<span class=\"alternate_name\">")) != std::string::npos) {
-							nick = name.substr(pos2 + 30, name.length() - pos2 - 31); // also remove brackets around nickname
-							name = name.substr(0, pos2 - 1);
-						}
-
-						if ((pos2 = name.find(" ")) != std::string::npos) {
-							surname = name.substr(pos2 + 1, name.length() - pos2 - 1);
-							name = name.substr(0, pos2);
-						}
-					}
-
-					// ignore self contact and empty ids
-					if (id.empty() || id == facy.self_.user_id)
-						continue;
-
-					ptrW tid(mir_utf8decodeW(id.c_str()));
-					ptrW tname(mir_utf8decodeW(utils::text::html_entities_decode(name).c_str()));
-					ptrW tsurname(mir_utf8decodeW(utils::text::html_entities_decode(surname).c_str()));
-					ptrW tnick(mir_utf8decodeW(utils::text::html_entities_decode(nick).c_str()));
-					ptrW tcommon(mir_utf8decodeW(utils::text::html_entities_decode(common).c_str()));
-
-					PROTOSEARCHRESULT psr = { 0 };
-					psr.cbSize = sizeof(psr);
-					psr.flags = PSR_UNICODE;
-					psr.id.w = tid;
-					psr.nick.w = tnick;
-					psr.firstName.w = tname;
-					psr.lastName.w = tsurname;
-					psr.email.w = tcommon;
-					ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&psr);
+				std::string url = utils::text::source_get_value(&item, 3, "<a", "href=\"", "\"");
+				std::string sld = utils::text::source_get_value2(&url, "sld=", "&\"", true);
+				// sld is Base64 encoded and then URL encoded string. So replace potential "%3D" with "="
+				utils::text::replace_all(&sld, "%3D", "=");
+				// decode Base64 string
+				ptrA data_((char*)mir_base64_decode(sld.c_str(), 0));
+				if (data_) {
+					std::string data = data_;
+					id = utils::text::source_get_value2(&data, "\"ent_id\":", ",}");
+					type = utils::text::source_get_value2(&data, "\"result_type\":", ",}");
 				}
 
-				ssid = utils::text::source_get_value(&resp.data, 3, "id=\"more_objects\"", "ssid=", "&");
-				pn++; // increment page number
-				if (ssid.empty())
-					break; // No more results
+				if (type == "274") { // page
+					// When searching pages we use whole name as nick and use prefix
+					nick = m_pagePrefix + " " + name;
+					name = "";
+					if (common.empty()) {
+						// Pages has additional data in <div>, not in <span> as people
+						common = utils::text::source_get_value(&item, 4, "</a>", "<div", ">", "</div>");
+					}
+				}
+				else if (type == "2048") { // people
+					// When searching for people we try to parse nick and split first/last name
+					if ((pos2 = name.find("<span class=\"alternate_name\">")) != std::string::npos) {
+						nick = name.substr(pos2 + 30, name.length() - pos2 - 31); // also remove brackets around nickname
+						name = name.substr(0, pos2 - 1);
+					}
+
+					if ((pos2 = name.find(" ")) != std::string::npos) {
+						surname = name.substr(pos2 + 1, name.length() - pos2 - 1);
+						name = name.substr(0, pos2);
+					}
+				}
+				else {
+					// This is group or event, let's ignore that
+					continue;
+				}
+
+				// ignore self contact and empty ids
+				if (id.empty() || id == facy.self_.user_id)
+					continue;
+
+				ptrW tid(mir_utf8decodeW(id.c_str()));
+				ptrW tname(mir_utf8decodeW(utils::text::html_entities_decode(name).c_str()));
+				ptrW tsurname(mir_utf8decodeW(utils::text::html_entities_decode(surname).c_str()));
+				ptrW tnick(mir_utf8decodeW(utils::text::html_entities_decode(nick).c_str()));
+				ptrW tcommon(mir_utf8decodeW(utils::text::html_entities_decode(common).c_str()));
+
+				PROTOSEARCHRESULT psr = { 0 };
+				psr.cbSize = sizeof(psr);
+				psr.flags = PSR_UNICODE;
+				psr.id.w = tid;
+				psr.nick.w = tnick;
+				psr.firstName.w = tname;
+				psr.lastName.w = tsurname;
+				psr.email.w = tcommon;
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&psr);
 			}
-			else {
-				break;
-			}
+
+			ssid = utils::text::source_get_value(&resp.data, 3, "id=\"more_objects\"", "ssid=", "&");
+			pn++; // increment page number
+			if (ssid.empty())
+				break; // No more results
+		}
+		else {
+			break;
 		}
 	}
 

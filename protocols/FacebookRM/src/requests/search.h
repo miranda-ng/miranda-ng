@@ -23,16 +23,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _FACEBOOK_REQUEST_SEARCH_H_
 #define _FACEBOOK_REQUEST_SEARCH_H_
 
-#define SEARCH_TYPE_PEOPLE "people"
-#define SEARCH_TYPE_PAGES "pages"
-// other type for searching is "events" or "groups", but that's pointless to search in Miranda
-
 // searching
 class SearchRequest : public HttpRequest
 {
 public:
-	SearchRequest(bool mobileBasicWorks, const char *type, const char *query, int s, int pn, const char *ssid) :
-		HttpRequest(REQUEST_GET, FORMAT, "%s/search/%s/", mobileBasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE, type)
+	SearchRequest(bool mobileBasicWorks, const char *query, int s, int pn, const char *ssid) :
+		HttpRequest(REQUEST_GET, FORMAT, "%s/search/", mobileBasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE)
 	{
 		flags |= NLHRF_REDIRECT;
 
