@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2011-17 Robert Pösel
+Copyright ï¿½ 2011-17 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,15 +27,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class SearchRequest : public HttpRequest
 {
 public:
-	SearchRequest(bool mobileBasicWorks, const char *query, int s, const char *ssid) :
-		HttpRequest(REQUEST_GET, FORMAT, "%s/search/", mobileBasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE)
+	SearchRequest(bool mobileBasicWorks, const char *query, int s, int pn, const char *ssid) :
+		HttpRequest(REQUEST_GET, FORMAT, "%s/search/people/", mobileBasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE)
 	{
 		flags |= NLHRF_REDIRECT;
 
 		Url
-			<< "search=people"
-			<< CHAR_VALUE("query", query)
-			<< INT_VALUE("s", s);
+			<< CHAR_VALUE("q", query)
+			<< INT_VALUE("s", s)
+			<< INT_VALUE("pn", pn);
 
 		if (mir_strlen(ssid) > 0) {
 			Url << CHAR_VALUE("ssid", ssid);

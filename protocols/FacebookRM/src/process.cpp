@@ -1212,15 +1212,16 @@ void FacebookProto::SearchAckThread(void *targ)
 
 	std::string search = utils::url::encode(T2Utf((wchar_t *)targ).str());
 	std::string ssid;
+	int pn = 1;
 
 	while (count < 50 && !isOffline())
 	{
-		SearchRequest *request = new SearchRequest(facy.mbasicWorks, search.c_str(), count, ssid.c_str());
+		SearchRequest *request = new SearchRequest(facy.mbasicWorks, search.c_str(), count, pn, ssid.c_str());
 		http::response resp = facy.sendRequest(request);
 
 		if (resp.code == HTTP_CODE_OK)
 		{
-			std::string items = utils::text::source_get_value(&resp.data, 4, "<body", "name=\"charset_test\"", "<table", "</body>");
+			std::string items = utils::text::source_get_value(&resp.data, 4, "<body", "</form", "<table", "</body>");
 
 			std::string::size_type pos = 0;
 			std::string::size_type pos2 = 0;
@@ -1270,8 +1271,12 @@ void FacebookProto::SearchAckThread(void *targ)
 			}
 
 			ssid = utils::text::source_get_value(&items, 3, "id=\"more_objects\"", "ssid=", "&");
+			pn++; // increment page number
 			if (ssid.empty())
 				break; // No more results
+		}
+		else {
+			break;
 		}
 	}
 
