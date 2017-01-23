@@ -254,6 +254,7 @@ public:
 	
 	int  OnDeleteContact(MCONTACT hContact);
 
+	void OnReceiveCreateChannel(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveAuth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveChannels(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

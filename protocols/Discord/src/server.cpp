@@ -203,6 +203,18 @@ void CDiscordProto::OnReceiveAuth(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *p
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// channels
+
+void CDiscordProto::OnReceiveCreateChannel(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+{
+	if (pReply->resultCode != 200)
+		return;
+
+	JSONNode root = JSONNode::parse(pReply->pData);
+	if (root)
+		OnCommandChannelCreated(root);
+}
+
 
 void CDiscordProto::OnReceiveChannels(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 {
@@ -214,9 +226,9 @@ void CDiscordProto::OnReceiveChannels(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 		return;
 
 	for (auto it = root.begin(); it != root.end(); ++it) {
-		JSONNode &p = *it;
+		const JSONNode &p = *it;
 
-		JSONNode &user = p["recipient"];
+		const JSONNode &user = p["recipient"];
 		if (!user)
 			continue;
 

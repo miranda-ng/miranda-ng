@@ -64,8 +64,10 @@ GatewayHandlerFunc CDiscordProto::GetHandler(const wchar_t *pwszCommand)
 
 void CDiscordProto::OnCommandChannelCreated(const JSONNode &pRoot)
 {
-	CDiscordUser *pUser = PrepareUser(pRoot["user"]);
-	if (pUser != NULL) {
+	const JSONNode &members = pRoot["recipients"];
+	for (auto it = members.begin(); it != members.end(); ++it) {
+		CDiscordUser *pUser = PrepareUser(*it);
+		pUser->lastMessageId = _wtoi64(pRoot["last_message_id"].as_mstring());
 		pUser->channelId = _wtoi64(pRoot["id"].as_mstring());
 		setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
 	}
@@ -73,9 +75,9 @@ void CDiscordProto::OnCommandChannelCreated(const JSONNode &pRoot)
 
 void CDiscordProto::OnCommandChannelDeleted(const JSONNode &pRoot)
 {
-	CDiscordUser *pUser = FindUserByChannel(pRoot["channel_id"]);
+	CDiscordUser *pUser = FindUserByChannel(_wtoi64(pRoot["id"].as_mstring()));
 	if (pUser != NULL) {
-		pUser->channelId = 0;
+		pUser->channelId = pUser->lastMessageId = 0;
 		delSetting(pUser->hContact, DB_KEY_CHANNELID);
 	}
 }
