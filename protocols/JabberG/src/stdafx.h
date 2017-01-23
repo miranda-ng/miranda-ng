@@ -666,10 +666,6 @@ void   g_MenuInit();
 void   g_MenuUninit();
 int    g_OnToolbarInit(WPARAM, LPARAM);
 
-//---- jabber_misc.c ------------------------------------------------
-
-wchar_t* UnEscapeChatTags(wchar_t* str_in);
-
 //---- jabber_adhoc.cpp	---------------------------------------------
 
 struct CJabberAdhocStartupParams

@@ -480,7 +480,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 		if (gch->ptszText && gch->ptszText[0]) {
 			GCThreadData* thread = MSN_GetThreadByChatId(gch->pDest->ptszID);
 			if (thread) {
-				wchar_t* pszMsg = UnEscapeChatTags(NEWWSTR_ALLOCA(gch->ptszText));
+				wchar_t* pszMsg = Chat_UnescapeTags(NEWWSTR_ALLOCA(gch->ptszText));
 				rtrimw(pszMsg); // remove the ending linebreak
 				msnNsThread->sendMessage('N', thread->szEmail, thread->netId, UTF8(pszMsg), 0);
 

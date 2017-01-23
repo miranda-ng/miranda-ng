@@ -453,18 +453,6 @@ void CVkProto::SetChatStatus(MCONTACT hContact, int iStatus)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-wchar_t* UnEscapeChatTags(wchar_t *str_in)
-{
-	wchar_t *s = str_in, *d = str_in;
-	while (*s) {
-		if (*s == '%' && s[1] == '%')
-			s++;
-		*d++ = *s++;
-	}
-	*d = 0;
-	return str_in;
-}
-
 int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK*)lParam;
@@ -483,7 +471,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 		if (IsOnline() && mir_wstrlen(gch->ptszText) > 0) {
 			ptrW pwszBuf(mir_wstrdup(gch->ptszText));
 			rtrimw(pwszBuf);
-			UnEscapeChatTags(pwszBuf);
+			Chat_UnescapeTags(pwszBuf);
 			SendMsg(cc->m_hContact, 0, T2Utf(pwszBuf));
 		}
 		break;

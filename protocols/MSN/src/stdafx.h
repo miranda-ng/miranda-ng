@@ -240,7 +240,6 @@ time_t		IsoToUnixTime(const char *stamp);
 time_t		MsnTSToUnixtime(const char *pszTS);
 
 wchar_t* EscapeChatTags(const wchar_t* pszText);
-wchar_t* UnEscapeChatTags(wchar_t* str_in);
 
 void   overrideStr(wchar_t*& dest, const wchar_t* src, bool unicode, const wchar_t* def = NULL);
 

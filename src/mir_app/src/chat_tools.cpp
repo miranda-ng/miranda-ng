@@ -906,3 +906,17 @@ MIR_APP_DLL(void) Chat_HoverMouse(SESSION_INFO *si, HWND hwnd, LPARAM lParam, bo
 		}
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(wchar_t*) Chat_UnescapeTags(wchar_t *str_in)
+{
+	wchar_t *s = str_in, *d = str_in;
+	while (*s) {
+		if (*s == '%' && s[1] == '%')
+			s++;
+		*d++ = *s++;
+	}
+	*d = 0;
+	return str_in;
+}

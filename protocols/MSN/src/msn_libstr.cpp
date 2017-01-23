@@ -322,18 +322,6 @@ wchar_t* EscapeChatTags(const wchar_t* pszText)
 	return pszNewText;
 }
 
-wchar_t* UnEscapeChatTags(wchar_t* str_in)
-{
-	wchar_t *s = str_in, *d = str_in;
-	while (*s) {
-		if ((*s == '%' && s[1] == '%') || (*s == '\n' && s[1] == '\n'))
-			s++;
-		*d++ = *s++;
-	}
-	*d = 0;
-	return str_in;
-}
-
 #pragma comment(lib, "Rpcrt4.lib")
 
 char* getNewUuid(void)

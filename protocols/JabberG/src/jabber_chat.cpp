@@ -1002,7 +1002,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 				mir_snwprintf(buf, L"%s%s%s", szMessage, him->m_tszResourceName, p + 2);
 			}
 			else mir_wstrncpy(buf, szMessage, _countof(buf));
-			UnEscapeChatTags(buf);
+			Chat_UnescapeTags(buf);
 
 			ppro->m_ThreadInfo->send(
 				XmlNode(L"message") << XATTR(L"to", item->jid) << XATTR(L"type", L"groupchat")
@@ -1385,7 +1385,7 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 				int64_t id = (_time64(0) << 16) + (GetTickCount() & 0xFFFF);
 
 				wchar_t *buf = NEWWSTR_ALLOCA(gch->ptszText);
-				UnEscapeChatTags(buf);
+				Chat_UnescapeTags(buf);
 				m_ThreadInfo->send(
 					XmlNode(L"message") << XATTR(L"id", _i64tot(id, tszID, 36)) << XATTR(L"to", item->jid) << XATTR(L"type", L"groupchat")
 					<< XCHILD(L"body", buf));

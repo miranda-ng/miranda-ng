@@ -389,6 +389,8 @@ EXTERN_C MIR_APP_DLL(int) Chat_SetStatusbarText(const char *szModule, const wcha
 
 EXTERN_C MIR_APP_DLL(void) Chat_HoverMouse(struct SESSION_INFO *si, HWND hwnd, LPARAM lParam, bool bUseToolTip);
 
+EXTERN_C MIR_APP_DLL(wchar_t*) Chat_UnescapeTags(wchar_t *str_in);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #define GC_SSE_ONLYLISTED     0x0001  // processes only listed contacts, resets all contacts otherwise

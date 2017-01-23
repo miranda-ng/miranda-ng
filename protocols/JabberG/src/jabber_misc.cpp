@@ -240,21 +240,6 @@ void CJabberProto::SetServerStatus(int iNewStatus)
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 }
 
-// Process a string, and double all % characters, according to chat.dll's restrictions
-// Returns a pointer to the new string (old one is not freed)
-
-wchar_t* UnEscapeChatTags(wchar_t* str_in)
-{
-	wchar_t *s = str_in, *d = str_in;
-	while (*s) {
-		if (*s == '%' && s[1] == '%')
-			s++;
-		*d++ = *s++;
-	}
-	*d = 0;
-	return str_in;
-}
-
 //////////////////////////////////////////////////////////////////////////
 // update MirVer with data for active resource
 

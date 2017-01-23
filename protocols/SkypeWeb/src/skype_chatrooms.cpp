@@ -402,18 +402,6 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	}
 }
 
-wchar_t* UnEscapeChatTags(wchar_t* str_in)
-{
-	wchar_t *s = str_in, *d = str_in;
-	while (*s) {
-		if (*s == '%' && s[1] == '%')
-			s++;
-		*d++ = *s++;
-	}
-	*d = 0;
-	return str_in;
-}
-
 void CSkypeProto::OnSendChatMessage(const wchar_t *chat_id, const wchar_t * tszMessage)
 {
 	if (!IsOnline())
@@ -421,7 +409,7 @@ void CSkypeProto::OnSendChatMessage(const wchar_t *chat_id, const wchar_t * tszM
 
 	wchar_t *buf = NEWWSTR_ALLOCA(tszMessage);
 	rtrimw(buf);
-	UnEscapeChatTags(buf);
+	Chat_UnescapeTags(buf);
 
 	ptrA szChatId(mir_u2a(chat_id));
 	ptrA szMessage(mir_utf8encodeW(buf));
