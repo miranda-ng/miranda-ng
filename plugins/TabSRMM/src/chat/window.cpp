@@ -1499,7 +1499,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					break;
 
 				case ID_MESS:
-					pci->DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
+					pci->DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui, nullptr, 0);
 					break;
 
 				default:
@@ -1513,7 +1513,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 									for (int i = 0; i < iSelectedItems; i++) {
 										USERINFO *ui1 = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, pItems[i]);
 										if (ui1)
-											pci->DoEventHookAsync(hwndParent, si->ptszID, si->pszModule, GC_USER_NICKLISTMENU, ui1->pszUID, NULL, (LPARAM)uID);
+											pci->DoEventHookAsync(hwndParent, si->ptszID, si->pszModule, GC_USER_NICKLISTMENU, ui1, nullptr, (LPARAM)uID);
 									}
 								}
 								mir_free(pItems);
@@ -2500,11 +2500,11 @@ LABEL_SHOWWINDOW:
 										break;
 
 									case ID_MESS:
-										pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
+										pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui, NULL, 0);
 										break;
 
 									default:
-										pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_NICKLISTMENU, ui->pszUID, NULL, (LPARAM)uID);
+										pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_NICKLISTMENU, ui, NULL, (LPARAM)uID);
 										break;
 									}
 									DestroyGCMenu(&hMenu, 1);
@@ -2631,7 +2631,7 @@ LABEL_SHOWWINDOW:
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 						SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 					}
-					else pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
+					else pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui, NULL, 0);
 				}
 				return TRUE;
 			}

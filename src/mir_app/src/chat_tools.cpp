@@ -606,7 +606,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	return TRUE;
 }
 
-BOOL DoEventHookAsync(HWND hwnd, const wchar_t *pszID, const char *pszModule, int iType, const wchar_t* pszUID, const wchar_t* pszText, INT_PTR dwItem)
+BOOL DoEventHookAsync(HWND hwnd, const wchar_t *pszID, const char *pszModule, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem)
 {
 	SESSION_INFO *si = chatApi.SM_FindSession(pszID, pszModule);
 	if (si == NULL)
@@ -618,7 +618,12 @@ BOOL DoEventHookAsync(HWND hwnd, const wchar_t *pszID, const char *pszModule, in
 	gcd->iType = iType;
 
 	GCHOOK *gch = (GCHOOK*)mir_calloc(sizeof(GCHOOK));
-	gch->ptszUID = mir_wstrdup(pszUID);
+	if (pUser != NULL) {
+		gch->ptszUID = mir_wstrdup(pUser->pszUID);
+		gch->ptszNick = mir_wstrdup(pUser->pszNick);
+	}
+	else gch->ptszUID = gch->ptszNick = nullptr;
+
 	gch->ptszText = mir_wstrdup(pszText);
 	gch->dwData = dwItem;
 	gch->pDest = gcd;
@@ -626,7 +631,7 @@ BOOL DoEventHookAsync(HWND hwnd, const wchar_t *pszID, const char *pszModule, in
 	return TRUE;
 }
 
-BOOL DoEventHook(const wchar_t *pszID, const char *pszModule, int iType, const wchar_t *pszUID, const wchar_t* pszText, INT_PTR dwItem)
+BOOL DoEventHook(const wchar_t *pszID, const char *pszModule, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem)
 {
 	SESSION_INFO *si = chatApi.SM_FindSession(pszID, pszModule);
 	if (si == NULL)
@@ -634,7 +639,12 @@ BOOL DoEventHook(const wchar_t *pszID, const char *pszModule, int iType, const w
 
 	GCDEST gcd = { (char*)pszModule, pszID, iType };
 	GCHOOK gch = { 0 };
-	gch.ptszUID = (LPTSTR)pszUID;
+	if (pUser != NULL) {
+		gch.ptszUID = pUser->pszUID;
+		gch.ptszNick = pUser->pszNick;
+	}
+	else gch.ptszUID = gch.ptszNick = nullptr;
+
 	gch.ptszText = (LPTSTR)pszText;
 	gch.dwData = dwItem;
 	gch.pDest = &gcd;
