@@ -659,7 +659,7 @@ void CVkProto::OnReceiveGroupInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		int iGroupId = (-1)*jnItem["id"].as_int();
 		bool bIsMember = jnItem["is_member"].as_bool();
 
-		if (!bIsMember && m_vkOptions.bAutoClean)
+		if (!bIsMember && m_vkOptions.bLoadOnlyFriends)
 			continue;
 
 		MCONTACT hContact = FindUser(iGroupId, true);
@@ -740,7 +740,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		return;
 	
 	CVkSendMsgParam *param = (CVkSendMsgParam *)pReq->pUserInfo;
-	bool bCleanContacts = m_vkOptions.bAutoClean || (param->iMsgID != 0);
+	bool bCleanContacts = (param->iMsgID != 0);
 	delete param;
 
 	LIST<void> arContacts(10, PtrKeySortT);

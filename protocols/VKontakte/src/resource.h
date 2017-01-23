@@ -41,7 +41,7 @@
 #define IDC_CLIST                       1013
 #define IDC_HIDECHATS                   1014
 #define IDC_CONTACT                     1015
-#define IDC_AUTOCLEAN                   1020
+#define IDC_LOADONLYFRIENDS             1020
 #define IDC_MESASUREAD                  1025
 #define IDC_SYNC_MSG_STATUS             1026
 #define IDC_USE_LOCAL_TIME              1029

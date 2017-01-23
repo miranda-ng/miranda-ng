@@ -210,8 +210,11 @@ void CVkProto::RetrieveUnreadMessages()
 	debugLogA("CVkProto::RetrieveUnreadMessages");
 	if (!IsOnline())
 		return;
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getDialogs.json", true, &CVkProto::OnReceiveDlgs)
-		<< INT_PARAM ("count", 200));
+	
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveDlgs, AsyncHttpRequest::rpHigh)
+		<< CHAR_PARAM("code", "var dlg=API.messages.getDialogs({\"count\":200});"
+			"var users=API.friends.areFriends({\"user_ids\":dlg.items@.message@.user_id});"
+			"return{\"dialogs\":dlg, \"users\":users};"));
 }
 
 void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -343,9 +346,29 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	if (!jnResponse)
 		return;
 
-	const JSONNode &jnDlgs = jnResponse["items"];
+	const JSONNode &jnDialogs = jnResponse["dialogs"];
+	if (!jnDialogs)
+		return;
+
+	const JSONNode &jnDlgs = jnDialogs["items"];
 	if (!jnDlgs)
 		return;
+
+	OBJLIST<CVKUsersAreFriend> lufUsers(20, NumericKeySortT);
+	const JSONNode &jnUsers = jnResponse["users"];
+	if (jnUsers) {
+		for (auto it = jnUsers.begin(); it != jnUsers.end(); ++it) {
+			int iUserId = (*it)["user_id"].as_int();
+			int iStatus = (*it)["friend_status"].as_int();
+
+			CVKUsersAreFriend* ufUser = lufUsers.find((CVKUsersAreFriend*)&iUserId);
+			if (ufUser)
+				continue;
+
+			ufUser = new CVKUsersAreFriend(iUserId, iStatus);
+			lufUsers.insert(ufUser);
+		}	
+	}
 
 	CMStringA szGroupIds;
 
@@ -364,7 +387,18 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 		if (!chatid) {
 			uid = jnDlg["user_id"].as_int();
+
+			CVKUsersAreFriend* ufUser = lufUsers.find((CVKUsersAreFriend*)&uid);
+			int iFriendStatus = ufUser ? ufUser->iStatus : 0;
+			debugLogA("CVkProto::OnReceiveDlgs UserId = %d, FriendStatus = %d, numUnread = %d", uid, iFriendStatus, numUnread);
+
+			// iFriendStatus == 3 - user is friend
+			// uid > 0 - user is not group and etc.
+			if (m_vkOptions.bLoadOnlyFriends && uid > 0 && numUnread == 0 && iFriendStatus != 3) 
+				continue;
+
 			hContact = FindUser(uid, true);
+			debugLogA("CVkProto::OnReceiveDlgs add UserId = %d", uid);
 
 			if (IsGroupUser(hContact))
 				szGroupIds.AppendFormat(szGroupIds.IsEmpty() ? "%d" : ",%d", -1 * uid);
@@ -406,6 +440,8 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 				MarkMessagesRead(hContact);
 		}
 	}
+
+	lufUsers.destroy();
 	RetrieveUsersInfo();
 	RetrieveGroupInfo(szGroupIds);
 }

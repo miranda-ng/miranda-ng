@@ -50,7 +50,7 @@ class CVkOptionAccountForm : public CVkDlgBase
 	CCtrlCombo m_cbxVKLang;
 	CCtrlCheck m_cbDelivery;
 	CCtrlCheck m_cbUseLocalTime;
-	CCtrlCheck m_cbAutoClean;
+	CCtrlCheck m_cbLoadOnlyFriends;
 	CCtrlCombo m_cbxSyncHistory;
 	CCtrlCombo m_cbxMarkAsRead;
 

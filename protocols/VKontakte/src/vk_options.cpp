@@ -146,7 +146,7 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto):
 	m_cbxVKLang(this, IDC_COMBO_LANGUAGE),
 	m_cbDelivery(this, IDC_DELIVERY),
 	m_cbUseLocalTime(this, IDC_USE_LOCAL_TIME),
-	m_cbAutoClean(this, IDC_AUTOCLEAN),
+	m_cbLoadOnlyFriends(this, IDC_LOADONLYFRIENDS),
 	m_cbxMarkAsRead(this, IDC_COMBO_MARKASREAD),
 	m_cbxSyncHistory(this, IDC_COMBO_SYNCHISTORY)
 {
@@ -154,7 +154,7 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto):
 	CreateLink(m_edtGroupName, m_proto->m_vkOptions.pwszDefaultGroup);
 	CreateLink(m_cbDelivery, m_proto->m_vkOptions.bServerDelivery);
 	CreateLink(m_cbUseLocalTime, m_proto->m_vkOptions.bUseLocalTime);
-	CreateLink(m_cbAutoClean, m_proto->m_vkOptions.bAutoClean);
+	CreateLink(m_cbLoadOnlyFriends, m_proto->m_vkOptions.bLoadOnlyFriends);
 }
 
 void CVkOptionAccountForm::OnInitDialog()

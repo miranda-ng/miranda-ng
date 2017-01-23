@@ -167,7 +167,7 @@ CVkChatUser* CVkChatInfo::GetUserById(int user_id)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
-	bAutoClean(proto, "AutoClean", false),
+	bLoadOnlyFriends(proto, "LoadOnlyFriends", false),
 	bServerDelivery(proto, "BsDirect", true),
 	bHideChats(proto, "HideChats", true),
 	bMesAsUnread(proto, "MesAsUnread", false),
@@ -239,4 +239,12 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	pwszVKLang(proto, "VKLang", NULL)
 
 {
+	// Note: Delete this code after next stable build
+	int iAutoClean = db_get_b(NULL, proto->m_szModuleName, "AutoClean", -1);
+	if (iAutoClean != -1) {
+		bLoadOnlyFriends = (BYTE) iAutoClean;
+		db_set_b(NULL, proto->m_szModuleName, "LoadOnlyFriends", bLoadOnlyFriends);
+		db_unset(NULL, proto->m_szModuleName, "AutoClean");
+	}
+	// Note 
 }

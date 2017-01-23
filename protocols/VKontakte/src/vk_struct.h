@@ -287,7 +287,7 @@ struct CVkCookie
 };
 
 struct CVKOptions {
-	CMOption<BYTE> bAutoClean;
+	CMOption<BYTE> bLoadOnlyFriends;
 	CMOption<BYTE> bServerDelivery;
 	CMOption<BYTE> bHideChats;
 	CMOption<BYTE> bMesAsUnread;
@@ -363,8 +363,17 @@ struct CVKOptions {
 
 };
 
-
 struct CVKDeactivateEvent {
 	wchar_t *wszType;
 	char *szDescription;
+};
+
+struct CVKUsersAreFriend {
+	CVKUsersAreFriend(int _iUserId, int _iStatus) : 
+		iUserId(_iUserId), 
+		iStatus(_iStatus) 
+	{}
+
+	int iUserId;
+	int iStatus;
 };

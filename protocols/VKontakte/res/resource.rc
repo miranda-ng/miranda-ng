@@ -305,7 +305,7 @@ BEGIN
     CONTROL         "Server-side delivery confirmation",IDC_DELIVERY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,157,278,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,137,278,10
-    CONTROL         "Automatically wipe local contacts missing in your friend list",IDC_AUTOCLEAN,
+    CONTROL         "Load only friends to local contact list",IDC_LOADONLYFRIENDS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,147,278,10
     RTEXT           "Mark message as read:",IDC_STATIC,12,101,150,12,SS_CENTERIMAGE
     COMBOBOX        IDC_COMBO_MARKASREAD,167,101,121,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
