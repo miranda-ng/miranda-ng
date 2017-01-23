@@ -39,6 +39,7 @@
 #define IDC_MAP_STATUSES                1032
 #define IDC_LOAD_ALL_CONTACTS           1033
 #define IDC_CUSTOM_SMILEYS              1034
+#define IDC_PAGES_ALWAYS_ONLINE         1035
 #define IDC_LOAD_PAGES                  1036
 #define IDC_KEEP_UNREAD                 1037
 #define IDC_MESSAGES_ON_OPEN            1039

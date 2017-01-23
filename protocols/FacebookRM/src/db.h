@@ -74,6 +74,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_NOTIFICATIONS_CHATROOM	"NotificationsChatroom"
 #define FACEBOOK_KEY_NAME_AS_NICK			"NameAsNick"
 #define FACEBOOK_KEY_LOAD_ALL_CONTACTS		"LoadAllContacts"
+#define FACEBOOK_KEY_PAGES_ALWAYS_ONLINE	"PagesAlwaysOnline"
 
 // Account DB keys - notifications
 #define FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE	"EventNotificationsEnable"

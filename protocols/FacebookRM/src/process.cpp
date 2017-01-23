@@ -60,6 +60,7 @@ void FacebookProto::ProcessFriendList(void*)
 		std::map<std::string, facebook_user*> friends;
 
 		bool loadAllContacts = getBool(FACEBOOK_KEY_LOAD_ALL_CONTACTS, DEFAULT_LOAD_ALL_CONTACTS);
+		bool pagesAlwaysOnline = getBool(FACEBOOK_KEY_PAGES_ALWAYS_ONLINE, DEFAULT_PAGES_ALWAYS_ONLINE);
 
 		facebook_json_parser* p = new facebook_json_parser(this);
 		p->parse_friends(&resp.data, &friends, loadAllContacts);
@@ -75,6 +76,11 @@ void FacebookProto::ProcessFriendList(void*)
 			if (deletedTS != 0) {
 				delSetting(hContact, "Deleted");
 				setDword(hContact, FACEBOOK_KEY_DELETED, deletedTS);
+			}
+
+			// If this contact is page, set it as invisible (if enabled in options)
+			if (pagesAlwaysOnline && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE) == CONTACT_PAGE) {
+				setWord(hContact, "Status", ID_STATUS_ONLINE);
 			}
 
 			facebook_user *fbu;

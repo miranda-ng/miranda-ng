@@ -375,6 +375,11 @@ int FacebookProto::GetInfo(MCONTACT hContact, int)
 		}
 	}
 
+	// If this contact is page, set it as invisible (if enabled in options)
+	if (getBool(FACEBOOK_KEY_PAGES_ALWAYS_ONLINE, DEFAULT_PAGES_ALWAYS_ONLINE) && fbu.type == CONTACT_PAGE) {
+		setWord(hContact, "Status", ID_STATUS_ONLINE);
+	}
+
 	CheckAvatarChange(hContact, fbu.image_url);
 
 	return 1;
