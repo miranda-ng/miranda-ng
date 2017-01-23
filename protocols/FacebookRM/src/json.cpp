@@ -1089,9 +1089,14 @@ int facebook_json_parser::parse_unread_threads(std::string *data, std::vector< s
 		return EXIT_FAILURE;
 
 	for (auto it = unread_threads.begin(); it != unread_threads.end(); ++it) {
-		const JSONNode &thread_ids = (*it)["thread_fbids"];
+		// For multi user chats
+		const JSONNode &thread_fbids = (*it)["thread_fbids"];
+		for (auto jt = thread_fbids.begin(); jt != thread_fbids.end(); ++jt)
+			threads->push_back((*jt).as_string());
 
-		for (auto jt = thread_ids.begin(); jt != thread_ids.end(); ++jt)
+		// For classic conversations
+		const JSONNode &other_user_fbids = (*it)["other_user_fbids"];
+		for (auto jt = other_user_fbids.begin(); jt != other_user_fbids.end(); ++jt)
 			threads->push_back((*jt).as_string());
 	}
 
