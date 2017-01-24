@@ -193,6 +193,8 @@ using namespace irc;
 
 typedef bool (CIrcProto::*PfnIrcMessageHandler)(const CIrcMessage *pmsg);
 
+#pragma pack(4)
+
 struct CIrcHandler
 {
 	CIrcHandler(const wchar_t* _name, PfnIrcMessageHandler _handler) :
@@ -204,6 +206,7 @@ struct CIrcHandler
 	const wchar_t* m_name;
 	PfnIrcMessageHandler m_handler;
 };
+#pragma pack()
 
 struct CIrcProto : public PROTO<CIrcProto>
 {
