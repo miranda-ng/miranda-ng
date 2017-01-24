@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "msn_proto.h"
 
-static const COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+static COLORREF crCols[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 
 int msn_httpGatewayInit(HNETLIBCONN hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPREQUEST *nlhr);
 int msn_httpGatewayBegin(HNETLIBCONN hConn, NETLIBOPENCONNECTION *nloc);
@@ -202,8 +202,8 @@ int CMsnProto::OnModulesLoaded(WPARAM, LPARAM)
 	GCREGISTER gcr = {};
 	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
 	gcr.iMaxText = 0;
-	gcr.nColors = 16;
-	gcr.pColors = (COLORREF*)crCols;
+	gcr.nColors = _countof(crCols);
+	gcr.pColors = crCols;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
