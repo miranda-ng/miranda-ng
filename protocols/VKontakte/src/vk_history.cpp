@@ -60,7 +60,7 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM, LPARAM)
 		if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
 			continue;
 
-		
+
 		MEVENT hDBEvent = db_event_first(hContact);
 		while (hDBEvent) {
 			MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
@@ -74,10 +74,10 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM, LPARAM)
 			m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = true;
 			debugLogA("CVkProto::SvcGetAllServerHistory for ID=%d m_iLoadHistoryTask=%d", userID, m_iLoadHistoryTask);
 		}
-		
+
 		db_unset(hContact, m_szModuleName, "lastmsgid");
 		GetServerHistory(hContact, 0, MAXHISTORYMIDSPERONE, 0, 0);
-	
+
 	}
 
 	return 1;
@@ -132,9 +132,9 @@ void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int 
 		"var Jdx=0;var CFMsgs=parseInt(FMsgs[Idx].length);while(Jdx<CFMsgs){"
 		"Uids.unshift(FMsgs[Idx][Jdx].user_id);Jdx=Jdx+1;};Idx=Idx+1;};"
 		"var FUsers=API.users.get({\"user_ids\":Uids,\"name_case\":\"gen\"});"
-		"return{\"count\":index,\"datetime\":iTime,\"items\":ret,\"fwd_users\":FUsers,\"once\":%d,\"rcount\":iReqCount};", 
+		"return{\"count\":index,\"datetime\":iTime,\"items\":ret,\"fwd_users\":FUsers,\"once\":%d,\"rcount\":iReqCount};",
 		iOffset, iCount, userID, iTime, iLastMsgId, (int)once);
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveHistoryMessages)
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveHistoryMessages, AsyncHttpRequest::rpLow)
 		<< CHAR_PARAM("code", code))->pUserInfo = new CVkSendMsgParam(hContact, iLastMsgId, iOffset);
 }
 
@@ -185,9 +185,9 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 	if (!jnResponse) {
 		if (!pReq->bNeedsRestart || m_bTerminated) {
 			mir_cslock lck(m_csLoadHistoryTask);
-			if (m_iLoadHistoryTask > 0) 
+			if (m_iLoadHistoryTask > 0)
 				m_iLoadHistoryTask--;
-			
+
 			ptrW pwszNick(db_get_wsa(param->hContact, m_szModuleName, "Nick"));
 			CMStringW str(FORMAT, TranslateT("Error loading message history for %s from server."), pwszNick);
 
@@ -205,7 +205,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		return;
 	}
 
-	int iTime = jnResponse["datetime"].as_int(); 
+	int iTime = jnResponse["datetime"].as_int();
 	const JSONNode &jnMsgs = jnResponse["items"];
 	const JSONNode &jnFUsers = jnResponse["fwd_users"];
 
@@ -217,7 +217,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		const JSONNode &jnMsg = (*it);
 
 		int mid = jnMsg["id"].as_int();
-		if (iLastMsgId < mid) 
+		if (iLastMsgId < mid)
 			iLastMsgId = mid;
 
 		char szMid[40];
@@ -226,8 +226,8 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		CMStringW wszBody(jnMsg["body"].as_mstring());
 		int datetime = jnMsg["date"].as_int();
 		int isOut = jnMsg["out"].as_int();
-		int isRead = jnMsg["read_state"].as_int(); 
-		int uid = jnMsg["user_id"].as_int(); 
+		int isRead = jnMsg["read_state"].as_int();
+		int uid = jnMsg["user_id"].as_int();
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages) {
@@ -289,7 +289,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 		if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
 			MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed."), TranslateT("Loading history"));
-			m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;		
+			m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;
 		}
 	}
 

@@ -29,7 +29,7 @@ class CVkAccMgrForm : public CVkDlgBase
 	CCtrlEdit m_edtLogin;
 	CCtrlEdit m_edtPassword;
 	CCtrlHyperlink m_hlLink;
-	
+
 	pass_ptrW m_pwszOldPass;
 	ptrW m_pwszOldLogin;
 
@@ -49,6 +49,7 @@ class CVkOptionAccountForm : public CVkDlgBase
 	CCtrlEdit m_edtGroupName;
 	CCtrlCombo m_cbxVKLang;
 	CCtrlCheck m_cbDelivery;
+	CCtrlCheck m_cbLoadLastMessageOnMsgWindowsOpen;
 	CCtrlCheck m_cbUseLocalTime;
 	CCtrlCheck m_cbLoadOnlyFriends;
 	CCtrlCombo m_cbxSyncHistory;
@@ -105,7 +106,7 @@ public:
 class CVkOptionFeedsForm : public CVkDlgBase
 {
 	CCtrlCheck m_cbNewsEnabled;
-	
+
 	CCtrlEdit m_edtNewsInterval;
 	CCtrlSpin m_spNewsInterval;
 
@@ -129,7 +130,7 @@ class CVkOptionFeedsForm : public CVkDlgBase
 	CCtrlCheck m_cbNewsSourceFollowing;
 	CCtrlCheck m_cbNewsSourceIncludeBanned;
 	CCtrlCheck m_cbNewsSourceNoReposts;
-	
+
 	CCtrlCheck m_cbNotificationFilterComments;
 	CCtrlCheck m_cbNotificationFilterLikes;
 	CCtrlCheck m_cbNotificationFilterReposts;
@@ -153,7 +154,7 @@ class CVkOptionViewForm : public CVkDlgBase
 	CCtrlCheck m_cbIMGBBCSupportFullSize;
 	CCtrlCheck m_cbIMGBBCSupport130;
 	CCtrlCheck m_cbIMGBBCSupport604;
-	
+
 	CCtrlCheck m_cbBBCForNewsOff;
 	CCtrlCheck m_cbBBCForNewsBasic;
 	CCtrlCheck m_cbBBCForNewsAdvanced;
@@ -167,7 +168,7 @@ class CVkOptionViewForm : public CVkDlgBase
 	CCtrlCheck m_cbStikersAsSmyles;
 	CCtrlCheck m_cbShortenLinksForAudio;
 	CCtrlCheck m_cbUseNonStandardNotifications;
-	
+
 public:
 	CVkOptionViewForm(CVkProto *proto);
 	void OnInitDialog();

@@ -45,7 +45,7 @@ public:
 	void On_btnOpenInBrowser_Click(CCtrlButton*);
 	void On_btnOk_Click(CCtrlButton*);
 	void On_edtValue_Change(CCtrlEdit*);
-	
+
 };
 
 ////////////////////////////////// IDD_WALLPOST ///////////////////////////////////////////

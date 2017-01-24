@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Включаемый файл, созданный в Microsoft Visual C++.
-// Используется d:\svn\protocols\VKontakte\res\resource.rc
+// Используется d:\github\miranda-ng\protocols\VKontakte\res\resource.rc
 //
 #define IDOPENBROWSER                   3
 #define IDD_ACCMGRUI                    101
@@ -41,6 +41,7 @@
 #define IDC_CLIST                       1013
 #define IDC_HIDECHATS                   1014
 #define IDC_CONTACT                     1015
+#define IDC_LASTHISTORYLOAD             1019
 #define IDC_LOADONLYFRIENDS             1020
 #define IDC_MESASUREAD                  1025
 #define IDC_SYNC_MSG_STATUS             1026

@@ -28,7 +28,7 @@ INT_PTR CVkProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 
 //////////////////////////////////////////////////////////////////////////////
 
-CVkAccMgrForm::CVkAccMgrForm(CVkProto *proto, HWND hwndParent):
+CVkAccMgrForm::CVkAccMgrForm(CVkProto *proto, HWND hwndParent) :
 	CVkDlgBase(proto, IDD_ACCMGRUI, false),
 	m_edtLogin(this, IDC_LOGIN),
 	m_edtPassword(this, IDC_PASSWORD),
@@ -121,7 +121,7 @@ static CVKLang vkLangCodes[] = {
 	{ L"it", LPGENW("Italian") },
 };
 
-static CVKSync vkHistorySyncMethods[] = 
+static CVKSync vkHistorySyncMethods[] =
 {
 	{ TranslateT("off"), SyncHistoryMetod::syncOff },
 	{ TranslateT("automatically"), SyncHistoryMetod::syncAuto },
@@ -137,7 +137,7 @@ static CVKMarkMsgRead vkMarkMsgAsReadMethods[] =
 	{ TranslateT("on typing"), MarkMsgReadOn::markOnTyping }
 };
 
-CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto):
+CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto) :
 	CVkDlgBase(proto, IDD_OPT_MAIN, false),
 	m_edtLogin(this, IDC_LOGIN),
 	m_edtPassword(this, IDC_PASSWORD),
@@ -145,6 +145,7 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto):
 	m_edtGroupName(this, IDC_GROUPNAME),
 	m_cbxVKLang(this, IDC_COMBO_LANGUAGE),
 	m_cbDelivery(this, IDC_DELIVERY),
+	m_cbLoadLastMessageOnMsgWindowsOpen(this, IDC_LASTHISTORYLOAD),
 	m_cbUseLocalTime(this, IDC_USE_LOCAL_TIME),
 	m_cbLoadOnlyFriends(this, IDC_LOADONLYFRIENDS),
 	m_cbxMarkAsRead(this, IDC_COMBO_MARKASREAD),
@@ -153,6 +154,7 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto):
 	CreateLink(m_edtLogin, "Login", L"");
 	CreateLink(m_edtGroupName, m_proto->m_vkOptions.pwszDefaultGroup);
 	CreateLink(m_cbDelivery, m_proto->m_vkOptions.bServerDelivery);
+	CreateLink(m_cbLoadLastMessageOnMsgWindowsOpen, m_proto->m_vkOptions.bLoadLastMessageOnMsgWindowsOpen);
 	CreateLink(m_cbUseLocalTime, m_proto->m_vkOptions.bUseLocalTime);
 	CreateLink(m_cbLoadOnlyFriends, m_proto->m_vkOptions.bLoadOnlyFriends);
 }
@@ -177,13 +179,13 @@ void CVkOptionAccountForm::OnInitDialog()
 	m_cbxMarkAsRead.SetCurSel(iListIndex);
 
 	iListIndex = SyncHistoryMetod::syncOff;
-	for (int i = 0; i < _countof(vkHistorySyncMethods); i++)	{
+	for (int i = 0; i < _countof(vkHistorySyncMethods); i++) {
 		m_cbxSyncHistory.InsertString((wchar_t *)vkHistorySyncMethods[i].type, i, vkHistorySyncMethods[i].data);
 		if (vkHistorySyncMethods[i].data == m_proto->m_vkOptions.iSyncHistoryMetod)
 			iListIndex = i;
 	}
 	m_cbxSyncHistory.SetCurSel(iListIndex);
-	
+
 	iListIndex = 0;
 	for (int i = 0; i < _countof(vkLangCodes); i++) {
 		m_cbxVKLang.InsertString(TranslateW(vkLangCodes[i].szDescription), i, (LPARAM)vkLangCodes[i].szCode);
@@ -191,7 +193,7 @@ void CVkOptionAccountForm::OnInitDialog()
 			iListIndex = i;
 	}
 	m_cbxVKLang.SetCurSel(iListIndex);
-	
+
 }
 
 void CVkOptionAccountForm::OnApply()
@@ -199,7 +201,7 @@ void CVkOptionAccountForm::OnApply()
 	m_proto->m_vkOptions.iSyncHistoryMetod = m_cbxSyncHistory.GetItemData(m_cbxSyncHistory.GetCurSel());
 	m_proto->m_vkOptions.iMarkMessageReadOn = m_cbxMarkAsRead.GetItemData(m_cbxMarkAsRead.GetCurSel());
 	m_proto->m_vkOptions.pwszVKLang = (wchar_t *)m_cbxVKLang.GetItemData(m_cbxVKLang.GetCurSel());
-	
+
 	ptrW pwszGroupName(m_edtGroupName.GetText());
 	if (mir_wstrcmp(m_pwszOldGroup, pwszGroupName)) {
 		Clist_GroupCreate(NULL, pwszGroupName);
@@ -219,12 +221,12 @@ void CVkOptionAccountForm::OnApply()
 	if (bPassChanged || mir_wstrcmpi(m_pwszOldLogin, pwszNewLogin))
 		m_proto->ClearAccessToken();
 	m_pwszOldLogin = pwszNewLogin;
-	
+
 }
 
 ////////////////////// Advanced page /////////////////////////////////////////
 
-CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto):
+CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto) :
 	CVkDlgBase(proto, IDD_OPT_ADV, false),
 	m_cbHideChats(this, IDC_HIDECHATS),
 	m_cbSyncReadMessageStatusFromServer(this, IDC_SYNC_MSG_STATUS),
@@ -307,7 +309,7 @@ void CVkOptionAdvancedForm::On_cbSendVKLinksAsAttachmentsChange(CCtrlCheck *)
 
 ////////////////////// News and notifications ////////////////////////////////
 
-CVkOptionFeedsForm::CVkOptionFeedsForm(CVkProto *proto):
+CVkOptionFeedsForm::CVkOptionFeedsForm(CVkProto *proto) :
 	CVkDlgBase(proto, IDD_OPT_FEEDS, false),
 	m_cbNewsEnabled(this, IDC_NEWS_ENBL),
 	m_edtNewsInterval(this, IDC_ED_INT_NEWS),
@@ -367,11 +369,11 @@ CVkOptionFeedsForm::CVkOptionFeedsForm(CVkProto *proto):
 void CVkOptionFeedsForm::OnInitDialog()
 {
 	m_spNewsInterval.SetRange(60 * 24, 1);
-	m_spNewsInterval.SetPosition(m_proto->m_vkOptions.iNewsInterval);	
+	m_spNewsInterval.SetPosition(m_proto->m_vkOptions.iNewsInterval);
 
 	m_spNotificationsInterval.SetRange(60 * 24, 1);
 	m_spNotificationsInterval.SetPosition(m_proto->m_vkOptions.iNotificationsInterval);
-	
+
 	On_cbNewsEnabledChange(&m_cbNewsEnabled);
 	On_cbNotificationsEnabledChange(&m_cbNotificationsEnabled);
 }
@@ -411,7 +413,7 @@ void CVkOptionFeedsForm::On_cbNotificationsEnabledChange(CCtrlCheck*)
 
 ////////////////////// View page /////////////////////////////////////////////
 
-CVkOptionViewForm::CVkOptionViewForm(CVkProto *proto):
+CVkOptionViewForm::CVkOptionViewForm(CVkProto *proto) :
 	CVkDlgBase(proto, IDD_OPT_VIEW, false),
 	m_cbIMGBBCSupportOff(this, IDC_IMG_OFF),
 	m_cbIMGBBCSupportFullSize(this, IDC_IMG_FULLSIZE),
@@ -444,7 +446,7 @@ void CVkOptionViewForm::OnInitDialog()
 	m_cbBBCForNewsOff.SetState(m_proto->m_vkOptions.iBBCForNews == BBCSupport::bbcNo);
 	m_cbBBCForNewsBasic.SetState(m_proto->m_vkOptions.iBBCForNews == BBCSupport::bbcBasic);
 	m_cbBBCForNewsAdvanced.SetState(m_proto->m_vkOptions.iBBCForNews == BBCSupport::bbcAdvanced);
-	
+
 	m_cbBBCForAttachmentsOff.SetState(m_proto->m_vkOptions.iBBCForAttachments == BBCSupport::bbcNo);
 	m_cbBBCForAttachmentsBasic.SetState(m_proto->m_vkOptions.iBBCForAttachments == BBCSupport::bbcBasic);
 	m_cbBBCForAttachmentsAdvanced.SetState(m_proto->m_vkOptions.iBBCForAttachments == BBCSupport::bbcAdvanced);
@@ -478,7 +480,7 @@ void CVkOptionViewForm::OnApply()
 
 ////////////////////// Menu page /////////////////////////////////////////////
 
-CVkOptionMenuForm::CVkOptionMenuForm(CVkProto *proto):
+CVkOptionMenuForm::CVkOptionMenuForm(CVkProto *proto) :
 	CVkDlgBase(proto, IDD_OPT_MENU, false),
 	m_cbMenuEnabled0(this, IDC_SHOW_MENU0),
 	m_cbMenuEnabled1(this, IDC_SHOW_MENU1),
@@ -499,10 +501,10 @@ CVkOptionMenuForm::CVkOptionMenuForm(CVkProto *proto):
 
 void CVkOptionMenuForm::OnApply()
 {
-	if (MessageBoxW(NULL, 
+	if (MessageBoxW(NULL,
 		TranslateT("These changes will take effect after Miranda NG restart.\nWould you like to restart it now?"),
-		TranslateT("VKontakte protocol"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) 
-		CallServiceSync(MS_SYSTEM_RESTART, 1,  0);
+		TranslateT("VKontakte protocol"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES)
+		CallServiceSync(MS_SYSTEM_RESTART, 1, 0);
 }
 
 

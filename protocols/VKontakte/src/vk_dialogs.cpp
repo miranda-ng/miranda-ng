@@ -119,10 +119,10 @@ CVkWallPostForm::CVkWallPostForm(CVkProto *proto, WALLPOST_FORM_PARAMS *param) :
 void CVkWallPostForm::OnInitDialog()
 {
 	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_WALL));
-	
+
 	CMStringW wszTitle(FORMAT, TranslateT("Wall message for %s"), m_param->pwszNick);
 	SetCaption(wszTitle);
-	
+
 	m_btnShare.Disable();
 }
 
@@ -148,9 +148,9 @@ void CVkWallPostForm::On_edtValue_Change(CCtrlEdit*)
 ////////////////////////////////// IDD_INVITE /////////////////////////////////////////////
 
 CVkInviteChatForm::CVkInviteChatForm(CVkProto *proto) :
-	CVkDlgBase(proto, IDD_INVITE, false), 
-	m_btnOk(this, IDOK),  
-	m_cbxCombo(this, IDC_CONTACT), 
+	CVkDlgBase(proto, IDD_INVITE, false),
+	m_btnOk(this, IDOK),
+	m_cbxCombo(this, IDC_CONTACT),
 	m_hContact(NULL)
 {
 	m_btnOk.OnClick = Callback(this, &CVkInviteChatForm::btnOk_OnOk);
@@ -162,7 +162,7 @@ void CVkInviteChatForm::OnInitDialog()
 		if (!m_proto->isChatRoom(hContact)) {
 			wchar_t *pwszNick = pcli->pfnGetContactDisplayName(hContact, 0);
 			m_cbxCombo.AddString(pwszNick, hContact);
-		}	
+		}
 	}
 }
 
@@ -175,9 +175,9 @@ void CVkInviteChatForm::btnOk_OnOk(CCtrlButton*)
 ////////////////////////////////// IDD_GC_CREATE //////////////////////////////////////////
 
 CVkGCCreateForm::CVkGCCreateForm(CVkProto *proto) :
-	CVkDlgBase(proto, IDD_GC_CREATE, false), 
-	m_btnOk(this, IDOK),  
-	m_clCList(this, IDC_CLIST), 
+	CVkDlgBase(proto, IDD_GC_CREATE, false),
+	m_btnOk(this, IDOK),
+	m_clCList(this, IDC_CLIST),
 	m_edtTitle(this, IDC_TITLE)
 {
 	m_btnOk.OnClick = Callback(this, &CVkGCCreateForm::btnOk_OnOk);
@@ -186,7 +186,7 @@ CVkGCCreateForm::CVkGCCreateForm(CVkProto *proto) :
 
 void CVkGCCreateForm::OnInitDialog()
 {
-	SetWindowLongPtr(m_clCList.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_clCList.GetHwnd(), GWL_STYLE) 
+	SetWindowLongPtr(m_clCList.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_clCList.GetHwnd(), GWL_STYLE)
 		| CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE);
 	m_clCList.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 

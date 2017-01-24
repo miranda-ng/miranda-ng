@@ -44,7 +44,7 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 		return 0;
 
 	bool bIsChat = isChatRoom(hContact);
-	LONG iUserID = getDword(hContact, bIsChat ? "vk_chat_id" : "ID" , VK_INVALID_USER);
+	LONG iUserID = getDword(hContact, bIsChat ? "vk_chat_id" : "ID", VK_INVALID_USER);
 
 	if (iUserID == VK_INVALID_USER || iUserID == VK_FEED_USER) {
 		ForkThread(&CVkProto::SendMsgAck, new CVkSendMsgParam(hContact));
@@ -55,9 +55,9 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 	ptrA pszRetMsg(GetStickerId(szMsg, StickerId));
 
 	ULONG uMsgId = ::InterlockedIncrement(&m_msgId);
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, bIsChat? &CVkProto::OnSendChatMsg : &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, bIsChat ? &CVkProto::OnSendChatMsg : &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
 		<< INT_PARAM(bIsChat ? "chat_id" : "peer_id", iUserID)
-		<< INT_PARAM("random_id", ((LONG) time(NULL)) * 100 + uMsgId % 100);
+		<< INT_PARAM("random_id", ((LONG)time(NULL)) * 100 + uMsgId % 100);
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
 	if (StickerId)
@@ -75,13 +75,13 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 
 	if (!bIsChat)
 		pReq->pUserInfo = new CVkSendMsgParam(hContact, uMsgId);
-	
+
 	Push(pReq);
 
 	if (!m_bServerDelivery && !bIsChat)
 		ForkThread(&CVkProto::SendMsgAck, new CVkSendMsgParam(hContact, uMsgId));
 
-	if (!IsEmpty(pszRetMsg)) 
+	if (!IsEmpty(pszRetMsg))
 		SendMsg(hContact, 0, pszRetMsg);
 
 	return uMsgId;
@@ -102,7 +102,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 		if (jnResponse) {
 			UINT mid;
-			if (jnResponse.type() != JSON_STRING) 
+			if (jnResponse.type() != JSON_STRING)
 				mid = jnResponse.as_int();
 			else if (swscanf(jnResponse.as_mstring(), L"%d", &mid) != 1)
 				mid = 0;
@@ -122,7 +122,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 	if (param->pFUP) {
 		ProtoBroadcastAck(param->hContact, ACKTYPE_FILE, iResult, (HANDLE)(param->pFUP));
-		if (!pReq->bNeedsRestart || m_bTerminated) 
+		if (!pReq->bNeedsRestart || m_bTerminated)
 			delete param->pFUP;
 	}
 	else if (m_bServerDelivery)
@@ -142,7 +142,7 @@ int CVkProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 	MCONTACT hContact = db_event_getContact(hDbEvent);
 	if (!hContact)
 		return 0;
-	
+
 	CMStringA szProto(GetContactProto(hContact));
 	if (szProto.IsEmpty() || szProto != m_szModuleName)
 		return 0;
@@ -210,11 +210,11 @@ void CVkProto::RetrieveUnreadMessages()
 	debugLogA("CVkProto::RetrieveUnreadMessages");
 	if (!IsOnline())
 		return;
-	
+
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveDlgs, AsyncHttpRequest::rpHigh)
 		<< CHAR_PARAM("code", "var dlg=API.messages.getDialogs({\"count\":200});"
-			"var users=API.friends.areFriends({\"user_ids\":dlg.items@.message@.user_id});"
-			"return{\"dialogs\":dlg, \"users\":users};"));
+			"var users=API.friends.areFriends({\"user_ids\":dlg.items@.message@.user_id});var groups=API.groups.get();"
+			"return{\"dialogs\":dlg, \"users\":users, \"groups\":groups.items};"));
 }
 
 void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -256,7 +256,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
 			if (!wszBody.IsEmpty())
 				wszFwdMessages = L"\n" + wszFwdMessages;
-			wszBody +=  wszFwdMessages;
+			wszBody += wszFwdMessages;
 		}
 
 		CMStringW wszAttachmentDescr;
@@ -354,21 +354,31 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	if (!jnDlgs)
 		return;
 
-	OBJLIST<CVKUsersAreFriend> lufUsers(20, NumericKeySortT);
+	LIST<void> lufUsers(20, PtrKeySortT);
 	const JSONNode &jnUsers = jnResponse["users"];
-	if (jnUsers) {
+	if (jnUsers)
 		for (auto it = jnUsers.begin(); it != jnUsers.end(); ++it) {
 			int iUserId = (*it)["user_id"].as_int();
 			int iStatus = (*it)["friend_status"].as_int();
 
-			CVKUsersAreFriend* ufUser = lufUsers.find((CVKUsersAreFriend*)&iUserId);
-			if (ufUser)
+			// iStatus == 3 - user is friend
+			// uid < 0 - user is group
+			if (iUserId < 0 || iStatus != 3 || lufUsers.indexOf((HANDLE)iUserId) != -1)
 				continue;
 
-			ufUser = new CVKUsersAreFriend(iUserId, iStatus);
-			lufUsers.insert(ufUser);
-		}	
-	}
+			lufUsers.insert((HANDLE)iUserId);
+		}
+
+	const JSONNode &jnGroups = jnResponse["groups"];
+	if (jnGroups)
+		for (auto it = jnGroups.begin(); it != jnGroups.end(); ++it) {
+			int iUserId = 1000000000 + (*it).as_int();
+
+			if (lufUsers.indexOf((HANDLE)iUserId) != -1)
+				continue;
+
+			lufUsers.insert((HANDLE)iUserId);
+		}
 
 	CMStringA szGroupIds;
 
@@ -382,19 +392,16 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 		int uid = 0;
 		MCONTACT hContact(NULL);
-		
+
 		int chatid = jnDlg["chat_id"].as_int();
 
 		if (!chatid) {
 			uid = jnDlg["user_id"].as_int();
+			int iSearchId = (uid < 0) ? 1000000000 - uid : uid;
+			int iIndex = lufUsers.indexOf((HANDLE)iSearchId);
+			debugLogA("CVkProto::OnReceiveDlgs UserId = %d, iIndex = %d, numUnread = %d", uid, iIndex, numUnread);
 
-			CVKUsersAreFriend* ufUser = lufUsers.find((CVKUsersAreFriend*)&uid);
-			int iFriendStatus = ufUser ? ufUser->iStatus : 0;
-			debugLogA("CVkProto::OnReceiveDlgs UserId = %d, FriendStatus = %d, numUnread = %d", uid, iFriendStatus, numUnread);
-
-			// iFriendStatus == 3 - user is friend
-			// uid > 0 - user is not group and etc.
-			if (m_vkOptions.bLoadOnlyFriends && uid > 0 && numUnread == 0 && iFriendStatus != 3) 
+			if (m_vkOptions.bLoadOnlyFriends && numUnread == 0 && iIndex == -1)
 				continue;
 
 			hContact = FindUser(uid, true);
@@ -414,7 +421,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 				}
 			}
 		}
-		
+
 		if (chatid) {
 			debugLogA("CVkProto::OnReceiveDlgs chatid = %d", chatid);
 			if (m_chats.find((CVkChatInfo*)&chatid) == NULL)

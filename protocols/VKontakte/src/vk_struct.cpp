@@ -44,13 +44,13 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	bIsMainConn = false;
 	bExpUrlEncode = (BYTE)ppro->m_vkOptions.bUseNonStandardUrlEncode != 0;
 	AddHeader("Connection", "keep-alive");
-		
+
 	if (*_url == '/') {	// relative url leads to a site
 		m_szUrl = ((bSecure) ? "https://" : "http://") + CMStringA("api.vk.com");
 		m_szUrl += _url;
 		bIsMainConn = true;
 	}
-	else 
+	else
 		m_szUrl = _url;
 
 	flags = VK_NODUMPHEADERS | NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
@@ -167,6 +167,7 @@ CVkChatUser* CVkChatInfo::GetUserById(int user_id)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
+	bLoadLastMessageOnMsgWindowsOpen(proto, "LoadLastMessageOnMsgWindowsOpen", true),
 	bLoadOnlyFriends(proto, "LoadOnlyFriends", false),
 	bServerDelivery(proto, "BsDirect", true),
 	bHideChats(proto, "HideChats", true),
@@ -214,7 +215,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	bLoadFullCList(proto, "LoadFullCList", false),
 	bShowVkDeactivateEvents(proto, "ShowVkDeactivateEvents", true),
 
-	bShowProtoMenuItem0(proto, "ShowProtoMenuItem0", true), 
+	bShowProtoMenuItem0(proto, "ShowProtoMenuItem0", true),
 	bShowProtoMenuItem1(proto, "ShowProtoMenuItem1", true),
 	bShowProtoMenuItem2(proto, "ShowProtoMenuItem2", true),
 	bShowProtoMenuItem3(proto, "ShowProtoMenuItem3", true),
@@ -242,7 +243,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	// Note: Delete this code after next stable build
 	int iAutoClean = db_get_b(NULL, proto->m_szModuleName, "AutoClean", -1);
 	if (iAutoClean != -1) {
-		bLoadOnlyFriends = (BYTE) iAutoClean;
+		bLoadOnlyFriends = (BYTE)iAutoClean;
 		db_set_b(NULL, proto->m_szModuleName, "LoadOnlyFriends", bLoadOnlyFriends);
 		db_unset(NULL, proto->m_szModuleName, "AutoClean");
 	}

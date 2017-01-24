@@ -255,9 +255,9 @@ struct CVKInteres {
 	wchar_t *pwszTranslate;
 };
 
-struct CVKLang { 
-	wchar_t *szCode; 
-	wchar_t *szDescription; 
+struct CVKLang {
+	wchar_t *szCode;
+	wchar_t *szDescription;
 };
 
 enum MarkMsgReadOn : BYTE { markOnRead, markOnReceive, markOnReply, markOnTyping };
@@ -287,6 +287,7 @@ struct CVkCookie
 };
 
 struct CVKOptions {
+	CMOption<BYTE> bLoadLastMessageOnMsgWindowsOpen;
 	CMOption<BYTE> bLoadOnlyFriends;
 	CMOption<BYTE> bServerDelivery;
 	CMOption<BYTE> bHideChats;
@@ -357,7 +358,7 @@ struct CVKOptions {
 	CMOption<wchar_t*> pwszVKLang;
 
 	CVKOptions(PROTO_INTERFACE *proto);
-	
+
 	__forceinline BBCSupport BBCForNews() { return (BBCSupport)(BYTE)iBBCForNews; };
 	__forceinline BBCSupport BBCForAttachments() { return (BBCSupport)(BYTE)iBBCForAttachments; };
 
@@ -366,14 +367,4 @@ struct CVKOptions {
 struct CVKDeactivateEvent {
 	wchar_t *wszType;
 	char *szDescription;
-};
-
-struct CVKUsersAreFriend {
-	CVKUsersAreFriend(int _iUserId, int _iStatus) : 
-		iUserId(_iUserId), 
-		iStatus(_iStatus) 
-	{}
-
-	int iUserId;
-	int iStatus;
 };
