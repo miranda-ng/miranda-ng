@@ -195,7 +195,7 @@ void CDiscordProto::SearchThread(void *param)
 	psr.nick.w = (wchar_t*)param;
 	psr.firstName.w = L"";
 	psr.lastName.w = L"";
-	psr.id.w = (wchar_t*)param;
+	psr.id.w = L"";
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)param, (LPARAM)&psr);
 
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)param, 0);
@@ -289,10 +289,10 @@ int CDiscordProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 
 MCONTACT CDiscordProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
-	if (psr->id.w == NULL)
+	if (mir_wstrlen(psr->nick.w) == 0)
 		return 0;
 
-	wchar_t *p = wcschr(psr->id.w, '#');
+	wchar_t *p = wcschr(psr->nick.w, '#');
 	if (p == NULL)
 		return 0;
 
@@ -304,12 +304,19 @@ MCONTACT CDiscordProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	*p = 0;
 	CDiscordUser *pUser = new CDiscordUser(0);
 	pUser->hContact = hContact;
-	pUser->wszUsername = psr->id.w;
+	pUser->wszUsername = psr->nick.w;
 	pUser->iDiscriminator = _wtoi(p + 1);
 	*p = '#';
 
+	if (mir_wstrlen(psr->id.w)) {
+		pUser->id = _wtoi64(psr->id.w);
+		setId(hContact, DB_KEY_ID, pUser->id);
+	}
+
+	db_set_ws(hContact, "CList", "Group", m_wszDefaultGroup);
 	setWString(hContact, DB_KEY_NICK, pUser->wszUsername);
 	setDword(hContact, DB_KEY_DISCR, pUser->iDiscriminator);
+	arUsers.insert(pUser);
 
 	return hContact;
 }

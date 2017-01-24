@@ -26,13 +26,9 @@ int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 	if (mir_strcmpi(gch->pDest->pszModule, m_szModuleName))
 		return 0;
 
-	CDiscordUser *pUser = FindUserByChannel(_wtoi64(gch->pDest->ptszID));
-	if (pUser == NULL)
-		return 0;
-
 	switch (gch->pDest->iType) {
 	case GC_USER_MESSAGE:
-		if (gch->ptszText && mir_wstrlen(gch->ptszText) > 0) {
+		if (mir_wstrlen(gch->ptszText) > 0) {
 			rtrimw(gch->ptszText);
 
 			if (m_bOnline) {
@@ -40,13 +36,36 @@ int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 				Chat_UnescapeTags(wszText);
 
 				JSONNode body; body << WCHAR_PARAM("content", wszText);
-				CMStringA szUrl(FORMAT, "/channels/%lld/messages", pUser->channelId);
+				CMStringA szUrl(FORMAT, "/channels/%s/messages", gch->pDest->ptszID);
 				Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveMessage, &body));
 			}
 		}
 		break;
 
 	case GC_USER_PRIVMESS:
+		MCONTACT hContact;
+		{
+			SnowFlake userId = _wtoi64(gch->ptszUID);
+
+			CDiscordUser *pUser = FindUser(userId);
+			if (pUser == NULL) {
+				PROTOSEARCHRESULT psr = { sizeof(psr) };
+				psr.id.w = (wchar_t*)gch->ptszUID;
+				psr.nick.w = (wchar_t*)gch->ptszNick;
+				if ((hContact = AddToList(PALF_TEMPORARY, &psr)) == 0)
+					return 0;
+
+				setId(hContact, DB_KEY_ID, userId);
+				setId(hContact, DB_KEY_CHANNELID, _wtoi64(gch->pDest->ptszID));
+				setWString(hContact, "Nick", gch->ptszNick);
+				db_set_b(hContact, "CList", "Hidden", 1);
+				db_set_dw(hContact, "Ignore", "Mask1", 0);
+			}
+			else hContact = pUser->hContact;
+		}
+		CallService(MS_MSG_SENDMESSAGE, hContact, 0);
+		break;
+
 	case GC_USER_LOGMENU:
 	case GC_USER_NICKLISTMENU:
 		break;
