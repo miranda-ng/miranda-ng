@@ -232,7 +232,8 @@ void NetlibDoCloseSocket(NetlibConnection *nlc, bool noShutdown)
 
 	Netlib_Logf(nlc->nlu, "(%p:%u) Connection closed internal", nlc, nlc->s);
 	if (nlc->hSsl) {
-		if (!noShutdown) sslApi.shutdown(nlc->hSsl);
+		if (!noShutdown)
+			sslApi.shutdown(nlc->hSsl);
 		sslApi.sfree(nlc->hSsl);
 		nlc->hSsl = NULL;
 	}
@@ -364,8 +365,8 @@ MIR_APP_DLL(void) Netlib_Shutdown(HNETLIBCONN h)
 				NetlibConnection *nlc = h;
 				if (!nlc->termRequested) {
 					if (nlc->hSsl) sslApi.shutdown(nlc->hSsl);
-					if (nlc->s != INVALID_SOCKET) shutdown(nlc->s, 2);
-					if (nlc->s2 != INVALID_SOCKET) shutdown(nlc->s2, 2);
+					if (nlc->s != INVALID_SOCKET) shutdown(nlc->s, SD_BOTH);
+					if (nlc->s2 != INVALID_SOCKET) shutdown(nlc->s2, SD_BOTH);
 					nlc->termRequested = true;
 				}
 			}
@@ -374,7 +375,7 @@ MIR_APP_DLL(void) Netlib_Shutdown(HNETLIBCONN h)
 		case NLH_BOUNDPORT:
 			NetlibBoundPort *nlb = (NetlibBoundPort*)h;
 			if (nlb->s != INVALID_SOCKET)
-				shutdown(nlb->s, 2);
+				shutdown(nlb->s, SD_BOTH);
 			break;
 		}
 		ReleaseMutex(hConnectionHeaderMutex);

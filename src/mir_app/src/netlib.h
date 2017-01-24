@@ -171,7 +171,11 @@ struct NetlibConnection : public MZeroedObject
 struct NetlibBoundPort : public MZeroedObject
 {
 	NetlibBoundPort(HNETLIBUSER nlu, NETLIBBIND *nlb);
-	~NetlibBoundPort();
+	~NetlibBoundPort() {
+		close();
+	}
+
+	void close();
 
 	int handleType;
 	SOCKET s;

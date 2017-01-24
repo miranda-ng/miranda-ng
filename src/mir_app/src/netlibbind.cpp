@@ -111,6 +111,7 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn)
 
 int NetlibFreeBoundPort(NetlibBoundPort *nlbp)
 {
+	nlbp->close();
 	if (nlbp->hThread)
 		WaitForSingleObject(nlbp->hThread, INFINITE);
 	Netlib_Logf(nlbp->nlu, "(%u) Port %u closed for incoming connections", nlbp->s, nlbp->wPort);
@@ -297,10 +298,14 @@ NetlibBoundPort::NetlibBoundPort(HNETLIBUSER _nlu, NETLIBBIND *nlb)
 	s6 = socket(PF_INET6, SOCK_STREAM, 0);
 }
 
-NetlibBoundPort::~NetlibBoundPort()
+void NetlibBoundPort::close()
 {
-	if (s != INVALID_SOCKET)
-		closesocket(s);
-	if (s6 != INVALID_SOCKET)
-		closesocket(s6);
+	if (s != INVALID_SOCKET) {
+		closesocket(s); 
+		s = INVALID_SOCKET;
+	}
+	if (s6 != INVALID_SOCKET) {
+		closesocket(s6); 
+		s6 = INVALID_SOCKET;
+	}
 }
