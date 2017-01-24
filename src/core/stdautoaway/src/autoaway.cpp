@@ -97,9 +97,15 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+static int OnModulesLoaded(WPARAM, LPARAM)
+{
+	HookEvent(ME_IDLE_CHANGED, AutoAwayEvent);
+	return 0;
+}
+
 int LoadAutoAwayModule()
 {
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_SKIN_PLAYINGSOUND, AutoAwaySound);
-	HookEvent(ME_IDLE_CHANGED, AutoAwayEvent);
 	return 0;
 }
