@@ -108,6 +108,7 @@ void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
 			m_bNotifyForEndLoadingHistory = true;
 	}
 
+	setDword(hContact, "oldlastmsgid", getDword(hContact, "lastmsgid", -1));
 	db_unset(hContact, m_szModuleName, "lastmsgid");
 	GetServerHistory(hContact, 0, MAXHISTORYMIDSPERONE, tTime, 0);
 }
@@ -264,6 +265,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 		count++;
 	}
+
 	setDword(param->hContact, "lastmsgid", iLastMsgId);
 
 	if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
@@ -279,6 +281,9 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		mir_cslock lck(m_csLoadHistoryTask);
 		if (m_iLoadHistoryTask > 0)
 			m_iLoadHistoryTask--;
+
+		setDword(param->hContact, "lastmsgid", iLastMsgId == -1 ? getDword(param->hContact, "oldlastmsgid", -1) : iLastMsgId);
+		db_unset(param->hContact, m_szModuleName, "oldlastmsgid");
 
 		ptrW pwszNick(db_get_wsa(param->hContact, m_szModuleName, "Nick"));
 		CMStringW str(FORMAT, TranslateT("Loading messages for %s is completed."), pwszNick);

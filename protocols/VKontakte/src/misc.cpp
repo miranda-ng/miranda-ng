@@ -132,8 +132,8 @@ char* ExpUrlEncode(const char *szUrl, bool strict)
 			*d++ = szHexDigits[*s & 0xF];
 		}
 
-		*d = '\0';
-		return szOutput;
+	*d = '\0';
+	return szOutput;
 }
 
 
@@ -670,20 +670,46 @@ void CVkProto::ContactTypingThread(void *p)
 	}
 }
 
+int CVkProto::IsHystoryMessageExist(MCONTACT hContact)
+{
+	if (!hContact)
+		return 0;
+	
+	MEVENT hDBEvent = db_event_first(hContact);
+
+	if (!hDBEvent)
+		return 0;
+	
+	 do {
+		DBEVENTINFO dbei = {};
+		db_event_get(hDBEvent, &dbei);
+		if (dbei.eventType != VK_USER_DEACTIVATE_ACTION)
+			return 1;
+		
+		hDBEvent = db_event_next(hContact, hDBEvent);
+	} while (hDBEvent);
+
+	return -1;
+}
+
 int CVkProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 {
 	debugLogA("CVkProto::OnProcessSrmmEvent");
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
 
+
+	CMStringA szProto(GetContactProto(event->hContact));
+	if (szProto.IsEmpty() || szProto != m_szModuleName)
+		return 0;
+
 	if (event->uType == MSG_WINDOW_EVT_OPENING && !ServiceExists(MS_MESSAGESTATE_UPDATE))
 		SetSrmmReadStatus(event->hContact);
 
-	if (event->uType == MSG_WINDOW_EVT_OPENING && m_vkOptions.bLoadLastMessageOnMsgWindowsOpen
-		&& getDword(event->hContact, "lastmsgid", -1) == -1 && !isChatRoom(event->hContact)) {
+	if (event->uType == MSG_WINDOW_EVT_OPENING 	&& m_vkOptions.bLoadLastMessageOnMsgWindowsOpen
+		&& !isChatRoom(event->hContact) && IsHystoryMessageExist(event->hContact) != 1) {
 		m_bNotifyForEndLoadingHistory = false;
-		GetServerHistory(event->hContact, 0, 100, 0, 0, true);
+		GetServerHistory(event->hContact, 0, MAXHISTORYMIDSPERONE, 0, 0, true);
 	}
-
 
 	return 0;
 }

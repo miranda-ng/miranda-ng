@@ -506,5 +506,3 @@ void CVkOptionMenuForm::OnApply()
 		TranslateT("VKontakte protocol"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES)
 		CallServiceSync(MS_SYSTEM_RESTART, 1, 0);
 }
-
-

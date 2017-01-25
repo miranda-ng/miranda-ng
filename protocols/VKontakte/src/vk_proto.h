@@ -342,6 +342,7 @@ private:
 	MCONTACT MContactFromDbEvent(MEVENT hDbEvent);
 	void SetMirVer(MCONTACT hContact, int platform);
 	void __cdecl ContactTypingThread(void *p);
+	int IsHystoryMessageExist(MCONTACT hContact);
 	void SetSrmmReadStatus(MCONTACT hContact);
 	void MarkDialogAsRead(MCONTACT hContact);
 	char* GetStickerId(const char *Msg, int& stickerid);
