@@ -50,6 +50,9 @@ INT_PTR CDiscordProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case AF_ENABLED:
+	case AF_DONTNEEDDELAYS:
+	case AF_FETCHIFPROTONOTVISIBLE:
+	case AF_FETCHIFCONTACTOFFLINE:
 		res = 1;
 		break;
 	}
