@@ -205,6 +205,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 		wszText.AppendFormat(L" (%s %s)", TranslateT("edited at"), edited.as_mstring().c_str());
 
 	if (pUser->bIsPrivate) {
+		debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
 		ptrA buf(mir_utf8encodeW(wszText));
 		recv.timestamp = (DWORD)StringToDate(pRoot["timestamp"].as_mstring());
 		recv.szMessage = buf;
@@ -216,6 +217,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 			setId(pUser->hContact, DB_KEY_LASTMSGID, messageId);
 	}
 	else {
+		debugLogA("store a message into the group channel id %lld", channelId);
 		CMStringW wszUserName = pRoot["author"]["id"].as_mstring();
 		CMStringW wszUserNick = pRoot["author"]["username"].as_mstring() + L"#" + pRoot["author"]["discriminator"].as_mstring();
 
