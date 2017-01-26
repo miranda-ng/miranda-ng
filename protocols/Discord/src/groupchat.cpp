@@ -36,7 +36,7 @@ int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 				Chat_UnescapeTags(wszText);
 
 				JSONNode body; body << WCHAR_PARAM("content", wszText);
-				CMStringA szUrl(FORMAT, "/channels/%s/messages", gch->pDest->ptszID);
+				CMStringA szUrl(FORMAT, "/channels/%S/messages", gch->pDest->ptszID);
 				Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveMessage, &body));
 			}
 		}
