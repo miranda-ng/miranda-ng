@@ -88,6 +88,7 @@ void CDiscordProto::OnCommandChannelDeleted(const JSONNode &pRoot)
 void CDiscordProto::OnCommandFriendAdded(const JSONNode &pRoot)
 {
 	CDiscordUser *pUser = PrepareUser(pRoot["user"]);
+	pUser->bIsPrivate = true;
 	ProcessType(pUser, pRoot);
 }
 
