@@ -97,7 +97,7 @@ struct CDiscordUser : public MZeroedObject
 
 	SnowFlake guildId;
 	SnowFlake channelId;
-	SnowFlake lastMessageId;
+	SnowFlake lastMessageId, lastReadId;
 	bool      bIsPrivate;
 
 	CMStringW wszUsername;

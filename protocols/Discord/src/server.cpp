@@ -60,7 +60,7 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
-	dbei.flags = DBEF_READ | DBEF_UTF;
+	dbei.flags = DBEF_UTF;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 
 	SnowFlake lastId = getId(pUser->hContact, DB_KEY_LASTMSGID); // as stored in a database
@@ -76,6 +76,10 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 			dbei.flags &= ~DBEF_SENT;
 
 		SnowFlake msgid = _wtoi64(p["id"].as_mstring());
+		if (msgid <= pUser->lastReadId)
+			dbei.flags |= DBEF_READ;
+		else
+			dbei.flags &= ~DBEF_READ;
 
 		CMStringA szBody(ptrA(mir_utf8encodeW(p["content"].as_mstring())));
 		szBody.AppendFormat("%c%lld", 0, msgid);

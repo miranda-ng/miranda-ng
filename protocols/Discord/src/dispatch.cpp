@@ -274,12 +274,25 @@ static void __stdcall sttStartTimer(void *param)
 	SetTimer(g_hwndHeartbeat, (UINT_PTR)param, ppro->getHeartbeatInterval(), &CDiscordProto::HeartbeatTimerProc);
 }
 
+static SnowFlake sttGetLastRead(const JSONNode &reads, const wchar_t *wszChannelId)
+{
+	for (auto it = reads.begin(); it != reads.end(); ++it) {
+		const JSONNode &p = *it;
+
+		if (p["id"].as_mstring() == wszChannelId)
+			return _wtoi64(p["last_message_id"].as_mstring());
+	}
+	return 0;
+}
+
 void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 {
 	GatewaySendHeartbeat();
 	CallFunctionAsync(sttStartTimer, this);
 
 	m_szGatewaySessionId = pRoot["session_id"].as_mstring();
+
+	const JSONNode &readState = pRoot["read_state"];
 
 	const JSONNode &guilds = pRoot["guilds"];
 	for (auto it = guilds.begin(); it != guilds.end(); ++it) {
@@ -320,6 +333,7 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 			pUser->wszUsername = wszChannelId;
 			pUser->guildId = guildId;
 			pUser->lastMessageId = _wtoi64(pch["last_message_id"].as_mstring());
+			pUser->lastReadId = sttGetLastRead(readState, wszChannelId);
 
 			setId(pUser->hContact, DB_KEY_CHANNELID, channelId);
 		}
@@ -344,9 +358,11 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 
 		if (pUser == NULL)
 			continue;
-			
-		pUser->channelId = _wtoi64(p["id"].as_mstring());
+		
+		CMStringW wszChannelId = p["id"].as_mstring();
+		pUser->channelId = _wtoi64(wszChannelId);
 		pUser->lastMessageId = _wtoi64(p["last_message_id"].as_mstring());
+		pUser->lastReadId = sttGetLastRead(readState, wszChannelId);
 		pUser->bIsPrivate = true;
 
 		setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
