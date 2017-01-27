@@ -27,7 +27,7 @@ void CDiscordProto::SetAllContactStatuses(int status)
 int StrToStatus(const CMStringW &str)
 {
 	if (str == L"idle")
-		return ID_STATUS_IDLE;
+		return ID_STATUS_NA;
 	if (str == L"online")
 		return ID_STATUS_ONLINE;
 	if (str == L"offline")
