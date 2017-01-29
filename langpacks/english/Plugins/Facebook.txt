@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.0.3
+;  Version: 0.3.1.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -26,7 +26,8 @@
 [Automatically set 'Ignore status change' flag]
 [Use bigger avatars]
 [Prefer real names instead of nicknames]
-[At login load also contacts you recently chat with]
+[Load also Messenger contacts at login (not only Facebook friends)]
+[Use invisible status for Facebook Pages (instead of offline)]
 [Popup notifications]
 [Show notifications]
 [Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]

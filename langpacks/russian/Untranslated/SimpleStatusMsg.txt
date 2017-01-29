@@ -17,3 +17,4 @@
 [?upper(string)]
 [?scroll(string,numchars,numchars)]
 [<startup>]
+[Startup status]

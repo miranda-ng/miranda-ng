@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.9
+;  Version: 0.1.2.12
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -161,16 +161,14 @@ E-mail или номер телефона:
 Группа в списке контактов:
 [Language for names and titles:]
 Язык для имён и названий:
-[Server-side delivery confirmation]
-Подтверждение доставки со стороны сервера
-[Use local time for received messages]
-Местное время для принятых сообщений
-[Automatically wipe local contacts missing in your friend list]
-Автоматически удалять контакты, отсутствующие в списке друзей
 [Mark message as read:]
 Помечать сообщения прочитанными:
 [Sync history on protocol online:]
 При входе синхронизировать историю:
+[Use local time for received messages]
+Местное время для принятых сообщений
+[Server-side delivery confirmation]
+Подтверждение доставки со стороны сервера
 [Bots challenge test]
 Защита от ботов
 [Instruction:]
@@ -581,3 +579,15 @@ ID получателя ошибочен или неизвестен
 \nЭто также
 [Are you sure to report abuse on %s?]
 Вы уверены, что хотите отправить жалобу на %s?
+[User restored control over own page]
+Пользователь востоновил контроль над своей страницей
+[User was deactivated (deleted)]
+Пользователь деактивирован (удалён)
+[User was deactivated (banned)]
+Пользователь деактивирован (забанен)
+[VK user activate/deactivate action]
+Действие активации/деактивации пользоватея ВК
+[Load last messages when message window open and  local history is empty]
+Загрузить последние сообщения если открыто окно, и локальная история пуста
+[Load only friends to local contact list]
+Добавлять в контакт лист только друзей

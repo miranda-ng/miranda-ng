@@ -2,11 +2,17 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 0.11.0.0
+;  Version: 0.11.2.0
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 Проверяет наличие подключения к сети и автоматически повторно подключает при разрывах. Предоставляет управление режимом ожидания с расширенным набором функций. Начальный статус, позволяет вам устанавливать, какой статус будет выставлен при запуске Miranda у каждого протокола.
+[Keep status]
+Повторное подключение
+[Startup status]
+Начальный статус
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Важно: Изменения вступят в силу после перезапуска программы.
 [General]
 Общее
 [Show popups]
@@ -255,36 +261,6 @@ Cтатус-профиль
 Интервал проверки (сек)
 [Pre-conditions]
 Предварительные условия
-[minutes of %s mode]
-минут режима "%s"
-[Rules]
-Правила
-[Status messages]
-Статусные сообщения
-[Auto away]
-Отсутствие
-[I've been away since %time%.]
-Отсутствую с %time%.
-[Give it up, I'm not in!]
-Ну нет меня сейчас, нет...
-[Not right now.]
-Не сейчас.
-[Give a guy some peace, would ya?]
-Прошу не тревожить...
-[I'm a chatbot!]
-Свободен.
-[Yep, I'm here.]
-Да, я здесь.
-[Nope, not here.]
-Нет, меня здесь нет.
-[I'm hiding from the mafia.]
-Я прячусь от мафии.
-[That'll be the phone.]
-Дайте же человеку поговорить по телефону.
-[Mmm... food.]
-Ммм... поесть бы.
-[idleeeeeeee]
-ожидание...
 [Set %s message for %s.]
 Установить %s сообщение для %s.
 [<last>]
@@ -297,6 +273,16 @@ Cтатус-профиль
 Протокол
 [Closing in %d]
 Закрыть (%d)
+[Status manager]
+Менеджер статусов
+[minutes of %s mode]
+минут режима "%s"
+[Rules]
+Правила
+[Status messages]
+Статусные сообщения
+[Auto away]
+Отсутствие
 [%s connected from another location]
 %s подключён из другого места
 [%s login error, cancel reconnecting]
@@ -321,8 +307,6 @@ Cтатус-профиль
 Статус установлен
 [Giving up]
 Прекращаю
-[Keep status]
-Повторное подключение
 [Basic]
 Основные
 [Advanced]
@@ -355,12 +339,8 @@ Cтатус-профиль
 неизвестно
 [At least one profile must exist]
 Минимум один профиль должен существовать
-[Status manager]
-Менеджер статусов
 [Your default profile will be changed]
 Профиль по умолчанию будет изменён
-[Startup status]
-Начальный статус
 [Pressed toolbar icon]
 Нажатый значок панели
 [Released toolbar icon]

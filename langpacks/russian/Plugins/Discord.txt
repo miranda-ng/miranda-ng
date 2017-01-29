@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.0.0.3
+;  Version: 0.2.0.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -25,3 +25,7 @@
 Учётная запись
 [%s server connection]
 %s подключение к серверу
+[edited at]
+отредактировано в
+[User]
+Пользователь

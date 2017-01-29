@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.0.0.3
+;  Version: 0.2.0.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -13,9 +13,14 @@
 [Contacts]
 [Default group:]
 [Nick:]
+;file \protocols\Discord\src\dispatch.cpp
+[edited at]
+[User]
 ;file \protocols\Discord\src\options.cpp
 [Network]
 [Account]
 ;file \protocols\Discord\src\proto.cpp
 [%s server connection]
+[%s gateway connection]
 [User ID]
+[Protocol is offline or no JID]

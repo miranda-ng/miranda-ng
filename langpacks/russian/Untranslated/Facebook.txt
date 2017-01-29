@@ -1,1 +1,3 @@
 ﻿[URL:]
+[Load also Messenger contacts at login (not only Facebook friends)]
+[Use invisible status for Facebook Pages (instead of offline)]

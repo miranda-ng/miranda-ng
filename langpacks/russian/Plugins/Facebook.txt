@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.0.3
+;  Version: 0.3.1.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -43,8 +43,6 @@
 Большие аватары
 [Prefer real names instead of nicknames]
 Предпочитать реальные имена вместо ников
-[At login load also contacts you recently chat with]
-При входе загружать также контакты, с которыми вы недавно общались
 [Popup notifications]
 Настройка уведомлений вспл. окнами
 [Show notifications]
