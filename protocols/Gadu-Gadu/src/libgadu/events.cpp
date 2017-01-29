@@ -2052,7 +2052,7 @@ struct gg_event *gg_watch_fd(struct gg_session *sess)
 #ifdef GG_CONFIG_MIRANDA
 			if (sess->tls) {
 				snprintf(buf, sizeof(buf) - 1,
-					"GET %s/appsvc/appmsg_ver10.asp?fmnumber=%u&fmt=2&lastmsg=%d&version=%s&age=2&gender=1 HTTP/1.0\r\n"
+					"GET %s/appsvc/appmsg_ver11.asp?tls=1&fmnumber=%u&fmt=2&lastmsg=%d&version=%s&age=2&gender=1 HTTP/1.0\r\n"
 					"Connection: close\r\n"
 					"Host: " GG_APPMSG_HOST "\r\n"
 					"%s"
@@ -2061,7 +2061,7 @@ struct gg_event *gg_watch_fd(struct gg_session *sess)
 #elif GG_CONFIG_HAVE_OPENSSL
 			if (sess->ssl != NULL) {
 				snprintf(buf, sizeof(buf) - 1,
-					"GET %s/appsvc/appmsg_ver10.asp?fmnumber=%u&fmt=2&lastmsg=%d&version=%s&age=2&gender=1 HTTP/1.0\r\n"
+					"GET %s/appsvc/appmsg_ver11.asp?tls=1&fmnumber=%u&fmt=2&lastmsg=%d&version=%s&age=2&gender=1 HTTP/1.0\r\n"
 					"Connection: close\r\n"
 					"Host: " GG_APPMSG_HOST "\r\n"
 					"%s"
