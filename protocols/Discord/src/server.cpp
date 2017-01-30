@@ -47,6 +47,11 @@ void CDiscordProto::RetrieveHistory(MCONTACT hContact, CDiscordHitoryOp iOp, Sno
 	Push(pReq);
 }
 
+static int compareMsgHistory(const JSONNode *p1, const JSONNode *p2)
+{
+	return wcscmp((*p1)["id"].as_mstring(), (*p2)["id"].as_mstring());
+}
+
 void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
 	CDiscordUser *pUser = (CDiscordUser*)pReq->pUserInfo;
@@ -65,9 +70,15 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 
 	SnowFlake lastId = getId(pUser->hContact, DB_KEY_LASTMSGID); // as stored in a database
 
+	LIST<JSONNode> arNodes(10, compareMsgHistory);
 	int iNumMessages = 0;
 	for (auto it = root.begin(); it != root.end(); ++it, ++iNumMessages) {
 		JSONNode &p = *it;
+		arNodes.insert(&p);
+	}
+
+	for (int i = 0; i < arNodes.getCount(); i++) {
+		JSONNode &p = *arNodes[i];
 
 		SnowFlake authorid = _wtoi64(p["author"]["id"].as_mstring());
 		if (authorid == m_ownId)
