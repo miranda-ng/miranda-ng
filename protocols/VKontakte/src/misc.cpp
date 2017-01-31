@@ -1087,7 +1087,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			CMStringW wszUrl(FORMAT, L"https://vk.com/video%d_%d", ownerID, vid);
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Video"), iBBC, vkbbcB),
-				SetBBCString(wszTitle, iBBC, vkbbcUrl, wszUrl));
+				SetBBCString(wszTitle.IsEmpty() ? TranslateT("Link") : wszTitle, iBBC, vkbbcUrl, wszUrl));
 		}
 		else if (wszType == L"doc") {
 			const JSONNode &jnDoc = jnAttach["doc"];
@@ -1098,7 +1098,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			CMStringW wszUrl(jnDoc["url"].as_mstring());
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Document"), iBBC, vkbbcB),
-				SetBBCString(wszTitle, iBBC, vkbbcUrl, wszUrl));
+				SetBBCString(wszTitle.IsEmpty() ? TranslateT("Link") : wszTitle, iBBC, vkbbcUrl, wszUrl));
 		}
 		else if (wszType == L"wall") {
 			const JSONNode &jnWall = jnAttach["wall"];
@@ -1180,7 +1180,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Link"), iBBC, vkbbcB),
-				SetBBCString(wszTitle, iBBC, vkbbcUrl, wszUrl));
+				SetBBCString(wszTitle.IsEmpty() ? TranslateT("Link") : wszTitle, iBBC, vkbbcUrl, wszUrl));
 
 			if (!wszCaption.IsEmpty())
 				res.AppendFormat(L"\n\t%s", SetBBCString(wszCaption, iBBC, vkbbcI));
@@ -1207,7 +1207,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Product"), iBBC, vkbbcB),
-				SetBBCString(wszTitle, iBBC, vkbbcUrl, wszUrl));
+				SetBBCString(wszTitle.IsEmpty() ? TranslateT("Link") : wszTitle, iBBC, vkbbcUrl, wszUrl));
 
 			if (!wszPhoto.IsEmpty())
 				res.AppendFormat(L"\n\t%s: %s",
