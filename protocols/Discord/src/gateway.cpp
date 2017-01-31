@@ -26,6 +26,9 @@ struct WSHeader
 
 	bool init(BYTE *buf, int bufSize)
 	{
+		if (bufSize < 2)
+			return false;
+
 		bIsFinal = (buf[0] & 0x80) != 0;
 		bIsMasked = (buf[1] & 0x80) != 0;
 		opCode = buf[0] & 0x0F;
@@ -208,24 +211,20 @@ void CDiscordProto::GatewayThreadWorker()
 			debugLogA("Gateway connection error, exiting");
 			break;
 		}
-		if (bufSize < 2) {
-			offset = bufSize;
-			continue;
-		}
-		offset = 0;
 
 		WSHeader hdr;
 		if (!hdr.init(buf, bufSize)) {
-			offset = bufSize;
+			offset += bufSize;
 			continue;
 		}
+		offset = 0;
 
 		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, final = %d, masked = %d", bufSize, hdr.opCode, hdr.headerSize, hdr.bIsFinal, hdr.bIsMasked);
 
 		// we have some additional data, not only opcode
 		if (bufSize > hdr.headerSize) {
-			if (hdr.bIsFinal && hdr.payloadSize < _countof(buf)) { // it fits, no need to reallocate a buffer
-				bDataBufAllocated = false;
+			// if no buffer was allocated previously & it fits, there's no need to reallocate a buffer
+			if (!bDataBufAllocated && hdr.bIsFinal && hdr.payloadSize < _countof(buf)) {
 				dataBuf = (char*)buf + hdr.headerSize;
 				dataBufSize = bufSize - hdr.headerSize;
 			}
@@ -295,8 +294,10 @@ void CDiscordProto::GatewayThreadWorker()
 		}
 
 		if (hdr.bIsFinal) {
-			if (bDataBufAllocated)
+			if (bDataBufAllocated) {
 				mir_free(dataBuf);
+				bDataBufAllocated = false;
+			}
 			dataBuf = NULL;
 			dataBufSize = 0;
 		}
