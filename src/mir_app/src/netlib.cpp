@@ -161,7 +161,7 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 		thisUser->user.szDescriptiveName.w = (thisUser->user.flags & NUF_UNICODE) ? mir_wstrdup(nlu->szDescriptiveName.w) : mir_a2u(nlu->szDescriptiveName.a);
 
 	if ((thisUser->user.szSettingsModule = mir_strdup(nlu->szSettingsModule)) == NULL
-	   || (nlu->szDescriptiveName && thisUser->user.ptszDescriptiveName == NULL)
+		|| (nlu->szDescriptiveName.w && thisUser->user.szDescriptiveName.w == NULL)
 	   || (nlu->szHttpGatewayUserAgent && (thisUser->user.szHttpGatewayUserAgent = mir_strdup(nlu->szHttpGatewayUserAgent)) == NULL))
 	{
 		mir_free(thisUser);
