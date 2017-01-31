@@ -99,7 +99,7 @@ void InitNetlib()
 {
 	NETLIBUSER nl_user = {};
 	nl_user.szSettingsModule = (LPSTR)MODULENAME;
-	nl_user.szDescriptiveName = (LPSTR)MODULENAME;
+	nl_user.szDescriptiveName.a = (LPSTR)MODULENAME;
 	nl_user.flags = NUF_NOOPTIONS;
 
 	hNetlibUser = Netlib_RegisterUser(&nl_user);

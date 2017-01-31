@@ -150,7 +150,7 @@ extern "C" int __declspec(dllexport) Load()
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = MODULENAME;
-	nlu.szDescriptiveName = tempNdesc;
+	nlu.szDescriptiveName.a = tempNdesc;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	// register webview protocol

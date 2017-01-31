@@ -743,10 +743,10 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 
 		case PROXYTYPE_HTTP:
 			nlc->proxyAuthNeeded = true;
-			if (!(nlu->user.flags & NUF_HTTPGATEWAY || nloc->flags & NLOCF_HTTPGATEWAY) || nloc->flags & NLOCF_SSL) {
-				//NLOCF_HTTP not specified and no HTTP gateway available: try HTTPS
+			if (!(nloc->flags & NLOCF_HTTPGATEWAY) || nloc->flags & NLOCF_SSL) {
+				// NLOCF_HTTP not specified and no HTTP gateway available: try HTTPS
 				if (!NetlibInitHttpsConnection(nlc, nlu, nloc)) {
-					//can't do HTTPS: try direct
+					// can't do HTTPS: try direct
 					usingProxy = false;
 					if (!NetlibHttpFallbackToDirect(nlc, nlu, nloc))
 						return false;
@@ -764,7 +764,8 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 		}
 	}
 	else if (nloc->flags & NLOCF_HTTPGATEWAY) {
-		if (!NetlibInitHttpConnection(nlc, nlu, nloc)) return false;
+		if (!NetlibInitHttpConnection(nlc, nlu, nloc))
+			return false;
 		nlc->usingDirectHttpGateway = true;
 	}
 

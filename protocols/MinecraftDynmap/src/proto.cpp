@@ -43,11 +43,12 @@ MinecraftDynmapProto::MinecraftDynmapProto(const char* proto_name, const wchar_t
 
 	// Create standard network connection
 	wchar_t descr[512];
+	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
+
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
-	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
-	nlu.ptszDescriptiveName = descr;
+	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 	if (m_hNetlibUser == NULL) {
 		wchar_t error[200];

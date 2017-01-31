@@ -31,9 +31,6 @@ const
   // for TNETLIBUSER.flags
   NUF_INCOMING      = $01; // bind incoming ports
   NUF_OUTGOING      = $02; // makes outgoing plain connections
-  NUF_HTTPGATEWAY   = $04; // can use HTTP gateway for plain sockets.
-                           // ???HttpGateway* are valid, enables the HTTP
-                           // proxy option, displayed in options
   NUF_NOOPTIONS     = $08; // don't show this as an entry for custom settings to
                            // be defined for, TNETLIB.szDescriptiveName is ignored
   NUF_HTTPCONNS     = $10; // some connections are made for HTTP communication,

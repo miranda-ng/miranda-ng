@@ -95,6 +95,6 @@ void NetlibInit()
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 	nlu.szSettingsModule = MODNAME;
-	nlu.ptszDescriptiveName = TranslateT("Non-IM Contacts");
+	nlu.szDescriptiveName.w = TranslateT("Non-IM Contacts");
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 }

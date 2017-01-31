@@ -28,10 +28,10 @@ BOOL TlenWsInit(TlenProtocol *proto)
 	wchar_t name[128];
 
 	NETLIBUSER nlu = {};
-	nlu.ptszDescriptiveName = name;
+	nlu.szDescriptiveName.w = name;
 	nlu.szSettingsModule = proto->m_szModuleName;
 
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;	// | NUF_HTTPGATEWAY;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
 	mir_snwprintf(name, TranslateT("%s connection"), proto->m_tszUserName);
 	proto->m_hNetlibUser = Netlib_RegisterUser(&nlu);
 

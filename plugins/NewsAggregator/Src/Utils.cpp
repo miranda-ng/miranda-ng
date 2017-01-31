@@ -32,8 +32,8 @@ bool IsMyContact(MCONTACT hContact)
 void NetlibInit()
 {
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;	// | NUF_HTTPGATEWAY;
-	nlu.ptszDescriptiveName = TranslateT("NewsAggregator HTTP connection");
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szDescriptiveName.w = TranslateT("NewsAggregator HTTP connection");
 	nlu.szSettingsModule = MODULE;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 }

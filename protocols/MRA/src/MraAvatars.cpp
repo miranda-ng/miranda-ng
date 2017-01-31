@@ -61,7 +61,7 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = MRA_AVT_SECT_NAME;
-	nlu.ptszDescriptiveName = szBuffer;
+	nlu.szDescriptiveName.w = szBuffer;
 	pmraaqAvatarsQueue->hNetlibUser = Netlib_RegisterUser(&nlu);
 	if (pmraaqAvatarsQueue->hNetlibUser) {
 		pmraaqAvatarsQueue->iThreadsCount = db_get_dw(NULL, MRA_AVT_SECT_NAME, "WorkThreadsCount", MRA_AVT_DEFAULT_WRK_THREAD_COUNTS);

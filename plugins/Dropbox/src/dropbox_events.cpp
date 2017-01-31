@@ -26,7 +26,7 @@ int CDropbox::OnModulesLoaded(WPARAM, LPARAM)
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = MODULE;
-	nlu.ptszDescriptiveName = L"Dropbox";
+	nlu.szDescriptiveName.w = L"Dropbox";
 	hNetlibConnection = Netlib_RegisterUser(&nlu);
 
 	GetDefaultContact();

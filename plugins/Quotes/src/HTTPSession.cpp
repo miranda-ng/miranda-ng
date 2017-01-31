@@ -35,7 +35,7 @@ public:
 		NETLIBUSER nlu = {};
 		nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 		nlu.szSettingsModule = QUOTES_PROTOCOL_NAME;
-		nlu.ptszDescriptiveName = TranslateT("Quotes HTTP connections");
+		nlu.szDescriptiveName.w = TranslateT("Quotes HTTP connections");
 		g_hNetLib = Netlib_RegisterUser(&nlu);
 		return (NULL != g_hNetLib);
 	}

@@ -306,7 +306,7 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	// Create standard network connection
 	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
-	nlu.ptszDescriptiveName = descr;
+	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 	if (m_hNetlibUser == NULL) {
 		wchar_t error[200];
@@ -319,7 +319,7 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 	mir_snprintf(module, "%sAv", m_szModuleName);
 	nlu.szSettingsModule = module;
 	mir_snwprintf(descr, TranslateT("%s avatar connection"), m_tszUserName);
-	nlu.ptszDescriptiveName = descr;
+	nlu.szDescriptiveName.w = descr;
 	hAvatarNetlib_ = Netlib_RegisterUser(&nlu);
 	if (hAvatarNetlib_ == NULL) {
 		wchar_t error[200];

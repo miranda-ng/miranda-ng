@@ -161,7 +161,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.ptszDescriptiveName = szBuffer;
+	nlu.szDescriptiveName.w = szBuffer;
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.szHttpGatewayHello = "http://http.proxy.icq.com/hello";
 	nlu.szHttpGatewayUserAgent = NETLIB_USER_AGENT;
@@ -175,7 +175,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	mir_snprintf(szP2PModuleName, "%sP2P", m_szModuleName);
 	mir_snwprintf(szBuffer, TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_UNICODE;
-	nlu.ptszDescriptiveName = szBuffer;
+	nlu.szDescriptiveName.w = szBuffer;
 	nlu.szSettingsModule = szP2PModuleName;
 	nlu.minIncomingPorts = 1;
 	m_hDirectNetlibUser = Netlib_RegisterUser(&nlu);

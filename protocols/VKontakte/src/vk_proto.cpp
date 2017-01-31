@@ -67,7 +67,7 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
-	nlu.ptszDescriptiveName = descr;
+	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	Clist_GroupCreate(NULL, m_vkOptions.pwszDefaultGroup);

@@ -137,7 +137,7 @@ static char* GetNetlibUserSettingString(const char *szUserModule, const char *sz
 
 MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 {
-	if (nlu == NULL || nlu->szSettingsModule == NULL || (!(nlu->flags & NUF_NOOPTIONS) && nlu->szDescriptiveName == NULL) || (nlu->flags & NUF_HTTPGATEWAY && (nlu->pfnHttpGatewayInit == NULL))) {
+	if (nlu == NULL || nlu->szSettingsModule == NULL || (!(nlu->flags & NUF_NOOPTIONS) && nlu->szDescriptiveName.w == NULL)) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
@@ -157,8 +157,8 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 		return 0;
 	}
 
-	if (nlu->szDescriptiveName)
-		thisUser->user.ptszDescriptiveName = (thisUser->user.flags&NUF_UNICODE ? mir_wstrdup((WCHAR*)nlu->ptszDescriptiveName) : mir_a2u(nlu->szDescriptiveName));
+	if (nlu->szDescriptiveName.w)
+		thisUser->user.szDescriptiveName.w = (thisUser->user.flags & NUF_UNICODE) ? mir_wstrdup(nlu->szDescriptiveName.w) : mir_a2u(nlu->szDescriptiveName.a);
 
 	if ((thisUser->user.szSettingsModule = mir_strdup(nlu->szSettingsModule)) == NULL
 	   || (nlu->szDescriptiveName && thisUser->user.ptszDescriptiveName == NULL)
@@ -178,7 +178,7 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 	thisUser->settings.proxyType = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLProxyType", PROXYTYPE_SOCKS5);
 	if (thisUser->user.flags&NUF_NOHTTPSOPTION && thisUser->settings.proxyType == PROXYTYPE_HTTPS)
 		thisUser->settings.proxyType = PROXYTYPE_HTTP;
-	if (!(thisUser->user.flags&(NUF_HTTPCONNS|NUF_HTTPGATEWAY)) && thisUser->settings.proxyType == PROXYTYPE_HTTP) {
+	if (!(thisUser->user.flags & NUF_HTTPCONNS) && thisUser->settings.proxyType == PROXYTYPE_HTTP) {
 		thisUser->settings.useProxy = 0;
 		thisUser->settings.proxyType = PROXYTYPE_SOCKS5;
 	}
@@ -259,7 +259,7 @@ MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 
 			NetlibFreeUserSettingsStruct(&nlu->settings);
 			mir_free(nlu->user.szSettingsModule);
-			mir_free(nlu->user.szDescriptiveName);
+			mir_free(nlu->user.szDescriptiveName.a);
 			mir_free(nlu->user.szHttpGatewayHello);
 			mir_free(nlu->user.szHttpGatewayUserAgent);
 			mir_free(nlu->szStickyHeaders);

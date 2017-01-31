@@ -23,7 +23,7 @@ void CSkypeProto::InitNetwork()
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.ptszDescriptiveName = name.GetBuffer();
+	nlu.szDescriptiveName.w = name.GetBuffer();
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 }

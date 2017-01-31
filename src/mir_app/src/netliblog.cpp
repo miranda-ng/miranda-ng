@@ -128,7 +128,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 
 			for (int i = 0; i < netlibUser.getCount(); i++) {
-				tvis.item.pszText = netlibUser[i]->user.ptszDescriptiveName;
+				tvis.item.pszText = netlibUser[i]->user.szDescriptiveName.w;
 				tvis.item.lParam = i;
 				tvis.item.state = INDEXTOSTATEIMAGEMASK((netlibUser[i]->toLog) ? 2 : 1);
 				TreeView_InsertItem(hwndFilter, &tvis);

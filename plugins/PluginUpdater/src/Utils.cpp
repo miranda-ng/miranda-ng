@@ -58,8 +58,8 @@ void InitIcoLib()
 void InitNetlib()
 {
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;	// | NUF_HTTPGATEWAY;
-	nlu.ptszDescriptiveName = TranslateT("Plugin Updater HTTP connections");
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szDescriptiveName.w = TranslateT("Plugin Updater HTTP connections");
 	nlu.szSettingsModule = MODNAME;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 }

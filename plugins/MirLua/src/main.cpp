@@ -62,7 +62,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_NOOPTIONS;
-	nlu.szDescriptiveName = MODULE;
+	nlu.szDescriptiveName.a = MODULE;
 	nlu.szSettingsModule = MODULE;
 	hNetlib = Netlib_RegisterUser(&nlu);
 

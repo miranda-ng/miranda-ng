@@ -43,7 +43,7 @@ HANDLE RegisterNLClient(const char *name)
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
-	nlu.szDescriptiveName = desc;
+	nlu.szDescriptiveName.a = desc;
 	nlu.szSettingsModule = (char *)name;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 

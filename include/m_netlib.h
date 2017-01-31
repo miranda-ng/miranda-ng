@@ -64,11 +64,8 @@ typedef PBYTE (*NETLIBHTTPGATEWAYUNWRAPRECVPROC)(NETLIBHTTPREQUEST *nlhr, PBYTE 
 
 struct NETLIBUSER
 {
-	char *szSettingsModule;         // used for db settings and log
-	union {
-		char *szDescriptiveName;          // used in options dialog, already translated
-		wchar_t *ptszDescriptiveName;
-	};
+	char *szSettingsModule;          // used for db settings and log
+	MAllStrings szDescriptiveName;   // used in options dialog, already translated
 	DWORD flags;
 	char *szHttpGatewayHello;
 	char *szHttpGatewayUserAgent;		 // can be NULL to send no user-agent, also used by HTTPS proxies
@@ -76,12 +73,11 @@ struct NETLIBUSER
 	NETLIBHTTPGATEWAYBEGINPROC pfnHttpGatewayBegin;		 // can be NULL if no beginning required
 	NETLIBHTTPGATEWAYWRAPSENDPROC pfnHttpGatewayWrapSend;  // can be NULL if no wrapping required
 	NETLIBHTTPGATEWAYUNWRAPRECVPROC pfnHttpGatewayUnwrapRecv;  // can be NULL if no wrapping required
-	int minIncomingPorts;     // only if NUF_INCOMING. Will be used for validation of user input.
+	int minIncomingPorts;            // only if NUF_INCOMING. Will be used for validation of user input.
 };
 
 #define NUF_INCOMING      0x01  // binds incoming ports
 #define NUF_OUTGOING      0x02  // makes outgoing plain connections
-#define NUF_HTTPGATEWAY   0x04  // can use HTTP gateway for plain sockets. ???HttpGateway* are valid.  Enables the HTTP proxy option in options.
 #define NUF_NOOPTIONS     0x08  // don't create an options page for this. szDescriptiveName is never used.
 #define NUF_HTTPCONNS     0x10  // at least some connections are made for HTTP communication. Enables the HTTP proxy option in options.
 #define NUF_NOHTTPSOPTION 0x20  // disable the HTTPS proxy option in options. Use this if all communication is HTTP.

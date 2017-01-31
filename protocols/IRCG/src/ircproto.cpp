@@ -181,7 +181,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
-	nlu.ptszDescriptiveName = name;
+	nlu.szDescriptiveName.w = name;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
@@ -189,7 +189,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	mir_snprintf(szTemp2, "%s DCC", m_szModuleName);
 	nlu.szSettingsModule = szTemp2;
 	mir_snwprintf(name, TranslateT("%s client-to-client connections"), m_tszUserName);
-	nlu.ptszDescriptiveName = name;
+	nlu.szDescriptiveName.w = name;
 	hNetlibDCC = Netlib_RegisterUser(&nlu);
 
 	GCREGISTER gcr = {};

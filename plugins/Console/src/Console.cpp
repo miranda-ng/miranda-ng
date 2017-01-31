@@ -932,7 +932,7 @@ static int OnFastDump(WPARAM wParam, LPARAM lParam)
 		DUMPMSG *dumpMsg = (DUMPMSG *)mir_alloc(len);
 		wchar_t *str = dumpMsg->szMsg;
 
-		char *szModule = (wParam) ? ((NETLIBUSER *)wParam)->szDescriptiveName : "[Core]";
+		char *szModule = (wParam) ? ((NETLIBUSER *)wParam)->szDescriptiveName.a : "[Core]";
 		mir_strncpy(dumpMsg->szModule, szModule, _countof(dumpMsg->szModule));
 
 		wchar_t *ucs2 = mir_a2u(logMsg->pszHead);

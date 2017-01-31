@@ -70,7 +70,7 @@ CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.ptszDescriptiveName = name;
+	nlu.szDescriptiveName.w = name;
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 

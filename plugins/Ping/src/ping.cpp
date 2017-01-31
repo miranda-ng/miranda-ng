@@ -86,12 +86,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	NETLIBUSER nl_user = {};
 	nl_user.szSettingsModule = PLUG;
 	nl_user.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
-	nl_user.ptszDescriptiveName = TranslateT("Ping Plugin");
-	nl_user.szHttpGatewayHello = 0;
-	nl_user.szHttpGatewayUserAgent = 0;
-	nl_user.pfnHttpGatewayInit = 0;
-	nl_user.pfnHttpGatewayWrapSend = 0;
-	nl_user.pfnHttpGatewayUnwrapRecv = 0;
+	nl_user.szDescriptiveName.w = TranslateT("Ping Plugin");
 
 	hNetlibUser = Netlib_RegisterUser(&nl_user);
 

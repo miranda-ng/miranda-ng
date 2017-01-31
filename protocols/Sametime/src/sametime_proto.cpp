@@ -20,7 +20,7 @@ CSametimeProto::CSametimeProto(const char* pszProtoName, const wchar_t* tszUserN
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE | NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = m_szModuleName;
-	nlu.ptszDescriptiveName = name;
+	nlu.szDescriptiveName.w = name;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	RegisterGLibLogger();

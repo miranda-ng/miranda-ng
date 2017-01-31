@@ -41,7 +41,7 @@ CMraProto::CMraProto(const char* _module, const wchar_t* _displayName) :
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
-	nlu.ptszDescriptiveName = name;
+	nlu.szDescriptiveName.w = name;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	InitMenus();

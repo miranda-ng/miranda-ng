@@ -32,8 +32,8 @@ BOOL CJabberProto::WsInit(void)
 	mir_snwprintf(name, TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;	// | NUF_HTTPGATEWAY;
-	nlu.ptszDescriptiveName = name;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szDescriptiveName.w = name;
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 	return m_hNetlibUser != NULL;

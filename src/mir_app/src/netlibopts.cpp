@@ -276,7 +276,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 					if (netlibUser[i]->user.flags & NUF_NOOPTIONS)
 						continue;
-					iItem = SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_ADDSTRING, 0, (LPARAM)netlibUser[i]->user.ptszDescriptiveName);
+					iItem = SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_ADDSTRING, 0, (LPARAM)netlibUser[i]->user.szDescriptiveName.w);
 					SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_SETITEMDATA, iItem, i);
 				}
 			}
@@ -310,9 +310,9 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if (settings.proxyType == 0) AddProxyTypeItem(hwndDlg, 0, settings.proxyType);
 			AddProxyTypeItem(hwndDlg, PROXYTYPE_SOCKS4, settings.proxyType);
 			AddProxyTypeItem(hwndDlg, PROXYTYPE_SOCKS5, settings.proxyType);
-			if (flags & (NUF_HTTPCONNS | NUF_HTTPGATEWAY)) AddProxyTypeItem(hwndDlg, PROXYTYPE_HTTP, settings.proxyType);
+			if (flags & NUF_HTTPCONNS) AddProxyTypeItem(hwndDlg, PROXYTYPE_HTTP, settings.proxyType);
 			if (!(flags & NUF_NOHTTPSOPTION)) AddProxyTypeItem(hwndDlg, PROXYTYPE_HTTPS, settings.proxyType);
-			if (flags & (NUF_HTTPCONNS | NUF_HTTPGATEWAY) || !(flags & NUF_NOHTTPSOPTION))
+			if ((flags & NUF_HTTPCONNS) || !(flags & NUF_NOHTTPSOPTION))
 				AddProxyTypeItem(hwndDlg, PROXYTYPE_IE, settings.proxyType);
 			SetDlgItemTextA(hwndDlg, IDC_PROXYHOST, settings.szProxyServer ? settings.szProxyServer : "");
 			if (settings.wProxyPort) SetDlgItemInt(hwndDlg, IDC_PROXYPORT, settings.wProxyPort, FALSE);
@@ -396,15 +396,17 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			return 0;
 
 		case IDC_PROXYTYPE:
-			if (HIWORD(wParam) != CBN_SELCHANGE) return 0;
-			{
+			if (HIWORD(wParam) == CBN_SELCHANGE) {
 				int newValue = SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_GETCURSEL, 0, 0), 0);
 				if (iUser == -1) {
-					if (newValue == 0) return 0;
+					if (newValue == 0)
+						return 0;
+					
 					for (int i=0; i < tempSettings.getCount(); i++) {
 						NetlibTempSettings *p = tempSettings[i];
-						if (p->flags & NUF_NOOPTIONS) continue;
-						if (newValue == PROXYTYPE_HTTP && !(p->flags & (NUF_HTTPCONNS | NUF_HTTPGATEWAY)))
+						if (p->flags & NUF_NOOPTIONS)
+							continue;
+						if (newValue == PROXYTYPE_HTTP && !(p->flags & NUF_HTTPCONNS))
 							p->settings.proxyType = PROXYTYPE_HTTPS;
 						else if (newValue == PROXYTYPE_HTTPS && p->flags & NUF_NOHTTPSOPTION)
 							p->settings.proxyType = PROXYTYPE_HTTP;

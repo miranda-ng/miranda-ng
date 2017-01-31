@@ -741,7 +741,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING;
 	nlu.szSettingsModule = MODULE;
-	nlu.szDescriptiveName = Translate("HTTP Server");
+	nlu.szDescriptiveName.a = Translate("HTTP Server");
 	hNetlibUser = Netlib_RegisterUser(& nlu);
 	if (!hNetlibUser) {
 		MessageBox(NULL, "Failed to register NetLib user", MSG_BOX_TITEL, MB_OK);

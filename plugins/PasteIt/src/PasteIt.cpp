@@ -394,7 +394,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE | NUF_OUTGOING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = MODULE;
-	nlu.ptszDescriptiveName = TranslateT("Paste It HTTP connections");
+	nlu.szDescriptiveName.w = TranslateT("Paste It HTTP connections");
 	g_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	pasteToWebs[0] = new PasteToWeb1();

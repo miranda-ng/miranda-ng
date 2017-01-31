@@ -32,7 +32,7 @@ void MirandaUtils::netlibRegister(){
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE | NUF_NOOPTIONS;
 	nlu.szSettingsModule = PLUGIN_DB_ID;
-	nlu.ptszDescriptiveName = TranslateT("MirFox log");
+	nlu.szDescriptiveName.w = TranslateT("MirFox log");
 
 	netlibHandle = Netlib_RegisterUser(&nlu);
 }

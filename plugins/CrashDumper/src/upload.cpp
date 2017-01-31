@@ -217,7 +217,7 @@ void UploadInit(void)
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 	nlu.szSettingsModule = (char*)PluginName;
-	nlu.ptszDescriptiveName = TranslateT("Crash Dumper HTTP connections");
+	nlu.szDescriptiveName.w = TranslateT("Crash Dumper HTTP connections");
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 }
 

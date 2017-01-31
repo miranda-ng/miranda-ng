@@ -221,7 +221,7 @@ void DownloadInit(void)
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 	nlu.szSettingsModule = MODULENAME;
-	nlu.ptszDescriptiveName = TranslateT("SmileyAdd HTTP connections");
+	nlu.szDescriptiveName.w = TranslateT("SmileyAdd HTTP connections");
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	GetSmileyCacheFolder();
