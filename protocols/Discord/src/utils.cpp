@@ -28,6 +28,8 @@ int StrToStatus(const CMStringW &str)
 {
 	if (str == L"idle")
 		return ID_STATUS_NA;
+	if (str == L"dnd")
+		return ID_STATUS_DND;
 	if (str == L"online")
 		return ID_STATUS_ONLINE;
 	if (str == L"offline")

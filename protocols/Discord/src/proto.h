@@ -248,6 +248,7 @@ public:
 	void OnCommandReady(const JSONNode&);
 	void OnCommandTyping(const JSONNode&);
 	void OnCommandUserUpdate(const JSONNode&);
+	void OnCommandUserSettingsUpdate(const JSONNode&);
 
 	void OnLoggedIn();
 	void OnLoggedOut();

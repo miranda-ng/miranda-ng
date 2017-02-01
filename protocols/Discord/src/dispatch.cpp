@@ -44,6 +44,7 @@ static handlers[] = // these structures must me sorted alphabetically
 
 	{ L"TYPING_START", &CDiscordProto::OnCommandTyping },
 
+	{ L"USER_SETTINGS_UPDATE", &CDiscordProto::OnCommandUserSettingsUpdate },
 	{ L"USER_UPDATE", &CDiscordProto::OnCommandUserUpdate },
 };
 
@@ -423,5 +424,14 @@ void CDiscordProto::OnCommandUserUpdate(const JSONNode &pRoot)
 	if (mir_wstrcmp(wszOldHash, wszNewHash)) {
 		setWString(hContact, DB_KEY_AVHASH, wszNewHash);
 		RetrieveAvatar(hContact);
+	}
+}
+
+void CDiscordProto::OnCommandUserSettingsUpdate(const JSONNode &pRoot)
+{
+	int iStatus = StrToStatus(pRoot["status"].as_mstring());
+	if (iStatus != 0) {
+		int iOldStatus = m_iStatus; m_iStatus = iStatus;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	}
 }

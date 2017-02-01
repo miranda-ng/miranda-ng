@@ -230,7 +230,6 @@ void CDiscordProto::OnReceiveCreateChannel(NETLIBHTTPREQUEST *pReply, AsyncHttpR
 		OnCommandChannelCreated(root);
 }
 
-
 void CDiscordProto::OnReceiveChannels(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 {
 	if (pReply->resultCode != 200)
