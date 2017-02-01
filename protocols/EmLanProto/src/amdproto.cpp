@@ -85,11 +85,10 @@ static INT_PTR __cdecl EMPGetName(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR __cdecl EMPLoadIcon(WPARAM wParam, LPARAM)
 {
-	UINT id = IDI_ICON_ONLINE;
-	if ((wParam & 0xFFFF) == PLI_OFFLINE)
-		id = IDI_ICON_OFFLINE;
-	HICON res = LoadIcon(g_hInstance, MAKEINTRESOURCE(id));
-	return (INT_PTR)res;
+	if ((wParam & 0xFFFF) != PLI_PROTOCOL)
+		return 0;
+	
+	return (INT_PTR)LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_ICON_ONLINE));
 }
 
 static INT_PTR __cdecl EMPGetStatus(WPARAM, LPARAM)

@@ -48,55 +48,56 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // correctly
 
 #define PFLAGNUM_1   1
-#define PF1_IMSEND        0x00000001       // supports IM sending
-#define PF1_IMRECV        0x00000002       // supports IM receiving
-#define PF1_IM            (PF1_IMSEND|PF1_IMRECV)
-#define PF1_URLSEND       0x00000004       // supports separate URL sending
-#define PF1_URLRECV       0x00000008       // supports separate URL receiving
-#define PF1_URL           (PF1_URLSEND|PF1_URLRECV)
-#define PF1_FILESEND      0x00000010       // supports file sending
-#define PF1_FILERECV      0x00000020       // supports file receiving
-#define PF1_FILE          (PF1_FILESEND|PF1_FILERECV)
-#define PF1_MODEMSGSEND   0x00000040       // supports broadcasting away messages
-#define PF1_MODEMSGRECV   0x00000080       // supports reading others' away messages
-#define PF1_MODEMSG       (PF1_MODEMSGSEND|PF1_MODEMSGRECV)
-#define PF1_SERVERCLIST   0x00000100       // contact lists are stored on the server, not locally. See notes below
-#define PF1_AUTHREQ       0x00000200       // will get authorisation requests for some or all contacts
-#define PF1_ADDED         0x00000400       // will get 'you were added' notifications
-#define PF1_VISLIST       0x00000800       // has an invisible list
-#define PF1_INVISLIST     0x00001000       // has a visible list for when in invisible mode
-#define PF1_INDIVSTATUS   0x00002000       // supports setting different status modes to each contact
-#define PF1_EXTENSIBLE    0x00004000       // the protocol is extensible and supports plugin-defined messages
-#define PF1_PEER2PEER     0x00008000       // supports direct (not server mediated) communication between clients
-#define PF1_NEWUSER       0x00010000       // supports creation of new user IDs
-#define PF1_CHAT          0x00020000       // has a realtime chat capability
-#define PF1_INDIVMODEMSG  0x00040000       // supports replying to a mode message request with different text depending on the contact requesting
-#define PF1_BASICSEARCH   0x00080000       // supports a basic user searching facility
-#define PF1_EXTSEARCH     0x00100000	   // supports one or more protocol-specific extended search schemes
-#define PF1_CANRENAMEFILE 0x00200000       // supports renaming of incoming files as they are transferred
-#define PF1_FILERESUME    0x00400000       // can resume broken file transfers, see PS_FILERESUME below
-#define PF1_ADDSEARCHRES  0x00800000       // can add search results to the contact list
-#define PF1_CONTACTSEND   0x01000000	   // can send contacts to other users
-#define PF1_CONTACTRECV   0x02000000	   // can receive contacts from other users
-#define PF1_CONTACT       (PF1_CONTACTSEND|PF1_CONTACTRECV)
-#define PF1_CHANGEINFO    0x04000000       // can change our user information stored on server
-#define PF1_SEARCHBYEMAIL 0x08000000       // supports a search by e-mail feature
-#define PF1_USERIDISEMAIL 0x10000000       // set if the uniquely identifying field of the network is the e-mail address
-#define PF1_SEARCHBYNAME  0x20000000       // supports searching by nick/first/last names
-#define PF1_EXTSEARCHUI   0x40000000       // has a dialog box to allow searching all the possible fields
-#define PF1_NUMERICUSERID 0x80000000       // the unique user IDs for this protocol are numeric
+#define PF1_IMSEND        0x00000001 // supports IM sending
+#define PF1_IMRECV        0x00000002 // supports IM receiving
+#define PF1_URLSEND       0x00000004 // supports separate URL sending
+#define PF1_URLRECV       0x00000008 // supports separate URL receiving
+#define PF1_FILESEND      0x00000010 // supports file sending
+#define PF1_FILERECV      0x00000020 // supports file receiving
+#define PF1_MODEMSGSEND   0x00000040 // supports broadcasting away messages
+#define PF1_MODEMSGRECV   0x00000080 // supports reading others' away messages
+#define PF1_SERVERCLIST   0x00000100 // contact lists are stored on the server, not locally. See notes below
+#define PF1_AUTHREQ       0x00000200 // will get authorisation requests for some or all contacts
+#define PF1_ADDED         0x00000400 // will get 'you were added' notifications
+#define PF1_VISLIST       0x00000800 // has an invisible list
+#define PF1_INVISLIST     0x00001000 // has a visible list for when in invisible mode
+#define PF1_INDIVSTATUS   0x00002000 // supports setting different status modes to each contact
+#define PF1_EXTENSIBLE    0x00004000 // the protocol is extensible and supports plugin-defined messages
+#define PF1_PEER2PEER     0x00008000 // supports direct (not server mediated) communication between clients
+#define PF1_NEWUSER       0x00010000 // supports creation of new user IDs
+#define PF1_CHAT          0x00020000 // has a realtime chat capability
+#define PF1_INDIVMODEMSG  0x00040000 // supports replying to a mode message request with different text depending on the contact requesting
+#define PF1_BASICSEARCH   0x00080000 // supports a basic user searching facility
+#define PF1_EXTSEARCH     0x00100000 // supports one or more protocol-specific extended search schemes
+#define PF1_CANRENAMEFILE 0x00200000 // supports renaming of incoming files as they are transferred
+#define PF1_FILERESUME    0x00400000 // can resume broken file transfers, see PS_FILERESUME below
+#define PF1_ADDSEARCHRES  0x00800000 // can add search results to the contact list
+#define PF1_CONTACTSEND   0x01000000 // can send contacts to other users
+#define PF1_CONTACTRECV   0x02000000 // can receive contacts from other users
+#define PF1_CHANGEINFO    0x04000000 // can change our user information stored on server
+#define PF1_SEARCHBYEMAIL 0x08000000 // supports a search by e-mail feature
+#define PF1_USERIDISEMAIL 0x10000000 // set if the uniquely identifying field of the network is the e-mail address
+#define PF1_SEARCHBYNAME  0x20000000 // supports searching by nick/first/last names
+#define PF1_EXTSEARCHUI   0x40000000 // has a dialog box to allow searching all the possible fields
+#define PF1_NUMERICUSERID 0x80000000 // the unique user IDs for this protocol are numeric
+
+#define PF1_IM (PF1_IMSEND|PF1_IMRECV)
+#define PF1_URL (PF1_URLSEND|PF1_URLRECV)
+#define PF1_FILE (PF1_FILESEND|PF1_FILERECV)
+#define PF1_MODEMSG (PF1_MODEMSGSEND|PF1_MODEMSGRECV)
+#define PF1_CONTACT (PF1_CONTACTSEND|PF1_CONTACTRECV)
 
 ///////////////////////////////////////////////////////////////////////////////
 // the status modes that the protocol supports
 
 #define PFLAGNUM_2 2
 
-#define PF2_ONLINE        0x00000001   // an unadorned online mode
+#define PF2_ONLINE        0x00000001 // an unadorned online mode
 #define PF2_INVISIBLE     0x00000002
-#define PF2_SHORTAWAY     0x00000004   // Away on ICQ, BRB on MSN
-#define PF2_LONGAWAY      0x00000008   // NA on ICQ, Away on MSN
-#define PF2_LIGHTDND      0x00000010   // Occupied on ICQ, Busy on MSN
-#define PF2_HEAVYDND      0x00000020   // DND on ICQ
+#define PF2_SHORTAWAY     0x00000004 // Away on ICQ, BRB on MSN
+#define PF2_LONGAWAY      0x00000008 // NA on ICQ, Away on MSN
+#define PF2_LIGHTDND      0x00000010 // Occupied on ICQ, Busy on MSN
+#define PF2_HEAVYDND      0x00000020 // DND on ICQ
 #define PF2_FREECHAT      0x00000040
 #define PF2_OUTTOLUNCH    0x00000080
 #define PF2_ONTHEPHONE    0x00000100
@@ -211,12 +212,11 @@ static __inline unsigned long Proto_Status2Flag(int status)
 // The UI should overlay the online icon with a further UI-specified icon to
 // represent the exact status mode.
 
-#define PLI_PROTOCOL   1    // An icon representing the protocol (eg the multicoloured flower for ICQ)
-#define PLI_ONLINE     2    // Online state icon for that protocol (eg green flower for ICQ)
-#define PLI_OFFLINE    3    // Offline state icon for that protocol (eg red flower for ICQ)
-#define PLIF_LARGE     0		// OR with one of the above to get the large (32x32 by default) icon
-#define PLIF_SMALL     0x10000  // OR with one of the above to get the small (16x16 by default) icon
-#define PLIF_ICOLIB    0x20000  // the returned HICON is managed by IcoLib, DO NOT DestroyIcon() it
+#define PLI_PROTOCOL 1 // An icon representing the protocol (eg the multicoloured flower for ICQ)
+
+#define PLIF_LARGE        0x00000 // OR with one of the above to get the large (32x32 by default) icon
+#define PLIF_SMALL        0x10000 // OR with one of the above to get the small (16x16 by default) icon
+#define PLIF_ICOLIB       0x20000 // the returned HICON is managed by IcoLib, DO NOT DestroyIcon() it
 #define PLIF_ICOLIBHANDLE 0x40000 // the function will return IcoLib handle not HICON
 
 #define PS_LOADICON    "/LoadIcon"

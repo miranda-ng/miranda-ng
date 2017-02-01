@@ -1504,12 +1504,13 @@ INT_PTR TMLoadIcon(WPARAM wParam, LPARAM)
 	UINT id;
 
 	switch (wParam & 0xFFFF) {
-	case PLI_ONLINE:
-	case PLI_PROTOCOL: id = IDI_ICON1; break; // IDI_TM is the main icon for the protocol
-	case PLI_OFFLINE: id = IDI_ICON2; break;
-	default: return 0;
+	case PLI_PROTOCOL:
+		id = IDI_ICON1;
+		break; // IDI_TM is the main icon for the protocol
+	default:
+		return 0;
 	}
-	return (INT_PTR)LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam&PLIF_SMALL ? SM_CXSMICON : SM_CXICON), GetSystemMetrics(wParam&PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
+	return (INT_PTR)LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam & PLIF_SMALL ? SM_CXSMICON : SM_CXICON), GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
 }
 
 

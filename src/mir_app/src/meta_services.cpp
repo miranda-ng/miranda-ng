@@ -94,8 +94,7 @@ INT_PTR Meta_GetName(WPARAM wParam, LPARAM lParam)
 
 /** Loads the icon corresponding to the status
 * Called by the CList when the status changes.
-* @param wParam : 	one of the following values : \n
-<tt>PLI_PROTOCOL | PLI_ONLINE | PLI_OFFLINE</tt>
+* @param wParam : icon type
 * @return			an \c HICON in which the icon has been loaded.
 */
 
@@ -106,12 +105,7 @@ INT_PTR Meta_LoadIcon(WPARAM wParam, LPARAM)
 	case PLI_PROTOCOL:
 		id = IDI_MCMENU;
 		break;
-	case PLI_ONLINE:
-		id = IDI_MCMENU;
-		break;
-	case PLI_OFFLINE:
-		id = IDI_MCMENU;
-		break;
+
 	default:
 		return 0;
 	}

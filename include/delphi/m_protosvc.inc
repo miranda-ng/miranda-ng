@@ -277,9 +277,8 @@ const
              the online icon with further UI-specified icon to
              repressent the exact status mode.
   }
+
   PLI_PROTOCOL = $1;     // An icon representing the protocol (eg the multicoloured flower for ICQ)
-  PLI_ONLINE   = $2;     // Online state icon for that protocol (eg green flower for ICQ)
-  PLI_OFFLINE  = $3;     // Offline state icon for that protocol (eg red flower for ICQ)
 
   PLIF_LARGE        = $0;     // Or with one of the above to get the large (32x32 by default) icon
   PLIF_SMALL        = $10000; // Or with one of the above to get the small (16x16 by default) icon

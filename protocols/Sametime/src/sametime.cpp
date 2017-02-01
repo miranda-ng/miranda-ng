@@ -59,8 +59,7 @@ INT_PTR CSametimeProto::GetStatus(WPARAM wParam, LPARAM lParam)
 
 /** Loads the icon corresponding to the status
 * Called by the CList when the status changes.
-* @param wParam :	one of the following values : \n
-					<tt>PLI_PROTOCOL | PLI_ONLINE | PLI_OFFLINE</tt>
+* @param wParam :	icon type
 * @return			an \c HICON in which the icon has been loaded.
 */
 INT_PTR CSametimeProto::SametimeLoadIcon(WPARAM wParam, LPARAM lParam)
