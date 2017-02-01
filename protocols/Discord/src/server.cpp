@@ -117,10 +117,14 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 void CDiscordProto::RetrieveUserInfo(MCONTACT hContact)
 {
 	CMStringA szUrl;
-	if (hContact == 0)
-		szUrl = "/users/@me";
-	else
-		szUrl.Format("/users/%lld", getId(hContact, DB_KEY_ID));
+	if (hContact != 0) {
+		SnowFlake id = getId(hContact, DB_KEY_ID);
+		if (id == 0)
+			return;
+		szUrl.Format("/users/%lld", id);
+	}
+	else szUrl = "/users/@me";
+		
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveUserInfo);
 	pReq->pUserInfo = (void*)hContact;
 	Push(pReq);

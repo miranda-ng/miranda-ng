@@ -176,12 +176,25 @@ CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
 	CMStringW username = user["username"].as_mstring();
 
 	CDiscordUser *pUser = FindUser(id);
-	if (pUser == NULL)
-		pUser = FindUser(username, iDiscriminator);
 	if (pUser == NULL) {
+		MCONTACT tmp = INVALID_CONTACT_ID;
+
+		// no user found by userid, try to find him via username+discriminator
+		pUser = FindUser(username, iDiscriminator);
+		if (pUser != NULL) {
+			// if found, remove the object from list to resort it (its userid==0)
+			if (pUser->hContact != 0)
+				tmp = pUser->hContact;
+			arUsers.remove(pUser);
+		}
 		pUser = new CDiscordUser(id);
 		pUser->wszUsername = username;
 		pUser->iDiscriminator = iDiscriminator;
+		if (tmp != INVALID_CONTACT_ID) {
+			// if we previously had a recently added contact without userid, write it down
+			pUser->hContact = tmp;
+			setId(pUser->hContact, DB_KEY_ID, id);
+		}
 		arUsers.insert(pUser);
 	}
 

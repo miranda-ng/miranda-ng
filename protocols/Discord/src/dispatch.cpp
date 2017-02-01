@@ -249,7 +249,7 @@ void CDiscordProto::OnCommandMessageAck(const JSONNode &pRoot)
 
 void CDiscordProto::OnCommandPresence(const JSONNode &pRoot)
 {
-	CDiscordUser *pUser = PrepareUser(pRoot["user"]);
+	CDiscordUser *pUser = FindUser(_wtoi64(pRoot["user"]["id"].as_mstring()));
 	if (pUser == NULL)
 		return;
 
