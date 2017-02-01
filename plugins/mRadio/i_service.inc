@@ -115,8 +115,6 @@ function Service_LoadIcon(wParam:WPARAM;lParam:LPARAM):int_ptr;cdecl;
 begin
   case loword(wParam) of
     PLI_PROTOCOL: result:=LoadImage(hInstance,MAKEINTRESOURCE(IDI_MAIN),IMAGE_ICON,16,16,LR_SHARED);
-//    PLI_ONLINE  : result:=0;
-//    PLI_OFFLINE : result:=0;
   else
     result:=0;
   end;
@@ -183,14 +181,14 @@ end;
 
 procedure CreateProtoServices;
 begin
-  prh0:=CreateProtoService(PS_GETCAPS          ,@Service_GetCaps);
-  prh1:=CreateProtoService(PS_ADDTOLIST        ,@Service_AddToList);
-  prh2:=CreateProtoService(PS_CREATEADVSEARCHUI,@Service_ExtSearchUI);
-  prh3:=CreateProtoService(PS_SEARCHBYADVANCED ,@Service_SearchByAdvanced);
-  prh4:=CreateProtoService(PS_BASICSEARCH      ,@Service_SearchBasic);
-  prh5:=CreateProtoService(PS_GETNAME          ,@Service_GetName);
-  prh6:=CreateProtoService(PS_LOADICON         ,@Service_LoadIcon);
-  prh7:=CreateProtoService(PS_GETSTATUS        ,@Service_GetStatus);
-  prh8:=CreateProtoService(PS_SETSTATUS        ,@Service_SetStatus);
-  prh9:=CreateProtoService(PSS_GETAWAYMSG      ,@Service_GetAwayMsg);
+  prh0:=CreateProtoService(PS_GETCAPS,           @Service_GetCaps);
+  prh1:=CreateProtoService(PS_ADDTOLIST,         @Service_AddToList);
+  prh2:=CreateProtoService(PS_CREATEADVSEARCHUI, @Service_ExtSearchUI);
+  prh3:=CreateProtoService(PS_SEARCHBYADVANCED,  @Service_SearchByAdvanced);
+  prh4:=CreateProtoService(PS_BASICSEARCH,       @Service_SearchBasic);
+  prh5:=CreateProtoService(PS_GETNAME,           @Service_GetName);
+  prh6:=CreateProtoService(PS_LOADICON,          @Service_LoadIcon);
+  prh7:=CreateProtoService(PS_GETSTATUS,         @Service_GetStatus);
+  prh8:=CreateProtoService(PS_SETSTATUS,         @Service_SetStatus);
+  prh9:=CreateProtoService(PSS_GETAWAYMSG,       @Service_GetAwayMsg);
 end;

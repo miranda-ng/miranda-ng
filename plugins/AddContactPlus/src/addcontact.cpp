@@ -127,7 +127,9 @@ bool AddContactDlgAccounts(HWND hdlg, AddDialogParam *acs)
 
 		cbei.pszText = pAccounts[i]->tszAccountName;
 		GetTextExtentPoint32(hdc, cbei.pszText, (int)mir_wstrlen(cbei.pszText), &textSize);
-		if (textSize.cx > cbWidth) cbWidth = textSize.cx;
+		if (textSize.cx > cbWidth)
+			cbWidth = textSize.cx;
+		
 		HICON hIcon = (HICON)CallProtoService(pAccounts[i]->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 		cbei.iImage = cbei.iSelectedImage = ImageList_AddIcon(hIml, hIcon);
 		DestroyIcon(hIcon);
