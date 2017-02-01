@@ -116,7 +116,12 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 
 void CDiscordProto::RetrieveUserInfo(MCONTACT hContact)
 {
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/users/@me", &CDiscordProto::OnReceiveUserInfo);
+	CMStringA szUrl;
+	if (hContact == 0)
+		szUrl = "/users/@me";
+	else
+		szUrl.Format("/users/%lld", getId(hContact, DB_KEY_ID));
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveUserInfo);
 	pReq->pUserInfo = (void*)hContact;
 	Push(pReq);
 }
