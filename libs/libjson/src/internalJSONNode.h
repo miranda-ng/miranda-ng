@@ -285,11 +285,15 @@ inline void internalJSONNode::setname(const json_string & newname){
 
 inline json_string internalJSONNode::as_string(void) const {
 	Fetch();
+	if (_type == JSON_NULL)
+		return json_string();
 	return _string;
 }
 
 inline CMStringW internalJSONNode::as_mstring(void) const {
 	Fetch();
+	if (_type == JSON_NULL)
+		return CMStringW();
 	return CMStringW(ptrW(mir_utf8decodeW(_string.c_str())));
 }
 

@@ -197,7 +197,10 @@ CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
 		pUser->hContact = hContact;
 	}
 
-	setWString(pUser->hContact, DB_KEY_AVHASH, avatar);
+	if (avatar.IsEmpty())
+		delSetting(pUser->hContact, DB_KEY_AVHASH);
+	else
+		setWString(pUser->hContact, DB_KEY_AVHASH, avatar);
 	return pUser;
 }
 
