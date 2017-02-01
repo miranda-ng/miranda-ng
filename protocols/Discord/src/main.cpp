@@ -69,6 +69,8 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
+	curl_global_init(CURL_GLOBAL_ALL);
+
 	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 
 	PROTOCOLDESCRIPTOR pd = { 0 };
