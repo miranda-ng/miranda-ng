@@ -185,7 +185,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.name.w = LPGENW("Load GPG public key");
+	mi.name.w = LPGENW("Load public GPG key");
 	mi.pszService = "/LoadPubKey";
 	hLoadPubKey = Menu_AddContactMenuItem(&mi);
 

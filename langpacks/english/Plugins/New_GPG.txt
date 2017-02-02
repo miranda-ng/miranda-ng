@@ -7,7 +7,7 @@
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 ;file \plugins\New_GPG\res\new_gpg.rc
-[Load Public GPG key]
+[Load public GPG key]
 [Load from file]
 [Select existing]
 [Turn on encryption]
@@ -86,7 +86,6 @@
 ;file \plugins\New_GPG\src\init.cpp
 [GPG Turn off encryption]
 [GPG Turn on encryption]
-[Load GPG public key]
 [Toggle GPG encryption]
 [Send public key]
 [Export GPG Public keys]

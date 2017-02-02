@@ -7,6 +7,8 @@
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Плагин шифрования GPG, основанный на исходных кодах старого плагина GPG и SecureIM.
+[Load public GPG key]
+Загрузить пупличный GPG ключ
 [Load from file]
 Загрузить из файла
 [Select existing]
@@ -99,10 +101,18 @@ ID ключа:
 Импортировать
 [Select keyserver for key search:]
 Выбрать сервер ключей для поиска:
+[Received encrypted file]
+Получен зашифрованный файл
+[Decrypt]
+Расшифровать
 [Received encrypted file from contact with disabled encryption.]
 Получен зашифрованный файл от контакта с ограниченными возможностями шифрования.
+[Remember choice]
+Запомнить выбор
 [Choose which keys to export]
 Выберите ключи для экспорта
+[Export public keys (only set for contacts)]
+Экспорт публичных ключей (только для контактов)
 [Export all private keys]
 Экспорт всех приватных ключей
 [Export public and private keys]
@@ -121,6 +131,8 @@ ID ключа:
 Вкл. запись отладки
 [Use Jabber API on Miranda NG (recommended)]
 Использовать Jabber API Miranda NG (рекомендуется)
+[Default key]
+Ключ по умолчанию
 [Encrypt file transfers]
 Шифрованная передача файлов
 [Automatic key exchange]
@@ -145,6 +157,10 @@ ID ключа:
 Экспорт ключей
 [Import keys]
 Импорт ключей
+[GPG Turn off encryption]
+Отключить шифрование
+[GPG Turn on encryption]
+Включить шифрование
 [Send public key]
 Отправить публичный ключ
 [Export GPG Public keys]
@@ -159,6 +175,8 @@ ID ключа:
 Имя
 [Creation date]
 Дата создания
+[Expire date]
+Срок действия
 [Key length]
 Длина ключа
 [Accounts]
@@ -175,6 +193,8 @@ ID ключа:
 Невозможно открыть файл
 [Error]
 Ошибка
+[Generating new random key, please wait]
+Генерируется новый ключ, пожалуйста подождите...
 [Warning]
 Предупреждение
 [This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]

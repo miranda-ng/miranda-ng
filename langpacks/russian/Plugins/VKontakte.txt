@@ -165,8 +165,12 @@ E-mail или номер телефона:
 Помечать сообщения прочитанными:
 [Sync history on protocol online:]
 При входе синхронизировать историю:
+[Load last messages when message window open and  local history is empty]
+Загрузить последние сообщения если открыто окно, и локальная история пуста
 [Use local time for received messages]
 Местное время для принятых сообщений
+[Load only friends to local contact list]
+Добавлять в контакт лист только друзей
 [Server-side delivery confirmation]
 Подтверждение доставки со стороны сервера
 [Bots challenge test]
@@ -293,12 +297,12 @@ Cоздать комнату чата
 Аудио
 [Video]
 Видео
+[Link]
+Ссылка
 [Document]
 Документ
 [Wall post]
 Запись на стене
-[Link]
-Ссылка
 [Product]
 Товар
 [Price]
@@ -313,6 +317,12 @@ Cоздать комнату чата
 Сообщение от
 [at]
 в
+[User restored control over own page]
+Пользователь восстановил контроль над своей страницей
+[User was deactivated (deleted)]
+Пользователь деактивирован (удалён)
+[User was deactivated (banned)]
+Пользователь деактивирован (забанен)
 [Participants]
 Участники
 [Owners]
@@ -515,6 +525,8 @@ ID получателя ошибочен или неизвестен
 Ошибки
 [Notification]
 Уведомдение
+[VK user activate/deactivate action]
+Действие активации/деактивации пользоватея ВК
 [User %s added as friend]
 Пользователь %s добавлен в друзья
 [You cannot add yourself as friend]
@@ -579,15 +591,3 @@ ID получателя ошибочен или неизвестен
 \nЭто также
 [Are you sure to report abuse on %s?]
 Вы уверены, что хотите отправить жалобу на %s?
-[User restored control over own page]
-Пользователь востоновил контроль над своей страницей
-[User was deactivated (deleted)]
-Пользователь деактивирован (удалён)
-[User was deactivated (banned)]
-Пользователь деактивирован (забанен)
-[VK user activate/deactivate action]
-Действие активации/деактивации пользоватея ВК
-[Load last messages when message window open and  local history is empty]
-Загрузить последние сообщения если открыто окно, и локальная история пуста
-[Load only friends to local contact list]
-Добавлять в контакт лист только друзей
