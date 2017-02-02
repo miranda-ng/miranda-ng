@@ -102,10 +102,20 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 		if (jnResponse) {
 			UINT mid;
-			if (jnResponse.type() != JSON_STRING)
+			switch (jnResponse.type()) {
+			case JSON_NUMBER:
 				mid = jnResponse.as_int();
-			else if (swscanf(jnResponse.as_mstring(), L"%d", &mid) != 1)
+				break;
+			case JSON_STRING:
+				if (swscanf(jnResponse.as_mstring(), L"%d", &mid) != 1)
+					mid = 0;
+				break;
+			case JSON_ARRAY:
+				mid = jnResponse.as_array()[json_index_t(0)].as_int();
+				break;
+			default:
 				mid = 0;
+			}
 
 			if (param->iMsgID != -1)
 				m_sendIds.insert((HANDLE)mid);
