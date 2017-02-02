@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma pack(4)
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 struct CDiscordCommand
 {
 	const wchar_t *szCommandId;
@@ -60,7 +62,7 @@ GatewayHandlerFunc CDiscordProto::GetHandler(const wchar_t *pwszCommand)
 	return (p != NULL) ? p->pFunc : NULL;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // channel operations
 
 void CDiscordProto::OnCommandChannelCreated(const JSONNode &pRoot)
@@ -83,7 +85,7 @@ void CDiscordProto::OnCommandChannelDeleted(const JSONNode &pRoot)
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // reading a new message
 
 void CDiscordProto::OnCommandFriendAdded(const JSONNode &pRoot)
@@ -106,35 +108,25 @@ void CDiscordProto::OnCommandFriendRemoved(const JSONNode &pRoot)
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // reading a new message
 
-void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
+static int sttGetPresence(const JSONNode &pStatuses, const CMStringW &wszId)
 {
-	struct Presence
-	{
-		Presence(SnowFlake _id, int status) :
-			userid(_id),
-			iStatus(status)
-		{}
-
-		SnowFlake userid;
-		int iStatus;
-
-		static int compare(const Presence *p1, const Presence *p2)
-		{	return p1->userid - p2->userid;
-		}
-	};
-
-	OBJLIST<Presence> arPresences(1, &Presence::compare);
-	const JSONNode &pStatuses = pRoot["presences"];
 	for (auto it = pStatuses.begin(); it != pStatuses.end(); ++it) {
 		const JSONNode &s = *it;
 
-		int iStatus = StrToStatus(s["status"].as_mstring());
-		if (iStatus)
-			arPresences.insert(new Presence(_wtoi64(s["user"]["id"].as_mstring()), iStatus));
+		const CMStringW &wszUserId = s["user"]["id"].as_mstring();
+		if (wszUserId == wszId)
+			return StrToStatus(s["status"].as_mstring());
 	}
+
+	return 0;
+}
+
+void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
+{
+	const JSONNode &pStatuses = pRoot["presences"];
 
 	SnowFlake guildId = _wtoi64(pRoot["id"].as_mstring());
 
@@ -159,17 +151,19 @@ void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
 			Chat_Event(&gce);
 
 			int flags = GC_SSE_ONLYLISTED;
-			Presence *p = arPresences.find((Presence*)&userid);
-			if (p && (p->iStatus == ID_STATUS_ONLINE || p->iStatus == ID_STATUS_NA || p->iStatus == ID_STATUS_DND))
+			switch (sttGetPresence(pStatuses, wszUserId)) {
+			case ID_STATUS_ONLINE: case ID_STATUS_NA: case ID_STATUS_DND:
 				flags += GC_SSE_ONLINE;
-			else
+				break;
+			default:
 				flags += GC_SSE_OFFLINE;
+			}
 			Chat_SetStatusEx(m_szModuleName, pUser.wszUsername, flags, wszUserId);
 		}
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // reading a new message
 
 void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
@@ -234,7 +228,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // someone changed its status
 
 void CDiscordProto::OnCommandMessageAck(const JSONNode &pRoot)
@@ -244,7 +238,7 @@ void CDiscordProto::OnCommandMessageAck(const JSONNode &pRoot)
 		pUser->lastMessageId = _wtoi64(pRoot["message_id"].as_mstring());
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // someone changed its status
 
 void CDiscordProto::OnCommandPresence(const JSONNode &pRoot)
@@ -264,7 +258,7 @@ void CDiscordProto::OnCommandPresence(const JSONNode &pRoot)
 		delSetting(pUser->hContact, "XStatusMsg");		
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // gateway session start
 
 void CALLBACK CDiscordProto::HeartbeatTimerProc(HWND, UINT, UINT_PTR id, DWORD)
@@ -297,6 +291,7 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 	m_szGatewaySessionId = pRoot["session_id"].as_mstring();
 
 	const JSONNode &readState = pRoot["read_state"];
+	const JSONNode &pStatuses = pRoot["presences"];
 
 	const JSONNode &guilds = pRoot["guilds"];
 	for (auto it = guilds.begin(); it != guilds.end(); ++it) {
@@ -349,6 +344,10 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 
 		CDiscordUser *pUser = PrepareUser(p["user"]);
 		ProcessType(pUser, p);
+
+		int iStatus = sttGetPresence(pStatuses, p["user"]["id"].as_mstring());
+		if (iStatus)
+			setWord(pUser->hContact, "Status", iStatus);
 	}
 
 	const JSONNode &channels = pRoot["private_channels"];
@@ -377,7 +376,7 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // UTN support
 
 void CDiscordProto::OnCommandTyping(const JSONNode &pRoot)
@@ -401,7 +400,7 @@ void CDiscordProto::OnCommandTyping(const JSONNode &pRoot)
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // UTN support
 
 void CDiscordProto::OnCommandUserUpdate(const JSONNode &pRoot)
