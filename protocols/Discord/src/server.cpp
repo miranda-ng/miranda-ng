@@ -92,7 +92,8 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 		else
 			dbei.flags &= ~DBEF_READ;
 
-		CMStringA szBody(ptrA(mir_utf8encodeW(p["content"].as_mstring())));
+		CMStringW wszText = PrepareMessageText(p);
+		CMStringA szBody(ptrA(mir_utf8encodeW(wszText)));
 		szBody.AppendFormat("%c%lld", 0, msgid);
 
 		dbei.timestamp = StringToDate(p["timestamp"].as_mstring());

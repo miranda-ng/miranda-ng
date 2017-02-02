@@ -215,6 +215,29 @@ CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CMStringW PrepareMessageText(const JSONNode &pRoot)
+{
+	CMStringW wszText = pRoot["content"].as_mstring();
+
+	bool bDelimiterAdded = false;
+	const JSONNode &pAttaches = pRoot["attachments"];
+	for (auto it = pAttaches.begin(); it != pAttaches.end(); ++it) {
+		const JSONNode &p = *it;
+		CMStringW wszUrl = p["url"].as_mstring();
+		if (!wszUrl.IsEmpty()) {
+			if (!bDelimiterAdded) {
+				bDelimiterAdded = true;
+				wszText.Append(L"\n-----------------");
+			}
+			wszText.AppendFormat(L"\n%s: %s", TranslateT("Attachment"), wszUrl);
+		}
+	}
+
+	return wszText;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CDiscordProto::ProcessType(CDiscordUser *pUser, const JSONNode &pRoot)
 {
 	switch (pRoot["type"].as_int()) {

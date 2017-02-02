@@ -193,7 +193,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 	if (_wtoi64(wszUserId) == m_ownId)
 		recv.flags = PREF_CREATEREAD | PREF_SENT;
 
-	CMStringW wszText = pRoot["content"].as_mstring();
+	CMStringW wszText = PrepareMessageText(pRoot);
 
 	const JSONNode &edited = pRoot["edited_timestamp"];
 	if (!edited.isnull())
