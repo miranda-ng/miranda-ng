@@ -146,8 +146,6 @@ void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 		return;
 	}
 
-	ptrW wszOldAvatar(getWStringA(hContact, DB_KEY_AVHASH));
-
 	SnowFlake id = _wtoi64(root["id"].as_mstring());
 	setId(hContact, DB_KEY_ID, id);
 
@@ -156,22 +154,16 @@ void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 	setWString(hContact, DB_KEY_NICK, root["username"].as_mstring());
 	setWString(hContact, DB_KEY_EMAIL, root["email"].as_mstring());
 
-	CMStringW wszNewAvatar(root["avatar"].as_mstring());
-	setWString(hContact, DB_KEY_AVHASH, wszNewAvatar);
-
 	if (hContact == NULL) {
 		m_ownId = id;
-
-		// if avatar's hash changed, we need to request a new one
-		if (mir_wstrcmp(wszNewAvatar, wszOldAvatar))
-			RetrieveAvatar(NULL);
-
 		OnLoggedIn();
 	}
 	else {
 		CDiscordUser *pUser = FindUser(id);
 		ProcessType(pUser, root);
 	}
+
+	CheckAvatarChange(hContact, root["avatar"].as_mstring());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

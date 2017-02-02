@@ -172,7 +172,6 @@ CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
 		return g_myUser;
 
 	int iDiscriminator = _wtoi(user["discriminator"].as_mstring());
-	CMStringW avatar = user["avatar"].as_mstring();
 	CMStringW username = user["username"].as_mstring();
 
 	CDiscordUser *pUser = FindUser(id);
@@ -210,10 +209,7 @@ CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
 		pUser->hContact = hContact;
 	}
 
-	if (avatar.IsEmpty())
-		delSetting(pUser->hContact, DB_KEY_AVHASH);
-	else
-		setWString(pUser->hContact, DB_KEY_AVHASH, avatar);
+	CheckAvatarChange(pUser->hContact, user["avatar"].as_mstring());
 	return pUser;
 }
 

@@ -280,6 +280,7 @@ public:
 	void RemoveFriend(SnowFlake id);
 
 	CMStringW GetAvatarFilename(MCONTACT hContact);
+	void CheckAvatarChange(MCONTACT hContact, const CMStringW &wszNewHash);
 
 	__forceinline int getHeartbeatInterval() const { return m_iHartbeatInterval; }
 

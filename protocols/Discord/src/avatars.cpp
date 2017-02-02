@@ -211,3 +211,16 @@ INT_PTR CDiscordProto::SetMyAvatar(WPARAM, LPARAM lParam)
 	Push(new AsyncHttpRequest(this, REQUEST_PATCH, "/users/@me", NULL, &root));
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::CheckAvatarChange(MCONTACT hContact, const CMStringW &wszNewHash)
+{
+	ptrW wszOldAvatar(getWStringA(hContact, DB_KEY_AVHASH));
+
+	// if avatar's hash changed, we need to request a new one
+	if (mir_wstrcmp(wszNewHash, wszOldAvatar)) {
+		setWString(hContact, DB_KEY_AVHASH, wszNewHash);
+		RetrieveAvatar(hContact);
+	}
+}

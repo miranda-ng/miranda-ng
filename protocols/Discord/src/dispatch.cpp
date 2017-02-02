@@ -419,12 +419,7 @@ void CDiscordProto::OnCommandUserUpdate(const JSONNode &pRoot)
 	else hContact = 0;
 
 	// force rereading avatar
-	ptrW wszOldHash(getWStringA(hContact, DB_KEY_AVHASH));
-	CMStringW wszNewHash(pRoot["avatar"].as_mstring());
-	if (mir_wstrcmp(wszOldHash, wszNewHash)) {
-		setWString(hContact, DB_KEY_AVHASH, wszNewHash);
-		RetrieveAvatar(hContact);
-	}
+	CheckAvatarChange(hContact, pRoot["avatar"].as_mstring());
 }
 
 void CDiscordProto::OnCommandUserSettingsUpdate(const JSONNode &pRoot)
