@@ -64,6 +64,7 @@ extern HWND g_hwndHeartbeat;
 #define DB_KEY_GROUP    "GroupName"
 #define DB_KEYVAL_GROUP L"Discord"
 
+SnowFlake getId(const JSONNode &pNode);
 CMStringW PrepareMessageText(const JSONNode &pRoot);
 int StrToStatus(const CMStringW &str);
 time_t StringToDate(const CMStringW &str);

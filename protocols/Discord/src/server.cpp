@@ -80,13 +80,13 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 	for (int i = 0; i < arNodes.getCount(); i++) {
 		JSONNode &p = *arNodes[i];
 
-		SnowFlake authorid = _wtoi64(p["author"]["id"].as_mstring());
+		SnowFlake authorid = ::getId(p["author"]["id"]);
 		if (authorid == m_ownId)
 			dbei.flags |= DBEF_SENT;
 		else
 			dbei.flags &= ~DBEF_SENT;
 
-		SnowFlake msgid = _wtoi64(p["id"].as_mstring());
+		SnowFlake msgid = ::getId(p["id"]);
 		if (msgid <= pUser->lastReadId)
 			dbei.flags |= DBEF_READ;
 		else
@@ -147,7 +147,7 @@ void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 		return;
 	}
 
-	SnowFlake id = _wtoi64(root["id"].as_mstring());
+	SnowFlake id = ::getId(root["id"]);
 	setId(hContact, DB_KEY_ID, id);
 
 	setByte(hContact, DB_KEY_MFA, root["mfa_enabled"].as_bool());
@@ -249,8 +249,8 @@ void CDiscordProto::OnReceiveChannels(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 			continue;
 
 		CDiscordUser *pUser = PrepareUser(user);
-		pUser->lastMessageId = _wtoi64(p["last_message_id"].as_mstring());
-		pUser->channelId = _wtoi64(p["id"].as_mstring());
+		pUser->lastMessageId = ::getId(p["last_message_id"]);
+		pUser->channelId = ::getId(p["id"]);
 		pUser->bIsPrivate = p["is_private"].as_bool();
 
 		setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
@@ -297,7 +297,7 @@ void CDiscordProto::OnReceiveMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 
 	JSONNode root = JSONNode::parse(pReply->pData);
 	if (root) {
-		SnowFlake newLastId = _wtoi64(root["id"].as_mstring());
+		SnowFlake newLastId = ::getId(root["id"]);
 		SnowFlake oldLastId = getId(hContact, DB_KEY_LASTMSGID); // as stored in a database
 		if (oldLastId < newLastId)
 			setId(hContact, DB_KEY_LASTMSGID, newLastId);

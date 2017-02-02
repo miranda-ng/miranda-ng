@@ -100,6 +100,11 @@ int SerialNext()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+SnowFlake getId(const JSONNode &pNode)
+{
+	return _wtoi64(pNode.as_mstring());
+}
+
 SnowFlake CDiscordProto::getId(const char *szSetting)
 {
 	DBVARIANT dbv;
@@ -167,7 +172,7 @@ CDiscordUser* CDiscordProto::FindUserByChannel(SnowFlake channelId)
 
 CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
 {
-	SnowFlake id = _wtoi64(user["id"].as_mstring());
+	SnowFlake id = ::getId(user["id"]);
 	if (id == m_ownId)
 		return g_myUser;
 
