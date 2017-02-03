@@ -74,23 +74,14 @@ LBL_Error:
 		return;
 	}
 
-	const char *pszMimeType = NULL;
 	for (int i = 0; i < reply->headersCount; i++)
 		if (!mir_strcmp(reply->headers[i].szName, "Content-Type")) {
-			pszMimeType = reply->headers[i].szValue;
+			ai.format = ProtoGetAvatarFormatByMimeType(_A2T(reply->headers[i].szValue));
 			break;
 		}
 
-	if (!mir_strcmp(pszMimeType, "image/jpeg"))
-		ai.format = PA_FORMAT_JPEG;
-	else if (!mir_strcmp(pszMimeType, "image/png"))
-		ai.format = PA_FORMAT_PNG;
-	else if (!mir_strcmp(pszMimeType, "image/gif"))
-		ai.format = PA_FORMAT_GIF;
-	else if (!mir_strcmp(pszMimeType, "image/bmp"))
-		ai.format = PA_FORMAT_BMP;
-	else {
-		debugLogA("unknown avatar mime type: %s", pszMimeType);
+	if (ai.format == PA_FORMAT_UNKNOWN) {
+		debugLogA("unknown avatar mime type");
 		goto LBL_Error;
 	}
 
@@ -184,17 +175,12 @@ INT_PTR CDiscordProto::SetMyAvatar(WPARAM, LPARAM lParam)
 
 	CMStringA szPayload("data:");
 
-	int iFormat = ProtoGetAvatarFileFormat(pwszFilename);
-	switch (iFormat) {
-	case PA_FORMAT_BMP: szPayload.Append("image/bmp"); break;
-	case PA_FORMAT_GIF: szPayload.Append("image/gif"); break;
-	case PA_FORMAT_PNG: szPayload.Append("image/png"); break;
-	case PA_FORMAT_JPEG: szPayload.Append("image/jpeg"); break;
-	default:
-		debugLogA("invalid file format for avatar %S: %d", pwszFilename, iFormat);
+	const wchar_t *wszMimeType = ProtoGetAvatarMimeType(ProtoGetAvatarFileFormat(pwszFilename));
+	if (wszMimeType == NULL) {
+		debugLogA("invalid file format for avatar %S", pwszFilename);
 		return 1;
 	}
-	szPayload.Append(";base64,");
+	szPayload.AppendFormat("%S;base64,", wszMimeType);
 	FILE *in = _wfopen(pwszFilename, L"rb");
 	if (in == NULL) {
 		debugLogA("cannot open avatar file %S for reading", pwszFilename);
