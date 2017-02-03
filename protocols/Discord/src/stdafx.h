@@ -41,7 +41,6 @@
 #include <m_avatars.h>
 #include <win2k.h>
 
-#include "../../libs/libcurl/include/curl/curl.h"
 #include "../../libs/zlib/src/zlib.h"
 
 extern HINSTANCE g_hInstance;
