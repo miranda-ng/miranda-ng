@@ -277,6 +277,11 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		break;
 	case VKERR_ACCESS_DENIED:
+		if (jnError["error_msg"] && jnError["error_msg"].as_mstring() == L"Access denied: can't set typing activity for this peer") {
+			debugLogA("CVkProto::CheckJsonResult VKERR_ACCESS_DENIED (can't set typing activity) - ignore");
+			break;
+		}
+
 		if (time(NULL) - getDword("LastAccessTokenTime", 0) > 60 * 60 * 24) {
 			debugLogA("CVkProto::CheckJsonResult VKERR_ACCESS_DENIED (AccessToken fail?)");
 			ClearAccessToken();
