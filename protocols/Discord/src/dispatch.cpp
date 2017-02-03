@@ -116,7 +116,7 @@ static int sttGetPresence(const JSONNode &pStatuses, const CMStringW &wszId)
 	for (auto it = pStatuses.begin(); it != pStatuses.end(); ++it) {
 		const JSONNode &s = *it;
 
-		const CMStringW &wszUserId = s["user"]["id"].as_mstring();
+		CMStringW wszUserId = s["user"]["id"].as_mstring();
 		if (wszUserId == wszId)
 			return StrToStatus(s["status"].as_mstring());
 	}
