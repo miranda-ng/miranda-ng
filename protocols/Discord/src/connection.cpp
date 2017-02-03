@@ -83,6 +83,8 @@ void CDiscordProto::OnLoggedOut()
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+
+	SetAllContactStatuses(ID_STATUS_OFFLINE);
 }
 
 void CDiscordProto::ShutdownSession()
