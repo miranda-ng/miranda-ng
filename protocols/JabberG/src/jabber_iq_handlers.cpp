@@ -151,14 +151,9 @@ BOOL CJabberProto::OnIqRequestAvatar(HXML, CJabberIqInfo *pInfo)
 	if (pictureType == PA_FORMAT_UNKNOWN)
 		return TRUE;
 
-	wchar_t *szMimeType;
-	switch (pictureType) {
-	case PA_FORMAT_JPEG:	 szMimeType = L"image/jpeg";   break;
-	case PA_FORMAT_GIF:	 szMimeType = L"image/gif";    break;
-	case PA_FORMAT_PNG:	 szMimeType = L"image/png";    break;
-	case PA_FORMAT_BMP:	 szMimeType = L"image/bmp";    break;
-	default:	return TRUE;
-	}
+	const wchar_t *szMimeType = ProtoGetAvatarMimeType(pictureType);
+	if (szMimeType == NULL)
+		return TRUE;
 
 	wchar_t szFileName[MAX_PATH];
 	GetAvatarFileName(NULL, szFileName, _countof(szFileName));

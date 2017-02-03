@@ -274,22 +274,9 @@ static void TlenGetAvatarThread(void *ptr)
 		if (resp != NULL) {
 			if (resp->resultCode/100 == 2) {
 				if (resp->dataLength > 0) {
-					int i;
-					for (i=0; i<resp->headersCount; i++ ) {
+					for (int i=0; i<resp->headersCount; i++ ) {
 						if (!strcmpi(resp->headers[i].szName, "Content-Type")) {
-							if (!strcmpi(resp->headers[i].szValue, "image/png"))
-								format = PA_FORMAT_PNG;
-							else if (!strcmpi(resp->headers[i].szValue, "image/x-png"))
-								format = PA_FORMAT_PNG;
-							else if (!strcmpi(resp->headers[i].szValue, "image/jpeg"))
-								format = PA_FORMAT_JPEG;
-							else if (!strcmpi(resp->headers[i].szValue, "image/jpg"))
-								format = PA_FORMAT_JPEG;
-							else if (!strcmpi(resp->headers[i].szValue, "image/gif"))
-								format = PA_FORMAT_GIF;
-							else if (!strcmpi(resp->headers[i].szValue, "image/bmp"))
-								format = PA_FORMAT_BMP;
-
+							format = ProtoGetAvatarFormatByMimeType(_A2T(resp->headers[i].szValue));
 							break;
 						}
 					}

@@ -1405,19 +1405,14 @@ void CJabberProto::OnIqResultGotAvatar(MCONTACT hContact, HXML n, const wchar_t 
 		return;
 
 	int pictureType;
-	if (mimeType != NULL) {
-		     if (!mir_wstrcmp(mimeType, L"image/jpeg")) pictureType = PA_FORMAT_JPEG;
-		else if (!mir_wstrcmp(mimeType, L"image/png"))  pictureType = PA_FORMAT_PNG;
-		else if (!mir_wstrcmp(mimeType, L"image/gif"))  pictureType = PA_FORMAT_GIF;
-		else if (!mir_wstrcmp(mimeType, L"image/bmp"))  pictureType = PA_FORMAT_BMP;
-		else {
-LBL_ErrFormat:
-			debugLogW(L"Invalid mime type specified for picture: %s", mimeType);
-			return;
-		}
+	if (mimeType != NULL)
+		pictureType = ProtoGetAvatarFormatByMimeType(mimeType);
+	else
+		pictureType = ProtoGetBufferFormat(body, 0);
+	if (pictureType == PA_FORMAT_UNKNOWN) {
+		debugLogW(L"Invalid mime type specified for picture: %s", mimeType);
+		return;
 	}
-	else if ((pictureType = ProtoGetBufferFormat(body, 0)) == PA_FORMAT_UNKNOWN)
-		goto LBL_ErrFormat;
 
 	PROTO_AVATAR_INFORMATION ai;
 	ai.format = pictureType;

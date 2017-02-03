@@ -3,19 +3,6 @@
 
 #define PA_FORMAT_MAX		7
 
-const LPSTR lpcszContentType[9] =
-{
-	"", 			// PA_FORMAT_UNKNOWN
-	"image/png", 		// PA_FORMAT_PNG
-	"image/jpeg", 		// PA_FORMAT_JPEG
-	"image/icon", 		// PA_FORMAT_ICON
-	"image/x-xbitmap", 	// PA_FORMAT_BMP
-	"image/gif", 		// PA_FORMAT_GIF
-	"", 			// PA_FORMAT_SWF
-	"", 			// PA_FORMAT_XML
-	NULL
-};
-
 struct MRA_AVATARS_QUEUE : public FIFO_MT
 {
 	HNETLIBUSER hNetlibUser;
@@ -405,14 +392,8 @@ DWORD MraAvatarsHttpTransaction(HNETLIBCONN hConnection, DWORD dwRequestType, LP
 				*pbKeepAlive = !_strnicmp(pnlhr->headers[i].szValue, "keep-alive", 10);
 		}
 		else if (!_strnicmp(pnlhr->headers[i].szName, "Content-Type", 12)) {
-			if (pdwFormat) {
-				for (DWORD j = 0; j < PA_FORMAT_MAX; j++) {
-					if (!_stricmp(pnlhr->headers[i].szValue, lpcszContentType[j])) {
-						*pdwFormat = j;
-						break;
-					}
-				}
-			}
+			if (pdwFormat)
+				*pdwFormat = ProtoGetAvatarFormatByMimeType(_A2T(pnlhr->headers[i].szValue));
 		}
 		else if (!_strnicmp(pnlhr->headers[i].szName, "Content-Length", 14)) {
 			if (pdwAvatarSize)

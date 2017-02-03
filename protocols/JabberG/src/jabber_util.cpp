@@ -587,20 +587,10 @@ wchar_t* __stdcall JabberStripJid(const wchar_t *jid, wchar_t *dest, size_t dest
 LPCTSTR __stdcall JabberGetPictureType(HXML node, const char *picBuf)
 {
 	if (LPCTSTR ptszType = XmlGetText(XmlGetChild(node, "TYPE")))
-		if (!mir_wstrcmp(ptszType, L"image/jpeg") ||
-			 !mir_wstrcmp(ptszType, L"image/png") ||
-			 !mir_wstrcmp(ptszType, L"image/gif") ||
-			 !mir_wstrcmp(ptszType, L"image/bmp"))
+		if (ProtoGetAvatarFormatByMimeType(ptszType) != PA_FORMAT_UNKNOWN)
 			return ptszType;
 
-	switch (ProtoGetBufferFormat(picBuf)) {
-		case PA_FORMAT_GIF:	return L"image/gif";
-		case PA_FORMAT_BMP:  return L"image/bmp";
-		case PA_FORMAT_PNG:  return L"image/png";
-		case PA_FORMAT_JPEG: return L"image/jpeg";
-	}
-
-	return NULL;
+	return ProtoGetAvatarMimeType(ProtoGetBufferFormat(picBuf));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

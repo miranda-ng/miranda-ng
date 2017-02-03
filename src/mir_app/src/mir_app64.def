@@ -396,3 +396,5 @@ Netlib_NtlmCreateResponse @383
 ?makeBlob@DB_AUTH_BLOB@@AEAAPEAEXZ @397 NONAME
 ?size@DB_AUTH_BLOB@@QEBAKXZ @398 NONAME
 Chat_UnescapeTags @399 NONAME
+ProtoGetAvatarFormatByMimeType @400
+ProtoGetAvatarMimeType @401

@@ -335,6 +335,12 @@ MIR_APP_DLL(int) ProtoGetAvatarFormat(const wchar_t *ptszFileName);
 // detects image format by its contents
 MIR_APP_DLL(int) ProtoGetAvatarFileFormat(const wchar_t *ptszFileName);
 
+// returns the mime type according to a picture type (PA_*)	passed
+MIR_APP_DLL(const wchar_t*) ProtoGetAvatarMimeType(int iFileType);
+
+// returns the picture type (PA_*) according to a mime type passed
+MIR_APP_DLL(int) ProtoGetAvatarFormatByMimeType(const wchar_t *pwszMimeType);
+
 // returns the image format and extension by the first bytes of picture
 // ptszExtension might be NULL
 #if defined( __cplusplus )

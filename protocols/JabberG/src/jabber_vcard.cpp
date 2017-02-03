@@ -1132,15 +1132,9 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName)
 					DWORD nRead;
 					if (ReadFile(hFile, buffer, st.st_size, &nRead, NULL)) {
 						ptrA str(mir_base64_encode((PBYTE)(LPSTR)buffer, nRead));
-						if (str != NULL) {
+						const wchar_t *szFileType = ProtoGetAvatarMimeType(ProtoGetBufferFormat(buffer));
+						if (str != NULL && szFileType != NULL) {
 							n = v << XCHILD(L"PHOTO");
-							wchar_t *szFileType;
-							switch (ProtoGetBufferFormat(buffer)) {
-								case PA_FORMAT_PNG:  szFileType = L"image/png";   break;
-								case PA_FORMAT_GIF:  szFileType = L"image/gif";   break;
-								case PA_FORMAT_BMP:  szFileType = L"image/bmp";   break;
-								default:             szFileType = L"image/jpeg";  break;
-							}
 							n << XCHILD(L"TYPE", szFileType);
 							n << XCHILD(L"BINVAL", _A2T(str));
 
