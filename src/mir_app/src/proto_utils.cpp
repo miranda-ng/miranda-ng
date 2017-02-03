@@ -239,14 +239,14 @@ MIR_APP_DLL(int) ProtoGetAvatarFileFormat(const wchar_t *ptszFileName)
 
 static wchar_t *wszMimeTypes[] =
 {
-	L"binary",           // PA_FORMAT_UNKNOWN
-	L"image/png",			// PA_FORMAT_PNG
-	L"image/jpeg",			// PA_FORMAT_JPEG
-	L"image/icon",       // PA_FORMAT_ICON
-	L"image/bmp",			// PA_FORMAT_BMP
-	L"image/gif",        // PA_FORMAT_GIF
-	L"image/swf",			// PA_FORMAT_SWF
-	L"application/xml"   // PA_FORMAT_XML
+	L"application/octet-stream", // PA_FORMAT_UNKNOWN
+	L"image/png",                // PA_FORMAT_PNG
+	L"image/jpeg",               // PA_FORMAT_JPEG
+	L"image/icon",               // PA_FORMAT_ICON
+	L"image/bmp",                // PA_FORMAT_BMP
+	L"image/gif",                // PA_FORMAT_GIF
+	L"image/swf",                // PA_FORMAT_SWF
+	L"application/xml"           // PA_FORMAT_XML
 };
 
 MIR_APP_DLL(const wchar_t*) ProtoGetAvatarMimeType(int iFileType)
