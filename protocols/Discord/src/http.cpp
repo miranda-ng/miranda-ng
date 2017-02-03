@@ -59,11 +59,11 @@ AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR
 	}
 	else flags |= NLHRF_NODUMPSEND;
 
-	AddHeader("Content-Type", "application/json");
 	if (pRoot != NULL) {
 		ptrW text(json_write(pRoot));
 		pData = mir_utf8encodeW(text);
 		dataLength = (int)mir_strlen(pData);
+		AddHeader("Content-Type", "application/json");
 	}
 
 	requestType = iRequestType;

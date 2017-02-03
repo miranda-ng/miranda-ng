@@ -112,6 +112,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	//////////////////////////////////////////////////////////////////////////////////////
 	// threads
 
+	void __cdecl SendFileThread(void*);
 	void __cdecl ServerThread(void*);
 	void __cdecl SearchThread(void *param);
 	void __cdecl SendMessageAckThread(void* param);
@@ -215,6 +216,8 @@ public:
 	virtual int __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt) override;
 	virtual int __cdecl SendMsg(MCONTACT hContact, int flags, const char* pszSrc) override;
 
+	virtual HANDLE __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
+
 	virtual int __cdecl SetStatus(int iNewStatus) override;
 	virtual int __cdecl OnEvent(PROTOEVENTTYPE, WPARAM, LPARAM) override;
 
@@ -258,6 +261,7 @@ public:
 	void OnReceiveCreateChannel(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveAuth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveChannels(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGuilds(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
