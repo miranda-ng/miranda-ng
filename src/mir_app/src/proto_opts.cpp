@@ -981,10 +981,12 @@ void CAccountListCtrl::InitRename()
 
 static INT_PTR OptProtosShow(WPARAM, LPARAM)
 {
-	if (!pAccMgr)
+	if (!pAccMgr) {
 		pAccMgr = new CAccountManagerDlg();
+		pAccMgr->Show();
+	}
+	else ShowWindow(pAccMgr->GetHwnd(), SW_RESTORE);
 
-	pAccMgr->Show(SW_RESTORE);
 	SetForegroundWindow(pAccMgr->GetHwnd());
 	SetActiveWindow(pAccMgr->GetHwnd());
 	return 0;
