@@ -199,10 +199,15 @@ void CDiscordProto::SetServerStatus(int iStatus)
 	else {
 		const char *pszStatus;
 		switch (iStatus) {
-			case ID_STATUS_NA: pszStatus = "idle"; break;
-			case ID_STATUS_DND: pszStatus = "dnd"; break;
-			case ID_STATUS_INVISIBLE: pszStatus = "invisible"; break;
-			default: pszStatus = "online"; break;
+		case ID_STATUS_AWAY:
+		case ID_STATUS_NA: 
+			pszStatus = "idle"; break;
+		case ID_STATUS_DND:
+			pszStatus = "dnd"; break;
+		case ID_STATUS_INVISIBLE:
+			pszStatus = "invisible"; break;
+		default:
+			pszStatus = "online"; break;
 		}
 		JSONNode root; root << CHAR_PARAM("status", pszStatus);
 		Push(new AsyncHttpRequest(this, REQUEST_PATCH, "/users/@me/settings", NULL, &root));
