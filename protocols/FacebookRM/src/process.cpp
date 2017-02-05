@@ -80,7 +80,7 @@ void FacebookProto::ProcessFriendList(void*)
 
 			// If this contact is page, set it as invisible (if enabled in options)
 			if (pagesAlwaysOnline && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE) == CONTACT_PAGE) {
-				setWord(hContact, "Status", ID_STATUS_ONLINE);
+				setWord(hContact, "Status", ID_STATUS_INVISIBLE);
 			}
 
 			facebook_user *fbu;
