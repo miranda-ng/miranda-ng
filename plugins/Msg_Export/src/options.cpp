@@ -339,8 +339,8 @@ BOOL bApplyChanges(HWND hwndDlg)
 	wchar_t szTemp[500];
 
 	int nTmp = GetDlgItemInt(hwndDlg, IDC_MAX_CLOUMN_WIDTH, &bTrans, TRUE);
-	if (!bTrans || nTmp < 5) {
-		mir_snwprintf(szTemp, TranslateT("Max line width must be at least %d"), 5);
+	if (!bTrans || (nTmp > 0 && nTmp < 5)) {
+		mir_snwprintf(szTemp, TranslateT("Max line width must be at least %d. Or use 0 for no limit."), 5);
 		MessageBox(hwndDlg, szTemp, MSG_BOX_TITEL, MB_OK);
 		bRet = false;
 	}

@@ -8,6 +8,7 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include <winres.h>
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -24,18 +25,18 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include <winres.h>\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -63,11 +64,11 @@ BEGIN
     COMBOBOX        IDC_FILE_VIEWER,11,75,125,89,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Browse",IDC_FILE_VIEWER_BROWSE,141,74,43,14
     EDITTEXT        IDC_MAX_CLOUMN_WIDTH,259,11,39,14,ES_AUTOHSCROLL | ES_NUMBER
-    COMBOBOX        IDC_EXPORT_TIMEFORMAT,241,29,57,122,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Use UTF8 in new files",IDC_USE_UTF8_IN_NEW_FILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,46,104,10
-    CONTROL         "Append extra new line",IDC_APPEND_NEWLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,59,104,10
+    COMBOBOX        IDC_EXPORT_TIMEFORMAT,241,38,57,122,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Use UTF8 in new files",IDC_USE_UTF8_IN_NEW_FILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,55,104,10
+    CONTROL         "Append extra new line",IDC_APPEND_NEWLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,68,104,10
     CONTROL         "Use << and >>",IDC_USE_LESS_AND_GREATER_IN_EXPORT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,72,104,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,81,104,10
     CONTROL         "List1",IDC_MAP_USER_LIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_EDITLABELS | WS_BORDER | WS_TABSTOP,5,100,299,114
     PUSHBUTTON      "Auto filename",IDC_AUTO_FILENAME,5,218,63,14
     PUSHBUTTON      "Clear all",IDC_CLEAR_ALL,86,218,63,14
@@ -75,7 +76,8 @@ BEGIN
     PUSHBUTTON      "Export all history",IDC_EXPORTALL,235,218,63,14
     GROUPBOX        "Export directory",IDC_STATIC,5,0,181,46
     LTEXT           "Max column width",IDC_STATIC,194,14,58,8
-    LTEXT           "Time format",IDC_STATIC,194,31,38,8
+    LTEXT           "Note: 0 = no limit",IDC_STATIC,194,26,104,8
+    LTEXT           "Time format",IDC_STATIC,194,40,38,8
     GROUPBOX        "Export format",IDC_STATIC,190,0,114,94
     LTEXT           "Default file",IDC_STATIC,11,32,34,8
     GROUPBOX        "File viewer",IDC_STATIC,5,49,181,45
@@ -96,7 +98,7 @@ STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_
 CAPTION "History file for %s (%s format %s)"
 FONT 8, "MS Sans Serif"
 BEGIN
-    CONTROL         "",IDC_RICHEDIT,"RichEdit50W",TCS_HOTTRACK | TCS_VERTICAL | TCS_BUTTONS | TCS_RAGGEDRIGHT | TCS_MULTISELECT | WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP,6,7,333,224
+    CONTROL         "",IDC_RICHEDIT,"RichEdit50W",WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP | 0x9c4,6,7,333,224
     PUSHBUTTON      "&Find...",IDC_FV_FIND,46,238,50,14
     PUSHBUTTON      "&External",IDC_FV_EXTERNAL,142,238,50,14
     DEFPUSHBUTTON   "&Close",IDOK,246,238,50,14
@@ -228,3 +230,4 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+

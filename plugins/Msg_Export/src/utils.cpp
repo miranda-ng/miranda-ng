@@ -1308,7 +1308,9 @@ bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const wchar_t *pszSrc, bool
 			if (pszSrc[nLineLen] == '\n' || pszSrc[nLineLen] == '\r')
 				break;
 
-			if (nLineLen >= nMaxLineWidth) {	// ok the line was not broken. we need to force a break
+			// if user set nMaxLineWidth to 0, we don't break anything, otherwise check the length
+			if (nMaxLineWidth != 0 && nLineLen >= nMaxLineWidth) {
+				// ok the line was not broken. we need to force a break
 				// we will scan backwards again to finde a space !!
 				// then we will look for a ? and so on.
 

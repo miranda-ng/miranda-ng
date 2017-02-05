@@ -189,7 +189,7 @@ extern "C" __declspec(dllexport) int Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 
 	nMaxLineWidth = db_get_w(NULL, MODULE, "MaxLineWidth", nMaxLineWidth);
-	if (nMaxLineWidth < 5)
+	if (nMaxLineWidth > 0 && nMaxLineWidth < 5)
 		nMaxLineWidth = 5;
 
 	sExportDir = _DBGetString(NULL, MODULE, "ExportDir", L"%dbpath%\\MsgExport\\");
