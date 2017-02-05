@@ -48,11 +48,15 @@ extern bool bReplaceHistory;
 tstring sGetErrorString(DWORD dwError);
 tstring sGetErrorString();
 void DisplayLastError(const wchar_t *pszError);
+void DisplayErrorDialog(const wchar_t *pszError, tstring& sFilePath, DBEVENTINFO *dbei);
 
 wchar_t *CheckedTranslate(const wchar_t *szEng, int nFormatCount = -1);
 
 void SaveSettings();
 void ShowDebugInfo();
+
+HANDLE openCreateFile(tstring sFilePath);
+bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, tstring sFilePath);
 
 int nExportEvent(WPARAM wparam, LPARAM lparam);
 int nContactDeleted(WPARAM wparam, LPARAM lparam);

@@ -866,9 +866,11 @@ void DisplayErrorDialog(const wchar_t *pszError, tstring& sFilePath, DBEVENTINFO
 /////////////////////////////////////////////////////////////////////
 // Member Function : ExportDBEventInfo
 // Type            : Global
-// Parameters      : hContact - handle to contact
-//                   dbei     - Event to export
-// Returns         : void
+// Parameters      : hContact  - handle to contact
+//                   hFile     - handle to file
+//                   sFilePath - path to file
+//                   dbei      - Event to export
+// Returns         : false on serious error, when file should be closed to not lost/overwrite any data
 // Description     : 
 //                   
 // References      : -
@@ -877,27 +879,8 @@ void DisplayErrorDialog(const wchar_t *pszError, tstring& sFilePath, DBEVENTINFO
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
+bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, tstring sFilePath, DBEVENTINFO &dbei)
 {
-	wchar_t szTemp[500];
-	tstring sFilePath = GetFilePathFromUser(hContact);
-
-	GetLastError();// Clear last error !!
-
-	HANDLE hFile = CreateFile(sFilePath.c_str(), GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-	if (hFile == INVALID_HANDLE_VALUE) {
-		// this might be because the path isent created 
-		// so we will try to create it 
-		if (bCreatePathToFile(sFilePath)) {
-			hFile = CreateFile(sFilePath.c_str(), GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-		}
-	}
-
-	if (hFile == INVALID_HANDLE_VALUE) {
-		DisplayErrorDialog(LPGENW("Failed to open or create file :\n"), sFilePath, NULL);
-		return;
-	}
-
 	tstring sLocalUser;
 	tstring sRemoteUser;
 	string::size_type nFirstColumnWidth;
@@ -915,6 +898,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 		nFirstColumnWidth += 2;
 	}
 
+	wchar_t szTemp[500];
 	bool bWriteUTF8Format = false;
 
 	{
@@ -932,8 +916,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 				// we need to aborte mission here because if we continue we risk 
 				// overwriting old log.
 				DisplayErrorDialog(LPGENW("Failed to move to the end of the file :\n"), sFilePath, NULL);
-				CloseHandle(hFile);
-				return;
+				return false;
 			}
 		}
 		else {
@@ -941,8 +924,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 			if (bWriteUTF8Format) {
 				if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1)) {
 					DisplayErrorDialog(LPGENW("Failed to UTF8 byte order code to file :\n"), sFilePath, NULL);
-					CloseHandle(hFile);
-					return;
+					return false;
 				}
 			}
 			tstring output = L"------------------------------------------------\r\n"
@@ -986,8 +968,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 
 			if (!bWriteTextToFile(hFile, output.data(), bWriteUTF8Format, (int)output.size())) {
 				DisplayErrorDialog(LPGENW("Failed to write user details to file :\n"), sFilePath, NULL);
-				CloseHandle(hFile);
-				return;
+				return false;
 			}
 		}
 	}
@@ -1003,8 +984,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 	// Write first part of line with name and timestamp
 	if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, nIndent)) {
 		DisplayErrorDialog(LPGENW("Failed to write timestamp and username to file :\n"), sFilePath, &dbei);
-		CloseHandle(hFile);
-		return;
+		return false;
 	}
 
 	if (dbei.pBlob != NULL && dbei.cbBlob >= 2) {
@@ -1190,8 +1170,8 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 	}
 
 	bWriteToFile(hFile, bAppendNewLine ? "\r\n\r\n" : "\r\n");
-	CloseHandle(hFile);
 	UpdateFileViews(sFilePath.c_str());
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -1208,6 +1188,21 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
+HANDLE openCreateFile(tstring sFilePath)
+{
+	GetLastError();// Clear last error !!
+
+	HANDLE hFile = CreateFile(sFilePath.c_str(), GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (hFile == INVALID_HANDLE_VALUE) {
+		// this might be because the path isent created 
+		// so we will try to create it 
+		if (bCreatePathToFile(sFilePath)) {
+			hFile = CreateFile(sFilePath.c_str(), GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		}
+	}
+
+	return hFile;
+}
 
 int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 {
@@ -1226,14 +1221,55 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 	}
 
 	if (!db_event_get(hDbEvent, &dbei)) {
-		char szTemp[500];
-		mir_snprintf(szTemp, "DisableProt_%s", dbei.szModule);
-		if (db_get_b(NULL, MODULE, szTemp, 1))
-			ExportDBEventInfo(hContact, dbei);
+		// Open/create file for writing
+		tstring sFilePath = GetFilePathFromUser(hContact);
+		HANDLE hFile = openCreateFile(sFilePath);
+		if (hFile == INVALID_HANDLE_VALUE) {
+			DisplayErrorDialog(LPGENW("Failed to open or create file :\n"), sFilePath, NULL);
+		}
+		else {
+			// Write the event
+			char szTemp[500];
+			mir_snprintf(szTemp, "DisableProt_%s", dbei.szModule);
+			if (db_get_b(NULL, MODULE, szTemp, 1))
+				ExportDBEventInfo(hContact, hFile, sFilePath, dbei);
+
+			// Close the file
+			CloseHandle(hFile);
+		}
 	}
 	if (dbei.pBlob)
 		free(dbei.pBlob);
 	return 0;
+}
+
+bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, tstring sFilePath)
+{
+	if (!db_get_b(hContact, MODULE, "EnableLog", 1))
+		return 0;
+
+	DBEVENTINFO dbei = {};
+	int nSize = db_event_getBlobSize(hDbEvent);
+	if (nSize > 0) {
+		dbei.cbBlob = nSize;
+		dbei.pBlob = (PBYTE)malloc(dbei.cbBlob + 2);
+		dbei.pBlob[dbei.cbBlob] = 0;
+		dbei.pBlob[dbei.cbBlob + 1] = 0;
+		// Double null terminate, this shut pervent most errors 
+		// where the blob received has an invalid format
+	}
+
+	bool result = true;
+	if (!db_event_get(hDbEvent, &dbei)) {
+		// Write the event
+		char szTemp[500];
+		mir_snprintf(szTemp, "DisableProt_%s", dbei.szModule);
+		if (db_get_b(NULL, MODULE, szTemp, 1))
+			result = ExportDBEventInfo(hContact, hFile, sFilePath, dbei);
+	}
+	if (dbei.pBlob)
+		free(dbei.pBlob);
+	return result;
 }
 
 #ifdef _UNICODE

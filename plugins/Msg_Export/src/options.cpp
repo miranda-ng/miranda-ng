@@ -237,11 +237,25 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected)
 		// events with same time will not be swaped, they will 
 		// remain in there original order
 
+		// Open/create file for writing
+		wstring sFilePath = FileIterator->first;
+		HANDLE hFile = openCreateFile(sFilePath);
+		if (hFile == INVALID_HANDLE_VALUE) {
+			DisplayErrorDialog(LPGENW("Failed to open or create file :\n"), sFilePath, NULL);
+			continue;
+		}
+
 		list< CLDBEvent >::const_iterator iterator;
 		for (iterator = FileIterator->second.begin(); iterator != FileIterator->second.end(); ++iterator) {
 			MEVENT hDbEvent = (*iterator).hDbEvent;
-			nExportEvent((WPARAM)(*iterator).hUser, (LPARAM)hDbEvent);
+			MCONTACT hContact = (*iterator).hUser;
+			if (!bExportEvent(hContact, hDbEvent, hFile, sFilePath))
+				break; // serious error, we should close the file and don't continue with it
 		}
+
+		// Close the file
+		CloseHandle(hFile);
+
 		SendMessage(hProg, PBM_SETPOS, ++nCur, 0);
 		RedrawWindow(hDlg, NULL, NULL, RDW_ALLCHILDREN | RDW_UPDATENOW);
 	}
