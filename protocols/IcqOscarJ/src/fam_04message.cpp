@@ -1628,7 +1628,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 		}
 		{
 			DB_AUTH_BLOB blob(hContact, pszMsgField[0], pszMsgField[1], pszMsgField[2], pszMsgField[3], pszMsgField[5]);
-			*(DWORD*)(PBYTE)blob = dwUin;
+			blob.set_uin(dwUin);
 
 			PROTORECVEVENT pre = { 0 };
 			pre.timestamp = dwTimestamp;

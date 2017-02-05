@@ -680,7 +680,9 @@ public:
 	__forceinline const char* get_lastName()  const { return m_szLastName;  }
 	__forceinline const char* get_email()     const { return m_szEmail;     }
 	__forceinline const char* get_reason()    const { return m_szReason;    }
-	__forceinline DWORD       get_uin()       const { return m_dwUin;       }
+	
+	__forceinline DWORD get_uin() const { return m_dwUin; }
+	__forceinline void set_uin(DWORD dwValue) { m_dwUin = dwValue; }
 };
 
 #endif // M_DATABASE_H__

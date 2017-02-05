@@ -1392,7 +1392,7 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, size_t wLen)
 		szNick = null_strdup(szUid);
 
 	DB_AUTH_BLOB blob(hContact, szNick, 0, 0, 0, szReason);
-	*(DWORD*)(PBYTE)blob = dwUin;
+	blob.set_uin(dwUin);
 
 	setByte(hContact, "Grant", 1);
 

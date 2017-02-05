@@ -265,6 +265,7 @@ MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *str)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 DB_AUTH_BLOB::DB_AUTH_BLOB(MCONTACT hContact, LPCSTR nick, LPCSTR fname, LPCSTR lname, LPCSTR email, LPCSTR reason) :
+	m_dwUin(0),
 	m_hContact(hContact),
 	m_szNick(mir_strdup(nick)),
 	m_szFirstName(mir_strdup(fname)),
@@ -278,6 +279,7 @@ DB_AUTH_BLOB::DB_AUTH_BLOB(MCONTACT hContact, LPCSTR nick, LPCSTR fname, LPCSTR 
 DB_AUTH_BLOB::DB_AUTH_BLOB(PBYTE blob)
 {
 	PBYTE pCurBlob = blob;
+	m_dwUin = *(PDWORD)pCurBlob;
 	pCurBlob += sizeof(DWORD);
 	m_hContact = *(PDWORD)pCurBlob;
 	pCurBlob += sizeof(DWORD);
@@ -298,7 +300,7 @@ PBYTE DB_AUTH_BLOB::makeBlob()
 	PBYTE pBlob, pCurBlob;
 	pCurBlob = pBlob = (PBYTE)mir_alloc(m_size + 1);
 
-	*((PDWORD)pCurBlob) = 0;
+	*((PDWORD)pCurBlob) = m_dwUin;
 	pCurBlob += sizeof(DWORD);
 	*((PDWORD)pCurBlob) = (DWORD)m_hContact;
 	pCurBlob += sizeof(DWORD);
