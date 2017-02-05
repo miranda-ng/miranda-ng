@@ -879,7 +879,7 @@ void DisplayErrorDialog(const wchar_t *pszError, tstring& sFilePath, DBEVENTINFO
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, tstring sFilePath, DBEVENTINFO &dbei)
+bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, tstring sFilePath, DBEVENTINFO &dbei, bool bAppendOnly)
 {
 	tstring sLocalUser;
 	tstring sRemoteUser;
@@ -901,7 +901,10 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, tstring sFilePath, DBEVE
 	wchar_t szTemp[500];
 	bool bWriteUTF8Format = false;
 
-	{
+	if (bAppendOnly) {
+		bWriteUTF8Format = bUseUtf8InNewFiles;
+	}
+	else {
 		DWORD dwHighSize = 0;
 		DWORD dwLowSize = GetFileSize(hFile, &dwHighSize);
 
@@ -1232,7 +1235,7 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 	}
 
 	// Write the event
-	bExportEvent((MCONTACT)hContact, (MEVENT)hDbEvent, hFile, sFilePath);
+	bExportEvent((MCONTACT)hContact, (MEVENT)hDbEvent, hFile, sFilePath, false);
 
 	// Close the file
 	CloseHandle(hFile);
@@ -1240,7 +1243,7 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 	return 0;
 }
 
-bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, tstring sFilePath)
+bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, tstring sFilePath, bool bAppendOnly)
 {
 	DBEVENTINFO dbei = {};
 	int nSize = db_event_getBlobSize(hDbEvent);
@@ -1256,7 +1259,7 @@ bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, tstring sFil
 	bool result = true;
 	if (!db_event_get(hDbEvent, &dbei)) {
 		// Write the event
-		result = ExportDBEventInfo(hContact, hFile, sFilePath, dbei);
+		result = ExportDBEventInfo(hContact, hFile, sFilePath, dbei, bAppendOnly);
 	}
 	if (dbei.pBlob)
 		free(dbei.pBlob);

@@ -249,12 +249,18 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected)
 			continue;
 		}
 
+		// At first write we need to have this false (to write file header, etc.), for each next write to same file use true
+		bool bAppendOnly = false;
+
 		list< CLDBEvent >::const_iterator iterator;
 		for (iterator = FileIterator->second.begin(); iterator != FileIterator->second.end(); ++iterator) {
 			MEVENT hDbEvent = (*iterator).hDbEvent;
 			MCONTACT hContact = (*iterator).hUser;
-			if (!bExportEvent(hContact, hDbEvent, hFile, sFilePath))
+			if (!bExportEvent(hContact, hDbEvent, hFile, sFilePath, bAppendOnly))
 				break; // serious error, we should close the file and don't continue with it
+
+			// Set this flag, because we're appending to same file now
+			bAppendOnly = true;
 		}
 
 		// Close the file

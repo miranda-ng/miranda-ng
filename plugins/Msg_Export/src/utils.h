@@ -57,7 +57,7 @@ void ShowDebugInfo();
 
 bool bIsExportEnabled(MCONTACT hContact);
 HANDLE openCreateFile(tstring sFilePath);
-bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, tstring sFilePath);
+bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, tstring sFilePath, bool bAppendOnly);
 
 int nExportEvent(WPARAM wparam, LPARAM lparam);
 int nContactDeleted(WPARAM wparam, LPARAM lparam);
