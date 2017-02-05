@@ -1204,50 +1204,44 @@ HANDLE openCreateFile(tstring sFilePath)
 	return hFile;
 }
 
-int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
+bool bIsExportEnabled(MCONTACT hContact)
 {
 	if (!db_get_b(hContact, MODULE, "EnableLog", 1))
+		return false;
+
+	const char *szProto = GetContactProto(hContact);
+	char szTemp[500];
+	mir_snprintf(szTemp, "DisableProt_%s", szProto);
+	if (!db_get_b(NULL, MODULE, szTemp, 1))
+		return false;
+
+	return true;
+}
+
+int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
+{
+	if (!bIsExportEnabled(hContact))
 		return 0;
-
-	DBEVENTINFO dbei = {};
-	int nSize = db_event_getBlobSize(hDbEvent);
-	if (nSize > 0) {
-		dbei.cbBlob = nSize;
-		dbei.pBlob = (PBYTE)malloc(dbei.cbBlob + 2);
-		dbei.pBlob[dbei.cbBlob] = 0;
-		dbei.pBlob[dbei.cbBlob + 1] = 0;
-		// Double null terminate, this shut pervent most errors 
-		// where the blob received has an invalid format
+	
+	// Open/create file for writing
+	tstring sFilePath = GetFilePathFromUser(hContact);
+	HANDLE hFile = openCreateFile(sFilePath);
+	if (hFile == INVALID_HANDLE_VALUE) {
+		DisplayErrorDialog(LPGENW("Failed to open or create file :\n"), sFilePath, NULL);
+		return 0;
 	}
 
-	if (!db_event_get(hDbEvent, &dbei)) {
-		// Open/create file for writing
-		tstring sFilePath = GetFilePathFromUser(hContact);
-		HANDLE hFile = openCreateFile(sFilePath);
-		if (hFile == INVALID_HANDLE_VALUE) {
-			DisplayErrorDialog(LPGENW("Failed to open or create file :\n"), sFilePath, NULL);
-		}
-		else {
-			// Write the event
-			char szTemp[500];
-			mir_snprintf(szTemp, "DisableProt_%s", dbei.szModule);
-			if (db_get_b(NULL, MODULE, szTemp, 1))
-				ExportDBEventInfo(hContact, hFile, sFilePath, dbei);
+	// Write the event
+	bExportEvent((MCONTACT)hContact, (MEVENT)hDbEvent, hFile, sFilePath);
 
-			// Close the file
-			CloseHandle(hFile);
-		}
-	}
-	if (dbei.pBlob)
-		free(dbei.pBlob);
+	// Close the file
+	CloseHandle(hFile);
+
 	return 0;
 }
 
 bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, tstring sFilePath)
 {
-	if (!db_get_b(hContact, MODULE, "EnableLog", 1))
-		return 0;
-
 	DBEVENTINFO dbei = {};
 	int nSize = db_event_getBlobSize(hDbEvent);
 	if (nSize > 0) {
@@ -1262,10 +1256,7 @@ bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, tstring sFil
 	bool result = true;
 	if (!db_event_get(hDbEvent, &dbei)) {
 		// Write the event
-		char szTemp[500];
-		mir_snprintf(szTemp, "DisableProt_%s", dbei.szModule);
-		if (db_get_b(NULL, MODULE, szTemp, 1))
-			result = ExportDBEventInfo(hContact, hFile, sFilePath, dbei);
+		result = ExportDBEventInfo(hContact, hFile, sFilePath, dbei);
 	}
 	if (dbei.pBlob)
 		free(dbei.pBlob);

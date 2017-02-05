@@ -55,6 +55,7 @@ wchar_t *CheckedTranslate(const wchar_t *szEng, int nFormatCount = -1);
 void SaveSettings();
 void ShowDebugInfo();
 
+bool bIsExportEnabled(MCONTACT hContact);
 HANDLE openCreateFile(tstring sFilePath);
 bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, tstring sFilePath);
 

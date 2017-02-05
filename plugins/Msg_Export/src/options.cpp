@@ -210,6 +210,10 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected)
 
 			MCONTACT hContact = (MCONTACT)sItem.lParam;
 
+			// Check if we should ignore this contact/protocol
+			if (!bIsExportEnabled(hContact))
+				continue;
+
 			list<CLDBEvent> &rclCurList = AllEvents[GetFilePathFromUser(hContact)];
 
 			MEVENT hDbEvent = db_event_first(hContact);
