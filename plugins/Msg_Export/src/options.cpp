@@ -128,14 +128,20 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 INT_PTR CALLBACK __stdcall DialogProc(
 	HWND hwndDlg,  // handle to dialog box
 	UINT uMsg,     // message
-	WPARAM /*wParam*/, // first message parameter
-	LPARAM /*lParam*/  // second message parameter
+	WPARAM wParam, // first message parameter
+	LPARAM lParam  // second message parameter
 	)
 {
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hwndDlg);
+			return TRUE;
+		}
+	case WM_CLOSE:
+		{
+			if (lParam > 0)
+				DestroyWindow(hwndDlg);
 			return TRUE;
 		}
 	}
@@ -155,7 +161,6 @@ void exportContactsMessages(void *p)
 	HWND hProg = GetDlgItem(hDlg, IDC_EXPORT_PROGRESS);
 	HWND hStatus = GetDlgItem(hDlg, IDC_EXP_ALL_STATUS);
 
-	ShowWindow(hDlg, SW_SHOWNORMAL);
 	SendMessage(hProg, PBM_SETRANGE, 0, MAKELPARAM(0, data->contacts.size() - 1));
 	SetWindowText(hStatus, TranslateT("Reading database information (Phase 1 of 2)"));
 
@@ -231,10 +236,9 @@ void exportContactsMessages(void *p)
 
 		SendMessage(hProg, PBM_SETPOS, ++nCur, 0);
 		RedrawWindow(hDlg, NULL, NULL, RDW_ALLCHILDREN | RDW_UPDATENOW);
-		UpdateWindow(hDlg);
 	}
 
-	DestroyWindow(hDlg);
+	SendMessage(hDlg, WM_CLOSE, 0, 1);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -293,6 +297,7 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected)
 
 	// Create progress dialog
 	HWND hDlg = data->hDialog = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EXPORT_ALL_DLG), NULL, DialogProc);
+	ShowWindow(hDlg, SW_SHOWNORMAL);
 	
 	// Process the export in other thread
 	mir_forkthread(&exportContactsMessages, data);
