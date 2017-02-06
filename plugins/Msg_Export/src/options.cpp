@@ -142,38 +142,30 @@ INT_PTR CALLBACK __stdcall DialogProc(
 	return FALSE;
 }
 
+struct ExportDialogData {
+	list<MCONTACT> contacts;
+	HWND hDialog;
+};
+
 void exportContactsMessages(void *p)
 {
-	list< MCONTACT > *contacts = (list< MCONTACT >*)p;
-
-	HWND hParent = NULL;
-	HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EXPORT_ALL_DLG), hParent, DialogProc);
+	ExportDialogData *data = (ExportDialogData *)p;
+	
+	HWND hDlg = data->hDialog;
 	HWND hProg = GetDlgItem(hDlg, IDC_EXPORT_PROGRESS);
 	HWND hStatus = GetDlgItem(hDlg, IDC_EXP_ALL_STATUS);
 
-	SendMessage(hProg, PBM_SETRANGE, 0, MAKELPARAM(0, contacts->size() - 1));
-
+	ShowWindow(hDlg, SW_SHOWNORMAL);
+	SendMessage(hProg, PBM_SETRANGE, 0, MAKELPARAM(0, data->contacts.size() - 1));
 	SetWindowText(hStatus, TranslateT("Reading database information (Phase 1 of 2)"));
-
-	// position and show proigrassbar dialog 
-	/*RECT rParrent, rDlg;
-	if (GetWindowRect(hParent, &rParrent) && GetWindowRect(hDlg, &rDlg)) {
-		int x = ((rParrent.right + rParrent.left) / 2) - ((rDlg.right - rDlg.left) / 2);
-		int y = ((rParrent.bottom + rParrent.top) / 2) - ((rDlg.bottom - rDlg.top) / 2);
-		SetWindowPos(hDlg, 0, x, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW);
-	}
-	else*/ ShowWindow(hDlg, SW_SHOWNORMAL);
 
 	// map with list to stored all DB history before it is exported 
 	map<tstring, list< CLDBEvent >, less<tstring> > AllEvents;
 	{
 		// reading from the database !!! 
-		LVITEM sItem = { 0 };
-		sItem.mask = LVIF_PARAM;
-
 		int nCur = 0;
 		list< MCONTACT >::const_iterator iterator;
-		for (iterator = contacts->begin(); iterator != contacts->end(); ++iterator) {
+		for (iterator = data->contacts.begin(); iterator != data->contacts.end(); ++iterator) {
 			MCONTACT hContact = (*iterator);
 
 			// Check if we should ignore this contact/protocol
@@ -194,8 +186,8 @@ void exportContactsMessages(void *p)
 			nCur++;
 		}
 		// Free the list of contacts
-		contacts->clear();
-		delete contacts;
+		data->contacts.clear();
+		delete data;
 	}
 
 	// window text update 
@@ -276,8 +268,9 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected)
 		return 0;
 	}
 
+	ExportDialogData *data = new ExportDialogData();
+
 	// List all contacts to export
-	list<MCONTACT> *contacts = new list<MCONTACT>();
 	{
 		LVITEM sItem = { 0 };
 		sItem.mask = LVIF_PARAM;
@@ -294,11 +287,15 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected)
 			}
 
 			MCONTACT hContact = (MCONTACT)sItem.lParam;
-			contacts->push_back(hContact);
+			data->contacts.push_back(hContact);
 		}
 	}
 
-	mir_forkthread(&exportContactsMessages, contacts);
+	// Create progress dialog
+	HWND hDlg = data->hDialog = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EXPORT_ALL_DLG), NULL, DialogProc);
+	
+	// Process the export in other thread
+	mir_forkthread(&exportContactsMessages, data);
 	return 0;
 }
 
