@@ -63,8 +63,8 @@ AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR
 		ptrW text(json_write(pRoot));
 		pData = mir_utf8encodeW(text);
 		dataLength = (int)mir_strlen(pData);
-		AddHeader("Content-Type", "application/json");
 	}
+	AddHeader("Content-Type", "application/json");
 
 	requestType = iRequestType;
 	m_pCallback = pFunc;
@@ -85,6 +85,10 @@ AsyncHttpRequest::~AsyncHttpRequest()
 
 void AsyncHttpRequest::AddHeader(LPCSTR szName, LPCSTR szValue)
 {
+	for (int i = 0; i < headersCount; i++)
+		if (!mir_strcmp(headers[i].szName, szName))
+			return;
+
 	headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
 	headers[headersCount].szName = mir_strdup(szName);
 	headers[headersCount].szValue = mir_strdup(szValue);
