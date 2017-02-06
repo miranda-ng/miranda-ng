@@ -142,73 +142,39 @@ INT_PTR CALLBACK __stdcall DialogProc(
 	return FALSE;
 }
 
-/////////////////////////////////////////////////////////////////////
-// Member Function : nExportCompleatList
-// Type            : Global
-// Parameters      : hParent       - handle to the parrent, ( Options Dlg )
-//                   bOnlySelected - Only Export the userges that hase been selected in the list view
-// Returns         : int not used currently 
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
-
-int nExportCompleatList(HWND hParent, bool bOnlySelected)
+void exportContactsMessages(void *p)
 {
-	HWND hMapUser = GetDlgItem(hParent, IDC_MAP_USER_LIST);
+	list< MCONTACT > *contacts = (list< MCONTACT >*)p;
 
-	int nTotalContacts = ListView_GetItemCount(hMapUser);
-
-	int nContacts;
-	if (bOnlySelected)
-		nContacts = ListView_GetSelectedCount(hMapUser);
-	else
-		nContacts = nTotalContacts;
-
-	if (!hMapUser || nContacts <= 0) {
-		MessageBox(hParent, TranslateT("No contacts found to export"), MSG_BOX_TITEL, MB_OK);
-		return 0;
-	}
-
+	HWND hParent = NULL;
 	HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EXPORT_ALL_DLG), hParent, DialogProc);
 	HWND hProg = GetDlgItem(hDlg, IDC_EXPORT_PROGRESS);
 	HWND hStatus = GetDlgItem(hDlg, IDC_EXP_ALL_STATUS);
 
-	SendMessage(hProg, PBM_SETRANGE, 0, MAKELPARAM(0, nContacts));
+	SendMessage(hProg, PBM_SETRANGE, 0, MAKELPARAM(0, contacts->size() - 1));
 
 	SetWindowText(hStatus, TranslateT("Reading database information (Phase 1 of 2)"));
 
 	// position and show proigrassbar dialog 
-	RECT rParrent, rDlg;
+	/*RECT rParrent, rDlg;
 	if (GetWindowRect(hParent, &rParrent) && GetWindowRect(hDlg, &rDlg)) {
 		int x = ((rParrent.right + rParrent.left) / 2) - ((rDlg.right - rDlg.left) / 2);
 		int y = ((rParrent.bottom + rParrent.top) / 2) - ((rDlg.bottom - rDlg.top) / 2);
 		SetWindowPos(hDlg, 0, x, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW);
 	}
-	else ShowWindow(hDlg, SW_SHOWNORMAL);
+	else*/ ShowWindow(hDlg, SW_SHOWNORMAL);
 
 	// map with list to stored all DB history before it is exported 
 	map<tstring, list< CLDBEvent >, less<tstring> > AllEvents;
-	{ 
+	{
 		// reading from the database !!! 
 		LVITEM sItem = { 0 };
 		sItem.mask = LVIF_PARAM;
 
-		for (int nCur = 0; nCur < nTotalContacts; nCur++) {
-			if (bOnlySelected)
-				if (!(ListView_GetItemState(hMapUser, nCur, LVIS_SELECTED) & LVIS_SELECTED))
-					continue;
-
-			sItem.iItem = nCur;
-			if (!ListView_GetItem(hMapUser, &sItem)) {
-				MessageBox(hParent, TranslateT("Failed to export at least one contact"), MSG_BOX_TITEL, MB_OK);
-				continue;
-			}
-
-			MCONTACT hContact = (MCONTACT)sItem.lParam;
+		int nCur = 0;
+		list< MCONTACT >::const_iterator iterator;
+		for (iterator = contacts->begin(); iterator != contacts->end(); ++iterator) {
+			MCONTACT hContact = (*iterator);
 
 			// Check if we should ignore this contact/protocol
 			if (!bIsExportEnabled(hContact))
@@ -224,12 +190,17 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected)
 
 			SendMessage(hProg, PBM_SETPOS, nCur, 0);
 			RedrawWindow(hDlg, NULL, NULL, RDW_ALLCHILDREN | RDW_UPDATENOW);
+
+			nCur++;
 		}
+		// Free the list of contacts
+		contacts->clear();
+		delete contacts;
 	}
 
 	// window text update 
 	SetWindowText(hStatus, TranslateT("Sorting and writing database information (Phase 2 of 2)"));
-	SendMessage(hProg, PBM_SETRANGE, 0, MAKELPARAM(0, AllEvents.size()));
+	SendMessage(hProg, PBM_SETRANGE, 0, MAKELPARAM(0, AllEvents.size() - 1));
 	SendMessage(hProg, PBM_SETPOS, 0, 0);
 
 	// time to write to files !!!
@@ -268,9 +239,66 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected)
 
 		SendMessage(hProg, PBM_SETPOS, ++nCur, 0);
 		RedrawWindow(hDlg, NULL, NULL, RDW_ALLCHILDREN | RDW_UPDATENOW);
+		UpdateWindow(hDlg);
 	}
 
 	DestroyWindow(hDlg);
+}
+
+/////////////////////////////////////////////////////////////////////
+// Member Function : nExportCompleatList
+// Type            : Global
+// Parameters      : hParent       - handle to the parrent, ( Options Dlg )
+//                   bOnlySelected - Only Export the userges that hase been selected in the list view
+// Returns         : int not used currently 
+// Description     : 
+//                   
+// References      : -
+// Remarks         : -
+// Created         : 020422, 22 April 2002
+// Developer       : KN   
+/////////////////////////////////////////////////////////////////////
+
+int nExportCompleatList(HWND hParent, bool bOnlySelected)
+{
+	HWND hMapUser = GetDlgItem(hParent, IDC_MAP_USER_LIST);
+
+	int nTotalContacts = ListView_GetItemCount(hMapUser);
+
+	int nContacts;
+	if (bOnlySelected)
+		nContacts = ListView_GetSelectedCount(hMapUser);
+	else
+		nContacts = nTotalContacts;
+
+	if (!hMapUser || nContacts <= 0) {
+		MessageBox(hParent, TranslateT("No contacts found to export"), MSG_BOX_TITEL, MB_OK);
+		return 0;
+	}
+
+	// List all contacts to export
+	list<MCONTACT> *contacts = new list<MCONTACT>();
+	{
+		LVITEM sItem = { 0 };
+		sItem.mask = LVIF_PARAM;
+
+		for (int nCur = 0; nCur < nTotalContacts; nCur++) {
+			if (bOnlySelected)
+			if (!(ListView_GetItemState(hMapUser, nCur, LVIS_SELECTED) & LVIS_SELECTED))
+				continue;
+
+			sItem.iItem = nCur;
+			if (!ListView_GetItem(hMapUser, &sItem)) {
+				MessageBox(hParent, TranslateT("Failed to export at least one contact"), MSG_BOX_TITEL, MB_OK);
+				continue;
+			}
+
+			MCONTACT hContact = (MCONTACT)sItem.lParam;
+			contacts->push_back(hContact);
+		}
+	}
+
+	mir_forkthread(&exportContactsMessages, contacts);
 	return 0;
 }
 
