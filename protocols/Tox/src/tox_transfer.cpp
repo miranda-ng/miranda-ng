@@ -16,7 +16,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 		{
 		case TOX_FILE_KIND_AVATAR:
 			{
-				Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": incoming avatar (%d) from (%d)", fileNumber, friendNumber);
+				Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": incoming avatar (%d) from %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
 
 				ptrW address(proto->getWStringA(hContact, TOX_SETTINGS_ID));
 				wchar_t avatarName[MAX_PATH];
