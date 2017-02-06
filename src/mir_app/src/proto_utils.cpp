@@ -251,7 +251,7 @@ static wchar_t *wszMimeTypes[] =
 
 MIR_APP_DLL(const wchar_t*) ProtoGetAvatarMimeType(int iFileType)
 {
-	if (iFileType >= 0 && iFileType <= _countof(wszMimeTypes))
+	if (iFileType >= 0 && iFileType < _countof(wszMimeTypes))
 		return wszMimeTypes[iFileType];
 	return NULL;
 }
