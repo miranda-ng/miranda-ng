@@ -255,7 +255,6 @@ private:
 
 //==== Files Upload ==================================================================
 
-	void __cdecl SendFileThread(void *p);
 	void SendFileFiled(CVkFileUploadParam *fup, int ErrorCode);
 	void OnReciveUploadServer(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReciveUpload(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

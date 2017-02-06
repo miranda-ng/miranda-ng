@@ -26,7 +26,31 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 		return (HANDLE)0;
 
 	CVkFileUploadParam *fup = new CVkFileUploadParam(hContact, desc, files);
-	ForkThread(&CVkProto::SendFileThread, (void *)fup);
+	
+	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)fup);
+	
+	if (!fup->IsAccess()) {
+		SendFileFiled(fup, VKERR_FILE_NOT_EXIST);
+		return (HANDLE)0;
+	}	
+
+	AsyncHttpRequest *pReq;
+	switch (fup->GetType()) {
+	case CVkFileUploadParam::typeImg:
+		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.getMessagesUploadServer.json", true, &CVkProto::OnReciveUploadServer);
+		break;
+	case CVkFileUploadParam::typeAudio:
+		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.getUploadServer.json", true, &CVkProto::OnReciveUploadServer);
+		break;
+	case CVkFileUploadParam::typeDoc:
+		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.getUploadServer.json", true, &CVkProto::OnReciveUploadServer);
+		break;
+	default:
+		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
+		return (HANDLE)0;
+	}
+	pReq->pUserInfo = fup;
+	Push(pReq);
 	return (HANDLE)fup;
 }
 
@@ -94,39 +118,6 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 	delete fup;
 }
 
-void CVkProto::SendFileThread(void *p)
-{
-	CVkFileUploadParam *fup = (CVkFileUploadParam *)p;
-	debugLogW(L"CVkProto::SendFileThread %d %s", fup->GetType(), fup->fileName());
-	if (!IsOnline()) {
-		SendFileFiled(fup, VKERR_OFFLINE);
-		return;
-	}
-	if (!fup->IsAccess()) {
-		SendFileFiled(fup, VKERR_FILE_NOT_EXIST);
-		return;
-	}
-
-	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)fup);
-
-	AsyncHttpRequest *pReq;
-	switch (fup->GetType()) {
-	case CVkFileUploadParam::typeImg:
-		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.getMessagesUploadServer.json", true, &CVkProto::OnReciveUploadServer);
-		break;
-	case CVkFileUploadParam::typeAudio:
-		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.getUploadServer.json", true, &CVkProto::OnReciveUploadServer);
-		break;
-	case CVkFileUploadParam::typeDoc:
-		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.getUploadServer.json", true, &CVkProto::OnReciveUploadServer);
-		break;
-	default:
-		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
-		return;
-	}
-	pReq->pUserInfo = p;
-	Push(pReq);
-}
 
 void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
