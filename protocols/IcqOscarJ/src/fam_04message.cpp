@@ -1918,7 +1918,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, size_t wLen)
 		return;
 	}
 
-	if (IsValidOscarTransfer(pCookieData)) {
+	if (IsValidOscarTransfer((basic_filetransfer*)pCookieData)) {
 		// it is OFT response
 		handleRecvServResponseOFT(buf, wLen, dwUin, szUid, pCookieData);
 		return;

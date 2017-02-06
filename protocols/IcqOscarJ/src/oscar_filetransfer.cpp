@@ -84,71 +84,47 @@ oscar_filetransfer* CIcqProto::CreateOscarTransfer()
 	ft->ft_magic = FT_MAGIC_OSCAR; // Setup signature
 	// Init members
 	ft->fileId = -1;
-
-	mir_cslock l(oftMutex);
-
-	fileTransferList = (basic_filetransfer**)SAFE_REALLOC(fileTransferList, sizeof(basic_filetransfer*)*(fileTransferCount + 1));
-	fileTransferList[fileTransferCount++] = ft;
+	{
+		mir_cslock l(oftMutex);
+		m_arFileTransfers.insert(ft);
+	}
 
 	NetLog_Direct("OFT: FT struct %p created", ft);
-
 	return ft;
 }
 
-filetransfer *CIcqProto::CreateIcqFileTransfer()
+filetransfer* CIcqProto::CreateIcqFileTransfer()
 {
 	filetransfer *ft = (filetransfer*)SAFE_MALLOC(sizeof(filetransfer));
-
 	ft->ft_magic = FT_MAGIC_ICQ;
-
-	mir_cslock l(oftMutex);
-
-	fileTransferList = (basic_filetransfer**)SAFE_REALLOC(fileTransferList, sizeof(basic_filetransfer*)*(fileTransferCount + 1));
-	fileTransferList[fileTransferCount++] = (basic_filetransfer*)ft;
+	{
+		mir_cslock l(oftMutex);
+		m_arFileTransfers.insert(ft);
+	}
 
 	NetLog_Direct("FT struct %p created", ft);
-
 	return ft;
 }
 
-int CIcqProto::getFileTransferIndex(void *ft)
-{
-	for (int i = 0; i < fileTransferCount; i++)
-		if (fileTransferList[i] == ft)
-			return i;
-
-	return -1;
-}
-
-void CIcqProto::ReleaseFileTransfer(void *ft)
-{
-	int i = getFileTransferIndex(ft);
-	if (i != -1) {
-		fileTransferCount--;
-		fileTransferList[i] = fileTransferList[fileTransferCount];
-		fileTransferList = (basic_filetransfer**)SAFE_REALLOC(fileTransferList, sizeof(basic_filetransfer*)*fileTransferCount);
-	}
-}
-
-int CIcqProto::IsValidFileTransfer(void *ft)
+int CIcqProto::IsValidFileTransfer(basic_filetransfer *ft)
 {
 	mir_cslock l(oftMutex);
-	return getFileTransferIndex(ft) != -1;
+	return m_arFileTransfers.indexOf(ft) != -1;
 }
 
-int CIcqProto::IsValidOscarTransfer(void *ft)
+int CIcqProto::IsValidOscarTransfer(basic_filetransfer *ft)
 {
 	mir_cslock l(oftMutex);
-	return getFileTransferIndex(ft) != -1 && ((basic_filetransfer*)ft)->ft_magic == FT_MAGIC_OSCAR;
+	return m_arFileTransfers.indexOf(ft) != -1 && ft->ft_magic == FT_MAGIC_OSCAR;
 }
 
 oscar_filetransfer* CIcqProto::FindOscarTransfer(MCONTACT hContact, DWORD dwID1, DWORD dwID2)
 {
 	mir_cslock l(oftMutex);
 
-	for (int i = 0; i < fileTransferCount; i++) {
-		if (fileTransferList[i]->ft_magic == FT_MAGIC_OSCAR) {
-			oscar_filetransfer *oft = (oscar_filetransfer*)fileTransferList[i];
+	for (int i = 0; i < m_arFileTransfers.getCount(); i++) {
+		if (m_arFileTransfers[i]->ft_magic == FT_MAGIC_OSCAR) {
+			oscar_filetransfer *oft = (oscar_filetransfer*)m_arFileTransfers[i];
 			if (oft->hContact == hContact && oft->pMessage.dwMsgID1 == dwID1 && oft->pMessage.dwMsgID2 == dwID2)
 				return oft;
 		}
@@ -158,14 +134,13 @@ oscar_filetransfer* CIcqProto::FindOscarTransfer(MCONTACT hContact, DWORD dwID1,
 }
 
 // Release file transfer structure
-void CIcqProto::SafeReleaseFileTransfer(void **ft)
+void CIcqProto::SafeReleaseFileTransfer(basic_filetransfer **bft)
 {
-	basic_filetransfer **bft = (basic_filetransfer**)ft;
-
 	mir_cslock l(oftMutex);
 
 	// Check for filetransfer validity
-	if (getFileTransferIndex(*ft) == -1)
+	int idx = m_arFileTransfers.indexOf(*bft);
+	if (idx == -1)
 		return;
 
 	if (*bft) {
@@ -187,12 +162,12 @@ void CIcqProto::SafeReleaseFileTransfer(void **ft)
 			}
 			SAFE_FREE(&ift->szThisFile);
 			// Invalidate transfer
-			ReleaseFileTransfer(ift);
+			m_arFileTransfers.remove(idx);
 
-			NetLog_Direct("FT struct %p released", ft);
+			NetLog_Direct("FT struct %p released", bft);
 
 			// Release memory
-			SAFE_FREE((void**)ft);
+			SAFE_FREE((void**)bft);
 		}
 		else if ((*bft)->ft_magic == FT_MAGIC_OSCAR) { // release oscar filetransfer structure and its contents
 			oscar_filetransfer *oft = (oscar_filetransfer*)(*bft);
@@ -231,12 +206,12 @@ void CIcqProto::SafeReleaseFileTransfer(void **ft)
 				_close(oft->fileId);
 
 			// Invalidate transfer
-			ReleaseFileTransfer(oft);
+			m_arFileTransfers.remove(idx);
 
-			NetLog_Direct("OFT: FT struct %p released", ft);
+			NetLog_Direct("OFT: FT struct %p released", bft);
 
 			// Release memory
-			SAFE_FREE((void**)ft);
+			SAFE_FREE((void**)bft);
 		}
 	}
 }
@@ -429,7 +404,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 					if (!tlv || tlv->wLen < 8) {
 						debugLogA("Error: Malformed file request");
 						// release structures
-						SafeReleaseFileTransfer((void**)&ft);
+						SafeReleaseFileTransfer((basic_filetransfer**)&ft);
 						SAFE_FREE(&pszDescription);
 						return;
 					}
@@ -534,7 +509,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 					else { // Just sanity
 						ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ft, 0);
 						// Release transfer
-						SafeReleaseFileTransfer((void**)&ft);
+						SafeReleaseFileTransfer((basic_filetransfer**)&ft);
 					}
 				}
 				else debugLogA("Error: Invalid request, no such transfer");
@@ -591,7 +566,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 			// Notify user, that the FT was cancelled // TODO: new ACKRESULT_?
 			icq_LogMessage(LOG_ERROR, LPGEN("The file transfer was aborted by the other user."));
 			// Release transfer
-			SafeReleaseFileTransfer((void**)&ft);
+			SafeReleaseFileTransfer((basic_filetransfer**)&ft);
 		}
 		else debugLogA("Error: Invalid request, no such transfer");
 	}
@@ -639,7 +614,7 @@ void CIcqProto::handleRecvServResponseOFT(BYTE *buf, size_t wLen, DWORD dwUin, c
 
 			ProtoBroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)oft, 0);
 			// Release transfer
-			SafeReleaseFileTransfer((void**)&oft);
+			SafeReleaseFileTransfer((basic_filetransfer**)&oft);
 			break;
 
 		case 4: // Proxy error
@@ -647,7 +622,7 @@ void CIcqProto::handleRecvServResponseOFT(BYTE *buf, size_t wLen, DWORD dwUin, c
 
 			ProtoBroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oft, 0);
 			// Release transfer
-			SafeReleaseFileTransfer((void**)&oft);
+			SafeReleaseFileTransfer((basic_filetransfer**)&oft);
 			break;
 
 		case 5: // Invalid request
@@ -655,7 +630,7 @@ void CIcqProto::handleRecvServResponseOFT(BYTE *buf, size_t wLen, DWORD dwUin, c
 
 			ProtoBroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oft, 0);
 			// Release transfer
-			SafeReleaseFileTransfer((void**)&oft);
+			SafeReleaseFileTransfer((basic_filetransfer**)&oft);
 			break;
 
 		case 6: // Proxy Failed (IP = 0)
@@ -663,7 +638,7 @@ void CIcqProto::handleRecvServResponseOFT(BYTE *buf, size_t wLen, DWORD dwUin, c
 
 			ProtoBroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oft, 0);
 			// Release transfer
-			SafeReleaseFileTransfer((void**)&oft);
+			SafeReleaseFileTransfer((basic_filetransfer**)&oft);
 			break;
 
 		default:
@@ -671,7 +646,7 @@ void CIcqProto::handleRecvServResponseOFT(BYTE *buf, size_t wLen, DWORD dwUin, c
 
 			ProtoBroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oft, 0);
 			// Release transfer
-			SafeReleaseFileTransfer((void**)&oft);
+			SafeReleaseFileTransfer((basic_filetransfer**)&oft);
 		}
 	}
 }
@@ -759,9 +734,9 @@ HANDLE CIcqProto::oftInitTransfer(MCONTACT hContact, DWORD dwUin, char* szUid, c
 		icq_LogMessage(LOG_ERROR, LPGEN("Failed to Initialize File Transfer. No valid files were specified."));
 		// Notify UI
 		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ft, 0);
-		// Release transfer
-		SafeReleaseFileTransfer((void**)&ft);
 
+		// Release transfer
+		SafeReleaseFileTransfer((basic_filetransfer**)&ft);
 		return 0; // Failure
 	}
 #ifdef __GNUC__
@@ -773,9 +748,9 @@ HANDLE CIcqProto::oftInitTransfer(MCONTACT hContact, DWORD dwUin, char* szUid, c
 		icq_LogMessage(LOG_ERROR, LPGEN("The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately."));
 		// Notify UI
 		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ft, 0);
-		// Release transfer
-		SafeReleaseFileTransfer((void**)&ft);
 
+		// Release transfer
+		SafeReleaseFileTransfer((basic_filetransfer**)&ft);
 		return 0; // Failure
 	}
 
@@ -906,7 +881,7 @@ DWORD CIcqProto::oftFileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t*
 	oft_sendFileDeny(dwUin, szUid, ft);
 
 	// Release structure
-	SafeReleaseFileTransfer((void**)&ft);
+	SafeReleaseFileTransfer((basic_filetransfer**)&ft);
 	return 0; // Success
 }
 
@@ -932,7 +907,7 @@ DWORD CIcqProto::oftFileCancel(MCONTACT hContact, HANDLE hTransfer)
 	ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 
 	// Release structure
-	SafeReleaseFileTransfer((void**)&ft);
+	SafeReleaseFileTransfer((basic_filetransfer**)&ft);
 
 	return 0; // Success
 }
@@ -988,7 +963,7 @@ void CIcqProto::oftFileResume(oscar_filetransfer *ft, int action, const wchar_t 
 
 		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 		// Release transfer
-		SafeReleaseFileTransfer((void**)&oc->ft);
+		SafeReleaseFileTransfer((basic_filetransfer**)&oc->ft);
 		return;
 	}
 
@@ -1242,7 +1217,7 @@ void __cdecl CIcqProto::oft_connectionThread(oscarthreadstartinfo *otsi)
 					// notify the other side, that we failed
 					oft_sendFileResponse(oc.dwUin, oc.szUid, oc.ft, 0x04);
 					// Release structure
-					SafeReleaseFileTransfer((void**)&oc.ft);
+					SafeReleaseFileTransfer((basic_filetransfer**)&oc.ft);
 					return;
 				}
 				oc.status = OCS_PROXY;
@@ -1257,7 +1232,7 @@ void __cdecl CIcqProto::oft_connectionThread(oscarthreadstartinfo *otsi)
 					// notify UI
 					ProtoBroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc.ft, 0);
 					// Release structure
-					SafeReleaseFileTransfer((void**)&oc.ft);
+					SafeReleaseFileTransfer((basic_filetransfer**)&oc.ft);
 					return;
 				}
 			}
@@ -1268,7 +1243,7 @@ void __cdecl CIcqProto::oft_connectionThread(oscarthreadstartinfo *otsi)
 				// notify the other side, that we failed
 				oft_sendFileResponse(oc.dwUin, oc.szUid, oc.ft, 0x06);
 				// Release structure
-				SafeReleaseFileTransfer((void**)&oc.ft);
+				SafeReleaseFileTransfer((basic_filetransfer**)&oc.ft);
 				return;
 			}
 		}
@@ -1276,7 +1251,7 @@ void __cdecl CIcqProto::oft_connectionThread(oscarthreadstartinfo *otsi)
 			if (!CreateOscarProxyConnection(&oc)) { // We failed to init transfer, notify UI
 				icq_LogMessage(LOG_ERROR, LPGEN("Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable."));
 				// Release transfer
-				SafeReleaseFileTransfer((void**)&oc.ft);
+				SafeReleaseFileTransfer((basic_filetransfer**)&oc.ft);
 				return;
 			}
 			else
@@ -1345,8 +1320,7 @@ void __cdecl CIcqProto::oft_connectionThread(oscarthreadstartinfo *otsi)
 	// Clean up
 	{
 		mir_cslock l(oftMutex);
-
-		if (getFileTransferIndex(oc.ft) != -1)
+		if (m_arFileTransfers.indexOf(oc.ft) != -1)
 			oc.ft->connection = NULL; // release link
 	}
 	// Give server some time for abort/cancel to arrive
@@ -1358,14 +1332,14 @@ void __cdecl CIcqProto::oft_connectionThread(oscarthreadstartinfo *otsi)
 
 			icq_LogMessage(LOG_ERROR, LPGEN("Connection lost during file transfer."));
 			// Release structure
-			SafeReleaseFileTransfer((void**)&oc.ft);
+			SafeReleaseFileTransfer((basic_filetransfer**)&oc.ft);
 		}
 		else if (oc.status == OCS_NEGOTIATION) {
 			ProtoBroadcastAck(oc.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc.ft, 0);
 
 			icq_LogMessage(LOG_ERROR, LPGEN("File transfer negotiation failed for unknown reason."));
 			// Release structure
-			SafeReleaseFileTransfer((void**)&oc.ft);
+			SafeReleaseFileTransfer((basic_filetransfer**)&oc.ft);
 		}
 	}
 }
@@ -1487,7 +1461,7 @@ int CIcqProto::oft_handleProxyData(oscar_connection *oc, BYTE *buf, size_t len)
 			// Notify UI
 			ProtoBroadcastAck(oc->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc->ft, 0);
 			// Release structure
-			SafeReleaseFileTransfer((void**)&oc->ft);
+			SafeReleaseFileTransfer((basic_filetransfer**)&oc->ft);
 			break;
 
 		case 0x03: // Tunnel created
@@ -1606,7 +1580,7 @@ int CIcqProto::oft_handleFileData(oscar_connection *oc, BYTE *buf, size_t len)
 			NetLog_Direct("File Transfer completed successfully.");
 			ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
 			// Release transfer
-			SafeReleaseFileTransfer((void**)&ft);
+			SafeReleaseFileTransfer((basic_filetransfer**)&ft);
 		}
 		else { // ack received file
 			sendOFT2FramePacket(oc, OFT_TYPE_DONE);
@@ -1791,7 +1765,7 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 
 				ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 				// Release transfer
-				SafeReleaseFileTransfer((void**)&oc->ft);
+				SafeReleaseFileTransfer((basic_filetransfer**)&oc->ft);
 				return;
 			}
 		}
@@ -2018,7 +1992,7 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 	if (ft->iCurrentFile >= (int)ft->wFilesCount) { // All files done, great!
 		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
 		// Release transfer
-		SafeReleaseFileTransfer((void**)&oc->ft);
+		SafeReleaseFileTransfer((basic_filetransfer**)&oc->ft);
 		return;
 	}
 
@@ -2031,7 +2005,7 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 
 		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 		// Release transfer
-		SafeReleaseFileTransfer((void**)&oc->ft);
+		SafeReleaseFileTransfer((basic_filetransfer**)&oc->ft);
 		return;
 	}
 
@@ -2058,7 +2032,7 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 
 		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 		// Release transfer
-		SafeReleaseFileTransfer((void**)&oc->ft);
+		SafeReleaseFileTransfer((basic_filetransfer**)&oc->ft);
 		return;
 	}
 

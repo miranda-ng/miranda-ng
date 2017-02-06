@@ -315,7 +315,7 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 			if (dc.type == DIRECTCONN_FILE) {
 				ProtoBroadcastAck(dc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, dc.ft, 0);
 				// Release transfer
-				SafeReleaseFileTransfer((void**)&dc.ft);
+				SafeReleaseFileTransfer((basic_filetransfer**)&dc.ft);
 			}
 			goto LBL_Exit;
 		}
@@ -428,7 +428,7 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 		else if (dc.ft->hConnection)
 			ProtoBroadcastAck(dc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, dc.ft, 0);
 
-		SafeReleaseFileTransfer((void**)&dc.ft);
+		SafeReleaseFileTransfer((basic_filetransfer**)&dc.ft);
 		_chdir("\\");    /* so we don't leave a subdir handle open so it can't be deleted */
 	}
 

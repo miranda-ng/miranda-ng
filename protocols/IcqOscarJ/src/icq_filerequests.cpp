@@ -185,8 +185,7 @@ void CIcqProto::icq_CancelFileTransfer(filetransfer* ft)
 
 		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 
-		if (!FindFileTransferDC(ft)) { // Release orphan structure only
-			SafeReleaseFileTransfer((void**)&ft);
-		}
+		if (!FindFileTransferDC(ft)) // Release orphan structure only
+			SafeReleaseFileTransfer((basic_filetransfer**)&ft);
 	}
 }

@@ -800,13 +800,11 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	//----| oscar_filetransfer.cpp |------------------------------------------------------
 	mir_cs oftMutex;
-	int    fileTransferCount;
-	basic_filetransfer** fileTransferList;
+	LIST<basic_filetransfer> m_arFileTransfers;
 
 	oscar_filetransfer* CreateOscarTransfer();
 	filetransfer *CreateIcqFileTransfer();
-	void   ReleaseFileTransfer(void *ft);
-	void   SafeReleaseFileTransfer(void **ft);
+	void   SafeReleaseFileTransfer(basic_filetransfer **ft);
 	oscar_filetransfer* FindOscarTransfer(MCONTACT hContact, DWORD dwID1, DWORD dwID2);
 
 	oscar_listener* CreateOscarListener(oscar_filetransfer *ft, NETLIBNEWCONNECTIONPROC_V2 handler);
@@ -816,9 +814,8 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   CloseOscarConnection(oscar_connection *oc);
 	int    CreateOscarProxyConnection(oscar_connection *oc);
 
-	int    getFileTransferIndex(void *ft);
-	int    IsValidFileTransfer(void *ft);
-	int    IsValidOscarTransfer(void *ft);
+	int    IsValidFileTransfer(basic_filetransfer *ft);
+	int    IsValidOscarTransfer(basic_filetransfer *ft);
 
 	void   handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, DWORD dwID1, DWORD dwID2, WORD wCommand);
 	void   handleRecvServResponseOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, void* ft);

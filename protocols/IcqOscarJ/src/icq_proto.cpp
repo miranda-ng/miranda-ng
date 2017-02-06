@@ -78,7 +78,8 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	contactsCache(10, CompareContactsCache),
 	CustomCapList(1),
 	cheekySearchId(-1),
-	m_arAvatars(5)	
+	m_arAvatars(5),
+	m_arFileTransfers(1)
 {
 	debugLogA("Setting protocol/module name to '%s'", m_szModuleName);
 
@@ -544,7 +545,7 @@ int __cdecl CIcqProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar
 		return 1; // Invalid contact
 
 	if (icqOnline() && hTransfer && hContact) {
-		if (!IsValidFileTransfer(hTransfer))
+		if (!IsValidFileTransfer((basic_filetransfer*)hTransfer))
 			return 1; // Invalid transfer
 
 		if (dwUin && bft->ft_magic == FT_MAGIC_ICQ) { // deny old fashioned file transfer
@@ -564,7 +565,7 @@ int __cdecl CIcqProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar
 		}
 	}
 	// Release possible orphan structure
-	SafeReleaseFileTransfer((void**)&bft);
+	SafeReleaseFileTransfer(&bft);
 
 	return nReturnValue;
 }
