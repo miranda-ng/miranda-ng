@@ -464,6 +464,7 @@ void CDiscordProto::SendFileThread(void *param)
 
 	FILE *in = _wfopen(p->wszFileName, L"rb");
 	if (in == NULL) {
+		debugLogA("cannot open file %S for reading", p->wszFileName.c_str());
 	LBL_Error:
 		ProtoBroadcastAck(p->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, param);
 		delete p;
@@ -516,8 +517,11 @@ void CDiscordProto::SendFileThread(void *param)
 	memcpy(pReq->pData, szBody.c_str(), szBody.GetLength());
 	size_t cbRead = fread(pReq->pData + szBody.GetLength(), 1, cbBytes, in);
 	fclose(in);
-	if (cbBytes != cbRead)
+	if (cbBytes != cbRead) {
+		debugLogA("cannot read file %S: %d bytes read instead of %d", p->wszFileName.c_str(), cbRead, cbBytes);
+		delete pReq;
 		goto LBL_Error;
+	}
 	
 	memcpy(pReq->pData + szBody.GetLength() + cbBytes, szBoundary, szBoundary.GetLength());
 	pReq->pUserInfo = p;
