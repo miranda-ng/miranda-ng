@@ -522,7 +522,7 @@ int __cdecl CIcqProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 			icq_CancelFileTransfer((filetransfer*)hTransfer);
 			return 0; // Success
 		}
-		else if (ft->ft_magic == FT_MAGIC_OSCAR) { // cancel oscar file transfer
+		if (ft->ft_magic == FT_MAGIC_OSCAR) { // cancel oscar file transfer
 			return oftFileCancel(hContact, hTransfer);
 		}
 	}

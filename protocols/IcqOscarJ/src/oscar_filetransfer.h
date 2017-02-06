@@ -36,7 +36,10 @@
 struct basic_filetransfer
 {
 	cookie_message_data pMessage;
-	BYTE ft_magic;
+	BYTE     ft_magic;
+	MCONTACT hContact;
+	int      iCurrentFile;
+	DWORD    dwCookie;
 };
 
 #define OFT_BUFFER_SIZE 8192
@@ -61,13 +64,11 @@ char *FindFilePathContainer(const char **files, int iFile, char *szContainer);
 
 struct oscar_filetransfer: public basic_filetransfer
 {
-	MCONTACT hContact;
 	int flags; // combination of OFTF_*
 	int containerCount;
 	char **file_containers;
 	oft_file_record *files;
 	char **files_list; // sending only 
-	int iCurrentFile;
 	int currentIsDir;
 	int bUseProxy;
 	DWORD dwProxyIP;
@@ -79,7 +80,6 @@ struct oscar_filetransfer: public basic_filetransfer
 	char *szThisFile; 
 	char *szThisPath;
 	// Request sequence
-	DWORD dwCookie;
 	WORD wReqNum;
 	// OFT2 header data
 	WORD wEncrypt, wCompress;
@@ -118,8 +118,6 @@ struct oscar_filetransfer: public basic_filetransfer
 #define OFT_TYPE_RESUMEREADY        0x0106 // Ok, I am ready to send it
 #define OFT_TYPE_RESUMEACK          0x0207 // Fine, ready to receive
 
-void SafeReleaseFileTransfer(void **ft);
-
 struct oscar_connection 
 {
 	MCONTACT hContact;
@@ -150,14 +148,13 @@ struct oscar_connection
 #define OCS_PROXY       8
 #define OCS_WAITING     10
 
-struct oscar_listener 
+struct oscar_listener
 {
-  CIcqProto *ppro;
-  WORD wPort;
-  HNETLIBBIND hBoundPort;
-  oscar_filetransfer *ft;
+	CIcqProto *ppro;
+	WORD wPort;
+	HNETLIBBIND hBoundPort;
+	oscar_filetransfer *ft;
 };
-
 
 #endif /* __OSCAR_FILETRANSFER_H */
 
