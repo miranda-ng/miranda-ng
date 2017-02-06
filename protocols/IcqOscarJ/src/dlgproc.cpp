@@ -204,7 +204,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				wchar_t text[MAX_PATH];
 				lvi.lParam = lvi.iItem;
 				lvi.pszText = text;
-				utf8_to_tchar_static(setting[lvi.iItem].szDescription, text, _countof(text));
+				make_unicode_string_static(setting[lvi.iItem].szDescription, text, _countof(text));
 				ListView_InsertItem(dat->hwndList, &lvi);
 			}
 		}

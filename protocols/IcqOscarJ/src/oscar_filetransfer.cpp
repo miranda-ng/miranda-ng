@@ -756,7 +756,7 @@ HANDLE CIcqProto::oftInitTransfer(MCONTACT hContact, DWORD dwUin, char* szUid, c
 
 	debugLogA("OFT: Found %d files.", ft->wFilesCount);
 
-	ft->szDescription = tchar_to_utf8(pszDesc);
+	ft->szDescription = make_utf8_string(pszDesc);
 	ft->flags = OFTF_SENDING;
 	ft->fileId = -1;
 	ft->iCurrentFile = 0;
@@ -843,7 +843,7 @@ HANDLE CIcqProto::oftFileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_
 	if (!IsValidOscarTransfer(ft))
 		return 0; // Invalid transfer
 
-	ft->szSavePath = tchar_to_utf8(szPath);
+	ft->szSavePath = make_utf8_string(szPath);
 
 	if (ft->szThisPath) { // Append Directory name to the save path, when transfering a directory
 		ft->szSavePath = (char*)SAFE_REALLOC(ft->szSavePath, mir_strlen(ft->szSavePath) + mir_strlen(ft->szThisPath) + 4);
@@ -941,7 +941,7 @@ void CIcqProto::oftFileResume(oscar_filetransfer *ft, int action, const wchar_t 
 	case FILERESUME_RENAME:
 		openFlags = _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY;
 		SAFE_FREE(&ft->szThisFile);
-		ft->szThisFile = tchar_to_utf8(szFilename);
+		ft->szThisFile = make_utf8_string(szFilename);
 		ft->qwFileBytesDone = 0;
 		break;
 

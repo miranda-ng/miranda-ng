@@ -93,14 +93,14 @@ void CIcqProto::handleLookupEmailReply(BYTE* buf, size_t wLen, DWORD dwCookie)
 
 	sr.hdr.cbSize = sizeof(sr);
 	sr.hdr.flags = PSR_UNICODE;
-	sr.hdr.email.w = ansi_to_tchar(pCookie->szObject);
+	sr.hdr.email.w = ansi_to_unicode(pCookie->szObject);
 
 	// Syntax check, read chain
 	if (wLen >= 4 && (pChain = readIntoTLVChain(&buf, wLen, 0))) {
 		for (WORD i = 1; TRUE; i++) { // collect the results
 			char *szUid = pChain->getString(0x01, i);
 			if (!szUid) break;
-			sr.hdr.id.w = ansi_to_tchar(szUid);
+			sr.hdr.id.w = ansi_to_unicode(szUid);
 			sr.hdr.nick.w = sr.hdr.id.w;
 			// broadcast the result
 			if (pCookie->dwMainId)

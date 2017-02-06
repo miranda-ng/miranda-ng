@@ -1369,7 +1369,7 @@ int CIcqProto::getCListGroupExists(const char *szGroup)
 	size_t size = mir_strlen(szGroup) + 2;
 	wchar_t *tszGroup = (wchar_t*)_alloca(size * sizeof(wchar_t));
 
-	if (utf8_to_tchar_static(szGroup, tszGroup, size))
+	if (make_unicode_string_static(szGroup, tszGroup, size))
 		for (int i = 1; TRUE; i++) {
 			wchar_t *tszGroupName = (wchar_t*)Clist_GroupGetName(i, NULL);
 			if (!tszGroupName)
@@ -2331,7 +2331,7 @@ int CIcqProto::ServListCListGroupChange(WPARAM hContact, LPARAM lParam)
 
 	if (hContact == NULL) { // change made to group
 		if (grpchg->pszNewName == NULL && grpchg->pszOldName != NULL) { // group removed
-			char *szOldName = tchar_to_utf8(grpchg->pszOldName);
+			char *szOldName = make_utf8_string(grpchg->pszOldName);
 			WORD wGroupId = getServListGroupLinkID(szOldName);
 
 			if (wGroupId) { // the group is known, remove from server
@@ -2341,8 +2341,8 @@ int CIcqProto::ServListCListGroupChange(WPARAM hContact, LPARAM lParam)
 			SAFE_FREE(&szOldName);
 		}
 		else if (grpchg->pszNewName != NULL && grpchg->pszOldName != NULL) { // group renamed
-			char *szNewName = tchar_to_utf8(grpchg->pszNewName);
-			char *szOldName = tchar_to_utf8(grpchg->pszOldName);
+			char *szNewName = make_utf8_string(grpchg->pszNewName);
+			char *szOldName = make_utf8_string(grpchg->pszOldName);
 			WORD wGroupId = getServListGroupLinkID(szOldName);
 
 			if (wGroupId) { // group is known, rename on server
@@ -2354,7 +2354,7 @@ int CIcqProto::ServListCListGroupChange(WPARAM hContact, LPARAM lParam)
 	}
 	else { // change to contact
 		if (IsICQContact(hContact)) { // our contact, fine move on the server as well
-			char *szNewName = grpchg->pszNewName ? tchar_to_utf8(grpchg->pszNewName) : NULL;
+			char *szNewName = grpchg->pszNewName ? make_utf8_string(grpchg->pszNewName) : NULL;
 			servlistMoveContact(hContact, szNewName);
 			SAFE_FREE(&szNewName);
 		}

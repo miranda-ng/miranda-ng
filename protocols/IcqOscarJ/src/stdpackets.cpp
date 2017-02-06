@@ -1552,7 +1552,7 @@ void CIcqProto::icq_sendAuthResponseServ(DWORD dwUin, char* szUid, int auth, con
 	BYTE nUinLen = getUIDLen(dwUin, szUid);
 
 	// Prepare custom utf-8 reason
-	char *szUtfReason = tchar_to_utf8(szReason);
+	char *szUtfReason = make_utf8_string(szReason);
 	size_t nReasonLen = mir_strlen(szUtfReason);
 
 	icq_packet packet;

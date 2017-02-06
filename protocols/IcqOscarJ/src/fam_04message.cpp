@@ -949,7 +949,7 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, size_t wLen, DWORD dwUin, c
 						contacts[iContact]->hdr.cbSize = sizeof(ICQSEARCHRESULT);
 						contacts[iContact]->hdr.flags = PSR_UNICODE;
 						contacts[iContact]->hdr.nick.w = null_strdup(L"");
-						contacts[iContact]->hdr.id.w = ansi_to_tchar(szUid);
+						contacts[iContact]->hdr.id.w = ansi_to_unicode(szUid);
 
 						if (IsStringUIN(szUid)) { // icq contact
 							contacts[iContact]->uin = atoi(szUid);
@@ -1016,7 +1016,7 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, size_t wLen, DWORD dwUin, c
 							unpackTypedTLV(pBuffer, wNickLen, 0x01, &wNickTLV, &wNickTLVLen, (LPBYTE*)&pNick);
 							if (wNickTLV == 0x01) {
 								SAFE_FREE(&contacts[iContact]->hdr.nick.w);
-								contacts[iContact]->hdr.nick.w = utf8_to_tchar(pNick);
+								contacts[iContact]->hdr.nick.w = make_unicode_string(pNick);
 							}
 							else
 								SAFE_FREE(&pNick);
@@ -1685,8 +1685,8 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 						if (!mir_strlen(pszMsgField[1 + i * 2]))
 							valid = 0;
 					}
-					isrList[i]->hdr.id.w = ansi_to_tchar(pszMsgField[1 + i * 2]);
-					isrList[i]->hdr.nick.w = ansi_to_tchar(pszMsgField[2 + i * 2]);
+					isrList[i]->hdr.id.w = ansi_to_unicode(pszMsgField[1 + i * 2]);
+					isrList[i]->hdr.nick.w = ansi_to_unicode(pszMsgField[2 + i * 2]);
 				}
 
 				if (!valid)

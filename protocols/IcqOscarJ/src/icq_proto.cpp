@@ -450,7 +450,7 @@ int __cdecl CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 			return 1; // Invalid contact
 
 		if (dwUin) {
-			char *utf = tchar_to_utf8(szMessage);
+			char *utf = make_utf8_string(szMessage);
 			icq_sendAuthReqServ(dwUin, szUid, utf);
 			SAFE_FREE(&utf);
 			return 0; // Success
@@ -479,7 +479,7 @@ HANDLE __cdecl CIcqProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const w
 
 		if (dwUin && bft->ft_magic == FT_MAGIC_ICQ) {
 			filetransfer *ft = (filetransfer *)hTransfer;
-			ft->szSavePath = tchar_to_utf8(szPath);
+			ft->szSavePath = make_utf8_string(szPath);
 			{
 				mir_cslock l(expectedFileRecvMutex);
 				expectedFileRecvs.insert(ft);
@@ -550,7 +550,7 @@ int __cdecl CIcqProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar
 
 		if (dwUin && bft->ft_magic == FT_MAGIC_ICQ) { // deny old fashioned file transfer
 			filetransfer *ft = (filetransfer*)hTransfer;
-			char *szReasonUtf = tchar_to_utf8(szReason);
+			char *szReasonUtf = make_utf8_string(szReason);
 			// Was request received thru DC and have we a open DC, send through that
 			if (ft->bDC && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0))
 				icq_sendFileDenyDirect(hContact, ft, szReasonUtf);
@@ -583,7 +583,7 @@ int __cdecl CIcqProto::FileResume(HANDLE hTransfer, int* action, const wchar_t**
 			return 1; // Invalid transfer
 
 		if (ft->ft_magic == FT_MAGIC_ICQ) {
-			char *szFileNameUtf = tchar_to_utf8(*szFilename);
+			char *szFileNameUtf = make_utf8_string(*szFilename);
 			icq_sendFileResume((filetransfer *)hTransfer, *action, szFileNameUtf);
 			SAFE_FREE(&szFileNameUtf);
 		}
@@ -795,7 +795,7 @@ HANDLE __cdecl CIcqProto::SearchBasic(const wchar_t *pszSearch)
 HANDLE __cdecl CIcqProto::SearchByEmail(const wchar_t *email)
 {
 	if (email && icqOnline() && mir_wstrlen(email) > 0) {
-		char *szEmail = tchar_to_ansi(email);
+		char *szEmail = unicode_to_ansi(email);
 
 		// Success
 		DWORD dwSearchId = SearchByMail(szEmail);
@@ -819,9 +819,9 @@ HANDLE __cdecl CIcqProto::SearchByName(const wchar_t *nick, const wchar_t *first
 {
 	if (icqOnline()) {
 		if (nick || firstName || lastName) {
-			char *nickUtf = tchar_to_utf8(nick);
-			char *firstNameUtf = tchar_to_utf8(firstName);
-			char *lastNameUtf = tchar_to_utf8(lastName);
+			char *nickUtf = make_utf8_string(nick);
+			char *firstNameUtf = make_utf8_string(firstName);
+			char *lastNameUtf = make_utf8_string(lastName);
 
 			// Success
 			HANDLE dwCookie = (HANDLE)SearchByNames(nickUtf, firstNameUtf, lastNameUtf, 0);
@@ -1190,14 +1190,14 @@ HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const wchar_t* szDescripti
 					ft->pszFiles = (char **)SAFE_MALLOC(sizeof(char *)* ft->dwFileCount);
 					ft->dwTotalSize = 0;
 					for (i = 0; i < (int)ft->dwFileCount; i++) {
-						ft->pszFiles[i] = (ppszFiles[i]) ? tchar_to_utf8(ppszFiles[i]) : NULL;
+						ft->pszFiles[i] = (ppszFiles[i]) ? make_utf8_string(ppszFiles[i]) : NULL;
 
 						if (_wstat(ppszFiles[i], &statbuf))
 							debugLogA("IcqSendFile() was passed invalid filename(s)");
 						else
 							ft->dwTotalSize += statbuf.st_size;
 					}
-					ft->szDescription = tchar_to_utf8(szDescription);
+					ft->szDescription = make_utf8_string(szDescription);
 					ft->dwTransferSpeed = 100;
 					ft->sending = 1;
 					ft->fileId = -1;
@@ -1763,7 +1763,7 @@ int __cdecl CIcqProto::SetAwayMsg(int status, const wchar_t* msg)
 		return 1; // Failure
 
 	// Prepare UTF-8 status message
-	char *szNewUtf = tchar_to_utf8(msg);
+	char *szNewUtf = make_utf8_string(msg);
 
 	if (mir_strcmp(szNewUtf, *ppszMsg)) {
 		// Free old message

@@ -85,7 +85,7 @@ void ChangeInfoData::LoadSettingsFromDb(int keepChanged)
 		char buf[MAX_PATH];
 		wchar_t tbuf[MAX_PATH];
 
-		if (utf8_to_tchar_static(GetItemSettingText(i, buf, _countof(buf)), tbuf, _countof(tbuf)))
+		if (make_unicode_string_static(GetItemSettingText(i, buf, _countof(buf)), tbuf, _countof(tbuf)))
 			ListView_SetItemText(hwndList, i, 1, tbuf);
 	}
 }

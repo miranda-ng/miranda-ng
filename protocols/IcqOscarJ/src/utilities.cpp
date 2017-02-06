@@ -207,7 +207,7 @@ int MirandaStatusToSupported(int nMirandaStatus)
 
 char* MirandaStatusToStringUtf(int mirandaStatus)
 { // return miranda status description in utf-8, use unicode service is possible
-	return tchar_to_utf8(pcli->pfnGetStatusModeDescription(mirandaStatus, 0));
+	return make_utf8_string(pcli->pfnGetStatusModeDescription(mirandaStatus, 0));
 }
 
 char** CIcqProto::MirandaStatusToAwayMsg(int nStatus)
@@ -570,7 +570,7 @@ char* NickFromHandleUtf(MCONTACT hContact)
 	if (hContact == INVALID_CONTACT_ID)
 		return ICQTranslateUtf(LPGEN("<invalid>"));
 
-	return tchar_to_utf8(pcli->pfnGetContactDisplayName(hContact, 0));
+	return make_utf8_string(pcli->pfnGetContactDisplayName(hContact, 0));
 }
 
 char* strUID(DWORD dwUIN, char *pszUID)
@@ -1556,7 +1556,7 @@ int FileAccessUtf(const char *path, int mode)
 	size_t size = mir_strlen(path) + 2;
 	wchar_t *szPath = (wchar_t*)_alloca(size * sizeof(wchar_t));
 
-	if (utf8_to_tchar_static(path, szPath, size))
+	if (make_unicode_string_static(path, szPath, size))
 		return _waccess(szPath, mode);
 
 	return -1;
@@ -1568,7 +1568,7 @@ int FileStatUtf(const char *path, struct _stati64 *buffer)
 	size_t size = mir_strlen(path) + 2;
 	wchar_t *szPath = (wchar_t*)_alloca(size * sizeof(wchar_t));
 
-	if (utf8_to_tchar_static(path, szPath, size))
+	if (make_unicode_string_static(path, szPath, size))
 		return _wstat64(szPath, buffer);
 
 	return -1;
@@ -1581,7 +1581,7 @@ int MakeDirUtf(const char *dir)
 	size_t size = mir_strlen(dir) + 2;
 	wchar_t *szDir = (wchar_t*)_alloca(size * sizeof(wchar_t));
 
-	if (utf8_to_tchar_static(dir, szDir, size)) { // _wmkdir can created only one dir at once
+	if (make_unicode_string_static(dir, szDir, size)) { // _wmkdir can created only one dir at once
 		wRes = _wmkdir(szDir);
 		// check if dir not already existed - return success if yes
 		if (wRes == -1 && errno == 17 /* EEXIST */)
@@ -1610,7 +1610,7 @@ int OpenFileUtf(const char *filename, int oflag, int pmode)
 	size_t size = mir_strlen(filename) + 2;
 	wchar_t *szFile = (wchar_t*)_alloca(size * sizeof(wchar_t));
 
-	if (utf8_to_tchar_static(filename, szFile, size))
+	if (make_unicode_string_static(filename, szFile, size))
 		return _wopen(szFile, oflag, pmode);
 
 	return -1;
@@ -1639,7 +1639,7 @@ char* GetWindowTextUtf(HWND hWnd)
 
 	GetWindowText(hWnd, szText, nLen + 1);
 
-	return tchar_to_utf8(szText);
+	return make_utf8_string(szText);
 }
 
 
@@ -1654,7 +1654,7 @@ void SetWindowTextUtf(HWND hWnd, const char *szText)
 	size_t size = mir_strlen(szText) + 2;
 	wchar_t *tszText = (wchar_t*)_alloca(size * sizeof(wchar_t));
 
-	if (utf8_to_tchar_static(szText, tszText, size))
+	if (make_unicode_string_static(szText, tszText, size))
 		SetWindowText(hWnd, tszText);
 }
 
