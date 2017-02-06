@@ -86,8 +86,10 @@ AsyncHttpRequest::~AsyncHttpRequest()
 void AsyncHttpRequest::AddHeader(LPCSTR szName, LPCSTR szValue)
 {
 	for (int i = 0; i < headersCount; i++)
-		if (!mir_strcmp(headers[i].szName, szName))
+		if (!mir_strcmp(headers[i].szName, szName)) {
+			replaceStr(headers[i].szValue, szValue);
 			return;
+		}
 
 	headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
 	headers[headersCount].szName = mir_strdup(szName);

@@ -475,10 +475,17 @@ void CDiscordProto::SendFileThread(void *param)
 	char szRandom[16], szRandomText[33];
 	Utils_GetRandom(szRandom, _countof(szRandom));
 	bin2hex(szRandom, _countof(szRandom), szRandomText);
-	CMStringA szBoundary(FORMAT, "------Boundary%s", szRandomText);
+	CMStringA szBoundary(FORMAT, "----Boundary%s", szRandomText);
 
 	if (p->wszDescr.IsEmpty())
 		p->wszDescr = L"blabla";
+
+	CMStringA szUrl(FORMAT, "/channels/%lld/messages", getId(p->hContact, DB_KEY_CHANNELID));
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveFile);
+	pReq->AddHeader("Content-Type", CMStringA("multipart/form-data; boundary=" + szBoundary));
+	pReq->AddHeader("Accept", "*/*");
+
+	szBoundary.Insert(0, "--");
 
 	CMStringA szBody;
 	szBody.Append(szBoundary + "\r\n");
@@ -501,12 +508,6 @@ void CDiscordProto::SendFileThread(void *param)
 	szBody.Append("\r\n");
 
 	size_t cbBytes = filelength(fileno(in));
-
-	CMStringA szUrl(FORMAT, "/channels/%lld/messages", getId(p->hContact, DB_KEY_CHANNELID));
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveFile);
-
-	pReq->AddHeader("Content-Type", CMStringA("multipart/form-data; boundary=" + szBoundary));
-	pReq->AddHeader("Accept", "*/*");
 
 	szBoundary.Insert(0, "\r\n");
 	szBoundary.Append("--\r\n");
