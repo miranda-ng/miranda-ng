@@ -271,10 +271,11 @@ int onProtoAck(WPARAM, LPARAM l)
 		case ACKRESULT_DENIED:	case ACKRESULT_FAILED:
 			break;
 		case ACKRESULT_SUCCESS:
-			{
-				if(!ack->hProcess)
-					break;
+			if (ack->hProcess) {
 				PROTOFILETRANSFERSTATUS *f = (PROTOFILETRANSFERSTATUS*)ack->hProcess;
+				if (f == NULL)
+					break;
+
 				if ((f->flags & PFTS_SENDING) != PFTS_SENDING) {
 					wchar_t *filename = NULL;
 					if (f->flags & PFTS_UNICODE) {
@@ -289,8 +290,8 @@ int onProtoAck(WPARAM, LPARAM l)
 						if (!filename)
 							return 0;
 					}
-					if (wcsstr(filename, L".gpg")) //decrypt it
-					{ //process encrypted file
+					if (wcsstr(filename, L".gpg")) { //decrypt it
+						//process encrypted file
 						if (!bFileTransfers && !bSameAction) {
 							void ShowEncryptedFileMsgBox();
 							ShowEncryptedFileMsgBox();
