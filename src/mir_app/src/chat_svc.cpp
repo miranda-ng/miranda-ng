@@ -550,8 +550,13 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 			return 0;
 
 		if (si && (si->bInitDone || gcd->iType == GC_EVENT_TOPIC || (gcd->iType == GC_EVENT_JOIN && gce->bIsMe))) {
+			if (gce->ptszNick == nullptr && gce->ptszUID != nullptr) {
+				USERINFO *ui = chatApi.UM_FindUser(si->pUsers, gce->ptszUID);
+				if (ui != nullptr)
+					gce->ptszNick = ui->pszNick;				
+			}
+			
 			int isOk = SM_AddEvent(pWnd, pMod, gce, bIsHighlighted);
-
 			if (si->hWnd) {
 				if (isOk)
 					SendMessage(si->hWnd, GC_ADDLOG, 0, 0);
