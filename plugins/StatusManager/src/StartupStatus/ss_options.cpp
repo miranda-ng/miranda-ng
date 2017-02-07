@@ -21,6 +21,11 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int SSCompareSettings(const TSSSetting *p1, const TSSSetting *p2)
+{
+	return mir_strcmp(p1->szName, p2->szName);
+}
+
 TSettingsList* GetCurrentProtoSettings()
 {
 	int count;

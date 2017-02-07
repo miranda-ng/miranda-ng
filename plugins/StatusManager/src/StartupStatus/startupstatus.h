@@ -30,10 +30,7 @@ struct TSSSetting : public PROTOCOLSETTINGEX, public MZeroedObject
 	~TSSSetting();
 };
 
-static int SSCompareSettings(const TSSSetting *p1, const TSSSetting *p2)
-{
-	return mir_strcmp(p1->szName, p2->szName);
-}
+int SSCompareSettings(const TSSSetting *p1, const TSSSetting *p2);
 
 typedef OBJLIST<TSSSetting> TSettingsList;
 
@@ -147,11 +144,6 @@ TSettingsList* GetCurrentProtoSettings();
 // profile
 int GetProfile(int profileID, TSettingsList& arSettings );
 wchar_t *GetStatusMessage(int profile, char *szProto);
-
-static INT_PTR SrvGetProfile(WPARAM wParam, LPARAM lParam)
-{
-	return GetProfile((int)wParam, *(TSettingsList*)lParam);
-}
 
 INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM lParam);
 INT_PTR GetProfileCount(WPARAM wParam, LPARAM lParam);

@@ -119,6 +119,11 @@ static void SetDialogStatus(HWND hwndDlg, TAAAProtoSetting *sameSetting)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Rules dialog window procedure
 
+int AAACompareSettings(const TAAAProtoSetting *p1, const TAAAProtoSetting *p2)
+{
+	return mir_strcmp(p1->szName, p2->szName);
+}
+
 static TAAAProtoSettingList optionSettings(10, AAACompareSettings);
 
 static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

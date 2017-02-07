@@ -35,17 +35,7 @@
 
 extern HINSTANCE hInst;
 
-static BYTE IsSubPluginEnabled(const char* name)
-{
-	// Check if this plugin was disabled as separate dll
-	CMStringA dllName(FORMAT, "%s.dll", name);
-	dllName.MakeLower();
-	bool dllEnabled = !db_get_b(NULL, "PluginDisable", dllName);
-
-	char setting[128];
-	mir_snprintf(setting, "%s_enabled", name);
-	return db_get_b(NULL, MODULENAME, setting, dllEnabled ? 1 : 0);
-}
+bool IsSubPluginEnabled(const char *name);
 
 class CSubPluginsOptionsDlg : CPluginDlgBase
 {

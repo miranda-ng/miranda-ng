@@ -1,7 +1,21 @@
 #include "stdafx.h"
 
-CSubPluginsOptionsDlg::CSubPluginsOptionsDlg()
-	: CPluginDlgBase(hInst, IDD_OPT_SUBPLUGINS, MODULENAME),
+bool IsSubPluginEnabled(const char *name)
+{
+	// Check if this plugin was disabled as separate dll
+	CMStringA dllName(FORMAT, "%s.dll", name);
+	dllName.MakeLower();
+	int dllEnabled = !db_get_b(NULL, "PluginDisable", dllName);
+
+	char setting[128];
+	mir_snprintf(setting, "%s_enabled", name);
+	return db_get_b(NULL, MODULENAME, setting, dllEnabled) != 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CSubPluginsOptionsDlg::CSubPluginsOptionsDlg() :
+	CPluginDlgBase(hInst, IDD_OPT_SUBPLUGINS, MODULENAME),
 	m_enableKeepStatus(this, IDC_ENABLE_KEEPSTATUS),
 	m_enableStartupStatus(this, IDC_ENABLE_STARTUPSTATUS),
 	m_enableAdvancedAutoAway(this, IDC_ENABLE_ADVANCEDAUTOAWAY)

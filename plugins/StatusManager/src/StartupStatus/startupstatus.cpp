@@ -485,6 +485,11 @@ HANDLE hSSModuleLoadedHook = NULL,
 	hGetProfileCountService,
 	hGetProfileNameService;
 
+static INT_PTR SrvGetProfile(WPARAM wParam, LPARAM lParam)
+{
+	return GetProfile((int)wParam, *(TSettingsList*)lParam);
+}
+
 void StartupStatusLoad()
 {
 	MUUID muidLast = MIID_LAST;

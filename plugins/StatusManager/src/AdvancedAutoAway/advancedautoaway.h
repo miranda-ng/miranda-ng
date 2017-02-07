@@ -72,10 +72,7 @@ struct TAAAProtoSetting : public PROTOCOLSETTINGEX, public MZeroedObject
 	unsigned int sts1setTimer;
 };
 
-static int AAACompareSettings(const TAAAProtoSetting *p1, const TAAAProtoSetting *p2)
-{
-	return mir_strcmp(p1->szName, p2->szName);
-}
+int AAACompareSettings(const TAAAProtoSetting *p1, const TAAAProtoSetting *p2);
 
 struct AAMSGSETTING
 {
