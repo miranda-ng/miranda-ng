@@ -573,6 +573,8 @@ int CDiscordProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	HookProtoEvent(ME_GC_EVENT, &CDiscordProto::GroupchatEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CDiscordProto::GroupchatMenuHook);
+
+	InitMenus();
 	return 0;
 }
 

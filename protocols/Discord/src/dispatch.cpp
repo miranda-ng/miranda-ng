@@ -31,7 +31,9 @@ static handlers[] = // these structures must me sorted alphabetically
 	{ L"CHANNEL_CREATE", &CDiscordProto::OnCommandChannelCreated },
 	{ L"CHANNEL_DELETE", &CDiscordProto::OnCommandChannelDeleted },
 
-	{ L"GUILD_CREATE", &CDiscordProto::OnCommandGuildSync },
+	{ L"GUILD_CREATE", &CDiscordProto::OnCommandGuildCreate },
+	{ L"GUILD_DELETE", &CDiscordProto::OnCommandGuildDelete },
+	{ L"GUILD_MEMBER_REMOVE", &CDiscordProto::OnCommandGuildRemoveMember },
 	{ L"GUILD_SYNC", &CDiscordProto::OnCommandGuildSync },
 
 	{ L"MESSAGE_ACK", &CDiscordProto::OnCommandMessageAck },
@@ -110,7 +112,7 @@ void CDiscordProto::OnCommandFriendRemoved(const JSONNode &pRoot)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// reading a new message
+// guild synchronization
 
 static int sttGetPresence(const JSONNode &pStatuses, const CMStringW &wszId)
 {
@@ -123,6 +125,67 @@ static int sttGetPresence(const JSONNode &pStatuses, const CMStringW &wszId)
 	}
 
 	return 0;
+}
+
+static SnowFlake sttGetLastRead(const JSONNode &reads, const wchar_t *wszChannelId)
+{
+	for (auto it = reads.begin(); it != reads.end(); ++it) {
+		const JSONNode &p = *it;
+
+		if (p["id"].as_mstring() == wszChannelId)
+			return ::getId(p["last_message_id"]);
+	}
+	return 0;
+}
+
+void CDiscordProto::ProcessGuild(const JSONNode &readState, const JSONNode &p)
+{
+	SnowFlake guildId = ::getId(p["id"]);
+	GatewaySendGuildInfo(guildId);
+	CMStringW wszGuildName = p["name"].as_mstring();
+
+	GCSessionInfoBase *si = Chat_NewSession(GCW_SERVER, m_szModuleName, wszGuildName, wszGuildName);
+	Chat_Control(m_szModuleName, wszGuildName, WINDOW_HIDDEN);
+	Chat_Control(m_szModuleName, wszGuildName, SESSION_ONLINE);
+	setId(si->hContact, DB_KEY_CHANNELID, guildId);
+
+	const JSONNode &channels = p["channels"];
+	for (auto itc = channels.begin(); itc != channels.end(); ++itc) {
+		const JSONNode &pch = *itc;
+		if (pch["type"].as_int() != 0)
+			continue;
+
+		CMStringW wszChannelName = pch["name"].as_mstring();
+		CMStringW wszChannelId = pch["id"].as_mstring();
+		SnowFlake channelId = _wtoi64(wszChannelId);
+
+		si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChannelId, wszGuildName + L"#" + wszChannelName);
+		Chat_AddGroup(m_szModuleName, wszChannelId, TranslateT("User"));
+		Chat_Control(m_szModuleName, wszChannelId, WINDOW_HIDDEN);
+		Chat_Control(m_szModuleName, wszChannelId, SESSION_ONLINE);
+
+		CDiscordUser *pUser = FindUserByChannel(channelId);
+		if (pUser == NULL) {
+			// missing channel - create it
+			pUser = new CDiscordUser(channelId);
+			pUser->bIsPrivate = false;
+			pUser->hContact = si->hContact;
+			pUser->channelId = channelId;
+			arUsers.insert(pUser);
+		}
+		pUser->wszUsername = wszChannelId;
+		pUser->guildId = guildId;
+		pUser->lastMessageId = ::getId(pch["last_message_id"]);
+		pUser->lastReadId = sttGetLastRead(readState, wszChannelId);
+
+		setId(pUser->hContact, DB_KEY_CHANNELID, channelId);
+	}
+}
+
+void CDiscordProto::OnCommandGuildCreate(const JSONNode &pRoot)
+{
+	ProcessGuild(JSONNode(), pRoot);
+	OnCommandGuildSync(pRoot);
 }
 
 void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
@@ -162,6 +225,38 @@ void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
 			}
 			Chat_SetStatusEx(m_szModuleName, pUser.wszUsername, flags, wszUserId);
 		}
+	}
+}
+
+void CDiscordProto::OnCommandGuildDelete(const JSONNode &pRoot)
+{
+	SnowFlake guildId = ::getId(pRoot["id"]);
+
+	for (int i = arUsers.getCount()-1; i >= 0; i--) {
+		CDiscordUser &pUser = arUsers[i];
+		if (pUser.guildId == guildId) {
+			Chat_Terminate(m_szModuleName, pUser.wszUsername, true);
+			arUsers.remove(i);
+		}
+	}
+
+	Chat_Terminate(m_szModuleName, pRoot["name"].as_mstring(), true);
+}
+
+void CDiscordProto::OnCommandGuildRemoveMember(const JSONNode &pRoot)
+{
+	SnowFlake guildId = ::getId(pRoot["guild_id"]);
+	CMStringW wszUserId = pRoot["user"]["id"].as_mstring();
+
+	for (int i = 0; i < arUsers.getCount(); i++) {
+		CDiscordUser &pUser = arUsers[i];
+		if (pUser.guildId != guildId)
+			continue;
+
+		GCDEST gcd = { m_szModuleName, pUser.wszUsername, GC_EVENT_PART };
+		GCEVENT gce = { &gcd };
+		gce.ptszUID = wszUserId;
+		Chat_Event(&gce);
 	}
 }
 
@@ -271,17 +366,6 @@ static void __stdcall sttStartTimer(void *param)
 	SetTimer(g_hwndHeartbeat, (UINT_PTR)param, ppro->getHeartbeatInterval(), &CDiscordProto::HeartbeatTimerProc);
 }
 
-static SnowFlake sttGetLastRead(const JSONNode &reads, const wchar_t *wszChannelId)
-{
-	for (auto it = reads.begin(); it != reads.end(); ++it) {
-		const JSONNode &p = *it;
-
-		if (p["id"].as_mstring() == wszChannelId)
-			return ::getId(p["last_message_id"]);
-	}
-	return 0;
-}
-
 void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 {
 	GatewaySendHeartbeat();
@@ -293,49 +377,8 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 	const JSONNode &pStatuses = pRoot["presences"];
 
 	const JSONNode &guilds = pRoot["guilds"];
-	for (auto it = guilds.begin(); it != guilds.end(); ++it) {
-		const JSONNode &p = *it;
-
-		SnowFlake guildId = ::getId(p["id"]);
-		GatewaySendGuildInfo(guildId);
-		CMStringW wszGuildName = p["name"].as_mstring();
-
-		GCSessionInfoBase *si = Chat_NewSession(GCW_SERVER, m_szModuleName, wszGuildName, wszGuildName);
-		Chat_Control(m_szModuleName, wszGuildName, WINDOW_HIDDEN);
-		Chat_Control(m_szModuleName, wszGuildName, SESSION_ONLINE);
-
-		const JSONNode &channels = p["channels"];
-		for (auto itc = channels.begin(); itc != channels.end(); ++itc) {
-			const JSONNode &pch = *itc;
-			if (pch["type"].as_int() != 0)
-				continue;
-
-			CMStringW wszChannelName = pch["name"].as_mstring();
-			CMStringW wszChannelId = pch["id"].as_mstring();
-			SnowFlake channelId = _wtoi64(wszChannelId);
-
-			si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChannelId, wszGuildName + L"#" + wszChannelName);
-			Chat_AddGroup(m_szModuleName, wszChannelId, TranslateT("User"));
-			Chat_Control(m_szModuleName, wszChannelId, WINDOW_HIDDEN);
-			Chat_Control(m_szModuleName, wszChannelId, SESSION_ONLINE);
-
-			CDiscordUser *pUser = FindUserByChannel(channelId);
-			if (pUser == NULL) {
-				// missing channel - create it
-				pUser = new CDiscordUser(channelId);
-				pUser->bIsPrivate = false;
-				pUser->hContact = si->hContact;
-				pUser->channelId = channelId;
-				arUsers.insert(pUser);
-			}
-			pUser->wszUsername = wszChannelId;
-			pUser->guildId = guildId;
-			pUser->lastMessageId = ::getId(pch["last_message_id"]);
-			pUser->lastReadId = sttGetLastRead(readState, wszChannelId);
-
-			setId(pUser->hContact, DB_KEY_CHANNELID, channelId);
-		}
-	}
+	for (auto it = guilds.begin(); it != guilds.end(); ++it)
+		ProcessGuild(readState, *it);
 
 	const JSONNode &relations = pRoot["relationships"];
 	for (auto it = relations.begin(); it != relations.end(); ++it) {

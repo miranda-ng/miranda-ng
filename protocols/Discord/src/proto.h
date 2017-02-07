@@ -187,6 +187,18 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	CDiscordUser* PrepareUser(const JSONNode&);
 
 	//////////////////////////////////////////////////////////////////////////////////////
+	// menu items
+
+	void InitMenus(void);
+
+	int __cdecl OnMenuPrebuild(WPARAM, LPARAM);
+
+	INT_PTR __cdecl OnMenuJoinGuild(WPARAM, LPARAM);
+	INT_PTR __cdecl OnMenuLeaveGuild(WPARAM, LPARAM);
+
+	HGENMENU m_hMenuLeaveGuild;
+
+	//////////////////////////////////////////////////////////////////////////////////////
 	// misc methods
 
 	SnowFlake getId(const char *szName);
@@ -242,6 +254,9 @@ public:
 	// dispatch commands
 	void OnCommandChannelCreated(const JSONNode&);
 	void OnCommandChannelDeleted(const JSONNode&);
+	void OnCommandGuildCreate(const JSONNode&);
+	void OnCommandGuildDelete(const JSONNode&);
+	void OnCommandGuildRemoveMember(const JSONNode&);
 	void OnCommandGuildSync(const JSONNode&);
 	void OnCommandFriendAdded(const JSONNode&);
 	void OnCommandFriendRemoved(const JSONNode&);
@@ -279,6 +294,7 @@ public:
 	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	// Misc
+	void ProcessGuild(const JSONNode &pStatuses, const JSONNode &pRoot);
 	void ProcessType(CDiscordUser *pUser, const JSONNode&);
 	void SetServerStatus(int iStatus);
 	void RemoveFriend(SnowFlake id);

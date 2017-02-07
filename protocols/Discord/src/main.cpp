@@ -21,6 +21,12 @@ HINSTANCE g_hInstance;
 int hLangpack = 0;
 HWND g_hwndHeartbeat;
 
+IconItem g_iconList[] = 
+{
+	{ LPGEN("Main icon"),   "main",      IDI_MAIN      },
+	{ LPGEN("Group chats"), "groupchat", IDI_GROUPCHAT }
+};
+
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -70,6 +76,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 
 	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+
+	Icon_Register(g_hInstance, "Discord", g_iconList, _countof(g_iconList));
 
 	PROTOCOLDESCRIPTOR pd = { 0 };
 	pd.cbSize = sizeof(pd);

@@ -43,6 +43,7 @@
 
 #include "../../libs/zlib/src/zlib.h"
 
+extern IconItem g_iconList[];
 extern HINSTANCE g_hInstance;
 extern HWND g_hwndHeartbeat;
 

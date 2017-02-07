@@ -53,7 +53,7 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_MAIN                ICON                    "discord.ico"
-IDI_OFFLINE             ICON                    "offline.ico"
+IDI_GROUPCHAT           ICON                    "groupchat.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

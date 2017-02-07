@@ -3,7 +3,7 @@
 // Used by w:\miranda-ng\protocols\Discord\res\discord.rc
 //
 #define IDI_MAIN                        101
-#define IDI_OFFLINE                     102
+#define IDI_GROUPCHAT                   102
 #define IDD_OPTIONS_ACCOUNT             103
 #define IDD_EXTSEARCH                   104
 #define IDD_OPTIONS_ACCMGR              105
