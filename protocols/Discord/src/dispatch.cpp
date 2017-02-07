@@ -31,9 +31,10 @@ static handlers[] = // these structures must me sorted alphabetically
 	{ L"CHANNEL_CREATE", &CDiscordProto::OnCommandChannelCreated },
 	{ L"CHANNEL_DELETE", &CDiscordProto::OnCommandChannelDeleted },
 
+	{ L"GUILD_CREATE", &CDiscordProto::OnCommandGuildSync },
 	{ L"GUILD_SYNC", &CDiscordProto::OnCommandGuildSync },
 
-	{ L"MESSAGE_ACK",    &CDiscordProto::OnCommandMessageAck },
+	{ L"MESSAGE_ACK", &CDiscordProto::OnCommandMessageAck },
 	{ L"MESSAGE_CREATE", &CDiscordProto::OnCommandMessage },
 	{ L"MESSAGE_UPDATE", &CDiscordProto::OnCommandMessage },
 
@@ -142,12 +143,13 @@ void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
 			GCDEST gcd = { m_szModuleName, pUser.wszUsername, GC_EVENT_JOIN };
 			GCEVENT gce = { &gcd };
 
+			CMStringW wszNick = m["nick"].as_mstring();
 			CMStringW wszUsername = m["user"]["username"].as_mstring() + L"#" + m["user"]["discriminator"].as_mstring();
 			CMStringW wszUserId = m["user"]["id"].as_mstring();
 			SnowFlake userid = _wtoi64(wszUserId);
 			gce.bIsMe = (userid == m_ownId);
 			gce.ptszUID = wszUserId;
-			gce.ptszNick = wszUsername;
+			gce.ptszNick = wszNick.IsEmpty() ? wszUsername : wszNick;
 			Chat_Event(&gce);
 
 			int flags = GC_SSE_ONLYLISTED;
@@ -213,14 +215,11 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 	}
 	else {
 		debugLogA("store a message into the group channel id %lld", channelId);
-		CMStringW wszUserName = pRoot["author"]["id"].as_mstring();
-		CMStringW wszUserNick = pRoot["author"]["username"].as_mstring() + L"#" + pRoot["author"]["discriminator"].as_mstring();
 
 		GCDEST gcd = { m_szModuleName, wszChannelId, GC_EVENT_MESSAGE };
 		GCEVENT gce = { &gcd };
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.ptszUID = wszUserId;
-		gce.ptszNick = wszUserNick;
 		gce.ptszText = wszText;
 		gce.time = (DWORD)StringToDate(pRoot["timestamp"].as_mstring());
 		gce.bIsMe = _wtoi64(wszUserId) == m_ownId;
@@ -401,7 +400,7 @@ void CDiscordProto::OnCommandTyping(const JSONNode &pRoot)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// UTN support
+// User info update
 
 void CDiscordProto::OnCommandUserUpdate(const JSONNode &pRoot)
 {
