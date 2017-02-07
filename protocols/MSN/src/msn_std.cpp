@@ -26,17 +26,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////////////////////////////////////////////////////////////////////////
 // Standard functions
 
-int CMsnProto::getStringUtf(MCONTACT hContact, const char* name, DBVARIANT* result)
+int CMsnProto::getStringUtf(MCONTACT hContact, const char *name, DBVARIANT *result)
 {
 	return db_get_utf(hContact, m_szModuleName, name, result);
 }
 
-int CMsnProto::getStringUtf(const char* name, DBVARIANT* result)
+int CMsnProto::getStringUtf(const char *name, DBVARIANT *result)
 {
 	return db_get_utf(NULL, m_szModuleName, name, result);
 }
 
-void CMsnProto::setStringUtf(MCONTACT hContact, const char* name, const char* value)
+void CMsnProto::setStringUtf(MCONTACT hContact, const char *name, const char *value)
 {
 	db_set_utf(hContact, m_szModuleName, name, value);
 }
@@ -46,7 +46,7 @@ void CMsnProto::setStringUtf(MCONTACT hContact, const char* name, const char* va
 wchar_t* CMsnProto::GetContactNameT(MCONTACT hContact)
 {
 	if (hContact)
-		return (wchar_t*)pcli->pfnGetContactDisplayName(WPARAM(hContact), 0);
+		return (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0);
 
 	wchar_t *str = Contact_GetInfo(CNF_DISPLAY, NULL, m_szModuleName);
 	if (str != NULL) {

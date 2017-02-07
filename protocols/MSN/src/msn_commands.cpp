@@ -221,7 +221,8 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 	if (tContentType == NULL)
 		return;
 
-	if (nfyMsg) msgBody = tHeader.readFromBuffer(msgBody);
+	if (nfyMsg)
+		msgBody = tHeader.readFromBuffer(msgBody);
 
 	if (!_strnicmp(tContentType, "text/x-clientcaps", 17)) {
 		MimeHeaders tFileInfo;
@@ -244,7 +245,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 
 	if (!_strnicmp(tContentType, "text/plain", 10) ||
 		(!_strnicmp(tContentType, "application/user+xml", 10) && tHeader["Message-Type"] && !strncmp(tHeader["Message-Type"], "RichText", 8))) {
-		MCONTACT hContact = strncmp(email, "19:", 3)?MSN_HContactFromEmail(email, nick, true, true):NULL;
+		MCONTACT hContact = strncmp(email, "19:", 3) ? MSN_HContactFromEmail(email, nick, true, true) : NULL;
 
 		if (!_stricmp(tHeader["Message-Type"], "RichText/UriObject") || !_stricmp(tHeader["Message-Type"], "RichText/Media_GenericFile")) {
 			ezxml_t xmli = ezxml_parse_str(msgBody, strlen(msgBody));
@@ -252,8 +253,8 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 				MSN_ProcessURIObject(hContact, xmli);
 				ezxml_free(xmli);
 			}
-		} else
-		if (!_stricmp(tHeader["Message-Type"], "RichText/Contacts")) {
+		}
+		else if (!_stricmp(tHeader["Message-Type"], "RichText/Contacts")) {
 			ezxml_t xmli = ezxml_parse_str(msgBody, mir_strlen(msgBody));
 			if (xmli) {
 				if (!mir_strcmp(xmli->name, "contacts")) {
@@ -295,11 +296,12 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 				}
 				ezxml_free(xmli);
 			}
-		} else
-		if (!_stricmp(tHeader["Message-Type"], "Control/Typing")) CallService(MS_PROTO_CONTACTISTYPING, hContact, 7); else
-		if (!_stricmp(tHeader["Message-Type"], "Control/ClearTyping")) CallService(MS_PROTO_CONTACTISTYPING, hContact, 0);
+		}
+		else if (!_stricmp(tHeader["Message-Type"], "Control/Typing")) 
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, 7);
+		else if (!_stricmp(tHeader["Message-Type"], "Control/ClearTyping"))
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, 0);
 		else {
-
 			const char* p = tHeader["X-MMS-IM-Format"];
 			bool isRtl = p != NULL && strstr(p, "RL=1") != NULL;
 
@@ -1164,7 +1166,8 @@ LBL_InvalidCommand:
 
 							if (bIsChat) {
 								hContact = MSN_HContactFromEmail(from->txt, NULL, false, false);
-								if (hContact) db_unset(hContact, m_szModuleName, "syncTS");
+								if (hContact)
+									db_unset(hContact, m_szModuleName, "syncTS");
 								MSN_GCAddMessage(_A2T(id->txt), hContact, email, ts, sentMsg, message);
 							}
 							else if (hContact) {
