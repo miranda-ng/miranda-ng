@@ -34,6 +34,7 @@ static handlers[] = // these structures must me sorted alphabetically
 	{ L"GUILD_CREATE", &CDiscordProto::OnCommandGuildCreate },
 	{ L"GUILD_DELETE", &CDiscordProto::OnCommandGuildDelete },
 	{ L"GUILD_MEMBER_REMOVE", &CDiscordProto::OnCommandGuildRemoveMember },
+	{ L"GUILD_MEMBER_UPDATE", &CDiscordProto::OnCommandGuildUpdateMember },
 	{ L"GUILD_SYNC", &CDiscordProto::OnCommandGuildSync },
 
 	{ L"MESSAGE_ACK", &CDiscordProto::OnCommandMessageAck },
@@ -259,6 +260,34 @@ void CDiscordProto::OnCommandGuildRemoveMember(const JSONNode &pRoot)
 		Chat_Event(&gce);
 	}
 }
+
+void CDiscordProto::OnCommandGuildUpdateMember(const JSONNode &pRoot)
+{
+	SnowFlake guildId = ::getId(pRoot["guild_id"]);
+	CMStringW wszUserId = pRoot["user"]["id"].as_mstring();
+	CMStringW wszUserNick = pRoot["nick"].as_mstring(), wszOldNick;
+
+	for (int i = 0; i < arUsers.getCount(); i++) {
+		CDiscordUser &pUser = arUsers[i];
+		if (pUser.guildId != guildId)
+			continue;
+
+		SESSION_INFO *si = pci->SM_FindSession(pUser.wszUsername, m_szModuleName);
+		if (si != nullptr) {
+			USERINFO *ui = pci->UM_FindUser(si->pUsers, wszUserId);
+			if (ui != nullptr)
+				wszOldNick = ui->pszNick;
+		}
+
+		GCDEST gcd = { m_szModuleName, pUser.wszUsername, GC_EVENT_NICK };
+		GCEVENT gce = { &gcd };
+		gce.ptszUID = wszUserId;
+		gce.ptszNick = wszOldNick;
+		gce.ptszText = wszUserNick;
+		Chat_Event(&gce);
+	}
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // reading a new message

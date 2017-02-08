@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+CHAT_MANAGER *pci;
 HINSTANCE g_hInstance;
 int hLangpack = 0;
 HWND g_hwndHeartbeat;
@@ -74,6 +75,7 @@ static int protoUninit(PROTO_INTERFACE *proto)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	pci = Chat_GetInterface();
 
 	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 

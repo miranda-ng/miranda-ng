@@ -199,6 +199,15 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	HGENMENU m_hMenuLeaveGuild;
 
 	//////////////////////////////////////////////////////////////////////////////////////
+	// group chats
+
+	int  __cdecl GroupchatEventHook(WPARAM, LPARAM);
+	int  __cdecl GroupchatMenuHook(WPARAM, LPARAM);
+
+	void Chat_SendPrivateMessage(GCHOOK *gch);
+	void Chat_ProcessLogMenu(GCHOOK *gch);
+
+	//////////////////////////////////////////////////////////////////////////////////////
 	// misc methods
 
 	SnowFlake getId(const char *szName);
@@ -248,15 +257,13 @@ public:
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int  __cdecl OnDbEventRead(WPARAM, LPARAM);
 	
-	int  __cdecl GroupchatEventHook(WPARAM, LPARAM);
-	int  __cdecl GroupchatMenuHook(WPARAM, LPARAM);
-
 	// dispatch commands
 	void OnCommandChannelCreated(const JSONNode&);
 	void OnCommandChannelDeleted(const JSONNode&);
 	void OnCommandGuildCreate(const JSONNode&);
 	void OnCommandGuildDelete(const JSONNode&);
 	void OnCommandGuildRemoveMember(const JSONNode&);
+	void OnCommandGuildUpdateMember(const JSONNode&);
 	void OnCommandGuildSync(const JSONNode&);
 	void OnCommandFriendAdded(const JSONNode&);
 	void OnCommandFriendRemoved(const JSONNode&);
