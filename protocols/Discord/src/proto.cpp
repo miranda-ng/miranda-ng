@@ -478,9 +478,6 @@ void CDiscordProto::SendFileThread(void *param)
 	bin2hex(szRandom, _countof(szRandom), szRandomText);
 	CMStringA szBoundary(FORMAT, "----Boundary%s", szRandomText);
 
-	if (p->wszDescr.IsEmpty())
-		p->wszDescr = L"blabla";
-
 	CMStringA szUrl(FORMAT, "/channels/%lld/messages", getId(p->hContact, DB_KEY_CHANNELID));
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveFile);
 	pReq->AddHeader("Content-Type", CMStringA("multipart/form-data; boundary=" + szBoundary));
