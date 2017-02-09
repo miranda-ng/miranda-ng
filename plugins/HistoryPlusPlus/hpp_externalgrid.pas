@@ -33,6 +33,11 @@ type
 
   PExtCustomItem = ^TExtCustomItem;
 
+  TOldDBEventInfo = record
+    cbSize   : dword;
+    d        : TDBEventInfo;
+  end;
+
   TExtCustomItem = record
     Nick: String;
     Text: String;
@@ -1235,7 +1240,8 @@ end;
 
 procedure TExternalGrid.GridMCData(Sender: TObject; Index: Integer; var Item: TMCItem; Stage: TSaveStage);
 var
-  DBEventInfo: TDBEventInfo;
+  DBEventInfo: TOldDBEventInfo;
+  dbei : TDBEventInfo;
   hDBEvent: THandle;
   DataOffset: PAnsiChar;
   TextUTF: AnsiString;
@@ -1246,32 +1252,34 @@ begin
     if Items[Index].Custom then
     begin
       ZeroMemory(@DBEventInfo, SizeOf(DBEventInfo));
-      DBEventInfo.timestamp := Items[Index].CustomEvent.Time;
-      DBEventInfo.flags := DBEF_READ or DBEF_UTF;
+      DBEventInfo.cbSize := SizeOf(DBEventInfo);
+      DBEventInfo.d.timestamp := Items[Index].CustomEvent.Time;
+      DBEventInfo.d.flags := DBEF_READ or DBEF_UTF;
       if Items[Index].CustomEvent.Sent then
-        DBEventInfo.flags := DBEventInfo.flags or DBEF_SENT;
-      DBEventInfo.EventType := EVENTTYPE_MESSAGE;
+        DBEventInfo.d.flags := DBEventInfo.d.flags or DBEF_SENT;
+      DBEventInfo.d.EventType := EVENTTYPE_MESSAGE;
       TextUTF := UTF8Encode(Items[Index].CustomEvent.Text) + #0;
-      DBEventInfo.cbBlob := Length(TextUTF) + 1;
-      DBEventInfo.pBlob := Pointer(PAnsiChar(TextUTF));
-      Item.Size := sizeof(DBEventInfo) + Cardinal(DBEventInfo.cbBlob);
+      DBEventInfo.d.cbBlob := Length(TextUTF) + 1;
+      DBEventInfo.d.pBlob := Pointer(PAnsiChar(TextUTF));
+      Item.Size := Cardinal(DBEventInfo.cbSize) + Cardinal(DBEventInfo.d.cbBlob);
     end
     else
     begin
       hDBEvent := Items[Index].hDBEvent;
       if hDBEvent <> 0 then
       begin
-        DBEventInfo := GetEventInfo(hDBEvent);
-        DBEventInfo.szModule := nil;
-        Item.Size := sizeof(DBEventInfo) + Cardinal(DBEventInfo.cbBlob);
+        DBEventInfo.cbSize := SizeOf(DBEventInfo);
+        DBEventInfo.d := GetEventInfo(hDBEvent);
+        DBEventInfo.d.szModule := nil;
+        Item.Size := Cardinal(DBEventInfo.cbSize) + Cardinal(DBEventInfo.d.cbBlob);
       end;
     end;
     if Item.Size > 0 then
     begin
       GetMem(Item.Buffer, Item.Size);
-      DataOffset := PAnsiChar(Item.Buffer) + sizeof(DBEventInfo);
-      Move(DBEventInfo, Item.Buffer^, sizeof(DBEventInfo));
-      Move(DBEventInfo.pBlob^, DataOffset^, DBEventInfo.cbBlob);
+      DataOffset := PAnsiChar(Item.Buffer) + DBEventInfo.cbSize;
+      Move(DBEventInfo, Item.Buffer^, DBEventInfo.cbSize);
+      Move(DBEventInfo.d.pBlob^, DataOffset^, DBEventInfo.d.cbBlob);
     end;
   end
   else if Stage = ssDone then
