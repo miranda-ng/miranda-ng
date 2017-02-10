@@ -29,13 +29,13 @@ STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Enable modules",IDC_STATIC,9,8,282,156
+    GROUPBOX        "Available modules",IDC_STATIC,9,8,282,156
     CONTROL         "Keep status",IDC_ENABLE_KEEPSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,24,262,10
-    LTEXT           "A connection checker. Automatically reconnects your accounts after protocol error or internet drop.",IDC_STATIC,40,36,241,24
+    LTEXT           "Automatically reconnects your accounts after protocol error or internet drop.",IDC_STATIC,40,36,241,24
     CONTROL         "Startup status",IDC_ENABLE_STARTUPSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,64,262,10
     LTEXT           "Allows you to define the status Miranda should set on startup, configurable per account.",IDC_STATIC,40,76,241,24
     CONTROL         "Advanced auto away",IDC_ENABLE_ADVANCEDAUTOAWAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,105,262,10
-    LTEXT           "Improved Auto Away module with some more options than the built in, configurable per account.",IDC_STATIC,40,117,241,24
+    LTEXT           "Improved auto away module with some more options than the built in, configurable per account.",IDC_STATIC,40,117,241,24
     LTEXT           "Note: Miranda NG will have to be restarted for changes to take effect.",IDC_STATIC,19,148,270,9
 END
 
