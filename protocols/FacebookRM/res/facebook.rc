@@ -131,7 +131,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,134,271,10
     CONTROL         "Load also Messenger contacts at login (not only Facebook friends)",IDC_LOAD_ALL_CONTACTS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,148,271,10
-    CONTROL         "Use invisible status for Facebook Pages (instead of offline)",IDC_PAGES_ALWAYS_ONLINE,
+    CONTROL         "Use Invisible status for Facebook Pages (instead of Offline)",IDC_PAGES_ALWAYS_ONLINE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,163,271,10
 END
 
