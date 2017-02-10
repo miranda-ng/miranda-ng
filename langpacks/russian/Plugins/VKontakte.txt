@@ -166,11 +166,11 @@ E-mail или номер телефона:
 [Sync history on protocol online:]
 При входе синхронизировать историю:
 [Load last messages when message window open and  local history is empty]
-Загрузить последние сообщения если открыто окно, и локальная история пуста
+Загружать последние сообщения, если открыто окно и локальная история пуста
 [Use local time for received messages]
 Местное время для принятых сообщений
 [Load only friends to local contact list]
-Добавлять в контакт лист только друзей
+Добавлять в список контактов только друзей
 [Server-side delivery confirmation]
 Подтверждение доставки со стороны сервера
 [Bots challenge test]
@@ -188,7 +188,7 @@ E-mail или номер телефона:
 [Choose one of your contacts to be invited:]
 Выбор пользователя для приглашения в чат:
 [Create group chat]
-Cоздать комнату чата
+Создать комнату чата
 [Mark users you want to invite to a new chat]
 Отметить пользователей для приглашения в комнату чата
 [New chat's title:]
@@ -524,9 +524,9 @@ ID получателя ошибочен или неизвестен
 [Errors]
 Ошибки
 [Notification]
-Уведомдение
+Уведомление
 [VK user activate/deactivate action]
-Действие активации/деактивации пользоватея ВК
+Действие активации/деактивации пользователя ВКонтакте
 [User %s added as friend]
 Пользователь %s добавлен в друзья
 [You cannot add yourself as friend]

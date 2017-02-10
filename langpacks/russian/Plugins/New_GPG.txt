@@ -8,7 +8,7 @@
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Плагин шифрования GPG, основанный на исходных кодах старого плагина GPG и SecureIM.
 [Load public GPG key]
-Загрузить пупличный GPG ключ
+Загрузить публичный GPG ключ
 [Load from file]
 Загрузить из файла
 [Select existing]
@@ -194,7 +194,7 @@ ID ключа:
 [Error]
 Ошибка
 [Generating new random key, please wait]
-Генерируется новый ключ, пожалуйста подождите...
+Генерируется новый случайный ключ, пожалуйста, подождите
 [Warning]
 Предупреждение
 [This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]

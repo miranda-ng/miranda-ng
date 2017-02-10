@@ -280,7 +280,7 @@ Cтатус-профиль
 [Rules]
 Правила
 [Status messages]
-Статусные сообщения
+Сообщения статуса
 [Auto away]
 Отсутствие
 [%s connected from another location]

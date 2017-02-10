@@ -1,5 +1,4 @@
 ﻿[&E-mail]
-[In a civil union]
 [Browser: Back]
 [Browser: Forward]
 [Browser: Refresh]
