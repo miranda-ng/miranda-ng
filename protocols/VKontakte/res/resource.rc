@@ -306,7 +306,7 @@ BEGIN
     COMBOBOX        IDC_COMBO_MARKASREAD,167,101,121,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     RTEXT           "Sync history on protocol online:",IDC_STATIC,12,117,150,12,SS_CENTERIMAGE
     COMBOBOX        IDC_COMBO_SYNCHISTORY,167,117,121,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Load last messages when message window open and  local history is empty",IDC_LASTHISTORYLOAD,
+    CONTROL         "Load last messages when message window open and local history is empty",IDC_LASTHISTORYLOAD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,133,278,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,143,278,10
