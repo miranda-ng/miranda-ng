@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.2.0.1
+;  Version: 0.3.1.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -14,8 +14,20 @@
 [Default group:]
 [Nick:]
 ;file \protocols\Discord\src\dispatch.cpp
-[edited at]
 [User]
+[edited at]
+;file \protocols\Discord\src\groupchat.cpp
+[Change &nickname]
+[&Invite a user]
+[Enter your new nick name:]
+;file \protocols\Discord\src\main.cpp
+[Main icon]
+[Group chats]
+;file \protocols\Discord\src\menus.cpp
+[Enter invitation code you received]
+[Do you really want to leave the guild?]
+[Join guild]
+[Leave guild]
 ;file \protocols\Discord\src\options.cpp
 [Network]
 [Account]
@@ -23,4 +35,6 @@
 [%s server connection]
 [%s gateway connection]
 [User ID]
-[Protocol is offline or no JID]
+[Protocol is offline or user isn't authorized yet]
+;file \protocols\Discord\src\utils.cpp
+[Attachment]

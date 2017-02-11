@@ -86,7 +86,7 @@
 [Language for names and titles:]
 [Mark message as read:]
 [Sync history on protocol online:]
-[Load last messages when message window open and  local history is empty]
+[Load last messages when message window open and local history is empty]
 [Use local time for received messages]
 [Load only friends to local contact list]
 [Server-side delivery confirmation]

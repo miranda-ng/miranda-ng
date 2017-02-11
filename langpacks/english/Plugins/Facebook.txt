@@ -27,7 +27,7 @@
 [Use bigger avatars]
 [Prefer real names instead of nicknames]
 [Load also Messenger contacts at login (not only Facebook friends)]
-[Use invisible status for Facebook Pages (instead of offline)]
+[Use Invisible status for Facebook Pages (instead of Offline)]
 [Popup notifications]
 [Show notifications]
 [Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
