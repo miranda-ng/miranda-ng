@@ -20,12 +20,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 enum {
 	IDM_CANCEL,
 
-	IDM_CHANGENICK, IDM_INVITE
+	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_INVITE
 };
 
 static gc_item sttLogListItems[] =
 {
 	{ LPGENW("Change &nickname"), IDM_CHANGENICK, MENU_ITEM },
+	{ LPGENW("Change &topic"), IDM_CHANGETOPIC, MENU_ITEM },
+	{ L"", 100, MENU_SEPARATOR, FALSE },
 	{ LPGENW("&Invite a user"), IDM_INVITE, MENU_ITEM },
 };
 
@@ -82,12 +84,23 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 	if (pUser == NULL)
 		return;
 
+	ENTER_STRING es = { sizeof(es) };
+
 	switch (gch->dwData) {
-	case IDM_INVITE:
+	case IDM_CHANGETOPIC:
+		es.caption = TranslateT("Enter new topic:");
+		es.type = ESF_RICHEDIT;
+		es.szModuleName = m_szModuleName;
+		es.szDataPrefix = "chat_topic";
+		if (EnterString(&es)) {
+			JSONNode root; root << WCHAR_PARAM("topic", es.ptszResult);
+			CMStringA szUrl(FORMAT, "/channels/%S", pUser->wszUsername);
+			Push(new AsyncHttpRequest(this, REQUEST_PATCH, szUrl, NULL, &root));
+			mir_free(es.ptszResult);
+		}
 		break;
 
 	case IDM_CHANGENICK:
-		ENTER_STRING es = { sizeof(es) };
 		es.caption = TranslateT("Enter your new nick name:");
 		es.type = ESF_COMBO;
 		es.szModuleName = m_szModuleName;

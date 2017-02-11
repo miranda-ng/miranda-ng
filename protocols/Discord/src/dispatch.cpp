@@ -30,6 +30,7 @@ static handlers[] = // these structures must me sorted alphabetically
 {
 	{ L"CHANNEL_CREATE", &CDiscordProto::OnCommandChannelCreated },
 	{ L"CHANNEL_DELETE", &CDiscordProto::OnCommandChannelDeleted },
+	{ L"CHANNEL_UPDATE", &CDiscordProto::OnCommandChannelUpdated },
 
 	{ L"GUILD_CREATE", &CDiscordProto::OnCommandGuildCreate },
 	{ L"GUILD_DELETE", &CDiscordProto::OnCommandGuildDelete },
@@ -86,6 +87,25 @@ void CDiscordProto::OnCommandChannelDeleted(const JSONNode &pRoot)
 	if (pUser != NULL) {
 		pUser->channelId = pUser->lastMessageId = 0;
 		delSetting(pUser->hContact, DB_KEY_CHANNELID);
+	}
+}
+
+void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
+{
+	CDiscordUser *pUser = FindUserByChannel(::getId(pRoot["id"]));
+	if (pUser == NULL)
+		return;
+
+	pUser->lastMessageId = ::getId(pRoot["last_message_id"]);
+
+	CMStringW wszTopic = pRoot["topic"].as_mstring();
+	if (!wszTopic.IsEmpty()) {
+		Chat_SetStatusbarText(m_szModuleName, pUser->wszUsername, wszTopic);
+
+		GCDEST gcd = { m_szModuleName, pUser->wszUsername, GC_EVENT_TOPIC };
+		GCEVENT gce = { &gcd };
+		gce.ptszText = wszTopic;
+		Chat_Event(&gce);
 	}
 }
 
@@ -158,12 +178,22 @@ void CDiscordProto::ProcessGuild(const JSONNode &readState, const JSONNode &p)
 
 		CMStringW wszChannelName = pch["name"].as_mstring();
 		CMStringW wszChannelId = pch["id"].as_mstring();
+		CMStringW wszTopic = pch["topic"].as_mstring();
 		SnowFlake channelId = _wtoi64(wszChannelId);
 
 		si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChannelId, wszGuildName + L"#" + wszChannelName);
 		Chat_AddGroup(m_szModuleName, wszChannelId, TranslateT("User"));
 		Chat_Control(m_szModuleName, wszChannelId, WINDOW_HIDDEN);
 		Chat_Control(m_szModuleName, wszChannelId, SESSION_ONLINE);
+
+		if (!wszTopic.IsEmpty()) {
+			Chat_SetStatusbarText(m_szModuleName, wszChannelId, wszTopic);
+
+			GCDEST gcd = { m_szModuleName, wszChannelId, GC_EVENT_TOPIC };
+			GCEVENT gce = { &gcd };
+			gce.ptszText = wszTopic;
+			Chat_Event(&gce);
+		}
 
 		CDiscordUser *pUser = FindUserByChannel(channelId);
 		if (pUser == NULL) {

@@ -260,6 +260,7 @@ public:
 	// dispatch commands
 	void OnCommandChannelCreated(const JSONNode&);
 	void OnCommandChannelDeleted(const JSONNode&);
+	void OnCommandChannelUpdated(const JSONNode&);
 	void OnCommandGuildCreate(const JSONNode&);
 	void OnCommandGuildDelete(const JSONNode&);
 	void OnCommandGuildRemoveMember(const JSONNode&);
