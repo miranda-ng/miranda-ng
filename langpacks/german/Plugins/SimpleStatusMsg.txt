@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
-;  Version: 1.9.0.5
+;  Version: 1.9.0.6
 ;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
@@ -234,6 +234,8 @@ Sind Sie sich sicher, dass Sie die vordefinierten Statusnachrichten löschen wol
 Löschen der vordefinierten Statusnachrichten bestätigen
 [<last status>]
 <Letzter Status>
+[Startup status]
+
 [Status]
 Status
 [General]

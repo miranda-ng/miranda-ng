@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.9
+;  Version: 0.1.2.12
 ;  Authors: Miranda NG Team
 ;============================================================
 [Status message]
@@ -49,10 +49,10 @@ URL:
 Аудио
 [Video]
 Видео
-[Document]
-Документ
 [Link]
 Връзка
+[Document]
+Документ
 [(Unknown contact)]
 (Непознат контакт)
 [Message from]

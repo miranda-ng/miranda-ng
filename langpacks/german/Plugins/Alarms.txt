@@ -84,8 +84,6 @@ Wöchentlich
 Täglich
 [Weekdays]
 Wochentags
-[Monthly]
-Monatlich
 [Yearly]
 Jährlich
 [i'm hiding]
@@ -100,6 +98,22 @@ Beim Start nicht auslösen
 Keine Erinnerung
 [Selected days]
 
+[Mon]
+Mo
+[Tue]
+Di
+[Wed]
+Mi
+[Thu]
+Do
+[Fri]
+Fr
+[Sat]
+Sa
+[Sun]
+So
+[Monthly]
+Monatlich
 [Dismiss]
 Verwerfen
 [Snooze]

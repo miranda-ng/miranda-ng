@@ -2,9 +2,15 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 0.11.0.0
+;  Version: 0.11.2.0
 ;  Authors: P Boon
 ;============================================================
+[Startup status]
+Състояние при стартиране
+[Allows you to define the status Miranda should set on startup, configurable per account.]
+Позволява ви да определите състояние за всеки протокол по отделно при стартиране.
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Бележка: За осъществяване на промени е необходимо да рестартирате Miranda.
 [General]
 Основни
 [Show popups]
@@ -219,36 +225,6 @@ Dial-up (експериментално)
 неуспешни пингове
 [Continuously check interval (secs)]
 Интервал за периодично проверяване (сек)
-[minutes of %s mode]
-минути "%s"
-[Rules]
-Правила
-[Status messages]
-Текст за състояние
-[Auto away]
-Авто "Отсъстващ"
-[I've been away since %time%.]
-Отсъствам от %time%.
-[Give it up, I'm not in!]
-Няма ме, откажете се!!
-[Not right now.]
-Не точно сега.
-[Give a guy some peace, would ya?]
-Дайте на човека малко спокойствие!
-[I'm a chatbot!]
-Аз съм същински чат робот!
-[Yep, I'm here.]
-Да, тук съм.
-[Nope, not here.]
-Не, не съм тук.
-[I'm hiding from the mafia.]
-Крия се от мафията.
-[That'll be the phone.]
-Това май е телефона.
-[Mmm... food.]
-Ммм... храна.
-[idleeeeeeee]
-бездействаммм
 [Set %s message for %s.]
 Задаване на текст "%s" за акаунт %s.
 [<last>]
@@ -261,6 +237,14 @@ Dial-up (експериментално)
 Протокол
 [Closing in %d]
 Затваряне след %d
+[minutes of %s mode]
+минути "%s"
+[Rules]
+Правила
+[Status messages]
+Текст за състояние
+[Auto away]
+Авто "Отсъстващ"
 [%s\t(will be set to %s)\r\n]
 %s\t(ще бъде зададено %s)\r\n
 [Resetting status... (last try (%d))%s]

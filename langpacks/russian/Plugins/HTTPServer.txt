@@ -79,6 +79,8 @@ IP-адрес 2
 &Открыть в браузере
 [&Copy link]
 &Копировать ссылку
+[Share Current Directory]
+Сделать текущую папку общей
 [All files]
 Все файлы
 [Specify a file to share]

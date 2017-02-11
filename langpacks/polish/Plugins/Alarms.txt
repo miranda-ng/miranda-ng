@@ -84,8 +84,6 @@ Tygodniowo
 Dziennie
 [Weekdays]
 W dni robocze
-[Monthly]
-Miesięcznie
 [Yearly]
 Rocznie
 [i'm hiding]
@@ -100,6 +98,22 @@ Nie włączaj na starcie
 Nie przypominaj
 [Selected days]
 
+[Mon]
+Pon.
+[Tue]
+Wt.
+[Wed]
+Śr.
+[Thu]
+Czw.
+[Fri]
+Piąt.
+[Sat]
+Sob.
+[Sun]
+Niedz.
+[Monthly]
+Miesięcznie
 [Dismiss]
 Odrzuć
 [Snooze]

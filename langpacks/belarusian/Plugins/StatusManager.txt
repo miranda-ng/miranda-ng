@@ -2,11 +2,27 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 0.11.0.0
+;  Version: 0.11.2.0
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 Правярае наяўнасць далучэння і аўтаматычна перадалучае пры парывах. Дазваляе вам наладзіць, які статус будзе пры запуску Miranda у кожнага конта.
+[Available modules]
+
+[Keep status]
+Перадалучэнне
+[Automatically reconnects your accounts after protocol error or internet drop.]
+Правярае наяўнасць далучэння і аўтаматычна перадалучае пры парывах.
+[Startup status]
+Пачатковы статус
+[Allows you to define the status Miranda should set on startup, configurable per account.]
+Дазваляе вам наладзіць, які статус будзе пры запуску Miranda у кожнага конта.
+[Advanced auto away]
+
+[Improved auto away module with some more options than the built in, configurable per account.]
+
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Нататка: Змены запрацуюць пасля перазапуску праграмы.
 [General]
 Агульнае
 [Show popups]
@@ -259,46 +275,16 @@ Dial-up (эксперыментальна)
 Увод другога статуса аўта-адсутнасці
 [Leaving first auto-away status]
 Выдаленне першага статуса аўта-адсутнасці
-[Leaving second auto-away status]
-Выдаленне другога статуса аўта-адсутнасці
-[Becoming active without status change]
-Не змяняць статус пры вяртанні
 [Pre-conditions]
 Перадумовы
-[TriggerData]
-Дадзеныя трыгера
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Статус: Статус конта зменіцца на\r\nКонт: Змяненне стану конта
-[minutes of %s mode]
-хвілін рэжыму "%s"
-[Rules]
-Кіравала
-[Status messages]
-Паведамленні статусу
-[Auto away]
-Адсутнасць
-[I've been away since %time%.]
-Адышоў %time%. Хутка буду.
-[Give it up, I'm not in!]
-Мяне няма
-[Not right now.]
-Не зараз.
-[Give a guy some peace, would ya?]
-Не чапайце пакуль, га?
-[I'm a chatbot!]
-Вольны
-[Yep, I'm here.]
-Так, я тут.
-[Nope, not here.]
-Не, я не тут.
-[I'm hiding from the mafia.]
-Я хаваюся ад мафіі.
-[That'll be the phone.]
-Гавару па тэлефоне...
-[Mmm... food.]
-Ммм... е-е-ежа...
-[idleeeeeeee]
-чаканне...
+[TriggerData]
+Дадзеныя трыгера
+[Becoming active without status change]
+Не змяняць статус пры вяртанні
+[Leaving second auto-away status]
+Выдаленне другога статуса аўта-адсутнасці
 [Set %s message for %s.]
 Уст. %s паведамленне для %s.
 [<last>]
@@ -311,6 +297,16 @@ Dial-up (эксперыментальна)
 Пратакол
 [Closing in %d]
 Зачыніць (%d)
+[Status manager]
+
+[minutes of %s mode]
+хвілін рэжыму "%s"
+[Rules]
+Кіравала
+[Status messages]
+Паведамленні статусу
+[Auto away]
+Адсутнасць
 [%s connected from another location]
 %s далучаны з іншага месца
 [%s login error, cancel reconnecting]
@@ -335,8 +331,6 @@ Dial-up (эксперыментальна)
 Статус усталяваны
 [Giving up]
 Спыняю
-[Keep status]
-Перадалучэнне
 [Basic]
 Асноўныя
 [Advanced]
@@ -369,12 +363,8 @@ Dial-up (эксперыментальна)
 невядома
 [At least one profile must exist]
 Мінімум адзін профіль павінен існаваць
-[Status manager]
-
 [Your default profile will be changed]
 Профіль па змаўчанні будзе зменены
-[Startup status]
-Пачатковы статус
 [Pressed toolbar icon]
 Націснуты абразок панэлі
 [Released toolbar icon]

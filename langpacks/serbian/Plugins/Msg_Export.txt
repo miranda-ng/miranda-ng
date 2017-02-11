@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.1.6
+;  Version: 3.1.2.1
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -31,6 +31,8 @@ Pomoć
 [Export directory]
 
 [Max column width]
+
+[Note: 0 = no limit]
 
 [Time format]
 
@@ -113,15 +115,17 @@ Datoteka nije kreirana
 [Open E&xported History]
 
 ;file \plugins\Msg_Export\src\options.cpp
-[No contacts found to export]
-
 [Reading database information (Phase 1 of 2)]
-
-[Failed to export at least one contact]
 
 [Sorting and writing database information (Phase 2 of 2)]
 
-[Max line width must be at least %d]
+[Failed to open or create file :\n]
+
+[No contacts found to export]
+
+[Failed to export at least one contact]
+
+[Max line width must be at least %d. Or use 0 for no limit.]
 
 [You need to restart Miranda to change the history function]
 
@@ -176,8 +180,6 @@ Uopšteno
 [Do you wish to save debug information?]
 
 [All\0*.*\0Text\0*.TXT\0\0]
-
-[Failed to open or create file :\n]
 
 [Failed to move to the end of the file :\n]
 

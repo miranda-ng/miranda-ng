@@ -5,6 +5,7 @@ contact list - список контактов
 database — база данных (файл .dat и то, что непосредственно к нему относится: индексы, журналы)
 firewall - брандмауэр (терминология Microsoft)
 forward - пересылка
+handle - дескриптор (см. https://technet.microsoft.com/ru-ru/sysinternals/handle.aspx)
 HTML entity - HTML-представление
 icon - значок
 message session - беседа

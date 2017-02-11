@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.1.6
+;  Version: 3.1.2.1
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -32,6 +32,8 @@ Eksportuj wszystko
 Folder eksportu
 [Max column width]
 Szerokość
+[Note: 0 = no limit]
+
 [Time format]
 Format czasu
 [Export format]
@@ -113,16 +115,18 @@ Nie udało się utworzyć okna historii
 [Open E&xported History]
 Otwórz e&ksportowaną historię
 ;file \plugins\Msg_Export\src\options.cpp
-[No contacts found to export]
-Nie znaleziono kontaktów do eksportu
 [Reading database information (Phase 1 of 2)]
 Odczyt informacji z bazy danych (etap 1 z 2)
-[Failed to export at least one contact]
-Nie udało się eksportować co najmniej jednego kontaktu
 [Sorting and writing database information (Phase 2 of 2)]
 Sortowanie i zapisywanie informacji z profilu ( Etap 2 z 2 )
-[Max line width must be at least %d]
-Szerokość linii musi mieć co najmniej %d
+[Failed to open or create file :\n]
+Błąd otwierania lub tworzenia pliku :\n
+[No contacts found to export]
+Nie znaleziono kontaktów do eksportu
+[Failed to export at least one contact]
+Nie udało się eksportować co najmniej jednego kontaktu
+[Max line width must be at least %d. Or use 0 for no limit.]
+
 [You need to restart Miranda to change the history function]
 Musisz zrestartować Mirandę aby zmienić funkcję historii
 [File]
@@ -177,8 +181,6 @@ Nie można zmienić nazwy pliku\n\nz:\t%s\nna:\t%s\n\nBłąd: %s
 Czy chcesz zapisać informacje debugowania?
 [All\0*.*\0Text\0*.TXT\0\0]
 Wszystkie\0*.*\0Tekstowe\0*.TXT\0\0
-[Failed to open or create file :\n]
-Błąd otwierania lub tworzenia pliku :\n
 [Failed to move to the end of the file :\n]
 Nie udało się przenieść do końca pliku"\n
 [Failed to UTF8 byte order code to file :\n]

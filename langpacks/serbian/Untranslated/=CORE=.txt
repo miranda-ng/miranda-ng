@@ -18,6 +18,7 @@
 [Actively searching]
 [In love]
 [It\'s complicated]
+[In a civil union]
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
 [Browser: Back]
 [Browser: Forward]

@@ -76,6 +76,7 @@
 [Show in message list]
 [Are you sure you want to clear predefined status messages?]
 [Confirm clearing predefined]
+[Startup status]
 [Recent message]
 [Predefined message]
 [Go to URL in Away message]

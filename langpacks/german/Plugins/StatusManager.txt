@@ -2,12 +2,28 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 0.11.0.0
+;  Version: 0.11.2.0
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 Überprüft Ihre Verbindung und ist ein erweitertes Abwesenheitsmodul. Erlaubt es Ihnen auch, den Status von Miranda beim Start pro Protokoll festzulegen.
 ;file \plugins\StatusManager\res\resource.rc
+[Available modules]
+
+[Keep status]
+
+[Automatically reconnects your accounts after protocol error or internet drop.]
+
+[Startup status]
+
+[Allows you to define the status Miranda should set on startup, configurable per account.]
+Erlaubt es Ihnen, die Status, in denen Miranda startet, zu definieren. Jedes Protokoll kann separat konfiguriert werden.
+[Advanced auto away]
+Erw. Auto-Abwesenheit
+[Improved auto away module with some more options than the built in, configurable per account.]
+
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Hinweis: Bei Änderungen ist ein Neustart von Miranda NG erforderlich.
 [General]
 Allgemein
 [Show popups]
@@ -260,48 +276,16 @@ Aktiviere ersten Auto-abwesend-Status
 Aktiviere zweiten Auto-abwesend-Status
 [Leaving first auto-away status]
 Verlasse ersten Auto-abwesend-Status
-[Leaving second auto-away status]
-Verlasse zweiten Auto-abwesend-Status
-[Becoming active without status change]
-Reaktiviert ohne Statuswechsel
 [Pre-conditions]
 Vorbedingungen
-[TriggerData]
-Auslöser Daten
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Status: Der Status, in den das Konto wechselt\r\nKonto: Das Konto, dessen Status wechselt
-;file \plugins\StatusManager\src\aaa_options.cpp
-[minutes of %s mode]
-Min. im Status "%s"
-[Rules]
-Regeln
-[Status messages]
-Statusnachrichten
-[Auto away]
-Automatisch abwesend
-;file \plugins\StatusManager\src\commonstatus.cpp
-[I've been away since %time%.]
-Ich bin nicht da seit %time%.
-[Give it up, I'm not in!]
-Gib's auf! Ich bin nicht da!
-[Not right now.]
-Im Moment nicht!
-[Give a guy some peace, would ya?]
-Lass' mich im Moment mal in Ruhe!
-[I'm a chatbot!]
-Laber' mich voll!
-[Yep, I'm here.]
-Ja, ich bin da.
-[Nope, not here.]
-Nein, ich bin weg.
-[I'm hiding from the mafia.]
-Ich zieh' mir ne Tarnkappe auf!
-[That'll be the phone.]
-Bin gerade am Telefon
-[Mmm... food.]
-Hmm... Essen.
-[idleeeeeeee]
-Langweilig
+[TriggerData]
+Auslöser Daten
+[Becoming active without status change]
+Reaktiviert ohne Statuswechsel
+[Leaving second auto-away status]
+Verlasse zweiten Auto-abwesend-Status
 ;file \plugins\StatusManager\src\confirmdialog.cpp
 [Set %s message for %s.]
 Setze %s-Nachricht für %s.
@@ -315,7 +299,19 @@ Setze %s-Nachricht für %s.
 Protokoll
 [Closing in %d]
 In %d schließen
-;file \plugins\StatusManager\src\keepstatus.cpp
+;file \plugins\StatusManager\src\options.cpp
+[Status manager]
+Status-Manager
+;file \plugins\StatusManager\src\AdvancedAutoAway\aaa_options.cpp
+[minutes of %s mode]
+Min. im Status "%s"
+[Rules]
+Regeln
+[Status messages]
+Statusnachrichten
+[Auto away]
+Automatisch abwesend
+;file \plugins\StatusManager\src\KeepStatus\keepstatus.cpp
 [%s connected from another location]
 %s ist von einem anderen Ort verbunden.
 [%s login error, cancel reconnecting]
@@ -340,9 +336,7 @@ Keine Internetverbindung verfügbar... (nächster Versuch (%d) in %d Sek.)
 Status setzen erfolgreich
 [Giving up]
 Aufgeben.
-[Keep status]
-Keep Status
-;file \plugins\StatusManager\src\ks_options.cpp
+;file \plugins\StatusManager\src\KeepStatus\ks_options.cpp
 [Basic]
 Allgemein
 [Advanced]
@@ -351,7 +345,7 @@ Erweitert
 Internetverbindung verloren
 [Popups]
 Popups
-;file \plugins\StatusManager\src\ss_options.cpp
+;file \plugins\StatusManager\src\StartupStatus\ss_options.cpp
 [<unknown>]
 <unbekannt>
 [Right]
@@ -376,14 +370,10 @@ Standard
 Unbekannt
 [At least one profile must exist]
 Mindestens ein Profil muss angelegt sein
-[Status manager]
-Status-Manager
 [Your default profile will be changed]
 Ihre Profile wurden geändert
-[Startup status]
-Startup Status
-;file \plugins\StatusManager\src\ss_profiles.cpp
-;file \plugins\StatusManager\src\ss_toolbars.cpp
+;file \plugins\StatusManager\src\StartupStatus\ss_profiles.cpp
+;file \plugins\StatusManager\src\StartupStatus\ss_toolbars.cpp
 [Pressed toolbar icon]
 Gedrücktes Toolbaricon
 [Released toolbar icon]

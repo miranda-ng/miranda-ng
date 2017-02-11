@@ -197,6 +197,8 @@ IPv6 адрес (необязательно)
 Некорректный формат данных
 [Unknown error]
 Неизвестная ошибка
+[An allocation error occurred while increasing the send queue size]
+Произошла ошибка выделения при увеличении размера очереди отправки
 [Message length exceeded TOX_MAX_MESSAGE_LENGTH]
 Длина сообщения превышает TOX_MAX_MESSAGE_LENGTH
 [Attempted to send a zero-length message]

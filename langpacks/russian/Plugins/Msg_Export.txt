@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.1.6
+;  Version: 3.1.2.1
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -97,16 +97,16 @@ UTF8 в новых файлах
 История успешно сохранена в файл\r\n
 [Open E&xported History]
 Эк&спортированная история
-[No contacts found to export]
-Нет контактов для экспорта
 [Reading database information (Phase 1 of 2)]
 Шаг 1: Чтение базы данных
-[Failed to export at least one contact]
-Не удалось экспортировать как минимум 1 контакт
 [Sorting and writing database information (Phase 2 of 2)]
 Шаг 2: Сортировка и запись информации в базу данных
-[Max line width must be at least %d]
-Макс ширина строки должна быть не менее %d
+[Failed to open or create file :\n]
+Не удалось открыть или создать файл :\n
+[No contacts found to export]
+Нет контактов для экспорта
+[Failed to export at least one contact]
+Не удалось экспортировать как минимум 1 контакт
 [You need to restart Miranda to change the history function]
 Изменения функции истории вступят в силу после перезапуска программы
 [File]
@@ -149,8 +149,6 @@ UTF8 в новых файлах
 Сохранить отладочную информацию?
 [All\0*.*\0Text\0*.TXT\0\0]
 Все файлы\0*.*\0Текстовые файлы\0*.txt\0\0
-[Failed to open or create file :\n]
-Не удалось открыть или создать файл :\n
 [Failed to move to the end of the file :\n]
 Не удалось перейти к концу файла:\n
 [Failed to write message to the file :\n]

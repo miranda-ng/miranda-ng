@@ -57,6 +57,8 @@
 Тема
 [Unable to load all required Lotus API functions]
 Не удалось загрузить все требуемые функции Lotus API
+[In notes.ini file there is no required entry EXTMGR_ADDINS=plugindllnamewithout".dll"]
+В файле notes.ini отсутствует требуемая запись EXTMGR_ADDINS=plugindllnamewithout".dll
 [Now checking Lotus, try again later]
 Выполняется проверка Lotus, повторите попытку позже
 [Attachments: %d bytes]

@@ -3,6 +3,8 @@
 [Send VK-objects links as attachments]
 [and load sent attachments]
 [Sync history on protocol online:]
+[Load last messages when message window open and local history is empty]
+[Load only friends to local contact list]
 [Enter the missing digits between %s and %s of the phone number linked to your account]
 [Enter new nickname]
 [Product]

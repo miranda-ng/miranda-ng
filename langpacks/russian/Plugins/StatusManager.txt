@@ -7,10 +7,20 @@
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 Проверяет наличие подключения к сети и автоматически повторно подключает при разрывах. Предоставляет управление режимом ожидания с расширенным набором функций. Начальный статус, позволяет вам устанавливать, какой статус будет выставлен при запуске Miranda у каждого протокола.
+[Available modules]
+Доступные модули
 [Keep status]
 Повторное подключение
+[Automatically reconnects your accounts after protocol error or internet drop.]
+Проверяет наличие подключения к сети и автоматически повторно подключает при разрывах.
 [Startup status]
 Начальный статус
+[Allows you to define the status Miranda should set on startup, configurable per account.]
+Позволяет вам устанавливать, какой статус будет выставлен при запуске Miranda у каждого протокола.
+[Advanced auto away]
+Расширенное отсутствие
+[Improved auto away module with some more options than the built in, configurable per account.]
+Улучшенное управление режимом ожидания с расширенным набором функций для каждого протокола.
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Важно: Изменения вступят в силу после перезапуска программы.
 [General]

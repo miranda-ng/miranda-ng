@@ -1,2 +1,3 @@
-﻿[At login load also contacts you recently chat with]
+﻿[Load also Messenger contacts at login (not only Facebook friends)]
+[Use Invisible status for Facebook Pages (instead of Offline)]
 [Former]

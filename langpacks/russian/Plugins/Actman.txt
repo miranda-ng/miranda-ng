@@ -577,6 +577,8 @@ UTF16+сигнатура
 Показывает окно передачи файлов
 [on Desktop]
 на рабочем столе
+[parent window handle]
+дескриптор родительского окна
 [Show "About..." window]
 Показывает окно "О программе"
 [Open support (originally - Miranda wiki) page]
@@ -643,6 +645,8 @@ wParam содержит имя станции в кодировке Unicode
 без подтверждения
 [Empty updater download folder]
 Очищает папку загрузки обновлений
+[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
+Popup Plus (Popup.dll) или YAPP (YAPP.dll)
 [Enables or disables Popup windows]
 Включает или отключает всплывающие окна
 [Notify]
@@ -665,6 +669,8 @@ wParam в Unicode
 wParam в ANSI
 [Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
 Воспроизводит звук, добавленный с помощью Skin/Sounds/AddNew. Если звук не найден, будет воспроизведён стандартный звук Windows
+[Send Email to contact]
+Отправляет контакту письмо по электронной почте
 [struct]
 структура
 [Open contact received file directory]

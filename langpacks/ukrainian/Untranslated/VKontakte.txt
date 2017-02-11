@@ -1,4 +1,6 @@
-﻿[User restored control over own page]
+﻿[Load last messages when message window open and local history is empty]
+[Load only friends to local contact list]
+[User restored control over own page]
 [User was deactivated (deleted)]
 [User was deactivated (banned)]
 [VK user activate/deactivate action]

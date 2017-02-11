@@ -84,8 +84,6 @@ Une fois
 
 [Weekdays]
 En semaine
-[Monthly]
-
 [Yearly]
 
 [i'm hiding]
@@ -99,6 +97,22 @@ Ne pas activer au démarrage
 [No reminder]
 Ne pas répéter
 [Selected days]
+
+[Mon]
+
+[Tue]
+
+[Wed]
+
+[Thu]
+
+[Fri]
+
+[Sat]
+
+[Sun]
+
+[Monthly]
 
 [Dismiss]
 

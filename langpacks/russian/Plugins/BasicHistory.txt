@@ -231,6 +231,8 @@ Dat (плагин mContacts)
 Сохранить положение окна
 [Save window position for all contacts]
 Сохранить положение окна для всех контактов
+[Do you want to save imported messages to local profile?]
+Сохранить импортированные сообщения в локальный профиль?
 [File contains history for different contact. Do you want to change contact and import?]
 В файле содержится история другого контакта. Хотите сменить контакт и импортировать?
 [Error]

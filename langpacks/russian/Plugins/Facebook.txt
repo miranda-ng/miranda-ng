@@ -43,6 +43,10 @@
 Большие аватары
 [Prefer real names instead of nicknames]
 Предпочитать реальные имена вместо ников
+[Load also Messenger contacts at login (not only Facebook friends)]
+При входе загружать также контакты из Messenger (а не только друзей)
+[Use Invisible status for Facebook Pages (instead of Offline)]
+Статус "Невидимый" у страниц Facebook (вместо "Не в сети")
 [Popup notifications]
 Настройка уведомлений вспл. окнами
 [Show notifications]

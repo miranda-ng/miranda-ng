@@ -1,3 +1,2 @@
 ﻿[Txt]
-[Do you want to save imported messages to local profile?]
 [_files]

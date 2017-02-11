@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.2.0.1
+;  Version: 0.3.1.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -19,13 +19,35 @@
 Группа:
 [Nick:]
 Ник:
-[edited at]
-отредактировано в
 [User]
 Пользователь
+[edited at]
+отредактировано в
+[Change &nickname]
+Изменить &ник
+[&Invite a user]
+&Пригласить пользователя
+[Enter your new nick name:]
+Введите свой новый ник:
+[Main icon]
+Главный значок
+[Group chats]
+Чаты
+[Enter invitation code you received]
+Введите полученный код приглашения
+[Do you really want to leave the guild?]
+Вы действительно хотите покинуть гильдию?
+[Join guild]
+Присоединиться к гильдии
+[Leave guild]
+Покинуть гильдию
 [Network]
 Сеть
 [Account]
 Учётная запись
 [%s server connection]
 %s подключение к серверу
+[Protocol is offline or user isn't authorized yet]
+Протокол не в сети или пользователь ещё не авторизовался
+[Attachment]
+Вложение

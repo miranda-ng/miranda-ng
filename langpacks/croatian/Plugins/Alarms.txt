@@ -84,8 +84,6 @@ akcije
 
 [Weekdays]
 
-[Monthly]
-
 [Yearly]
 
 [i'm hiding]
@@ -99,6 +97,22 @@ akcije
 [No reminder]
 
 [Selected days]
+
+[Mon]
+
+[Tue]
+
+[Wed]
+
+[Thu]
+
+[Fri]
+
+[Sat]
+
+[Sun]
+
+[Monthly]
 
 [Dismiss]
 

@@ -175,6 +175,8 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 Сервер закрыл соединение с просьбой изменить E-mail.
 [Too many login attempts with invalid password.]
 Слишком много попыток входа с неправильным паролем.
+[Gadu-Gadu servers are now down. Try again later.]
+Серверы Gadu-Gadu не работают. Попробуйте позже.
 [Unknown]
 Неизвестно
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]

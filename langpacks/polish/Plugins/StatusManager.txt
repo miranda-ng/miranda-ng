@@ -2,12 +2,28 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 0.11.0.0
+;  Version: 0.11.2.0
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 
 ;file \plugins\StatusManager\res\resource.rc
+[Available modules]
+
+[Keep status]
+Przywracanie statusu
+[Automatically reconnects your accounts after protocol error or internet drop.]
+
+[Startup status]
+Status podczas uruchamiania
+[Allows you to define the status Miranda should set on startup, configurable per account.]
+Pozwala na określenie statusu Mirandy podczas uruchamiania, konfigurowalna dla protokołów.
+[Advanced auto away]
+
+[Improved auto away module with some more options than the built in, configurable per account.]
+
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Info: Musisz ponownie uruchomić Mirandę NG aby wprowadzić zmiany.
 [General]
 Ogólne
 [Show popups]
@@ -260,48 +276,16 @@ Wprowadzanie pierwszego statusu auto-away
 Wprowadzanie drugiego statusu auto-away
 [Leaving first auto-away status]
 Zostawianie pierwszego statusu auto-away
-[Leaving second auto-away status]
-Zostawianie drugiego statusu auto-away
-[Becoming active without status change]
-Przywracanie aktywności bez zmiany statusu
 [Pre-conditions]
 Wstępne warunki
-[TriggerData]
-Wywoływanie danych
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Status: Status konta został zmieniony do\r\Konto: Konto zmieniło status
-;file \plugins\StatusManager\src\aaa_options.cpp
-[minutes of %s mode]
-minutach "%s"
-[Rules]
-Zasady
-[Status messages]
-Opisy
-[Auto away]
-Zmiany statusu
-;file \plugins\StatusManager\src\commonstatus.cpp
-[I've been away since %time%.]
-Nie ma mnie od %time%
-[Give it up, I'm not in!]
-Daj spokój, nie ma mnie!
-[Not right now.]
-Nie teraz.
-[Give a guy some peace, would ya?]
-Proszę, daj mi spokój!
-[I'm a chatbot!]
-Jestem botem!
-[Yep, I'm here.]
-Tak, jestem tu.
-[Nope, not here.]
-Nie, nie tutaj.
-[I'm hiding from the mafia.]
-Jak zrobię tak, to mnie nie widać.
-[That'll be the phone.]
-Muszę odebrać telefon.
-[Mmm... food.]
-Mmm... jedzonko.
-[idleeeeeeee]
-Bezczynnyyyyyyy
+[TriggerData]
+Wywoływanie danych
+[Becoming active without status change]
+Przywracanie aktywności bez zmiany statusu
+[Leaving second auto-away status]
+Zostawianie drugiego statusu auto-away
 ;file \plugins\StatusManager\src\confirmdialog.cpp
 [Set %s message for %s.]
 Ustaw opis %s dla %s.
@@ -315,7 +299,19 @@ Ustaw opis %s dla %s.
 Protokół
 [Closing in %d]
 Zamykanie w %d
-;file \plugins\StatusManager\src\keepstatus.cpp
+;file \plugins\StatusManager\src\options.cpp
+[Status manager]
+
+;file \plugins\StatusManager\src\AdvancedAutoAway\aaa_options.cpp
+[minutes of %s mode]
+minutach "%s"
+[Rules]
+Zasady
+[Status messages]
+Opisy
+[Auto away]
+Zmiany statusu
+;file \plugins\StatusManager\src\KeepStatus\keepstatus.cpp
 [%s connected from another location]
 %s połączono z innej lokalizacji.
 [%s login error, cancel reconnecting]
@@ -340,9 +336,7 @@ Brak połączenia z internetem... (następna próba (%d) za %d s)
 Status przywrócony pomyślnie.
 [Giving up]
 Rezygnacja z przywracania statusu.
-[Keep status]
-Przywracanie statusu
-;file \plugins\StatusManager\src\ks_options.cpp
+;file \plugins\StatusManager\src\KeepStatus\ks_options.cpp
 [Basic]
 Podstawowe
 [Advanced]
@@ -351,7 +345,7 @@ Zaawansowane
 Problem z nawiązaniem połączenia!
 [Popups]
 Popupy
-;file \plugins\StatusManager\src\ss_options.cpp
+;file \plugins\StatusManager\src\StartupStatus\ss_options.cpp
 [<unknown>]
 <nieznany>
 [Right]
@@ -376,14 +370,10 @@ domyślny
 nieznany
 [At least one profile must exist]
 Musi istnieć przynajmniej 1 profil
-[Status manager]
-
 [Your default profile will be changed]
 Twój domyślny profil zostanie zmieniony
-[Startup status]
-Status podczas uruchamiania
-;file \plugins\StatusManager\src\ss_profiles.cpp
-;file \plugins\StatusManager\src\ss_toolbars.cpp
+;file \plugins\StatusManager\src\StartupStatus\ss_profiles.cpp
+;file \plugins\StatusManager\src\StartupStatus\ss_toolbars.cpp
 [Pressed toolbar icon]
 Wciśnięty przycisk
 [Released toolbar icon]

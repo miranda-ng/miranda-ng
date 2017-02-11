@@ -2,12 +2,28 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 0.11.0.0
+;  Version: 0.11.2.0
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 
 ;file \plugins\StatusManager\res\resource.rc
+[Available modules]
+
+[Keep status]
+
+[Automatically reconnects your accounts after protocol error or internet drop.]
+
+[Startup status]
+
+[Allows you to define the status Miranda should set on startup, configurable per account.]
+
+[Advanced auto away]
+
+[Improved auto away module with some more options than the built in, configurable per account.]
+
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+
 [General]
 
 [Show popups]
@@ -260,47 +276,15 @@ sekundi
 
 [Leaving first auto-away status]
 
-[Leaving second auto-away status]
-
-[Becoming active without status change]
-
 [Pre-conditions]
-
-[TriggerData]
 
 [Status: The status the account will change to\r\nAccount: The account changing state]
 
-;file \plugins\StatusManager\src\aaa_options.cpp
-[minutes of %s mode]
+[TriggerData]
 
-[Rules]
+[Becoming active without status change]
 
-[Status messages]
-Statusne poruke
-[Auto away]
-
-;file \plugins\StatusManager\src\commonstatus.cpp
-[I've been away since %time%.]
-
-[Give it up, I'm not in!]
-
-[Not right now.]
-
-[Give a guy some peace, would ya?]
-
-[I'm a chatbot!]
-
-[Yep, I'm here.]
-
-[Nope, not here.]
-
-[I'm hiding from the mafia.]
-
-[That'll be the phone.]
-
-[Mmm... food.]
-
-[idleeeeeeee]
+[Leaving second auto-away status]
 
 ;file \plugins\StatusManager\src\confirmdialog.cpp
 [Set %s message for %s.]
@@ -315,7 +299,19 @@ Statusne poruke
 
 [Closing in %d]
 Zatvaranje za %d
-;file \plugins\StatusManager\src\keepstatus.cpp
+;file \plugins\StatusManager\src\options.cpp
+[Status manager]
+
+;file \plugins\StatusManager\src\AdvancedAutoAway\aaa_options.cpp
+[minutes of %s mode]
+
+[Rules]
+
+[Status messages]
+Statusne poruke
+[Auto away]
+
+;file \plugins\StatusManager\src\KeepStatus\keepstatus.cpp
 [%s connected from another location]
 
 [%s login error, cancel reconnecting]
@@ -340,9 +336,7 @@ Zatvaranje za %d
 
 [Giving up]
 
-[Keep status]
-
-;file \plugins\StatusManager\src\ks_options.cpp
+;file \plugins\StatusManager\src\KeepStatus\ks_options.cpp
 [Basic]
 
 [Advanced]
@@ -351,7 +345,7 @@ Zatvaranje za %d
 
 [Popups]
 
-;file \plugins\StatusManager\src\ss_options.cpp
+;file \plugins\StatusManager\src\StartupStatus\ss_options.cpp
 [<unknown>]
 
 [Right]
@@ -376,14 +370,10 @@ Zatvaranje za %d
 
 [At least one profile must exist]
 
-[Status manager]
-
 [Your default profile will be changed]
 
-[Startup status]
-
-;file \plugins\StatusManager\src\ss_profiles.cpp
-;file \plugins\StatusManager\src\ss_toolbars.cpp
+;file \plugins\StatusManager\src\StartupStatus\ss_profiles.cpp
+;file \plugins\StatusManager\src\StartupStatus\ss_toolbars.cpp
 [Pressed toolbar icon]
 
 [Released toolbar icon]

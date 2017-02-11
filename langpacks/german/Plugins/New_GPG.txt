@@ -8,7 +8,7 @@
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Unterstützung für GPG, basierend auf Code aus dem alten GPG Plugin und SecureIM.
 ;file \plugins\New_GPG\res\new_gpg.rc
-[Load Public GPG key]
+[Load public GPG key]
 Öffentlichen GPG-Schlüssel laden
 [Load from file]
 Aus Datei laden
@@ -165,8 +165,6 @@ Schlüssel importieren
 GPG-Verschlüsselung ausschalten
 [GPG Turn on encryption]
 GPG-Verschlüsselung einschalten
-[Load GPG public key]
-Öffentlichen GPG-Schlüssel laden
 [Toggle GPG encryption]
 GPG-Verschlüsselung umschalten
 [Send public key]

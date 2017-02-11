@@ -77,8 +77,6 @@
 Всеки ден
 [Weekdays]
 Работни дни
-[Monthly]
-Месечно
 [Yearly]
 Годишно
 [i'm hiding]
@@ -91,6 +89,8 @@
 Без известие при стартиране на Miranda
 [No reminder]
 Без напомняне
+[Monthly]
+Месечно
 [Dismiss]
 Затваряне
 [Snooze]

@@ -133,6 +133,10 @@
 Автообновление выключено
 [Auto update enabled]
 Автообновление включено
+[Update all Webview sites]
+Обновить все страницы Webview
+[Mark all Webview sites as read]
+Отметить все страницы Webview как прочитанные
 [Open cache folder]
 Открыть папку кэша
 [Open/Close window]
@@ -159,6 +163,8 @@
 Невозможно записать в файл 2
 [Loaded from cache]
 Загружено из кэша
+[ERROR: You have two or more Webview contacts with the same URL and contact name.]
+ОШИБКА: У вас два или более контакта Webview с одним и тем же URL и именем контакта.
 [Stop processing]
 Остановить обработку
 [Stick to the front]
@@ -194,7 +200,7 @@
 [Online]
 В сети
 [A site is already downloading, try again in a moment.]
-Сайт уже загружается, попробуйте позже.
+Страница уже загружается, попробуйте позже.
 [Popup plugin]
 Вспл. окна
 [Use OSD plugin]
@@ -220,4 +226,4 @@
 [Missing "psite.bat" file.]
 Отсутствует файл "psite.bat".
 [Please select site in Find/Add contacts...]
-Пожалуйста, выберите сайт в Добавить контакты...
+Пожалуйста, выберите страницу в Добавить контакты...

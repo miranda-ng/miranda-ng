@@ -2,12 +2,28 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 0.11.0.0
+;  Version: 0.11.2.0
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 
 ;file \plugins\StatusManager\res\resource.rc
+[Available modules]
+
+[Keep status]
+
+[Automatically reconnects your accounts after protocol error or internet drop.]
+
+[Startup status]
+
+[Allows you to define the status Miranda should set on startup, configurable per account.]
+
+[Advanced auto away]
+
+[Improved auto away module with some more options than the built in, configurable per account.]
+
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Važno: Restart Mirande NG neophodan radi čuvanja izmena.
 [General]
 Uopšteno
 [Show popups]
@@ -260,48 +276,16 @@ sekundi
 
 [Leaving first auto-away status]
 
-[Leaving second auto-away status]
-
-[Becoming active without status change]
-
 [Pre-conditions]
-
-[TriggerData]
 
 [Status: The status the account will change to\r\nAccount: The account changing state]
 
-;file \plugins\StatusManager\src\aaa_options.cpp
-[minutes of %s mode]
+[TriggerData]
 
-[Rules]
+[Becoming active without status change]
 
-[Status messages]
-Statusna poruka
-[Auto away]
+[Leaving second auto-away status]
 
-;file \plugins\StatusManager\src\commonstatus.cpp
-[I've been away since %time%.]
-Nisam tu još od %time%.
-[Give it up, I'm not in!]
-Nema svrhe, nisam tu!
-[Not right now.]
-Ne sad.
-[Give a guy some peace, would ya?]
-Iskuliraj, važi?
-[I'm a chatbot!]
-Ja sam čet-manijak!
-[Yep, I'm here.]
-Da, tu sam.
-[Nope, not here.]
-Ne, nisam tu.
-[I'm hiding from the mafia.]
-Skrivam se od mafije.
-[That'll be the phone.]
-Mislim da je to bio telefon.
-[Mmm... food.]
-Mmm... hrana.
-[idleeeeeeee]
-neaktivnooo
 ;file \plugins\StatusManager\src\confirmdialog.cpp
 [Set %s message for %s.]
 
@@ -315,7 +299,19 @@ neaktivnooo
 Protokol
 [Closing in %d]
 Zatvaram (%d)
-;file \plugins\StatusManager\src\keepstatus.cpp
+;file \plugins\StatusManager\src\options.cpp
+[Status manager]
+
+;file \plugins\StatusManager\src\AdvancedAutoAway\aaa_options.cpp
+[minutes of %s mode]
+
+[Rules]
+
+[Status messages]
+Statusna poruka
+[Auto away]
+
+;file \plugins\StatusManager\src\KeepStatus\keepstatus.cpp
 [%s connected from another location]
 
 [%s login error, cancel reconnecting]
@@ -340,9 +336,7 @@ Zatvaram (%d)
 
 [Giving up]
 
-[Keep status]
-
-;file \plugins\StatusManager\src\ks_options.cpp
+;file \plugins\StatusManager\src\KeepStatus\ks_options.cpp
 [Basic]
 
 [Advanced]
@@ -351,7 +345,7 @@ Napredno
 
 [Popups]
 Balončići
-;file \plugins\StatusManager\src\ss_options.cpp
+;file \plugins\StatusManager\src\StartupStatus\ss_options.cpp
 [<unknown>]
 <nepoznato>
 [Right]
@@ -376,14 +370,10 @@ Standardno
 Nepoznati
 [At least one profile must exist]
 
-[Status manager]
-
 [Your default profile will be changed]
 
-[Startup status]
-
-;file \plugins\StatusManager\src\ss_profiles.cpp
-;file \plugins\StatusManager\src\ss_toolbars.cpp
+;file \plugins\StatusManager\src\StartupStatus\ss_profiles.cpp
+;file \plugins\StatusManager\src\StartupStatus\ss_toolbars.cpp
 [Pressed toolbar icon]
 
 [Released toolbar icon]

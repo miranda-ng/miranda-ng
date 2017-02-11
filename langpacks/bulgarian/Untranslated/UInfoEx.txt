@@ -31,6 +31,7 @@
 [Hobbyists Org.]
 [TmplPast Work Place]
 [TmplPast Organization]
+[In a civil union]
 [The function caused an exception!]
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 [Importing a new meta subcontact failed!]

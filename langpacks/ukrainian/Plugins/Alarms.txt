@@ -83,8 +83,6 @@
 Щодня
 [Weekdays]
 По буднях
-[Monthly]
-Щомісяця
 [Yearly]
 Щорічно
 [i'm hiding]
@@ -97,6 +95,8 @@
 Не спрацьовувати при старті
 [No reminder]
 Не показувати в списку
+[Monthly]
+Щомісяця
 [Dismiss]
 Прибрати
 [Snooze]

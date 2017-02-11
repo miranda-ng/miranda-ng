@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.1.6
+;  Version: 3.1.2.1
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -32,6 +32,8 @@ Tout exporter
 Répertoire d'exportation
 [Max column width]
 Largeur colonne maxi
+[Note: 0 = no limit]
+NOTE : 0=sans limite
 [Time format]
 Format heure
 [Export format]
@@ -113,16 +115,18 @@ Surligner un contact
 [Open E&xported History]
 Ouvrir l'historique &exporté
 ;file \plugins\Msg_Export\src\options.cpp
-[No contacts found to export]
-Pas de contacts à exporter trouvés
 [Reading database information (Phase 1 of 2)]
 
-[Failed to export at least one contact]
-N'a pas exporté un seul contact
 [Sorting and writing database information (Phase 2 of 2)]
 Sortie et écriture des infos de la basse de données ( étape 2/2 )
-[Max line width must be at least %d]
-La largeur maximum de ligne doit être au moins de %d
+[Failed to open or create file :\n]
+Échec d'ouverture ou de création du fichier :\n
+[No contacts found to export]
+Pas de contacts à exporter trouvés
+[Failed to export at least one contact]
+N'a pas exporté un seul contact
+[Max line width must be at least %d. Or use 0 for no limit.]
+
 [You need to restart Miranda to change the history function]
 Vous devez relancer Miranda pour changer la gestion de l'historique
 [File]
@@ -177,8 +181,6 @@ Général
 
 [All\0*.*\0Text\0*.TXT\0\0]
 
-[Failed to open or create file :\n]
-Échec d'ouverture ou de création du fichier :\n
 [Failed to move to the end of the file :\n]
 Échec de mise en fin de fichier :\n
 [Failed to UTF8 byte order code to file :\n]

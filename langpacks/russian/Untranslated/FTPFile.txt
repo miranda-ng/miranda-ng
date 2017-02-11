@@ -4,6 +4,4 @@
 [%0.1f%% (%d kB/%d kB)]
 [%s (%d kB/%d kB)]
 [FTP (Standard)]
-[FTP+SSL (Explicit)]
-[FTP+SSL (Implicit)]
 [SFTP (Secure FTP over SSH)]

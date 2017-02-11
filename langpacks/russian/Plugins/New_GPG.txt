@@ -195,6 +195,8 @@ ID ключа:
 Ошибка
 [Generating new random key, please wait]
 Генерируется новый случайный ключ, пожалуйста, подождите
+[Failed to allocate memory]
+Не удалось выделить память
 [Warning]
 Предупреждение
 [This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
@@ -279,6 +281,8 @@ ID ключа:
 Файлы журнала
 [Turn off encryption]
 Выключить шифрование
+[This is not public or private key]
+Это не публичный или приватный ключ
 [Turn off GPG encryption]
 Выключить шифрование GPG
 [Turn on GPG encryption]

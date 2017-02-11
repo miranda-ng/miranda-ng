@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
-;  Version: 1.9.0.5
+;  Version: 1.9.0.6
 ;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
@@ -189,6 +189,8 @@
 Підтвердження видалення налаштованих повідомлень
 [<last status>]
 <останній>
+[Startup status]
+Початковий статус
 [Status]
 Статус
 [General]

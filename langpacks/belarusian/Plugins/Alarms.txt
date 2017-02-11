@@ -83,8 +83,6 @@
 Дзён
 [Weekdays]
 Па буднях
-[Monthly]
-Месяцаў
 [Yearly]
 Штогод
 [i'm hiding]
@@ -99,6 +97,22 @@
 Не паказваць у спісе
 [Selected days]
 
+[Mon]
+
+[Tue]
+
+[Wed]
+
+[Thu]
+
+[Fri]
+
+[Sat]
+
+[Sun]
+
+[Monthly]
+Месяцаў
 [Dismiss]
 Прыбраць
 [Snooze]

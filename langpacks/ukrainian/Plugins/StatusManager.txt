@@ -2,11 +2,23 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 0.11.0.0
+;  Version: 0.11.2.0
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 Перевіряє наявність підключення до мережі і автоматично перепідключає при розриві. Розширений набір функцій для керування режимом очікування. Дозволяє встановлювати статус, який буде виставлений при запуску Miranda в кожного протоколу.
+[Keep status]
+Перепідключення
+[Automatically reconnects your accounts after protocol error or internet drop.]
+Перевіряє наявність підключення до мережі і автоматично перепідключає при розриві.
+[Startup status]
+Початковий статус
+[Allows you to define the status Miranda should set on startup, configurable per account.]
+Дозволяє встановлювати статус, який буде виставлений при запуску Miranda в кожного протоколу.
+[Improved auto away module with some more options than the built in, configurable per account.]
+Розширений набір функцій для керування режимом очікування.
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Зміни наберуть чинності після перезапуску Miranda NG.
 [General]
 Загальне
 [Show popups]
@@ -253,36 +265,6 @@
 Інтервал перевірки (с)
 [Pre-conditions]
 Попередні умови
-[minutes of %s mode]
-хвилин режиму "%s"
-[Rules]
-Правила
-[Status messages]
-Статусні повідомлення
-[Auto away]
-Відсутність
-[I've been away since %time%.]
-Відійшов о %time%. Скоро повернуся.
-[Give it up, I'm not in!]
-Мене немає.
-[Not right now.]
-Не зараз.
-[Give a guy some peace, would ya?]
-Дайте спокій, я зайнятий.
-[I'm a chatbot!]
-Вільний.
-[Yep, I'm here.]
-Так, я тут.
-[Nope, not here.]
-Ні, мене тут немає.
-[I'm hiding from the mafia.]
-Я переховуюсь від мафії.
-[That'll be the phone.]
-Та дайте ж людині поговорити по телефону...
-[Mmm... food.]
-Ммм... поїсти б...
-[idleeeeeeee]
-очікування...
 [Set %s message for %s.]
 Встановити повідомлення %s для %s.
 [<last>]
@@ -295,6 +277,14 @@
 Протокол
 [Closing in %d]
 Закрити (%d)
+[minutes of %s mode]
+хвилин режиму "%s"
+[Rules]
+Правила
+[Status messages]
+Статусні повідомлення
+[Auto away]
+Відсутність
 [%s connected from another location]
 %s підключено з іншого місця
 [%s login error, cancel reconnecting]
@@ -319,8 +309,6 @@
 Статус встановлено
 [Giving up]
 Припиняю
-[Keep status]
-Перепідключення
 [Basic]
 Основні
 [Advanced]
@@ -355,8 +343,6 @@
 Повинен існувати хоча б один профіль
 [Your default profile will be changed]
 Профіль за замовчанням буде змінено
-[Startup status]
-Початковий статус
 [Pressed toolbar icon]
 Натиснутий значок панелі
 [Released toolbar icon]

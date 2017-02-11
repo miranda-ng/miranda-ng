@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.0.0.3
+;  Version: 0.3.1.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -19,11 +19,39 @@
 
 [Nick:]
 Мянушка:
+[User]
+Карыстач
+[edited at]
+
+[Change &nickname]
+Змяніць мянушку
+[&Invite a user]
+Запрасіць кантакт
+[Enter your new nick name:]
+
+[Main icon]
+Галоўны абразок
+[Group chats]
+Чаты
+[Enter invitation code you received]
+
+[Do you really want to leave the guild?]
+
+[Join guild]
+
+[Leave guild]
+
 [Network]
 Сеціва
 [Account]
 Уліковы запіс
 [%s server connection]
 
+[%s gateway connection]
+
 [User ID]
+
+[Protocol is offline or user isn't authorized yet]
+
+[Attachment]
 

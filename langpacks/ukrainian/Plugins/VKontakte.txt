@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.9
+;  Version: 0.1.2.12
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -161,16 +161,14 @@
 Група в списку контактів:
 [Language for names and titles:]
 Мова для імен і назв:
-[Server-side delivery confirmation]
-Підтвердження доставки зі сторони серверу
-[Use local time for received messages]
-Місцевий час для прийнятих повідомлень
-[Automatically wipe local contacts missing in your friend list]
-Автоматично видаляти локальні контакти, яких немає в списку друзів
 [Mark message as read:]
 Позначати повідомлення прочитаними:
 [Sync history on protocol online:]
 Синхронізувати історію при підключенні:
+[Use local time for received messages]
+Місцевий час для прийнятих повідомлень
+[Server-side delivery confirmation]
+Підтвердження доставки зі сторони серверу
 [Bots challenge test]
 Захист від ботів
 [Instruction:]
@@ -297,12 +295,12 @@
 Аудіо
 [Video]
 Відео
+[Link]
+Посилання
 [Document]
 Документ
 [Wall post]
 Запис на стіні
-[Link]
-Посилання
 [Product]
 Товар
 [Price]

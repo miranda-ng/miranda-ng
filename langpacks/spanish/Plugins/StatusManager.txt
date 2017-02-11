@@ -2,9 +2,15 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 0.11.0.0
+;  Version: 0.11.2.0
 ;  Authors: P Boon
 ;============================================================
+[Allows you to define the status Miranda should set on startup, configurable per account.]
+Le permite definir el estado Miranda a establecer en el arranque, configurable por protocolo.
+[Improved auto away module with some more options than the built in, configurable per account.]
+Un módulo Auto Fuera con un poco de más opciones que el original.
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Nota: Miranda NG tendrá que ser reiniciado para que los cambios surtan efecto
 [General]
 General
 [Show popups]
@@ -253,46 +259,16 @@ Introduciendo primero el estado de auto-fuera
 Introduciendo segundo estado de auto-fuera
 [Leaving first auto-away status]
 Dejando primer estado auto-fuera
-[Leaving second auto-away status]
-Dejando segundo estado auto-fuera
-[Becoming active without status change]
-Ser activo sin cambio de estado
 [Pre-conditions]
 Condiciones previas
-[TriggerData]
-Datos de activación
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Estado: El estado de la cuenta cambiará a\r\nCuenta: Cambiando el estado de la cuenta
-[minutes of %s mode]
-minutos de modo %s
-[Rules]
-Reglas
-[Status messages]
-Mensajes de estado
-[Auto away]
-Auto fuera
-[I've been away since %time%.]
-He estado fuera desde %time%.
-[Give it up, I'm not in!]
-¡Dejenme, no estoy!
-[Not right now.]
-No en este momento.
-[Give a guy some peace, would ya?]
-Dale un poco de paz, ¿quieres?
-[I'm a chatbot!]
-¡Soy un chatbot!
-[Yep, I'm here.]
-Sí, estoy aquí.
-[Nope, not here.]
-No, no estoy aquí.
-[I'm hiding from the mafia.]
-Me estoy escondiendo de la mafia.
-[That'll be the phone.]
-Estoy al teléfono.
-[Mmm... food.]
-Mmm... comida.
-[idleeeeeeee]
-libreeeeeeee
+[TriggerData]
+Datos de activación
+[Becoming active without status change]
+Ser activo sin cambio de estado
+[Leaving second auto-away status]
+Dejando segundo estado auto-fuera
 [Set %s message for %s.]
 Establecer mensaje %s para %s.
 [<last>]
@@ -305,6 +281,14 @@ Establecer mensaje %s para %s.
 Protocolo
 [Closing in %d]
 Cerrando en %d
+[minutes of %s mode]
+minutos de modo %s
+[Rules]
+Reglas
+[Status messages]
+Mensajes de estado
+[Auto away]
+Auto fuera
 [Advanced]
 Avanzado
 [Popups]

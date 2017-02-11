@@ -119,6 +119,8 @@
 Служба '%s' не существует.
 [Message sent to '%s'.]
 Сообщение для '%s' отправлено.
+[Message to '%s' was marked as sent but the account seems to be offline]
+Сообщение для '%s' помечено отправленным, но похоже, что учётная запись не в сети
 [Could not send message to '%s'.]
 Невозможно отправить сообщение для '%s'.
 [Timed out while waiting for acknowledgment for contact '%s'.]

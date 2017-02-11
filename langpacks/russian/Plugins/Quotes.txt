@@ -239,3 +239,5 @@ HTTP подключение Quotes
 Изменение
 [Log Files (*.txt,*.log)]
 Журналы (*.txt,*.log)
+[Enter integer value]
+Введите целочисленное значение

@@ -197,8 +197,16 @@
 Некорректная длина старого пароля.
 [Need old password.]
 Требуется старый пароль.
+[Unsupported type.]
+Неподдерживаемый тип.
 [An error has occurred.]
 Неизвестная ошибка.
+[Invalid account.]
+Неверная учётная запись.
+[Deleted account.]
+Учётная запись удалена.
+[Expired account.]
+Учётная запись истекла.
 [Internal error.]
 Внутренняя ошибка.
 [DNS fail.]

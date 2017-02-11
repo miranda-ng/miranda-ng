@@ -173,6 +173,8 @@ ID и версия клиента
 Неверные данные шифрования
 [No common encryption method]
 Нет совместимого метода шифрования
+[Channel destroyed]
+Канал уничтожен
 [Version mismatch]
 Версия не совместима
 [Not in use]
@@ -281,6 +283,8 @@ DNS не найден
 Эта версия не поддерживается
 [Not an owner of the requested resource]
 Не владелец запрошенного ресурса
+[Token has expired]
+Токен просрочен
 [Token IP mismatch]
 IP токена не совпадает
 [Low-level network error occurred]

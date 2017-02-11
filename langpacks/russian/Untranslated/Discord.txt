@@ -1,3 +1,2 @@
 ﻿[%s gateway connection]
 [User ID]
-[Protocol is offline or no JID]

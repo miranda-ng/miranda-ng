@@ -1,4 +1,4 @@
-﻿[Load Public GPG key]
+﻿[Load public GPG key]
 [Received encrypted file]
 [Decrypt]
 [Remember choice]
@@ -6,7 +6,6 @@
 [Default key]
 [GPG Turn off encryption]
 [GPG Turn on encryption]
-[Load GPG public key]
 [Toggle GPG encryption]
 [Expire date]
 [Generating new random key, please wait]

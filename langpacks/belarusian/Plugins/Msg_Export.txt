@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.1.6
+;  Version: 3.1.2.1
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -31,6 +31,8 @@ UTF8 у новых файлах
 Каталог экспарту
 [Max column width]
 Макс. шырыня радка
+[Note: 0 = no limit]
+Нататка: 0=неабмежавана
 [Time format]
 Фармат часу
 [Export format]
@@ -109,16 +111,18 @@ UTF8 у новых файлах
 
 [Open E&xported History]
 Экспартаваная гісторыя
-[No contacts found to export]
-Няма кантактаў для экспарту
 [Reading database information (Phase 1 of 2)]
 
-[Failed to export at least one contact]
-Не атрымалася экспартаваць прынамсі 1 кантакт
 [Sorting and writing database information (Phase 2 of 2)]
 Крок 2: Сартаванне і запіс інфармацыі
-[Max line width must be at least %d]
-Макс шырыня радка павінна быць не меней %d
+[Failed to open or create file :\n]
+Не атрымалася адкрыць ці стварыць файл :\n
+[No contacts found to export]
+Няма кантактаў для экспарту
+[Failed to export at least one contact]
+Не атрымалася экспартаваць прынамсі 1 кантакт
+[Max line width must be at least %d. Or use 0 for no limit.]
+
 [You need to restart Miranda to change the history function]
 Змены функцыі гісторыі адбудуцца пасля перазапуску
 [File]
@@ -171,8 +175,6 @@ Miranda NG (Плагін экспарту паведамленняў)
 
 [All\0*.*\0Text\0*.TXT\0\0]
 
-[Failed to open or create file :\n]
-Не атрымалася адкрыць ці стварыць файл :\n
 [Failed to move to the end of the file :\n]
 Не атрымалася перайсці да канца файла:\n
 [Failed to UTF8 byte order code to file :\n]

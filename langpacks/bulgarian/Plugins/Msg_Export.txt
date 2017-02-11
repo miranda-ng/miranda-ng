@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.1.6
+;  Version: 3.1.2.1
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -77,16 +77,16 @@ UTF8 за нови файлове
 Историята е успешно записана във файла\r\n
 [Open E&xported History]
 Отваряне на изнесената история
-[No contacts found to export]
-Не са открити контакти за изнасяне
 [Reading database information (Phase 1 of 2)]
 Четене на информацията от базата данни (Фаза 1 от 2)
-[Failed to export at least one contact]
-Изнасянето на поне един контакт се провали
 [Sorting and writing database information (Phase 2 of 2)]
 Сортиране и записване на информацията от базата данни (Фаза 2 от 2)
-[Max line width must be at least %d]
-Максималната ширина на ред трябва да е поне %d
+[Failed to open or create file :\n]
+Отварянето на създадения файл се провали :\n
+[No contacts found to export]
+Не са открити контакти за изнасяне
+[Failed to export at least one contact]
+Изнасянето на поне един контакт се провали
 [You need to restart Miranda to change the history function]
 Необходимо е рестартиране на Miranda за промяна на функцията
 [File]
@@ -131,8 +131,6 @@ Miranda NG (приставка Message Export)
 Да бъде ли записана дебъг информацията?
 [All\0*.*\0Text\0*.TXT\0\0]
 Всички\0*.*\0Текст\0*.TXT\0\0
-[Failed to open or create file :\n]
-Отварянето на създадения файл се провали :\n
 [      History for\r\n]
 							История за\r\n
 [User      : %User%\r\n]

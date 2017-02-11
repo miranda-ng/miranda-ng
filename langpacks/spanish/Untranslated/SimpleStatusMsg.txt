@@ -88,6 +88,7 @@
 [Are you sure you want to clear predefined status messages?]
 [Confirm clearing predefined]
 [<last status>]
+[Startup status]
 [Recent message]
 [Predefined message]
 [Go to URL in Away message]

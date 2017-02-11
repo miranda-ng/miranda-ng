@@ -223,6 +223,10 @@ FTP файл менеджер
 Вы должны добавить хотя бы один FTP сервер в настройках.
 [Clear All]
 Снять всё
+[FTP+SSL (Explicit)]
+FTP+SSL (явный)
+[FTP+SSL (Implicit)]
+FTP+SSL (неявный)
 [minutes]
 минут(ы)
 [hours]
