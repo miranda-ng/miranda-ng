@@ -340,7 +340,7 @@ int CDiscordProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
 void __cdecl CDiscordProto::SendMessageAckThread(void *param)
 {
 	Sleep(100);
-	ProtoBroadcastAck((MCONTACT)param, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)Translate("Protocol is offline or no JID"));
+	ProtoBroadcastAck((MCONTACT)param, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)Translate("Protocol is offline or user isn't authorized yet"));
 }
 
 int CDiscordProto::SendMsg(MCONTACT hContact, int /*flags*/, const char *pszSrc)
