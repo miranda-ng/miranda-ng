@@ -96,6 +96,7 @@ public:
 	// Client vs protocol communication
 
 	void    client_notify(wchar_t* message);
+	void    info_notify(wchar_t* message);
 
 	////////////////////////////////////////////////////////////
 

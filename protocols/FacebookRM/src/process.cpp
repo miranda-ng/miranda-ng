@@ -676,10 +676,17 @@ void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news,
 	last_post_time = new_time;
 }
 
-void FacebookProto::ProcessMemories(void*)
+void FacebookProto::ProcessMemories(void *p)
 {
 	if (isOffline())
 		return;
+
+	bool manuallyTriggered = (p == MANUALLY_TRIGGERED);
+	if (manuallyTriggered) {
+		facy.info_notify(TranslateT("Loading memories..."));
+	}
+
+	int numMemories = 0;
 
 	facy.handle_entry(__FUNCTION__);
 
@@ -706,6 +713,8 @@ void FacebookProto::ProcessMemories(void*)
 				SkinPlaySound("Memories");
 			}
 
+			numMemories = news.size();
+
 			for (std::vector<facebook_newsfeed*>::size_type i = 0; i < news.size(); i++)
 			{
 				ptrW tszTitle(mir_utf8decodeW(news[i]->title.c_str()));
@@ -716,6 +725,11 @@ void FacebookProto::ProcessMemories(void*)
 			}
 			news.clear();
 		}
+	}
+
+	if (manuallyTriggered) {
+		CMStringW text(FORMAT, TranslateT("Found %d memories."), numMemories);
+		facy.info_notify(text.GetBuffer());
 	}
 
 	facy.handle_success(__FUNCTION__);
@@ -1009,10 +1023,15 @@ void FacebookProto::ShowNotifications() {
 	}
 }
 
-void FacebookProto::ProcessNotifications(void*)
+void FacebookProto::ProcessNotifications(void *p)
 {
 	if (isOffline())
 		return;
+
+	bool manuallyTriggered = (p == MANUALLY_TRIGGERED);
+	if (manuallyTriggered) {
+		facy.info_notify(TranslateT("Loading notifications..."));
+	}
 
 	facy.handle_entry("notifications");
 
@@ -1029,9 +1048,17 @@ void FacebookProto::ProcessNotifications(void*)
 	debugLogA("*** Starting processing notifications");
 
 	try {
+		int numNotifications = facy.notifications.size();
+
 		facebook_json_parser* p = new facebook_json_parser(this);
 		p->parse_notifications(&(resp.data), &facy.notifications);
 		delete p;
+
+		if (manuallyTriggered) {
+			numNotifications = facy.notifications.size() - numNotifications;
+			CMStringW text(FORMAT, TranslateT("Found %d notifications."), numNotifications);
+			facy.info_notify(text.GetBuffer());
+		}
 
 		ShowNotifications();
 
@@ -1042,10 +1069,15 @@ void FacebookProto::ProcessNotifications(void*)
 	}
 }
 
-void FacebookProto::ProcessFriendRequests(void*)
+void FacebookProto::ProcessFriendRequests(void *p)
 {
 	if (isOffline())
 		return;
+
+	bool manuallyTriggered = (p == MANUALLY_TRIGGERED);
+	if (manuallyTriggered) {
+		facy.info_notify(TranslateT("Loading friendship requests..."));
+	}
 
 	facy.handle_entry("friendRequests");
 
@@ -1063,6 +1095,9 @@ void FacebookProto::ProcessFriendRequests(void*)
 		facy.handle_error("friendRequests");
 		return;
 	}
+
+	int numRequestsNew = 0;
+	int numRequestsOld = 0;
 
 	// Parse it
 	std::string reqs = utils::text::source_get_value(&resp.data, 3, "id=\"friends_center_main\"", "</h3>", "/friends/center/suggestions/");
@@ -1113,17 +1148,36 @@ void FacebookProto::ProcessFriendRequests(void*)
 				db_event_add(0, &dbei);
 			}
 			debugLogA("  < (%s) Friendship request [%s]", (isNew ? "New" : "Old"), time.c_str());
+
+			if (isNew)
+				numRequestsNew++;
+			else
+				numRequestsOld++;
 		}
 		else debugLogA("!!! Wrong friendship request:\n%s", req.c_str());
+	}
+
+	if (manuallyTriggered) {
+		CMStringW text;
+		if (numRequestsOld > 0)
+			text.AppendFormat(TranslateT("Found %d friendship requests (%d seen)."), numRequestsNew, numRequestsOld);
+		else
+			text.AppendFormat(TranslateT("Found %d friendship requests."), numRequestsNew);
+		facy.info_notify(text.GetBuffer());
 	}
 
 	facy.handle_success("friendRequests");
 }
 
-void FacebookProto::ProcessFeeds(void*)
+void FacebookProto::ProcessFeeds(void *p)
 {
 	if (!isOnline())
 		return;
+
+	bool manuallyTriggered = (p == MANUALLY_TRIGGERED);
+	if (manuallyTriggered) {
+		facy.info_notify(TranslateT("Loading wall posts..."));
+	}
 
 	facy.handle_entry("feeds");
 
@@ -1144,6 +1198,11 @@ void FacebookProto::ProcessFeeds(void*)
 
 	if (!news.empty()) {
 		SkinPlaySound("NewsFeed");
+	}
+
+	if (manuallyTriggered) {
+		CMStringW text(FORMAT, TranslateT("Found %d wall posts."), news.size());
+		facy.info_notify(text.GetBuffer());
 	}
 
 	for (std::vector<facebook_newsfeed*>::size_type i = 0; i < news.size(); i++)

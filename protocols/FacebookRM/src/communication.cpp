@@ -27,6 +27,11 @@ void facebook_client::client_notify(wchar_t* message)
 	parent->NotifyEvent(parent->m_tszUserName, message, NULL, EVENT_CLIENT);
 }
 
+void facebook_client::info_notify(wchar_t* message)
+{
+	parent->NotifyEvent(parent->m_tszUserName, message, NULL, EVENT_OTHER);
+}
+
 http::response facebook_client::sendRequest(HttpRequest *request)
 {
 	http::response resp;
