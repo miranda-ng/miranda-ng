@@ -370,6 +370,14 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 	else {
 		debugLogA("store a message into the group channel id %lld", channelId);
 
+		SESSION_INFO *si = pci->SM_FindSession(wszChannelId, m_szModuleName);
+		if (si == NULL) {
+			debugLogA("nessage to unknown channal %lld ignored", channelId);
+			return;
+		}
+
+		ParseSpecialChars(si, wszText);
+
 		GCDEST gcd = { m_szModuleName, wszChannelId, GC_EVENT_MESSAGE };
 		GCEVENT gce = { &gcd };
 		gce.dwFlags = GCEF_ADDTOLOG;

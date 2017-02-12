@@ -268,3 +268,29 @@ void CDiscordProto::ProcessType(CDiscordUser *pUser, const JSONNode &pRoot)
 		break;
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::ParseSpecialChars(SESSION_INFO *si, CMStringW &str)
+{
+	for (int i = 0; (i = str.Find('<', i)) != -1; i++) {
+		int iEnd = str.Find('>', i + 1);
+		if (iEnd == -1)
+			return;
+
+		CMStringW wszWord = str.Mid(i + 1, iEnd - i - 1);
+		if (wszWord[0] == '@' && wszWord[1] == '!') { // member highlight
+			USERINFO *ui = pci->UM_FindUser(si->pUsers, wszWord.c_str()+2);
+			if (ui != nullptr)
+				str.Replace(L"<" + wszWord + L">", CMStringW('@') + ui->pszNick);
+		}
+		else if (wszWord[0] == '#') {
+			CDiscordUser *pUser = FindUserByChannel(_wtoi64(wszWord.c_str() + 1));
+			if (pUser != nullptr) {
+				ptrW wszNick(getWStringA(pUser->hContact, "Nick"));
+				if (wszNick != NULL)
+					str.Replace(L"<" + wszWord + L">", wszNick);
+			}
+		}
+	}
+}

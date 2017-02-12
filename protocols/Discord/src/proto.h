@@ -206,6 +206,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	void Chat_SendPrivateMessage(GCHOOK *gch);
 	void Chat_ProcessLogMenu(GCHOOK *gch);
+	void ParseSpecialChars(SESSION_INFO *si, CMStringW &str);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// misc methods
