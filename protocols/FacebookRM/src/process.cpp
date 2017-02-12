@@ -543,7 +543,7 @@ void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news,
 
 	DWORD new_time = last_post_time;
 
-	while ((pos = text.find("<div class=\"userContentWrapper", pos)) != std::string::npos && limit <= 25)
+	while ((pos = text.find("<div class=\"fbUserContent", pos)) != std::string::npos && limit <= 25)
 	{
 		std::string post = text.substr(pos, text.find("</form>", pos) - pos);
 		pos += 5;
@@ -551,6 +551,9 @@ void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news,
 		std::string post_header = utils::text::source_get_value(&post, 3, "<h5", ">", "</h5>");
 		std::string post_message = utils::text::source_get_value(&post, 3, " userContent\"", ">", "<form");
 		std::string post_link = utils::text::source_get_value(&post, 4, "</h5>", "<a", "href=\"", "\"");
+		if (post_link == "#") {
+			post_link = utils::text::source_get_value(&post, 5, "</h5>", "<a", "<a", "href=\"", "\"");
+		}
 		std::string post_time = utils::text::source_get_value(&post, 3, "</h5>", "<abbr", "</a>");
 
 		std::string time = utils::text::source_get_value(&post_time, 2, "data-utime=\"", "\"");
@@ -597,10 +600,26 @@ void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news,
 			utils::text::remove_html(
 			post_header.substr(pos2, post_header.length() - pos2))));
 
-		// Strip "Translate" link
-		pos2 = post_message.find("role=\"button\">");
+		// Strip "Translate" and other buttons
+		do {
+			pos2 = post_message.find("role=\"button\"");
+			if (pos2 != std::string::npos) {
+				pos2 = post_message.find(">", pos2);
+				if (pos2 != std::string::npos) {
+					std::string::size_type pos3 = post_message.find("</a>", pos2);
+					std::string tmp = post_message.substr(0, pos2);
+					if (pos3 != std::string::npos) {
+						tmp += post_message.substr(pos3, post_message.length() - pos3);
+					}
+					post_message = tmp;
+				}
+			}
+		} while (pos2 != std::string::npos);
+
+		// Strip "See more" link
+		pos2 = post_message.find("<span class=\"see_more_link_inner\">");
 		if (pos2 != std::string::npos) {
-			post_message = post_message.substr(0, pos2 + 14);
+			post_message = post_message.substr(0, pos2);
 		}
 
 		// Process attachment (if present)
@@ -693,7 +712,7 @@ void FacebookProto::ProcessMemories(void *p)
 	HttpRequest *request = new MemoriesRequest(&facy);
 	http::response resp = facy.sendRequest(request);
 
-	if (resp.code != HTTP_CODE_OK) {
+	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 		facy.handle_error(__FUNCTION__);
 		return;
 	}

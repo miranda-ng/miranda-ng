@@ -22,9 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* info, MCONTACT contact, EventType type, std::string *url, std::string *notification_id, const char *icon)
+HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact, EventType type, std::string *url, std::string *notification_id, const char *icon)
 {
-	if (title == NULL || info == NULL)
+	if (title == NULL || text == NULL)
 		return NULL;
 
 	char name[256];
@@ -77,7 +77,7 @@ HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* info, MCONTACT contact,
 
 			POPUPDATACLASS pd = { sizeof(pd) };
 			pd.pwszTitle = title;
-			pd.pwszText = info;
+			pd.pwszText = text;
 			pd.pszClassName = name;
 			pd.hContact = contact;
 			if (icon != NULL) {
@@ -97,12 +97,12 @@ HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* info, MCONTACT contact,
 		}
 	}
 	else {
-		if (!Clist_TrayNotifyW(m_szModuleName, title, info, type == EVENT_CLIENT ? NIIF_WARNING : NIIF_INFO, 10000))
+		if (!Clist_TrayNotifyW(m_szModuleName, title, text, type == EVENT_CLIENT ? NIIF_WARNING : NIIF_INFO, 10000))
 			return NULL;
 	}
 
 	if (type == EVENT_CLIENT)
-		MessageBox(NULL, info, title, MB_OK | MB_ICONERROR);
+		MessageBox(NULL, text, title, MB_OK | MB_ICONERROR);
 
 	return NULL;
 }
