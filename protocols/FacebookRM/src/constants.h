@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_URL_PROFILE					"http://www.facebook.com/profile.php?id="
 #define FACEBOOK_URL_GROUP						"http://www.facebook.com/n/?home.php&sk=group_"
 #define FACEBOOK_URL_PICTURE					"http://graph.facebook.com/%s/picture"
-#define FACEBOOK_URL_CONVERSATION				"http://www.facebook.com/messages/"
+#define FACEBOOK_URL_CONVERSATION				"http://www.facebook.com/messages/t/"
 //#define FACEBOOK_URL_STICKER					"http://www.facebook.com/stickers/asset/?sticker_id=%s&image_type=BestEffortImage"
 
 // Connection

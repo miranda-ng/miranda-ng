@@ -742,7 +742,7 @@ INT_PTR FacebookProto::VisitConversation(WPARAM wParam, LPARAM)
 	if (id == NULL)
 		return 1;
 
-	std::string url = FACEBOOK_URL_CONVERSATION + std::string(isChat ? "conversation-" : "") + std::string(id);
+	std::string url = FACEBOOK_URL_CONVERSATION + std::string(id);
 
 	OpenUrl(url);
 	return 0;
