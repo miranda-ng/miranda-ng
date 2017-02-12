@@ -96,6 +96,7 @@ public:
 	// Client vs protocol communication
 
 	void    client_notify(wchar_t* message);
+	void    info_notify(wchar_t* message);
 
 	////////////////////////////////////////////////////////////
 
@@ -160,7 +161,7 @@ public:
 	}
 
 	__inline const char *__rev() {
-		return "2509236"; // FIXME: Some version of communication protocol? This version is from 17.8.2016
+		return "2828561"; // FIXME: Some version of communication protocol? This version is from 12.2.2017
 	}
 
 	////////////////////////////////////////////////////////////

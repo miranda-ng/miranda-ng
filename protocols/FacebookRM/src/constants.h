@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_URL_PROFILE					"http://www.facebook.com/profile.php?id="
 #define FACEBOOK_URL_GROUP						"http://www.facebook.com/n/?home.php&sk=group_"
 #define FACEBOOK_URL_PICTURE					"http://graph.facebook.com/%s/picture"
-#define FACEBOOK_URL_CONVERSATION				"http://www.facebook.com/messages/"
+#define FACEBOOK_URL_CONVERSATION				"http://www.facebook.com/messages/t/"
 //#define FACEBOOK_URL_STICKER					"http://www.facebook.com/stickers/asset/?sticker_id=%s&image_type=BestEffortImage"
 
 // Connection
@@ -54,6 +54,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_NOTIFICATIONS_CHATROOM      "_notifications"
 #define FACEBOOK_CHATROOM_NAMES_COUNT        3 // number of participant names to use for chatrooms without specific name (on website it's 2)
 #define FACEBOOK_NOTIFICATIONS_LOAD_COUNT    20 // number of last notifications to load on login to notify
+#define MANUALLY_TRIGGERED					 (void*)1 // to use as thread parameter to notify this action was activated by user, so we should show info popups
 
 // Limits
 #define FACEBOOK_MESSAGE_LIMIT					200000 // this is guessed limit, in reality it is bigger

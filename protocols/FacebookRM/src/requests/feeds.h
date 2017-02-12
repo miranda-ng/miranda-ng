@@ -49,6 +49,10 @@ public:
 			<< "start_index=0"
 			<< "num_stories=20"
 			<< "last_section_header=0"
+			<< "last_section_key=regular_story"
+			<< "__af="
+			<< "__be=-1"
+			<< "__pc=PHASED:DEFAULT"
 			<< LONG_VALUE("timestamp", ::time(NULL))
 			<< CHAR_VALUE("__dyn", fc->__dyn())
 			<< CHAR_VALUE("__req", fc->__req())
