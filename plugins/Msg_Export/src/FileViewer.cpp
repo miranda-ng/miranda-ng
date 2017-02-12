@@ -734,7 +734,7 @@ bool bAdvancedCopy(HWND hwnd)
 			pszCurDec[0] = 0;
 			GlobalUnlock(hDecMem);
 
-			SetClipboardData(CF_TEXT, hDecMem);
+			SetClipboardData(CF_UNICODETEXT, hDecMem);
 			delete[] pszSrcBuf;
 			CloseClipboard();
 			return true;

@@ -51,7 +51,7 @@ BOOL bUnaplyedChanges = FALSE;
 //   1.0.0    KN           020422    First edition
 //
 /////////////////////////////////////////////////////////////////////
-
+//
 class CLDBEvent
 {
 	DWORD time;
@@ -88,7 +88,7 @@ public:
 // Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
-
+//
 int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	if (lParamSort == 1)
@@ -112,10 +112,10 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 /////////////////////////////////////////////////////////////////////
 // Member Function : DialogProc
 // Type            : Global
-// Parameters      : hwndDlg   - ?
-//                   uMsg      - ?
-//                   wParam    - ?
-//                   parameter - ?
+// Parameters      : hwndDlg   - handle to dialog box
+//                   uMsg      - message
+//                   wParam    - first message parameter
+//                   parameter - second message parameter
 // Returns         : INT_PTR CALLBACK
 // Description     : Progress bar window function
 //                   
@@ -124,26 +124,17 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 // Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
-
-INT_PTR CALLBACK __stdcall DialogProc(
-	HWND hwndDlg,  // handle to dialog box
-	UINT uMsg,     // message
-	WPARAM wParam, // first message parameter
-	LPARAM lParam  // second message parameter
-	)
+//
+INT_PTR CALLBACK __stdcall DialogProc(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
-			return TRUE;
-		}
+		TranslateDialogDefault(hwndDlg);
+		return TRUE;
 	case WM_CLOSE:
-		{
-			if (lParam > 0)
-				DestroyWindow(hwndDlg);
-			return TRUE;
-		}
+		if (lParam > 0)
+			DestroyWindow(hwndDlg);
+		return TRUE;
 	}
 	return FALSE;
 }
@@ -254,7 +245,7 @@ void exportContactsMessages(void *p)
 // Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
-
+//
 int nExportCompleatList(HWND hParent, bool bOnlySelected)
 {
 	HWND hMapUser = GetDlgItem(hParent, IDC_MAP_USER_LIST);
@@ -316,7 +307,7 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected)
 // Created         : 021228, 28 December 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
-
+//
 void SetToDefault(HWND hParent)
 {
 	HWND hMapUser = GetDlgItem(hParent, IDC_MAP_USER_LIST);
@@ -367,7 +358,7 @@ void SetToDefault(HWND hParent)
 // Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
-
+//
 BOOL bApplyChanges(HWND hwndDlg)
 {
 	BOOL bTrans;
@@ -451,7 +442,7 @@ BOOL bApplyChanges(HWND hwndDlg)
 // Created         : 020422, 23 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
-
+//
 void ClearAllFileNames(HWND hwndDlg)
 {
 	LVITEM sItem = { 0 };
@@ -482,7 +473,7 @@ void ClearAllFileNames(HWND hwndDlg)
 // Created         : 020422, 23 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
-
+//
 void AutoFindeFileNames(HWND hwndDlg)
 {
 	wchar_t szDefaultFile[500];
@@ -717,6 +708,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"");
 			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"C:\\Windows\\Notepad.exe");
 			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"C:\\WinNT\\Notepad.exe");
+			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"C:\\Program Files\\Notepad++\\notepad++.exe");
 
 			CheckDlgButton(hwndDlg, IDC_USE_INTERNAL_VIEWER, bUseInternalViewer() ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_REPLACE_MIRANDA_HISTORY, bReplaceHistory ? BST_CHECKED : BST_UNCHECKED);
