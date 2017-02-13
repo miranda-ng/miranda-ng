@@ -32,10 +32,14 @@ static handlers[] = // these structures must me sorted alphabetically
 	{ L"CHANNEL_DELETE", &CDiscordProto::OnCommandChannelDeleted },
 	{ L"CHANNEL_UPDATE", &CDiscordProto::OnCommandChannelUpdated },
 
-	{ L"GUILD_CREATE", &CDiscordProto::OnCommandGuildCreate },
-	{ L"GUILD_DELETE", &CDiscordProto::OnCommandGuildDelete },
-	{ L"GUILD_MEMBER_REMOVE", &CDiscordProto::OnCommandGuildRemoveMember },
-	{ L"GUILD_MEMBER_UPDATE", &CDiscordProto::OnCommandGuildUpdateMember },
+	{ L"GUILD_CREATE", &CDiscordProto::OnCommandGuildCreated },
+	{ L"GUILD_DELETE", &CDiscordProto::OnCommandGuildDeleted },
+	{ L"GUILD_MEMBER_ADD", &CDiscordProto::OnCommandGuildMemberAdded },
+	{ L"GUILD_MEMBER_REMOVE", &CDiscordProto::OnCommandGuildMemberRemoved },
+	{ L"GUILD_MEMBER_UPDATE", &CDiscordProto::OnCommandGuildMemberUpdated },
+	{ L"GUILD_ROLE_CREATE", &CDiscordProto::OnCommandRoleCreated },
+	{ L"GUILD_ROLE_DELETE", &CDiscordProto::OnCommandRoleDeleted },
+	{ L"GUILD_ROLE_UPDATE", &CDiscordProto::OnCommandRoleCreated },
 	{ L"GUILD_SYNC", &CDiscordProto::OnCommandGuildSync },
 
 	{ L"MESSAGE_ACK", &CDiscordProto::OnCommandMessageAck },
@@ -159,9 +163,25 @@ static SnowFlake sttGetLastRead(const JSONNode &reads, const wchar_t *wszChannel
 	return 0;
 }
 
+void CDiscordProto::ProcessRole(SnowFlake guildId, const JSONNode &role)
+{
+	SnowFlake id = ::getId(role["id"]);
+	CDiscordRole *p = arRoles.find((CDiscordRole*)&id);
+	if (p == nullptr) {
+		p = new CDiscordRole();
+		p->id = id;
+		arRoles.insert(p);
+	}
+	p->guildId = guildId;
+	p->color = role["color"].as_int();
+	p->position = role["position"].as_int();
+	p->permissions = role["permissions"].as_int();
+	p->wszName = role["name"].as_mstring();
+}
+
 void CDiscordProto::ProcessGuild(const JSONNode &readState, const JSONNode &p)
 {
-	SnowFlake guildId = ::getId(p["id"]);
+	SnowFlake guildId = ::getId(p["id"]), ownerId = ::getId(p["owner_id"]);
 	GatewaySendGuildInfo(guildId);
 	CMStringW wszGuildName = p["name"].as_mstring();
 
@@ -169,6 +189,10 @@ void CDiscordProto::ProcessGuild(const JSONNode &readState, const JSONNode &p)
 	Chat_Control(m_szModuleName, wszGuildName, WINDOW_HIDDEN);
 	Chat_Control(m_szModuleName, wszGuildName, SESSION_ONLINE);
 	setId(si->hContact, DB_KEY_CHANNELID, guildId);
+
+	const JSONNode &roles = p["roles"];
+	for (auto itr = roles.begin(); itr != roles.end(); ++itr)
+		ProcessRole(guildId, *itr);
 
 	const JSONNode &channels = p["channels"];
 	for (auto itc = channels.begin(); itc != channels.end(); ++itc) {
@@ -182,7 +206,9 @@ void CDiscordProto::ProcessGuild(const JSONNode &readState, const JSONNode &p)
 		SnowFlake channelId = _wtoi64(wszChannelId);
 
 		si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChannelId, wszGuildName + L"#" + wszChannelName);
-		Chat_AddGroup(m_szModuleName, wszChannelId, TranslateT("User"));
+		setId(si->hContact, DB_KEY_OWNERID, ownerId);
+		BuildStatusList(guildId, wszChannelId);
+
 		Chat_Control(m_szModuleName, wszChannelId, WINDOW_HIDDEN);
 		Chat_Control(m_szModuleName, wszChannelId, SESSION_ONLINE);
 
@@ -213,7 +239,7 @@ void CDiscordProto::ProcessGuild(const JSONNode &readState, const JSONNode &p)
 	}
 }
 
-void CDiscordProto::OnCommandGuildCreate(const JSONNode &pRoot)
+void CDiscordProto::OnCommandGuildCreated(const JSONNode &pRoot)
 {
 	ProcessGuild(JSONNode(), pRoot);
 	OnCommandGuildSync(pRoot);
@@ -234,14 +260,27 @@ void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
 			if (pUser.guildId != guildId)
 				continue;
 
+			CDiscordRole *pRole = nullptr;
+			const JSONNode &pRoles = m["roles"];
+			for (auto itr = pRoles.begin(); itr != pRoles.end(); ++itr) {
+				SnowFlake roleId = ::getId(*itr);
+				if (pRole = arRoles.find((CDiscordRole*)&roleId))
+					break;
+			}
+
 			GCDEST gcd = { m_szModuleName, pUser.wszUsername, GC_EVENT_JOIN };
 			GCEVENT gce = { &gcd };
 
 			CMStringW wszNick = m["nick"].as_mstring();
 			CMStringW wszUsername = m["user"]["username"].as_mstring() + L"#" + m["user"]["discriminator"].as_mstring();
 			CMStringW wszUserId = m["user"]["id"].as_mstring();
-			SnowFlake userid = _wtoi64(wszUserId);
-			gce.bIsMe = (userid == m_ownId);
+			SnowFlake userId = _wtoi64(wszUserId);
+			if (userId == getId(pUser.hContact, DB_KEY_OWNERID))
+				gce.ptszStatus = L"@owner";
+			else
+				gce.ptszStatus = (pRole == nullptr) ? L"@everyone" : pRole->wszName;
+
+			gce.bIsMe = (userId == m_ownId);
 			gce.ptszUID = wszUserId;
 			gce.ptszNick = wszNick.IsEmpty() ? wszUsername : wszNick;
 			Chat_Event(&gce);
@@ -259,7 +298,7 @@ void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
 	}
 }
 
-void CDiscordProto::OnCommandGuildDelete(const JSONNode &pRoot)
+void CDiscordProto::OnCommandGuildDeleted(const JSONNode &pRoot)
 {
 	SnowFlake guildId = ::getId(pRoot["id"]);
 
@@ -274,7 +313,11 @@ void CDiscordProto::OnCommandGuildDelete(const JSONNode &pRoot)
 	Chat_Terminate(m_szModuleName, pRoot["name"].as_mstring(), true);
 }
 
-void CDiscordProto::OnCommandGuildRemoveMember(const JSONNode &pRoot)
+void CDiscordProto::OnCommandGuildMemberAdded(const JSONNode &pRoot)
+{
+}
+
+void CDiscordProto::OnCommandGuildMemberRemoved(const JSONNode &pRoot)
 {
 	SnowFlake guildId = ::getId(pRoot["guild_id"]);
 	CMStringW wszUserId = pRoot["user"]["id"].as_mstring();
@@ -291,7 +334,7 @@ void CDiscordProto::OnCommandGuildRemoveMember(const JSONNode &pRoot)
 	}
 }
 
-void CDiscordProto::OnCommandGuildUpdateMember(const JSONNode &pRoot)
+void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 {
 	SnowFlake guildId = ::getId(pRoot["guild_id"]);
 	CMStringW wszUserId = pRoot["user"]["id"].as_mstring();
@@ -318,6 +361,42 @@ void CDiscordProto::OnCommandGuildUpdateMember(const JSONNode &pRoot)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// roles
+
+void CDiscordProto::OnCommandRoleCreated(const JSONNode &pRoot)
+{
+	ProcessRole(::getId(pRoot["guild_id"]), pRoot["role"]);
+}
+
+void CDiscordProto::OnCommandRoleDeleted(const JSONNode &pRoot)
+{
+	SnowFlake id = ::getId(pRoot["role_id"]), guildId = ::getId(pRoot["guild_id"]);
+	CDiscordRole *pRole = arRoles.find((CDiscordRole*)&id);
+	if (pRole == nullptr)
+		return;
+
+	int iOldPosition = pRole->position;
+	arRoles.remove(pRole);
+
+	for (int i = 0; i < arRoles.getCount(); i++) {
+		CDiscordRole &p = arRoles[i];
+		if (p.guildId == guildId && p.position > iOldPosition)
+			p.position--;
+	}
+
+	for (int i = 0; i < arUsers.getCount(); i++) {
+		CDiscordUser &p = arUsers[i];
+		if (p.guildId != guildId)
+			continue;
+
+		SESSION_INFO *si = pci->SM_FindSession(p.wszUsername, m_szModuleName);
+		if (si != nullptr) {
+			pci->TM_RemoveAll(&si->pStatuses);
+			BuildStatusList(guildId, p.wszUsername);
+		}
+	}
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // reading a new message

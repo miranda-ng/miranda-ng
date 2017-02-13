@@ -28,7 +28,7 @@ void CDiscordProto::RemoveFriend(SnowFlake id)
 /////////////////////////////////////////////////////////////////////////////////////////
 // retrieves server history 
 
-void CDiscordProto::RetrieveHistory(MCONTACT hContact, CDiscordHitoryOp iOp, SnowFlake msgid, int iLimit)
+void CDiscordProto::RetrieveHistory(MCONTACT hContact, CDiscordHistoryOp iOp, SnowFlake msgid, int iLimit)
 {
 	CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
 	if (pUser == NULL)

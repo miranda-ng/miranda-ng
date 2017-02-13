@@ -23,6 +23,21 @@ enum {
 	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_INVITE
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::BuildStatusList(SnowFlake guildId, const CMStringW &wszChannelId)
+{
+	Chat_AddGroup(m_szModuleName, wszChannelId, L"@owner");
+
+	for (int i = 0; i < arRoles.getCount(); i++) {
+		CDiscordRole &r = arRoles[i];
+		if (r.guildId == guildId)
+			Chat_AddGroup(m_szModuleName, wszChannelId, r.wszName);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static gc_item sttLogListItems[] =
 {
 	{ LPGENW("Change &nickname"), IDM_CHANGENICK, MENU_ITEM },

@@ -81,7 +81,18 @@ JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-enum CDiscordHitoryOp
+struct CDiscordRole : public MZeroedObject
+{
+	SnowFlake id, guildId;
+	COLORREF color;
+	DWORD permissions;
+	int position;
+	CMStringW wszName;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+enum CDiscordHistoryOp
 {
 	MSG_NOFILTER, MSG_AFTER, MSG_BEFORE
 };
@@ -179,6 +190,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	mir_cs csMarkReadQueue;
 	LIST<CDiscordUser> arMarkReadQueue;
 
+	OBJLIST<CDiscordRole> arRoles;
 	OBJLIST<CDiscordUser> arUsers;
 	OBJLIST<SnowFlake> arOwnMessages;
 	CDiscordUser* FindUser(SnowFlake id);
@@ -206,6 +218,8 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	void Chat_SendPrivateMessage(GCHOOK *gch);
 	void Chat_ProcessLogMenu(GCHOOK *gch);
+
+	void BuildStatusList(SnowFlake guildId, const CMStringW &wszChannelId);
 	void ParseSpecialChars(SESSION_INFO *si, CMStringW &str);
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -262,10 +276,11 @@ public:
 	void OnCommandChannelCreated(const JSONNode&);
 	void OnCommandChannelDeleted(const JSONNode&);
 	void OnCommandChannelUpdated(const JSONNode&);
-	void OnCommandGuildCreate(const JSONNode&);
-	void OnCommandGuildDelete(const JSONNode&);
-	void OnCommandGuildRemoveMember(const JSONNode&);
-	void OnCommandGuildUpdateMember(const JSONNode&);
+	void OnCommandGuildCreated(const JSONNode&);
+	void OnCommandGuildDeleted(const JSONNode&);
+	void OnCommandGuildMemberAdded(const JSONNode&);
+	void OnCommandGuildMemberRemoved(const JSONNode&);
+	void OnCommandGuildMemberUpdated(const JSONNode&);
 	void OnCommandGuildSync(const JSONNode&);
 	void OnCommandFriendAdded(const JSONNode&);
 	void OnCommandFriendRemoved(const JSONNode&);
@@ -273,6 +288,8 @@ public:
 	void OnCommandMessageAck(const JSONNode&);
 	void OnCommandPresence(const JSONNode&);
 	void OnCommandReady(const JSONNode&);
+	void OnCommandRoleCreated(const JSONNode&);
+	void OnCommandRoleDeleted(const JSONNode&);
 	void OnCommandTyping(const JSONNode&);
 	void OnCommandUserUpdate(const JSONNode&);
 	void OnCommandUserSettingsUpdate(const JSONNode&);
@@ -296,7 +313,7 @@ public:
 	void RetrieveUserInfo(MCONTACT hContact);
 	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-	void RetrieveHistory(MCONTACT hContact, CDiscordHitoryOp iOp = MSG_NOFILTER, SnowFlake msgid = 0, int iLimit = 50);
+	void RetrieveHistory(MCONTACT hContact, CDiscordHistoryOp iOp = MSG_NOFILTER, SnowFlake msgid = 0, int iLimit = 50);
 	void OnReceiveHistory(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	bool RetrieveAvatar(MCONTACT hContact);
@@ -304,6 +321,7 @@ public:
 
 	// Misc
 	void ProcessGuild(const JSONNode &pStatuses, const JSONNode &pRoot);
+	void ProcessRole(SnowFlake guildId, const JSONNode&);
 	void ProcessType(CDiscordUser *pUser, const JSONNode&);
 	void SetServerStatus(int iStatus);
 	void RemoveFriend(SnowFlake id);

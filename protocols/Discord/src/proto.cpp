@@ -27,6 +27,11 @@ static int compareRequests(const AsyncHttpRequest *p1, const AsyncHttpRequest *p
 	return p1->m_iReqNum - p2->m_iReqNum;
 }
 
+static int compareRoles(const CDiscordRole *p1, const CDiscordRole *p2)
+{
+	return p1->id - p2->id;
+}
+
 static int compareUsers(const CDiscordUser *p1, const CDiscordUser *p2)
 {
 	return p1->id - p2->id;
@@ -40,6 +45,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	m_wszEmail(this, DB_KEY_EMAIL, L""),
 	arMarkReadQueue(1, compareUsers),
 	arOwnMessages(1, compareMessages),
+	arRoles(10, compareRoles),
 	arUsers(50, compareUsers)
 {
 	// Services
