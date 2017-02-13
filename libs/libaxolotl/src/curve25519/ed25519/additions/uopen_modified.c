@@ -20,6 +20,9 @@ int crypto_usign_open_modified(
   ge_p2 R;
   unsigned char hcheck[64];
   int count;
+  // Ru = sBu + h(-U)
+  ge_p3 sBu, hU;
+  ge_p3 Ru;
 
   if (smlen < 96) goto badsig;
   if (sm[63] & 224) goto badsig; /* strict parsing of h */
@@ -52,9 +55,6 @@ int crypto_usign_open_modified(
   // R = sB + h(-A)
   ge_double_scalarmult_vartime(&R,h,&A,s);
 
-  // Ru = sBu + h(-U)
-  ge_p3 sBu, hU;
-
   // sBu
   ge_scalarmult(&sBu, s, Bu);
 
@@ -62,13 +62,13 @@ int crypto_usign_open_modified(
   ge_scalarmult(&hU, h, &U);
 
   // Ru = sBu + h(-U)
-  ge_p1p1 Rp1p1;
-  ge_p3 Ru;
-  ge_cached hUcached;
-  ge_p3_to_cached(&hUcached, &hU);
-  ge_add(&Rp1p1, &sBu, &hUcached);
-  ge_p1p1_to_p3(&Ru, &Rp1p1);
-
+  {
+	  ge_p1p1 Rp1p1;
+	  ge_cached hUcached;
+	  ge_p3_to_cached(&hUcached, &hU);
+	  ge_add(&Rp1p1, &sBu, &hUcached);
+	  ge_p1p1_to_p3(&Ru, &Rp1p1);
+  }
 
   // Check h == SHA512(label(4) || A || U || R || Ru || M)
   m[0] = 0xFB;

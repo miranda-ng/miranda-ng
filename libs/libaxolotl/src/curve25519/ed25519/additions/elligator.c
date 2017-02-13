@@ -7,6 +7,7 @@
 
 unsigned int legendre_is_nonsquare(fe in)
 {
+  unsigned char bytes[32];
   fe temp;
   fe_pow22523(temp, in);  /* temp = in^((q-5)/8) */
   fe_sq(temp, temp);      /*        in^((q-5)/4) */ 
@@ -19,7 +20,6 @@ unsigned int legendre_is_nonsquare(fe in)
    * 0  = input is zero
    * -1 = nonsquare
    */
-  unsigned char bytes[32];
   fe_tobytes(bytes, temp);
   return 1 & bytes[31];
 }

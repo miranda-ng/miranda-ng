@@ -16,6 +16,7 @@ int crypto_vsign_open_modified(
   unsigned char h[32];
   unsigned char s[32];
   ge_p2 R;
+  ge_p3 Rv;
   unsigned char hcheck[64];
   unsigned char vrf_output[64];
   int count;
@@ -51,12 +52,13 @@ int crypto_vsign_open_modified(
   ge_scalarmult(&h_Vneg, h, &Vneg);
 
   // Rv = (sc * Bv) + (hc * (-V))
-  ge_p1p1 Rp1p1;
-  ge_p3 Rv;
-  ge_cached h_Vnegcached;
-  ge_p3_to_cached(&h_Vnegcached, &h_Vneg);
-  ge_add(&Rp1p1, &s_Bv, &h_Vnegcached);
-  ge_p1p1_to_p3(&Rv, &Rp1p1);
+  {
+	  ge_p1p1 Rp1p1;
+	  ge_cached h_Vnegcached;
+	  ge_p3_to_cached(&h_Vnegcached, &h_Vneg);
+	  ge_add(&Rp1p1, &s_Bv, &h_Vnegcached);
+	  ge_p1p1_to_p3(&Rv, &Rp1p1);
+  }
 
   // Check h == SHA512(label(4) || A || V || R || Rv || M)
   m[0] = 0xFB;  // label 4
