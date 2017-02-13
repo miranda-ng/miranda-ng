@@ -24,27 +24,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
-#include <axolotl.h>
+#include <signal_protocol.h>
 
 //TODO: create mutex
 
-void lock(void */*user_data*/)
+void lock(void * /*user_data*/)
 {
 
 }
 
-void unlock(void */*user_data*/)
+void unlock(void * /*user_data*/)
 {
 
 }
 
-int init_axolotl()
+int init_omemo()
 {
-	axolotl_context *global_context;
-	axolotl_crypto_provider provider;
-	axolotl_context_create(&global_context, NULL);
-	axolotl_context_set_crypto_provider(global_context, &provider);
-	axolotl_context_set_locking_functions(global_context, &lock, &unlock);
+	signal_context *global_context;
+	signal_crypto_provider provider;
+	signal_context_create(&global_context, NULL);
+	signal_context_set_crypto_provider(global_context, &provider);
+	signal_context_set_locking_functions(global_context, &lock, &unlock);
 
 	return 0;
 }

@@ -179,6 +179,8 @@ static int jabberProtoUninit(CJabberProto *ppro)
 	return 0;
 }
 
+int init_omemo();
+
 extern "C" int __declspec(dllexport) Load()
 {
 	// set the memory, lists & utf8 managers
@@ -221,6 +223,7 @@ extern "C" int __declspec(dllexport) Load()
 	g_MenuInit();
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	JabberUserInfoInit();
+	init_omemo();
 	return 0;
 }
 

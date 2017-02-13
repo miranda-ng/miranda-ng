@@ -25,6 +25,44 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile />
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include;$(ProjectDir)..\..\plugins\ExternalAPI;$(ProjectDir)..\..\..\boost;$(ProjectDir)..\..\libs\libaxolotl\src</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;Wtsapi32.lib;netapi32.lib;pdh.lib;shlwapi.lib;Strmiids.lib;gdiplus.lib;dbghelp.lib;Setupapi.lib;msimg32.lib;comctl32.lib;ws2_32.lib;UxTheme.lib;Iphlpapi.lib;libsignal-c.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\libs\win64;$(ProjectDir)..\..\..\boost\stage64\lib;$(OutDir)..\Obj\libsignal-c;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile />
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include;$(ProjectDir)..\..\plugins\ExternalAPI;$(ProjectDir)..\..\..\boost;$(ProjectDir)..\..\libs\libaxolotl\src</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;Wtsapi32.lib;netapi32.lib;pdh.lib;shlwapi.lib;Strmiids.lib;gdiplus.lib;dbghelp.lib;Setupapi.lib;msimg32.lib;comctl32.lib;ws2_32.lib;UxTheme.lib;Iphlpapi.lib;libsignal-c.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\libs\win64;$(ProjectDir)..\..\..\boost\stage64\lib;$(OutDir)..\Obj\libsignal-c;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include;$(ProjectDir)..\..\plugins\ExternalAPI;$(ProjectDir)..\..\..\boost;$(ProjectDir)..\..\libs\libaxolotl\src</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;Wtsapi32.lib;netapi32.lib;pdh.lib;shlwapi.lib;Strmiids.lib;gdiplus.lib;dbghelp.lib;Setupapi.lib;msimg32.lib;comctl32.lib;ws2_32.lib;UxTheme.lib;Iphlpapi.lib;libsignal-c.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\libs\win32;$(ProjectDir)..\..\..\boost\stage\lib;$(OutDir)..\Obj\libsignal-c;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include;$(ProjectDir)..\..\plugins\ExternalAPI;$(ProjectDir)..\..\..\boost;$(ProjectDir)..\..\libs\libaxolotl\src</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;Wtsapi32.lib;netapi32.lib;pdh.lib;shlwapi.lib;Strmiids.lib;gdiplus.lib;dbghelp.lib;Setupapi.lib;msimg32.lib;comctl32.lib;ws2_32.lib;UxTheme.lib;Iphlpapi.lib;libsignal-c.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\libs\win32;$(ProjectDir)..\..\..\boost\stage\lib;$(OutDir)..\Obj\libsignal-c;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs\zlib\zlib.vcxproj">
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
