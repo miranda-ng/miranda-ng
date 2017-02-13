@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>libsignal-c</ProjectName>
+    <ProjectName>libaxolotl</ProjectName>
     <ProjectGuid>{620E0BE7-3763-4F35-9DBD-4770104E269C}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
