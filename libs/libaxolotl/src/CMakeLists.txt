@@ -13,13 +13,13 @@ set(protobuf_SRCS
 	FingerprintProtocol.pb-c.c
 )
 
-set(axolotl_SRCS
+set(signal_protocol_SRCS
 	vpool.c
 	vpool.h
-	axolotl.c
-	axolotl.h
-	axolotl_types.h
-	axolotl_internal.h
+	signal_protocol.c
+	signal_protocol.h
+	signal_protocol_types.h
+	signal_protocol_internal.h
 	curve.c
 	curve.h
 	hkdf.c
@@ -36,6 +36,7 @@ set(axolotl_SRCS
 	session_pre_key.h
 	session_builder.c
 	session_builder.h
+	session_builder_internal.h
 	session_cipher.c
 	session_cipher.h
 	key_helper.c
@@ -52,22 +53,24 @@ set(axolotl_SRCS
 	group_cipher.h
 	fingerprint.c
 	fingerprint.h
+	device_consistency.c
+	device_consistency.h
 )
 
 add_subdirectory(curve25519)
 add_subdirectory(protobuf-c)
 
-add_library(axolotl-c
+add_library(signal-protocol-c
 	${protobuf_SRCS}
-	${axolotl_SRCS}
+	${signal_protocol_SRCS}
 	$<TARGET_OBJECTS:curve25519>
 	$<TARGET_OBJECTS:protobuf-c>
 )
 
 INSTALL(
 	FILES
-	axolotl.h
-	axolotl_types.h
+	signal_protocol.h
+	signal_protocol_types.h
 	curve.h
 	hkdf.h
 	ratchet.h
@@ -84,7 +87,8 @@ INSTALL(
 	group_session_builder.h
 	group_cipher.h
 	fingerprint.h
-	DESTINATION include/axolotl
+	device_consistency.h
+	DESTINATION ${INCLUDE_INSTALL_DIR}/signal
 )
 
-INSTALL(TARGETS axolotl-c DESTINATION lib)
+INSTALL(TARGETS signal-protocol-c DESTINATION ${LIB_INSTALL_DIR})

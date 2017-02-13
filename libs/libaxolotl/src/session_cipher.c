@@ -2,28 +2,29 @@
 
 #include <assert.h>
 #include <string.h>
-#include "axolotl_internal.h"
 #include "session_builder.h"
+#include "session_builder_internal.h"
 #include "session_record.h"
 #include "session_state.h"
 #include "ratchet.h"
 #include "protocol.h"
+#include "signal_protocol_internal.h"
 
 struct session_cipher
 {
-    axolotl_store_context *store;
-    const axolotl_address *remote_address;
+    signal_protocol_store_context *store;
+    const signal_protocol_address *remote_address;
     session_builder *builder;
-    axolotl_context *global_context;
-    int (*decrypt_callback)(session_cipher *cipher, axolotl_buffer *plaintext, void *decrypt_context);
+    signal_context *global_context;
+    int (*decrypt_callback)(session_cipher *cipher, signal_buffer *plaintext, void *decrypt_context);
     int inside_callback;
     void *user_data;
 };
 
-static int session_cipher_decrypt_from_record_and_whisper_message(session_cipher *cipher,
-        session_record *record, whisper_message *ciphertext, axolotl_buffer **plaintext);
-static int session_cipher_decrypt_from_state_and_whisper_message(session_cipher *cipher,
-        session_state *state, whisper_message *ciphertext, axolotl_buffer **plaintext);
+static int session_cipher_decrypt_from_record_and_signal_message(session_cipher *cipher,
+        session_record *record, signal_message *ciphertext, signal_buffer **plaintext);
+static int session_cipher_decrypt_from_state_and_signal_message(session_cipher *cipher,
+        session_state *state, signal_message *ciphertext, signal_buffer **plaintext);
 
 static int session_cipher_get_or_create_chain_key(session_cipher *cipher,
         ratchet_chain_key **chain_key,
@@ -31,22 +32,22 @@ static int session_cipher_get_or_create_chain_key(session_cipher *cipher,
 static int session_cipher_get_or_create_message_keys(ratchet_message_keys *message_keys,
         session_state *state, ec_public_key *their_ephemeral,
         ratchet_chain_key *chain_key, uint32_t counter,
-        axolotl_context *global_context);
+        signal_context *global_context);
 
 static int session_cipher_get_ciphertext(session_cipher *cipher,
-        axolotl_buffer **ciphertext,
+        signal_buffer **ciphertext,
         uint32_t version, ratchet_message_keys *message_keys,
         const uint8_t *plaintext, size_t plaintext_len);
 static int session_cipher_get_plaintext(session_cipher *cipher,
-        axolotl_buffer **plaintext,
+        signal_buffer **plaintext,
         uint32_t version, ratchet_message_keys *message_keys,
         const uint8_t *ciphertext, size_t ciphertext_len);
 
-static int session_cipher_decrypt_callback(session_cipher *cipher, axolotl_buffer *plaintext, void *decrypt_context);
+static int session_cipher_decrypt_callback(session_cipher *cipher, signal_buffer *plaintext, void *decrypt_context);
 
 int session_cipher_create(session_cipher **cipher,
-        axolotl_store_context *store, const axolotl_address *remote_address,
-        axolotl_context *global_context)
+        signal_protocol_store_context *store, const signal_protocol_address *remote_address,
+        signal_context *global_context)
 {
     int result = 0;
     session_builder *builder = 0;
@@ -62,7 +63,7 @@ int session_cipher_create(session_cipher **cipher,
 
     result_cipher = malloc(sizeof(session_cipher));
     if(!result_cipher) {
-        return AX_ERR_NOMEM;
+        return SG_ERR_NOMEM;
     }
     memset(result_cipher, 0, sizeof(session_cipher));
 
@@ -88,7 +89,7 @@ void *session_cipher_get_user_data(session_cipher *cipher)
 }
 
 void session_cipher_set_decryption_callback(session_cipher *cipher,
-        int (*callback)(session_cipher *cipher, axolotl_buffer *plaintext, void *decrypt_context))
+        int (*callback)(session_cipher *cipher, signal_buffer *plaintext, void *decrypt_context))
 {
     assert(cipher);
     cipher->decrypt_callback = callback;
@@ -107,37 +108,37 @@ int session_cipher_encrypt(session_cipher *cipher,
     ec_public_key *sender_ephemeral = 0;
     uint32_t previous_counter = 0;
     uint32_t session_version = 0;
-    axolotl_buffer *ciphertext = 0;
+    signal_buffer *ciphertext = 0;
     uint32_t chain_key_index = 0;
     ec_public_key *local_identity_key = 0;
     ec_public_key *remote_identity_key = 0;
-    whisper_message *message = 0;
-    pre_key_whisper_message *pre_key_message = 0;
+    signal_message *message = 0;
+    pre_key_signal_message *pre_key_message = 0;
     uint8_t *ciphertext_data = 0;
     size_t ciphertext_len = 0;
 
     assert(cipher);
-    axolotl_lock(cipher->global_context);
+    signal_lock(cipher->global_context);
 
     if(cipher->inside_callback == 1) {
-        result = AX_ERR_INVAL;
+        result = SG_ERR_INVAL;
         goto complete;
     }
 
-    result = axolotl_session_load_session(cipher->store, &record, cipher->remote_address);
+    result = signal_protocol_session_load_session(cipher->store, &record, cipher->remote_address);
     if(result < 0) {
         goto complete;
     }
 
     state = session_record_get_state(record);
     if(!state) {
-        result = AX_ERR_UNKNOWN;
+        result = SG_ERR_UNKNOWN;
         goto complete;
     }
 
     chain_key = session_state_get_sender_chain_key(state);
     if(!chain_key) {
-        result = AX_ERR_UNKNOWN;
+        result = SG_ERR_UNKNOWN;
         goto complete;
     }
 
@@ -148,7 +149,7 @@ int session_cipher_encrypt(session_cipher *cipher,
 
     sender_ephemeral = session_state_get_sender_ratchet_key(state);
     if(!sender_ephemeral) {
-        result = AX_ERR_UNKNOWN;
+        result = SG_ERR_UNKNOWN;
         goto complete;
     }
 
@@ -162,24 +163,24 @@ int session_cipher_encrypt(session_cipher *cipher,
     if(result < 0) {
         goto complete;
     }
-    ciphertext_data = axolotl_buffer_data(ciphertext);
-    ciphertext_len = axolotl_buffer_len(ciphertext);
+    ciphertext_data = signal_buffer_data(ciphertext);
+    ciphertext_len = signal_buffer_len(ciphertext);
 
     chain_key_index = ratchet_chain_key_get_index(chain_key);
 
     local_identity_key = session_state_get_local_identity_key(state);
     if(!local_identity_key) {
-        result = AX_ERR_UNKNOWN;
+        result = SG_ERR_UNKNOWN;
         goto complete;
     }
 
     remote_identity_key = session_state_get_remote_identity_key(state);
     if(!remote_identity_key) {
-        result = AX_ERR_UNKNOWN;
+        result = SG_ERR_UNKNOWN;
         goto complete;
     }
 
-    result = whisper_message_create(&message,
+    result = signal_message_create(&message,
             session_version,
             message_keys.mac_key, sizeof(message_keys.mac_key),
             sender_ephemeral,
@@ -206,11 +207,11 @@ int session_cipher_encrypt(session_cipher *cipher,
         base_key = session_state_unacknowledged_pre_key_message_get_base_key(state);
 
         if(!base_key) {
-            result = AX_ERR_UNKNOWN;
+            result = SG_ERR_UNKNOWN;
             goto complete;
         }
 
-        result = pre_key_whisper_message_create(&pre_key_message,
+        result = pre_key_signal_message_create(&pre_key_message,
                 session_version, local_registration_id, (has_pre_key_id ? &pre_key_id : 0),
                 signed_pre_key_id, base_key, local_identity_key,
                 message,
@@ -218,7 +219,7 @@ int session_cipher_encrypt(session_cipher *cipher,
         if(result < 0) {
             goto complete;
         }
-        AXOLOTL_UNREF(message);
+        SIGNAL_UNREF(message);
         message = 0;
     }
 
@@ -232,7 +233,7 @@ int session_cipher_encrypt(session_cipher *cipher,
         goto complete;
     }
 
-    result = axolotl_session_store_session(cipher->store, cipher->remote_address, record);
+    result = signal_protocol_session_store_session(cipher->store, cipher->remote_address, record);
 
 complete:
     if(result >= 0) {
@@ -244,48 +245,48 @@ complete:
         }
     }
     else {
-        AXOLOTL_UNREF(pre_key_message);
-        AXOLOTL_UNREF(message);
+        SIGNAL_UNREF(pre_key_message);
+        SIGNAL_UNREF(message);
     }
-    axolotl_buffer_free(ciphertext);
-    AXOLOTL_UNREF(next_chain_key);
-    AXOLOTL_UNREF(record);
-    axolotl_explicit_bzero(&message_keys, sizeof(ratchet_message_keys));
-    axolotl_unlock(cipher->global_context);
+    signal_buffer_free(ciphertext);
+    SIGNAL_UNREF(next_chain_key);
+    SIGNAL_UNREF(record);
+    signal_explicit_bzero(&message_keys, sizeof(ratchet_message_keys));
+    signal_unlock(cipher->global_context);
     return result;
 }
 
-int session_cipher_decrypt_pre_key_whisper_message(session_cipher *cipher,
-        pre_key_whisper_message *ciphertext, void *decrypt_context,
-        axolotl_buffer **plaintext)
+int session_cipher_decrypt_pre_key_signal_message(session_cipher *cipher,
+        pre_key_signal_message *ciphertext, void *decrypt_context,
+        signal_buffer **plaintext)
 {
     int result = 0;
-    axolotl_buffer *result_buf = 0;
+    signal_buffer *result_buf = 0;
     session_record *record = 0;
     int has_unsigned_pre_key_id = 0;
     uint32_t unsigned_pre_key_id = 0;
 
     assert(cipher);
-    axolotl_lock(cipher->global_context);
+    signal_lock(cipher->global_context);
 
     if(cipher->inside_callback == 1) {
-        result = AX_ERR_INVAL;
+        result = SG_ERR_INVAL;
         goto complete;
     }
 
-    result = axolotl_session_load_session(cipher->store, &record, cipher->remote_address);
+    result = signal_protocol_session_load_session(cipher->store, &record, cipher->remote_address);
     if(result < 0) {
         goto complete;
     }
 
-    result = session_builder_process_pre_key_whisper_message(cipher->builder, record, ciphertext, &unsigned_pre_key_id);
+    result = session_builder_process_pre_key_signal_message(cipher->builder, record, ciphertext, &unsigned_pre_key_id);
     if(result < 0) {
         goto complete;
     }
     has_unsigned_pre_key_id = result;
 
-    result = session_cipher_decrypt_from_record_and_whisper_message(cipher, record,
-            pre_key_whisper_message_get_whisper_message(ciphertext),
+    result = session_cipher_decrypt_from_record_and_signal_message(cipher, record,
+            pre_key_signal_message_get_signal_message(ciphertext),
             &result_buf);
     if(result < 0) {
         goto complete;
@@ -296,63 +297,63 @@ int session_cipher_decrypt_pre_key_whisper_message(session_cipher *cipher,
         goto complete;
     }
 
-    result = axolotl_session_store_session(cipher->store, cipher->remote_address, record);
+    result = signal_protocol_session_store_session(cipher->store, cipher->remote_address, record);
     if(result < 0) {
         goto complete;
     }
 
     if(has_unsigned_pre_key_id) {
-        result = axolotl_pre_key_remove_key(cipher->store, unsigned_pre_key_id);
+        result = signal_protocol_pre_key_remove_key(cipher->store, unsigned_pre_key_id);
         if(result < 0) {
             goto complete;
         }
     }
 
 complete:
-    AXOLOTL_UNREF(record);
+    SIGNAL_UNREF(record);
     if(result >= 0) {
         *plaintext = result_buf;
     }
     else {
-        axolotl_buffer_free(result_buf);
+        signal_buffer_free(result_buf);
     }
-    axolotl_unlock(cipher->global_context);
+    signal_unlock(cipher->global_context);
     return result;
 }
 
-int session_cipher_decrypt_whisper_message(session_cipher *cipher,
-        whisper_message *ciphertext, void *decrypt_context,
-        axolotl_buffer **plaintext)
+int session_cipher_decrypt_signal_message(session_cipher *cipher,
+        signal_message *ciphertext, void *decrypt_context,
+        signal_buffer **plaintext)
 {
     int result = 0;
-    axolotl_buffer *result_buf = 0;
+    signal_buffer *result_buf = 0;
     session_record *record = 0;
 
     assert(cipher);
-    axolotl_lock(cipher->global_context);
+    signal_lock(cipher->global_context);
 
     if(cipher->inside_callback == 1) {
-        result = AX_ERR_INVAL;
+        result = SG_ERR_INVAL;
         goto complete;
     }
 
-    result = axolotl_session_contains_session(cipher->store, cipher->remote_address);
+    result = signal_protocol_session_contains_session(cipher->store, cipher->remote_address);
     if(result == 0) {
-        axolotl_log(cipher->global_context, AX_LOG_WARNING, "No session for: %s:%d", cipher->remote_address->name, cipher->remote_address->device_id);
-        result = AX_ERR_NO_SESSION;
+        signal_log(cipher->global_context, SG_LOG_WARNING, "No session for: %s:%d", cipher->remote_address->name, cipher->remote_address->device_id);
+        result = SG_ERR_NO_SESSION;
         goto complete;
     }
     else if(result < 0) {
         goto complete;
     }
 
-    result = axolotl_session_load_session(cipher->store, &record,
+    result = signal_protocol_session_load_session(cipher->store, &record,
             cipher->remote_address);
     if(result < 0) {
         goto complete;
     }
 
-    result = session_cipher_decrypt_from_record_and_whisper_message(
+    result = session_cipher_decrypt_from_record_and_signal_message(
             cipher, record, ciphertext, &result_buf);
     if(result < 0) {
         goto complete;
@@ -363,32 +364,32 @@ int session_cipher_decrypt_whisper_message(session_cipher *cipher,
         goto complete;
     }
 
-    result = axolotl_session_store_session(cipher->store,
+    result = signal_protocol_session_store_session(cipher->store,
             cipher->remote_address, record);
 
 complete:
-    AXOLOTL_UNREF(record);
+    SIGNAL_UNREF(record);
     if(result >= 0) {
         *plaintext = result_buf;
     }
     else {
-        axolotl_buffer_free(result_buf);
+        signal_buffer_free(result_buf);
     }
-    axolotl_unlock(cipher->global_context);
+    signal_unlock(cipher->global_context);
     return result;
 }
 
-static int session_cipher_decrypt_from_record_and_whisper_message(session_cipher *cipher,
-        session_record *record, whisper_message *ciphertext, axolotl_buffer **plaintext)
+static int session_cipher_decrypt_from_record_and_signal_message(session_cipher *cipher,
+        session_record *record, signal_message *ciphertext, signal_buffer **plaintext)
 {
     int result = 0;
-    axolotl_buffer *result_buf = 0;
+    signal_buffer *result_buf = 0;
     session_state *state = 0;
     session_state *state_copy = 0;
     session_record_state_node *previous_states_node = 0;
 
     assert(cipher);
-    axolotl_lock(cipher->global_context);
+    signal_lock(cipher->global_context);
 
     state = session_record_get_state(record);
     if(state) {
@@ -399,16 +400,16 @@ static int session_cipher_decrypt_from_record_and_whisper_message(session_cipher
 
         //TODO Collect and log invalid message errors if totally unsuccessful
 
-        result = session_cipher_decrypt_from_state_and_whisper_message(cipher, state_copy, ciphertext, &result_buf);
-        if(result < 0 && result != AX_ERR_INVALID_MESSAGE) {
+        result = session_cipher_decrypt_from_state_and_signal_message(cipher, state_copy, ciphertext, &result_buf);
+        if(result < 0 && result != SG_ERR_INVALID_MESSAGE) {
             goto complete;
         }
 
-        if(result >= AX_SUCCESS) {
+        if(result >= SG_SUCCESS) {
             session_record_set_state(record, state_copy);
             goto complete;
         }
-        AXOLOTL_UNREF(state_copy);
+        SIGNAL_UNREF(state_copy);
     }
 
     previous_states_node = session_record_get_previous_states_head(record);
@@ -420,41 +421,41 @@ static int session_cipher_decrypt_from_record_and_whisper_message(session_cipher
             goto complete;
         }
 
-        result = session_cipher_decrypt_from_state_and_whisper_message(cipher, state_copy, ciphertext, &result_buf);
-        if(result < 0 && result != AX_ERR_INVALID_MESSAGE) {
+        result = session_cipher_decrypt_from_state_and_signal_message(cipher, state_copy, ciphertext, &result_buf);
+        if(result < 0 && result != SG_ERR_INVALID_MESSAGE) {
             goto complete;
         }
 
-        if(result >= AX_SUCCESS) {
+        if(result >= SG_SUCCESS) {
             session_record_get_previous_states_remove(record, previous_states_node);
             result = session_record_promote_state(record, state_copy);
             goto complete;
         }
 
-        AXOLOTL_UNREF(state_copy);
+        SIGNAL_UNREF(state_copy);
         previous_states_node = session_record_get_previous_states_next(previous_states_node);
     }
 
-    axolotl_log(cipher->global_context, AX_LOG_WARNING, "No valid sessions");
-    result = AX_ERR_INVALID_MESSAGE;
+    signal_log(cipher->global_context, SG_LOG_WARNING, "No valid sessions");
+    result = SG_ERR_INVALID_MESSAGE;
 
 complete:
-    AXOLOTL_UNREF(state_copy);
+    SIGNAL_UNREF(state_copy);
     if(result >= 0) {
         *plaintext = result_buf;
     }
     else {
-        axolotl_buffer_free(result_buf);
+        signal_buffer_free(result_buf);
     }
-    axolotl_unlock(cipher->global_context);
+    signal_unlock(cipher->global_context);
     return result;
 }
 
-static int session_cipher_decrypt_from_state_and_whisper_message(session_cipher *cipher,
-        session_state *state, whisper_message *ciphertext, axolotl_buffer **plaintext)
+static int session_cipher_decrypt_from_state_and_signal_message(session_cipher *cipher,
+        session_state *state, signal_message *ciphertext, signal_buffer **plaintext)
 {
     int result = 0;
-    axolotl_buffer *result_buf = 0;
+    signal_buffer *result_buf = 0;
     ec_public_key *their_ephemeral = 0;
     uint32_t counter = 0;
     ratchet_chain_key *chain_key = 0;
@@ -463,30 +464,30 @@ static int session_cipher_decrypt_from_state_and_whisper_message(session_cipher 
     uint32_t session_version = 0;
     ec_public_key *remote_identity_key = 0;
     ec_public_key *local_identity_key = 0;
-    axolotl_buffer *ciphertext_body = 0;
+    signal_buffer *ciphertext_body = 0;
 
     if(!session_state_has_sender_chain(state)) {
-        axolotl_log(cipher->global_context, AX_LOG_WARNING, "Uninitialized session!");
-        result = AX_ERR_INVALID_MESSAGE;
+        signal_log(cipher->global_context, SG_LOG_WARNING, "Uninitialized session!");
+        result = SG_ERR_INVALID_MESSAGE;
         goto complete;
     }
 
-    message_version = whisper_message_get_message_version(ciphertext);
+    message_version = signal_message_get_message_version(ciphertext);
     session_version = session_state_get_session_version(state);
 
     if(message_version != session_version) {
-        axolotl_log(cipher->global_context, AX_LOG_WARNING, "Message version %d, but session version %d", message_version, session_version);
-        result = AX_ERR_INVALID_MESSAGE;
+        signal_log(cipher->global_context, SG_LOG_WARNING, "Message version %d, but session version %d", message_version, session_version);
+        result = SG_ERR_INVALID_MESSAGE;
         goto complete;
     }
 
-    their_ephemeral = whisper_message_get_sender_ratchet_key(ciphertext);
+    their_ephemeral = signal_message_get_sender_ratchet_key(ciphertext);
     if(!their_ephemeral) {
-        result = AX_ERR_UNKNOWN;
+        result = SG_ERR_UNKNOWN;
         goto complete;
     }
 
-    counter = whisper_message_get_counter(ciphertext);
+    counter = signal_message_get_counter(ciphertext);
 
     result = session_cipher_get_or_create_chain_key(cipher, &chain_key, state, their_ephemeral);
     if(result < 0) {
@@ -501,40 +502,40 @@ static int session_cipher_decrypt_from_state_and_whisper_message(session_cipher 
 
     remote_identity_key = session_state_get_remote_identity_key(state);
     if(!remote_identity_key) {
-        result = AX_ERR_UNKNOWN;
+        result = SG_ERR_UNKNOWN;
         goto complete;
     }
 
     local_identity_key = session_state_get_local_identity_key(state);
     if(!local_identity_key) {
-        result = AX_ERR_UNKNOWN;
+        result = SG_ERR_UNKNOWN;
         goto complete;
     }
 
-    result = whisper_message_verify_mac(ciphertext, message_version,
+    result = signal_message_verify_mac(ciphertext, message_version,
             remote_identity_key, local_identity_key,
             message_keys.mac_key, sizeof(message_keys.mac_key),
             cipher->global_context);
     if(result != 1) {
         if(result == 0) {
-            axolotl_log(cipher->global_context, AX_LOG_WARNING, "Message mac not verified");
-            result = AX_ERR_INVALID_MESSAGE;
+            signal_log(cipher->global_context, SG_LOG_WARNING, "Message mac not verified");
+            result = SG_ERR_INVALID_MESSAGE;
         }
         else if(result < 0) {
-            axolotl_log(cipher->global_context, AX_LOG_WARNING, "Error attempting to verify message mac");
+            signal_log(cipher->global_context, SG_LOG_WARNING, "Error attempting to verify message mac");
         }
         goto complete;
     }
 
-    ciphertext_body = whisper_message_get_body(ciphertext);
+    ciphertext_body = signal_message_get_body(ciphertext);
     if(!ciphertext_body) {
-        axolotl_log(cipher->global_context, AX_LOG_WARNING, "Message body does not exist");
-        result = AX_ERR_INVALID_MESSAGE;
+        signal_log(cipher->global_context, SG_LOG_WARNING, "Message body does not exist");
+        result = SG_ERR_INVALID_MESSAGE;
         goto complete;
     }
 
     result = session_cipher_get_plaintext(cipher, &result_buf, message_version, &message_keys,
-            axolotl_buffer_data(ciphertext_body), axolotl_buffer_len(ciphertext_body));
+            signal_buffer_data(ciphertext_body), signal_buffer_len(ciphertext_body));
     if(result < 0) {
         goto complete;
     }
@@ -542,14 +543,14 @@ static int session_cipher_decrypt_from_state_and_whisper_message(session_cipher 
     session_state_clear_unacknowledged_pre_key_message(state);
 
 complete:
-    AXOLOTL_UNREF(chain_key);
+    SIGNAL_UNREF(chain_key);
     if(result >= 0) {
         *plaintext = result_buf;
     }
     else {
-        axolotl_buffer_free(result_buf);
+        signal_buffer_free(result_buf);
     }
-    axolotl_explicit_bzero(&message_keys, sizeof(ratchet_message_keys));
+    signal_explicit_bzero(&message_keys, sizeof(ratchet_message_keys));
     return result;
 }
 
@@ -571,19 +572,19 @@ static int session_cipher_get_or_create_chain_key(session_cipher *cipher,
 
     result_key = session_state_get_receiver_chain_key(state, their_ephemeral);
     if(result_key) {
-        AXOLOTL_REF(result_key);
+        SIGNAL_REF(result_key);
         goto complete;
     }
 
     root_key = session_state_get_root_key(state);
     if(!root_key) {
-        result = AX_ERR_UNKNOWN;
+        result = SG_ERR_UNKNOWN;
         goto complete;
     }
 
     our_ephemeral = session_state_get_sender_ratchet_key_pair(state);
     if(!our_ephemeral) {
-        result = AX_ERR_UNKNOWN;
+        result = SG_ERR_UNKNOWN;
         goto complete;
     }
 
@@ -615,7 +616,7 @@ static int session_cipher_get_or_create_chain_key(session_cipher *cipher,
 
     previous_sender_chain_key = session_state_get_sender_chain_key(state);
     if(!previous_sender_chain_key) {
-        result = AX_ERR_UNKNOWN;
+        result = SG_ERR_UNKNOWN;
         goto complete;
     }
 
@@ -626,26 +627,26 @@ static int session_cipher_get_or_create_chain_key(session_cipher *cipher,
     session_state_set_sender_chain(state, our_new_ephemeral, sender_chain_key);
 
     result_key = receiver_chain_key;
-    AXOLOTL_REF(result_key);
+    SIGNAL_REF(result_key);
 
 complete:
-    AXOLOTL_UNREF(receiver_root_key);
-    AXOLOTL_UNREF(receiver_chain_key);
-    AXOLOTL_UNREF(sender_root_key);
-    AXOLOTL_UNREF(sender_chain_key);
-    AXOLOTL_UNREF(our_new_ephemeral);
+    SIGNAL_UNREF(receiver_root_key);
+    SIGNAL_UNREF(receiver_chain_key);
+    SIGNAL_UNREF(sender_root_key);
+    SIGNAL_UNREF(sender_chain_key);
+    SIGNAL_UNREF(our_new_ephemeral);
     if(result >= 0) {
         *chain_key = result_key;
     }
     else {
-        AXOLOTL_UNREF(result_key);
+        SIGNAL_UNREF(result_key);
     }
     return result;
 }
 
 static int session_cipher_get_or_create_message_keys(ratchet_message_keys *message_keys,
         session_state *state, ec_public_key *their_ephemeral,
-        ratchet_chain_key *chain_key, uint32_t counter, axolotl_context *global_context)
+        ratchet_chain_key *chain_key, uint32_t counter, signal_context *global_context)
 {
     int result = 0;
     ratchet_chain_key *cur_chain_key = 0;
@@ -659,20 +660,20 @@ static int session_cipher_get_or_create_message_keys(ratchet_message_keys *messa
             goto complete;
         }
 
-        axolotl_log(global_context, AX_LOG_WARNING, "Received message with old counter: %d, %d",
+        signal_log(global_context, SG_LOG_WARNING, "Received message with old counter: %d, %d",
                 ratchet_chain_key_get_index(chain_key), counter);
-        result = AX_ERR_DUPLICATE_MESSAGE;
+        result = SG_ERR_DUPLICATE_MESSAGE;
         goto complete;
     }
 
     if(counter - ratchet_chain_key_get_index(chain_key) > 2000) {
-        axolotl_log(global_context, AX_LOG_WARNING, "Over 2000 messages into the future!");
-        result = AX_ERR_INVALID_MESSAGE;
+        signal_log(global_context, SG_LOG_WARNING, "Over 2000 messages into the future!");
+        result = SG_ERR_INVALID_MESSAGE;
         goto complete;
     }
 
     cur_chain_key = chain_key;
-    AXOLOTL_REF(cur_chain_key);
+    SIGNAL_REF(cur_chain_key);
 
     while(ratchet_chain_key_get_index(cur_chain_key) < counter) {
         result = ratchet_chain_key_get_message_keys(cur_chain_key, &message_keys_result);
@@ -689,7 +690,7 @@ static int session_cipher_get_or_create_message_keys(ratchet_message_keys *messa
         if(result < 0) {
             goto complete;
         }
-        AXOLOTL_UNREF(cur_chain_key);
+        SIGNAL_UNREF(cur_chain_key);
         cur_chain_key = next_chain_key;
         next_chain_key = 0;
     }
@@ -713,9 +714,9 @@ complete:
     if(result >= 0) {
         memcpy(message_keys, &message_keys_result, sizeof(ratchet_message_keys));
     }
-    AXOLOTL_UNREF(cur_chain_key);
-    AXOLOTL_UNREF(next_chain_key);
-    axolotl_explicit_bzero(&message_keys_result, sizeof(ratchet_message_keys));
+    SIGNAL_UNREF(cur_chain_key);
+    SIGNAL_UNREF(next_chain_key);
+    signal_explicit_bzero(&message_keys_result, sizeof(ratchet_message_keys));
     return result;
 }
 
@@ -727,16 +728,16 @@ int session_cipher_get_remote_registration_id(session_cipher *cipher, uint32_t *
     session_state *state = 0;
 
     assert(cipher);
-    axolotl_lock(cipher->global_context);
+    signal_lock(cipher->global_context);
 
-    result = axolotl_session_load_session(cipher->store, &record, cipher->remote_address);
+    result = signal_protocol_session_load_session(cipher->store, &record, cipher->remote_address);
     if(result < 0) {
         goto complete;
     }
 
     state = session_record_get_state(record);
     if(!state) {
-        result = AX_ERR_UNKNOWN;
+        result = SG_ERR_UNKNOWN;
         goto complete;
     }
 
@@ -746,7 +747,7 @@ complete:
     if(result >= 0) {
         *remote_id = id_result;
     }
-    axolotl_unlock(cipher->global_context);
+    signal_unlock(cipher->global_context);
     return result;
 }
 
@@ -758,25 +759,25 @@ int session_cipher_get_session_version(session_cipher *cipher, uint32_t *version
     session_state *state = 0;
 
     assert(cipher);
-    axolotl_lock(cipher->global_context);
+    signal_lock(cipher->global_context);
 
-    result = axolotl_session_contains_session(cipher->store, cipher->remote_address);
+    result = signal_protocol_session_contains_session(cipher->store, cipher->remote_address);
     if(result != 1) {
         if(result == 0) {
-            axolotl_log(cipher->global_context, AX_LOG_WARNING, "No session for: %s:%d", cipher->remote_address->name, cipher->remote_address->device_id);
-            result = AX_ERR_NO_SESSION;
+            signal_log(cipher->global_context, SG_LOG_WARNING, "No session for: %s:%d", cipher->remote_address->name, cipher->remote_address->device_id);
+            result = SG_ERR_NO_SESSION;
         }
         goto complete;
     }
 
-    result = axolotl_session_load_session(cipher->store, &record, cipher->remote_address);
+    result = signal_protocol_session_load_session(cipher->store, &record, cipher->remote_address);
     if(result < 0) {
         goto complete;
     }
 
     state = session_record_get_state(record);
     if(!state) {
-        result = AX_ERR_UNKNOWN;
+        result = SG_ERR_UNKNOWN;
         goto complete;
     }
 
@@ -786,21 +787,21 @@ complete:
     if(result >= 0) {
         *version = version_result;
     }
-    axolotl_unlock(cipher->global_context);
+    signal_unlock(cipher->global_context);
     return result;
 }
 
 static int session_cipher_get_ciphertext(session_cipher *cipher,
-        axolotl_buffer **ciphertext,
+        signal_buffer **ciphertext,
         uint32_t version, ratchet_message_keys *message_keys,
         const uint8_t *plaintext, size_t plaintext_len)
 {
     int result = 0;
-    axolotl_buffer *output = 0;
+    signal_buffer *output = 0;
 
     if(version >= 3) {
-        result = axolotl_encrypt(cipher->global_context,
-                &output, AX_CIPHER_AES_CBC_PKCS5,
+        result = signal_encrypt(cipher->global_context,
+                &output, SG_CIPHER_AES_CBC_PKCS5,
                 message_keys->cipher_key, sizeof(message_keys->cipher_key),
                 message_keys->iv, sizeof(message_keys->iv),
                 plaintext, plaintext_len);
@@ -813,8 +814,8 @@ static int session_cipher_get_ciphertext(session_cipher *cipher,
         iv[1] = (uint8_t)(message_keys->counter >> 16);
         iv[0] = (uint8_t)(message_keys->counter >> 24);
 
-        result = axolotl_encrypt(cipher->global_context,
-                &output, AX_CIPHER_AES_CTR_NOPADDING,
+        result = signal_encrypt(cipher->global_context,
+                &output, SG_CIPHER_AES_CTR_NOPADDING,
                 message_keys->cipher_key, sizeof(message_keys->cipher_key),
                 iv, sizeof(iv),
                 plaintext, plaintext_len);
@@ -828,16 +829,16 @@ static int session_cipher_get_ciphertext(session_cipher *cipher,
 }
 
 static int session_cipher_get_plaintext(session_cipher *cipher,
-        axolotl_buffer **plaintext,
+        signal_buffer **plaintext,
         uint32_t version, ratchet_message_keys *message_keys,
         const uint8_t *ciphertext, size_t ciphertext_len)
 {
     int result = 0;
-    axolotl_buffer *output = 0;
+    signal_buffer *output = 0;
 
     if(version >= 3) {
-        result = axolotl_decrypt(cipher->global_context,
-                &output, AX_CIPHER_AES_CBC_PKCS5,
+        result = signal_decrypt(cipher->global_context,
+                &output, SG_CIPHER_AES_CBC_PKCS5,
                 message_keys->cipher_key, sizeof(message_keys->cipher_key),
                 message_keys->iv, sizeof(message_keys->iv),
                 ciphertext, ciphertext_len);
@@ -850,8 +851,8 @@ static int session_cipher_get_plaintext(session_cipher *cipher,
         iv[1] = (uint8_t)(message_keys->counter >> 16);
         iv[0] = (uint8_t)(message_keys->counter >> 24);
 
-        result = axolotl_decrypt(cipher->global_context,
-                &output, AX_CIPHER_AES_CTR_NOPADDING,
+        result = signal_decrypt(cipher->global_context,
+                &output, SG_CIPHER_AES_CTR_NOPADDING,
                 message_keys->cipher_key, sizeof(message_keys->cipher_key),
                 iv, sizeof(iv),
                 ciphertext, ciphertext_len);
@@ -864,7 +865,7 @@ static int session_cipher_get_plaintext(session_cipher *cipher,
     return result;
 }
 
-static int session_cipher_decrypt_callback(session_cipher *cipher, axolotl_buffer *plaintext, void *decrypt_context)
+static int session_cipher_decrypt_callback(session_cipher *cipher, signal_buffer *plaintext, void *decrypt_context)
 {
     int result = 0;
     if(cipher->decrypt_callback) {

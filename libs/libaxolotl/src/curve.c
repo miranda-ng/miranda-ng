@@ -7,50 +7,58 @@
 
 #include "curve25519/curve25519-donna.h"
 #include "curve25519/ed25519/additions/curve_sigs.h"
-#include "axolotl_internal.h"
+#include "curve25519/ed25519/additions/vxeddsa.h"
+#include "signal_protocol_internal.h"
+#include "utarray.h"
 
 #define DJB_TYPE 0x05
 #define DJB_KEY_LEN 32
+#define VRF_VERIFY_LEN 32
 
 struct ec_public_key
 {
-    axolotl_type_base base;
+    signal_type_base base;
     uint8_t data[DJB_KEY_LEN];
 };
 
 struct ec_private_key
 {
-    axolotl_type_base base;
+    signal_type_base base;
     uint8_t data[DJB_KEY_LEN];
 };
 
 struct ec_key_pair
 {
-    axolotl_type_base base;
+    signal_type_base base;
     ec_public_key *public_key;
     ec_private_key *private_key;
 };
 
-int curve_decode_point(ec_public_key **public_key, const uint8_t *key_data, size_t key_len, axolotl_context *global_context)
+struct ec_public_key_list
+{
+    UT_array *values;
+};
+
+int curve_decode_point(ec_public_key **public_key, const uint8_t *key_data, size_t key_len, signal_context *global_context)
 {
     ec_public_key *key = 0;
 
     if(key_len > 0 && key_data[0] != DJB_TYPE) {
-        axolotl_log(global_context, AX_LOG_ERROR, "Invalid key type: %d", key_data[0]);
-        return AX_ERR_INVALID_KEY;
+        signal_log(global_context, SG_LOG_ERROR, "Invalid key type: %d", key_data[0]);
+        return SG_ERR_INVALID_KEY;
     }
 
     if(key_len != DJB_KEY_LEN + 1) {
-        axolotl_log(global_context, AX_LOG_ERROR, "Invalid key length: %d", key_len);
-        return AX_ERR_INVALID_KEY;
+        signal_log(global_context, SG_LOG_ERROR, "Invalid key length: %d", key_len);
+        return SG_ERR_INVALID_KEY;
     }
 
     key = malloc(sizeof(ec_public_key));
     if(!key) {
-        return AX_ERR_NOMEM;
+        return SG_ERR_NOMEM;
     }
 
-    AXOLOTL_INIT(key, ec_public_key_destroy);
+    SIGNAL_INIT(key, ec_public_key_destroy);
 
     memcpy(key->data, key_data + 1, DJB_KEY_LEN);
 
@@ -71,7 +79,7 @@ int ec_public_key_compare(const ec_public_key *key1, const ec_public_key *key2)
         return 1;
     }
     else {
-        return axolotl_constant_memcmp(key1->data, key2->data, DJB_KEY_LEN);
+        return signal_constant_memcmp(key1->data, key2->data, DJB_KEY_LEN);
     }
 }
 
@@ -91,17 +99,21 @@ int ec_public_key_memcmp(const ec_public_key *key1, const ec_public_key *key2)
     }
 }
 
-int ec_public_key_serialize(axolotl_buffer **buffer, const ec_public_key *key)
+int ec_public_key_serialize(signal_buffer **buffer, const ec_public_key *key)
 {
-    axolotl_buffer *buf = 0;
+    signal_buffer *buf = 0;
     uint8_t *data = 0;
 
-    buf = axolotl_buffer_alloc(sizeof(uint8_t) * (DJB_KEY_LEN + 1));
-    if(!buf) {
-        return AX_ERR_NOMEM;
+    if(!key) {
+        return SG_ERR_INVAL;
     }
 
-    data = axolotl_buffer_data(buf);
+    buf = signal_buffer_alloc(sizeof(uint8_t) * (DJB_KEY_LEN + 1));
+    if(!buf) {
+        return SG_ERR_NOMEM;
+    }
+
+    data = signal_buffer_data(buf);
     data[0] = DJB_TYPE;
     memcpy(data + 1, key->data, DJB_KEY_LEN);
 
@@ -121,7 +133,7 @@ int ec_public_key_serialize_protobuf(ProtobufCBinaryData *buffer, const ec_publi
     len = sizeof(uint8_t) * (DJB_KEY_LEN + 1);
     data = malloc(len);
     if(!data) {
-        return AX_ERR_NOMEM;
+        return SG_ERR_NOMEM;
     }
 
     data[0] = DJB_TYPE;
@@ -132,27 +144,27 @@ int ec_public_key_serialize_protobuf(ProtobufCBinaryData *buffer, const ec_publi
     return 0;
 }
 
-void ec_public_key_destroy(axolotl_type_base *type)
+void ec_public_key_destroy(signal_type_base *type)
 {
     ec_public_key *public_key = (ec_public_key *)type;
     free(public_key);
 }
 
-int curve_decode_private_point(ec_private_key **private_key, const uint8_t *key_data, size_t key_len, axolotl_context *global_context)
+int curve_decode_private_point(ec_private_key **private_key, const uint8_t *key_data, size_t key_len, signal_context *global_context)
 {
     ec_private_key *key = 0;
 
     if(key_len != DJB_KEY_LEN) {
-        axolotl_log(global_context, AX_LOG_ERROR, "Invalid key length: %d", key_len);
-        return AX_ERR_INVALID_KEY;
+        signal_log(global_context, SG_LOG_ERROR, "Invalid key length: %d", key_len);
+        return SG_ERR_INVALID_KEY;
     }
 
     key = malloc(sizeof(ec_private_key));
     if(!key) {
-        return AX_ERR_NOMEM;
+        return SG_ERR_NOMEM;
     }
 
-    AXOLOTL_INIT(key, ec_private_key_destroy);
+    SIGNAL_INIT(key, ec_private_key_destroy);
 
     memcpy(key->data, key_data, DJB_KEY_LEN);
 
@@ -173,21 +185,21 @@ int ec_private_key_compare(const ec_private_key *key1, const ec_private_key *key
         return 1;
     }
     else {
-        return axolotl_constant_memcmp(key1->data, key2->data, DJB_KEY_LEN);
+        return signal_constant_memcmp(key1->data, key2->data, DJB_KEY_LEN);
     }
 }
 
-int ec_private_key_serialize(axolotl_buffer **buffer, const ec_private_key *key)
+int ec_private_key_serialize(signal_buffer **buffer, const ec_private_key *key)
 {
-    axolotl_buffer *buf = 0;
+    signal_buffer *buf = 0;
     uint8_t *data = 0 ;
     
-    buf = axolotl_buffer_alloc(sizeof(uint8_t) * DJB_KEY_LEN);
+    buf = signal_buffer_alloc(sizeof(uint8_t) * DJB_KEY_LEN);
     if(!buf) {
-        return AX_ERR_NOMEM;
+        return SG_ERR_NOMEM;
     }
 
-    data = axolotl_buffer_data(buf);
+    data = signal_buffer_data(buf);
     memcpy(data, key->data, DJB_KEY_LEN);
 
     *buffer = buf;
@@ -206,7 +218,7 @@ int ec_private_key_serialize_protobuf(ProtobufCBinaryData *buffer, const ec_priv
     len = sizeof(uint8_t) * DJB_KEY_LEN;
     data = malloc(len);
     if(!data) {
-        return AX_ERR_NOMEM;
+        return SG_ERR_NOMEM;
     }
 
     memcpy(data, key->data, DJB_KEY_LEN);
@@ -216,10 +228,10 @@ int ec_private_key_serialize_protobuf(ProtobufCBinaryData *buffer, const ec_priv
     return 0;
 }
 
-void ec_private_key_destroy(axolotl_type_base *type)
+void ec_private_key_destroy(signal_type_base *type)
 {
     ec_private_key *private_key = (ec_private_key *)type;
-    axolotl_explicit_bzero(private_key, sizeof(ec_private_key));
+    signal_explicit_bzero(private_key, sizeof(ec_private_key));
     free(private_key);
 }
 
@@ -227,14 +239,14 @@ int ec_key_pair_create(ec_key_pair **key_pair, ec_public_key *public_key, ec_pri
 {
     ec_key_pair *result = malloc(sizeof(ec_key_pair));
     if(!result) {
-        return AX_ERR_NOMEM;
+        return SG_ERR_NOMEM;
     }
 
-    AXOLOTL_INIT(result, ec_key_pair_destroy);
+    SIGNAL_INIT(result, ec_key_pair_destroy);
     result->public_key = public_key;
-    AXOLOTL_REF(public_key);
+    SIGNAL_REF(public_key);
     result->private_key = private_key;
-    AXOLOTL_REF(private_key);
+    SIGNAL_REF(private_key);
 
     *key_pair = result;
 
@@ -251,15 +263,15 @@ ec_private_key *ec_key_pair_get_private(const ec_key_pair *key_pair)
     return key_pair->private_key;
 }
 
-void ec_key_pair_destroy(axolotl_type_base *type)
+void ec_key_pair_destroy(signal_type_base *type)
 {
     ec_key_pair *key_pair = (ec_key_pair *)type;
-    AXOLOTL_UNREF(key_pair->public_key);
-    AXOLOTL_UNREF(key_pair->private_key);
+    SIGNAL_UNREF(key_pair->public_key);
+    SIGNAL_UNREF(key_pair->private_key);
     free(key_pair);
 }
 
-int curve_generate_private_key(axolotl_context *context, ec_private_key **private_key)
+int curve_generate_private_key(signal_context *context, ec_private_key **private_key)
 {
     int result = 0;
     ec_private_key *key = 0;
@@ -268,13 +280,13 @@ int curve_generate_private_key(axolotl_context *context, ec_private_key **privat
 
     key = malloc(sizeof(ec_private_key));
     if(!key) {
-        result = AX_ERR_NOMEM;
+        result = SG_ERR_NOMEM;
         goto complete;
     }
 
-    AXOLOTL_INIT(key, ec_private_key_destroy);
+    SIGNAL_INIT(key, ec_private_key_destroy);
 
-    result = axolotl_crypto_random(context, key->data, DJB_KEY_LEN);
+    result = signal_crypto_random(context, key->data, DJB_KEY_LEN);
     if(result < 0) {
         goto complete;
     }
@@ -283,9 +295,16 @@ int curve_generate_private_key(axolotl_context *context, ec_private_key **privat
     key->data[31] &= 127;
     key->data[31] |= 64;
 
-    *private_key = key;
-
 complete:
+    if(result < 0) {
+        if(key) {
+            SIGNAL_UNREF(key);
+        }
+    }
+    else {
+        *private_key = key;
+    }
+
     return result;
 }
 
@@ -296,10 +315,10 @@ int curve_generate_public_key(ec_public_key **public_key, const ec_private_key *
 
     ec_public_key *key = malloc(sizeof(ec_public_key));
     if(!key) {
-        return AX_ERR_NOMEM;
+        return SG_ERR_NOMEM;
     }
 
-    AXOLOTL_INIT(key, ec_public_key_destroy);
+    SIGNAL_INIT(key, ec_public_key_destroy);
 
     result = curve25519_donna(key->data, private_key->data, basepoint);
 
@@ -309,13 +328,13 @@ int curve_generate_public_key(ec_public_key **public_key, const ec_private_key *
     }
     else {
         if(key) {
-            AXOLOTL_UNREF(key);
+            SIGNAL_UNREF(key);
         }
-        return AX_ERR_UNKNOWN;
+        return SG_ERR_UNKNOWN;
     }
 }
 
-int curve_generate_key_pair(axolotl_context *context, ec_key_pair **key_pair)
+int curve_generate_key_pair(signal_context *context, ec_key_pair **key_pair)
 {
     int result = 0;
     ec_key_pair *pair_result = 0;
@@ -341,15 +360,15 @@ int curve_generate_key_pair(axolotl_context *context, ec_key_pair **key_pair)
 
 complete:
     if(key_public) {
-        AXOLOTL_UNREF(key_public);
+        SIGNAL_UNREF(key_public);
     }
     if(key_private) {
-        AXOLOTL_UNREF(key_private);
+        SIGNAL_UNREF(key_private);
     }
 
     if(result < 0) {
         if(pair_result) {
-            AXOLOTL_UNREF(pair_result);
+            SIGNAL_UNREF(pair_result);
         }
     }
     else {
@@ -359,18 +378,110 @@ complete:
     return result;
 }
 
+ec_public_key_list *ec_public_key_list_alloc()
+{
+    ec_public_key_list *list = malloc(sizeof(ec_public_key_list));
+    if(!list) {
+        return 0;
+    }
+    memset(list, 0, sizeof(ec_public_key_list));
+    utarray_new(list->values, &ut_ptr_icd);
+    return list;
+}
+
+ec_public_key_list *ec_public_key_list_copy(const ec_public_key_list *list)
+{
+    ec_public_key_list *result = 0;
+    unsigned int size;
+    unsigned int i;
+    ec_public_key **p;
+
+    result = ec_public_key_list_alloc();
+    if(!result) {
+        return 0;
+    }
+
+    size = utarray_len(list->values);
+
+    utarray_reserve(result->values, size);
+
+    for (i = 0; i < size; i++) {
+        p = (ec_public_key **)utarray_eltptr(list->values, i);
+        ec_public_key_list_push_back(result, *p);
+    }
+
+    return result;
+}
+
+void ec_public_key_list_push_back(ec_public_key_list *list, ec_public_key *value)
+{
+    assert(list);
+    assert(value);
+    SIGNAL_REF(value);
+    utarray_push_back(list->values, &value);
+}
+
+unsigned int ec_public_key_list_size(const ec_public_key_list *list)
+{
+    assert(list);
+    return utarray_len(list->values);
+}
+
+ec_public_key *ec_public_key_list_at(const ec_public_key_list *list, unsigned int index)
+{
+    ec_public_key **value = 0;
+
+    assert(list);
+    assert(index < utarray_len(list->values));
+
+    value = (ec_public_key **)utarray_eltptr(list->values, index);
+
+    assert(*value);
+
+    return *value;
+}
+
+int ec_public_key_list_sort_comparator(const void *a, const void *b)
+{
+    const ec_public_key *key1 = *((const ec_public_key **)a);
+    const ec_public_key *key2 = *((const ec_public_key **)b);
+    return ec_public_key_memcmp(key1, key2);
+}
+
+void ec_public_key_list_sort(ec_public_key_list *list)
+{
+    assert(list);
+    utarray_sort(list->values, ec_public_key_list_sort_comparator);
+}
+
+void ec_public_key_list_free(ec_public_key_list *list)
+{
+    unsigned int size;
+    unsigned int i;
+    ec_public_key **p;
+    if(list) {
+        size = utarray_len(list->values);
+        for (i = 0; i < size; i++) {
+            p = (ec_public_key **)utarray_eltptr(list->values, i);
+            SIGNAL_UNREF(*p);
+        }
+        utarray_free(list->values);
+        free(list);
+    }
+}
+
 int curve_calculate_agreement(uint8_t **shared_key_data, const ec_public_key *public_key, const ec_private_key *private_key)
 {
     uint8_t *key = 0;
     int result = 0;
 
     if(!public_key || !private_key) {
-        return AX_ERR_INVALID_KEY;
+        return SG_ERR_INVALID_KEY;
     }
 
     key = malloc(DJB_KEY_LEN);
     if(!key) {
-        return AX_ERR_NOMEM;
+        return SG_ERR_NOMEM;
     }
 
     result = curve25519_donna(key, private_key->data, public_key->data);
@@ -383,7 +494,7 @@ int curve_calculate_agreement(uint8_t **shared_key_data, const ec_public_key *pu
         if(key) {
             free(key);
         }
-        return AX_ERR_UNKNOWN;
+        return SG_ERR_UNKNOWN;
     }
 }
 
@@ -392,39 +503,119 @@ int curve_verify_signature(const ec_public_key *signing_key,
         const uint8_t *signature_data, size_t signature_len)
 {
     if(signature_len != 64) {
-        return AX_ERR_INVAL;
+        return SG_ERR_INVAL;
     }
 
     return curve25519_verify(signature_data, signing_key->data, message_data, message_len) == 0;
 }
 
-int curve_calculate_signature(axolotl_context *context,
-        axolotl_buffer **signature,
+int curve_calculate_signature(signal_context *context,
+        signal_buffer **signature,
         const ec_private_key *signing_key,
         const uint8_t *message_data, size_t message_len)
 {
     int result = 0;
     uint8_t random_data[CURVE_SIGNATURE_LEN];
-    axolotl_buffer *buffer = 0;
+    signal_buffer *buffer = 0;
 
-    result = axolotl_crypto_random(context, random_data, sizeof(random_data));
+    result = signal_crypto_random(context, random_data, sizeof(random_data));
     if(result < 0) {
         goto complete;
     }
 
-    buffer = axolotl_buffer_alloc(CURVE_SIGNATURE_LEN);
+    buffer = signal_buffer_alloc(CURVE_SIGNATURE_LEN);
     if(!buffer) {
-        result = AX_ERR_NOMEM;
+        result = SG_ERR_NOMEM;
         goto complete;
     }
 
-    result = curve25519_sign(axolotl_buffer_data(buffer), signing_key->data, message_data, message_len, random_data);
+    result = curve25519_sign(signal_buffer_data(buffer), signing_key->data, message_data, message_len, random_data);
 
 complete:
     if(result < 0) {
         if(buffer) {
-            axolotl_buffer_free(buffer);
+            signal_buffer_free(buffer);
         }
+    }
+    else {
+        *signature = buffer;
+    }
+    return result;
+}
+
+int curve_verify_vrf_signature(signal_context *context,
+        signal_buffer **vrf_output,
+        const ec_public_key *signing_key,
+        const uint8_t *message_data, size_t message_len,
+        const uint8_t *signature_data, size_t signature_len)
+{
+    int result = 0;
+    signal_buffer *buffer = 0;
+
+    if(!signing_key) {
+        return SG_ERR_INVAL;
+    }
+
+    if(!message_data || !signature_data || signature_len != 96) {
+        signal_log(context, SG_LOG_ERROR, "Invalid message or signature format");
+        return SG_ERR_VRF_SIG_VERIF_FAILED;
+    }
+
+    buffer = signal_buffer_alloc(VRF_VERIFY_LEN);
+    if(!buffer) {
+        result = SG_ERR_NOMEM;
+        goto complete;
+    }
+
+    result = vxed25519_verify(signal_buffer_data(buffer),
+            signature_data, signing_key->data,
+            message_data, message_len);
+    if(result != 0) {
+        signal_log(context, SG_LOG_ERROR, "Invalid signature");
+        result = SG_ERR_VRF_SIG_VERIF_FAILED;
+    }
+
+complete:
+    if(result < 0) {
+        signal_buffer_free(buffer);
+    }
+    else {
+        *vrf_output = buffer;
+    }
+    return result;
+}
+
+int curve_calculate_vrf_signature(signal_context *context,
+        signal_buffer **signature,
+        const ec_private_key *signing_key,
+        const uint8_t *message_data, size_t message_len)
+{
+    int result = 0;
+    uint8_t random_data[64];
+    signal_buffer *buffer = 0;
+
+    result = signal_crypto_random(context, random_data, sizeof(random_data));
+    if(result < 0) {
+        goto complete;
+    }
+
+    buffer = signal_buffer_alloc(VRF_SIGNATURE_LEN);
+    if(!buffer) {
+        result = SG_ERR_NOMEM;
+        goto complete;
+    }
+
+    result = vxed25519_sign(signal_buffer_data(buffer),
+            signing_key->data,
+            message_data, message_len, random_data);
+    if(result != 0) {
+        signal_log(context, SG_LOG_ERROR, "Signature failed!");
+        result = SG_ERR_UNKNOWN;
+    }
+
+complete:
+    if(result < 0) {
+        signal_buffer_free(buffer);
     }
     else {
         *signature = buffer;

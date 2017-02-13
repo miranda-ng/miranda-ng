@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>libaxolotl</ProjectName>
+    <ProjectName>libsignal-c</ProjectName>
     <ProjectGuid>{620E0BE7-3763-4F35-9DBD-4770104E269C}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
@@ -32,7 +32,7 @@
       <DisableSpecificWarnings>4005;4127;4200;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <ModuleDefinitionFile>src/axolotl.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>src/signal.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

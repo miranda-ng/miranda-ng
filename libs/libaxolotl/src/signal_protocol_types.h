@@ -1,5 +1,5 @@
-#ifndef AXOLOTL_TYPES_H
-#define AXOLOTL_TYPES_H
+#ifndef SIGNAL_PROTOCOL_TYPES_H
+#define SIGNAL_PROTOCOL_TYPES_H
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -18,38 +18,38 @@ extern "C" {
 /*
  * Base library types
  */
-typedef struct axolotl_type_base axolotl_type_base;
-typedef struct axolotl_buffer axolotl_buffer;
-typedef struct axolotl_buffer_list axolotl_buffer_list;
-typedef struct axolotl_int_list axolotl_int_list;
+typedef struct signal_type_base signal_type_base;
+typedef struct signal_buffer signal_buffer;
+typedef struct signal_buffer_list signal_buffer_list;
+typedef struct signal_int_list signal_int_list;
 
 /*
- * Global context for the AXOLOTL library
+ * Global context for the Signal Protocol library
  */
-typedef struct axolotl_context axolotl_context;
+typedef struct signal_context signal_context;
 
 /*
- * Context for the AXOLOTL data store implementation
+ * Context for the Signal Protocol data store implementation
  */
-typedef struct axolotl_store_context axolotl_store_context;
+typedef struct signal_protocol_store_context signal_protocol_store_context;
 
 /*
- * Address of an AXOLOTL message recipient
+ * Address of an Signal Protocol message recipient
  */
-typedef struct axolotl_address {
+typedef struct signal_protocol_address {
     const char *name;
     size_t name_len;
     int32_t device_id;
-} axolotl_address;
+} signal_protocol_address;
 
 /*
  * A representation of a (group + sender + device) tuple
  */
-typedef struct axolotl_sender_key_name {
+typedef struct signal_protocol_sender_key_name {
     const char *group_id;
     size_t group_id_len;
-    axolotl_address sender;
-} axolotl_sender_key_name;
+    signal_protocol_address sender;
+} signal_protocol_sender_key_name;
 
 /*
  * Curve key types
@@ -57,6 +57,7 @@ typedef struct axolotl_sender_key_name {
 typedef struct ec_public_key ec_public_key;
 typedef struct ec_private_key ec_private_key;
 typedef struct ec_key_pair ec_key_pair;
+typedef struct ec_public_key_list ec_public_key_list;
 
 /*
  * HKDF types
@@ -66,15 +67,14 @@ typedef struct hkdf_context hkdf_context;
 /*
  * Key helper types
  */
-typedef struct axolotl_key_helper_pre_key_list_node axolotl_key_helper_pre_key_list_node;
+typedef struct signal_protocol_key_helper_pre_key_list_node signal_protocol_key_helper_pre_key_list_node;
 
 /*
  * Protocol types
  */
-typedef struct key_exchange_message key_exchange_message;
 typedef struct ciphertext_message ciphertext_message;
-typedef struct whisper_message whisper_message;
-typedef struct pre_key_whisper_message pre_key_whisper_message;
+typedef struct signal_message signal_message;
+typedef struct pre_key_signal_message pre_key_signal_message;
 typedef struct sender_key_message sender_key_message;
 typedef struct sender_key_distribution_message sender_key_distribution_message;
 
@@ -126,8 +126,16 @@ typedef struct displayable_fingerprint displayable_fingerprint;
 typedef struct scannable_fingerprint scannable_fingerprint;
 typedef struct fingerprint_generator fingerprint_generator;
 
+/*
+ * Device consistency types
+ */
+typedef struct device_consistency_signature device_consistency_signature;
+typedef struct device_consistency_commitment device_consistency_commitment;
+typedef struct device_consistency_message device_consistency_message;
+typedef struct device_consistency_signature_list device_consistency_signature_list;
+
 #ifdef __cplusplus
 }
 #endif
 
-#endif // AXOLOTL_TYPES_H
+#endif /* SIGNAL_PROTOCOL_TYPES_H */
