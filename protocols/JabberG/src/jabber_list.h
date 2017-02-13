@@ -28,6 +28,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "jabber_caps.h"
 
+#define LISTFOREACH(var__, obj__, list__)	\
+	for (int var__ = 0; (var__ = obj__->ListFindNext(list__, var__)) >= 0; ++var__)
+#define LISTFOREACH_NODEF(var__, obj__, list__)	\
+	for (var__ = 0; (var__ = obj__->ListFindNext(list__, var__)) >= 0; ++var__)
+
 enum JABBER_LIST
 {
 	LIST_ROSTER,        // Roster list
