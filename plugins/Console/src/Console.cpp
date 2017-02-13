@@ -477,7 +477,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 		case IDC_COPY:
 		{
 			int idx = 0;
-			wchar_t szText[128];
+			wchar_t szText[MAX_WRAPLEN + 1];
 			wchar_t *src, *dst, *buf;
 			int flags = LVNI_BELOW;
 			int count = ListView_GetSelectedCount(dat->hList);
@@ -548,7 +548,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 			FILE *fp = _wfopen(szFile, L"wt");
 			if (fp) {
 				int idx = 0;
-				wchar_t szText[128];
+				wchar_t szText[MAX_WRAPLEN + 1];
 				int flags = LVNI_BELOW;
 				if (ListView_GetSelectedCount(dat->hList))
 					flags |= LVNI_SELECTED;
