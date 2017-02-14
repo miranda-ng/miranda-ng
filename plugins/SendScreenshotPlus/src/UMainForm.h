@@ -51,96 +51,96 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 extern FI_INTERFACE *FIP;
 
-typedef struct MyTabData {
+struct TAB_INFO
+{
 	TCITEMHEADER tcih;
 	HWND hwndMain;		//main window
 	HWND hwndTab;		//tab control
 	HWND hwndTabPage;	//current child dialog box
-}TAB_INFO;
-
-//---------------------------------------------------------------------------
-class TfrmMain{
-	public:
-		// Deklaration Standardkonstruktor/Standarddestructor
-		TfrmMain();
-		~TfrmMain();
-
-		BYTE		m_opt_tabCapture;			//capure tab page
-		BYTE		m_opt_cboxDesktop;			//TRadioButton *rbtnDesktop;
-		BYTE		m_opt_chkTimed;				//TCheckBox *chkTimed;
-		BYTE		m_opt_cboxSendBy;			//TComboBox *cboxSendBy;
-		BYTE		m_opt_btnDesc;				//TCheckBox *chkDesc;
-		BYTE		m_opt_chkEditor;			//TCheckBox *chkEditor;
-		bool		m_bOnExitSave;
-
-		static void Unload();
-		void		Init(wchar_t* DestFolder, MCONTACT Contact);
-		void		Close(){SendMessage(m_hWnd,WM_CLOSE,0,0);}
-		void		Show(){ShowWindow(m_hWnd,SW_SHOW);}
-		void		Hide(){ShowWindow(m_hWnd,SW_HIDE);}
-		void		SetTargetWindow(HWND hwnd=NULL);
-		void		btnCaptureClick();
-		void		cboxSendByChange();
-
-	private:
-		HWND		m_hWnd;
-		MCONTACT	m_hContact;
-		bool		m_bFormAbout;
-		HWND		m_hTargetWindow, m_hLastWin;
-		HWND		m_hTargetHighlighter;
-		wchar_t*		m_FDestFolder;
-		wchar_t*		m_pszFile;
-		wchar_t*		m_pszFileDesc;
-		FIBITMAP*	m_Screenshot;//Graphics::TBitmap *Screenshot;
-		RGBQUAD		m_AlphaColor;
-		CSend*		m_cSend;
-
-		void chkTimedClick();
-		void imgTargetMouseUp();
-		void btnAboutClick();
-		void btnAboutOnCloseWindow(HWND hWnd);
-		void btnExploreClick();
-		void LoadOptions(void);
-		void SaveOptions(void);
-		INT_PTR SaveScreenshot(FIBITMAP* dib);
-		void FormClose();
-		static void edtSizeUpdate(HWND hWnd, BOOL ClientArea, HWND hTarget, UINT Ctrl);
-		static void edtSizeUpdate(RECT rect, HWND hTarget, UINT Ctrl);
-
-	protected:
-		MONITORINFOEX*	m_Monitors;
-		size_t			m_MonitorCount;
-		RECT			m_VirtualScreen;
-
-		BYTE			m_opt_chkOpenAgain;			//TCheckBox *chkOpenAgain;
-		BYTE			m_opt_chkIndirectCapture;	//TCheckBox *chkIndirectCapture;
-		BYTE			m_opt_chkClientArea;		//TCheckBox *chkClientArea;
-		BYTE			m_opt_edtQuality;			//TLabeledEdit *edtQuality;
-		bool			m_opt_btnDeleteAfterSend;	//TCheckBox *chkDeleteAfterSend;
-		BYTE			m_opt_cboxFormat;			//TComboBox *cboxFormat;
-		BYTE			m_opt_edtTimed;				//TLabeledEdit *edtTimed;
-		bool			m_bCapture;					//is capture active
-		HWND			m_hwndTab;					//TabControl handle
-		HWND			m_hwndTabPage;				//TabControl activ page handle
-		HIMAGELIST		m_himlTab;					//TabControl imagelist
-
-		typedef std::map<HWND, TfrmMain *> CHandleMapping;
-		static CHandleMapping _HandleMapping;
-		static INT_PTR CALLBACK DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-		void wmInitdialog(WPARAM wParam, LPARAM lParam);
-		void wmCommand(WPARAM wParam, LPARAM lParam);
-		void wmClose(WPARAM wParam, LPARAM lParam);
-		void wmNotify(WPARAM wParam, LPARAM lParam);
-		void wmTimer(WPARAM wParam, LPARAM lParam);
-
-		void UMevent(WPARAM wParam, LPARAM lParam);
-		void UMClosing(WPARAM wParam, LPARAM lParam);
-
-		static INT_PTR CALLBACK DlgProc_CaptureTabPage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-//		LRESULT CALLBACK DlgProc_UseLastFile   (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class TfrmMain
+{
+
+public:
+	// Deklaration Standardkonstruktor/Standarddestructor
+	TfrmMain();
+	~TfrmMain();
+
+	BYTE		m_opt_tabCapture;			//capure tab page
+	BYTE		m_opt_cboxDesktop;			//TRadioButton *rbtnDesktop;
+	BYTE		m_opt_chkTimed;				//TCheckBox *chkTimed;
+	BYTE		m_opt_cboxSendBy;			//TComboBox *cboxSendBy;
+	BYTE		m_opt_btnDesc;				//TCheckBox *chkDesc;
+	BYTE		m_opt_chkEditor;			//TCheckBox *chkEditor;
+	bool		m_bOnExitSave;
+
+	static void Unload();
+	void		Init(wchar_t* DestFolder, MCONTACT Contact);
+	void		Close(){ SendMessage(m_hWnd, WM_CLOSE, 0, 0); }
+	void		Show(){ ShowWindow(m_hWnd, SW_SHOW); }
+	void		Hide(){ ShowWindow(m_hWnd, SW_HIDE); }
+	void		SetTargetWindow(HWND hwnd = NULL);
+	void		btnCaptureClick();
+	void		cboxSendByChange();
+
+private:
+	HWND		m_hWnd;
+	MCONTACT	m_hContact;
+	bool		m_bFormAbout;
+	HWND		m_hTargetWindow, m_hLastWin;
+	HWND		m_hTargetHighlighter;
+	wchar_t*		m_FDestFolder;
+	wchar_t*		m_pszFile;
+	FIBITMAP*	m_Screenshot;//Graphics::TBitmap *Screenshot;
+	RGBQUAD		m_AlphaColor;
+	CSend*		m_cSend;
+
+	void chkTimedClick();
+	void imgTargetMouseUp();
+	void btnAboutClick();
+	void btnAboutOnCloseWindow(HWND hWnd);
+	void btnExploreClick();
+	void LoadOptions(void);
+	void SaveOptions(void);
+	INT_PTR SaveScreenshot(FIBITMAP* dib);
+	void FormClose();
+	static void edtSizeUpdate(HWND hWnd, BOOL ClientArea, HWND hTarget, UINT Ctrl);
+	static void edtSizeUpdate(RECT rect, HWND hTarget, UINT Ctrl);
+
+protected:
+	MONITORINFOEX*	m_Monitors;
+	size_t			m_MonitorCount;
+	RECT			m_VirtualScreen;
+
+	BYTE			m_opt_chkOpenAgain;			//TCheckBox *chkOpenAgain;
+	BYTE			m_opt_chkIndirectCapture;	//TCheckBox *chkIndirectCapture;
+	BYTE			m_opt_chkClientArea;		//TCheckBox *chkClientArea;
+	BYTE			m_opt_edtQuality;			//TLabeledEdit *edtQuality;
+	bool			m_opt_btnDeleteAfterSend;	//TCheckBox *chkDeleteAfterSend;
+	BYTE			m_opt_cboxFormat;			//TComboBox *cboxFormat;
+	BYTE			m_opt_edtTimed;				//TLabeledEdit *edtTimed;
+	bool			m_bCapture;					//is capture active
+	HWND			m_hwndTab;					//TabControl handle
+	HWND			m_hwndTabPage;				//TabControl activ page handle
+	HIMAGELIST		m_himlTab;					//TabControl imagelist
+
+	typedef std::map<HWND, TfrmMain *> CHandleMapping;
+	static CHandleMapping _HandleMapping;
+	static INT_PTR CALLBACK DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	void wmInitdialog(WPARAM wParam, LPARAM lParam);
+	void wmCommand(WPARAM wParam, LPARAM lParam);
+	void wmClose(WPARAM wParam, LPARAM lParam);
+	void wmNotify(WPARAM wParam, LPARAM lParam);
+	void wmTimer(WPARAM wParam, LPARAM lParam);
+
+	void UMevent(WPARAM wParam, LPARAM lParam);
+	void UMClosing(WPARAM wParam, LPARAM lParam);
+
+	static INT_PTR CALLBACK DlgProc_CaptureTabPage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+};
 
 #endif

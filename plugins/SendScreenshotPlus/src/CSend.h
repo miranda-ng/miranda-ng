@@ -29,7 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _CSEND_H
 #define _CSEND_H
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 #define SS_AUTOSEND				1
 #define SS_DELETEAFTERSSEND		2
 
@@ -47,7 +48,8 @@ const wchar_t SS_ERR_MAPI[]			=LPGENW("MAPI error (%i):\n%s.");
 const wchar_t SS_ERR_RESPONSE[]		=LPGENW("Unknown response from %s (%i)");
 const wchar_t SS_ERR_NORESPONSE[]		=LPGENW("Got no response from %s (%i)");
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 class CSend {
 	public:
 		CSend(HWND Owner, MCONTACT hContact, bool bAsync, bool bSilent=false); // oder (TfrmMain & Owner)
@@ -56,9 +58,9 @@ class CSend {
 		virtual int Send() = NULL; // returns 1 if sent (you must delete class) and 0 when still sending (class deletes itself)
 		int SendSilent() {m_bAsync=m_bSilent=true; return Send();};
 		
-		void SetFile(wchar_t* file){mir_free(m_pszFile), m_pszFile=mir_wstrdup(file);};
-		void SetFile(char* file){mir_free(m_pszFile), m_pszFile=mir_a2u(file);};
-		void SetDescription(wchar_t* descr){mir_free(m_pszFileDesc), m_pszFileDesc=mir_wstrdup(descr);};
+		void SetFile(const wchar_t* file) { replaceStrW(m_pszFile, file); }
+		void SetFile(const char* file) { mir_free(m_pszFile), m_pszFile=mir_a2u(file); }
+		void SetDescription(const wchar_t* descr){ replaceStrW(m_pszFileDesc, descr); }
 		void SetContact(MCONTACT hContact);
 		char* GetURL(){return m_URL;};
 		char* GetURLthumbnail(){return m_URLthumb;};

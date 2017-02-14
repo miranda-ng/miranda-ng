@@ -29,18 +29,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _CSEND_FILE_H
 #define _CSEND_FILE_H
 
-//---------------------------------------------------------------------------
-class CSendFile : public CSend {
-	public:
-		// Deklaration Standardkonstruktor/Standarddestructor
-		CSendFile(HWND Owner, MCONTACT hContact, bool bAsync);
-		~CSendFile();
+class CSendFile : public CSend
+{
 
-		int Send();
+public:
+	// Deklaration Standardkonstruktor/Standarddestructor
+	CSendFile(HWND Owner, MCONTACT hContact, bool bAsync);
+	~CSendFile();
 
-	protected:
+	int Send();
 };
-
-//---------------------------------------------------------------------------*/
 
 #endif

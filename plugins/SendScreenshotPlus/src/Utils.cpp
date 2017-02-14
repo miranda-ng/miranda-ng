@@ -28,8 +28,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-//---------------------------------------------------------------------------
-//Workaround for MS bug ComboBox_SelectItemData
+/////////////////////////////////////////////////////////////////////////////////////////
+// Workaround for MS bug ComboBox_SelectItemData
+
 int ComboBox_SelectItemData(HWND hwndCtl, LPARAM data)
 {
 	int i = 0;
@@ -42,9 +43,22 @@ int ComboBox_SelectItemData(HWND hwndCtl, LPARAM data)
 	return CB_ERR;
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 // MonitorInfoEnum
-size_t MonitorInfoEnum(MONITORINFOEX* & myMonitors, RECT & virtualScreen)
+
+static BOOL CALLBACK MonitorInfoEnumProc(HMONITOR hMonitor, HDC, LPRECT, LPARAM dwData)
+{
+	MONITORS* monitors = (MONITORS*)dwData;
+	++monitors->count;
+	monitors->info = (MONITORINFOEX*)mir_realloc(monitors->info, sizeof(MONITORINFOEX)*monitors->count);
+	monitors->info[monitors->count - 1].cbSize = sizeof(MONITORINFOEX);
+	if (!GetMonitorInfo(hMonitor, (LPMONITORINFO)(monitors->info + monitors->count - 1)))
+		return FALSE;	// stop enumeration if error
+
+	return TRUE;
+}
+
+size_t MonitorInfoEnum(MONITORINFOEX* &myMonitors, RECT &virtualScreen)
 {
 	MONITORS tmp = { 0, 0 };
 	if (EnumDisplayMonitors(NULL, NULL, MonitorInfoEnumProc, (LPARAM)&tmp)) {
@@ -55,28 +69,16 @@ size_t MonitorInfoEnum(MONITORINFOEX* & myMonitors, RECT & virtualScreen)
 		}
 		return tmp.count;
 	}
-	else {
-		if (tmp.info) mir_free(tmp.info);
-	}
+	
+	mir_free(tmp.info);
 	return 0;
 }
 
-// MonitorInfoEnumProc - CALLBACK for MonitorInfoEnum
-BOOL CALLBACK MonitorInfoEnumProc(HMONITOR hMonitor, HDC, LPRECT, LPARAM dwData)
-{
-	MONITORS* monitors = (MONITORS*)dwData;
-	++monitors->count;
-	monitors->info = (MONITORINFOEX*)mir_realloc(monitors->info, sizeof(MONITORINFOEX)*monitors->count);
-	monitors->info[monitors->count - 1].cbSize = sizeof(MONITORINFOEX);
-	if (!GetMonitorInfo(hMonitor, (LPMONITORINFO)(monitors->info + monitors->count - 1))) {
-		return FALSE;	// stop enumeration if error
-	}
-	return TRUE;
-}
-
 FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture = 0);
-//---------------------------------------------------------------------------
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // capture window as FIBITMAP - caller must FIP->FI_Unload(dib)
+
 FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture)
 {
 	FIBITMAP* dib;
@@ -119,7 +121,7 @@ FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture)
 		rect.right = ABS(rect.right - rect.left);
 		rect.bottom = ABS(rect.bottom - rect.top);
 		rect.left = rect.top = 0;
-		/// capture window and get FIBITMAP
+		// capture window and get FIBITMAP
 		dib = CreateDIBFromDC(hDCsrc, &rect, hCapture);
 		ReleaseDC(hCapture, hDCsrc);
 		if (bClientArea) {//we could capture directly, but doing so breaks GetWindowRgn() and also includes artifacts...
@@ -146,7 +148,7 @@ FIBITMAP* CaptureMonitor(const wchar_t* szDevice, const RECT* cropRect/*=NULL*/)
 {
 	HDC hScrDC;
 	RECT rect;
-	FIBITMAP* dib;
+	
 	/// get screen resolution
 	if (!szDevice) {
 		hScrDC = CreateDC(L"DISPLAY", NULL, NULL, NULL);
@@ -167,42 +169,38 @@ FIBITMAP* CaptureMonitor(const wchar_t* szDevice, const RECT* cropRect/*=NULL*/)
 		if (cropRect->right < rect.right) rect.right = cropRect->right;
 		if (cropRect->bottom < rect.bottom) rect.bottom = cropRect->bottom;
 	}
-	dib = CreateDIBFromDC(hScrDC, &rect);
+	
+	FIBITMAP *dib = CreateDIBFromDC(hScrDC, &rect);
 	ReleaseDC(NULL, hScrDC);
 	return dib;
 }
 
 FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 {
-	///HDC GetDC			(NULL)		entire desktp
-	///HDC GetDC			(HWND hWnd)	client area of the specified window. (may include artifacts)
-	///HDC GetWindowDC		(HWND hWnd)	entire window.
-	FIBITMAP* dib;// return value
-	HBITMAP hBitmap;					// handles to device-dependent bitmaps
-	HDC hScrDC, hMemDC;					// screen DC and memory DC
 	long width = rect->right - rect->left;
 	long height = rect->bottom - rect->top;
 
 	// create a DC for the screen and create
 	// a memory DC compatible to screen DC
-	if (!(hScrDC = hDC)) hScrDC = GetDC(hCapture);
-	hMemDC = CreateCompatibleDC(hScrDC);
+	HDC hScrDC = hDC;
+	if (!hScrDC)
+		hScrDC = GetDC(hCapture);
+	HDC hMemDC = CreateCompatibleDC(hScrDC);
 	// create a bitmap compatible with the screen DC
-	hBitmap = CreateCompatibleBitmap(hScrDC, width, height);//width,height
+	HBITMAP hBitmap = CreateCompatibleBitmap(hScrDC, width, height);//width,height
 	// select new bitmap into memory DC
 	SelectObject(hMemDC, hBitmap);
 
-	if (hCapture && hDC) {
+	if (hCapture && hDC)
 		PrintWindow(hCapture, hMemDC, 0);
-	}
-	else {// bitblt screen DC to memory DC
+	else // bitblt screen DC to memory DC
 		BitBlt(hMemDC, 0, 0, width, height, hScrDC, rect->left, rect->top, CAPTUREBLT | SRCCOPY);
-	}
-	dib = FIP->FI_CreateDIBFromHBITMAP(hBitmap);
 
-	//alpha channel from window is always wrong and sometimes even for desktop (Win7, no aero)
-	//coz GDI do not draw all in alpha mode.
-	//we have to create our own new alpha channel.
+	FIBITMAP *dib = FIP->FI_CreateDIBFromHBITMAP(hBitmap);
+
+	// alpha channel from window is always wrong and sometimes even for desktop (Win7, no aero)
+	// coz GDI do not draw all in alpha mode.
+	// we have to create our own new alpha channel.
 	bool bFixAlpha = true;
 	bool bInvert = false;
 	HBRUSH hBr = CreateSolidBrush(RGB(255, 255, 255));//Create a SolidBrush object for non transparent area
@@ -216,7 +214,7 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 			COLORREF crKey = 0x00000000;
 			DWORD dwFlags = 0;
 			if (GetLayeredWindowAttributes(hCapture, &crKey, &bAlpha, &dwFlags)) {
-				/// per window transparency (like fading in a whole window)
+				// per window transparency (like fading in a whole window)
 				if ((dwFlags&LWA_COLORKEY)) {
 					SetBkColor(hMemDC, crKey);
 					BitBlt(hMaskDC, 0, 0, width, height, hMemDC, rect->left, rect->top, SRCCOPY);
@@ -226,11 +224,11 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 					bFixAlpha = false;
 				}
 			}
-			else {//per-pixel transparency (won't use the WM_PAINT)
+			else { // per-pixel transparency (won't use the WM_PAINT)
 				bFixAlpha = false;
 			}
 		}
-		else {//not layered - fill the window region
+		else { // not layered - fill the window region
 			SetRectRgn(hRgn, 0, 0, width, height);
 			FillRgn(hMaskDC, hRgn, hBr);
 		}
@@ -244,7 +242,7 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 		FIBITMAP* dibMask = FIP->FI_CreateDIBFromHBITMAP(hMask);
 		if (bInvert) FIP->FI_Invert(dibMask);
 		FIBITMAP* dib8 = FIP->FI_ConvertTo8Bits(dibMask);
-		//copy the dib8 alpha mask to dib32 main bitmap
+		// copy the dib8 alpha mask to dib32 main bitmap
 		FIP->FI_SetChannel(dib, dib8, FICC_ALPHA);
 		FIP->FI_Unload(dibMask);
 		FIP->FI_Unload(dib8);
@@ -252,10 +250,11 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 	DeleteDC(hMaskDC);
 	DeleteObject(hMask);
 	DeleteObject(hBr);
-	//clean up
+	// clean up
 	DeleteDC(hMemDC);
 	DeleteObject(hBitmap);
-	if (!hDC) ReleaseDC(NULL, hScrDC);
+	if (!hDC)
+		ReleaseDC(NULL, hScrDC);
 
 #ifdef _DEBUG
 	switch (FIP->FI_GetImageType(dib)) {
@@ -308,52 +307,7 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 	return dib;
 }
 
-wchar_t* SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, const wchar_t* pszFilename, const wchar_t* pszExt, int flag)
-{
-	int ret = 0;
-	wchar_t* pszFile = NULL;
-	wchar_t* FileExt = GetFileExt(pszFilename);
-	if (!FileExt) {
-		if (!pszExt) return NULL;
-		mir_tstradd(pszFile, pszFilename);
-		mir_tstradd(pszFile, L".");
-		mir_tstradd(pszFile, pszExt);
-	}
-	else {
-		mir_tstradd(pszFile, pszFilename);
-	}
-
-	if (fif == FIF_UNKNOWN) {
-		fif = FIP->FI_GetFIFFromFilenameU(pszFile);
-	}
-
-	ret = FIP->FI_SaveU(fif, dib, pszFile, flag);
-
-
-	mir_free(FileExt);
-
-	if (ret) return pszFile;
-	mir_free(pszFile);
-	return NULL;
-}
-
-//---------------------------------------------------------------------------
-wchar_t* GetFileNameW(const wchar_t* pszPath)
-{
-	const wchar_t* slash = wcsrchr(pszPath, '\\');
-	if (!slash) slash = wcsrchr(pszPath, '/');
-	if (slash)
-		return mir_wstrdup(slash + 1);
-	else
-		return mir_wstrdup(pszPath);
-}
-wchar_t* GetFileExtW(const wchar_t* pszPath)
-{
-	const wchar_t* slash = wcsrchr(pszPath, '.');
-	if (slash)
-		return mir_wstrdup(slash);
-	return NULL;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 char* GetFileNameA(const wchar_t* pszPath)
 {
@@ -364,16 +318,10 @@ char* GetFileNameA(const wchar_t* pszPath)
 	else
 		return mir_u2a(pszPath);
 }
-char* GetFileExtA(const wchar_t* pszPath)
-{
-	const wchar_t* slash = wcsrchr(pszPath, '.');
-	if (slash)
-		return mir_u2a(slash);
-	return NULL;
-}
 
-//---------------------------------------------------------------------------
-BOOL GetEncoderClsid(wchar_t *wchMimeType, CLSID& clsidEncoder)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+BOOL GetEncoderClsid(wchar_t *wchMimeType, CLSID &clsidEncoder)
 {
 	UINT uiNum = 0;
 	UINT uiSize = 0;
@@ -395,7 +343,9 @@ BOOL GetEncoderClsid(wchar_t *wchMimeType, CLSID& clsidEncoder)
 	return bOk;
 }
 
-void SaveGIF(HBITMAP hBmp, wchar_t* szFilename)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void SaveGIF(HBITMAP hBmp, const wchar_t *szFilename)
 {
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR                    gdiplusToken;
@@ -415,7 +365,9 @@ void SaveGIF(HBITMAP hBmp, wchar_t* szFilename)
 	Gdiplus::GdiplusShutdown(gdiplusToken);
 }
 
-void SaveTIF(HBITMAP hBmp, wchar_t* szFilename)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void SaveTIF(HBITMAP hBmp, const wchar_t *szFilename)
 {
 	//http://www.codeproject.com/Messages/1406708/How-to-reduce-the-size-of-an-Image-using-GDIplus.aspx
 	ULONG_PTR						gdiplusToken;

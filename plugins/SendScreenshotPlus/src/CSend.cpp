@@ -29,27 +29,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 #define CSEND_DIALOG 8800
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 CSend::CSend(HWND /*Owner*/, MCONTACT hContact, bool bAsync, bool bSilent) :
-m_bDeleteAfterSend(false),
-m_bAsync(bAsync),
-m_bSilent(bSilent),
-m_pszFile(NULL),
-m_pszFileDesc(NULL),
-m_URL(NULL),
-m_URLthumb(NULL),
-m_pszSendTyp(NULL),
-m_pszProto(NULL),
-//	m_hContact(hContact), // initialized below
-m_EnableItem(0),
-m_ChatRoom(0),
-//	m_PFflag(0),
-m_cbEventMsg(0),
-m_szEventMsg(NULL),
-m_hSend(0),
-m_hOnSend(0),
-m_ErrorMsg(NULL),
-m_ErrorTitle(NULL)
+	m_bDeleteAfterSend(false),
+	m_bAsync(bAsync),
+	m_bSilent(bSilent),
+	m_pszFile(NULL),
+	m_pszFileDesc(NULL),
+	m_URL(NULL),
+	m_URLthumb(NULL),
+	m_pszSendTyp(NULL),
+	m_pszProto(NULL),
+	//	m_hContact(hContact), // initialized below
+	m_EnableItem(0),
+	m_ChatRoom(0),
+	//	m_PFflag(0),
+	m_cbEventMsg(0),
+	m_szEventMsg(NULL),
+	m_hSend(0),
+	m_hOnSend(0),
+	m_ErrorMsg(NULL),
+	m_ErrorTitle(NULL)
 {
 	SetContact(hContact);
 }
@@ -66,7 +67,8 @@ CSend::~CSend()
 	if (m_hOnSend) UnhookEvent(m_hOnSend);
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CSend::SetContact(MCONTACT hContact)
 {
 	m_hContact = hContact;
@@ -80,12 +82,8 @@ void CSend::SetContact(MCONTACT hContact)
 	}
 }
 
-//---------------------------------------------------------------------------
-/*bool	CSend::hasCap(unsigned int Flag) {
-	return (Flag & ProtoChainSend(m_hContact, PS_GETCAPS, PFLAGNUM_1, NULL)) == Flag;
-	}// */
+/////////////////////////////////////////////////////////////////////////////////////////
 
-//---------------------------------------------------------------------------
 INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
@@ -93,11 +91,9 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		TranslateDialogDefault(hwndDlg);
 		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(ICO_MAIN));
 		{
-			CSend* self = (CSend*)lParam;
-			wchar_t* tmp = mir_wstrdup(TranslateT("Resulting URL from\n"));
-			mir_tstradd(tmp, self->m_pszSendTyp);
-			SetDlgItemText(hwndDlg, IDC_HEADERBAR, tmp);
-			mir_free(tmp);
+			CSend *self = (CSend*)lParam;
+			SetDlgItemText(hwndDlg, IDC_HEADERBAR, CMStringW(TranslateT("Resulting URL from\n")) + self->m_pszSendTyp);
+
 			SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_SETICON, ICON_BIG, (LPARAM)GetIconBtn(ICO_BTN_ARROWR));
 			SetDlgItemTextA(hwndDlg, ID_edtURL, self->m_URL);
 			if (self->m_URLthumb) {
@@ -215,16 +211,17 @@ void CSend::svcSendMsgExit(const char* szMessage)
 		Exit(CSEND_DIALOG); return;
 	}
 	if (m_ChatRoom) {
-		wchar_t* tmp = mir_a2u(szMessage);
+		CMStringW tmp(szMessage);
 		if (m_pszFileDesc) {
-			mir_tstradd(tmp, L"\r\n");
-			mir_tstradd(tmp, m_pszFileDesc);
+			tmp.Append(L"\r\n");
+			tmp.Append(m_pszFileDesc);
 		}
-		GC_INFO gci = { 0 };
+		
 		int res = GC_RESULT_NOSESSION;
 		int cnt = pci->SM_GetCount(m_pszProto);
 
-		//loop on all gc session to get the right (save) ptszID for the chatroom from m_hContact
+		// loop on all gc session to get the right (save) ptszID for the chatroom from m_hContact
+		GC_INFO gci = { 0 };
 		gci.pszModule = m_pszProto;
 		for (int i = 0; i < cnt; i++) {
 			gci.iItem = i;
@@ -316,7 +313,8 @@ void CSend::svcSendFileExit()
 	}
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CSend::OnSend(void *obj, WPARAM, LPARAM lParam)
 {
 	CSend* self = (CSend*)obj;
@@ -387,7 +385,8 @@ void CSend::DB_EventAdd(WORD EventType)
 	db_event_add(m_hContact, &dbei);
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CSend::Error(LPCTSTR pszFormat, ...)
 {
 	wchar_t tszMsg[MAX_SECONDLINE];
@@ -411,7 +410,8 @@ void CSend::Error(LPCTSTR pszFormat, ...)
 	m_box.uType = MB_OK | MB_ICON_ERROR;
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CSend::Exit(unsigned int Result)
 {
 	if (!m_bSilent) {
@@ -459,8 +459,9 @@ void CSend::Exit(unsigned int Result)
 		delete this;/// deletes derived class since destructor is virtual (which also auto-calls base dtor)
 }
 
-/// helper functions used for HTTP uploads
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+// helper functions used for HTTP uploads
+
 #define snprintf _snprintf
 
 const char* CSend::GetHTMLContent(char* str, const char* startTag, const char* endTag)

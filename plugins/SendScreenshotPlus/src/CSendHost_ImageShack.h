@@ -29,23 +29,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _CSEND_IMAGESHACK_H
 #define _CSEND_IMAGESHACK_H
 
-//---------------------------------------------------------------------------
-class CSendHost_ImageShack : public CSend {
-	public:
-		// Deklaration Standardkonstruktor/Standarddestructor
-		CSendHost_ImageShack(HWND Owner, MCONTACT hContact, bool bAsync);
-		~CSendHost_ImageShack();
+class CSendHost_ImageShack : public CSend
+{
 
-		int Send();
+public:
+	// Deklaration Standardkonstruktor/Standarddestructor
+	CSendHost_ImageShack(HWND Owner, MCONTACT hContact, bool bAsync);
+	~CSendHost_ImageShack();
 
-	protected:
-		NETLIBHTTPREQUEST		m_nlhr;
+	int Send();
 
-		void					SendThread();
-		static void				SendThreadWrapper(void * Obj);
+protected:
+	NETLIBHTTPREQUEST		m_nlhr;
 
+	void					SendThread();
+	static void				SendThreadWrapper(void * Obj);
 };
-
-//---------------------------------------------------------------------------
 
 #endif

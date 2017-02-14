@@ -26,10 +26,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-//---------------------------------------------------------------------------
 #include "stdafx.h"
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 CSendHost_ImageShack::CSendHost_ImageShack(HWND Owner, MCONTACT hContact, bool bAsync)
 	: CSend(Owner, hContact, bAsync)
 {
@@ -39,9 +39,10 @@ CSendHost_ImageShack::CSendHost_ImageShack(HWND Owner, MCONTACT hContact, bool b
 
 CSendHost_ImageShack::~CSendHost_ImageShack()
 {
-};
+}
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CSendHost_ImageShack::Send()
 {
 	if (!g_hNetlibUser) { /// check Netlib
@@ -52,9 +53,7 @@ int CSendHost_ImageShack::Send()
 	memset(&m_nlhr, 0, sizeof(m_nlhr));
 	char* tmp; tmp = mir_u2a(m_pszFile);
 	HTTPFormData frm[] = {
-		//		{"Referer",HTTPFORM_HEADER("http://www.imageshack.us/upload_api.php")},
 		{ "fileupload", HTTPFORM_FILE(tmp) },
-		//{"rembar","yes"},// no info bar on thumb
 		{ "public", "no" },
 		{ "key", HTTPFORM_8BIT(DEVKEY_IMAGESHACK) },
 	};

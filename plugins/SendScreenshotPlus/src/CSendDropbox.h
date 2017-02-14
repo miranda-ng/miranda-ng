@@ -31,20 +31,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "Utils.h"
 
-//---------------------------------------------------------------------------
-class CSendDropbox : public CSend {
-	public:
-		CSendDropbox(HWND Owner, MCONTACT hContact, bool bAsync);
-		~CSendDropbox();
+class CSendDropbox : public CSend
+{
 
-		int Send();
+public:
+	CSendDropbox(HWND Owner, MCONTACT hContact, bool bAsync);
+	~CSendDropbox();
 
-	protected:
-		void SendThread();
-		static void SendThreadWrapper(void *Obj);
-		static int OnDropAck(void*, WPARAM, LPARAM);
+	int Send();
+
+protected:
+	void SendThread();
+	static void SendThreadWrapper(void *Obj);
+	static int OnDropAck(void*, WPARAM, LPARAM);
 };
-
-//---------------------------------------------------------------------------
 
 #endif

@@ -26,10 +26,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-//---------------------------------------------------------------------------
 #include "stdafx.h"
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 
 CSendEmail::CSendEmail(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
 	: CSend(Owner, hContact, true)
@@ -52,7 +51,7 @@ CSendEmail::~CSendEmail()
 	mir_free(m_Subject);
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int CSendEmail::Send()
 {
@@ -200,5 +199,3 @@ void	CSendEmail::SendThreadWrapper(void * Obj)
 {
 	reinterpret_cast<CSendEmail*>(Obj)->SendThread();
 }
-
-//---------------------------------------------------------------------------

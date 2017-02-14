@@ -97,10 +97,12 @@ static HANDLE m_hOpenCaptureDialog = 0;
 static HANDLE m_hSendDesktop = 0;
 static HANDLE m_hEditBitmap = 0;
 static HANDLE m_hSend2ImageShack = 0;
-//---------------------------------------------------------------------------
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Callback function of service for contact menu and main menu
 // wParam = contact handle
 // lParam = 0 (or 0xFFFF to preselect window under cursor)
+
 INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam)
 {
 	TfrmMain* frmMain = new TfrmMain();
@@ -121,7 +123,8 @@ INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam)
 	frmMain->Show();
 	return 0;
 }
-//---------------------------------------------------------------------------
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Callback function of service
 // 1. Send a screenshot of the desktop to the selected contact
 // wParam = contact handle
@@ -129,6 +132,7 @@ INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam)
 // 2. Open the capture dialog in take screenshot only mode (it will not be sent)
 // wParam = 0
 // lParam = anything but 0
+
 INT_PTR service_SendDesktop(WPARAM wParam, LPARAM)
 {
 	TfrmMain* frmMain = new TfrmMain();
@@ -154,11 +158,13 @@ INT_PTR service_SendDesktop(WPARAM wParam, LPARAM)
 	frmMain->btnCaptureClick();				// this method will call Close()
 	return 0;
 }
-//---------------------------------------------------------------------------
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Edit a in-memory bitmap on the edit window
 // wParam = (SENDSSCB) callback function address to call when editing is done
 // lParam = (HBITMAP) bitmap handle, a copy is made so the calling function can free this handle after the service function returns
 // Returns:
+
 INT_PTR service_EditBitmap(WPARAM, LPARAM)
 {
 	/*	TfrmEdit *frmEdit=new TfrmEdit(NULL);
@@ -176,10 +182,12 @@ INT_PTR service_EditBitmap(WPARAM, LPARAM)
 		*/
 	return 0;
 }
-//---------------------------------------------------------------------------
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Callback function of service for sending image to imageshack.us
 // wParam = (char*)filename
 // lParam = (HANDLE)contact (can be null)
+
 INT_PTR service_Send2ImageShack(WPARAM wParam, LPARAM lParam)
 {
 	char* result = NULL;

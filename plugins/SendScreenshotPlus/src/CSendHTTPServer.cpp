@@ -26,14 +26,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-//---------------------------------------------------------------------------
 #include "stdafx.h"
 
 INT_PTR(*g_MirCallService)(const char *, WPARAM, LPARAM) = NULL;
-//INT_PTR (*CallService)(const char *,WPARAM,LPARAM);
 
+/////////////////////////////////////////////////////////////////////////////////////////
 
-//---------------------------------------------------------------------------
 CSendHTTPServer::CSendHTTPServer(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
 	: CSend(Owner, hContact, true)
 {
@@ -51,7 +49,8 @@ CSendHTTPServer::~CSendHTTPServer()
 	mir_free(m_fsi_pszRealPath);
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CSendHTTPServer::Send()
 {
 	if (!m_hContact) return 1;

@@ -110,7 +110,8 @@ typedef struct _MGLOBAL {
 
 } MGLOBAL, *LPMGLOBAL;
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 #define ERROR_TITLE		TranslateT("SendScreenshot - Error")
 
 // Miranda Database Key

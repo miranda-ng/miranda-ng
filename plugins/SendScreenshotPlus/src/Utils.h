@@ -31,50 +31,36 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define SPP_USERPANE 1
 
-extern FI_INTERFACE *FIP;
+extern FI_INTERFACE* FIP;
 
 #define ABS(x) ((x)<0?-(x):(x))
 
-typedef struct TEnumDataTemp {
-size_t			count;
-MONITORINFOEX*	info;
-}MONITORS;
+struct MONITORS
+{
+	size_t count;
+	MONITORINFOEX*	info;
+};
 
 extern HWND g_hCapture;
 extern HBITMAP g_hBitmap, g_hbmMask;
 
-//---------------------------------------------------------------------------
-int				ComboBox_SelectItemData(HWND hwndCtl, LPARAM data);
+/////////////////////////////////////////////////////////////////////////////////////////
 
-size_t			MonitorInfoEnum(MONITORINFOEX* & myMonitors, RECT & virtualScreen);
-BOOL CALLBACK	MonitorInfoEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData);
+int ComboBox_SelectItemData(HWND hwndCtl, LPARAM data);
 
-FIBITMAP*		CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture);
-FIBITMAP*		CaptureMonitor(const wchar_t* szDevice,const RECT* cropRect=NULL);
-wchar_t*			SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, const wchar_t* pszFilename, const wchar_t* pszExt, int flag=0);
+size_t MonitorInfoEnum(MONITORINFOEX* &myMonitors, RECT &virtualScreen);
 
-wchar_t*			GetFileNameW(const wchar_t* pszPath);
-wchar_t*			GetFileExtW (const wchar_t* pszPath);
-char*			GetFileNameA(const wchar_t* pszPath);
-char*			GetFileExtA (const wchar_t* pszPath);
-#ifdef _UNICODE
-#	define GetFileName GetFileNameW
-#	define GetFileExt GetFileExtW
-#else
-#	define GetFileName GetFileNameA
-#	define GetFileExt GetFileExtA
-#endif // _UNICODE
+FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture);
+FIBITMAP* CaptureMonitor(const wchar_t *pwszDevice, const RECT *cropRect = NULL);
 
-BOOL GetEncoderClsid(wchar_t *wchMimeType, CLSID& clsidEncoder);
-//void SavePNG(HBITMAP hBmp, wchar_t* szFilename);
-void SaveGIF(HBITMAP hBmp, wchar_t* szFilename);
-void SaveTIF(HBITMAP hBmp, wchar_t* szFilename);
+char* GetFileNameA(const wchar_t *pwszPath);
 
-//---------------------------------------------------------------------------
-/* Old stuff from Borland C++
-//void			ShowPopup(char *title, char *text);
+BOOL GetEncoderClsid(wchar_t *wchMimeType, CLSID &clsidEncoder);
 
-*/
+void SaveGIF(HBITMAP hBmp, const wchar_t *pwszFilename);
+void SaveTIF(HBITMAP hBmp, const wchar_t *pwszFilename);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 class EventHandle
 {

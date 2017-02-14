@@ -41,7 +41,8 @@ void TfrmMain::Unload()
 	}
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR CALLBACK TfrmMain::DlgProc_CaptureTabPage(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	// main message handling is done inside TfrmMain::DlgTfrmMain
@@ -97,7 +98,7 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureTabPage(HWND hDlg, UINT uMsg, WPARAM w
 	return FALSE;
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 
 TfrmMain::CHandleMapping TfrmMain::_HandleMapping;
 
@@ -167,8 +168,9 @@ INT_PTR CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 	return 0;
 }
 
-//---------------------------------------------------------------------------
-//WM_INITDIALOG:
+/////////////////////////////////////////////////////////////////////////////////////////
+// WM_INITDIALOG:
+
 void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 {
 	HWND hCtrl;
@@ -375,10 +377,11 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 	TranslateDialogDefault(m_hWnd);
 }
 
-//WM_COMMAND:
+/////////////////////////////////////////////////////////////////////////////////////////
+// WM_COMMAND:
+
 void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam)
 {
-	//---------------------------------------------------------------------------
 	int IDControl = LOWORD(wParam);
 	switch (HIWORD(wParam)) {
 	case BN_CLICKED:		//Button controls
@@ -685,8 +688,9 @@ void TfrmMain::UMevent(WPARAM, LPARAM lParam)
 	}
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 // Standard konstruktor/destruktor
+
 TfrmMain::TfrmMain()
 {
 	/* m_opt_XXX */
@@ -697,7 +701,7 @@ TfrmMain::TfrmMain()
 	m_bFormAbout = false;
 	m_hTargetWindow = m_hLastWin = NULL;
 	m_hTargetHighlighter = NULL;
-	m_FDestFolder = m_pszFile = m_pszFileDesc = NULL;
+	m_FDestFolder = m_pszFile = NULL;
 	m_Screenshot = NULL;
 	/* m_AlphaColor */
 	m_cSend = NULL;
@@ -715,7 +719,6 @@ TfrmMain::~TfrmMain()
 	_HandleMapping.erase(m_hWnd);
 	mir_free(m_pszFile);
 	mir_free(m_FDestFolder);
-	mir_free(m_pszFileDesc);
 	mir_free(m_Monitors);
 	if (m_Screenshot) FIP->FI_Unload(m_Screenshot);
 	if (m_cSend) delete m_cSend;
@@ -725,8 +728,9 @@ TfrmMain::~TfrmMain()
 	}
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 // Load / Saving options from miranda's database
+
 void TfrmMain::LoadOptions(void)
 {
 	DWORD rgb = db_get_dw(NULL, SZ_SENDSS, "AlphaColor", 16777215);
@@ -780,7 +784,8 @@ void TfrmMain::SaveOptions(void)
 	}
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void TfrmMain::Init(wchar_t* DestFolder, MCONTACT Contact)
 {
 	m_FDestFolder = mir_wstrdup(DestFolder);
@@ -796,7 +801,8 @@ void TfrmMain::Init(wchar_t* DestFolder, MCONTACT Contact)
 		m_cSend->SetContact(Contact);
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void TfrmMain::btnCaptureClick()
 {
 	if (m_opt_tabCapture == 1) m_hTargetWindow = GetDesktopWindow();
@@ -833,7 +839,8 @@ void TfrmMain::btnCaptureClick()
 	SendMessage(m_hWnd, UM_EVENT, 0, (LPARAM)EVT_CaptureDone);
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void TfrmMain::chkTimedClick()
 {
 	Button_Enable(GetDlgItem(m_hWnd, ID_edtTimedLabel), (BOOL)m_opt_chkTimed);
@@ -841,7 +848,8 @@ void TfrmMain::chkTimedClick()
 	Button_Enable(GetDlgItem(m_hWnd, ID_upTimed), (BOOL)m_opt_chkTimed);
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void TfrmMain::cboxSendByChange()
 {
 	BOOL bState;
@@ -899,7 +907,8 @@ void TfrmMain::cboxSendByChange()
 	Button_Enable(GetDlgItem(m_hWnd, ID_chkDesc), bState);
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void TfrmMain::btnAboutClick()
 {
 	if (m_bFormAbout) return;
@@ -909,20 +918,24 @@ void TfrmMain::btnAboutClick()
 	m_bFormAbout = true;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // Edit window call this event before it closes
+
 void TfrmMain::btnAboutOnCloseWindow(HWND)
 {
 	m_bFormAbout = false;
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void TfrmMain::btnExploreClick()
 {
 	if (m_FDestFolder)
 		ShellExecute(NULL, L"explore", m_FDestFolder, NULL, NULL, SW_SHOW);
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void TfrmMain::edtSizeUpdate(HWND hWnd, BOOL ClientArea, HWND hTarget, UINT Ctrl)
 {
 	// get window dimensions
@@ -961,189 +974,117 @@ void TfrmMain::edtSizeUpdate(RECT rect, HWND hTarget, UINT Ctrl)
 	SetDlgItemText(hTarget, Ctrl, B);
 }
 
-//---------------------------------------------------------------------------
-INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+INT_PTR TfrmMain::SaveScreenshot(FIBITMAP *dib)
 {
-	//generate File name
-	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-	wchar_t* ret;
-	wchar_t* path = NULL;
-	wchar_t* pszFilename = NULL;
-	wchar_t* pszFileDesc = NULL;
-	if (!dib) return 1;		//error
+	if (!dib)
+		return 1;		//error
+
+	// generate file name
 	unsigned FileNumber = db_get_dw(NULL, SZ_SENDSS, "FileNumber", 0) + 1;
-	if (FileNumber > 99999) FileNumber = 1;
-	//Generate FileName
-	mir_tstradd(path, m_FDestFolder);
-	if (path[mir_wstrlen(path) - 1] != '\\') mir_tstradd(path, L"\\");
-	mir_tstradd(path, L"shot%.5u");//on format change, adapt "len" below
-	size_t len = mir_wstrlen(path) + 2;
-	pszFilename = (wchar_t*)mir_alloc(sizeof(wchar_t)*(len));
-	mir_snwprintf(pszFilename, len, path, FileNumber);
-	mir_free(path);
+	if (FileNumber > 99999)
+		FileNumber = 1;
+	
+	CMStringW wszFileName(m_FDestFolder);
+	if (wszFileName.Right(1) != L"\\")
+		wszFileName.Append(L"\\");
+	wszFileName.AppendFormat(L"shot%.5u", FileNumber);
 
-	//Generate a description according to the screenshot
-
+	// generate a description according to the screenshot
 	wchar_t winText[1024];
 	GetDlgItemText(m_hwndTabPage, ID_edtCaption, winText, _countof(winText));
 
-
-	CMStringW tszFileDesc;
-
+	CMStringW wszFileDesc;
 	if (m_opt_tabCapture)
-		tszFileDesc.Format(TranslateT("Screenshot of \"%s\""), winText);
-	else
-	{
+		wszFileDesc.Format(TranslateT("Screenshot of \"%s\""), winText);
+	else {
 		if (m_opt_chkClientArea)
-			tszFileDesc.Format(TranslateT("Screenshot for client area of \"%s\" window"), winText);
+			wszFileDesc.Format(TranslateT("Screenshot for client area of \"%s\" window"), winText);
 		else 
-			tszFileDesc.Format(TranslateT("Screenshot of \"%s\" window"), winText);
+			wszFileDesc.Format(TranslateT("Screenshot of \"%s\" window"), winText);
 	}
 
-	pszFileDesc = tszFileDesc.Detach();
-
-	// convert to 32Bits (make shure it is 32bit)
+	// convert to 32Bits (make sure it is 32bit)
 	FIBITMAP *dib_new = FIP->FI_ConvertTo32Bits(dib);
-	//RGBQUAD appColor = { 245, 0, 254, 0 };	//bgr0	schwarz
-	//FIP->FI_SetBackgroundColor(dib_new, &appColor);
 	FIP->FI_SetTransparent(dib_new, TRUE);
 
-	// Investigates the color type of the bitmap (test for RGB or CMYK colour space)
-	switch (FREE_IMAGE_COLOR_TYPE ColTye = FIP->FI_GetColorType(dib_new)) {
-	case FIC_MINISBLACK:
-		//Monochrome bitmap (1-bit) : first palette entry is black.
-		//Palletised bitmap (4 or 8-bit) and single channel non standard bitmap: the bitmap has a greyscale palette
-	case FIC_MINISWHITE:
-		//Monochrome bitmap (1-bit) : first palette entry is white.
-		//Palletised bitmap (4 or 8-bit) : the bitmap has an inverted greyscale palette
-	case FIC_PALETTE:
-		//Palettized bitmap (1, 4 or 8 bit)
-	case FIC_RGB:
-		//High-color bitmap (16, 24 or 32 bit), RGB16 or RGBF
-	case FIC_RGBALPHA:
-		//High-color bitmap with an alpha channel (32 bit bitmap, RGBA16 or RGBAF)
-	case FIC_CMYK:
-		//CMYK bitmap (32 bit only)
-	default:
-		break;
-	}
-
-	//	bool bDummy = !(FIP->FI_GetICCProfile(dib_new)->flags & FIICC_COLOR_IS_CMYK);
-
-	FIBITMAP *dib32, *dib24;
+	BOOL ret = FALSE;
 	HWND hwndCombo = GetDlgItem(m_hWnd, ID_cboxFormat);
 	switch (ComboBox_GetItemData(hwndCombo, ComboBox_GetCurSel(hwndCombo))) {
-	case 0: //PNG
-		ret = SaveImage(fif, dib_new, pszFilename, L"png");
+	case 0: // PNG
+		wszFileName.Append(L".png");
+		ret = FIP->FI_SaveU(FIF_PNG, dib_new, wszFileName, 0);
 		break;
 
-	case 1: //JPG
-		/*
-		#define JPEG_QUALITYSUPERB  0x80	// save with superb quality (100:1)
-		#define JPEG_QUALITYGOOD    0x0100	// save with good quality (75:1)
-		#define JPEG_QUALITYNORMAL  0x0200	// save with normal quality (50:1)
-		#define JPEG_QUALITYAVERAGE 0x0400	// save with average quality (25:1)
-		#define JPEG_QUALITYBAD     0x0800	// save with bad quality (10:1)
-		#define JPEG_PROGRESSIVE	0x2000	// save as a progressive-JPEG (use | to combine with other save flags)
-		*/
-		dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, NULL);
-		dib24 = FIP->FI_ConvertTo24Bits(dib32);
-		FIP->FI_Unload(dib32);
-		ret = SaveImage(fif, dib24, pszFilename, L"jpg");
-		FIP->FI_Unload(dib24);
+	case 1: // JPG
+		wszFileName.Append(L".jpg");
+		{
+			FIBITMAP *dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, NULL);
+			FIBITMAP *dib24 = FIP->FI_ConvertTo24Bits(dib32);
+			FIP->FI_Unload(dib32);
+			ret = FIP->FI_SaveU(FIF_JPEG, dib24, wszFileName, 0);
+			FIP->FI_Unload(dib24);
+		}
 		break;
 
-	case 2: //BMP
-		//	ret = SaveImage(FIF_BMP,dib_new, pszFilename, L"bmp"); //32bit alpha BMP
-		dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, NULL);
-		dib24 = FIP->FI_ConvertTo24Bits(dib32);
-		FIP->FI_Unload(dib32);
-		ret = SaveImage(FIF_BMP, dib24, pszFilename, L"bmp");
-		FIP->FI_Unload(dib24);
+	case 2: // BMP
+		wszFileName.Append(L".bmp");
+		{
+			FIBITMAP *dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, NULL);
+			FIBITMAP *dib24 = FIP->FI_ConvertTo24Bits(dib32);
+			FIP->FI_Unload(dib32);
+			ret = FIP->FI_SaveU(FIF_BMP, dib24, wszFileName, 0);
+			FIP->FI_Unload(dib24);
+		}
 		break;
 
 	case 3: //TIFF (miranda freeimage interface do not support save tiff, we udse GDI+)
+		wszFileName.Append(L".tif");
 		{
-			wchar_t* pszFile = NULL;
-			mir_tstradd(pszFile, pszFilename);
-			mir_tstradd(pszFile, L".tif");
-
-			dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, NULL);
-			dib24 = FIP->FI_ConvertTo24Bits(dib32);
+			FIBITMAP *dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, NULL);
+			FIBITMAP *dib24 = FIP->FI_ConvertTo24Bits(dib32);
 			FIP->FI_Unload(dib32);
-
+		
 			HBITMAP hBmp = FIP->FI_CreateHBITMAPFromDIB(dib24);
 			FIP->FI_Unload(dib24);
-			SaveTIF(hBmp, pszFile);
-			ret = pszFile;
+			SaveTIF(hBmp, wszFileName);
 			DeleteObject(hBmp);
 		}
+		ret = TRUE;
 		break;
 
 	case 4: //GIF
+		wszFileName.Append(L".gif");
 		{
-			//dib24 = FIP->FI_ConvertTo8Bits(dib_new);
-			//ret = SaveImage(FIF_GIF,dib24, pszFilename, L"gif");
-			//FIP->FI_Unload(dib24);
-			wchar_t* pszFile = NULL;
-			mir_tstradd(pszFile, pszFilename);
-			mir_tstradd(pszFile, L".gif");
 			HBITMAP hBmp = FIP->FI_CreateHBITMAPFromDIB(dib_new);
-			SaveGIF(hBmp, pszFile);
-			ret = pszFile;
+			SaveGIF(hBmp, wszFileName);
 			DeleteObject(hBmp);
 		}
+		ret = TRUE;
 		break;
-
-	default:
-		ret = NULL;
 	}
-	/*	//load PNG and save file in user format (if differ)
-		//this get better result for transparent aereas
-		//wchar_t* pszFormat = (wchar_t*)ComboBox_GetItemData(hwndCombo, ComboBox_GetCurSel(hwndCombo));
-		wchar_t pszFormat[6];
-		ComboBox_GetText(hwndCombo, pszFormat, 6);
-		if(ret && (mir_wstrcmpi (pszFormat,L"png") != 0)) {
 
-		fif = FIP->FI_GetFIFFromFilenameU(ret);
-		dib_new = FIP->FI_LoadU(fif, ret,0);
-
-
-		if(dib_new) {
-		DeleteFile(ret);
-		mir_free(ret);
-		FIBITMAP *dib_save = FIP->FI_ConvertTo24Bits(dib_new);
-		ret = SaveImage(FIF_UNKNOWN,dib_save, pszFilename, pszFormat);
-		FIP->FI_Unload(dib_new); dib_new = NULL;
-		FIP->FI_Unload(dib_save); dib_save = NULL;
-		}
-		}*/
 	FIP->FI_Unload(dib_new);
-	mir_free(pszFilename);
 
-	if (ret) {
-		db_set_dw(NULL, SZ_SENDSS, "FileNumber", FileNumber);
-		mir_free(m_pszFile); m_pszFile = ret;
-		mir_free(m_pszFileDesc);
-		if (IsWindowEnabled(GetDlgItem(m_hWnd, ID_chkDesc)) && m_opt_btnDesc) {
-			m_pszFileDesc = pszFileDesc;
-		}
-		else {
-			mir_free(pszFileDesc);
-			m_pszFileDesc = mir_wstrdup(L"");
-		}
+	if (!ret)
+		return 1; // error
+	
+	db_set_dw(NULL, SZ_SENDSS, "FileNumber", FileNumber);
+	replaceStrW(m_pszFile, wszFileName);
 
-		if (m_cSend) {
-			m_cSend->SetFile(m_pszFile);
-			m_cSend->SetDescription(m_pszFileDesc);
-		}
-		return 0;//OK
+	if (!IsWindowEnabled(GetDlgItem(m_hWnd, ID_chkDesc)) || !m_opt_btnDesc)
+		wszFileDesc.Empty();
+
+	if (m_cSend) {
+		m_cSend->SetFile(m_pszFile);
+		m_cSend->SetDescription(wszFileDesc);
 	}
-	mir_free(pszFileDesc);
-	return 1;//error
+	return 0; // OK
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void TfrmMain::FormClose()
 {
 	bool bCanDelete = m_opt_btnDeleteAfterSend;

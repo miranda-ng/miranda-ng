@@ -26,10 +26,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-//---------------------------------------------------------------------------
 #include "stdafx.h"
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 
 CSendFTPFile::CSendFTPFile(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
 	: CSend(Owner, hContact, true)
@@ -44,7 +43,8 @@ CSendFTPFile::~CSendFTPFile()
 	mir_free(m_pszFileName);
 }
 
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CSendFTPFile::Send()
 {
 	if (!m_hContact) return 1;
@@ -91,5 +91,3 @@ void	CSendFTPFile::SendThreadWrapper(void * Obj)
 {
 	reinterpret_cast<CSendFTPFile*>(Obj)->SendThread();
 }
-
-//---------------------------------------------------------------------------
