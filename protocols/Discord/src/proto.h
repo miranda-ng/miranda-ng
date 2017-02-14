@@ -254,6 +254,8 @@ public:
 
 	virtual HANDLE __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 
+	virtual	int __cdecl UserIsTyping(MCONTACT hContact, int type) override;
+
 	virtual int __cdecl SetStatus(int iNewStatus) override;
 	virtual int __cdecl OnEvent(PROTOEVENTTYPE, WPARAM, LPARAM) override;
 

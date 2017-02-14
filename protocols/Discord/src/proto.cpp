@@ -393,6 +393,17 @@ int CDiscordProto::SendMsg(MCONTACT hContact, int /*flags*/, const char *pszSrc)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int CDiscordProto::UserIsTyping(MCONTACT hContact, int type)
+{
+	if (type == PROTOTYPE_SELFTYPING_ON) {
+		CMStringA szUrl(FORMAT, "/channels/%lld/typing", getId(hContact, DB_KEY_CHANNELID));
+		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, NULL));
+	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CDiscordProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 {
 	CDiscordProto *ppro = (CDiscordProto*)(id - 1);
