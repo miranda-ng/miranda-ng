@@ -24,7 +24,7 @@ struct WSHeader
 		memset(this, 0, sizeof(*this));
 	}
 
-	bool init(BYTE *buf, int bufSize)
+	bool init(BYTE *buf, size_t bufSize)
 	{
 		if (bufSize < 2)
 			return false;
@@ -37,34 +37,34 @@ struct WSHeader
 		if (bufSize < headerSize)
 			return false;
 
-		payloadSize = 0;
+		uint64_t tmpSize = 0;
 		switch (firstByte) {
 		case 0x7F:
-			payloadSize += ((uint64_t)buf[2]) << 56;
-			payloadSize += ((uint64_t)buf[3]) << 48;
-			payloadSize += ((uint64_t)buf[4]) << 40;
-			payloadSize += ((uint64_t)buf[5]) << 32;
-			payloadSize += ((uint64_t)buf[6]) << 24;
-			payloadSize += ((uint64_t)buf[7]) << 16;
-			payloadSize += ((uint64_t)buf[8]) << 8;
-			payloadSize += ((uint64_t)buf[9]);
+			tmpSize += ((uint64_t)buf[2]) << 56;
+			tmpSize += ((uint64_t)buf[3]) << 48;
+			tmpSize += ((uint64_t)buf[4]) << 40;
+			tmpSize += ((uint64_t)buf[5]) << 32;
+			tmpSize += ((uint64_t)buf[6]) << 24;
+			tmpSize += ((uint64_t)buf[7]) << 16;
+			tmpSize += ((uint64_t)buf[8]) << 8;
+			tmpSize += ((uint64_t)buf[9]);
 			break;
 
 		case 0x7E:
-			payloadSize += ((uint64_t)buf[2]) << 8;
-			payloadSize += ((uint64_t)buf[3]);
+			tmpSize += ((uint64_t)buf[2]) << 8;
+			tmpSize += ((uint64_t)buf[3]);
 			break;
 
 		default:
-			payloadSize = firstByte;
+			tmpSize = firstByte;
 		}
+		payloadSize = tmpSize;
 		return true;
 	}
 
 	bool bIsFinal, bIsMasked;
 	int opCode, firstByte;
-	int headerSize;
-	uint64_t payloadSize;
+	size_t payloadSize, headerSize;
 };
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -193,9 +193,7 @@ void CDiscordProto::GatewayThreadWorker()
 
 	bool bExit = false;
 	int offset = 0;
-	char *dataBuf = NULL;
-	size_t dataBufSize = 0;
-	bool bDataBufAllocated = false;
+	MBinBuffer netbuf;
 
 	while (!bExit) {
 		if (m_bTerminated)
@@ -223,38 +221,24 @@ void CDiscordProto::GatewayThreadWorker()
 
 		// we have some additional data, not only opcode
 		if (bufSize > hdr.headerSize) {
-			// if no buffer was allocated previously & it fits, there's no need to reallocate a buffer
-			if (!bDataBufAllocated && hdr.bIsFinal && hdr.payloadSize < _countof(buf)) {
-				dataBuf = (char*)buf + hdr.headerSize;
-				dataBufSize = bufSize - hdr.headerSize;
-			}
-			else {
-				bDataBufAllocated = true;
-				size_t newSize = dataBufSize + hdr.payloadSize;
-				size_t currPacketSize = bufSize - hdr.headerSize;
-				dataBuf = (char*)mir_realloc(dataBuf, newSize+1);
-				memcpy(dataBuf + dataBufSize, buf + hdr.headerSize, currPacketSize);
-				while (currPacketSize < hdr.payloadSize) {
-					int result = Netlib_Recv(m_hGatewayConnection, dataBuf + dataBufSize + currPacketSize, int(hdr.payloadSize - currPacketSize), MSG_NODUMP);
-					if (result == 0) {
-						debugLogA("Gateway connection gracefully closed");
-						break;
-					}
-					if (result < 0) {
-						debugLogA("Gateway connection error, exiting");
-						break;
-					}
-					currPacketSize += result;
+			size_t currPacketSize = bufSize - hdr.headerSize;
+			netbuf.append(buf, bufSize);
+			while (currPacketSize < hdr.payloadSize) {
+				int result = Netlib_Recv(m_hGatewayConnection, (char*)buf, _countof(buf), MSG_NODUMP);
+				if (result == 0) {
+					debugLogA("Gateway connection gracefully closed");
+					break;
 				}
-
-				dataBufSize = newSize;
-				debugLogA("data buffer reallocated to %d bytes", dataBufSize);
+				if (result < 0) {
+					debugLogA("Gateway connection error, exiting");
+					break;
+				}
+				currPacketSize += result;
+				netbuf.append(buf, result);
 			}
-			dataBuf[dataBufSize] = 0;
 		}
 
 		// read all payloads from the current buffer, one by one
-		int iOffset = 0;
 		while (true) {
 			switch (hdr.opCode) {
 			case 0: // text packet
@@ -262,11 +246,9 @@ void CDiscordProto::GatewayThreadWorker()
 			case 2: // continuation
 				if (hdr.bIsFinal) {
 					// process a packet here
-					char c = dataBuf[iOffset + hdr.payloadSize + 1]; dataBuf[iOffset + hdr.payloadSize + 1] = 0;
-					debugLogA("JSON received:\n%s", dataBuf + iOffset);
-					dataBuf[iOffset + hdr.payloadSize + 1] = c;
-
-					JSONNode root = JSONNode::parse(dataBuf + iOffset);
+					CMStringA szJson(netbuf.data() + hdr.headerSize, (int)hdr.payloadSize);
+					debugLogA("JSON received:\n%s", szJson);
+					JSONNode root = JSONNode::parse(szJson);
 					if (root)
 						GatewayProcess(root);
 				}
@@ -279,27 +261,18 @@ void CDiscordProto::GatewayThreadWorker()
 
 			case 9: // ping
 				debugLogA("ping received");
-				Netlib_Send(m_hGatewayConnection, (char*)buf + hdr.headerSize, bufSize - hdr.headerSize, 0);
+				Netlib_Send(m_hGatewayConnection, (char*)buf + hdr.headerSize, bufSize - int(hdr.headerSize), 0);
 				break;
 			}
 
-			if (iOffset + hdr.payloadSize >= dataBufSize)
+			if (hdr.bIsFinal)
+				netbuf.remove(hdr.headerSize + hdr.payloadSize);
+
+			if (netbuf.length() == 0)
 				break;
 
-			iOffset += hdr.payloadSize;
-			if (!hdr.init((BYTE*)dataBuf + iOffset, (int)dataBufSize - iOffset))
+			if (!hdr.init((BYTE*)netbuf.data(), netbuf.length()))
 				break;
-
-			iOffset += hdr.headerSize;
-		}
-
-		if (hdr.bIsFinal) {
-			if (bDataBufAllocated) {
-				mir_free(dataBuf);
-				bDataBufAllocated = false;
-			}
-			dataBuf = NULL;
-			dataBufSize = 0;
 		}
 	}
 
