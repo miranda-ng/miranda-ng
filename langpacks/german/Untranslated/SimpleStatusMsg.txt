@@ -1,5 +1,4 @@
-﻿[Startup status]
-[Fortune]
+﻿[Fortune]
 [?cinfo(contact,property)]
 [?contact(string,property)]
 [?mstatus(protocol)]
@@ -17,3 +16,4 @@
 [?lower(string)]
 [?upper(string)]
 [?scroll(string,numchars,numchars)]
+[Startup status]

@@ -47,6 +47,8 @@
 Учётная запись
 [%s server connection]
 %s подключение к серверу
+[User ID]
+ID пользователя
 [Protocol is offline or user isn't authorized yet]
 Протокол не в сети или пользователь ещё не авторизовался
 [Attachment]

@@ -1,4 +1,5 @@
-﻿[Screen name:]
+﻿[AIM user details]
+[Screen name:]
 [Display name:]
 [AIM options]
 [Notify about new mail]
