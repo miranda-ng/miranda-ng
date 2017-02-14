@@ -1046,3 +1046,12 @@ CallFunctionSync @1170
 ?GetNthPage@CCtrlPages@@QEAAPEAVCDlgBase@@H@Z @1203 NONAME
 ?GetItemPage@CCtrlPages@@AEAAPEAUTPageInfo@1@H@Z @1204 NONAME
 ?RemovePage@CCtrlPages@@QEAAXH@Z @1205 NONAME
+??0MBinBuffer@@QEAA@XZ @1206 NONAME
+??1MBinBuffer@@QEAA@XZ @1207 NONAME
+??4MBinBuffer@@QEAAAEAV0@AEBV0@@Z @1208 NONAME
+?append@MBinBuffer@@QEAAXPEAX_K@Z @1209 NONAME
+?appendBefore@MBinBuffer@@QEAAXPEAX_K@Z @1210 NONAME
+?data@MBinBuffer@@QEBAPEADXZ @1211 NONAME
+?isEmpty@MBinBuffer@@QEBA_NXZ @1212 NONAME
+?length@MBinBuffer@@QEBA_KXZ @1213 NONAME
+?remove@MBinBuffer@@QEAAX_K@Z @1214 NONAME

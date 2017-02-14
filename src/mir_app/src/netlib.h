@@ -65,70 +65,6 @@ union SOCKADDR_INET_M
 	USHORT si_family;
 };
 
-class NetlibBinBuffer
-{
-	char *m_buf;
-	int   m_len;
-
-public:
-	NetlibBinBuffer() :
-		m_buf(NULL),
-		m_len(0)
-	{
-	}
-
-	~NetlibBinBuffer()
-	{
-		mir_free(m_buf);
-	}
-
-	char* data() const { return m_buf; }
-	bool  isEmpty() const { return m_len == 0; }
-	int   length() const { return m_len; }
-
-	void append(void *pBuf, int bufLen)
-	{
-		if (pBuf == NULL || bufLen == 0)
-			return;
-
-		m_buf = (char*)mir_realloc(m_buf, bufLen + m_len);
-		if (m_buf) {
-			memcpy(m_buf + m_len, pBuf, bufLen);
-			m_len += bufLen;
-		}
-		else m_len = 0;
-	}
-
-	void appendBefore(void *pBuf, int bufLen)
-	{
-		if (pBuf == NULL || bufLen == 0)
-			return;
-
-		m_buf = (char*)mir_realloc(m_buf, bufLen + m_len);
-		if (m_buf) {
-			memmove(m_buf + bufLen, m_buf, m_len);
-			memcpy(m_buf, pBuf, bufLen);
-			m_len += bufLen;
-		}
-		else m_len = 0;
-	}
-
-	void remove(int sz)
-	{
-		if (sz > m_len)
-			m_len = sz;
-
-		if (m_len == sz) {
-			m_len = 0;
-			mir_free(m_buf); m_buf = NULL;
-		}
-		else {
-			memmove(m_buf, m_buf + sz, m_len - sz);
-			m_len -= sz;
-		}
-	}
-};
-
 struct NetlibConnection : public MZeroedObject
 {
 	NetlibConnection();
@@ -154,7 +90,7 @@ struct NetlibConnection : public MZeroedObject
 
 	// SSL support
 	HSSL hSsl;
-	NetlibBinBuffer foreBuf;
+	MBinBuffer foreBuf;
 
 	// proxy support
 	NETLIBHTTPPROXYINFO nlhpi;

@@ -746,7 +746,7 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HNETLIBCONN hConnection, 
 	}
 
 	// Make sure all headers arrived
-	NetlibBinBuffer buf;
+	MBinBuffer buf;
 	int headersCount = 0;
 	bytesPeeked = 0;
 	for (bool headersCompleted = false; !headersCompleted;) {
@@ -966,7 +966,7 @@ char* gzip_decode(char *gzip_data, int *len_ptr, int window)
 
 static int NetlibHttpRecvChunkHeader(NetlibConnection *nlc, bool first, DWORD flags)
 {
-	NetlibBinBuffer buf;
+	MBinBuffer buf;
 
 	while (true) {
 		char data[1000];
