@@ -1001,7 +1001,7 @@ static int NetlibHttpRecvChunkHeader(NetlibConnection *nlc, bool first, DWORD fl
 
 NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection *nlc, DWORD hflags, DWORD dflags, bool isConnect)
 {
-	int dataLen = -1, i, chunkhdr = 0;
+	int dataLen = 0, i, chunkhdr = 0;
 	bool chunked = false;
 	int cenc = 0, cenctype = 0, close = 0;
 
