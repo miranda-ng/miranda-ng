@@ -179,7 +179,9 @@ static int jabberProtoUninit(CJabberProto *ppro)
 	return 0;
 }
 
-int init_omemo();
+namespace omemo {
+	int init_omemo();
+};
 
 extern "C" int __declspec(dllexport) Load()
 {
@@ -223,7 +225,7 @@ extern "C" int __declspec(dllexport) Load()
 	g_MenuInit();
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	JabberUserInfoInit();
-	init_omemo();
+	omemo::init_omemo();
 	return 0;
 }
 
