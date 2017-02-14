@@ -34,7 +34,7 @@ typedef std::basic_string<wchar_t> wstring;
 
 #pragma warning(push)
 #	pragma warning(disable:4312)
-#include <m_system_cpp.h>
+#include <m_system.h>
 #include <newpluginapi.h>
 #include <m_avatars.h>
 #include <m_button.h>
@@ -53,7 +53,6 @@ typedef std::basic_string<wchar_t> wstring;
 #include <m_protoint.h>
 #include <m_skin.h>
 #include <statusmodes.h>
-#include <m_system.h>
 #include <m_userinfo.h>
 #include <m_icolib.h>
 #include <m_utils.h>

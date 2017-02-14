@@ -9,7 +9,7 @@
 #include <CommCtrl.h>
 
 #include <newpluginapi.h>
-#include <m_system_cpp.h>
+#include <m_system.h>
 #include <m_skin.h>
 #include <m_file.h>
 #include <m_fontservice.h>

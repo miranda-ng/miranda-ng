@@ -15,7 +15,7 @@
 
 #include "resource.h"
 
-#include <m_system_cpp.h>
+#include <m_system.h>
 #include <newpluginapi.h>
 #include <m_chat_int.h>
 #include <m_clist.h>
@@ -32,7 +32,6 @@
 #include <m_protoint.h>
 #include <m_skin.h>
 #include <m_gui.h>
-#include <m_system.h>
 #include <m_userinfo.h>
 #include <m_icolib.h>
 #include <m_utils.h>

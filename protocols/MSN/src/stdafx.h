@@ -47,7 +47,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_protoint.h>
 #include <m_skin.h>
 #include <m_system.h>
-#include <m_system_cpp.h>
 #include <m_userinfo.h>
 #include <m_utils.h>
 #include <win2k.h>

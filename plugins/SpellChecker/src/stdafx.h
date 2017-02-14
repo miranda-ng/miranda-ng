@@ -44,7 +44,7 @@ using namespace std;
 #include <m_icolib.h>
 #include <m_hotkeys.h>
 #include <win2k.h>
-#include <m_system_cpp.h>
+#include <m_system.h>
 
 //own includes
 #include <m_folders.h>

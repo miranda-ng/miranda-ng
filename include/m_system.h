@@ -163,4 +163,8 @@ typedef struct
 
 #define ME_SYSTEM_MISSINGSERVICE "System/MissingService"
 
+#if defined(__cplusplus)
+	#include <m_system_cpp.h>
+#endif
+
 #endif // M_SYSTEM_H

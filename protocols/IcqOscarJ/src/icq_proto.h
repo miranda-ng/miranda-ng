@@ -30,7 +30,7 @@
 #ifndef _ICQ_PROTO_H_
 #define _ICQ_PROTO_H_
 
-#include "m_system_cpp.h"
+#include "m_system.h"
 #include "m_protoint.h"
 
 #define LISTSIZE 100

@@ -46,7 +46,6 @@
 // Miranda IM headers
 #include <newpluginapi.h>
 #include <m_system.h>
-#include <m_system_cpp.h>
 #include <m_database.h>
 #include <m_netlib.h>
 #include <m_protocols.h>

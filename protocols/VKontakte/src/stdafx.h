@@ -26,7 +26,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <newpluginapi.h>
 #include <m_system.h>
-#include <m_system_cpp.h>
 
 #include <m_avatars.h>
 #include <m_chat_int.h>

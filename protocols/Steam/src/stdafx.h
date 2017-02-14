@@ -35,7 +35,7 @@
 #include <m_extraicons.h>
 #include <m_gui.h>
 #include <m_http.h>
-#include <m_system_cpp.h>
+#include <m_system.h>
 
 #include "resource.h"
 #include "version.h"

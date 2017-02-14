@@ -49,7 +49,6 @@
 #include "m_skin.h"
 #include "m_awaymsg.h"
 #include "m_utils.h"
-#include "m_system_cpp.h"
 #include "m_history.h"
 #include "m_icolib.h"
 #include "m_message.h"

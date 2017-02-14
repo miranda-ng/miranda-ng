@@ -26,7 +26,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <stdlib.h>
 
-#include "m_system.h"
+#ifndef M_SYSTEM_H__
+	#include "m_system.h"
+#endif
 
 #if defined(__cplusplus)
 
@@ -40,10 +42,10 @@ protected:
 
 public:
 	__inline explicit mir_ptr() : data(NULL) {}
-	__inline explicit mir_ptr(T* _p) : data(_p) {}
+	__inline explicit mir_ptr(T *_p) : data(_p) {}
 	__inline ~mir_ptr() { mir_free(data); }
 	__inline T* get() const { return data; }
-	__inline T* operator = (T* _p) { if (data) mir_free(data); data = _p; return data; }
+	__inline T* operator = (T *_p) { if (data) mir_free(data); data = _p; return data; }
 	__inline T* operator->() const { return data; }
 	__inline operator T*() const { return data; }
 	__inline operator INT_PTR() const { return (INT_PTR)data; }
@@ -72,11 +74,11 @@ public:
 
 class mir_cslock
 {
-	CRITICAL_SECTION& cs;
+	CRITICAL_SECTION &cs;
 	__inline mir_cslock& operator = (const mir_cslock&) { return *this; }
 
 public:
-	__inline mir_cslock(CRITICAL_SECTION& _cs) : cs(_cs) { ::EnterCriticalSection(&cs); }
+	__inline mir_cslock(CRITICAL_SECTION &_cs) : cs(_cs) { ::EnterCriticalSection(&cs); }
 	__inline ~mir_cslock() { ::LeaveCriticalSection(&cs); }
 };
 
@@ -87,7 +89,7 @@ class pass_ptrA : public mir_ptr<char>
 {
 public:
 	__inline explicit pass_ptrA() : mir_ptr(){}
-	__inline explicit pass_ptrA(char* _p) : mir_ptr(_p) {}
+	__inline explicit pass_ptrA(char *_p) : mir_ptr(_p) {}
 	__inline ~pass_ptrA() { zero(); }
 	__inline char* operator = (char *_p){ zero(); return mir_ptr::operator=(_p); }
 	__inline void zero() 
@@ -100,7 +102,7 @@ class pass_ptrW : public mir_ptr<wchar_t>
 {
 public:
 	__inline explicit pass_ptrW() : mir_ptr(){}
-	__inline explicit pass_ptrW(wchar_t* _p) : mir_ptr(_p) {}
+	__inline explicit pass_ptrW(wchar_t *_p) : mir_ptr(_p) {}
 	__inline ~pass_ptrW() { zero(); }
 	__inline wchar_t* operator = (wchar_t *_p){ zero(); return mir_ptr::operator=(_p); }
 	__inline void zero() 
@@ -116,7 +118,7 @@ typedef pass_ptrW pass_ptrT;
 
 class mir_cslockfull
 {
-	CRITICAL_SECTION& cs;
+	CRITICAL_SECTION &cs;
 	bool bIsLocked;
 	__inline mir_cslockfull& operator = (const mir_cslockfull&) { return *this; }
 
@@ -124,7 +126,7 @@ public:
 	__inline void lock() { bIsLocked = true; EnterCriticalSection(&cs); }
 	__inline void unlock() { bIsLocked = false; LeaveCriticalSection(&cs); }
 
-	__inline mir_cslockfull(CRITICAL_SECTION& _cs) : cs(_cs) { lock(); }
+	__inline mir_cslockfull(CRITICAL_SECTION &_cs) : cs(_cs) { lock(); }
 	__inline ~mir_cslockfull() { if (bIsLocked) unlock(); }
 };
 
@@ -289,6 +291,32 @@ public:
 	#ifdef _XSTRING_
 		std::string str() const { return std::string(data); }
 	#endif
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// basic class for classes that should be cleared inside new()
+
+class MIR_CORE_EXPORT MBinBuffer
+{
+	char *m_buf;
+	size_t m_len;
+
+public:
+	MBinBuffer();
+	~MBinBuffer();
+
+	__forceinline char*  data() const { return m_buf; }
+	__forceinline bool   isEmpty() const { return m_len == 0; }
+	__forceinline size_t length() const { return m_len; }
+
+	// adds a buffer to the end
+	void append(void *pBuf, size_t bufLen);
+
+	// adds a buffer to the beginning
+	void appendBefore(void *pBuf, size_t bufLen);
+
+	// drops a part of buffer
+	void remove(size_t sz);
 };
 
 #endif
