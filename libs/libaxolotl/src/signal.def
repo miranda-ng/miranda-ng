@@ -1,4 +1,4 @@
-LIBRARY libsignal-c.mir
+LIBRARY libaxolotl.mir
 
 EXPORTS
    signal_type_ref
