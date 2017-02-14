@@ -403,7 +403,7 @@ void CDiscordProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 	while (ppro->arMarkReadQueue.getCount()) {
 		CDiscordUser *pUser = ppro->arMarkReadQueue[0];
 		CMStringA szUrl(FORMAT, "/channels/%lld/messages/%lld/ack", pUser->channelId, pUser->lastMessageId);
-		ppro->Push(new AsyncHttpRequest(ppro, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveMessageAck));
+		ppro->Push(new AsyncHttpRequest(ppro, REQUEST_POST, szUrl, nullptr));
 		ppro->arMarkReadQueue.remove(0);
 	}
 	KillTimer(hwnd, id);
