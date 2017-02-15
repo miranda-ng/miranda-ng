@@ -63,10 +63,14 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 	if (!root)
 		return;
 
-	DBEVENTINFO dbei = {};
-	dbei.szModule = m_szModuleName;
-	dbei.flags = DBEF_UTF;
-	dbei.eventType = EVENTTYPE_MESSAGE;
+	SESSION_INFO *si = nullptr;
+	if (!pUser->bIsPrivate) {
+		si = pci->SM_FindSession(pUser->wszUsername, m_szModuleName);
+		if (si == NULL) {
+			debugLogA("nessage to unknown channal %lld ignored", pUser->channelId);
+			return;
+		}
+	}
 
 	SnowFlake lastId = getId(pUser->hContact, DB_KEY_LASTMSGID); // as stored in a database
 
@@ -80,26 +84,48 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 	for (int i = 0; i < arNodes.getCount(); i++) {
 		JSONNode &p = *arNodes[i];
 
-		SnowFlake authorid = ::getId(p["author"]["id"]);
-		if (authorid == m_ownId)
-			dbei.flags |= DBEF_SENT;
-		else
-			dbei.flags &= ~DBEF_SENT;
-
-		SnowFlake msgid = ::getId(p["id"]);
-		if (msgid <= pUser->lastReadId)
-			dbei.flags |= DBEF_READ;
-		else
-			dbei.flags &= ~DBEF_READ;
-
 		CMStringW wszText = PrepareMessageText(p);
-		CMStringA szBody(ptrA(mir_utf8encodeW(wszText)));
-		szBody.AppendFormat("%c%lld", 0, msgid);
+		CMStringW wszUserId = p["author"]["id"].as_mstring();
+		SnowFlake msgid = ::getId(p["id"]);
+		SnowFlake authorid = _wtoi64(wszUserId);
+		DWORD dwTimeStamp = StringToDate(p["timestamp"].as_mstring());
 
-		dbei.timestamp = StringToDate(p["timestamp"].as_mstring());
-		dbei.pBlob = (PBYTE)szBody.GetBuffer();
-		dbei.cbBlob = szBody.GetLength();
-		db_event_add(pUser->hContact, &dbei);
+		if (pUser->bIsPrivate) {
+			DBEVENTINFO dbei = {};
+			dbei.szModule = m_szModuleName;
+			dbei.flags = DBEF_UTF;
+			dbei.eventType = EVENTTYPE_MESSAGE;
+
+			if (authorid == m_ownId)
+				dbei.flags |= DBEF_SENT;
+			else
+				dbei.flags &= ~DBEF_SENT;
+
+			if (msgid <= pUser->lastReadId)
+				dbei.flags |= DBEF_READ;
+			else
+				dbei.flags &= ~DBEF_READ;
+
+			CMStringA szBody(ptrA(mir_utf8encodeW(wszText)));
+			szBody.AppendFormat("%c%lld", 0, msgid);
+
+			dbei.timestamp = dwTimeStamp;
+			dbei.pBlob = (PBYTE)szBody.GetBuffer();
+			dbei.cbBlob = szBody.GetLength();
+			db_event_add(pUser->hContact, &dbei);
+		}
+		else {
+			ParseSpecialChars(si, wszText);
+
+			GCDEST gcd = { m_szModuleName, pUser->wszUsername, GC_EVENT_MESSAGE };
+			GCEVENT gce = { &gcd };
+			gce.dwFlags = GCEF_ADDTOLOG;
+			gce.ptszUID = wszUserId;
+			gce.ptszText = wszText;
+			gce.time = dwTimeStamp;
+			gce.bIsMe = authorid == m_ownId;
+			Chat_Event(&gce);
+		}
 
 		if (lastId < msgid)
 			lastId = msgid;

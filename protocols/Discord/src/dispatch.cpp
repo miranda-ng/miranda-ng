@@ -210,6 +210,9 @@ void CDiscordProto::ProcessGuild(const JSONNode &readState, const JSONNode &p)
 		setId(si->hContact, DB_KEY_OWNERID, ownerId);
 		BuildStatusList(guildId, wszChannelId);
 
+		Chat_Control(m_szModuleName, wszChannelId, WINDOW_HIDDEN);
+		Chat_Control(m_szModuleName, wszChannelId, SESSION_ONLINE);
+
 		if (!wszTopic.IsEmpty()) {
 			Chat_SetStatusbarText(m_szModuleName, wszChannelId, wszTopic);
 
@@ -226,6 +229,7 @@ void CDiscordProto::ProcessGuild(const JSONNode &readState, const JSONNode &p)
 			pUser = new CDiscordUser(channelId);
 			pUser->bIsPrivate = false;
 			pUser->hContact = si->hContact;
+			pUser->id = channelId;
 			pUser->channelId = channelId;
 			arUsers.insert(pUser);
 		}
@@ -234,7 +238,12 @@ void CDiscordProto::ProcessGuild(const JSONNode &readState, const JSONNode &p)
 		pUser->lastMessageId = ::getId(pch["last_message_id"]);
 		pUser->lastReadId = sttGetLastRead(readState, wszChannelId);
 
+		setId(pUser->hContact, DB_KEY_ID, channelId);
 		setId(pUser->hContact, DB_KEY_CHANNELID, channelId);
+
+		SnowFlake oldMsgId = getId(pUser->hContact, DB_KEY_LASTMSGID);
+		if (oldMsgId != 0 && pUser->lastMessageId > oldMsgId)
+			RetrieveHistory(pUser->hContact, MSG_AFTER, oldMsgId, 99);
 	}
 }
 
@@ -256,9 +265,14 @@ void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
 		if (pUser.guildId != guildId)
 			continue;
 
+		SESSION_INFO *si = pci->SM_FindSession(pUser.wszUsername, m_szModuleName);
+		if (si == NULL)
+			continue;
+
 		GCDEST gcd = { m_szModuleName, pUser.wszUsername, GC_EVENT_JOIN };
 		GCEVENT gce = { &gcd };
 		gce.time = time(0);
+		gce.dwFlags = GCEF_SILENT;
 
 		for (auto it = pMembers.begin(); it != pMembers.end(); ++it) {
 			const JSONNode &m = *it;
@@ -295,10 +309,6 @@ void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
 			}
 			Chat_SetStatusEx(m_szModuleName, pUser.wszUsername, flags, wszUserId);
 		}
-
-		// okay, users added & topic set, now we can move a room online
-		Chat_Control(m_szModuleName, pUser.wszUsername, WINDOW_HIDDEN);
-		Chat_Control(m_szModuleName, pUser.wszUsername, SESSION_ONLINE);
 	}
 }
 
@@ -447,10 +457,6 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 		recv.szMessage = buf;
 		recv.lParam = (LPARAM)wszMessageId.c_str();
 		ProtoChainRecvMsg(pUser->hContact, &recv);
-
-		SnowFlake lastId = getId(pUser->hContact, DB_KEY_LASTMSGID); // as stored in a database
-		if (lastId < messageId)
-			setId(pUser->hContact, DB_KEY_LASTMSGID, messageId);
 	}
 	else {
 		debugLogA("store a message into the group channel id %lld", channelId);
@@ -472,6 +478,10 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 		gce.bIsMe = _wtoi64(wszUserId) == m_ownId;
 		Chat_Event(&gce);
 	}
+
+	SnowFlake lastId = getId(pUser->hContact, DB_KEY_LASTMSGID); // as stored in a database
+	if (lastId < messageId)
+		setId(pUser->hContact, DB_KEY_LASTMSGID, messageId);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

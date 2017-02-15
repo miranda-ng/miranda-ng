@@ -238,6 +238,28 @@ CMStringW PrepareMessageText(const JSONNode &pRoot)
 		}
 	}
 
+	const JSONNode &pEmbeds = pRoot["embeds"];
+	for (auto it = pEmbeds.begin(); it != pEmbeds.end(); ++it) {
+		const JSONNode &p = *it;
+
+		wszText.Append(L"\n-----------------");
+
+		CMStringW str = p["url"].as_mstring();
+		wszText.AppendFormat(L"\n%s: %s", TranslateT("Embed"), str);
+
+		str = p["provider"]["name"].as_mstring() + L" " + p["type"].as_mstring();
+		if (str.GetLength() > 1)
+			wszText.AppendFormat(L"\n\t%s", str);
+
+		str = p["description"].as_mstring();
+		if (!str.IsEmpty())
+			wszText.AppendFormat(L"\n\t%s", str);
+
+		str = p["thumbnail"]["url"].as_mstring();
+		if (!str.IsEmpty())
+			wszText.AppendFormat(L"\n%s: %s", TranslateT("Preview"), str);
+	}
+
 	return wszText;
 }
 
