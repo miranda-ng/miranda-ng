@@ -210,9 +210,6 @@ void CDiscordProto::ProcessGuild(const JSONNode &readState, const JSONNode &p)
 		setId(si->hContact, DB_KEY_OWNERID, ownerId);
 		BuildStatusList(guildId, wszChannelId);
 
-		Chat_Control(m_szModuleName, wszChannelId, WINDOW_HIDDEN);
-		Chat_Control(m_szModuleName, wszChannelId, SESSION_ONLINE);
-
 		if (!wszTopic.IsEmpty()) {
 			Chat_SetStatusbarText(m_szModuleName, wszChannelId, wszTopic);
 
@@ -250,17 +247,21 @@ void CDiscordProto::OnCommandGuildCreated(const JSONNode &pRoot)
 void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
 {
 	const JSONNode &pStatuses = pRoot["presences"];
+	const JSONNode &pMembers = pRoot["members"];
 
 	SnowFlake guildId = ::getId(pRoot["id"]);
 
-	const JSONNode &pMembers = pRoot["members"];
-	for (auto it = pMembers.begin(); it != pMembers.end(); ++it) {
-		const JSONNode &m = *it;
+	for (int i = 0; i < arUsers.getCount(); i++) {
+		CDiscordUser &pUser = arUsers[i];
+		if (pUser.guildId != guildId)
+			continue;
 
-		for (int i = 0; i < arUsers.getCount(); i++) {
-			CDiscordUser &pUser = arUsers[i];
-			if (pUser.guildId != guildId)
-				continue;
+		GCDEST gcd = { m_szModuleName, pUser.wszUsername, GC_EVENT_JOIN };
+		GCEVENT gce = { &gcd };
+		gce.time = time(0);
+
+		for (auto it = pMembers.begin(); it != pMembers.end(); ++it) {
+			const JSONNode &m = *it;
 
 			CDiscordRole *pRole = nullptr;
 			const JSONNode &pRoles = m["roles"];
@@ -269,9 +270,6 @@ void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
 				if (pRole = arRoles.find((CDiscordRole*)&roleId))
 					break;
 			}
-
-			GCDEST gcd = { m_szModuleName, pUser.wszUsername, GC_EVENT_JOIN };
-			GCEVENT gce = { &gcd };
 
 			CMStringW wszNick = m["nick"].as_mstring();
 			CMStringW wszUsername = m["user"]["username"].as_mstring() + L"#" + m["user"]["discriminator"].as_mstring();
@@ -285,7 +283,6 @@ void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
 			gce.bIsMe = (userId == m_ownId);
 			gce.ptszUID = wszUserId;
 			gce.ptszNick = wszNick.IsEmpty() ? wszUsername : wszNick;
-			gce.time = time(0);
 			Chat_Event(&gce);
 
 			int flags = GC_SSE_ONLYLISTED;
@@ -298,6 +295,10 @@ void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
 			}
 			Chat_SetStatusEx(m_szModuleName, pUser.wszUsername, flags, wszUserId);
 		}
+
+		// okay, users added & topic set, now we can move a room online
+		Chat_Control(m_szModuleName, pUser.wszUsername, WINDOW_HIDDEN);
+		Chat_Control(m_szModuleName, pUser.wszUsername, SESSION_ONLINE);
 	}
 }
 
