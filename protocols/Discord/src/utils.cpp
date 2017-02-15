@@ -279,8 +279,12 @@ void CDiscordProto::ParseSpecialChars(SESSION_INFO *si, CMStringW &str)
 			return;
 
 		CMStringW wszWord = str.Mid(i + 1, iEnd - i - 1);
-		if (wszWord[0] == '@' && wszWord[1] == '!') { // member highlight
-			USERINFO *ui = pci->UM_FindUser(si->pUsers, wszWord.c_str()+2);
+		if (wszWord[0] == '@') { // member highlight
+			int iStart = 1;
+			if (wszWord[1] == '!')
+				iStart++;
+
+			USERINFO *ui = pci->UM_FindUser(si->pUsers, wszWord.c_str() + iStart);
 			if (ui != nullptr)
 				str.Replace(L"<" + wszWord + L">", CMStringW('@') + ui->pszNick);
 		}
