@@ -109,6 +109,7 @@ void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
 		GCDEST gcd = { m_szModuleName, pUser->wszUsername, GC_EVENT_TOPIC };
 		GCEVENT gce = { &gcd };
 		gce.ptszText = wszTopic;
+		gce.time = time(0);
 		Chat_Event(&gce);
 	}
 }
@@ -217,6 +218,7 @@ void CDiscordProto::ProcessGuild(const JSONNode &readState, const JSONNode &p)
 
 			GCDEST gcd = { m_szModuleName, wszChannelId, GC_EVENT_TOPIC };
 			GCEVENT gce = { &gcd };
+			gce.time = time(0);
 			gce.ptszText = wszTopic;
 			Chat_Event(&gce);
 		}
@@ -283,6 +285,7 @@ void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
 			gce.bIsMe = (userId == m_ownId);
 			gce.ptszUID = wszUserId;
 			gce.ptszNick = wszNick.IsEmpty() ? wszUsername : wszNick;
+			gce.time = time(0);
 			Chat_Event(&gce);
 
 			int flags = GC_SSE_ONLYLISTED;
@@ -329,6 +332,7 @@ void CDiscordProto::OnCommandGuildMemberRemoved(const JSONNode &pRoot)
 
 		GCDEST gcd = { m_szModuleName, pUser.wszUsername, GC_EVENT_PART };
 		GCEVENT gce = { &gcd };
+		gce.time = time(0);
 		gce.ptszUID = wszUserId;
 		Chat_Event(&gce);
 	}
@@ -354,6 +358,7 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 
 		GCDEST gcd = { m_szModuleName, pUser.wszUsername, GC_EVENT_NICK };
 		GCEVENT gce = { &gcd };
+		gce.time = time(0);
 		gce.ptszUID = wszUserId;
 		gce.ptszNick = wszOldNick;
 		gce.ptszText = wszUserNick;
