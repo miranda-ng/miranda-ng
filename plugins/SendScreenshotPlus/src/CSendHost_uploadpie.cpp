@@ -44,6 +44,12 @@ int CSendHost_UploadPie::Send()
 		{ "upload", HTTPFORM_INT(1) },// ??
 		{ "uploadedfile", HTTPFORM_FILE(tmp) },
 		{ "expire", HTTPFORM_INT(m_expire) },// 30m
+		//{ "expire", HTTPFORM_INT(2) },// 1h
+		//{ "expire", HTTPFORM_INT(3) },// 6h
+		//{ "expire", HTTPFORM_INT(4) },// 1d
+		//{ "expire", HTTPFORM_INT(5) },// 1w
+		//{ "x", HTTPFORM_INT(130) },// relative X coordinate of "BAKE FILE" button (unused?)
+		//{ "y", HTTPFORM_INT(17) },// relative Y coordinate of "BAKE FILE" button (unused?)
 	};
 	int error = HTTPFormCreate(&m_nlhr, REQUEST_POST, kHostURL, frm, sizeof(frm) / sizeof(HTTPFormData));
 	mir_free(tmp);

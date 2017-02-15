@@ -53,7 +53,9 @@ int CSendHost_ImageShack::Send()
 	memset(&m_nlhr, 0, sizeof(m_nlhr));
 	char* tmp; tmp = mir_u2a(m_pszFile);
 	HTTPFormData frm[] = {
+		//{ "Referer", HTTPFORM_HEADER("http://www.imageshack.us/upload_api.php") },
 		{ "fileupload", HTTPFORM_FILE(tmp) },
+		//{ "rembar", "yes" },// no info bar on thumb
 		{ "public", "no" },
 		{ "key", HTTPFORM_8BIT(DEVKEY_IMAGESHACK) },
 	};
