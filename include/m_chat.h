@@ -357,7 +357,8 @@ struct GCDEST
 
 // The GCEVENT structure
 
-#define GCEF_ADDTOLOG       0x0001
+#define GCEF_ADDTOLOG       0x0001	 // force adding to log
+#define GCEF_SILENT         0x0002   // never add to log
 #define GCEF_NOTNOTIFY      0x0004
 
 struct GCEVENT

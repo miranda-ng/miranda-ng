@@ -540,6 +540,9 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 
 	// add to log
 	if (pWnd) {
+		if (gce->dwFlags & GCEF_SILENT)
+			return 0;
+
 		SESSION_INFO *si = chatApi.SM_FindSession(pWnd, pMod);
 
 		// fix for IRC's old style mode notifications. Should not affect any other protocol
