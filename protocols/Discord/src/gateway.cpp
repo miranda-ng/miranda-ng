@@ -239,6 +239,7 @@ void CDiscordProto::GatewayThreadWorker()
 		}
 
 		// read all payloads from the current buffer, one by one
+		size_t prevSize = 0;
 		while (true) {
 			switch (hdr.opCode) {
 			case 0: // text packet
@@ -271,8 +272,22 @@ void CDiscordProto::GatewayThreadWorker()
 			if (netbuf.length() == 0)
 				break;
 
+			// if we have not enough data for header, continue reading
 			if (!hdr.init((BYTE*)netbuf.data(), netbuf.length()))
 				break;
+
+			// if we have not enough data for data, continue reading
+			if (hdr.headerSize + hdr.payloadSize > netbuf.length())
+				break;
+
+			debugLogA("Got inner packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
+			if (prevSize == netbuf.length()) {
+				netbuf.remove(prevSize);
+				debugLogA("dropping current packet, exiting");
+				break;
+			}
+
+			prevSize = netbuf.length();
 		}
 	}
 
