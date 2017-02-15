@@ -72,7 +72,7 @@ namespace omemo {
 		mir_free(ctx->data);
 	}
 
-	CRITICAL_SECTION _signal_cs;
+	mir_cs _signal_cs;
 	mir_cslockfull signal_mutex(_signal_cs);
 
 	void lock(void * /*user_data*/)
