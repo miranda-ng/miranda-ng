@@ -667,10 +667,6 @@ int CMsnProto::MSN_SkypeAuth(const char *pszNonce, char *pszUIC)
 {
 	int iRet = -1;
 
-	if (g_hOpenssl == NULL) g_hOpenssl = LoadLibraryA("libeay32.dll");
-	if (g_hOpenssl == NULL)
-		return iRet;
-
 	// Perform login
 	SkyLogin hLogin = SkyLogin_Init();
 	if (hLogin) {
@@ -702,9 +698,6 @@ int CMsnProto::MSN_SkypeAuth(const char *pszNonce, char *pszUIC)
 int CMsnProto::LoginSkypeOAuth(const char *pRefreshToken)
 {
 	int iRet = -1;
-	if (g_hOpenssl == NULL) g_hOpenssl = LoadLibraryA("libeay32.dll");
-	if (g_hOpenssl == NULL)
-		return iRet;
 
 	// Perform login
 	SkyLogin hLogin = SkyLogin_Init();

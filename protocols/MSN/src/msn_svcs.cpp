@@ -399,7 +399,7 @@ int CMsnProto::OnContactDeleted(WPARAM hContact, LPARAM)
 			debugLogA("Deleted Handler Email");
 
 			if (Lists_IsInList(LIST_FL, szEmail)) {
-				DeleteParam param = { this, hContact };
+				DeleteParam param = { this, MCONTACT(hContact) };
 				DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_DELETECONTACT), NULL, DlgDeleteContactUI, (LPARAM)&param);
 
 				MsnContact *msc = Lists_Get(szEmail);
