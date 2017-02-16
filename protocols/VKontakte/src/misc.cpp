@@ -258,11 +258,10 @@ JSONNode& CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST 
 bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 {
 	debugLogA("CVkProto::CheckJsonResult");
-	if (!pReq)
-		return false;
 
 	if (!jnNode) {
-		pReq->m_iErrorCode = VKERR_NO_JSONNODE;
+		if (pReq) 
+			pReq->m_iErrorCode = VKERR_NO_JSONNODE;
 		return false;
 	}
 
