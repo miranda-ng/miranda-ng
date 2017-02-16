@@ -2,9 +2,6 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <CommonLibDir Condition="'$(VisualStudioVersion)' == '10.0'">$(ProjectDir)..\..\bin10\lib</CommonLibDir>
-    <CommonLibDir Condition="'$(VisualStudioVersion)' == '12.0'">$(ProjectDir)..\..\bin12\lib</CommonLibDir>
-    <CommonLibDir Condition="'$(VisualStudioVersion)' == '14.0'">$(ProjectDir)..\..\bin14\lib</CommonLibDir>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>$(ProjectName)</RootNamespace>
@@ -35,7 +32,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>winmm.lib;Wtsapi32.lib;netapi32.lib;pdh.lib;shlwapi.lib;Strmiids.lib;gdiplus.lib;dbghelp.lib;Setupapi.lib;msimg32.lib;comctl32.lib;ws2_32.lib;UxTheme.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(CommonLibDir)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>false</GenerateMapFile>
       <SubSystem>Windows</SubSystem>

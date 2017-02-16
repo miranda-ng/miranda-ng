@@ -147,11 +147,7 @@ public:
 #endif // __cplusplus
 
 #ifndef LIBJSON_EXPORTS
-	#if !defined(_WIN64)
-		#pragma comment(lib, "libjson.lib")
-	#else
-		#pragma comment(lib, "libjson64.lib")
-	#endif
+	#pragma comment(lib, "libjson.lib")
 #endif
 
 #endif // MIM_LIBJSON_H

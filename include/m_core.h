@@ -589,19 +589,11 @@ inline int mir_vsnwprintf(wchar_t(&buffer)[_Size], const wchar_t* fmt, va_list v
 #endif
 
 #ifndef MIR_CORE_EXPORTS
-	#if !defined(_WIN64)
-		#pragma comment(lib, "mir_core.lib")
-	#else
-		#pragma comment(lib, "mir_core64.lib")
-	#endif
+	#pragma comment(lib, "mir_core.lib")
 #endif
 
 #ifndef MIR_APP_EXPORTS
-	#if !defined(_WIN64)
-		#pragma comment(lib, "mir_app.lib")
-	#else
-		#pragma comment(lib, "mir_app64.lib")
-	#endif
+	#pragma comment(lib, "mir_app.lib")
 #endif
 
 #endif // M_CORE_H

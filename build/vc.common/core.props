@@ -27,22 +27,25 @@
     <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)$(Configuration)\Core\</OutDir>
     <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)$(Configuration)64\Core\</OutDir>
   </PropertyGroup>
-  <PropertyGroup Label="UserMacros">
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <CommonCoreLibDir Condition="'$(VisualStudioVersion)' == '10.0'">$(ProjectDir)..\..\..\bin10\lib</CommonCoreLibDir>
-    <CommonCoreLibDir Condition="'$(VisualStudioVersion)' == '12.0'">$(ProjectDir)..\..\..\bin12\lib</CommonCoreLibDir>
-    <CommonCoreLibDir Condition="'$(VisualStudioVersion)' == '14.0'">$(ProjectDir)..\..\..\bin14\lib</CommonCoreLibDir>
-  </PropertyGroup>
   <Import Project="common.props"/>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\plugins\ExternalAPI;..\..\..\..\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>$(CommonCoreLibDir)</AdditionalLibraryDirectories>
-    </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
+    <Link>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\libs\win32;$(ProjectDir)..\..\..\..\boost\stage\lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
+    <Link>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\libs\win64;$(ProjectDir)..\..\..\..\boost\stage64\lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+
 </Project>

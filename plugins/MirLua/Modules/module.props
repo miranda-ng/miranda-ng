@@ -13,9 +13,7 @@
   <Import Project="$(ProjectDir)..\..\..\build\vc.common\common.props"/>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalLibraryDirectories Condition="'$(VisualStudioVersion)' == '10.0'">$(ProjectDir)..\..\..\..\bin10\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(VisualStudioVersion)' == '12.0'">$(ProjectDir)..\..\..\..\bin12\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(VisualStudioVersion)' == '14.0'">$(ProjectDir)..\..\..\..\bin14\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\..\..\libs\win$(PlatformArchitecture)</AdditionalLibraryDirectories>
     </Link>
     <ClCompile>
       <PreprocessorDefinitions>LUA_BUILD_AS_DLL;LUA_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>

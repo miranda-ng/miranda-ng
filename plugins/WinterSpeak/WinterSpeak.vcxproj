@@ -31,7 +31,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>spchwrap.lib;%(AdditionalDependencies)</AdditionalDependencies> 
-      <AdditionalLibraryDirectories>src\SAPI 4.0\Lib;$(CommonLibDir)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>src\SAPI 4.0\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
 </Project>
