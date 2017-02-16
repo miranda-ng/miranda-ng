@@ -30,8 +30,7 @@
       <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>delayimp.lib;libeay32.lib;ssleay32.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs>libeay32.dll;ssleay32.dll;crypt32.dll</DelayLoadDLLs>
+      <AdditionalDependencies>libeay32.lib;ssleay32.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
 </Project>
