@@ -59,16 +59,7 @@ static void SSL_library_unload(void)
 
 	WaitForSingleObject(g_hSslMutex, INFINITE);
 
-	FreeLibrary(g_hOpenSSL);
-	g_hOpenSSL = NULL;
-
-	FreeLibrary(g_hOpenSSLCrypto);
-	g_hOpenSSLCrypto = NULL;
-	FreeLibrary(g_hWinCrypt);
-	g_hWinCrypt = NULL;
-
 	bSslInitDone = false;
-
 	ReleaseMutex(g_hSslMutex);
 }
 
@@ -80,20 +71,13 @@ static bool SSL_library_load(void)
 
 	WaitForSingleObject(g_hSslMutex, INFINITE);
 
-	if (!bSslInitDone) {
-		g_hOpenSSLCrypto = LoadLibraryA("libeay32.dll");
-		g_hOpenSSL = LoadLibraryA("ssleay32.dll");
-		g_hWinCrypt = LoadLibraryA("crypt32.dll");
-		if (g_hOpenSSL && g_hOpenSSLCrypto && g_hWinCrypt) {
-			// init OpenSSL
-			SSL_library_init();
-			SSL_load_error_strings();
-			CRYPTO_set_mem_functions(mir_calloc, mir_realloc, mir_free);
-			// FIXME check errors
+	if (!bSslInitDone) { // init OpenSSL
+		SSL_library_init();
+		SSL_load_error_strings();
+		CRYPTO_set_mem_functions(mir_calloc, mir_realloc, mir_free);
+		// FIXME check errors
 
-			bSslInitDone = true;
-		}
-		else SSL_library_unload();
+		bSslInitDone = true;
 	}
 
 	return bSslInitDone;

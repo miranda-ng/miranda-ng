@@ -44,8 +44,4 @@ typedef struct SslHandle *HSSL;
 
 #include "version.h"
 
-extern HMODULE g_hOpenSSL;
-extern HMODULE g_hOpenSSLCrypto;
-extern HMODULE g_hWinCrypt;
-
 extern HINSTANCE hInst;
