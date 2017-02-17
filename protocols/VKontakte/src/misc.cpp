@@ -271,10 +271,14 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 
 	if (!jnError || !jnErrorCode)
 		return true;
+	
+	int iErrorCode = jnErrorCode.as_int();
+	debugLogA("CVkProto::CheckJsonResult %d", iErrorCode);
+	if (!pReq)
+		return (iErrorCode == 0);
 
-	pReq->m_iErrorCode = jnErrorCode.as_int();
-	debugLogA("CVkProto::CheckJsonResult %d", pReq->m_iErrorCode);
-	switch (pReq->m_iErrorCode) {
+	pReq->m_iErrorCode = iErrorCode;	
+	switch (iErrorCode) {
 	case VKERR_AUTHORIZATION_FAILED:
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		break;
@@ -318,7 +322,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 			pReq->m_iRetry--;
 		}
 		else {
-			CMStringW msg(FORMAT, TranslateT("Error %d. Data will not be sent or received."), pReq->m_iErrorCode);
+			CMStringW msg(FORMAT, TranslateT("Error %d. Data will not be sent or received."), iErrorCode);
 			MsgPopup(NULL, msg, TranslateT("Error"), true);
 			debugLogA("CVkProto::CheckJsonResult SendError");
 		}
@@ -345,7 +349,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 		break;
 	}
 
-	return pReq->m_iErrorCode == 0;
+	return (iErrorCode == 0);
 }
 
 void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
