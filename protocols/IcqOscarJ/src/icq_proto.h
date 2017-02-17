@@ -6,7 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera, George Hazan
-// Copyright © 2012-2014 Miranda NG Team
+// Copyright © 2012-2017 Miranda NG Team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -146,7 +146,6 @@ struct CIcqProto : public PROTO<CIcqProto>
 	BYTE m_bSecureLogin;
 	BYTE m_bSecureConnection;
 	BYTE m_bLegacyFix;
-	BYTE m_bAimEnabled;
 	WORD m_wAnsiCodepage;
 	BYTE m_bDCMsgEnabled;
 	BYTE m_bTempVisListEnabled;

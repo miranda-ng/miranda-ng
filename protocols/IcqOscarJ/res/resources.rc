@@ -153,7 +153,6 @@ BEGIN
     CONTROL         "Auto-retrieve Custom status details",IDC_XSTATUSAUTO,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,153,288,10
     CONTROL         "Block known Spam Bots",IDC_KILLSPAMBOTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,166,288,10
-    CONTROL         "Enable AIM contacts support",IDC_AIMENABLE,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,12,180,288,10
 END
 
 IDD_OPT_ICQPRIVACY DIALOGEX 0, 0, 310, 234

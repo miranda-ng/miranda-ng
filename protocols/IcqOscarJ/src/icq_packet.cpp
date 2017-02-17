@@ -6,7 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera, Bio
-// Copyright © 2012-2014 Miranda NG Team
+// Copyright © 2012-2017 Miranda NG Team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -877,7 +877,7 @@ BOOL CIcqProto::unpackUID(BYTE **ppBuf, size_t *pwLen, DWORD *pdwUIN, uid_str *p
 			*pwLen += nUIDLen;
 		}
 	}
-	if (!m_bAimEnabled || !ppszUID || !(*ppszUID)) { // skip the UID data
+	if (!ppszUID || !(*ppszUID)) { // skip the UID data
 		*ppBuf += nUIDLen;
 		*pwLen -= nUIDLen;
 

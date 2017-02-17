@@ -6,7 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
-// Copyright © 2012-2014 Miranda NG Team
+// Copyright © 2012-2017 Miranda NG Team
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -72,7 +72,7 @@ int CIcqProto::getContactUid(MCONTACT hContact, DWORD *pdwUin, uid_str *ppszUid)
 			break;
 
 		case DBVT_ASCIIZ:
-			if (ppszUid && m_bAimEnabled) {
+			if (ppszUid) {
 				mir_strcpy(*ppszUid, dbv.pszVal);
 				iRes = 0;
 			}
@@ -80,7 +80,7 @@ int CIcqProto::getContactUid(MCONTACT hContact, DWORD *pdwUin, uid_str *ppszUid)
 			break;
 
 		case DBVT_UTF8:
-			if (ppszUid && m_bAimEnabled) {
+			if (ppszUid) {
 				mir_strcpy(*ppszUid, dbv.pszVal);
 				mir_utf8decode(*ppszUid, NULL);
 				iRes = 0;

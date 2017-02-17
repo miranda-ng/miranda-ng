@@ -6,7 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
-// Copyright © 2012-2014 Miranda NG Team
+// Copyright © 2012-2017 Miranda NG Team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -89,17 +89,8 @@ static void setMsgChannelParams(CIcqProto *ppro, WORD wChan, DWORD dwFlags)
 
 void CIcqProto::handleReplyICBM()
 {
-	// we don't care about the stuff, just change the params
-	DWORD dwFlags = 0x00000303;
-
-	#ifdef DBG_CAPHTML
-	dwFlags |= 0x00000400;
-	#endif
-	#ifdef DBG_CAPMTN
-	dwFlags |= 0x00000008;
-	#endif
 	// Set message parameters for all channels (imitate ICQ 6)
-	setMsgChannelParams(this, 0x0000, dwFlags);
+	setMsgChannelParams(this, 0x0000, 0x0000070B);
 }
 
 void CIcqProto::handleRecvServMsg(BYTE *buf, size_t wLen, DWORD dwRef)

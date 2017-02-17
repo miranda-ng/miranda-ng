@@ -6,7 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
-// Copyright © 2012-2014 Miranda NG Team
+// Copyright © 2012-2017 Miranda NG Team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -63,7 +63,6 @@
 #define DEFAULT_SECURE_CONNECTION   1
 #define DEFAULT_LEGACY_FIX          0
 #define DEFAULT_KEEPALIVE_ENABLED   1
-#define DEFAULT_AIM_ENABLED         1
 #define DEFAULT_ANSI_CODEPAGE       CP_ACP
 #define DEFAULT_DCMSG_ENABLED       1 // passive dc messaging is default
 #define DEFAULT_TEMPVIS_ENABLED     1 // temporary visible is enabled by default

@@ -6,7 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
-// Copyright © 2012-2014 Miranda NG Team
+// Copyright © 2012-2017 Miranda NG Team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -168,7 +168,6 @@ void CIcqProto::UpdateGlobalSettings()
 
 	m_bSecureLogin = getByte("SecureLogin", DEFAULT_SECURE_LOGIN);
 	m_bLegacyFix = getByte("LegacyFix", DEFAULT_LEGACY_FIX);
-	m_bAimEnabled = getByte("AimEnabled", DEFAULT_AIM_ENABLED);
 	m_wAnsiCodepage = getWord("AnsiCodePage", DEFAULT_ANSI_CODEPAGE);
 	m_bDCMsgEnabled = getByte("DirectMessaging", DEFAULT_DCMSG_ENABLED);
 	m_bTempVisListEnabled = getByte("TempVisListEnabled", DEFAULT_TEMPVIS_ENABLED);

@@ -6,7 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera, George Hazan
-// Copyright © 2012-2014 Miranda NG Team
+// Copyright © 2012-2017 Miranda NG Team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -614,72 +614,54 @@ DWORD_PTR __cdecl CIcqProto::GetCaps(int type, MCONTACT hContact)
 			PF1_VISLIST | PF1_INVISLIST | PF1_MODEMSG | PF1_FILE | PF1_EXTSEARCH |
 			PF1_EXTSEARCHUI | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME |
 			PF1_ADDED | PF1_CONTACT;
-		if (!m_bAimEnabled)
-			nReturn |= PF1_NUMERICUSERID;
+
 		if (m_bSsiEnabled && getByte("ServerAddRemove", DEFAULT_SS_ADDSERVER))
 			nReturn |= PF1_SERVERCLIST;
 		break;
 
 	case PFLAGNUM_2:
-		nReturn = PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND |
-			PF2_FREECHAT | PF2_INVISIBLE;
-		if (m_bAimEnabled)
-			nReturn |= PF2_ONTHEPHONE;
-		break;
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND |
+			PF2_FREECHAT | PF2_INVISIBLE | PF2_ONTHEPHONE;
 
 	case PFLAGNUM_3:
-		nReturn = PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND |
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND |
 			PF2_FREECHAT | PF2_INVISIBLE;
-		break;
 
 	case PFLAGNUM_4:
-		nReturn = PF4_SUPPORTIDLE | PF4_IMSENDOFFLINE | PF4_INFOSETTINGSVC;
+		nReturn = PF4_SUPPORTIDLE | PF4_IMSENDOFFLINE | PF4_INFOSETTINGSVC | PF4_SUPPORTTYPING;
 		if (m_bAvatarsEnabled)
 			nReturn |= PF4_AVATARS;
-#ifdef DBG_CAPMTN
-		nReturn |= PF4_SUPPORTTYPING;
-#endif
 		break;
 
 	case PFLAGNUM_5:
-		nReturn = PF2_FREECHAT;
-		if (m_bAimEnabled)
-			nReturn |= PF2_ONTHEPHONE;
-		break;
+		return PF2_FREECHAT | PF2_ONTHEPHONE;
 
 	case PFLAG_UNIQUEIDTEXT:
-		nReturn = (DWORD_PTR)Translate("User ID");
-		break;
+		return (DWORD_PTR)Translate("User ID");
 
 	case PFLAG_UNIQUEIDSETTING:
-		nReturn = (DWORD_PTR)UNIQUEIDSETTING;
-		break;
-
-	case PFLAG_MAXCONTACTSPERPACKET:
-		if (hContact) { // determine per contact
-			BYTE bClientId = getByte(hContact, "ClientID", CLID_GENERIC);
-
-			if (bClientId == CLID_MIRANDA) {
-				if (CheckContactCapabilities(hContact, CAPF_CONTACTS) && getContactStatus(hContact) != ID_STATUS_OFFLINE)
-					nReturn = 0x100; // limited only by packet size
-				else
-					nReturn = MAX_CONTACTSSEND;
-			}
-			else if (bClientId == CLID_ICQ6) {
-				if (CheckContactCapabilities(hContact, CAPF_CONTACTS))
-					nReturn = 1; // crapy ICQ6 cannot handle multiple contacts in the transfer
-				else
-					nReturn = 0; // this version does not support contacts transfer at all
-			}
-			else
-				nReturn = MAX_CONTACTSSEND;
-		}
-		else // return generic limit
-			nReturn = MAX_CONTACTSSEND;
-		break;
+		return (DWORD_PTR)UNIQUEIDSETTING;
 
 	case PFLAG_MAXLENOFMESSAGE:
-		nReturn = MAX_MESSAGESNACSIZE - 102;
+		return MAX_MESSAGESNACSIZE - 102;
+
+	case PFLAG_MAXCONTACTSPERPACKET:
+		if (hContact == 0)
+			return MAX_CONTACTSSEND;
+
+		// determine per contact
+		BYTE bClientId = getByte(hContact, "ClientID", CLID_GENERIC);
+
+		if (bClientId == CLID_MIRANDA) {
+			if (CheckContactCapabilities(hContact, CAPF_CONTACTS) && getContactStatus(hContact) != ID_STATUS_OFFLINE)
+				return 0x100; // limited only by packet size
+			return MAX_CONTACTSSEND;
+		}
+		else if (bClientId == CLID_ICQ6) {
+			// crapy ICQ6 cannot handle multiple contacts in the transfer
+			return CheckContactCapabilities(hContact, CAPF_CONTACTS) != 0;
+		}
+		return MAX_CONTACTSSEND;
 	}
 
 	return nReturn;
@@ -743,21 +725,11 @@ HANDLE __cdecl CIcqProto::SearchBasic(const wchar_t *pszSearch)
 	int nHandle = 0;
 	size_t i, j;
 
-	if (!m_bAimEnabled) {
-		for (i = j = 0; (i < mir_wstrlen(pszSearch)) && (j < 255); i++) { // we take only numbers
-			if ((pszSearch[i] >= 0x30) && (pszSearch[i] <= 0x39)) {
-				pszUIN[j] = pszSearch[i];
-				j++;
-			}
-		}
-	}
-	else {
-		for (i = j = 0; (i < mir_wstrlen(pszSearch)) && (j < 255); i++) { // we remove spaces and slashes
-			if ((pszSearch[i] != 0x20) && (pszSearch[i] != '-')) {
-				if (pszSearch[i] >= 0x80) continue;
-				pszUIN[j] = pszSearch[i];
-				j++;
-			}
+	for (i = j = 0; (i < mir_wstrlen(pszSearch)) && (j < 255); i++) { // we remove spaces and slashes
+		if ((pszSearch[i] != 0x20) && (pszSearch[i] != '-')) {
+			if (pszSearch[i] >= 0x80) continue;
+			pszUIN[j] = pszSearch[i];
+			j++;
 		}
 	}
 	pszUIN[j] = 0;
@@ -799,7 +771,7 @@ HANDLE __cdecl CIcqProto::SearchByEmail(const wchar_t *email)
 
 		// Success
 		DWORD dwSearchId = SearchByMail(szEmail);
-		DWORD dwSecId = (dwSearchId == 0 && m_bAimEnabled) ? icq_searchAimByEmail(szEmail, dwSearchId) : 0;
+		DWORD dwSecId = (dwSearchId == 0) ? icq_searchAimByEmail(szEmail, dwSearchId) : 0;
 
 		SAFE_FREE(&szEmail);
 
@@ -1608,16 +1580,12 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 			}
 			SAFE_FREE(&szStatusNote);
 
-			if (m_bAimEnabled) {
-				mir_cslock l(m_modeMsgsMutex);
-
-				char ** pszStatusNote = MirandaStatusToAwayMsg(m_iStatus);
-
-				if (pszStatusNote)
-					icq_sendSetAimAwayMsgServ(*pszStatusNote);
-				else // clear the away message
-					icq_sendSetAimAwayMsgServ(NULL);
-			}
+			mir_cslock l(m_modeMsgsMutex);
+			char ** pszStatusNote = MirandaStatusToAwayMsg(m_iStatus);
+			if (pszStatusNote)
+				icq_sendSetAimAwayMsgServ(*pszStatusNote);
+			else // clear the away message
+				icq_sendSetAimAwayMsgServ(NULL);
 		}
 	}
 
@@ -1780,8 +1748,7 @@ int __cdecl CIcqProto::SetAwayMsg(int status, const wchar_t* msg)
 			if (!bXStatus)
 				SetStatusNote(szNote, 1000, FALSE);
 
-			if (m_bAimEnabled)
-				icq_sendSetAimAwayMsgServ(*ppszMsg);
+			icq_sendSetAimAwayMsgServ(*ppszMsg);
 		}
 	}
 	SAFE_FREE(&szNewUtf);

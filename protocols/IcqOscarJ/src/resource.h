@@ -67,7 +67,6 @@
 #define IDC_ICQNUM                      1022
 #define IDC_USEPOPUPCOLORS              1023
 #define IDC_USEDEFCOLORS                1024
-#define IDC_AIMENABLE                   1030
 #define IDC_CLIST                       1035
 #define IDC_XSTATUSENABLE               1040
 #define IDC_XSTATUSAUTO                 1041
