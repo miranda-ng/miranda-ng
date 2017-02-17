@@ -19,9 +19,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void CDiscordProto::SetAllContactStatuses(int status)
 {
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (!getByte(hContact, "ChatRoom"))
 			setWord(hContact, "Status", (WORD)status);
+		else if (status == ID_STATUS_OFFLINE)
+			Chat_Control(m_szModuleName, ptrW(getWStringA(hContact, "ChatRoomID")), SESSION_TERMINATE);
+	}
 }
 
 int StrToStatus(const CMStringW &str)
