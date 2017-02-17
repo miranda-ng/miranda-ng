@@ -29,10 +29,25 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\libs\libaxolotl\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">winmm.lib;Wtsapi32.lib;netapi32.lib;pdh.lib;shlwapi.lib;Strmiids.lib;gdiplus.lib;dbghelp.lib;Setupapi.lib;msimg32.lib;comctl32.lib;ws2_32.lib;UxTheme.lib;Iphlpapi.lib;libeay32.lib;ssleay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Link>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">winmm.lib;Wtsapi32.lib;netapi32.lib;pdh.lib;shlwapi.lib;Strmiids.lib;gdiplus.lib;dbghelp.lib;Setupapi.lib;msimg32.lib;comctl32.lib;ws2_32.lib;UxTheme.lib;Iphlpapi.lib;libeay32.lib;ssleay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Link>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">winmm.lib;Wtsapi32.lib;netapi32.lib;pdh.lib;shlwapi.lib;Strmiids.lib;gdiplus.lib;dbghelp.lib;Setupapi.lib;msimg32.lib;comctl32.lib;ws2_32.lib;UxTheme.lib;Iphlpapi.lib;libeay32.lib;ssleay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Link>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">winmm.lib;Wtsapi32.lib;netapi32.lib;pdh.lib;shlwapi.lib;Strmiids.lib;gdiplus.lib;dbghelp.lib;Setupapi.lib;msimg32.lib;comctl32.lib;ws2_32.lib;UxTheme.lib;Iphlpapi.lib;libeay32.lib;ssleay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs\libaxolotl\libaxolotl.vcxproj">
       <Project>{620e0be7-3763-4f35-9dbd-4770104e269c}</Project>
+    </ProjectReference>
+     <ProjectReference Include="..\..\plugins\OpenSSL\OpenSSL.vcxproj">
+      <Project>{6C0C35E7-6522-403C-BB60-9805CDB9E52F}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\libs\zlib\zlib.vcxproj">
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
