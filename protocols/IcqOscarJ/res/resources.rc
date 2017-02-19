@@ -115,7 +115,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,46,288,10
     CONTROL         "Update contacts' details on the server's list when I change them in mine",IDC_SAVETOSERVER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,59,290,10
-    GROUPBOX        "ICQ avatars",IDC_STATIC,4,98,302,70
+    GROUPBOX        "ICQ avatars",IDC_STATIC,4,98,302,56
     CONTROL         "Enable avatar support",IDC_ENABLEAVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,110,288,10
     CONTROL         "Check avatar validity before saving *",IDC_STRICTAVATARCHECK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,124,288,10
@@ -143,7 +143,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,72,288,10
     CONTROL         "Passive mode (i.e., do not initiate new connections)",IDC_DCPASSIVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,84,288,10
-    GROUPBOX        "Extra Features",IDC_STATIC,4,103,302,93
+    GROUPBOX        "Extra Features",IDC_STATIC,4,103,302,79
     CONTROL         "Enable Custom status support for xtraz",IDC_XSTATUSENABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,115,288,10
     CONTROL         "Enable Custom status support for moods",IDC_MOODSENABLE,
