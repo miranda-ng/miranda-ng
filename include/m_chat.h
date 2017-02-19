@@ -347,6 +347,10 @@ EXTERN_C MIR_APP_DLL(struct GCSessionInfoBase*) Chat_NewSession(
 // Error messages
 #define GC_EVENT_ERROR			2   // An internal error occurred.
 
+#define GC_EVENT_ALL (GC_EVENT_ACTION | GC_EVENT_MESSAGE | GC_EVENT_NICK | GC_EVENT_JOIN | \
+	GC_EVENT_PART | GC_EVENT_TOPIC | GC_EVENT_ADDSTATUS | GC_EVENT_INFORMATION | GC_EVENT_QUIT | \
+	GC_EVENT_KICK | GC_EVENT_NOTICE)
+
 // The GCDEST structure. It is passed to Chat inside GCEVENT.
 struct GCDEST
 {

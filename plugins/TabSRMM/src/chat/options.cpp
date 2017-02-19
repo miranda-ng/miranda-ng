@@ -932,10 +932,6 @@ static UINT _eventorder[] =
 	GC_EVENT_HIGHLIGHT
 };
 
-#define GC_EVENT_ALL (GC_EVENT_ACTION | GC_EVENT_MESSAGE | GC_EVENT_NICK | GC_EVENT_JOIN | \
-	GC_EVENT_PART | GC_EVENT_TOPIC | GC_EVENT_ADDSTATUS | GC_EVENT_INFORMATION | GC_EVENT_QUIT | \
-	GC_EVENT_KICK | GC_EVENT_NOTICE)
-
 // Dialog procedure for group chat options tab #3 (event filter configuration)
 INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lParam)
 {
