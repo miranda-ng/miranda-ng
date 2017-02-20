@@ -361,11 +361,11 @@ namespace omemo {
 	{
 		signal_mutex.unlock();
 	}
+	signal_context *global_context;
 
 	int init_omemo()
 	{
 		signal_mutex.unlock(); //fuck...
-		signal_context *global_context;
 		signal_context_create(&global_context, NULL);
 		signal_crypto_provider provider;
 		provider.random_func = &random_func;
@@ -380,10 +380,35 @@ namespace omemo {
 		provider.encrypt_func = &encrypt_func;
 		provider.decrypt_func = &decrypt_func;
 
-		signal_context_set_crypto_provider(global_context, &provider);
-		signal_context_set_locking_functions(global_context, &lock, &unlock);
+		if (signal_context_set_crypto_provider(global_context, &provider))
+		{
+			//TODO: handle error
+		}
+
+		if (signal_context_set_locking_functions(global_context, &lock, &unlock))
+		{
+			//TODO: handle error
+		}
 
 		return 0;
+	}
+
+	struct omemo_device
+	{
+		int id;
+		ec_key_pair *device_key;
+	};
+
+	omemo_device* init_device()
+	{
+		omemo_device *dev = (omemo_device*)mir_alloc(sizeof(omemo_device));
+		Utils_GetRandom((void*)dev->id, 4);
+		if (curve_generate_key_pair(global_context, &(dev->device_key)))
+		{
+			//TODO: handle error
+		}
+
+		return dev;
 	}
 
 };
