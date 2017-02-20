@@ -53,3 +53,4 @@ EXPORTS
    signal_protocol_identity_is_trusted_identity
    signal_protocol_sender_key_store_key
    signal_protocol_sender_key_load_key
+   curve_generate_key_pair
