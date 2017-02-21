@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_string.h>
 #include <m_chat.h>
+#include <m_gui.h>
 #include <m_utils.h>
 
 #define OPTIONS_FONTCOUNT 20
@@ -411,5 +412,19 @@ extern CHAT_MANAGER *pci;
 extern int hLangpack;
 
 EXTERN_C MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pData = NULL, int = hLangpack);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
+{
+protected:
+	CSrmmBaseDialog(HINSTANCE hInst, int idDialog);
+
+protected:
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+protected:
+	CCtrlEdit *m_pLog, *m_pEntry;
+};
 
 #endif // M_CHAT_INT_H__

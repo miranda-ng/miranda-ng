@@ -29,6 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __M_GUI_H
 #define __M_GUI_H
 
+#include <CommCtrl.h>
+
 #include <m_protoint.h>
 #include <m_clc.h>
 

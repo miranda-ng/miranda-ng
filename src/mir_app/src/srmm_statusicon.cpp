@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+HCURSOR g_hCurHyperlinkHand;
+
 void LoadSrmmToolbarModule();
 void UnloadSrmmToolbarModule();
 
@@ -205,6 +207,8 @@ void KillModuleSrmmIcons(int _hLang)
 
 int LoadSrmmModule()
 {
+	g_hCurHyperlinkHand = LoadCursor(NULL, IDC_HAND);
+
 	LoadSrmmToolbarModule();
 	
 	hHookIconsChanged = CreateHookableEvent(ME_MSG_ICONSCHANGED);
@@ -216,6 +220,8 @@ void UnloadSrmmModule()
 	arIcons.destroy();
 	NotifyEventHooks(hHookIconsChanged, NULL, NULL);
 	DestroyHookableEvent(hHookIconsChanged);
-	
+
+	DestroyCursor(g_hCurHyperlinkHand);
+
 	UnloadSrmmToolbarModule();
 }

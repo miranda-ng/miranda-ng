@@ -589,9 +589,8 @@
 #define IDM_COPYALL                     40011
 #define IDM_SELECTALL                   40012
 #define IDM_CLEAR                       40013
-#define IDM_OPENNEW                     40014
-#define IDM_OPENEXISTING                40015
-#define IDM_COPYLINK                    40016
+#define IDM_OPENLINK                    40014
+#define IDM_COPYLINK                    40015
 #define POPUP_HIDEMIRANDA               40017
 #define ID_CANCELCHANGE                 40018
 #define POPUP_GROUPSHOWOFFLINE          40019

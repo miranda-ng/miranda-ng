@@ -1278,8 +1278,7 @@ BEGIN
     END
     POPUP "LogLink"
     BEGIN
-        MENUITEM "Open in &new window",         IDM_OPENNEW
-        MENUITEM "&Open in existing window",    IDM_OPENEXISTING
+        MENUITEM "&Open link",                  IDM_OPENLINK
         MENUITEM "&Copy link",                  IDM_COPYLINK
     END
 END
