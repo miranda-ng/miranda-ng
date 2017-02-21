@@ -949,6 +949,16 @@ void CJabberProto::OnProcessPubsubEvent(HXML node)
 		return;
 
 	HXML itemsNode;
+	if (m_options.UseOMEMO)
+	{
+		itemsNode = XmlGetChildByTag(eventNode, "items", "node", JABBER_FEAT_OMEMO":devicelist");
+		if (itemsNode)
+		{
+			OmemoHandleDeviceList(itemsNode);
+			return;
+		}
+		//TODO:handle omemo device list
+	}
 	if (m_options.EnableUserTune && (itemsNode = XmlGetChildByTag(eventNode, "items", "node", JABBER_FEAT_USER_TUNE))) {
 		// node retract?
 		if (XmlGetChild(itemsNode, "retract")) {
@@ -1183,6 +1193,23 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 
 	// parsing extensions
 	for (int i = 0; (xNode = XmlGetChild(node, i)) != NULL; i++) {
+		if (m_options.UseOMEMO)
+		{
+			//TODO: handle incomming omemo message/key
+			if ((xNode = XmlGetNthChild(node, L"encrypted", i + 1)) == NULL)
+			{
+				const wchar_t *ptszXmlns = XmlGetAttrValue(xNode, L"xmlns");
+				if (ptszXmlns == NULL)
+					continue;
+
+				if (!mir_wstrcmp(ptszXmlns, JABBER_FEAT_OMEMO))
+				{
+					OmemoHandleMessage(xNode);
+					continue;
+				}
+			}
+
+		}
 		if ((xNode = XmlGetNthChild(node, L"x", i + 1)) == NULL)
 			continue;
 

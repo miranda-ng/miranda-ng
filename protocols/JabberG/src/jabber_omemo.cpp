@@ -412,3 +412,13 @@ namespace omemo {
 	}
 
 };
+
+void CJabberProto::OmemoHandleMessage(HXML /*node*/)
+{
+	//TODO: handle "encrypted" node here
+}
+
+void CJabberProto::OmemoHandleDeviceList(HXML /*node*/)
+{
+	//TODO: handle omemo device list event node here
+}

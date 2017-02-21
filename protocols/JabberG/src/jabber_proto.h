@@ -336,6 +336,10 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const wchar_t* str, const wchar_t* rsn);
 	void   DeleteMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const wchar_t* jid);
 
+	//---- jabber_omemo.cpp --------------------------------------------------------------
+	void OmemoHandleMessage(HXML node);
+	void OmemoHandleDeviceList(HXML node);
+
 	//---- jabber_console.cpp ------------------------------------------------------------
 
 	INT_PTR    __cdecl OnMenuHandleConsole(WPARAM wParam, LPARAM lParam);
