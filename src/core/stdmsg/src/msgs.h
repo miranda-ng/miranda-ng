@@ -48,8 +48,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EVENTTYPE_JABBER_CHATSTATES     2000
 #define EVENTTYPE_JABBER_PRESENCE       2001
 
-class CSrmmWindow : public CDlgBase, public MZeroedObject
+class CSrmmWindow : public CSrmmBaseDialog, public MZeroedObject
 {
+	CCtrlEdit m_log, m_message;
+
 	void NotifyTyping(int mode);
 	void ShowAvatar(void);
 	void ShowTime(void);

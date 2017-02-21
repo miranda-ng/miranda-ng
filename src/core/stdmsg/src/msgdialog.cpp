@@ -233,7 +233,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 			HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 
-			mwpd.hMenu = GetSubMenu(hMenu, 2);
+			mwpd.hMenu = GetSubMenu(hMenu, 1);
 			TranslateMenu(mwpd.hMenu);
 
 			CHARRANGE sel;
@@ -414,12 +414,17 @@ static int MessageDialogResize(HWND, LPARAM lParam, UTILRESIZECONTROL *urc)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool noActivate, const char *szInitialText, bool bIsUnicode)
-	: CDlgBase(g_hInst, IDD_MSG),
+CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool noActivate, const char *szInitialText, bool bIsUnicode) :
+	CSrmmBaseDialog(g_hInst, IDD_MSG),
+	m_log(this, IDC_LOG),
+	m_message(this, IDC_MESSAGE),
 	m_cmdList(20),
 	m_bNoActivate(noActivate),
 	m_hContact(hContact)
 {
+	m_pLog = &m_log;
+	m_pEntry = &m_message;
+
 	m_wszInitialText = (bIsUnicode) ? mir_wstrdup((wchar_t*)szInitialText) : mir_a2u(szInitialText);
 }
 
@@ -433,16 +438,16 @@ void CSrmmWindow::OnInitDialog()
 
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
 	if (m_wszInitialText) {
-		SetDlgItemText(m_hwnd, IDC_MESSAGE, m_wszInitialText);
+		m_message.SetText(m_wszInitialText);
 
-		int len = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_MESSAGE));
-		PostMessage(GetDlgItem(m_hwnd, IDC_MESSAGE), EM_SETSEL, len, len);
+		int len = GetWindowTextLength(m_message.GetHwnd());
+		PostMessage(m_message.GetHwnd(), EM_SETSEL, len, len);
 		mir_free(m_wszInitialText);
 	}
 
 	m_szProto = GetContactProto(m_hContact);
-	RichUtil_SubClass(GetDlgItem(m_hwnd, IDC_LOG));
-	RichUtil_SubClass(GetDlgItem(m_hwnd, IDC_MESSAGE));
+	RichUtil_SubClass(m_log.GetHwnd());
+	RichUtil_SubClass(m_message.GetHwnd());
 
 	// avatar stuff
 	m_limitAvatarH = db_get_b(NULL, SRMMMOD, SRMSGSET_LIMITAVHEIGHT, SRMSGDEFSET_LIMITAVHEIGHT) ? db_get_dw(NULL, SRMMMOD, SRMSGSET_AVHEIGHT, SRMSGDEFSET_AVHEIGHT) : 0;
@@ -468,27 +473,28 @@ void CSrmmWindow::OnInitDialog()
 	Srmm_CreateToolbarIcons(m_hwnd, BBBF_ISIMBUTTON);
 
 	WindowList_Add(pci->hWindowList, m_hwnd, m_hContact);
-	GetWindowRect(GetDlgItem(m_hwnd, IDC_MESSAGE), &m_minEditInit);
+	GetWindowRect(m_message.GetHwnd(), &m_minEditInit);
 	SendMessage(m_hwnd, DM_UPDATESIZEBAR, 0, 0);
 	m_hwndStatus = NULL;
 
 	EnableWindow(GetDlgItem(m_hwnd, IDC_AVATAR), FALSE);
 
-	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
-	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK | ENM_SCROLL);
-	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_AUTOURLDETECT, TRUE, 0);
+	m_log.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
+	m_log.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK | ENM_SCROLL);
+	m_log.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
 
 	if (m_hContact && m_szProto) {
 		int nMax = CallProtoService(m_szProto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, m_hContact);
 		if (nMax)
-			SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_LIMITTEXT, nMax, 0);
+			m_message.SendMsg(EM_LIMITTEXT, nMax, 0);
 
 		// get around a lame bug in the Windows template resource code where richedits are limited to 0x7FFF
-		SendDlgItemMessage(m_hwnd, IDC_LOG, EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
+		m_log.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
 	}
 
-	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_MESSAGE), MessageEditSubclassProc);
-	SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_SUBCLASSED, 0, 0);
+	mir_subclassWindow(m_message.GetHwnd(), MessageEditSubclassProc);
+	m_message.SendMsg(EM_SUBCLASSED, 0, 0);
+
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTERY), SplitterSubclassProc);
 
 	if (m_hContact) {
@@ -561,15 +567,15 @@ void CSrmmWindow::OnInitDialog()
 		DBVARIANT dbv;
 		if (!db_get_ws(m_hContact, SRMSGMOD, DBSAVEDMSG, &dbv)) {
 			if (dbv.ptszVal[0]) {
-				SetDlgItemText(m_hwnd, IDC_MESSAGE, dbv.ptszVal);
+				m_message.SetText(dbv.ptszVal);
 				EnableWindow(GetDlgItem(m_hwnd, IDOK), TRUE);
 				UpdateReadChars();
-				PostMessage(GetDlgItem(m_hwnd, IDC_MESSAGE), EM_SETSEL, -1, -1);
+				PostMessage(m_message.GetHwnd(), EM_SETSEL, -1, -1);
 			}
 			db_free(&dbv);
 		}
 	}
-	SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_SETEVENTMASK, 0, ENM_CHANGE);
+	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_CHANGE);
 
 	int flag = m_bNoActivate ? RWPF_HIDDEN : 0;
 	if (Utils_RestoreWindowPosition(m_hwnd, g_dat.bSavePerContact ? m_hContact : NULL, SRMMMOD, "", flag)) {
@@ -590,7 +596,7 @@ void CSrmmWindow::OnInitDialog()
 	else {
 		SetWindowPos(m_hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 		SetForegroundWindow(m_hwnd);
-		SetFocus(GetDlgItem(m_hwnd, IDC_MESSAGE));
+		SetFocus(m_message.GetHwnd());
 	}
 
 	SendMessage(m_hwnd, DM_GETAVATAR, 0, 0);
@@ -604,9 +610,7 @@ void CSrmmWindow::OnDestroy()
 
 	// save string from the editor
 	if (m_hContact) {
-		int len = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_MESSAGE)) + 1;
-		wchar_t *msg = (wchar_t*)alloca(sizeof(wchar_t)*len);
-		GetDlgItemText(m_hwnd, IDC_MESSAGE, msg, len);
+		ptrW msg(m_message.GetText());
 		if (msg[0])
 			db_set_ws(m_hContact, SRMSGMOD, DBSAVEDMSG, msg);
 		else
@@ -680,7 +684,7 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 	ShowWindow(GetDlgItem(m_hwnd, IDCANCEL), SW_HIDE);
 	ShowWindow(GetDlgItem(m_hwnd, IDC_SPLITTERY), SW_SHOW);
 	ShowWindow(GetDlgItem(m_hwnd, IDOK), g_dat.bSendButton ? SW_SHOW : SW_HIDE);
-	EnableWindow(GetDlgItem(m_hwnd, IDOK), GetWindowTextLength(GetDlgItem(m_hwnd, IDC_MESSAGE)) != 0);
+	EnableWindow(GetDlgItem(m_hwnd, IDOK), GetWindowTextLength(m_message.GetHwnd()) != 0);
 	if (m_avatarPic == NULL || !g_dat.bShowAvatar)
 		ShowWindow(GetDlgItem(m_hwnd, IDC_AVATAR), SW_HIDE);
 	SendMessage(m_hwnd, DM_UPDATETITLE, 0, 0);
@@ -691,8 +695,8 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 
 	COLORREF colour = db_get_dw(NULL, SRMMMOD, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
 	m_hBkgBrush = CreateSolidBrush(colour);
-	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_SETBKGNDCOLOR, 0, colour);
-	SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_SETBKGNDCOLOR, 0, colour);
+	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
+	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
 
 	// avatar stuff
 	m_avatarPic = NULL;
@@ -704,7 +708,7 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 	if (bUpdateAvatar)
 		SendMessage(m_hwnd, DM_GETAVATAR, 0, 0);
 
-	InvalidateRect(GetDlgItem(m_hwnd, IDC_MESSAGE), NULL, FALSE);
+	InvalidateRect(m_message.GetHwnd(), NULL, FALSE);
 
 	LOGFONT lf;
 	CHARFORMAT cf = {};
@@ -712,11 +716,11 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 		DeleteObject(m_hFont);
 	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &cf.crTextColor);
 	m_hFont = CreateFontIndirect(&lf);
-	SendDlgItemMessage(m_hwnd, IDC_MESSAGE, WM_SETFONT, (WPARAM)m_hFont, MAKELPARAM(TRUE, 0));
+	m_message.SendMsg(WM_SETFONT, (WPARAM)m_hFont, MAKELPARAM(TRUE, 0));
 
 	cf.cbSize = sizeof(CHARFORMAT);
 	cf.dwMask = CFM_COLOR;
-	SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (WPARAM)&cf);
+	m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (WPARAM)&cf);
 
 	// configure message history for proper RTL formatting
 	PARAFORMAT2 pf2;
@@ -725,11 +729,11 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 
 	pf2.wEffects = PFE_RTLPARA;
 	pf2.dwMask = PFM_RTLPARA;
-	SetDlgItemText(m_hwnd, IDC_LOG, L"");
-	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+	m_log.SetText(L"");
+	m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 	pf2.wEffects = 0;
-	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_SETLANGOPTIONS, 0, SendDlgItemMessage(m_hwnd, IDC_LOG, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
+	m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+	m_log.SendMsg(EM_SETLANGOPTIONS, 0, SendDlgItemMessage(m_hwnd, IDC_LOG, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 
 	SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 	SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
@@ -842,7 +846,7 @@ void CSrmmWindow::UpdateReadChars()
 {
 	if (m_hwndStatus && g_dat.bShowReadChar) {
 		wchar_t buf[32];
-		int len = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_MESSAGE));
+		int len = GetWindowTextLength(m_message.GetHwnd());
 
 		mir_snwprintf(buf, L"%d", len);
 		SendMessage(m_hwndStatus, SB_SETTEXT, 1, (LPARAM)buf);
@@ -931,7 +935,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case DM_AVATARSIZECHANGE:
 		{
 			RECT rc;
-			GetWindowRect(GetDlgItem(m_hwnd, IDC_MESSAGE), &rc);
+			GetWindowRect(m_message.GetHwnd(), &rc);
 			if (rc.bottom - rc.top < m_minEditBoxSize.cy)
 				SendMessage(m_hwnd, DM_SPLITTERMOVED, rc.top - (rc.bottom - rc.top - m_minEditBoxSize.cy - 4), (LPARAM)GetDlgItem(m_hwnd, IDC_SPLITTERY));
 
@@ -1062,7 +1066,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (LOWORD(wParam) != WA_ACTIVE)
 			break;
 
-		SetFocus(GetDlgItem(m_hwnd, IDC_MESSAGE));
+		SetFocus(m_message.GetHwnd());
 		// fall through
 	case WM_MOUSEACTIVATE:
 		if (KillTimer(m_hwnd, TIMERID_FLASHWND))
@@ -1074,7 +1078,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			MINMAXINFO *mmi = (MINMAXINFO *)lParam;
 			RECT rcWindow, rcLog;
 			GetWindowRect(m_hwnd, &rcWindow);
-			GetWindowRect(GetDlgItem(m_hwnd, IDC_LOG), &rcLog);
+			GetWindowRect(m_log.GetHwnd(), &rcLog);
 			mmi->ptMinTrackSize.x = rcWindow.right - rcWindow.left - ((rcLog.right - rcLog.left) - m_minEditBoxSize.cx);
 			mmi->ptMinTrackSize.y = rcWindow.bottom - rcWindow.top - ((rcLog.bottom - rcLog.top) - m_minEditBoxSize.cy);
 		}
@@ -1097,11 +1101,11 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				SetupStatusBar();
 			}
 
-			if (GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_STYLE) & WS_VSCROLL) {
+			if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
 				SCROLLINFO si = {};
 				si.cbSize = sizeof(si);
 				si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
-				GetScrollInfo(GetDlgItem(m_hwnd, IDC_LOG), SB_VERT, &si);
+				GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si);
 				bottomScroll = (si.nPos + (int)si.nPage + 5) >= si.nMax;
 			}
 
@@ -1112,7 +1116,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			// redraw them
 			if (m_hwndStatus) {
 				RedrawWindow(GetDlgItem(m_hwnd, IDOK), NULL, NULL, RDW_INVALIDATE);
-				RedrawWindow(GetDlgItem(m_hwnd, IDC_MESSAGE), NULL, NULL, RDW_INVALIDATE);
+				RedrawWindow(m_message.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
 			}
 			
 			if (g_dat.bShowAvatar && m_avatarPic)
@@ -1125,11 +1129,9 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case DM_SPLITTERMOVED:
 		if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERY)) {
-			HWND hwndLog = GetDlgItem(m_hwnd, IDC_LOG);
-
 			RECT rc, rcLog;
 			GetClientRect(m_hwnd, &rc);
-			GetWindowRect(hwndLog, &rcLog);
+			GetWindowRect(m_log.GetHwnd(), &rcLog);
 
 			POINT pt;
 			pt.x = 0;
@@ -1138,7 +1140,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			int oldSplitterY = m_splitterPos;
 			m_splitterPos = rc.bottom - pt.y + 23;
-			GetWindowRect(GetDlgItem(m_hwnd, IDC_MESSAGE), &rc);
+			GetWindowRect(m_message.GetHwnd(), &rc);
 			if (rc.bottom - rc.top + (m_splitterPos - oldSplitterY) < m_minEditBoxSize.cy)
 				m_splitterPos = oldSplitterY + m_minEditBoxSize.cy - (rc.bottom - rc.top);
 			if (rcLog.bottom - rcLog.top - (m_splitterPos - oldSplitterY) < m_minEditBoxSize.cy)
@@ -1157,18 +1159,15 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_SCROLLLOGTOBOTTOM:
-		{
-			HWND hwndLog = GetDlgItem(m_hwnd, IDC_LOG);
-			if (GetWindowLongPtr(hwndLog, GWL_STYLE) & WS_VSCROLL) {
-				SCROLLINFO si = {};
-				si.cbSize = sizeof(si);
-				si.fMask = SIF_PAGE | SIF_RANGE;
-				GetScrollInfo(hwndLog, SB_VERT, &si);
-				si.fMask = SIF_POS;
-				si.nPos = si.nMax - si.nPage;
-				SetScrollInfo(hwndLog, SB_VERT, &si, TRUE);
-				SendMessage(hwndLog, WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
-			}
+		if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
+			SCROLLINFO si = {};
+			si.cbSize = sizeof(si);
+			si.fMask = SIF_PAGE | SIF_RANGE;
+			GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si);
+			si.fMask = SIF_POS;
+			si.nPos = si.nMax - si.nPage;
+			SetScrollInfo(m_log.GetHwnd(), SB_VERT, &si, TRUE);
+			m_log.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
 		}
 		break;
 
@@ -1201,12 +1200,11 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				// Flash window *only* for messages, not for custom events
 				if (isMessage && !isSent) {
 					if (GetActiveWindow() == m_hwnd && GetForegroundWindow() == m_hwnd) {
-						HWND hwndLog = GetDlgItem(m_hwnd, IDC_LOG);
-						if (GetWindowLongPtr(hwndLog, GWL_STYLE) & WS_VSCROLL) {
+						if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
 							SCROLLINFO si = {};
 							si.cbSize = sizeof(si);
 							si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
-							GetScrollInfo(hwndLog, SB_VERT, &si);
+							GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si);
 							if ((si.nPos + (int)si.nPage + 5) < si.nMax)
 								SetTimer(m_hwnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, NULL);
 						}
@@ -1329,24 +1327,22 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			if (IsWindowEnabled(GetDlgItem(m_hwnd, IDOK))) {
-				int bufSize = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_MESSAGE)) + 1;
-				wchar_t *temp = (wchar_t*)alloca(bufSize * sizeof(wchar_t));
-				GetDlgItemText(m_hwnd, IDC_MESSAGE, temp, bufSize);
+				ptrW temp(m_message.GetText());
 				if (!temp[0])
 					break;
 
 				int sendId = SendMessageDirect(rtrimw(temp), m_hContact);
 				if (sendId) {
-					m_cmdList.insert(mir_wstrdup(temp));
+					m_cmdList.insert(temp.detach());
 
 					m_cmdListInd = -1;
 					if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 						NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
 					EnableWindow(GetDlgItem(m_hwnd, IDOK), FALSE);
-					SetFocus(GetDlgItem(m_hwnd, IDC_MESSAGE));
+					SetFocus(m_message.GetHwnd());
 
-					SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
+					m_message.SetText(L"");
 
 					if (g_dat.bAutoClose)
 						DestroyWindow(m_hwnd);
@@ -1395,7 +1391,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_MESSAGE:
 			if (HIWORD(wParam) == EN_CHANGE) {
-				int len = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_MESSAGE));
+				int len = GetWindowTextLength(m_message.GetHwnd());
 				UpdateReadChars();
 				EnableWindow(GetDlgItem(m_hwnd, IDOK), len != 0);
 				if (!(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000)) {
@@ -1471,7 +1467,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						SendMessage(pLink->nmhdr.hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
 						break;
 					case IDM_CLEAR:
-						SetDlgItemText(m_hwnd, IDC_LOG, L"");
+						m_log.SetText(L"");
 						m_hDbEventFirst = NULL;
 						break;
 					}
@@ -1493,64 +1489,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							FlashWindow(m_hwnd, FALSE);
 				}
 				break;
-
-			case EN_LINK:
-				pLink = (ENLINK*)lParam;
-				switch (pLink->msg) {
-				case WM_SETCURSOR:
-					SetCursor(hCurHyperlinkHand);
-					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
-					return TRUE;
-
-				case WM_RBUTTONDOWN:
-				case WM_LBUTTONUP:
-					SendDlgItemMessage(m_hwnd, IDC_LOG, EM_EXGETSEL, 0, (LPARAM)&sel);
-					if (sel.cpMin != sel.cpMax)
-						break;
-
-					TEXTRANGE tr;
-					tr.chrg = pLink->chrg;
-					tr.lpstrText = (wchar_t*)_alloca((tr.chrg.cpMax - tr.chrg.cpMin + 8) * sizeof(wchar_t));
-					SendDlgItemMessage(m_hwnd, IDC_LOG, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-					if (wcschr(tr.lpstrText, '@') != NULL && wcschr(tr.lpstrText, ':') == NULL && wcschr(tr.lpstrText, '/') == NULL) {
-						memmove(tr.lpstrText + 7, tr.lpstrText, (tr.chrg.cpMax - tr.chrg.cpMin + 1) * sizeof(wchar_t));
-						memcpy(tr.lpstrText, L"mailto:", 7 * sizeof(wchar_t));
-					}
-
-					if (pLink->msg == WM_RBUTTONDOWN) {
-						HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
-						HMENU hSubMenu = GetSubMenu(hMenu, 1);
-						TranslateMenu(hSubMenu);
-
-						POINT pt = { GET_X_LPARAM(pLink->lParam), GET_Y_LPARAM(pLink->lParam) };
-						ClientToScreen(((NMHDR *)lParam)->hwndFrom, &pt);
-
-						switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, NULL)) {
-						case IDM_OPENLINK:
-							ShellExecute(NULL, L"open", tr.lpstrText, NULL, NULL, SW_SHOW);
-							break;
-
-						case IDM_COPYLINK:
-							if (OpenClipboard(m_hwnd)) {
-								EmptyClipboard();
-								HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (mir_wstrlen(tr.lpstrText) + 1) * sizeof(wchar_t));
-								mir_wstrcpy((wchar_t*)GlobalLock(hData), tr.lpstrText);
-								GlobalUnlock(hData);
-								SetClipboardData(CF_UNICODETEXT, hData);
-								CloseClipboard();
-							}
-							break;
-						}
-
-						DestroyMenu(hMenu);
-						SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
-						return TRUE;
-					}
-
-					ShellExecute(NULL, L"open", tr.lpstrText, NULL, NULL, SW_SHOW);
-					SetFocus(GetDlgItem(m_hwnd, IDC_MESSAGE));
-					break;
-				}
 			}
 		}
 		break;
@@ -1559,5 +1497,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SendMessage(m_hwndStatus, SB_SETTEXT, (SBT_OWNERDRAW | (SendMessage(m_hwndStatus, SB_GETPARTS, 0, 0) - 1)), 0);
 		break;
 	}
-	return CDlgBase::DlgProc(uMsg, wParam, lParam);
+	
+	return CSrmmBaseDialog::DlgProc(uMsg, wParam, lParam);
 }

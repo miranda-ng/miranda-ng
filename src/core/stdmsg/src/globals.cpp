@@ -89,7 +89,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-int AvatarChanged(WPARAM hContact, LPARAM lParam)
+static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 {
 	HWND h = WindowList_Find(pci->hWindowList, hContact);
 	if (h)

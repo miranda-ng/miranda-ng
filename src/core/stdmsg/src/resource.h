@@ -182,13 +182,8 @@
 #define IDM_COPYALL                     40011
 #define IDM_SELECTALL                   40012
 #define IDM_CLEAR                       40013
-#define IDM_OPENLINK                    40014
-#define IDM_COPYLINK                    40016
 
 #define ID_MESS                         40021
-#define ID_NEW                          40022
-#define ID_CURR                         40023
-#define ID_COPY                         40024
 #define ID_COPYALL                      40026
 #define ID_CLEARLOG                     40029
 #define ID_MESSAGE_UNDO                 40033

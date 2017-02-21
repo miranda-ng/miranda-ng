@@ -542,13 +542,6 @@ BEGIN
             MENUITEM "Wikipedia",                   ID_SEARCH_WIKIPEDIA
         END
     END
-    POPUP "Link"
-    BEGIN
-        MENUITEM "Open a &new browser window",  ID_NEW
-        MENUITEM "&Open in current browser window", ID_CURR
-        MENUITEM "&Copy link",                  ID_COPY
-    END
-    MENUITEM "",                            65535
     POPUP "Message"
     BEGIN
         MENUITEM "Undo",                        ID_MESSAGE_UNDO, GRAYED
@@ -580,11 +573,6 @@ BEGIN
         MENUITEM "Co&py all",                   IDM_COPYALL
         MENUITEM SEPARATOR
         MENUITEM "Select &all",                 IDM_SELECTALL
-    END
-    POPUP "LogLink"
-    BEGIN
-        MENUITEM "&Open link",                  IDM_OPENLINK
-        MENUITEM "&Copy link",                  IDM_COPYLINK
     END
     POPUP "Message"
     BEGIN

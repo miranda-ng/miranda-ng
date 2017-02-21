@@ -171,7 +171,7 @@ void TB_SaveSession(SESSION_INFO *si);
 #define GC_DROPPEDTAB  (WM_USER+202)
 #define GC_RENAMETAB   (WM_USER+203)
 
-class CChatRoomDlg : public CDlgBase
+class CChatRoomDlg : public CSrmmBaseDialog
 {
 	friend struct CTabbedWindow;
 

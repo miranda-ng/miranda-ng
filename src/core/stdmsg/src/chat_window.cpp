@@ -448,7 +448,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 	case WM_RBUTTONDOWN:
 		{
-			HMENU hSubMenu = GetSubMenu(g_hMenu, 4);
+			HMENU hSubMenu = GetSubMenu(g_hMenu, 2);
 			TranslateMenu(hSubMenu);
 			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 
@@ -853,7 +853,7 @@ static void __cdecl phase2(void * lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
-	CDlgBase(g_hInst, g_Settings.bTabsEnable ? IDD_CHANNEL_TAB : IDD_CHANNEL),
+	CSrmmBaseDialog(g_hInst, g_Settings.bTabsEnable ? IDD_CHANNEL_TAB : IDD_CHANNEL),
 	m_si(si),
 	m_nickList(this, IDC_LIST),
 	m_message(this, IDC_MESSAGE),
@@ -873,6 +873,9 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	m_btnNickList(this, IDC_SHOWNICKLIST),
 	m_btnChannelMgr(this, IDC_CHANMGR)
 {
+	m_pLog = &m_log;
+	m_pEntry = &m_message;
+
 	m_autoClose = 0;
 
 	m_btnBold.OnClick = Callback(this, &CChatRoomDlg::OnClick_Bold);
@@ -1681,7 +1684,8 @@ LABEL_SHOWWINDOW:
 		switch (((LPNMHDR)lParam)->code) {
 		case EN_MSGFILTER:
 			if (((LPNMHDR)lParam)->idFrom == IDC_LOG && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
-				POINT pt = { GET_X_LPARAM(((ENLINK *)lParam)->lParam), GET_Y_LPARAM(((ENLINK *)lParam)->lParam) };
+				ENLINK *pLink = (ENLINK*)lParam;
+				POINT pt = { GET_X_LPARAM(pLink->lParam), GET_Y_LPARAM(pLink->lParam) };
 				ClientToScreen(((LPNMHDR)lParam)->hwndFrom, &pt);
 
 				// fixing stuff for searches
@@ -1760,68 +1764,6 @@ LABEL_SHOWWINDOW:
 			}
 			break;
 
-		case EN_LINK:
-			if (((LPNMHDR)lParam)->idFrom == IDC_LOG) {
-				switch (((ENLINK*)lParam)->msg) {
-				case WM_RBUTTONDOWN:
-				case WM_LBUTTONUP:
-				case WM_LBUTTONDBLCLK:
-					{
-						SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXGETSEL, 0, (LPARAM)&sel);
-						if (sel.cpMin != sel.cpMax)
-							break;
-
-						TEXTRANGE tr;
-						tr.chrg = ((ENLINK *)lParam)->chrg;
-						tr.lpstrText = (LPTSTR)mir_alloc(sizeof(wchar_t)*(tr.chrg.cpMax - tr.chrg.cpMin + 1));
-						SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-
-						if (((ENLINK *)lParam)->msg == WM_RBUTTONDOWN) {
-							HMENU hSubMenu;
-							POINT pt;
-
-							hSubMenu = GetSubMenu(g_hMenu, 2);
-							TranslateMenu(hSubMenu);
-							pt.x = (short)LOWORD(((ENLINK *)lParam)->lParam);
-							pt.y = (short)HIWORD(((ENLINK *)lParam)->lParam);
-							ClientToScreen(((NMHDR *)lParam)->hwndFrom, &pt);
-							switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, NULL)) {
-							case ID_NEW:
-								Utils_OpenUrlW(tr.lpstrText);
-								break;
-
-							case ID_CURR:
-								Utils_OpenUrlW(tr.lpstrText, false);
-								break;
-
-							case ID_COPY:
-								{
-									HGLOBAL hData;
-									if (!OpenClipboard(m_hwnd))
-										break;
-									EmptyClipboard();
-									hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t)*(mir_wstrlen(tr.lpstrText) + 1));
-									mir_wstrcpy((wchar_t*)GlobalLock(hData), tr.lpstrText);
-									GlobalUnlock(hData);
-									SetClipboardData(CF_UNICODETEXT, hData);
-									CloseClipboard();
-									SetFocus(m_message.GetHwnd());
-									break;
-								}
-							}
-							mir_free(tr.lpstrText);
-							return TRUE;
-						}
-
-						Utils_OpenUrlW(tr.lpstrText);
-						SetFocus(m_message.GetHwnd());
-						mir_free(tr.lpstrText);
-						break;
-					}
-				}
-			}
-			break;
-
 		case TTN_NEEDTEXT:
 			if (((LPNMHDR)lParam)->idFrom == (UINT_PTR)m_nickList.GetHwnd()) {
 				LPNMTTDISPINFO lpttd = (LPNMTTDISPINFO)lParam;
@@ -1882,5 +1824,5 @@ LABEL_SHOWWINDOW:
 		break;
 	}
 	
-	return CDlgBase::DlgProc(uMsg, wParam, lParam);
+	return CSrmmBaseDialog::DlgProc(uMsg, wParam, lParam);
 }
