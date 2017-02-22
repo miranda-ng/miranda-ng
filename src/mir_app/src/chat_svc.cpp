@@ -469,13 +469,24 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 
 	case GC_EVENT_TOPIC:
 		if (SESSION_INFO *si = chatApi.SM_FindSession(gcd->ptszID, gcd->pszModule)) {
-			if (gce->ptszText) {
-				replaceStrW(si->ptszTopic, RemoveFormatting(gce->ptszText));
+			wchar_t *pwszNew = RemoveFormatting(gce->ptszText);
+			if (!mir_wstrcmp(si->ptszTopic, pwszNew)) // nothing changed? exiting
+				return 0;
+
+			replaceStrW(si->ptszTopic, pwszNew);
+			if (pwszNew != NULL)
 				db_set_ws(si->hContact, si->pszModule, "Topic", si->ptszTopic);
-				if (chatApi.OnSetTopic)
-					chatApi.OnSetTopic(si);
-				if (db_get_b(NULL, CHAT_MODULE, "TopicOnClist", 0))
+			else
+				db_unset(si->hContact, si->pszModule, "Topic");
+
+			if (chatApi.OnSetTopic)
+				chatApi.OnSetTopic(si);
+
+			if (db_get_b(NULL, CHAT_MODULE, "TopicOnClist", 0)) {
+				if (pwszNew != NULL)
 					db_set_ws(si->hContact, "CList", "StatusMsg", si->ptszTopic);
+				else
+					db_unset(si->hContact, "CList", "StatusMsg");
 			}
 		}
 		break;
@@ -616,9 +627,18 @@ MIR_APP_DLL(int) Chat_ChangeSessionName(const char *szModule, const wchar_t *wsz
 	if (wszNewName == NULL)
 		return GC_EVENT_ERROR;
 
-	mir_cslock lck(csChat);
-	if (SESSION_INFO *si = chatApi.SM_FindSession(wszId, szModule)) {
+	SESSION_INFO *si;
+	{
+		mir_cslock lck(csChat);
+		si = chatApi.SM_FindSession(wszId, szModule);
+	}
+	if (si != nullptr) {
+		// nothing really changed? exiting
+		if (!mir_wstrcmp(si->ptszName, wszNewName))
+			return 0;
+
 		replaceStrW(si->ptszName, wszNewName);
+		db_set_ws(si->hContact, szModule, "Nick", wszNewName);
 		if (si->hWnd)
 			SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
 	}
