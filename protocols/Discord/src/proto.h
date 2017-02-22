@@ -83,7 +83,7 @@ JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param);
 
 struct CDiscordRole : public MZeroedObject
 {
-	SnowFlake id, guildId;
+	SnowFlake id;
 	COLORREF color;
 	DWORD permissions;
 	int position;
@@ -128,6 +128,41 @@ struct CDiscordUser : public MZeroedObject
 	CMStringW wszUsername;
 	int       iDiscriminator;
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CDiscordGuildMember : public MZeroedObject
+{
+	CDiscordGuildMember(SnowFlake id) :
+		userId(id)
+	{}
+
+	~CDiscordGuildMember()
+	{}
+
+	SnowFlake userId;
+	CMStringW wszNick, wszRole;
+	int iStatus;
+};
+
+struct CDiscordGuild : public MZeroedObject
+{
+	CDiscordGuild(SnowFlake _id);
+	~CDiscordGuild();
+
+	__forceinline CDiscordGuildMember* FindUser(SnowFlake userId)
+	{	return arChatUsers.find((CDiscordGuildMember*)&userId);
+	}
+
+	SnowFlake id, ownerId;
+	CMStringW wszName;
+	MCONTACT hContact;
+
+	OBJLIST<CDiscordGuildMember> arChatUsers;
+	OBJLIST<CDiscordRole> arRoles; // guild roles
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 class CDiscordProto : public PROTO<CDiscordProto>
 {
@@ -204,7 +239,6 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	mir_cs csMarkReadQueue;
 	LIST<CDiscordUser> arMarkReadQueue;
 
-	OBJLIST<CDiscordRole> arRoles;
 	OBJLIST<CDiscordUser> arUsers;
 	OBJLIST<SnowFlake> arOwnMessages;
 	CDiscordUser* FindUser(SnowFlake id);
@@ -219,10 +253,26 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	int __cdecl OnMenuPrebuild(WPARAM, LPARAM);
 
+	INT_PTR __cdecl OnMenuCreateChannel(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuJoinGuild(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuLeaveGuild(WPARAM, LPARAM);
 
-	HGENMENU m_hMenuLeaveGuild;
+	HGENMENU m_hMenuLeaveGuild, m_hMenuCreateChannel;
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// guilds
+
+	OBJLIST<CDiscordGuild> arGuilds;
+
+	__forceinline CDiscordGuild* FindGuild(SnowFlake id) const
+	{	return arGuilds.find((CDiscordGuild*)&id);
+	}
+
+	void ProcessGuild(const JSONNode&);
+	void ApplyUsersToChannel(CDiscordGuild *guild, const CDiscordUser&);
+	CDiscordUser* ProcessGuildChannel(CDiscordGuild *guild, const JSONNode&);
+	void ProcessRole(CDiscordGuild *guild, const JSONNode&);
+	void ProcessType(CDiscordUser *pUser, const JSONNode&);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// group chats
@@ -233,7 +283,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void Chat_SendPrivateMessage(GCHOOK *gch);
 	void Chat_ProcessLogMenu(GCHOOK *gch);
 
-	void BuildStatusList(SnowFlake guildId, const CMStringW &wszChannelId);
+	void BuildStatusList(const CDiscordGuild *pGuild, const CMStringW &wszChannelId);
 	void ParseSpecialChars(SESSION_INFO *si, CMStringW &str);
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -333,9 +383,6 @@ public:
 	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	// Misc
-	void ProcessGuild(const JSONNode &pStatuses, const JSONNode &pRoot);
-	void ProcessRole(SnowFlake guildId, const JSONNode&);
-	void ProcessType(CDiscordUser *pUser, const JSONNode&);
 	void SetServerStatus(int iStatus);
 	void RemoveFriend(SnowFlake id);
 

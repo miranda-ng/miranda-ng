@@ -25,15 +25,12 @@ enum {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::BuildStatusList(SnowFlake guildId, const CMStringW &wszChannelId)
+void CDiscordProto::BuildStatusList(const CDiscordGuild *pGuild, const CMStringW &wszChannelId)
 {
 	Chat_AddGroup(m_szModuleName, wszChannelId, L"@owner");
 
-	for (int i = 0; i < arRoles.getCount(); i++) {
-		CDiscordRole &r = arRoles[i];
-		if (r.guildId == guildId)
-			Chat_AddGroup(m_szModuleName, wszChannelId, r.wszName);
-	}
+	for (int i = 0; i < pGuild->arRoles.getCount(); i++)
+		Chat_AddGroup(m_szModuleName, wszChannelId, pGuild->arRoles[i].wszName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

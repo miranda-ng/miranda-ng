@@ -27,12 +27,12 @@ static int compareRequests(const AsyncHttpRequest *p1, const AsyncHttpRequest *p
 	return p1->m_iReqNum - p2->m_iReqNum;
 }
 
-static int compareRoles(const CDiscordRole *p1, const CDiscordRole *p2)
+int compareUsers(const CDiscordUser *p1, const CDiscordUser *p2)
 {
 	return p1->id - p2->id;
 }
 
-static int compareUsers(const CDiscordUser *p1, const CDiscordUser *p2)
+static int compareGuilds(const CDiscordGuild *p1, const CDiscordGuild *p2)
 {
 	return p1->id - p2->id;
 }
@@ -43,10 +43,10 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	m_evRequestsQueue(CreateEvent(NULL, FALSE, FALSE, NULL)),
 	m_wszDefaultGroup(this, DB_KEY_GROUP, DB_KEYVAL_GROUP),
 	m_wszEmail(this, DB_KEY_EMAIL, L""),
+	arGuilds(1, compareGuilds),
 	arMarkReadQueue(1, compareUsers),
 	arOwnMessages(1, compareMessages),
-	arRoles(10, compareRoles),
-	arUsers(50, compareUsers)
+	arUsers(10, compareUsers)
 {
 	// Services
 	CreateProtoService(PS_GETSTATUS, &CDiscordProto::GetStatus);

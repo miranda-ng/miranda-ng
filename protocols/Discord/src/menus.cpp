@@ -17,13 +17,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+INT_PTR CDiscordProto::OnMenuCreateChannel(WPARAM hContact, LPARAM)
+{
+	ENTER_STRING es = { sizeof(es), ESF_RICHEDIT, m_szModuleName, "Discord", TranslateT("Enter channel name") };
+	if (EnterString(&es)) {
+		JSONNode roles(JSON_ARRAY); roles.set_name("permission_overwrites");
+		JSONNode root; root << INT_PARAM("type", 0) << WCHAR_PARAM("name", es.ptszResult) << roles;
+		CMStringA szUrl(FORMAT, "/guilds/%lld/channels", getId(hContact, DB_KEY_CHANNELID));
+		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, NULL, &root));
+		mir_free(es.ptszResult);
+	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR CDiscordProto::OnMenuJoinGuild(WPARAM, LPARAM)
 {
-	ENTER_STRING es = { sizeof(es) };
-	es.szModuleName = m_szModuleName;
-	es.szDataPrefix = "Discord";
-	es.type = ESF_MULTILINE;
-	es.caption = TranslateT("Enter invitation code you received");
+	ENTER_STRING es = { sizeof(es), ESF_RICHEDIT, m_szModuleName, "Discord", TranslateT("Enter invitation code you received") };
 	if (EnterString(&es)) {
 		CMStringA szUrl(FORMAT, "/invite/%S", es.ptszResult);
 		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, NULL));
@@ -48,7 +59,9 @@ INT_PTR CDiscordProto::OnMenuLeaveGuild(WPARAM hContact, LPARAM)
 int CDiscordProto::OnMenuPrebuild(WPARAM hContact, LPARAM)
 {
 	// "Leave guild" menu item should be visible only for the guild contacts
-	Menu_ShowItem(m_hMenuLeaveGuild, getByte(hContact, "ChatRoom") == 2);
+	bool bIsGuild = getByte(hContact, "ChatRoom") == 2;
+	Menu_ShowItem(m_hMenuLeaveGuild, bIsGuild);
+	Menu_ShowItem(m_hMenuCreateChannel, bIsGuild);
 	return 0;
 }
 
@@ -68,6 +81,7 @@ void CDiscordProto::InitMenus()
 	mi.hIcolibItem = g_iconList[1].hIcolib;
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
+	// Contact menu items
 	CMenuItem mi2;
 	mi2.pszService = "/LeaveGuild";
 	CreateProtoService(mi2.pszService, &CDiscordProto::OnMenuLeaveGuild);
@@ -76,6 +90,14 @@ void CDiscordProto::InitMenus()
 	mi2.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_LEAVE);
 	SET_UID(mi2, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8C);
 	m_hMenuLeaveGuild = Menu_AddContactMenuItem(&mi2, m_szModuleName);
+
+	mi2.pszService = "/CreateChannel";
+	CreateProtoService(mi2.pszService, &CDiscordProto::OnMenuCreateChannel);
+	mi2.name.a = LPGEN("Create new channel");
+	mi2.position = -200001001;
+	mi2.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
+	SET_UID(mi2, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8D);
+	m_hMenuCreateChannel = Menu_AddContactMenuItem(&mi2, m_szModuleName);
 
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CDiscordProto::OnMenuPrebuild);
 }

@@ -57,7 +57,6 @@ extern HWND g_hwndHeartbeat;
 #define DB_KEY_NICK      "Nick"
 #define DB_KEY_AVHASH    "AvatarHash"
 #define DB_KEY_CHANNELID "ChannelID"
-#define DB_KEY_OWNERID   "OwnerID"
 #define DB_KEY_LASTMSGID "LastMessageID"
 #define DB_KEY_REQAUTH   "ReqAuth"
 
