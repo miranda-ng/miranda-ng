@@ -355,6 +355,8 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 	SnowFlake guildId = ::getId(pRoot["guild_id"]);
 	CMStringW wszUserId = pRoot["user"]["id"].as_mstring();
 	CMStringW wszUserNick = pRoot["nick"].as_mstring(), wszOldNick;
+	if (wszUserNick.IsEmpty())
+		wszUserNick = pRoot["user"]["username"].as_mstring() + L"#" + pRoot["user"]["discriminator"].as_mstring();
 
 	for (int i = 0; i < arUsers.getCount(); i++) {
 		CDiscordUser &pUser = arUsers[i];
