@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 enum {
 	IDM_CANCEL,
 
-	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_INVITE, IDM_DESTROY
+	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_INVITE, IDM_RENAME, IDM_DESTROY
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -40,8 +40,9 @@ static gc_item sttLogListItems[] =
 	{ LPGENW("Change &nickname"), IDM_CHANGENICK, MENU_ITEM },
 	{ LPGENW("Channel control"), FALSE, MENU_NEWPOPUP },
 	{ LPGENW("Change &topic"), IDM_CHANGETOPIC, MENU_POPUPITEM },
+	{ LPGENW("&Rename channel"), IDM_RENAME, MENU_POPUPITEM },
 	{ nullptr, 0, MENU_POPUPSEPARATOR },
-	{ LPGENW("Destroy channel"), IDM_DESTROY, MENU_POPUPITEM },
+	{ LPGENW("&Destroy channel"), IDM_DESTROY, MENU_POPUPITEM },
 	{ nullptr, 100, MENU_SEPARATOR, FALSE },
 	{ LPGENW("&Invite a user"), IDM_INVITE, MENU_ITEM },
 };
@@ -106,6 +107,19 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 		if (IDYES == MessageBox(nullptr, TranslateT("Do you really want to destroy this channel? This action is non-revertable."), m_tszUserName, MB_YESNO | MB_ICONQUESTION)) {
 			CMStringA szUrl(FORMAT, "/channels/%S", pUser->wszUsername);
 			Push(new AsyncHttpRequest(this, REQUEST_DELETE, szUrl, nullptr));
+		}
+		break;
+
+	case IDM_RENAME:
+		es.caption = TranslateT("Enter new channel name:");
+		es.type = ESF_COMBO;
+		es.szModuleName = m_szModuleName;
+		es.szDataPrefix = "chat_rename";
+		if (EnterString(&es)) {
+			JSONNode root; root << WCHAR_PARAM("name", es.ptszResult);
+			CMStringA szUrl(FORMAT, "/channels/%S", pUser->wszUsername);
+			Push(new AsyncHttpRequest(this, REQUEST_PATCH, szUrl, nullptr, &root));
+			mir_free(es.ptszResult);
 		}
 		break;
 

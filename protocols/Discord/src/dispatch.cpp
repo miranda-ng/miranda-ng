@@ -132,6 +132,12 @@ void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
 		if (pGuild == nullptr)
 			return;
 
+		CMStringW wszName = pRoot["name"].as_mstring();
+		if (!wszName.IsEmpty()) {
+			CMStringW wszNewName = pGuild->wszName + L"#" + wszName;
+			Chat_ChangeSessionName(m_szModuleName, pUser->wszUsername, wszNewName);
+		}
+
 		CMStringW wszTopic = pRoot["topic"].as_mstring();
 		Chat_SetStatusbarText(m_szModuleName, pUser->wszUsername, wszTopic);
 
