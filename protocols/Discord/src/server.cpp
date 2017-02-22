@@ -134,7 +134,7 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 	setId(pUser->hContact, DB_KEY_LASTMSGID, lastId);
 
 	// if we fetched 99 messages, but have smth more to go, continue fetching
-	if (iNumMessages == 99 && lastId < pUser->lastMessageId)
+	if (iNumMessages == 99 && lastId < pUser->lastMsg.id)
 		RetrieveHistory(pUser->hContact, MSG_AFTER, lastId, 99);
 }
 
@@ -263,59 +263,6 @@ void CDiscordProto::OnReceiveCreateChannel(NETLIBHTTPREQUEST *pReply, AsyncHttpR
 		OnCommandChannelCreated(root);
 }
 
-void CDiscordProto::OnReceiveChannels(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
-{
-	if (pReply->resultCode != 200)
-		return;
-
-	JSONNode root = JSONNode::parse(pReply->pData);
-	if (!root)
-		return;
-
-	for (auto it = root.begin(); it != root.end(); ++it) {
-		const JSONNode &p = *it;
-
-		const JSONNode &user = p["recipient"];
-		if (!user)
-			continue;
-
-		CDiscordUser *pUser = PrepareUser(user);
-		pUser->lastMessageId = ::getId(p["last_message_id"]);
-		pUser->channelId = ::getId(p["id"]);
-		pUser->bIsPrivate = p["is_private"].as_bool();
-
-		setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CDiscordProto::OnReceiveFriends(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
-{
-	if (pReply->resultCode != 200)
-		return;
-
-	JSONNode root = JSONNode::parse(pReply->pData);
-	if (!root)
-		return;
-
-	for (auto it = root.begin(); it != root.end(); ++it) {
-		JSONNode &p = *it;
-
-		JSONNode &user = p["user"];
-		if (user)
-			PrepareUser(user);
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CDiscordProto::OnReceiveGuilds(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
-{
-	if (pReply->resultCode != 200)
-		return;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CDiscordProto::OnReceiveMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
@@ -328,10 +275,9 @@ void CDiscordProto::OnReceiveMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 
 	JSONNode root = JSONNode::parse(pReply->pData);
 	if (root) {
-		SnowFlake newLastId = ::getId(root["id"]);
-		SnowFlake oldLastId = getId(hContact, DB_KEY_LASTMSGID); // as stored in a database
-		if (oldLastId < newLastId)
-			setId(hContact, DB_KEY_LASTMSGID, newLastId);
+		CDiscordUser *pUser = FindUserByChannel(::getId(root["channel_id"]));
+		if (pUser != nullptr)
+			pUser->lastMsg = CDiscordMessage(::getId(root["id"]), ::getId(root["author"]["id"]));
 	}
 
 	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, bSucceeded ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)pReq->m_iReqNum, 0);

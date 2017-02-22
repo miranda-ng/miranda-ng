@@ -72,7 +72,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 		CDiscordUser *pNew = new CDiscordUser(getId(hContact, DB_KEY_ID));
 		pNew->hContact = hContact;
 		pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
-		pNew->lastMessageId = getId(hContact, DB_KEY_LASTMSGID);
+		pNew->lastMsg.id = getId(hContact, DB_KEY_LASTMSGID);
 		pNew->wszUsername = ptrW(getWStringA(hContact, DB_KEY_NICK));
 		pNew->iDiscriminator = getDword(hContact, DB_KEY_DISCR);
 		arUsers.insert(pNew);
@@ -413,7 +413,7 @@ void CDiscordProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 	mir_cslock lck(ppro->csMarkReadQueue);
 	while (ppro->arMarkReadQueue.getCount()) {
 		CDiscordUser *pUser = ppro->arMarkReadQueue[0];
-		CMStringA szUrl(FORMAT, "/channels/%lld/messages/%lld/ack", pUser->channelId, pUser->lastMessageId);
+		CMStringA szUrl(FORMAT, "/channels/%lld/messages/%lld/ack", pUser->channelId, pUser->lastMsg.id);
 		ppro->Push(new AsyncHttpRequest(ppro, REQUEST_POST, szUrl, nullptr));
 		ppro->arMarkReadQueue.remove(0);
 	}

@@ -92,6 +92,18 @@ struct CDiscordRole : public MZeroedObject
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+struct CDiscordMessage
+{
+	SnowFlake id, authorId;
+
+	CDiscordMessage(SnowFlake _id = 0, SnowFlake _authorId = 0) :
+		id(_id),
+		authorId(_authorId)
+	{}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 enum CDiscordHistoryOp
 {
 	MSG_NOFILTER, MSG_AFTER, MSG_BEFORE
@@ -108,8 +120,10 @@ struct CDiscordUser : public MZeroedObject
 
 	SnowFlake guildId;
 	SnowFlake channelId;
-	SnowFlake lastMessageId, lastReadId;
+	SnowFlake lastReadId;
 	bool      bIsPrivate;
+
+	CDiscordMessage lastMsg;
 
 	CMStringW wszUsername;
 	int       iDiscriminator;
@@ -303,11 +317,8 @@ public:
 
 	void OnReceiveCreateChannel(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveAuth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveChannels(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveGuilds(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveMessageAck(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
