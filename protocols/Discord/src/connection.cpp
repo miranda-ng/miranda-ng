@@ -40,8 +40,8 @@ void CDiscordProto::ExecuteRequest(AsyncHttpRequest *pReq)
 
 	debugLogA("Executing request #%d:\n%s", pReq->m_iReqNum, pReq->szUrl);
 	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
-	if (reply != NULL) {
-		if (pReq->m_pCallback != NULL)
+	if (reply != nullptr) {
+		if (pReq->m_pCallback != nullptr)
 			(this->*(pReq->m_pCallback))(reply, pReq);
 
 		m_hAPIConnection = reply->nlc;
@@ -54,7 +54,7 @@ void CDiscordProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		if (pReq->m_bMainSite) {
 			if (IsStatusConnecting(m_iStatus))
 				ConnectionFailed(LOGINERR_NONETWORK);
-			m_hAPIConnection = NULL;
+			m_hAPIConnection = nullptr;
 		}
 	}
 	delete pReq;
@@ -69,7 +69,7 @@ void CDiscordProto::OnLoggedIn()
 	if (m_szGateway.IsEmpty())
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/gateway", &CDiscordProto::OnReceiveGateway));
 	else
-		ForkThread(&CDiscordProto::GatewayThread, NULL);
+		ForkThread(&CDiscordProto::GatewayThread, nullptr);
 }
 
 void CDiscordProto::OnLoggedOut()
@@ -81,7 +81,7 @@ void CDiscordProto::OnLoggedOut()
 
 	KillTimer(g_hwndHeartbeat, (UINT_PTR)this);
 
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
@@ -110,29 +110,29 @@ void CDiscordProto::ConnectionFailed(int iReason)
 	debugLogA("CDiscordProto::ConnectionFailed -> reason %d", iReason);
 	delSetting("AccessToken");
 
-	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, iReason);
+	ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, iReason);
 	ShutdownSession();
 }
 
 void CDiscordProto::ServerThread(void*)
 {
 	m_szAccessToken = getStringA("AccessToken");
-	m_hAPIConnection = NULL;
+	m_hAPIConnection = nullptr;
 	m_bTerminated = false;
 
 	debugLogA("CDiscordProto::WorkerThread: %s", "entering");
 
-	if (m_szAccessToken != NULL)
+	if (m_szAccessToken != nullptr)
 		// try to receive a response from server
-		RetrieveUserInfo(NULL);
+		RetrieveUserInfo(0);
 	else {
-		if (mir_wstrlen(m_wszEmail) == NULL) {
+		if (mir_wstrlen(m_wszEmail) == 0) {
 			ConnectionFailed(LOGINERR_BADUSERID);
 			return;
 		}
 
 		ptrW wszPassword(getWStringA(DB_KEY_PASSWORD));
-		if (wszPassword == NULL) {
+		if (wszPassword == nullptr) {
 			ConnectionFailed(LOGINERR_WRONGPASSWORD);
 			return;
 		}
@@ -168,10 +168,10 @@ void CDiscordProto::ServerThread(void*)
 		}
 	}
 
-	m_hWorkerThread = NULL;
+	m_hWorkerThread = nullptr;
 	if (m_hAPIConnection) {
 		Netlib_CloseHandle(m_hAPIConnection);
-		m_hAPIConnection = NULL;
+		m_hAPIConnection = nullptr;
 	}
 
 	debugLogA("CDiscordProto::WorkerThread: %s", "leaving");

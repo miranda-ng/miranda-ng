@@ -112,7 +112,7 @@ SnowFlake CDiscordProto::getId(const char *szSetting)
 {
 	DBVARIANT dbv;
 	dbv.type = DBVT_BLOB;
-	if (db_get(NULL, m_szModuleName, szSetting, &dbv))
+	if (db_get(0, m_szModuleName, szSetting, &dbv))
 		return 0;
 	
 	SnowFlake result = (dbv.cpbVal == sizeof(SnowFlake)) ? *(SnowFlake*)dbv.pbVal : 0;
@@ -134,7 +134,7 @@ SnowFlake CDiscordProto::getId(MCONTACT hContact, const char *szSetting)
 
 void CDiscordProto::setId(const char *szSetting, SnowFlake iValue)
 {
-	db_set_blob(NULL, m_szModuleName, szSetting, &iValue, sizeof(iValue));
+	db_set_blob(0, m_szModuleName, szSetting, &iValue, sizeof(iValue));
 }
 
 void CDiscordProto::setId(MCONTACT hContact, const char *szSetting, SnowFlake iValue)
@@ -159,7 +159,7 @@ CDiscordUser* CDiscordProto::FindUser(const wchar_t *pwszUsername, int iDiscrimi
 			return &p;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 CDiscordUser* CDiscordProto::FindUserByChannel(SnowFlake channelId)
@@ -170,7 +170,7 @@ CDiscordUser* CDiscordProto::FindUserByChannel(SnowFlake channelId)
 			return &p;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
@@ -183,12 +183,12 @@ CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
 	CMStringW username = user["username"].as_mstring();
 
 	CDiscordUser *pUser = FindUser(id);
-	if (pUser == NULL) {
+	if (pUser == nullptr) {
 		MCONTACT tmp = INVALID_CONTACT_ID;
 
 		// no user found by userid, try to find him via username+discriminator
 		pUser = FindUser(username, iDiscriminator);
-		if (pUser != NULL) {
+		if (pUser != nullptr) {
 			// if found, remove the object from list to resort it (its userid==0)
 			if (pUser->hContact != 0)
 				tmp = pUser->hContact;
@@ -282,10 +282,10 @@ void CDiscordProto::ProcessType(CDiscordUser *pUser, const JSONNode &pRoot)
 			setByte(pUser->hContact, DB_KEY_REQAUTH, 1);
 
 			CMStringA szId(FORMAT, "%lld", pUser->id);
-			DB_AUTH_BLOB blob(pUser->hContact, T2Utf(pUser->wszUsername), NULL, NULL, szId, NULL);
+			DB_AUTH_BLOB blob(pUser->hContact, T2Utf(pUser->wszUsername), nullptr, nullptr, szId, nullptr);
 
 			PROTORECVEVENT pre = { 0 };
-			pre.timestamp = (DWORD)time(NULL);
+			pre.timestamp = (DWORD)time(nullptr);
 			pre.lParam = blob.size();
 			pre.szMessage = blob;
 			ProtoChainRecv(pUser->hContact, PSR_AUTH, 0, (LPARAM)&pre);
@@ -317,7 +317,7 @@ void CDiscordProto::ParseSpecialChars(SESSION_INFO *si, CMStringW &str)
 			CDiscordUser *pUser = FindUserByChannel(_wtoi64(wszWord.c_str() + 1));
 			if (pUser != nullptr) {
 				ptrW wszNick(getWStringA(pUser->hContact, "Nick"));
-				if (wszNick != NULL)
+				if (wszNick != nullptr)
 					str.Replace(L"<" + wszWord + L">", wszNick);
 			}
 		}

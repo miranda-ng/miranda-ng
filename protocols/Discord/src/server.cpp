@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void CDiscordProto::RemoveFriend(SnowFlake id)
 {
-	Push(new AsyncHttpRequest(this, REQUEST_DELETE, CMStringA(FORMAT, "/users/@me/relationships/%lld", id), NULL));
+	Push(new AsyncHttpRequest(this, REQUEST_DELETE, CMStringA(FORMAT, "/users/@me/relationships/%lld", id), nullptr));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -31,7 +31,7 @@ void CDiscordProto::RemoveFriend(SnowFlake id)
 void CDiscordProto::RetrieveHistory(MCONTACT hContact, CDiscordHistoryOp iOp, SnowFlake msgid, int iLimit)
 {
 	CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
-	if (pUser == NULL)
+	if (pUser == nullptr)
 		return;
 
 	CMStringA szUrl(FORMAT, "/channels/%lld/messages", pUser->channelId);
@@ -66,7 +66,7 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 	SESSION_INFO *si = nullptr;
 	if (!pUser->bIsPrivate) {
 		si = pci->SM_FindSession(pUser->wszUsername, m_szModuleName);
-		if (si == NULL) {
+		if (si == nullptr) {
 			debugLogA("nessage to unknown channal %lld ignored", pUser->channelId);
 			return;
 		}
@@ -161,14 +161,14 @@ void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 {
 	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
 	if (pReply->resultCode != 200) {
-		if (hContact == NULL)
+		if (hContact == 0)
 			ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return;
 	}
 
 	JSONNode root = JSONNode::parse(pReply->pData);
 	if (!root) {
-		if (hContact == NULL)
+		if (hContact == 0)
 			ConnectionFailed(LOGINERR_NOSERVER);
 		return;
 	}
@@ -181,7 +181,7 @@ void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 	setWString(hContact, DB_KEY_NICK, root["username"].as_mstring());
 	setWString(hContact, DB_KEY_EMAIL, root["email"].as_mstring());
 
-	if (hContact == NULL) {
+	if (hContact == 0) {
 		m_ownId = id;
 		OnLoggedIn();
 	}
@@ -210,7 +210,7 @@ void CDiscordProto::OnReceiveGateway(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 	}
 
 	m_szGateway = root["url"].as_mstring();
-	ForkThread(&CDiscordProto::GatewayThread, NULL);
+	ForkThread(&CDiscordProto::GatewayThread, nullptr);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -221,7 +221,7 @@ void CDiscordProto::SetServerStatus(int iStatus)
 		return;
 
 	if (iStatus == ID_STATUS_OFFLINE)
-		Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/logout", NULL));
+		Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/logout", nullptr));
 	else {
 		const char *pszStatus;
 		switch (iStatus) {
@@ -236,11 +236,11 @@ void CDiscordProto::SetServerStatus(int iStatus)
 			pszStatus = "online"; break;
 		}
 		JSONNode root; root << CHAR_PARAM("status", pszStatus);
-		Push(new AsyncHttpRequest(this, REQUEST_PATCH, "/users/@me/settings", NULL, &root));
+		Push(new AsyncHttpRequest(this, REQUEST_PATCH, "/users/@me/settings", nullptr, &root));
 	}
 
 	int iOldStatus = m_iStatus; m_iStatus = iStatus;
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 }
 
 void CDiscordProto::OnReceiveAuth(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
@@ -299,7 +299,7 @@ void CDiscordProto::OnReceiveMessageAck(NETLIBHTTPREQUEST *pReply, AsyncHttpRequ
 		JSONNode props; props.set_name("properties");
 		JSONNode reply; reply << props;
 		reply << CHAR_PARAM("event", "ack_messages") << WCHAR_PARAM("token", root["token"].as_mstring());
-		Push(new AsyncHttpRequest(this, REQUEST_POST, "/track", NULL, &reply));
+		Push(new AsyncHttpRequest(this, REQUEST_POST, "/track", nullptr, &reply));
 	}
 }
 
@@ -326,5 +326,5 @@ LBL_Error:
 	m_szAccessToken = szToken.Detach();
 	setString("AccessToken", m_szAccessToken);
 
-	RetrieveUserInfo(NULL);
+	RetrieveUserInfo(0);
 }

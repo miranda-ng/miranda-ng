@@ -72,7 +72,7 @@ struct WSHeader
 
 void CDiscordProto::GatewaySend(const JSONNode &pRoot, int opCode)
 {
-	if (m_hGatewayConnection == NULL)
+	if (m_hGatewayConnection == nullptr)
 		return;
 
 	json_string szText = pRoot.write();
@@ -153,7 +153,7 @@ void CDiscordProto::GatewayThreadWorker()
 	else conn.wPort = 443;
 
 	m_hGatewayConnection = Netlib_OpenConnection(m_hGatewayNetlibUser, &conn);
-	if (m_hGatewayConnection == NULL) {
+	if (m_hGatewayConnection == nullptr) {
 		debugLogA("Gateway connection failed to connect to %s:%d, exiting", m_szGateway.c_str(), conn.wPort);
 		return;
 	}
@@ -292,7 +292,7 @@ void CDiscordProto::GatewayThreadWorker()
 	}
 
 	Netlib_CloseHandle(m_hGatewayConnection);
-	m_hGatewayConnection = NULL;
+	m_hGatewayConnection = nullptr;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

@@ -53,13 +53,13 @@ AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR
 	}
 
 	flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_SSL;
-	if (ppro->m_szAccessToken != NULL) {
+	if (ppro->m_szAccessToken != nullptr) {
 		AddHeader("Authorization", ppro->m_szAccessToken);
 		flags |= NLHRF_DUMPASTEXT;
 	}
 	else flags |= NLHRF_NODUMPSEND;
 
-	if (pRoot != NULL) {
+	if (pRoot != nullptr) {
 		ptrW text(json_write(pRoot));
 		pData = mir_utf8encodeW(text);
 		dataLength = (int)mir_strlen(pData);
@@ -68,7 +68,7 @@ AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR
 
 	requestType = iRequestType;
 	m_pCallback = pFunc;
-	pUserInfo = NULL;
+	pUserInfo = nullptr;
 	m_iErrorCode = 0;
 	m_iReqNum = ::InterlockedIncrement(&g_reqNum);
 }

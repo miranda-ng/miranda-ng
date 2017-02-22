@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 enum {
 	IDM_CANCEL,
 
-	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_INVITE
+	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_INVITE, IDM_DESTROY
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -38,22 +38,25 @@ void CDiscordProto::BuildStatusList(const CDiscordGuild *pGuild, const CMStringW
 static gc_item sttLogListItems[] =
 {
 	{ LPGENW("Change &nickname"), IDM_CHANGENICK, MENU_ITEM },
-	{ LPGENW("Change &topic"), IDM_CHANGETOPIC, MENU_ITEM },
-	{ L"", 100, MENU_SEPARATOR, FALSE },
+	{ LPGENW("Channel control"), FALSE, MENU_NEWPOPUP },
+	{ LPGENW("Change &topic"), IDM_CHANGETOPIC, MENU_POPUPITEM },
+	{ nullptr, 0, MENU_POPUPSEPARATOR },
+	{ LPGENW("Destroy channel"), IDM_DESTROY, MENU_POPUPITEM },
+	{ nullptr, 100, MENU_SEPARATOR, FALSE },
 	{ LPGENW("&Invite a user"), IDM_INVITE, MENU_ITEM },
 };
 
 int CDiscordProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS* gcmi = (GCMENUITEMS*)lParam;
-	if (gcmi == NULL)
+	if (gcmi == nullptr)
 		return 0;
 
 	if (mir_strcmpi(gcmi->pszModule, m_szModuleName))
 		return 0;
 
 	CDiscordUser *pChat = FindUserByChannel(_wtoi64(gcmi->pszID));
-	if (pChat == NULL)
+	if (pChat == nullptr)
 		return 0;
 
 	if (gcmi->Type == MENU_ON_LOG) {
@@ -72,7 +75,7 @@ void CDiscordProto::Chat_SendPrivateMessage(GCHOOK *gch)
 
 	MCONTACT hContact;
 	CDiscordUser *pUser = FindUser(userId);
-	if (pUser == NULL) {
+	if (pUser == nullptr) {
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.id.w = (wchar_t*)gch->ptszUID;
 		psr.nick.w = (wchar_t*)gch->ptszNick;
@@ -93,12 +96,19 @@ void CDiscordProto::Chat_SendPrivateMessage(GCHOOK *gch)
 void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 {
 	CDiscordUser *pUser = FindUserByChannel(_wtoi64(gch->pDest->ptszID));
-	if (pUser == NULL)
+	if (pUser == nullptr)
 		return;
 
 	ENTER_STRING es = { sizeof(es) };
 
 	switch (gch->dwData) {
+	case IDM_DESTROY:
+		if (IDYES == MessageBox(nullptr, TranslateT("Do you really want to destroy this channel? This action is non-revertable."), m_tszUserName, MB_YESNO | MB_ICONQUESTION)) {
+			CMStringA szUrl(FORMAT, "/channels/%S", pUser->wszUsername);
+			Push(new AsyncHttpRequest(this, REQUEST_DELETE, szUrl, nullptr));
+		}
+		break;
+
 	case IDM_CHANGETOPIC:
 		es.caption = TranslateT("Enter new topic:");
 		es.type = ESF_RICHEDIT;
@@ -107,7 +117,7 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 		if (EnterString(&es)) {
 			JSONNode root; root << WCHAR_PARAM("topic", es.ptszResult);
 			CMStringA szUrl(FORMAT, "/channels/%S", pUser->wszUsername);
-			Push(new AsyncHttpRequest(this, REQUEST_PATCH, szUrl, NULL, &root));
+			Push(new AsyncHttpRequest(this, REQUEST_PATCH, szUrl, nullptr, &root));
 			mir_free(es.ptszResult);
 		}
 		break;
@@ -121,7 +131,7 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 		if (EnterString(&es)) {
 			JSONNode root; root << WCHAR_PARAM("nick", es.ptszResult);
 			CMStringA szUrl(FORMAT, "/guilds/%lld/members/@me/nick", pUser->guildId);
-			Push(new AsyncHttpRequest(this, REQUEST_PATCH, szUrl, NULL, &root));
+			Push(new AsyncHttpRequest(this, REQUEST_PATCH, szUrl, nullptr, &root));
 			mir_free(es.ptszResult);
 		}
 		break;
@@ -131,7 +141,7 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK*)lParam;
-	if (gch == NULL)
+	if (gch == nullptr)
 		return 0;
 
 	if (mir_strcmpi(gch->pDest->pszModule, m_szModuleName))

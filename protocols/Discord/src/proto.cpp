@@ -40,7 +40,7 @@ static int compareGuilds(const CDiscordGuild *p1, const CDiscordGuild *p2)
 CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	PROTO<CDiscordProto>(proto_name, username),
 	m_arHttpQueue(10, compareRequests),
-	m_evRequestsQueue(CreateEvent(NULL, FALSE, FALSE, NULL)),
+	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_wszDefaultGroup(this, DB_KEY_GROUP, DB_KEYVAL_GROUP),
 	m_wszEmail(this, DB_KEY_EMAIL, L""),
 	arGuilds(1, compareGuilds),
@@ -65,7 +65,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	db_set_resident(m_szModuleName, "XStatusMsg");
 
 	// Clist
-	Clist_GroupCreate(NULL, m_wszDefaultGroup);
+	Clist_GroupCreate(0, m_wszDefaultGroup);
 
 	// Fill users list
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
@@ -100,7 +100,7 @@ CDiscordProto::~CDiscordProto()
 {
 	debugLogA("CDiscordProto::~CDiscordProto");
 	Netlib_CloseHandle(m_hNetlibUser);
-	m_hNetlibUser = NULL;
+	m_hNetlibUser = nullptr;
 
 	m_arHttpQueue.destroy();
 	::CloseHandle(m_evRequestsQueue);
@@ -152,10 +152,10 @@ int CDiscordProto::SetStatus(int iNewStatus)
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	}
 	// not logged in? come on
-	else if (m_hWorkerThread == NULL && !IsStatusConnecting(m_iStatus)) {
+	else if (m_hWorkerThread == nullptr && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
-		m_hWorkerThread = ForkThreadEx(&CDiscordProto::ServerThread, NULL, NULL);
+		m_hWorkerThread = ForkThreadEx(&CDiscordProto::ServerThread, nullptr, nullptr);
 	}
 	else if (m_bOnline) {
 		debugLogA("setting server online status to %d", iNewStatus);
@@ -187,7 +187,7 @@ HWND CDiscordProto::CreateExtendedSearchUI(HWND hwndParent)
 	if (hwndParent)
 		return CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_EXTSEARCH), hwndParent, AdvancedSearchDlgProc, 0);
 
-	return NULL;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -203,25 +203,25 @@ void CDiscordProto::SearchThread(void *param)
 	psr.firstName.w = L"";
 	psr.lastName.w = L"";
 	psr.id.w = L"";
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)param, (LPARAM)&psr);
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)param, (LPARAM)&psr);
 
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)param, 0);
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)param, 0);
 	mir_free(param);
 }
 
 HWND CDiscordProto::SearchAdvanced(HWND hwndDlg)
 {
 	if (!m_bOnline || !IsWindow(hwndDlg))
-		return NULL;
+		return nullptr;
 
 	wchar_t wszNick[200];
 	GetDlgItemTextW(hwndDlg, IDC_NICK, wszNick, _countof(wszNick));
 	if (wszNick[0] == 0) // empty string? reject
-		return NULL;
+		return nullptr;
 
 	wchar_t *p = wcschr(wszNick, '#');
-	if (p == NULL) // wrong user id
-		return NULL;
+	if (p == nullptr) // wrong user id
+		return nullptr;
 
 	p = mir_wstrdup(wszNick);
 	ForkThread(&CDiscordProto::SearchThread, p);
@@ -231,7 +231,7 @@ HWND CDiscordProto::SearchAdvanced(HWND hwndDlg)
 HANDLE CDiscordProto::SearchBasic(const wchar_t *wszId)
 {
 	if (!m_bOnline)
-		return NULL;
+		return nullptr;
 
 	CMStringA szUrl = "/users/";
 	szUrl.AppendFormat(ptrA(mir_utf8encodeW(wszId)));
@@ -248,7 +248,7 @@ int CDiscordProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 {
 	ptrW wszUsername(getWStringA(hContact, DB_KEY_NICK));
 	int iDiscriminator(getDword(hContact, DB_KEY_DISCR, -1));
-	if (wszUsername == NULL || iDiscriminator == -1)
+	if (wszUsername == nullptr || iDiscriminator == -1)
 		return 1; // error
 
 	JSONNode root; root << WCHAR_PARAM("username", wszUsername) << INT_PARAM("discriminator", iDiscriminator);
@@ -267,14 +267,14 @@ int CDiscordProto::Authorize(MEVENT hDbEvent)
 {
 	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1)) return 1;
-	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == NULL) return 1;
+	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == nullptr) return 1;
 	if (db_event_get(hDbEvent, &dbei)) return 1;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return 1;
 	if (mir_strcmp(dbei.szModule, m_szModuleName)) return 1;
 
 	MCONTACT hContact = DbGetAuthEventContact(&dbei);
 	CMStringA szUrl(FORMAT, "/users/@me/relationships/%lld", getId(hContact, DB_KEY_ID));
-	Push(new AsyncHttpRequest(this, REQUEST_PUT, szUrl, NULL));
+	Push(new AsyncHttpRequest(this, REQUEST_PUT, szUrl, nullptr));
 	return 0;
 }
 
@@ -282,7 +282,7 @@ int CDiscordProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 {
 	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1)) return 1;
-	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == NULL) return 1;
+	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == nullptr) return 1;
 	if (db_event_get(hDbEvent, &dbei)) return 1;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return 1;
 	if (mir_strcmp(dbei.szModule, m_szModuleName)) return 1;
@@ -300,7 +300,7 @@ MCONTACT CDiscordProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 		return 0;
 
 	wchar_t *p = wcschr(psr->nick.w, '#');
-	if (p == NULL)
+	if (p == nullptr)
 		return 0;
 
 	MCONTACT hContact = db_add_contact();
@@ -357,11 +357,11 @@ int CDiscordProto::SendMsg(MCONTACT hContact, int /*flags*/, const char *pszSrc)
 	}
 
 	ptrW wszText(mir_utf8decodeW(pszSrc));
-	if (wszText == NULL)
+	if (wszText == nullptr)
 		return 0;
 
 	CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
-	if (pUser == NULL || pUser->id == 0)
+	if (pUser == nullptr || pUser->id == 0)
 		return 0;
 
 	// no channel - we need to create one
@@ -397,7 +397,7 @@ int CDiscordProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	if (type == PROTOTYPE_SELFTYPING_ON) {
 		CMStringA szUrl(FORMAT, "/channels/%lld/typing", getId(hContact, DB_KEY_CHANNELID));
-		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, NULL));
+		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, nullptr));
 	}
 	return 0;
 }
@@ -408,7 +408,7 @@ void CDiscordProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 {
 	CDiscordProto *ppro = (CDiscordProto*)(id - 1);
 
-	JSONNode root; root.push_back(JSONNode("token", NULL));
+	JSONNode root; root.push_back(JSONNode("token", nullptr));
 
 	mir_cslock lck(ppro->csMarkReadQueue);
 	while (ppro->arMarkReadQueue.getCount()) {
@@ -435,7 +435,7 @@ int CDiscordProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 		SetTimer(g_hwndHeartbeat, UINT_PTR(this) + 1, 200, &CDiscordProto::MarkReadTimerProc);
 
 		CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
-		if (pUser != NULL) {
+		if (pUser != nullptr) {
 			mir_cslock lck(csMarkReadQueue);
 			if (arMarkReadQueue.indexOf(pUser) == -1)
 				arMarkReadQueue.insert(pUser);
@@ -449,11 +449,11 @@ int CDiscordProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 int CDiscordProto::OnDeleteContact(MCONTACT hContact)
 {
 	CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
-	if (pUser == NULL || !m_bOnline)
+	if (pUser == nullptr || !m_bOnline)
 		return 0;
 
 	if (pUser->channelId)
-		Push(new AsyncHttpRequest(this, REQUEST_DELETE, CMStringA(FORMAT, "/channels/%lld", pUser->channelId), NULL));
+		Push(new AsyncHttpRequest(this, REQUEST_DELETE, CMStringA(FORMAT, "/channels/%lld", pUser->channelId), nullptr));
 
 	if (pUser->id)
 		RemoveFriend(pUser->id);
@@ -480,7 +480,7 @@ void CDiscordProto::SendFileThread(void *param)
 	SendFileThreadParam *p = (SendFileThreadParam*)param;
 
 	FILE *in = _wfopen(p->wszFileName, L"rb");
-	if (in == NULL) {
+	if (in == nullptr) {
 		debugLogA("cannot open file %S for reading", p->wszFileName.c_str());
 	LBL_Error:
 		ProtoBroadcastAck(p->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, param);

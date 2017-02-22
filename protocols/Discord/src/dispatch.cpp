@@ -66,9 +66,9 @@ static int __cdecl pSearchFunc(const void *p1, const void *p2)
 
 GatewayHandlerFunc CDiscordProto::GetHandler(const wchar_t *pwszCommand)
 {
-	CDiscordCommand tmp = { pwszCommand, NULL };
+	CDiscordCommand tmp = { pwszCommand, nullptr };
 	CDiscordCommand *p = (CDiscordCommand*)bsearch(&tmp, handlers, _countof(handlers), sizeof(handlers[0]), pSearchFunc);
-	return (p != NULL) ? p->pFunc : NULL;
+	return (p != nullptr) ? p->pFunc : nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -102,23 +102,37 @@ void CDiscordProto::OnCommandChannelCreated(const JSONNode &pRoot)
 void CDiscordProto::OnCommandChannelDeleted(const JSONNode &pRoot)
 {
 	CDiscordUser *pUser = FindUserByChannel(::getId(pRoot["id"]));
-	if (pUser != NULL) {
+	if (pUser == nullptr)
+		return;
+
+	SnowFlake guildId = ::getId(pRoot["guild_id"]);
+	if (guildId == 0) {
 		pUser->channelId = 0;
 		pUser->lastMsg = CDiscordMessage();
 		delSetting(pUser->hContact, DB_KEY_CHANNELID);
+	}
+	else {
+		CDiscordGuild *pGuild = FindGuild(guildId);
+		if (pGuild != nullptr)
+			Chat_Terminate(m_szModuleName, pUser->wszUsername, true);
 	}
 }
 
 void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
 {
 	CDiscordUser *pUser = FindUserByChannel(::getId(pRoot["id"]));
-	if (pUser == NULL)
+	if (pUser == nullptr)
 		return;
 
 	pUser->lastMsg = CDiscordMessage(::getId(pRoot["last_message_id"]));
 
-	CMStringW wszTopic = pRoot["topic"].as_mstring();
-	if (!wszTopic.IsEmpty()) {
+	SnowFlake guildId = ::getId(pRoot["guild_id"]);
+	if (guildId != 0) {
+		CDiscordGuild *pGuild = FindGuild(guildId);
+		if (pGuild == nullptr)
+			return;
+
+		CMStringW wszTopic = pRoot["topic"].as_mstring();
 		Chat_SetStatusbarText(m_szModuleName, pUser->wszUsername, wszTopic);
 
 		GCDEST gcd = { m_szModuleName, pUser->wszUsername, GC_EVENT_TOPIC };
@@ -143,7 +157,7 @@ void CDiscordProto::OnCommandFriendRemoved(const JSONNode &pRoot)
 {
 	SnowFlake id = ::getId(pRoot["id"]);
 	CDiscordUser *pUser = FindUser(id);
-	if (pUser != NULL) {
+	if (pUser != nullptr) {
 		if (pUser->hContact) {
 			if (pUser->bIsPrivate)
 				db_delete_contact(pUser->hContact);
@@ -271,7 +285,7 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 
 	CMStringW wszUserId = pRoot["user"]["id"].as_mstring();
 	CDiscordGuildMember *gm = pGuild->FindUser(_wtoi64(wszUserId));
-	if (gm == NULL)
+	if (gm == nullptr)
 		return;
 
 	gm->wszNick = pRoot["nick"].as_mstring();
@@ -355,7 +369,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 
 	SnowFlake nonce = ::getId(pRoot["nonce"]);
 	SnowFlake *p = arOwnMessages.find(&nonce);
-	if (p != NULL) { // own message? skip it
+	if (p != nullptr) { // own message? skip it
 		debugLogA("skipping own message with nonce=%lld, id=%lld", nonce, msg.id);
 		return;
 	}
@@ -363,7 +377,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 	// try to find a sender by his channel
 	SnowFlake channelId = ::getId(pRoot["channel_id"]);
 	CDiscordUser *pUser = FindUserByChannel(channelId);
-	if (pUser == NULL) {
+	if (pUser == nullptr) {
 		debugLogA("skipping message with unknown channel id=%lld", channelId);
 		return;
 	}
@@ -395,7 +409,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 		debugLogA("store a message into the group channel id %lld", channelId);
 
 		SESSION_INFO *si = pci->SM_FindSession(pUser->wszUsername, m_szModuleName);
-		if (si == NULL) {
+		if (si == nullptr) {
 			debugLogA("nessage to unknown channal %lld ignored", channelId);
 			return;
 		}
@@ -425,7 +439,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 void CDiscordProto::OnCommandMessageAck(const JSONNode &pRoot)
 {
 	CDiscordUser *pUser = FindUserByChannel(pRoot["channel_id"]);
-	if (pUser != NULL)
+	if (pUser != nullptr)
 		pUser->lastMsg = CDiscordMessage(::getId(pRoot["message_id"]));
 }
 
@@ -435,7 +449,7 @@ void CDiscordProto::OnCommandMessageAck(const JSONNode &pRoot)
 void CDiscordProto::OnCommandPresence(const JSONNode &pRoot)
 {
 	CDiscordUser *pUser = FindUser(::getId(pRoot["user"]["id"]));
-	if (pUser == NULL)
+	if (pUser == nullptr)
 		return;
 
 	int iStatus = StrToStatus(pRoot["status"].as_mstring());
@@ -495,12 +509,12 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 	for (auto it = channels.begin(); it != channels.end(); ++it) {
 		const JSONNode &p = *it;
 
-		CDiscordUser *pUser = NULL;
+		CDiscordUser *pUser = nullptr;
 		const JSONNode &recipients = p["recipients"];
 		for (auto it2 = recipients.begin(); it2 != recipients.end(); ++it2)
 			pUser = PrepareUser(*it2);
 
-		if (pUser == NULL)
+		if (pUser == nullptr)
 			continue;
 		
 		CMStringW wszChannelId = p["id"].as_mstring();
@@ -534,7 +548,7 @@ void CDiscordProto::OnCommandTyping(const JSONNode &pRoot)
 	debugLogA("user typing notification: userid=%lld, channelid=%lld", userId, channelId);
 
 	CDiscordUser *pUser = FindUser(userId);
-	if (pUser == NULL) {
+	if (pUser == nullptr) {
 		debugLogA("user with id=%lld is not found", userId);
 		return;
 	}
@@ -558,7 +572,7 @@ void CDiscordProto::OnCommandUserUpdate(const JSONNode &pRoot)
 	MCONTACT hContact;
 	if (id != m_ownId) {
 		CDiscordUser *pUser = FindUser(id);
-		if (pUser == NULL)
+		if (pUser == nullptr)
 			return;
 
 		hContact = pUser->hContact;
@@ -574,6 +588,6 @@ void CDiscordProto::OnCommandUserSettingsUpdate(const JSONNode &pRoot)
 	int iStatus = StrToStatus(pRoot["status"].as_mstring());
 	if (iStatus != 0) {
 		int iOldStatus = m_iStatus; m_iStatus = iStatus;
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	}
 }

@@ -96,7 +96,7 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 {
 	// filter our all channels but the text ones
 	if (pch["type"].as_int() != 0)
-		return NULL;
+		return nullptr;
 
 	CMStringW wszChannelName = pGuild->wszName + L"#" + pch["name"].as_mstring();
 	CMStringW wszChannelId = pch["id"].as_mstring();
@@ -120,7 +120,7 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 	}
 
 	CDiscordUser *pUser = FindUserByChannel(channelId);
-	if (pUser == NULL) {
+	if (pUser == nullptr) {
 		// missing channel - create it
 		pUser = new CDiscordUser(channelId);
 		pUser->bIsPrivate = false;

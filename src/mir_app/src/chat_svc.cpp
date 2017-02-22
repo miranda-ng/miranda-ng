@@ -672,8 +672,12 @@ MIR_APP_DLL(int) Chat_SendUserMessage(const char *szModule, const wchar_t *wszId
 
 MIR_APP_DLL(int) Chat_SetStatusbarText(const char *szModule, const wchar_t *wszId, const wchar_t *wszText)
 {
-	mir_cslock lck(csChat);
-	if (SESSION_INFO *si = chatApi.SM_FindSession(wszId, szModule)) {
+	SESSION_INFO *si;
+	{
+		mir_cslock lck(csChat);
+		si = chatApi.SM_FindSession(wszId, szModule);
+	}
+	if (si != nullptr) {
 		replaceStrW(si->ptszStatusbarText, wszText);
 		if (si->ptszStatusbarText)
 			db_set_ws(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);

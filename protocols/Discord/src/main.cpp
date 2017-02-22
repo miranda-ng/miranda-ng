@@ -77,7 +77,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	pci = Chat_GetInterface();
 
-	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 
 	Icon_Register(g_hInstance, "Discord", g_iconList, _countof(g_iconList));
 

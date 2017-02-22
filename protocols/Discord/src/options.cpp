@@ -46,7 +46,7 @@ public:
 	virtual void OnApply() override
 	{
 		if (mir_wstrcmp(m_proto->m_wszDefaultGroup, m_wszOldGroup))
-			Clist_GroupCreate(NULL, m_proto->m_wszDefaultGroup);
+			Clist_GroupCreate(0, m_proto->m_wszDefaultGroup);
 
 		ptrW buf(m_edPassword.GetText());
 		m_proto->setWString(DB_KEY_PASSWORD, buf);

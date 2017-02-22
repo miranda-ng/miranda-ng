@@ -88,7 +88,7 @@ LBL_Error:
 	mir_wstrncpy(ai.filename, GetAvatarFilename(ai.hContact), _countof(ai.filename));
 
 	FILE *out = _wfopen(ai.filename, L"wb");
-	if (out == NULL) {
+	if (out == nullptr) {
 		debugLogA("cannot open avatar file %S for writing", ai.filename);
 		goto LBL_Error;
 	}
@@ -106,7 +106,7 @@ bool CDiscordProto::RetrieveAvatar(MCONTACT hContact)
 {
 	ptrA szAvatarHash(getStringA(hContact, DB_KEY_AVHASH));
 	SnowFlake id = getId(hContact, DB_KEY_ID);
-	if (id == 0 || szAvatarHash == NULL)
+	if (id == 0 || szAvatarHash == nullptr)
 		return false;
 
 	CMStringA szUrl(FORMAT, "https://cdn.discordapp.com/avatars/%lld/%s.jpg", id, szAvatarHash);
@@ -165,10 +165,10 @@ INT_PTR CDiscordProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CDiscordProto::SetMyAvatar(WPARAM, LPARAM lParam)
 {
-	CMStringW wszFileName(GetAvatarFilename(NULL));
+	CMStringW wszFileName(GetAvatarFilename(0));
 
 	const wchar_t *pwszFilename = (const wchar_t*)lParam;
-	if (pwszFilename == NULL) { // remove my avatar file
+	if (pwszFilename == nullptr) { // remove my avatar file
 		delSetting(DB_KEY_AVHASH);
 		DeleteFile(wszFileName);
 	}
@@ -176,13 +176,13 @@ INT_PTR CDiscordProto::SetMyAvatar(WPARAM, LPARAM lParam)
 	CMStringA szPayload("data:");
 
 	const wchar_t *wszMimeType = ProtoGetAvatarMimeType(ProtoGetAvatarFileFormat(pwszFilename));
-	if (wszMimeType == NULL) {
+	if (wszMimeType == nullptr) {
 		debugLogA("invalid file format for avatar %S", pwszFilename);
 		return 1;
 	}
 	szPayload.AppendFormat("%S;base64,", wszMimeType);
 	FILE *in = _wfopen(pwszFilename, L"rb");
-	if (in == NULL) {
+	if (in == nullptr) {
 		debugLogA("cannot open avatar file %S for reading", pwszFilename);
 		return 2;
 	}
@@ -194,7 +194,7 @@ INT_PTR CDiscordProto::SetMyAvatar(WPARAM, LPARAM lParam)
 	szPayload.Append(ptrA(mir_base64_encode((BYTE*)szFileContents.get(), iFileLength)));
 
 	JSONNode root; root << CHAR_PARAM("avatar", szPayload);
-	Push(new AsyncHttpRequest(this, REQUEST_PATCH, "/users/@me", NULL, &root));
+	Push(new AsyncHttpRequest(this, REQUEST_PATCH, "/users/@me", nullptr, &root));
 	return 0;
 }
 

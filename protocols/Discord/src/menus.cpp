@@ -24,7 +24,7 @@ INT_PTR CDiscordProto::OnMenuCreateChannel(WPARAM hContact, LPARAM)
 		JSONNode roles(JSON_ARRAY); roles.set_name("permission_overwrites");
 		JSONNode root; root << INT_PARAM("type", 0) << WCHAR_PARAM("name", es.ptszResult) << roles;
 		CMStringA szUrl(FORMAT, "/guilds/%lld/channels", getId(hContact, DB_KEY_CHANNELID));
-		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, NULL, &root));
+		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, nullptr, &root));
 		mir_free(es.ptszResult);
 	}
 	return 0;
@@ -37,7 +37,7 @@ INT_PTR CDiscordProto::OnMenuJoinGuild(WPARAM, LPARAM)
 	ENTER_STRING es = { sizeof(es), ESF_COMBO, m_szModuleName, "guild_name", TranslateT("Enter invitation code you received"), 0, 5 };
 	if (EnterString(&es)) {
 		CMStringA szUrl(FORMAT, "/invite/%S", es.ptszResult);
-		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, NULL));
+		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, nullptr));
 		mir_free(es.ptszResult);
 	}
 	return 0;
@@ -47,9 +47,9 @@ INT_PTR CDiscordProto::OnMenuJoinGuild(WPARAM, LPARAM)
 
 INT_PTR CDiscordProto::OnMenuLeaveGuild(WPARAM hContact, LPARAM)
 {
-	if (IDYES == MessageBox(NULL, TranslateT("Do you really want to leave the guild?"), m_tszUserName, MB_ICONQUESTION | MB_YESNOCANCEL)) {
+	if (IDYES == MessageBox(nullptr, TranslateT("Do you really want to leave the guild?"), m_tszUserName, MB_ICONQUESTION | MB_YESNOCANCEL)) {
 		CMStringA szUrl(FORMAT, "/users/@me/guilds/%lld", getId(hContact, DB_KEY_CHANNELID));
-		Push(new AsyncHttpRequest(this, REQUEST_DELETE, szUrl, NULL));
+		Push(new AsyncHttpRequest(this, REQUEST_DELETE, szUrl, nullptr));
 	}
 	return 0;
 }

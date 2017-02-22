@@ -8,7 +8,7 @@ typedef void (CDiscordProto::*GatewayHandlerFunc)(const JSONNode&);
 struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 {
 	AsyncHttpRequest();
-	AsyncHttpRequest(CDiscordProto*, int iRequestType, LPCSTR szUrl, HttpCallback pFunc, JSONNode *pNode = NULL);
+	AsyncHttpRequest(CDiscordProto*, int iRequestType, LPCSTR szUrl, HttpCallback pFunc, JSONNode *pNode = nullptr);
 	~AsyncHttpRequest();
 
 	void AddHeader(LPCSTR, LPCSTR);
