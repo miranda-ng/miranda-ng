@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 INT_PTR CDiscordProto::OnMenuCreateChannel(WPARAM hContact, LPARAM)
 {
-	ENTER_STRING es = { sizeof(es), ESF_RICHEDIT, m_szModuleName, "Discord", TranslateT("Enter channel name") };
+	ENTER_STRING es = { sizeof(es), ESF_COMBO, m_szModuleName, "channel_name", TranslateT("Enter channel name"), 0, 5 };
 	if (EnterString(&es)) {
 		JSONNode roles(JSON_ARRAY); roles.set_name("permission_overwrites");
 		JSONNode root; root << INT_PARAM("type", 0) << WCHAR_PARAM("name", es.ptszResult) << roles;
@@ -34,7 +34,7 @@ INT_PTR CDiscordProto::OnMenuCreateChannel(WPARAM hContact, LPARAM)
 
 INT_PTR CDiscordProto::OnMenuJoinGuild(WPARAM, LPARAM)
 {
-	ENTER_STRING es = { sizeof(es), ESF_RICHEDIT, m_szModuleName, "Discord", TranslateT("Enter invitation code you received") };
+	ENTER_STRING es = { sizeof(es), ESF_COMBO, m_szModuleName, "guild_name", TranslateT("Enter invitation code you received"), 0, 5 };
 	if (EnterString(&es)) {
 		CMStringA szUrl(FORMAT, "/invite/%S", es.ptszResult);
 		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, NULL));
