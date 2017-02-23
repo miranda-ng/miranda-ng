@@ -69,11 +69,11 @@ public:
 		isConnected = false;
 	}
 
-	void Iterate()
+	void Iterate(void* data)
 	{
 		{
 			mir_cslock lock(toxLock);
-			tox_iterate(tox);
+			tox_iterate(tox, data);
 			//if (toxAV)
 			//	toxav_iterate(toxAV);
 		}

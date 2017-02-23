@@ -22,24 +22,24 @@ bool tox_file_send_chunk(Tox *tox, uint32_t friend_number, uint32_t file_number,
 	return CreateFunction<bool(*)(Tox*, uint32_t, uint32_t, uint64_t, const uint8_t*, size_t, TOX_ERR_FILE_SEND_CHUNK*)>(__FUNCTION__)(tox, friend_number, file_number, position, data, length, error);
 }
 
-void tox_callback_file_chunk_request(Tox *tox, tox_file_chunk_request_cb *function, void *user_data)
+void tox_callback_file_chunk_request(Tox *tox, tox_file_chunk_request_cb *function)
 {
-	CreateFunction<void(*)(Tox*, tox_file_chunk_request_cb, void*)>(__FUNCTION__)(tox, function, user_data);
+	CreateFunction<void(*)(Tox*, tox_file_chunk_request_cb)>(__FUNCTION__)(tox, function);
 }
 
-void tox_callback_file_recv(Tox *tox, tox_file_recv_cb *function, void *user_data)
+void tox_callback_file_recv(Tox *tox, tox_file_recv_cb *function)
 {
-	CreateFunction<void(*)(Tox*, tox_file_recv_cb, void*)>(__FUNCTION__)(tox, function, user_data);
+	CreateFunction<void(*)(Tox*, tox_file_recv_cb)>(__FUNCTION__)(tox, function);
 }
 
-void tox_callback_file_recv_control(Tox *tox, tox_file_recv_control_cb *function, void *user_data)
+void tox_callback_file_recv_control(Tox *tox, tox_file_recv_control_cb *function)
 {
-	CreateFunction<void(*)(Tox*, tox_file_recv_control_cb, void*)>(__FUNCTION__)(tox, function, user_data);
+	CreateFunction<void(*)(Tox*, tox_file_recv_control_cb)>(__FUNCTION__)(tox, function);
 }
 
-void tox_callback_file_recv_chunk(Tox *tox, tox_file_recv_chunk_cb *function, void *user_data)
+void tox_callback_file_recv_chunk(Tox *tox, tox_file_recv_chunk_cb *function)
 {
-	CreateFunction<void(*)(Tox*, tox_file_recv_chunk_cb, void*)>(__FUNCTION__)(tox, function, user_data);
+	CreateFunction<void(*)(Tox*, tox_file_recv_chunk_cb)>(__FUNCTION__)(tox, function);
 }
 
 bool tox_file_control(Tox *tox, uint32_t friend_number, uint32_t file_number, TOX_FILE_CONTROL control, TOX_ERR_FILE_CONTROL *error)

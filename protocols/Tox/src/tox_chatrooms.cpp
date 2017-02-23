@@ -1,5 +1,5 @@
 #include "stdafx.h"
-
+/*
 MCONTACT CToxProto::GetChatRoom(int groupNumber)
 {
 	MCONTACT hContact = NULL;
@@ -323,3 +323,4 @@ INT_PTR CALLBACK CToxProto::ChatRoomInviteProc(HWND hwndDlg, UINT msg, WPARAM wP
 	}
 	return FALSE;
 }
+*/

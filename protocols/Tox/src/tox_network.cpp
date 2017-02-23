@@ -291,7 +291,7 @@ void CToxProto::PollingThread(void*)
 	while (!toxThread.IsTerminated())
 	{
 		CheckConnection(retriesCount);
-		toxThread.Iterate();
+		toxThread.Iterate(this);
 	}
 
 	toxThread.Disconnect();

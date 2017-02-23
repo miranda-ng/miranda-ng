@@ -57,9 +57,9 @@ bool tox_friend_get_name(const Tox *tox, uint32_t friend_number, uint8_t *name, 
 	return CreateFunction<bool(*)(const Tox*, uint32_t, uint8_t*, TOX_ERR_FRIEND_QUERY*)>(__FUNCTION__)(tox, friend_number, name, error);
 }
 
-void tox_callback_friend_name(Tox *tox, tox_friend_name_cb *function, void *user_data)
+void tox_callback_friend_name(Tox *tox, tox_friend_name_cb *function)
 {
-	CreateFunction<void(*)(Tox*tox, tox_friend_name_cb, void*)>(__FUNCTION__)(tox, function, user_data);
+	CreateFunction<void(*)(Tox*tox, tox_friend_name_cb)>(__FUNCTION__)(tox, function);
 }
 
 size_t tox_friend_get_status_message_size(const Tox *tox, uint32_t friend_number, TOX_ERR_FRIEND_QUERY *error)
@@ -72,9 +72,9 @@ bool tox_friend_get_status_message(const Tox *tox, uint32_t friend_number, uint8
 	return CreateFunction<bool(*)(const Tox*, uint32_t, uint8_t*, TOX_ERR_FRIEND_QUERY*)>(__FUNCTION__)(tox, friend_number, status_message, error);
 }
 
-void tox_callback_friend_status_message(Tox *tox, tox_friend_status_message_cb *function, void *user_data)
+void tox_callback_friend_status_message(Tox *tox, tox_friend_status_message_cb *function)
 {
-	CreateFunction<void(*)(Tox*, tox_friend_status_message_cb, void*)>(__FUNCTION__)(tox, function, user_data);
+	CreateFunction<void(*)(Tox*, tox_friend_status_message_cb)>(__FUNCTION__)(tox, function);
 }
 
 TOX_USER_STATUS tox_friend_get_status(const Tox *tox, uint32_t friend_number, TOX_ERR_FRIEND_QUERY *error)
@@ -82,9 +82,9 @@ TOX_USER_STATUS tox_friend_get_status(const Tox *tox, uint32_t friend_number, TO
 	return CreateFunction<TOX_USER_STATUS(*)(const Tox*, uint32_t, TOX_ERR_FRIEND_QUERY*)>(__FUNCTION__)(tox, friend_number, error);
 }
 
-void tox_callback_friend_status(Tox *tox, tox_friend_status_cb *function, void *user_data)
+void tox_callback_friend_status(Tox *tox, tox_friend_status_cb *function)
 {
-	CreateFunction<void(*)(Tox*, tox_friend_status_cb, void*)>(__FUNCTION__)(tox, function, user_data);
+	CreateFunction<void(*)(Tox*, tox_friend_status_cb)>(__FUNCTION__)(tox, function);
 }
 
 TOX_CONNECTION tox_friend_get_connection_status(const Tox *tox, uint32_t friend_number, TOX_ERR_FRIEND_QUERY *error)
@@ -92,9 +92,9 @@ TOX_CONNECTION tox_friend_get_connection_status(const Tox *tox, uint32_t friend_
 	return CreateFunction<TOX_CONNECTION(*)(const Tox*, uint32_t, TOX_ERR_FRIEND_QUERY*)>(__FUNCTION__)(tox, friend_number, error);
 }
 
-void tox_callback_friend_connection_status(Tox *tox, tox_friend_connection_status_cb *function, void *user_data)
+void tox_callback_friend_connection_status(Tox *tox, tox_friend_connection_status_cb *function)
 {
-	CreateFunction<void(*)(Tox*, tox_friend_connection_status_cb, void*)>(__FUNCTION__)(tox, function, user_data);
+	CreateFunction<void(*)(Tox*, tox_friend_connection_status_cb)>(__FUNCTION__)(tox, function);
 }
 
 bool tox_friend_get_typing(const Tox *tox, uint32_t friend_number, TOX_ERR_FRIEND_QUERY *error)
@@ -102,9 +102,9 @@ bool tox_friend_get_typing(const Tox *tox, uint32_t friend_number, TOX_ERR_FRIEN
 	return CreateFunction<bool(*)(const Tox*, uint32_t, TOX_ERR_FRIEND_QUERY*)>(__FUNCTION__)(tox, friend_number, error);
 }
 
-void tox_callback_friend_typing(Tox *tox, tox_friend_typing_cb *function, void *user_data)
+void tox_callback_friend_typing(Tox *tox, tox_friend_typing_cb *function)
 {
-	CreateFunction<void(*)(Tox*, tox_friend_typing_cb, void*)>(__FUNCTION__)(tox, function, user_data);
+	CreateFunction<void(*)(Tox*, tox_friend_typing_cb)>(__FUNCTION__)(tox, function);
 }
 
 /*  */
@@ -119,17 +119,17 @@ uint32_t tox_friend_send_message(Tox *tox, uint32_t friend_number, TOX_MESSAGE_T
 	return CreateFunction<uint32_t(*)(Tox*, uint32_t, TOX_MESSAGE_TYPE, const uint8_t*, size_t, TOX_ERR_FRIEND_SEND_MESSAGE*)>(__FUNCTION__)(tox, friend_number, type, message, length, error);
 }
 
-void tox_callback_friend_read_receipt(Tox *tox, tox_friend_read_receipt_cb *function, void *user_data)
+void tox_callback_friend_read_receipt(Tox *tox, tox_friend_read_receipt_cb *function)
 {
-	CreateFunction<void(*)(Tox*, tox_friend_read_receipt_cb, void*)>(__FUNCTION__)(tox, function, user_data);
+	CreateFunction<void(*)(Tox*, tox_friend_read_receipt_cb)>(__FUNCTION__)(tox, function);
 }
 
-void tox_callback_friend_request(Tox *tox, tox_friend_request_cb *function, void *user_data)
+void tox_callback_friend_request(Tox *tox, tox_friend_request_cb *function)
 {
-	CreateFunction<void(*)(Tox*, tox_friend_request_cb, void*)>(__FUNCTION__)(tox, function, user_data);
+	CreateFunction<void(*)(Tox*, tox_friend_request_cb)>(__FUNCTION__)(tox, function);
 }
 
-void tox_callback_friend_message(Tox *tox, tox_friend_message_cb *function, void *user_data)
+void tox_callback_friend_message(Tox *tox, tox_friend_message_cb *function)
 {
-	CreateFunction<void(*)(Tox*, tox_friend_message_cb, void*)>(__FUNCTION__)(tox, function, user_data);
+	CreateFunction<void(*)(Tox*, tox_friend_message_cb)>(__FUNCTION__)(tox, function);
 }

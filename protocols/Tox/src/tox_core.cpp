@@ -55,20 +55,20 @@ bool CToxProto::InitToxCore(CToxThread *toxThread)
 	if (toxThread == NULL)
 		return false;
 
-	tox_callback_friend_request(toxThread->Tox(), OnFriendRequest, this);
-	tox_callback_friend_message(toxThread->Tox(), OnFriendMessage, this);
-	tox_callback_friend_read_receipt(toxThread->Tox(), OnReadReceipt, this);
-	tox_callback_friend_typing(toxThread->Tox(), OnTypingChanged, this);
+	tox_callback_friend_request(toxThread->Tox(), OnFriendRequest);
+	tox_callback_friend_message(toxThread->Tox(), OnFriendMessage);
+	tox_callback_friend_read_receipt(toxThread->Tox(), OnReadReceipt);
+	tox_callback_friend_typing(toxThread->Tox(), OnTypingChanged);
 	//
-	tox_callback_friend_name(toxThread->Tox(), OnFriendNameChange, this);
-	tox_callback_friend_status_message(toxThread->Tox(), OnStatusMessageChanged, this);
-	tox_callback_friend_status(toxThread->Tox(), OnUserStatusChanged, this);
-	tox_callback_friend_connection_status(toxThread->Tox(), OnConnectionStatusChanged, this);
+	tox_callback_friend_name(toxThread->Tox(), OnFriendNameChange);
+	tox_callback_friend_status_message(toxThread->Tox(), OnStatusMessageChanged);
+	tox_callback_friend_status(toxThread->Tox(), OnUserStatusChanged);
+	tox_callback_friend_connection_status(toxThread->Tox(), OnConnectionStatusChanged);
 	// transfers
-	tox_callback_file_recv_control(toxThread->Tox(), OnFileRequest, this);
-	tox_callback_file_recv(toxThread->Tox(), OnFriendFile, this);
-	tox_callback_file_recv_chunk(toxThread->Tox(), OnDataReceiving, this);
-	tox_callback_file_chunk_request(toxThread->Tox(), OnFileSendData, this);
+	tox_callback_file_recv_control(toxThread->Tox(), OnFileRequest);
+	tox_callback_file_recv(toxThread->Tox(), OnFriendFile);
+	tox_callback_file_recv_chunk(toxThread->Tox(), OnDataReceiving);
+	tox_callback_file_chunk_request(toxThread->Tox(), OnFileSendData);
 	// group chats
 	//tox_callback_group_invite(tox, OnGroupChatInvite, this);
 	// a/v
@@ -127,19 +127,4 @@ void CToxProto::UninitToxCore(CToxThread *toxThread)
 
 	CancelAllTransfers(toxThread);
 	SaveToxProfile(toxThread);
-
-	tox_callback_friend_request(toxThread->Tox(), OnFriendRequest, NULL);
-	tox_callback_friend_message(toxThread->Tox(), OnFriendMessage, NULL);
-	tox_callback_friend_read_receipt(toxThread->Tox(), OnReadReceipt, NULL);
-	tox_callback_friend_typing(toxThread->Tox(), OnTypingChanged, NULL);
-	//
-	tox_callback_friend_name(toxThread->Tox(), OnFriendNameChange, NULL);
-	tox_callback_friend_status_message(toxThread->Tox(), OnStatusMessageChanged, NULL);
-	tox_callback_friend_status(toxThread->Tox(), OnUserStatusChanged, NULL);
-	tox_callback_friend_connection_status(toxThread->Tox(), OnConnectionStatusChanged, NULL);
-	// transfers
-	tox_callback_file_recv_control(toxThread->Tox(), OnFileRequest, NULL);
-	tox_callback_file_recv(toxThread->Tox(), OnFriendFile, NULL);
-	tox_callback_file_recv_chunk(toxThread->Tox(), OnDataReceiving, NULL);
-	tox_callback_file_chunk_request(toxThread->Tox(), OnFileSendData, NULL);
 }

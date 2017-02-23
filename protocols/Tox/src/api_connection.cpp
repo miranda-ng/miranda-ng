@@ -22,7 +22,7 @@ uint32_t tox_iteration_interval(const Tox *tox)
 	return CreateFunction<uint32_t(*)(const Tox*)>(__FUNCTION__)(tox);
 }
 
-void tox_iterate(Tox *tox)
+void tox_iterate(Tox *tox, void *user_data)
 {
-	CreateFunction<int(*)(const Tox*)>(__FUNCTION__)(tox);
+	CreateFunction<int(*)(const Tox*, void*)>(__FUNCTION__)(tox, user_data);
 }

@@ -160,7 +160,7 @@ int CToxProto::SetStatus(int iNewStatus)
 		if (!Miranda_IsTerminated())
 		{
 			SetAllContactsStatus(ID_STATUS_OFFLINE);
-			CloseAllChatChatSessions();
+			//CloseAllChatChatSessions();
 		}
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;

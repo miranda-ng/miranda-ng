@@ -198,8 +198,8 @@ private:
 	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnCreateChatRoom(WPARAM, LPARAM);
 
-	void InitGroupChatModule();
-	void CloseAllChatChatSessions();
+	//void InitGroupChatModule();
+	//void CloseAllChatChatSessions();
 
 	static void OnGroupChatInvite(Tox *tox, int32_t friendNumber, uint8_t type, const uint8_t *data, const uint16_t length, void *arg);
 
