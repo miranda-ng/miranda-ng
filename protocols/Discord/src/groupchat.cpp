@@ -101,6 +101,7 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 		return;
 
 	ENTER_STRING es = { sizeof(es) };
+	es.szModuleName = m_szModuleName;
 
 	switch (gch->dwData) {
 	case IDM_DESTROY:
@@ -113,7 +114,6 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 	case IDM_RENAME:
 		es.caption = TranslateT("Enter new channel name:");
 		es.type = ESF_COMBO;
-		es.szModuleName = m_szModuleName;
 		es.szDataPrefix = "chat_rename";
 		if (EnterString(&es)) {
 			JSONNode root; root << WCHAR_PARAM("name", es.ptszResult);
@@ -126,7 +126,6 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 	case IDM_CHANGETOPIC:
 		es.caption = TranslateT("Enter new topic:");
 		es.type = ESF_RICHEDIT;
-		es.szModuleName = m_szModuleName;
 		es.szDataPrefix = "chat_topic";
 		if (EnterString(&es)) {
 			JSONNode root; root << WCHAR_PARAM("topic", es.ptszResult);
@@ -139,7 +138,6 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 	case IDM_CHANGENICK:
 		es.caption = TranslateT("Enter your new nick name:");
 		es.type = ESF_COMBO;
-		es.szModuleName = m_szModuleName;
 		es.szDataPrefix = "chat_nick";
 		es.recentCount = 5;
 		if (EnterString(&es)) {
