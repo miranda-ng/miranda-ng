@@ -127,6 +127,16 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_messageManager.FillPermanentHandlers();
 	m_adhocManager.FillDefaultNodes();
 	m_clientCapsManager.AddDefaultCaps();
+
+	IconsInit();
+	InitPopups();
+	GlobalMenuInit();
+	WsInit();
+	ConsoleInit();
+
+	m_pepServices.insert(new CPepMood(this));
+	m_pepServices.insert(new CPepActivity(this));
+
 	if (m_options.UseOMEMO)
 	{
 		JabberCapsBits jcb = 0;
@@ -141,16 +151,9 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 		jcb |= JABBER_CAPS_OMEMO_NOTIFY;
 
 		m_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, szCoreVersion, jcb);
+
+		OmemoInitDevice();
 	}
-
-	IconsInit();
-	InitPopups();
-	GlobalMenuInit();
-	WsInit();
-	ConsoleInit();
-
-	m_pepServices.insert(new CPepMood(this));
-	m_pepServices.insert(new CPepActivity(this));
 
 	db_set_resident(m_szModuleName, DBSETTING_XSTATUSID);
 	db_set_resident(m_szModuleName, DBSETTING_XSTATUSNAME);

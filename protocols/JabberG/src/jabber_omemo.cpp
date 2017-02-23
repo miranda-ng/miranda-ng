@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <openssl/hmac.h>
 #include <openssl/rand.h>
 #include <openssl/sha.h>
+#include <signal_protocol_internal.h>
 
 namespace omemo {
 
@@ -399,10 +400,14 @@ namespace omemo {
 		ec_key_pair *device_key;
 	};
 
-	omemo_device* init_device()
+	omemo_device* create_device()
 	{
 		omemo_device *dev = (omemo_device*)mir_alloc(sizeof(omemo_device));
-		Utils_GetRandom((void*)dev->id, 4);
+		for (dev->id = 0; dev->id == 0;)
+		{
+			Utils_GetRandom((void*)&(dev->id), 4);
+		}
+		
 		if (curve_generate_key_pair(global_context, &(dev->device_key)))
 		{
 			//TODO: handle error
@@ -410,8 +415,60 @@ namespace omemo {
 
 		return dev;
 	}
+	bool IsFirstRun(CJabberProto *proto)
+	{
+		int id = proto->getDword("OmemoDeviceId", 0);
+		if (id == 0)
+			return true;
+		DBVARIANT dbv = { 0 };
+		proto->getString("OmemoDevicePublicKey", &dbv);
+		if (!dbv.pszVal[0])
+		{
+			//does it need to free something in DBVARIANT?
+			return true;
+		}
+		proto->getString("OmemoDevicePrivateKey", &dbv);
+		if (!dbv.pszVal[0])
+		{
+			//does it need to free something in DBVARIANT?
+			return true;
+		}
+
+		return false;
+	}
+	void RefreshDevice(CJabberProto *proto)
+	{
+		omemo_device *new_dev = create_device();
+		proto->setDword("OmemoDeviceId", new_dev->id);
+		ec_public_key *public_key = ec_key_pair_get_public(new_dev->device_key);
+		SIGNAL_REF(public_key);
+		signal_buffer *key_buf;
+		ec_public_key_serialize(&key_buf, public_key);
+		char *key = mir_base64_encode(key_buf->data, (unsigned int)key_buf->len);
+		proto->setString("OmemoDevicePublicKey", key);
+		mir_free(key);
+		signal_buffer_free(key_buf);
+		ec_private_key *private_key = ec_key_pair_get_private(new_dev->device_key);
+		SIGNAL_REF(private_key);
+		ec_private_key_serialize(&key_buf, private_key);
+		key = mir_base64_encode(key_buf->data, (unsigned int)key_buf->len);
+		proto->setString("OmemoDevicePrivateKey", key);
+		mir_free(key);
+		signal_buffer_free(key_buf);
+
+		SIGNAL_UNREF(new_dev->device_key);
+
+	}
 
 };
+
+void CJabberProto::OmemoInitDevice()
+{
+	if (omemo::IsFirstRun(this))
+		omemo::RefreshDevice(this);
+
+}
+
 
 void CJabberProto::OmemoHandleMessage(HXML /*node*/)
 {

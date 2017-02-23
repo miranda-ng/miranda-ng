@@ -54,3 +54,7 @@ EXPORTS
    signal_protocol_sender_key_store_key
    signal_protocol_sender_key_load_key
    curve_generate_key_pair
+   ec_public_key_serialize
+   ec_key_pair_get_public
+   ec_key_pair_get_private
+   ec_private_key_serialize
