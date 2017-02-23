@@ -65,6 +65,9 @@ public:
 
 	static int OnModulesLoaded(WPARAM, LPARAM);
 
+	// utils
+	static void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
+
 private:
 	CToxThread *toxThread;
 	mir_cs profileLock;
@@ -287,7 +290,7 @@ private:
 	static wchar_t* ToxErrorToString(TOX_ERR_NEW error);
 	static wchar_t* ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE error);
 
-	static void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
+	
 	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 
 	static bool IsFileExists(const wchar_t* path);

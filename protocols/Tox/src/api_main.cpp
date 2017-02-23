@@ -2,6 +2,11 @@
 
 /* MAIN FUNCTIONS */
 
+bool tox_version_is_compatible(uint32_t major, uint32_t minor, uint32_t patch)
+{
+	return CreateFunction<bool(*)(uint32_t, uint32_t, uint32_t)>(__FUNCTION__)(major, minor, patch);
+}
+
 struct Tox_Options *tox_options_new(TOX_ERR_OPTIONS_NEW *error)
 {
 	return CreateFunction<struct Tox_Options*(*)(TOX_ERR_OPTIONS_NEW*)>(__FUNCTION__)(error);

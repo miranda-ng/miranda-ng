@@ -70,6 +70,10 @@ extern HINSTANCE g_hInstance;
 
 #define MODULE "Tox"
 
+#define TOX_API_VER_MAJOR 0
+#define TOX_API_VER_MINOR 1
+#define TOX_API_VER_PATCH 5
+
 #define TOX_ERROR -1
 
 #define TOX_MAX_CONNECT_RETRIES 300
@@ -103,6 +107,7 @@ enum TOX_DB_EVENT
 
 #define TOX_MAX_AVATAR_SIZE 1 << 16 // 2 ^ 16 bytes
 
+#define TOX_LIBRARY L"libtox.dll"
 extern HMODULE g_hToxLibrary;
 
 template<typename T>
