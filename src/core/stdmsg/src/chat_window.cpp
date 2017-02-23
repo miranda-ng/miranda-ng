@@ -1705,6 +1705,8 @@ LABEL_SHOWWINDOW:
 					tr.chrg.cpMin = start;
 					tr.chrg.cpMax = end;
 					long iRes = SendDlgItemMessage(m_hwnd, IDC_LOG, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+					if (pszWord[0] == 0)
+						break;
 					if (iRes > 0)
 						for (size_t iLen = mir_wstrlen(pszWord) - 1; wcschr(szTrimString, pszWord[iLen]); iLen--)
 							pszWord[iLen] = 0;
