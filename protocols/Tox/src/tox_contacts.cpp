@@ -321,61 +321,59 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 
 	Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": friend(%d) status changed to (%d)", friendNumber, status);
 
-	if (status != TOX_CONNECTION_NONE)
-	{
-		proto->delSetting(hContact, "Auth");
-		proto->delSetting(hContact, "Grant");
-
-		// resume incoming transfers
-		proto->ResumeIncomingTransfers(friendNumber);
-
-		// update avatar
-		ptrW avatarPath(proto->GetAvatarFilePath());
-		if (IsFileExists(avatarPath))
-		{
-			FILE *hFile = _wfopen(avatarPath, L"rb");
-			if (!hFile)
-			{
-				Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to open avatar file");
-				return;
-			}
-
-			fseek(hFile, 0, SEEK_END);
-			size_t length = ftell(hFile);
-			rewind(hFile);
-
-			uint8_t hash[TOX_HASH_LENGTH];
-			DBVARIANT dbv;
-			if (!db_get(NULL, proto->m_szModuleName, TOX_SETTINGS_AVATAR_HASH, &dbv))
-			{
-				memcpy(hash, dbv.pbVal, TOX_HASH_LENGTH);
-				db_free(&dbv);
-			}
-
-			TOX_ERR_FILE_SEND error;
-			uint32_t fileNumber = tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, length, hash, NULL, 0, &error);
-			if (error != TOX_ERR_FILE_SEND_OK)
-			{
-				Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to set new avatar");
-				fclose(hFile);
-				return;
-			}
-
-			AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, NULL, length);
-			transfer->pfts.flags |= PFTS_SENDING;
-			memcpy(transfer->hash, hash, TOX_HASH_LENGTH);
-			transfer->pfts.hContact = hContact;
-			transfer->hFile = hFile;
-			proto->transfers.Add(transfer);
-		}
-		else
-			tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, NULL);
-	}
-	else
+	if (status == TOX_CONNECTION_NONE)
 	{
 		proto->SetContactStatus(hContact, ID_STATUS_OFFLINE);
-		proto->setDword(hContact, "LastEventDateTS", time(NULL));
+		return;
 	}
+
+	proto->delSetting(hContact, "Auth");
+	proto->delSetting(hContact, "Grant");
+
+	// resume incoming transfers
+	proto->ResumeIncomingTransfers(friendNumber);
+
+	// update avatar
+	ptrW avatarPath(proto->GetAvatarFilePath());
+	if (IsFileExists(avatarPath))
+	{
+		FILE *hFile = _wfopen(avatarPath, L"rb");
+		if (!hFile)
+		{
+			Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to open avatar file");
+			return;
+		}
+
+		fseek(hFile, 0, SEEK_END);
+		size_t length = ftell(hFile);
+		rewind(hFile);
+
+		uint8_t hash[TOX_HASH_LENGTH];
+		DBVARIANT dbv;
+		if (!db_get(NULL, proto->m_szModuleName, TOX_SETTINGS_AVATAR_HASH, &dbv))
+		{
+			memcpy(hash, dbv.pbVal, TOX_HASH_LENGTH);
+			db_free(&dbv);
+		}
+
+		TOX_ERR_FILE_SEND error;
+		uint32_t fileNumber = tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, length, hash, NULL, 0, &error);
+		if (error != TOX_ERR_FILE_SEND_OK)
+		{
+			Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to set new avatar");
+			fclose(hFile);
+			return;
+		}
+
+		AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, NULL, length);
+		transfer->pfts.flags |= PFTS_SENDING;
+		memcpy(transfer->hash, hash, TOX_HASH_LENGTH);
+		transfer->pfts.hContact = hContact;
+		transfer->hFile = hFile;
+		proto->transfers.Add(transfer);
+	}
+	else
+		tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, NULL);
 }
 
 int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
