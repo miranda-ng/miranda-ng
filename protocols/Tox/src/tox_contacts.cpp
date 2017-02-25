@@ -319,13 +319,15 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 	if (!hContact)
 		return;
 
-	Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": friend(%d) status changed to (%d)", friendNumber, status);
-
 	if (status == TOX_CONNECTION_NONE)
 	{
 		proto->SetContactStatus(hContact, ID_STATUS_OFFLINE);
 		return;
 	}
+
+	WORD status = proto->GetContactStatus(hContact);
+	if (status > ID_STATUS_OFFLINE)
+		return;
 
 	proto->delSetting(hContact, "Auth");
 	proto->delSetting(hContact, "Grant");
