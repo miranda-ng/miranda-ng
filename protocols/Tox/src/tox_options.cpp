@@ -127,8 +127,7 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 	if (mir_wstrcmpi(profilePath, defaultProfilePath) != 0)
 		CopyFile(profilePath, defaultProfilePath, FALSE);
 
-	Tox_Options *options = NULL;
-	tox_options_default(options);
+	Tox_Options *options = tox_options_new(NULL);
 	if (m_proto->LoadToxProfile(options))
 	{
 		CToxThread toxThread(options);
