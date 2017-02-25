@@ -370,6 +370,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 void CMLan::RecvMessageUrl(CCSDATA* ccs)
 {
 	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
+	ptrA szMessage(Utf8Encode(pre->szMessage));
 
 	DBEVENTINFO dbei = {};
 	if (!mir_strcmp(ccs->szProtoService, PSR_MESSAGE))
@@ -378,12 +379,9 @@ void CMLan::RecvMessageUrl(CCSDATA* ccs)
 		dbei.eventType = EVENTTYPE_URL;
 	dbei.szModule = PROTONAME;
 	dbei.timestamp = pre->timestamp;
-	dbei.flags = pre->flags & PREF_CREATEREAD ? DBEF_READ : 0;
-	dbei.cbBlob = (DWORD)mir_strlen(pre->szMessage) + 1;
-	if (!mir_strcmp(ccs->szProtoService, PSR_URL)) {
-		dbei.cbBlob += 2 + (DWORD)mir_strlen(pre->szMessage + dbei.cbBlob + 1);
-	}
-	dbei.pBlob = (PBYTE)pre->szMessage;
+	dbei.flags = DBEF_UTF + (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
+	dbei.cbBlob = (DWORD)mir_strlen(szMessage) + 1;
+	dbei.pBlob = (PBYTE)szMessage.get();
 
 	db_unset(ccs->hContact, "CList", "Hidden");
 
