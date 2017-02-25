@@ -319,6 +319,8 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 	if (!hContact)
 		return;
 
+	Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": friend(%d) status changed to (%d)", friendNumber, status);
+
 	if (status != TOX_CONNECTION_NONE)
 	{
 		proto->delSetting(hContact, "Auth");
