@@ -79,7 +79,6 @@ void CToxProto::SetToxAvatar(const wchar_t* path)
 			if (friendNumber == UINT32_MAX)
 			{
 				mir_free(data);
-				debugLogA(__FUNCTION__": failed to set new avatar");
 				return;
 			}
 
@@ -88,7 +87,7 @@ void CToxProto::SetToxAvatar(const wchar_t* path)
 			if (error != TOX_ERR_FILE_SEND_OK)
 			{
 				mir_free(data);
-				debugLogA(__FUNCTION__": failed to set new avatar");
+				debugLogA(__FUNCTION__": failed to set new avatar (%d)", error);
 				return;
 			}
 
