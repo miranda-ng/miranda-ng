@@ -325,8 +325,7 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 		return;
 	}
 
-	WORD status = proto->GetContactStatus(hContact);
-	if (status > ID_STATUS_OFFLINE)
+	if (proto->GetContactStatus(hContact) > ID_STATUS_OFFLINE)
 		return;
 
 	proto->delSetting(hContact, "Auth");
@@ -342,7 +341,7 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 		FILE *hFile = _wfopen(avatarPath, L"rb");
 		if (!hFile)
 		{
-			Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to open avatar file");
+			proto->debugLogA(__FUNCTION__": failed to open avatar file");
 			return;
 		}
 
