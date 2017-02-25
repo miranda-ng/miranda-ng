@@ -28,7 +28,7 @@
 extern "C" {
 #endif
 
-#include <stdbool.h>
+#include <msapi/stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
