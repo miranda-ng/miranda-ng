@@ -385,9 +385,9 @@ void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList)
 	}
 }
 
-void GetContactUniqueId(SrmmWindowData *dat, char *buf, int maxlen)
+void GetContactUniqueId(CSrmmWindow *dat, char *buf, int maxlen)
 {
-	ptrW id(Contact_GetInfo(CNF_UNIQUEID, dat->hContact, dat->szProto));
+	ptrW id(Contact_GetInfo(CNF_UNIQUEID, dat->m_hContact, dat->szProto));
 	if (id != NULL)
 		strncpy_s(buf, maxlen, _T2A(id), _TRUNCATE);
 }

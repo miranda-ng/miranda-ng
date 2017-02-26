@@ -78,7 +78,7 @@ struct LogStreamData
 	size_t   bufferOffset, bufferLen;
 	int      eventsToInsert;
 	int      isFirst;
-	SrmmWindowData *dlgDat;
+	CSrmmWindow *dlgDat;
 	GlobalMessageData *gdat;
 	EventData *events;
 };
@@ -112,7 +112,7 @@ int DbEventIsShown(DBEVENTINFO &dbei)
 	return DbEventIsCustomForMsgWindow(&dbei);
 }
 
-EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEvent)
+EventData* getEventFromDB(CSrmmWindow *dat, MCONTACT hContact, MEVENT hDbEvent)
 {
 	DBEVENTINFO dbei = {};
 	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
@@ -476,8 +476,8 @@ static void AppendWithCustomLinks(EventData *evt, int style, CMStringA &buf)
 		mir_free(wText);
 }
 
-//mir_free() the return value
-static char* CreateRTFFromEvent(SrmmWindowData *dat, EventData *evt, GlobalMessageData *gdat, LogStreamData *streamData)
+// mir_free() the return value
+static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageData *gdat, LogStreamData *streamData)
 {
 	int style, showColon = 0;
 	int isGroupBreak = TRUE;
@@ -719,13 +719,12 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 
 void StreamInTestEvents(HWND hEditWnd, GlobalMessageData *gdat)
 {
-	SrmmWindowData dat;
-	memset(&dat, 0, sizeof(dat));
+	CSrmmWindow *dat = new CSrmmWindow(0);
 
 	LogStreamData streamData = { 0 };
 	streamData.isFirst = TRUE;
 	streamData.events = GetTestEvents();
-	streamData.dlgDat = &dat;
+	streamData.dlgDat = dat;
 	streamData.gdat = gdat;
 
 	EDITSTREAM stream = { 0 };
@@ -733,26 +732,27 @@ void StreamInTestEvents(HWND hEditWnd, GlobalMessageData *gdat)
 	stream.dwCookie = (DWORD_PTR)&streamData;
 	SendMessage(hEditWnd, EM_STREAMIN, SF_RTF, (LPARAM)&stream);
 	SendMessage(hEditWnd, EM_HIDESELECTION, FALSE, 0);
+
+	delete dat;
 }
 
-void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
+void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 {
 	FINDTEXTEXA fi;
 	EDITSTREAM stream = { 0 };
 	LogStreamData streamData = { 0 };
-	SrmmWindowData *dat = (SrmmWindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	CHARRANGE oldSel, sel;
 
 	// IEVIew MOD Begin
-	if (dat->hwndLog != NULL) {
+	if (hwndIeview != NULL) {
 		IEVIEWEVENT evt;
 		IEVIEWWINDOW ieWindow;
 		memset(&evt, 0, sizeof(evt));
 		evt.cbSize = sizeof(evt);
-		evt.dwFlags = ((dat->flags & SMF_RTL) ? IEEF_RTL : 0);
-		evt.hwnd = dat->hwndLog;
-		evt.hContact = dat->hContact;
-		evt.pszProto = dat->szProto;
+		evt.dwFlags = ((flags & SMF_RTL) ? IEEF_RTL : 0);
+		evt.hwnd = hwndIeview;
+		evt.hContact = m_hContact;
+		evt.pszProto = szProto;
 		if (!fAppend) {
 			evt.iType = IEE_CLEAR_LOG;
 			CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt);
@@ -761,25 +761,26 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 		evt.hDbEventFirst = hDbEventFirst;
 		evt.count = count;
 		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt);
-		dat->hDbEventLast = evt.hDbEventFirst != NULL ? evt.hDbEventFirst : dat->hDbEventLast;
+		hDbEventLast = evt.hDbEventFirst != NULL ? evt.hDbEventFirst : hDbEventLast;
 
 		memset(&ieWindow, 0, sizeof(ieWindow));
 		ieWindow.cbSize = sizeof(ieWindow);
 		ieWindow.iType = IEW_SCROLLBOTTOM;
-		ieWindow.hwnd = dat->hwndLog;
+		ieWindow.hwnd = hwndIeview;
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 		return;
 	}
-
 	// IEVIew MOD End
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_HIDESELECTION, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXGETSEL, 0, (LPARAM)&oldSel);
-	streamData.hContact = dat->hContact;
+
+	m_log.SendMsg(EM_HIDESELECTION, TRUE, 0);
+	m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldSel);
+
+	streamData.hContact = m_hContact;
 	streamData.hDbEvent = hDbEventFirst;
-	streamData.hDbEventLast = dat->hDbEventLast;
-	streamData.dlgDat = dat;
+	streamData.hDbEventLast = hDbEventLast;
+	streamData.dlgDat = this;
 	streamData.eventsToInsert = count;
-	streamData.isFirst = fAppend ? GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), CP_ACP, FALSE) == 0 : 1;
+	streamData.isFirst = fAppend ? GetRichTextLength(m_log.GetHwnd(), CP_ACP, FALSE) == 0 : 1;
 	streamData.gdat = &g_dat;
 	stream.pfnCallback = LogStreamInEvents;
 	stream.dwCookie = (DWORD_PTR)& streamData;
@@ -788,30 +789,31 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 		GETTEXTLENGTHEX gtxl = { 0 };
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
 		gtxl.codepage = 1200;
-		fi.chrg.cpMin = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
-		sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), 1200, FALSE);
-		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);
+		fi.chrg.cpMin = m_log.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
+		sel.cpMin = sel.cpMax = GetRichTextLength(m_log.GetHwnd(), 1200, FALSE);
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 	}
 	else {
-		SendDlgItemMessage(hwndDlg, IDC_LOG, WM_SETREDRAW, FALSE, 0);
-		SetDlgItemText(hwndDlg, IDC_LOG, L"");
+		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
+		m_log.SetText(L"");
 		sel.cpMin = 0;
-		sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), 1200, FALSE);
-		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);
+		sel.cpMax = GetRichTextLength(m_log.GetHwnd(), 1200, FALSE);
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 		fi.chrg.cpMin = 0;
-		dat->isMixed = 0;
+		isMixed = 0;
 	}
 
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&oldSel);
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_HIDESELECTION, FALSE, 0);
+	m_log.SendMsg(EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
+	m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldSel);
+	m_log.SendMsg(EM_HIDESELECTION, FALSE, 0);
+	
 	if (g_dat.smileyAddInstalled) {
 		SMADD_RICHEDIT3 smre;
 		smre.cbSize = sizeof(SMADD_RICHEDIT3);
-		smre.hwndRichEditControl = GetDlgItem(hwndDlg, IDC_LOG);
+		smre.hwndRichEditControl = m_log.GetHwnd();
 
-		MCONTACT hContact = db_mc_getSrmmSub(dat->hContact);
-		smre.Protocolname = (hContact != NULL) ? GetContactProto(hContact) : dat->szProto;
+		MCONTACT hContact = db_mc_getSrmmSub(m_hContact);
+		smre.Protocolname = (hContact != NULL) ? GetContactProto(hContact) : szProto;
 
 		if (fi.chrg.cpMin > 0) {
 			sel.cpMin = fi.chrg.cpMin;
@@ -821,19 +823,19 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 		else smre.rangeToReplace = NULL;
 
 		smre.disableRedraw = TRUE;
-		smre.hContact = dat->hContact;
+		smre.hContact = m_hContact;
 		smre.flags = 0;
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&smre);
 	}
 
-	int len = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), 1200, FALSE);
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETSEL, len - 1, len - 1);
+	int len = GetRichTextLength(m_log.GetHwnd(), 1200, FALSE);
+	m_log.SendMsg(EM_SETSEL, len - 1, len - 1);
 
 	if (!fAppend)
-		SendDlgItemMessage(hwndDlg, IDC_LOG, WM_SETREDRAW, TRUE, 0);
+		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
 
-	dat->hDbEventLast = streamData.hDbEventLast;
-	PostMessage(hwndDlg, DM_SCROLLLOGTOBOTTOM, 0, 0);
+	hDbEventLast = streamData.hDbEventLast;
+	PostMessage(m_hwnd, DM_SCROLLLOGTOBOTTOM, 0, 0);
 }
 
 #define RTFPICTHEADERMAXSIZE   78

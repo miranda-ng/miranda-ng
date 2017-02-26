@@ -25,12 +25,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef struct InfobarWindowDataStruct
 {
-	struct SrmmWindowData *mwd;
+	class CSrmmWindow *mwd;
 	HWND    hWnd;
 	HWND	hXStatusTip;
 } InfobarWindowData;
 
-InfobarWindowData *CreateInfobar(HWND hParent, SrmmWindowData *dat);
+InfobarWindowData *CreateInfobar(HWND hParent, CSrmmWindow *dat);
 void SetupInfobar(InfobarWindowData* idat);
 void RefreshInfobar(InfobarWindowData* idat);
 

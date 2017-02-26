@@ -719,6 +719,12 @@ static int ScriverRestoreWindowPosition(HWND hwnd, MCONTACT hContact, const char
 	return 0;
 }
 
+struct NewMessageWindowLParam
+{
+	MCONTACT hContact;
+	BOOL isChat;
+};
+
 static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ParentWindowData *dat = (ParentWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);

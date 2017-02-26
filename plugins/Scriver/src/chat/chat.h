@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _CHAT_H_
 #define _CHAT_H_
 
-#include <m_chat_int.h>
-
 #define EM_ACTIVATE (WM_USER+202)
 
 #define TIMERID_MSGSEND    201
@@ -45,7 +43,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CFM_BACKCOLOR		0x04000000
 #endif
 
-//structs
+// structs
 
 struct MODULEINFO : public GCModuleInfoBase
 {
@@ -91,11 +89,11 @@ char          SM_GetStatusIndicator(SESSION_INFO *si, USERINFO *ui);
 
 // tools.c
 BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
-wchar_t*        my_strstri(const wchar_t* s1, const wchar_t* s2) ;
+wchar_t*      my_strstri(const wchar_t* s1, const wchar_t* s2) ;
 UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText);
 void          DestroyGCMenu(HMENU *hMenu, int iIndex);
 
-//////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
 #define DEFLOGFILENAME L"%miranda_logpath%\\%proto%\\%userid%.log"
 #endif

@@ -79,12 +79,10 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 	MCONTACT hContact = db_mc_tryMeta(pcle->hContact);
 
 	HWND hwndExisting = WindowList_Find(pci->hWindowList, hContact);
-	if (hwndExisting == NULL) {
-		NewMessageWindowLParam newData = { 0 };
-		newData.hContact = hContact;
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), GetParentWindow(hContact, FALSE), DlgProcMessage, (LPARAM)&newData);
-	}
-	else SendMessage(GetParent(hwndExisting), CM_POPUPWINDOW, 0, (LPARAM)hwndExisting);
+	if (hwndExisting == NULL)
+		(new CSrmmWindow(hContact))->Show();
+	else
+		SendMessage(GetParent(hwndExisting), CM_POPUPWINDOW, 0, (LPARAM)hwndExisting);
 	return 0;
 }
 
@@ -111,11 +109,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		/* new message */
 		SkinPlaySound("AlertMsg");
 		if (IsAutoPopup(hContact)) {
-			NewMessageWindowLParam newData = { 0 };
-			newData.hContact = hContact;
-			HWND hParent = GetParentWindow(newData.hContact, FALSE);
-			newData.flags = NMWLP_INCOMING;
-			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), hParent, DlgProcMessage, (LPARAM)&newData);
+			(new CSrmmWindow(hContact, true))->Show();
 			return 0;
 		}
 	}
@@ -161,14 +155,8 @@ static INT_PTR SendMessageCommandWorker(MCONTACT hContact, LPCSTR pszMsg, bool i
 		}
 		SendMessage(GetParent(hwnd), CM_POPUPWINDOW, 0, (LPARAM)hwnd);
 	}
-	else {
-		NewMessageWindowLParam newData = { 0 };
-		newData.hContact = hContact;
-		newData.szInitialText = pszMsg;
-		newData.isWchar = isWchar;
-		HWND hParent = GetParentWindow(newData.hContact, FALSE);
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), hParent, DlgProcMessage, (LPARAM)&newData);
-	}
+	else (new CSrmmWindow(hContact, false, pszMsg, isWchar))->Show();
+
 	return 0;
 }
 
@@ -259,14 +247,10 @@ static void RestoreUnreadMessageAlerts(void)
 			if (windowAlreadyExists)
 				continue;
 
-			if (IsAutoPopup(hContact) && !windowAlreadyExists) {
-				NewMessageWindowLParam newData = { 0 };
-				newData.hContact = hContact;
-				newData.flags = NMWLP_INCOMING;
-				HWND hParent = GetParentWindow(newData.hContact, FALSE);
-				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), hParent, DlgProcMessage, (LPARAM)&newData);
-			}
-			else arEvents.insert(new MSavedEvent(hContact, hDbEvent));
+			if (IsAutoPopup(hContact) && !windowAlreadyExists)
+				(new CSrmmWindow(hContact, true))->Show();
+			else
+				arEvents.insert(new MSavedEvent(hContact, hDbEvent));
 		}
 	}
 
@@ -340,7 +324,7 @@ static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 		pdat = si->parent;
 	}
 	else {
-		SrmmWindowData *dat = (SrmmWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 		if (dat == NULL || dat->parent == NULL)
 			return 1;
 

@@ -68,7 +68,7 @@ void SetupInfobar(InfobarWindowData* idat)
 
 static HICON GetExtraStatusIcon(InfobarWindowData* idat)
 {
-	BYTE bXStatus = db_get_b(idat->mwd->hContact, idat->mwd->szProto, "XStatusId", 0);
+	BYTE bXStatus = db_get_b(idat->mwd->m_hContact, idat->mwd->szProto, "XStatusId", 0);
 	if (bXStatus > 0)
 		return (HICON)CallProtoService(idat->mwd->szProto, PS_GETCUSTOMSTATUSICON, bXStatus, 0);
 
@@ -78,10 +78,10 @@ static HICON GetExtraStatusIcon(InfobarWindowData* idat)
 void RefreshInfobar(InfobarWindowData* idat)
 {
 	HWND hwnd = idat->hWnd;
-	SrmmWindowData *dat = idat->mwd;
-	ptrW szContactStatusMsg(db_get_wsa(dat->hContact, "CList", "StatusMsg"));
-	ptrW szXStatusName(db_get_wsa(idat->mwd->hContact, idat->mwd->szProto, "XStatusName"));
-	ptrW szXStatusMsg(db_get_wsa(idat->mwd->hContact, idat->mwd->szProto, "XStatusMsg"));
+	CSrmmWindow *dat = idat->mwd;
+	ptrW szContactStatusMsg(db_get_wsa(dat->m_hContact, "CList", "StatusMsg"));
+	ptrW szXStatusName(db_get_wsa(idat->mwd->m_hContact, idat->mwd->szProto, "XStatusName"));
+	ptrW szXStatusMsg(db_get_wsa(idat->mwd->m_hContact, idat->mwd->szProto, "XStatusMsg"));
 	HICON hIcon = GetExtraStatusIcon(idat);
 	wchar_t szText[2048];
 	SETTEXTEX st;
@@ -91,7 +91,7 @@ void RefreshInfobar(InfobarWindowData* idat)
 		wcsncpy_s(szText, TranslateW(szXStatusName), _TRUNCATE);
 	st.flags = ST_DEFAULT;
 	st.codepage = 1200;
-	SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)pcli->pfnGetContactDisplayName(dat->hContact, 0));
+	SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)pcli->pfnGetContactDisplayName(dat->m_hContact, 0));
 	SendDlgItemMessage(hwnd, IDC_INFOBAR_STATUS, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)szContactStatusMsg);
 	hIcon = (HICON)SendDlgItemMessage(hwnd, IDC_XSTATUSICON, STM_SETICON, (WPARAM)hIcon, 0);
 	if (hIcon)
@@ -198,20 +198,6 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 						SetFocus(GetParent(hwnd));
 					}
 					break;
-
-				case EN_LINK:
-					switch (((ENLINK*)lParam)->msg) {
-					case WM_RBUTTONDOWN:
-					case WM_LBUTTONUP:
-						if (!bWasCopy) {
-							if (HandleLinkClick(g_hInst, hwnd, GetDlgItem(GetParent(hwnd), IDC_MESSAGE), (ENLINK*)lParam)) {
-								SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
-								return TRUE;
-							}
-						}
-						bWasCopy = FALSE;
-						break;
-					}
 				}
 				break;
 			}
@@ -245,7 +231,7 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 						}
 
 						AVATARDRAWREQUEST adr = { sizeof(adr) };
-						adr.hContact = idat->mwd->hContact;
+						adr.hContact = idat->mwd->m_hContact;
 						adr.hTargetDC = hdcMem;
 						adr.rcDraw.right = avatarWidth - 1;
 						adr.rcDraw.bottom = avatarHeight - 1;
@@ -263,12 +249,12 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		return Menu_DrawItem(lParam);
 
 	case WM_LBUTTONDOWN:
-		SendMessage(idat->mwd->hwnd, WM_LBUTTONDOWN, wParam, lParam);
+		SendMessage(idat->mwd->GetHwnd(), WM_LBUTTONDOWN, wParam, lParam);
 		return TRUE;
 
 	case WM_RBUTTONUP:
 		{
-			HMENU hMenu = Menu_BuildContactMenu(idat->mwd->hContact);
+			HMENU hMenu = Menu_BuildContactMenu(idat->mwd->m_hContact);
 
 			POINT pt;
 			GetCursorPos(&pt);
@@ -287,7 +273,7 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	return FALSE;
 }
 
-InfobarWindowData* CreateInfobar(HWND hParent, SrmmWindowData *dat)
+InfobarWindowData* CreateInfobar(HWND hParent, CSrmmWindow *dat)
 {
 	InfobarWindowData *idat = (InfobarWindowData*)mir_alloc(sizeof(InfobarWindowData));
 	idat->mwd = dat;
