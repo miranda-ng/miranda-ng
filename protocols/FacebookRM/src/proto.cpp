@@ -344,82 +344,8 @@ int FacebookProto::AuthDeny(MEVENT hDbEvent, const wchar_t *)
 
 int FacebookProto::GetInfo(MCONTACT hContact, int)
 {
-	ptrA user_id(getStringA(hContact, FACEBOOK_KEY_ID));
-	if (user_id == NULL)
-		return 1;
-
-	facebook_user fbu;
-	fbu.user_id = user_id;
-
-	LoadContactInfo(&fbu);
-
-	// TODO: don't duplicate code this way, refactor all this userInfo loading
-	// TODO: load more info about user (authorization state,...)
-
-	std::string homepage = FACEBOOK_URL_PROFILE + fbu.user_id;
-	setString(hContact, "Homepage", homepage.c_str());
-
-	if (!fbu.real_name.empty()) {
-		SaveName(hContact, &fbu);
-	}
-
-	if (fbu.gender) {
-		setByte(hContact, "Gender", fbu.gender);
-	}
-
-	int oldType = getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
-	// From server we won't get request/approve types, only none, so we don't want to overwrite and lost it in that case
-	if (fbu.type != CONTACT_NONE || (oldType != CONTACT_REQUEST && oldType != CONTACT_APPROVE)) {
-		if (oldType != fbu.type) {
-			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, fbu.type);
-		}
-	}
-
-	// If this contact is page, set it as invisible (if enabled in options)
-	if (getBool(FACEBOOK_KEY_PAGES_ALWAYS_ONLINE, DEFAULT_PAGES_ALWAYS_ONLINE) && fbu.type == CONTACT_PAGE) {
-		setWord(hContact, "Status", ID_STATUS_INVISIBLE);
-	}
-
-	CheckAvatarChange(hContact, fbu.image_url);
-
-	// Load additional info from profile page (e.g., birthday)
-	if (isOffline())
-		return 1;
-
-	http::response resp = facy.sendRequest(new ProfileInfoRequest(facy.mbasicWorks, fbu.user_id.c_str()));
-
-	if (resp.code == HTTP_CODE_OK) {
-		std::string birthday = utils::text::source_get_value(&resp.data, 4, ">Birthday</", "<td", ">", "</td>");
-		birthday = utils::text::remove_html(birthday);
-
-		std::string::size_type pos = birthday.find(" ");
-		std::string::size_type pos2 = birthday.find(",");
-		if (pos != std::string::npos) {
-			std::string month = birthday.substr(0, pos);
-			std::string day = birthday.substr(pos + 1, pos2 != std::string::npos ? pos2 - pos - 1 : std::string::npos);
-	
-			setByte(hContact, "BirthDay", atoi(day.c_str()));
-
-			const static char *months[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
-			for (int i = 0; i < 12; i++) {
-				if (!mir_strcmp(months[i], month.c_str())) {
-					setByte(hContact, "BirthMonth", i + 1);
-					break;
-				}
-			}
-
-			if (pos2 != std::string::npos) {
-				std::string year = birthday.substr(pos2 + 2, 4);
-				setWord(hContact, "BirthYear", atoi(year.c_str()));
-			}
-			else {
-				// We have to set ANY year, otherwise UserInfoEx shows completely wrong date
-				setWord(hContact, "BirthYear", 1800);
-			}
-		}
-	}
-
-	return 1;
+	ForkThread(&FacebookProto::RefreshUserInfo, (void*)new MCONTACT(hContact));
+	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////

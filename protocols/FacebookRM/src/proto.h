@@ -195,6 +195,7 @@ public:
 	void __cdecl CancelFriendsRequest(void*);
 	void __cdecl SendPokeWorker(void*);
 	void __cdecl IgnoreFriendshipRequest(void*);
+	void __cdecl RefreshUserInfo(void*);
 
 	// Contacts handling
 	bool		IsMyContact(MCONTACT, bool include_chat = false);
