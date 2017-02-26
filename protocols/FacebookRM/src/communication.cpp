@@ -41,7 +41,8 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 		return resp;
 	}
 
-	if (!parent->m_locale.empty())
+	// Check and append user defined locale if request doesn't have it forced already
+	if (!parent->m_locale.empty() && strstr(request->szUrl, "&locale=") == NULL)
 		request->Url << CHAR_VALUE("locale", parent->m_locale.c_str());
 
 	request->Headers

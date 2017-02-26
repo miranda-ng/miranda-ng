@@ -78,4 +78,18 @@ public:
 	}
 };
 
+// request mobile page containing user profile by his id, and in english language (for parsing data)
+class ProfileInfoRequest : public HttpRequest
+{
+public:
+	ProfileInfoRequest(bool mobileBasicWorks, const char *userId) :
+		HttpRequest(REQUEST_GET, FORMAT, "%s/profile.php", mobileBasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE)
+	{
+		Url
+			<< CHAR_VALUE("id", userId)
+			<< "v=info"
+			<< "locale=en_US";
+	}
+};
+
 #endif //_FACEBOOK_REQUEST_PROFILE_H_

@@ -382,6 +382,43 @@ int FacebookProto::GetInfo(MCONTACT hContact, int)
 
 	CheckAvatarChange(hContact, fbu.image_url);
 
+	// Load additional info from profile page (e.g., birthday)
+	if (isOffline())
+		return 1;
+
+	http::response resp = facy.sendRequest(new ProfileInfoRequest(facy.mbasicWorks, fbu.user_id.c_str()));
+
+	if (resp.code == HTTP_CODE_OK) {
+		std::string birthday = utils::text::source_get_value(&resp.data, 4, ">Birthday</", "<td", ">", "</td>");
+		birthday = utils::text::remove_html(birthday);
+
+		std::string::size_type pos = birthday.find(" ");
+		std::string::size_type pos2 = birthday.find(",");
+		if (pos != std::string::npos) {
+			std::string month = birthday.substr(0, pos);
+			std::string day = birthday.substr(pos + 1, pos2 != std::string::npos ? pos2 - pos - 1 : std::string::npos);
+	
+			setByte(hContact, "BirthDay", atoi(day.c_str()));
+
+			const static char *months[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+			for (int i = 0; i < 12; i++) {
+				if (!mir_strcmp(months[i], month.c_str())) {
+					setByte(hContact, "BirthMonth", i + 1);
+					break;
+				}
+			}
+
+			if (pos2 != std::string::npos) {
+				std::string year = birthday.substr(pos2 + 2, 4);
+				setWord(hContact, "BirthYear", atoi(year.c_str()));
+			}
+			else {
+				// We have to set ANY year, otherwise UserInfoEx shows completely wrong date
+				setWord(hContact, "BirthYear", 1800);
+			}
+		}
+	}
+
 	return 1;
 }
 
