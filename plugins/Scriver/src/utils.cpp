@@ -434,7 +434,7 @@ void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT *rect)
 	SendMessage(hwndTT, TTM_NEWTOOLRECT, 0, (LPARAM)&ti);
 }
 
-void SetButtonsPos(HWND hwndDlg, bool bShow)
+void SetButtonsPos(HWND hwndDlg, MCONTACT hContact, bool bShow)
 {
 	HDWP hdwp = BeginDeferWindowPos(Srmm_GetButtonCount());
 
@@ -452,6 +452,12 @@ void SetButtonsPos(HWND hwndDlg, bool bShow)
 		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
 		if (hwndButton == NULL)
 			continue;
+
+		if (cbd->m_dwButtonCID == IDC_ADD)
+			if (!db_get_b(hContact, "CList", "NotOnList", 0)) {
+				ShowWindow(hwndButton, SW_HIDE);
+				continue;
+			}
 
 		ShowWindow(hwndButton, bShow ? SW_SHOW : SW_HIDE);
 

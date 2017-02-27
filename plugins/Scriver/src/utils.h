@@ -52,5 +52,5 @@ void GetContactUniqueId(class CSrmmWindow *dat, char *buf, int maxlen);
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT *rect);
 void SetToolTipText(HWND hwndParent, HWND hwndTT, LPTSTR ptszText, LPTSTR ptszTitle);
 void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT* rect);
-void SetButtonsPos(HWND hwndDlg, bool bShow);
+void SetButtonsPos(HWND hwndDlg, MCONTACT hContact, bool bShow);
 #endif

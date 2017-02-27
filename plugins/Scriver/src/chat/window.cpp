@@ -895,7 +895,7 @@ class CChatRoomDlg : public CSrmmBaseDialog
 		hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_MESSAGE), 0, 1, h - m_si->iSplitterY + SPLITTER_HEIGHT, w - 2, m_si->iSplitterY - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
 		EndDeferWindowPos(hdwp);
 
-		SetButtonsPos(m_hwnd, bToolbar);
+		SetButtonsPos(m_hwnd, m_si->hContact, bToolbar);
 
 		if (m_si->m_hwndIeview != NULL) {
 			IEVIEWWINDOW ieWindow;

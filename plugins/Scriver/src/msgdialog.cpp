@@ -163,27 +163,14 @@ static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t* s
 void CSrmmWindow::SetDialogToType()
 {
 	BOOL showToolbar = SendMessage(m_hwndParent, CM_GETTOOLBARSTATUS, 0, 0);
-	ParentWindowData *pdat = m_pParent;
+	if (m_hContact == 0)
+		showToolbar = false;
 
+	ParentWindowData *pdat = m_pParent;
 	if (pdat->flags2 & SMF2_SHOWINFOBAR)
 		ShowWindow(m_pInfobarData->hWnd, SW_SHOW);
 	else
 		ShowWindow(m_pInfobarData->hWnd, SW_HIDE);
-
-	CustomButtonData *cbd;
-	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
-		HWND hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
-		if (hwndButton == NULL)
-			continue;
-
-		if (m_hContact) {
-			if (cbd->m_dwButtonCID == IDC_ADD && !db_get_b(m_hContact, "CList", "NotOnList", 0))
-				ShowWindow(hwndButton, SW_HIDE);
-			else
-				ShowWindow(hwndButton, showToolbar ? SW_SHOW : SW_HIDE);
-		}
-		else ShowWindow(hwndButton, SW_HIDE);
-	}
 
 	ShowWindow(m_message.GetHwnd(), SW_SHOW);
 	if (m_hwndIeview != NULL)
@@ -508,7 +495,7 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_SPLITTERY), 0, 0, h - hSplitterPos - 1, toolbarWidth, SPLITTER_HEIGHT, SWP_NOZORDER);
 	EndDeferWindowPos(hdwp);
 
-	SetButtonsPos(m_hwnd, bToolbar);
+	SetButtonsPos(m_hwnd, m_hContact, bToolbar);
 
 	if (m_hwndIeview != NULL) {
 		IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
