@@ -138,13 +138,13 @@ EventData* getEventFromDB(CSrmmWindow *dat, MCONTACT hContact, MEVENT hDbEvent)
 	evt->dwFlags = (dbei.flags & DBEF_READ ? IEEDF_READ : 0) | (dbei.flags & DBEF_SENT ? IEEDF_SENT : 0) | (dbei.flags & DBEF_RTL ? IEEDF_RTL : 0);
 	evt->dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
 
-	if (dat->flags & SMF_RTL)
+	if (dat->m_bUseRtl)
 		evt->dwFlags |= IEEDF_RTL;
 
 	evt->time = dbei.timestamp;
 	evt->pszNick = NULL;
 	if (evt->dwFlags & IEEDF_SENT)
-		evt->pszNickT = Contact_GetInfo(CNF_DISPLAY, NULL, dat->szProto);
+		evt->pszNickT = Contact_GetInfo(CNF_DISPLAY, NULL, dat->m_szProto);
 	else
 		evt->pszNickT = mir_wstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
 
@@ -157,7 +157,7 @@ EventData* getEventFromDB(CSrmmWindow *dat, MCONTACT hContact, MEVENT hDbEvent)
 	}
 	else evt->pszTextT = DbEvent_GetTextW(&dbei, CP_UTF8);
 
-	if (!(dat->flags & SMF_RTL) && RTL_Detect(evt->pszTextT))
+	if (!dat->m_bUseRtl && RTL_Detect(evt->pszTextT))
 		evt->dwFlags |= IEEDF_RTL;
 
 	mir_free(dbei.pBlob);
@@ -483,14 +483,14 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 	int isGroupBreak = TRUE;
 	int highlight = 0;
 
-	if ((gdat->flags & SMF_GROUPMESSAGES) && evt->dwFlags == LOWORD(dat->lastEventType) &&
-		evt->eventType == EVENTTYPE_MESSAGE && HIWORD(dat->lastEventType) == EVENTTYPE_MESSAGE &&
-		(isSameDate(evt->time, dat->lastEventTime)) && ((((int)evt->time < dat->startTime) == (dat->lastEventTime < dat->startTime)) || !(evt->dwFlags & IEEDF_READ))) {
+	if ((gdat->flags & SMF_GROUPMESSAGES) && evt->dwFlags == LOWORD(dat->m_lastEventType) &&
+		evt->eventType == EVENTTYPE_MESSAGE && HIWORD(dat->m_lastEventType) == EVENTTYPE_MESSAGE &&
+		(isSameDate(evt->time, dat->m_lastEventTime)) && ((((int)evt->time < dat->m_startTime) == (dat->m_lastEventTime < dat->m_startTime)) || !(evt->dwFlags & IEEDF_READ))) {
 		isGroupBreak = FALSE;
 	}
 
 	CMStringA buf;
-	if (!streamData->isFirst && !dat->isMixed) {
+	if (!streamData->isFirst && !dat->m_isMixed) {
 		if (isGroupBreak || gdat->flags & SMF_MARKFOLLOWUPS)
 			buf.Append("\\par");
 		else
@@ -498,7 +498,7 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 	}
 
 	if (evt->dwFlags & IEEDF_RTL)
-		dat->isMixed = 1;
+		dat->m_isMixed = 1;
 
 	if (!streamData->isFirst && isGroupBreak && (gdat->flags & SMF_DRAWLINES))
 		buf.AppendFormat("\\sl-1\\slmult0\\highlight%d\\cf%d\\fs1  \\par\\sl0", fontOptionsListSize + 4, fontOptionsListSize + 4);
@@ -511,14 +511,14 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 		highlight = fontOptionsListSize + 1;
 
 	buf.AppendFormat("\\highlight%d\\cf%d", highlight, highlight);
-	if (!streamData->isFirst && dat->isMixed) {
+	if (!streamData->isFirst && dat->m_isMixed) {
 		if (isGroupBreak)
 			buf.Append("\\sl-1 \\par\\sl0");
 		else
 			buf.Append("\\sl-1 \\line\\sl0");
 	}
 	streamData->isFirst = FALSE;
-	if (dat->isMixed) {
+	if (dat->m_isMixed) {
 		if (evt->dwFlags & IEEDF_RTL)
 			buf.Append("\\ltrch\\rtlch");
 		else
@@ -650,11 +650,11 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 		AppendWithCustomLinks(evt, style, buf);
 		break;
 	}
-	if (dat->isMixed)
+	if (dat->m_isMixed)
 		buf.Append("\\par");
 
-	dat->lastEventTime = evt->time;
-	dat->lastEventType = MAKELONG(evt->dwFlags, evt->eventType);
+	dat->m_lastEventTime = evt->time;
+	dat->m_lastEventType = MAKELONG(evt->dwFlags, evt->eventType);
 	return buf.Detach();
 }
 
@@ -738,21 +738,16 @@ void StreamInTestEvents(HWND hEditWnd, GlobalMessageData *gdat)
 
 void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 {
-	FINDTEXTEXA fi;
-	EDITSTREAM stream = { 0 };
-	LogStreamData streamData = { 0 };
-	CHARRANGE oldSel, sel;
-
 	// IEVIew MOD Begin
-	if (hwndIeview != NULL) {
+	if (m_hwndIeview != NULL) {
 		IEVIEWEVENT evt;
 		IEVIEWWINDOW ieWindow;
 		memset(&evt, 0, sizeof(evt));
 		evt.cbSize = sizeof(evt);
-		evt.dwFlags = ((flags & SMF_RTL) ? IEEF_RTL : 0);
-		evt.hwnd = hwndIeview;
+		evt.dwFlags = (m_bUseRtl) ? IEEF_RTL : 0;
+		evt.hwnd = m_hwndIeview;
 		evt.hContact = m_hContact;
-		evt.pszProto = szProto;
+		evt.pszProto = m_szProto;
 		if (!fAppend) {
 			evt.iType = IEE_CLEAR_LOG;
 			CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt);
@@ -761,30 +756,36 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 		evt.hDbEventFirst = hDbEventFirst;
 		evt.count = count;
 		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt);
-		hDbEventLast = evt.hDbEventFirst != NULL ? evt.hDbEventFirst : hDbEventLast;
+		m_hDbEventLast = evt.hDbEventFirst != NULL ? evt.hDbEventFirst : m_hDbEventLast;
 
 		memset(&ieWindow, 0, sizeof(ieWindow));
 		ieWindow.cbSize = sizeof(ieWindow);
 		ieWindow.iType = IEW_SCROLLBOTTOM;
-		ieWindow.hwnd = hwndIeview;
+		ieWindow.hwnd = m_hwndIeview;
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 		return;
 	}
 	// IEVIew MOD End
 
+	CHARRANGE oldSel, sel;
 	m_log.SendMsg(EM_HIDESELECTION, TRUE, 0);
 	m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
+	LogStreamData streamData = {};
 	streamData.hContact = m_hContact;
 	streamData.hDbEvent = hDbEventFirst;
-	streamData.hDbEventLast = hDbEventLast;
+	streamData.hDbEventLast = m_hDbEventLast;
 	streamData.dlgDat = this;
 	streamData.eventsToInsert = count;
 	streamData.isFirst = fAppend ? GetRichTextLength(m_log.GetHwnd(), CP_ACP, FALSE) == 0 : 1;
 	streamData.gdat = &g_dat;
+
+	EDITSTREAM stream = {};
 	stream.pfnCallback = LogStreamInEvents;
 	stream.dwCookie = (DWORD_PTR)& streamData;
 	sel.cpMin = 0;
+
+	FINDTEXTEXA fi;
 	if (fAppend) {
 		GETTEXTLENGTHEX gtxl = { 0 };
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
@@ -800,7 +801,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 		sel.cpMax = GetRichTextLength(m_log.GetHwnd(), 1200, FALSE);
 		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 		fi.chrg.cpMin = 0;
-		isMixed = 0;
+		m_isMixed = 0;
 	}
 
 	m_log.SendMsg(EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
@@ -813,7 +814,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 		smre.hwndRichEditControl = m_log.GetHwnd();
 
 		MCONTACT hContact = db_mc_getSrmmSub(m_hContact);
-		smre.Protocolname = (hContact != NULL) ? GetContactProto(hContact) : szProto;
+		smre.Protocolname = (hContact != NULL) ? GetContactProto(hContact) : m_szProto;
 
 		if (fi.chrg.cpMin > 0) {
 			sel.cpMin = fi.chrg.cpMin;
@@ -834,7 +835,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 	if (!fAppend)
 		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
 
-	hDbEventLast = streamData.hDbEventLast;
+	m_hDbEventLast = streamData.hDbEventLast;
 	PostMessage(m_hwnd, DM_SCROLLLOGTOBOTTOM, 0, 0);
 }
 

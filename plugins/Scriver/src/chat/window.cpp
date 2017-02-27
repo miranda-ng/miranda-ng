@@ -855,8 +855,8 @@ class CChatRoomDlg : public CSrmmBaseDialog
 	void MessageDialogResize(int w, int h)
 	{
 		bool bNick = m_si->iType != GCW_SERVER && m_si->bNicklistEnabled;
-		bool bToolbar = SendMessage(GetParent(m_hwnd), CM_GETTOOLBARSTATUS, 0, 0) != 0;
-		int  hSplitterMinTop = TOOLBAR_HEIGHT + m_si->minLogBoxHeight, hSplitterMinBottom = m_si->minEditBoxHeight;
+		bool bToolbar = SendMessage(m_hwndParent, CM_GETTOOLBARSTATUS, 0, 0) != 0;
+		int  hSplitterMinTop = TOOLBAR_HEIGHT + m_si->m_minLogBoxHeight, hSplitterMinBottom = m_si->m_minEditBoxHeight;
 		int  toolbarHeight = bToolbar ? TOOLBAR_HEIGHT : 0;
 
 		m_si->iSplitterY = m_si->desiredInputAreaHeight + SPLITTER_HEIGHT + 3;
@@ -886,7 +886,7 @@ class CChatRoomDlg : public CSrmmBaseDialog
 
 		HDWP hdwp = BeginDeferWindowPos(5);
 		int toolbarTopY = bToolbar ? h - m_si->iSplitterY - toolbarHeight : h - m_si->iSplitterY;
-		int logBottom = (m_si->hwndIeview != NULL) ? toolbarTopY / 2 : toolbarTopY;
+		int logBottom = (m_si->m_hwndIeview != NULL) ? toolbarTopY / 2 : toolbarTopY;
 
 		hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_LOG), 0, 1, 0, bNick ? w - m_si->iSplitterX - 1 : w - 2, logBottom, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_CHAT_LIST), 0, w - m_si->iSplitterX + 2, 0, m_si->iSplitterX - 3, toolbarTopY, SWP_NOZORDER);
@@ -897,12 +897,12 @@ class CChatRoomDlg : public CSrmmBaseDialog
 
 		SetButtonsPos(m_hwnd, bToolbar);
 
-		if (m_si->hwndIeview != NULL) {
+		if (m_si->m_hwndIeview != NULL) {
 			IEVIEWWINDOW ieWindow;
 			ieWindow.cbSize = sizeof(IEVIEWWINDOW);
 			ieWindow.iType = IEW_SETPOS;
 			ieWindow.parent = m_hwnd;
-			ieWindow.hwnd = m_si->hwndIeview;
+			ieWindow.hwnd = m_si->m_hwndIeview;
 			ieWindow.x = 0;
 			ieWindow.y = logBottom + 1;
 			ieWindow.cx = bNick ? w - m_si->iSplitterX : w;
@@ -949,8 +949,8 @@ public:
 
 		RECT minEditInit;
 		GetWindowRect(m_message.GetHwnd(), &minEditInit);
-		m_si->minEditBoxHeight = minEditInit.bottom - minEditInit.top;
-		m_si->minLogBoxHeight = m_si->minEditBoxHeight;
+		m_si->m_minEditBoxHeight = minEditInit.bottom - minEditInit.top;
+		m_si->m_minLogBoxHeight = m_si->m_minEditBoxHeight;
 
 		m_message.SendMsg(EM_SUBCLASSED, 0, 0);
 		m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_CHANGE | ENM_REQUESTRESIZE);
@@ -970,11 +970,11 @@ public:
 			ieWindow.cy = 300;
 			CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 
-			m_si->hwndIeview = ieWindow.hwnd;
+			m_si->m_hwndIeview = ieWindow.hwnd;
 
 			IEVIEWEVENT iee = { sizeof(iee) };
 			iee.iType = IEE_CLEAR_LOG;
-			iee.hwnd = m_si->hwndIeview;
+			iee.hwnd = m_si->m_hwndIeview;
 			iee.hContact = m_si->hContact;
 			iee.pszProto = m_si->pszModule;
 			CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&iee);
@@ -986,7 +986,7 @@ public:
 		SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
 		SendMessage(m_hwnd, DM_UPDATETITLEBAR, 0, 0);
 
-		SendMessage(GetParent(m_hwnd), CM_ADDCHILD, (WPARAM)m_hwnd, m_si->hContact);
+		SendMessage(m_hwndParent, CM_ADDCHILD, (WPARAM)m_hwnd, m_si->hContact);
 		PostMessage(m_hwnd, GC_UPDATENICKLIST, 0, 0);
 		NotifyLocalWinEvent(m_si->hContact, m_hwnd, MSG_WINDOW_EVT_OPEN);
 	}
@@ -998,12 +998,12 @@ public:
 		m_si->hWnd = NULL;
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
 
-		SendMessage(GetParent(m_hwnd), CM_REMOVECHILD, 0, (LPARAM)m_hwnd);
-		if (m_si->hwndIeview != NULL) {
+		SendMessage(m_hwndParent, CM_REMOVECHILD, 0, (LPARAM)m_hwnd);
+		if (m_si->m_hwndIeview != NULL) {
 			IEVIEWWINDOW ieWindow;
 			ieWindow.cbSize = sizeof(IEVIEWWINDOW);
 			ieWindow.iType = IEW_DESTROY;
-			ieWindow.hwnd = m_si->hwndIeview;
+			ieWindow.hwnd = m_si->m_hwndIeview;
 			CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 		}
 
@@ -1091,7 +1091,7 @@ public:
 			}
 			tbd.iFlags = TBDF_TEXT | TBDF_ICON;
 			tbd.pszText = szTemp;
-			SendMessage(GetParent(m_hwnd), CM_UPDATETITLEBAR, (WPARAM)&tbd, (LPARAM)m_hwnd);
+			SendMessage(m_hwndParent, CM_UPDATETITLEBAR, (WPARAM)&tbd, (LPARAM)m_hwnd);
 			SendMessage(m_hwnd, DM_UPDATETABCONTROL, 0, 0);
 			break;
 
@@ -1106,12 +1106,12 @@ public:
 				sbd.iFlags = SBDF_TEXT | SBDF_ICON;
 				sbd.hIcon = hIcon;
 				sbd.pszText = szTemp;
-				SendMessage(GetParent(m_hwnd), CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)m_hwnd);
+				SendMessage(m_hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)m_hwnd);
 
 				sbd.iItem = 1;
 				sbd.hIcon = NULL;
 				sbd.pszText = L"";
-				SendMessage(GetParent(m_hwnd), CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)m_hwnd);
+				SendMessage(m_hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)m_hwnd);
 
 				StatusIconData sid = { sizeof(sid) };
 				sid.szModule = SRMMMOD;
@@ -1178,7 +1178,7 @@ public:
 		case DM_UPDATETABCONTROL:
 			tcd.iFlags = TCDF_TEXT;
 			tcd.pszText = m_si->ptszName;
-			SendMessage(GetParent(m_hwnd), CM_UPDATETABCONTROL, (WPARAM)&tcd, (LPARAM)m_hwnd);
+			SendMessage(m_hwndParent, CM_UPDATETABCONTROL, (WPARAM)&tcd, (LPARAM)m_hwnd);
 			// fall through
 
 		case GC_FIXTABICONS:
@@ -1192,21 +1192,21 @@ public:
 
 			tcd.iFlags = TCDF_ICON;
 			tcd.hIcon = hIcon;
-			SendMessage(GetParent(m_hwnd), CM_UPDATETABCONTROL, (WPARAM)&tcd, (LPARAM)m_hwnd);
+			SendMessage(m_hwndParent, CM_UPDATETABCONTROL, (WPARAM)&tcd, (LPARAM)m_hwnd);
 			break;
 
 		case GC_SETMESSAGEHIGHLIGHT:
 			m_si->wState |= GC_EVENT_HIGHLIGHT;
 			SendMessage(m_si->hWnd, GC_FIXTABICONS, 0, 0);
 			SendMessage(m_hwnd, DM_UPDATETITLEBAR, 0, 0);
-			if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != m_hwnd && GetForegroundWindow() != GetParent(m_hwnd))
+			if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwndParent)
 				SendMessage(GetParent(m_si->hWnd), CM_STARTFLASHING, 0, 0);
 			break;
 
 		case GC_SETTABHIGHLIGHT:
 			SendMessage(m_si->hWnd, GC_FIXTABICONS, 0, 0);
 			SendMessage(m_hwnd, DM_UPDATETITLEBAR, 0, 0);
-			if (g_Settings.bFlashWindow && GetActiveWindow() != GetParent(m_hwnd) && GetForegroundWindow() != GetParent(m_hwnd))
+			if (g_Settings.bFlashWindow && GetActiveWindow() != m_hwndParent && GetForegroundWindow() != m_hwndParent)
 				SendMessage(GetParent(m_si->hWnd), CM_STARTFLASHING, 0, 0);
 			break;
 
@@ -1755,7 +1755,7 @@ public:
 				if (mmi->ptMinTrackSize.x < 350)
 					mmi->ptMinTrackSize.x = 350;
 
-				mmi->ptMinTrackSize.y = m_si->minLogBoxHeight + TOOLBAR_HEIGHT + m_si->minEditBoxHeight + 5;
+				mmi->ptMinTrackSize.y = m_si->m_minLogBoxHeight + TOOLBAR_HEIGHT + m_si->m_minEditBoxHeight + 5;
 			}
 			break;
 
@@ -1763,11 +1763,11 @@ public:
 			if (LOWORD(lParam) < 30)
 				PostMessage(m_hwnd, GC_SCROLLTOBOTTOM, 0, 0);
 			else
-				SendMessage(GetParent(m_hwnd), WM_SYSCOMMAND, SC_MINIMIZE, 0);
+				SendMessage(m_hwndParent, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 			break;
 
 		case WM_LBUTTONDOWN:
-			SendMessage(GetParent(m_hwnd), WM_LBUTTONDOWN, wParam, lParam);
+			SendMessage(m_hwndParent, WM_LBUTTONDOWN, wParam, lParam);
 			return TRUE;
 
 		case DM_GETCONTEXTMENU:
@@ -1775,7 +1775,7 @@ public:
 			return TRUE;
 
 		case WM_CONTEXTMENU:
-			if (GetParent(m_hwnd) == (HWND)wParam) {
+			if (m_hwndParent == (HWND)wParam) {
 				HMENU hMenu = Menu_BuildContactMenu(m_si->hContact);
 				GetCursorPos(&pt);
 				TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, m_hwnd, NULL);
@@ -1804,7 +1804,7 @@ void ShowRoom(SESSION_INFO *si)
 		pDlg->SetParent(hParent);
 		pDlg->Show();
 		
-		si->parent = (ParentWindowData*)GetWindowLongPtr(hParent, GWLP_USERDATA);
+		si->m_pParent = (ParentWindowData*)GetWindowLongPtr(hParent, GWLP_USERDATA);
 		si->hWnd = pDlg->GetHwnd();
 	}
 	SendMessage(si->hWnd, DM_UPDATETABCONTROL, -1, (LPARAM)si);

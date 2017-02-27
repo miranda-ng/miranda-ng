@@ -68,9 +68,9 @@ void SetupInfobar(InfobarWindowData* idat)
 
 static HICON GetExtraStatusIcon(InfobarWindowData* idat)
 {
-	BYTE bXStatus = db_get_b(idat->mwd->m_hContact, idat->mwd->szProto, "XStatusId", 0);
+	BYTE bXStatus = db_get_b(idat->mwd->m_hContact, idat->mwd->m_szProto, "XStatusId", 0);
 	if (bXStatus > 0)
-		return (HICON)CallProtoService(idat->mwd->szProto, PS_GETCUSTOMSTATUSICON, bXStatus, 0);
+		return (HICON)CallProtoService(idat->mwd->m_szProto, PS_GETCUSTOMSTATUSICON, bXStatus, 0);
 
 	return NULL;
 }
@@ -80,8 +80,8 @@ void RefreshInfobar(InfobarWindowData* idat)
 	HWND hwnd = idat->hWnd;
 	CSrmmWindow *dat = idat->mwd;
 	ptrW szContactStatusMsg(db_get_wsa(dat->m_hContact, "CList", "StatusMsg"));
-	ptrW szXStatusName(db_get_wsa(idat->mwd->m_hContact, idat->mwd->szProto, "XStatusName"));
-	ptrW szXStatusMsg(db_get_wsa(idat->mwd->m_hContact, idat->mwd->szProto, "XStatusMsg"));
+	ptrW szXStatusName(db_get_wsa(idat->mwd->m_hContact, idat->mwd->m_szProto, "XStatusName"));
+	ptrW szXStatusMsg(db_get_wsa(idat->mwd->m_hContact, idat->mwd->m_szProto, "XStatusMsg"));
 	HICON hIcon = GetExtraStatusIcon(idat);
 	wchar_t szText[2048];
 	SETTEXTEX st;
@@ -137,9 +137,9 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			GetClientRect(hwnd, &rc);
 			dlgWidth = rc.right - rc.left;
 			dlgHeight = rc.bottom - rc.top;
-			if (idat->mwd->avatarPic && (g_dat.flags&SMF_AVATAR)) {
+			if (idat->mwd->m_hbmpAvatarPic && (g_dat.flags & SMF_AVATAR)) {
 				BITMAP bminfo;
-				GetObject(idat->mwd->avatarPic, sizeof(bminfo), &bminfo);
+				GetObject(idat->mwd->m_hbmpAvatarPic, sizeof(bminfo), &bminfo);
 				if (bminfo.bmWidth != 0 && bminfo.bmHeight != 0) {
 					avatarHeight = dlgHeight - 2;
 					avatarWidth = bminfo.bmWidth * avatarHeight / bminfo.bmHeight;
@@ -219,9 +219,9 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				rect.right = itemWidth - 1;
 				rect.bottom = itemHeight - 1;
 				FillRect(hdcMem, &rect, g_dat.hInfobarBrush);
-				if (idat->mwd->avatarPic && (g_dat.flags&SMF_AVATAR)) {
+				if (idat->mwd->m_hbmpAvatarPic && (g_dat.flags & SMF_AVATAR)) {
 					BITMAP bminfo;
-					GetObject(idat->mwd->avatarPic, sizeof(bminfo), &bminfo);
+					GetObject(idat->mwd->m_hbmpAvatarPic, sizeof(bminfo), &bminfo);
 					if (bminfo.bmWidth != 0 && bminfo.bmHeight != 0) {
 						int avatarHeight = itemHeight;
 						int avatarWidth = bminfo.bmWidth * avatarHeight / bminfo.bmHeight;

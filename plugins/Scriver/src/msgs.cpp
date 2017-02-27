@@ -318,22 +318,21 @@ static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 			return 1;
 
 		SESSION_INFO *si = (SESSION_INFO*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		if (si == NULL || si->parent == NULL)
+		if (si == NULL || si->m_pParent == NULL)
 			return 1;
 
-		pdat = si->parent;
+		pdat = si->m_pParent;
 	}
 	else {
 		CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		if (dat == NULL || dat->parent == NULL)
+		if (dat == NULL || dat->m_pParent == NULL)
 			return 1;
 
-		pdat = dat->parent;
+		pdat = dat->m_pParent;
 	}
 
 	SendMessage(pdat->hwndStatus, SB_SETICON, 0, (LPARAM)(st == NULL ? 0 : st->hIcon));
 	SendMessage(pdat->hwndStatus, SB_SETTEXT, 0, (LPARAM)(st == NULL ? L"" : st->tszText));
-
 	return 0;
 }
 

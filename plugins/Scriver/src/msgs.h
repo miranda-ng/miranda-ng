@@ -94,9 +94,9 @@ struct MessageWindowTabData
 
 struct CommonWindowData
 {
-	ParentWindowData *parent;
-	int minLogBoxHeight, minEditBoxHeight;
-	HWND hwndIeview;
+	ParentWindowData *m_pParent;
+	int m_minLogBoxHeight, m_minEditBoxHeight;
+	HWND m_hwndIeview;
 	TCmdList *cmdList, *cmdListCurrent;
 };
 
@@ -105,22 +105,22 @@ class CSrmmWindow : public CSrmmBaseDialog, public MZeroedObject, public CommonW
 	CCtrlEdit m_log, m_message;
 	
 	wchar_t *m_wszInitialText;
-	bool   m_bIncoming;
+	bool   m_bIncoming, m_bShowTyping;
 	
-	MEVENT hDbEventFirst, hDbEventLast, hDbUnreadEventFirst;
-	int    splitterPos;
-	int    desiredInputAreaHeight;
-	SIZE   toolbarSize;
-	int    windowWasCascaded;
-	int    nTypeSecs, nTypeMode, nLastTyping;
-	int    showTyping, showUnread;
-	WORD   wStatus;
-	DWORD  lastMessage;
-	int    messagesInProgress;
-	int    sendAllConfirm;
-	HICON  statusIcon, statusIconBig, statusIconOverlay;
+	MEVENT m_hDbEventFirst, m_hDbEventLast, m_hDbUnreadEventFirst;
+	int    m_iSplitterPos;
+	int    m_iDesiredInputAreaHeight;
+	SIZE   m_toolbarSize;
+	int    m_iWindowWasCascaded;
+	int    m_nTypeSecs, m_nTypeMode, m_nLastTyping;
+	int    m_iShowUnread;
+	WORD   m_wStatus;
+	DWORD  m_lastMessage;
+	int    m_iMessagesInProgress;
+	int    m_iSendAllConfirm;
+	HICON  m_hStatusIcon, m_hStatusIconBig, m_hStatusIconOverlay;
 
-	InfobarWindowData *infobarData;
+	InfobarWindowData *m_pInfobarData;
 
 	HICON GetTabIcon();
 	void GetTitlebarIcon(struct TitleBarData *tbd);
@@ -137,14 +137,14 @@ class CSrmmWindow : public CSrmmBaseDialog, public MZeroedObject, public CommonW
 
 public:
 	MCONTACT m_hContact;
-	char *szProto;
-	time_t startTime, lastEventTime;
-	int lastEventType;
-	int isMixed;
-	DWORD flags;
+	char *m_szProto;
+	time_t m_startTime, m_lastEventTime;
+	int m_lastEventType;
+	int m_isMixed;
+	bool m_bUseRtl, m_bUseIEView;
 
-	HBITMAP avatarPic;
-	AVATARCACHEENTRY *ace;
+	HBITMAP m_hbmpAvatarPic;
+	AVATARCACHEENTRY *m_ace;
 
 public:
 	CSrmmWindow(MCONTACT hContact, bool bIncoming = false, const char *szInitialText = NULL, bool bIsUnicode = false);
