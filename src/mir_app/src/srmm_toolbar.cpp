@@ -190,7 +190,7 @@ MIR_APP_DLL(int) Srmm_SetButtonState(MCONTACT hContact, BBButton *bbdi)
 	if (!tempCID)
 		return 1;
 
-	HWND hwndDlg = WindowList_Find(NULL, hContact);
+	HWND hwndDlg = WindowList_Find(chatApi.hWindowList, hContact);
 	if (hwndDlg == NULL)
 		return 1;
 
