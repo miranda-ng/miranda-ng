@@ -181,6 +181,9 @@ void CToxProto::OnTypingChanged(Tox*, uint32_t friendNumber, bool isTyping, void
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	if (MCONTACT hContact = proto->GetContact(friendNumber) && isTyping)
-		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)5);
+	if (MCONTACT hContact = proto->GetContact(friendNumber))
+	{
+		int typingStatus = (isTyping ? PROTOTYPE_CONTACTTYPING_INFINITE : PROTOTYPE_CONTACTTYPING_OFF);
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)typingStatus);
+	}
 }
