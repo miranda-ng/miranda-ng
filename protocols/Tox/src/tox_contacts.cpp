@@ -325,7 +325,7 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 		return;
 	}
 
-	if (proto->GetContactStatus(hContact) > ID_STATUS_OFFLINE)
+	if (proto->GetContactStatus(hContact) != ID_STATUS_OFFLINE)
 		return;
 
 	proto->delSetting(hContact, "Auth");
