@@ -332,6 +332,7 @@ struct CVKOptions {
 	CMOption<BYTE> bUseNonStandardNotifications;
 	CMOption<BYTE> bUseNonStandardUrlEncode;
 	CMOption<BYTE> bShortenLinksForAudio;
+	CMOption<BYTE> bAddMessageLinkToMesWAtt;
 	CMOption<BYTE> bSplitFormatFwdMsg;
 	CMOption<BYTE> bSyncReadMessageStatusFromServer;
 	CMOption<BYTE> bLoadFullCList;

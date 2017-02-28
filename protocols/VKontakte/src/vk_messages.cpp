@@ -278,6 +278,10 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			wszBody += wszAttachmentDescr;
 		}
 
+		if (m_vkOptions.bAddMessageLinkToMesWAtt && (jnAttachments || jnFwdMessages))
+			wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.BBCForAttachments(), vkbbcUrl,
+				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", uid, mid));
+
 		MCONTACT hContact = NULL;
 		int chat_id = jnMsg["chat_id"].as_int();
 		if (chat_id == 0)

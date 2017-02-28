@@ -246,6 +246,10 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			wszBody += wszAttachmentDescr;
 		}
 
+		if (m_vkOptions.bAddMessageLinkToMesWAtt && (jnAttachments || jnFwdMessages))
+			wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.BBCForAttachments(), vkbbcUrl,
+				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", uid, mid));
+
 		T2Utf pszBody(wszBody);
 		MCONTACT hContact = FindUser(uid, true);
 		PROTORECVEVENT recv = { 0 };

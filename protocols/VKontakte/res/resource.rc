@@ -73,7 +73,7 @@ BEGIN
         LEFTMARGIN, 4
         RIGHTMARGIN, 298
         TOPMARGIN, 7
-        BOTTOMMARGIN, 190
+        BOTTOMMARGIN, 202
     END
 
     IDD_OPT_FEEDS, DIALOG
@@ -163,7 +163,7 @@ BEGIN
     CONTROL         "Visit profile",IDC_SHOW_MENU6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,85,280,10
 END
 
-IDD_OPT_VIEW DIALOGEX 0, 0, 304, 197
+IDD_OPT_VIEW DIALOGEX 0, 0, 304, 209
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -185,13 +185,15 @@ BEGIN
     CONTROL         "basic ([b], [i], [u], [s])",IDC_ATTBBC_BASIC,"Button",BS_AUTORADIOBUTTON,12,121,129,10
     CONTROL         "advanced (+[url], [size], [color], [code])",IDC_ATTBBC_ADV,
                     "Button",BS_AUTORADIOBUTTON,154,110,129,10
-    GROUPBOX        "Other",IDC_STATIC,4,138,294,46
+    GROUPBOX        "Other",IDC_STATIC,4,138,294,57
     CONTROL         "Process stickers as smileys",IDC_STICKERS_AS_SMYLES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,149,278,10
     CONTROL         "Shorten links for audio attachments",IDC_SHOTEN_LINKS_FOR_AUDIO,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,160,278,10
     CONTROL         "Use non-standard popups for news and event notifications",IDC_USENOSTDPOPUPS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,171,278,10
+    CONTROL         "Add message link to messages with attachments",IDC_ADD_MES_LINK_MES_ATT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,182,278,10
 END
 
 IDD_OPT_FEEDS DIALOGEX 0, 0, 304, 232

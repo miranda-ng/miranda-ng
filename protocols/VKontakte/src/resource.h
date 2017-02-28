@@ -127,6 +127,7 @@
 #define IDC_N_FRIENDACCEPTED            1110
 #define IDC_SENDVKURLSASATTACH          1111
 #define IDC_LOADSENTATTACH              1112
+#define IDC_ADD_MES_LINK_MES_ATT        1113
 
 // Next default values for new objects
 // 
@@ -135,7 +136,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        123
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1112
+#define _APS_NEXT_CONTROL_VALUE         1114
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

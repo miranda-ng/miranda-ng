@@ -1343,6 +1343,7 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 			res.AppendChar('\n');
 		res += wszMes;
 	}
+	res.AppendChar('\n');
 
 	vkUsers.destroy();
 	return res;

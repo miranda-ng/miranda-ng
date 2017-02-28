@@ -308,6 +308,10 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 		wszBody += wszAttachmentDescr;
 	}
 
+	if (m_vkOptions.bAddMessageLinkToMesWAtt && (jnAttachments || jnFwdMessages))
+		wszBody += SetBBCString(TranslateT("Message link"), bbcNo, vkbbcUrl,
+			CMStringW(FORMAT, L"https://vk.com/im?sel=c%d&msgid=%d", cc->m_chatid, mid));
+
 	if (jnMsg["action"]) {
 		bIsAction = true;
 		CMStringW wszAction = jnMsg["action"].as_mstring();

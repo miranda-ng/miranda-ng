@@ -167,6 +167,7 @@ class CVkOptionViewForm : public CVkDlgBase
 
 	CCtrlCheck m_cbStikersAsSmyles;
 	CCtrlCheck m_cbShortenLinksForAudio;
+	CCtrlCheck m_cbAddMessageLinkToMesWAtt;
 	CCtrlCheck m_cbUseNonStandardNotifications;
 
 public:
