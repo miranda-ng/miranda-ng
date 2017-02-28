@@ -2599,7 +2599,7 @@ void CCtrlBase::NotifyChange()
 	OnChange(this);
 }
 
-LRESULT CCtrlBase::SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam)
+LRESULT CCtrlBase::SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam) const
 {
 	return ::SendMessage(m_hwnd, Msg, wParam, lParam);
 }

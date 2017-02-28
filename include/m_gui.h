@@ -501,7 +501,7 @@ public:
 
 	void NotifyChange();
 
-	LRESULT SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam);
+	LRESULT SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam) const;
 
 	void SetText(const wchar_t *text);
 	void SetTextA(const char *text);

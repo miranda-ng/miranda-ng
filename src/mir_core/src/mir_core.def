@@ -821,7 +821,7 @@ mir_wstrcmpi                  @280
 ?SelectSetFirstVisible@CCtrlTreeView@@QAEXPAU_TREEITEM@@@Z @968 NONAME
 ?SelectString@CCtrlCombo@@QAEHPA_W@Z @969 NONAME
 ?SelectString@CCtrlListBox@@QAEHPA_W@Z @970 NONAME
-?SendMsg@CCtrlBase@@QAEJIIJ@Z @971 NONAME
+?SendMsg@CCtrlBase@@QBEJIIJ@Z @971 NONAME
 ?SetBkBitmap@CCtrlClc@@QAEXKPAUHBITMAP__@@@Z @972 NONAME
 ?SetBkColor@CCtrlClc@@QAEXK@Z @973 NONAME
 ?SetBkColor@CCtrlListView@@QAEHK@Z @974 NONAME
