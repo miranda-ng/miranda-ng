@@ -420,19 +420,12 @@ namespace omemo {
 		int id = proto->getDword("OmemoDeviceId", 0);
 		if (id == 0)
 			return true;
-		DBVARIANT dbv = { 0 };
-		proto->getString("OmemoDevicePublicKey", &dbv);
-		if (!dbv.pszVal[0])
-		{
-			//does it need to free something in DBVARIANT?
+		ptrA buf(proto->getStringA("OmemoDevicePublicKey"));
+		if (!buf[0])
 			return true;
-		}
-		proto->getString("OmemoDevicePrivateKey", &dbv);
-		if (!dbv.pszVal[0])
-		{
-			//does it need to free something in DBVARIANT?
+		buf = ptrA(proto->getStringA("OmemoDevicePrivateKey"));
+		if (!buf[0])
 			return true;
-		}
 
 		return false;
 	}
@@ -458,6 +451,8 @@ namespace omemo {
 
 		SIGNAL_UNREF(new_dev->device_key);
 
+		//TODO: publish device info to pubsub
+
 	}
 
 };
@@ -466,7 +461,7 @@ void CJabberProto::OmemoInitDevice()
 {
 	if (omemo::IsFirstRun(this))
 		omemo::RefreshDevice(this);
-
+	OmemoAnnounceDevice();
 }
 
 
@@ -475,7 +470,62 @@ void CJabberProto::OmemoHandleMessage(HXML /*node*/)
 	//TODO: handle "encrypted" node here
 }
 
-void CJabberProto::OmemoHandleDeviceList(HXML /*node*/)
+void CJabberProto::OmemoHandleDeviceList(HXML node)
 {
-	//TODO: handle omemo device list event node here
+	if (!node)
+		return;
+	HXML message = xmlGetParent(node);
+	message = xmlGetParent(node);
+	LPCTSTR jid = XmlGetAttrValue(message, L"from");
+	MCONTACT hContact = HContactFromJID(jid);
+	node = XmlGetChild(node, "item"); //get <item> node
+	if (!node)
+		return;
+	node = XmlGetChildByTag(node, L"list", L"xmlns", JABBER_FEAT_OMEMO); //<list xmlns = 'urn:xmpp:omemo:0'>
+	if (!node)
+		return;
+	bool own_jid = false; //TODO: detect own jid (not work dues to jabber_thread.cpp:947+)
+	DWORD current_id;
+	LPCTSTR current_id_str;
+	if (own_jid)
+	{
+		//check if our device exist
+		bool own_device_listed = false;
+		DWORD own_id = getDword("OmemoDeviceId", 0);
+		if (own_id = 0)
+			OmemoInitDevice();
+
+		for (HXML list_item = xmlGetFirstChild(node); list_item; xmlGetNextNode(list_item))
+		{
+			current_id_str = xmlGetAttrValue(list_item, L"id");
+			current_id = _wtoi(current_id_str);
+			if (current_id == own_id)
+				own_device_listed = true;
+		}
+		if (!own_device_listed)
+			OmemoAnnounceDevice();
+	}
+	else
+	{
+		//store device id's
+		int i = 0;
+		char setting_name[64];
+		for (HXML list_item = xmlGetFirstChild(node); list_item; xmlGetNextNode(list_item), i++)
+		{
+			current_id_str = xmlGetAttrValue(list_item, L"id");
+			current_id = _wtoi(current_id_str);
+			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
+			setDword(setting_name, current_id);
+		}
+	}
 }
+
+void CJabberProto::OmemoAnnounceDevice()
+{
+	//TODO: get device list
+	//TODO: check for own device id
+	//TODO: add own device id
+	//TODO: send device list back
+
+}
+

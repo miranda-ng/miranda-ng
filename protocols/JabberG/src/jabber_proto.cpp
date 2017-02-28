@@ -138,22 +138,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_pepServices.insert(new CPepActivity(this));
 
 	if (m_options.UseOMEMO)
-	{
-		JabberCapsBits jcb = 0;
-		// set all bits occupied by g_JabberFeatCapPairs
-		for (int i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
-			jcb |= g_JabberFeatCapPairs[i].jcbCap;
-
-		// set all bits already occupied by external plugins
-		for (int i = 0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
-			jcb |= m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
-
-		jcb |= JABBER_CAPS_OMEMO_NOTIFY;
-
-		m_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, szCoreVersion, jcb);
-
 		OmemoInitDevice();
-	}
 
 	db_set_resident(m_szModuleName, DBSETTING_XSTATUSID);
 	db_set_resident(m_szModuleName, DBSETTING_XSTATUSNAME);

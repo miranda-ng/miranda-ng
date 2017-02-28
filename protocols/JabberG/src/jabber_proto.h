@@ -340,6 +340,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void OmemoHandleMessage(HXML node);
 	void OmemoHandleDeviceList(HXML node);
 	void OmemoInitDevice();
+	void OmemoAnnounceDevice();
 
 	//---- jabber_console.cpp ------------------------------------------------------------
 
