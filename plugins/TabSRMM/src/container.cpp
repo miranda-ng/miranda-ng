@@ -60,14 +60,14 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
 		return;
 
 	RECT	rcWnd;
-	if (dat->bType == SESSIONTYPE_IM) {
-		if (dat->Panel->isActive())
+	if (dat->m_bType == SESSIONTYPE_IM) {
+		if (dat->m_Panel->isActive())
 			GetWindowRect(GetDlgItem(dat->GetHwnd(), IDC_LOG), &rcWnd);
 		else
 			GetWindowRect(dat->GetHwnd(), &rcWnd);
 	}
 	else {
-		if (dat->Panel->isActive())
+		if (dat->m_Panel->isActive())
 			GetWindowRect(GetDlgItem(dat->GetHwnd(), IDC_LOG), &rcWnd);
 		else
 			GetWindowRect(dat->GetHwnd(), &rcWnd);
@@ -536,15 +536,15 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			// tab tooltips...
 			if (!fHaveTipper || M.GetByte("d_tooltips", 0) == 0) {
-				pContainer->hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, NULL, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT,
+				pContainer->m_hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, NULL, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT,
 					CW_USEDEFAULT, CW_USEDEFAULT, hwndDlg, NULL, g_hInst, (LPVOID)NULL);
 
-				if (pContainer->hwndTip) {
-					SetWindowPos(pContainer->hwndTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-					TabCtrl_SetToolTips(hwndTab, pContainer->hwndTip);
+				if (pContainer->m_hwndTip) {
+					SetWindowPos(pContainer->m_hwndTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+					TabCtrl_SetToolTips(hwndTab, pContainer->m_hwndTip);
 				}
 			}
-			else pContainer->hwndTip = 0;
+			else pContainer->m_hwndTip = 0;
 
 			if (pContainer->dwFlags & CNT_CREATE_MINIMIZED) {
 				WINDOWPLACEMENT wp = { 0 };
@@ -820,13 +820,13 @@ panel_found:
 				CloseOtherTabs(hwndTab, *dat);
 				break;
 			case ID_TABMENU_SAVETABPOSITION:
-				db_set_dw(dat->m_hContact, SRMSGMOD_T, "tabindex", dat->iTabID * 100);
+				db_set_dw(dat->m_hContact, SRMSGMOD_T, "tabindex", dat->m_iTabID * 100);
 				break;
 			case ID_TABMENU_CLEARSAVEDTABPOSITION:
 				db_unset(dat->m_hContact, SRMSGMOD_T, "tabindex");
 				break;
 			case ID_TABMENU_LEAVECHATROOM:
-				if (dat && dat->bType == SESSIONTYPE_CHAT) {
+				if (dat && dat->m_bType == SESSIONTYPE_CHAT) {
 					SESSION_INFO *si = dat->si;
 					if (si && dat->m_hContact) {
 						char *szProto = GetContactProto(dat->m_hContact);
@@ -1011,7 +1011,7 @@ panel_found:
 			szText[_countof(szText) - 1] = 0;
 			SetWindowText(hwndDlg, szText);
 			if (dat)
-				SendMessage(hwndDlg, DM_SETICON, (WPARAM)dat, (LPARAM)(dat->hTabIcon != dat->hTabStatusIcon ? dat->hTabIcon : dat->hTabStatusIcon));
+				SendMessage(hwndDlg, DM_SETICON, (WPARAM)dat, (LPARAM)(dat->m_hTabIcon != dat->m_hTabStatusIcon ? dat->m_hTabIcon : dat->m_hTabStatusIcon));
 			return 0;
 		}
 		if (wParam == 0) {           // no hContact given - obtain the hContact for the active tab
@@ -1035,7 +1035,7 @@ panel_found:
 				dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 		}
 		if (dat) {
-			SendMessage(hwndDlg, DM_SETICON, (WPARAM)dat, (LPARAM)(dat->hXStatusIcon ? dat->hXStatusIcon : dat->hTabStatusIcon));
+			SendMessage(hwndDlg, DM_SETICON, (WPARAM)dat, (LPARAM)(dat->m_hXStatusIcon ? dat->m_hXStatusIcon : dat->m_hTabStatusIcon));
 			CMStringW szTitle;
 			if (Utils::FormatTitleBar(dat, pContainer->settings->szTitleFormat, szTitle))
 				SetWindowText(hwndDlg, szTitle);
@@ -1053,9 +1053,9 @@ panel_found:
 			}
 
 			dat = (CSrmmWindow*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-			if (dat && dat->bType == SESSIONTYPE_IM) {
-				if (dat->idle && pContainer->hwndActive && IsWindow(pContainer->hwndActive))
-					dat->Panel->Invalidate(TRUE);
+			if (dat && dat->m_bType == SESSIONTYPE_IM) {
+				if (dat->m_idle && pContainer->hwndActive && IsWindow(pContainer->hwndActive))
+					dat->m_Panel->Invalidate(TRUE);
 			}
 			else if (dat)
 				SendMessage(dat->GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
@@ -1499,7 +1499,7 @@ panel_found:
 		{
 			dat = (CSrmmWindow*)wParam;
 			HICON hIconMsg = PluginConfig.g_IconMsgEvent;
-			HICON hIconBig = (dat && dat->cache) ? Skin_LoadProtoIcon(dat->cache->getProto(), dat->cache->getStatus(), true) : 0;
+			HICON hIconBig = (dat && dat->m_cache) ? Skin_LoadProtoIcon(dat->m_cache->getProto(), dat->m_cache->getStatus(), true) : 0;
 
 			if (Win7Taskbar->haveLargeIcons()) {
 				if ((HICON)lParam == PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING] || (HICON)lParam == hIconMsg) {
@@ -1512,19 +1512,19 @@ panel_found:
 				}
 
 				if (dat) {
-					if (dat->hTaskbarIcon == 0)
-						dat->hTaskbarIcon = ((dat->pContainer->dwFlags & CNT_AVATARSONTASKBAR) ? Utils::iconFromAvatar(dat) : 0);
+					if (dat->m_hTaskbarIcon == 0)
+						dat->m_hTaskbarIcon = ((dat->m_pContainer->dwFlags & CNT_AVATARSONTASKBAR) ? Utils::iconFromAvatar(dat) : 0);
 					else {
-						if (!(dat->pContainer->dwFlags & CNT_AVATARSONTASKBAR)) {
-							DestroyIcon(dat->hTaskbarIcon);
-							dat->hTaskbarIcon = 0;
+						if (!(dat->m_pContainer->dwFlags & CNT_AVATARSONTASKBAR)) {
+							DestroyIcon(dat->m_hTaskbarIcon);
+							dat->m_hTaskbarIcon = 0;
 						}
 					}
 
-					if (dat->hTaskbarIcon) {
-						SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)dat->hTaskbarIcon);
+					if (dat->m_hTaskbarIcon) {
+						SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)dat->m_hTaskbarIcon);
 						SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, lParam);
-						Win7Taskbar->setOverlayIcon(hwndDlg, (LPARAM)(dat->hTabIcon ? (LPARAM)dat->hTabIcon : lParam));
+						Win7Taskbar->setOverlayIcon(hwndDlg, (LPARAM)(dat->m_hTabIcon ? (LPARAM)dat->m_hTabIcon : lParam));
 					}
 					else {
 						if (0 == hIconBig || (HICON)CALLSERVICE_NOTFOUND == hIconBig)
@@ -1532,8 +1532,8 @@ panel_found:
 						else
 							SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hIconBig);
 						SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, lParam);
-						if (dat->pContainer->hIconTaskbarOverlay)
-							Win7Taskbar->setOverlayIcon(hwndDlg, (LPARAM)dat->pContainer->hIconTaskbarOverlay);
+						if (dat->m_pContainer->hIconTaskbarOverlay)
+							Win7Taskbar->setOverlayIcon(hwndDlg, (LPARAM)dat->m_pContainer->hIconTaskbarOverlay);
 						else if (Win7Taskbar->haveAlwaysGroupingMode() && fForceOverlayIcons)
 							Win7Taskbar->setOverlayIcon(hwndDlg, lParam);
 						else
@@ -1606,8 +1606,8 @@ panel_found:
 			mir_free(pContainer->theme.rtfFonts);
 		}
 
-		if (pContainer->hwndTip)
-			DestroyWindow(pContainer->hwndTip);
+		if (pContainer->m_hwndTip)
+			DestroyWindow(pContainer->m_hwndTip);
 		RemoveContainerFromList(pContainer);
 		SM_RemoveContainer(pContainer);
 		if (pContainer->cachedDC) {
@@ -1856,7 +1856,7 @@ int TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd)
 // enumerates tabs and closes all of them, but the one in dat
 void TSAPI CloseOtherTabs(HWND hwndTab, CTabBaseDlg &dat)
 {
-	for (int idxt = 0; idxt < dat.pContainer->iChilds;) {
+	for (int idxt = 0; idxt < dat.m_pContainer->iChilds;) {
 		HWND otherTab = GetHWNDFromTabIndex(hwndTab, idxt);
 		if (otherTab != NULL && otherTab != dat.GetHwnd())
 			SendMessage(otherTab, WM_CLOSE, 1, 0);
@@ -2194,7 +2194,7 @@ void TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WP
 				SendMessage((HWND)item.lParam, message, wParam, lParam);
 			else {
 				CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
-				if (dat && dat->bType == bType)
+				if (dat && dat->m_bType == bType)
 					SendMessage((HWND)item.lParam, message, wParam, lParam);
 			}
 		}

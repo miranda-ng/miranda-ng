@@ -156,9 +156,9 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 				pt.x = rcWin.left;
 				ScreenToClient(dat->GetHwnd(), &pt);
 				BitBlt(hdcMem, 0, 0, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top,
-					dat->pContainer->cachedToolbarDC, pt.x, 1, SRCCOPY);
+					dat->m_pContainer->cachedToolbarDC, pt.x, 1, SRCCOPY);
 			}
-			if (ctl->hThemeToolbar && ctl->bIsThemed && 1 == dat->pContainer->bTBRenderingMode) {
+			if (ctl->hThemeToolbar && ctl->bIsThemed && 1 == dat->m_pContainer->bTBRenderingMode) {
 				if (bAero || PluginConfig.m_WinVerMajor >= 6)
 					DrawThemeBackground(ctl->hThemeToolbar, hdcMem, 8, RBStateConvert2Flat(state), &rcClient, &rcClient);
 				else

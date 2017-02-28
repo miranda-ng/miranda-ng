@@ -415,9 +415,9 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 			if (c->getStatus() == ID_STATUS_OFFLINE) {			// clear typing notification in the status bar when contact goes offline
 				CTabBaseDlg *dat = c->getDat();
 				if (dat) {
-					dat->nTypeSecs = 0;
-					dat->bShowTyping = 0;
-					dat->szStatusBar[0] = 0;
+					dat->m_nTypeSecs = 0;
+					dat->m_bShowTyping = 0;
+					dat->m_wszStatusBar[0] = 0;
 					PostMessage(c->getHwnd(), DM_UPDATELASTMESSAGE, 0, 0);
 				}
 			}

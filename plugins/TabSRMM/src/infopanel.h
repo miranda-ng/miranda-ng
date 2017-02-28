@@ -129,7 +129,7 @@ public:
 	{
 		if (dat) {
 			m_dat = dat;
-			m_isChat = dat->bType == SESSIONTYPE_CHAT ? true : false;
+			m_isChat = dat->m_bType == SESSIONTYPE_CHAT ? true : false;
 		}
 		m_defaultHeight = PluginConfig.m_panelHeight;
 		m_defaultMUCHeight = PluginConfig.m_MUCpanelHeight;

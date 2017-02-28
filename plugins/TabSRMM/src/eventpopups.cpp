@@ -662,7 +662,7 @@ void TSAPI UpdateTrayMenuState(CTabBaseDlg *dat, BOOL bForced)
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_DATA | MIIM_BITMAP;
 
-	const wchar_t *tszProto = dat->cache->getRealAccount();
+	const wchar_t *tszProto = dat->m_cache->getRealAccount();
 	assert(tszProto != 0);
 
 	GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)dat->m_hContact, FALSE, &mii);
@@ -671,7 +671,7 @@ void TSAPI UpdateTrayMenuState(CTabBaseDlg *dat, BOOL bForced)
 	if (mii.dwItemData > 0 || bForced) {
 		wchar_t szMenuEntry[80];
 		mir_snwprintf(szMenuEntry, L"%s: %s (%s) [%d]", tszProto,
-			dat->cache->getNick(), dat->szStatus[0] ? dat->szStatus : L"(undef)", mii.dwItemData & 0x0000ffff);
+			dat->m_cache->getNick(), dat->m_wszStatus[0] ? dat->m_wszStatus : L"(undef)", mii.dwItemData & 0x0000ffff);
 
 		if (!bForced)
 			mii.dwItemData = 0;
@@ -706,7 +706,7 @@ int TSAPI UpdateTrayMenu(const CTabBaseDlg *dat, WORD wStatus, const char *szPro
 	wchar_t	szMenuEntry[80];
 	const wchar_t *szNick = NULL;
 	if (dat != 0) {
-		szNick = dat->cache->getNick();
+		szNick = dat->m_cache->getNick();
 		GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
 		mii.dwItemData++;
 		if (fromEvent == 2)                         // from chat...

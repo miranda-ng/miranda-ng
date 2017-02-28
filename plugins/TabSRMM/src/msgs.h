@@ -181,7 +181,7 @@ struct TContainerData
 	int	   iChilds;
 	int      iContainerIndex;
 	bool	   fHidden;
-	HWND     hwndTip;			// tab - tooltips...
+	HWND     m_hwndTip;			// tab - tooltips...
 	BOOL     bDontSmartClose;      // if set, do not search and select the next possible tab after closing one.
 	DWORD    dwFlags;
 	DWORD    dwFlagsEx;
@@ -266,106 +266,106 @@ protected:
 	void ResizeIeView();
 
 public:
-	BYTE     bType;
-	DWORD    dwFlags;
-	DWORD    dwFlagsEx;
+	BYTE     m_bType;
+	DWORD    m_dwFlags;
+	DWORD    m_dwFlagsEx;
 	MCONTACT m_hContact;
-	char    *szProto;
-	wchar_t  szMyNickname[130];
-	wchar_t  szStatusBar[100];
-	wchar_t  newtitle[130];        // tab title...
-	wchar_t  szStatus[50];
-	WORD     wStatus;
-	char    *sendBuffer;
-	size_t   iSendBufferSize;
-	int      iSendLength;				// message length in utf-8 octets
-	HICON    hTabIcon, hTabStatusIcon, hXStatusIcon, hClientIcon, hTaskbarIcon;
-	HICON    iFlashIcon;
+	char    *m_szProto;
+	wchar_t  m_wszMyNickname[130];
+	wchar_t  m_wszStatusBar[100];
+	wchar_t  m_wszTitle[130];        // tab title...
+	wchar_t  m_wszStatus[50];
+	WORD     m_wStatus;
+	char    *m_sendBuffer;
+	size_t   m_iSendBufferSize;
+	int      m_iSendLength;				// message length in utf-8 octets
+	HICON    m_hTabIcon, m_hTabStatusIcon, m_hXStatusIcon, m_hClientIcon, m_hTaskbarIcon;
+	HICON    m_iFlashIcon;
 	bool     m_bCanFlashTab, m_bTabFlash;
-	HWND     hwndIEView, hwndIWebBrowserControl, hwndHPP;
-	HWND     hwndContactPic, hwndPanelPic, hwndPanelPicParent;
-	UINT     bbLSideWidth, bbRSideWidth;
+	HWND     m_hwndIEView, m_hwndIWebBrowserControl, m_hwndHPP;
+	HWND     m_hwndContactPic, m_hwndPanelPic, m_hwndPanelPicParent;
+	UINT     m_bbLSideWidth, m_bbRSideWidth;
 	BYTE     kstate[256];
 
 	SESSION_INFO *si;
-	StatusTextData *sbCustom;
-	TContainerData *pContainer;		// parent container description structure
+	StatusTextData *m_sbCustom;
+	TContainerData *m_pContainer;		// parent container description structure
 
-	RECT     rcNick, rcUIN, rcStatus, rcPic;
-	MEVENT   hDbEventFirst, hDbEventLast;
-	int      sendMode;
-	int      splitterY, originalSplitterY, dynaSplitter, savedSplitter, savedSplitY, savedDynaSplit;
-	int      multiSplitterX;
-	SIZE     minEditBoxSize;
-	int      nTypeSecs;
-	int      nTypeMode;
-	DWORD    nLastTyping;
-	DWORD    lastMessage;
-	int      iTabID;
-	HKL      hkl;                                    // keyboard layout identifier
-	DWORD    dwTickLastEvent, dwUnread;
-	HBITMAP  hOwnPic;
-	SIZE     pic;
-	BYTE     bShowTyping;
-	bool     bShowAvatar, bShowInfoAvatar, bShowUIElements;
-	bool     bUseOffset;
-	bool     bIsHistory, bIsMeta, bNotOnList;
-	HICON    hSmileyIcon;
-	int      iLastEventType;
-	time_t   lastEventTime;
-	int      iRealAvatarHeight;
-	int      iButtonBarReallyNeeds;
-	DWORD    dwLastActivity;
-	int      iOpenJobs;
-	int      iCurrentQueueError;
-	MEVENT   hFlashingEvent;
-	wchar_t  myUin[80];
-	int      SendFormat;
-	MEVENT  *hQueuedEvents;
-	int      iNextQueuedEvent;
+	RECT     m_rcNick, m_rcUIN, m_rcStatus, m_rcPic;
+	MEVENT   m_hDbEventFirst, m_hDbEventLast;
+	int      m_sendMode;
+	int      m_splitterY, m_originalSplitterY, m_dynaSplitter, m_savedSplitter, m_savedSplitY, m_savedDynaSplit;
+	int      m_multiSplitterX;
+	SIZE     m_minEditBoxSize;
+	int      m_nTypeSecs;
+	int      m_nTypeMode;
+	DWORD    m_nLastTyping;
+	DWORD    m_lastMessage;
+	int      m_iTabID;
+	HKL      m_hkl;                                    // keyboard layout identifier
+	DWORD    m_dwTickLastEvent, m_dwUnread;
+	HBITMAP  m_hOwnPic;
+	SIZE     m_pic;
+	BYTE     m_bShowTyping;
+	bool     m_bShowAvatar, m_bShowInfoAvatar, m_bShowUIElements;
+	bool     m_bUseOffset;
+	bool     m_bIsHistory, m_bIsMeta, m_bNotOnList;
+	HICON    m_hSmileyIcon;
+	int      m_iLastEventType;
+	time_t   m_lastEventTime;
+	int      m_iRealAvatarHeight;
+	int      m_iButtonBarReallyNeeds;
+	DWORD    m_dwLastActivity;
+	int      m_iOpenJobs;
+	int      m_iCurrentQueueError;
+	MEVENT   m_hFlashingEvent;
+	wchar_t  m_myUin[80];
+	int      m_SendFormat;
+	MEVENT  *m_hQueuedEvents;
+	int      m_iNextQueuedEvent;
 #define EVENT_QUEUE_SIZE 10
-	int      iEventQueueSize;
-	LCID     lcid;
-	wchar_t  lcID[10];
-	int      iPanelAvatarX, iPanelAvatarY;
-	DWORD    idle;
-	HWND     hwndTip;
+	int      m_iEventQueueSize;
+	LCID     m_lcid;
+	wchar_t  m_lcID[10];
+	int      m_iPanelAvatarX, m_iPanelAvatarY;
+	DWORD    m_idle;
+	HWND     m_hwndTip;
 	TOOLINFO ti;
-	HANDLE   hTimeZone;
-	DWORD    panelStatusCX;
-	COLORREF inputbg;
-	AVATARCACHEENTRY *ace, *ownAce;
-	MEVENT  *hHistoryEvents;
-	int      maxHistory, curHistory;
-	HANDLE   hTheme, hThemeIP, hThemeToolbar;
-	char     szMicroLf[128];
-	DWORD    isAutoRTL;
-	int      nMax;            // max message size
-	int      textLen;         // current text len
-	LONG     ipFieldHeight;
-	BOOL     clr_added;
-	BOOL     fIsReattach;
-	WPARAM   wParam;          // used for "delayed" actions like moved splitters in minimized windows
-	LPARAM   lParam;
-	int      iHaveRTLLang;
-	BOOL     fInsertMode;
-	bool     fkeyProcessed;
-	bool     fEditNotesActive;
+	HANDLE   m_hTimeZone;
+	DWORD    m_panelStatusCX;
+	COLORREF m_inputbg;
+	MEVENT  *m_hHistoryEvents;
+	int      m_maxHistory, m_curHistory;
+	HANDLE   m_hTheme, m_hThemeIP, m_hThemeToolbar;
+	char     m_szMicroLf[128];
+	DWORD    m_isAutoRTL;
+	int      m_nMax;            // max message size
+	int      m_textLen;         // current text len
+	LONG     m_ipFieldHeight;
+	BOOL     m_clr_added;
+	BOOL     m_fIsReattach;
+	WPARAM   m_wParam;          // used for "delayed" actions like moved splitters in minimized windows
+	LPARAM   m_lParam;
+	int      m_iHaveRTLLang;
+	BOOL     m_fInsertMode;
+	bool     m_fkeyProcessed;
+	bool     m_fEditNotesActive;
+	bool     m_bActualHistory;
 
-	CInfoPanel *Panel;
-	CContactCache *cache;
-	CProxyWindow  *pWnd;	// proxy window object (win7+, for taskbar support).
+	CInfoPanel *m_Panel;
+	CContactCache *m_cache;
+	AVATARCACHEENTRY *m_ace, *m_ownAce;
+	CProxyWindow  *m_pWnd;	// proxy window object (win7+, for taskbar support).
 	// ALWAYS check this pointer before using it, it is not guaranteed to exist.
 
-	bool    bIsAutosizingInput;
-	bool    fLimitedUpdate;
-	DWORD   iSplitterSaved;
-	LONG    iInputAreaHeight;
-	BOOL    bActualHistory;
-	POINT   ptTipActivation;
+	bool    m_bIsAutosizingInput;
+	bool    m_fLimitedUpdate;
+	DWORD   m_iSplitterSaved;
+	LONG    m_iInputAreaHeight;
+	POINT   m_ptTipActivation;
 
 	// Used for history in chats.
-	char *enteredText;
+	char *m_enteredText;
 
 public:
 	CTabBaseDlg(TNewWindowData*, int);

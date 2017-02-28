@@ -144,11 +144,11 @@ const SIZE& CSideBarButton::measureItem()
 
 		HFONT oldFont = reinterpret_cast<HFONT>(::SelectObject(dc, ::GetStockObject(DEFAULT_GUI_FONT)));
 
-		wcsncpy_s(tszLabel, m_dat->newtitle, _TRUNCATE);
+		wcsncpy_s(tszLabel, m_dat->m_wszTitle, _TRUNCATE);
 		::GetTextExtentPoint32(dc, tszLabel, (int)mir_wstrlen(tszLabel), &sz);
 
 		sz.cx += 28;
-		if (m_dat->pContainer->dwFlagsEx & TCF_CLOSEBUTTON)
+		if (m_dat->m_pContainer->dwFlagsEx & TCF_CLOSEBUTTON)
 			sz.cx += 20;
 
 		if (m_sideBarLayout->dwFlags & CSideBar::SIDEBARLAYOUT_VERTICALORIENTATION)
@@ -252,12 +252,12 @@ void CSideBarButton::renderIconAndNick(const HDC hdc, const RECT *rcItem) const
 	const 	TContainerData *pContainer = m_sideBar->getContainer();
 
 	if (m_dat && pContainer) {
-		hIcon = m_dat->cache->getIcon(iSize);
+		hIcon = m_dat->m_cache->getIcon(iSize);
 
 		if (!m_dat->m_bCanFlashTab || (m_dat->m_bCanFlashTab == TRUE && m_dat->m_bTabFlash) || !(pContainer->dwFlagsEx & TCF_FLASHICON)) {
 			DWORD ix = rc.left + 4;
 			DWORD iy = (rc.bottom + rc.top - iSize) / 2;
-			if (m_dat->dwFlagsEx & MWF_SHOW_ISIDLE && PluginConfig.m_bIdleDetect)
+			if (m_dat->m_dwFlagsEx & MWF_SHOW_ISIDLE && PluginConfig.m_bIdleDetect)
 				CSkin::DrawDimmedIcon(hdc, ix, iy, iSize, iSize, hIcon, 180);
 			else
 				::DrawIconEx(hdc, ix, iy, hIcon, iSize, iSize, 0, NULL, DI_NORMAL | DI_COMPAT);
@@ -292,7 +292,7 @@ void CSideBarButton::renderIconAndNick(const HDC hdc, const RECT *rcItem) const
 			else
 				clr = PluginConfig.tabConfig.colors[0];
 
-			CSkin::RenderText(hdc, m_buttonControl->hThemeButton, m_dat->newtitle, &rc, dwTextFlags, CSkin::m_glowSize, clr);
+			CSkin::RenderText(hdc, m_buttonControl->hThemeButton, m_dat->m_wszTitle, &rc, dwTextFlags, CSkin::m_glowSize, clr);
 		}
 	}
 }
@@ -1073,14 +1073,14 @@ void __fastcall CSideBar::m_AdvancedContentRenderer(const HDC hdc, const RECT *r
 	else if (dat) {
 		RECT rc = *rcBox;
 
-		if (dat->ace && dat->ace->hbmPic) {		// we have an avatar
+		if (dat->m_ace && dat->m_ace->hbmPic) {		// we have an avatar
 			double dNewHeight, dNewWidth;
 			LONG maxHeight = cy - 8;
 			bool fFree = false;
 
-			Utils::scaleAvatarHeightLimited(dat->ace->hbmPic, dNewWidth, dNewHeight, maxHeight);
+			Utils::scaleAvatarHeightLimited(dat->m_ace->hbmPic, dNewWidth, dNewHeight, maxHeight);
 
-			HBITMAP hbmResized = CSkin::ResizeBitmap(dat->ace->hbmPic, dNewWidth, dNewHeight, fFree);
+			HBITMAP hbmResized = CSkin::ResizeBitmap(dat->m_ace->hbmPic, dNewWidth, dNewHeight, fFree);
 			HDC dc = CreateCompatibleDC(hdc);
 			HBITMAP hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(dc, hbmResized));
 
@@ -1089,7 +1089,7 @@ void __fastcall CSideBar::m_AdvancedContentRenderer(const HDC hdc, const RECT *r
 
 			GdiAlphaBlend(hdc, xOff, yOff, (LONG)dNewWidth, (LONG)dNewHeight, dc, 0, 0, (LONG)dNewWidth, (LONG)dNewHeight, CSkin::m_default_bf);
 			::SelectObject(dc, hbmOld);
-			if (hbmResized != dat->ace->hbmPic)
+			if (hbmResized != dat->m_ace->hbmPic)
 				::DeleteObject(hbmResized);
 			::DeleteDC(dc);
 			rc.right -= (maxHeight + 6);
@@ -1112,12 +1112,12 @@ void __fastcall CSideBar::m_AdvancedContentRenderer(const HDC hdc, const RECT *r
 		::SelectObject(hdc, CInfoPanel::m_ipConfig.hFonts[IPFONTID_NICK]);
 		rc.top++;
 		::SetBkMode(hdc, TRANSPARENT);
-		CSkin::RenderText(hdc, dat->hThemeIP, dat->cache->getNick(), &rc,
+		CSkin::RenderText(hdc, dat->m_hThemeIP, dat->m_cache->getNick(), &rc,
 			dtFlags, CSkin::m_glowSize, CInfoPanel::m_ipConfig.clrs[IPFONTID_NICK]);
 
 		if (fSecondLine) {
 			int		iSize;
-			HICON	hIcon = dat->cache->getIcon(iSize);
+			HICON	hIcon = dat->m_cache->getIcon(iSize);
 
 			// TODO support larger icons at a later time. This side bar button
 			// could use 32x32 icons as well.
@@ -1125,7 +1125,7 @@ void __fastcall CSideBar::m_AdvancedContentRenderer(const HDC hdc, const RECT *r
 			::DrawIconEx(hdc, rc.left, rc.top + (rc.bottom - rc.top) / 2 - 8, hIcon, 16, 16, 0, 0, DI_NORMAL);
 			rc.left += 18;
 			::SelectObject(hdc, CInfoPanel::m_ipConfig.hFonts[IPFONTID_STATUS]);
-			CSkin::RenderText(hdc, dat->hThemeIP, dat->szStatus, &rc,
+			CSkin::RenderText(hdc, dat->m_hThemeIP, dat->m_wszStatus, &rc,
 				dtFlags | DT_VCENTER, CSkin::m_glowSize, CInfoPanel::m_ipConfig.clrs[IPFONTID_STATUS]);
 		}
 		::SelectObject(hdc, hOldFont);
@@ -1144,15 +1144,15 @@ const SIZE& __fastcall CSideBar::m_measureAdvancedVertical(CSideBarButton* item)
 	if (dat) {
 		SIZE szFirstLine, szSecondLine;
 
-		if (dat->ace && dat->ace->hbmPic)
+		if (dat->m_ace && dat->m_ace->hbmPic)
 			sz.cy = item->getLayout()->width;
 
 		HDC dc = ::GetDC(dat->GetHwnd());
 
 		HFONT	hOldFont = reinterpret_cast<HFONT>(::SelectObject(dc, CInfoPanel::m_ipConfig.hFonts[IPFONTID_NICK]));
-		::GetTextExtentPoint32(dc, dat->cache->getNick(), (int)mir_wstrlen(dat->cache->getNick()), &szFirstLine);
+		::GetTextExtentPoint32(dc, dat->m_cache->getNick(), (int)mir_wstrlen(dat->m_cache->getNick()), &szFirstLine);
 		::SelectObject(dc, CInfoPanel::m_ipConfig.hFonts[IPFONTID_STATUS]);
-		::GetTextExtentPoint32(dc, dat->szStatus, (int)mir_wstrlen(dat->szStatus), &szSecondLine);
+		::GetTextExtentPoint32(dc, dat->m_wszStatus, (int)mir_wstrlen(dat->m_wszStatus), &szSecondLine);
 		::SelectObject(dc, hOldFont);
 		ReleaseDC(dat->GetHwnd(), dc);
 

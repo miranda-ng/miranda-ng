@@ -442,7 +442,7 @@ void CMenuBar::updateState(const HMENU hMenu) const
 	if (dat) {
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWMENUBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOMENUBAR ? MF_UNCHECKED : MF_CHECKED);
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWSTATUSBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOSTATUSBAR ? MF_UNCHECKED : MF_CHECKED);
-		::CheckMenuItem(hMenu, ID_VIEW_SHOWAVATAR, MF_BYCOMMAND | (dat->bShowAvatar ? MF_CHECKED : MF_UNCHECKED));
+		::CheckMenuItem(hMenu, ID_VIEW_SHOWAVATAR, MF_BYCOMMAND | (dat->m_bShowAvatar ? MF_CHECKED : MF_UNCHECKED));
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWTITLEBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOTITLE ? MF_UNCHECKED : MF_CHECKED);
 
 		::EnableMenuItem(hMenu, ID_VIEW_SHOWTITLEBAR, CSkin::m_skinEnabled && CSkin::m_frameSkins ? MF_GRAYED : MF_ENABLED);
@@ -452,7 +452,7 @@ void CMenuBar::updateState(const HMENU hMenu) const
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWTOOLBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_HIDETOOLBAR ? MF_UNCHECKED : MF_CHECKED);
 		::CheckMenuItem(hMenu, ID_VIEW_BOTTOMTOOLBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR ? MF_CHECKED : MF_UNCHECKED);
 
-		::CheckMenuItem(hMenu, ID_VIEW_SHOWMULTISENDCONTACTLIST, MF_BYCOMMAND | (dat->sendMode & SMODE_MULTIPLE) ? MF_CHECKED : MF_UNCHECKED);
+		::CheckMenuItem(hMenu, ID_VIEW_SHOWMULTISENDCONTACTLIST, MF_BYCOMMAND | (dat->m_sendMode & SMODE_MULTIPLE) ? MF_CHECKED : MF_UNCHECKED);
 		::CheckMenuItem(hMenu, ID_VIEW_STAYONTOP, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_STICKY ? MF_CHECKED : MF_UNCHECKED);
 
 		::EnableMenuItem(hMenu, 2, MF_BYPOSITION | (nen_options.bWindowCheck ? MF_GRAYED : MF_ENABLED));
@@ -479,13 +479,13 @@ void CMenuBar::configureMenu() const
 {
 	CSrmmWindow *dat = (CSrmmWindow*)::GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
 	if (dat) {
-		bool fChat = (dat->bType == SESSIONTYPE_CHAT);
+		bool fChat = (dat->m_bType == SESSIONTYPE_CHAT);
 
 		::SendMessage(m_hwndToolbar, TB_SETSTATE, 103, fChat ? TBSTATE_HIDDEN : TBSTATE_ENABLED);
 		::SendMessage(m_hwndToolbar, TB_SETSTATE, 104, fChat ? TBSTATE_ENABLED : TBSTATE_HIDDEN);
 		::SendMessage(m_hwndToolbar, TB_SETSTATE, 105, fChat ? TBSTATE_HIDDEN : TBSTATE_ENABLED);
 
-		if (dat->bType == SESSIONTYPE_IM)
+		if (dat->m_bType == SESSIONTYPE_IM)
 			::EnableWindow(GetDlgItem(dat->GetHwnd(), IDC_TIME), TRUE);
 	}
 }
@@ -786,7 +786,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 
 				// draw visual message length indicator in the leftmost status bar field
 				if (PluginConfig.m_visualMessageSizeIndicator && i == 0) {
-					if (dat && dat->bType == SESSIONTYPE_IM) {
+					if (dat && dat->m_bType == SESSIONTYPE_IM) {
 						HBRUSH br = CreateSolidBrush(RGB(0, 255, 0));
 						HBRUSH brOld = (HBRUSH)SelectObject(hdcMem, br);
 
@@ -795,32 +795,32 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 						rc.left = 0;
 
 						if (!PluginConfig.m_autoSplit) {
-							float fMax = (float)dat->nMax;
-							float uPercent = (float)dat->textLen / ((fMax / (float)100.0) ? (fMax / (float)100.0) : (float)75.0);
+							float fMax = (float)dat->m_nMax;
+							float uPercent = (float)dat->m_textLen / ((fMax / (float)100.0) ? (fMax / (float)100.0) : (float)75.0);
 							float fx = ((float)rc.right / (float)100.0) * uPercent;
 
 							rc.right = (LONG)fx;
 							FillRect(hdcMem, &rc, br);
 						}
 						else {
-							float baselen = (dat->textLen <= dat->nMax) ? (float)dat->textLen : (float)dat->nMax;
-							float fMax = (float)dat->nMax;
+							float baselen = (dat->m_textLen <= dat->m_nMax) ? (float)dat->m_textLen : (float)dat->m_nMax;
+							float fMax = (float)dat->m_nMax;
 							float uPercent = baselen / ((fMax / (float)100.0) ? (fMax / (float)100.0) : (float)75.0);
 							float fx;
 							LONG  width = rc.right - rc.left;
-							if (dat->textLen >= dat->nMax)
+							if (dat->m_textLen >= dat->m_nMax)
 								rc.right = rc.right / 3;
 							fx = ((float)rc.right / (float)100.0) * uPercent;
 							rc.right = (LONG)fx;
 							FillRect(hdcMem, &rc, br);
-							if (dat->textLen >= dat->nMax) {
+							if (dat->m_textLen >= dat->m_nMax) {
 								SelectObject(hdcMem, brOld);
 								DeleteObject(br);
 								br = CreateSolidBrush(RGB(255, 0, 0));
 								brOld = (HBRUSH)SelectObject(hdcMem, br);
 								rc.left = width / 3;
 								rc.right = width;
-								uPercent = (float)dat->textLen / (float)200.0;
+								uPercent = (float)dat->m_textLen / (float)200.0;
 								fx = ((float)(rc.right - rc.left) / (float)100.0) * uPercent;
 								rc.right = rc.left + (LONG)fx;
 								FillRect(hdcMem, &rc, br);
@@ -846,7 +846,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 						if (LOWORD(result) > 1) {				// we have a text
 							DrawIconEx(hdcMem, itemRect.left + 3, (height / 2 - 8) + itemRect.top, hIcon, 16, 16, 0, 0, DI_NORMAL);
 							if (dat) {
-								if (dat->bShowTyping == 2)
+								if (dat->m_bShowTyping == 2)
 									DrawIconEx(hdcMem, itemRect.left + 3, (height / 2 - 8) + itemRect.top, PluginConfig.g_iconOverlayEnabled, 16, 16, 0, 0, DI_NORMAL);
 							}
 							itemRect.left += 20;
@@ -969,7 +969,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 						mir_snwprintf(wBuf, TranslateT("Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers"),
 							pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
 
-					else if (sid->dwId == MSG_ICON_UTN && (dat->bType == SESSIONTYPE_IM || dat->si->iType == GCW_PRIVMESS)) {
+					else if (sid->dwId == MSG_ICON_UTN && (dat->m_bType == SESSIONTYPE_IM || dat->si->iType == GCW_PRIVMESS)) {
 						int mtnStatus = db_get_b(dat->m_hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
 						mir_snwprintf(wBuf, TranslateT("Sending typing notifications is %s."),
 							mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));
@@ -992,25 +992,25 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 				int iQueued = db_get_dw(dat->m_hContact, "SendLater", "count", 0);
 				gtxl.codepage = CP_UTF8;
 				gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
-				iLength = SendDlgItemMessage(dat->GetHwnd(), dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
+				iLength = SendDlgItemMessage(dat->GetHwnd(), dat->m_bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 				tooltip_active = TRUE;
 
 				const wchar_t *szFormat = TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery");
 
-				mir_snwprintf(wBuf, szFormat, dat->iOpenJobs, iLength, dat->nMax ? dat->nMax : 20000, iQueued);
+				mir_snwprintf(wBuf, szFormat, dat->m_iOpenJobs, iLength, dat->m_nMax ? dat->m_nMax : 20000, iQueued);
 				CallService("mToolTip/ShowTipW", (WPARAM)wBuf, (LPARAM)&ti);
 			}
 
-			if (SendMessage(dat->pContainer->hwndStatus, SB_GETTEXT, 0, (LPARAM)wBuf)) {
+			if (SendMessage(dat->m_pContainer->hwndStatus, SB_GETTEXT, 0, (LPARAM)wBuf)) {
 				HDC hdc;
-				int iLen = SendMessage(dat->pContainer->hwndStatus, SB_GETTEXTLENGTH, 0, 0);
+				int iLen = SendMessage(dat->m_pContainer->hwndStatus, SB_GETTEXTLENGTH, 0, 0);
 				SendMessage(hWnd, SB_GETRECT, 0, (LPARAM)&rc);
-				GetTextExtentPoint32(hdc = GetDC(dat->pContainer->hwndStatus), wBuf, iLen, &size);
-				ReleaseDC(dat->pContainer->hwndStatus, hdc);
+				GetTextExtentPoint32(hdc = GetDC(dat->m_pContainer->hwndStatus), wBuf, iLen, &size);
+				ReleaseDC(dat->m_pContainer->hwndStatus, hdc);
 
 				if (PtInRect(&rc, pt) && ((rc.right - rc.left) < size.cx)) {
-					if (dat->bType == SESSIONTYPE_CHAT) {
-						ptrW tszTopic(db_get_wsa(dat->m_hContact, dat->szProto, "Topic"));
+					if (dat->m_bType == SESSIONTYPE_CHAT) {
+						ptrW tszTopic(db_get_wsa(dat->m_hContact, dat->m_szProto, "Topic"));
 						if (tszTopic != NULL) {
 							tooltip_active = TRUE;
 							CallService("mToolTip/ShowTipW", tszTopic, (LPARAM)&ti);

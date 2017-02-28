@@ -51,7 +51,7 @@ void SendQueue::handleError(CSrmmWindow *dat, const int iEntry) const
 
 	wchar_t szErrorMsg[500];
 
-	dat->iCurrentQueueError = iEntry;
+	dat->m_iCurrentQueueError = iEntry;
 	wcsncpy_s(szErrorMsg, m_jobs[iEntry].szErrorMsg, _TRUNCATE);
 	logError(dat, iEntry, szErrorMsg);
 	recallFailed(dat, iEntry);
@@ -96,14 +96,14 @@ entry_found:
 
 	SendJob &job = m_jobs[iFound];
 	job.szSendBuffer = (char*)mir_alloc(iLen);
-	memcpy(job.szSendBuffer, dat->sendBuffer, iLen);
+	memcpy(job.szSendBuffer, dat->m_sendBuffer, iLen);
 
 	job.dwFlags = dwFlags;
 	job.dwTime = time(NULL);
 
 	HWND	hwndDlg = dat->GetHwnd();
 
-	dat->cache->saveHistory(0, 0);
+	dat->m_cache->saveHistory(0, 0);
 	::SetDlgItemText(hwndDlg, IDC_MESSAGE, L"");
 	::SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 
@@ -195,7 +195,7 @@ int SendQueue::sendQueued(CSrmmWindow *dat, const int iEntry)
 	HWND hwndDlg = dat->GetHwnd();
 	CContactCache *ccActive = CContactCache::getContactCache(dat->m_hContact);
 
-	if (dat->sendMode & SMODE_MULTIPLE) {
+	if (dat->m_sendMode & SMODE_MULTIPLE) {
 		int iJobs = 0;
 		size_t iMinLength = 0;
 
@@ -238,12 +238,12 @@ int SendQueue::sendQueued(CSrmmWindow *dat, const int iEntry)
 	if (dat->m_hContact == NULL)
 		return 0;  //never happens
 
-	dat->nMax = (int)dat->cache->getMaxMessageLength(); // refresh length info
+	dat->m_nMax = (int)dat->m_cache->getMaxMessageLength(); // refresh length info
 
-	if (M.GetByte("autosplit", 0) && !(dat->sendMode & SMODE_SENDLATER)) {
+	if (M.GetByte("autosplit", 0) && !(dat->m_sendMode & SMODE_SENDLATER)) {
 		// determine send buffer length
 		BOOL fSplit = FALSE;
-		if ((int)getSendLength(iEntry) >= dat->nMax)
+		if ((int)getSendLength(iEntry) >= dat->m_nMax)
 			fSplit = true;
 
 		if (!fSplit)
@@ -253,7 +253,7 @@ int SendQueue::sendQueued(CSrmmWindow *dat, const int iEntry)
 		m_jobs[iEntry].hOwnerWnd = hwndDlg;
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
 		m_jobs[iEntry].iAcksNeeded = 1;
-		m_jobs[iEntry].chunkSize = dat->nMax;
+		m_jobs[iEntry].chunkSize = dat->m_nMax;
 
 		DWORD dwOldFlags = m_jobs[iEntry].dwFlags;
 		mir_forkthread(DoSplitSendA, (LPVOID)iEntry);
@@ -265,12 +265,12 @@ int SendQueue::sendQueued(CSrmmWindow *dat, const int iEntry)
 		m_jobs[iEntry].hOwnerWnd = hwndDlg;
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
 		m_jobs[iEntry].iAcksNeeded = 1;
-		if (dat->sendMode & SMODE_SENDLATER) {
+		if (dat->m_sendMode & SMODE_SENDLATER) {
 			wchar_t	tszError[256];
 
 			size_t iSendLength = getSendLength(iEntry);
-			if ((int)iSendLength >= dat->nMax) {
-				mir_snwprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->nMax);
+			if ((int)iSendLength >= dat->m_nMax) {
+				mir_snwprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->m_nMax);
 				SendMessage(dat->GetHwnd(), DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
 				clearJob(iEntry);
 				return 0;
@@ -281,7 +281,7 @@ int SendQueue::sendQueued(CSrmmWindow *dat, const int iEntry)
 		}
 		m_jobs[iEntry].hSendId = (HANDLE)ProtoChainSend(dat->m_hContact, PSS_MESSAGE, m_jobs[iEntry].dwFlags, (LPARAM)m_jobs[iEntry].szSendBuffer);
 
-		if (dat->sendMode & SMODE_NOACK) {              // fake the ack if we are not interested in receiving real acks
+		if (dat->m_sendMode & SMODE_NOACK) {              // fake the ack if we are not interested in receiving real acks
 			ACKDATA ack = { 0 };
 			ack.hContact = dat->m_hContact;
 			ack.hProcess = m_jobs[iEntry].hSendId;
@@ -292,18 +292,18 @@ int SendQueue::sendQueued(CSrmmWindow *dat, const int iEntry)
 		else SetTimer(hwndDlg, TIMERID_MSGSEND + iEntry, PluginConfig.m_MsgTimeout, NULL);
 	}
 
-	dat->iOpenJobs++;
+	dat->m_iOpenJobs++;
 	m_currentIndex++;
 
 	// give icon feedback...
-	if (dat->pContainer->hwndActive == hwndDlg)
+	if (dat->m_pContainer->hwndActive == hwndDlg)
 		dat->UpdateReadChars();
 
-	if (!(dat->sendMode & SMODE_NOACK))
+	if (!(dat->m_sendMode & SMODE_NOACK))
 		::HandleIconFeedback(dat, PluginConfig.g_IconSend);
 
 	if (M.GetByte(SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
-		::SendMessage(dat->pContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+		::SendMessage(dat->m_pContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 	return 0;
 }
 
@@ -326,12 +326,12 @@ void SendQueue::checkQueue(const CSrmmWindow *dat) const
 	if (dat) {
 		HWND	hwndDlg = dat->GetHwnd();
 
-		if (dat->iOpenJobs == 0)
+		if (dat->m_iOpenJobs == 0)
 			::HandleIconFeedback(const_cast<CSrmmWindow *>(dat), (HICON)INVALID_HANDLE_VALUE);
-		else if (!(dat->sendMode & SMODE_NOACK))
+		else if (!(dat->m_sendMode & SMODE_NOACK))
 			::HandleIconFeedback(const_cast<CSrmmWindow *>(dat), PluginConfig.g_IconSend);
 
-		if (dat->pContainer->hwndActive == hwndDlg)
+		if (dat->m_pContainer->hwndActive == hwndDlg)
 			dat->UpdateReadChars();
 	}
 }
@@ -390,15 +390,15 @@ void SendQueue::showErrorControls(CSrmmWindow *dat, const int showCmd) const
 
 	if (showCmd) {
 		TCITEM item = { 0 };
-		dat->hTabIcon = PluginConfig.g_iconErr;
+		dat->m_hTabIcon = PluginConfig.g_iconErr;
 		item.mask = TCIF_IMAGE;
 		item.iImage = 0;
-		TabCtrl_SetItem(GetDlgItem(dat->pContainer->hwnd, IDC_MSGTABS), dat->iTabID, &item);
-		dat->dwFlags |= MWF_ERRORSTATE;
+		TabCtrl_SetItem(GetDlgItem(dat->m_pContainer->hwnd, IDC_MSGTABS), dat->m_iTabID, &item);
+		dat->m_dwFlags |= MWF_ERRORSTATE;
 	}
 	else {
-		dat->dwFlags &= ~MWF_ERRORSTATE;
-		dat->hTabIcon = dat->hTabStatusIcon;
+		dat->m_dwFlags &= ~MWF_ERRORSTATE;
+		dat->m_hTabIcon = dat->m_hTabStatusIcon;
 	}
 
 	for (int i = 0; i < 5; i++)
@@ -444,18 +444,18 @@ void SendQueue::UpdateSaveAndSendButton(CSrmmWindow *dat)
 			dat->EnableSendButton(FALSE);
 
 		if (len) {          // looks complex but avoids flickering on the button while typing.
-			if (!(dat->dwFlags & MWF_SAVEBTN_SAV)) {
+			if (!(dat->m_dwFlags & MWF_SAVEBTN_SAV)) {
 				SendDlgItemMessage(hwndDlg, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_SAVE]);
 				SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_save, BATF_UNICODE);
-				dat->dwFlags |= MWF_SAVEBTN_SAV;
+				dat->m_dwFlags |= MWF_SAVEBTN_SAV;
 			}
 		}
 		else {
 			SendDlgItemMessage(hwndDlg, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
 			SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_UNICODE);
-			dat->dwFlags &= ~MWF_SAVEBTN_SAV;
+			dat->m_dwFlags &= ~MWF_SAVEBTN_SAV;
 		}
-		dat->textLen = len;
+		dat->m_textLen = len;
 	}
 }
 
@@ -469,7 +469,7 @@ void SendQueue::NotifyDeliveryFailure(const CSrmmWindow *dat)
 
 	POPUPDATAT ppd = { 0 };
 	ppd.lchContact = dat->m_hContact;
-	wcsncpy_s(ppd.lptzContactName, dat->cache->getNick(), _TRUNCATE);
+	wcsncpy_s(ppd.lptzContactName, dat->m_cache->getNick(), _TRUNCATE);
 	wcsncpy_s(ppd.lptzText, TranslateT("A message delivery has failed.\nClick to open the message window."), _TRUNCATE);
 
 	if (!(BOOL)M.GetByte(MODULE, OPT_COLDEFAULT_ERR, TRUE)) {
@@ -513,15 +513,15 @@ int SendQueue::ackMessage(CSrmmWindow *dat, WPARAM wParam, LPARAM lParam)
 
 	TContainerData *m_pContainer = 0;
 	if (dat)
-		m_pContainer = dat->pContainer;
+		m_pContainer = dat->m_pContainer;
 
 	int iFound = (int)(LOWORD(wParam));
 	SendJob &job = m_jobs[iFound];
 
 	if (job.iStatus == SQ_ERROR) { // received ack for a job which is already in error state...
 		if (dat) {                  // window still open
-			if (dat->iCurrentQueueError == iFound) {
-				dat->iCurrentQueueError = -1;
+			if (dat->m_iCurrentQueueError == iFound) {
+				dat->m_iCurrentQueueError = -1;
 				showErrorControls(dat, FALSE);
 			}
 		}
@@ -542,7 +542,7 @@ int SendQueue::ackMessage(CSrmmWindow *dat, WPARAM wParam, LPARAM lParam)
 			mir_snwprintf(job.szErrorMsg, TranslateT("Delivery failure: %s"), _A2T((char *)ack->lParam));
 			job.iStatus = SQ_ERROR;
 			KillTimer(dat->GetHwnd(), TIMERID_MSGSEND + iFound);
-			if (!(dat->dwFlags & MWF_ERRORSTATE))
+			if (!(dat->m_dwFlags & MWF_ERRORSTATE))
 				handleError(dat, iFound);
 			return 0;
 		}
@@ -561,7 +561,7 @@ int SendQueue::ackMessage(CSrmmWindow *dat, WPARAM wParam, LPARAM lParam)
 	dbei.cbBlob = (int)mir_strlen(job.szSendBuffer) + 1;
 
 	if (dat)
-		dat->cache->updateStats(TSessionStats::BYTES_SENT, dbei.cbBlob - 1);
+		dat->m_cache->updateStats(TSessionStats::BYTES_SENT, dbei.cbBlob - 1);
 	else {
 		CContactCache *cc = CContactCache::getContactCache(job.hContact);
 		cc->updateStats(TSessionStats::BYTES_SENT, dbei.cbBlob - 1);
@@ -591,7 +591,7 @@ int SendQueue::ackMessage(CSrmmWindow *dat, WPARAM wParam, LPARAM lParam)
 		clearJob(iFound);
 		if (dat) {
 			KillTimer(dat->GetHwnd(), TIMERID_MSGSEND + iFound);
-			dat->iOpenJobs--;
+			dat->m_iOpenJobs--;
 		}
 		m_currentIndex--;
 	}
@@ -599,14 +599,14 @@ int SendQueue::ackMessage(CSrmmWindow *dat, WPARAM wParam, LPARAM lParam)
 		checkQueue(dat);
 
 		int iNextFailed = findNextFailed(dat);
-		if (iNextFailed >= 0 && !(dat->dwFlags & MWF_ERRORSTATE))
+		if (iNextFailed >= 0 && !(dat->m_dwFlags & MWF_ERRORSTATE))
 			handleError(dat, iNextFailed);
 		else {
 			if (M.GetByte("AutoClose", 0)) {
 				if (M.GetByte("adv_AutoClose_2", 0))
 					SendMessage(dat->GetHwnd(), WM_CLOSE, 0, 1);
 				else
-					SendMessage(dat->pContainer->hwnd, WM_CLOSE, 0, 0);
+					SendMessage(dat->m_pContainer->hwnd, WM_CLOSE, 0, 0);
 			}
 		}
 	}
@@ -652,15 +652,15 @@ int SendQueue::doSendLater(int iJobIndex, CSrmmWindow *dat, MCONTACT hContact, b
 		dbei.cbBlob = (int)mir_strlen(utfText) + 1;
 		dbei.pBlob = (PBYTE)(char*)utfText;
 		dat->StreamInEvents(0, 1, 1, &dbei);
-		if (dat->hDbEventFirst == NULL)
+		if (dat->m_hDbEventFirst == NULL)
 			SendMessage(dat->GetHwnd(), DM_REMAKELOG, 0, 0);
-		dat->cache->saveHistory(0, 0);
+		dat->m_cache->saveHistory(0, 0);
 		dat->EnableSendButton(false);
-		if (dat->pContainer->hwndActive == dat->GetHwnd())
+		if (dat->m_pContainer->hwndActive == dat->GetHwnd())
 			dat->UpdateReadChars();
 		SendDlgItemMessage(dat->GetHwnd(), IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
 		SendDlgItemMessage(dat->GetHwnd(), IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_UNICODE);
-		dat->dwFlags &= ~MWF_SAVEBTN_SAV;
+		dat->m_dwFlags &= ~MWF_SAVEBTN_SAV;
 
 		if (!fAvail)
 			return 0;

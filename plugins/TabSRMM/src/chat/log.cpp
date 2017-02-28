@@ -259,7 +259,7 @@ static void LogEventIEView(LOGSTREAMDATA *streamData, wchar_t *ptszNick)
 	memset(&event, 0, sizeof(event));
 	event.cbSize = sizeof(event);
 	event.dwFlags = 0;
-	event.hwnd = streamData->dat->hwndIEView ? streamData->dat->hwndIEView : streamData->dat->hwndHPP;
+	event.hwnd = streamData->dat->m_hwndIEView ? streamData->dat->m_hwndIEView : streamData->dat->m_hwndHPP;
 	event.hContact = streamData->dat->m_hContact;
 	event.codepage = streamData->dat->codePage;
 	event.pszProto = streamData->si->pszModule;
@@ -317,7 +317,7 @@ static void LogEventIEView(LOGSTREAMDATA *streamData, wchar_t *ptszNick)
 	ied.dwData |= IEEDD_GC_SHOW_ICON;
 	ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
 	ied.next = NULL;
-	CallService(streamData->dat->hwndIEView ? MS_IEVIEW_EVENT : MS_HPP_EG_EVENT, 0, (LPARAM)&event);
+	CallService(streamData->dat->m_hwndIEView ? MS_IEVIEW_EVENT : MS_HPP_EG_EVENT, 0, (LPARAM)&event);
 	mir_free(buffer);
 }
 
@@ -720,7 +720,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			if (lin->next != NULL)
 				str.Append("\\par ");
 
-			if (streamData->dat->dwFlags & MWF_DIVIDERWANTED || lin->dwFlags & MWF_DIVIDERWANTED) {
+			if (streamData->dat->m_dwFlags & MWF_DIVIDERWANTED || lin->dwFlags & MWF_DIVIDERWANTED) {
 				static char szStyle_div[128] = "\0";
 				if (szStyle_div[0] == 0)
 					mir_snprintf(szStyle_div, "\\f%u\\cf%u\\ul0\\b%d\\i%d\\fs%u", 17, 18, 0, 0, 5);
@@ -728,7 +728,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				lin->dwFlags |= MWF_DIVIDERWANTED;
 				if (lin->prev || !streamData->bRedraw)
 					str.AppendFormat("\\qc\\sl-1\\highlight%d %s ---------------------------------------------------------------------------------------\\par ", 18, szStyle_div);
-				streamData->dat->dwFlags &= ~MWF_DIVIDERWANTED;
+				streamData->dat->m_dwFlags &= ~MWF_DIVIDERWANTED;
 			}
 			// create new line, and set font and color
 			str.AppendFormat("\\ql\\sl0%s ", pci->Log_SetStyle(0));

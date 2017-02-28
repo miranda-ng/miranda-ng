@@ -177,27 +177,27 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 
 	int iSize = 16;
 	HICON hIcon;
-	if (dat->dwFlags & MWF_ERRORSTATE)
+	if (dat->m_dwFlags & MWF_ERRORSTATE)
 		hIcon = PluginConfig.g_iconErr;
 	else if (dat->m_bCanFlashTab)
-		hIcon = dat->iFlashIcon;
+		hIcon = dat->m_iFlashIcon;
 	else {
-		if (dat->si && dat->iFlashIcon) {
-			hIcon = dat->iFlashIcon;
+		if (dat->si && dat->m_iFlashIcon) {
+			hIcon = dat->m_iFlashIcon;
 
 			int sizeY;
 			Utils::getIconSize(hIcon, iSize, sizeY);
 		}
-		else if (dat->hTabIcon == dat->hTabStatusIcon && dat->hXStatusIcon)
-			hIcon = dat->hXStatusIcon;
+		else if (dat->m_hTabIcon == dat->m_hTabStatusIcon && dat->m_hXStatusIcon)
+			hIcon = dat->m_hXStatusIcon;
 		else
-			hIcon = dat->hTabIcon;
+			hIcon = dat->m_hTabIcon;
 	}
 
-	if (!dat->m_bCanFlashTab || (dat->m_bCanFlashTab == TRUE && dat->m_bTabFlash) || !(dat->pContainer->dwFlagsEx & TCF_FLASHICON)) {
+	if (!dat->m_bCanFlashTab || (dat->m_bCanFlashTab == TRUE && dat->m_bTabFlash) || !(dat->m_pContainer->dwFlagsEx & TCF_FLASHICON)) {
 		DWORD ix = rcItem->left + tabdat->m_xpad - 1;
 		DWORD iy = (rcItem->bottom + rcItem->top - iSize) / 2;
-		if (dat->dwFlagsEx & MWF_SHOW_ISIDLE && PluginConfig.m_bIdleDetect)
+		if (dat->m_dwFlagsEx & MWF_SHOW_ISIDLE && PluginConfig.m_bIdleDetect)
 			CSkin::DrawDimmedIcon(dc, ix, iy, iSize, iSize, hIcon, 180);
 		else
 			DrawIconEx(dc, ix, iy, hIcon, iSize, iSize, 0, NULL, DI_NORMAL | DI_COMPAT);
@@ -216,14 +216,14 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 		CSkin::m_default_bf.SourceConstantAlpha = 255;
 	}
 
-	if (!dat->m_bCanFlashTab || (dat->m_bCanFlashTab == TRUE && dat->m_bTabFlash) || !(dat->pContainer->dwFlagsEx & TCF_FLASHLABEL)) {
+	if (!dat->m_bCanFlashTab || (dat->m_bCanFlashTab == TRUE && dat->m_bTabFlash) || !(dat->m_pContainer->dwFlagsEx & TCF_FLASHLABEL)) {
 		DWORD dwTextFlags = DT_SINGLELINE | DT_VCENTER;
 		HFONT oldFont = (HFONT)SelectObject(dc, (HFONT)SendMessage(tabdat->hwnd, WM_GETFONT, 0, 0));
 		if (tabdat->dwStyle & TCS_BUTTONS || !(tabdat->dwStyle & TCS_MULTILINE)) {
 			rcItem->right -= tabdat->m_xpad;
 			dwTextFlags |= DT_WORD_ELLIPSIS;
 		}
-		CSkin::RenderText(dc, tabdat->dwStyle & TCS_BUTTONS ? tabdat->hThemeButton : tabdat->hTheme, dat->newtitle, rcItem, dwTextFlags, CSkin::m_glowSize, clr);
+		CSkin::RenderText(dc, tabdat->dwStyle & TCS_BUTTONS ? tabdat->hThemeButton : tabdat->hTheme, dat->m_wszTitle, rcItem, dwTextFlags, CSkin::m_glowSize, clr);
 		SelectObject(dc, oldFont);
 	}
 	if (oldMode)
@@ -822,11 +822,11 @@ page_done:
 			pt.y = rcLog.bottom;
 			pt.x = rcLog.left;
 			ScreenToClient(hwnd, &pt);
-			rcPage.top = pt.y + ((nCount > 1 || !(tabdat->helperDat->pContainer->dwFlags & CNT_HIDETABS)) ? tabdat->helperDat->pContainer->tBorder : 0);
+			rcPage.top = pt.y + ((nCount > 1 || !(tabdat->helperDat->m_pContainer->dwFlags & CNT_HIDETABS)) ? tabdat->helperDat->m_pContainer->tBorder : 0);
 			FillRect(hdc, &rcPage, CSkin::m_BrushBack);
 			rcPage.top = 0;
 		}
-		GetWindowRect(GetDlgItem(tabdat->helperDat->GetHwnd(), tabdat->helperDat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_LOG), &rcLog);
+		GetWindowRect(GetDlgItem(tabdat->helperDat->GetHwnd(), tabdat->helperDat->m_bType == SESSIONTYPE_IM ? IDC_LOG : IDC_LOG), &rcLog);
 
 		pt.y = rcLog.top;
 		pt.x = rcLog.left;
@@ -1122,7 +1122,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 						tabdat->dragDat = dat;
 						tabdat->fSavePos = TRUE;
 						tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 1, 0);
-						ImageList_AddIcon(tabdat->himlDrag, dat->hTabIcon);
+						ImageList_AddIcon(tabdat->himlDrag, dat->m_hTabIcon);
 						ImageList_BeginDrag(tabdat->himlDrag, 0, 8, 8);
 						ImageList_DragEnter(hwnd, pt.x, pt.y);
 						SetCapture(hwnd);
@@ -1150,7 +1150,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 						tabdat->dragDat = dat;
 						tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 1, 0);
 						tabdat->fSavePos = FALSE;
-						ImageList_AddIcon(tabdat->himlDrag, dat->hTabIcon);
+						ImageList_AddIcon(tabdat->himlDrag, dat->m_hTabIcon);
 						ImageList_BeginDrag(tabdat->himlDrag, 0, 8, 8);
 						ImageList_DragEnter(hwnd, pt.x, pt.y);
 						SetCapture(hwnd);

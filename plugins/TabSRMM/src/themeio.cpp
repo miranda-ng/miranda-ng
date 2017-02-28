@@ -225,10 +225,10 @@ void TSAPI WriteThemeToINI(const wchar_t *szIniFilenameT, CSrmmWindow *dat)
 	WritePrivateProfileStringA("Message Log", "ExtraMicroLF", _itoa(M.GetByte("extramicrolf", 0), szBuf, 10), szIniFilename);
 
 	for (i = 0; i <= TMPL_ERRMSG; i++) {
-		T2Utf szLTR((dat == 0) ? LTR_Active.szTemplates[i] : dat->pContainer->ltr_templates->szTemplates[i]);
+		T2Utf szLTR((dat == 0) ? LTR_Active.szTemplates[i] : dat->m_pContainer->ltr_templates->szTemplates[i]);
 		WritePrivateProfileStringA("Templates", TemplateNames[i], szLTR, szIniFilename);
 
-		T2Utf szRTL((dat == 0) ? RTL_Active.szTemplates[i] : dat->pContainer->rtl_templates->szTemplates[i]);
+		T2Utf szRTL((dat == 0) ? RTL_Active.szTemplates[i] : dat->m_pContainer->rtl_templates->szTemplates[i]);
 		WritePrivateProfileStringA("RTLTemplates", TemplateNames[i], szRTL, szIniFilename);
 	}
 	for (i = 0; i < CUSTOM_COLORS; i++) {
@@ -236,7 +236,7 @@ void TSAPI WriteThemeToINI(const wchar_t *szIniFilenameT, CSrmmWindow *dat)
 		if (dat == 0)
 			WritePrivateProfileStringA("Custom Colors", szTemp, _itoa(M.GetDword(szTemp, 0), szBuf, 10), szIniFilename);
 		else
-			WritePrivateProfileStringA("Custom Colors", szTemp, _itoa(dat->pContainer->theme.custom_colors[i], szBuf, 10), szIniFilename);
+			WritePrivateProfileStringA("Custom Colors", szTemp, _itoa(dat->m_pContainer->theme.custom_colors[i], szBuf, 10), szIniFilename);
 	}
 	for (i = 0; i <= 7; i++)
 		WritePrivateProfileStringA("Nick Colors", _itoa(i, szBuf, 10), _itoa(g_Settings.nickColors[i], szTemp, 10), szIniFilename);

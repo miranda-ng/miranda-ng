@@ -213,7 +213,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						hIcon = (dis->itemData & 0x10000000) ? pci->hIcons[ICON_HIGHLIGHT] : PluginConfig.g_IconMsgEvent;
 					else if (dat != NULL) {
 						hIcon = dat->GetMyContactIcon(0);
-						idle = dat->idle;
+						idle = dat->m_idle;
 					}
 					else hIcon = PluginConfig.g_iconContainer;
 
@@ -434,7 +434,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 				if (dat) {
 					if (hkl) {
-						dat->hkl = hkl;
+						dat->m_hkl = hkl;
 						PostMessage(dat->GetHwnd(), DM_SETLOCALE, 0, 0);
 					}
 

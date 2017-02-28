@@ -123,7 +123,7 @@ CTabBaseDlg::CTabBaseDlg(TNewWindowData *pData, int iResource)
 	m_message(this, IDC_MESSAGE),
 	newData(pData),
 	
-	pContainer(pData->pContainer),
+	m_pContainer(pData->pContainer),
 	m_hContact(pData->hContact)
 {
 	m_pLog = &m_log;
@@ -142,13 +142,13 @@ static void SetStatusTextWorker(CTabBaseDlg *dat, StatusTextData *st)
 		return;
 
 	// delete old custom data
-	if (dat->sbCustom) {
-		delete dat->sbCustom;
-		dat->sbCustom = NULL;
+	if (dat->m_sbCustom) {
+		delete dat->m_sbCustom;
+		dat->m_sbCustom = nullptr;
 	}
 
 	if (st != NULL && st->cbSize == sizeof(StatusTextData))
-		dat->sbCustom = new StatusTextData(*st);
+		dat->m_sbCustom = new StatusTextData(*st);
 
 	dat->UpdateStatusBar();
 }
@@ -209,7 +209,7 @@ static INT_PTR GetMessageWindowFlags(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwndTarget, GWLP_USERDATA);
-	return (dat) ? dat->dwFlags : 0;
+	return (dat) ? dat->m_dwFlags : 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -446,7 +446,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 		TabCtrl_SetCurSel(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), GetTabIndexFromHWND(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), hwndChild));
 		SendMessage(pContainer->hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
 	}
-	if (dat->bType == SESSIONTYPE_IM)
+	if (dat->m_bType == SESSIONTYPE_IM)
 		SendMessage(pContainer->hwnd, DM_UPDATETITLE, dat->m_hContact, 0);
 	if (IsIconic(pContainer->hwnd)) {
 		SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
@@ -473,7 +473,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 	else if (GetForegroundWindow() != pContainer->hwnd)
 		SetForegroundWindow(pContainer->hwnd);
 
-	if (dat->bType == SESSIONTYPE_IM)
+	if (dat->m_bType == SESSIONTYPE_IM)
 		SetFocus(GetDlgItem(hwndChild, IDC_MESSAGE));
 	return TRUE;
 }
@@ -687,7 +687,7 @@ int TABSRMM_FireEvent(MCONTACT hContact, HWND hwnd, unsigned int type, unsigned 
 	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (dat == NULL)
 		return 0;
-	BYTE bType = dat->bType;
+	BYTE bType = dat->m_bType;
 
 	MessageWindowEventData mwe = { sizeof(mwe) };
 	mwe.hContact = hContact;
@@ -708,7 +708,7 @@ int TABSRMM_FireEvent(MCONTACT hContact, HWND hwnd, unsigned int type, unsigned 
 		se.evtCode = HIWORD(subType);
 		se.hwnd = hwnd;
 		se.extraFlags = (unsigned int)(LOWORD(subType));
-		se.local = dat->sendBuffer;
+		se.local = dat->m_sendBuffer;
 		mwe.local = &se;
 	}
 

@@ -303,7 +303,7 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 		HWND		hwndEdit = ::GetDlgItem(m_hwnd, IDC_MESSAGE);
 		SETTEXTEX 	stx = { ST_DEFAULT, CP_UTF8 };
 
-		if (m_dat->dwFlags & MWF_NEEDHISTORYSAVE) {
+		if (m_dat->m_dwFlags & MWF_NEEDHISTORYSAVE) {
 			m_iHistoryCurrent = m_iHistoryTop;
 			if (::GetWindowTextLength(hwndEdit) > 0)
 				saveHistory(m_iHistorySize, 0);
@@ -336,7 +336,7 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 			else ::SetWindowText(hwndEdit, L"");
 		}
 		::SendMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(::GetDlgCtrlID(hwndEdit), EN_CHANGE), (LPARAM)hwndEdit);
-		m_dat->dwFlags &= ~MWF_NEEDHISTORYSAVE;
+		m_dat->m_dwFlags &= ~MWF_NEEDHISTORYSAVE;
 	}
 }
 
@@ -533,20 +533,20 @@ HICON CContactCache::getIcon(int &iSize) const
 	if (!m_dat || !m_hwnd)
 		return Skin_LoadProtoIcon(cc->szProto, getStatus());
 
-	if (m_dat->dwFlags & MWF_ERRORSTATE)
+	if (m_dat->m_dwFlags & MWF_ERRORSTATE)
 		return PluginConfig.g_iconErr;
 	if (m_dat->m_bCanFlashTab)
-		return m_dat->iFlashIcon;
+		return m_dat->m_iFlashIcon;
 
-	if (m_dat->si && m_dat->iFlashIcon) {
+	if (m_dat->si && m_dat->m_iFlashIcon) {
 		int sizeX, sizeY;
-		Utils::getIconSize(m_dat->iFlashIcon, sizeX, sizeY);
+		Utils::getIconSize(m_dat->m_iFlashIcon, sizeX, sizeY);
 		iSize = sizeX;
-		return m_dat->iFlashIcon;
+		return m_dat->m_iFlashIcon;
 	}
-	if (m_dat->hTabIcon == m_dat->hTabStatusIcon && m_dat->hXStatusIcon)
-		return m_dat->hXStatusIcon;
-	return m_dat->hTabIcon;
+	if (m_dat->m_hTabIcon == m_dat->m_hTabStatusIcon && m_dat->m_hXStatusIcon)
+		return m_dat->m_hXStatusIcon;
+	return m_dat->m_hTabIcon;
 }
 
 size_t CContactCache::getMaxMessageLength()

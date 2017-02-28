@@ -118,8 +118,8 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	* the extended info struct in pContainer *)
 	*/
 	if (dat) {
-		teInfo = (TemplateEditorInfo *)dat->pContainer;
-		tSet = teInfo->rtl ? dat->pContainer->rtl_templates : dat->pContainer->ltr_templates;
+		teInfo = (TemplateEditorInfo *)dat->m_pContainer;
+		tSet = teInfo->rtl ? dat->m_pContainer->rtl_templates : dat->m_pContainer->ltr_templates;
 	}
 	else tSet = NULL;
 
@@ -129,15 +129,15 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			TemplateEditorNew *teNew = (TemplateEditorNew *)lParam;
 			dat = (CSrmmWindow*)mir_calloc(sizeof(CSrmmWindow));
-			dat->pContainer = (TContainerData*)mir_alloc(sizeof(TContainerData));
-			memset(dat->pContainer, 0, sizeof(TContainerData));
-			teInfo = (TemplateEditorInfo *)dat->pContainer;
+			dat->m_pContainer = (TContainerData*)mir_alloc(sizeof(TContainerData));
+			memset(dat->m_pContainer, 0, sizeof(TContainerData));
+			teInfo = (TemplateEditorInfo *)dat->m_pContainer;
 			memset(teInfo, 0, sizeof(TemplateEditorInfo));
 			teInfo->hContact = teNew->hContact;
 			teInfo->rtl = teNew->rtl;
 			teInfo->hwndParent = teNew->hwndParent;
 
-			LoadOverrideTheme(dat->pContainer);
+			LoadOverrideTheme(dat->m_pContainer);
 			/*
 			* set hContact to the first found contact so that we can use the Preview window properly
 			* also, set other parameters needed by the streaming function to display events
@@ -148,17 +148,17 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_EXLIMITTEXT, 0, 0x80000000);
 
 			dat->m_hContact = db_find_first();
-			dat->szProto = GetContactProto(dat->m_hContact);
-			while (dat->szProto == 0 && dat->m_hContact != 0) {
+			dat->m_szProto = GetContactProto(dat->m_hContact);
+			while (dat->m_szProto == 0 && dat->m_hContact != 0) {
 				dat->m_hContact = db_find_next(dat->m_hContact);
-				dat->szProto = GetContactProto(dat->m_hContact);
+				dat->m_szProto = GetContactProto(dat->m_hContact);
 			}
-			dat->dwFlags = dat->pContainer->theme.dwFlags;
+			dat->m_dwFlags = dat->m_pContainer->theme.dwFlags;
 
-			dat->cache = CContactCache::getContactCache(dat->m_hContact);
-			dat->cache->updateNick();
-			dat->cache->updateUIN();
-			dat->cache->updateStats(TSessionStats::INIT_TIMER);
+			dat->m_cache = CContactCache::getContactCache(dat->m_hContact);
+			dat->m_cache->updateNick();
+			dat->m_cache->updateUIN();
+			dat->m_cache->updateStats(TSessionStats::INIT_TIMER);
 			dat->GetMYUIN();
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
@@ -342,7 +342,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 
 			DBEVENTINFO dbei = {};
-			dbei.szModule = dat->szProto;
+			dbei.szModule = dat->m_szProto;
 			dbei.timestamp = time(NULL);
 			dbei.eventType = (iIndex == 6) ? EVENTTYPE_STATUSCHANGE : EVENTTYPE_MESSAGE;
 			dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
@@ -352,13 +352,13 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob) + 1;
 			dbei.flags = (iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0;
 			dbei.flags |= (teInfo->rtl ? DBEF_RTL : 0);
-			dat->lastEventTime = (iIndex == 4 || iIndex == 5) ? time(NULL) - 1 : 0;
-			dat->iLastEventType = MAKELONG(dbei.flags, dbei.eventType);
+			dat->m_lastEventTime = (iIndex == 4 || iIndex == 5) ? time(NULL) - 1 : 0;
+			dat->m_iLastEventType = MAKELONG(dbei.flags, dbei.eventType);
 			SetDlgItemText(hwndDlg, IDC_PREVIEW, L"");
-			dat->dwFlags = MWF_LOG_ALL;
-			dat->dwFlags = (teInfo->rtl ? dat->dwFlags | MWF_LOG_RTL : dat->dwFlags & ~MWF_LOG_RTL);
-			dat->dwFlags = (iIndex == 0 || iIndex == 1) ? dat->dwFlags & ~MWF_LOG_GROUPMODE : dat->dwFlags | MWF_LOG_GROUPMODE;
-			mir_snwprintf(dat->szMyNickname, L"My Nickname");
+			dat->m_dwFlags = MWF_LOG_ALL;
+			dat->m_dwFlags = (teInfo->rtl ? dat->m_dwFlags | MWF_LOG_RTL : dat->m_dwFlags & ~MWF_LOG_RTL);
+			dat->m_dwFlags = (iIndex == 0 || iIndex == 1) ? dat->m_dwFlags & ~MWF_LOG_GROUPMODE : dat->m_dwFlags | MWF_LOG_GROUPMODE;
+			mir_snwprintf(dat->m_wszMyNickname, L"My Nickname");
 			dat->StreamInEvents(0, 1, 0, &dbei);
 			SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_SETSEL, -1, -1);
 			if (teInfo->changed)
@@ -370,7 +370,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		Utils::enableDlgControl(teInfo->hwndParent, IDC_MODIFY, TRUE);
 		Utils::enableDlgControl(teInfo->hwndParent, IDC_RTLMODIFY, TRUE);
 		if (dat) {
-			mir_free(dat->pContainer);
+			mir_free(dat->m_pContainer);
 			mir_free(dat);
 		}
 		db_set_dw(0, SRMSGMOD_T, "cc1", SendDlgItemMessage(hwndDlg, IDC_COLOR1, CPM_GETCOLOUR, 0, 0));

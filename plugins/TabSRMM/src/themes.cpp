@@ -1940,11 +1940,11 @@ UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID
 		if (!item->IGNORED)
 			return WVR_REDRAW;
 	}
-	if (mwdat->hTheme && wParam) {
+	if (mwdat->m_hTheme && wParam) {
 		RECT rcClient;
 		HDC hdc = GetDC(GetParent(hwnd));
 
-		if (GetThemeBackgroundContentRect(mwdat->hTheme, hdc, 1, 1, &nccp->rgrc[0], &rcClient) == S_OK) {
+		if (GetThemeBackgroundContentRect(mwdat->m_hTheme, hdc, 1, 1, &nccp->rgrc[0], &rcClient) == S_OK) {
 			if (EqualRect(&rcClient, &nccp->rgrc[0]))
 				InflateRect(&rcClient, -1, -1);
 			CopyRect(&nccp->rgrc[0], &rcClient);
@@ -1956,8 +1956,8 @@ UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID
 		else
 			return orig;
 	}
-	if ((mwdat->sendMode & SMODE_MULTIPLE || mwdat->sendMode & SMODE_CONTAINER ||
-		mwdat->fEditNotesActive || mwdat->sendMode & SMODE_SENDLATER) && skinID == ID_EXTBKINPUTAREA) {
+	if ((mwdat->m_sendMode & SMODE_MULTIPLE || mwdat->m_sendMode & SMODE_CONTAINER ||
+		mwdat->m_fEditNotesActive || mwdat->m_sendMode & SMODE_SENDLATER) && skinID == ID_EXTBKINPUTAREA) {
 		InflateRect(&nccp->rgrc[0], -1, -1);
 		return WVR_REDRAW;
 	}
@@ -1975,9 +1975,9 @@ UINT CSkin::DrawRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID, 
 	if (0 == mwdat)
 		return result;
 
-	BOOL isEditNotesReason = ((mwdat->fEditNotesActive) && (skinID == ID_EXTBKINPUTAREA));
-	BOOL isSendLaterReason = ((mwdat->sendMode & SMODE_SENDLATER) && (skinID == ID_EXTBKINPUTAREA));
-	BOOL isMultipleReason = ((skinID == ID_EXTBKINPUTAREA) && (mwdat->sendMode & SMODE_MULTIPLE || mwdat->sendMode & SMODE_CONTAINER));
+	BOOL isEditNotesReason = ((mwdat->m_fEditNotesActive) && (skinID == ID_EXTBKINPUTAREA));
+	BOOL isSendLaterReason = ((mwdat->m_sendMode & SMODE_SENDLATER) && (skinID == ID_EXTBKINPUTAREA));
+	BOOL isMultipleReason = ((skinID == ID_EXTBKINPUTAREA) && (mwdat->m_sendMode & SMODE_MULTIPLE || mwdat->m_sendMode & SMODE_CONTAINER));
 
 	HDC hdc = GetWindowDC(hwnd);
 	RECT rcWindow;
@@ -2025,7 +2025,7 @@ UINT CSkin::DrawRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID, 
 			DeleteObject(br);
 		}
 		else
-			DrawThemeBackground(mwdat->hTheme, hdc, 1, 1, &rcWindow, &rcWindow);
+			DrawThemeBackground(mwdat->m_hTheme, hdc, 1, 1, &rcWindow, &rcWindow);
 	}
 	ReleaseDC(hwnd, hdc);
 	return result;
@@ -2194,7 +2194,7 @@ void CSkin::MapClientToParent(HWND hwndClient, HWND hwndParent, RECT &rc)
 
 void CTabBaseDlg::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 {
-	if (pContainer->dwFlags & CNT_HIDETOOLBAR)
+	if (m_pContainer->dwFlags & CNT_HIDETOOLBAR)
 		return;
 
 	bool	 bAero = M.isAero();
@@ -2204,18 +2204,18 @@ void CTabBaseDlg::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 	RECT 	rc, rcToolbar;
 	POINT	pt;
 
-	if (!(pContainer->dwFlags & CNT_BOTTOMTOOLBAR)) {
-		::GetWindowRect(::GetDlgItem(m_hwnd, bType == SESSIONTYPE_CHAT ? IDC_LOG : IDC_LOG), &rc);
+	if (!(m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR)) {
+		::GetWindowRect(::GetDlgItem(m_hwnd, m_bType == SESSIONTYPE_CHAT ? IDC_LOG : IDC_LOG), &rc);
 		pt.y = rc.bottom + 0;
 		::ScreenToClient(m_hwnd, &pt);
 		rcToolbar.top = pt.y;
 		rcToolbar.left = 0;
 		rcToolbar.right = rcWindow.right;
 
-		if (bType == SESSIONTYPE_IM) {
-			if (dwFlags & MWF_ERRORSTATE)
+		if (m_bType == SESSIONTYPE_IM) {
+			if (m_dwFlags & MWF_ERRORSTATE)
 				rcToolbar.top += ERRORPANEL_HEIGHT;
-			if (dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED || bNotOnList) {
+			if (m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED || m_bNotOnList) {
 				rcToolbar.top += 20;
 				RECT	rcAdd;
 				rcAdd.left = 0; rcAdd.right = rcToolbar.right - rcToolbar.left;
@@ -2225,13 +2225,13 @@ void CTabBaseDlg::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 			}
 		}
 
-		::GetWindowRect(::GetDlgItem(m_hwnd, bType == SESSIONTYPE_CHAT ? IDC_MESSAGE : IDC_MESSAGE), &rc);
-		pt.y = rc.top - (bIsAutosizingInput ? 1 : 2);
+		::GetWindowRect(::GetDlgItem(m_hwnd, m_bType == SESSIONTYPE_CHAT ? IDC_MESSAGE : IDC_MESSAGE), &rc);
+		pt.y = rc.top - (m_bIsAutosizingInput ? 1 : 2);
 		::ScreenToClient(m_hwnd, &pt);
 		rcToolbar.bottom = pt.y;
 	}
 	else {
-		GetWindowRect(::GetDlgItem(m_hwnd, bType == SESSIONTYPE_CHAT ? IDC_MESSAGE : IDC_MESSAGE), &rc);
+		GetWindowRect(::GetDlgItem(m_hwnd, m_bType == SESSIONTYPE_CHAT ? IDC_MESSAGE : IDC_MESSAGE), &rc);
 		pt.y = rc.bottom - 2;
 		ScreenToClient(m_hwnd, &pt);
 		rcToolbar.top = pt.y + 1;
@@ -2246,36 +2246,36 @@ void CTabBaseDlg::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 	rcCachedToolbar.right = cx;
 	rcCachedToolbar.bottom = cy;
 
-	if (pContainer->cachedToolbarDC == 0)
-		pContainer->cachedToolbarDC = ::CreateCompatibleDC(hdc);
+	if (m_pContainer->cachedToolbarDC == 0)
+		m_pContainer->cachedToolbarDC = ::CreateCompatibleDC(hdc);
 
-	if (pContainer->szOldToolbarSize.cx != cx || pContainer->szOldToolbarSize.cy != cy) {
-		if (pContainer->oldhbmToolbarBG) {
-			::SelectObject(pContainer->cachedToolbarDC, pContainer->oldhbmToolbarBG);
-			::DeleteObject(pContainer->hbmToolbarBG);
+	if (m_pContainer->szOldToolbarSize.cx != cx || m_pContainer->szOldToolbarSize.cy != cy) {
+		if (m_pContainer->oldhbmToolbarBG) {
+			::SelectObject(m_pContainer->cachedToolbarDC, m_pContainer->oldhbmToolbarBG);
+			::DeleteObject(m_pContainer->hbmToolbarBG);
 		}
-		pContainer->hbmToolbarBG = CSkin::CreateAeroCompatibleBitmap(rcCachedToolbar, hdc);// ::CreateCompatibleBitmap(hdc, cx, cy);
-		pContainer->oldhbmToolbarBG = reinterpret_cast<HBITMAP>(::SelectObject(pContainer->cachedToolbarDC, pContainer->hbmToolbarBG));
+		m_pContainer->hbmToolbarBG = CSkin::CreateAeroCompatibleBitmap(rcCachedToolbar, hdc);// ::CreateCompatibleBitmap(hdc, cx, cy);
+		m_pContainer->oldhbmToolbarBG = reinterpret_cast<HBITMAP>(::SelectObject(m_pContainer->cachedToolbarDC, m_pContainer->hbmToolbarBG));
 	}
-	pContainer->szOldToolbarSize.cx = cx;
-	pContainer->szOldToolbarSize.cy = cy;
+	m_pContainer->szOldToolbarSize.cx = cx;
+	m_pContainer->szOldToolbarSize.cy = cy;
 
 	if (!fMustDrawNonThemed && M.isVSThemed()) {
-		DrawThemeBackground(hThemeToolbar, pContainer->cachedToolbarDC, 6, 1, &rcCachedToolbar, &rcCachedToolbar);
-		pContainer->bTBRenderingMode = 1;				// tell TSButton how to render the tool bar buttons
+		DrawThemeBackground(m_hThemeToolbar, m_pContainer->cachedToolbarDC, 6, 1, &rcCachedToolbar, &rcCachedToolbar);
+		m_pContainer->bTBRenderingMode = 1;				// tell TSButton how to render the tool bar buttons
 	}
 	else {
-		pContainer->bTBRenderingMode = (M.isVSThemed() ? 1 : 0);
+		m_pContainer->bTBRenderingMode = (M.isVSThemed() ? 1 : 0);
 		CSkin::m_tmp_tb_high = PluginConfig.m_tbBackgroundHigh ? PluginConfig.m_tbBackgroundHigh :
 			((bAero && CSkin::m_pCurrentAeroEffect) ? CSkin::m_pCurrentAeroEffect->m_clrToolbar : ::GetSysColor(COLOR_3DFACE));
 		CSkin::m_tmp_tb_low = PluginConfig.m_tbBackgroundLow ? PluginConfig.m_tbBackgroundLow :
 			((bAero && CSkin::m_pCurrentAeroEffect) ? CSkin::m_pCurrentAeroEffect->m_clrToolbar2 : ::GetSysColor(COLOR_3DFACE));
 
 		bAlphaOffset = PluginConfig.m_tbBackgroundHigh ? 40 : 0;
-		::DrawAlpha(pContainer->cachedToolbarDC, &rcCachedToolbar, CSkin::m_tmp_tb_high, 55 + bAlphaOffset, CSkin::m_tmp_tb_low, 0, 9, 0, 0, 0);
+		::DrawAlpha(m_pContainer->cachedToolbarDC, &rcCachedToolbar, CSkin::m_tmp_tb_high, 55 + bAlphaOffset, CSkin::m_tmp_tb_low, 0, 9, 0, 0, 0);
 	}
 
-	::BitBlt(hdc, rcToolbar.left, rcToolbar.top, cx, cy, pContainer->cachedToolbarDC, 0, 0, SRCCOPY);
+	::BitBlt(hdc, rcToolbar.left, rcToolbar.top, cx, cy, m_pContainer->cachedToolbarDC, 0, 0, SRCCOPY);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -2454,7 +2454,7 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 void CTabBaseDlg::UpdateToolbarBG()
 {
 	RECT rcUpdate, rcTmp;
-	::GetWindowRect(::GetDlgItem(m_hwnd, bType == SESSIONTYPE_IM ? IDC_LOG : IDC_LOG), &rcTmp);
+	::GetWindowRect(::GetDlgItem(m_hwnd, m_bType == SESSIONTYPE_IM ? IDC_LOG : IDC_LOG), &rcTmp);
 
 	POINT	pt;
 	pt.x = rcTmp.left;
@@ -2469,10 +2469,10 @@ void CTabBaseDlg::UpdateToolbarBG()
 	rcUpdate.bottom = rcTmp.bottom;
 
 	if (M.isAero() || M.isDwmActive())
-		fLimitedUpdate = true; 	// skip unrelevant window updates when we have buffered paint avail
+		m_fLimitedUpdate = true; 	// skip unrelevant window updates when we have buffered paint avail
 	::RedrawWindow(m_hwnd, &rcUpdate, 0, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW);
 	BB_RedrawButtons();
-	fLimitedUpdate = false;
+	m_fLimitedUpdate = false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
