@@ -44,7 +44,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (!TOX_VERSION_IS_ABI_COMPATIBLE())
 	{
 		wchar_t message[100];
-		mir_snwprintf(message, TranslateT("Current version of plugin is support tox api version %i.%i.%i which is incompatible with %s"), TOX_VERSION_MAJOR, TOX_VERSION_MINOR, TOX_VERSION_PATCH, TOX_LIBRARY);
+		mir_snwprintf(message, TranslateT("Current version of plugin is support Tox API version %i.%i.%i which is incompatible with %s"), TOX_VERSION_MAJOR, TOX_VERSION_MINOR, TOX_VERSION_PATCH, TOX_LIBRARY);
 		CToxProto::ShowNotification(message, MB_ICONERROR);
 		FreeLibrary(g_hToxLibrary);
 		return 2;
