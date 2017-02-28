@@ -112,7 +112,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	TemplateEditorInfo *teInfo = 0;
 	TTemplateSet *tSet;
-	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	/*
 	* since this dialog needs a MessageWindowData * but has no container, we can store
 	* the extended info struct in pContainer *)
@@ -128,7 +128,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		TranslateDialogDefault(hwndDlg);
 		{
 			TemplateEditorNew *teNew = (TemplateEditorNew *)lParam;
-			dat = (TWindowData*)mir_calloc(sizeof(TWindowData));
+			dat = (CSrmmWindow*)mir_calloc(sizeof(CSrmmWindow));
 			dat->pContainer = (TContainerData*)mir_alloc(sizeof(TContainerData));
 			memset(dat->pContainer, 0, sizeof(TContainerData));
 			teInfo = (TemplateEditorInfo *)dat->pContainer;
@@ -147,19 +147,19 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
 			SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_EXLIMITTEXT, 0, 0x80000000);
 
-			dat->hContact = db_find_first();
-			dat->szProto = GetContactProto(dat->hContact);
-			while (dat->szProto == 0 && dat->hContact != 0) {
-				dat->hContact = db_find_next(dat->hContact);
-				dat->szProto = GetContactProto(dat->hContact);
+			dat->m_hContact = db_find_first();
+			dat->szProto = GetContactProto(dat->m_hContact);
+			while (dat->szProto == 0 && dat->m_hContact != 0) {
+				dat->m_hContact = db_find_next(dat->m_hContact);
+				dat->szProto = GetContactProto(dat->m_hContact);
 			}
 			dat->dwFlags = dat->pContainer->theme.dwFlags;
 
-			dat->cache = CContactCache::getContactCache(dat->hContact);
+			dat->cache = CContactCache::getContactCache(dat->m_hContact);
 			dat->cache->updateNick();
 			dat->cache->updateUIN();
 			dat->cache->updateStats(TSessionStats::INIT_TIMER);
-			GetMYUIN(dat);
+			dat->GetMYUIN();
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			ShowWindow(hwndDlg, SW_SHOW);
@@ -359,7 +359,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			dat->dwFlags = (teInfo->rtl ? dat->dwFlags | MWF_LOG_RTL : dat->dwFlags & ~MWF_LOG_RTL);
 			dat->dwFlags = (iIndex == 0 || iIndex == 1) ? dat->dwFlags & ~MWF_LOG_GROUPMODE : dat->dwFlags | MWF_LOG_GROUPMODE;
 			mir_snwprintf(dat->szMyNickname, L"My Nickname");
-			StreamInEvents(hwndDlg, 0, 1, 0, &dbei);
+			dat->StreamInEvents(0, 1, 0, &dbei);
 			SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_SETSEL, -1, -1);
 			if (teInfo->changed)
 				memcpy(tSet->szTemplates[teInfo->inEdit], szTemp, TEMPLATE_LENGTH * sizeof(wchar_t));

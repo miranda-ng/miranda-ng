@@ -140,42 +140,36 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	return 0;
 }
 
-void BB_InitDlgButtons(TWindowData *dat)
+void CTabBaseDlg::BB_InitDlgButtons()
 {
-	if (dat == 0)
-		return;
-	HWND hdlg = dat->hwnd;
-	if (hdlg == 0)
-		return;
-
 	BYTE gap = DPISCALEX_S(db_get_b(NULL, SRMSGMOD, "ButtonsBarGap", 1));
 
 	RECT rcSplitter;
-	GetWindowRect(GetDlgItem(hdlg, (dat->bType == SESSIONTYPE_IM) ? IDC_SPLITTER : IDC_SPLITTERY), &rcSplitter);
+	GetWindowRect(GetDlgItem(m_hwnd, (bType == SESSIONTYPE_IM) ? IDC_SPLITTER : IDC_SPLITTERY), &rcSplitter);
 	POINT ptSplitter = { 0, rcSplitter.top };
-	ScreenToClient(hdlg, &ptSplitter);
+	ScreenToClient(m_hwnd, &ptSplitter);
 
 	RECT rect;
-	GetClientRect(hdlg, &rect);
+	GetClientRect(m_hwnd, &rect);
 
-	dat->bbLSideWidth = dat->bbRSideWidth = 0;
+	bbLSideWidth = bbRSideWidth = 0;
 
-	Srmm_CreateToolbarIcons(hdlg, (dat->bType == SESSIONTYPE_IM) ? BBBF_ISIMBUTTON : BBBF_ISCHATBUTTON);
+	Srmm_CreateToolbarIcons(m_hwnd, (bType == SESSIONTYPE_IM) ? BBBF_ISIMBUTTON : BBBF_ISCHATBUTTON);
 
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
-		HWND hwndButton = GetDlgItem(hdlg, cbd->m_dwButtonCID);
+		HWND hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
 		if (hwndButton == NULL)
 			continue;
 
 		if (!cbd->m_bHidden) {
 			if (cbd->m_bRSided)
-				dat->bbRSideWidth += cbd->m_iButtonWidth + gap;
+				bbRSideWidth += cbd->m_iButtonWidth + gap;
 			else
-				dat->bbLSideWidth += cbd->m_iButtonWidth + gap;
+				bbLSideWidth += cbd->m_iButtonWidth + gap;
 		}
 		if (!cbd->m_bHidden && !cbd->m_bCanBeHidden)
-			dat->iButtonBarReallyNeeds += cbd->m_iButtonWidth + gap;
+			iButtonBarReallyNeeds += cbd->m_iButtonWidth + gap;
 
 		if (cbd->m_bSeparator)
 			continue;
@@ -186,47 +180,47 @@ void BB_InitDlgButtons(TWindowData *dat)
 			SendMessage(hwndButton, BUTTONSETARROW, (cbd->m_dwButtonCID == IDOK) ? IDC_SENDMENU : cbd->m_dwArrowCID, 0);
 
 		SendMessage(hwndButton, BUTTONSETASTHEMEDBTN, CSkin::IsThemed(), 0);
-		SendMessage(hwndButton, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
+		SendMessage(hwndButton, BUTTONSETCONTAINER, (LPARAM)pContainer, 0);
 		SendMessage(hwndButton, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
 	}
 }
 
-void BB_RedrawButtons(TWindowData *dat)
+void CTabBaseDlg::BB_RedrawButtons()
 {
-	Srmm_RedrawToolbarIcons(dat->hwnd);
+	Srmm_RedrawToolbarIcons(m_hwnd);
 
-	HWND hwndToggleSideBar = GetDlgItem(dat->hwnd, IDC_TOGGLESIDEBAR);
+	HWND hwndToggleSideBar = GetDlgItem(m_hwnd, IDC_TOGGLESIDEBAR);
 	if (hwndToggleSideBar && IsWindow(hwndToggleSideBar))
 		InvalidateRect(hwndToggleSideBar, 0, TRUE);
 }
 
-void BB_RefreshTheme(const TWindowData *dat)
+void CTabBaseDlg::BB_RefreshTheme()
 {
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++)
-		SendDlgItemMessage(dat->hwnd, cbd->m_dwButtonCID, WM_THEMECHANGED, 0, 0);
+		SendDlgItemMessage(m_hwnd, cbd->m_dwButtonCID, WM_THEMECHANGED, 0, 0);
 }
 
-BOOL BB_SetButtonsPos(TWindowData *dat)
+BOOL CTabBaseDlg::BB_SetButtonsPos()
 {
-	if (!dat || !IsWindowVisible(dat->hwnd))
+	if (!m_hwnd || !IsWindowVisible(m_hwnd))
 		return 0;
 
-	HWND hwnd = dat->hwnd;
+	HWND hwnd = m_hwnd;
 	RECT rect;
 	HWND hwndButton = 0;
 
 	BYTE gap = DPISCALEX_S(db_get_b(NULL, SRMSGMOD, "ButtonsBarGap", 1));
-	bool showToolbar = !(dat->pContainer->dwFlags & CNT_HIDETOOLBAR);
-	bool bBottomToolbar = (dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR) != 0;
+	bool showToolbar = !(pContainer->dwFlags & CNT_HIDETOOLBAR);
+	bool bBottomToolbar = (pContainer->dwFlags & CNT_BOTTOMTOOLBAR) != 0;
 
 	HWND hwndToggleSideBar = GetDlgItem(hwnd, IDC_TOGGLESIDEBAR);
-	ShowWindow(hwndToggleSideBar, (showToolbar && dat->pContainer->SideBar->isActive()) ? SW_SHOW : SW_HIDE);
+	ShowWindow(hwndToggleSideBar, (showToolbar && pContainer->SideBar->isActive()) ? SW_SHOW : SW_HIDE);
 
 	HDWP hdwp = BeginDeferWindowPos(Srmm_GetButtonCount() + 1);
 
 	RECT rcSplitter;
-	GetWindowRect(GetDlgItem(hwnd, (dat->bType == SESSIONTYPE_IM) ? IDC_SPLITTER : IDC_SPLITTERY), &rcSplitter);
+	GetWindowRect(GetDlgItem(hwnd, (bType == SESSIONTYPE_IM) ? IDC_SPLITTER : IDC_SPLITTERY), &rcSplitter);
 
 	POINT ptSplitter = { 0, rcSplitter.top };
 	ScreenToClient(hwnd, &ptSplitter);
@@ -234,15 +228,15 @@ BOOL BB_SetButtonsPos(TWindowData *dat)
 	GetClientRect(hwnd, &rect);
 
 	int splitterY = (!bBottomToolbar) ? ptSplitter.y - DPISCALEY_S(1) : rect.bottom;
-	int tempL = dat->bbLSideWidth, tempR = dat->bbRSideWidth;
+	int tempL = bbLSideWidth, tempR = bbRSideWidth;
 	int lwidth = 0, rwidth = 0;
-	int iOff = DPISCALEY_S((PluginConfig.m_DPIscaleY > 1.0) ? (dat->bType == SESSIONTYPE_IM ? 22 : 23) : 22);
+	int iOff = DPISCALEY_S((PluginConfig.m_DPIscaleY > 1.0) ? (bType == SESSIONTYPE_IM ? 22 : 23) : 22);
 
 	int foravatar = 0;
-	if ((rect.bottom - ptSplitter.y - (rcSplitter.bottom - rcSplitter.top) /*- DPISCALEY(2)*/ - (bBottomToolbar ? DPISCALEY_S(24) : 0) < dat->pic.cy - DPISCALEY_S(2)) && dat->bShowAvatar && !PluginConfig.m_bAlwaysFullToolbarWidth)
-		foravatar = dat->pic.cx + gap;
+	if ((rect.bottom - ptSplitter.y - (rcSplitter.bottom - rcSplitter.top) /*- DPISCALEY(2)*/ - (bBottomToolbar ? DPISCALEY_S(24) : 0) < pic.cy - DPISCALEY_S(2)) && bShowAvatar && !PluginConfig.m_bAlwaysFullToolbarWidth)
+		foravatar = pic.cx + gap;
 
-	if ((dat->pContainer->dwFlags & CNT_SIDEBAR) && (dat->pContainer->SideBar->getFlags() & CSideBar::SIDEBARORIENTATION_LEFT)) {
+	if ((pContainer->dwFlags & CNT_SIDEBAR) && (pContainer->SideBar->getFlags() & CSideBar::SIDEBARORIENTATION_LEFT)) {
 		if (NULL != hwndToggleSideBar) /* Wine fix. */
 			hdwp = DeferWindowPos(hdwp, hwndToggleSideBar, NULL, 4, 2 + splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		lwidth += 10;
@@ -254,7 +248,7 @@ BOOL BB_SetButtonsPos(TWindowData *dat)
 		if (cbd->m_bRSided) // filter only left buttons
 			continue;
 
-		if (((dat->bType == SESSIONTYPE_IM) && cbd->m_bIMButton) || ((dat->bType == SESSIONTYPE_CHAT) && cbd->m_bChatButton)) {
+		if (((bType == SESSIONTYPE_IM) && cbd->m_bIMButton) || ((bType == SESSIONTYPE_CHAT) && cbd->m_bChatButton)) {
 			hwndButton = GetDlgItem(hwnd, cbd->m_dwButtonCID);
 
 			if (!showToolbar) {
@@ -293,7 +287,7 @@ BOOL BB_SetButtonsPos(TWindowData *dat)
 		}
 	}
 
-	if ((dat->pContainer->dwFlags & CNT_SIDEBAR) && (dat->pContainer->SideBar->getFlags() & CSideBar::SIDEBARORIENTATION_RIGHT)) {
+	if ((pContainer->dwFlags & CNT_SIDEBAR) && (pContainer->SideBar->getFlags() & CSideBar::SIDEBARORIENTATION_RIGHT)) {
 		if (NULL != hwndToggleSideBar) /* Wine fix. */
 			hdwp = DeferWindowPos(hdwp, hwndToggleSideBar, NULL, rect.right - foravatar - 10, 2 + splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		rwidth += 12;
@@ -304,7 +298,7 @@ BOOL BB_SetButtonsPos(TWindowData *dat)
 		if (!cbd->m_bRSided) // filter only right buttons
 			continue;
 
-		if (((dat->bType == SESSIONTYPE_IM) && cbd->m_bIMButton) || ((dat->bType == SESSIONTYPE_CHAT) && cbd->m_bChatButton)) {
+		if (((bType == SESSIONTYPE_IM) && cbd->m_bIMButton) || ((bType == SESSIONTYPE_CHAT) && cbd->m_bChatButton)) {
 			hwndButton = GetDlgItem(hwnd, cbd->m_dwButtonCID);
 
 			if (!showToolbar) {
@@ -346,36 +340,36 @@ BOOL BB_SetButtonsPos(TWindowData *dat)
 	return EndDeferWindowPos(hdwp);
 }
 
-void CB_DestroyAllButtons(HWND hwndDlg)
+void CTabBaseDlg::CB_DestroyAllButtons()
 {
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
-		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
+		HWND hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
 		if (hwndButton)
 			DestroyWindow(hwndButton);
 	}
 }
 
-void CB_DestroyButton(HWND hwndDlg, TWindowData *dat, DWORD dwButtonCID, DWORD dwFlags)
+void CTabBaseDlg::CB_DestroyButton(DWORD dwButtonCID, DWORD dwFlags)
 {
-	HWND hwndButton = GetDlgItem(hwndDlg, dwButtonCID);
+	HWND hwndButton = GetDlgItem(m_hwnd, dwButtonCID);
 	if (hwndButton == NULL)
 		return;
 
 	RECT rc = { 0 };
 	GetClientRect(hwndButton, &rc);
 	if (dwFlags & BBBF_ISRSIDEBUTTON)
-		dat->bbRSideWidth -= rc.right;
+		bbRSideWidth -= rc.right;
 	else 
-		dat->bbLSideWidth -= rc.right;
+		bbLSideWidth -= rc.right;
 
 	DestroyWindow(hwndButton);
-	BB_SetButtonsPos(dat);
+	BB_SetButtonsPos();
 }
 
-void CB_ChangeButton(HWND hwndDlg, TWindowData *dat, CustomButtonData *cbd)
+void CTabBaseDlg::CB_ChangeButton(CustomButtonData *cbd)
 {
-	HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
+	HWND hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
 	if (hwndButton == NULL)
 		return;
 
@@ -383,7 +377,7 @@ void CB_ChangeButton(HWND hwndDlg, TWindowData *dat, CustomButtonData *cbd)
 		SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
 	if (cbd->m_pwszTooltip)
 		SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)cbd->m_pwszTooltip, BATF_UNICODE);
-	SendMessage(hwndButton, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
+	SendMessage(hwndButton, BUTTONSETCONTAINER, (LPARAM)pContainer, 0);
 	SetWindowTextA(hwndButton, cbd->m_pszModuleName);
 }
 

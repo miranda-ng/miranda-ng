@@ -260,7 +260,7 @@ static void LogEventIEView(LOGSTREAMDATA *streamData, wchar_t *ptszNick)
 	event.cbSize = sizeof(event);
 	event.dwFlags = 0;
 	event.hwnd = streamData->dat->hwndIEView ? streamData->dat->hwndIEView : streamData->dat->hwndHPP;
-	event.hContact = streamData->dat->hContact;
+	event.hContact = streamData->dat->m_hContact;
 	event.codepage = streamData->dat->codePage;
 	event.pszProto = streamData->si->pszModule;
 	event.iType = IEE_LOG_MEM_EVENTS;
@@ -857,16 +857,15 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 	return 0;
 }
 
-void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, bool bRedraw)
+void CChatRoomDlg::StreamInEvents(LOGINFO* lin, SESSION_INFO *si, bool bRedraw)
 {
 	CHARRANGE oldsel, sel, newsel;
 	POINT point = { 0 };
 
-	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	if (hwndDlg == 0 || lin == 0 || si == 0 || dat == 0)
+	if (m_hwnd == 0 || lin == 0 || si == 0)
 		return;
 
-	HWND hwndRich = GetDlgItem(hwndDlg, IDC_CHAT_LOG);
+	HWND hwndRich = GetDlgItem(m_hwnd, IDC_LOG);
 
 	LOGSTREAMDATA streamData;
 	memset(&streamData, 0, sizeof(streamData));
@@ -874,7 +873,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, bool bRedra
 	streamData.si = si;
 	streamData.lin = lin;
 	streamData.bStripFormat = FALSE;
-	streamData.dat = dat;
+	streamData.dat = this;
 
 	if (!bRedraw && (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) && si->bFilterEnabled && (si->iLogFilterFlags & lin->iType) == 0)
 		return;
@@ -888,7 +887,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, bool bRedra
 	SCROLLINFO scroll = { 0 };
 	scroll.cbSize = sizeof(SCROLLINFO);
 	scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
-	GetScrollInfo(GetDlgItem(hwndDlg, IDC_CHAT_LOG), SB_VERT, &scroll);
+	GetScrollInfo(GetDlgItem(m_hwnd, IDC_LOG), SB_VERT, &scroll);
 	SendMessage(hwndRich, EM_GETSCROLLPOS, 0, (LPARAM)&point);
 
 	// do not scroll to bottom if there is a selection

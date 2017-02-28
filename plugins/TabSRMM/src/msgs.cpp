@@ -115,9 +115,28 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// basic window class
+
+CTabBaseDlg::CTabBaseDlg(TNewWindowData *pData, int iResource)
+	: CSrmmBaseDialog(g_hInst, iResource),
+	m_log(this, IDC_LOG),
+	m_message(this, IDC_MESSAGE),
+	newData(pData),
+	
+	pContainer(pData->pContainer),
+	m_hContact(pData->hContact)
+{
+	m_pLog = &m_log;
+	m_pEntry = &m_message;
+	
+	m_autoClose = 0;
+	m_forceResizable = true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // service function. Sets a status bar text for a contact
 
-static void SetStatusTextWorker(TWindowData *dat, StatusTextData *st)
+static void SetStatusTextWorker(CTabBaseDlg *dat, StatusTextData *st)
 {
 	if (!dat)
 		return;
@@ -131,7 +150,7 @@ static void SetStatusTextWorker(TWindowData *dat, StatusTextData *st)
 	if (st != NULL && st->cbSize == sizeof(StatusTextData))
 		dat->sbCustom = new StatusTextData(*st);
 
-	UpdateStatusBar(dat);
+	dat->UpdateStatusBar();
 }
 
 static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
@@ -140,11 +159,11 @@ static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 	if (si == NULL) {
 		HWND hwnd = M.FindWindow(hContact);
 		if (hwnd != NULL)
-			SetStatusTextWorker((TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA), (StatusTextData*)lParam);
+			SetStatusTextWorker((CTabBaseDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA), (StatusTextData*)lParam);
 
 		if (hContact = db_mc_getMeta(hContact))
 			if (hwnd = M.FindWindow(hContact))
-				SetStatusTextWorker((TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA), (StatusTextData*)lParam);
+				SetStatusTextWorker((CTabBaseDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA), (StatusTextData*)lParam);
 	}
 	else SetStatusTextWorker(si->dat, (StatusTextData*)lParam);
 
@@ -189,7 +208,7 @@ static INT_PTR GetMessageWindowFlags(WPARAM wParam, LPARAM lParam)
 	if (hwndTarget == 0)
 		return 0;
 
-	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndTarget, GWLP_USERDATA);
+	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwndTarget, GWLP_USERDATA);
 	return (dat) ? dat->dwFlags : 0;
 }
 
@@ -417,7 +436,7 @@ int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 
 int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 {
-	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndChild, GWLP_USERDATA);	// needed to obtain the hContact for the message window
+	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwndChild, GWLP_USERDATA);	// needed to obtain the hContact for the message window
 	if (!dat || !pContainer)
 		return FALSE;
 
@@ -428,7 +447,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 		SendMessage(pContainer->hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
 	}
 	if (dat->bType == SESSIONTYPE_IM)
-		SendMessage(pContainer->hwnd, DM_UPDATETITLE, dat->hContact, 0);
+		SendMessage(pContainer->hwnd, DM_UPDATETITLE, dat->m_hContact, 0);
 	if (IsIconic(pContainer->hwnd)) {
 		SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
 		SetForegroundWindow(pContainer->hwnd);
@@ -527,9 +546,9 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 			item.mask = TCIF_PARAM;
 			TabCtrl_GetItem(hwndTab, i, &item);
 			HWND hwnd = (HWND)item.lParam;
-			TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			if (dat) {
-				int relPos = M.GetDword(dat->hContact, "tabindex", i * 100);
+				int relPos = M.GetDword(dat->m_hContact, "tabindex", i * 100);
 				if (iTabIndex_wanted <= relPos)
 					pContainer->iTabIndex = i;
 			}
@@ -547,14 +566,16 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	pContainer->iChilds++;
 	newData.bWantPopup = bWantPopup;
 	newData.hdbEvent = hdbEvent;
-	HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSPLITNEW), hwndTab, DlgProcMessage, (LPARAM)&newData);
+	
+	CSrmmWindow *pWindow = new CSrmmWindow(&newData);
+	pWindow->SetParent(hwndTab);
+	pWindow->Show();
+	HWND hwndNew = pWindow->GetHwnd();
 
 	// switchbar support
-	if (pContainer->dwFlags & CNT_SIDEBAR) {
-		TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndNew, GWLP_USERDATA);
-		if (dat)
-			pContainer->SideBar->addSession(dat, pContainer->iTabIndex);
-	}
+	if (pContainer->dwFlags & CNT_SIDEBAR)
+		pContainer->SideBar->addSession(pWindow, pContainer->iTabIndex);
+
 	SendMessage(pContainer->hwnd, WM_SIZE, 0, 0);
 
 	// if the container is minimized, then pop it up...
@@ -663,7 +684,7 @@ int TABSRMM_FireEvent(MCONTACT hContact, HWND hwnd, unsigned int type, unsigned 
 	if (hContact == NULL || hwnd == NULL)
 		return 0;
 
-	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (dat == NULL)
 		return 0;
 	BYTE bType = dat->bType;
@@ -678,8 +699,8 @@ int TABSRMM_FireEvent(MCONTACT hContact, HWND hwnd, unsigned int type, unsigned 
 		mwe.hwndLog = GetDlgItem(hwnd, IDC_LOG);
 	}
 	else {
-		mwe.hwndInput = GetDlgItem(hwnd, IDC_CHAT_MESSAGE);
-		mwe.hwndLog = GetDlgItem(hwnd, IDC_CHAT_LOG);
+		mwe.hwndInput = GetDlgItem(hwnd, IDC_MESSAGE);
+		mwe.hwndLog = GetDlgItem(hwnd, IDC_LOG);
 	}
 
 	if (type == MSG_WINDOW_EVT_CUSTOM) {

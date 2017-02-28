@@ -85,26 +85,26 @@ public:
 	SendJob *getJobByIndex(const int index) { return(&m_jobs[index]); }
 
 	void   clearJob(const int index);
-	int    findNextFailed(const TWindowData *dat) const;
-	void   handleError(TWindowData *dat, const int iEntry) const;
-	int    addTo(TWindowData *dat, size_t iLen, int dwFlags);
-	int    sendQueued(TWindowData *dat, const int iEntry);
+	int    findNextFailed(const CSrmmWindow *dat) const;
+	void   handleError(CSrmmWindow *dat, const int iEntry) const;
+	int    addTo(CSrmmWindow *dat, size_t iLen, int dwFlags);
+	int    sendQueued(CSrmmWindow *dat, const int iEntry);
 	size_t getSendLength(const int iEntry);
-	void   checkQueue(const TWindowData *dat) const;
-	void   logError(const TWindowData *dat, int iSendJobIndex, const wchar_t *szErrMsg) const;
-	void   recallFailed(const TWindowData *dat, int iEntry) const;
-	void   showErrorControls(TWindowData *dat, const int showCmd) const;
-	int    ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam);
-	int    doSendLater(int iIndex, TWindowData *dat, MCONTACT hContact = 0, bool fIsSendLater = true);
+	void   checkQueue(const CSrmmWindow *dat) const;
+	void   logError(CSrmmWindow *dat, int iSendJobIndex, const wchar_t *szErrMsg) const;
+	void   recallFailed(const CSrmmWindow *dat, int iEntry) const;
+	void   showErrorControls(CSrmmWindow *dat, const int showCmd) const;
+	int    ackMessage(CSrmmWindow *dat, WPARAM wParam, LPARAM lParam);
+	int    doSendLater(int iIndex, CSrmmWindow *dat, MCONTACT hContact = 0, bool fIsSendLater = true);
 	/*
 	 * static members
 	 */
 	static int     TSAPI RTL_Detect(const wchar_t *pszwText);
 	static int     TSAPI GetProtoIconFromList(const char *szProto, int iStatus);
 	static LRESULT TSAPI WarnPendingJobs(unsigned int uNrMessages);
-	static void    TSAPI NotifyDeliveryFailure(const TWindowData *dat);
-	static void    TSAPI UpdateSaveAndSendButton(TWindowData *dat);
-	static void    TSAPI EnableSending(const TWindowData *dat, const int iMode);
+	static void    TSAPI NotifyDeliveryFailure(const CSrmmWindow *dat);
+	static void    TSAPI UpdateSaveAndSendButton(CSrmmWindow *dat);
+	static void    TSAPI EnableSending(const CSrmmWindow *dat, bool bMode);
 
 private:
 	SendJob m_jobs[NR_SENDJOBS];
@@ -115,6 +115,6 @@ extern SendQueue *sendQueue;
 
 int  TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild);
 void TSAPI ShowMultipleControls(const HWND hwndDlg, const UINT * controls, int cControls, int state);
-void TSAPI HandleIconFeedback(TWindowData *dat, HICON iIcon);
+void TSAPI HandleIconFeedback(CTabBaseDlg *dat, HICON iIcon);
 
 #endif /* __SENDQUEUE_H */

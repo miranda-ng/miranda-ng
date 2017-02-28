@@ -229,19 +229,50 @@ struct TContainerData
 
 struct SESSION_INFO;
 
-struct TWindowData
+struct TNewWindowData
 {
-	UINT     cbSize;
+	MCONTACT hContact;
+	int      isWchar;
+	LPCSTR   szInitialText;
+	int      iTabID;
+	int      iTabImage;
+	int      iActivate;
+	TCITEM   item;
+	BOOL     bWantPopup;
+	HKL      hkl;
+
+	union {
+		MEVENT hdbEvent;
+		SESSION_INFO *si;
+	};
+	TContainerData *pContainer;
+};
+
+class CTabBaseDlg : public CSrmmBaseDialog
+{
+
+protected:
+	CCtrlEdit m_log, m_message;
+	TNewWindowData *newData;
+
+	void DM_UpdateTitle(WPARAM wParam, LPARAM lParam);
+
+	void DetermineMinHeight();
+	void FindFirstEvent();
+	void GetSendFormat();
+	bool IsAutoSplitEnabled() const;
+	void LoadContactAvatar();
+	void LoadOwnAvatar();
+	void ResizeIeView();
+
+public:
 	BYTE     bType;
-	TContainerData *pContainer;		// parent container description structure
-	HWND     hwnd;
 	DWORD    dwFlags;
 	DWORD    dwFlagsEx;
-	MCONTACT hContact;
+	MCONTACT m_hContact;
 	char    *szProto;
 	wchar_t  szMyNickname[130];
 	wchar_t  szStatusBar[100];
-	StatusTextData *sbCustom;
 	wchar_t  newtitle[130];        // tab title...
 	wchar_t  szStatus[50];
 	WORD     wStatus;
@@ -250,14 +281,15 @@ struct TWindowData
 	int      iSendLength;				// message length in utf-8 octets
 	HICON    hTabIcon, hTabStatusIcon, hXStatusIcon, hClientIcon, hTaskbarIcon;
 	HICON    iFlashIcon;
-	BOOL     mayFlashTab;
-	BOOL     bTabFlash;
+	bool     m_bCanFlashTab, m_bTabFlash;
 	HWND     hwndIEView, hwndIWebBrowserControl, hwndHPP;
 	HWND     hwndContactPic, hwndPanelPic, hwndPanelPicParent;
 	UINT     bbLSideWidth, bbRSideWidth;
 	BYTE     kstate[256];
 
 	SESSION_INFO *si;
+	StatusTextData *sbCustom;
+	TContainerData *pContainer;		// parent container description structure
 
 	RECT     rcNick, rcUIN, rcStatus, rcPic;
 	MEVENT   hDbEventFirst, hDbEventLast;
@@ -324,16 +356,111 @@ struct TWindowData
 	CContactCache *cache;
 	CProxyWindow  *pWnd;	// proxy window object (win7+, for taskbar support).
 	// ALWAYS check this pointer before using it, it is not guaranteed to exist.
-	DWORD   iSplitterSaved;
-	BYTE    bWasDeleted;
-	BOOL    bActualHistory;
-	POINT   ptTipActivation;
-	LONG    iInputAreaHeight;
+
 	bool    bIsAutosizingInput;
 	bool    fLimitedUpdate;
+	DWORD   iSplitterSaved;
+	LONG    iInputAreaHeight;
+	BOOL    bActualHistory;
+	POINT   ptTipActivation;
 
 	// Used for history in chats.
 	char *enteredText;
+
+public:
+	CTabBaseDlg(TNewWindowData*, int);
+
+	HWND  DM_CreateClist();
+	void  DM_InitTip();
+	void  DM_NotifyTyping(int mode);
+	void  DM_RecalcPictureSize();
+		   
+	void  DM_FreeTheme();
+	void  DM_ThemeChanged();
+		   
+	void  BB_InitDlgButtons();
+	void  BB_RefreshTheme();
+	BOOL  BB_SetButtonsPos();
+	void  BB_RedrawButtons();
+	void  DM_SetDBButtonStates();
+		   
+	void  CB_DestroyAllButtons();
+	void  CB_DestroyButton(DWORD dwButtonCID, DWORD dwFlags);
+	void  CB_ChangeButton(CustomButtonData *cbd);
+
+	void  AdjustBottomAvatarDisplay();
+	void  CalcDynamicAvatarSize(BITMAP *bminfo);
+	void  ClearLog();
+	BOOL  DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pColors) const;
+	void  EnableSendButton(bool bMode) const;
+	void  FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei);
+	void  FlashTab(bool bInvertMode);
+	bool  GetAvatarVisibility();
+	void  GetClientIcon();
+	LONG  GetDefaultMinimumInputHeight() const;
+	void  GetLocaleID(const wchar_t *szKLName);
+	HICON GetMyContactIcon(LPCSTR szSetting);
+	void  GetMYUIN();
+	void  GetMyNick();
+	HICON GetXStatusIcon() const;
+	void  HandlePasteAndSend();
+	void  KbdState(bool &isShift, bool &isControl, bool &isAlt);
+	int   LoadLocalFlags();
+	void  LoadSplitter();
+	void  PlayIncomingSound() const;
+	void 	SendHBitmapAsFile(HBITMAP hbmp) const;
+	void  SaveSplitter();
+	void  SendNudge() const;
+	void  SetMessageLog();
+	void  ShowPicture(bool showNewPic);
+	void  UpdateReadChars() const;
+	void  UpdateStatusBar() const;
+
+	int   MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam);
+	int   MsgWindowUpdateMenu(HMENU submenu, int menuID);
+	int   MsgWindowMenuHandler(int selection, int menuId);
+
+	void  RenderToolbarBG(HDC hdc, const RECT &rcWindow) const;
+	void  UpdateToolbarBG();
+};
+
+class CSrmmWindow : public CTabBaseDlg, public MZeroedObject
+{
+	void DM_OptionsApplied(WPARAM wParam, LPARAM lParam);
+	void MsgWindowUpdateState(UINT msg);
+
+public:
+	int msgTop, rcLogBottom;
+
+public:
+	CSrmmWindow(TNewWindowData*);
+
+	virtual void OnInitDialog() override;
+	virtual void OnDestroy() override;
+
+	virtual int Resizer(UTILRESIZECONTROL *urc) override;
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	void StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s);
+};
+
+class CChatRoomDlg : public CTabBaseDlg, public MZeroedObject
+{
+	bool m_bWasDeleted;
+
+public:
+	CChatRoomDlg(TNewWindowData*);
+
+	virtual void OnInitDialog() override;
+	virtual void OnDestroy() override;
+
+	virtual int Resizer(UTILRESIZECONTROL *urc) override;
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	void StreamInEvents(LOGINFO* lin, SESSION_INFO *si, bool bRedraw);
+	void UpdateWindowState(UINT msg);
 };
 
 #define MESSAGE_WINDOW_DATA_SIZE offsetof(_MessageWindowData, hdbEventFirst);
@@ -405,25 +532,6 @@ struct TIconDescW
 #define TCF_DEFAULT (TCF_FLASHICON)
 
 #define MIN_PANELHEIGHT 20
-
-struct TNewWindowData
-{
-	MCONTACT hContact;
-	int      isWchar;
-	LPCSTR   szInitialText;
-	int      iTabID;
-	int      iTabImage;
-	int      iActivate;
-	TCITEM   item;
-	BOOL     bWantPopup;
-	HKL      hkl;
-
-	union {
-		MEVENT hdbEvent;
-		SESSION_INFO *si;
-	};
-	TContainerData *pContainer;
-};
 
 // flags for the container dwFlags
 #define CNT_MOUSEDOWN 1
@@ -789,8 +897,8 @@ struct SIDEBARITEM {
 	DWORD   dwFlags;
 	HICON   *hIcon, *hIconPressed, *hIconHover;
 	wchar_t   *szName;
-	void(*pfnAction)(ButtonItem *item, HWND hwndDlg, TWindowData *dat, HWND hwndItem);
-	void(*pfnCallback)(ButtonItem *item, HWND hwndDlg, TWindowData *dat, HWND hwndItem);
+	void(*pfnAction)(ButtonItem *item, HWND hwndDlg, CSrmmWindow *dat, HWND hwndItem);
+	void(*pfnCallback)(ButtonItem *item, HWND hwndDlg, CSrmmWindow *dat, HWND hwndItem);
 	wchar_t   *tszTip;
 };
 
@@ -955,8 +1063,8 @@ int SI_InitStatusIcons();
 int SI_DeinitStatusIcons();
 
 int  GetStatusIconsCount();
-void DrawStatusIcons(TWindowData *dat, HDC hdc, const RECT &r, int gap);
-void CheckStatusIconClick(TWindowData *dat, POINT pt, const RECT &rc, int gap, int code);
+void DrawStatusIcons(CTabBaseDlg *dat, HDC hdc, const RECT &r, int gap);
+void CheckStatusIconClick(CTabBaseDlg *dat, POINT pt, const RECT &rc, int gap, int code);
 
 struct SKINDESC
 {

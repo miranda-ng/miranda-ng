@@ -209,7 +209,7 @@ void CContactCache::allocStats()
  * @param hwnd:		window handle
  * @param dat:		_MessageWindowData - window data structure
  */
-void CContactCache::setWindowData(const HWND hwnd, TWindowData *dat)
+void CContactCache::setWindowData(const HWND hwnd, CSrmmWindow *dat)
 {
 	m_hwnd = hwnd;
 	m_dat = dat;
@@ -535,7 +535,7 @@ HICON CContactCache::getIcon(int &iSize) const
 
 	if (m_dat->dwFlags & MWF_ERRORSTATE)
 		return PluginConfig.g_iconErr;
-	if (m_dat->mayFlashTab)
+	if (m_dat->m_bCanFlashTab)
 		return m_dat->iFlashIcon;
 
 	if (m_dat->si && m_dat->iFlashIcon) {

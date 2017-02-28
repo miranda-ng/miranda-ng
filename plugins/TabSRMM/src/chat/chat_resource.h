@@ -11,11 +11,8 @@
 #define IDD_OPTIONS3                    407
 #define IDD_OPTIONS4                    408
 #define IDD_ADDHIGHLIGHT                409
-#define IDC_CHAT_LOG                    1005
-#define IDC_SPLITTERX                   1006
 #define IDC_SMILEY                      1007
 #define IDC_SPLITTERY                   1008
-#define IDC_CHAT_MESSAGE                1009
 #define IDC_FILTER                      1013
 #define IDC_CHANMGR                     1014
 #define IDC_SHOWNICKLIST                1015
@@ -39,6 +36,7 @@
 #define IDC_LIMIT                       1050
 #define IDC_LOGTIMESTAMP                1051
 #define IDC_GROUP                       1057
+#define IDC_SPLITTERX                   1058
 #define IDC_CHAT_RADIO1                 1061
 #define IDC_RADIO2                      1062
 #define IDC_RADIO3                      1063

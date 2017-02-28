@@ -141,7 +141,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 	if (si == NULL || !(iEvent & si->iLogPopupFlags))
 		return true;
 
-	TWindowData *dat = si->dat;
+	CTabBaseDlg *dat = si->dat;
 	TContainerData *pContainer = dat ? dat->pContainer : NULL;
 
 	wchar_t *bbStart, *bbEnd;
@@ -215,7 +215,7 @@ void DoFlashAndSoundWorker(FLASH_PARAMS* p)
 	if (si == 0)
 		return;
 
-	TWindowData *dat = 0;
+	CTabBaseDlg *dat = 0;
 	if (si->hWnd) {
 		dat = si->dat;
 		if (dat) {
@@ -240,7 +240,7 @@ void DoFlashAndSoundWorker(FLASH_PARAMS* p)
 					if (dat->iFlashIcon != pci->hIcons[ICON_HIGHLIGHT] && dat->iFlashIcon != pci->hIcons[ICON_MESSAGE])
 						dat->iFlashIcon = p->hNotifyIcon;
 				}
-				dat->mayFlashTab = TRUE;
+				dat->m_bCanFlashTab = TRUE;
 				SetTimer(si->hWnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, NULL);
 			}
 		}
@@ -257,7 +257,7 @@ void DoFlashAndSoundWorker(FLASH_PARAMS* p)
 					TabCtrl_SetCurSel(hwndTab, iItem);
 					ShowWindow(dat->pContainer->hwndActive, SW_HIDE);
 					dat->pContainer->hwndActive = si->hWnd;
-					SendMessage(dat->pContainer->hwnd, DM_UPDATETITLE, dat->hContact, 0);
+					SendMessage(dat->pContainer->hwnd, DM_UPDATETITLE, dat->m_hContact, 0);
 					dat->pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
 				}
 			}
@@ -299,7 +299,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	if (gce == 0 || si == 0 || gce->bIsMe || si->iType == GCW_SERVER)
 		return FALSE;
 
-	TWindowData *dat = NULL;
+	CTabBaseDlg *dat = NULL;
 	FLASH_PARAMS *params = (FLASH_PARAMS*)mir_calloc(sizeof(FLASH_PARAMS));
 	params->hContact = si->hContact;
 	params->bInactive = TRUE;
@@ -328,7 +328,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 		if (dat && g_Settings.bAnnoyingHighlight && params->bInactive && dat->pContainer->hwnd != GetForegroundWindow()) {
 			wParamForHighLight = 2;
-			params->hWnd = dat->hwnd;
+			params->hWnd = dat->GetHwnd();
 		}
 
 		if (dat || !nen_options.iMUCDisable)
@@ -518,7 +518,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 	gcmi.pszUID = pszUID;
 
 	if (iIndex == 1) {
-		int i = GetRichTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOG));
+		int i = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG));
 
 		EnableMenuItem(*hMenu, ID_CLEARLOG, MF_ENABLED);
 		EnableMenuItem(*hMenu, ID_COPYALL, MF_ENABLED);

@@ -139,11 +139,11 @@ static void TSAPI DrawCustomTabPage(HDC hdc, RECT& rcClient)
 	::DeleteObject(hPen);
 }
 
-void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData *dat, RECT* rc)
+void TSAPI FillTabBackground(const HDC hdc, int iStateId, const CTabBaseDlg *dat, RECT* rc)
 {
 	unsigned clrIndex;
 
-	if (dat && dat->mayFlashTab)
+	if (dat && dat->m_bCanFlashTab)
 		clrIndex = 7;
 	else
 		clrIndex = (iStateId == PBS_PRESSED ? 5 : (iStateId == PBS_HOT ? 6 : 4));
@@ -160,14 +160,14 @@ void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData *dat
 // no image list is used and necessary, the message window dialog procedure has to provide a valid
 // icon handle in dat->hTabIcon
 
-static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int nItem, TWindowData *dat)
+static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int nItem, CSrmmWindow *dat)
 {
 	if (dat == NULL)
 		return;
 
 	InflateRect(rcItem, -2, -2);
 
-	unsigned clrIndex = (dat->mayFlashTab) ? 3 : (nHint & HINT_ACTIVE_ITEM ? 1 : (nHint & HINT_HOTTRACK ? 2 : 0));
+	unsigned clrIndex = (dat->m_bCanFlashTab) ? 3 : (nHint & HINT_ACTIVE_ITEM ? 1 : (nHint & HINT_HOTTRACK ? 2 : 0));
 	COLORREF clr = PluginConfig.tabConfig.colors[clrIndex];
 
 	int oldMode = SetBkMode(dc, TRANSPARENT);
@@ -179,7 +179,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 	HICON hIcon;
 	if (dat->dwFlags & MWF_ERRORSTATE)
 		hIcon = PluginConfig.g_iconErr;
-	else if (dat->mayFlashTab)
+	else if (dat->m_bCanFlashTab)
 		hIcon = dat->iFlashIcon;
 	else {
 		if (dat->si && dat->iFlashIcon) {
@@ -194,7 +194,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 			hIcon = dat->hTabIcon;
 	}
 
-	if (dat->mayFlashTab == FALSE || (dat->mayFlashTab == TRUE && dat->bTabFlash != 0) || !(dat->pContainer->dwFlagsEx & TCF_FLASHICON)) {
+	if (!dat->m_bCanFlashTab || (dat->m_bCanFlashTab == TRUE && dat->m_bTabFlash) || !(dat->pContainer->dwFlagsEx & TCF_FLASHICON)) {
 		DWORD ix = rcItem->left + tabdat->m_xpad - 1;
 		DWORD iy = (rcItem->bottom + rcItem->top - iSize) / 2;
 		if (dat->dwFlagsEx & MWF_SHOW_ISIDLE && PluginConfig.m_bIdleDetect)
@@ -216,7 +216,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 		CSkin::m_default_bf.SourceConstantAlpha = 255;
 	}
 
-	if (dat->mayFlashTab == FALSE || (dat->mayFlashTab == TRUE && dat->bTabFlash != 0) || !(dat->pContainer->dwFlagsEx & TCF_FLASHLABEL)) {
+	if (!dat->m_bCanFlashTab || (dat->m_bCanFlashTab == TRUE && dat->m_bTabFlash) || !(dat->pContainer->dwFlagsEx & TCF_FLASHLABEL)) {
 		DWORD dwTextFlags = DT_SINGLELINE | DT_VCENTER;
 		HFONT oldFont = (HFONT)SelectObject(dc, (HFONT)SendMessage(tabdat->hwnd, WM_GETFONT, 0, 0));
 		if (tabdat->dwStyle & TCS_BUTTONS || !(tabdat->dwStyle & TCS_MULTILINE)) {
@@ -235,7 +235,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 
 static RECT rcTabPage = { 0 };
 
-static void DrawItemRect(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, const TWindowData *dat)
+static void DrawItemRect(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, const CSrmmWindow *dat)
 {
 	POINT pt;
 	DWORD dwStyle = tabdat->dwStyle;
@@ -393,7 +393,7 @@ static int DWordAlign(int n)
 	return n;
 }
 
-static HRESULT DrawThemesPartWithAero(const TabControlData *tabdat, HDC hDC, int iPartId, int iStateId, LPRECT prcBox, TWindowData *dat)
+static HRESULT DrawThemesPartWithAero(const TabControlData *tabdat, HDC hDC, int iPartId, int iStateId, LPRECT prcBox, CSrmmWindow *dat)
 {
 	HRESULT hResult = 0;
 	bool	bAero = M.isAero();
@@ -440,7 +440,7 @@ static HRESULT DrawThemesPart(const TabControlData *tabdat, HDC hDC, int iPartId
 // draw a themed tab item. either a tab or the body pane
 // handles image mirroring for tabs at the bottom
 
-static void DrawThemesXpTabItem(HDC pDC, RECT *rcItem, UINT uiFlag, TabControlData *tabdat, TWindowData *dat)
+static void DrawThemesXpTabItem(HDC pDC, RECT *rcItem, UINT uiFlag, TabControlData *tabdat, CSrmmWindow *dat)
 {
 	BOOL bBody = (uiFlag & 1) ? TRUE : FALSE;
 	BOOL bSel = (uiFlag & 2) ? TRUE : FALSE;
@@ -623,7 +623,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	tabdat->helperDat = 0;
 
 	if (tabdat->fAeroTabs) {
-		TWindowData *dat = (TWindowData*)GetWindowLongPtr(tabdat->pContainer->hwndActive, GWLP_USERDATA);
+		CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(tabdat->pContainer->hwndActive, GWLP_USERDATA);
 		if (dat)
 			tabdat->helperDat = dat;
 		else
@@ -818,7 +818,7 @@ page_done:
 		RECT rcLog, rcPage;
 		GetClientRect(hwnd, &rcPage);
 		if (dwStyle & TCS_BOTTOM) {
-			GetWindowRect(tabdat->helperDat->hwnd, &rcLog);
+			GetWindowRect(tabdat->helperDat->GetHwnd(), &rcLog);
 			pt.y = rcLog.bottom;
 			pt.x = rcLog.left;
 			ScreenToClient(hwnd, &pt);
@@ -826,7 +826,7 @@ page_done:
 			FillRect(hdc, &rcPage, CSkin::m_BrushBack);
 			rcPage.top = 0;
 		}
-		GetWindowRect(GetDlgItem(tabdat->helperDat->hwnd, tabdat->helperDat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG), &rcLog);
+		GetWindowRect(GetDlgItem(tabdat->helperDat->GetHwnd(), tabdat->helperDat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_LOG), &rcLog);
 
 		pt.y = rcLog.top;
 		pt.x = rcLog.left;
@@ -846,9 +846,9 @@ page_done:
 			continue;
 
 		TabCtrl_GetItem(hwnd, i, &tci);
-		TWindowData *dat = 0;
+		CSrmmWindow *dat = 0;
 		if (tci.lParam)
-			dat = (TWindowData*)GetWindowLongPtr((HWND)tci.lParam, GWLP_USERDATA);
+			dat = (CSrmmWindow*)GetWindowLongPtr((HWND)tci.lParam, GWLP_USERDATA);
 		TabCtrl_GetItemRect(hwnd, i, &rcItem);
 		if (!bClassicDraw && uiBottom) {
 			rcItem.top -= PluginConfig.tabConfig.m_bottomAdjust;
@@ -876,13 +876,13 @@ page_done:
 		rctActive.bottom -= PluginConfig.tabConfig.m_bottomAdjust;
 	}
 	if (rctActive.left >= 0) {
-		TWindowData *dat = 0;
+		CSrmmWindow *dat = 0;
 		int nHint = 0;
 
 		rcItem = rctActive;
 		TabCtrl_GetItem(hwnd, iActive, &tci);
 		if (tci.lParam)
-			dat = (TWindowData*)GetWindowLongPtr((HWND)tci.lParam, GWLP_USERDATA);
+			dat = (CSrmmWindow*)GetWindowLongPtr((HWND)tci.lParam, GWLP_USERDATA);
 
 		if (!bClassicDraw && !(dwStyle & TCS_BUTTONS)) {
 			InflateRect(&rcItem, 2, 2);
@@ -1110,11 +1110,11 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				int i = GetTabItemFromMouse(hwnd, &pt);
 				if (i != -1) {
 					TCITEM tc;
-					TWindowData *dat = NULL;
+					CSrmmWindow *dat = NULL;
 
 					tc.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwnd, i, &tc);
-					dat = (TWindowData*)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
+					dat = (CSrmmWindow*)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
 					if (dat) {
 						tabdat->bDragging = TRUE;
 						tabdat->iBeginIndex = i;
@@ -1142,7 +1142,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 					tc.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwnd, i, &tc);
 
-					TWindowData *dat = (TWindowData*)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
+					CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
 					if (dat) {
 						tabdat->bDragging = TRUE;
 						tabdat->iBeginIndex = i;
@@ -1267,13 +1267,13 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 					/*
 					 * get the message window data for the session to which this tab item belongs
 					 */
-					TWindowData *dat = 0;
+					CSrmmWindow *dat = 0;
 					if (IsWindow((HWND)item.lParam) && item.lParam != 0)
-						dat = (TWindowData*)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
+						dat = (CSrmmWindow*)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
 					if (dat) {
 						tabdat->fTipActive = TRUE;
 						ti.isGroup = 0;
-						ti.hItem = (HANDLE)dat->hContact;
+						ti.hItem = (HANDLE)dat->m_hContact;
 						ti.isTreeFocused = 0;
 						CallService("mToolTip/ShowTip", 0, (LPARAM)&ti);
 					}

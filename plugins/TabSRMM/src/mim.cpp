@@ -337,12 +337,12 @@ int CMimAPI::ProtoAck(WPARAM, LPARAM lParam)
 		for (int j = 0; j < SendQueue::NR_SENDJOBS; j++) {
 			SendJob &p = jobs[j];
 			if (pAck->hProcess == p.hSendId && pAck->hContact == p.hContact) {
-				TWindowData *dat = p.hOwnerWnd ? (TWindowData*)GetWindowLongPtr(p.hOwnerWnd, GWLP_USERDATA) : NULL;
+				CSrmmWindow *dat = p.hOwnerWnd ? (CSrmmWindow*)GetWindowLongPtr(p.hOwnerWnd, GWLP_USERDATA) : NULL;
 				if (dat == NULL) {
 					sendQueue->ackMessage(NULL, (WPARAM)MAKELONG(j, i), lParam);
 					return 0;
 				}
-				if (dat->hContact == p.hContact || dat->hContact == hMeta) {
+				if (dat->m_hContact == p.hContact || dat->m_hContact == hMeta) {
 					iFound = j;
 					break;
 				}

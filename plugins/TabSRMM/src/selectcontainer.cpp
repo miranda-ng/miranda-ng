@@ -45,7 +45,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		TranslateDialogDefault(hwndDlg);
 
 		if (lParam) {
-			TWindowData *dat = (TWindowData*)GetWindowLongPtr((HWND)lParam, GWLP_USERDATA);
+			CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr((HWND)lParam, GWLP_USERDATA);
 			if (dat) {
 				mir_snwprintf(szNewTitle, TranslateT("Select container for %s"), dat->cache->getNick());
 				SetWindowText(hwndDlg, szNewTitle);

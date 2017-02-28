@@ -84,13 +84,13 @@ struct CContactCache : public MZeroedObject
 	__forceinline LPCWSTR  getXStatusMsg() const { return m_xStatusMsg; }
 	__forceinline LPCWSTR  getListeningInfo() const { return m_ListeningInfo; }
 	__forceinline BYTE     getXStatusId() const { return m_xStatus; }
-	__forceinline HWND     getWindowData(TWindowData*& dat) const { dat = m_dat; return m_hwnd; }
+	__forceinline HWND     getWindowData(CSrmmWindow* &dat) const { dat = m_dat; return m_hwnd; }
 	__forceinline HWND     getHwnd() const { return m_hwnd; }
 
 	__forceinline DWORD    getSessionStart() const { return m_stats->started; }
 	__forceinline int      getSessionMsgCount() const { return (int)m_stats->messageCount; }
 
-	__forceinline TWindowData* getDat() const { return m_dat; }
+	__forceinline CSrmmWindow* getDat() const { return m_dat; }
 
 	int getStatus(void) const
 	{
@@ -107,7 +107,7 @@ struct CContactCache : public MZeroedObject
 	void     updateMeta();
 	bool     updateUIN();
 	void     updateStatusMsg(const char *szKey = 0);
-	void     setWindowData(const HWND hwnd = 0, TWindowData *dat = 0);
+	void     setWindowData(const HWND hwnd = 0, CSrmmWindow *dat = 0);
 	void     resetMeta();
 	void     closeWindow();
 	void     deletedHandler();
@@ -146,7 +146,7 @@ private:
 	int      m_nMax;
 	int      m_iHistoryCurrent, m_iHistoryTop, m_iHistorySize;
 
-	TWindowData *m_dat;
+	CSrmmWindow *m_dat;
 	TSessionStats *m_stats;
 	TInputHistory *m_history;
 	DBCachedContact *cc;

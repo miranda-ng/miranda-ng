@@ -653,9 +653,9 @@ static int TSAPI PopupPreview(NEN_OPTIONS *pluginOptions)
 
 // updates the menu entry...
 // bForced is used to only update the status, nickname etc. and does NOT update the unread count
-void TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced)
+void TSAPI UpdateTrayMenuState(CTabBaseDlg *dat, BOOL bForced)
 {
-	if (PluginConfig.g_hMenuTrayUnread == 0 || dat->hContact == NULL)
+	if (PluginConfig.g_hMenuTrayUnread == 0 || dat->m_hContact == NULL)
 		return;
 
 	MENUITEMINFO mii = { 0 };
@@ -665,7 +665,7 @@ void TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced)
 	const wchar_t *tszProto = dat->cache->getRealAccount();
 	assert(tszProto != 0);
 
-	GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)dat->hContact, FALSE, &mii);
+	GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)dat->m_hContact, FALSE, &mii);
 	if (!bForced)
 		PluginConfig.m_UnreadInTray -= (mii.dwItemData & 0x0000ffff);
 	if (mii.dwItemData > 0 || bForced) {
@@ -680,11 +680,11 @@ void TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced)
 		mii.cch = (int)mir_wstrlen(szMenuEntry) + 1;
 	}
 	mii.hbmpItem = HBMMENU_CALLBACK;
-	SetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)dat->hContact, FALSE, &mii);
+	SetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)dat->m_hContact, FALSE, &mii);
 }
 
 // if we want tray support, add the contact to the list of unread sessions in the tray menu
-int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szProto, const wchar_t *szStatus, MCONTACT hContact, DWORD fromEvent)
+int TSAPI UpdateTrayMenu(const CTabBaseDlg *dat, WORD wStatus, const char *szProto, const wchar_t *szStatus, MCONTACT hContact, DWORD fromEvent)
 {
 	if (!PluginConfig.g_hMenuTrayUnread || hContact == 0 || szProto == NULL)
 		return 0;

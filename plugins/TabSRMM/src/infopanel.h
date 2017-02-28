@@ -125,7 +125,7 @@ public:
 		HTNIRVANA = 0
 	};
 
-	CInfoPanel(TWindowData *dat)
+	CInfoPanel(CTabBaseDlg *dat)
 	{
 		if (dat) {
 			m_dat = dat;
@@ -149,7 +149,7 @@ public:
 	__forceinline bool isActive() const { return m_active; }
 	__forceinline bool isPrivateHeight() const { return m_fPrivateHeight; }
 	__forceinline DWORD isHovered() const { return m_active ? m_hoverFlags : 0; }
-	__forceinline const TWindowData* getDat() const { return m_dat; }
+	__forceinline const CTabBaseDlg* getDat() const { return m_dat; }
 
 	void setHeight(LONG newHeight, bool fBroadcast = false);
 	void setActive(const int newActive);
@@ -172,7 +172,7 @@ public:
 
 public:
 	static TInfoPanelConfig m_ipConfig;
-	static int setPanelHandler(TWindowData *dat, WPARAM wParam, LPARAM lParam);
+	static int setPanelHandler(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 private:
@@ -194,7 +194,7 @@ private:
 	bool  m_active;             // panel active and visible
 	bool  m_fPrivateHeight;
 	bool  m_fDialogCreated;
-	TWindowData *m_dat;         // this one OWNS us...
+	CTabBaseDlg *m_dat;         // this one OWNS us...
 	LONG  m_height;             // height (determined by position of IDC_PANELSPLITTER)
 	LONG  m_defaultHeight,
 		m_defaultMUCHeight;   // global values for the info bar height

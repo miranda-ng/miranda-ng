@@ -117,7 +117,7 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 				ActivateExistingTab(pContainer, si->hWnd);
 				if (GetForegroundWindow() != pContainer->hwnd)
 					SetForegroundWindow(pContainer->hwnd);
-				SetFocus(GetDlgItem(pContainer->hwndActive, IDC_CHAT_MESSAGE));
+				SetFocus(GetDlgItem(pContainer->hwndActive, IDC_MESSAGE));
 				return;
 			}
 		}
@@ -202,9 +202,9 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					hWnd = si ? si->hWnd : 0;
 				}
 
-				TWindowData *dat = 0;
+				CSrmmWindow *dat = 0;
 				if (hWnd)
-					dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+					dat = (CSrmmWindow*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
 				{
 					HICON hIcon;
@@ -212,7 +212,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					if (dis->itemData > 0)
 						hIcon = (dis->itemData & 0x10000000) ? pci->hIcons[ICON_HIGHLIGHT] : PluginConfig.g_IconMsgEvent;
 					else if (dat != NULL) {
-						hIcon = MY_GetContactIcon(dat, 0);
+						hIcon = dat->GetMyContactIcon(0);
 						idle = dat->idle;
 					}
 					else hIcon = PluginConfig.g_iconContainer;
@@ -394,7 +394,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				TContainerData *pContainer = 0;
 				SendMessage(si->hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 				if (pContainer) {
-					int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, 1159));
+					int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, IDC_MSGTABS));
 					if (iTabs == 1)
 						SendMessage(pContainer->hwnd, WM_CLOSE, 0, 1);
 					else
@@ -431,18 +431,18 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			HWND	hWnd = M.FindWindow(hContact);
 			if (hWnd) {
-				TWindowData *dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+				CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 				if (dat) {
 					if (hkl) {
 						dat->hkl = hkl;
-						PostMessage(dat->hwnd, DM_SETLOCALE, 0, 0);
+						PostMessage(dat->GetHwnd(), DM_SETLOCALE, 0, 0);
 					}
 
 					DBVARIANT  dbv;
 					if (0 == db_get_ws(hContact, SRMSGMOD_T, "locale", &dbv)) {
-						GetLocaleID(dat, dbv.ptszVal);
+						dat->GetLocaleID(dbv.ptszVal);
 						db_free(&dbv);
-						UpdateReadChars(dat);
+						dat->UpdateReadChars();
 					}
 				}
 			}

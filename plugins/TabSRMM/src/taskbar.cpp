@@ -179,7 +179,7 @@ void CTaskbarInteract::SetTabActive(const HWND hwndTab, const HWND hwndGroup) co
  * static member function. Ignored when OS is not Windows 7 or global option for
  * Windows 7 task bar support is diabled.
  */
-void CProxyWindow::add(TWindowData *dat)
+void CProxyWindow::add(CTabBaseDlg *dat)
 {
 	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek) // && (!CSkin::m_skinEnabled || M.GetByte("forceAeroPeek", 0)))
 		dat->pWnd = new CProxyWindow(dat);
@@ -195,7 +195,7 @@ void CProxyWindow::add(TWindowData *dat)
  *
  * static member function
  */
-void CProxyWindow::verify(TWindowData *dat)
+void CProxyWindow::verify(CTabBaseDlg *dat)
 {
 	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek) {
 		if (0 == dat->pWnd) {
@@ -224,7 +224,7 @@ void CProxyWindow::verify(TWindowData *dat)
  * and previews for a message session.
  * each tab has one invisible proxy window
  */
-CProxyWindow::CProxyWindow(TWindowData *dat)
+CProxyWindow::CProxyWindow(CTabBaseDlg *dat)
 {
 	m_dat = dat;
 	m_hBigIcon = 0;
@@ -320,7 +320,7 @@ void CProxyWindow::sendPreview()
 	if (m_dat->pContainer == NULL)
 		return;
 
-	TWindowData *dat_active = reinterpret_cast<TWindowData *>(::GetWindowLongPtr(m_dat->pContainer->hwndActive, GWLP_USERDATA));
+	CSrmmWindow *dat_active = reinterpret_cast<CSrmmWindow *>(::GetWindowLongPtr(m_dat->pContainer->hwndActive, GWLP_USERDATA));
 	if (!m_thumb || !dat_active)
 		return;
 
@@ -330,7 +330,7 @@ void CProxyWindow::sendPreview()
 	HDC hdc, dc;
 	int twips = (int)(15.0f / PluginConfig.m_DPIscaleY);
 	bool fIsChat = m_dat->bType != SESSIONTYPE_IM;
-	HWND 	hwndRich = ::GetDlgItem(m_dat->hwnd, fIsChat ? IDC_CHAT_LOG : IDC_LOG);
+	HWND 	hwndRich = ::GetDlgItem(m_dat->GetHwnd(), fIsChat ? IDC_LOG : IDC_LOG);
 	LONG 	cx, cy;
 	POINT	ptOrigin = { 0 }, ptBottom;
 
@@ -338,8 +338,8 @@ void CProxyWindow::sendPreview()
 		RECT	rcClient;
 
 		::SendMessage(m_dat->pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
-		::MoveWindow(m_dat->hwnd, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), FALSE);
-		::SendMessage(m_dat->hwnd, WM_SIZE, 0, 0);
+		::MoveWindow(m_dat->GetHwnd(), rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), FALSE);
+		::SendMessage(m_dat->GetHwnd(), WM_SIZE, 0, 0);
 		DM_ScrollToBottom(m_dat, 0, 1);
 	}
 	/*
@@ -360,7 +360,7 @@ void CProxyWindow::sendPreview()
 		pt = m_dat->pContainer->ptLogSaved;
 	}
 
-	::GetWindowRect(::GetDlgItem(m_dat->pContainer->hwndActive, dat_active->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG), &rcTemp);
+	::GetWindowRect(::GetDlgItem(m_dat->pContainer->hwndActive, dat_active->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_LOG), &rcTemp);
 	ptBottom.x = rcTemp.left;
 	ptBottom.y = rcTemp.bottom;
 	::ScreenToClient(m_dat->pContainer->hwnd, &ptBottom);
@@ -372,7 +372,7 @@ void CProxyWindow::sendPreview()
 	rcRich.right = cx;
 	rcRich.bottom = ptBottom.y - pt.y;
 
-	dc = ::GetDC(m_dat->hwnd);
+	dc = ::GetDC(m_dat->GetHwnd());
 	hdc = ::CreateCompatibleDC(dc);
 	HBITMAP hbm = CSkin::CreateAeroCompatibleBitmap(rcContainer, hdc);
 	HBITMAP hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(hdc, hbm));
@@ -434,7 +434,7 @@ void CProxyWindow::sendPreview()
 	else pt.x = pt.y = 0;
 
 	CMimAPI::m_pfnDwmSetIconicLivePreviewBitmap(m_hwndProxy, hbm, &pt, m_dat->pContainer->dwFlags & CNT_CREATE_MINIMIZED ? 0 : DWM_SIT_DISPLAYFRAME);
-	::ReleaseDC(m_dat->hwnd, dc);
+	::ReleaseDC(m_dat->GetHwnd(), dc);
 	::DeleteObject(hbm);
 }
 
@@ -553,10 +553,10 @@ LRESULT CALLBACK CProxyWindow::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 		{
 			TContainerData* pC = m_dat->pContainer;
 
-			if (m_dat->hwnd != pC->hwndActive)
-				SendMessage(m_dat->hwnd, WM_CLOSE, 1, 3);
+			if (m_dat->GetHwnd() != pC->hwndActive)
+				SendMessage(m_dat->GetHwnd(), WM_CLOSE, 1, 3);
 			else
-				SendMessage(m_dat->hwnd, WM_CLOSE, 1, 2);
+				SendMessage(m_dat->GetHwnd(), WM_CLOSE, 1, 2);
 			if (!IsIconic(pC->hwnd))
 				SetForegroundWindow(pC->hwnd);
 		}
@@ -568,8 +568,8 @@ LRESULT CALLBACK CProxyWindow::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 		*/
 	case WM_ACTIVATE:
 		if (WA_ACTIVE == wParam) {
-			if (IsWindow(m_dat->hwnd))
-				::PostMessage(m_dat->hwnd, DM_ACTIVATEME, 0, 0);
+			if (IsWindow(m_dat->GetHwnd()))
+				::PostMessage(m_dat->GetHwnd(), DM_ACTIVATEME, 0, 0);
 			return 0;			// no default processing, avoid flickering.
 		}
 		break;

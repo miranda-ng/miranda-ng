@@ -413,7 +413,7 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 			PostMessage(hwnd, DM_UPDATESTATUSMSG, 0, 0);
 		if (fChanged) {
 			if (c->getStatus() == ID_STATUS_OFFLINE) {			// clear typing notification in the status bar when contact goes offline
-				TWindowData *dat = c->getDat();
+				CTabBaseDlg *dat = c->getDat();
 				if (dat) {
 					dat->nTypeSecs = 0;
 					dat->bShowTyping = 0;
@@ -557,7 +557,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	if (c == 0)
 		return;
 
-	TWindowData *dat = c->getDat();
+	CSrmmWindow *dat = c->getDat();
 	if (dat == NULL || !c->isValid())
 		return;
 
@@ -595,7 +595,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	dbei.eventType = EVENTTYPE_STATUSCHANGE;
 	dbei.timestamp = time(NULL);
 	dbei.szModule = (char*)c->getProto();
-	StreamInEvents(dat->hwnd, NULL, 1, 1, &dbei);
+	dat->StreamInEvents(NULL, 1, 1, &dbei);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

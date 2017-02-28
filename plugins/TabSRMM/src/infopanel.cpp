@@ -40,7 +40,7 @@ wchar_t *xStatusDescr[] =
 
 TInfoPanelConfig CInfoPanel::m_ipConfig = { 0 };
 
-int CInfoPanel::setPanelHandler(TWindowData *dat, WPARAM wParam, LPARAM lParam)
+int CInfoPanel::setPanelHandler(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == 0 && lParam == 0) {
 		dat->Panel->getVisibility();
@@ -48,7 +48,7 @@ int CInfoPanel::setPanelHandler(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		dat->Panel->showHide();
 	}
 	else {
-		TWindowData *srcDat = (TWindowData*)wParam;
+		CTabBaseDlg *srcDat = (CTabBaseDlg*)wParam;
 		if (lParam == 0)
 			dat->Panel->loadHeight();
 		else {
@@ -62,7 +62,7 @@ int CInfoPanel::setPanelHandler(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 				dat->Panel->setHeight((LONG)lParam);
 			}
 		}
-		SendMessage(dat->hwnd, WM_SIZE, 0, 0);
+		SendMessage(dat->GetHwnd(), WM_SIZE, 0, 0);
 	}
 	return 0;
 }
@@ -79,7 +79,7 @@ void CInfoPanel::loadHeight()
 {
 	BYTE bSync = M.GetByte("syncAllPanels", 0);			// sync muc <> im panels
 
-	m_height = M.GetDword(m_dat->hContact, "panelheight", -1);
+	m_height = M.GetDword(m_dat->m_hContact, "panelheight", -1);
 
 	if (m_height == -1 || HIWORD(m_height) == 0) {
 		if (m_dat->pContainer->settings->fPrivate)
@@ -129,7 +129,7 @@ void CInfoPanel::saveHeight(bool fFlush)
 				}
 			}
 		}
-		else db_set_dw(m_dat->hContact, SRMSGMOD_T, "panelheight", MAKELONG(m_height, 0xffff));
+		else db_set_dw(m_dat->m_hContact, SRMSGMOD_T, "panelheight", MAKELONG(m_height, 0xffff));
 	}
 }
 
@@ -161,13 +161,13 @@ void CInfoPanel::setHeight(LONG newHeight, bool fBroadcast)
 
 void CInfoPanel::Configure() const
 {
-	Utils::showDlgControl(m_dat->hwnd, IDC_PANELSPLITTER, m_active ? SW_SHOW : SW_HIDE);
+	Utils::showDlgControl(m_dat->GetHwnd(), IDC_PANELSPLITTER, m_active ? SW_SHOW : SW_HIDE);
 }
 
 void CInfoPanel::showHide() const
 {
 	HBITMAP hbm = (m_active && m_dat->pContainer->avatarMode != 3) ? m_dat->hOwnPic : (m_dat->ace ? m_dat->ace->hbmPic : PluginConfig.g_hbmUnknown);
-	HWND hwndDlg = m_dat->hwnd;
+	HWND hwndDlg = m_dat->GetHwnd();
 
 	if (!m_isChat) {
 		::ShowWindow(m_dat->hwndPanelPicParent, (m_active) ? SW_SHOW : SW_HIDE);
@@ -178,18 +178,18 @@ void CInfoPanel::showHide() const
 		}
 
 		m_dat->iRealAvatarHeight = 0;
-		::AdjustBottomAvatarDisplay(m_dat);
+		m_dat->AdjustBottomAvatarDisplay();
 
 		BITMAP bm;
 		::GetObject(hbm, sizeof(bm), &bm);
-		::CalcDynamicAvatarSize(m_dat, &bm);
+		m_dat->CalcDynamicAvatarSize(&bm);
 
 		if (m_active) {
 			if (m_dat->hwndContactPic) {
 				::DestroyWindow(m_dat->hwndContactPic);
 				m_dat->hwndContactPic = NULL;
 			}
-			::GetAvatarVisibility(hwndDlg, m_dat);
+			m_dat->GetAvatarVisibility();
 			Configure();
 			InvalidateRect(hwndDlg, NULL, FALSE);
 		}
@@ -225,13 +225,13 @@ void CInfoPanel::showHide() const
 
 bool CInfoPanel::getVisibility()
 {
-	if (m_dat->hContact == 0) {
+	if (m_dat->m_hContact == 0) {
 		setActive(false);    // no info panel, if no hcontact
 		return false;
 	}
 
 	BYTE bDefault = (m_dat->pContainer->dwFlags & CNT_INFOPANEL) ? 1 : 0;
-	BYTE bContact = M.GetByte(m_dat->hContact, "infopanel", 0);
+	BYTE bContact = M.GetByte(m_dat->m_hContact, "infopanel", 0);
 
 	BYTE visible = (bContact == 0 ? bDefault : (bContact == (BYTE)-1 ? 0 : 1));
 	setActive(visible);
@@ -301,7 +301,7 @@ void CInfoPanel::renderBG(const HDC hdc, RECT& rc, CSkinItem *item, bool bAero, 
 
 	if (CSkin::m_skinEnabled) {
 		rc.bottom -= 2;
-		CSkin::SkinDrawBG(m_dat->hwnd, m_dat->pContainer->hwnd, m_dat->pContainer, &rc, hdc);
+		CSkin::SkinDrawBG(m_dat->GetHwnd(), m_dat->pContainer->hwnd, m_dat->pContainer, &rc, hdc);
 		item = &SkinItems[ID_EXTBKINFOPANELBG];
 
 		// if new (= tabsrmm 3.x) skin item is not defined, use the old info panel
@@ -335,10 +335,10 @@ void CInfoPanel::renderContent(const HDC hdc)
 		DRAWITEMSTRUCT dis = { 0 };
 		dis.rcItem = m_dat->rcPic;
 		dis.hDC = hdc;
-		dis.hwndItem = m_dat->hwnd;
-		if (::MsgWindowDrawHandler(0, (LPARAM)&dis, m_dat) == 0) {
-			::PostMessage(m_dat->hwnd, WM_SIZE, 0, 1);
-			::PostMessage(m_dat->hwnd, DM_FORCEREDRAW, 0, 0);
+		dis.hwndItem = m_dat->GetHwnd();
+		if (m_dat->MsgWindowDrawHandler(0, (LPARAM)&dis) == 0) {
+			::PostMessage(m_dat->GetHwnd(), WM_SIZE, 0, 1);
+			::PostMessage(m_dat->GetHwnd(), DM_FORCEREDRAW, 0, 0);
 		}
 
 		RECT rc = m_dat->rcNick;
@@ -400,7 +400,7 @@ void CInfoPanel::RenderIPNickname(const HDC hdc, RECT &rcItem)
 
 	rcItem.left += 2;
 	if (szTextToShow[0]) {
-		HICON xIcon = ::GetXStatusIcon(m_dat);
+		HICON xIcon = m_dat->GetXStatusIcon();
 		if (xIcon) {
 			::DrawIconEx(hdc, rcItem.left, (rcItem.bottom + rcItem.top - PluginConfig.m_smcyicon) / 2, xIcon, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, 0, DI_NORMAL | DI_COMPAT);
 			::DestroyIcon(xIcon);
@@ -550,7 +550,7 @@ void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 	m_dat->panelStatusCX = 3 + sStatus.cx + sProto.cx + 14 + (m_dat->hClientIcon ? 20 : 0) + sTime.cx + 13;
 
 	if (m_dat->panelStatusCX != oldPanelStatusCX) {
-		SendMessage(m_dat->hwnd, WM_SIZE, 0, 0);
+		SendMessage(m_dat->GetHwnd(), WM_SIZE, 0, 0);
 		rcItem = m_dat->rcStatus;
 	}
 
@@ -696,9 +696,9 @@ void CInfoPanel::Invalidate(BOOL fErase) const
 {
 	if (m_active) {
 		RECT rc;
-		::GetClientRect(m_dat->hwnd, &rc);
+		::GetClientRect(m_dat->GetHwnd(), &rc);
 		rc.bottom = m_height;
-		::InvalidateRect(m_dat->hwnd, &rc, fErase);
+		::InvalidateRect(m_dat->GetHwnd(), &rc, fErase);
 	}
 }
 
@@ -750,11 +750,11 @@ LRESULT CInfoPanel::cmdHandler(UINT cmd)
 	switch (cmd) {
 	case CMD_IP_COPY:
 		if (m_hoverFlags & HOVER_NICK) {
-			Utils::CopyToClipBoard(m_dat->cache->getNick(), m_dat->hwnd);
+			Utils::CopyToClipBoard(m_dat->cache->getNick(), m_dat->GetHwnd());
 			return(S_OK);
 		}
 		if (m_hoverFlags & HOVER_UIN) {
-			Utils::CopyToClipBoard(m_isChat ? m_dat->si->ptszTopic : m_dat->cache->getUIN(), m_dat->hwnd);
+			Utils::CopyToClipBoard(m_isChat ? m_dat->si->ptszTopic : m_dat->cache->getUIN(), m_dat->GetHwnd());
 			return(S_OK);
 		}
 		break;
@@ -762,7 +762,7 @@ LRESULT CInfoPanel::cmdHandler(UINT cmd)
 	case IDC_CHAT_HISTORY:
 	case IDC_CHANMGR:
 		if (m_isChat) {
-			SendMessage(m_dat->hwnd, WM_COMMAND, cmd, 0);
+			SendMessage(m_dat->GetHwnd(), WM_COMMAND, cmd, 0);
 			return(S_OK);
 		}
 		break;
@@ -781,16 +781,16 @@ void CInfoPanel::handleClick(const POINT& pt)
 		return;
 
 	if (!m_isChat) {
-		::KillTimer(m_dat->hwnd, TIMERID_AWAYMSG);
+		::KillTimer(m_dat->GetHwnd(), TIMERID_AWAYMSG);
 		m_dat->dwFlagsEx &= ~MWF_SHOW_AWAYMSGTIMER;
 	}
 	HMENU m = constructContextualMenu();
 	if (m) {
-		LRESULT r = ::TrackPopupMenu(m, TPM_RETURNCMD, pt.x, pt.y, 0, m_dat->hwnd, NULL);
+		LRESULT r = ::TrackPopupMenu(m, TPM_RETURNCMD, pt.x, pt.y, 0, m_dat->GetHwnd(), NULL);
 
 		::DestroyMenu(m);
 		if (S_OK != cmdHandler(r))
-			Utils::CmdDispatcher(Utils::CMD_INFOPANEL, m_dat->hwnd, r, 0, 0, m_dat, m_dat->pContainer);
+			Utils::CmdDispatcher(Utils::CMD_INFOPANEL, m_dat->GetHwnd(), r, 0, 0, m_dat, m_dat->pContainer);
 	}
 	m_hoverFlags = 0;
 	Invalidate(TRUE);
@@ -805,7 +805,7 @@ void CInfoPanel::handleClick(const POINT& pt)
 
 int CInfoPanel::hitTest(POINT pt)
 {
-	::ScreenToClient(m_dat->hwnd, &pt);
+	::ScreenToClient(m_dat->GetHwnd(), &pt);
 
 	if (!m_isChat && ::PtInRect(&m_rcStatus, pt))
 		return(HTSTATUS);
@@ -852,7 +852,7 @@ void CInfoPanel::trackMouse(POINT &pt)
 
 	if (m_hoverFlags) {
 		if (!(m_dat->dwFlagsEx & MWF_SHOW_AWAYMSGTIMER)) {
-			::SetTimer(m_dat->hwnd, TIMERID_AWAYMSG, 1000, 0);
+			::SetTimer(m_dat->GetHwnd(), TIMERID_AWAYMSG, 1000, 0);
 			m_dat->dwFlagsEx |= MWF_SHOW_AWAYMSGTIMER;
 		}
 	}
@@ -872,7 +872,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 	if (!m_active || !m_dat->hwndTip)
 		return;
 
-	HWND hwndDlg = m_dat->hwnd;
+	HWND hwndDlg = m_dat->GetHwnd();
 	{
 		RECT rc;
 		::GetWindowRect(GetDlgItem(hwndDlg, ctrlId), &rc);
@@ -922,7 +922,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 		POINT pt;
 		RECT rc = { 0, 0, 400, 600 };
 		GetCursorPos(&pt);
-		m_tip = new CTip(m_dat->hwnd, m_dat->hContact, str, this);
+		m_tip = new CTip(m_dat->GetHwnd(), m_dat->m_hContact, str, this);
 		m_tip->show(rc, pt, m_dat->hTabIcon, m_dat->szStatus);
 		return;
 	}
@@ -968,7 +968,7 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 	case WM_ERASEBKGND:
 		// parent window of the infopanel ACC control
 		RECT rc, rcItem;
-		TWindowData *dat = (TWindowData*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
+		CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 		if (dat == 0)
 			break;
 
@@ -1059,168 +1059,168 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
-		wchar_t	tszTitle[100];
-		mir_snwprintf(tszTitle, TranslateT("Set panel visibility for this %s"),
-			m_isChat ? TranslateT("chat room") : TranslateT("contact"));
-		::SetDlgItemText(hwnd, IDC_STATIC_VISIBILTY, tszTitle);
+		{
+			wchar_t	tszTitle[100];
+			mir_snwprintf(tszTitle, TranslateT("Set panel visibility for this %s"),
+				m_isChat ? TranslateT("chat room") : TranslateT("contact"));
+			::SetDlgItemText(hwnd, IDC_STATIC_VISIBILTY, tszTitle);
 
-		mir_snwprintf(tszTitle, m_isChat ? TranslateT("Do not synchronize the panel height with IM windows") :
-			TranslateT("Do not synchronize the panel height with group chat windows"));
+			mir_snwprintf(tszTitle, m_isChat ? TranslateT("Do not synchronize the panel height with IM windows") :
+				TranslateT("Do not synchronize the panel height with group chat windows"));
 
-		::SetDlgItemText(hwnd, IDC_NOSYNC, tszTitle);
+			::SetDlgItemText(hwnd, IDC_NOSYNC, tszTitle);
 
-		::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Inherit from container setting"));
-		::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always off"));
-		::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always on"));
+			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Inherit from container setting"));
+			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always off"));
+			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always on"));
 
-		BYTE v = M.GetByte(m_dat->hContact, "infopanel", 0);
-		::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_SETCURSEL, (WPARAM)(v == 0 ? 0 : (v == (BYTE)-1 ? 1 : 2)), 0);
+			BYTE v = M.GetByte(m_dat->m_hContact, "infopanel", 0);
+			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_SETCURSEL, (WPARAM)(v == 0 ? 0 : (v == (BYTE)-1 ? 1 : 2)), 0);
 
-		::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use default size"));
-		::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use private size"));
+			::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use default size"));
+			::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use private size"));
 
-		::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_SETCURSEL, (WPARAM)(m_fPrivateHeight ? 1 : 0), 0);
+			::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_SETCURSEL, (WPARAM)(m_fPrivateHeight ? 1 : 0), 0);
 
-		::CheckDlgButton(hwnd, IDC_NOSYNC, M.GetByte("syncAllPanels", 0) ? BST_UNCHECKED : BST_CHECKED);
+			::CheckDlgButton(hwnd, IDC_NOSYNC, M.GetByte("syncAllPanels", 0) ? BST_UNCHECKED : BST_CHECKED);
 
-		Utils::showDlgControl(hwnd, IDC_IPCONFIG_PRIVATECONTAINER, m_dat->pContainer->settings->fPrivate ? SW_SHOW : SW_HIDE);
+			Utils::showDlgControl(hwnd, IDC_IPCONFIG_PRIVATECONTAINER, m_dat->pContainer->settings->fPrivate ? SW_SHOW : SW_HIDE);
 
-		if (!m_isChat) {
-			v = db_get_b(m_dat->hContact, SRMSGMOD_T, "hideavatar", -1);
-			::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use global setting"));
-			::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Show always (if present)"));
-			::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Never show it at all"));
-			::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_SETCURSEL, (v == (BYTE)-1 ? 0 : (v == 1 ? 1 : 2)), 0);
+			if (!m_isChat) {
+				v = db_get_b(m_dat->m_hContact, SRMSGMOD_T, "hideavatar", -1);
+				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use global setting"));
+				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Show always (if present)"));
+				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Never show it at all"));
+				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_SETCURSEL, (v == (BYTE)-1 ? 0 : (v == 1 ? 1 : 2)), 0);
+			}
+			else Utils::enableDlgControl(hwnd, IDC_PANELPICTUREVIS, false);
 		}
-		else Utils::enableDlgControl(hwnd, IDC_PANELPICTUREVIS, false);
-	}
-	return FALSE;
+		return FALSE;
 
 	case WM_CTLCOLOREDIT:
 	case WM_CTLCOLORSTATIC:
-	{
-		HWND hwndChild = (HWND)lParam;
-		UINT id = ::GetDlgCtrlID(hwndChild);
+		{
+			HWND hwndChild = (HWND)lParam;
+			UINT id = ::GetDlgCtrlID(hwndChild);
 
-		if (m_configDlgFont == 0) {
-			HFONT hFont = (HFONT)::SendDlgItemMessage(hwnd, IDC_IPCONFIG_TITLE, WM_GETFONT, 0, 0);
-			LOGFONT lf = { 0 };
+			if (m_configDlgFont == 0) {
+				HFONT hFont = (HFONT)::SendDlgItemMessage(hwnd, IDC_IPCONFIG_TITLE, WM_GETFONT, 0, 0);
+				LOGFONT lf = { 0 };
 
-			::GetObject(hFont, sizeof(lf), &lf);
-			lf.lfWeight = FW_BOLD;
-			m_configDlgBoldFont = ::CreateFontIndirect(&lf);
+				::GetObject(hFont, sizeof(lf), &lf);
+				lf.lfWeight = FW_BOLD;
+				m_configDlgBoldFont = ::CreateFontIndirect(&lf);
 
-			lf.lfHeight = (int)(lf.lfHeight * 1.2);
-			m_configDlgFont = ::CreateFontIndirect(&lf);
-			::SendDlgItemMessage(hwnd, IDC_IPCONFIG_TITLE, WM_SETFONT, (WPARAM)m_configDlgFont, FALSE);
+				lf.lfHeight = (int)(lf.lfHeight * 1.2);
+				m_configDlgFont = ::CreateFontIndirect(&lf);
+				::SendDlgItemMessage(hwnd, IDC_IPCONFIG_TITLE, WM_SETFONT, (WPARAM)m_configDlgFont, FALSE);
+			}
+
+			if (hwndChild == ::GetDlgItem(hwnd, IDC_IPCONFIG_TITLE)) {
+				::SetTextColor((HDC)wParam, RGB(60, 60, 150));
+				::SendMessage(hwndChild, WM_SETFONT, (WPARAM)m_configDlgFont, FALSE);
+			}
+			else if (id == IDC_IPCONFIG_FOOTER || id == IDC_SIZE_TIP || id == IDC_IPCONFIG_PRIVATECONTAINER)
+				::SetTextColor((HDC)wParam, RGB(160, 50, 50));
+			else if (id == IDC_GROUP_SIZE || id == IDC_GROUP_SCOPE || id == IDC_GROUP_OTHER)
+				::SendMessage(hwndChild, WM_SETFONT, (WPARAM)m_configDlgBoldFont, FALSE);
+
+			::SetBkColor((HDC)wParam, ::GetSysColor(COLOR_WINDOW));
 		}
-
-		if (hwndChild == ::GetDlgItem(hwnd, IDC_IPCONFIG_TITLE)) {
-			::SetTextColor((HDC)wParam, RGB(60, 60, 150));
-			::SendMessage(hwndChild, WM_SETFONT, (WPARAM)m_configDlgFont, FALSE);
-		}
-		else if (id == IDC_IPCONFIG_FOOTER || id == IDC_SIZE_TIP || id == IDC_IPCONFIG_PRIVATECONTAINER)
-			::SetTextColor((HDC)wParam, RGB(160, 50, 50));
-		else if (id == IDC_GROUP_SIZE || id == IDC_GROUP_SCOPE || id == IDC_GROUP_OTHER)
-			::SendMessage(hwndChild, WM_SETFONT, (WPARAM)m_configDlgBoldFont, FALSE);
-
-		::SetBkColor((HDC)wParam, ::GetSysColor(COLOR_WINDOW));
 		return reinterpret_cast<INT_PTR>(::GetSysColorBrush(COLOR_WINDOW));
-	}
 
 	case WM_COMMAND:
-	{
-		LONG	lOldHeight = m_height;
-		switch (LOWORD(wParam)) {
-		case IDC_PANELSIZE:
 		{
-			LRESULT iResult = ::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_GETCURSEL, 0, 0);
-			if (iResult == 0) {
-				if (m_fPrivateHeight) {
-					db_set_dw(m_dat->hContact, SRMSGMOD_T, "panelheight", m_height);
-					loadHeight();
+			LONG	lOldHeight = m_height;
+			switch (LOWORD(wParam)) {
+			case IDC_PANELSIZE:
+				{
+					LRESULT iResult = ::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_GETCURSEL, 0, 0);
+					if (iResult == 0) {
+						if (m_fPrivateHeight) {
+							db_set_dw(m_dat->m_hContact, SRMSGMOD_T, "panelheight", m_height);
+							loadHeight();
+						}
+					}
+					else if (iResult == 1) {
+						db_set_dw(m_dat->m_hContact, SRMSGMOD_T, "panelheight",
+							MAKELONG(M.GetDword(m_dat->m_hContact, "panelheight", m_height), 0xffff));
+						loadHeight();
+					}
 				}
+				break;
+
+			case IDC_PANELPICTUREVIS:
+				{
+					BYTE	vOld = db_get_b(m_dat->m_hContact, SRMSGMOD_T, "hideavatar", -1);
+					LRESULT iResult = ::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_GETCURSEL, 0, 0);
+
+					BYTE vNew = (iResult == 0 ? (BYTE)-1 : (iResult == 1 ? 1 : 0));
+					if (vNew != vOld) {
+						if (vNew == (BYTE)-1)
+							db_unset(m_dat->m_hContact, SRMSGMOD_T, "hideavatar");
+						else
+							db_set_b(m_dat->m_hContact, SRMSGMOD_T, "hideavatar", vNew);
+
+						m_dat->ShowPicture(false);
+						::SendMessage(m_dat->GetHwnd(), WM_SIZE, 0, 0);
+						::DM_ScrollToBottom(m_dat, 0, 1);
+					}
+				}
+				break;
+
+			case IDC_PANELVISIBILITY:
+				{
+					BYTE	vOld = db_get_b(m_dat->m_hContact, SRMSGMOD_T, "infopanel", 0);
+					LRESULT iResult = ::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_GETCURSEL, 0, 0);
+
+					BYTE vNew = (iResult == 0 ? 0 : (iResult == 1 ? (BYTE)-1 : 1));
+					if (vNew != vOld) {
+						db_set_b(m_dat->m_hContact, SRMSGMOD_T, "infopanel", vNew);
+						getVisibility();
+						showHide();
+					}
+				}
+				break;
+
+			case IDC_SIZECOMPACT:
+				setHeight(MIN_PANELHEIGHT + 2, true);
+				break;
+
+			case IDC_SIZENORMAL:
+				setHeight(DEGRADE_THRESHOLD, true);
+				break;
+
+			case IDC_SIZELARGE:
+				setHeight(51, true);
+				break;
+
+			case IDC_NOSYNC:
+				db_set_b(0, SRMSGMOD_T, "syncAllPanels", ::IsDlgButtonChecked(hwnd, IDC_NOSYNC) ? 0 : 1);
+				if (BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_NOSYNC)) {
+					loadHeight();
+					if (!m_dat->pContainer->settings->fPrivate)
+						M.BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
+					else
+						::BroadCastContainer(m_dat->pContainer, DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
+				}
+				else {
+					if (!m_dat->pContainer->settings->fPrivate)
+						M.BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, 0);
+					else
+						::BroadCastContainer(m_dat->pContainer, DM_SETINFOPANEL, (WPARAM)m_dat, 0);
+				}
+				break;
 			}
-			else if (iResult == 1) {
-				db_set_dw(m_dat->hContact, SRMSGMOD_T, "panelheight",
-					MAKELONG(M.GetDword(m_dat->hContact, "panelheight", m_height), 0xffff));
-				loadHeight();
+
+			if (m_height != lOldHeight) {
+				::SendMessage(m_dat->GetHwnd(), WM_SIZE, 0, 0);
+				::SetAeroMargins(m_dat->pContainer);
+				::RedrawWindow(m_dat->GetHwnd(), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+				::RedrawWindow(GetParent(m_dat->GetHwnd()), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 			}
 		}
 		break;
-
-		case IDC_PANELPICTUREVIS:
-		{
-			BYTE	vOld = db_get_b(m_dat->hContact, SRMSGMOD_T, "hideavatar", -1);
-			LRESULT iResult = ::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_GETCURSEL, 0, 0);
-
-			BYTE vNew = (iResult == 0 ? (BYTE)-1 : (iResult == 1 ? 1 : 0));
-			if (vNew != vOld) {
-				if (vNew == (BYTE)-1)
-					db_unset(m_dat->hContact, SRMSGMOD_T, "hideavatar");
-				else
-					db_set_b(m_dat->hContact, SRMSGMOD_T, "hideavatar", vNew);
-
-				::ShowPicture(m_dat, FALSE);
-				::SendMessage(m_dat->hwnd, WM_SIZE, 0, 0);
-				::DM_ScrollToBottom(m_dat, 0, 1);
-			}
-		}
-		break;
-
-		case IDC_PANELVISIBILITY:
-		{
-			BYTE	vOld = db_get_b(m_dat->hContact, SRMSGMOD_T, "infopanel", 0);
-			LRESULT iResult = ::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_GETCURSEL, 0, 0);
-
-			BYTE vNew = (iResult == 0 ? 0 : (iResult == 1 ? (BYTE)-1 : 1));
-			if (vNew != vOld) {
-				db_set_b(m_dat->hContact, SRMSGMOD_T, "infopanel", vNew);
-				getVisibility();
-				showHide();
-			}
-		}
-		break;
-
-		case IDC_SIZECOMPACT:
-			setHeight(MIN_PANELHEIGHT + 2, true);
-			break;
-
-		case IDC_SIZENORMAL:
-			setHeight(DEGRADE_THRESHOLD, true);
-			break;
-
-		case IDC_SIZELARGE:
-			setHeight(51, true);
-			break;
-
-		case IDC_NOSYNC:
-			db_set_b(0, SRMSGMOD_T, "syncAllPanels", ::IsDlgButtonChecked(hwnd, IDC_NOSYNC) ? 0 : 1);
-			if (BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_NOSYNC)) {
-				loadHeight();
-				if (!m_dat->pContainer->settings->fPrivate)
-					M.BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
-				else
-					::BroadCastContainer(m_dat->pContainer, DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
-			}
-			else {
-				if (!m_dat->pContainer->settings->fPrivate)
-					M.BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, 0);
-				else
-					::BroadCastContainer(m_dat->pContainer, DM_SETINFOPANEL, (WPARAM)m_dat, 0);
-			}
-			break;
-		}
-
-		if (m_height != lOldHeight) {
-			::SendMessage(m_dat->hwnd, WM_SIZE, 0, 0);
-			::SetAeroMargins(m_dat->pContainer);
-			::RedrawWindow(m_dat->hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
-			::RedrawWindow(GetParent(m_dat->hwnd), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
-		}
-	}
-	break;
 
 	case WM_CLOSE:
 		if (wParam == 1 && lParam == 1)
@@ -1249,7 +1249,7 @@ int CInfoPanel::invokeConfigDialog(const POINT &pt)
 		return 0;
 
 	RECT rc;
-	::GetWindowRect(m_dat->hwnd, &rc);
+	::GetWindowRect(m_dat->GetHwnd(), &rc);
 	rc.bottom = rc.top + m_height;
 	rc.right -= m_dat->iPanelAvatarX;
 
@@ -1267,7 +1267,7 @@ int CInfoPanel::invokeConfigDialog(const POINT &pt)
 			::GetClientRect(m_hwndConfig, &rc);
 
 			RECT rcLog;
-			::GetWindowRect(GetDlgItem(m_dat->hwnd, m_isChat ? IDC_CHAT_LOG : IDC_LOG), &rcLog);
+			::GetWindowRect(GetDlgItem(m_dat->GetHwnd(), m_isChat ? IDC_LOG : IDC_LOG), &rcLog);
 
 			m_fDialogCreated = true;
 			::SetWindowPos(m_hwndConfig, HWND_TOP, rcLog.left + 10, rcLog.top - (m_active ? 10 : 0), 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);

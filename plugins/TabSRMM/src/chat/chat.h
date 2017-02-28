@@ -46,7 +46,7 @@ typedef struct  {
 
 class CMUCHighlight;
 
-//structs
+// structs
 
 struct MODULEINFO : public GCModuleInfoBase
 {
@@ -57,7 +57,7 @@ struct MODULEINFO : public GCModuleInfoBase
 
 struct SESSION_INFO : public GCSessionInfoBase
 {
-	TWindowData    *dat;
+	CChatRoomDlg   *dat;
 	TContainerData *pContainer;
 	int             iLogTrayFlags, iLogPopupFlags, iDiskLogFlags;
 
@@ -67,8 +67,8 @@ struct SESSION_INFO : public GCSessionInfoBase
 
 struct LOGSTREAMDATA : public GCLogStreamDataBase
 {
-	int           crCount;
-	TWindowData  *dat;
+	int crCount;
+	CChatRoomDlg *dat;
 };
 
 struct TMUCSettings : public GlobalLogSettingsBase
@@ -111,11 +111,9 @@ extern CHAT_MANAGER saveCI;
 //////////////////////////////////////////////////////////////////////////////////
 
 // log.c
-void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, bool bRedraw);
-char*  Log_CreateRtfHeader(MODULEINFO *mi);
+char* Log_CreateRtfHeader(MODULEINFO *mi);
 
 // window.c
-INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 int GetTextPixelSize(wchar_t* pszText, HFONT hFont, bool bWidth);
 
 // options.c

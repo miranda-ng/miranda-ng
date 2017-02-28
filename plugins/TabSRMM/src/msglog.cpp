@@ -93,7 +93,7 @@ struct LogStreamData {
 	int eventsToInsert;
 	int isEmpty;
 	int isAppend;
-	TWindowData *dlgDat;
+	CSrmmWindow *dlgDat;
 	DBEVENTINFO *dbei;
 };
 
@@ -323,7 +323,7 @@ static int AppendUnicodeToBuffer(CMStringA &str, const wchar_t *line, int mode)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void Build_RTF_Header(CMStringA &str, TWindowData *dat)
+static void Build_RTF_Header(CMStringA &str, CSrmmWindow *dat)
 {
 	int i;
 	LOGFONTA *logFonts = dat->pContainer->theme.logFonts;
@@ -381,14 +381,14 @@ static void Build_RTF_Header(CMStringA &str, TWindowData *dat)
 }
 
 // mir_free() the return value
-static char* CreateRTFHeader(TWindowData *dat)
+static char* CreateRTFHeader(CSrmmWindow *dat)
 {
 	CMStringA str;
 	Build_RTF_Header(str, dat);
 	return str.Detach();
 }
 
-static void AppendTimeStamp(wchar_t *szFinalTimestamp, int isSent, CMStringA &str, int skipFont, TWindowData *dat, int iFontIDOffset)
+static void AppendTimeStamp(wchar_t *szFinalTimestamp, int isSent, CMStringA &str, int skipFont, CSrmmWindow *dat, int iFontIDOffset)
 {
 	if (skipFont)
 		AppendUnicodeToBuffer(str, szFinalTimestamp, MAKELONG(isSent, dat->bIsHistory));
@@ -443,7 +443,7 @@ int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 	return et && (et->flags & DETF_MSGWINDOW);
 }
 
-static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, MEVENT hDbEvent, LogStreamData *streamData)
+static char* Template_CreateRTFFromDbEvent(CSrmmWindow *dat, MCONTACT hContact, MEVENT hDbEvent, LogStreamData *streamData)
 {
 	HANDLE hTimeZone = NULL;
 	BOOL skipToNext = FALSE, skipFont = FALSE;
@@ -1074,7 +1074,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	return 0;
 }
 
-static void SetupLogFormatting(TWindowData *dat)
+static void SetupLogFormatting(CSrmmWindow *dat)
 {
 	if (dat->hHistoryEvents)
 		strncpy_s(dat->szMicroLf, "\\v\\cf%d \\ ~-+%d+-~\\v0 ", _TRUNCATE);
@@ -1082,7 +1082,7 @@ static void SetupLogFormatting(TWindowData *dat)
 		mir_snprintf(dat->szMicroLf, "%s\\par\\ltrpar\\sl-1%s ", GetRTFFont(MSGDLGFONTCOUNT), GetRTFFont(MSGDLGFONTCOUNT));
 }
 
-static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppend, BOOL isSent)
+static void ReplaceIcons(HWND hwndDlg, CSrmmWindow *dat, LONG startAt, int fAppend, BOOL isSent)
 {
 	wchar_t trbuffer[40];
 	TEXTRANGE tr;
@@ -1204,15 +1204,14 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 	}
 }
 
-void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s)
+void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s)
 {
-	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	CHARRANGE oldSel, sel;
 
 	// calc time limit for grouping
-	HWND hwndrtf = dat->hwndIEView ? dat->hwndIWebBrowserControl : GetDlgItem(hwndDlg, IDC_LOG);
+	HWND hwndrtf = hwndIEView ? hwndIWebBrowserControl : m_log.GetHwnd();
 
-	rtfFonts = dat->pContainer->theme.rtfFonts ? dat->pContainer->theme.rtfFonts : &(rtfFontsGlobal[0][0]);
+	rtfFonts = pContainer->theme.rtfFonts ? pContainer->theme.rtfFonts : &(rtfFontsGlobal[0][0]);
 	time_t now = time(NULL);
 
 	struct tm tm_now = *localtime(&now);
@@ -1220,22 +1219,22 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 	tm_today.tm_hour = tm_today.tm_min = tm_today.tm_sec = 0;
 	today = mktime(&tm_today);
 
-	if (dat->hwndIEView != NULL || dat->hwndHPP != NULL) {
+	if (hwndIEView != NULL || hwndHPP != NULL) {
 		const char *pszService;
 		IEVIEWEVENT event = { 0 };
 		event.cbSize = sizeof(IEVIEWEVENT);
-		event.hContact = dat->hContact;
-		if (dat->hwndIEView != NULL) {
-			event.pszProto = dat->szProto;
-			event.hwnd = dat->hwndIEView;
+		event.hContact = m_hContact;
+		if (hwndIEView != NULL) {
+			event.pszProto = szProto;
+			event.hwnd = hwndIEView;
 			pszService = MS_IEVIEW_EVENT;
 		}
 		else {
-			event.hwnd = dat->hwndHPP;
+			event.hwnd = hwndHPP;
 			pszService = MS_HPP_EG_EVENT;
 		}
 
-		if (dat->dwFlags & MWF_LOG_RTL)
+		if (dwFlags & MWF_LOG_RTL)
 			event.dwFlags = IEEF_RTL;
 
 		if (!fAppend) {
@@ -1251,7 +1250,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 				evData.dwFlags = IEEDF_SENT;
 			else {
 				evData.dwFlags = IEEDF_UNICODE_NICK;
-				evData.ptszNick = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+				evData.ptszNick = pcli->pfnGetContactDisplayName(m_hContact, 0);
 			}
 			switch (dbei_s->eventType) {
 				case EVENTTYPE_STATUSCHANGE: evData.iType = IEED_EVENT_STATUSCHANGE; break;
@@ -1270,30 +1269,30 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 		}
 		event.count = count;
 		CallService(pszService, 0, (LPARAM)&event);
-		DM_ScrollToBottom(dat, 0, 0);
+		DM_ScrollToBottom(this, 0, 0);
 		if (fAppend && hDbEventFirst)
-			dat->hDbEventLast = hDbEventFirst;
+			hDbEventLast = hDbEventFirst;
 		else
-			dat->hDbEventLast = db_event_last(dat->hContact);
+			hDbEventLast = db_event_last(m_hContact);
 		return;
 	}
 
 	// separator strings used for grid lines, message separation and so on...
-	dat->clr_added = FALSE;
+	clr_added = FALSE;
 
-	if (dat->szMicroLf[0] == 0)
-		SetupLogFormatting(dat);
+	if (szMicroLf[0] == 0)
+		SetupLogFormatting(this);
 
-	szYourName = const_cast<wchar_t *>(dat->cache->getNick());
-	szMyName = dat->szMyNickname;
+	szYourName = const_cast<wchar_t *>(cache->getNick());
+	szMyName = szMyNickname;
 
 	SendMessage(hwndrtf, EM_HIDESELECTION, TRUE, 0);
 	SendMessage(hwndrtf, EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
 	LogStreamData streamData = { 0 };
-	streamData.hContact = dat->hContact;
+	streamData.hContact = m_hContact;
 	streamData.hDbEvent = hDbEventFirst;
-	streamData.dlgDat = dat;
+	streamData.dlgDat = this;
 	streamData.eventsToInsert = count;
 	streamData.isEmpty = fAppend ? GetWindowTextLength(hwndrtf) == 0 : 1;
 	streamData.dbei = dbei_s;
@@ -1318,7 +1317,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 		sel.cpMax = GetWindowTextLength(hwndrtf);
 		SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&sel);
 		startAt = 0;
-		dat->isAutoRTL = 0;
+		isAutoRTL = 0;
 	}
 
 	// begin to draw
@@ -1327,13 +1326,13 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 	SendMessage(hwndrtf, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
 	SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&oldSel);
 	SendMessage(hwndrtf, EM_HIDESELECTION, FALSE, 0);
-	dat->hDbEventLast = streamData.hDbEventLast;
+	hDbEventLast = streamData.hDbEventLast;
 
-	if (dat->isAutoRTL & 1)
-		SendMessage(hwndrtf, EM_SETBKGNDCOLOR, 0, (LOWORD(dat->iLastEventType) & DBEF_SENT) ? (fAppend ? dat->pContainer->theme.outbg : dat->pContainer->theme.oldoutbg) :
-		(fAppend ? dat->pContainer->theme.inbg : dat->pContainer->theme.oldinbg));
+	if (isAutoRTL & 1)
+		SendMessage(hwndrtf, EM_SETBKGNDCOLOR, 0, (LOWORD(iLastEventType) & DBEF_SENT) ? (fAppend ? pContainer->theme.outbg : pContainer->theme.oldoutbg) :
+		(fAppend ? pContainer->theme.inbg : pContainer->theme.oldinbg));
 
-	if (!(dat->isAutoRTL & 1)) {
+	if (!(isAutoRTL & 1)) {
 		GETTEXTLENGTHEX gtxl = { 0 };
 		gtxl.codepage = 1200;
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
@@ -1342,7 +1341,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 		sel.cpMin = sel.cpMax - 1;
 		SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&sel);
 		SendMessage(hwndrtf, EM_REPLACESEL, FALSE, (LPARAM)L"");
-		dat->isAutoRTL |= 2;
+		isAutoRTL |= 2;
 	}
 
 	BOOL isSent;
@@ -1354,18 +1353,18 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 		isSent = (dbei.flags & DBEF_SENT) != 0;
 	}
 
-	ReplaceIcons(hwndDlg, dat, startAt, fAppend, isSent);
-	dat->clr_added = FALSE;
+	ReplaceIcons(m_hwnd, this, startAt, fAppend, isSent);
+	clr_added = FALSE;
 
-	if (dat->hwndIEView == NULL && dat->hwndHPP == NULL) {
+	if (hwndIEView == NULL && hwndHPP == NULL) {
 		int len = GetWindowTextLength(hwndrtf);
 		SendMessage(hwndrtf, EM_SETSEL, len - 1, len - 1);
 	}
 
-	DM_ScrollToBottom(dat, 0, 0);
+	DM_ScrollToBottom(this, 0, 0);
 
 	SendMessage(hwndrtf, WM_SETREDRAW, TRUE, 0);
 	InvalidateRect(hwndrtf, NULL, FALSE);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_QUOTE), dat->hDbEventLast != NULL);
+	EnableWindow(GetDlgItem(m_hwnd, IDC_QUOTE), hDbEventLast != NULL);
 	mir_free(streamData.buffer);
 }

@@ -35,17 +35,17 @@ SendQueue *sendQueue = 0;
 // as "failed" by either the ACKRESULT_FAILED or a timeout handler
 // returns: zero-based queue index or -1 if none was found
 
-int SendQueue::findNextFailed(const TWindowData *dat) const
+int SendQueue::findNextFailed(const CSrmmWindow *dat) const
 {
 	if (dat)
 		for (int i = 0; i < NR_SENDJOBS; i++)
-			if (m_jobs[i].hContact == dat->hContact && m_jobs[i].iStatus == SQ_ERROR)
+			if (m_jobs[i].hContact == dat->m_hContact && m_jobs[i].iStatus == SQ_ERROR)
 				return i;
 
 	return -1;
 }
 
-void SendQueue::handleError(TWindowData *dat, const int iEntry) const
+void SendQueue::handleError(CSrmmWindow *dat, const int iEntry) const
 {
 	if (!dat) return;
 
@@ -63,13 +63,13 @@ void SendQueue::handleError(TWindowData *dat, const int iEntry) const
 //add a message to the sending queue.
 // iLen = required size of the memory block to hold the message
 
-int SendQueue::addTo(TWindowData *dat, size_t iLen, int dwFlags)
+int SendQueue::addTo(CSrmmWindow *dat, size_t iLen, int dwFlags)
 {
 	int i;
 	int iFound = NR_SENDJOBS;
 
 	if (m_currentIndex >= NR_SENDJOBS) {
-		_DebugPopup(dat->hContact, L"Send queue full");
+		_DebugPopup(dat->m_hContact, L"Send queue full");
 		return 0;
 	}
 
@@ -90,7 +90,7 @@ int SendQueue::addTo(TWindowData *dat, size_t iLen, int dwFlags)
 	}
 entry_found:
 	if (iFound == NR_SENDJOBS) {
-		_DebugPopup(dat->hContact, L"Send queue full");
+		_DebugPopup(dat->m_hContact, L"Send queue full");
 		return 0;
 	}
 
@@ -101,7 +101,7 @@ entry_found:
 	job.dwFlags = dwFlags;
 	job.dwTime = time(NULL);
 
-	HWND	hwndDlg = dat->hwnd;
+	HWND	hwndDlg = dat->GetHwnd();
 
 	dat->cache->saveHistory(0, 0);
 	::SetDlgItemText(hwndDlg, IDC_MESSAGE, L"");
@@ -190,10 +190,10 @@ size_t SendQueue::getSendLength(const int iEntry)
 	return p.iSendLength;
 }
 
-int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
+int SendQueue::sendQueued(CSrmmWindow *dat, const int iEntry)
 {
-	HWND hwndDlg = dat->hwnd;
-	CContactCache *ccActive = CContactCache::getContactCache(dat->hContact);
+	HWND hwndDlg = dat->GetHwnd();
+	CContactCache *ccActive = CContactCache::getContactCache(dat->m_hContact);
 
 	if (dat->sendMode & SMODE_MULTIPLE) {
 		int iJobs = 0;
@@ -216,7 +216,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		if (iSendLength >= iMinLength) {
 			wchar_t	tszError[256];
 			mir_snwprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), iMinLength);
-			::SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
+			::SendMessage(dat->GetHwnd(), DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
 			sendQueue->clearJob(iEntry);
 			return 0;
 		}
@@ -235,7 +235,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		return 0;
 	}
 
-	if (dat->hContact == NULL)
+	if (dat->m_hContact == NULL)
 		return 0;  //never happens
 
 	dat->nMax = (int)dat->cache->getMaxMessageLength(); // refresh length info
@@ -271,7 +271,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 			size_t iSendLength = getSendLength(iEntry);
 			if ((int)iSendLength >= dat->nMax) {
 				mir_snwprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->nMax);
-				SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
+				SendMessage(dat->GetHwnd(), DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
 				clearJob(iEntry);
 				return 0;
 			}
@@ -279,11 +279,11 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 			clearJob(iEntry);
 			return 0;
 		}
-		m_jobs[iEntry].hSendId = (HANDLE)ProtoChainSend(dat->hContact, PSS_MESSAGE, m_jobs[iEntry].dwFlags, (LPARAM)m_jobs[iEntry].szSendBuffer);
+		m_jobs[iEntry].hSendId = (HANDLE)ProtoChainSend(dat->m_hContact, PSS_MESSAGE, m_jobs[iEntry].dwFlags, (LPARAM)m_jobs[iEntry].szSendBuffer);
 
 		if (dat->sendMode & SMODE_NOACK) {              // fake the ack if we are not interested in receiving real acks
 			ACKDATA ack = { 0 };
-			ack.hContact = dat->hContact;
+			ack.hContact = dat->m_hContact;
 			ack.hProcess = m_jobs[iEntry].hSendId;
 			ack.type = ACKTYPE_MESSAGE;
 			ack.result = ACKRESULT_SUCCESS;
@@ -297,7 +297,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 
 	// give icon feedback...
 	if (dat->pContainer->hwndActive == hwndDlg)
-		::UpdateReadChars(dat);
+		dat->UpdateReadChars();
 
 	if (!(dat->sendMode & SMODE_NOACK))
 		::HandleIconFeedback(dat, PluginConfig.g_IconSend);
@@ -321,18 +321,18 @@ void SendQueue::clearJob(const int iIndex)
 // ) user decided to cancel a failed send
 // it removes the completed / canceled send job from the queue and schedules the next job to send (if any)
 
-void SendQueue::checkQueue(const TWindowData *dat) const
+void SendQueue::checkQueue(const CSrmmWindow *dat) const
 {
 	if (dat) {
-		HWND	hwndDlg = dat->hwnd;
+		HWND	hwndDlg = dat->GetHwnd();
 
 		if (dat->iOpenJobs == 0)
-			::HandleIconFeedback(const_cast<TWindowData *>(dat), (HICON)INVALID_HANDLE_VALUE);
+			::HandleIconFeedback(const_cast<CSrmmWindow *>(dat), (HICON)INVALID_HANDLE_VALUE);
 		else if (!(dat->sendMode & SMODE_NOACK))
-			::HandleIconFeedback(const_cast<TWindowData *>(dat), PluginConfig.g_IconSend);
+			::HandleIconFeedback(const_cast<CSrmmWindow *>(dat), PluginConfig.g_IconSend);
 
 		if (dat->pContainer->hwndActive == hwndDlg)
-			::UpdateReadChars(const_cast<TWindowData *>(dat));
+			dat->UpdateReadChars();
 	}
 }
 
@@ -340,7 +340,7 @@ void SendQueue::checkQueue(const TWindowData *dat) const
 // logs an error message to the message window.Optionally, appends the original message
 // from the given sendJob (queue index)
 
-void SendQueue::logError(const TWindowData *dat, int iSendJobIndex, const wchar_t *szErrMsg) const
+void SendQueue::logError(CSrmmWindow *dat, int iSendJobIndex, const wchar_t *szErrMsg) const
 {
 	if (dat == 0)
 		return;
@@ -361,7 +361,7 @@ void SendQueue::logError(const TWindowData *dat, int iSendJobIndex, const wchar_
 	dbei.cbBlob = (int)iMsgLen;
 	dbei.timestamp = time(NULL);
 	dbei.szModule = (char *)szErrMsg;
-	StreamInEvents(dat->hwnd, NULL, 1, 1, &dbei);
+	dat->StreamInEvents(NULL, 1, 1, &dbei);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -370,23 +370,23 @@ void SendQueue::logError(const TWindowData *dat, int iSendJobIndex, const wchar_
 // ) multisend contact list instance
 // ) send button
 
-void SendQueue::EnableSending(const TWindowData *dat, const int iMode)
+void SendQueue::EnableSending(const CSrmmWindow *dat, bool bMode)
 {
 	if (dat) {
-		HWND hwndDlg = dat->hwnd;
-		::SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETREADONLY, (WPARAM)iMode ? FALSE : TRUE, 0);
-		Utils::enableDlgControl(hwndDlg, IDC_CLIST, iMode ? TRUE : FALSE);
-		::EnableSendButton(dat, iMode);
+		HWND hwndDlg = dat->GetHwnd();
+		::SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETREADONLY, !bMode, 0);
+		Utils::enableDlgControl(hwndDlg, IDC_CLIST, bMode);
+		dat->EnableSendButton(bMode);
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // show or hide the error control button bar on top of the window
 
-void SendQueue::showErrorControls(TWindowData *dat, const int showCmd) const
+void SendQueue::showErrorControls(CSrmmWindow *dat, const int showCmd) const
 {
 	UINT	myerrorControls[] = { IDC_STATICERRORICON, IDC_STATICTEXT, IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER };
-	HWND	hwndDlg = dat->hwnd;
+	HWND	hwndDlg = dat->GetHwnd();
 
 	if (showCmd) {
 		TCITEM item = { 0 };
@@ -411,27 +411,27 @@ void SendQueue::showErrorControls(TWindowData *dat, const int showCmd) const
 		EnableSending(dat, TRUE);
 }
 
-void SendQueue::recallFailed(const TWindowData *dat, int iEntry) const
+void SendQueue::recallFailed(const CSrmmWindow *dat, int iEntry) const
 {
 	if (dat == NULL)
 		return;
 
-	int iLen = GetWindowTextLength(GetDlgItem(dat->hwnd, IDC_MESSAGE));
+	int iLen = GetWindowTextLength(GetDlgItem(dat->GetHwnd(), IDC_MESSAGE));
 	NotifyDeliveryFailure(dat);
 	if (iLen != 0)
 		return;
 
 	// message area is empty, so we can recall the failed message...
 	SETTEXTEX stx = { ST_DEFAULT, CP_UTF8 };
-	SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_jobs[iEntry].szSendBuffer);
-	UpdateSaveAndSendButton(const_cast<TWindowData *>(dat));
-	SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETSEL, (WPARAM)-1, (LPARAM)-1);
+	SendDlgItemMessage(dat->GetHwnd(), IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_jobs[iEntry].szSendBuffer);
+	UpdateSaveAndSendButton(const_cast<CSrmmWindow *>(dat));
+	SendDlgItemMessage(dat->GetHwnd(), IDC_MESSAGE, EM_SETSEL, (WPARAM)-1, (LPARAM)-1);
 }
 
-void SendQueue::UpdateSaveAndSendButton(TWindowData *dat)
+void SendQueue::UpdateSaveAndSendButton(CSrmmWindow *dat)
 {
 	if (dat) {
-		HWND hwndDlg = dat->hwnd;
+		HWND hwndDlg = dat->GetHwnd();
 
 		GETTEXTLENGTHEX gtxl = { 0 };
 		gtxl.codepage = CP_UTF8;
@@ -439,9 +439,9 @@ void SendQueue::UpdateSaveAndSendButton(TWindowData *dat)
 
 		int len = SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 		if (len && GetSendButtonState(hwndDlg) == PBS_DISABLED)
-			EnableSendButton(dat, TRUE);
+			dat->EnableSendButton(TRUE);
 		else if (len == 0 && GetSendButtonState(hwndDlg) != PBS_DISABLED)
-			EnableSendButton(dat, FALSE);
+			dat->EnableSendButton(FALSE);
 
 		if (len) {          // looks complex but avoids flickering on the button while typing.
 			if (!(dat->dwFlags & MWF_SAVEBTN_SAV)) {
@@ -459,7 +459,7 @@ void SendQueue::UpdateSaveAndSendButton(TWindowData *dat)
 	}
 }
 
-void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
+void SendQueue::NotifyDeliveryFailure(const CSrmmWindow *dat)
 {
 	if (M.GetByte("adv_noErrorPopups", 0))
 		return;
@@ -468,7 +468,7 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 		return;
 
 	POPUPDATAT ppd = { 0 };
-	ppd.lchContact = dat->hContact;
+	ppd.lchContact = dat->m_hContact;
 	wcsncpy_s(ppd.lptzContactName, dat->cache->getNick(), _TRUNCATE);
 	wcsncpy_s(ppd.lptzText, TranslateT("A message delivery has failed.\nClick to open the message window."), _TRUNCATE);
 
@@ -507,7 +507,7 @@ int SendQueue::RTL_Detect(const WCHAR *pszwText)
 	return(n >= 2 ? 1 : 0);
 }
 
-int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
+int SendQueue::ackMessage(CSrmmWindow *dat, WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *)lParam;
 
@@ -541,7 +541,7 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 			mir_snwprintf(job.szErrorMsg, TranslateT("Delivery failure: %s"), _A2T((char *)ack->lParam));
 			job.iStatus = SQ_ERROR;
-			KillTimer(dat->hwnd, TIMERID_MSGSEND + iFound);
+			KillTimer(dat->GetHwnd(), TIMERID_MSGSEND + iFound);
 			if (!(dat->dwFlags & MWF_ERRORSTATE))
 				handleError(dat, iFound);
 			return 0;
@@ -590,7 +590,7 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	if (job.iAcksNeeded == 0) {              // everything sent
 		clearJob(iFound);
 		if (dat) {
-			KillTimer(dat->hwnd, TIMERID_MSGSEND + iFound);
+			KillTimer(dat->GetHwnd(), TIMERID_MSGSEND + iFound);
 			dat->iOpenJobs--;
 		}
 		m_currentIndex--;
@@ -604,7 +604,7 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		else {
 			if (M.GetByte("AutoClose", 0)) {
 				if (M.GetByte("adv_AutoClose_2", 0))
-					SendMessage(dat->hwnd, WM_CLOSE, 0, 1);
+					SendMessage(dat->GetHwnd(), WM_CLOSE, 0, 1);
 				else
 					SendMessage(dat->pContainer->hwnd, WM_CLOSE, 0, 0);
 			}
@@ -631,7 +631,7 @@ LRESULT SendQueue::WarnPendingJobs(unsigned int)
 //
 // @return the index on success, -1 on failure
 
-int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, bool fIsSendLater)
+int SendQueue::doSendLater(int iJobIndex, CSrmmWindow *dat, MCONTACT hContact, bool fIsSendLater)
 {
 	bool  fAvail = sendLater->isAvail();
 
@@ -647,19 +647,19 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 		DBEVENTINFO dbei = {};
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.flags = DBEF_SENT | DBEF_UTF;
-		dbei.szModule = GetContactProto(dat->hContact);
+		dbei.szModule = GetContactProto(dat->m_hContact);
 		dbei.timestamp = time(NULL);
 		dbei.cbBlob = (int)mir_strlen(utfText) + 1;
 		dbei.pBlob = (PBYTE)(char*)utfText;
-		StreamInEvents(dat->hwnd, 0, 1, 1, &dbei);
+		dat->StreamInEvents(0, 1, 1, &dbei);
 		if (dat->hDbEventFirst == NULL)
-			SendMessage(dat->hwnd, DM_REMAKELOG, 0, 0);
+			SendMessage(dat->GetHwnd(), DM_REMAKELOG, 0, 0);
 		dat->cache->saveHistory(0, 0);
-		EnableSendButton(dat, FALSE);
-		if (dat->pContainer->hwndActive == dat->hwnd)
-			UpdateReadChars(dat);
-		SendDlgItemMessage(dat->hwnd, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
-		SendDlgItemMessage(dat->hwnd, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_UNICODE);
+		dat->EnableSendButton(false);
+		if (dat->pContainer->hwndActive == dat->GetHwnd())
+			dat->UpdateReadChars();
+		SendDlgItemMessage(dat->GetHwnd(), IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
+		SendDlgItemMessage(dat->GetHwnd(), IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_UNICODE);
 		dat->dwFlags &= ~MWF_SAVEBTN_SAV;
 
 		if (!fAvail)

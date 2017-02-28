@@ -64,7 +64,7 @@ static void OnNewUser(SESSION_INFO *si, USERINFO*)
 	if (si->hWnd) {
 		SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
 		if (si->dat)
-			GetMyNick(si->dat);
+			si->dat->GetMyNick();
 	}
 }
 
@@ -72,7 +72,7 @@ static void OnChangeNick(SESSION_INFO *si)
 {
 	if (si->hWnd) {
 		if (si->dat)
-			GetMyNick(si->dat);
+			si->dat->GetMyNick();
 		SendMessage(si->hWnd, GC_UPDATESTATUSBAR, 0, 0);
 	}
 }

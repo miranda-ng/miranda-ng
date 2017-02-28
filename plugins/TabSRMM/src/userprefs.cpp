@@ -132,16 +132,16 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			break;
 
 		case WM_USER + 100:
-			TWindowData *dat = 0;
+			CSrmmWindow *dat = 0;
 			DWORD	*pdwActionToTake = (DWORD *)lParam;
 			unsigned int iOldIEView = 0;
 			HWND	hWnd = M.FindWindow(hContact);
 			BYTE	bOldInfoPanel = M.GetByte(hContact, "infopanel", 0);
 
 			if (hWnd) {
-				dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+				dat = (CSrmmWindow*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 				if (dat)
-					iOldIEView = GetIEViewMode(dat->hContact);
+					iOldIEView = GetIEViewMode(dat->m_hContact);
 			}
 			int iIndex = SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_GETCURSEL, 0, 0);
 			int iMode = SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_GETITEMDATA, iIndex, 0);
@@ -166,7 +166,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					break;
 				}
 				if (hWnd && dat) {
-					unsigned int iNewIEView = GetIEViewMode(dat->hContact);
+					unsigned int iNewIEView = GetIEViewMode(dat->m_hContact);
 					if (iNewIEView != iOldIEView) {
 						if (pdwActionToTake)
 							*pdwActionToTake |= UPREF_ACTION_SWITCHLOGVIEWER;
@@ -211,11 +211,13 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_LOADONLYACTUAL)) {
 				db_set_b(hContact, SRMSGMOD_T, "ActualHistory", 1);
-				if (hWnd && dat) dat->bActualHistory = TRUE;
+				if (hWnd && dat)
+					dat->bActualHistory = TRUE;
 			}
 			else {
 				db_set_b(hContact, SRMSGMOD_T, "ActualHistory", 0);
-				if (hWnd && dat) dat->bActualHistory = FALSE;
+				if (hWnd && dat)
+					dat->bActualHistory = FALSE;
 			}
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_IGNORETIMEOUTS)) {
@@ -230,7 +232,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 			if (hWnd && dat) {
 				SendMessage(hWnd, DM_CONFIGURETOOLBAR, 0, 1);
-				ShowPicture(dat, FALSE);
+				dat->ShowPicture(false);
 				SendMessage(hWnd, WM_SIZE, 0, 0);
 				DM_ScrollToBottom(dat, 0, 1);
 			}
@@ -241,6 +243,14 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	}
 	return FALSE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// loads message log and other "per contact" flags
+// it uses the global flag value (0, mwflags) and then merges per contact settings
+// based on the mask value.
+//
+// ALWAYS mask dat->dwFlags with MWF_LOG_ALL to only affect real flag bits and
+// ignore temporary bits.
 
 static struct _checkboxes
 {
@@ -264,36 +274,25 @@ checkboxes[] = {
 	0, 0
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// loads message log and other "per contact" flags
-// it uses the global flag value (0, mwflags) and then merges per contact settings
-// based on the mask value.
-//
-// ALWAYS mask dat->dwFlags with MWF_LOG_ALL to only affect real flag bits and
-// ignore temporary bits.
-
-int TSAPI LoadLocalFlags(TWindowData *dat)
+int CTabBaseDlg::LoadLocalFlags()
 {
-	if (dat == NULL)
-		return NULL;
-
-	int i = 0;
-	DWORD	dwMask = M.GetDword(dat->hContact, "mwmask", 0);
-	DWORD	dwLocal = M.GetDword(dat->hContact, "mwflags", 0);
+	DWORD	dwMask = M.GetDword(m_hContact, "mwmask", 0);
+	DWORD	dwLocal = M.GetDword(m_hContact, "mwflags", 0);
 	DWORD	dwGlobal = M.GetDword("mwflags", MWF_LOG_DEFAULT);
 
-	dat->dwFlags &= ~MWF_LOG_ALL;
-	if (dat->pContainer->theme.isPrivate)
-		dat->dwFlags |= (dat->pContainer->theme.dwFlags & MWF_LOG_ALL);
+	dwFlags &= ~MWF_LOG_ALL;
+	if (pContainer->theme.isPrivate)
+		dwFlags |= (pContainer->theme.dwFlags & MWF_LOG_ALL);
 	else
-		dat->dwFlags |= (dwGlobal & MWF_LOG_ALL);
-	while (checkboxes[i].uId) {
+		dwFlags |= (dwGlobal & MWF_LOG_ALL);
+
+	for (int i = 0; checkboxes[i].uId; i++) {
 		DWORD	maskval = checkboxes[i].uFlag;
 		if (dwMask & maskval)
-			dat->dwFlags = (dwLocal & maskval) ? dat->dwFlags | maskval : dat->dwFlags & ~maskval;
-		i++;
+			dwFlags = (dwLocal & maskval) ? dwFlags | maskval : dwFlags & ~maskval;
 	}
-	return(dat->dwFlags & MWF_LOG_ALL);
+
+	return dwFlags & MWF_LOG_ALL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -344,9 +343,9 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 			HWND	hwnd = M.FindWindow(hContact);
 			DWORD	*dwActionToTake = (DWORD *)lParam, dwMask = 0, dwFlags = 0, maskval;
 
-			TWindowData *dat = NULL;
+			CSrmmWindow *dat = NULL;
 			if (hwnd)
-				dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 			while (checkboxes[i].uId) {
 				maskval = checkboxes[i].uFlag;
@@ -477,11 +476,11 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SendMessage((HWND)tci.lParam, WM_COMMAND, WM_USER + 100, (LPARAM)&dwActionToTake);
 			}
 			if (hwnd) {
-				TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				if (dat) {
 					DWORD dwOldFlags = (dat->dwFlags & MWF_LOG_ALL);
 					SetDialogToType(hwnd);
-					LoadLocalFlags(dat);
+					dat->LoadLocalFlags();
 					if ((dat->dwFlags & MWF_LOG_ALL) != dwOldFlags) {
 						bool	fShouldHide = true;
 						if (IsIconic(dat->pContainer->hwnd))

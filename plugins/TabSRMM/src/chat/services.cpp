@@ -45,8 +45,6 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 
 	TNewWindowData newData = { 0 };
 	newData.hContact = hContact;
-	newData.isWchar = 0;
-	newData.szInitialText = NULL;
 	memset(&newData.item, 0, sizeof(newData.item));
 
 	wchar_t *contactName = pcli->pfnGetContactDisplayName(newData.hContact, 0);
@@ -65,7 +63,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	newData.item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
 	newData.item.iImage = 0;
 
-	HWND hwndTab = GetDlgItem(pContainer->hwnd, 1159);
+	HWND hwndTab = GetDlgItem(pContainer->hwnd, IDC_MSGTABS);
 
 	// hide the active tab
 	if (pContainer->hwndActive && bActivateTab)
@@ -81,9 +79,9 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 			item.mask = TCIF_PARAM;
 			TabCtrl_GetItem(hwndTab, i, &item);
 			HWND hwnd = (HWND)item.lParam;
-			TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			if (dat) {
-				int relPos = M.GetDword(dat->hContact, "tabindex", i * 100);
+				int relPos = M.GetDword(dat->m_hContact, "tabindex", i * 100);
 				if (iTabIndex_wanted <= relPos)
 					pContainer->iTabIndex = i;
 			}
@@ -101,9 +99,14 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	pContainer->iChilds++;
 	newData.bWantPopup = bWantPopup;
 	newData.si = si;
-	HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHANNEL), GetDlgItem(pContainer->hwnd, 1159), RoomWndProc, (LPARAM)&newData);
+
+	CChatRoomDlg *pDlg = new CChatRoomDlg(&newData);
+	pDlg->SetParent(GetDlgItem(pContainer->hwnd, IDC_MSGTABS));
+	pDlg->Show();
+
+	HWND hwndNew = pDlg->GetHwnd();
 	if (pContainer->dwFlags & CNT_SIDEBAR) {
-		TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndNew, GWLP_USERDATA);
+		CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwndNew, GWLP_USERDATA);
 		if (dat)
 			pContainer->SideBar->addSession(dat, pContainer->iTabIndex);
 	}

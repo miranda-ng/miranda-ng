@@ -384,9 +384,9 @@ void CMenuBar::invoke(const int id)
 
 	m_isContactMenu = m_isMainMenu = false;
 
-	TWindowData *dat = (TWindowData*)GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
+	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
 
-	MCONTACT hContact = dat ? dat->hContact : 0;
+	MCONTACT hContact = dat ? dat->m_hContact : 0;
 
 	if (index == 3 && hContact != 0) {
 		hMenu = Menu_BuildContactMenu(hContact);
@@ -438,7 +438,7 @@ void CMenuBar::Cancel(void)
 
 void CMenuBar::updateState(const HMENU hMenu) const
 {
-	TWindowData *dat = (TWindowData*)GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
+	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
 	if (dat) {
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWMENUBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOMENUBAR ? MF_UNCHECKED : MF_CHECKED);
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWSTATUSBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOSTATUSBAR ? MF_UNCHECKED : MF_CHECKED);
@@ -477,7 +477,7 @@ void CMenuBar::updateState(const HMENU hMenu) const
 
 void CMenuBar::configureMenu() const
 {
-	TWindowData *dat = (TWindowData*)::GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
+	CSrmmWindow *dat = (CSrmmWindow*)::GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
 	if (dat) {
 		bool fChat = (dat->bType == SESSIONTYPE_CHAT);
 
@@ -486,7 +486,7 @@ void CMenuBar::configureMenu() const
 		::SendMessage(m_hwndToolbar, TB_SETSTATE, 105, fChat ? TBSTATE_HIDDEN : TBSTATE_ENABLED);
 
 		if (dat->bType == SESSIONTYPE_IM)
-			::EnableWindow(GetDlgItem(dat->hwnd, IDC_TIME), TRUE);
+			::EnableWindow(GetDlgItem(dat->GetHwnd(), IDC_TIME), TRUE);
 	}
 }
 
@@ -673,7 +673,7 @@ RECT   rcLastStatusBarClick;		// remembers click (down event) point for status b
 LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TContainerData *pContainer = (TContainerData*)GetWindowLongPtr(GetParent(hWnd), GWLP_USERDATA);
-	TWindowData *dat = NULL;
+	CSrmmWindow *dat = NULL;
 	POINT pt;
 
 	if (OldStatusBarproc == 0) {
@@ -732,7 +732,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			HANDLE hTheme = bAero ? OpenThemeData(hWnd, L"ButtonStyle") : 0;
 
 			if (pContainer)
-				dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+				dat = (CSrmmWindow*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 
 			RECT rcClient;
 			GetClientRect(hWnd, &rcClient);
@@ -837,7 +837,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 				wchar_t szText[1024]; szText[0] = 0;
 				LRESULT result = SendMessage(hWnd, SB_GETTEXT, i, (LPARAM)szText);
 				if (i == 2 && pContainer) {
-					TWindowData *pDat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+					CSrmmWindow *pDat = (CSrmmWindow*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 					if (pDat)
 						DrawStatusIcons(pDat, hdcMem, itemRect, 2);
 				}
@@ -885,9 +885,9 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 	case WM_USER + 101:
 	{
 		int list_icons = 0;
-		dat = (TWindowData*)lParam;
+		dat = (CSrmmWindow*)lParam;
 		if (dat)
-			while (Srmm_GetNthIcon(dat->hContact, list_icons))
+			while (Srmm_GetNthIcon(dat->m_hContact, list_icons))
 				list_icons++;
 
 		SendMessage(hWnd, WM_SIZE, 0, 0);
@@ -948,7 +948,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		GetCursorPos(&pt);
 		if (pt.x != ptMouse.x || pt.y != ptMouse.y)
 			break;
-		dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+		dat = (CSrmmWindow*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 		if (dat != NULL) {
 			RECT rc;
 			SIZE size;
@@ -960,7 +960,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			SendMessage(hWnd, SB_GETRECT, 2, (LPARAM)&rc);
 			if (PtInRect(&rc, pt)) {
 				unsigned int iconNum = (pt.x - rc.left) / (PluginConfig.m_smcxicon + 2);
-				StatusIconData *sid = Srmm_GetNthIcon(dat->hContact, iconNum);
+				StatusIconData *sid = Srmm_GetNthIcon(dat->m_hContact, iconNum);
 				if (sid == NULL)
 					break;
 
@@ -970,7 +970,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 							pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
 
 					else if (sid->dwId == MSG_ICON_UTN && (dat->bType == SESSIONTYPE_IM || dat->si->iType == GCW_PRIVMESS)) {
-						int mtnStatus = db_get_b(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+						int mtnStatus = db_get_b(dat->m_hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
 						mir_snwprintf(wBuf, TranslateT("Sending typing notifications is %s."),
 							mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));
 					}
@@ -989,10 +989,10 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			if (PtInRect(&rc, pt)) {
 				int iLength = 0;
 				GETTEXTLENGTHEX gtxl = { 0 };
-				int iQueued = db_get_dw(dat->hContact, "SendLater", "count", 0);
+				int iQueued = db_get_dw(dat->m_hContact, "SendLater", "count", 0);
 				gtxl.codepage = CP_UTF8;
 				gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
-				iLength = SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
+				iLength = SendDlgItemMessage(dat->GetHwnd(), dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 				tooltip_active = TRUE;
 
 				const wchar_t *szFormat = TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery");
@@ -1010,7 +1010,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 
 				if (PtInRect(&rc, pt) && ((rc.right - rc.left) < size.cx)) {
 					if (dat->bType == SESSIONTYPE_CHAT) {
-						ptrW tszTopic(db_get_wsa(dat->hContact, dat->szProto, "Topic"));
+						ptrW tszTopic(db_get_wsa(dat->m_hContact, dat->szProto, "Topic"));
 						if (tszTopic != NULL) {
 							tooltip_active = TRUE;
 							CallService("mToolTip/ShowTipW", tszTopic, (LPARAM)&ti);

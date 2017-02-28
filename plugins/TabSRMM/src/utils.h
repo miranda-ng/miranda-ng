@@ -52,11 +52,11 @@ public:
 		CMD_INFOPANEL = 4,
 	};
 
-	static int      FindRTLLocale(TWindowData *dat);
+	static int      FindRTLLocale(CTabBaseDlg *dat);
 	static wchar_t*   GetPreviewWithEllipsis(wchar_t *szText, size_t iMaxLen);
 	static wchar_t*   FilterEventMarkers(wchar_t *wszText);
-	static LPCTSTR  FormatRaw(TWindowData *dat, const wchar_t *msg, int flags, BOOL isSent);
-	static bool     FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMStringW &dest);
+	static LPCTSTR  FormatRaw(CTabBaseDlg *dat, const wchar_t *msg, int flags, BOOL isSent);
+	static bool     FormatTitleBar(const CTabBaseDlg *dat, const wchar_t *szFormat, CMStringW &dest);
 	static char*    FilterEventMarkers(char *szText);
 	static void     DoubleAmpersands(wchar_t *pszText, size_t len);
 	static void     RTF_CTableInit();
@@ -69,13 +69,13 @@ public:
 	static void     SaveContainerSettings(TContainerData *pContainer, const char *szSetting);
 
 	static DWORD    CALLBACK StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb);
-	static LRESULT  CmdDispatcher(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, LPARAM lParam, TWindowData *dat = 0, TContainerData *pContainer = 0);
+	static LRESULT  CmdDispatcher(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, LPARAM lParam, CTabBaseDlg *dat = 0, TContainerData *pContainer = 0);
 
 	static void     addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const wchar_t *szText, UINT uID, UINT pos);
 	static void     enableDlgControl(const HWND hwnd, UINT id, bool fEnable = true);
 	static void     showDlgControl(const HWND hwnd, UINT id, int showCmd);
-	static int      mustPlaySound(const TWindowData *dat);
-	static HICON    iconFromAvatar(const TWindowData *dat);
+	static int      mustPlaySound(const CTabBaseDlg *dat);
+	static HICON    iconFromAvatar(const CTabBaseDlg *dat);
 	static void     setAvatarContact(HWND hWnd, MCONTACT hContact);
 	static void     getIconSize(HICON hIcon, int& sizeX, int& sizeY);
 

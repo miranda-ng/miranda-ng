@@ -97,7 +97,7 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 	if (ctl == NULL || hdcPaint == NULL)
 		return;
 
-	TWindowData *dat = (TWindowData*)GetWindowLongPtr(GetParent(ctl->hwnd), GWLP_USERDATA);
+	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(GetParent(ctl->hwnd), GWLP_USERDATA);
 	if (dat == NULL)
 		return;
 
@@ -154,7 +154,7 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 				GetWindowRect(ctl->hwnd, &rcWin);
 				POINT 	pt;
 				pt.x = rcWin.left;
-				ScreenToClient(dat->hwnd, &pt);
+				ScreenToClient(dat->GetHwnd(), &pt);
 				BitBlt(hdcMem, 0, 0, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top,
 					dat->pContainer->cachedToolbarDC, pt.x, 1, SRCCOPY);
 			}
@@ -420,7 +420,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case WM_MBUTTONUP:
 		if (bct->sitem)
 			if (bct->sitem->getDat())
-				SendMessage(bct->sitem->getDat()->hwnd, WM_CLOSE, 1, 0);
+				SendMessage(bct->sitem->getDat()->GetHwnd(), WM_CLOSE, 1, 0);
 		break;
 
 	case WM_LBUTTONDOWN:
@@ -451,7 +451,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case WM_LBUTTONUP:
 		if (bct->sitem) {
 			if (bct->sitem->testCloseButton() != -1) {
-				SendMessage(bct->sitem->getDat()->hwnd, WM_CLOSE, 1, 0);
+				SendMessage(bct->sitem->getDat()->GetHwnd(), WM_CLOSE, 1, 0);
 				return TRUE;
 			}
 		}

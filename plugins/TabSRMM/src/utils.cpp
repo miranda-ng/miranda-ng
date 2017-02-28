@@ -67,7 +67,7 @@ static wchar_t *formatting_strings_end[] = { L"b0 ", L"i0 ", L"u0 ", L"s0 ",
 // flags: loword = words only for simple  * /_ formatting
 //        hiword = bbcode support (strip bbcodes if 0)
 
-const wchar_t* Utils::FormatRaw(TWindowData *dat, const wchar_t *msg, int flags, BOOL isSent)
+const wchar_t* Utils::FormatRaw(CTabBaseDlg *dat, const wchar_t *msg, int flags, BOOL isSent)
 {
 	bool 	clr_was_added = false, was_added;
 	static tstring message(msg);
@@ -213,7 +213,7 @@ ok:
 			smbp.Protocolname = dat->cache->getActiveProto();
 			smbp.flag = SAFL_TCHAR | SAFL_PATH | (isSent ? SAFL_OUTGOING : 0);
 			smbp.str = (wchar_t*)smcode.c_str();
-			smbp.hContact = dat->hContact;
+			smbp.hContact = dat->m_hContact;
 			SMADD_BATCHPARSERES *smbpr = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smbp);
 			if (smbpr) {
 				CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smbpr);
@@ -241,7 +241,7 @@ static wchar_t* Trunc500(wchar_t *str)
 	return str;
 }
 
-bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMStringW &dest)
+bool Utils::FormatTitleBar(const CTabBaseDlg *dat, const wchar_t *szFormat, CMStringW &dest)
 {
 	if (dat == 0)
 		return false;
@@ -286,7 +286,7 @@ bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMSt
 			{
 				BYTE xStatus = dat->cache->getXStatusId();
 				if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
-					ptrW szXStatus(db_get_wsa(dat->hContact, dat->szProto, "XStatusName"));
+					ptrW szXStatus(db_get_wsa(dat->m_hContact, dat->szProto, "XStatusName"));
 					dest.Append((szXStatus != NULL) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
 				}
 			}
@@ -296,7 +296,7 @@ bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMSt
 			{
 				BYTE xStatus = dat->cache->getXStatusId();
 				if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
-					ptrW szXStatus(db_get_wsa(dat->hContact, dat->szProto, "XStatusName"));
+					ptrW szXStatus(db_get_wsa(dat->m_hContact, dat->szProto, "XStatusName"));
 					dest.Append((szXStatus != NULL) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
 				}
 				else dest.Append(dat->szStatus[0] ? dat->szStatus : L"(undef)");
@@ -317,7 +317,7 @@ bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMSt
 
 		case 'g':
 			{
-				ptrW tszGroup(db_get_wsa(dat->hContact, "CList", "Group"));
+				ptrW tszGroup(db_get_wsa(dat->m_hContact, "CList", "Group"));
 				if (tszGroup != NULL)
 					dest.Append(tszGroup);
 			}
@@ -411,7 +411,7 @@ wchar_t* Utils::GetPreviewWithEllipsis(wchar_t *szText, size_t iMaxLen)
 // returns != 0 when one of the installed keyboard layouts belongs to an rtl language
 // used to find out whether we need to configure the message input box for bidirectional mode
 
-int Utils::FindRTLLocale(TWindowData *dat)
+int Utils::FindRTLLocale(CTabBaseDlg *dat)
 {
 	HKL layouts[20];
 	int i, result = 0;
@@ -621,12 +621,12 @@ void Utils::scaleAvatarHeightLimited(const HBITMAP hBm, double& dNewWidth, doubl
 // @param dat: _MessageWindowData* pointer to the window data
 // @return HICON: the icon handle
 
-HICON Utils::iconFromAvatar(const TWindowData *dat)
+HICON Utils::iconFromAvatar(const CTabBaseDlg *dat)
 {
 	if (!ServiceExists(MS_AV_GETAVATARBITMAP) || dat == NULL)
 		return 0;
 
-	AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, dat->hContact, 0);
+	AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, dat->m_hContact, 0);
 	if (ace == NULL || ace->hbmPic == NULL)
 		return NULL;
 
@@ -724,7 +724,7 @@ void Utils::addMenuItem(const HMENU& m, MENUITEMINFO &mii, HICON hIcon, const wc
 // return != 0 when the sound effect must be played for the given
 // session. Uses container sound settings
 
-int Utils::mustPlaySound(const TWindowData *dat)
+int Utils::mustPlaySound(const CTabBaseDlg *dat)
 {
 	if (!dat)
 		return 0;
@@ -736,7 +736,7 @@ int Utils::mustPlaySound(const TWindowData *dat)
 		return 0;
 
 	bool fActiveWindow = (dat->pContainer->hwnd == ::GetForegroundWindow() ? true : false);
-	bool fActiveTab = (dat->pContainer->hwndActive == dat->hwnd ? true : false);
+	bool fActiveTab = (dat->pContainer->hwndActive == dat->GetHwnd() ? true : false);
 	bool fIconic = (::IsIconic(dat->pContainer->hwnd) ? true : false);
 
 	// window minimized, check if sound has to be played
@@ -844,22 +844,22 @@ wchar_t* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich)
 // generic command dispatcher
 // used in various places (context menus, info panel menus etc.)
 
-LRESULT Utils::CmdDispatcher(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, LPARAM lParam, TWindowData *dat, TContainerData *pContainer)
+LRESULT Utils::CmdDispatcher(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, LPARAM lParam, CTabBaseDlg *dat, TContainerData *pContainer)
 {
 	switch (uType) {
 	case CMD_CONTAINER:
 		if (pContainer && hwndDlg)
-			return(DM_ContainerCmdHandler(pContainer, cmd, wParam, lParam));
+			return DM_ContainerCmdHandler(pContainer, cmd, wParam, lParam);
 		break;
 
 	case CMD_MSGDIALOG:
 		if (pContainer && hwndDlg && dat)
-			return(DM_MsgWindowCmdHandler(hwndDlg, pContainer, dat, cmd, wParam, lParam));
+			return DM_MsgWindowCmdHandler(hwndDlg, pContainer, dat, cmd, wParam, lParam);
 		break;
 
 	case CMD_INFOPANEL:
-		if (MsgWindowMenuHandler(dat, cmd, MENU_LOGMENU) == 0)
-			return(DM_MsgWindowCmdHandler(hwndDlg, pContainer, dat, cmd, wParam, lParam));
+		if (dat->MsgWindowMenuHandler(cmd, MENU_LOGMENU) == 0)
+			return DM_MsgWindowCmdHandler(hwndDlg, pContainer, dat, cmd, wParam, lParam);
 		break;
 	}
 	return 0;

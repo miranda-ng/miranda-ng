@@ -245,7 +245,7 @@ extern CREOleCallback2 reOleCallback2;
 
 int  LoadSendRecvMessageModule(void);
 int  SplitmsgShutdown(void);
-void LogErrorMessage(HWND hwndDlg, TWindowData *dat, int i, wchar_t *szMsg);
+void LogErrorMessage(HWND hwndDlg, CSrmmWindow *dat, int i, wchar_t *szMsg);
 int  Chat_Load(), Chat_Unload();
 void FreeLogFonts();
 
@@ -276,7 +276,7 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 int TSAPI TBStateConvert2Flat(int state);
 int TSAPI RBStateConvert2Flat(int state);
-void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData *dat, RECT* rc);
+void TSAPI FillTabBackground(const HDC hdc, int iStateId, const CTabBaseDlg *dat, RECT* rc);
 
 #define IS_EXTKEY(a) (a & (1 << 24))
 
