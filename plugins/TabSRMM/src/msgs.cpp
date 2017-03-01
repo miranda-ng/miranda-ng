@@ -569,7 +569,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	
 	CSrmmWindow *pWindow = new CSrmmWindow(&newData);
 	pWindow->SetParent(hwndTab);
-	pWindow->Show();
+	pWindow->Create();
 	HWND hwndNew = pWindow->GetHwnd();
 
 	// switchbar support

@@ -102,7 +102,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 
 	CChatRoomDlg *pDlg = new CChatRoomDlg(&newData);
 	pDlg->SetParent(GetDlgItem(pContainer->hwnd, IDC_MSGTABS));
-	pDlg->Show();
+	pDlg->Create();
 
 	HWND hwndNew = pDlg->GetHwnd();
 	if (pContainer->dwFlags & CNT_SIDEBAR) {
