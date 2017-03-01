@@ -185,9 +185,8 @@ public:
 			lParam = m_lParam;
 
 		LRESULT res = m_wndProc(m_hwnd, msg, wParam, lParam);
-
-		if (msg == WM_DESTROY)
-			m_hwnd = NULL;
+		if (!res)
+			res = CDlgBase::DlgProc(msg, wParam, lParam);
 
 		return res;
 	}
@@ -227,8 +226,6 @@ struct OptionsPageData : public MZeroedObject
 	
 	~OptionsPageData()
 	{
-		if (pDialog && getHwnd() != NULL)
-			DestroyWindow(getHwnd());
 	}
 
 	CDlgBase *pDialog;
