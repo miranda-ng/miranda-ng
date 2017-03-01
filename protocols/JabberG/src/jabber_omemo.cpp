@@ -454,6 +454,16 @@ namespace omemo {
 		//TODO: publish device info to pubsub
 
 	}
+	DWORD GetOwnDeviceId(CJabberProto *proto)
+	{
+		DWORD own_id = proto->getDword("OmemoDeviceId", 0);
+		if (own_id = 0)
+		{
+			proto->OmemoInitDevice();
+			own_id = proto->getDword("OmemoDeviceId", 0);
+		}
+		return own_id;
+	}
 
 };
 
@@ -491,16 +501,17 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 	{
 		//check if our device exist
 		bool own_device_listed = false;
-		DWORD own_id = getDword("OmemoDeviceId", 0);
-		if (own_id = 0)
-			OmemoInitDevice();
-
+		DWORD own_id = omemo::GetOwnDeviceId(this);
+		int i = 0;
+		char setting_name[64];
 		for (HXML list_item = xmlGetFirstChild(node); list_item; xmlGetNextNode(list_item))
 		{
 			current_id_str = xmlGetAttrValue(list_item, L"id");
 			current_id = _wtoi(current_id_str);
 			if (current_id == own_id)
 				own_device_listed = true;
+			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
+			setDword(setting_name, current_id);
 		}
 		if (!own_device_listed)
 			OmemoAnnounceDevice();
@@ -515,17 +526,46 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 			current_id_str = xmlGetAttrValue(list_item, L"id");
 			current_id = _wtoi(current_id_str);
 			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-			setDword(setting_name, current_id);
+			setDword(hContact, setting_name, current_id);
 		}
 	}
 }
 
 void CJabberProto::OmemoAnnounceDevice()
 {
-	//TODO: get device list
-	//TODO: check for own device id
-	//TODO: add own device id
-	//TODO: send device list back
+	//check "OmemoDeviceId%d" for own id and send  updated list if not exist
+	DWORD own_id = omemo::GetOwnDeviceId(this);
+	int i = 0;
+	char setting_name[64];
+	mir_snprintf(setting_name, "OmemoDeviceId%d", i);
+	for (DWORD val = getDword(setting_name, 0); val != 0; ++i, mir_snprintf(setting_name, "OmemoDeviceId%d", i), val = getDword(setting_name, 0))
+	{
+		if (val == own_id)
+			return; //nothing to do, list is fresh enough
+	}
+
+	//add own device id
+	//construct node
+	XmlNodeIq iq(L"set", SerialNext());
+	HXML pubsub_node = XmlAddChild(iq, L"pubsub");
+	xmlAddAttr(pubsub_node, L"xmlns", L"http://jabber.org/protocol/pubsub");
+	HXML publish_node = XmlAddChild(pubsub_node, L"publish");
+	xmlAddAttr(publish_node, L"node", JABBER_FEAT_OMEMO L":devicelist");
+	HXML item_node = XmlAddChild(publish_node, L"item");
+	HXML list_node = XmlAddChild(item_node, L"list");
+	xmlAddAttr(list_node, L"xmlns", JABBER_FEAT_OMEMO);
+	i = 0;
+	mir_snprintf(setting_name, "OmemoDeviceId%d", i);
+	for (DWORD val = getDword(setting_name, 0); val != 0; ++i, mir_snprintf(setting_name, "OmemoDeviceId%d", i), val = getDword(setting_name, 0))
+	{
+		HXML device_node = XmlAddChild(list_node, L"device");
+		xmlAddAttrInt(device_node, L"id", val);
+	}
+	HXML device_node = XmlAddChild(list_node, L"device");
+	xmlAddAttrInt(device_node, L"id", own_id);
+	
+	//send device list back
+	m_ThreadInfo->send(iq);
 
 }
 
