@@ -46,15 +46,9 @@ struct TRTFColorTable
 class Utils {
 
 public:
-	enum {
-		CMD_CONTAINER = 1,
-		CMD_MSGDIALOG = 2,
-		CMD_INFOPANEL = 4,
-	};
-
 	static int      FindRTLLocale(CTabBaseDlg *dat);
-	static wchar_t*   GetPreviewWithEllipsis(wchar_t *szText, size_t iMaxLen);
-	static wchar_t*   FilterEventMarkers(wchar_t *wszText);
+	static wchar_t* GetPreviewWithEllipsis(wchar_t *szText, size_t iMaxLen);
+	static wchar_t* FilterEventMarkers(wchar_t *wszText);
 	static LPCTSTR  FormatRaw(CTabBaseDlg *dat, const wchar_t *msg, int flags, BOOL isSent);
 	static bool     FormatTitleBar(const CTabBaseDlg *dat, const wchar_t *szFormat, CMStringW &dest);
 	static char*    FilterEventMarkers(char *szText);
@@ -69,7 +63,6 @@ public:
 	static void     SaveContainerSettings(TContainerData *pContainer, const char *szSetting);
 
 	static DWORD    CALLBACK StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb);
-	static LRESULT  CmdDispatcher(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, LPARAM lParam, CTabBaseDlg *dat = 0, TContainerData *pContainer = 0);
 
 	static void     addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const wchar_t *szText, UINT uID, UINT pos);
 	static void     enableDlgControl(const HWND hwnd, UINT id, bool fEnable = true);

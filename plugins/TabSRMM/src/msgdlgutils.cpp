@@ -350,7 +350,7 @@ int CTabBaseDlg::MsgWindowMenuHandler(int selection, int menuId)
 
 			ShowPicture(false);
 			SendMessage(m_hwnd, WM_SIZE, 0, 0);
-			DM_ScrollToBottom(this, 0, 1);
+			DM_ScrollToBottom(0, 1);
 			return 1;
 
 		case ID_PICMENU_ALWAYSKEEPTHEBUTTONBARATFULLWIDTH:
@@ -457,7 +457,7 @@ void CTabBaseDlg::UpdateStatusBar() const
 			}
 			else {
 				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, 0);
-				DM_UpdateLastMessage(this);
+				DM_UpdateLastMessage();
 			}
 		}
 		else {

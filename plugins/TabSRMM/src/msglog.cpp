@@ -1269,7 +1269,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 		}
 		event.count = count;
 		CallService(pszService, 0, (LPARAM)&event);
-		DM_ScrollToBottom(this, 0, 0);
+		DM_ScrollToBottom(0, 0);
 		if (fAppend && hDbEventFirst)
 			m_hDbEventLast = hDbEventFirst;
 		else
@@ -1362,7 +1362,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 		SendMessage(hwndrtf, EM_SETSEL, len - 1, len - 1);
 	}
 
-	DM_ScrollToBottom(this, 0, 0);
+	DM_ScrollToBottom(0, 0);
 
 	SendMessage(hwndrtf, WM_SETREDRAW, TRUE, 0);
 	InvalidateRect(hwndrtf, NULL, FALSE);

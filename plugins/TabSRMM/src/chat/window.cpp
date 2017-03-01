@@ -220,7 +220,7 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 
 		if (PluginConfig.m_bAutoLocaleSupport) {
 			if (hkl == 0)
-				DM_LoadLocale(this);
+				DM_LoadLocale();
 			else
 				SendMessage(hwndDlg, DM_SETLOCALE, 0, 0);
 		}
@@ -569,7 +569,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		return TRUE;
 
 	case WM_MOUSEWHEEL:
-		if (DM_MouseWheelHandler(hwnd, hwndParent, mwdat, wParam, lParam) == 0)
+		if (mwdat->DM_MouseWheelHandler(wParam, lParam) == 0)
 			return 0;
 
 		dat->lastEnterTime = 0;
@@ -701,7 +701,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				else if (wParam == VK_HOME)
 					wp = MAKEWPARAM(SB_TOP, 0);
 				else if (wParam == VK_END) {
-					DM_ScrollToBottom(mwdat, 0, 0);
+					mwdat->DM_ScrollToBottom(0, 0);
 					return 0;
 				}
 				else if (wParam == VK_DOWN)
@@ -944,7 +944,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 	case WM_INPUTLANGCHANGE:
 		if (PluginConfig.m_bAutoLocaleSupport && GetFocus() == hwnd && mwdat->m_pContainer->hwndActive == hwndParent && GetForegroundWindow() == mwdat->m_pContainer->hwnd && GetActiveWindow() == mwdat->m_pContainer->hwnd) {
-			DM_SaveLocale(mwdat, wParam, lParam);
+			mwdat->DM_SaveLocale(wParam, lParam);
 			SendMessage(hwnd, EM_SETLANGOPTIONS, 0, (LPARAM)SendMessage(hwnd, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 			return 1;
 		}
@@ -1746,7 +1746,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		InitButtons(m_hwnd, si);
 		SendDlgItemMessage(m_hwnd, IDC_LOG, EM_SETBKGNDCOLOR, 0, M.GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
 
-		DM_InitRichEdit(this);
+		DM_InitRichEdit();
 		SendDlgItemMessage(m_hwnd, IDOK, BUTTONSETASNORMAL, TRUE, 0);
 
 		SendDlgItemMessage(m_hwnd, IDC_LIST, LB_SETITEMHEIGHT, 0, (LPARAM)g_Settings.iNickListFontHeight);
@@ -2249,7 +2249,7 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case DM_SPLITTERGLOBALEVENT:
-		DM_SplitterGlobalEvent(this, wParam, lParam);
+		DM_SplitterGlobalEvent(wParam, lParam);
 		return 0;
 
 	case GC_SHOWCOLORCHOOSER:
@@ -2257,7 +2257,7 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case GC_SCROLLTOBOTTOM:
-		DM_ScrollToBottom(this, wParam, lParam);
+		DM_ScrollToBottom(wParam, lParam);
 		return 0;
 
 	case WM_TIMER:
@@ -2267,7 +2267,7 @@ LABEL_SHOWWINDOW:
 
 		// Typing support for GCW_PRIVMESS sessions
 		if (si->iType == GCW_PRIVMESS && wParam == TIMERID_TYPE)
-			DM_Typing(this);
+			DM_Typing(false);
 		break;
 
 	case WM_ACTIVATE:
@@ -2308,7 +2308,7 @@ LABEL_SHOWWINDOW:
 
 				if (msg == WM_MOUSEMOVE) {
 					GetCursorPos(&pt);
-					DM_DismissTip(this, pt);
+					DM_DismissTip(pt);
 					m_Panel->trackMouse(pt);
 					break;
 				}
@@ -2326,7 +2326,7 @@ LABEL_SHOWWINDOW:
 					m_pContainer->MenuBar->Cancel();
 
 				if ((msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN) && !(GetKeyState(VK_RMENU) & 0x8000)) {
-					if (DM_GenericHotkeysCheck(&message, this)) {
+					if (DM_GenericHotkeysCheck(&message)) {
 						m_fkeyProcessed = true;
 						return _dlgReturn(m_hwnd, 1);
 					}
@@ -2452,7 +2452,7 @@ LABEL_SHOWWINDOW:
 
 		case EN_REQUESTRESIZE:
 			if (((LPNMHDR)lParam)->idFrom == IDC_MESSAGE)
-				DM_HandleAutoSizeRequest(this, (REQRESIZE *)lParam);
+				DM_HandleAutoSizeRequest((REQRESIZE *)lParam);
 			break;
 
 		case EN_LINK:
@@ -2618,7 +2618,7 @@ LABEL_SHOWWINDOW:
 
 	case WM_MOUSEMOVE:
 		GetCursorPos(&pt);
-		DM_DismissTip(this, pt);
+		DM_DismissTip(pt);
 		m_Panel->trackMouse(pt);
 		break;
 
@@ -3027,6 +3027,10 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case WM_CLOSE:
+		if (m_bExiting)
+			return 0;
+		m_bExiting = true;
+
 		if (wParam == 0 && lParam == 0) {
 			if (PluginConfig.m_EscapeCloses == 1) {
 				SendMessage(m_pContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
@@ -3081,7 +3085,7 @@ LABEL_SHOWWINDOW:
 
 			int iTabs = TabCtrl_GetItemCount(m_hwndParent);
 			if (iTabs == 1 && CMimAPI::m_shutDown == 0) {
-				SendMessage(GetParent(m_hwndParent), WM_CLOSE, 0, 1);
+				SendMessage(m_pContainer->hwnd, WM_CLOSE, 0, 1);
 				return 1;
 			}
 
@@ -3113,7 +3117,7 @@ LABEL_SHOWWINDOW:
 			}
 
 			if (iTabs == 1)
-				SendMessage(GetParent(m_hwndParent), WM_CLOSE, 0, 1);
+				SendMessage(m_pContainer->hwnd, WM_CLOSE, 0, 1);
 			else {
 				PostMessage(m_pContainer->hwnd, WM_SIZE, 0, 0);
 				Close();
@@ -3152,7 +3156,7 @@ LABEL_SHOWWINDOW:
 			SendDlgItemMessage(m_hwnd, IDC_LOG, EM_SETSCROLLPOS, 0, (LPARAM)&pt);
 			if (PluginConfig.m_bAutoLocaleSupport) {
 				if (hkl == 0)
-					DM_LoadLocale(this);
+					DM_LoadLocale();
 				else
 					PostMessage(m_hwnd, DM_SETLOCALE, 0, 0);
 			}
@@ -3240,11 +3244,11 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case DM_SAVEMESSAGELOG:
-		DM_SaveLogAsRTF(this);
+		DM_SaveLogAsRTF();
 		return 0;
 
 	case DM_CHECKAUTOHIDE:
-		DM_CheckAutoHide(this, wParam, lParam);
+		DM_CheckAutoHide(wParam, lParam);
 		return 0;
 	}
 	return CTabBaseDlg::DlgProc(uMsg, wParam, lParam);

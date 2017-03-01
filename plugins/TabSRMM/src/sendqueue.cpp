@@ -406,7 +406,7 @@ void SendQueue::showErrorControls(CSrmmWindow *dat, const int showCmd) const
 			Utils::showDlgControl(hwndDlg, myerrorControls[i], showCmd ? SW_SHOW : SW_HIDE);
 
 	SendMessage(hwndDlg, WM_SIZE, 0, 0);
-	DM_ScrollToBottom(dat, 0, 1);
+	dat->DM_ScrollToBottom(0, 1);
 	if (m_jobs[0].hContact != 0)
 		EnableSending(dat, TRUE);
 }

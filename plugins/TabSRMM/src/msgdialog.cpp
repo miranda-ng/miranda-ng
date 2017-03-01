@@ -307,7 +307,7 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 
 	if (PluginConfig.m_bAutoLocaleSupport) {
 		if (m_hkl == 0)
-			DM_LoadLocale(this);
+			DM_LoadLocale();
 		else
 			SendMessage(m_hwnd, DM_SETLOCALE, 0, 0);
 	}
@@ -329,7 +329,7 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 
 	if (m_dwFlags & MWF_DEFERREDSCROLL && m_hwndIEView == 0 && m_hwndHPP == 0) {
 		m_dwFlags &= ~MWF_DEFERREDSCROLL;
-		DM_ScrollToBottom(this, 0, 1);
+		DM_ScrollToBottom(0, 1);
 	}
 
 	DM_SetDBButtonStates();
@@ -572,7 +572,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		break;
 
 	case WM_MOUSEWHEEL:
-		if (DM_MouseWheelHandler(hwnd, hwndParent, mwdat, wParam, lParam) == 0)
+		if (mwdat->DM_MouseWheelHandler(wParam, lParam) == 0)
 			return 0;
 		break;
 
@@ -678,7 +678,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 				else if (wParam == VK_HOME)
 					wp = MAKEWPARAM(SB_TOP, 0);
 				else if (wParam == VK_END) {
-					DM_ScrollToBottom(mwdat, 0, 0);
+					mwdat->DM_ScrollToBottom(0, 0);
 					return 0;
 				}
 				else if (wParam == VK_DOWN)
@@ -729,7 +729,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 	case WM_INPUTLANGCHANGE:
 		if (PluginConfig.m_bAutoLocaleSupport && GetFocus() == hwnd && mwdat->m_pContainer->hwndActive == hwndParent && GetForegroundWindow() == mwdat->m_pContainer->hwnd && GetActiveWindow() == mwdat->m_pContainer->hwnd) {
-			DM_SaveLocale(mwdat, wParam, lParam);
+			mwdat->DM_SaveLocale(wParam, lParam);
 			SendMessage(hwnd, EM_SETLANGOPTIONS, 0, (LPARAM)SendMessage(hwnd, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 			return 1;
 		}
@@ -849,7 +849,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		HWND hwndCapture = GetCapture();
 
 		ReleaseCapture();
-		DM_ScrollToBottom(dat, 0, 1);
+		dat->DM_ScrollToBottom(0, 1);
 		if (dat && dat->m_bType == SESSIONTYPE_IM && hwnd == GetDlgItem(hwndParent, IDC_PANELSPLITTER)) {
 			SendMessage(hwndParent, WM_SIZE, 0, 0);
 			RedrawWindow(hwndParent, NULL, NULL, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW);
@@ -921,7 +921,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				}
 				dat->UpdateToolbarBG();
 				SendMessage(hwndParent, WM_SIZE, 0, 0);
-				DM_ScrollToBottom(dat, 0, 1);
+				dat->DM_ScrollToBottom(0, 1);
 				break;
 			}
 		}
@@ -1157,7 +1157,7 @@ void CSrmmWindow::OnInitDialog()
 		db_event_get(hdbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
 			m_lastMessage = dbei.timestamp;
-			DM_UpdateLastMessage(this);
+			DM_UpdateLastMessage();
 			break;
 		}
 	}
@@ -1844,7 +1844,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							SetWindowPos(hwndEdit, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE);
 							SendMessage(m_hwnd, WM_SIZE, 0, 0);
 							RedrawWindow(hwndEdit, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW | RDW_ERASE);
-							DM_ScrollToBottom(this, 0, 0);
+							DM_ScrollToBottom(0, 0);
 							Utils::showDlgControl(m_hwnd, IDC_MULTISPLITTER, (m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
 							Utils::showDlgControl(m_hwnd, IDC_CLIST, (m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
 							if (m_sendMode & SMODE_MULTIPLE)
@@ -1854,7 +1854,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							RedrawWindow(m_hwnd, 0, 0, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 							return _dlgReturn(m_hwnd, 1);
 						}
-						if (DM_GenericHotkeysCheck(&message, this)) {
+						if (DM_GenericHotkeysCheck(&message)) {
 							m_fkeyProcessed = true;
 							return _dlgReturn(m_hwnd, 1);
 						}
@@ -1943,7 +1943,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						else
 							SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
 						SendMessage(m_hwnd, WM_SIZE, 0, 0);
-						DM_ScrollToBottom(this, 1, 1);
+						DM_ScrollToBottom(1, 1);
 						return _dlgReturn(m_hwnd, 1);
 					}
 
@@ -2087,7 +2087,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 					case WM_MOUSEMOVE:
 						GetCursorPos(&pt);
-						DM_DismissTip(this, pt);
+						DM_DismissTip(pt);
 						m_Panel->trackMouse(pt);
 
 						HCURSOR hCur = GetCursor();
@@ -2099,7 +2099,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				break;
 
 			case EN_REQUESTRESIZE:
-				DM_HandleAutoSizeRequest(this, (REQRESIZE *)lParam);
+				DM_HandleAutoSizeRequest((REQRESIZE *)lParam);
 				break;
 			}
 		}
@@ -2154,7 +2154,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (lParam == 1) {
 			DM_RecalcPictureSize();
 			SendMessage(m_hwnd, WM_SIZE, 0, 0);
-			DM_ScrollToBottom(this, 0, 1);
+			DM_ScrollToBottom(0, 1);
 		}
 		return 0;
 
@@ -2213,7 +2213,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case DM_SPLITTERGLOBALEVENT:
-		DM_SplitterGlobalEvent(this, wParam, lParam);
+		DM_SplitterGlobalEvent(wParam, lParam);
 		return 0;
 
 	case DM_SPLITTERMOVED:
@@ -2355,7 +2355,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// this is called whenever a new event has been added to the database.
 		// this CAN be posted (some sanity checks required).
 		if (this && m_hContact)
-			DM_EventAdded(this, m_hContact, lParam);
+			DM_EventAdded(m_hContact, lParam);
 		return 0;
 
 	case WM_TIMER:
@@ -2393,7 +2393,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		else if (wParam == TIMERID_TYPE) {
-			DM_Typing(this);
+			DM_Typing(false);
 			break;
 		}
 		break;
@@ -2497,7 +2497,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case DM_UPDATELASTMESSAGE:
-		DM_UpdateLastMessage(this);
+		DM_UpdateLastMessage();
 		return 0;
 
 	case DM_SAVESIZE:
@@ -2508,7 +2508,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (m_dwFlags & MWF_WASBACKGROUNDCREATE) {
 			m_dwFlags &= ~MWF_INITMODE;
 			if (m_lastMessage)
-				DM_UpdateLastMessage(this);
+				DM_UpdateLastMessage();
 		}
 
 		SendMessage(m_pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
@@ -2519,7 +2519,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			PostMessage(m_hwnd, DM_UPDATEPICLAYOUT, 0, 0);
 			if (PluginConfig.m_bAutoLocaleSupport) {
 				if (m_hkl == 0)
-					DM_LoadLocale(this);
+					DM_LoadLocale();
 				else
 					PostMessage(m_hwnd, DM_SETLOCALE, 0, 0);
 			}
@@ -2531,7 +2531,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		else {
 			SendMessage(m_hwnd, WM_SIZE, 0, 0);
 			if (lParam == 0)
-				DM_ScrollToBottom(this, 0, 1);
+				DM_ScrollToBottom(0, 1);
 		}
 		return 0;
 
@@ -2610,7 +2610,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_MOUSEMOVE:
 		GetCursorPos(&pt);
-		DM_DismissTip(this, pt);
+		DM_DismissTip(pt);
 		m_Panel->trackMouse(pt);
 		break;
 
@@ -2892,7 +2892,7 @@ quote_from_last:
 			break;
 
 		default:
-			Utils::CmdDispatcher(Utils::CMD_MSGDIALOG, m_hwnd, LOWORD(wParam), wParam, lParam, this, m_pContainer);
+			DM_MsgWindowCmdHandler(LOWORD(wParam), wParam, lParam);
 			break;
 		}
 		break;
@@ -2980,11 +2980,11 @@ quote_from_last:
 
 		// save the contents of the log as rtf file
 	case DM_SAVEMESSAGELOG:
-		DM_SaveLogAsRTF(this);
+		DM_SaveLogAsRTF();
 		return 0;
 
 	case DM_CHECKAUTOHIDE:
-		DM_CheckAutoHide(this, wParam, lParam);
+		DM_CheckAutoHide(wParam, lParam);
 		return 0;
 
 	case DM_IEVIEWOPTIONSCHANGED:
@@ -3131,6 +3131,10 @@ quote_from_last:
 		return 0;
 
 	case WM_CLOSE:
+		if (m_bExiting)
+			return 0;
+		m_bExiting = true;
+
 		// esc handles error controls if we are in error state (error controls visible)
 		if (wParam == 0 && lParam == 0 && m_dwFlags & MWF_ERRORSTATE) {
 			SendMessage(m_hwnd, DM_ERRORDECIDED, MSGERROR_CANCEL, 0);

@@ -841,31 +841,6 @@ wchar_t* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// generic command dispatcher
-// used in various places (context menus, info panel menus etc.)
-
-LRESULT Utils::CmdDispatcher(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, LPARAM lParam, CTabBaseDlg *dat, TContainerData *pContainer)
-{
-	switch (uType) {
-	case CMD_CONTAINER:
-		if (pContainer && hwndDlg)
-			return DM_ContainerCmdHandler(pContainer, cmd, wParam, lParam);
-		break;
-
-	case CMD_MSGDIALOG:
-		if (pContainer && hwndDlg && dat)
-			return DM_MsgWindowCmdHandler(hwndDlg, pContainer, dat, cmd, wParam, lParam);
-		break;
-
-	case CMD_INFOPANEL:
-		if (dat->MsgWindowMenuHandler(cmd, MENU_LOGMENU) == 0)
-			return DM_MsgWindowCmdHandler(hwndDlg, pContainer, dat, cmd, wParam, lParam);
-		break;
-	}
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // filters out invalid characters from a string used as part of a file
 // or folder name. All invalid characters will be replaced by spaces.
 //

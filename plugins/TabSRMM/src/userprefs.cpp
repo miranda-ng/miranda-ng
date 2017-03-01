@@ -234,7 +234,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				SendMessage(hWnd, DM_CONFIGURETOOLBAR, 0, 1);
 				dat->ShowPicture(false);
 				SendMessage(hWnd, WM_SIZE, 0, 0);
-				DM_ScrollToBottom(dat, 0, 1);
+				dat->DM_ScrollToBottom(0, 1);
 			}
 			DestroyWindow(hwndDlg);
 			break;

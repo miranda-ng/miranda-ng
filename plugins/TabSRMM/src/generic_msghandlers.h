@@ -26,21 +26,6 @@
 //
 // prototypes from generic_msghandlers.c
 
-void    TSAPI DM_ScrollToBottom(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam);
-void    TSAPI DM_LoadLocale(CTabBaseDlg *dat);
-void    TSAPI DM_SaveLocale(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam);
-void    TSAPI DM_UpdateLastMessage(const CTabBaseDlg *dat);
 LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT uMsg, WPARAM wParam, LPARAM lParam);
-LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, CTabBaseDlg *mwdat, WPARAM wParam, LPARAM lParam);
-void    TSAPI DM_Typing(CTabBaseDlg *dat, bool fForceOff = false);
-int     TSAPI DM_SplitterGlobalEvent(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam);
 
-void    TSAPI DM_EventAdded(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam);
-void    TSAPI DM_InitRichEdit(CTabBaseDlg *dat);
 LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARAM wParam, LPARAM lParam);
-LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *pContainer, CTabBaseDlg *dat, UINT cmd, WPARAM wParam, LPARAM lParam);
-LRESULT TSAPI DM_GenericHotkeysCheck(MSG *message, CTabBaseDlg *dat);
-void    TSAPI DM_DismissTip(CTabBaseDlg *dat, const POINT& pt);
-void    TSAPI DM_HandleAutoSizeRequest(CTabBaseDlg *dat, REQRESIZE* rr);
-void    TSAPI DM_SaveLogAsRTF(const CTabBaseDlg *dat);
-void    TSAPI DM_CheckAutoHide(const CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam);

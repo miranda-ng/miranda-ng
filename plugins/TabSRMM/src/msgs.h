@@ -255,6 +255,11 @@ protected:
 	CCtrlEdit m_log, m_message;
 	TNewWindowData *newData;
 
+	void DM_DismissTip(const POINT& pt);
+	bool DM_GenericHotkeysCheck(MSG *message);
+	void DM_SaveLogAsRTF() const;
+	int  DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam);
+	void DM_UpdateLastMessage() const;
 	void DM_UpdateTitle(WPARAM wParam, LPARAM lParam);
 
 	void DetermineMinHeight();
@@ -371,10 +376,22 @@ public:
 	CTabBaseDlg(TNewWindowData*, int);
 
 	HWND  DM_CreateClist();
+	void  DM_EventAdded(WPARAM wParam, LPARAM lParam);
+	void  DM_InitRichEdit();
 	void  DM_InitTip();
+	void  DM_LoadLocale();
 	void  DM_NotifyTyping(int mode);
 	void  DM_RecalcPictureSize();
-		   
+	void  DM_SaveLocale(WPARAM wParam, LPARAM lParam);
+	void  DM_ScrollToBottom(WPARAM wParam, LPARAM lParam);
+	void  DM_Typing(bool fForceOff);
+	
+	LRESULT DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lParam);
+	LRESULT DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam);
+
+	void  DM_HandleAutoSizeRequest(REQRESIZE* rr);
+	void  DM_CheckAutoHide(WPARAM wParam, LPARAM lParam) const;
+
 	void  DM_FreeTheme();
 	void  DM_ThemeChanged();
 		   

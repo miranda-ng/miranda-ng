@@ -196,10 +196,6 @@ void CInfoPanel::showHide() const
 		Utils::showDlgControl(hwndDlg, IDC_PANELSPLITTER, m_active ? SW_SHOW : SW_HIDE);
 		::SendMessage(hwndDlg, WM_SIZE, 0, 0);
 		::InvalidateRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), NULL, TRUE);
-		::SetAeroMargins(m_dat->m_pContainer);
-		if (M.isAero())
-			::InvalidateRect(GetParent(hwndDlg), NULL, FALSE);
-		::DM_ScrollToBottom(m_dat, 0, 1);
 	}
 	else {
 		Utils::showDlgControl(hwndDlg, IDC_PANELSPLITTER, m_active ? SW_SHOW : SW_HIDE);
@@ -210,11 +206,11 @@ void CInfoPanel::showHide() const
 		}
 
 		::SendMessage(hwndDlg, WM_SIZE, 0, 0);
-		::SetAeroMargins(m_dat->m_pContainer);
-		if (M.isAero())
-			::InvalidateRect(GetParent(hwndDlg), NULL, FALSE);
-		::DM_ScrollToBottom(m_dat, 0, 1);
 	}
+	::SetAeroMargins(m_dat->m_pContainer);
+	if (M.isAero())
+		::InvalidateRect(GetParent(hwndDlg), NULL, FALSE);
+	m_dat->DM_ScrollToBottom(0, 1);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -790,7 +786,8 @@ void CInfoPanel::handleClick(const POINT& pt)
 
 		::DestroyMenu(m);
 		if (S_OK != cmdHandler(r))
-			Utils::CmdDispatcher(Utils::CMD_INFOPANEL, m_dat->GetHwnd(), r, 0, 0, m_dat, m_dat->m_pContainer);
+			if (m_dat->MsgWindowMenuHandler(r, MENU_LOGMENU) == 0)
+				m_dat->DM_MsgWindowCmdHandler(r, 0, 0);
 	}
 	m_hoverFlags = 0;
 	Invalidate(TRUE);
@@ -1164,7 +1161,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 						m_dat->ShowPicture(false);
 						::SendMessage(m_dat->GetHwnd(), WM_SIZE, 0, 0);
-						::DM_ScrollToBottom(m_dat, 0, 1);
+						m_dat->DM_ScrollToBottom(0, 1);
 					}
 				}
 				break;

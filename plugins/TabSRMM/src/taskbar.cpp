@@ -340,7 +340,7 @@ void CProxyWindow::sendPreview()
 		::SendMessage(m_dat->m_pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
 		::MoveWindow(m_dat->GetHwnd(), rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), FALSE);
 		::SendMessage(m_dat->GetHwnd(), WM_SIZE, 0, 0);
-		DM_ScrollToBottom(m_dat, 0, 1);
+		m_dat->DM_ScrollToBottom(0, 1);
 	}
 	/*
 		* a minimized container has a null rect as client area, so do not use it

@@ -665,7 +665,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 						SWP_NOSENDCHANGING | SWP_NOACTIVATE/*|SWP_NOCOPYBITS*/);
 					if (!pContainer->bSizingLoop && sizeChanged) {
 						dat = (CSrmmWindow*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-						DM_ScrollToBottom(dat, 0, 1);
+						dat->DM_ScrollToBottom(0, 1);
 					}
 				}
 				else if (sizeChanged)
@@ -909,7 +909,7 @@ panel_found:
 				break;
 
 			default:
-				Utils::CmdDispatcher(Utils::CMD_CONTAINER, hwndDlg, LOWORD(wParam), wParam, lParam, 0, pContainer);
+				DM_ContainerCmdHandler(pContainer, LOWORD(wParam), wParam, lParam);
 			}
 
 			if (pContainer->dwFlags != dwOldFlags)
@@ -932,7 +932,7 @@ panel_found:
 		GetClientRect(hwndTab, &rc);
 		if (!((rc.right - rc.left) == pContainer->oldSize.cx && (rc.bottom - rc.top) == pContainer->oldSize.cy)) {
 			dat = (CSrmmWindow*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-			DM_ScrollToBottom(dat, 0, 0);
+			dat->DM_ScrollToBottom(0, 0);
 			SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);
 		}
 		pContainer->bSizingLoop = FALSE;
@@ -1398,7 +1398,7 @@ panel_found:
 					RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
 					if (pContainer->hwndActive != 0) {
 						dat = (CSrmmWindow*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-						DM_ScrollToBottom(dat, 0, 0);
+						dat->DM_ScrollToBottom(0, 0);
 					}
 				}
 			}
