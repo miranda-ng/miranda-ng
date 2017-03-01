@@ -373,13 +373,6 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 	CMStringW wszUserId = pRoot["author"]["id"].as_mstring();
 	CDiscordMessage msg(_wtoi64(wszMessageId), _wtoi64(wszUserId));
 
-	SnowFlake nonce = ::getId(pRoot["nonce"]);
-	SnowFlake *p = arOwnMessages.find(&nonce);
-	if (p != nullptr) { // own message? skip it
-		debugLogA("skipping own message with nonce=%lld, id=%lld", nonce, msg.id);
-		return;
-	}
-
 	// try to find a sender by his channel
 	SnowFlake channelId = ::getId(pRoot["channel_id"]);
 	CDiscordUser *pUser = FindUserByChannel(channelId);
@@ -392,44 +385,51 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 	if (pUser->lastMsg.id == msg.id)
 		msg = pUser->lastMsg;
 
-	// if a message has myself as an author, add some flags
-	PROTORECVEVENT recv = {};
-	if (msg.authorId == m_ownId)
-		recv.flags = PREF_CREATEREAD | PREF_SENT;
-
-	CMStringW wszText = PrepareMessageText(pRoot);
-
-	const JSONNode &edited = pRoot["edited_timestamp"];
-	if (!edited.isnull())
-		wszText.AppendFormat(L" (%s %s)", TranslateT("edited at"), edited.as_mstring().c_str());
-
-	if (pUser->bIsPrivate) {
-		debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
-		ptrA buf(mir_utf8encodeW(wszText));
-		recv.timestamp = (DWORD)StringToDate(pRoot["timestamp"].as_mstring());
-		recv.szMessage = buf;
-		recv.lParam = (LPARAM)wszMessageId.c_str();
-		ProtoChainRecvMsg(pUser->hContact, &recv);
+	SnowFlake nonce = ::getId(pRoot["nonce"]);
+	SnowFlake *p = arOwnMessages.find(&nonce);
+	if (p != nullptr) { // own message? skip it
+		debugLogA("skipping own message with nonce=%lld, id=%lld", nonce, msg.id);
 	}
 	else {
-		debugLogA("store a message into the group channel id %lld", channelId);
+		CMStringW wszText = PrepareMessageText(pRoot);
 
-		SESSION_INFO *si = pci->SM_FindSession(pUser->wszUsername, m_szModuleName);
-		if (si == nullptr) {
-			debugLogA("nessage to unknown channal %lld ignored", channelId);
-			return;
+		const JSONNode &edited = pRoot["edited_timestamp"];
+		if (!edited.isnull())
+			wszText.AppendFormat(L" (%s %s)", TranslateT("edited at"), edited.as_mstring().c_str());
+
+		if (pUser->bIsPrivate) {
+			// if a message has myself as an author, add some flags
+			PROTORECVEVENT recv = {};
+			if (msg.authorId == m_ownId)
+				recv.flags = PREF_CREATEREAD | PREF_SENT;
+
+			debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
+			ptrA buf(mir_utf8encodeW(wszText));
+			recv.timestamp = (DWORD)StringToDate(pRoot["timestamp"].as_mstring());
+			recv.szMessage = buf;
+			recv.lParam = (LPARAM)wszMessageId.c_str();
+			ProtoChainRecvMsg(pUser->hContact, &recv);
 		}
+		else {
+			debugLogA("store a message into the group channel id %lld", channelId);
 
-		ParseSpecialChars(si, wszText);
+			SESSION_INFO *si = pci->SM_FindSession(pUser->wszUsername, m_szModuleName);
+			if (si == nullptr) {
+				debugLogA("nessage to unknown channal %lld ignored", channelId);
+				return;
+			}
 
-		GCDEST gcd = { m_szModuleName, pUser->wszUsername, GC_EVENT_MESSAGE };
-		GCEVENT gce = { &gcd };
-		gce.dwFlags = GCEF_ADDTOLOG;
-		gce.ptszUID = wszUserId;
-		gce.ptszText = wszText;
-		gce.time = (DWORD)StringToDate(pRoot["timestamp"].as_mstring());
-		gce.bIsMe = msg.authorId == m_ownId;
-		Chat_Event(&gce);
+			ParseSpecialChars(si, wszText);
+
+			GCDEST gcd = { m_szModuleName, pUser->wszUsername, GC_EVENT_MESSAGE };
+			GCEVENT gce = { &gcd };
+			gce.dwFlags = GCEF_ADDTOLOG;
+			gce.ptszUID = wszUserId;
+			gce.ptszText = wszText;
+			gce.time = (DWORD)StringToDate(pRoot["timestamp"].as_mstring());
+			gce.bIsMe = msg.authorId == m_ownId;
+			Chat_Event(&gce);
+		}
 	}
 
 	pUser->lastMsg = msg;
