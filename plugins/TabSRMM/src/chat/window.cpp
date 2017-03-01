@@ -3027,10 +3027,6 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case WM_CLOSE:
-		if (m_bExiting)
-			return 0;
-		m_bExiting = true;
-
 		if (wParam == 0 && lParam == 0) {
 			if (PluginConfig.m_EscapeCloses == 1) {
 				SendMessage(m_pContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
@@ -3120,7 +3116,7 @@ LABEL_SHOWWINDOW:
 				SendMessage(m_pContainer->hwnd, WM_CLOSE, 0, 1);
 			else {
 				PostMessage(m_pContainer->hwnd, WM_SIZE, 0, 0);
-				Close();
+				DestroyWindow(m_hwnd);
 			}
 		}
 		return 0;

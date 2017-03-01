@@ -3131,10 +3131,6 @@ quote_from_last:
 		return 0;
 
 	case WM_CLOSE:
-		if (m_bExiting)
-			return 0;
-		m_bExiting = true;
-
 		// esc handles error controls if we are in error state (error controls visible)
 		if (wParam == 0 && lParam == 0 && m_dwFlags & MWF_ERRORSTATE) {
 			SendMessage(m_hwnd, DM_ERRORDECIDED, MSGERROR_CANCEL, 0);
