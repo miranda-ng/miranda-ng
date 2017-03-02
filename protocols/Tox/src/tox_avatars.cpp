@@ -82,6 +82,8 @@ void CToxProto::SetToxAvatar(const wchar_t* path)
 				return;
 			}
 
+			debugLogA(__FUNCTION__": send avatar to friend (%d)", friendNumber);
+
 			TOX_ERR_FILE_SEND error;
 			uint32_t fileNumber = tox_file_send(toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, length, hash, NULL, 0, &error);
 			if (error != TOX_ERR_FILE_SEND_OK)
@@ -183,6 +185,8 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 			int32_t friendNumber = GetToxFriendNumber(hContact);
 			if (friendNumber == UINT32_MAX)
 				continue;
+
+			debugLogA(__FUNCTION__": unset avatar for friend (%d)", friendNumber);
 
 			TOX_ERR_FILE_SEND error;
 			tox_file_send(toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, &error);

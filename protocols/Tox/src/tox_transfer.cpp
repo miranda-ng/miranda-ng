@@ -255,9 +255,10 @@ void CToxProto::OnFileSendData(Tox*, uint32_t friendNumber, uint32_t fileNumber,
 	ToxHexAddress pubKey = proto->GetContactPublicKey(friendNumber);
 
 	FileTransferParam *transfer = proto->transfers.Get(friendNumber, fileNumber);
-	if (transfer == NULL)
+	if (!transfer)
 	{
 		proto->debugLogA(__FUNCTION__": failed to find transfer (%d) to %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
+		tox_file_control(proto->toxThread->Tox(), friendNumber, fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 		return;
 	}
 

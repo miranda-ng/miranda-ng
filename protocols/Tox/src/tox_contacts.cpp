@@ -357,6 +357,8 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 			db_free(&dbv);
 		}
 
+		proto->debugLogA(__FUNCTION__": send avatar to friend (%d)", friendNumber);
+
 		TOX_ERR_FILE_SEND error;
 		uint32_t fileNumber = tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, length, hash, NULL, 0, &error);
 		if (error != TOX_ERR_FILE_SEND_OK)
@@ -374,7 +376,10 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 		proto->transfers.Add(transfer);
 	}
 	else
+	{
+		proto->debugLogA(__FUNCTION__": unset avatar for friend (%d)", friendNumber);
 		tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, NULL);
+	}
 }
 
 int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
