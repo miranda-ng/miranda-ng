@@ -2223,6 +2223,21 @@ void CCtrlTreeView::SortChildrenCB(TVSORTCB *cb, BOOL fRecurse)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlPages
 
+struct CCtrlPages::TPageInfo : public MZeroedObject
+{
+	~TPageInfo()
+	{
+		if (m_hIcon)
+			DestroyIcon(m_hIcon);
+	}
+
+	int m_pageId;
+	ptrW m_ptszHeader;
+	HICON m_hIcon;
+	bool m_bChanged, m_bScheduledResize;
+	CDlgBase *m_pDlg;
+};
+
 CCtrlPages::CCtrlPages(CDlgBase *dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId),
 	m_hIml(NULL),
@@ -2261,15 +2276,20 @@ LRESULT CCtrlPages::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	switch (msg) {
 	case WM_SIZE:
-		RECT rc;
-		GetClientRect(m_hwnd, &rc);
-		TabCtrl_AdjustRect(m_hwnd, FALSE, &rc);
-
-		tabCount = GetCount();
-		for (int i = 0; i < tabCount; i++) {
-			TPageInfo *p = GetItemPage(i);
-			if (p && p->m_pDlg->GetHwnd() != NULL)
-				SetWindowPos(p->m_pDlg->GetHwnd(), HWND_TOP, rc.left, rc.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+		if (TPageInfo *pCurrInfo = GetCurrPage()) {
+			tabCount = GetCount();
+			for (int i = 0; i < tabCount; i++) {
+				TPageInfo *p = GetItemPage(i);
+				if (p == nullptr)
+					continue;
+				if (p == pCurrInfo) {
+					RECT rc;
+					GetClientRect(m_hwnd, &rc);
+					TabCtrl_AdjustRect(m_hwnd, FALSE, &rc);
+					SetWindowPos(p->m_pDlg->GetHwnd(), NULL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_NOZORDER);
+				}
+				else p->m_bScheduledResize = true;
+			}
 		}
 		break;
 
@@ -2327,6 +2347,12 @@ void CCtrlPages::ActivatePage(int iPage)
 		ShowWindow(m_pActivePage->GetHwnd(), SW_HIDE);
 
 	m_pActivePage = info->m_pDlg;
+	if (m_pActivePage->GetHwnd() && info->m_bScheduledResize) {
+		RECT rc;
+		GetClientRect(m_hwnd, &rc);
+		TabCtrl_AdjustRect(m_hwnd, FALSE, &rc);
+		SetWindowPos(m_pActivePage->GetHwnd(), NULL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_NOZORDER);
+	}
 	ShowPage(m_pActivePage);
 
 	TabCtrl_SetCurSel(m_hwnd, info->m_pageId);

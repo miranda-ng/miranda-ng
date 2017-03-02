@@ -1225,20 +1225,7 @@ private:
 	HIMAGELIST m_hIml;
 	CDlgBase *m_pActivePage;
 
-	struct TPageInfo : public MZeroedObject
-	{
-		~TPageInfo()
-		{
-			if (m_hIcon)
-				DestroyIcon(m_hIcon);
-		}
-
-		int m_pageId;
-		ptrW m_ptszHeader;
-		HICON m_hIcon;
-		BOOL m_bChanged;
-		CDlgBase *m_pDlg;
-	};
+	struct TPageInfo;
 
 	void InsertPage(TPageInfo *pPage);
 	void ShowPage(CDlgBase *pDlg);

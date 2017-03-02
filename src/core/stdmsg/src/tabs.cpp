@@ -59,17 +59,9 @@ struct CTabbedWindow : public CDlgBase
 
 	virtual int Resizer(UTILRESIZECONTROL *urc)
 	{
-		if (urc->wId == IDC_TAB) {
-			if (m_tab.GetActivePage()) {
-				RECT rc;
-				GetClientRect(m_tab.GetHwnd(), &rc);
-				TabCtrl_AdjustRect(m_tab.GetHwnd(), FALSE, &rc);
-
-				for (int i = m_tab.GetCount() - 1; i >= 0; i--)
-					SetWindowPos(m_tab.GetNthPage(i)->GetHwnd(), NULL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOZORDER | SWP_NOACTIVATE);
-			}
+		if (urc->wId == IDC_TAB)
 			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
-		}
+
 		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 	}
 
