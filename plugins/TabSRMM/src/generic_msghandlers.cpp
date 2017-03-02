@@ -73,34 +73,6 @@ void CTabBaseDlg::DM_SaveLogAsRTF() const
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// This is broadcasted by the container to all child windows to check if the
-// container can be autohidden or -closed.
-//
-// wParam is the autohide timeout (in seconds)
-// lParam points to a BOOL and a session which wants to prevent auto-hiding
-// the container must set it to FALSE.
-//
-// If no session in the container disagrees, the container will be hidden.
-
-void CTabBaseDlg::DM_CheckAutoHide(WPARAM wParam, LPARAM lParam) const
-{
-	if (!lParam)
-		return;
-
-	BOOL *fResult = (BOOL*)lParam;
-	if (GetWindowTextLength(GetDlgItem(m_hwnd, IDC_MESSAGE)) > 0) {
-		*fResult = FALSE;
-		return;				// text entered in the input area -> prevent autohide/cose
-	}
-	if (m_dwUnread) {
-		*fResult = FALSE;
-		return;				// unread events, do not hide or close the container
-	}
-	if (((GetTickCount() - m_dwLastActivity) / 1000) <= wParam)
-		*fResult = FALSE;		// time since last activity did not yet reach the threshold.
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // checks if the balloon tooltip can be dismissed (usually called by WM_MOUSEMOVE events)
 
 void CTabBaseDlg::DM_DismissTip(const POINT& pt)
@@ -163,15 +135,15 @@ bool CTabBaseDlg::DM_GenericHotkeysCheck(MSG *message)
 		return true;
 
 	case TABSRMM_HK_SEND:
-		if (!(GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_MESSAGE), GWL_STYLE) & ES_READONLY)) {
+		if (!(GetWindowLongPtr(m_message.GetHwnd(), GWL_STYLE) & ES_READONLY)) {
 			PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
 			return true;
 		}
 		break;
 
 	case TABSRMM_HK_TOGGLEINFOPANEL:
-		m_Panel->setActive(!m_Panel->isActive());
-		m_Panel->showHide();
+		m_pPanel->setActive(!m_pPanel->isActive());
+		m_pPanel->showHide();
 		return true;
 
 	case TABSRMM_HK_TOGGLETOOLBAR:
@@ -435,16 +407,16 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 			break;
 		}
 		db_set_b(m_hContact, SRMSGMOD_T, "no_ack", (BYTE)(m_sendMode & SMODE_NOACK ? 1 : 0));
-		SetWindowPos(GetDlgItem(m_hwnd, IDC_MESSAGE), 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE);
+		SetWindowPos(m_message.GetHwnd(), 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE);
 		if (m_sendMode & SMODE_MULTIPLE || m_sendMode & SMODE_CONTAINER) {
-			SetWindowPos(GetDlgItem(m_hwnd, IDC_MESSAGE), 0, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
+			SetWindowPos(m_message.GetHwnd(), 0, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
 				SWP_NOMOVE | SWP_NOSIZE | SWP_NOCOPYBITS);
 			RedrawWindow(m_hwnd, 0, 0, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 		}
 		else {
 			if (IsWindow(GetDlgItem(m_hwnd, IDC_CLIST)))
 				DestroyWindow(GetDlgItem(m_hwnd, IDC_CLIST));
-			SetWindowPos(GetDlgItem(m_hwnd, IDC_MESSAGE), 0, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
+			SetWindowPos(m_message.GetHwnd(), 0, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
 				SWP_NOMOVE | SWP_NOSIZE | SWP_NOCOPYBITS);
 			RedrawWindow(m_hwnd, 0, 0, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 		}
@@ -464,7 +436,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 
 		m_fEditNotesActive = !m_fEditNotesActive;
 		if (m_fEditNotesActive) {
-			int iLen = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_MESSAGE));
+			int iLen = GetWindowTextLength(m_message.GetHwnd());
 			if (iLen != 0) {
 				SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)TranslateT("You cannot edit user notes when there are unsent messages"));
 				m_fEditNotesActive = false;
@@ -485,7 +457,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 			}
 		}
 		else {
-			int iLen = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_MESSAGE));
+			int iLen = GetWindowTextLength(m_message.GetHwnd());
 
 			wchar_t *buf = (wchar_t*)mir_alloc((iLen + 2) * sizeof(wchar_t));
 			GetDlgItemText(m_hwnd, IDC_MESSAGE, buf, iLen + 1);
@@ -498,7 +470,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 				DM_ScrollToBottom(0, 1);
 			}
 		}
-		SetWindowPos(GetDlgItem(m_hwnd, IDC_MESSAGE), 0, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
+		SetWindowPos(m_message.GetHwnd(), 0, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
 			SWP_NOMOVE | SWP_NOSIZE | SWP_NOCOPYBITS);
 		RedrawWindow(m_hwnd, 0, 0, RDW_INVALIDATE | RDW_ERASE | RDW_FRAME | RDW_UPDATENOW | RDW_ALLCHILDREN);
 
@@ -526,15 +498,15 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 
 	// error control
 	case IDC_CANCELSEND:
-		SendMessage(m_hwnd, DM_ERRORDECIDED, MSGERROR_CANCEL, 0);
+		DM_ErrorDetected(MSGERROR_CANCEL, 0);
 		break;
 
 	case IDC_RETRY:
-		SendMessage(m_hwnd, DM_ERRORDECIDED, MSGERROR_RETRY, 0);
+		DM_ErrorDetected(MSGERROR_RETRY, 0);
 		break;
 
 	case IDC_MSGSENDLATER:
-		SendMessage(m_hwnd, DM_ERRORDECIDED, MSGERROR_SENDLATER, 0);
+		DM_ErrorDetected(MSGERROR_SENDLATER, 0);
 		break;
 
 	case IDC_SELFTYPING:
@@ -728,15 +700,15 @@ void CTabBaseDlg::DM_ScrollToBottom(WPARAM wParam, LPARAM lParam)
 		m_dwFlags |= MWF_DEFERREDSCROLL;
 
 	if (m_hwndIEView) {
-		PostMessage(GetHwnd(), DM_SCROLLIEVIEW, 0, 0);
+		PostMessage(m_hwnd, DM_SCROLLIEVIEW, 0, 0);
 		return;
 	}
 	if (m_hwndHPP) {
-		SendMessage(GetHwnd(), DM_SCROLLIEVIEW, 0, 0);
+		SendMessage(m_hwnd, DM_SCROLLIEVIEW, 0, 0);
 		return;
 	}
 
-	HWND hwnd = GetDlgItem(GetHwnd(), m_bType == SESSIONTYPE_IM ? IDC_LOG : IDC_LOG);
+	HWND hwnd = GetDlgItem(m_hwnd, m_bType == SESSIONTYPE_IM ? IDC_LOG : IDC_LOG);
 	if (lParam)
 		SendMessage(hwnd, WM_SIZE, 0, 0);
 
@@ -796,7 +768,7 @@ void CTabBaseDlg::DM_LoadLocale()
 
 void CTabBaseDlg::DM_RecalcPictureSize()
 {
-	HBITMAP hbm = ((m_Panel->isActive()) && m_pContainer->avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
+	HBITMAP hbm = ((m_pPanel->isActive()) && m_pContainer->avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
 	if (hbm) {
 		BITMAP bminfo;
 		GetObject(hbm, sizeof(bminfo), &bminfo);
@@ -916,9 +888,9 @@ LRESULT CTabBaseDlg::DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam)
 	}
 	if (m_bType == SESSIONTYPE_CHAT) {					// scroll nick list by just hovering it
 		RECT	rcNicklist;
-		GetWindowRect(GetDlgItem(GetHwnd(), IDC_LIST), &rcNicklist);
+		GetWindowRect(GetDlgItem(m_hwnd, IDC_LIST), &rcNicklist);
 		if (PtInRect(&rcNicklist, pt)) {
-			SendDlgItemMessage(GetHwnd(), IDC_LIST, WM_MOUSEWHEEL, wParam, lParam);
+			SendDlgItemMessage(m_hwnd, IDC_LIST, WM_MOUSEWHEEL, wParam, lParam);
 			return 0;
 		}
 	}
@@ -980,7 +952,7 @@ void CTabBaseDlg::DM_ThemeChanged()
 		if (m_hTheme != 0 || (CSkin::m_skinEnabled && !item_log->IGNORED))
 			SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 		if (m_hTheme != 0 || (CSkin::m_skinEnabled && !item_msg->IGNORED))
-			SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_MESSAGE), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_MESSAGE), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
+			SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 	}
 	else {
 		if (m_hTheme != 0 || (CSkin::m_skinEnabled && !item_log->IGNORED)) {
@@ -988,7 +960,7 @@ void CTabBaseDlg::DM_ThemeChanged()
 			SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LIST), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LIST), GWL_EXSTYLE) & ~(WS_EX_CLIENTEDGE | WS_EX_STATICEDGE));
 		}
 		if (m_hTheme != 0 || (CSkin::m_skinEnabled && !item_msg->IGNORED))
-			SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_MESSAGE), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_MESSAGE), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
+			SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 	}
 	m_hThemeIP = M.isAero() ? OpenThemeData(m_hwnd, L"ButtonStyle") : 0;
 	m_hThemeToolbar = (M.isAero() || (!CSkin::m_skinEnabled && M.isVSThemed())) ? OpenThemeData(m_hwnd, L"REBAR") : 0;
@@ -1061,7 +1033,7 @@ void CSrmmWindow::DM_OptionsApplied(WPARAM, LPARAM lParam)
 	m_bShowUIElements = (m_pContainer->dwFlags & CNT_HIDETOOLBAR) == 0;
 
 	m_dwFlagsEx = M.GetByte(m_hContact, "splitoverride", 0) ? MWF_SHOW_SPLITTEROVERRIDE : 0;
-	m_Panel->getVisibility();
+	m_pPanel->getVisibility();
 
 	// small inner margins (padding) for the text areas
 	m_log.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
@@ -1074,7 +1046,7 @@ void CSrmmWindow::DM_OptionsApplied(WPARAM, LPARAM lParam)
 	DM_InitRichEdit();
 	if (m_hwnd == m_pContainer->hwndActive)
 		SendMessage(m_pContainer->hwnd, WM_SIZE, 0, 0);
-	InvalidateRect(GetDlgItem(m_hwnd, IDC_MESSAGE), NULL, FALSE);
+	InvalidateRect(m_message.GetHwnd(), NULL, FALSE);
 	if (!lParam) {
 		if (IsIconic(m_pContainer->hwnd))
 			m_dwFlags |= MWF_DEFERREDREMAKELOG;
@@ -1254,6 +1226,14 @@ int CTabBaseDlg::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+void CTabBaseDlg::DM_AddDivider()
+{
+	if (!(m_dwFlags & MWF_DIVIDERSET) && PluginConfig.m_bUseDividers) {
+		if (GetWindowTextLength(m_log.GetHwnd()) > 0)
+			m_dwFlags |= MWF_DIVIDERWANTED | MWF_DIVIDERSET;
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // incoming event handler
 
@@ -1290,13 +1270,13 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 	if (!(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
 		if (PluginConfig.m_bDividersUsePopupConfig && PluginConfig.m_bUseDividers) {
 			if (!MessageWindowOpened(m_hContact, 0))
-				SendMessage(m_hwnd, DM_ADDDIVIDER, 0, 0);
+				DM_AddDivider();
 		}
 		else if (PluginConfig.m_bUseDividers) {
 			if ((GetForegroundWindow() != m_pContainer->hwnd || GetActiveWindow() != m_pContainer->hwnd))
-				SendMessage(m_hwnd, DM_ADDDIVIDER, 0, 0);
+				DM_AddDivider();
 			else if (m_pContainer->hwndActive != m_hwnd)
-				SendMessage(m_hwnd, DM_ADDDIVIDER, 0, 0);
+				DM_AddDivider();
 		}
 		if (!bDisableNotify)
 			tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, m_hwnd, m_cache->getActiveProto());
@@ -1307,7 +1287,7 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 
 	if (hDbEvent != m_hDbEventFirst) {
 		if (!(m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
-			SendMessage(m_hwnd, DM_APPENDTOLOG, hDbEvent, 0);
+			StreamInEvents(hDbEvent, 1, 1, NULL);
 		else {
 			if (m_iNextQueuedEvent >= m_iEventQueueSize) {
 				m_hQueuedEvents = (MEVENT*)mir_realloc(m_hQueuedEvents, (m_iEventQueueSize + 10) * sizeof(MEVENT));
@@ -1373,8 +1353,8 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 
 	// play a sound
 	if (!bDisableNotify && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT)))
-		PostMessage(m_hwnd, DM_PLAYINCOMINGSOUND, 0, 0);
-
+		PlayIncomingSound();
+	
 	if (m_pWnd)
 		m_pWnd->Invalidate();
 }
@@ -1402,7 +1382,7 @@ void CTabBaseDlg::DM_HandleAutoSizeRequest(REQRESIZE* rr)
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 	LONG cy = rc.bottom - rc.top;
-	LONG panelHeight = (m_Panel->isActive() ? m_Panel->getHeight() : 0);
+	LONG panelHeight = (m_pPanel->isActive() ? m_pPanel->getHeight() : 0);
 
 	if (iNewHeight > (cy - panelHeight) / 2)
 		iNewHeight = (cy - panelHeight) / 2;
@@ -1511,14 +1491,13 @@ void CTabBaseDlg::DM_UpdateTitle(WPARAM, LPARAM lParam)
 			AddContactToFavorites(m_hContact, m_cache->getNick(), szActProto, m_wszStatus, m_wStatus,
 				Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 0, PluginConfig.g_hMenuRecent);
 
-		m_Panel->Invalidate();
+		m_pPanel->Invalidate();
 		if (m_pWnd)
 			m_pWnd->Invalidate();
 	}
 
 	// care about MetaContacts and update the statusbar icon with the currently "most online" contact...
 	if (m_bIsMeta) {
-		PostMessage(m_hwnd, DM_UPDATEMETACONTACTINFO, 0, 0);
 		PostMessage(m_hwnd, DM_OWNNICKCHANGED, 0, 0);
 		if (m_pContainer->dwFlags & CNT_UINSTATUSBAR)
 			DM_UpdateLastMessage();
@@ -1638,6 +1617,62 @@ void CTabBaseDlg::CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int co
 		sicd.flags = (code == NM_RCLICK ? MBCF_RIGHTBUTTON : 0);
 		NotifyEventHooks(hHookIconPressedEvt, m_hContact, (LPARAM)&sicd);
 		InvalidateRect(m_pContainer->hwndStatus, NULL, TRUE);
+	}
+}
+
+void CTabBaseDlg::DM_ErrorDetected(int type, int flag)
+{
+	switch (type) {
+	case MSGERROR_CANCEL:
+	case MSGERROR_SENDLATER:
+		if (m_dwFlags & MWF_ERRORSTATE) {
+			m_cache->saveHistory(0, 0);
+			if (type == MSGERROR_SENDLATER)
+				sendQueue->doSendLater(m_iCurrentQueueError, this); // to be implemented at a later time
+			m_iOpenJobs--;
+			sendQueue->dec();
+			if (m_iCurrentQueueError >= 0 && m_iCurrentQueueError < SendQueue::NR_SENDJOBS)
+				sendQueue->clearJob(m_iCurrentQueueError);
+			m_iCurrentQueueError = -1;
+			sendQueue->showErrorControls(this, FALSE);
+			if (type != MSGERROR_CANCEL || (type == MSGERROR_CANCEL && flag == 0))
+				SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
+			sendQueue->checkQueue(this);
+			int iNextFailed = sendQueue->findNextFailed(this);
+			if (iNextFailed >= 0)
+				sendQueue->handleError(this, iNextFailed);
+		}
+		break;
+
+	case MSGERROR_RETRY:
+		if (m_dwFlags & MWF_ERRORSTATE) {
+			int resent = 0;
+
+			m_cache->saveHistory(0, 0);
+			if (m_iCurrentQueueError >= 0 && m_iCurrentQueueError < SendQueue::NR_SENDJOBS) {
+				SendJob *job = sendQueue->getJobByIndex(m_iCurrentQueueError);
+				if (job->hSendId == 0 && job->hContact == 0)
+					break;
+
+				job->hSendId = (HANDLE)ProtoChainSend(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)job->szSendBuffer);
+				resent++;
+			}
+
+			if (resent) {
+				SendJob *job = sendQueue->getJobByIndex(m_iCurrentQueueError);
+
+				SetTimer(m_hwnd, TIMERID_MSGSEND + m_iCurrentQueueError, PluginConfig.m_MsgTimeout, NULL);
+				job->iStatus = SendQueue::SQ_INPROGRESS;
+				m_iCurrentQueueError = -1;
+				sendQueue->showErrorControls(this, FALSE);
+				SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
+				sendQueue->checkQueue(this);
+
+				int iNextFailed = sendQueue->findNextFailed(this);
+				if (iNextFailed >= 0)
+					sendQueue->handleError(this, iNextFailed);
+			}
+		}
 	}
 }
 

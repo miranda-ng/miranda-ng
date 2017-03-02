@@ -387,39 +387,14 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 		break;
 
-	case DM_DOCREATETAB_CHAT:
-		{
-			SESSION_INFO *si = SM_FindSessionByHWND((HWND)lParam);
-			if (si && IsWindow(si->hWnd)) {
-				TContainerData *pContainer = 0;
-				SendMessage(si->hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
-				if (pContainer) {
-					int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, IDC_MSGTABS));
-					if (iTabs == 1)
-						SendMessage(pContainer->hwnd, WM_CLOSE, 0, 1);
-					else
-						SendMessage(si->hWnd, WM_CLOSE, 0, 1);
-
-					si->hWnd = CreateNewRoom((TContainerData*)wParam, si, TRUE, 0, 0);
-				}
-			}
-		}
-		break;
-
 	case DM_SENDMESSAGECOMMANDW:
 		SendMessageCommand_W(wParam, lParam);
 		if (lParam)
 			mir_free((void*)lParam);
 		return 0;
 
-	case DM_SENDMESSAGECOMMAND:
-		SendMessageCommand(wParam, lParam);
-		if (lParam)
-			mir_free((void*)lParam);
-		return 0;
-
-		// sent from the popup to "dismiss" the event. we should do this in the main thread
 	case DM_REMOVECLISTEVENT:
+		// sent from the popup to "dismiss" the event. we should do this in the main thread
 		pcli->pfnRemoveEvent(wParam, lParam);
 		db_event_markRead(wParam, lParam);
 		return 0;

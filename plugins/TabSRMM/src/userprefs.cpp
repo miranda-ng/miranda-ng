@@ -487,7 +487,7 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							fShouldHide = false;
 						else
 							ShowWindow(dat->m_pContainer->hwnd, SW_HIDE);
-						SendMessage(hwnd, DM_OPTIONSAPPLIED, 0, 0);
+						dat->DM_OptionsApplied(0, 0);
 						SendMessage(hwnd, DM_DEFERREDREMAKELOG, (WPARAM)hwnd, 0);
 						if (fShouldHide)
 							ShowWindow(dat->m_pContainer->hwnd, SW_SHOWNORMAL);

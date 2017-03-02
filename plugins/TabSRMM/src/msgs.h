@@ -256,9 +256,10 @@ protected:
 	CCtrlEdit m_log, m_message;
 	TNewWindowData *newData;
 
+	void DM_AddDivider();
 	void DM_DismissTip(const POINT& pt);
+	void DM_ErrorDetected(int type, int flag);
 	bool DM_GenericHotkeysCheck(MSG *message);
-	void DM_SaveLogAsRTF() const;
 	int  DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam);
 	void DM_UpdateLastMessage() const;
 	void DM_UpdateTitle(WPARAM wParam, LPARAM lParam);
@@ -357,7 +358,7 @@ public:
 	bool     m_fEditNotesActive;
 	bool     m_bActualHistory;
 
-	CInfoPanel *m_Panel;
+	CInfoPanel *m_pPanel;
 	CContactCache *m_cache;
 	AVATARCACHEENTRY *m_ace, *m_ownAce;
 	CProxyWindow  *m_pWnd;	// proxy window object (win7+, for taskbar support).
@@ -373,7 +374,12 @@ public:
 	char *m_enteredText;
 
 public:
+	__forceinline void* operator new(size_t size) { return calloc(1, size); }
+	__forceinline void operator delete(void* p) { free(p); }
+
 	CTabBaseDlg(TNewWindowData*, int);
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	virtual CThumbBase* CreateThumb(CProxyWindow*) const = 0;
 	virtual void ClearLog() = 0;
@@ -386,6 +392,7 @@ public:
 	void  DM_NotifyTyping(int mode);
 	void  DM_RecalcPictureSize();
 	void  DM_SaveLocale(WPARAM wParam, LPARAM lParam);
+	void  DM_SaveLogAsRTF() const;
 	void  DM_ScrollToBottom(WPARAM wParam, LPARAM lParam);
 	void  DM_Typing(bool fForceOff);
 	
@@ -393,7 +400,6 @@ public:
 	LRESULT DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam);
 
 	void  DM_HandleAutoSizeRequest(REQRESIZE* rr);
-	void  DM_CheckAutoHide(WPARAM wParam, LPARAM lParam) const;
 
 	void  DM_FreeTheme();
 	void  DM_ThemeChanged();
@@ -434,6 +440,7 @@ public:
 	void  SendNudge() const;
 	void  SetMessageLog();
 	void  ShowPicture(bool showNewPic);
+	void  StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s);
 	void  UpdateReadChars() const;
 	void  UpdateStatusBar() const;
 
@@ -445,13 +452,13 @@ public:
 	void  UpdateToolbarBG();
 };
 
-class CSrmmWindow : public CTabBaseDlg, public MZeroedObject
+class CSrmmWindow : public CTabBaseDlg
 {
 	virtual CThumbBase* CreateThumb(CProxyWindow *pProxy) const override;
 	virtual void ClearLog() override;
 
-	void DM_OptionsApplied(WPARAM wParam, LPARAM lParam);
 	void MsgWindowUpdateState(UINT msg);
+	void ReplayQueue();
 
 public:
 	int msgTop, rcLogBottom;
@@ -466,12 +473,14 @@ public:
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
-	void StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s);
+	void DM_OptionsApplied(WPARAM wParam, LPARAM lParam);
 };
 
-class CChatRoomDlg : public CTabBaseDlg, public MZeroedObject
+class CChatRoomDlg : public CTabBaseDlg
 {
 	bool m_bWasDeleted;
+	CCtrlButton m_btnFilter, m_btnHistory, m_btnOk;
+	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline, m_btnColor, m_btnBkColor;
 
 	virtual CThumbBase* CreateThumb(CProxyWindow *pProxy) const override;
 	virtual void ClearLog() override;
@@ -485,6 +494,14 @@ public:
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	void OnClick_Filter(CCtrlButton*);
+	void OnClick_History(CCtrlButton*);
+	void OnClick_BIU(CCtrlButton*);
+	void OnClick_OK(CCtrlButton*);
+	void OnClick_Color(CCtrlButton*);
+	void OnClick_BkColor(CCtrlButton*);
+	void OnChange_Message(CCtrlEdit*);
 
 	void StreamInEvents(LOGINFO* lin, SESSION_INFO *si, bool bRedraw);
 	void UpdateWindowState(UINT msg);
@@ -638,8 +655,6 @@ struct TIconDescW
 #define DM_OPTIONSAPPLIED        (TM_USER+14)
 #define DM_SPLITTERMOVED         (TM_USER+15)
 #define DM_UPDATETITLE           (TM_USER+16)
-#define DM_APPENDTOLOG           (TM_USER+17)
-#define DM_ERRORDECIDED          (TM_USER+18)
 #define DM_SPLITSENDACK          (TM_USER+19)
 #define DM_TYPING                (TM_USER+20)
 #define DM_UPDATEWINICON         (TM_USER+21)
@@ -649,13 +664,11 @@ struct TIconDescW
 #define DM_CLOSETABATMOUSE       (TM_USER+24)
 #define DM_STATUSICONCHANGE      (TM_USER+25)
 #define DM_SETLOCALE             (TM_USER+26)
-#define DM_SESSIONLIST           (TM_USER+27)
 #define DM_QUERYLASTUNREAD       (TM_USER+28)
 #define DM_QUERYPENDING          (TM_USER+29)
 #define DM_UPDATEPICLAYOUT       (TM_USER+30)
 #define DM_QUERYCONTAINER        (TM_USER+31)
 #define DM_MUCFLASHWORKER        (TM_USER+32)
-#define DM_INVALIDATEPANEL       (TM_USER+33)
 #define DM_APPENDMCEVENT         (TM_USER+34)
 #define DM_CHECKINFOTIP		      (TM_USER+35)
 #define DM_SAVESIZE              (TM_USER+36)
@@ -669,24 +682,15 @@ struct TIconDescW
 #define DM_QUERYCLIENTAREA       (TM_USER+45)
 #define DM_QUERYRECENT           (TM_USER+47)
 #define DM_ACTIVATEME            (TM_USER+46)
-#define DM_SENDLATER_RESEND      (TM_USER+49)
-#define DM_ADDDIVIDER            (TM_USER+50)
 #define DM_STATUSMASKSET         (TM_USER+51)
-#define DM_CONTACTSETTINGCHANGED (TM_USER+52)
 #define DM_UPDATESTATUSMSG       (TM_USER+53)
-#define DM_PROTOACK              (TM_USER+54)
 #define DM_OWNNICKCHANGED        (TM_USER+55)
 #define DM_CONFIGURETOOLBAR      (TM_USER+56)
 #define DM_ACTIVATETOOLTIP       (TM_USER+58)
 #define DM_UINTOCLIPBOARD        (TM_USER+59)
-#define DM_SENDMESSAGECOMMAND    (TM_USER+61)
 #define DM_FORCEDREMAKELOG       (TM_USER+62)
 #define DM_STATUSBARCHANGED      (TM_USER+64)
-#define DM_SAVEMESSAGELOG        (TM_USER+65)
-#define DM_CHECKAUTOCLOSE        (TM_USER+66)
-#define DM_UPDATEMETACONTACTINFO (TM_USER+67)
 #define DM_SETICON               (TM_USER+68)
-#define DM_CLOSEIFMETA		      (TM_USER+69)
 #define DM_CHECKQUEUEFORCLOSE    (TM_USER+70)
 #define DM_CHECKAUTOHIDE         (TM_USER+71)
 #define DM_SETPARENTDIALOG       (TM_USER+72)
@@ -695,19 +699,13 @@ struct TIconDescW
 #define DM_REMOVECLISTEVENT      (TM_USER+75)
 #define DM_GETWINDOWSTATE        (TM_USER+76)
 #define DM_DOCREATETAB           (TM_USER+77)
-#define DM_DELAYEDSCROLL         (TM_USER+78)
-#define DM_REPLAYQUEUE           (TM_USER+79)
 #define DM_REFRESHTABINDEX       (TM_USER+83)
 #define DM_SMILEYOPTIONSCHANGED  (TM_USER+85)
 #define DM_MYAVATARCHANGED	      (TM_USER+86)
-#define DM_PRINTCLIENT           (TM_USER+87)
 #define DM_IEVIEWOPTIONSCHANGED  (TM_USER+88)
 #define DM_SPLITTERGLOBALEVENT   (TM_USER+89)
-#define DM_DOCREATETAB_CHAT      (TM_USER+90)
 #define DM_CLIENTCHANGED         (TM_USER+91)
-#define DM_PLAYINCOMINGSOUND     (TM_USER+92)
 #define DM_SENDMESSAGECOMMANDW   (TM_USER+93)
-#define DM_REMOVEPOPUPS          (TM_USER+94)
 #define DM_LOGSTATUSCHANGE	      (TM_USER+98)
 #define DM_SC_BUILDLIST          (TM_USER+100)
 #define DM_SC_INITDIALOG         (TM_USER+101)

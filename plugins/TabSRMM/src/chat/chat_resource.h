@@ -22,7 +22,6 @@
 #define IDC_NICKROW                     1024
 #define IDC_LOGLIMIT                    1024
 #define IDC_CHAT_CLOSE                  1025
-#define IDC_CHAT_SPIN1                  1028
 #define IDC_CHAT_SPIN2                  1029
 #define IDC_CHAT_SPIN3                  1030
 #define IDC_CHAT_SPIN4                  1031
@@ -37,7 +36,6 @@
 #define IDC_LOGTIMESTAMP                1051
 #define IDC_GROUP                       1057
 #define IDC_SPLITTERX                   1058
-#define IDC_CHAT_RADIO1                 1061
 #define IDC_RADIO2                      1062
 #define IDC_RADIO3                      1063
 #define IDC_TEXT                        1064
@@ -69,11 +67,10 @@
 #define IDC_HIGHLIGHTME                 1094
 #define IDC_ADDHIGHLIGHTEDITLIST        1095
 #define IDC_MUC_OPENLOGBASEDIR          1096
-#define IDC_CHAT_BOLD                   1106
+#define IDC_BOLD                        1106
 #define IDC_ITALICS                     1107
-#define IDC_CHAT_UNDERLINE              1108
+#define IDC_UNDERLINE                   1108
 #define IDC_COLOR                       1110
-#define IDC_CHAT_HISTORY                1111
 #define IDC_1                           1200
 #define IDC_2                           1201
 #define IDC_3                           1202

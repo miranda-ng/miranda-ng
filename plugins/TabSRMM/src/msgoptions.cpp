@@ -1665,6 +1665,7 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case DM_SETPARENTDIALOG:
 		hwndParent = (HWND)lParam;
 		break;
+	
 	case DM_GETSTATUSMASK:
 		if (IsDlgButtonChecked(hwndDlg, IDC_ALWAYS))
 			dwNewStatusMask = -1;

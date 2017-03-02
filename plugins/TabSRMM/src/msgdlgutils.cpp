@@ -249,7 +249,7 @@ void CTabBaseDlg::CalcDynamicAvatarSize(BITMAP *bminfo)
 
 int CTabBaseDlg::MsgWindowUpdateMenu(HMENU submenu, int menuID)
 {
-	bool bInfoPanel = m_Panel->isActive();
+	bool bInfoPanel = m_pPanel->isActive();
 
 	if (menuID == MENU_TABCONTEXT) {
 		EnableMenuItem(submenu, ID_TABMENU_LEAVECHATROOM, (m_bType == SESSIONTYPE_CHAT && ProtoServiceExists(m_szProto, PS_LEAVECHAT)) ? MF_ENABLED : MF_DISABLED);
@@ -358,7 +358,7 @@ int CTabBaseDlg::MsgWindowMenuHandler(int selection, int menuId)
 			break;
 
 		case ID_PICMENU_SAVETHISPICTUREAS:
-			if (m_Panel->isActive())
+			if (m_pPanel->isActive())
 				SaveAvatarToFile(this, m_hOwnPic, 1);
 			else if (m_ace)
 				SaveAvatarToFile(this, m_ace->hbmPic, 0);
@@ -373,7 +373,7 @@ int CTabBaseDlg::MsgWindowMenuHandler(int selection, int menuId)
 			if (menuId == MENU_PANELPICMENU)
 				CallService(MS_AV_CONTACTOPTIONS, m_hContact, 0);
 			else if (menuId == MENU_PICMENU) {
-				if (m_Panel->isActive()) {
+				if (m_pPanel->isActive()) {
 					if (ServiceExists(MS_AV_SETMYAVATARW) && CallService(MS_AV_CANSETMYAVATAR, (WPARAM)(m_cache->getActiveProto()), 0))
 						CallService(MS_AV_SETMYAVATARW, (WPARAM)(m_cache->getActiveProto()), 0);
 				}
@@ -513,7 +513,7 @@ void TSAPI ProcessAvatarChange(HWND hwnd, LPARAM lParam)
 
 		dat->GetAvatarVisibility();
 		dat->ShowPicture(true);
-		if (dat->m_Panel->isActive())
+		if (dat->m_pPanel->isActive())
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
 	}
 }
@@ -531,7 +531,7 @@ bool CTabBaseDlg::GetAvatarVisibility()
 	// infopanel visible, consider own avatar display
 	m_bShowAvatar = false;
 
-	if (m_Panel->isActive() && bAvatarMode != 3) {
+	if (m_pPanel->isActive() && bAvatarMode != 3) {
 		if (!bOwnAvatarMode) {
 			m_bShowAvatar = (m_hOwnPic && m_hOwnPic != PluginConfig.g_hbmUnknown);
 			if (!m_hwndContactPic)
@@ -681,7 +681,7 @@ void CTabBaseDlg::AdjustBottomAvatarDisplay()
 {
 	GetAvatarVisibility();
 
-	bool bInfoPanel = m_Panel->isActive();
+	bool bInfoPanel = m_pPanel->isActive();
 	HBITMAP hbm = (bInfoPanel && m_pContainer->avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
 	if (hbm) {
 		if (m_dynaSplitter == 0 || m_splitterY == 0)
@@ -700,11 +700,11 @@ void CTabBaseDlg::AdjustBottomAvatarDisplay()
 
 void CTabBaseDlg::ShowPicture(bool showNewPic)
 {
-	if (!m_Panel->isActive())
+	if (!m_pPanel->isActive())
 		m_pic.cy = m_pic.cx = DPISCALEY_S(60);
 
 	if (showNewPic) {
-		if (m_Panel->isActive() && m_pContainer->avatarMode != 3) {
+		if (m_pPanel->isActive() && m_pContainer->avatarMode != 3) {
 			if (!m_hwndPanelPic) {
 				InvalidateRect(m_hwnd, NULL, TRUE);
 				UpdateWindow(m_hwnd);
@@ -1306,11 +1306,11 @@ void CTabBaseDlg::LoadContactAvatar()
 	AdjustBottomAvatarDisplay();
 	CalcDynamicAvatarSize(&bm);
 
-	if (!m_Panel->isActive() || m_pContainer->avatarMode == 3) {
+	if (!m_pPanel->isActive() || m_pContainer->avatarMode == 3) {
 		m_iRealAvatarHeight = 0;
 		PostMessage(m_hwnd, WM_SIZE, 0, 0);
 	}
-	else if (m_Panel->isActive())
+	else if (m_pPanel->isActive())
 		GetAvatarVisibility();
 }
 
@@ -1326,7 +1326,7 @@ void CTabBaseDlg::LoadOwnAvatar()
 	else
 		m_hOwnPic = PluginConfig.g_hbmUnknown;
 
-	if (m_Panel->isActive() && m_pContainer->avatarMode != 3) {
+	if (m_pPanel->isActive() && m_pContainer->avatarMode != 3) {
 		BITMAP bm;
 
 		m_iRealAvatarHeight = 0;
@@ -1407,7 +1407,7 @@ int CTabBaseDlg::MsgWindowDrawHandler(WPARAM, LPARAM lParam)
 	}
 
 	HBITMAP hbmAvatar = m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown;
-	if ((dis->hwndItem == GetDlgItem(m_hwnd, IDC_CONTACTPIC) && m_bShowAvatar) || (dis->hwndItem == m_hwnd && m_Panel->isActive())) {
+	if ((dis->hwndItem == GetDlgItem(m_hwnd, IDC_CONTACTPIC) && m_bShowAvatar) || (dis->hwndItem == m_hwnd && m_pPanel->isActive())) {
 		if (hbmAvatar == NULL)
 			return TRUE;
 
@@ -1542,7 +1542,7 @@ int CTabBaseDlg::MsgWindowDrawHandler(WPARAM, LPARAM lParam)
 		return TRUE;
 	}
 
-	if (dis->CtlType == ODT_MENU && m_Panel->isHovered()) {
+	if (dis->CtlType == ODT_MENU && m_pPanel->isHovered()) {
 		DrawMenuItem(dis, (HICON)dis->itemData, 0);
 		return TRUE;
 	}
@@ -1712,7 +1712,7 @@ void CTabBaseDlg::KbdState(bool &isShift, bool &isControl, bool &isAlt)
 void CTabBaseDlg::DetermineMinHeight()
 {
 	RECT rc;
-	LONG height = (m_Panel->isActive() ? m_Panel->getHeight() + 2 : 0);
+	LONG height = (m_pPanel->isActive() ? m_pPanel->getHeight() + 2 : 0);
 	if (!(m_pContainer->dwFlags & CNT_HIDETOOLBAR))
 		height += DPISCALEY_S(24); // toolbar
 	GetClientRect(m_message.GetHwnd(), &rc);

@@ -93,7 +93,7 @@ struct LogStreamData {
 	int eventsToInsert;
 	int isEmpty;
 	int isAppend;
-	CSrmmWindow *dlgDat;
+	CTabBaseDlg *dlgDat;
 	DBEVENTINFO *dbei;
 };
 
@@ -323,7 +323,7 @@ static int AppendUnicodeToBuffer(CMStringA &str, const wchar_t *line, int mode)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void Build_RTF_Header(CMStringA &str, CSrmmWindow *dat)
+static void Build_RTF_Header(CMStringA &str, CTabBaseDlg *dat)
 {
 	int i;
 	LOGFONTA *logFonts = dat->m_pContainer->theme.logFonts;
@@ -381,14 +381,14 @@ static void Build_RTF_Header(CMStringA &str, CSrmmWindow *dat)
 }
 
 // mir_free() the return value
-static char* CreateRTFHeader(CSrmmWindow *dat)
+static char* CreateRTFHeader(CTabBaseDlg *dat)
 {
 	CMStringA str;
 	Build_RTF_Header(str, dat);
 	return str.Detach();
 }
 
-static void AppendTimeStamp(wchar_t *szFinalTimestamp, int isSent, CMStringA &str, int skipFont, CSrmmWindow *dat, int iFontIDOffset)
+static void AppendTimeStamp(wchar_t *szFinalTimestamp, int isSent, CMStringA &str, int skipFont, CTabBaseDlg *dat, int iFontIDOffset)
 {
 	if (skipFont)
 		AppendUnicodeToBuffer(str, szFinalTimestamp, MAKELONG(isSent, dat->m_bIsHistory));
@@ -443,7 +443,7 @@ int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 	return et && (et->flags & DETF_MSGWINDOW);
 }
 
-static char* Template_CreateRTFFromDbEvent(CSrmmWindow *dat, MCONTACT hContact, MEVENT hDbEvent, LogStreamData *streamData)
+static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, MEVENT hDbEvent, LogStreamData *streamData)
 {
 	HANDLE hTimeZone = NULL;
 	BOOL skipToNext = FALSE, skipFont = FALSE;
@@ -1074,7 +1074,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	return 0;
 }
 
-static void SetupLogFormatting(CSrmmWindow *dat)
+static void SetupLogFormatting(CTabBaseDlg *dat)
 {
 	if (dat->m_hHistoryEvents)
 		strncpy_s(dat->m_szMicroLf, "\\v\\cf%d \\ ~-+%d+-~\\v0 ", _TRUNCATE);
@@ -1082,7 +1082,7 @@ static void SetupLogFormatting(CSrmmWindow *dat)
 		mir_snprintf(dat->m_szMicroLf, "%s\\par\\ltrpar\\sl-1%s ", GetRTFFont(MSGDLGFONTCOUNT), GetRTFFont(MSGDLGFONTCOUNT));
 }
 
-static void ReplaceIcons(HWND hwndDlg, CSrmmWindow *dat, LONG startAt, int fAppend, BOOL isSent)
+static void ReplaceIcons(HWND hwndDlg, CTabBaseDlg *dat, LONG startAt, int fAppend, BOOL isSent)
 {
 	wchar_t trbuffer[40];
 	TEXTRANGE tr;
@@ -1204,7 +1204,7 @@ static void ReplaceIcons(HWND hwndDlg, CSrmmWindow *dat, LONG startAt, int fAppe
 	}
 }
 
-void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s)
+void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s)
 {
 	CHARRANGE oldSel, sel;
 

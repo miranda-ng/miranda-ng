@@ -94,9 +94,9 @@ public:
 	bool        m_bStatusOnTabs;
 	bool        m_bLogStatusChanges;
 	bool        m_bUseDividers;
+	bool        m_bDividersUsePopupConfig;
 	bool        m_bSoundOnTyping;
 	bool        m_bAllowOfflineMultisend;
-	bool        m_bDividersUsePopupConfig;
 	bool        m_bFlashOnClist;
 	bool        m_bAlwaysFullToolbarWidth;
 	bool        m_bIdleDetect;

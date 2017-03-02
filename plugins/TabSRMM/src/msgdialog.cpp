@@ -272,7 +272,7 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 
 	if (m_pWnd)
 		m_pWnd->activateTab();
-	m_Panel->dismissConfig();
+	m_pPanel->dismissConfig();
 	m_dwUnread = 0;
 	if (m_pContainer->hwndSaved == m_hwnd)
 		return;
@@ -323,9 +323,9 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 	UpdateTrayMenuState(this, FALSE);
 
 	if (m_pContainer->hwndActive == m_hwnd)
-		PostMessage(m_hwnd, DM_REMOVEPOPUPS, PU_REMOVE_ON_FOCUS, 0);
+		DeletePopupsForContact(m_hContact, PU_REMOVE_ON_FOCUS);
 
-	m_Panel->Invalidate();
+	m_pPanel->Invalidate();
 
 	if (m_dwFlags & MWF_DEFERREDSCROLL && m_hwndIEView == 0 && m_hwndHPP == 0) {
 		m_dwFlags &= ~MWF_DEFERREDSCROLL;
@@ -428,7 +428,7 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 
 	Utils::enableDlgControl(hwndDlg, IDC_CONTACTPIC, false);
 
-	dat->m_Panel->Configure();
+	dat->m_pPanel->Configure();
 }
 
 static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -940,7 +940,7 @@ CSrmmWindow::CSrmmWindow(TNewWindowData *pNewData)
 
 	m_dwFlags = MWF_INITMODE;
 	m_bType = SESSIONTYPE_IM;
-	m_Panel = new CInfoPanel(this);
+	m_pPanel = new CInfoPanel(this);
 }
 
 void CSrmmWindow::ClearLog()
@@ -1034,9 +1034,7 @@ void CSrmmWindow::OnInitDialog()
 	else
 		m_hHistoryEvents = NULL;
 
-	if (m_bIsMeta)
-		SendMessage(m_hwnd, DM_UPDATEMETACONTACTINFO, 0, 0);
-	else
+	if (!m_bIsMeta)
 		SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 
 	GetMyNick();
@@ -1054,14 +1052,14 @@ void CSrmmWindow::OnInitDialog()
 		LoadLocalFlags();
 
 	DM_InitTip();
-	m_Panel->getVisibility();
+	m_pPanel->getVisibility();
 
 	m_dwFlagsEx |= M.GetByte(m_hContact, "splitoverride", 0) ? MWF_SHOW_SPLITTEROVERRIDE : 0;
 	m_bIsAutosizingInput = IsAutoSplitEnabled();
 	m_iInputAreaHeight = -1;
 	SetMessageLog();
 	if (m_hContact)
-		m_Panel->loadHeight();
+		m_pPanel->loadHeight();
 
 	m_bShowAvatar = GetAvatarVisibility();
 
@@ -1152,7 +1150,7 @@ void CSrmmWindow::OnInitDialog()
 		m_nMax = (int)m_cache->getMaxMessageLength();
 	}
 	LoadContactAvatar();
-	SendMessage(m_hwnd, DM_OPTIONSAPPLIED, 0, 0);
+	DM_OptionsApplied(0, 0);
 	LoadOwnAvatar();
 
 	// restore saved msg if any...
@@ -1261,7 +1259,7 @@ void CSrmmWindow::OnDestroy()
 		if (db_get_b(m_hContact, "CList", "NotOnList", 0))
 			db_delete_contact(m_hContact);
 
-	delete m_Panel;
+	delete m_pPanel;
 
 	if (m_hwndContactPic)
 		DestroyWindow(m_hwndContactPic);
@@ -1378,14 +1376,25 @@ void CSrmmWindow::OnDestroy()
 	}
 }
 
+void CSrmmWindow::ReplayQueue()
+{
+	for (int i = 0; i < m_iNextQueuedEvent; i++)
+		if (m_hQueuedEvents[i] != 0)
+			StreamInEvents(m_hQueuedEvents[i], 1, 1, NULL);
+
+	m_iNextQueuedEvent = 0;
+	SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, m_bNotOnList ? TranslateT("Contact not on list. You may add it...") :
+		TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // resizer proc for the "new" layout.
 
 int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 {
-	int panelHeight = m_Panel->getHeight() + 1;
+	int panelHeight = m_pPanel->getHeight() + 1;
 	
-	bool bInfoPanel = m_Panel->isActive();
+	bool bInfoPanel = m_pPanel->isActive();
 	bool bErrorState = (m_dwFlags & MWF_ERRORSTATE) != 0;
 	bool bShowToolbar = (m_pContainer->dwFlags & CNT_HIDETOOLBAR) == 0;
 	bool bBottomToolbar = (m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR) != 0;
@@ -1429,7 +1438,7 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
 
 	case IDC_CONTACTPIC:
-		GetClientRect(GetDlgItem(m_hwnd, IDC_MESSAGE), &rc);
+		GetClientRect(m_message.GetHwnd(), &rc);
 		urc->rcItem.top -= m_splitterY - m_originalSplitterY;
 		urc->rcItem.left = urc->rcItem.right - (m_pic.cx + 2);
 		if ((urc->rcItem.bottom - urc->rcItem.top) < (m_pic.cy/* + 2*/) && m_bShowAvatar) {
@@ -1446,7 +1455,7 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 			}
 		}
 
-		if (m_hwndContactPic) //if m_Panel control was created?
+		if (m_hwndContactPic) //if m_pPanel control was created?
 			SetWindowPos(m_hwndContactPic, HWND_TOP, 1, ((urc->rcItem.bottom - urc->rcItem.top) - (m_pic.cy)) / 2 + 1,  //resizes it
 				m_pic.cx - 2, m_pic.cy - 2, SWP_SHOWWINDOW);
 
@@ -1624,7 +1633,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				if (M.isAero()) {
 					LONG temp = rcClient.bottom;
-					rcClient.bottom = m_Panel->isActive() ? m_Panel->getHeight() + 5 : 5;
+					rcClient.bottom = m_pPanel->isActive() ? m_pPanel->getHeight() + 5 : 5;
 					FillRect(hdcMem, &rcClient, (HBRUSH)GetStockObject(BLACK_BRUSH));
 					rcClient.bottom = temp;
 				}
@@ -1632,14 +1641,14 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			// draw the (new) infopanel background. Use the gradient from the statusitem.
 			GetClientRect(m_hwnd, &rc);
-			m_Panel->renderBG(hdcMem, rc, &SkinItems[ID_EXTBKINFOPANELBG], bAero);
+			m_pPanel->renderBG(hdcMem, rc, &SkinItems[ID_EXTBKINFOPANELBG], bAero);
 
 			// draw aero related stuff
 			if (!CSkin::m_skinEnabled)
 				RenderToolbarBG(hdcMem, rcClient);
 
 			// render info panel fields
-			m_Panel->renderContent(hdcMem);
+			m_pPanel->renderContent(hdcMem);
 
 			if (hpb)
 				CSkin::FinalizeBufferedPaint(hpb, &rcClient);
@@ -1653,6 +1662,17 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				SetAeroMargins(m_pContainer);
 		}
 		return 1;
+
+	case WM_NCPAINT:
+		if (CSkin::m_skinEnabled)
+			return 0;
+		break;
+
+	case WM_PAINT:
+		PAINTSTRUCT ps;
+		BeginPaint(m_hwnd, &ps);
+		EndPaint(m_hwnd, &ps);
+		return 0;
 
 	case WM_SIZE:
 		if (!IsIconic(m_hwnd)) {
@@ -1669,7 +1689,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					LoadSplitter();
 			}
 
-			HBITMAP hbm = ((m_Panel->isActive()) && m_pContainer->avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
+			HBITMAP hbm = ((m_pPanel->isActive()) && m_pContainer->avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
 			if (hbm != 0) {
 				BITMAP bminfo;
 				GetObject(hbm, sizeof(bminfo), &bminfo);
@@ -1683,9 +1703,9 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			BB_SetButtonsPos();
 
 			// size info panel fields
-			if (m_Panel->isActive()) {
+			if (m_pPanel->isActive()) {
 				LONG cx = rc.right;
-				LONG panelHeight = m_Panel->getHeight();
+				LONG panelHeight = m_pPanel->getHeight();
 
 				hbm = (m_pContainer->avatarMode == 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
 				double dHeight = 0, dWidth = 0;
@@ -1701,7 +1721,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				if (m_bShowInfoAvatar) {
 					SetWindowPos(m_hwndPanelPicParent, HWND_TOP, rc.left - 2, rc.top, rc.right - rc.left, rc.bottom - rc.top + 1, 0);
-					ShowWindow(m_hwndPanelPicParent, (m_iPanelAvatarX == 0) || !m_Panel->isActive() ? SW_HIDE : SW_SHOW);
+					ShowWindow(m_hwndPanelPicParent, (m_iPanelAvatarX == 0) || !m_pPanel->isActive() ? SW_HIDE : SW_SHOW);
 				}
 				else {
 					ShowWindow(m_hwndPanelPicParent, SW_HIDE);
@@ -1726,7 +1746,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				rc.top = rc.bottom - m_ipFieldHeight;
 				m_rcUIN = rc;
 
-				m_Panel->Invalidate();
+				m_pPanel->Invalidate();
 			}
 
 			if (GetDlgItem(m_hwnd, IDC_CLIST) != 0) {
@@ -1737,8 +1757,8 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				rc.right = rcClient.right;
 				rc.left = rcClient.right - m_multiSplitterX;
 				rc.bottom = rcLog.bottom;
-				if (m_Panel->isActive())
-					rc.top += (m_Panel->getHeight() + 1);
+				if (m_pPanel->isActive())
+					rc.top += (m_pPanel->getHeight() + 1);
 				MoveWindow(GetDlgItem(m_hwnd, IDC_CLIST), rc.left, rc.top, rc.right - rc.left, rcLog.bottom - rcLog.top, FALSE);
 			}
 
@@ -1750,7 +1770,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case WM_TIMECHANGE:
-		PostMessage(m_hwnd, DM_OPTIONSAPPLIED, 0, 0);
+		DM_OptionsApplied(0, 0);
 		break;
 
 	case WM_NOTIFY:
@@ -1853,7 +1873,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 									db_unset(m_hContact, SRMSGMOD_T, "mwmask");
 									db_unset(m_hContact, SRMSGMOD_T, "mwflags");
 								}
-								SendMessage(m_hwnd, DM_OPTIONSAPPLIED, 0, 0);
+								DM_OptionsApplied(0, 0);
 								SendMessage(m_hwnd, DM_DEFERREDREMAKELOG, (WPARAM)m_hwnd, 0);
 							}
 							return _dlgReturn(m_hwnd, 1);
@@ -1960,7 +1980,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						if (isShift || isCtrl || isAlt)
 							return _dlgReturn(m_hwnd, 1);
 						if (m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED)
-							SendMessage(m_hwnd, DM_REPLAYQUEUE, 0, 0);
+							ReplayQueue();
 						m_dwFlagsEx ^= MWF_SHOW_SCROLLINGDISABLED;
 						Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, (m_bNotOnList || m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED) ? SW_SHOW : SW_HIDE);
 						if (!(m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
@@ -2113,7 +2133,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					case WM_MOUSEMOVE:
 						GetCursorPos(&pt);
 						DM_DismissTip(pt);
-						m_Panel->trackMouse(pt);
+						m_pPanel->trackMouse(pt);
 
 						HCURSOR hCur = GetCursor();
 						if (hCur == LoadCursor(NULL, IDC_SIZENS) || hCur == LoadCursor(NULL, IDC_SIZEWE) || hCur == LoadCursor(NULL, IDC_SIZENESW) || hCur == LoadCursor(NULL, IDC_SIZENWSE))
@@ -2202,20 +2222,11 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case DM_UPDATESTATUSMSG:
-		m_Panel->Invalidate();
+		m_pPanel->Invalidate();
 		return 0;
 
 	case DM_OWNNICKCHANGED:
 		GetMyNick();
-		return 0;
-
-	case DM_ADDDIVIDER:
-		if (!(m_dwFlags & MWF_DIVIDERSET) && PluginConfig.m_bUseDividers) {
-			if (GetWindowTextLength(m_log.GetHwnd()) > 0) {
-				m_dwFlags |= MWF_DIVIDERWANTED;
-				m_dwFlags |= MWF_DIVIDERSET;
-			}
-		}
 		return 0;
 
 	case WM_SETFOCUS:
@@ -2237,10 +2248,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SendMessage(m_hwnd, WM_SIZE, 0, 0);
 		return 0;
 
-	case DM_SPLITTERGLOBALEVENT:
-		DM_SplitterGlobalEvent(wParam, lParam);
-		return 0;
-
 	case DM_SPLITTERMOVED:
 		if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_MULTISPLITTER)) {
 			GetClientRect(m_hwnd, &rc);
@@ -2258,7 +2265,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTER)) {
 			GetClientRect(m_hwnd, &rc);
-			rc.top += (m_Panel->isActive() ? m_Panel->getHeight() + 40 : 30);
+			rc.top += (m_pPanel->isActive() ? m_pPanel->getHeight() + 40 : 30);
 			pt.x = 0;
 			pt.y = wParam;
 			ScreenToClient(m_hwnd, &pt);
@@ -2297,7 +2304,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			POINT	pnt = { 0, (int)wParam };
 			ScreenToClient(m_hwnd, &pnt);
 			if ((pnt.y + 2 >= MIN_PANELHEIGHT + 2) && (pnt.y + 2 < 100) && (pnt.y + 2 < rc.bottom - 30))
-				m_Panel->setHeight(pnt.y + 2, true);
+				m_pPanel->setHeight(pnt.y + 2, true);
 
 			RedrawWindow(m_hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);
 			if (M.isAero())
@@ -2347,20 +2354,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			StreamInEvents(lParam, 1, 1, NULL);
 		return 0;
 
-	case DM_APPENDTOLOG:
-		StreamInEvents(wParam, 1, 1, NULL);
-		return 0;
-
-	case DM_REPLAYQUEUE: // replays queued events after the message log has been frozen for a while
-		for (int i = 0; i < m_iNextQueuedEvent; i++)
-			if (m_hQueuedEvents[i] != 0)
-				StreamInEvents(m_hQueuedEvents[i], 1, 1, NULL);
-
-		m_iNextQueuedEvent = 0;
-		SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, m_bNotOnList ? TranslateT("Contact not on list. You may add it...") :
-			TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
-		return 0;
-
 	case DM_SCROLLIEVIEW:
 		{
 			IEVIEWWINDOW iew = { sizeof(iew) };
@@ -2389,7 +2382,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			KillTimer(m_hwnd, wParam);
 			GetCursorPos(&pt);
 
-			if (wParam == TIMERID_AWAYMSG && m_Panel->hitTest(pt) != CInfoPanel::HTNIRVANA)
+			if (wParam == TIMERID_AWAYMSG && m_pPanel->hitTest(pt) != CInfoPanel::HTNIRVANA)
 				SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, 0, 0);
 			else
 				m_dwFlagsEx &= ~MWF_SHOW_AWAYMSGTIMER;
@@ -2423,75 +2416,8 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case DM_ERRORDECIDED:
-		switch (wParam) {
-		case MSGERROR_CANCEL:
-		case MSGERROR_SENDLATER:
-			if (m_dwFlags & MWF_ERRORSTATE) {
-				m_cache->saveHistory(0, 0);
-				if (wParam == MSGERROR_SENDLATER)
-					sendQueue->doSendLater(m_iCurrentQueueError, this); // to be implemented at a later time
-				m_iOpenJobs--;
-				sendQueue->dec();
-				if (m_iCurrentQueueError >= 0 && m_iCurrentQueueError < SendQueue::NR_SENDJOBS)
-					sendQueue->clearJob(m_iCurrentQueueError);
-				m_iCurrentQueueError = -1;
-				sendQueue->showErrorControls(this, FALSE);
-				if (wParam != MSGERROR_CANCEL || (wParam == MSGERROR_CANCEL && lParam == 0))
-					SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
-				sendQueue->checkQueue(this);
-				int iNextFailed = sendQueue->findNextFailed(this);
-				if (iNextFailed >= 0)
-					sendQueue->handleError(this, iNextFailed);
-			}
-			break;
-
-		case MSGERROR_RETRY:
-			if (m_dwFlags & MWF_ERRORSTATE) {
-				int resent = 0;
-
-				m_cache->saveHistory(0, 0);
-				if (m_iCurrentQueueError >= 0 && m_iCurrentQueueError < SendQueue::NR_SENDJOBS) {
-					SendJob *job = sendQueue->getJobByIndex(m_iCurrentQueueError);
-					if (job->hSendId == 0 && job->hContact == 0)
-						break;
-
-					job->hSendId = (HANDLE)ProtoChainSend(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)job->szSendBuffer);
-					resent++;
-				}
-
-				if (resent) {
-					SendJob *job = sendQueue->getJobByIndex(m_iCurrentQueueError);
-
-					SetTimer(m_hwnd, TIMERID_MSGSEND + m_iCurrentQueueError, PluginConfig.m_MsgTimeout, NULL);
-					job->iStatus = SendQueue::SQ_INPROGRESS;
-					m_iCurrentQueueError = -1;
-					sendQueue->showErrorControls(this, FALSE);
-					SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
-					sendQueue->checkQueue(this);
-
-					int iNextFailed = sendQueue->findNextFailed(this);
-					if (iNextFailed >= 0)
-						sendQueue->handleError(this, iNextFailed);
-				}
-			}
-		}
-		break;
-
 	case DM_SELECTTAB:
 		SendMessage(m_pContainer->hwnd, DM_SELECTTAB, wParam, lParam);       // pass the msg to our container
-		return 0;
-
-	case DM_SETLOCALE:
-		if (m_dwFlags & MWF_WASBACKGROUNDCREATE)
-			break;
-		if (m_pContainer->hwndActive == m_hwnd && PluginConfig.m_bAutoLocaleSupport && m_pContainer->hwnd == GetForegroundWindow() && m_pContainer->hwnd == GetActiveWindow()) {
-			if (lParam)
-				m_hkl = (HKL)lParam;
-
-			if (m_hkl)
-				ActivateKeyboardLayout(m_hkl, 0);
-		}
 		return 0;
 
 		// return timestamp (in ticks) of last recent message which has not been read yet.
@@ -2502,22 +2428,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			DWORD *pdw = (DWORD *)lParam;
 			if (pdw)
 				*pdw = m_dwTickLastEvent;
-		}
-		return 0;
-
-	case DM_QUERYCONTAINER:
-		{
-			TContainerData **pc = (TContainerData **)lParam;
-			if (pc)
-				*pc = m_pContainer;
-		}
-		return 0;
-
-	case DM_QUERYHCONTACT:
-		{
-			MCONTACT *phContact = (MCONTACT*)lParam;
-			if (phContact)
-				*phContact = m_hContact;
 		}
 		return 0;
 
@@ -2560,12 +2470,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		return 0;
 
-	case DM_CHECKSIZE:
-		m_dwFlags |= MWF_NEEDCHECKSIZE;
-		return 0;
-
-		// sent by the message input area hotkeys. just pass it to our container
-	case DM_QUERYPENDING:
+	case DM_QUERYPENDING: // sent by the message input area hotkeys. just pass it to our container
 		SendMessage(m_pContainer->hwnd, DM_QUERYPENDING, wParam, lParam);
 		return 0;
 
@@ -2573,14 +2478,14 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		GetCursorPos(&tmp);
 		cur.x = (SHORT)tmp.x;
 		cur.y = (SHORT)tmp.y;
-		if (!m_Panel->isHovered())
+		if (!m_pPanel->isHovered())
 			SendMessage(m_pContainer->hwnd, WM_NCLBUTTONDOWN, HTCAPTION, *((LPARAM*)(&cur)));
 		break;
 
 	case WM_LBUTTONUP:
 		GetCursorPos(&tmp);
-		if (m_Panel->isHovered())
-			m_Panel->handleClick(tmp);
+		if (m_pPanel->isHovered())
+			m_pPanel->handleClick(tmp);
 		else {
 			cur.x = (SHORT)tmp.x;
 			cur.y = (SHORT)tmp.y;
@@ -2597,7 +2502,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			rcPanelNick.left = rcPanelNick.right - 30;
 			GetCursorPos(&pt);
 
-			if (m_Panel->invokeConfigDialog(pt))
+			if (m_pPanel->invokeConfigDialog(pt))
 				break;
 
 			if (PtInRect(&rcPicture, pt))
@@ -2636,13 +2541,13 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_MOUSEMOVE:
 		GetCursorPos(&pt);
 		DM_DismissTip(pt);
-		m_Panel->trackMouse(pt);
+		m_pPanel->trackMouse(pt);
 		break;
 
 	case WM_MEASUREITEM:
 		{
 			LPMEASUREITEMSTRUCT lpmi = (LPMEASUREITEMSTRUCT)lParam;
-			if (m_Panel->isHovered()) {
+			if (m_pPanel->isHovered()) {
 				lpmi->itemHeight = 0;
 				lpmi->itemWidth = 6;
 				return TRUE;
@@ -2944,73 +2849,14 @@ quote_from_last:
 		sendQueue->ackMessage(this, wParam, lParam);
 		return 0;
 
-	case DM_ACTIVATEME:
-		ActivateExistingTab(m_pContainer, m_hwnd);
-		return 0;
-
-		// sent by the select container dialog box when a container was selected...
-		// lParam = (wchar_t*)selected name...
-	case DM_CONTAINERSELECTED:
-		{
-			wchar_t *szNewName = (wchar_t*)lParam;
-			if (!mir_wstrcmp(szNewName, TranslateT("Default container")))
-				szNewName = CGlobals::m_default_container_name;
-
-			int iOldItems = TabCtrl_GetItemCount(m_hwndParent);
-			if (!wcsncmp(m_pContainer->szName, szNewName, CONTAINER_NAMELEN))
-				break;
-
-			TContainerData *pNewContainer = FindContainerByName(szNewName);
-			if (pNewContainer == NULL)
-				if ((pNewContainer = CreateContainer(szNewName, FALSE, m_hContact)) == NULL)
-					break;
-
-			db_set_ws(m_hContact, SRMSGMOD_T, "containerW", szNewName);
-			m_fIsReattach = TRUE;
-			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_DOCREATETAB, (WPARAM)pNewContainer, m_hContact);
-			if (iOldItems > 1)                // there were more than 1 tab, container is still valid
-				SendMessage(m_pContainer->hwndActive, WM_SIZE, 0, 0);
-			SetForegroundWindow(pNewContainer->hwnd);
-			SetActiveWindow(pNewContainer->hwnd);
-		}
-		break;
-
-	case DM_STATUSBARCHANGED:
-		UpdateStatusBar();
-		return 0;
-
 	case DM_UINTOCLIPBOARD:
 		Utils::CopyToClipBoard(m_cache->getUIN(), m_hwnd);
 		return 0;
-
-		// broadcasted when GLOBAL info panel setting changes
-	case DM_SETINFOPANEL:
-		CInfoPanel::setPanelHandler(this, wParam, lParam);
-		return 0;
-
-		// show the balloon tooltip control.
-		// wParam == id of the "anchor" element, defaults to the panel status field (for away msg retrieval)
-		// lParam == new text to show
-	case DM_ACTIVATETOOLTIP:
-		if (IsIconic(m_pContainer->hwnd) || m_pContainer->hwndActive != m_hwnd)
-			break;
-
-		m_Panel->showTip(wParam, lParam);
-		break;
 
 	case WM_NEXTDLGCTL:
 		if (m_dwFlags & MWF_WASBACKGROUNDCREATE)
 			return 1;
 		break;
-
-		// save the contents of the log as rtf file
-	case DM_SAVEMESSAGELOG:
-		DM_SaveLogAsRTF();
-		return 0;
-
-	case DM_CHECKAUTOHIDE:
-		DM_CheckAutoHide(wParam, lParam);
-		return 0;
 
 	case DM_IEVIEWOPTIONSCHANGED:
 		if (m_hwndIEView)
@@ -3029,43 +2875,22 @@ quote_from_last:
 		}
 		break;
 
-	case DM_GETWINDOWSTATE:
-		{
-			UINT state = MSG_WINDOW_STATE_EXISTS;
-			if (IsWindowVisible(m_hwnd))
-				state |= MSG_WINDOW_STATE_VISIBLE;
-			if (GetForegroundWindow() == m_pContainer->hwnd)
-				state |= MSG_WINDOW_STATE_FOCUS;
-			if (IsIconic(m_pContainer->hwnd))
-				state |= MSG_WINDOW_STATE_ICONIC;
-			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, state);
-		}
-		return TRUE;
-
 	case DM_CLIENTCHANGED:
 		GetClientIcon();
-		if (m_hClientIcon && m_Panel->isActive())
+		if (m_hClientIcon && m_pPanel->isActive())
 			InvalidateRect(m_hwnd, NULL, TRUE);
 		return 0;
 
 	case DM_UPDATEUIN:
-		if (m_Panel->isActive())
-			m_Panel->Invalidate();
+		if (m_pPanel->isActive())
+			m_pPanel->Invalidate();
 		if (m_pContainer->dwFlags & CNT_UINSTATUSBAR)
 			UpdateStatusBar();
-		return 0;
-
-	case DM_REMOVEPOPUPS:
-		DeletePopupsForContact(m_hContact, (DWORD)wParam);
 		return 0;
 
 	case EM_THEMECHANGED:
 		DM_FreeTheme();
 		DM_ThemeChanged();
-		return 0;
-
-	case DM_PLAYINCOMINGSOUND:
-		PlayIncomingSound();
 		return 0;
 
 	case DM_REFRESHTABINDEX:
@@ -3158,7 +2983,7 @@ quote_from_last:
 	case WM_CLOSE:
 		// esc handles error controls if we are in error state (error controls visible)
 		if (wParam == 0 && lParam == 0 && m_dwFlags & MWF_ERRORSTATE) {
-			SendMessage(m_hwnd, DM_ERRORDECIDED, MSGERROR_CANCEL, 0);
+			DM_ErrorDetected(MSGERROR_CANCEL, 0);
 			return TRUE;
 		}
 
@@ -3176,7 +3001,7 @@ quote_from_last:
 
 		if (m_iOpenJobs > 0 && lParam != 2) {
 			if (m_dwFlags & MWF_ERRORSTATE) {
-				SendMessage(m_hwnd, DM_ERRORDECIDED, MSGERROR_CANCEL, 1);
+				DM_ErrorDetected(MSGERROR_CANCEL, 1);
 			}
 			else {
 				if (m_dwFlagsEx & MWF_EX_WARNCLOSE)
@@ -3238,7 +3063,7 @@ quote_from_last:
 		return 0;
 
 	case DM_CHECKINFOTIP:
-		m_Panel->hideTip(reinterpret_cast<HWND>(lParam));
+		m_pPanel->hideTip(reinterpret_cast<HWND>(lParam));
 		return 0;
 	}
 	

@@ -35,7 +35,7 @@ SendQueue *sendQueue = 0;
 // as "failed" by either the ACKRESULT_FAILED or a timeout handler
 // returns: zero-based queue index or -1 if none was found
 
-int SendQueue::findNextFailed(const CSrmmWindow *dat) const
+int SendQueue::findNextFailed(const CTabBaseDlg *dat) const
 {
 	if (dat)
 		for (int i = 0; i < NR_SENDJOBS; i++)
@@ -45,7 +45,7 @@ int SendQueue::findNextFailed(const CSrmmWindow *dat) const
 	return -1;
 }
 
-void SendQueue::handleError(CSrmmWindow *dat, const int iEntry) const
+void SendQueue::handleError(CTabBaseDlg *dat, const int iEntry) const
 {
 	if (!dat) return;
 
@@ -63,7 +63,7 @@ void SendQueue::handleError(CSrmmWindow *dat, const int iEntry) const
 //add a message to the sending queue.
 // iLen = required size of the memory block to hold the message
 
-int SendQueue::addTo(CSrmmWindow *dat, size_t iLen, int dwFlags)
+int SendQueue::addTo(CTabBaseDlg *dat, size_t iLen, int dwFlags)
 {
 	int i;
 	int iFound = NR_SENDJOBS;
@@ -190,7 +190,7 @@ size_t SendQueue::getSendLength(const int iEntry)
 	return p.iSendLength;
 }
 
-int SendQueue::sendQueued(CSrmmWindow *dat, const int iEntry)
+int SendQueue::sendQueued(CTabBaseDlg *dat, const int iEntry)
 {
 	HWND hwndDlg = dat->GetHwnd();
 	CContactCache *ccActive = CContactCache::getContactCache(dat->m_hContact);
@@ -321,15 +321,15 @@ void SendQueue::clearJob(const int iIndex)
 // ) user decided to cancel a failed send
 // it removes the completed / canceled send job from the queue and schedules the next job to send (if any)
 
-void SendQueue::checkQueue(const CSrmmWindow *dat) const
+void SendQueue::checkQueue(const CTabBaseDlg *dat) const
 {
 	if (dat) {
 		HWND	hwndDlg = dat->GetHwnd();
 
 		if (dat->m_iOpenJobs == 0)
-			::HandleIconFeedback(const_cast<CSrmmWindow *>(dat), (HICON)INVALID_HANDLE_VALUE);
+			::HandleIconFeedback(const_cast<CTabBaseDlg*>(dat), (HICON)INVALID_HANDLE_VALUE);
 		else if (!(dat->m_sendMode & SMODE_NOACK))
-			::HandleIconFeedback(const_cast<CSrmmWindow *>(dat), PluginConfig.g_IconSend);
+			::HandleIconFeedback(const_cast<CTabBaseDlg*>(dat), PluginConfig.g_IconSend);
 
 		if (dat->m_pContainer->hwndActive == hwndDlg)
 			dat->UpdateReadChars();
@@ -340,7 +340,7 @@ void SendQueue::checkQueue(const CSrmmWindow *dat) const
 // logs an error message to the message window.Optionally, appends the original message
 // from the given sendJob (queue index)
 
-void SendQueue::logError(CSrmmWindow *dat, int iSendJobIndex, const wchar_t *szErrMsg) const
+void SendQueue::logError(CTabBaseDlg *dat, int iSendJobIndex, const wchar_t *szErrMsg) const
 {
 	if (dat == 0)
 		return;
@@ -370,7 +370,7 @@ void SendQueue::logError(CSrmmWindow *dat, int iSendJobIndex, const wchar_t *szE
 // ) multisend contact list instance
 // ) send button
 
-void SendQueue::EnableSending(const CSrmmWindow *dat, bool bMode)
+void SendQueue::EnableSending(const CTabBaseDlg *dat, bool bMode)
 {
 	if (dat) {
 		HWND hwndDlg = dat->GetHwnd();
@@ -383,7 +383,7 @@ void SendQueue::EnableSending(const CSrmmWindow *dat, bool bMode)
 /////////////////////////////////////////////////////////////////////////////////////////
 // show or hide the error control button bar on top of the window
 
-void SendQueue::showErrorControls(CSrmmWindow *dat, const int showCmd) const
+void SendQueue::showErrorControls(CTabBaseDlg *dat, const int showCmd) const
 {
 	UINT	myerrorControls[] = { IDC_STATICERRORICON, IDC_STATICTEXT, IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER };
 	HWND	hwndDlg = dat->GetHwnd();
@@ -411,7 +411,7 @@ void SendQueue::showErrorControls(CSrmmWindow *dat, const int showCmd) const
 		EnableSending(dat, TRUE);
 }
 
-void SendQueue::recallFailed(const CSrmmWindow *dat, int iEntry) const
+void SendQueue::recallFailed(const CTabBaseDlg *dat, int iEntry) const
 {
 	if (dat == NULL)
 		return;
@@ -424,11 +424,11 @@ void SendQueue::recallFailed(const CSrmmWindow *dat, int iEntry) const
 	// message area is empty, so we can recall the failed message...
 	SETTEXTEX stx = { ST_DEFAULT, CP_UTF8 };
 	SendDlgItemMessage(dat->GetHwnd(), IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_jobs[iEntry].szSendBuffer);
-	UpdateSaveAndSendButton(const_cast<CSrmmWindow *>(dat));
+	UpdateSaveAndSendButton(const_cast<CTabBaseDlg *>(dat));
 	SendDlgItemMessage(dat->GetHwnd(), IDC_MESSAGE, EM_SETSEL, (WPARAM)-1, (LPARAM)-1);
 }
 
-void SendQueue::UpdateSaveAndSendButton(CSrmmWindow *dat)
+void SendQueue::UpdateSaveAndSendButton(CTabBaseDlg *dat)
 {
 	if (dat) {
 		HWND hwndDlg = dat->GetHwnd();
@@ -459,7 +459,7 @@ void SendQueue::UpdateSaveAndSendButton(CSrmmWindow *dat)
 	}
 }
 
-void SendQueue::NotifyDeliveryFailure(const CSrmmWindow *dat)
+void SendQueue::NotifyDeliveryFailure(const CTabBaseDlg *dat)
 {
 	if (M.GetByte("adv_noErrorPopups", 0))
 		return;
@@ -507,7 +507,7 @@ int SendQueue::RTL_Detect(const WCHAR *pszwText)
 	return(n >= 2 ? 1 : 0);
 }
 
-int SendQueue::ackMessage(CSrmmWindow *dat, WPARAM wParam, LPARAM lParam)
+int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *)lParam;
 
@@ -631,7 +631,7 @@ LRESULT SendQueue::WarnPendingJobs(unsigned int)
 //
 // @return the index on success, -1 on failure
 
-int SendQueue::doSendLater(int iJobIndex, CSrmmWindow *dat, MCONTACT hContact, bool fIsSendLater)
+int SendQueue::doSendLater(int iJobIndex, CTabBaseDlg *dat, MCONTACT hContact, bool fIsSendLater)
 {
 	bool  fAvail = sendLater->isAvail();
 

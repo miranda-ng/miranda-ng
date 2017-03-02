@@ -300,8 +300,8 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 		return;
 
 	if (m_history != NULL && m_history[0].szText != NULL) {     // at least one entry needs to be alloced, otherwise we get a nice infinite loop ;)
-		HWND		hwndEdit = ::GetDlgItem(m_hwnd, IDC_MESSAGE);
-		SETTEXTEX 	stx = { ST_DEFAULT, CP_UTF8 };
+		HWND hwndEdit = ::GetDlgItem(m_hwnd, IDC_MESSAGE);
+		SETTEXTEX stx = { ST_DEFAULT, CP_UTF8 };
 
 		if (m_dat->m_dwFlags & MWF_NEEDHISTORYSAVE) {
 			m_iHistoryCurrent = m_iHistoryTop;

@@ -172,7 +172,6 @@ public:
 
 public:
 	static TInfoPanelConfig m_ipConfig;
-	static int setPanelHandler(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 private:

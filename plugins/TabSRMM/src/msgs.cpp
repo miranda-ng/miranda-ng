@@ -133,6 +133,148 @@ CTabBaseDlg::CTabBaseDlg(TNewWindowData *pData, int iResource)
 	m_forceResizable = true;
 }
 
+INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case DM_SETINFOPANEL: // broadcasted when global info panel setting changes
+		if (wParam == 0 && lParam == 0) {
+			m_pPanel->getVisibility();
+			m_pPanel->loadHeight();
+			m_pPanel->showHide();
+		}
+		else {
+			CTabBaseDlg *srcDat = (CTabBaseDlg*)wParam;
+			if (lParam == 0)
+				m_pPanel->loadHeight();
+			else {
+				if (srcDat && lParam && this != srcDat && !m_pPanel->isPrivateHeight()) {
+					if (srcDat->m_bType != m_bType && M.GetByte("syncAllPanels", 0) == 0)
+						return 0;
+
+					if (m_pContainer->settings->fPrivate && srcDat->m_pContainer != m_pContainer)
+						return 0;
+
+					m_pPanel->setHeight((LONG)lParam);
+				}
+			}
+			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		}
+		return 0;
+
+	case DM_ACTIVATEME: // the child window will activate itself
+		ActivateExistingTab(m_pContainer, m_hwnd);
+		return 0;
+
+	case DM_SETLOCALE:
+		if (m_dwFlags & MWF_WASBACKGROUNDCREATE)
+			break;
+		if (m_pContainer->hwndActive == m_hwnd && PluginConfig.m_bAutoLocaleSupport && m_pContainer->hwnd == GetForegroundWindow() && m_pContainer->hwnd == GetActiveWindow()) {
+			if (lParam)
+				m_hkl = (HKL)lParam;
+
+			if (m_hkl)
+				ActivateKeyboardLayout(m_hkl, 0);
+		}
+		return 0;
+		
+	case DM_QUERYCONTAINER: // container API support functions
+		if (lParam)
+			*(TContainerData**)lParam = m_pContainer;
+		return 0;
+
+	case DM_QUERYHCONTACT:
+		if (lParam)
+			*(MCONTACT*)lParam = m_hContact;
+		return 0;
+
+	case DM_CHECKSIZE:
+		m_dwFlags |= MWF_NEEDCHECKSIZE;
+		return 0;
+		
+	case DM_CONTAINERSELECTED:
+		// sent by the select container dialog box when a container was selected...
+		// lParam = (wchar_t*)selected name...
+		{
+			wchar_t *szNewName = (wchar_t*)lParam;
+			if (!mir_wstrcmp(szNewName, TranslateT("Default container")))
+				szNewName = CGlobals::m_default_container_name;
+
+			int iOldItems = TabCtrl_GetItemCount(m_hwndParent);
+			if (!wcsncmp(m_pContainer->szName, szNewName, CONTAINER_NAMELEN))
+				break;
+
+			TContainerData *pNewContainer = FindContainerByName(szNewName);
+			if (pNewContainer == NULL)
+				if ((pNewContainer = CreateContainer(szNewName, FALSE, m_hContact)) == NULL)
+					break;
+
+			db_set_ws(m_hContact, SRMSGMOD_T, "containerW", szNewName);
+			m_fIsReattach = TRUE;
+			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_DOCREATETAB, (WPARAM)pNewContainer, m_hContact);
+			if (iOldItems > 1)                // there were more than 1 tab, container is still valid
+				SendMessage(m_pContainer->hwndActive, WM_SIZE, 0, 0);
+			SetForegroundWindow(pNewContainer->hwnd);
+			SetActiveWindow(pNewContainer->hwnd);
+		}
+		return 0;
+
+	case DM_ACTIVATETOOLTIP:
+		// show the balloon tooltip control.
+		// wParam == id of the "anchor" element, defaults to the panel status field (for away msg retrieval)
+		// lParam == new text to show
+		if (!IsIconic(m_pContainer->hwnd) && m_pContainer->hwndActive == m_hwnd)
+			m_pPanel->showTip(wParam, lParam);
+		return 0;
+
+	case DM_STATUSBARCHANGED:
+		UpdateStatusBar();
+		break;
+
+	case DM_CHECKAUTOHIDE:
+		// This is broadcasted by the container to all child windows to check if the
+		// container can be autohidden or -closed.
+		//
+		// wParam is the autohide timeout (in seconds)
+		// lParam points to a BOOL and a session which wants to prevent auto-hiding
+		// the container must set it to FALSE.
+		//
+		// If no session in the container disagrees, the container will be hidden.
+
+		if (lParam) {
+			BOOL *fResult = (BOOL*)lParam;
+			// text entered in the input area -> prevent autohide/cose
+			if (GetWindowTextLength(m_message.GetHwnd()) > 0)
+				*fResult = FALSE;
+			// unread events, do not hide or close the container
+			else if (m_dwUnread)
+				*fResult = FALSE;
+			// time since last activity did not yet reach the threshold.
+			else if (((GetTickCount() - m_dwLastActivity) / 1000) <= wParam)
+				*fResult = FALSE;
+		}
+		return 0;
+
+	case DM_GETWINDOWSTATE:
+		{
+			UINT state = MSG_WINDOW_STATE_EXISTS;
+			if (IsWindowVisible(m_hwnd))
+				state |= MSG_WINDOW_STATE_VISIBLE;
+			if (GetForegroundWindow() == m_pContainer->hwnd)
+				state |= MSG_WINDOW_STATE_FOCUS;
+			if (IsIconic(m_pContainer->hwnd))
+				state |= MSG_WINDOW_STATE_ICONIC;
+			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, state);
+		}
+		return true;
+
+	case DM_SPLITTERGLOBALEVENT:
+		DM_SplitterGlobalEvent(wParam, lParam);
+		return 0;
+	}
+
+	return CSrmmBaseDialog::DlgProc(msg, wParam, lParam);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // service function. Sets a status bar text for a contact
 
@@ -165,7 +307,7 @@ static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 			if (hwnd = M.FindWindow(hContact))
 				SetStatusTextWorker((CTabBaseDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA), (StatusTextData*)lParam);
 	}
-	else SetStatusTextWorker(si->dat, (StatusTextData*)lParam);
+	else SetStatusTextWorker((CTabBaseDlg*)si->dat, (StatusTextData*)lParam);
 
 	return 0;
 }

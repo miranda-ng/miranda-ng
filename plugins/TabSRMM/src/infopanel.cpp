@@ -40,33 +40,6 @@ wchar_t *xStatusDescr[] =
 
 TInfoPanelConfig CInfoPanel::m_ipConfig = { 0 };
 
-int CInfoPanel::setPanelHandler(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
-{
-	if (wParam == 0 && lParam == 0) {
-		dat->m_Panel->getVisibility();
-		dat->m_Panel->loadHeight();
-		dat->m_Panel->showHide();
-	}
-	else {
-		CTabBaseDlg *srcDat = (CTabBaseDlg*)wParam;
-		if (lParam == 0)
-			dat->m_Panel->loadHeight();
-		else {
-			if (srcDat && lParam && dat != srcDat && !dat->m_Panel->isPrivateHeight()) {
-				if (srcDat->m_bType != dat->m_bType && M.GetByte("syncAllPanels", 0) == 0)
-					return 0;
-
-				if (dat->m_pContainer->settings->fPrivate && srcDat->m_pContainer != dat->m_pContainer)
-					return 0;
-
-				dat->m_Panel->setHeight((LONG)lParam);
-			}
-		}
-		SendMessage(dat->GetHwnd(), WM_SIZE, 0, 0);
-	}
-	return 0;
-}
-
 void CInfoPanel::setActive(const int newActive)
 {
 	m_active = newActive ? true : false;
@@ -716,7 +689,7 @@ HMENU CInfoPanel::constructContextualMenu() const
 
 	if (m_hoverFlags & HOVER_NICK) {
 		Utils::addMenuItem(m, mii, ::Skin_LoadIcon(SKINICON_OTHER_USERDETAILS), TranslateT("Open user details..."), IDC_NAME, 0);
-		Utils::addMenuItem(m, mii, ::Skin_LoadIcon(SKINICON_OTHER_HISTORY), TranslateT("Open history..."), m_isChat ? IDC_CHAT_HISTORY : IDC_HISTORY, 0);
+		Utils::addMenuItem(m, mii, ::Skin_LoadIcon(SKINICON_OTHER_HISTORY), TranslateT("Open history..."), m_isChat ? IDC_HISTORY : IDC_HISTORY, 0);
 		if (!m_isChat)
 			Utils::addMenuItem(m, mii, PluginConfig.g_iconContainer, TranslateT("Messaging settings..."), ID_MESSAGELOGSETTINGS_FORTHISCONTACT, 1);
 		else {
@@ -755,7 +728,7 @@ LRESULT CInfoPanel::cmdHandler(UINT cmd)
 		}
 		break;
 
-	case IDC_CHAT_HISTORY:
+	case IDC_HISTORY:
 	case IDC_CHANMGR:
 		if (m_isChat) {
 			SendMessage(m_dat->GetHwnd(), WM_COMMAND, cmd, 0);
@@ -971,7 +944,7 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 
 		GetClientRect(hwnd, &rcItem);
 		rc = rcItem;
-		if (!IsWindowEnabled(hwnd) || !dat->m_Panel->isActive() || !dat->m_bShowInfoAvatar)
+		if (!IsWindowEnabled(hwnd) || !dat->m_pPanel->isActive() || !dat->m_bShowInfoAvatar)
 			return TRUE;
 
 		HDC dcWin = (HDC)wParam;
@@ -1005,7 +978,7 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 		else {
 			rc.bottom += 2;
 			rc.left -= 3; rc.right += 3;
-			dat->m_Panel->renderBG(dcWin, rc, &SkinItems[ID_EXTBKINFOPANELBG], M.isAero(), false);
+			dat->m_pPanel->renderBG(dcWin, rc, &SkinItems[ID_EXTBKINFOPANELBG], M.isAero(), false);
 		}
 
 		if (CSkin::m_bAvatarBorderType == 1) {

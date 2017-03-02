@@ -55,8 +55,8 @@ static void OnReplaceSession(SESSION_INFO *si)
 
 static void OnSetTopic(SESSION_INFO *si)
 {
-	if (si->hWnd)
-		SendMessage(si->hWnd, DM_INVALIDATEPANEL, 0, 0);
+	if (si->hWnd && si->dat->m_pPanel)
+		si->dat->m_pPanel->Invalidate(true);
 }
 
 static void OnNewUser(SESSION_INFO *si, USERINFO*)
@@ -102,8 +102,6 @@ static void OnLoadSettings()
 	g_Settings.bColorizeNicks = M.GetBool(CHAT_MODULE, "ColorizeNicks", true);
 	g_Settings.bColorizeNicksInLog = M.GetBool(CHAT_MODULE, "ColorizeNicksInLog", true);
 	g_Settings.bScaleIcons = M.GetBool(CHAT_MODULE, "ScaleIcons", true);
-	g_Settings.bUseDividers = M.GetBool(CHAT_MODULE, "UseDividers", true);
-	g_Settings.bDividersUsePopupConfig = M.GetBool(CHAT_MODULE, "DividersUsePopupConfig", true);
 
 	g_Settings.bDoubleClick4Privat = M.GetBool(CHAT_MODULE, "DoubleClick4Privat", false);
 	g_Settings.bShowContactStatus = M.GetBool(CHAT_MODULE, "ShowContactStatus", true);

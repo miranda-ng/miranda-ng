@@ -66,8 +66,8 @@ static ColorOptionsList _clrs[] = {
 	{ 3, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), LPGENW("Incoming background(old)"), "oldinbg", SRMSGDEFSET_BKGINCOLOUR },
 	{ 4, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), LPGENW("Outgoing background(old)"), "oldoutbg", SRMSGDEFSET_BKGOUTCOLOUR },
 	{ 5, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), LPGENW("Horizontal Grid Lines"), "hgrid", RGB(224, 224, 224) },
-	{ 0, LPGENW("Message Sessions") L"/" LPGENW("Info m_Panel"), LPGENW("m_Panel background low"), "ipfieldsbg", 0x62caff },
-	{ 1, LPGENW("Message Sessions") L"/" LPGENW("Info m_Panel"), LPGENW("m_Panel background high"), "ipfieldsbgHigh", 0xf0f0f0 },
+	{ 0, LPGENW("Message Sessions") L"/" LPGENW("Info m_pPanel"), LPGENW("m_pPanel background low"), "ipfieldsbg", 0x62caff },
+	{ 1, LPGENW("Message Sessions") L"/" LPGENW("Info m_pPanel"), LPGENW("m_pPanel background high"), "ipfieldsbgHigh", 0xf0f0f0 },
 	{ 0, LPGENW("Message Sessions") L"/" LPGENW("Common colors"), LPGENW("Toolbar background high"), "tbBgHigh", 0 },
 	{ 1, LPGENW("Message Sessions") L"/" LPGENW("Common colors"), LPGENW("Toolbar background low"), "tbBgLow", 0 },
 	{ 2, LPGENW("Message Sessions") L"/" LPGENW("Common colors"), LPGENW("Window fill color"), "fillColor", 0 },
@@ -169,9 +169,7 @@ static branch_t branch2[] = {
 	{ LPGENW("Allow clickable user names in the message log"), "ClickableNicks", 0, 1, NULL },
 	{ LPGENW("Add new line after names"), "NewlineAfterNames", 0, 0, NULL },
 	{ LPGENW("Colorize user names in message log"), "ColorizeNicksInLog", 0, 1, NULL },
-	{ LPGENW("Scale down icons to 10x10 pixels in the chat log"), "ScaleIcons", 0, 1, NULL },
-	{ LPGENW("Place a separator in the log after a window lost its foreground status"), "UseDividers", 0, 1, NULL },
-	{ LPGENW("Only place a separator when an incoming event is announced with a popup"), "DividersUsePopupConfig", 0, 1, NULL }
+	{ LPGENW("Scale down icons to 10x10 pixels in the chat log"), "ScaleIcons", 0, 1, NULL }
 };
 
 static HWND hPathTip = 0;
@@ -557,8 +555,8 @@ void RegisterFontServiceFonts()
 
 	fontOptionsList = IP_fontOptionsList;
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
-	wcsncpy(fid.group, LPGENW("Message Sessions") L"/" LPGENW("Info m_Panel"), _countof(fid.group));
-	wcsncpy(fid.backgroundGroup, LPGENW("Message Sessions") L"/" LPGENW("Info m_Panel"), _countof(fid.backgroundGroup));
+	wcsncpy(fid.group, LPGENW("Message Sessions") L"/" LPGENW("Info m_pPanel"), _countof(fid.group));
+	wcsncpy(fid.backgroundGroup, LPGENW("Message Sessions") L"/" LPGENW("Info m_pPanel"), _countof(fid.backgroundGroup));
 	wcsncpy(fid.backgroundName, LPGENW("Fields background"), _countof(fid.backgroundName));
 	for (int i = 0; i < IPFONTCOUNT; i++) {
 		LoadMsgDlgFont(FONTSECTION_IP, i + 100, &lf, &fontOptionsList[i].colour, FONTMODULE);

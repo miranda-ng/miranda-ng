@@ -85,26 +85,26 @@ public:
 	SendJob *getJobByIndex(const int index) { return(&m_jobs[index]); }
 
 	void   clearJob(const int index);
-	int    findNextFailed(const CSrmmWindow *dat) const;
-	void   handleError(CSrmmWindow *dat, const int iEntry) const;
-	int    addTo(CSrmmWindow *dat, size_t iLen, int dwFlags);
-	int    sendQueued(CSrmmWindow *dat, const int iEntry);
+	int    findNextFailed(const CTabBaseDlg *dat) const;
+	void   handleError(CTabBaseDlg *dat, const int iEntry) const;
+	int    addTo(CTabBaseDlg *dat, size_t iLen, int dwFlags);
+	int    sendQueued(CTabBaseDlg *dat, const int iEntry);
 	size_t getSendLength(const int iEntry);
-	void   checkQueue(const CSrmmWindow *dat) const;
-	void   logError(CSrmmWindow *dat, int iSendJobIndex, const wchar_t *szErrMsg) const;
-	void   recallFailed(const CSrmmWindow *dat, int iEntry) const;
-	void   showErrorControls(CSrmmWindow *dat, const int showCmd) const;
-	int    ackMessage(CSrmmWindow *dat, WPARAM wParam, LPARAM lParam);
-	int    doSendLater(int iIndex, CSrmmWindow *dat, MCONTACT hContact = 0, bool fIsSendLater = true);
+	void   checkQueue(const CTabBaseDlg *dat) const;
+	void   logError(CTabBaseDlg *dat, int iSendJobIndex, const wchar_t *szErrMsg) const;
+	void   recallFailed(const CTabBaseDlg *dat, int iEntry) const;
+	void   showErrorControls(CTabBaseDlg *dat, const int showCmd) const;
+	int    ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam);
+	int    doSendLater(int iIndex, CTabBaseDlg *dat, MCONTACT hContact = 0, bool fIsSendLater = true);
 	/*
 	 * static members
 	 */
 	static int     TSAPI RTL_Detect(const wchar_t *pszwText);
 	static int     TSAPI GetProtoIconFromList(const char *szProto, int iStatus);
 	static LRESULT TSAPI WarnPendingJobs(unsigned int uNrMessages);
-	static void    TSAPI NotifyDeliveryFailure(const CSrmmWindow *dat);
-	static void    TSAPI UpdateSaveAndSendButton(CSrmmWindow *dat);
-	static void    TSAPI EnableSending(const CSrmmWindow *dat, bool bMode);
+	static void    TSAPI NotifyDeliveryFailure(const CTabBaseDlg *dat);
+	static void    TSAPI UpdateSaveAndSendButton(CTabBaseDlg *dat);
+	static void    TSAPI EnableSending(const CTabBaseDlg *dat, bool bMode);
 
 private:
 	SendJob m_jobs[NR_SENDJOBS];
