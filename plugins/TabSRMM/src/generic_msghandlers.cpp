@@ -555,44 +555,49 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 	return 1;
 }
 
-static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class CAboutDlg : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			MFileVersion v;
-			Miranda_GetFileVersion(&v);
+	CCtrlButton m_btnSupport;
 
-			wchar_t tStr[80];
-			mir_snwprintf(tStr, L"%s %d.%d.%d.%d [build %d]",
-				TranslateT("Version"), __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM, v[3]);
-			SetDlgItemText(hwndDlg, IDC_HEADERBAR, tStr);
-		}
-		Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_EVENT_MESSAGE);
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			return TRUE;
-
-		case IDC_SUPPORT:
-			Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM");
-			break;
-		}
-		break;
-
-	case WM_CTLCOLOREDIT:
-	case WM_CTLCOLORSTATIC:
-		SetTextColor((HDC)wParam, RGB(60, 60, 150));
-		SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
-		return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
+public:
+	CAboutDlg() :
+		CDlgBase(g_hInst, IDD_ABOUT),
+		m_btnSupport(this, IDC_SUPPORT)
+	{
+		m_btnSupport.OnClick = Callback(this, &CAboutDlg::OnClick_Support);
 	}
-	return FALSE;
-}
+
+	virtual void OnInitDialog() override
+	{
+		MFileVersion v;
+		Miranda_GetFileVersion(&v);
+
+		wchar_t tStr[80];
+		mir_snwprintf(tStr, L"%s %d.%d.%d.%d [build %d]", TranslateT("Version"), __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM, v[3]);
+		SetDlgItemText(m_hwnd, IDC_HEADERBAR, tStr);
+
+		Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_EVENT_MESSAGE);
+	}
+
+	virtual INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
+	{
+		switch (uMsg) {
+		case WM_CTLCOLOREDIT:
+		case WM_CTLCOLORSTATIC:
+			SetTextColor((HDC)wParam, RGB(60, 60, 150));
+			SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
+			return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
+		}
+		return CDlgBase::DlgProc(uMsg, wParam, lParam);
+	}
+
+	void OnClick_Support(CCtrlButton*)
+	{
+		Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM");
+	}
+};
 
 LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARAM wParam, LPARAM lParam)
 {
@@ -717,7 +722,7 @@ LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARA
 		break;
 
 	case ID_HELP_ABOUTTABSRMM:
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ABOUT), 0, DlgProcAbout, 0);
+		(new CAboutDlg())->Show();
 		break;
 
 	default:
