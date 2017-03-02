@@ -388,7 +388,6 @@ int SplitmsgShutdown(void)
 	WindowList_Destroy(PluginConfig.hUserPrefsWindowList);
 
 	DestroyCursor(PluginConfig.hCurSplitNS);
-	DestroyCursor(PluginConfig.hCurHyperlinkHand);
 	DestroyCursor(PluginConfig.hCurSplitWE);
 
 	FreeLibrary(g_hMsftedit);

@@ -70,7 +70,6 @@
 #define IDC_SKINFILE                    1002
 #define IDC_MESSAGE                     1002
 #define IDC_THEMEEXPORT                 1002
-#define IDC_HYPERLINKHAND               1003
 #define IDC_THEMEEXPORT2                1003
 #define IDC_THEMEIMPORT                 1003
 #define IDC_EXPORT                      1005

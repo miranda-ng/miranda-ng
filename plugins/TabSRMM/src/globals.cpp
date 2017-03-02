@@ -76,9 +76,6 @@ void CGlobals::reloadSystemStartup()
 
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
-	hCurHyperlinkHand = LoadCursor(NULL, IDC_HAND);
-	if (hCurHyperlinkHand == NULL)
-		hCurHyperlinkHand = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
 
 	HDC hScrnDC = GetDC(0);
 	m_DPIscaleX = GetDeviceCaps(hScrnDC, LOGPIXELSX) / 96.0;

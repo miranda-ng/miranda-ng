@@ -118,7 +118,6 @@ typedef struct _DWM_THUMBNAIL_PROPERTIES
 #include "msgs.h"
 #include "msgdlgutils.h"
 #include "typingnotify.h"
-#include "generic_msghandlers.h"
 #include "nen.h"
 #include "functions.h"
 #include "chat/chat.h"

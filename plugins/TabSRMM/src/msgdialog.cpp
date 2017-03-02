@@ -452,7 +452,7 @@ static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	case WM_CHAR:
 		if (wParam == 0x03 && isCtrl) // Ctrl+C
-			return DM_WMCopyHandler(hwnd, MessageLogSubclassProc, msg, wParam, lParam);
+			return Utils::WMCopyHandler(hwnd, MessageLogSubclassProc, msg, wParam, lParam);
 		if (wParam == 0x11 && isCtrl)
 			SendMessage(mwdat->GetHwnd(), WM_COMMAND, IDC_QUOTE, 0);
 		break;
@@ -481,11 +481,11 @@ static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	case WM_KEYDOWN:
 		if (wParam == VK_INSERT && isCtrl)
-			return DM_WMCopyHandler(hwnd, MessageLogSubclassProc, msg, wParam, lParam);
+			return Utils::WMCopyHandler(hwnd, MessageLogSubclassProc, msg, wParam, lParam);
 		break;
 
 	case WM_COPY:
-		return DM_WMCopyHandler(hwnd, MessageLogSubclassProc, msg, wParam, lParam);
+		return Utils::WMCopyHandler(hwnd, MessageLogSubclassProc, msg, wParam, lParam);
 
 	case WM_NCCALCSIZE:
 		return CSkin::NcCalcRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, MessageLogSubclassProc);

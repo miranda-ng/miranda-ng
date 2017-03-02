@@ -407,8 +407,10 @@ public:
 
 	void  AdjustBottomAvatarDisplay();
 	void  CalcDynamicAvatarSize(BITMAP *bminfo);
+	void  CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int code);
 	void  ClearLog();
 	BOOL  DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pColors) const;
+	void  DrawStatusIcons(HDC hDC, const RECT &rc, int gap);
 	void  EnableSendButton(bool bMode) const;
 	void  FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei);
 	void  FlashTab(bool bInvertMode);
@@ -1080,8 +1082,6 @@ int SI_InitStatusIcons();
 int SI_DeinitStatusIcons();
 
 int  GetStatusIconsCount();
-void DrawStatusIcons(CTabBaseDlg *dat, HDC hdc, const RECT &r, int gap);
-void CheckStatusIconClick(CTabBaseDlg *dat, POINT pt, const RECT &rc, int gap, int code);
 
 struct SKINDESC
 {

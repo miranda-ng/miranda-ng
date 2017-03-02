@@ -839,7 +839,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 				if (i == 2 && pContainer) {
 					CSrmmWindow *pDat = (CSrmmWindow*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 					if (pDat)
-						DrawStatusIcons(pDat, hdcMem, itemRect, 2);
+						pDat->DrawStatusIcons(hdcMem, itemRect, 2);
 				}
 				else {
 					if (hIcon) {

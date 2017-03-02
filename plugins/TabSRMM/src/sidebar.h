@@ -32,7 +32,7 @@
 struct TSideBarNotify
 {
 	NMHDR nmHdr;
-	const CTabBaseDlg *dat;
+	CTabBaseDlg *dat;
 };
 /* layout description structure */
 
@@ -61,7 +61,7 @@ class CSideBarButton
 {
 public:
 	CSideBarButton(const UINT id, CSideBar *sideBar);
-	CSideBarButton(const CTabBaseDlg *dat, CSideBar *sideBar);
+	CSideBarButton(CTabBaseDlg *dat, CSideBar *sideBar);
 	~CSideBarButton();
 
 	LONG                  getHeight() const { return(m_sz.cy); }
@@ -71,7 +71,7 @@ public:
 	const HWND            getHwnd() const { return(m_hwnd); }
 	const UINT            getID() const { return(m_id); }
 	const MCONTACT        getContactHandle() const { return(m_dat->m_hContact); }
-	const CTabBaseDlg* getDat() const { return(m_dat); }
+	const CTabBaseDlg*    getDat() const { return(m_dat); }
 	const TSideBarLayout* getLayout() const { return(m_sideBarLayout); }
 
 	void                  RenderThis(const HDC hdc) const;
@@ -91,7 +91,7 @@ private:
 private:
 	const TSideBarLayout* m_sideBarLayout;
 	HWND                  m_hwnd;           // window handle for the TSButton object
-	const CTabBaseDlg* m_dat;            // session data
+	CTabBaseDlg          *m_dat;            // session data
 	UINT                  m_id;             // control id
 	bool                  m_isTopAligned;
 	SIZE                  m_sz;
@@ -130,9 +130,9 @@ public:
 	~CSideBar();
 
 	void                  Init();
-	void                  addSession(const CTabBaseDlg *dat, int position);
-	HRESULT               removeSession(const CTabBaseDlg *dat);
-	void                  updateSession(const CTabBaseDlg *dat);
+	void                  addSession(CTabBaseDlg *dat, int position);
+	HRESULT               removeSession(CTabBaseDlg *dat);
+	void                  updateSession(CTabBaseDlg *dat);
 
 	void                  processScrollerButtons(UINT cmd);
 	void                  Layout(const RECT *rc = 0, bool fOnlyCalc = false);
@@ -149,7 +149,7 @@ public:
 	const CSideBarButton* getScrollDown() const { return(m_down); }
 	bool                  isSkinnedContainer() const { return(CSkin::m_skinEnabled ? true : false); }
 	const UINT            getLayoutId() const { return(m_uLayout); }
-	void                  invalidateButton(const CTabBaseDlg *dat);
+	void                  invalidateButton(CTabBaseDlg *dat);
 
 	const CSideBarButton* setActiveItem(const CSideBarButton *newItem)
 	{

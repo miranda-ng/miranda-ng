@@ -556,182 +556,6 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-class CAboutDlg : public CDlgBase
-{
-	CCtrlButton m_btnSupport;
-
-public:
-	CAboutDlg() :
-		CDlgBase(g_hInst, IDD_ABOUT),
-		m_btnSupport(this, IDC_SUPPORT)
-	{
-		m_btnSupport.OnClick = Callback(this, &CAboutDlg::OnClick_Support);
-	}
-
-	virtual void OnInitDialog() override
-	{
-		MFileVersion v;
-		Miranda_GetFileVersion(&v);
-
-		wchar_t tStr[80];
-		mir_snwprintf(tStr, L"%s %d.%d.%d.%d [build %d]", TranslateT("Version"), __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM, v[3]);
-		SetDlgItemText(m_hwnd, IDC_HEADERBAR, tStr);
-
-		Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_EVENT_MESSAGE);
-	}
-
-	virtual INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
-	{
-		switch (uMsg) {
-		case WM_CTLCOLOREDIT:
-		case WM_CTLCOLORSTATIC:
-			SetTextColor((HDC)wParam, RGB(60, 60, 150));
-			SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
-			return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
-		}
-		return CDlgBase::DlgProc(uMsg, wParam, lParam);
-	}
-
-	void OnClick_Support(CCtrlButton*)
-	{
-		Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM");
-	}
-};
-
-LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARAM wParam, LPARAM lParam)
-{
-	if (pContainer == NULL)
-		return 0;
-
-	HWND hwndDlg = pContainer->hwnd;
-	CTabBaseDlg *dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-
-	switch (cmd) {
-	case IDC_CLOSE:
-		SendMessage(hwndDlg, WM_SYSCOMMAND, SC_CLOSE, 0);
-		break;
-	case IDC_MINIMIZE:
-		PostMessage(hwndDlg, WM_SYSCOMMAND, SC_MINIMIZE, 0);
-		break;
-	case IDC_MAXIMIZE:
-		SendMessage(hwndDlg, WM_SYSCOMMAND, IsZoomed(hwndDlg) ? SC_RESTORE : SC_MAXIMIZE, 0);
-		break;
-	case IDOK:
-		SendMessage(pContainer->hwndActive, WM_COMMAND, wParam, lParam);      // pass the IDOK command to the active child - fixes the "enter not working
-		break;
-	case ID_FILE_SAVEMESSAGELOGAS:
-		SendMessage(pContainer->hwndActive, DM_SAVEMESSAGELOG, 0, 0);
-		break;
-	case ID_FILE_CLOSEMESSAGESESSION:
-		PostMessage(pContainer->hwndActive, WM_CLOSE, 0, 1);
-		break;
-	case ID_FILE_CLOSE:
-		PostMessage(hwndDlg, WM_CLOSE, 0, 1);
-		break;
-	case ID_VIEW_SHOWSTATUSBAR:
-		ApplyContainerSetting(pContainer, CNT_NOSTATUSBAR, pContainer->dwFlags & CNT_NOSTATUSBAR ? 0 : 1, true);
-		break;
-	case ID_VIEW_VERTICALMAXIMIZE:
-		ApplyContainerSetting(pContainer, CNT_VERTICALMAX, pContainer->dwFlags & CNT_VERTICALMAX ? 0 : 1, false);
-		break;
-	case ID_VIEW_BOTTOMTOOLBAR:
-		ApplyContainerSetting(pContainer, CNT_BOTTOMTOOLBAR, pContainer->dwFlags & CNT_BOTTOMTOOLBAR ? 0 : 1, false);
-		M.BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 1);
-		return 0;
-	case ID_VIEW_SHOWTOOLBAR:
-		ApplyContainerSetting(pContainer, CNT_HIDETOOLBAR, pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1, false);
-		M.BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 1);
-		return 0;
-	case ID_VIEW_SHOWMENUBAR:
-		ApplyContainerSetting(pContainer, CNT_NOMENUBAR, pContainer->dwFlags & CNT_NOMENUBAR ? 0 : 1, true);
-		break;
-	case ID_VIEW_SHOWTITLEBAR:
-		ApplyContainerSetting(pContainer, CNT_NOTITLE, pContainer->dwFlags & CNT_NOTITLE ? 0 : 1, true);
-		break;
-	case ID_VIEW_TABSATBOTTOM:
-		ApplyContainerSetting(pContainer, CNT_TABSBOTTOM, pContainer->dwFlags & CNT_TABSBOTTOM ? 0 : 1, false);
-		break;
-	case ID_VIEW_SHOWMULTISENDCONTACTLIST:
-		SendMessage(pContainer->hwndActive, WM_COMMAND, MAKEWPARAM(IDC_SENDMENU, ID_SENDMENU_SENDTOMULTIPLEUSERS), 0);
-		break;
-	case ID_VIEW_STAYONTOP:
-		SendMessage(hwndDlg, WM_SYSCOMMAND, IDM_STAYONTOP, 0);
-		break;
-	case ID_CONTAINER_CONTAINEROPTIONS:
-		SendMessage(hwndDlg, WM_SYSCOMMAND, IDM_MOREOPTIONS, 0);
-		break;
-	case ID_EVENTPOPUPS_DISABLEALLEVENTPOPUPS:
-		ApplyContainerSetting(pContainer, (CNT_DONTREPORT | CNT_DONTREPORTUNFOCUSED | CNT_DONTREPORTFOCUSED | CNT_ALWAYSREPORTINACTIVE), 0, false);
-		return 0;
-	case ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISMINIMIZED:
-		ApplyContainerSetting(pContainer, CNT_DONTREPORT, pContainer->dwFlags & CNT_DONTREPORT ? 0 : 1, false);
-		return 0;
-	case ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISUNFOCUSED:
-		ApplyContainerSetting(pContainer, CNT_DONTREPORTUNFOCUSED, pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED ? 0 : 1, false);
-		return 0;
-	case ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISFOCUSED:
-		ApplyContainerSetting(pContainer, CNT_DONTREPORTFOCUSED, pContainer->dwFlags & CNT_DONTREPORTFOCUSED ? 0 : 1, false);
-		return 0;
-	case ID_EVENTPOPUPS_SHOWPOPUPSFORALLINACTIVESESSIONS:
-		ApplyContainerSetting(pContainer, CNT_ALWAYSREPORTINACTIVE, pContainer->dwFlags & CNT_ALWAYSREPORTINACTIVE ? 0 : 1, false);
-		return 0;
-	case ID_WINDOWFLASHING_DISABLEFLASHING:
-		ApplyContainerSetting(pContainer, CNT_NOFLASH, 1, false);
-		ApplyContainerSetting(pContainer, CNT_FLASHALWAYS, 0, false);
-		return 0;
-	case ID_WINDOWFLASHING_FLASHUNTILFOCUSED:
-		ApplyContainerSetting(pContainer, CNT_NOFLASH, 0, false);
-		ApplyContainerSetting(pContainer, CNT_FLASHALWAYS, 1, false);
-		return 0;
-	case ID_WINDOWFLASHING_USEDEFAULTVALUES:
-		ApplyContainerSetting(pContainer, (CNT_NOFLASH | CNT_FLASHALWAYS), 0, false);
-		return 0;
-	case ID_OPTIONS_SAVECURRENTWINDOWPOSITIONASDEFAULT:
-		{
-			WINDOWPLACEMENT wp = { 0 };
-			wp.length = sizeof(wp);
-			if (GetWindowPlacement(hwndDlg, &wp)) {
-				db_set_dw(0, SRMSGMOD_T, "splitx", wp.rcNormalPosition.left);
-				db_set_dw(0, SRMSGMOD_T, "splity", wp.rcNormalPosition.top);
-				db_set_dw(0, SRMSGMOD_T, "splitwidth", wp.rcNormalPosition.right - wp.rcNormalPosition.left);
-				db_set_dw(0, SRMSGMOD_T, "splitheight", wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
-			}
-		}
-		return 0;
-
-	case ID_VIEW_INFOPANEL:
-		if (dat) {
-			RECT	rc;
-			POINT	pt;
-			GetWindowRect(pContainer->hwndActive, &rc);
-			pt.x = rc.left + 10;
-			pt.y = rc.top + dat->m_Panel->getHeight() - 10;
-			dat->m_Panel->invokeConfigDialog(pt);
-		}
-		return 0;
-
-	// commands from the message log popup will be routed to the
-	// message log menu handler
-	case ID_MESSAGELOGSETTINGS_FORTHISCONTACT:
-	case ID_MESSAGELOGSETTINGS_GLOBAL:
-		if (dat) {
-			dat->MsgWindowMenuHandler((int)LOWORD(wParam), MENU_LOGMENU);
-			return 1;
-		}
-		break;
-
-	case ID_HELP_ABOUTTABSRMM:
-		(new CAboutDlg())->Show();
-		break;
-
-	default:
-		return 0; 		// not handled
-	}
-	return 1;				// handled
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // initialize rich edit control (log and edit control) for both MUC and
 // standard IM session windows.
 
@@ -1032,27 +856,6 @@ void CTabBaseDlg::DM_SaveLocale(WPARAM, LPARAM lParam)
 			UpdateReadChars();
 		}
 	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// generic handler for the WM_COPY message in message log/chat history richedit control(s).
-// it filters out the invisible event boundary markers from the text copied to the clipboard.
-// WINE Fix: overwrite clippboad data from original control data
-
-LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	LRESULT result = mir_callNextSubclass(hwnd, oldWndProc, msg, wParam, lParam);
-
-	ptrA szFromStream(Message_GetFromStream(hwnd, SF_TEXT | SFF_SELECTION));
-	if (szFromStream != NULL) {
-		ptrW converted(mir_utf8decodeW(szFromStream));
-		if (converted != NULL) {
-			Utils::FilterEventMarkers(converted);
-			Utils::CopyToClipBoard(converted, hwnd);
-		}
-	}
-
-	return result;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1740,7 +1543,7 @@ static int OnSrmmIconChanged(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-void DrawStatusIcons(CTabBaseDlg *dat, HDC hDC, const RECT &rc, int gap)
+void CTabBaseDlg::DrawStatusIcons(HDC hDC, const RECT &rc, int gap)
 {
 	int x = rc.left;
 	int y = (rc.top + rc.bottom - PluginConfig.m_smcxicon) >> 1;
@@ -1748,37 +1551,37 @@ void DrawStatusIcons(CTabBaseDlg *dat, HDC hDC, const RECT &rc, int gap)
 	SetBkMode(hDC, TRANSPARENT);
 
 	int nIcon = 0;
-	while (StatusIconData *si = Srmm_GetNthIcon(dat->m_hContact, nIcon++)) {
-		if (!mir_strcmp(si->szModule, MSG_ICON_MODULE)) {
-			if (si->dwId == MSG_ICON_SOUND) {
+	while (StatusIconData *sid = Srmm_GetNthIcon(m_hContact, nIcon++)) {
+		if (!mir_strcmp(sid->szModule, MSG_ICON_MODULE)) {
+			if (sid->dwId == MSG_ICON_SOUND) {
 				DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_SOUNDS],
 					PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, NULL, DI_NORMAL);
 
-				DrawIconEx(hDC, x, y, dat->m_pContainer->dwFlags & CNT_NOSOUND ?
+				DrawIconEx(hDC, x, y, m_pContainer->dwFlags & CNT_NOSOUND ?
 					PluginConfig.g_iconOverlayDisabled : PluginConfig.g_iconOverlayEnabled,
 					PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, NULL, DI_NORMAL);
 			}
-			else if (si->dwId == MSG_ICON_UTN) {
-				if (dat->m_bType == SESSIONTYPE_IM || dat->si->iType == GCW_PRIVMESS) {
+			else if (sid->dwId == MSG_ICON_UTN) {
+				if (m_bType == SESSIONTYPE_IM || si->iType == GCW_PRIVMESS) {
 					DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, NULL, DI_NORMAL);
 
-					DrawIconEx(hDC, x, y, db_get_b(dat->m_hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)) ?
+					DrawIconEx(hDC, x, y, db_get_b(m_hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)) ?
 						PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, NULL, DI_NORMAL);
 				}
 				else CSkin::DrawDimmedIcon(hDC, x, y, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], 50);
 			}
-			else if (si->dwId == MSG_ICON_SESSION) {
+			else if (sid->dwId == MSG_ICON_SESSION) {
 				DrawIconEx(hDC, x, y, PluginConfig.g_sideBarIcons[0], PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, NULL, DI_NORMAL);
 			}
 		}
 		else {
 			HICON hIcon;
-			if ((si->flags & MBF_DISABLED) && si->hIconDisabled)
-				hIcon = si->hIconDisabled;
+			if ((sid->flags & MBF_DISABLED) && sid->hIconDisabled)
+				hIcon = sid->hIconDisabled;
 			else
-				hIcon = si->hIcon;
+				hIcon = sid->hIcon;
 
-			if ((si->flags & MBF_DISABLED) && si->hIconDisabled == NULL)
+			if ((sid->flags & MBF_DISABLED) && sid->hIconDisabled == NULL)
 				CSkin::DrawDimmedIcon(hDC, x, y, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, hIcon, 50);
 			else
 				DrawIconEx(hDC, x, y, hIcon, 16, 16, 0, NULL, DI_NORMAL);
@@ -1788,9 +1591,9 @@ void DrawStatusIcons(CTabBaseDlg *dat, HDC hDC, const RECT &rc, int gap)
 	}
 }
 
-void CheckStatusIconClick(CTabBaseDlg *dat, POINT pt, const RECT &rc, int gap, int code)
+void CTabBaseDlg::CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int code)
 {
-	if (dat && (code == NM_CLICK || code == NM_RCLICK)) {
+	if (code == NM_CLICK || code == NM_RCLICK) {
 		POINT	ptScreen;
 		GetCursorPos(&ptScreen);
 		if (!PtInRect(&rcLastStatusBarClick, ptScreen))
@@ -1798,31 +1601,29 @@ void CheckStatusIconClick(CTabBaseDlg *dat, POINT pt, const RECT &rc, int gap, i
 	}
 
 	UINT iconNum = (pt.x - (rc.left + 0)) / (PluginConfig.m_smcxicon + gap);
-	if (dat == NULL)
-		return;
 	
-	StatusIconData *si = Srmm_GetNthIcon(dat->m_hContact, iconNum);
-	if (si == NULL)
+	StatusIconData *sid = Srmm_GetNthIcon(m_hContact, iconNum);
+	if (sid == NULL)
 		return;
 
-	if (!mir_strcmp(si->szModule, MSG_ICON_MODULE)) {
-		if (si->dwId == MSG_ICON_SOUND && code != NM_RCLICK) {
+	if (!mir_strcmp(sid->szModule, MSG_ICON_MODULE)) {
+		if (sid->dwId == MSG_ICON_SOUND && code != NM_RCLICK) {
 			if (GetKeyState(VK_SHIFT) & 0x8000) {
 				for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
-					p->dwFlags = ((dat->m_pContainer->dwFlags & CNT_NOSOUND) ? p->dwFlags | CNT_NOSOUND : p->dwFlags & ~CNT_NOSOUND);
-					InvalidateRect(dat->m_pContainer->hwndStatus, NULL, TRUE);
+					p->dwFlags = ((m_pContainer->dwFlags & CNT_NOSOUND) ? p->dwFlags | CNT_NOSOUND : p->dwFlags & ~CNT_NOSOUND);
+					InvalidateRect(m_pContainer->hwndStatus, NULL, TRUE);
 				}
 			}
 			else {
-				dat->m_pContainer->dwFlags ^= CNT_NOSOUND;
-				InvalidateRect(dat->m_pContainer->hwndStatus, NULL, TRUE);
+				m_pContainer->dwFlags ^= CNT_NOSOUND;
+				InvalidateRect(m_pContainer->hwndStatus, NULL, TRUE);
 			}
 		}
-		else if (si->dwId == MSG_ICON_UTN && code != NM_RCLICK && (dat->m_bType == SESSIONTYPE_IM || dat->si->iType == GCW_PRIVMESS)) {
-			SendMessage(dat->m_pContainer->hwndActive, WM_COMMAND, IDC_SELFTYPING, 0);
-			InvalidateRect(dat->m_pContainer->hwndStatus, NULL, TRUE);
+		else if (sid->dwId == MSG_ICON_UTN && code != NM_RCLICK && (m_bType == SESSIONTYPE_IM || si->iType == GCW_PRIVMESS)) {
+			SendMessage(m_pContainer->hwndActive, WM_COMMAND, IDC_SELFTYPING, 0);
+			InvalidateRect(m_pContainer->hwndStatus, NULL, TRUE);
 		}
-		else if (si->dwId == MSG_ICON_SESSION) {
+		else if (sid->dwId == MSG_ICON_SESSION) {
 			if (code == NM_CLICK)
 				PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_LBUTTONUP);
 			else if (code == NM_RCLICK)
@@ -1832,11 +1633,11 @@ void CheckStatusIconClick(CTabBaseDlg *dat, POINT pt, const RECT &rc, int gap, i
 	else {
 		StatusIconClickData sicd = { sizeof(sicd) };
 		GetCursorPos(&sicd.clickLocation);
-		sicd.dwId = si->dwId;
-		sicd.szModule = si->szModule;
+		sicd.dwId = sid->dwId;
+		sicd.szModule = sid->szModule;
 		sicd.flags = (code == NM_RCLICK ? MBCF_RIGHTBUTTON : 0);
-		NotifyEventHooks(hHookIconPressedEvt, dat->m_hContact, (LPARAM)&sicd);
-		InvalidateRect(dat->m_pContainer->hwndStatus, NULL, TRUE);
+		NotifyEventHooks(hHookIconPressedEvt, m_hContact, (LPARAM)&sicd);
+		InvalidateRect(m_pContainer->hwndStatus, NULL, TRUE);
 	}
 }
 

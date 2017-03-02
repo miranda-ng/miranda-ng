@@ -38,7 +38,6 @@ int g_iWheelCarryover = 0;
 extern HMENU g_hMenu;
 
 static HKL hkl = NULL;
-static HCURSOR hCurHyperlinkHand;
 char szIndicators[] = { 0, '+', '%', '@', '!', '*' };
 
 struct MESSAGESUBDATA
@@ -1135,7 +1134,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		return CSkin::DrawRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, LogSubclassProc);
 
 	case WM_COPY:
-		return DM_WMCopyHandler(hwnd, LogSubclassProc, msg, wParam, lParam);
+		return Utils::WMCopyHandler(hwnd, LogSubclassProc, msg, wParam, lParam);
 
 	case WM_SETCURSOR:
 		if (g_Settings.bClickableNicks && (LOWORD(lParam) == HTCLIENT)) {
@@ -1180,7 +1179,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			return TRUE;
 		}
 		if (wParam == VK_INSERT && GetKeyState(VK_CONTROL) & 0x8000)
-			return DM_WMCopyHandler(hwnd, LogSubclassProc, msg, wParam, lParam);
+			return Utils::WMCopyHandler(hwnd, LogSubclassProc, msg, wParam, lParam);
 		break;
 
 	case WM_SYSKEYUP:
@@ -1220,7 +1219,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		bool isCtrl, isShift, isAlt;
 		mwdat->KbdState(isShift, isCtrl, isAlt);
 		if (wParam == 0x03 && isCtrl) // Ctrl+C
-			return DM_WMCopyHandler(hwnd, LogSubclassProc, msg, wParam, lParam);
+			return Utils::WMCopyHandler(hwnd, LogSubclassProc, msg, wParam, lParam);
 
 		SetFocus(GetDlgItem(hwndParent, IDC_MESSAGE));
 		SendDlgItemMessage(hwndParent, IDC_MESSAGE, WM_CHAR, wParam, lParam);
@@ -1681,9 +1680,6 @@ void CChatRoomDlg::OnDestroy()
 
 	if (m_hwndTip)
 		DestroyWindow(m_hwndTip);
-
-	if (hCurHyperlinkHand)
-		DestroyCursor(hCurHyperlinkHand);
 
 	int i = GetTabIndexFromHWND(m_hwndParent, m_hwnd);
 	if (i >= 0) {
@@ -2458,16 +2454,6 @@ LABEL_SHOWWINDOW:
 		case EN_LINK:
 			if (((LPNMHDR)lParam)->idFrom == IDC_LOG) {
 				switch (((ENLINK*)lParam)->msg) {
-				case WM_SETCURSOR:
-					if (g_Settings.bClickableNicks) {
-						if (!hCurHyperlinkHand)
-							hCurHyperlinkHand = LoadCursor(NULL, IDC_HAND);
-						if (hCurHyperlinkHand != GetCursor())
-							SetCursor(hCurHyperlinkHand);
-						return TRUE;
-					}
-					break;
-
 				case WM_RBUTTONDOWN:
 				case WM_LBUTTONUP:
 				case WM_LBUTTONDBLCLK:
@@ -2484,36 +2470,11 @@ LABEL_SHOWWINDOW:
 						SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 
 						BOOL isLink = IsStringValidLink(tr.lpstrText);
-						if (isLink) {
-							if (((ENLINK*)lParam)->msg == WM_RBUTTONDOWN) {
-								HMENU hSubMenu = GetSubMenu(g_hMenu, 2);
-								TranslateMenu(hSubMenu);
-								pt.x = (short)LOWORD(((ENLINK*)lParam)->lParam);
-								pt.y = (short)HIWORD(((ENLINK*)lParam)->lParam);
-								ClientToScreen(((NMHDR*)lParam)->hwndFrom, &pt);
-								switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, NULL)) {
-								case ID_NEW:
-									Utils_OpenUrlW(tr.lpstrText);
-									break;
-								case ID_CURR:
-									Utils_OpenUrlW(tr.lpstrText,false);
-									break;
-								case ID_COPY:
-									Utils::CopyToClipBoard(tr.lpstrText, m_hwnd);
-									SetFocus(GetDlgItem(m_hwnd, IDC_MESSAGE));
-									break;
-								}
-								mir_free(tr.lpstrText);
-								return TRUE;
-							}
-							if (((ENLINK*)lParam)->msg == WM_LBUTTONUP) {
-								Utils_OpenUrlW(tr.lpstrText);
-								SetFocus(GetDlgItem(m_hwnd, IDC_MESSAGE));
-								mir_free(tr.lpstrText);
-								return TRUE;
-							}
-						}
-						else if (g_Settings.bClickableNicks) {                    // clicked a nick name
+						if (isLink) // handled by core
+							break;
+
+						// clicked a nick name
+						if (g_Settings.bClickableNicks) {
 							if (msg == WM_RBUTTONDOWN) {
 								HMENU hMenu = 0;
 								USERINFO uiNew;
@@ -2543,7 +2504,8 @@ LABEL_SHOWWINDOW:
 								}
 								return TRUE;
 							}
-							else if (msg == WM_LBUTTONUP) {
+							
+							if (msg == WM_LBUTTONUP) {
 								CHARRANGE chr;
 								SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&chr);
 
@@ -2590,9 +2552,9 @@ LABEL_SHOWWINDOW:
 						return TRUE;
 					}
 				}
-				return TRUE;
+				break;
 			}
-			return TRUE;
+			break;
 		}
 		break;
 

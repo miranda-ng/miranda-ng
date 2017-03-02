@@ -71,7 +71,7 @@ TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 	}
 };
 
-CSideBarButton::CSideBarButton(const CTabBaseDlg *dat, CSideBar *sideBar)
+CSideBarButton::CSideBarButton(CTabBaseDlg *dat, CSideBar *sideBar)
 {
 	m_dat = dat;
 	m_id = UINT(dat->m_hContact);  // set the control id
@@ -530,7 +530,7 @@ void CSideBar::populateAll()
  *    (that is, it can only be used after WM_INITIALOG completed).
  *position: -1 = append, otherwise insert it at the given position
  */
-void CSideBar::addSession(const CTabBaseDlg *dat, int position)
+void CSideBar::addSession(CTabBaseDlg *dat, int position)
 {
 	if (!m_isActive)
 		return;
@@ -563,7 +563,7 @@ void CSideBar::addSession(const CTabBaseDlg *dat, int position)
  *
  * @param dat    _MessageWindowData *: session data for a client session.
  */
-HRESULT CSideBar::removeSession(const CTabBaseDlg *dat)
+HRESULT CSideBar::removeSession(CTabBaseDlg *dat)
 {
 	if (dat) {
 		CSideBarButton *item = findSession(dat);
@@ -649,7 +649,7 @@ void CSideBar::scrollIntoView(const CSideBarButton *item)
  *
  * @param dat    _MessageWindowData*: Session data
  */
-void CSideBar::updateSession(const CTabBaseDlg *dat)
+void CSideBar::updateSession(CTabBaseDlg *dat)
 {
 	if (!m_isVisible || !m_isActive)
 		return;
@@ -865,7 +865,7 @@ void CSideBar::resizeScrollWnd(LONG x, LONG y, LONG, LONG height) const
 		SWP_NOCOPYBITS | SWP_NOZORDER | SWP_SHOWWINDOW | SWP_NOSENDCHANGING | SWP_DEFERERASE | SWP_ASYNCWINDOWPOS);
 }
 
-void CSideBar::invalidateButton(const CTabBaseDlg *dat)
+void CSideBar::invalidateButton(CTabBaseDlg *dat)
 {
 	if (m_isActive && m_isVisible) {
 		CSideBarButton *item = findSession(dat);
