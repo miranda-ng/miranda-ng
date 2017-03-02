@@ -598,8 +598,8 @@ void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 
 void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 {
-	SESSION_INFO *si = reinterpret_cast<SESSION_INFO*>(m_dat->si);
-	if (si == 0)
+	SESSION_INFO *si = m_dat->si;
+	if (si == nullptr)
 		return;
 
 	::SetBkMode(hdc, TRANSPARENT);

@@ -27,8 +27,9 @@ extern HCURSOR g_hCurHyperlinkHand;
 
 CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog) :
 	CDlgBase(hInst, idDialog),
-	m_pLog(NULL),
-	m_pEntry(NULL)
+	m_pLog(nullptr),
+	m_pEntry(nullptr),
+	m_hContact(0)
 {
 }
 

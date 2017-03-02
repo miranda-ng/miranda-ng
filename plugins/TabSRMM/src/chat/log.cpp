@@ -857,7 +857,7 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 	return 0;
 }
 
-void CChatRoomDlg::StreamInEvents(LOGINFO* lin, SESSION_INFO *si, bool bRedraw)
+void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 {
 	CHARRANGE oldsel, sel, newsel;
 	POINT point = { 0 };

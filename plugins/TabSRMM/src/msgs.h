@@ -135,6 +135,7 @@ class CMenuBar;
 class CInfoPanel;
 class CSideBar;
 class CProxyWindow;
+class CThumbBase;
 
 struct CContactCache;
 
@@ -274,7 +275,6 @@ public:
 	BYTE     m_bType;
 	DWORD    m_dwFlags;
 	DWORD    m_dwFlagsEx;
-	MCONTACT m_hContact;
 	char    *m_szProto;
 	wchar_t  m_wszMyNickname[130];
 	wchar_t  m_wszStatusBar[100];
@@ -375,6 +375,9 @@ public:
 public:
 	CTabBaseDlg(TNewWindowData*, int);
 
+	virtual CThumbBase* CreateThumb(CProxyWindow*) const = 0;
+	virtual void ClearLog() = 0;
+
 	HWND  DM_CreateClist();
 	void  DM_EventAdded(WPARAM wParam, LPARAM lParam);
 	void  DM_InitRichEdit();
@@ -408,7 +411,6 @@ public:
 	void  AdjustBottomAvatarDisplay();
 	void  CalcDynamicAvatarSize(BITMAP *bminfo);
 	void  CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int code);
-	void  ClearLog();
 	BOOL  DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pColors) const;
 	void  DrawStatusIcons(HDC hDC, const RECT &rc, int gap);
 	void  EnableSendButton(bool bMode) const;
@@ -445,6 +447,9 @@ public:
 
 class CSrmmWindow : public CTabBaseDlg, public MZeroedObject
 {
+	virtual CThumbBase* CreateThumb(CProxyWindow *pProxy) const override;
+	virtual void ClearLog() override;
+
 	void DM_OptionsApplied(WPARAM wParam, LPARAM lParam);
 	void MsgWindowUpdateState(UINT msg);
 
@@ -467,6 +472,9 @@ public:
 class CChatRoomDlg : public CTabBaseDlg, public MZeroedObject
 {
 	bool m_bWasDeleted;
+
+	virtual CThumbBase* CreateThumb(CProxyWindow *pProxy) const override;
+	virtual void ClearLog() override;
 
 public:
 	CChatRoomDlg(TNewWindowData*);

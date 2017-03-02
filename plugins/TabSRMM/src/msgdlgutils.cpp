@@ -325,12 +325,10 @@ int CTabBaseDlg::MsgWindowMenuHandler(int selection, int menuId)
 			db_unset(m_hContact, SRMSGMOD_T, "tabindex");
 			break;
 		case ID_TABMENU_LEAVECHATROOM:
-			if (m_bType == SESSIONTYPE_CHAT) {
-				if (si != NULL && m_hContact != NULL) {
-					char *szProto = GetContactProto(m_hContact);
-					if (szProto)
-						CallProtoService(szProto, PS_LEAVECHAT, m_hContact, 0);
-				}
+			if (m_bType == SESSIONTYPE_CHAT && m_hContact != NULL) {
+				char *szProto = GetContactProto(m_hContact);
+				if (szProto)
+					CallProtoService(szProto, PS_LEAVECHAT, m_hContact, 0);
 			}
 			return 1;
 
@@ -1702,47 +1700,6 @@ void CTabBaseDlg::KbdState(bool &isShift, bool &isControl, bool &isAlt)
 	isShift = (kstate[VK_SHIFT] & 0x80) != 0;
 	isControl = (kstate[VK_CONTROL] & 0x80) != 0;
 	isAlt = (kstate[VK_MENU] & 0x80) != 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// clear the message log
-// code needs to distuingish between IM and MUC sessions.
-
-void CTabBaseDlg::ClearLog()
-{
-	if (m_bType == SESSIONTYPE_IM) {
-		if (m_hwndIEView || m_hwndHPP) {
-			IEVIEWEVENT event;
-			event.cbSize = sizeof(IEVIEWEVENT);
-			event.iType = IEE_CLEAR_LOG;
-			event.dwFlags = (m_dwFlags & MWF_LOG_RTL) ? IEEF_RTL : 0;
-			event.hContact = m_hContact;
-			if (m_hwndIEView) {
-				event.hwnd = m_hwndIEView;
-				CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
-			}
-			else {
-				event.hwnd = m_hwndHPP;
-				CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
-			}
-		}
-		m_log.SetText(L"");
-		m_hDbEventFirst = 0;
-	}
-	else if (m_bType == SESSIONTYPE_CHAT && si) {
-		SESSION_INFO *s = pci->SM_FindSession(si->ptszID, si->pszModule);
-		if (s) {
-			m_log.SetText(L"");
-			pci->LM_RemoveAll(&s->pLog, &s->pLogEnd);
-			s->iEventCount = 0;
-			s->LastTime = 0;
-			si->iEventCount = 0;
-			si->LastTime = 0;
-			si->pLog = s->pLog;
-			si->pLogEnd = s->pLogEnd;
-			PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-		}
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

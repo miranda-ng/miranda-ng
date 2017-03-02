@@ -895,7 +895,7 @@ class CChatRoomDlg : public CSrmmBaseDialog
 		hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_MESSAGE), 0, 1, h - m_si->iSplitterY + SPLITTER_HEIGHT, w - 2, m_si->iSplitterY - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
 		EndDeferWindowPos(hdwp);
 
-		SetButtonsPos(m_hwnd, m_si->hContact, bToolbar);
+		SetButtonsPos(m_hwnd, m_hContact, bToolbar);
 
 		if (m_si->m_hwndIeview != NULL) {
 			IEVIEWWINDOW ieWindow;
@@ -926,11 +926,12 @@ public:
 		m_pLog = &m_log;
 		m_pEntry = &m_message;
 		m_autoClose = 0;
+		m_hContact = si->hContact;
 	}
 
 	virtual void OnInitDialog() override
 	{
-		NotifyLocalWinEvent(m_si->hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
+		NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
 
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)m_si);
 
@@ -975,7 +976,7 @@ public:
 			IEVIEWEVENT iee = { sizeof(iee) };
 			iee.iType = IEE_CLEAR_LOG;
 			iee.hwnd = m_si->m_hwndIeview;
-			iee.hContact = m_si->hContact;
+			iee.hContact = m_hContact;
 			iee.pszProto = m_si->pszModule;
 			CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&iee);
 		}
@@ -986,14 +987,14 @@ public:
 		SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
 		SendMessage(m_hwnd, DM_UPDATETITLEBAR, 0, 0);
 
-		SendMessage(m_hwndParent, CM_ADDCHILD, (WPARAM)m_hwnd, m_si->hContact);
+		SendMessage(m_hwndParent, CM_ADDCHILD, (WPARAM)m_hwnd, m_hContact);
 		PostMessage(m_hwnd, GC_UPDATENICKLIST, 0, 0);
-		NotifyLocalWinEvent(m_si->hContact, m_hwnd, MSG_WINDOW_EVT_OPEN);
+		NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPEN);
 	}
 
 	virtual void OnDestroy() override
 	{
-		NotifyLocalWinEvent(m_si->hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING);
+		NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING);
 
 		m_si->hWnd = NULL;
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
@@ -1007,7 +1008,7 @@ public:
 			CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 		}
 
-		NotifyLocalWinEvent(m_si->hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE);
+		NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE);
 	}
 
 	virtual INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
@@ -1115,7 +1116,7 @@ public:
 
 				StatusIconData sid = { sizeof(sid) };
 				sid.szModule = SRMMMOD;
-				Srmm_ModifyIcon(m_si->hContact, &sid);
+				Srmm_ModifyIcon(m_hContact, &sid);
 			}
 			break;
 
@@ -1213,14 +1214,14 @@ public:
 		case DM_ACTIVATE:
 			if (m_si->wState & STATE_TALK) {
 				m_si->wState &= ~STATE_TALK;
-				db_set_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0);
+				db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
 			}
 
 			if (m_si->wState & GC_EVENT_HIGHLIGHT) {
 				m_si->wState &= ~GC_EVENT_HIGHLIGHT;
 
-				if (pcli->pfnGetEvent(m_si->hContact, 0))
-					pcli->pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
+				if (pcli->pfnGetEvent(m_hContact, 0))
+					pcli->pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
 			}
 
 			SendMessage(m_hwnd, GC_FIXTABICONS, 0, 0);
@@ -1342,10 +1343,10 @@ public:
 				return TRUE;
 
 			case SESSION_TERMINATE:
-				if (pcli->pfnGetEvent(m_si->hContact, 0))
-					pcli->pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
+				if (pcli->pfnGetEvent(m_hContact, 0))
+					pcli->pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
 				m_si->wState &= ~STATE_TALK;
-				db_set_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0);
+				db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
 				SendMessage(m_hwnd, GC_CLOSEWINDOW, 0, 0);
 				return TRUE;
 
@@ -1461,10 +1462,10 @@ public:
 
 			pci->SetActiveSession(m_si->ptszID, m_si->pszModule);
 
-			if (db_get_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0) != 0)
-				db_set_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0);
-			if (pcli->pfnGetEvent(m_si->hContact, 0))
-				pcli->pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
+			if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
+				db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
+			if (pcli->pfnGetEvent(m_hContact, 0))
+				pcli->pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
 			break;
 
 		case WM_NOTIFY:
@@ -1518,12 +1519,12 @@ public:
 			break;
 
 		case WM_COMMAND:
-			if (!lParam && Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, m_si->hContact))
+			if (!lParam && Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, m_hContact))
 				break;
 
 			if (HIWORD(wParam) == BN_CLICKED)
 				if (LOWORD(wParam) >= MIN_CBUTTONID && LOWORD(wParam) <= MAX_CBUTTONID) {
-					Srmm_ClickToolbarIcon(m_si->hContact, LOWORD(wParam), GetDlgItem(m_hwnd, LOWORD(wParam)), 0);
+					Srmm_ClickToolbarIcon(m_hContact, LOWORD(wParam), GetDlgItem(m_hwnd, LOWORD(wParam)), 0);
 					break;
 				}
 
@@ -1771,12 +1772,12 @@ public:
 			return TRUE;
 
 		case DM_GETCONTEXTMENU:
-			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, (LPARAM)Menu_BuildContactMenu(m_si->hContact));
+			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, (LPARAM)Menu_BuildContactMenu(m_hContact));
 			return TRUE;
 
 		case WM_CONTEXTMENU:
 			if (m_hwndParent == (HWND)wParam) {
-				HMENU hMenu = Menu_BuildContactMenu(m_si->hContact);
+				HMENU hMenu = Menu_BuildContactMenu(m_hContact);
 				GetCursorPos(&pt);
 				TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, m_hwnd, NULL);
 				DestroyMenu(hMenu);

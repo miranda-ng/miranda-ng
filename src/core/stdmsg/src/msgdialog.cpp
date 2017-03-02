@@ -419,11 +419,11 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool noActivate, const char *szIniti
 	m_log(this, IDC_LOG),
 	m_message(this, IDC_MESSAGE),
 	m_cmdList(20),
-	m_bNoActivate(noActivate),
-	m_hContact(hContact)
+	m_bNoActivate(noActivate)
 {
 	m_pLog = &m_log;
 	m_pEntry = &m_message;
+	m_hContact = hContact;
 
 	m_wszInitialText = (bIsUnicode) ? mir_wstrdup((wchar_t*)szInitialText) : mir_a2u(szInitialText);
 }

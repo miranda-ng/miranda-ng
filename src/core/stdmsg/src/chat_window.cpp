@@ -875,6 +875,7 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 {
 	m_pLog = &m_log;
 	m_pEntry = &m_message;
+	m_hContact = si->hContact;
 
 	m_autoClose = 0;
 
@@ -909,9 +910,9 @@ void CChatRoomDlg::OnInitDialog()
 	m_btnColor.OnInit(); m_btnBkColor.OnInit();
 	m_btnFilter.OnInit(); m_btnHistory.OnInit(); m_btnChannelMgr.OnInit();
 
-	WindowList_Add(pci->hWindowList, m_hwnd, m_si->hContact);
+	WindowList_Add(pci->hWindowList, m_hwnd, m_hContact);
 
-	NotifyLocalWinEvent(m_si->hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
+	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTERX), SplitterSubclassProc);
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTERY), SplitterSubclassProc);
 	mir_subclassWindow(m_log.GetHwnd(), LogSubclassProc);
@@ -943,12 +944,12 @@ void CChatRoomDlg::OnInitDialog()
 
 	SendMessage(m_hwnd, WM_SIZE, 0, 0);
 
-	NotifyLocalWinEvent(m_si->hContact, m_hwnd, MSG_WINDOW_EVT_OPEN);
+	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPEN);
 }
 
 void CChatRoomDlg::OnDestroy()
 {
-	NotifyLocalWinEvent(m_si->hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING);
+	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING);
 	SaveWindowPosition(true);
 
 	WindowList_Remove(pci->hWindowList, m_hwnd);
@@ -958,7 +959,7 @@ void CChatRoomDlg::OnDestroy()
 	m_si->wState &= ~STATE_TALK;
 	DestroyWindow(m_si->hwndStatus); m_si->hwndStatus = NULL;
 
-	NotifyLocalWinEvent(m_si->hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE);
+	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE);
 }
 
 void CChatRoomDlg::OnClick_Bold(CCtrlButton *pButton)
@@ -1146,7 +1147,7 @@ void CChatRoomDlg::SetWindowPosition()
 	}
 	
 	if (db_get_b(NULL, CHAT_MODULE, "SavePosition", 0)) {
-		if (RestoreWindowPosition(m_hwnd, m_si->hContact, true)) {
+		if (RestoreWindowPosition(m_hwnd, m_hContact, true)) {
 			ShowWindow(m_hwnd, SW_HIDE);
 			return;
 		}
@@ -1497,17 +1498,17 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (!g_Settings.bTabsEnable) {
 				SaveWindowPosition(true);
 				if (db_get_b(NULL, CHAT_MODULE, "SavePosition", 0)) {
-					db_set_dw(m_si->hContact, CHAT_MODULE, "roomx", m_si->iX);
-					db_set_dw(m_si->hContact, CHAT_MODULE, "roomy", m_si->iY);
-					db_set_dw(m_si->hContact, CHAT_MODULE, "roomwidth", m_si->iWidth);
-					db_set_dw(m_si->hContact, CHAT_MODULE, "roomheight", m_si->iHeight);
+					db_set_dw(m_hContact, CHAT_MODULE, "roomx", m_si->iX);
+					db_set_dw(m_hContact, CHAT_MODULE, "roomy", m_si->iY);
+					db_set_dw(m_hContact, CHAT_MODULE, "roomwidth", m_si->iWidth);
+					db_set_dw(m_hContact, CHAT_MODULE, "roomheight", m_si->iHeight);
 				}
 			}
 			
-			if (pcli->pfnGetEvent(m_si->hContact, 0))
-				pcli->pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
+			if (pcli->pfnGetEvent(m_hContact, 0))
+				pcli->pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
 			m_si->wState &= ~STATE_TALK;
-			db_set_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0);
+			db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
 			SendMessage(m_hwnd, GC_CLOSEWINDOW, 0, 0);
 			return TRUE;
 
@@ -1673,10 +1674,10 @@ LABEL_SHOWWINDOW:
 
 			if (KillTimer(m_hwnd, TIMERID_FLASHWND))
 				FlashWindow(m_hwnd, FALSE);
-			if (db_get_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0) != 0)
-				db_set_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0);
-			if (pcli->pfnGetEvent(m_si->hContact, 0))
-				pcli->pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
+			if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
+				db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
+			if (pcli->pfnGetEvent(m_hContact, 0))
+				pcli->pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
 		}
 		break;
 
@@ -1790,7 +1791,7 @@ LABEL_SHOWWINDOW:
 	case WM_COMMAND:
 		if (HIWORD(wParam) == BN_CLICKED)
 			if (LOWORD(wParam) >= MIN_CBUTTONID && LOWORD(wParam) <= MAX_CBUTTONID) {
-				Srmm_ClickToolbarIcon(m_si->hContact, LOWORD(wParam), GetDlgItem(m_hwnd, LOWORD(wParam)), 0);
+				Srmm_ClickToolbarIcon(m_hContact, LOWORD(wParam), GetDlgItem(m_hwnd, LOWORD(wParam)), 0);
 				break;
 			}
 

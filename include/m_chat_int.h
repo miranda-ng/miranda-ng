@@ -425,6 +425,9 @@ protected:
 
 protected:
 	CCtrlEdit *m_pLog, *m_pEntry;
+
+public:
+	MCONTACT m_hContact;
 };
 
 #endif // M_CHAT_INT_H__

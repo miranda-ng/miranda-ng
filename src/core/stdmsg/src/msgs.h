@@ -79,7 +79,6 @@ class CSrmmWindow : public CSrmmBaseDialog, public MZeroedObject
 	bool m_bIsMeta, m_bShowTyping, m_bNoActivate;
 
 public:
-	MCONTACT m_hContact;
 	MEVENT m_hDbEventFirst, m_hDbEventLast;
 	bool m_bIsAutoRTL;
 

@@ -122,21 +122,22 @@ class CSrmmWindow : public CSrmmBaseDialog, public MZeroedObject, public CommonW
 
 	InfobarWindowData *m_pInfobarData;
 
-	HICON GetTabIcon();
-	void GetTitlebarIcon(struct TitleBarData *tbd);
-	void MessageDialogResize(int w, int h);
-	void ShowAvatar();
-	void SetDialogToType();
-	void SetStatusIcon();
-	void StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend);
-	void UpdateReadChars();
+	void     GetContactUniqueId(char *buf, int maxlen);
+	wchar_t* GetIEViewSelection();
+	HICON    GetTabIcon();
+	void     GetTitlebarIcon(struct TitleBarData *tbd);
+	void     MessageDialogResize(int w, int h);
+	void     ShowAvatar();
+	void     SetDialogToType();
+	void     SetStatusIcon();
+	void     StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend);
+	void     UpdateReadChars();
 
 	bool IsTypingNotificationEnabled();
 	bool IsTypingNotificationSupported();
 	void NotifyTyping(int mode);
 
 public:
-	MCONTACT m_hContact;
 	char *m_szProto;
 	time_t m_startTime, m_lastEventTime;
 	int m_lastEventType;

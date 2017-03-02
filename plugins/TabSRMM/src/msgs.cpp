@@ -123,11 +123,11 @@ CTabBaseDlg::CTabBaseDlg(TNewWindowData *pData, int iResource)
 	m_message(this, IDC_MESSAGE),
 	newData(pData),
 	
-	m_pContainer(pData->pContainer),
-	m_hContact(pData->hContact)
+	m_pContainer(pData->pContainer)
 {
 	m_pLog = &m_log;
 	m_pEntry = &m_message;
+	m_hContact = pData->hContact;
 	
 	m_autoClose = 0;
 	m_forceResizable = true;

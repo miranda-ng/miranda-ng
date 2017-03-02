@@ -30,11 +30,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern HCURSOR hCurSplitNS, hCurSplitWE, hCurHyperlinkHand, hDragCursor;
 extern HANDLE hHookWinEvt;
 
-static wchar_t* GetIEViewSelection(CSrmmWindow *dat)
+wchar_t* CSrmmWindow::GetIEViewSelection()
 {
 	IEVIEWEVENT evt = { sizeof(evt) };
-	evt.hwnd = dat->m_hwndIeview;
-	evt.hContact = dat->m_hContact;
+	evt.hwnd = m_hwndIeview;
+	evt.hContact = m_hContact;
 	evt.iType = IEE_GET_SELECTION;
 	return mir_wstrdup((wchar_t*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt));
 }
@@ -636,11 +636,11 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming, const char *szInitia
 	: CSrmmBaseDialog(g_hInst, IDD_MSG),
 	m_log(this, IDC_LOG),
 	m_message(this, IDC_MESSAGE),
-	m_bIncoming(bIncoming),
-	m_hContact(hContact)
+	m_bIncoming(bIncoming)
 {
 	m_pLog = &m_log;
 	m_pEntry = &m_message;
+	m_hContact = hContact;
 
 	m_hwndParent = GetParentWindow(hContact, FALSE);
 	m_wszInitialText = (bIsUnicode) ? mir_wstrdup((wchar_t*)szInitialText) : mir_a2u(szInitialText);
@@ -998,7 +998,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (m_hContact && m_szProto) {
 				DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 				char idbuf[128], buf[128];
-				GetContactUniqueId(this, idbuf, sizeof(idbuf));
+				GetContactUniqueId(idbuf, sizeof(idbuf));
 				mir_snprintf(buf, Translate("User menu - %s"), idbuf);
 				SendDlgItemMessage(m_hwnd, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)buf, 0);
 
@@ -1083,7 +1083,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case DM_USERNAMETOCLIP:
 		if (m_hContact) {
 			char buf[128];
-			GetContactUniqueId(this, buf, sizeof(buf));
+			GetContactUniqueId(buf, sizeof(buf));
 			if (!OpenClipboard(m_hwnd) || !mir_strlen(buf))
 				break;
 
@@ -1626,7 +1626,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 				wchar_t *buffer = NULL;
 				if (m_hwndIeview != NULL)
-					buffer = GetIEViewSelection(this);
+					buffer = GetIEViewSelection();
 				else
 					buffer = GetRichEditSelection(GetDlgItem(m_hwnd, IDC_LOG));
 

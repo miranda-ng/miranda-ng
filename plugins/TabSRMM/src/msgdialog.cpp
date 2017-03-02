@@ -80,7 +80,7 @@ static void _clrMsgFilter(LPARAM lParam)
 // @param hwndFrom		src window handle
 // @param pt			mouse pointer position
 
-static void ShowPopupMenu(CSrmmWindow *dat, int idFrom, HWND hwndFrom, POINT pt)
+static void ShowPopupMenu(CTabBaseDlg *dat, int idFrom, HWND hwndFrom, POINT pt)
 {
 	CHARRANGE sel, all = { 0, -1 };
 	HWND hwndDlg = dat->GetHwnd();
@@ -915,9 +915,8 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				dat->m_dynaSplitter = dat->m_savedDynaSplit;
 				dat->DM_RecalcPictureSize();
 				if (dat->m_bType == SESSIONTYPE_CHAT) {
-					SESSION_INFO *si = dat->si;
-					si->iSplitterY = dat->m_savedSplitY;
-					dat->m_splitterY = si->iSplitterY + DPISCALEY_S(22);
+					dat->si->iSplitterY = dat->m_savedSplitY;
+					dat->m_splitterY = dat->si->iSplitterY + DPISCALEY_S(22);
 				}
 				dat->UpdateToolbarBG();
 				SendMessage(hwndParent, WM_SIZE, 0, 0);
@@ -942,6 +941,32 @@ CSrmmWindow::CSrmmWindow(TNewWindowData *pNewData)
 	m_dwFlags = MWF_INITMODE;
 	m_bType = SESSIONTYPE_IM;
 	m_Panel = new CInfoPanel(this);
+}
+
+void CSrmmWindow::ClearLog()
+{
+	if (m_hwndIEView || m_hwndHPP) {
+		IEVIEWEVENT event;
+		event.cbSize = sizeof(IEVIEWEVENT);
+		event.iType = IEE_CLEAR_LOG;
+		event.dwFlags = (m_dwFlags & MWF_LOG_RTL) ? IEEF_RTL : 0;
+		event.hContact = m_hContact;
+		if (m_hwndIEView) {
+			event.hwnd = m_hwndIEView;
+			CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
+		}
+		else {
+			event.hwnd = m_hwndHPP;
+			CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
+		}
+	}
+	m_log.SetText(L"");
+	m_hDbEventFirst = 0;
+}
+
+CThumbBase* CSrmmWindow::CreateThumb(CProxyWindow *pProxy) const
+{
+	return new CThumbIM(pProxy);
 }
 
 void CSrmmWindow::OnInitDialog()

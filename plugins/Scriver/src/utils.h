@@ -48,7 +48,6 @@ void AppendToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced,
 int MeasureMenuItem(WPARAM wParam, LPARAM lParam);
 int DrawMenuItem(WPARAM wParam, LPARAM lParam);
 void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList);
-void GetContactUniqueId(class CSrmmWindow *dat, char *buf, int maxlen);
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT *rect);
 void SetToolTipText(HWND hwndParent, HWND hwndTT, LPTSTR ptszText, LPTSTR ptszTitle);
 void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT* rect);

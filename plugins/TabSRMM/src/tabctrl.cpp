@@ -182,7 +182,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 	else if (dat->m_bCanFlashTab)
 		hIcon = dat->m_iFlashIcon;
 	else {
-		if (dat->si && dat->m_iFlashIcon) {
+		if (dat->m_bType == SESSIONTYPE_CHAT && dat->m_iFlashIcon) {
 			hIcon = dat->m_iFlashIcon;
 
 			int sizeY;

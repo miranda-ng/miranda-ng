@@ -293,10 +293,7 @@ void CProxyWindow::sendThumb(LONG width, LONG height)
 	if (0 == m_thumb) {
 		m_width = width;
 		m_height = height;
-		if (m_dat->m_bType == SESSIONTYPE_IM)
-			m_thumb = new CThumbIM(this);
-		else
-			m_thumb = new CThumbMUC(this);
+		m_thumb = m_dat->CreateThumb(this);
 	}
 	else if (width != m_width || height != m_height || !m_thumb->isValid()) {
 		m_width = width;
@@ -834,7 +831,9 @@ void CThumbIM::renderContent()
  * @param _p	our owner (CProxyWindow object)
  * @return
  */
-CThumbMUC::CThumbMUC(const CProxyWindow* _p) : CThumbBase(_p)
+CThumbMUC::CThumbMUC(const CProxyWindow* _p, SESSION_INFO *_si)
+	: CThumbBase(_p),
+	si(_si)
 {
 	renderContent();
 	setValid(true);
@@ -855,61 +854,63 @@ void CThumbMUC::update()
  */
 void CThumbMUC::renderContent()
 {
-	if (m_dat->si) {
-		const MODULEINFO*	mi = pci->MM_FindModule(m_dat->si->pszModule);
-		wchar_t				szTemp[250];
-		const wchar_t*		szStatusMsg = 0;
+	if (si == nullptr)
+		return;
 
-		if (mi) {
-			if (m_dat->m_dwUnread) {
-				mir_snwprintf(szTemp, TranslateT("%d unread"), m_dat->m_dwUnread);
-				CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
+	const MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+	if (mi) {
+		wchar_t szTemp[250];
+		if (m_dat->m_dwUnread) {
+			mir_snwprintf(szTemp, TranslateT("%d unread"), m_dat->m_dwUnread);
+			CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
+			m_rcIcon.top += m_sz.cy;
+		}
+		if (si->iType != GCW_SERVER) {
+			wchar_t* _p = NULL;
+			if (si->ptszStatusbarText)
+				_p = wcschr(si->ptszStatusbarText, ']');
+			if (_p) {
+				_p++;
+				wchar_t	_t = *_p;
+				*_p = 0;
+				mir_snwprintf(szTemp, TranslateT("Chat room %s"), si->ptszStatusbarText);
+				*_p = _t;
+			}
+			else
+				mir_snwprintf(szTemp, TranslateT("Chat room %s"), L"");
+			CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
+			m_rcIcon.top += m_sz.cy;
+			mir_snwprintf(szTemp, TranslateT("%d user(s)"), si->nUsersInNicklist);
+			CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
+		}
+		else {
+			mir_snwprintf(szTemp, TranslateT("Server window"));
+			CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
+			if (mi->tszIdleMsg[0] && mir_wstrlen(mi->tszIdleMsg) > 2) {
 				m_rcIcon.top += m_sz.cy;
-			}
-			if (m_dat->si->iType != GCW_SERVER) {
-				wchar_t* _p = NULL;
-				if (m_dat->si->ptszStatusbarText)
-					_p = wcschr(m_dat->si->ptszStatusbarText, ']');
-				if (_p) {
-					_p++;
-					wchar_t	_t = *_p;
-					*_p = 0;
-					mir_snwprintf(szTemp, TranslateT("Chat room %s"), m_dat->si->ptszStatusbarText);
-					*_p = _t;
-				}
-				else
-					mir_snwprintf(szTemp, TranslateT("Chat room %s"), L"");
-				CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
-				m_rcIcon.top += m_sz.cy;
-				mir_snwprintf(szTemp, TranslateT("%d user(s)"), m_dat->si->nUsersInNicklist);
-				CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
-			}
-			else {
-				mir_snwprintf(szTemp, TranslateT("Server window"));
-				CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
-				if (mi->tszIdleMsg[0] && mir_wstrlen(mi->tszIdleMsg) > 2) {
-					m_rcIcon.top += m_sz.cy;
-					CSkin::RenderText(m_hdc, m_dat->m_hTheme, &mi->tszIdleMsg[2], &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
-				}
+				CSkin::RenderText(m_hdc, m_dat->m_hTheme, &mi->tszIdleMsg[2], &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
 			}
 		}
-
-		if ((m_rcBottom.bottom - m_rcBottom.top) < 2 * m_sz.cy)
-			m_dtFlags |= DT_SINGLELINE;
-
-		m_rcBottom.bottom -= ((m_rcBottom.bottom - m_rcBottom.top) % m_sz.cy);		// adjust to a multiple of line height
-
-		if (m_dat->si->iType != GCW_SERVER) {
-			if (0 == (szStatusMsg = m_dat->si->ptszTopic))
-				szStatusMsg = TranslateT("no topic set.");
-		}
-		else if (mi) {
-			mir_snwprintf(szTemp, TranslateT("%s on %s%s"), m_dat->m_wszMyNickname, mi->ptszModDispName, L"");
-			szStatusMsg = szTemp;
-		}
-
-		CSkin::RenderText(m_hdc, m_dat->m_hTheme, szStatusMsg, &m_rcBottom, DT_WORD_ELLIPSIS | DT_END_ELLIPSIS | m_dtFlags, 10, 0, true);
 	}
+
+	if ((m_rcBottom.bottom - m_rcBottom.top) < 2 * m_sz.cy)
+		m_dtFlags |= DT_SINGLELINE;
+
+	m_rcBottom.bottom -= ((m_rcBottom.bottom - m_rcBottom.top) % m_sz.cy);		// adjust to a multiple of line height
+
+	const wchar_t *szStatusMsg = 0;
+	if (si->iType != GCW_SERVER) {
+		if (0 == (szStatusMsg = si->ptszTopic))
+			szStatusMsg = TranslateT("no topic set.");
+	}
+	else if (mi) {
+		wchar_t szTemp[250];
+		mir_snwprintf(szTemp, TranslateT("%s on %s%s"), m_dat->m_wszMyNickname, mi->ptszModDispName, L"");
+		szStatusMsg = szTemp;
+	}
+
+	CSkin::RenderText(m_hdc, m_dat->m_hTheme, szStatusMsg, &m_rcBottom, DT_WORD_ELLIPSIS | DT_END_ELLIPSIS | m_dtFlags, 10, 0, true);
+
 	/*
 	 * finalize it
 	 * do NOT delete the bitmap, the dwm will need the handle

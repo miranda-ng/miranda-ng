@@ -80,18 +80,20 @@ public:
 	void update();
 
 private:
-	void renderContent();
+	virtual void renderContent() override;
 };
 
 class CThumbMUC : public CThumbBase
 {
+	SESSION_INFO *si;
+
 public:
-	CThumbMUC(const CProxyWindow* pWnd);
+	CThumbMUC(const CProxyWindow* pWnd, SESSION_INFO*);
 	virtual ~CThumbMUC() {};
 	void update();
 
 private:
-	void renderContent();
+	virtual void renderContent() override;
 };
 
 class CProxyWindow

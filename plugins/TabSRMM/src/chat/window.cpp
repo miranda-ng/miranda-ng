@@ -1542,6 +1542,27 @@ CChatRoomDlg::CChatRoomDlg(TNewWindowData *pData)
 	m_Panel = new CInfoPanel(this);
 }
 
+CThumbBase* CChatRoomDlg::CreateThumb(CProxyWindow *pProxy) const
+{
+	return new CThumbMUC(pProxy, si);
+}
+
+void CChatRoomDlg::ClearLog()
+{
+	SESSION_INFO *s = pci->SM_FindSession(si->ptszID, si->pszModule);
+	if (s) {
+		m_log.SetText(L"");
+		pci->LM_RemoveAll(&s->pLog, &s->pLogEnd);
+		s->iEventCount = 0;
+		s->LastTime = 0;
+		si->iEventCount = 0;
+		si->LastTime = 0;
+		si->pLog = s->pLog;
+		si->pLogEnd = s->pLogEnd;
+		PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
+	}
+}
+
 void CChatRoomDlg::OnInitDialog()
 {
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
