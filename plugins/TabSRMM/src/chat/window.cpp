@@ -2994,10 +2994,9 @@ LABEL_SHOWWINDOW:
 			if (iSelection >= IDM_CONTAINERMENU) {
 				DBVARIANT dbv = { 0 };
 				char szIndex[10];
-				char *szKey = "TAB_ContainersW";
 				mir_snprintf(szIndex, "%d", iSelection - IDM_CONTAINERMENU);
 				if (iSelection - IDM_CONTAINERMENU >= 0) {
-					if (!db_get_ws(NULL, szKey, szIndex, &dbv)) {
+					if (!db_get_ws(NULL, "TAB_ContainersW", szIndex, &dbv)) {
 						SendMessage(m_hwnd, DM_CONTAINERSELECTED, 0, (LPARAM)dbv.ptszVal);
 						db_free(&dbv);
 					}
