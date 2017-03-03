@@ -115,6 +115,7 @@ typedef struct _DWM_THUMBNAIL_PROPERTIES
 #include "resource.h"
 #include "version.h"
 #include "buttonbar.h"
+#include "infopanel.h"
 #include "msgs.h"
 #include "msgdlgutils.h"
 #include "typingnotify.h"
@@ -129,7 +130,6 @@ typedef struct _DWM_THUMBNAIL_PROPERTIES
 #include "sendqueue.h"
 #include "taskbar.h"
 #include "controls.h"
-#include "infopanel.h"
 #include "sidebar.h"
 #include "utils.h"
 #include "sendlater.h"
@@ -231,7 +231,6 @@ extern LOGFONTA logfonts[MSGDLGFONTCOUNT + 2];
 extern COLORREF fontcolors[MSGDLGFONTCOUNT + 2];
 extern HINSTANCE hinstance;
 extern BOOL g_bIMGtagButton;
-extern const wchar_t *pszIDCSAVE_save, *pszIDCSAVE_close;
 extern char *TemplateNames[];
 extern HANDLE hUserPrefsWindowList;
 extern TCpTable cpTable[];

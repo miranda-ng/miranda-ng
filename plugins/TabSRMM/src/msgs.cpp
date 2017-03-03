@@ -122,6 +122,7 @@ CTabBaseDlg::CTabBaseDlg(TNewWindowData *pData, int iResource)
 	m_log(this, IDC_LOG),
 	m_message(this, IDC_MESSAGE),
 	newData(pData),
+	m_pPanel(this),
 	
 	m_pContainer(pData->pContainer)
 {
@@ -138,23 +139,23 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg) {
 	case DM_SETINFOPANEL: // broadcasted when global info panel setting changes
 		if (wParam == 0 && lParam == 0) {
-			m_pPanel->getVisibility();
-			m_pPanel->loadHeight();
-			m_pPanel->showHide();
+			m_pPanel.getVisibility();
+			m_pPanel.loadHeight();
+			m_pPanel.showHide();
 		}
 		else {
 			CTabBaseDlg *srcDat = (CTabBaseDlg*)wParam;
 			if (lParam == 0)
-				m_pPanel->loadHeight();
+				m_pPanel.loadHeight();
 			else {
-				if (srcDat && lParam && this != srcDat && !m_pPanel->isPrivateHeight()) {
+				if (srcDat && lParam && this != srcDat && !m_pPanel.isPrivateHeight()) {
 					if (srcDat->m_bType != m_bType && M.GetByte("syncAllPanels", 0) == 0)
 						return 0;
 
 					if (m_pContainer->settings->fPrivate && srcDat->m_pContainer != m_pContainer)
 						return 0;
 
-					m_pPanel->setHeight((LONG)lParam);
+					m_pPanel.setHeight((LONG)lParam);
 				}
 			}
 			SendMessage(m_hwnd, WM_SIZE, 0, 0);
@@ -223,7 +224,7 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		// wParam == id of the "anchor" element, defaults to the panel status field (for away msg retrieval)
 		// lParam == new text to show
 		if (!IsIconic(m_pContainer->hwnd) && m_pContainer->hwndActive == m_hwnd)
-			m_pPanel->showTip(wParam, lParam);
+			m_pPanel.showTip(wParam, lParam);
 		return 0;
 
 	case DM_STATUSBARCHANGED:

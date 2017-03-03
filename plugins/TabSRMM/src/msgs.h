@@ -358,7 +358,7 @@ public:
 	bool     m_fEditNotesActive;
 	bool     m_bActualHistory;
 
-	CInfoPanel *m_pPanel;
+	CInfoPanel m_pPanel;
 	CContactCache *m_cache;
 	AVATARCACHEENTRY *m_ace, *m_ownAce;
 	CProxyWindow  *m_pWnd;	// proxy window object (win7+, for taskbar support).
@@ -480,8 +480,9 @@ class CChatRoomDlg : public CTabBaseDlg
 {
 	HWND m_hwndFilter;
 	bool m_bWasDeleted;
-	CCtrlButton m_btnFilter, m_btnHistory, m_btnOk;
+	CCtrlButton m_btnFilter, m_btnHistory, m_btnChannelMgr, m_btnNickList, m_btnOk;
 	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline, m_btnColor, m_btnBkColor;
+	CCtrlListBox m_list;
 
 	virtual CThumbBase* CreateThumb(CProxyWindow *pProxy) const override;
 	virtual void ClearLog() override;
@@ -496,13 +497,19 @@ public:
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
+	void OnClick_OK(CCtrlButton*);
 	void OnClick_Filter(CCtrlButton*);
 	void OnClick_History(CCtrlButton*);
+	void OnClick_ChanMgr(CCtrlButton*);
+	void OnClick_ShowNickList(CCtrlButton*);
+
 	void OnClick_BIU(CCtrlButton*);
-	void OnClick_OK(CCtrlButton*);
 	void OnClick_Color(CCtrlButton*);
 	void OnClick_BkColor(CCtrlButton*);
+	
 	void OnChange_Message(CCtrlEdit*);
+
+	void OnDblClick_List(CCtrlListBox*);
 
 	void StreamInEvents(LOGINFO* lin, SESSION_INFO *si, bool bRedraw);
 	void UpdateWindowState(UINT msg);

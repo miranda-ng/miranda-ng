@@ -21,7 +21,6 @@
 #define IDC_NICKROW2                    1023
 #define IDC_NICKROW                     1024
 #define IDC_LOGLIMIT                    1024
-#define IDC_CHAT_CLOSE                  1025
 #define IDC_CHAT_SPIN2                  1029
 #define IDC_CHAT_SPIN3                  1030
 #define IDC_CHAT_SPIN4                  1031

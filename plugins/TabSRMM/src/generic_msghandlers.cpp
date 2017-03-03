@@ -142,8 +142,8 @@ bool CTabBaseDlg::DM_GenericHotkeysCheck(MSG *message)
 		break;
 
 	case TABSRMM_HK_TOGGLEINFOPANEL:
-		m_pPanel->setActive(!m_pPanel->isActive());
-		m_pPanel->showHide();
+		m_pPanel.setActive(!m_pPanel.isActive());
+		m_pPanel.showHide();
 		return true;
 
 	case TABSRMM_HK_TOGGLETOOLBAR:
@@ -768,7 +768,7 @@ void CTabBaseDlg::DM_LoadLocale()
 
 void CTabBaseDlg::DM_RecalcPictureSize()
 {
-	HBITMAP hbm = ((m_pPanel->isActive()) && m_pContainer->avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
+	HBITMAP hbm = ((m_pPanel.isActive()) && m_pContainer->avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
 	if (hbm) {
 		BITMAP bminfo;
 		GetObject(hbm, sizeof(bminfo), &bminfo);
@@ -887,7 +887,7 @@ LRESULT CTabBaseDlg::DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	if (m_bType == SESSIONTYPE_CHAT) {					// scroll nick list by just hovering it
-		RECT	rcNicklist;
+		RECT rcNicklist;
 		GetWindowRect(GetDlgItem(m_hwnd, IDC_LIST), &rcNicklist);
 		if (PtInRect(&rcNicklist, pt)) {
 			SendDlgItemMessage(m_hwnd, IDC_LIST, WM_MOUSEWHEEL, wParam, lParam);
@@ -1033,7 +1033,7 @@ void CSrmmWindow::DM_OptionsApplied(WPARAM, LPARAM lParam)
 	m_bShowUIElements = (m_pContainer->dwFlags & CNT_HIDETOOLBAR) == 0;
 
 	m_dwFlagsEx = M.GetByte(m_hContact, "splitoverride", 0) ? MWF_SHOW_SPLITTEROVERRIDE : 0;
-	m_pPanel->getVisibility();
+	m_pPanel.getVisibility();
 
 	// small inner margins (padding) for the text areas
 	m_log.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
@@ -1382,7 +1382,7 @@ void CTabBaseDlg::DM_HandleAutoSizeRequest(REQRESIZE* rr)
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 	LONG cy = rc.bottom - rc.top;
-	LONG panelHeight = (m_pPanel->isActive() ? m_pPanel->getHeight() : 0);
+	LONG panelHeight = (m_pPanel.isActive() ? m_pPanel.getHeight() : 0);
 
 	if (iNewHeight > (cy - panelHeight) / 2)
 		iNewHeight = (cy - panelHeight) / 2;
@@ -1491,7 +1491,7 @@ void CTabBaseDlg::DM_UpdateTitle(WPARAM, LPARAM lParam)
 			AddContactToFavorites(m_hContact, m_cache->getNick(), szActProto, m_wszStatus, m_wStatus,
 				Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 0, PluginConfig.g_hMenuRecent);
 
-		m_pPanel->Invalidate();
+		m_pPanel.Invalidate();
 		if (m_pWnd)
 			m_pWnd->Invalidate();
 	}

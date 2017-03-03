@@ -40,6 +40,30 @@ wchar_t *xStatusDescr[] =
 
 TInfoPanelConfig CInfoPanel::m_ipConfig = { 0 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CInfoPanel::CInfoPanel(CTabBaseDlg *dat)
+{
+	if (dat) {
+		m_dat = dat;
+		m_isChat = dat->m_bType == SESSIONTYPE_CHAT ? true : false;
+	}
+	m_defaultHeight = PluginConfig.m_panelHeight;
+	m_defaultMUCHeight = PluginConfig.m_MUCpanelHeight;
+	m_hwndConfig = 0;
+	m_hoverFlags = 0;
+	m_tip = 0;
+}
+
+CInfoPanel::~CInfoPanel()
+{
+	if (m_hwndConfig)
+		::DestroyWindow(m_hwndConfig);
+	saveHeight(true);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CInfoPanel::setActive(const int newActive)
 {
 	m_active = newActive ? true : false;
@@ -944,7 +968,7 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 
 		GetClientRect(hwnd, &rcItem);
 		rc = rcItem;
-		if (!IsWindowEnabled(hwnd) || !dat->m_pPanel->isActive() || !dat->m_bShowInfoAvatar)
+		if (!IsWindowEnabled(hwnd) || !dat->m_pPanel.isActive() || !dat->m_bShowInfoAvatar)
 			return TRUE;
 
 		HDC dcWin = (HDC)wParam;
@@ -978,7 +1002,7 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 		else {
 			rc.bottom += 2;
 			rc.left -= 3; rc.right += 3;
-			dat->m_pPanel->renderBG(dcWin, rc, &SkinItems[ID_EXTBKINFOPANELBG], M.isAero(), false);
+			dat->m_pPanel.renderBG(dcWin, rc, &SkinItems[ID_EXTBKINFOPANELBG], M.isAero(), false);
 		}
 
 		if (CSkin::m_bAvatarBorderType == 1) {

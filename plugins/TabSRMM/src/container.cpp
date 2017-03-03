@@ -61,13 +61,13 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
 
 	RECT	rcWnd;
 	if (dat->m_bType == SESSIONTYPE_IM) {
-		if (dat->m_pPanel->isActive())
+		if (dat->m_pPanel.isActive())
 			GetWindowRect(GetDlgItem(dat->GetHwnd(), IDC_LOG), &rcWnd);
 		else
 			GetWindowRect(dat->GetHwnd(), &rcWnd);
 	}
 	else {
-		if (dat->m_pPanel->isActive())
+		if (dat->m_pPanel.isActive())
 			GetWindowRect(GetDlgItem(dat->GetHwnd(), IDC_LOG), &rcWnd);
 		else
 			GetWindowRect(dat->GetHwnd(), &rcWnd);
@@ -1077,8 +1077,8 @@ panel_found:
 					POINT	pt;
 					GetWindowRect(pContainer->hwndActive, &rc);
 					pt.x = rc.left + 10;
-					pt.y = rc.top + dat->m_pPanel->getHeight() - 10;
-					dat->m_pPanel->invokeConfigDialog(pt);
+					pt.y = rc.top + dat->m_pPanel.getHeight() - 10;
+					dat->m_pPanel.invokeConfigDialog(pt);
 				}
 				return 0;
 
@@ -1240,7 +1240,7 @@ panel_found:
 			dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 			if (dat && dat->m_bType == SESSIONTYPE_IM) {
 				if (dat->m_idle && pContainer->hwndActive && IsWindow(pContainer->hwndActive))
-					dat->m_pPanel->Invalidate(TRUE);
+					dat->m_pPanel.Invalidate(TRUE);
 			}
 			else if (dat)
 				SendMessage(dat->GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);

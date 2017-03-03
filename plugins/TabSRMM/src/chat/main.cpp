@@ -55,8 +55,8 @@ static void OnReplaceSession(SESSION_INFO *si)
 
 static void OnSetTopic(SESSION_INFO *si)
 {
-	if (si->hWnd && si->dat->m_pPanel)
-		si->dat->m_pPanel->Invalidate(true);
+	if (si->hWnd)
+		si->dat->m_pPanel.Invalidate(true);
 }
 
 static void OnNewUser(SESSION_INFO *si, USERINFO*)

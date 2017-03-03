@@ -446,13 +446,13 @@ void SendQueue::UpdateSaveAndSendButton(CTabBaseDlg *dat)
 		if (len) {          // looks complex but avoids flickering on the button while typing.
 			if (!(dat->m_dwFlags & MWF_SAVEBTN_SAV)) {
 				SendDlgItemMessage(hwndDlg, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_SAVE]);
-				SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_save, BATF_UNICODE);
+				SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Save and close session"), BATF_UNICODE);
 				dat->m_dwFlags |= MWF_SAVEBTN_SAV;
 			}
 		}
 		else {
 			SendDlgItemMessage(hwndDlg, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
-			SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_UNICODE);
+			SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close session"), BATF_UNICODE);
 			dat->m_dwFlags &= ~MWF_SAVEBTN_SAV;
 		}
 		dat->m_textLen = len;
@@ -659,7 +659,7 @@ int SendQueue::doSendLater(int iJobIndex, CTabBaseDlg *dat, MCONTACT hContact, b
 		if (dat->m_pContainer->hwndActive == dat->GetHwnd())
 			dat->UpdateReadChars();
 		SendDlgItemMessage(dat->GetHwnd(), IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
-		SendDlgItemMessage(dat->GetHwnd(), IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_UNICODE);
+		SendDlgItemMessage(dat->GetHwnd(), IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close session"), BATF_UNICODE);
 		dat->m_dwFlags &= ~MWF_SAVEBTN_SAV;
 
 		if (!fAvail)

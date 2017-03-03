@@ -29,6 +29,10 @@
 #ifndef __INFOPANEL_H
 #define __INFOPANEL_H
 
+class CInfoPanel;
+class CTabBaseDlg;
+struct CSkinItem;
+
 /*
  * configuration data for the info panel (fonts, colors)
  * this is global for all panels
@@ -125,25 +129,8 @@ public:
 		HTNIRVANA = 0
 	};
 
-	CInfoPanel(CTabBaseDlg *dat)
-	{
-		if (dat) {
-			m_dat = dat;
-			m_isChat = dat->m_bType == SESSIONTYPE_CHAT ? true : false;
-		}
-		m_defaultHeight = PluginConfig.m_panelHeight;
-		m_defaultMUCHeight = PluginConfig.m_MUCpanelHeight;
-		m_hwndConfig = 0;
-		m_hoverFlags = 0;
-		m_tip = 0;
-	}
-
-	~CInfoPanel()
-	{
-		if (m_hwndConfig)
-			::DestroyWindow(m_hwndConfig);
-		saveHeight(true);
-	}
+	CInfoPanel(CTabBaseDlg *dat);
+	~CInfoPanel();
 
 	__forceinline const LONG getHeight() const { return m_height; }
 	__forceinline bool isActive() const { return m_active; }
