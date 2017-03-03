@@ -306,6 +306,11 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				return TRUE;
 			}
 
+			if (wParam == VK_ESCAPE && !isCtrl && !isAlt) { // Esc (close tab)
+				SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
+				return TRUE;
+			}
+
 			if (wParam == 0x49 && isCtrl && !isAlt) { // ctrl-i (italics)
 				CheckDlgButton(hwndDlg, IDC_ITALICS, IsDlgButtonChecked(hwndDlg, IDC_ITALICS) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 				SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_ITALICS, 0), 0);
@@ -947,12 +952,6 @@ void CChatRoomDlg::OnInitDialog()
 	SendMessage(m_hwnd, WM_SIZE, 0, 0);
 
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPEN);
-}
-
-void CChatRoomDlg::OnClose()
-{
-	if (g_Settings.bTabsEnable)
-		SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
 }
 
 void CChatRoomDlg::OnDestroy()
