@@ -2579,6 +2579,12 @@ CSplitter::CSplitter(CDlgBase *wnd, int idCtrl)
 {
 }
 
+void CSplitter::OnInit()
+{
+	CSuper::OnInit();
+	Subclass();
+}
+
 LRESULT CSplitter::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	RECT rc;

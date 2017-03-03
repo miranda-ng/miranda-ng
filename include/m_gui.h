@@ -579,7 +579,7 @@ public:
 	void MakeFlat();
 	void MakePush();
 
-	virtual void OnInit();
+	virtual void OnInit() override;
 
 protected:
 	HICON m_hIcon;
@@ -600,6 +600,7 @@ public:
 
 protected:
 	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual void OnInit() override;
 
 	int m_iPosition;
 };
@@ -733,7 +734,7 @@ public:
 	void CreateDbLink(const char* szModuleName, const char* szSetting, wchar_t* szValue);
 	void CreateDbLink(CDataLink *link) { m_dbLink = link; }
 
-	virtual void OnInit();
+	virtual void OnInit() override;
 
 protected:
 	CDataLink *m_dbLink;
@@ -848,9 +849,9 @@ public:
 	CCtrlCombo(CDlgBase *dlg, int ctrlId);
 
 	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode) override;
-	virtual void OnInit();
-	virtual void OnApply();
-	virtual void OnReset();
+	virtual void OnInit() override;
+	virtual void OnApply() override;
+	virtual void OnReset() override;
 
 	// Control interface
 	int    AddString(const wchar_t *text, LPARAM data = 0);
@@ -1192,10 +1193,10 @@ public:
 	CCallback<TEventInfo> OnSingleExpand;
 
 protected:
-	virtual void OnInit();
+	virtual void OnInit() override;
 	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
 	
-	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
+	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	union {
 		uint32_t m_dwFlags;
@@ -1239,13 +1240,13 @@ public:
 protected:
 	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
 	
-	virtual void OnInit();
-	virtual void OnDestroy();
+	virtual void OnInit() override;
+	virtual void OnDestroy() override;
 
-	virtual void OnApply();
-	virtual void OnReset();
+	virtual void OnApply() override;
+	virtual void OnReset() override;
 
-	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
+	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 private:
 	HIMAGELIST m_hIml;
