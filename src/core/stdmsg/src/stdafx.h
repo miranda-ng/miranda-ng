@@ -197,6 +197,7 @@ public:
 	CChatRoomDlg(SESSION_INFO*);
 
 	virtual void OnInitDialog() override;
+	virtual void OnClose() override;
 	virtual void OnDestroy() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;

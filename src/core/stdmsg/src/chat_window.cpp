@@ -952,6 +952,12 @@ void CChatRoomDlg::OnInitDialog()
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPEN);
 }
 
+void CChatRoomDlg::OnClose()
+{
+	if (g_Settings.bTabsEnable)
+		SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
+}
+
 void CChatRoomDlg::OnDestroy()
 {
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING);
@@ -1608,7 +1614,7 @@ LABEL_SHOWWINDOW:
 		if (g_Settings.bTabsEnable)
 			SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
 		Close();
-		break;
+		return 0;
 
 	case GC_CHANGEFILTERFLAG:
 		m_si->iLogFilterFlags = lParam;
