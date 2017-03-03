@@ -339,39 +339,6 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 	return mir_callNextSubclass(hwnd, MessageEditSubclassProc, msg, wParam, lParam);
 }
 
-static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_NCHITTEST:
-		return HTCLIENT;
-
-	case WM_SETCURSOR:
-		{
-			RECT rc;
-			GetClientRect(hwnd, &rc);
-			SetCursor(rc.right > rc.bottom ? hCurSplitNS : hCurSplitWE);
-		}
-		return TRUE;
-
-	case WM_LBUTTONDOWN:
-		SetCapture(hwnd);
-		return 0;
-
-	case WM_MOUSEMOVE:
-		if (GetCapture() == hwnd) {
-			RECT rc;
-			GetClientRect(hwnd, &rc);
-			SendMessage(GetParent(hwnd), DM_SPLITTERMOVED, rc.right > rc.bottom ? (short)HIWORD(GetMessagePos()) + rc.bottom / 2 : (short)LOWORD(GetMessagePos()) + rc.right / 2, (LPARAM)hwnd);
-		}
-		return 0;
-
-	case WM_LBUTTONUP:
-		ReleaseCapture();
-		return 0;
-	}
-	return mir_callNextSubclass(hwnd, SplitterSubclassProc, msg, wParam, lParam);
-}
-
 static int MessageDialogResize(HWND, LPARAM lParam, UTILRESIZECONTROL *urc)
 {
 	CSrmmWindow *dat = (CSrmmWindow*)lParam;
@@ -418,6 +385,7 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool noActivate, const char *szIniti
 	CSrmmBaseDialog(g_hInst, IDD_MSG),
 	m_log(this, IDC_LOG),
 	m_message(this, IDC_MESSAGE),
+	m_splitter(this, IDC_SPLITTERY),
 	m_cmdList(20),
 	m_bNoActivate(noActivate)
 {
@@ -426,6 +394,8 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool noActivate, const char *szIniti
 	m_hContact = hContact;
 
 	m_wszInitialText = (bIsUnicode) ? mir_wstrdup((wchar_t*)szInitialText) : mir_a2u(szInitialText);
+
+	m_splitter.OnChange = Callback(this, &CSrmmWindow::OnSplitterMoved);
 }
 
 void CSrmmWindow::OnInitDialog()
@@ -494,8 +464,6 @@ void CSrmmWindow::OnInitDialog()
 
 	mir_subclassWindow(m_message.GetHwnd(), MessageEditSubclassProc);
 	m_message.SendMsg(EM_SUBCLASSED, 0, 0);
-
-	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTERY), SplitterSubclassProc);
 
 	if (m_hContact) {
 		int historyMode = db_get_b(NULL, SRMMMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
@@ -739,6 +707,21 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 	SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 }
 
+void CSrmmWindow::OnSplitterMoved(CSplitter *pSplitter)
+{
+	RECT rc, rcLog;
+	GetClientRect(m_hwnd, &rc);
+	GetWindowRect(m_log.GetHwnd(), &rcLog);
+
+	int oldSplitterY = m_splitterPos;
+	m_splitterPos = rc.bottom - pSplitter->GetPos() + 23;
+	GetWindowRect(m_message.GetHwnd(), &rc);
+	if (rc.bottom - rc.top + (m_splitterPos - oldSplitterY) < m_minEditBoxSize.cy)
+		m_splitterPos = oldSplitterY + m_minEditBoxSize.cy - (rc.bottom - rc.top);
+	if (rcLog.bottom - rcLog.top - (m_splitterPos - oldSplitterY) < m_minEditBoxSize.cy)
+		m_splitterPos = oldSplitterY - m_minEditBoxSize.cy + (rcLog.bottom - rcLog.top);
+}
+
 void CSrmmWindow::NotifyTyping(int mode)
 {
 	if (!m_hContact)
@@ -937,7 +920,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			RECT rc;
 			GetWindowRect(m_message.GetHwnd(), &rc);
 			if (rc.bottom - rc.top < m_minEditBoxSize.cy)
-				SendMessage(m_hwnd, DM_SPLITTERMOVED, rc.top - (rc.bottom - rc.top - m_minEditBoxSize.cy - 4), (LPARAM)GetDlgItem(m_hwnd, IDC_SPLITTERY));
+				m_splitter.OnChange(&m_splitter);
 
 			SendMessage(m_hwnd, WM_SIZE, 0, 0);
 		}
@@ -1126,29 +1109,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				PostMessage(m_hwnd, DM_SCROLLLOGTOBOTTOM, 0, 0);
 		}
 		return TRUE;
-
-	case DM_SPLITTERMOVED:
-		if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERY)) {
-			RECT rc, rcLog;
-			GetClientRect(m_hwnd, &rc);
-			GetWindowRect(m_log.GetHwnd(), &rcLog);
-
-			POINT pt;
-			pt.x = 0;
-			pt.y = wParam;
-			ScreenToClient(m_hwnd, &pt);
-
-			int oldSplitterY = m_splitterPos;
-			m_splitterPos = rc.bottom - pt.y + 23;
-			GetWindowRect(m_message.GetHwnd(), &rc);
-			if (rc.bottom - rc.top + (m_splitterPos - oldSplitterY) < m_minEditBoxSize.cy)
-				m_splitterPos = oldSplitterY + m_minEditBoxSize.cy - (rc.bottom - rc.top);
-			if (rcLog.bottom - rcLog.top - (m_splitterPos - oldSplitterY) < m_minEditBoxSize.cy)
-				m_splitterPos = oldSplitterY - m_minEditBoxSize.cy + (rcLog.bottom - rcLog.top);
-
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
-		}
-		break;
 
 	case DM_REMAKELOG:
 		StreamInEvents(m_hDbEventFirst, -1, 0);

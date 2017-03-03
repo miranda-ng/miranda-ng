@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define HM_DBEVENTADDED      (WM_USER+12)
 #define DM_CASCADENEWWINDOW  (WM_USER+13)
 #define DM_OPTIONSAPPLIED    (WM_USER+14)
-#define DM_SPLITTERMOVED     (WM_USER+15)
 #define DM_UPDATETITLE       (WM_USER+16)
 #define DM_APPENDTOLOG       (WM_USER+17)
 #define DM_NEWTIMEZONE       (WM_USER+18)
@@ -51,6 +50,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 class CSrmmWindow : public CSrmmBaseDialog
 {
 	CCtrlEdit m_log, m_message;
+	CSplitter m_splitter;
 
 	void NotifyTyping(int mode);
 	void ShowAvatar(void);
@@ -99,6 +99,8 @@ public:
 	virtual void OnDestroy() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	void OnSplitterMoved(CSplitter*);
 
 	void OnOptionsApplied(bool bUpdateAvatar);
 

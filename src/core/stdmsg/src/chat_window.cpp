@@ -33,38 +33,6 @@ struct MESSAGESUBDATA
 
 static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
 
-static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	RECT rc;
-
-	switch (msg) {
-	case WM_NCHITTEST:
-		return HTCLIENT;
-
-	case WM_SETCURSOR:
-		GetClientRect(hwnd, &rc);
-		SetCursor(rc.right > rc.bottom ? LoadCursor(NULL, IDC_SIZENS) : LoadCursor(NULL, IDC_SIZEWE));
-		return TRUE;
-
-	case WM_LBUTTONDOWN:
-		SetCapture(hwnd);
-		return 0;
-
-	case WM_MOUSEMOVE:
-		if (GetCapture() == hwnd) {
-			GetClientRect(hwnd, &rc);
-			SendMessage(GetParent(hwnd), GC_SPLITTERMOVED, rc.right > rc.bottom ? (short)HIWORD(GetMessagePos()) + rc.bottom / 2 : (short)LOWORD(GetMessagePos()) + rc.right / 2, (LPARAM)hwnd);
-		}
-		return 0;
-
-	case WM_LBUTTONUP:
-		ReleaseCapture();
-		PostMessage(GetParent(hwnd), WM_SIZE, 0, 0);
-		return 0;
-	}
-	return mir_callNextSubclass(hwnd, SplitterSubclassProc, msg, wParam, lParam);
-}
-
 int CChatRoomDlg::RoomWndResize(HWND, LPARAM lParam, UTILRESIZECONTROL *urc)
 {
 	CChatRoomDlg *dat = (CChatRoomDlg*)lParam;
@@ -877,7 +845,10 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	m_btnFilter(this, IDC_FILTER),
 	m_btnHistory(this, IDC_HISTORY),
 	m_btnNickList(this, IDC_SHOWNICKLIST),
-	m_btnChannelMgr(this, IDC_CHANMGR)
+	m_btnChannelMgr(this, IDC_CHANMGR),
+	
+	m_splitterX(this, IDC_SPLITTERX),
+	m_splitterY(this, IDC_SPLITTERY)
 {
 	m_pLog = &m_log;
 	m_pEntry = &m_message;
@@ -900,6 +871,9 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::OnClick_NickList);
 
 	m_nickList.OnDblClick = Callback(this, &CChatRoomDlg::OnListDblclick);
+
+	m_splitterX.OnChange = Callback(this, &CChatRoomDlg::OnSplitterX);
+	m_splitterY.OnChange = Callback(this, &CChatRoomDlg::OnSplitterY);
 }
 
 void CChatRoomDlg::OnInitDialog()
@@ -916,8 +890,7 @@ void CChatRoomDlg::OnInitDialog()
 	WindowList_Add(pci->hWindowList, m_hwnd, m_hContact);
 
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
-	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTERX), SplitterSubclassProc);
-	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTERY), SplitterSubclassProc);
+
 	mir_subclassWindow(m_log.GetHwnd(), LogSubclassProc);
 	mir_subclassWindow(m_btnFilter.GetHwnd(), ButtonSubclassProc);
 	mir_subclassWindow(m_btnColor.GetHwnd(), ButtonSubclassProc);
@@ -1129,6 +1102,35 @@ void CChatRoomDlg::OnListDblclick(CCtrlListBox*)
 		PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 	}
 	else pci->DoEventHookAsync(m_hwnd, m_si->ptszID, m_si->pszModule, GC_USER_PRIVMESS, ui, nullptr, 0);
+}
+
+void CChatRoomDlg::OnSplitterX(CSplitter *pSplitter)
+{
+	RECT rc;
+	GetClientRect(m_hwnd, &rc);
+
+	m_si->iSplitterX = rc.right - pSplitter->GetPos() + 1;
+	if (m_si->iSplitterX < 35)
+		m_si->iSplitterX = 35;
+	if (m_si->iSplitterX > rc.right - rc.left - 35)
+		m_si->iSplitterX = rc.right - rc.left - 35;
+	g_Settings.iSplitterX = m_si->iSplitterX;
+}
+
+void CChatRoomDlg::OnSplitterY(CSplitter *pSplitter)
+{
+	RECT rc;
+	GetClientRect(m_hwnd, &rc);
+
+	m_si->iSplitterY = rc.bottom - pSplitter->GetPos() + 1;
+	if (!IsWindowVisible(m_btnBold.GetHwnd()))
+		m_si->iSplitterY += 19;
+
+	if (m_si->iSplitterY < 63)
+		m_si->iSplitterY = 63;
+	if (m_si->iSplitterY > rc.bottom - rc.top - 40)
+		m_si->iSplitterY = rc.bottom - rc.top - 40;
+	g_Settings.iSplitterY = m_si->iSplitterY;
 }
 
 void CChatRoomDlg::SetWindowPosition()
@@ -1544,50 +1546,6 @@ LABEL_SHOWWINDOW:
 			SendMessage(m_hwnd, WM_SIZE, 0, 0);
 			SetForegroundWindow(m_hwnd);
 			return TRUE;
-		}
-		break;
-
-	case GC_SPLITTERMOVED:
-		{
-			static int x = 0;
-
-			RECT rcLog;
-			GetWindowRect(m_log.GetHwnd(), &rcLog);
-
-			if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERX)) {
-				int oldSplitterX;
-				GetClientRect(m_hwnd, &rc);
-				POINT pt = { wParam, 0 };
-				ScreenToClient(m_hwnd, &pt);
-
-				oldSplitterX = m_si->iSplitterX;
-				m_si->iSplitterX = rc.right - pt.x + 1;
-				if (m_si->iSplitterX < 35)
-					m_si->iSplitterX = 35;
-				if (m_si->iSplitterX > rc.right - rc.left - 35)
-					m_si->iSplitterX = rc.right - rc.left - 35;
-				g_Settings.iSplitterX = m_si->iSplitterX;
-			}
-			else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERY)) {
-				BOOL bFormat = IsWindowVisible(m_btnBold.GetHwnd());
-				int oldSplitterY;
-				GetClientRect(m_hwnd, &rc);
-				POINT pt = { 0, wParam };
-				ScreenToClient(m_hwnd, &pt);
-
-				oldSplitterY = m_si->iSplitterY;
-				m_si->iSplitterY = bFormat ? rc.bottom - pt.y + 1 : rc.bottom - pt.y + 20;
-				if (m_si->iSplitterY < 63)
-					m_si->iSplitterY = 63;
-				if (m_si->iSplitterY > rc.bottom - rc.top - 40)
-					m_si->iSplitterY = rc.bottom - rc.top - 40;
-				g_Settings.iSplitterY = m_si->iSplitterY;
-			}
-			if (x == 2) {
-				PostMessage(m_hwnd, WM_SIZE, 0, 0);
-				x = 0;
-			}
-			else x++;
 		}
 		break;
 

@@ -78,7 +78,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EM_ACTIVATE   (WM_USER+0x102)
 
 extern HINSTANCE g_hInst;
-extern HCURSOR hCurSplitNS, hCurSplitWE, hCurHyperlinkHand;
 extern HANDLE hHookWinEvt, hHookWinPopup, hHookWinWrite;
 extern CREOleCallback reOleCallback;
 
@@ -185,6 +184,7 @@ class CChatRoomDlg : public CSrmmBaseDialog
 	CCtrlButton m_btnOk;
 	CCtrlButton m_btnFilter, m_btnChannelMgr, m_btnNickList, m_btnHistory;
 	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline, m_btnColor, m_btnBkColor;
+	CSplitter m_splitterX, m_splitterY;
 
 	HWND getCaptionWindow() const
 	{	return (g_Settings.bTabsEnable) ? GetParent(m_hwndParent) : m_hwnd;
@@ -213,4 +213,7 @@ public:
 	void OnClick_NickList(CCtrlButton*);
 
 	void OnListDblclick(CCtrlListBox*);
+
+	void OnSplitterX(CSplitter*);
+	void OnSplitterY(CSplitter*);
 };

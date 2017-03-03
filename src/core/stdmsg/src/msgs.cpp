@@ -30,7 +30,6 @@ const CLSID IID_IRichEditOleCallback = { 0x00020D03, 0x00, 0x00, { 0xC0, 0x00, 0
 
 int OnCheckPlugins(WPARAM, LPARAM);
 
-HCURSOR  hCurSplitNS, hCurSplitWE, hCurHyperlinkHand;
 HANDLE   hHookWinEvt, hHookWinPopup, hHookWinWrite;
 HGENMENU hMsgMenuItem;
 HMODULE hMsftEdit;
@@ -576,22 +575,12 @@ int LoadSendRecvMessageModule(void)
 	SkinAddNewSoundEx("TNStart", LPGEN("Instant messages"), LPGEN("Contact started typing"));
 	SkinAddNewSoundEx("TNStop", LPGEN("Instant messages"), LPGEN("Contact stopped typing"));
 
-	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
-	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
-	hCurHyperlinkHand = LoadCursor(NULL, IDC_HAND);
-	if (hCurHyperlinkHand == NULL)
-		hCurHyperlinkHand = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
-
 	InitStatusIcons();
 	return 0;
 }
 
 void SplitmsgShutdown(void)
 {
-	DestroyCursor(hCurSplitNS);
-	DestroyCursor(hCurHyperlinkHand);
-	DestroyCursor(hCurSplitWE);
-
 	DestroyHookableEvent(hHookWinEvt);
 	DestroyHookableEvent(hHookWinPopup);
 	DestroyHookableEvent(hHookWinWrite);
