@@ -2571,6 +2571,59 @@ void CCtrlPages::OnDestroy()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// CSplitter
+
+CSplitter::CSplitter(CDlgBase *wnd, int idCtrl)
+	: CCtrlBase(wnd, idCtrl),
+	m_iPosition(0)
+{
+}
+
+LRESULT CSplitter::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	RECT rc;
+
+	switch (msg) {
+	case WM_NCHITTEST:
+		return HTCLIENT;
+
+	case WM_SETCURSOR:
+		GetClientRect(m_hwnd, &rc);
+		SetCursor(rc.right > rc.bottom ? g_hCursorNS : g_hCursorWE);
+		return TRUE;
+
+	case WM_LBUTTONDOWN:
+		SetCapture(m_hwnd);
+		return 0;
+
+	case WM_MOUSEMOVE:
+		if (GetCapture() == m_hwnd) {
+			POINT pt = { 0, 0 };
+			GetClientRect(m_hwnd, &rc);
+			if (rc.right > rc.bottom) {
+				pt.y = HIWORD(GetMessagePos()) + rc.bottom / 2;
+				ScreenToClient(m_parentWnd->GetHwnd(), &pt);
+				m_iPosition = pt.y;
+			}
+			else {
+				pt.x = LOWORD(GetMessagePos()) + rc.right / 2;
+				ScreenToClient(m_parentWnd->GetHwnd(), &pt);
+				m_iPosition = pt.x;
+			}
+
+			OnChange(this);
+		}
+		return 0;
+
+	case WM_LBUTTONUP:
+		ReleaseCapture();
+		return 0;
+	}
+
+	return CSuper::CustomWndProc(msg, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlBase
 
 CCtrlBase::CCtrlBase(CDlgBase *wnd, int idCtrl)

@@ -43,6 +43,7 @@ void InitWinver();
 int hLangpack = 0;
 HINSTANCE g_hInst = 0;
 
+HCURSOR g_hCursorNS, g_hCursorWE;
 HANDLE hStackMutex, hThreadQueueEmpty;
 DWORD mir_tls = 0;
 

@@ -1056,3 +1056,10 @@ CallFunctionSync @1170
 ?length@MBinBuffer@@QEBA_KXZ @1213 NONAME
 ?remove@MBinBuffer@@QEAAX_K@Z @1214 NONAME
 ??ACDlgBase@@QEAAPEAVCCtrlBase@@H@Z @1215 NONAME
+??0CSplitter@@QEAA@AEBV0@@Z @1216 NONAME
+??0CSplitter@@QEAA@PEAVCDlgBase@@H@Z @1217 NONAME
+??1CSplitter@@UEAA@XZ @1218 NONAME
+??4CSplitter@@QEAAAEAV0@AEBV0@@Z @1219 NONAME
+??_7CSplitter@@6B@ @1220 NONAME
+?CustomWndProc@CSplitter@@MEAA_JI_K_J@Z @1221 NONAME
+?GetPos@CSplitter@@QEBAHXZ @1222 NONAME

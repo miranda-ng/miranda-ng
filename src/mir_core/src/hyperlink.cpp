@@ -264,6 +264,9 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 
 void InitHyperlink(void)
 {
+	g_hCursorNS = LoadCursor(NULL, IDC_SIZENS);
+	g_hCursorWE = LoadCursor(NULL, IDC_SIZEWE);
+
 	WNDCLASS wcl = { 0 };
 	wcl.lpfnWndProc = HyperlinkWndProc;
 	wcl.cbWndExtra = sizeof(struct HyperlinkWndData*);

@@ -564,6 +564,9 @@ public:
 	CCallback<CCtrlButton> OnClick;
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// CCtrlMButton
+
 class MIR_CORE_EXPORT CCtrlMButton : public CCtrlButton
 {
 	typedef CCtrlButton CSuper;
@@ -582,6 +585,27 @@ protected:
 	HICON m_hIcon;
 	const char* m_toolTip;
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CSplitter
+
+class MIR_CORE_EXPORT CSplitter : public CCtrlBase
+{
+	typedef CCtrlBase CSuper;
+
+public:
+	CSplitter(CDlgBase *dlg, int ctrlId);
+
+	__forceinline int GetPos() const { return m_iPosition; }
+
+protected:
+	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	int m_iPosition;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CCtrlHyperlink
 
 class MIR_CORE_EXPORT CCtrlHyperlink : public CCtrlBase
 {
