@@ -1055,3 +1055,4 @@ CallFunctionSync @1170
 ?isEmpty@MBinBuffer@@QBE_NXZ @1212 NONAME
 ?length@MBinBuffer@@QBEIXZ @1213 NONAME
 ?remove@MBinBuffer@@QAEXI@Z @1214 NONAME
+??ACDlgBase@@QAEPAVCCtrlBase@@H@Z @1215 NONAME
