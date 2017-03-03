@@ -2575,7 +2575,8 @@ void CCtrlPages::OnDestroy()
 
 CSplitter::CSplitter(CDlgBase *wnd, int idCtrl)
 	: CCtrlBase(wnd, idCtrl),
-	m_iPosition(0)
+	m_iPosition(0),
+	m_iCount(0)
 {
 }
 
@@ -2587,13 +2588,12 @@ void CSplitter::OnInit()
 
 LRESULT CSplitter::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	RECT rc;
-
 	switch (msg) {
 	case WM_NCHITTEST:
 		return HTCLIENT;
 
 	case WM_SETCURSOR:
+		RECT rc;
 		GetClientRect(m_hwnd, &rc);
 		SetCursor(rc.right > rc.bottom ? g_hCursorNS : g_hCursorWE);
 		return TRUE;
@@ -2618,11 +2618,18 @@ LRESULT CSplitter::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			OnChange(this);
+
+			if (m_iCount == 3) {
+				m_iCount = 0;
+				PostMessage(m_parentWnd->GetHwnd(), WM_SIZE, 0, 0);
+			}
+			else m_iCount++;
 		}
 		return 0;
 
 	case WM_LBUTTONUP:
 		ReleaseCapture();
+		PostMessage(m_parentWnd->GetHwnd(), WM_SIZE, 0, 0);
 		return 0;
 	}
 
