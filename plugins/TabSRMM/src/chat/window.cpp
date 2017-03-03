@@ -162,15 +162,15 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 		}
 	}
 
-	if (si->hwndStatus) {
+	if (m_hwndFilter) {
 		POINT pt;
 		GetCursorPos(&pt);
 
 		RECT rcFilter;
-		GetWindowRect(si->hwndStatus, &rcFilter);
+		GetWindowRect(m_hwndFilter, &rcFilter);
 		if (!PtInRect(&rcFilter, pt)) {
-			SendMessage(si->hwndStatus, WM_CLOSE, 1, 1);
-			si->hwndStatus = 0;
+			SendMessage(m_hwndFilter, WM_CLOSE, 1, 1);
+			m_hwndFilter = 0;
 		}
 	}
 
@@ -2447,17 +2447,17 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case GC_SHOWFILTERMENU:
-		si->hwndStatus = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_FILTER), m_pContainer->hwnd, FilterWndProc, (LPARAM)si);
-		TranslateDialogDefault(si->hwndStatus);
+		m_hwndFilter = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_FILTER), m_pContainer->hwnd, FilterWndProc, (LPARAM)si);
+		TranslateDialogDefault(m_hwndFilter);
 
 		RECT rcFilter;
-		GetClientRect(si->hwndStatus, &rcFilter);
+		GetClientRect(m_hwndFilter, &rcFilter);
 		GetWindowRect(m_log.GetHwnd(), &rcLog);
 
 		pt.x = rcLog.right; pt.y = rcLog.bottom;
 		ScreenToClient(m_pContainer->hwnd, &pt);
 
-		SetWindowPos(si->hwndStatus, HWND_TOP, pt.x - rcFilter.right, pt.y - rcFilter.bottom, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+		SetWindowPos(m_hwndFilter, HWND_TOP, pt.x - rcFilter.right, pt.y - rcFilter.bottom, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 		break;
 
 	case GC_SHOWCOLORCHOOSER:

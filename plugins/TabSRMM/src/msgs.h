@@ -478,6 +478,7 @@ public:
 
 class CChatRoomDlg : public CTabBaseDlg
 {
+	HWND m_hwndFilter;
 	bool m_bWasDeleted;
 	CCtrlButton m_btnFilter, m_btnHistory, m_btnOk;
 	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline, m_btnColor, m_btnBkColor;

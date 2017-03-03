@@ -204,7 +204,6 @@ struct GCSessionInfoBase
 	WORD        wCommandsNum;
 	void       *pItemData;
 	MCONTACT    hContact;
-	HWND        hwndStatus;
 	time_t      LastTime;
 
 	BOOL        isToolTip;

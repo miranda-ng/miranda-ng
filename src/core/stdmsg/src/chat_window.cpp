@@ -65,9 +65,10 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 	return mir_callNextSubclass(hwnd, SplitterSubclassProc, msg, wParam, lParam);
 }
 
-static int RoomWndResize(HWND, LPARAM lParam, UTILRESIZECONTROL *urc)
+int CChatRoomDlg::RoomWndResize(HWND, LPARAM lParam, UTILRESIZECONTROL *urc)
 {
-	SESSION_INFO *si = (SESSION_INFO*)lParam;
+	CChatRoomDlg *dat = (CChatRoomDlg*)lParam;
+	SESSION_INFO *si = dat->m_si;
 
 	RECT rc;
 	BOOL bControl = (BOOL)db_get_b(NULL, CHAT_MODULE, "ShowTopButtons", 1);
@@ -78,7 +79,7 @@ static int RoomWndResize(HWND, LPARAM lParam, UTILRESIZECONTROL *urc)
 
 	switch (urc->wId) {
 	case IDOK:
-		GetWindowRect(si->hwndStatus, &rc);
+		GetWindowRect(dat->m_hwndStatus, &rc);
 		urc->rcItem.left = bSend ? 315 : urc->dlgNewSize.cx;
 		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY + 23;
 		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom - rc.top) - 1;
@@ -114,7 +115,7 @@ LBL_CalcBottom:
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_CUSTOM;
 
 	case IDC_MESSAGE:
-		GetWindowRect(si->hwndStatus, &rc);
+		GetWindowRect(dat->m_hwndStatus, &rc);
 		urc->rcItem.right = bSend ? urc->dlgNewSize.cx - 64 : urc->dlgNewSize.cx;
 		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY + 22;
 		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom - rc.top) - 1;
@@ -932,8 +933,12 @@ void CChatRoomDlg::OnInitDialog()
 	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
 	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 
-	m_si->hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP | SBT_TOOLTIPS, 0, 0, 0, 0, m_hwnd, NULL, g_hInst, NULL);
-	SendMessage(m_si->hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
+	DWORD dwFlags = WS_CHILD | WS_VISIBLE | SBT_TOOLTIPS;
+	if (!g_Settings.bTabsEnable)
+		dwFlags |= SBARS_SIZEGRIP;
+
+	m_hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, dwFlags, 0, 0, 0, 0, m_hwnd, NULL, g_hInst, NULL);
+	SendMessage(m_hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
 
 	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_HIDESELECTION, TRUE, 0);
 
@@ -957,7 +962,7 @@ void CChatRoomDlg::OnDestroy()
 	m_si->pDlg = NULL;
 	m_si->hWnd = NULL;
 	m_si->wState &= ~STATE_TALK;
-	DestroyWindow(m_si->hwndStatus); m_si->hwndStatus = NULL;
+	DestroyWindow(m_hwndStatus); m_hwndStatus = NULL;
 
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE);
 }
@@ -1216,7 +1221,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 
 			SendMessage(m_hwndParent, GC_FIXTABICONS, 0, 0);
-			SendMessage(m_si->hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
+			SendMessage(m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
 		}
 		Window_SetIcon_IcoLib(getCaptionWindow(), GetIconHandle("window"));
 
@@ -1283,10 +1288,10 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
 			wchar_t *ptszDispName = mi->ptszModDispName;
 			int x = 12;
-			x += GetTextPixelSize(ptszDispName, (HFONT)SendMessage(m_si->hwndStatus, WM_GETFONT, 0, 0), TRUE);
+			x += GetTextPixelSize(ptszDispName, (HFONT)SendMessage(m_hwndStatus, WM_GETFONT, 0, 0), TRUE);
 			x += GetSystemMetrics(SM_CXSMICON);
 			int iStatusbarParts[2] = { x, -1 };
-			SendMessage(m_si->hwndStatus, SB_SETPARTS, 2, (LPARAM)&iStatusbarParts);
+			SendMessage(m_hwndStatus, SB_SETPARTS, 2, (LPARAM)&iStatusbarParts);
 
 			// stupid hack to make icons show. I dunno why this is needed currently
 			HICON hIcon = m_si->wStatus == ID_STATUS_ONLINE ? mi->hOnlineIcon : mi->hOfflineIcon;
@@ -1295,13 +1300,13 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				hIcon = m_si->wStatus == ID_STATUS_ONLINE ? mi->hOnlineIcon : mi->hOfflineIcon;
 			}
 
-			SendMessage(m_si->hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
+			SendMessage(m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
 			SendMessage(m_hwndParent, GC_FIXTABICONS, 0, 0);
 
-			SendMessage(m_si->hwndStatus, SB_SETTEXT, 0, (LPARAM)ptszDispName);
+			SendMessage(m_hwndStatus, SB_SETTEXT, 0, (LPARAM)ptszDispName);
 
-			SendMessage(m_si->hwndStatus, SB_SETTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
-			SendMessage(m_si->hwndStatus, SB_SETTIPTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
+			SendMessage(m_hwndStatus, SB_SETTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
+			SendMessage(m_hwndStatus, SB_SETTIPTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
 		}
 		return TRUE;
 
@@ -1310,7 +1315,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			PostMessage(m_hwnd, GC_SCROLLTOBOTTOM, 0, 0);
 
 		if (!IsIconic(m_hwnd)) {
-			SendMessage(m_si->hwndStatus, WM_SIZE, 0, 0);
+			SendMessage(m_hwndStatus, WM_SIZE, 0, 0);
 
 			BOOL bControl = (BOOL)db_get_b(NULL, CHAT_MODULE, "ShowTopButtons", 1);
 			BOOL bFormat = (BOOL)db_get_b(NULL, CHAT_MODULE, "ShowFormatButtons", 1);
@@ -1346,10 +1351,10 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					EnableWindow(m_btnChannelMgr.GetHwnd(), pci->MM_FindModule(m_si->pszModule)->bChanMgr);
 			}
 
-			Utils_ResizeDialog(m_hwnd, g_hInst, MAKEINTRESOURCEA(IDD_CHANNEL), RoomWndResize, (LPARAM)m_si);
+			Utils_ResizeDialog(m_hwnd, g_hInst, MAKEINTRESOURCEA(IDD_CHANNEL), RoomWndResize, (LPARAM)this);
 			SetButtonsPos(m_hwnd, true);
 
-			InvalidateRect(m_si->hwndStatus, NULL, TRUE);
+			InvalidateRect(m_hwndStatus, NULL, TRUE);
 			RedrawWindow(m_message.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
 			RedrawWindow(m_btnOk.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
 			SaveWindowPosition(false);

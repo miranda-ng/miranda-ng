@@ -175,6 +175,9 @@ class CChatRoomDlg : public CSrmmBaseDialog
 {
 	friend struct CTabbedWindow;
 
+	static int RoomWndResize(HWND, LPARAM lParam, UTILRESIZECONTROL *urc);
+	HWND m_hwndStatus;
+
 	SESSION_INFO *m_si;
 
 	CCtrlEdit m_message, m_log;

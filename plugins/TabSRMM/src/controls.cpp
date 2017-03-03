@@ -880,28 +880,28 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		}
 		return 0;
 
+	case WM_USER + 101:
 		// tell status bar to update the part layout (re-calculate part widths)
 		// needed when an icon is added to or removed from the icon area
-	case WM_USER + 101:
-	{
-		int list_icons = 0;
-		dat = (CSrmmWindow*)lParam;
-		if (dat)
-			while (Srmm_GetNthIcon(dat->m_hContact, list_icons))
-				list_icons++;
+		{
+			int list_icons = 0;
+			dat = (CSrmmWindow*)lParam;
+			if (dat)
+				while (Srmm_GetNthIcon(dat->m_hContact, list_icons))
+					list_icons++;
 
-		SendMessage(hWnd, WM_SIZE, 0, 0);
+			SendMessage(hWnd, WM_SIZE, 0, 0);
 
-		RECT rcs;
-		GetWindowRect(hWnd, &rcs);
+			RECT rcs;
+			GetWindowRect(hWnd, &rcs);
 
-		int statwidths[5];
-		statwidths[0] = (rcs.right - rcs.left) - (2 * SB_CHAR_WIDTH + 20) - (list_icons * (PluginConfig.m_smcxicon + 2));
-		statwidths[1] = (rcs.right - rcs.left) - (10 + (list_icons * (PluginConfig.m_smcxicon + 2)));
-		statwidths[2] = -1;
-		SendMessage(hWnd, SB_SETPARTS, 3, (LPARAM)statwidths);
-	}
-	return 0;
+			int statwidths[5];
+			statwidths[0] = (rcs.right - rcs.left) - (2 * SB_CHAR_WIDTH + 20) - (list_icons * (PluginConfig.m_smcxicon + 2));
+			statwidths[1] = (rcs.right - rcs.left) - (10 + (list_icons * (PluginConfig.m_smcxicon + 2)));
+			statwidths[2] = -1;
+			SendMessage(hWnd, SB_SETPARTS, 3, (LPARAM)statwidths);
+		}
+		return 0;
 
 	case WM_SETCURSOR:
 		GetCursorPos(&pt);
