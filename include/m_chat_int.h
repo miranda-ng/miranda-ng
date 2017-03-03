@@ -416,6 +416,7 @@ EXTERN_C MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pDa
 
 class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 {
+
 protected:
 	CSrmmBaseDialog(HINSTANCE hInst, int idDialog);
 
@@ -427,6 +428,9 @@ protected:
 
 public:
 	MCONTACT m_hContact;
+
+	__inline void* operator new(size_t size){ return calloc(1, size); }
+	__inline void operator delete(void* p) { free(p); }
 };
 
 #endif // M_CHAT_INT_H__

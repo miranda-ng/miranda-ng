@@ -374,9 +374,6 @@ public:
 	char *m_enteredText;
 
 public:
-	__forceinline void* operator new(size_t size) { return calloc(1, size); }
-	__forceinline void operator delete(void* p) { free(p); }
-
 	CTabBaseDlg(TNewWindowData*, int);
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;

@@ -100,7 +100,7 @@ struct CommonWindowData
 	TCmdList *cmdList, *cmdListCurrent;
 };
 
-class CSrmmWindow : public CSrmmBaseDialog, public MZeroedObject, public CommonWindowData
+class CSrmmWindow : public CSrmmBaseDialog, public CommonWindowData
 {
 	CCtrlEdit m_log, m_message;
 	
