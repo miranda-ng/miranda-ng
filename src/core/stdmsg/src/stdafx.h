@@ -174,7 +174,6 @@ class CChatRoomDlg : public CSrmmBaseDialog
 {
 	friend struct CTabbedWindow;
 
-	static int RoomWndResize(HWND, LPARAM lParam, UTILRESIZECONTROL *urc);
 	HWND m_hwndStatus;
 
 	SESSION_INFO *m_si;
@@ -200,6 +199,7 @@ public:
 	virtual void OnDestroy() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual int Resizer(UTILRESIZECONTROL *urc) override;
 
 	void OnClick_Bold(CCtrlButton*);
 	void OnClick_Color(CCtrlButton*);

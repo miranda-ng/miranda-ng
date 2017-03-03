@@ -33,10 +33,9 @@ struct MESSAGESUBDATA
 
 static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
 
-int CChatRoomDlg::RoomWndResize(HWND, LPARAM lParam, UTILRESIZECONTROL *urc)
+int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 {
-	CChatRoomDlg *dat = (CChatRoomDlg*)lParam;
-	SESSION_INFO *si = dat->m_si;
+	SESSION_INFO *si = m_si;
 
 	RECT rc;
 	BOOL bControl = (BOOL)db_get_b(NULL, CHAT_MODULE, "ShowTopButtons", 1);
@@ -47,7 +46,7 @@ int CChatRoomDlg::RoomWndResize(HWND, LPARAM lParam, UTILRESIZECONTROL *urc)
 
 	switch (urc->wId) {
 	case IDOK:
-		GetWindowRect(dat->m_hwndStatus, &rc);
+		GetWindowRect(m_hwndStatus, &rc);
 		urc->rcItem.left = bSend ? 315 : urc->dlgNewSize.cx;
 		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY + 23;
 		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom - rc.top) - 1;
@@ -83,7 +82,7 @@ LBL_CalcBottom:
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_CUSTOM;
 
 	case IDC_MESSAGE:
-		GetWindowRect(dat->m_hwndStatus, &rc);
+		GetWindowRect(m_hwndStatus, &rc);
 		urc->rcItem.right = bSend ? urc->dlgNewSize.cx - 64 : urc->dlgNewSize.cx;
 		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY + 22;
 		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom - rc.top) - 1;
@@ -855,6 +854,7 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	m_hContact = si->hContact;
 
 	m_autoClose = 0;
+	m_forceResizable = true;
 
 	m_btnBold.OnClick = Callback(this, &CChatRoomDlg::OnClick_Bold);
 	m_btnItalic.OnClick = Callback(this, &CChatRoomDlg::OnClick_Bold);
@@ -1355,7 +1355,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					EnableWindow(m_btnChannelMgr.GetHwnd(), pci->MM_FindModule(m_si->pszModule)->bChanMgr);
 			}
 
-			Utils_ResizeDialog(m_hwnd, g_hInst, MAKEINTRESOURCEA(IDD_CHANNEL), RoomWndResize, (LPARAM)this);
+			CSrmmBaseDialog::DlgProc(uMsg, wParam, lParam); // call built-in resizer
 			SetButtonsPos(m_hwnd, true);
 
 			InvalidateRect(m_hwndStatus, NULL, TRUE);
