@@ -385,7 +385,7 @@ void SetButtonsPos(HWND hwndDlg, bool bIsChat)
 		GetWindowRect(GetDlgItem(hwndDlg, IDC_SPLITTERY), &rc);
 		POINT pt = { 0, rc.top };
 		ScreenToClient(hwndDlg, &pt);
-		yPos = pt.y - 2;
+		yPos = pt.y;
 	}
 	else yPos = 2;
 
