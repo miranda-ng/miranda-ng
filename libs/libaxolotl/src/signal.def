@@ -58,3 +58,10 @@ EXPORTS
    ec_key_pair_get_public
    ec_key_pair_get_private
    ec_private_key_serialize
+   ratchet_identity_key_pair_get_public
+   ratchet_identity_key_pair_get_private
+   signal_protocol_key_helper_generate_identity_key_pair
+   signal_protocol_key_helper_generate_signed_pre_key
+   session_signed_pre_key_get_key_pair
+   session_signed_pre_key_get_signature
+   session_signed_pre_key_get_signature_len

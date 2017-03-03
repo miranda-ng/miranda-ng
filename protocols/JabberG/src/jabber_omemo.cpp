@@ -24,12 +24,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
-#include <signal_protocol.h>
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
 #include <openssl/rand.h>
 #include <openssl/sha.h>
-#include <signal_protocol_internal.h>
+#include <signal_protocol.h>
+#include <signal_protocol_types.h>
+#include <key_helper.h>
 
 namespace omemo {
 
@@ -397,7 +398,7 @@ namespace omemo {
 	struct omemo_device
 	{
 		int id;
-		ec_key_pair *device_key;
+		ratchet_identity_key_pair *device_key;
 	};
 
 	omemo_device* create_device()
@@ -408,7 +409,7 @@ namespace omemo {
 			Utils_GetRandom((void*)&(dev->id), 4);
 		}
 		
-		if (curve_generate_key_pair(global_context, &(dev->device_key)))
+		if (signal_protocol_key_helper_generate_identity_key_pair(&(dev->device_key), global_context))
 		{
 			//TODO: handle error
 		}
@@ -417,6 +418,7 @@ namespace omemo {
 	}
 	bool IsFirstRun(CJabberProto *proto)
 	{
+		//TODO: more sanity checks
 		int id = proto->getDword("OmemoDeviceId", 0);
 		if (id == 0)
 			return true;
@@ -431,27 +433,49 @@ namespace omemo {
 	}
 	void RefreshDevice(CJabberProto *proto)
 	{
+		//generate and save device id
 		omemo_device *new_dev = create_device();
 		proto->setDword("OmemoDeviceId", new_dev->id);
-		ec_public_key *public_key = ec_key_pair_get_public(new_dev->device_key);
-		SIGNAL_REF(public_key);
+		//generate and save device key
+		ec_public_key *public_key = ratchet_identity_key_pair_get_public(new_dev->device_key);
 		signal_buffer *key_buf;
 		ec_public_key_serialize(&key_buf, public_key);
-		char *key = mir_base64_encode(key_buf->data, (unsigned int)key_buf->len);
+		char *key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
 		proto->setString("OmemoDevicePublicKey", key);
 		mir_free(key);
 		signal_buffer_free(key_buf);
-		ec_private_key *private_key = ec_key_pair_get_private(new_dev->device_key);
-		SIGNAL_REF(private_key);
+		ec_private_key *private_key = ratchet_identity_key_pair_get_private(new_dev->device_key);
 		ec_private_key_serialize(&key_buf, private_key);
-		key = mir_base64_encode(key_buf->data, (unsigned int)key_buf->len);
+		key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
 		proto->setString("OmemoDevicePrivateKey", key);
 		mir_free(key);
 		signal_buffer_free(key_buf);
 
-		SIGNAL_UNREF(new_dev->device_key);
 
-		//TODO: publish device info to pubsub
+		//TODO: generate and store "bundle"
+
+		//generate and save signed pre key
+
+		session_signed_pre_key* signed_pre_key;
+		signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, new_dev->device_key, 1, time(0), global_context);
+		SIGNAL_UNREF(new_dev->device_key);
+		ec_key_pair *signed_pre_key_pair =  session_signed_pre_key_get_key_pair(signed_pre_key);
+		public_key = ec_key_pair_get_public(signed_pre_key_pair);
+		ec_public_key_serialize(&key_buf, public_key);
+		key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
+		proto->setString("OmemoSignedPreKeyPublic", key);
+		mir_free(key);
+		signal_buffer_free(key_buf);
+		private_key = ec_key_pair_get_private(signed_pre_key_pair);
+		ec_private_key_serialize(&key_buf, private_key);
+		key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
+		proto->setString("OmemoSignedPreKeyPrivate", key);
+		mir_free(key);
+		signal_buffer_free(key_buf);
+		char *signature = mir_base64_encode(session_signed_pre_key_get_signature(signed_pre_key), (unsigned int)session_signed_pre_key_get_signature_len(signed_pre_key));
+		proto->setString("OmemoSignedPreKeySignature", signature);
+		mir_free(signature);
+
 
 	}
 	DWORD GetOwnDeviceId(CJabberProto *proto)
