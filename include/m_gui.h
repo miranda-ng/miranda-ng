@@ -396,6 +396,8 @@ public:
 	__forceinline void SetParent(HWND hwnd) { m_hwndParent = hwnd; }
 	__forceinline void Close() { SendMessage(m_hwnd, WM_CLOSE, 0, 0); }
 	__forceinline void Fail() { m_lresult = false; }
+	
+	__forceinline CCtrlBase* operator[](int iControlId) { return FindControl(iControlId); }
 
 	static CDlgBase* Find(HWND hwnd);
 

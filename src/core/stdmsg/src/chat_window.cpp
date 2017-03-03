@@ -907,9 +907,6 @@ void CChatRoomDlg::OnInitDialog()
 
 	// initialize toolbar icons
 	Srmm_CreateToolbarIcons(m_hwnd, BBBF_ISCHATBUTTON);
-	m_btnBold.OnInit(); m_btnItalic.OnInit(); m_btnUnderline.OnInit();
-	m_btnColor.OnInit(); m_btnBkColor.OnInit();
-	m_btnFilter.OnInit(); m_btnHistory.OnInit(); m_btnChannelMgr.OnInit();
 
 	WindowList_Add(pci->hWindowList, m_hwnd, m_hContact);
 

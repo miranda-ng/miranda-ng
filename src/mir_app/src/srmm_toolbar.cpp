@@ -320,6 +320,8 @@ MIR_APP_DLL(void) Srmm_CreateToolbarIcons(HWND hwndDlg, int flags)
 {
 	HINSTANCE hInstance = (HINSTANCE)GetWindowLongPtr(hwndDlg, GWLP_HINSTANCE);
 
+	CDlgBase *pDlg = CDlgBase::Find(hwndDlg);
+
 	for (int i = 0; i < arButtonsList.getCount(); i++) {
 		CustomButtonData *cbd = arButtonsList[i];
 		if (cbd->m_bSeparator)
@@ -331,6 +333,13 @@ MIR_APP_DLL(void) Srmm_CreateToolbarIcons(HWND hwndDlg, int flags)
 				hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, cbd->m_iButtonWidth, DPISCALEX_S(22), hwndDlg, (HMENU)cbd->m_dwButtonCID, hInstance, NULL);
 				if (hwndButton == NULL) // smth went wrong
 					continue;
+
+				// if there's a pre-created button control in a class, initialize it
+				if (pDlg != nullptr) {
+					CCtrlBase *pControl = (*pDlg)[cbd->m_dwButtonCID];
+					if (pControl)
+						pControl->OnInit();
+				}
 			}
 			SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0);
 			if (cbd->m_pwszText)

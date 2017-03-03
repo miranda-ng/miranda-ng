@@ -152,9 +152,6 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 	if (si == NULL)
 		return;
 
-	HWND hwndDlg = GetHwnd();
-	HWND hwndTab = GetParent(hwndDlg);
-
 	if (msg == WM_ACTIVATE) {
 		if (m_pContainer->dwFlags & CNT_TRANSPARENCY) {
 			DWORD trans = LOWORD(m_pContainer->settings->dwTransparency);
@@ -176,7 +173,7 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 
 	if (m_bIsAutosizingInput && m_iInputAreaHeight == -1) {
 		m_iInputAreaHeight = 0;
-		SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_REQUESTRESIZE, 0, 0);
+		SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_REQUESTRESIZE, 0, 0);
 	}
 
 	m_pPanel->dismissConfig();
@@ -186,10 +183,10 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 		m_pWnd->setOverlayIcon(0, true);
 	}
 
-	if (m_pContainer->hwndSaved == hwndDlg || m_bWasDeleted)
+	if (m_pContainer->hwndSaved == m_hwnd || m_bWasDeleted)
 		return;
 
-	m_pContainer->hwndSaved = hwndDlg;
+	m_pContainer->hwndSaved = m_hwnd;
 
 	pci->SetActiveSession(si->ptszID, si->pszModule);
 	m_hTabIcon = m_hTabStatusIcon;
@@ -200,10 +197,10 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 		if (pcli->pfnGetEvent(si->hContact, 0))
 			pcli->pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 
-		SendMessage(hwndDlg, GC_UPDATETITLE, 0, 1);
+		SendMessage(m_hwnd, GC_UPDATETITLE, 0, 1);
 		m_dwTickLastEvent = 0;
 		m_dwFlags &= ~MWF_DIVIDERSET;
-		if (KillTimer(hwndDlg, TIMERID_FLASHWND) || m_iFlashIcon) {
+		if (KillTimer(m_hwnd, TIMERID_FLASHWND) || m_iFlashIcon) {
 			FlashTab(false);
 			m_bCanFlashTab = FALSE;
 			m_iFlashIcon = 0;
@@ -215,15 +212,15 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 		m_pContainer->dwFlags &= ~CNT_NEED_UPDATETITLE;
 
 		if (m_dwFlags & MWF_NEEDCHECKSIZE)
-			PostMessage(hwndDlg, DM_SAVESIZE, 0, 0);
+			PostMessage(m_hwnd, DM_SAVESIZE, 0, 0);
 
 		if (PluginConfig.m_bAutoLocaleSupport) {
 			if (hkl == 0)
 				DM_LoadLocale();
 			else
-				SendMessage(hwndDlg, DM_SETLOCALE, 0, 0);
+				SendMessage(m_hwnd, DM_SETLOCALE, 0, 0);
 		}
-		SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
+		SetFocus(GetDlgItem(m_hwnd, IDC_MESSAGE));
 		m_dwLastActivity = GetTickCount();
 		m_pContainer->dwLastActivity = m_dwLastActivity;
 		m_pContainer->MenuBar->configureMenu();
@@ -233,14 +230,14 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 		if (m_dwFlagsEx & MWF_EX_DELAYEDSPLITTER) {
 			m_dwFlagsEx &= ~MWF_EX_DELAYEDSPLITTER;
 			ShowWindow(m_pContainer->hwnd, SW_RESTORE);
-			PostMessage(hwndDlg, DM_SPLITTERGLOBALEVENT, m_wParam, m_lParam);
-			PostMessage(hwndDlg, WM_SIZE, 0, 0);
+			PostMessage(m_hwnd, DM_SPLITTERGLOBALEVENT, m_wParam, m_lParam);
+			PostMessage(m_hwnd, WM_SIZE, 0, 0);
 			m_wParam = m_lParam = 0;
 		}
 	}
 	BB_SetButtonsPos();
 	if (M.isAero())
-		InvalidateRect(hwndTab, NULL, FALSE);
+		InvalidateRect(m_hwndParent, NULL, FALSE);
 	if (m_pContainer->dwFlags & CNT_SIDEBAR)
 		m_pContainer->SideBar->setActiveItem(this);
 
@@ -1642,8 +1639,6 @@ void CChatRoomDlg::OnInitDialog()
 	DM_InitTip();
 	BB_InitDlgButtons();
 	SendMessage(m_hwnd, WM_CBD_LOADICONS, 0, 0);
-	m_btnBold.OnInit(); m_btnItalic.OnInit(); m_btnUnderline.OnInit(); m_btnOk.OnInit();
-	m_btnColor.OnInit(); m_btnBkColor.OnInit(); m_btnFilter.OnInit();
 
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTERX), SplitterSubclassProc);
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTERY), SplitterSubclassProc);
