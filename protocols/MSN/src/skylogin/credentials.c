@@ -138,7 +138,11 @@ int Credentials_Parse(Skype_Inst *pInst, Memory_U Pcred, SResponse *LoginDatas)
 	RSA_free(SkypeRSA);
 	if (PPsZ == -1)
 	{
-		pInst->pfLog(pInst->pLogStream, "Credentials decryption failed..\n");
+		char szErr[256];
+
+		ERR_load_crypto_strings();
+		ERR_error_string(ERR_get_error(), szErr);
+		pInst->pfLog(pInst->pLogStream, "Credentials decryption failed: %s\n", szErr);
 		free(creds.Memory);
 		return -1;
 	}

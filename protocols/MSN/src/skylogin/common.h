@@ -44,6 +44,7 @@ typedef int BOOL;
 #include <openssl/aes.h>
 #include <openssl/rsa.h>
 #include <openssl/sha.h>
+#include <openssl/err.h>
 #ifdef USE_RC4
 #include <openssl/rc4.h>
 #include <openssl/dh.h>
@@ -71,7 +72,7 @@ typedef	 unsigned long		ulong;
 #define	 RAW_PARAMS			0x41
 #define	 EXT_PARAMS			0x42
 
-#define	 VER_STR			"0/6.18.0.105"
+#define	 VER_STR			"0/7.44.0.104"
 
 typedef  struct
 {
