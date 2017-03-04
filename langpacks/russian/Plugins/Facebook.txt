@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.1.0
+;  Version: 0.3.2.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -269,8 +269,26 @@ SMS с кодом подтверждения отправлено на ваш м
 Загрузка истории завершена.
 [<attachment without text>]
 <вложение без текста>
+[Loading memories...]
+Загрузка воспоминаний...
 [On this day]
 В этот день
+[Found %d memories.]
+Найдено воспоминаний: %d.
+[Loading notifications...]
+Загрузка уведомлений...
+[Found %d notifications.]
+Найдено уведомлений: %d.
+[Loading friendship requests...]
+Загрузка запросов дружбы...
+[Found %d friendship requests (%d seen).]
+Найдено запросов дружбы: %d (просмотрено: %d)
+[Found %d friendship requests.]
+Найдено запросов дружбы: %d.
+[Loading wall posts...]
+Загрузка записей со стены...
+[Found %d wall posts.]
+Найдено сообщений со стены: %d.
 [%s server connection]
 Подключение к серверу %s
 [Unable to initialize Netlib for %s.]
@@ -291,14 +309,6 @@ SMS с кодом подтверждения отправлено на ваш м
 Статус...
 [Own wall]
 Своя стена
-[Loading wall posts...]
-Загрузка записей со стены...
-[Loading friendship requests...]
-Загрузка запросов дружбы...
-[Loading notifications...]
-Загрузка уведомлений...
-[Loading memories...]
-Загрузка воспоминаний...
 [Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
 Выполняется загрузка истории. Эта возможность не работает для нескольких контактов одновременно, пожалуйста, подождите завершения.
 [This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
@@ -308,7 +318,7 @@ SMS с кодом подтверждения отправлено на ваш м
 [Client errors]
 Ошибки клиента
 [Wall posts]
-Сообщения на стене
+Сообщения со стены
 [Other events]
 Другие события
 [Friendship events]

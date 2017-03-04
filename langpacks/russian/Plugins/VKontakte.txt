@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.12
+;  Version: 0.1.2.13
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -51,6 +51,8 @@
 Сокращённые ссылки для вложений с аудио
 [Use non-standard popups for news and event notifications]
 Использовать нестандартные всплывающие окна для новостей и событий
+[Add message link to messages with attachments]
+Добавлять ссылку на сообщение к сообщениям с вложениями
 [News and event notifications]
 Новости и уведомления
 [WARNING: Causes excessive network traffic!!!]
@@ -327,6 +329,8 @@ E-mail или номер телефона:
 Участники
 [Owners]
 Владельцы
+[Message link]
+Ссылка на сообщение
 [create chat]
 создал чат
 [kick user]
