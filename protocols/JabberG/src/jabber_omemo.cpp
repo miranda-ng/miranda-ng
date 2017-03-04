@@ -419,6 +419,7 @@ namespace omemo {
 	bool IsFirstRun(CJabberProto *proto)
 	{
 		//TODO: more sanity checks
+		//TODO: check and if necessary refresh prekeys
 		int id = proto->getDword("OmemoDeviceId", 0);
 		if (id == 0)
 			return true;
@@ -453,6 +454,7 @@ namespace omemo {
 
 
 		//TODO: generate and store "bundle"
+		//TODO: is it required to resend bundle everytime with device ?
 
 		//generate and save signed pre key
 
@@ -476,6 +478,33 @@ namespace omemo {
 		proto->setString("OmemoSignedPreKeySignature", signature);
 		mir_free(signature);
 
+		//generate and save pre keys set
+
+		signal_protocol_key_helper_pre_key_list_node *keys_root, *it;
+		signal_protocol_key_helper_generate_pre_keys(&keys_root, 0, 100, global_context);
+		it = keys_root;
+		char setting_name[64];
+		for (int i = 0; it; it = signal_protocol_key_helper_key_list_next(it), i++)
+		{
+			session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
+			ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
+			public_key = ec_key_pair_get_public(pre_key_pair);
+			ec_public_key_serialize(&key_buf, public_key);
+			key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
+			mir_snprintf(setting_name, "OmemoPreKey%dPublic", i);
+			proto->setString(setting_name, key);
+			mir_free(key);
+			signal_buffer_free(key_buf);
+			private_key = ec_key_pair_get_private(pre_key_pair);
+			ec_private_key_serialize(&key_buf, private_key);
+			key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
+			mir_snprintf(setting_name, "OmemoPreKey%dPrivate", i);
+			proto->setString(setting_name, key);
+			mir_free(key);
+			signal_buffer_free(key_buf);
+
+		}
+		signal_protocol_key_helper_key_list_free(keys_root);
 
 	}
 	DWORD GetOwnDeviceId(CJabberProto *proto)
