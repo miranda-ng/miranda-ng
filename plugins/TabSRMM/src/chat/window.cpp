@@ -2443,7 +2443,7 @@ LABEL_SHOWWINDOW:
 				if (si->iSplitterX > rc.right - rc.left - 35)
 					si->iSplitterX = rc.right - rc.left - 35;
 				g_Settings.iSplitterX = si->iSplitterX;
-				SendMessage(GetHwnd(), WM_SIZE, 0, 0);
+				SendMessage(m_hwnd, WM_SIZE, 0, 0);
 			}
 			else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERY) || lParam == -1) {
 				GetClientRect(m_hwnd, &rc);
@@ -2458,7 +2458,7 @@ LABEL_SHOWWINDOW:
 					si->iSplitterY = rc.bottom - rc.top - DPISCALEY_S(40);
 				g_Settings.iSplitterY = si->iSplitterY;
 				UpdateToolbarBG();
-				SendMessage(GetHwnd(), WM_SIZE, 0, 0);
+				SendMessage(m_hwnd, WM_SIZE, 0, 0);
 			}
 			else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_PANELSPLITTER)) {
 				pt.x = 0, pt.y = wParam;

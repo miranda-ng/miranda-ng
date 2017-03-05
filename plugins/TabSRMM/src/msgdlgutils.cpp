@@ -217,7 +217,7 @@ void CTabBaseDlg::CalcDynamicAvatarSize(BITMAP *bminfo)
 		return;  // at this stage, the layout is not yet ready...
 
 	RECT rc;
-	GetClientRect(GetHwnd(), &rc);
+	GetClientRect(m_hwnd, &rc);
 
 	BOOL bBottomToolBar = m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR;
 	BOOL bToolBar = m_pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
