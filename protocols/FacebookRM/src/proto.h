@@ -225,6 +225,7 @@ public:
 	bool IsSpecialChatRoom(MCONTACT hContact);
 	void PrepareNotificationsChatRoom();
 	void UpdateNotificationsChatRoom(facebook_notification *notification);
+	std::string FacebookProto::GenerateChatName(facebook_chatroom *fbc);
 
 	// Connection client
 	facebook_client facy; // TODO: Refactor to "client" and make dynamic

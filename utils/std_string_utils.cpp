@@ -387,19 +387,19 @@ std::string utils::text::source_get_form_data(std::string* data, bool hiddenOnly
 	return values;
 }
 
-std::wstring utils::text::prepare_name(const std::wstring &name, bool withSurnameLetter)
+std::string utils::text::prepare_name(const std::string &name, bool withSurnameLetter)
 {
-	std::wstring::size_type pos = name.find(L" ");
+	std::string::size_type pos = name.find(" ");
 	if (pos == std::wstring::npos)
 		return name;
 
-	std::wstring result = name.substr(0, pos);
+	std::string result = name.substr(0, pos);
 
 	if (withSurnameLetter) {
-		pos = name.rfind(L" ") + 1; // we're sure there is some space in name so we can do +1 safely
+		pos = name.rfind(" ") + 1; // we're sure there is some space in name so we can do +1 safely
 
 		if (pos < name.length())
-			result += L" " + name.substr(pos, 1) + std::wstring(L".");
+			result += " " + name.substr(pos, 1) + std::string(".");
 	}
 
 	return result;

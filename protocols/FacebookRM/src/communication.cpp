@@ -353,7 +353,6 @@ void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp, const s
 			}
 		}
 		
-		std::wstring treaderName = _A2T(name.c_str(), CP_UTF8);
 		std::wstring treaders;
 
 		// Load old readers
@@ -362,7 +361,8 @@ void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp, const s
 			treaders = std::wstring(told) + L", ";
 
 		// Append new reader name and remember them
-		treaders += utils::text::prepare_name(treaderName, true);
+		std::string reader = utils::text::prepare_name(name, true);
+		treaders += _A2T(reader.c_str(), CP_UTF8);
 		parent->setWString(hContact, FACEBOOK_KEY_MESSAGE_READERS, treaders.c_str());
 	}
 

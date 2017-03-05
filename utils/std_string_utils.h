@@ -76,7 +76,7 @@ namespace utils
 		std::string truncate_utf8(const std::string &text, size_t maxLength);
 		void explode(std::string str, const std::string &separator, std::vector<std::string>* results);
 		void append_ordinal(unsigned long value, std::string* data);
-		std::wstring prepare_name(const std::wstring &name, bool withSurnameLetter);
+		std::string prepare_name(const std::string &name, bool withSurnameLetter);
 	};
 
 	namespace conversion

@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright ï¿½ 2011-17 Robert Pï¿½sel
+Copyright © 2011-17 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -432,4 +432,39 @@ void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notificat
 	gce.ptszUID = idT;
 
 	Chat_Event(&gce);
+}
+
+std::string FacebookProto::GenerateChatName(facebook_chatroom *fbc)
+{
+	std::string name = "";
+	unsigned int namesUsed = 0;
+
+	for (auto it = fbc->participants.begin(); it != fbc->participants.end(); ++it) {
+		std::string participant = it->second.nick;
+
+		// Ignore self contact, empty and numeric only participant names
+		if (it->second.role == ROLE_ME || participant.empty() || participant.find_first_not_of("0123456789") == std::string::npos)
+			continue;
+
+		if (namesUsed > 0)
+			name += ", ";
+
+		name += utils::text::prepare_name(participant, false);
+
+		if (++namesUsed >= FACEBOOK_CHATROOM_NAMES_COUNT)
+			break;
+	}
+
+	// Participants.size()-1 because we ignore self contact
+	if (fbc->participants.size() - 1 > namesUsed) {
+		wchar_t more[200];
+		mir_snwprintf(more, TranslateT("%s and more (%d)"), fbc->chat_name.c_str(), fbc->participants.size() - 1 - namesUsed); // -1 because we ignore self contact
+		fbc->chat_name = more;
+	}
+
+	// If there are no participants to create a name from, use just thread_id
+	if (name.empty())
+		name = fbc->thread_id.c_str();
+
+	return name;
 }

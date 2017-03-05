@@ -332,35 +332,8 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 
 		// If chat has no name, create name from participants list
 		if (fbc->chat_name.empty()) {
-			unsigned int namesUsed = 0;
-
-			for (auto it = fbc->participants.begin(); it != fbc->participants.end(); ++it) {
-				std::string participant = it->second.nick;
-
-				// Ignore self contact, empty and numeric only participant names
-				if (it->second.role == ROLE_ME || participant.empty() || participant.find_first_not_of("0123456789") == std::string::npos)
-					continue;
-
-				if (namesUsed > 0)
-					fbc->chat_name += L", ";
-
-				std::wstring tname = _A2T(participant.c_str(), CP_UTF8);
-				fbc->chat_name += utils::text::prepare_name(tname, false);
-
-				if (++namesUsed >= FACEBOOK_CHATROOM_NAMES_COUNT)
-					break;
-			}
-
-			// Participants.size()-1 because we ignore self contact
-			if (fbc->participants.size() - 1 > namesUsed) {
-				wchar_t more[200];
-				mir_snwprintf(more, TranslateT("%s and more (%d)"), fbc->chat_name.c_str(), fbc->participants.size() - 1 - namesUsed); // -1 because we ignore self contact
-				fbc->chat_name = more;
-			}
-
-			// If there are no participants to create a name from, use just thread_id
-			if (fbc->chat_name.empty())
-				fbc->chat_name = std::wstring(_A2T(fbc->thread_id.c_str())); // TODO: is this needed? Isn't it showed automatically as id if there is no name?
+			std::string newName = GenerateChatName(fbc);
+			fbc->chat_name = _A2T(newName.c_str(), CP_UTF8);
 		}
 
 		debugLogA("*** Chat thread info processed");

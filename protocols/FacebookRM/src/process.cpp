@@ -878,11 +878,14 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 					}
 				}
 				break;
-			case THREAD_NAME:
-				// proto->RenameChat(thread_id.c_str(), msg.data.c_str()); // this don't work, why?
-				setStringUtf(hChatContact, FACEBOOK_KEY_NICK, msg.data.c_str());
+			case THREAD_NAME: {
 				UpdateChat(thread_id.c_str(), NULL, NULL, msg.message_text.c_str());
+
+				std::string chatName = (!msg.data.empty() ? msg.data : GenerateChatName(fbc));
+				// proto->RenameChat(thread_id.c_str(), chatName.c_str()); // this don't work, why?
+				setStringUtf(hChatContact, FACEBOOK_KEY_NICK, chatName.c_str());
 				break;
+			}
 			case THREAD_IMAGE:
 				UpdateChat(thread_id.c_str(), NULL, NULL, msg.message_text.c_str());
 				break;
