@@ -73,6 +73,7 @@ namespace utils
 		std::string source_get_value2(std::string* data, const char *term, const char *endings, bool wholeString = false);
 		std::string source_get_form_data(std::string* data, bool hiddenOnly = false);
 		std::string rand_string(int len, const char *chars = "0123456789" "ABCDEFGHIJKLMNOPQRSTUVWXYZ" "abcdefghijklmnopqrstuvwxyz", unsigned int *number = NULL);
+		std::string truncate_utf8(const std::string &text, size_t maxLength);
 		void explode(std::string str, const std::string &separator, std::vector<std::string>* results);
 		void append_ordinal(unsigned long value, std::string* data);
 		std::wstring prepare_name(const std::wstring &name, bool withSurnameLetter);

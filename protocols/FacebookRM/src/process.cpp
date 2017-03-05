@@ -516,18 +516,6 @@ void FacebookProto::LoadHistory(void *pParam)
 	// PUDeletePopup(popupHwnd);
 }
 
-std::string truncateUtf8(std::string &text, size_t maxLength) {
-	// To not split some unicode character we need to transform it to wchar_t first, then split it, and then convert it back, because we want std::string as result
-	// TODO: Probably there is much simpler and nicer way
-	std::wstring ttext = ptrW(mir_utf8decodeW(text.c_str()));
-	if (ttext.length() > maxLength) {
-		ttext = ttext.substr(0, maxLength) + L"\x2026"; // unicode ellipsis
-		return std::string(_T2A(ttext.c_str(), CP_UTF8));
-	}
-	// It's not longer, return given string
-	return text;
-}
-
 void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news, DWORD &last_post_time, bool filterAds = true) {
 	std::string::size_type pos = 0;
 	UINT limit = 0;
@@ -629,7 +617,7 @@ void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news,
 				utils::text::html_entities_decode(
 				utils::text::remove_html(post_attachment)));
 
-			post_attachment = truncateUtf8(post_attachment, MAX_LINK_DESCRIPTION_LEN);
+			post_attachment = utils::text::truncate_utf8(post_attachment, MAX_LINK_DESCRIPTION_LEN);
 
 			if (post_attachment.empty()) {
 				// This is some textless attachment, so mention it
@@ -642,7 +630,7 @@ void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news,
 			utils::text::remove_html(post_message)));
 
 		// Truncate text of newsfeed when it's too long
-		post_message = truncateUtf8(post_message, MAX_NEWSFEED_LEN);
+		post_message = utils::text::truncate_utf8(post_message, MAX_NEWSFEED_LEN);
 
 		std::string content = "";
 		if (header_rest.length() > 2)

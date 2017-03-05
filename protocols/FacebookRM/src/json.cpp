@@ -314,8 +314,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 				std::string link = share["uri"].as_string();
 
 				// shorten long descriptions
-				if (description.length() > MAX_LINK_DESCRIPTION_LEN)
-					description = description.substr(0, MAX_LINK_DESCRIPTION_LEN) + TEXT_ELLIPSIS;
+				description = utils::text::truncate_utf8(description, MAX_LINK_DESCRIPTION_LEN);
 
 				if (link.find("//www." FACEBOOK_SERVER_DOMAIN "/l.php") != std::string::npos || link.find("//l." FACEBOOK_SERVER_DOMAIN) != std::string::npos) {
 					// de-facebook this link

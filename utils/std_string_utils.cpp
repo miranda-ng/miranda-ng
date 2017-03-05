@@ -417,6 +417,18 @@ std::string utils::text::rand_string(int len, const char *chars, unsigned int *n
 	return out.str();
 }
 
+std::string utils::text::truncate_utf8(const std::string &text, size_t maxLength) {
+	// To not split some unicode character we need to transform it to wchar_t first, then split it, and then convert it back, because we want std::string as result
+	// TODO: Probably there is much simpler and nicer way
+	std::wstring wtext = ptrW(mir_utf8decodeW(text.c_str()));
+	if (wtext.length() > maxLength) {
+		wtext = wtext.substr(0, maxLength) + L"\x2026"; // unicode ellipsis
+		return std::string(_T2A(wtext.c_str(), CP_UTF8));
+	}
+	// It's not longer, return given string
+	return text;
+}
+
 int utils::number::random(int min, int max, unsigned int *number)
 {
 	if (number != NULL) {
