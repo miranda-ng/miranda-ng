@@ -436,6 +436,28 @@ bool parseMessageMetadata(FacebookProto *proto, facebook_message &message, const
 	return true;
 }
 
+bool processSpecialMessage(FacebookProto *proto, std::vector<facebook_message>* messages, const JSONNode &meta_, MessageType messageType, const std::string &messageData = "")
+{
+	facebook_message message;
+	message.type = messageType;
+	message.data = messageData;
+
+	// Parse message metadata
+	if (!parseMessageMetadata(proto, message, meta_)) {
+		proto->debugLogA("json::processSpecialMessage - given empty messageMetadata");
+		return false;
+	}
+
+	// Ignore duplicits or messages sent from miranda
+	if (ignore_duplicits(proto, message.message_id)) {
+		return false;
+	}
+
+	messages->push_back(message);
+	return true;
+}
+
+
 int facebook_json_parser::parse_messages(std::string *pData, std::vector<facebook_message>* messages, std::map< std::string, facebook_notification* >* notifications)
 {
 	// remove old received messages from map		
@@ -496,7 +518,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				messages->push_back(message);
 			}
 			else if (cls == "ReplaceMessage") { // revised 5.3.2017
-				const JSONNode &newMessage_ = delta_["newMessage"];
+				//const JSONNode &newMessage_ = delta_["newMessage"];
 				// In newMessage object: "attachments", "body", "data"["meta_ranges"], "messageMetadata"["actorFbId", "messageId", "threadKey"["otherUserFbId", "threadFbId"], "timestamp"], "ttl"
 				// ttl is usually "TTL_OFF"
 				// meta_ranges is e.g. meta_ranges=[{"offset":11,"length":3,"type":1,"data":{"name":"timestamp","value":1488715200}}]
@@ -541,86 +563,120 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 			}
 			else if (cls == "MarkRead") { // revised 5.3.2017
 				// Messages (thread) was marked as read on server
-				const JSONNode &other_user_id_ = delta_["threadKeys"]["otherUserFbId"]; // for whom the message is (only for single conversations)
-				const JSONNode &thread_fbid_ = delta_["threadKeys"]["threadFbId"]; // thread of the message (only for multi chat conversations)
-				const JSONNode &actionTimestamp_ = delta_["actionTimestamp"]; // timestamp; more recent than watermarkTimestamp
-				const JSONNode &watermarkTimestamp_ = delta_["watermarkTimestamp"]; // timestamp
+				//const JSONNode &other_user_id_ = delta_["threadKeys"]["otherUserFbId"]; // for whom the message is (only for single conversations)
+				//const JSONNode &thread_fbid_ = delta_["threadKeys"]["threadFbId"]; // thread of the message (only for multi chat conversations)
+				//const JSONNode &actionTimestamp_ = delta_["actionTimestamp"]; // timestamp; more recent than watermarkTimestamp
+				//const JSONNode &watermarkTimestamp_ = delta_["watermarkTimestamp"]; // timestamp
 			}
 			else if (cls == "NoOp") { // revised 5.3.2017
 				//const JSONNode &numNoOps_ = delta_["numNoOps"]; // number, usually 1 but I don't know what is it for
 				continue;
 			}
 			else if (cls == "ForcedFetch") { // revised 5.3.2017
-				// probably when something related to thread changes (e.g. we change nickname of other user)
+				// when something related to thread changes (e.g. change of nickname of other user, thread image, etc.)
 			}
 			else if (cls == "AdminTextMessage") { // revised 5.3.2017
 				// various system messages - approving friendship, changing thread nickname, etc.
-				facebook_message message;
-				message.type = ADMIN_TEXT;
-
-				// Parse message metadata
 				const JSONNode &meta_ = delta_["messageMetadata"];
-				if (!parseMessageMetadata(proto, message, meta_)) {
-					proto->debugLogA("json::parse_messages/delta/AdminTextMessage - No messageMetadata element");
-					continue;
-				}
-
-				// Ignore duplicits or messages sent from miranda
-				if (ignore_duplicits(proto, message.message_id))
-					continue;
+				MessageType messageType = ADMIN_TEXT;
 
 				// TODO: Do something special with some delta types
 				const JSONNode &type_ = delta_["type"];
-				const JSONNode &untyped_ = delta_["untypedData"];
+				//const JSONNode &untyped_ = delta_["untypedData"];
 
 				std::string deltaType = type_.as_string();
 				if (deltaType == "confirm_friend_request") {
-					const JSONNode &connection_type_ = untyped_["connection_type"]; // e.g. "friend_request"
-					const JSONNode &friend_request_recipient_ = untyped_["friend_request_recipient"]; // userid
-					const JSONNode &friend_request_sender_ = untyped_["friend_request_sender"]; // userid
+					//const JSONNode &connection_type_ = untyped_["connection_type"]; // e.g. "friend_request"
+					//const JSONNode &friend_request_recipient_ = untyped_["friend_request_recipient"]; // userid
+					//const JSONNode &friend_request_sender_ = untyped_["friend_request_sender"]; // userid
 				}
 				else if (deltaType == "change_thread_nickname") {
-					const JSONNode &nickname_ = untyped_["nickname"]; // new nickname
-					const JSONNode &participant_id_ = untyped_["participant_id"]; // user fbid of that participant
+					//const JSONNode &nickname_ = untyped_["nickname"]; // new nickname
+					//const JSONNode &participant_id_ = untyped_["participant_id"]; // user fbid of that participant
+				}
+				else if (deltaType == "change_thread_theme") {
+					//const JSONNode &theme_color_ = untyped_["theme_color"]; // hexa format aarrggbb
+				}
+				else if (deltaType == "type=change_thread_icon") {
+					//const JSONNode &thread_icon_ = untyped_["thread_icon"]; // emoji symbol
 				}
 				else {
 					proto->debugLogA("json::parse_messages - Unknown AdminTextMessage type '%s'", deltaType.c_str());
 				}
 
-				messages->push_back(message);
-			}
-			else if (cls == "RTCEventLog") { // revised 5.3.2017
-				// various system messages - approving friendship, changing thread nickname, etc.
-				facebook_message message;
-				message.type = ADMIN_TEXT;
-
-				// Parse message metadata
-				const JSONNode &meta_ = delta_["messageMetadata"];
-				if (!parseMessageMetadata(proto, message, meta_)) {
-					proto->debugLogA("json::parse_messages/delta/RTCEventLog - No messageMetadata element");
+				if (!processSpecialMessage(proto, messages, meta_, messageType)) {
+					// Message wasn't added - either it is duplicate or there was some error
 					continue;
 				}
-
-				// Ignore duplicits or messages sent from miranda
-				if (ignore_duplicits(proto, message.message_id))
-					continue;
+			}
+			else if (cls == "RTCEventLog") { // revised 5.3.2017
+				// various voice/video calls events
+				const JSONNode &meta_ = delta_["messageMetadata"];
+				MessageType messageType = ADMIN_TEXT;
 
 				// TODO: Do something special with some types
-				const JSONNode &duration_ = delta_["duration"]; // numeric, probably length of call, e.g. 0
+				//const JSONNode &duration_ = delta_["duration"]; // numeric, probably length of call, e.g. 0
 				const JSONNode &eventType_ = delta_["eventType"]; // e.g. "VOICE_EVENT", "VIDEO_EVENT"
 
 				std::string eventType = eventType_.as_string();
 				if (eventType == "VOICE_EVENT") {
-					message.type = PHONE_CALL;
+					messageType = PHONE_CALL;
 				}
 				else if (eventType == "VIDEO_EVENT") {
-					message.type = VIDEO_CALL;
+					messageType = VIDEO_CALL;
 				}
 				else {
 					proto->debugLogA("json::parse_messages - Unknown RTCEventLog type '%s'", eventType.c_str());
 				}
 
-				messages->push_back(message);
+				if (!processSpecialMessage(proto, messages, meta_, messageType)) {
+					// Message wasn't added - either it is duplicate or there was some error
+					continue;
+				}
+			}
+			else if (cls == "ThreadName") {
+				// changed thread name (multi user chat)
+				const JSONNode &meta_ = delta_["messageMetadata"];
+				
+				const JSONNode &name_ = delta_["name"]; // new name of the chat (could be empty)
+				std::string data = (name_ ? name_.as_string() : "");
+
+				processSpecialMessage(proto, messages, meta_, THREAD_NAME, data);
+			}
+			else if (cls == "ThreadMuteSettings") {
+				//const JSONNode &expireTime_ = delta_["expireTime"]; // timestamp until which this thread will be muted; could be 0 = unmuted
+				// _delta["threadKey"] contains "threadFbId" or "otherUserId" identifier
+			}
+			else if (cls == "ParticipantLeftGroupThread") {
+				// user was removed from multi user chat
+				const JSONNode &meta_ = delta_["messageMetadata"];
+				
+				const JSONNode &leftParticipantFbId_ = delta_["leftParticipantFbId"];
+				std::string data = (leftParticipantFbId_ ? leftParticipantFbId_.as_string() : "");
+
+				processSpecialMessage(proto, messages, meta_, UNSUBSCRIBE, data);
+			}
+			else if (cls == "ParticipantsAddedToGroupThread") {
+				// user was added to multi user chat
+				const JSONNode &meta_ = delta_["messageMetadata"];
+				std::string data = "";
+
+				const JSONNode &addedParticipants_ = delta_["addedParticipants"]; // array of added participants
+				for (auto it2 = addedParticipants_.begin(); it2 != addedParticipants_.end(); ++it2) {
+					//const JSONNode &firstName_ = (*it2)["firstName"];
+					//const JSONNode &fullName_ = (*it2)["fullName"];
+					//const JSONNode &isMessengerUser_ = (*it2)["isMessengerUser"]; // boolean
+					const JSONNode &userFbId_ = (*it2)["userFbId"]; // userid
+
+					// TODO: Take advantage of given fullName so we don't need to load it manually afterwards
+					if (userFbId_) {
+						if (!data.empty())
+							data += ";";
+						data += userFbId_.as_string();
+					}
+				}
+
+				processSpecialMessage(proto, messages, meta_, SUBSCRIBE, data);
 			}
 			else {
 				// DeliveryReceipt, MarkRead, ThreadDelete
