@@ -535,76 +535,6 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				proto->debugLogA("json::parse_messages - Unknown class '%s'", cls.c_str());
 			}
 		}
-		else if (t == "messaging") {
-			// various messaging stuff (received and sent messages, getting seen info)
-
-			const JSONNode &ev_ = (*it)["event"];
-			if (!ev_)
-				continue;
-
-			std::string ev = ev_.as_string();
-			if (ev == "deliver") {
-				// inbox message (multiuser or direct)
-
-				const JSONNode &msg = (*it)["message"];
-
-				const JSONNode &sender_fbid = msg["sender_fbid"];
-				const JSONNode &sender_name = msg["sender_name"];
-				const JSONNode &body = msg["body"];
-
-				// looks like there is either "tid" or "other_user_fbid" (or both)
-				const JSONNode &other_user_fbid_ = msg["other_user_fbid"];
-				const JSONNode &tid = msg["tid"];
-				const JSONNode &mid = msg["mid"];
-				const JSONNode &timestamp = msg["timestamp"];
-				if (!sender_fbid || !sender_name || !body || !mid || !timestamp)
-					continue;
-
-				const JSONNode &is_filtered = (*it)["is_filtered_content"]; // TODO: is it still here? perhaps it is replaced with msg["is_spoof_warning"] or something else?
-				//const JSONNode &is_spoof_warning = msg["is_spoof_warning"];				
-				//const JSONNode &is_silent = msg["is_silent"];
-				//const JSONNode &is_unread = msg["is_unread"];
-
-				std::string id = sender_fbid.as_string();
-				std::string message_id = mid.as_string();
-				std::string message_text = body.as_string();
-
-				std::string thread_id = tid ? tid.as_string() : "";
-				std::string other_user_id = other_user_fbid_ ? other_user_fbid_.as_string() : "";
-
-				// Process attachements and stickers
-				parseAttachments(proto, &message_text, msg, other_user_id, true);
-
-				// Ignore duplicits or messages sent from miranda
-				if (!body || ignore_duplicits(proto, message_id, message_text))
-					continue;
-
-				if (is_filtered.as_bool() && message_text.empty())
-					message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
-
-				message_text = utils::text::trim(message_text, true);
-
-				facebook_message message;
-				message.isChat = other_user_id.empty();
-				message.isIncoming = (id != proto->facy.self_.user_id);
-				message.isUnread = message.isIncoming;
-				message.message_text = message_text;
-				message.time = utils::time::from_string(timestamp.as_string());
-				message.user_id = (!message.isChat && !message.isIncoming) ? other_user_id : id;
-				message.message_id = message_id;
-				message.thread_id = thread_id;
-
-				if (message.user_id.empty()) {
-					proto->debugLogA(" !!! JSON: deliver message event with empty user_id (thread_id %s)\n%s", message.thread_id.empty() ? "empty too" : "exists", (*it).as_string().c_str());
-
-					if (!message.thread_id.empty()) {
-						message.user_id = proto->ThreadIDToContactID(message.thread_id); // TODO: Check if we have contact with this user_id in friendlist and otherwise do something different?
-					}
-				}
-
-				messages->push_back(message);
-			}
-		}
 		else if (t == "notification_json") {
 			// event notification
 			const JSONNode &nodes = (*it)["nodes"];
@@ -869,25 +799,6 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 					continue;
 				}
 
-				// TODO: Check for friends existence/inexistence?
-
-				/* if (getByte(fbu->handle, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND) {
-					setByte(fbu->handle, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
-					// TODO: remove that popup and use "Contact added you" event?
-				}
-
-				// Wasn't contact removed from "server-list" someday?
-				if (getDword(fbu->handle, FACEBOOK_KEY_DELETED, 0)) {
-					delSetting(fbu->handle, FACEBOOK_KEY_DELETED);
-
-					std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
-					std::string contactname = getContactName(this, fbu->handle, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
-
-					ptrW szTitle(mir_utf8decodeW(contactname.c_str()));
-					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, EVENT_FRIENDSHIP, &url);
-				} */
-
-
 				/* ptrW client(getWStringA(fbu->handle, "MirVer"));
 				if (!client || mir_wstrcmp(client, fbu->getMirVer()))
 					setWString(fbu->handle, "MirVer", fbu->getMirVer());
@@ -992,52 +903,6 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 
 			if (!text.empty())
 				proto->NotifyEvent(proto->m_tszUserName, ptrW(mir_utf8decodeW(text.c_str())), hContact, EVENT_TICKER, &url);
-		}
-		else if (t == "mercury") {
-			// rename multi user chat, video call, ...
-
-			const JSONNode &actions_ = (*it)["actions"];
-			if (!actions_)
-				continue;
-
-			for (unsigned int i = 0; i < actions_.size(); i++) {
-				const JSONNode &action_ = actions_[i];
-
-				const JSONNode &author = action_["author"];
-				const JSONNode &thread_id_ = action_["thread_id"];
-				const JSONNode &log_body_ = action_["log_message_body"];
-				const JSONNode &log_data_ = action_["log_message_data"];
-				const JSONNode &log_type_ = action_["log_message_type"];
-				const JSONNode &other_user_fbid_ = action_["other_user_fbid"];
-				if (!author || !log_data_ || !log_body_ || !thread_id_ || !log_type_)
-					continue;
-
-				std::string thread_id = thread_id_.as_string();
-				std::string logType = log_type_.as_string();
-				std::string message_text = log_body_.as_string();
-
-				std::string other_user_id = other_user_fbid_ ? other_user_fbid_.as_string() : "";
-				std::string message_id = action_["message_id"].as_string();
-
-				std::string author_id = author.as_string();
-				std::string::size_type pos = author_id.find(":"); // strip "fbid:" prefix
-				if (pos != std::string::npos)
-					author_id = author_id.substr(pos + 1);
-
-				facebook_message message;
-				message.isChat = other_user_id.empty();
-				message.isUnread = true;
-				message.isIncoming = (author_id != proto->facy.self_.user_id);
-				message.message_text = message_text;
-				message.time = utils::time::from_string(action_["timestamp"].as_string());
-				message.user_id = message.isChat ? author_id : other_user_id;
-				message.message_id = message_id;
-				message.thread_id = thread_id;
-
-				parseMessageType(proto, message, log_type_, log_body_, log_data_);
-
-				messages->push_back(message);
-			}
 		}
 		else if (t == "notifications_read" || t == "notifications_seen") {
 			ScopedLock s(proto->facy.notifications_lock_);
