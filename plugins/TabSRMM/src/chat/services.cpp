@@ -158,24 +158,26 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 
 void ShowRoom(SESSION_INFO *si)
 {
-	if (si == NULL)
+	if (si == nullptr)
 		return;
 
-	if (si->hWnd != NULL) {
+	if (si->hWnd != nullptr) {
 		ActivateExistingTab(si->dat->m_pContainer, si->hWnd);
 		return;
 	}
 
 	wchar_t szName[CONTAINER_NAMELEN + 2]; szName[0] = 0;
-	TContainerData *pContainer = si->dat->m_pContainer;
-	if (pContainer == NULL) {
+	TContainerData *pContainer = nullptr;
+	if (si->dat != nullptr)
+		pContainer = si->dat->m_pContainer;
+	if (pContainer == nullptr) {
 		GetContainerNameForContact(si->hContact, szName, CONTAINER_NAMELEN);
 		if (!g_Settings.bOpenInDefault && !mir_wstrcmp(szName, L"default"))
 			wcsncpy(szName, L"Chat Rooms", CONTAINER_NAMELEN);
 		szName[CONTAINER_NAMELEN] = 0;
 		pContainer = FindContainerByName(szName);
 	}
-	if (pContainer == NULL)
+	if (pContainer == nullptr)
 		pContainer = CreateContainer(szName, FALSE, si->hContact);
 	if (pContainer)
 		si->hWnd = CreateNewRoom(pContainer, si, TRUE, TRUE, FALSE);
