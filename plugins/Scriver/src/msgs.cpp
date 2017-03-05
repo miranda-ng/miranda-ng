@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HCURSOR  hCurSplitNS, hCurSplitWE, hCurHyperlinkHand, hDragCursor;
+HCURSOR  hDragCursor;
 HANDLE   hHookWinEvt, hHookWinPopup, hHookWinWrite;
 HGENMENU hMsgMenuItem;
 HMODULE hMsftEdit;
@@ -307,29 +307,21 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 {
 	StatusTextData *st = (StatusTextData*)lParam;
-	if (st != NULL && st->cbSize != sizeof(StatusTextData))
+	if (st != nullptr && st->cbSize != sizeof(StatusTextData))
 		return 1;
 
-	ParentWindowData *pdat;
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
-	if (hwnd == NULL) {
+	if (hwnd == nullptr) {
 		hwnd = SM_FindWindowByContact(hContact);
-		if (hwnd == NULL)
+		if (hwnd == nullptr)
 			return 1;
-
-		SESSION_INFO *si = (SESSION_INFO*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		if (si == NULL || si->m_pParent == NULL)
-			return 1;
-
-		pdat = si->m_pParent;
 	}
-	else {
-		CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		if (dat == NULL || dat->m_pParent == NULL)
-			return 1;
 
-		pdat = dat->m_pParent;
-	}
+	CScriverWindow *dat = (CScriverWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	if (dat == nullptr || dat->m_pParent == nullptr)
+		return 1;
+
+	ParentWindowData *pdat = dat->m_pParent;
 
 	SendMessage(pdat->hwndStatus, SB_SETICON, 0, (LPARAM)(st == NULL ? 0 : st->hIcon));
 	SendMessage(pdat->hwndStatus, SB_SETTEXT, 0, (LPARAM)(st == NULL ? L"" : st->tszText));
@@ -581,9 +573,6 @@ int OnUnloadModule(void)
 {
 	Chat_Unload();
 
-	DestroyCursor(hCurSplitNS);
-	DestroyCursor(hCurHyperlinkHand);
-	DestroyCursor(hCurSplitWE);
 	DestroyCursor(hDragCursor);
 
 	DestroyHookableEvent(hHookWinEvt);
@@ -648,11 +637,6 @@ int OnLoadModule(void)
 	SkinAddNewSoundEx("TNStart", LPGEN("Instant messages"), LPGEN("Contact started typing"));
 	SkinAddNewSoundEx("TNStop", LPGEN("Instant messages"), LPGEN("Contact stopped typing"));
 
-	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
-	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
-	hCurHyperlinkHand = LoadCursor(NULL, IDC_HAND);
-	if (hCurHyperlinkHand == NULL)
-		hCurHyperlinkHand = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
 	hDragCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DRAGCURSOR));
 
 	Chat_Load();

@@ -115,7 +115,7 @@ void InputAreaContextMenu(HWND hwnd, WPARAM, LPARAM lParam, MCONTACT hContact)
 	DestroyMenu(hMenu);
 }
 
-int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CommonWindowData *windowData)
+int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CScriverWindow *windowData)
 {
 	BOOL isShift = GetKeyState(VK_SHIFT) & 0x8000;
 	BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;

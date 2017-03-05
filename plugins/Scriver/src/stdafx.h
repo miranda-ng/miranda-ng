@@ -70,17 +70,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "resource.h"
 #include "version.h"
-#include "infobar.h"
-#include "cmdlist.h"
-#include "sendqueue.h"
-#include "msgs.h"
-#include "globals.h"
-#include "tabs.h"
-#include "utils.h"
-#include "input.h"
-#include "richutil.h"
-#include "statusicon.h"
-#include "chat/chat.h"
 
 #ifndef IMF_AUTOFONTSIZEADJUST
 #define IMF_AUTOFONTSIZEADJUST	0x0010
@@ -104,13 +93,8 @@ extern void ChangeStatusIcons();
 extern void LoadInfobarFonts();
 extern HCURSOR hDragCursor;
 extern ITaskbarList3 *pTaskbarInterface;
-extern GlobalMessageData g_dat;
 extern HMENU  g_hMenu;
-extern HANDLE hHookWinPopup, hHookWinWrite;
-extern HCURSOR hCurSplitNS, hCurSplitWE;
-
-extern CREOleCallback reOleCallback;
-extern CREOleCallback2 reOleCallback2;
+extern HANDLE hHookWinPopup, hHookWinWrite, hHookWinEvt;
 
 #define SPLITTER_HEIGHT   4
 #define TOOLBAR_HEIGHT   24
@@ -125,5 +109,22 @@ int Chat_Unload();
 int OptInitialise(WPARAM wParam, LPARAM lParam);
 int FontServiceFontsChanged(WPARAM wParam, LPARAM lParam);
 int StatusIconPressed(WPARAM wParam, LPARAM lParam);
+
+#include "infobar.h"
+#include "cmdlist.h"
+#include "sendqueue.h"
+#include "msgs.h"
+#include "globals.h"
+#include "tabs.h"
+#include "utils.h"
+#include "input.h"
+#include "richutil.h"
+#include "statusicon.h"
+#include "chat/chat.h"
+
+extern GlobalMessageData g_dat;
+
+extern CREOleCallback reOleCallback;
+extern CREOleCallback2 reOleCallback2;
 
 #endif

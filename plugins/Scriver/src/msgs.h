@@ -75,6 +75,8 @@ struct ParentWindowData
 	int bMinimized;
 	int bVMaximized;
 	int bTopmost;
+	int iSplitterX, iSplitterY;
+
 	int windowWasCascaded;
 	TabCtrlData *tabCtrlDat;
 	BOOL isChat;
@@ -92,24 +94,29 @@ struct MessageWindowTabData
 
 #define NMWLP_INCOMING 1
 
-struct CommonWindowData
+class CScriverWindow : public CSrmmBaseDialog
 {
+protected:
+	CScriverWindow(int iDialog) :
+		CSrmmBaseDialog(g_hInst, iDialog)
+	{}
+
+public:
 	ParentWindowData *m_pParent;
 	int m_minLogBoxHeight, m_minEditBoxHeight;
 	HWND m_hwndIeview;
 	TCmdList *cmdList, *cmdListCurrent;
 };
 
-class CSrmmWindow : public CSrmmBaseDialog, public CommonWindowData
+class CSrmmWindow : public CScriverWindow
 {
 	CCtrlEdit m_log, m_message;
+	CSplitter m_splitter;
 	
 	wchar_t *m_wszInitialText;
 	bool   m_bIncoming, m_bShowTyping;
 	
 	MEVENT m_hDbEventFirst, m_hDbEventLast, m_hDbUnreadEventFirst;
-	int    m_iSplitterPos;
-	int    m_iDesiredInputAreaHeight;
 	SIZE   m_toolbarSize;
 	int    m_iWindowWasCascaded;
 	int    m_nTypeSecs, m_nTypeMode, m_nLastTyping;
@@ -154,13 +161,39 @@ public:
 	virtual void OnDestroy() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	void OnSplitterMoved(CSplitter *pSplitter);
+};
+
+class CChatRoomDlg : public CScriverWindow
+{
+	CCtrlEdit m_message, m_log;
+	CCtrlListBox m_nickList;
+	CSplitter m_splitterX, m_splitterY;
+
+	void MessageDialogResize(int w, int h);
+
+public:
+	SESSION_INFO *m_si;
+	wchar_t m_wszSearch[255];
+
+public:
+	CChatRoomDlg(SESSION_INFO *si);
+
+	virtual void OnInitDialog() override;
+	virtual void OnDestroy() override;
+
+	virtual INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
+
+	void OnSplitterX(CSplitter *pSplitter);
+	void OnSplitterY(CSplitter *pSplitter);
+
 };
 
 #define HM_DBEVENTADDED        (WM_USER+10)
 #define DM_REMAKELOG           (WM_USER+11)
 #define DM_CASCADENEWWINDOW    (WM_USER+13)
 #define DM_OPTIONSAPPLIED      (WM_USER+14)
-#define DM_SPLITTERMOVED       (WM_USER+15)
 #define DM_APPENDTOLOG         (WM_USER+17)
 #define DM_ERRORDECIDED        (WM_USER+18)
 #define DM_SCROLLLOGTOBOTTOM   (WM_USER+19)

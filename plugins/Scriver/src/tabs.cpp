@@ -748,6 +748,8 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			dat->windowWasCascaded = 0;
 			dat->bMinimized = 0;
 			dat->bVMaximized = 0;
+			dat->iSplitterX = db_get_dw(NULL, SRMMMOD, "splitterx", -1);
+			dat->iSplitterY = db_get_dw(NULL, SRMMMOD, "splittery", -1);
 			dat->flags2 = g_dat.flags2;
 			dat->hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, hwndDlg, NULL, g_hInst, NULL);
 			dat->isChat = newData->isChat;
@@ -1118,6 +1120,10 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 				TabCtrl_DeleteItem(dat->hwndTabs, i);
 			}
 		}
+
+		db_set_dw(NULL, SRMMMOD, "splitterx", dat->iSplitterX);
+		db_set_dw(NULL, SRMMMOD, "splittery", dat->iSplitterY);
+
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		WindowList_Remove(g_dat.hParentWindowList, hwndDlg);
 		{

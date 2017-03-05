@@ -27,9 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define ENTERCLICKTIME   1000   //max time in ms during which a double-tap on enter will cause a send
 
-extern HCURSOR hCurSplitNS, hCurSplitWE, hCurHyperlinkHand, hDragCursor;
-extern HANDLE hHookWinEvt;
-
 wchar_t* CSrmmWindow::GetIEViewSelection()
 {
 	IEVIEWEVENT evt = { sizeof(evt) };
@@ -178,7 +175,7 @@ void CSrmmWindow::SetDialogToType()
 	else
 		ShowWindow(m_log.GetHwnd(), SW_SHOW);
 
-	ShowWindow(GetDlgItem(m_hwnd, IDC_SPLITTERY), SW_SHOW);
+	ShowWindow(m_splitter.GetHwnd(), SW_SHOW);
 	UpdateReadChars();
 	EnableWindow(GetDlgItem(m_hwnd, IDOK), GetRichTextLength(m_message.GetHwnd(), 1200, FALSE) ? TRUE : FALSE);
 	SendMessage(m_hwnd, DM_CLISTSETTINGSCHANGED, 0, 0);
@@ -433,20 +430,18 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 
 	ParentWindowData *pdat = m_pParent;
 	bool bToolbar = (pdat->flags2 & SMF2_SHOWTOOLBAR) != 0;
-	int hSplitterPos = m_iSplitterPos, toolbarHeight = (bToolbar) ? m_toolbarSize.cy : 0;
+	int hSplitterPos = m_pParent->iSplitterY, toolbarHeight = (bToolbar) ? m_toolbarSize.cy : 0;
 	int hSplitterMinTop = toolbarHeight + m_minLogBoxHeight, hSplitterMinBottom = m_minEditBoxHeight;
 	int infobarInnerHeight = INFO_BAR_INNER_HEIGHT;
 	int infobarHeight = INFO_BAR_HEIGHT;
 	int avatarWidth = 0, avatarHeight = 0;
 	int toolbarWidth = w;
 	int messageEditWidth = w - 2;
-	int logY, logH;
 
 	if (!(pdat->flags2 & SMF2_SHOWINFOBAR)) {
 		infobarHeight = 0;
 		infobarInnerHeight = 0;
 	}
-	hSplitterPos = m_iDesiredInputAreaHeight + SPLITTER_HEIGHT + 3;
 
 	if (hSplitterPos > (h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1) / 2)
 		hSplitterPos = (h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1) / 2;
@@ -482,17 +477,17 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 		}
 	}
 
-	m_iSplitterPos = hSplitterPos;
+	m_pParent->iSplitterY = hSplitterPos;
 
-	logY = infobarInnerHeight;
-	logH = h - hSplitterPos - toolbarHeight - infobarInnerHeight;
+	int logY = infobarInnerHeight;
+	int logH = h - hSplitterPos - toolbarHeight - infobarInnerHeight;
 
 	HDWP hdwp = BeginDeferWindowPos(5);
 	hdwp = DeferWindowPos(hdwp, m_pInfobarData->hWnd, 0, 1, 0, w - 2, infobarInnerHeight - 2, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, m_log.GetHwnd(), 0, 1, logY, w - 2, logH, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), 0, 1, h - hSplitterPos + SPLITTER_HEIGHT, messageEditWidth, hSplitterPos - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_AVATAR), 0, w - avatarWidth - 1, h - (avatarHeight + avatarWidth) / 2 - 1, avatarWidth, avatarWidth, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_SPLITTERY), 0, 0, h - hSplitterPos - 1, toolbarWidth, SPLITTER_HEIGHT, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_splitter.GetHwnd(), 0, 0, h - hSplitterPos - 1, toolbarWidth, SPLITTER_HEIGHT, SWP_NOZORDER);
 	EndDeferWindowPos(hdwp);
 
 	SetButtonsPos(m_hwnd, m_hContact, bToolbar);
@@ -633,9 +628,10 @@ static INT_PTR CALLBACK ConfirmSendAllDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming, const char *szInitialText, bool bIsUnicode)
-	: CSrmmBaseDialog(g_hInst, IDD_MSG),
+	: CScriverWindow(IDD_MSG),
 	m_log(this, IDC_LOG),
 	m_message(this, IDC_MESSAGE),
+	m_splitter(this, IDC_SPLITTERY),
 	m_bIncoming(bIncoming)
 {
 	m_pLog = &m_log;
@@ -644,6 +640,8 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming, const char *szInitia
 
 	m_hwndParent = GetParentWindow(hContact, FALSE);
 	m_wszInitialText = (bIsUnicode) ? mir_wstrdup((wchar_t*)szInitialText) : mir_a2u(szInitialText);
+
+	m_splitter.OnChange = Callback(this, &CSrmmWindow::OnSplitterMoved);
 }
 
 void CSrmmWindow::OnInitDialog()
@@ -684,7 +682,8 @@ void CSrmmWindow::OnInitDialog()
 		SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
 	}
 	m_message.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-	/* Workaround to make Richedit display RTL messages correctly */
+	
+	// Workaround to make Richedit display RTL messages correctly
 	memset(&pf2, 0, sizeof(pf2));
 	pf2.cbSize = sizeof(pf2);
 	pf2.dwMask = PFM_RTLPARA | PFM_OFFSETINDENT | PFM_RIGHTINDENT;
@@ -692,22 +691,22 @@ void CSrmmWindow::OnInitDialog()
 	pf2.dxStartIndent = 30;
 	pf2.dxRightIndent = 30;
 	m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+
 	pf2.dwMask = PFM_RTLPARA;
 	pf2.wEffects = 0;
 	m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-	if (m_bUseRtl)
-		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_EXSTYLE) | WS_EX_LEFTSCROLLBAR);
-	else
-		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_EXSTYLE) & ~WS_EX_LEFTSCROLLBAR);
+	
+	DWORD dwExStyle = GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE);
+	SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, (m_bUseRtl) ? dwExStyle | WS_EX_LEFTSCROLLBAR :dwExStyle & ~WS_EX_LEFTSCROLLBAR);
 
-	RECT minEditInit;
-	GetWindowRect(m_message.GetHwnd(), &minEditInit);
-	m_minEditBoxHeight = minEditInit.bottom - minEditInit.top;
-	m_minLogBoxHeight = m_minEditBoxHeight;
 	m_toolbarSize.cy = TOOLBAR_HEIGHT;
 	m_toolbarSize.cx = 0;
-	if (m_iSplitterPos == -1)
-		m_iSplitterPos = m_minEditBoxHeight;
+
+	RECT rc;
+	GetWindowRect(m_message.GetHwnd(), &rc);
+	m_minLogBoxHeight = m_minEditBoxHeight = rc.bottom - rc.top;
+	if (m_pParent->iSplitterY == -1)
+		m_pParent->iSplitterY = m_minEditBoxHeight;
 
 	if (m_wszInitialText) {
 		m_message.SetText(m_wszInitialText);
@@ -733,7 +732,7 @@ void CSrmmWindow::OnInitDialog()
 
 	m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 	m_message.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback2);
-	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_CHANGE | ENM_REQUESTRESIZE);
+	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_CHANGE);
 	if (m_hContact && m_szProto) {
 		int nMax = CallProtoService(m_szProto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, m_hContact);
 		if (nMax)
@@ -742,7 +741,7 @@ void CSrmmWindow::OnInitDialog()
 
 	// get around a lame bug in the Windows template resource code where richedits are limited to 0x7FFF
 	m_log.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
-	SubclassLogEdit(GetDlgItem(m_hwnd, IDC_LOG));
+	SubclassLogEdit(m_log.GetHwnd());
 	SubclassMessageEdit(m_message.GetHwnd());
 	m_pInfobarData = CreateInfobar(m_hwnd, this);
 	if (m_bUseIEView) {
@@ -857,7 +856,7 @@ void CSrmmWindow::OnDestroy()
 		DestroyIcon(m_hStatusIconOverlay);
 		m_hStatusIconOverlay = NULL;
 	}	
-	
+
 	ReleaseSendQueueItems(m_hwnd);
 	if (g_dat.flags & SMF_SAVEDRAFTS) {
 		ptrA szText(GetRichTextUtf(m_message.GetHwnd()));
@@ -890,12 +889,17 @@ void CSrmmWindow::OnDestroy()
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE);
 }
 
+void CSrmmWindow::OnSplitterMoved(CSplitter *pSplitter)
+{
+	RECT rc;
+	GetClientRect(m_hwnd, &rc);
+	m_pParent->iSplitterY = rc.bottom - pSplitter->GetPos();
+}
+
 INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	PARAFORMAT2 pf2;
-	CHARFORMAT2 cf2;
 	LPNMHDR pNmhdr;
-	HCURSOR hCur;
 
 	switch (msg) {
 	case DM_GETCONTEXTMENU:
@@ -1050,6 +1054,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			LOGFONT lf;
 			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &colour);
 
+			CHARFORMAT2 cf2;
 			memset(&cf2, 0, sizeof(cf2));
 			cf2.cbSize = sizeof(cf2);
 			cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
@@ -1068,6 +1073,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		pf2.cbSize = sizeof(pf2);
 		pf2.dwMask = PFM_OFFSET;
 		pf2.dxOffset = (g_dat.flags & SMF_INDENTTEXT) ? g_dat.indentSize * 1440 / g_dat.logPixelSX : 0;
+
 		SetDlgItemText(m_hwnd, IDC_LOG, L"");
 		m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 		m_log.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~(IMF_AUTOKEYBOARD | IMF_AUTOFONTSIZEADJUST));
@@ -1123,12 +1129,12 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (m_bUseRtl) {
 			pf2.wEffects = PFE_RTLPARA;
 			SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
-			SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_EXSTYLE) | WS_EX_LEFTSCROLLBAR);
+			SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) | WS_EX_LEFTSCROLLBAR);
 		}
 		else {
 			pf2.wEffects = 0;
 			SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) &~(WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
-			SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_EXSTYLE) &~(WS_EX_LEFTSCROLLBAR));
+			SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) &~(WS_EX_LEFTSCROLLBAR));
 		}
 		m_message.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 		SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
@@ -1222,25 +1228,12 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		return TRUE;
 
-	case DM_SPLITTERMOVED:
-		if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERY)) {
-			RECT rc, rcLog;
-			GetWindowRect(GetDlgItem(m_hwnd, IDC_LOG), &rcLog);
-			GetClientRect(m_hwnd, &rc);
-
-			POINT pt = { 0, (int)wParam };
-			ScreenToClient(m_hwnd, &pt);
-			m_iSplitterPos = rc.bottom - pt.y;
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
-		}
-		break;
-
 	case DM_REMAKELOG:
 		m_lastEventType = -1;
 		if (wParam == 0 || wParam == m_hContact)
 			StreamInEvents(m_hDbEventFirst, -1, 0);
 
-		InvalidateRect(GetDlgItem(m_hwnd, IDC_LOG), NULL, FALSE);
+		InvalidateRect(m_log.GetHwnd(), NULL, FALSE);
 		break;
 
 	case DM_APPENDTOLOG:   //takes wParam=hDbEvent
@@ -1249,20 +1242,20 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case DM_SCROLLLOGTOBOTTOM:
 		if (m_hwndIeview == NULL) {
-			if ((GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_STYLE) & WS_VSCROLL) == 0)
+			if ((GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) == 0)
 				break;
 
 			SCROLLINFO si = { sizeof(si) };
 			si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
-			if (GetScrollInfo(GetDlgItem(m_hwnd, IDC_LOG), SB_VERT, &si)) {
-				if (GetDlgItem(m_hwnd, IDC_LOG) != GetFocus()) {
+			if (GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si)) {
+				if (m_log.GetHwnd() != GetFocus()) {
 					si.fMask = SIF_POS;
 					si.nPos = si.nMax - si.nPage + 1;
-					SetScrollInfo(GetDlgItem(m_hwnd, IDC_LOG), SB_VERT, &si, TRUE);
-					PostMessage(GetDlgItem(m_hwnd, IDC_LOG), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
+					SetScrollInfo(m_log.GetHwnd(), SB_VERT, &si, TRUE);
+					PostMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
 				}
 			}
-			RedrawWindow(GetDlgItem(m_hwnd, IDC_LOG), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+			RedrawWindow(m_log.GetHwnd(), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 		}
 		else {
 			IEVIEWWINDOW ieWindow;
@@ -1628,7 +1621,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				if (m_hwndIeview != NULL)
 					buffer = GetIEViewSelection();
 				else
-					buffer = GetRichEditSelection(GetDlgItem(m_hwnd, IDC_LOG));
+					buffer = GetRichEditSelection(m_log.GetHwnd());
 
 				if (buffer != NULL) {
 					wchar_t *quotedBuffer = GetQuotedTextW(buffer);
@@ -1711,51 +1704,10 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 						SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
 					}
 					return TRUE;
-
-				case WM_LBUTTONDOWN:
-					hCur = GetCursor();
-					if (hCur == LoadCursor(NULL, IDC_SIZENS) || hCur == LoadCursor(NULL, IDC_SIZEWE) || hCur == LoadCursor(NULL, IDC_SIZENESW) || hCur == LoadCursor(NULL, IDC_SIZENWSE)) {
-						SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
-						return TRUE;
-					}
-					break;
-
-				case WM_MOUSEMOVE:
-					hCur = GetCursor();
-					if (hCur == LoadCursor(NULL, IDC_SIZENS) || hCur == LoadCursor(NULL, IDC_SIZEWE) || hCur == LoadCursor(NULL, IDC_SIZENESW) || hCur == LoadCursor(NULL, IDC_SIZENWSE))
-						SetCursor(LoadCursor(NULL, IDC_ARROW));
-					break;
-
-				case WM_RBUTTONUP:
-					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
-					return TRUE;
 				}
 				break;
 			}
 			break;
-
-		case IDC_MESSAGE:
-			switch (((NMHDR *)lParam)->code) {
-			case EN_MSGFILTER:
-				switch (((MSGFILTER *)lParam)->msg) {
-				case WM_RBUTTONUP:
-					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
-					return TRUE;
-				}
-				break;
-			case EN_REQUESTRESIZE:
-				REQRESIZE *rr = (REQRESIZE *)lParam;
-				int height = rr->rc.bottom - rr->rc.top + 1;
-				if (height < g_dat.minInputAreaHeight)
-					height = g_dat.minInputAreaHeight;
-
-				if (m_iDesiredInputAreaHeight != height) {
-					m_iDesiredInputAreaHeight = height;
-					SendMessage(m_hwnd, WM_SIZE, 0, 0);
-					PostMessage(m_hwnd, DM_SCROLLLOGTOBOTTOM, 0, 0);
-				}
-				break;
-			}
 		}
 		break;
 
