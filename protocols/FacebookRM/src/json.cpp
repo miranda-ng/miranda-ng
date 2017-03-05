@@ -812,25 +812,21 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 					else if (p == 2)
 						status = ID_STATUS_ONLINE;
 
-					if (proto->getWord(hContact, "Status", 0) != status)
-						proto->setWord(hContact, "Status", status);
+					proto->setWord(hContact, "Status", status);
 				}
 
 				// Last active time
 				if (lat_) {
 					time_t last_active = utils::time::from_string(lat_.as_string());
 
-					if (proto->getDword(hContact, "LastActiveTS", 0) != last_active) {
-						if (last_active > 0)
-							proto->setDword(hContact, "LastActiveTS", last_active);
-						else
-							proto->delSetting(hContact, "LastActiveTS");
-					}
+					if (last_active > 0)
+						proto->setDword(hContact, "LastActiveTS", last_active);
+					else
+						proto->delSetting(hContact, "LastActiveTS");
 
 					// Set users inactive for too long as offline
 					if (last_active > 0 && last_active < offlineThreshold) {
-						if (proto->getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE)
-							proto->setWord(hContact, "Status", ID_STATUS_OFFLINE);
+						proto->setWord(hContact, "Status", ID_STATUS_OFFLINE);
 					}
 				}
 
@@ -851,10 +847,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 					else {
 						client = FACEBOOK_CLIENT_OTHER;
 					}
-
-					ptrW oldClient(proto->getWStringA(hContact, "MirVer"));
-					if (!oldClient || mir_wstrcmp(oldClient, client))
-						proto->setWString(hContact, "MirVer", client);
+					proto->setWString(hContact, "MirVer", client);
 				}
 			}
 		}
@@ -934,12 +927,11 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 					//		proto->delSetting(hContact, "IdleTS");
 					//}
 
-					/*if (proto->getDword(hContact, "LastActiveTS", 0) != last_active) {
-						if (last_active > 0)
-							proto->setDword(hContact, "LastActiveTS", last_active);
-						else
-							proto->delSetting(hContact, "LastActiveTS");
-					}*/
+					/*if (last_active > 0)
+						proto->setDword(hContact, "LastActiveTS", last_active);
+					else
+						proto->delSetting(hContact, "LastActiveTS");
+					*/
 
 					// Set users inactive for too long as offline
 					if (last_active > 0 && last_active < offlineThreshold)
@@ -949,8 +941,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 					proto->delSetting(hContact, "IdleTS");
 				}
 
-				if (proto->getWord(hContact, "Status", 0) != status)
-					proto->setWord(hContact, "Status", status);
+				proto->setWord(hContact, "Status", status);
 
 				if (s_) {
 					// what to do with this?
@@ -974,9 +965,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 						client = FACEBOOK_CLIENT_OTHER;
 					}*/
 
-					ptrW oldClient(proto->getWStringA(hContact, "MirVer"));
-					if (!oldClient || mir_wstrcmp(oldClient, client))
-						proto->setWString(hContact, "MirVer", client);
+					proto->setWString(hContact, "MirVer", client);
 				}
 			}
 		} else if (t == "ticker_update:home") {
