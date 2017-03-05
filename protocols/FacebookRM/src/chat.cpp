@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2011-17 Robert Pösel
+Copyright ï¿½ 2011-17 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -265,10 +265,9 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
 		return 0;
 
 	ptrW idT(getWStringA(hContact, "ChatRoomID"));
-	ptrW nameT(getWStringA(hContact, "Nick"));
 	ptrA threadId(getStringA(hContact, FACEBOOK_KEY_TID));
 
-	if (!idT || !nameT || !threadId)
+	if (!idT || !threadId)
 		return 0;
 
 	facebook_chatroom *fbc;
