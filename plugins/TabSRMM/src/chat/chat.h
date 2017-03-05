@@ -37,28 +37,21 @@ enum TChatStatusEx
 	CHAT_STATUS_MAX
 };
 
-// special service for tweaking performance
-#define MS_GC_GETEVENTPTR  "GChat/GetNewEventPtr"
-typedef INT_PTR(*GETEVENTFUNC)(WPARAM wParam, LPARAM lParam);
-typedef struct  {
-	GETEVENTFUNC pfnAddEvent;
-}GCPTRS;
-
 class CMUCHighlight;
 
 // structs
 
 struct MODULEINFO : public GCModuleInfoBase
 {
-	DWORD          idleTimeStamp;
-	DWORD          lastIdleCheck;
-	wchar_t          tszIdleMsg[60];
+	DWORD idleTimeStamp;
+	DWORD lastIdleCheck;
+	wchar_t tszIdleMsg[60];
 };
 
 struct SESSION_INFO : public GCSessionInfoBase
 {
-	CChatRoomDlg   *dat;
-	int             iLogTrayFlags, iLogPopupFlags, iDiskLogFlags;
+	CChatRoomDlg *dat;
+	int iLogTrayFlags, iLogPopupFlags, iDiskLogFlags;
 };
 
 struct LOGSTREAMDATA : public GCLogStreamDataBase
@@ -69,22 +62,22 @@ struct LOGSTREAMDATA : public GCLogStreamDataBase
 
 struct TMUCSettings : public GlobalLogSettingsBase
 {
-	HICON       hIconOverlay;
-	DWORD       dwIconFlags;
-	LONG        iNickListFontHeight;
-	int         iEventLimitThreshold;
+	HICON    hIconOverlay;
+	DWORD    dwIconFlags;
+	LONG     iNickListFontHeight;
+	int      iEventLimitThreshold;
 
-	HFONT       UserListFonts[CHAT_STATUS_MAX];
-	COLORREF    UserListColors[CHAT_STATUS_MAX];
+	HFONT    UserListFonts[CHAT_STATUS_MAX];
+	COLORREF UserListColors[CHAT_STATUS_MAX];
 
-	COLORREF    nickColors[8];
-	HBRUSH      SelectionBGBrush;
-	bool        bOpenInDefault, bBBCodeInPopups;
-	bool        bDoubleClick4Privat, bShowContactStatus, bContactStatusFirst;
+	COLORREF nickColors[8];
+	HBRUSH   SelectionBGBrush;
+	bool     bOpenInDefault, bBBCodeInPopups;
+	bool     bDoubleClick4Privat, bShowContactStatus, bContactStatusFirst;
 
-	bool        bLogClassicIndicators, bAlternativeSorting, bAnnoyingHighlight, bCreateWindowOnHighlight;
-	bool        bLogSymbols, bClassicIndicators, bClickableNicks, bColorizeNicks, bColorizeNicksInLog;
-	bool        bScaleIcons, bUseCommaAsColon, bNewLineAfterNames;
+	bool     bLogClassicIndicators, bAlternativeSorting, bAnnoyingHighlight, bCreateWindowOnHighlight;
+	bool     bLogSymbols, bClassicIndicators, bClickableNicks, bColorizeNicks, bColorizeNicksInLog;
+	bool     bScaleIcons, bUseCommaAsColon, bNewLineAfterNames;
 
 	CMUCHighlight* Highlight;
 };

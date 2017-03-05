@@ -464,7 +464,7 @@ LBL_SkipEnd:
 static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndParent = GetParent(hwnd);
-	CTabBaseDlg *mwdat = (CChatRoomDlg*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
+	CChatRoomDlg *mwdat = (CChatRoomDlg*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
 	MESSAGESUBDATA *dat = (MESSAGESUBDATA*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	if (mwdat != nullptr)
@@ -1104,7 +1104,7 @@ static LRESULT CALLBACK ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndParent = GetParent(hwnd);
-	CSrmmWindow *mwdat = (CSrmmWindow*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
+	CChatRoomDlg *mwdat = (CChatRoomDlg*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_NCCALCSIZE:
@@ -1747,7 +1747,7 @@ void CChatRoomDlg::OnClick_OK(CCtrlButton*)
 	if (ptszText.IsEmpty())
 		return;
 
-	si->dat->DoRtfToTags(ptszText, mi->nColorCount, mi->crColors);
+	DoRtfToTags(ptszText, mi->nColorCount, mi->crColors);
 	ptszText.Trim();
 	ptszText.Replace(L"%", L"%%");
 
