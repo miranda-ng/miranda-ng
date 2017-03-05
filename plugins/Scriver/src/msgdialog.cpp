@@ -438,6 +438,9 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 	int toolbarWidth = w;
 	int messageEditWidth = w - 2;
 
+	if (hSplitterMinBottom < g_dat.minInputAreaHeight)
+		hSplitterMinBottom = g_dat.minInputAreaHeight;
+
 	if (!(pdat->flags2 & SMF2_SHOWINFOBAR)) {
 		infobarHeight = 0;
 		infobarInnerHeight = 0;
@@ -705,6 +708,8 @@ void CSrmmWindow::OnInitDialog()
 	RECT rc;
 	GetWindowRect(m_message.GetHwnd(), &rc);
 	m_minLogBoxHeight = m_minEditBoxHeight = rc.bottom - rc.top;
+	if (m_minEditBoxHeight < g_dat.minInputAreaHeight)
+		m_minEditBoxHeight = g_dat.minInputAreaHeight;
 	if (m_pParent->iSplitterY == -1)
 		m_pParent->iSplitterY = m_minEditBoxHeight;
 

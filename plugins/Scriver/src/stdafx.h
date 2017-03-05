@@ -89,12 +89,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HWND SM_FindWindowByContact(MCONTACT hContact);
 extern HINSTANCE g_hInst;
-extern void ChangeStatusIcons();
-extern void LoadInfobarFonts();
 extern HCURSOR hDragCursor;
 extern ITaskbarList3 *pTaskbarInterface;
 extern HMENU  g_hMenu;
 extern HANDLE hHookWinPopup, hHookWinWrite, hHookWinEvt;
+
+void ChangeStatusIcons();
+void LoadInfobarFonts();
 
 #define SPLITTER_HEIGHT   4
 #define TOOLBAR_HEIGHT   24
