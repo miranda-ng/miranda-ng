@@ -95,15 +95,11 @@ void FacebookProto::ProcessFriendList(void*)
 					// TODO RM: remove, because contacts cant change it, so its only for "first run"
 					// - but what with contacts, that was added after logon?
 					// Update gender
-					if (getByte(hContact, "Gender", 0) != (int)fbu->gender)
-						setByte(hContact, "Gender", fbu->gender);
+					setByte(hContact, "Gender", (int)fbu->gender);
 
 					// TODO: remove this in some future version?
 					// Remove old useless "RealName" field
-					ptrA realname(getStringA(hContact, "RealName"));
-					if (realname != NULL) {
-						delSetting(hContact, "RealName");
-					}
+					delSetting(hContact, "RealName");
 
 					// Update real name and nick
 					if (!fbu->real_name.empty()) {
@@ -111,19 +107,14 @@ void FacebookProto::ProcessFriendList(void*)
 					}
 
 					// Update username
-					ptrA username(getStringA(hContact, FACEBOOK_KEY_USERNAME));
-					if (!username || mir_strcmp(username, fbu->username.c_str())) {
-						if (!fbu->username.empty())
-							setString(hContact, FACEBOOK_KEY_USERNAME, fbu->username.c_str());
-						else
-							delSetting(hContact, FACEBOOK_KEY_USERNAME);
-					}
+					if (!fbu->username.empty())
+						setString(hContact, FACEBOOK_KEY_USERNAME, fbu->username.c_str());
+					else
+						delSetting(hContact, FACEBOOK_KEY_USERNAME);
 
 					// Update contact type
-					if (getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE) != fbu->type) {
-						setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, fbu->type);
-						// TODO: remove that popup and use "Contact added you" event?
-					}
+					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, fbu->type);
+					// TODO: remove that popup and use "Contact added you" event?
 
 					// Wasn't contact removed from "server-list" someday? And is it friend now? (as we can get also non-friends from this request now)?
 					if (fbu->type == CONTACT_FRIEND && getDword(hContact, FACEBOOK_KEY_DELETED, 0)) {
@@ -851,10 +842,8 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 			// setString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, msg.message_id.c_str());
 			setDword(FACEBOOK_KEY_LAST_ACTION_TS, msg.time);
 
-			// Save TID if not exists already
-			ptrA tid(getStringA(hChatContact, FACEBOOK_KEY_TID));
-			if (!tid || mir_strcmp(tid, msg.thread_id.c_str()))
-				setString(hChatContact, FACEBOOK_KEY_TID, msg.thread_id.c_str());
+			// Save TID
+			setString(hChatContact, FACEBOOK_KEY_TID, msg.thread_id.c_str());
 
 			// Get name of this chat participant
 			std::string name = msg.user_id; // fallback to numeric id
@@ -942,10 +931,8 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 			// Save last (this) message ID
 			setString(hContact, FACEBOOK_KEY_MESSAGE_ID, msg.message_id.c_str());
 
-			// Save TID if not exists already
-			ptrA tid(getStringA(hContact, FACEBOOK_KEY_TID));
-			if ((!tid || mir_strcmp(tid, msg.thread_id.c_str())) && !msg.thread_id.empty())
-				setString(hContact, FACEBOOK_KEY_TID, msg.thread_id.c_str());
+			// Save TID
+			setString(hContact, FACEBOOK_KEY_TID, msg.thread_id.c_str());
 
 			if (msg.isIncoming && msg.isUnread && msg.type == MESSAGE) {
 				PROTORECVEVENT recv = { 0 };

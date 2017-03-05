@@ -22,27 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void updateStringUtf(FacebookProto *proto, MCONTACT hContact, const char *key, const std::string &value) {
-	bool update_required = true;
-
-	DBVARIANT dbv;
-	if (!proto->getStringUtf(hContact, key, &dbv)) {
-		update_required = mir_strcmp(dbv.pszVal, value.c_str()) != 0;
-		db_free(&dbv);
-	}
-
-	if (update_required) {
-		proto->setStringUtf(hContact, key, value.c_str());
-	}
-}
-
 void FacebookProto::SaveName(MCONTACT hContact, const facebook_user *fbu)
 {
 	if (fbu->type == CONTACT_PAGE) {
 		// Page has only nickname and no first/last names
 		std::string nick = m_pagePrefix + " " + fbu->real_name;
 
-		updateStringUtf(this, hContact, FACEBOOK_KEY_NICK, nick);
+		setStringUtf(hContact, FACEBOOK_KEY_NICK, nick.c_str());
 		delSetting(hContact, FACEBOOK_KEY_FIRST_NAME);
 		delSetting(hContact, FACEBOOK_KEY_SECOND_NAME);
 		delSetting(hContact, FACEBOOK_KEY_LAST_NAME);
@@ -54,14 +40,14 @@ void FacebookProto::SaveName(MCONTACT hContact, const facebook_user *fbu)
 	if (!getBool(FACEBOOK_KEY_NAME_AS_NICK, DEFAULT_NAME_AS_NICK) && !fbu->nick.empty())
 		nick = fbu->nick;
 
-	updateStringUtf(this, hContact, FACEBOOK_KEY_NICK, nick);
+	setStringUtf(hContact, FACEBOOK_KEY_NICK, nick.c_str());
 
 	// Explode whole name into first, second and last name
 	std::vector<std::string> names;
 	utils::text::explode(fbu->real_name, " ", &names);
 
-	updateStringUtf(this, hContact, FACEBOOK_KEY_FIRST_NAME, names.size() > 0 ? names.front().c_str() : "");
-	updateStringUtf(this, hContact, FACEBOOK_KEY_LAST_NAME, names.size() > 1 ? names.back().c_str() : "");
+	setStringUtf(hContact, FACEBOOK_KEY_FIRST_NAME, names.size() > 0 ? names.front().c_str() : "");
+	setStringUtf(hContact, FACEBOOK_KEY_LAST_NAME, names.size() > 1 ? names.back().c_str() : "");
 
 	std::string middle;
 	if (names.size() > 2) {
@@ -72,7 +58,7 @@ void FacebookProto::SaveName(MCONTACT hContact, const facebook_user *fbu)
 			middle += names.at(i);
 		}
 	}
-	updateStringUtf(this, hContact, FACEBOOK_KEY_SECOND_NAME, middle);
+	setStringUtf(hContact, FACEBOOK_KEY_SECOND_NAME, middle.c_str());
 }
 
 bool FacebookProto::IsMyContact(MCONTACT hContact, bool include_chat)
@@ -453,8 +439,7 @@ void FacebookProto::SetAllContactStatuses(int status)
 		if (isChatRoom(hContact))
 			continue;
 
-		if (getWord(hContact, "Status", 0) != status)
-			setWord(hContact, "Status", status);
+		setWord(hContact, "Status", status);
 	}
 }
 
@@ -708,9 +693,7 @@ void FacebookProto::RefreshUserInfo(void *data)
 	int oldType = getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 	// From server we won't get request/approve types, only none, so we don't want to overwrite and lost it in that case
 	if (fbu.type != CONTACT_NONE || (oldType != CONTACT_REQUEST && oldType != CONTACT_APPROVE)) {
-		if (oldType != fbu.type) {
-			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, fbu.type);
-		}
+		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, fbu.type);
 	}
 
 	// If this contact is page, set it as invisible (if enabled in options)
