@@ -308,7 +308,7 @@ static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 			if (hwnd = M.FindWindow(hContact))
 				SetStatusTextWorker((CTabBaseDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA), (StatusTextData*)lParam);
 	}
-	else SetStatusTextWorker((CTabBaseDlg*)si->dat, (StatusTextData*)lParam);
+	else SetStatusTextWorker(si->dat, (StatusTextData*)lParam);
 
 	return 0;
 }

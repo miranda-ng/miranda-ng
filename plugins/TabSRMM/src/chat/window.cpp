@@ -1215,7 +1215,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndParent = GetParent(hwnd);
-	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
+	CChatRoomDlg *dat = (CChatRoomDlg*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_NCCALCSIZE:
@@ -1296,20 +1296,18 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 		if (wParam == VK_ESCAPE || wParam == VK_UP || wParam == VK_DOWN || wParam == VK_NEXT ||
 			wParam == VK_PRIOR || wParam == VK_TAB || wParam == VK_HOME || wParam == VK_END) {
-			if (dat && dat->si) {
-				SESSION_INFO *si = (SESSION_INFO*)dat->si;
-				si->szSearch[0] = 0;
-				si->iSearchItem = -1;
+			if (dat) {
+				dat->m_wszSearch[0] = 0;
+				dat->m_iSearchItem = -1;
 			}
 		}
 		break;
 
 	case WM_SETFOCUS:
 	case WM_KILLFOCUS:
-		if (dat && dat->si) { // set/kill focus invalidates incremental search status
-			SESSION_INFO *si = (SESSION_INFO*)dat->si;
-			si->szSearch[0] = 0;
-			si->iSearchItem = -1;
+		if (dat) { // set/kill focus invalidates incremental search status
+			dat->m_wszSearch[0] = 0;
+			dat->m_iSearchItem = -1;
 		}
 		break;
 
@@ -1317,38 +1315,37 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 	case WM_UNICHAR:
 		// simple incremental search for the user (nick) - list control
 		// typing esc or movement keys will clear the current search string
-		if (dat && dat->si) {
-			SESSION_INFO *si = (SESSION_INFO*)dat->si;
-			if (wParam == 27 && si->szSearch[0]) { // escape - reset everything
-				si->szSearch[0] = 0;
-				si->iSearchItem = -1;
+		if (dat) {
+			if (wParam == 27 && dat->m_wszSearch[0]) { // escape - reset everything
+				dat->m_wszSearch[0] = 0;
+				dat->m_iSearchItem = -1;
 				break;
 			}
-			if (wParam == '\b' && si->szSearch[0])					// backspace
-				si->szSearch[mir_wstrlen(si->szSearch) - 1] = '\0';
+			if (wParam == '\b' && dat->m_wszSearch[0])					// backspace
+				dat->m_wszSearch[mir_wstrlen(dat->m_wszSearch) - 1] = '\0';
 			else if (wParam < ' ')
 				break;
 			else {
-				if (mir_wstrlen(si->szSearch) >= _countof(si->szSearch) - 2) {
+				if (mir_wstrlen(dat->m_wszSearch) >= _countof(dat->m_wszSearch) - 2) {
 					MessageBeep(MB_OK);
 					break;
 				}
 				wchar_t szNew[2];
 				szNew[0] = (wchar_t)wParam;
 				szNew[1] = '\0';
-				mir_wstrcat(si->szSearch, szNew);
+				mir_wstrcat(dat->m_wszSearch, szNew);
 			}
-			if (si->szSearch[0]) {
+			if (dat->m_wszSearch[0]) {
 				// iterate over the (sorted) list of nicknames and search for the
 				// string we have
 				int i, iItems = SendMessage(hwnd, LB_GETCOUNT, 0, 0);
 				for (i = 0; i < iItems; i++) {
-					USERINFO *ui = pci->UM_FindUserFromIndex(si->pUsers, i);
+					USERINFO *ui = pci->UM_FindUserFromIndex(dat->si->pUsers, i);
 					if (ui) {
-						if (!wcsnicmp(ui->pszNick, si->szSearch, mir_wstrlen(si->szSearch))) {
+						if (!wcsnicmp(ui->pszNick, dat->m_wszSearch, mir_wstrlen(dat->m_wszSearch))) {
 							SendMessage(hwnd, LB_SETSEL, FALSE, -1);
 							SendMessage(hwnd, LB_SETSEL, TRUE, i);
-							si->iSearchItem = i;
+							dat->m_iSearchItem = i;
 							InvalidateRect(hwnd, NULL, FALSE);
 							return 0;
 						}
@@ -1356,7 +1353,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 				}
 				if (i == iItems) {
 					MessageBeep(MB_OK);
-					si->szSearch[mir_wstrlen(si->szSearch) - 1] = '\0';
+					dat->m_wszSearch[mir_wstrlen(dat->m_wszSearch) - 1] = '\0';
 					return 0;
 				}
 			}
@@ -1434,11 +1431,11 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 				case 20020: // add to highlight...
 					{
 						THighLightEdit the = { THighLightEdit::CMD_ADD, si, ui };
-						HWND hwndDlg = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDHIGHLIGHT), si->dat->m_pContainer->hwnd, CMUCHighlight::dlgProcAdd, (LPARAM)&the);
+						HWND hwndDlg = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDHIGHLIGHT), dat->m_pContainer->hwnd, CMUCHighlight::dlgProcAdd, (LPARAM)&the);
 						TranslateDialogDefault(hwndDlg);
 
 						RECT rc, rcWnd;
-						GetClientRect(si->pContainer->hwnd, &rcWnd);
+						GetClientRect(dat->m_pContainer->hwnd, &rcWnd);
 						GetWindowRect(hwndDlg, &rc);
 						SetWindowPos(hwndDlg, HWND_TOP, (rcWnd.right - (rc.right - rc.left)) / 2, (rcWnd.bottom - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 					}
@@ -1582,7 +1579,6 @@ void CChatRoomDlg::OnInitDialog()
 	TabCtrl_SetItem(m_hwndParent, newData->iTabID, &newData->item);
 	m_iTabID = newData->iTabID;
 	m_pContainer = newData->pContainer;
-	si->pContainer = newData->pContainer;
 	si->hWnd = m_hwnd;
 	si->dat = this;
 	m_bIsAutosizingInput = IsAutoSplitEnabled();
@@ -1684,7 +1680,6 @@ void CChatRoomDlg::OnDestroy()
 	si->wState &= ~STATE_TALK;
 	si->hWnd = NULL;
 	si->dat = NULL;
-	si->pContainer = NULL;
 	si = NULL;
 
 	TABSRMM_FireEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING, 0);
@@ -2335,14 +2330,14 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 
 				SIZE sz;
-				if (si->iSearchItem != -1 && si->iSearchItem == index && si->szSearch[0]) {
+				if (m_iSearchItem != -1 && m_iSearchItem == index && m_wszSearch[0]) {
 					COLORREF clr_orig = GetTextColor(dis->hDC);
-					GetTextExtentPoint32(dis->hDC, ui->pszNick, (int)mir_wstrlen(si->szSearch), &sz);
+					GetTextExtentPoint32(dis->hDC, ui->pszNick, (int)mir_wstrlen(m_wszSearch), &sz);
 					SetTextColor(dis->hDC, RGB(250, 250, 0));
-					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick, (int)mir_wstrlen(si->szSearch));
+					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick, (int)mir_wstrlen(m_wszSearch));
 					SetTextColor(dis->hDC, clr_orig);
 					x_offset += sz.cx;
-					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick + mir_wstrlen(si->szSearch), int(mir_wstrlen(ui->pszNick) - mir_wstrlen(si->szSearch)));
+					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick + mir_wstrlen(m_wszSearch), int(mir_wstrlen(ui->pszNick) - mir_wstrlen(m_wszSearch)));
 				}
 				else {
 					GetTextExtentPoint32(dis->hDC, ui->pszNick, (int)mir_wstrlen(ui->pszNick), &sz);

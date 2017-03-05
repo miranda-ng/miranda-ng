@@ -75,13 +75,6 @@ int UM_CompareItem(USERINFO *u1, const wchar_t* pszNick, WORD wStatus)
 //		Keeps track of all sessions and its windows
 //---------------------------------------------------
 
-void SM_RemoveContainer(TContainerData *pContainer)
-{
-	for (SESSION_INFO *si = pci->wndList; si; si = si->next)
-		if (si->pContainer == pContainer)
-			si->pContainer = NULL;
-}
-
 BOOL SM_ReconfigureFilters()
 {
 	for (SESSION_INFO *si = pci->wndList; si; si = si->next)

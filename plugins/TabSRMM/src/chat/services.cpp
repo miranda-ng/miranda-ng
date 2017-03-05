@@ -162,12 +162,12 @@ void ShowRoom(SESSION_INFO *si)
 		return;
 
 	if (si->hWnd != NULL) {
-		ActivateExistingTab(si->pContainer, si->hWnd);
+		ActivateExistingTab(si->dat->m_pContainer, si->hWnd);
 		return;
 	}
 
 	wchar_t szName[CONTAINER_NAMELEN + 2]; szName[0] = 0;
-	TContainerData *pContainer = si->pContainer;
+	TContainerData *pContainer = si->dat->m_pContainer;
 	if (pContainer == NULL) {
 		GetContainerNameForContact(si->hContact, szName, CONTAINER_NAMELEN);
 		if (!g_Settings.bOpenInDefault && !mir_wstrcmp(szName, L"default"))

@@ -58,11 +58,7 @@ struct MODULEINFO : public GCModuleInfoBase
 struct SESSION_INFO : public GCSessionInfoBase
 {
 	CChatRoomDlg   *dat;
-	TContainerData *pContainer;
 	int             iLogTrayFlags, iLogPopupFlags, iDiskLogFlags;
-
-	int             iSearchItem;
-	wchar_t         szSearch[255];
 };
 
 struct LOGSTREAMDATA : public GCLogStreamDataBase
@@ -132,7 +128,6 @@ SESSION_INFO* SM_FindSessionByHWND(HWND h);
 SESSION_INFO* SM_FindSessionByHCONTACT(MCONTACT h);
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const wchar_t* pszOriginal, const wchar_t* pszCurrent);
 
-void SM_RemoveContainer(TContainerData *pContainer);
 BOOL SM_ReconfigureFilters();
 
 int UM_CompareItem(USERINFO *u1, const wchar_t* pszNick, WORD wStatus);

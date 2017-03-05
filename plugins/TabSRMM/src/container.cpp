@@ -1794,7 +1794,6 @@ panel_found:
 		if (pContainer->m_hwndTip)
 			DestroyWindow(pContainer->m_hwndTip);
 		RemoveContainerFromList(pContainer);
-		SM_RemoveContainer(pContainer);
 		if (pContainer->cachedDC) {
 			SelectObject(pContainer->cachedDC, pContainer->oldHBM);
 			DeleteObject(pContainer->cachedHBM);

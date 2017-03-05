@@ -485,6 +485,10 @@ class CChatRoomDlg : public CTabBaseDlg
 	virtual void ClearLog() override;
 
 public:
+	int m_iSearchItem;
+	wchar_t m_wszSearch[255];
+
+public:
 	CChatRoomDlg(TNewWindowData*);
 
 	virtual void OnInitDialog() override;
