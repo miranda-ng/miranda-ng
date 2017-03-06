@@ -120,6 +120,8 @@ void ShowRoom(SESSION_INFO *si)
 	pDlg->Create();
 
 	HWND hwndNew = pDlg->GetHwnd();
+	item.lParam = (LPARAM)hwndNew;
+	TabCtrl_SetItem(hwndTab, iTabId, &item);
 	
 	if (pContainer->dwFlags & CNT_SIDEBAR)
 		pContainer->SideBar->addSession(pDlg, pContainer->iTabIndex);
