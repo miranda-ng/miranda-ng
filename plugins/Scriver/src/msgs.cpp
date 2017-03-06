@@ -358,6 +358,31 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// CScriverWindow
+
+CScriverWindow::CScriverWindow(int iDialog)
+	: CSrmmBaseDialog(g_hInst, iDialog)
+{
+	m_autoClose = CLOSE_ON_CANCEL;
+}
+
+INT_PTR CScriverWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	if (uMsg == WM_COMMAND) {
+		if (!lParam && Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, m_hContact))
+			return 0;
+
+		if (HIWORD(wParam) == BN_CLICKED)
+			if (LOWORD(wParam) >= MIN_CBUTTONID && LOWORD(wParam) <= MAX_CBUTTONID) {
+				Srmm_ClickToolbarIcon(m_hContact, LOWORD(wParam), GetDlgItem(m_hwnd, LOWORD(wParam)), 0);
+				return 0;
+			}
+	}
+
+	return CSrmmBaseDialog::DlgProc(uMsg, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // status icons processing
 
 static void RegisterStatusIcons()
@@ -452,35 +477,35 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 
 	// chat buttons
 	bbd.bbbFlags = BBBF_ISPUSHBUTTON | BBBF_ISCHATBUTTON | BBBF_CREATEBYID;
-	bbd.dwButtonID = IDC_CHAT_BOLD;
+	bbd.dwButtonID = IDC_BOLD;
 	bbd.dwDefPos = 10;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_bold");
 	bbd.pwszText = LPGENW("&Bold");
 	bbd.pwszTooltip = LPGENW("Make the text bold (CTRL+B)");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_CHAT_ITALICS;
+	bbd.dwButtonID = IDC_ITALICS;
 	bbd.dwDefPos = 15;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_italics");
 	bbd.pwszText = LPGENW("&Italic");
 	bbd.pwszTooltip = LPGENW("Make the text italicized (CTRL+I)");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_CHAT_UNDERLINE;
+	bbd.dwButtonID = IDC_UNDERLINE;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_underline");
 	bbd.pwszText = LPGENW("&Underline");
 	bbd.pwszTooltip = LPGENW("Make the text underlined (CTRL+U)");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_CHAT_COLOR;
+	bbd.dwButtonID = IDC_COLOR;
 	bbd.dwDefPos = 25;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_fgcol");
 	bbd.pwszText = LPGENW("&Color");
 	bbd.pwszTooltip = LPGENW("Select a foreground color for the text (CTRL+K)");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_CHAT_BKGCOLOR;
+	bbd.dwButtonID = IDC_BKGCOLOR;
 	bbd.dwDefPos = 30;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_bkgcol");
 	bbd.pwszText = LPGENW("&Background color");
@@ -488,21 +513,21 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	Srmm_AddButton(&bbd);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
-	bbd.dwButtonID = IDC_CHAT_CHANMGR;
+	bbd.dwButtonID = IDC_CHANMGR;
 	bbd.dwDefPos = 30;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_settings");
 	bbd.pwszText = LPGENW("&Room settings");
 	bbd.pwszTooltip = LPGENW("Control this room (CTRL+O)");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_CHAT_SHOWNICKLIST;
+	bbd.dwButtonID = IDC_SHOWNICKLIST;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_nicklist");
 	bbd.pwszText = LPGENW("&Show/hide nick list");
 	bbd.pwszTooltip = LPGENW("Show/hide the nick list (CTRL+N)");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_CHAT_FILTER;
+	bbd.dwButtonID = IDC_FILTER;
 	bbd.dwDefPos = 10;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_filter");
 	bbd.pwszText = LPGENW("&Filter");

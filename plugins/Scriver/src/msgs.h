@@ -97,9 +97,9 @@ struct MessageWindowTabData
 class CScriverWindow : public CSrmmBaseDialog
 {
 protected:
-	CScriverWindow(int iDialog) :
-		CSrmmBaseDialog(g_hInst, iDialog)
-	{}
+	CScriverWindow(int iDialog);
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 public:
 	ParentWindowData *m_pParent;
@@ -111,6 +111,7 @@ public:
 class CSrmmWindow : public CScriverWindow
 {
 	CCtrlEdit m_log, m_message;
+	CCtrlButton m_btnOk, m_btnAdd, m_btnUserMenu, m_btnQuote, m_btnHistory, m_btnDetails;
 	CSplitter m_splitter;
 	
 	wchar_t *m_wszInitialText;
@@ -129,19 +130,19 @@ class CSrmmWindow : public CScriverWindow
 
 	InfobarWindowData *m_pInfobarData;
 
-	void     GetContactUniqueId(char *buf, int maxlen);
-	HICON    GetTabIcon();
-	void     GetTitlebarIcon(struct TitleBarData *tbd);
-	void     MessageDialogResize(int w, int h);
-	void     ShowAvatar();
-	void     SetDialogToType();
-	void     SetStatusIcon();
-	void     StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend);
-	void     UpdateReadChars();
+	void   GetContactUniqueId(char *buf, int maxlen);
+	HICON  GetTabIcon();
+	void   GetTitlebarIcon(struct TitleBarData *tbd);
+	void   MessageDialogResize(int w, int h);
+	void   ShowAvatar();
+	void   SetDialogToType();
+	void   SetStatusIcon();
+	void   StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend);
+	void   UpdateReadChars();
 
-	bool IsTypingNotificationEnabled();
-	bool IsTypingNotificationSupported();
-	void NotifyTyping(int mode);
+	bool   IsTypingNotificationEnabled();
+	bool   IsTypingNotificationSupported();
+	void   NotifyTyping(int mode);
 
 public:
 	char *m_szProto;
@@ -161,12 +162,23 @@ public:
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
-	void OnSplitterMoved(CSplitter *pSplitter);
+	void onClick_Ok(CCtrlButton*);
+	void onClick_Add(CCtrlButton*);
+	void onClick_Quote(CCtrlButton*);
+	void onClick_Details(CCtrlButton*);
+	void onClick_History(CCtrlButton*);
+	void onClick_UserMenu(CCtrlButton*);
+
+	void onChange_Message(CCtrlEdit*);
+
+	void onChanged_Splitter(CSplitter *pSplitter);
 };
 
 class CChatRoomDlg : public CScriverWindow
 {
 	CCtrlEdit m_message, m_log;
+	CCtrlButton m_btnOk, m_btnHistory, m_btnShowList, m_btnFilter, m_btnChanMgr;
+	CCtrlButton m_btnColor, m_btnBkColor, m_btnBold, m_btnItalic, m_btnUnderline;
 	CCtrlListBox m_nickList;
 	CSplitter m_splitterX, m_splitterY;
 
@@ -184,9 +196,22 @@ public:
 
 	virtual INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
 
+	void onChange_Message(CCtrlEdit*);
+
+	void onClick_Ok(CCtrlButton*);
+	void onClick_Filter(CCtrlButton*);
+	void onClick_History(CCtrlButton*);
+	void onClick_ChanMgr(CCtrlButton*);
+	void onClick_ShowList(CCtrlButton*);
+
+	void onClick_BIU(CCtrlButton*);
+	void onClick_Color(CCtrlButton*);
+	void onClick_BkColor(CCtrlButton*);
+
+	void onDblClick_List(CCtrlListBox*);
+
 	void OnSplitterX(CSplitter *pSplitter);
 	void OnSplitterY(CSplitter *pSplitter);
-
 };
 
 #define HM_DBEVENTADDED        (WM_USER+10)

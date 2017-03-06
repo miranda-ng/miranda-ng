@@ -130,31 +130,31 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CScriv
 
 	switch (action) {
 	case KB_PREV_TAB:
-		SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATEPREV, 0, (LPARAM)GetParent(hwnd));
+		SendMessage(GetParent(windowData->GetHwnd()), CM_ACTIVATEPREV, 0, (LPARAM)windowData->GetHwnd());
 		return FALSE;
 	case KB_NEXT_TAB:
-		SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATENEXT, 0, (LPARAM)GetParent(hwnd));
+		SendMessage(GetParent(windowData->GetHwnd()), CM_ACTIVATENEXT, 0, (LPARAM)windowData->GetHwnd());
 		return FALSE;
 	case KB_SWITCHSTATUSBAR:
-		SendMessage(GetParent(GetParent(hwnd)), DM_SWITCHSTATUSBAR, 0, 0);
+		SendMessage(GetParent(windowData->GetHwnd()), DM_SWITCHSTATUSBAR, 0, 0);
 		return FALSE;
 	case KB_SWITCHTITLEBAR:
-		SendMessage(GetParent(GetParent(hwnd)), DM_SWITCHTITLEBAR, 0, 0);
+		SendMessage(GetParent(windowData->GetHwnd()), DM_SWITCHTITLEBAR, 0, 0);
 		return FALSE;
 	case KB_SWITCHINFOBAR:
-		SendMessage(GetParent(GetParent(hwnd)), DM_SWITCHINFOBAR, 0, 0);
+		SendMessage(GetParent(windowData->GetHwnd()), DM_SWITCHINFOBAR, 0, 0);
 		return FALSE;
 	case KB_SWITCHTOOLBAR:
-		SendMessage(GetParent(GetParent(hwnd)), DM_SWITCHTOOLBAR, 0, 0);
+		SendMessage(GetParent(windowData->GetHwnd()), DM_SWITCHTOOLBAR, 0, 0);
 		return FALSE;
 	case KB_MINIMIZE:
-		ShowWindow(GetParent(GetParent(hwnd)), SW_MINIMIZE);
+		ShowWindow(GetParent(windowData->GetHwnd()), SW_MINIMIZE);
 		return FALSE;
 	case KB_CLOSE:
-		SendMessage(GetParent(hwnd), WM_CLOSE, 0, 0);
+		SendMessage(windowData->GetHwnd(), WM_CLOSE, 0, 0);
 		return FALSE;
 	case KB_CLEAR_LOG:
-		SendMessage(GetParent(hwnd), DM_CLEARLOG, 0, 0);
+		SendMessage(windowData->GetHwnd(), DM_CLEARLOG, 0, 0);
 		return FALSE;
 	case KB_TAB1:
 	case KB_TAB2:
@@ -165,18 +165,18 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CScriv
 	case KB_TAB7:
 	case KB_TAB8:
 	case KB_TAB9:
-		SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATEBYINDEX, 0, action - KB_TAB1);
+		SendMessage(GetParent(windowData->GetHwnd()), CM_ACTIVATEBYINDEX, 0, action - KB_TAB1);
 		return FALSE;
 	case KB_SEND_ALL:
-		PostMessage(GetParent(hwnd), WM_COMMAND, IDC_SENDALL, 0);
+		PostMessage(windowData->GetHwnd(), WM_COMMAND, IDC_SENDALL, 0);
 		return FALSE;
 	case KB_QUOTE:
-		PostMessage(GetParent(hwnd), WM_COMMAND, IDC_QUOTE, 0);
+		PostMessage(windowData->GetHwnd(), WM_COMMAND, IDC_QUOTE, 0);
 		return FALSE;
 	case KB_PASTESEND:
 		if (SendMessage(hwnd, EM_CANPASTE, 0, 0)) {
 			SendMessage(hwnd, EM_PASTESPECIAL, CF_UNICODETEXT, 0);
-			PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
+			PostMessage(windowData->GetHwnd(), WM_COMMAND, IDOK, 0);
 		}
 		return FALSE;
 	}
@@ -184,7 +184,7 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CScriv
 	switch (msg) {
 	case WM_KEYDOWN:
 		if (wParam >= '1' && wParam <= '9' && isCtrl) {
-			SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATEBYINDEX, 0, wParam - '1');
+			SendMessage(GetParent(windowData->GetHwnd()), CM_ACTIVATEBYINDEX, 0, wParam - '1');
 			return 0;
 		}
 
@@ -195,7 +195,7 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CScriv
 			return FALSE;
 
 		if (wParam == 'R' && isCtrl && isShift) {     // ctrl-shift-r
-			SendMessage(GetParent(hwnd), DM_SWITCHRTL, 0, 0);
+			SendMessage(windowData->GetHwnd(), DM_SWITCHRTL, 0, 0);
 			return FALSE;
 		}
 
@@ -245,11 +245,11 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CScriv
 
 	case WM_SYSKEYDOWN:
 		if ((wParam == VK_LEFT) && isAlt) {
-			SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATEPREV, 0, (LPARAM)GetParent(hwnd));
+			SendMessage(GetParent(windowData->GetHwnd()), CM_ACTIVATEPREV, 0, (LPARAM)windowData->GetHwnd());
 			return 0;
 		}
 		if ((wParam == VK_RIGHT) && isAlt) {
-			SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATENEXT, 0, (LPARAM)GetParent(hwnd));
+			SendMessage(GetParent(windowData->GetHwnd()), CM_ACTIVATENEXT, 0, (LPARAM)windowData->GetHwnd());
 			return 0;
 		}
 		break;

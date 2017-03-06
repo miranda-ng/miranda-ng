@@ -623,10 +623,17 @@ static INT_PTR CALLBACK ConfirmSendAllDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming, const char *szInitialText, bool bIsUnicode)
 	: CScriverWindow(IDD_MSG),
+	m_bIncoming(bIncoming),
 	m_log(this, IDC_LOG),
 	m_message(this, IDC_MESSAGE),
 	m_splitter(this, IDC_SPLITTERY),
-	m_bIncoming(bIncoming)
+
+	m_btnOk(this, IDOK),
+	m_btnAdd(this, IDC_ADD),
+	m_btnQuote(this, IDC_QUOTE),
+	m_btnDetails(this, IDC_DETAILS),
+	m_btnHistory(this, IDC_HISTORY),
+	m_btnUserMenu(this, IDC_USERMENU)
 {
 	m_pLog = &m_log;
 	m_pEntry = &m_message;
@@ -635,7 +642,15 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming, const char *szInitia
 	m_hwndParent = GetParentWindow(hContact, FALSE);
 	m_wszInitialText = (bIsUnicode) ? mir_wstrdup((wchar_t*)szInitialText) : mir_a2u(szInitialText);
 
-	m_splitter.OnChange = Callback(this, &CSrmmWindow::OnSplitterMoved);
+	m_btnOk.OnClick = Callback(this, &CSrmmWindow::onClick_Ok);
+	m_btnAdd.OnClick = Callback(this, &CSrmmWindow::onClick_Add);
+	m_btnQuote.OnClick = Callback(this, &CSrmmWindow::onClick_Quote);
+	m_btnDetails.OnClick = Callback(this, &CSrmmWindow::onClick_Details);
+	m_btnHistory.OnClick = Callback(this, &CSrmmWindow::onClick_History);
+	m_btnUserMenu.OnClick = Callback(this, &CSrmmWindow::onClick_UserMenu);
+	
+	m_message.OnChange = Callback(this, &CSrmmWindow::onChange_Message);
+	m_splitter.OnChange = Callback(this, &CSrmmWindow::onChanged_Splitter);
 }
 
 void CSrmmWindow::OnInitDialog()
@@ -866,7 +881,7 @@ void CSrmmWindow::OnDestroy()
 	WindowList_Remove(pci->hWindowList, m_hwnd);
 
 	HFONT hFont = (HFONT)m_message.SendMsg(WM_GETFONT, 0, 0);
-	if (hFont != NULL && hFont != (HFONT)SendDlgItemMessage(m_hwnd, IDOK, WM_GETFONT, 0, 0))
+	if (hFont != NULL && hFont != (HFONT)m_btnOk.SendMsg(WM_GETFONT, 0, 0))
 		DeleteObject(hFont);
 
 	db_set_b(m_hContact, SRMMMOD, "UseRTL", m_bUseRtl);
@@ -885,7 +900,160 @@ void CSrmmWindow::OnDestroy()
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE);
 }
 
-void CSrmmWindow::OnSplitterMoved(CSplitter *pSplitter)
+void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
+{
+	if (!m_btnOk.Enabled() || m_hContact == NULL)
+		return;
+
+	PARAFORMAT2 pf2;
+	memset(&pf2, 0, sizeof(pf2));
+	pf2.cbSize = sizeof(pf2);
+	pf2.dwMask = PFM_RTLPARA;
+	m_message.SendMsg(EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
+
+	int bufSize = GetRichTextLength(m_message.GetHwnd(), 1200, TRUE) + 2;
+	ptrW ptszUnicode((wchar_t*)mir_alloc(bufSize * sizeof(wchar_t)));
+
+	MessageSendQueueItem msi = { 0 };
+	if (pf2.wEffects & PFE_RTLPARA)
+		msi.flags |= PREF_RTL;
+
+	GETTEXTEX gt = { 0 };
+	gt.flags = GT_USECRLF;
+	gt.cb = bufSize;
+	gt.codepage = 1200; // Unicode
+	m_message.SendMsg(EM_GETTEXTEX, (WPARAM)&gt, ptszUnicode);
+	if (RTL_Detect(ptszUnicode))
+		msi.flags |= PREF_RTL;
+
+	msi.sendBuffer = mir_utf8encodeW(ptszUnicode);
+	msi.sendBufferSize = (int)mir_strlen(msi.sendBuffer);
+	if (msi.sendBufferSize == 0)
+		return;
+
+	/* Store messaging history */
+	TCmdList *cmdListNew = tcmdlist_last(cmdList);
+	while (cmdListNew != NULL && cmdListNew->temporary) {
+		cmdList = tcmdlist_remove(cmdList, cmdListNew);
+		cmdListNew = tcmdlist_last(cmdList);
+	}
+	if (msi.sendBuffer != NULL)
+		cmdList = tcmdlist_append(cmdList, rtrim(msi.sendBuffer), 20, FALSE);
+
+	cmdListCurrent = NULL;
+
+	if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
+		NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
+
+	SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
+	EnableWindow(GetDlgItem(m_hwnd, IDOK), FALSE);
+	if (db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
+		ShowWindow(m_hwndParent, SW_MINIMIZE);
+
+	if (pButton == nullptr)
+		SendMessage(m_hwndParent, DM_SENDMESSAGE, 0, (LPARAM)&msi);
+	else
+		SendMessage(m_hwnd, DM_SENDMESSAGE, 0, (LPARAM)&msi);
+}
+
+void CSrmmWindow::onClick_UserMenu(CCtrlButton *pButton)
+{
+	if (GetKeyState(VK_SHIFT) & 0x8000) // copy user name
+		SendMessage(m_hwnd, DM_USERNAMETOCLIP, 0, 0);
+	else {
+		RECT rc;
+		HMENU hMenu = Menu_BuildContactMenu(m_hContact);
+		GetWindowRect(pButton->GetHwnd(), &rc);
+		TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, m_hwnd, nullptr);
+		DestroyMenu(hMenu);
+	}
+}
+
+void CSrmmWindow::onClick_Quote(CCtrlButton*)
+{
+	if (m_hDbEventLast == 0)
+		return;
+
+	SETTEXTEX  st;
+	st.flags = ST_SELECTION;
+	st.codepage = 1200;
+
+	wchar_t *buffer = NULL;
+	if (m_hwndIeview != NULL) {
+		IEVIEWEVENT evt = { sizeof(evt) };
+		evt.hwnd = m_hwndIeview;
+		evt.hContact = m_hContact;
+		evt.iType = IEE_GET_SELECTION;
+		buffer = mir_wstrdup((wchar_t*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt));
+	}
+	else buffer = GetRichEditSelection(m_log.GetHwnd());
+
+	if (buffer != NULL) {
+		wchar_t *quotedBuffer = GetQuotedTextW(buffer);
+		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
+		mir_free(quotedBuffer);
+		mir_free(buffer);
+	}
+	else {
+		DBEVENTINFO dbei = {};
+		dbei.cbBlob = db_event_getBlobSize(m_hDbEventLast);
+		if (dbei.cbBlob == 0xFFFFFFFF)
+			return;
+		dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
+		db_event_get(m_hDbEventLast, &dbei);
+		if (DbEventIsMessageOrCustom(&dbei)) {
+			buffer = DbEvent_GetTextW(&dbei, CP_ACP);
+			if (buffer != NULL) {
+				wchar_t *quotedBuffer = GetQuotedTextW(buffer);
+				m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
+				mir_free(quotedBuffer);
+				mir_free(buffer);
+			}
+		}
+		mir_free(dbei.pBlob);
+	}
+	SetFocus(m_message.GetHwnd());
+}
+
+void CSrmmWindow::onClick_Add(CCtrlButton*)
+{
+	ADDCONTACTSTRUCT acs = {};
+	acs.hContact = m_hContact;
+	acs.handleType = HANDLE_CONTACT;
+	CallService(MS_ADDCONTACT_SHOW, (WPARAM)m_hwnd, (LPARAM)&acs);
+
+	if (!db_get_b(m_hContact, "CList", "NotOnList", 0))
+		ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), SW_HIDE);
+}
+
+void CSrmmWindow::onClick_Details(CCtrlButton*)
+{
+	CallService(MS_USERINFO_SHOWDIALOG, m_hContact, 0);
+}
+
+void CSrmmWindow::onClick_History(CCtrlButton*)
+{
+	CallService(MS_HISTORY_SHOWCONTACTHISTORY, m_hContact, 0);
+}
+
+void CSrmmWindow::onChange_Message(CCtrlEdit*)
+{
+	int len = GetRichTextLength(m_message.GetHwnd(), 1200, FALSE);
+	cmdListCurrent = NULL;
+	UpdateReadChars();
+	EnableWindow(GetDlgItem(m_hwnd, IDOK), len != 0);
+	if (!(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000)) {
+		m_nLastTyping = GetTickCount();
+		if (len != 0) {
+			if (m_nTypeMode == PROTOTYPE_SELFTYPING_OFF)
+				NotifyTyping(PROTOTYPE_SELFTYPING_ON);
+		}
+		else if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
+			NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
+	}
+}
+
+void CSrmmWindow::onChanged_Splitter(CSplitter *pSplitter)
 {
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
@@ -1502,18 +1670,9 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 			}
 		}
-		return Menu_MeasureItem(lParam);
+		return Menu_DrawItem(lParam);
 
 	case WM_COMMAND:
-		if (!lParam && Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, m_hContact))
-			break;
-
-		if (HIWORD(wParam) == BN_CLICKED)
-			if (LOWORD(wParam) >= MIN_CBUTTONID && LOWORD(wParam) <= MAX_CBUTTONID) {
-				Srmm_ClickToolbarIcon(m_hContact, LOWORD(wParam), GetDlgItem(m_hwnd, LOWORD(wParam)), 0);
-				break;
-			}
-
 		switch (LOWORD(wParam)) {
 		case IDC_SENDALL:
 			int result;
@@ -1524,160 +1683,8 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			else result = m_iSendAllConfirm;
 
-			if (LOWORD(result) != IDYES)
-				break;
-
-		case IDOK:
-			// this is a 'send' button
-			if (!IsWindowEnabled(GetDlgItem(m_hwnd, IDOK)))
-				break;
-
-			if (m_hContact != NULL) {
-				memset(&pf2, 0, sizeof(pf2));
-				pf2.cbSize = sizeof(pf2);
-				pf2.dwMask = PFM_RTLPARA;
-				m_message.SendMsg(EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
-
-				int bufSize = GetRichTextLength(m_message.GetHwnd(), 1200, TRUE) + 2;
-				ptrW ptszUnicode((wchar_t*)mir_alloc(bufSize * sizeof(wchar_t)));
-
-				MessageSendQueueItem msi = { 0 };
-				if (pf2.wEffects & PFE_RTLPARA)
-					msi.flags |= PREF_RTL;
-
-				GETTEXTEX gt = { 0 };
-				gt.flags = GT_USECRLF;
-				gt.cb = bufSize;
-				gt.codepage = 1200; // Unicode
-				m_message.SendMsg(EM_GETTEXTEX, (WPARAM)&gt, ptszUnicode);
-				if (RTL_Detect(ptszUnicode))
-					msi.flags |= PREF_RTL;
-
-				msi.sendBuffer = mir_utf8encodeW(ptszUnicode);
-				msi.sendBufferSize = (int)mir_strlen(msi.sendBuffer);
-				if (msi.sendBufferSize == 0)
-					break;
-
-				/* Store messaging history */
-				TCmdList *cmdListNew = tcmdlist_last(cmdList);
-				while (cmdListNew != NULL && cmdListNew->temporary) {
-					cmdList = tcmdlist_remove(cmdList, cmdListNew);
-					cmdListNew = tcmdlist_last(cmdList);
-				}
-				if (msi.sendBuffer != NULL)
-					cmdList = tcmdlist_append(cmdList, rtrim(msi.sendBuffer), 20, FALSE);
-
-				cmdListCurrent = NULL;
-
-				if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
-					NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
-
-				SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
-				EnableWindow(GetDlgItem(m_hwnd, IDOK), FALSE);
-				if (db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
-					ShowWindow(m_hwndParent, SW_MINIMIZE);
-				if (LOWORD(wParam) == IDC_SENDALL)
-					SendMessage(m_hwndParent, DM_SENDMESSAGE, 0, (LPARAM)&msi);
-				else
-					SendMessage(m_hwnd, DM_SENDMESSAGE, 0, (LPARAM)&msi);
-			}
-			return TRUE;
-
-		case IDCANCEL:
-			DestroyWindow(m_hwnd);
-			return TRUE;
-
-		case IDC_USERMENU:
-			if (GetKeyState(VK_SHIFT) & 0x8000) // copy user name
-				SendMessage(m_hwnd, DM_USERNAMETOCLIP, 0, 0);
-			else {
-				RECT rc;
-				HMENU hMenu = Menu_BuildContactMenu(m_hContact);
-				GetWindowRect(GetDlgItem(m_hwnd, LOWORD(wParam)), &rc);
-				TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, m_hwnd, NULL);
-				DestroyMenu(hMenu);
-			}
-			break;
-
-		case IDC_HISTORY:
-			CallService(MS_HISTORY_SHOWCONTACTHISTORY, m_hContact, 0);
-			break;
-
-		case IDC_DETAILS:
-			CallService(MS_USERINFO_SHOWDIALOG, m_hContact, 0);
-			break;
-
-		case IDC_QUOTE:
-			if (m_hDbEventLast != NULL) {
-				SETTEXTEX  st;
-				st.flags = ST_SELECTION;
-				st.codepage = 1200;
-
-				wchar_t *buffer = NULL;
-				if (m_hwndIeview != NULL) {
-					IEVIEWEVENT evt = { sizeof(evt) };
-					evt.hwnd = m_hwndIeview;
-					evt.hContact = m_hContact;
-					evt.iType = IEE_GET_SELECTION;
-					buffer = mir_wstrdup((wchar_t*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt));
-				}
-				else buffer = GetRichEditSelection(m_log.GetHwnd());
-
-				if (buffer != NULL) {
-					wchar_t *quotedBuffer = GetQuotedTextW(buffer);
-					m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
-					mir_free(quotedBuffer);
-					mir_free(buffer);
-				}
-				else {
-					DBEVENTINFO dbei = {};
-					dbei.cbBlob = db_event_getBlobSize(m_hDbEventLast);
-					if (dbei.cbBlob == 0xFFFFFFFF)
-						break;
-					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-					db_event_get(m_hDbEventLast, &dbei);
-					if (DbEventIsMessageOrCustom(&dbei)) {
-						buffer = DbEvent_GetTextW(&dbei, CP_ACP);
-						if (buffer != NULL) {
-							wchar_t *quotedBuffer = GetQuotedTextW(buffer);
-							m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
-							mir_free(quotedBuffer);
-							mir_free(buffer);
-						}
-					}
-					mir_free(dbei.pBlob);
-				}
-				SetFocus(m_message.GetHwnd());
-			}
-			break;
-
-		case IDC_ADD:
-			{
-				ADDCONTACTSTRUCT acs = { 0 };
-				acs.hContact = m_hContact;
-				acs.handleType = HANDLE_CONTACT;
-				acs.szProto = 0;
-				CallService(MS_ADDCONTACT_SHOW, (WPARAM)m_hwnd, (LPARAM)&acs);
-			}
-			if (!db_get_b(m_hContact, "CList", "NotOnList", 0))
-				ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), SW_HIDE);
-
-		case IDC_MESSAGE:
-			if (HIWORD(wParam) == EN_CHANGE) {
-				int len = GetRichTextLength(m_message.GetHwnd(), 1200, FALSE);
-				cmdListCurrent = NULL;
-				UpdateReadChars();
-				EnableWindow(GetDlgItem(m_hwnd, IDOK), len != 0);
-				if (!(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000)) {
-					m_nLastTyping = GetTickCount();
-					if (len != 0) {
-						if (m_nTypeMode == PROTOTYPE_SELFTYPING_OFF)
-							NotifyTyping(PROTOTYPE_SELFTYPING_ON);
-					}
-					else if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
-						NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
-				}
-			}
+			if (LOWORD(result) == IDYES)
+				onClick_Ok(nullptr);
 			break;
 		}
 		break;
@@ -1717,5 +1724,5 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	return CSrmmBaseDialog::DlgProc(msg, wParam, lParam);
+	return CScriverWindow::DlgProc(msg, wParam, lParam);
 }
