@@ -11,11 +11,6 @@
 #define IDD_OPTIONS3                    407
 #define IDD_OPTIONS4                    408
 #define IDD_ADDHIGHLIGHT                409
-#define IDC_SMILEY                      1007
-#define IDC_FILTER                      1013
-#define IDC_CHANMGR                     1014
-#define IDC_SHOWNICKLIST                1015
-#define IDC_BKGCOLOR                    1019
 #define IDC_CHECKBOXES                  1021
 #define IDC_NICKROW2                    1023
 #define IDC_NICKROW                     1024
