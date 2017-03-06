@@ -424,10 +424,10 @@ namespace omemo {
 		if (id == 0)
 			return true;
 		ptrA buf(proto->getStringA("OmemoDevicePublicKey"));
-		if (!buf[0])
+		if (!buf || !buf[0])
 			return true;
-		buf = ptrA(proto->getStringA("OmemoDevicePrivateKey"));
-		if (!buf[0])
+		ptrA buf2(proto->getStringA("OmemoDevicePrivateKey")); //ptrA reinitialization always return "" or random trash
+		if (!buf2 || !buf2[0])
 			return true;
 
 		return false;
@@ -510,7 +510,7 @@ namespace omemo {
 	DWORD GetOwnDeviceId(CJabberProto *proto)
 	{
 		DWORD own_id = proto->getDword("OmemoDeviceId", 0);
-		if (own_id = 0)
+		if (own_id == 0)
 		{
 			proto->OmemoInitDevice();
 			own_id = proto->getDword("OmemoDeviceId", 0);
@@ -524,7 +524,6 @@ void CJabberProto::OmemoInitDevice()
 {
 	if (omemo::IsFirstRun(this))
 		omemo::RefreshDevice(this);
-	OmemoAnnounceDevice();
 }
 
 
@@ -547,7 +546,7 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 	node = XmlGetChildByTag(node, L"list", L"xmlns", JABBER_FEAT_OMEMO); //<list xmlns = 'urn:xmpp:omemo:0'>
 	if (!node)
 		return;
-	bool own_jid = false; //TODO: detect own jid (not work dues to jabber_thread.cpp:947+)
+	bool own_jid = false; //TODO: detect own jid (not working due to jabber_thread.cpp:947+)
 	DWORD current_id;
 	LPCTSTR current_id_str;
 	if (own_jid)
@@ -581,7 +580,20 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
 			setDword(hContact, setting_name, current_id);
 		}
+		//TODO: remove all settings higher than 'i' from db
 	}
+}
+
+wchar_t* StripResourceFromJid(const wchar_t *source)
+{
+	if (!source)
+		return 0;
+	wchar_t *result = (wchar_t*)mir_alloc(wcslen(source));
+	int i = 0;
+	for (; source[i] != '/' && source[i] != 0; i++)
+		result[i] = source[i];
+	result[i] = 0;
+	return result;
 }
 
 void CJabberProto::OmemoAnnounceDevice()
@@ -600,6 +612,7 @@ void CJabberProto::OmemoAnnounceDevice()
 	//add own device id
 	//construct node
 	XmlNodeIq iq(L"set", SerialNext());
+	iq << XATTR(L"from", ptrW(StripResourceFromJid(m_ThreadInfo->fullJID)));
 	HXML pubsub_node = XmlAddChild(iq, L"pubsub");
 	xmlAddAttr(pubsub_node, L"xmlns", L"http://jabber.org/protocol/pubsub");
 	HXML publish_node = XmlAddChild(pubsub_node, L"publish");
@@ -618,6 +631,69 @@ void CJabberProto::OmemoAnnounceDevice()
 	xmlAddAttrInt(device_node, L"id", own_id);
 	
 	//send device list back
+	m_ThreadInfo->send(iq);
+
+}
+
+void CJabberProto::OmemoSendBundle()
+{
+	//get own device id
+	DWORD own_id = omemo::GetOwnDeviceId(this);
+	//construct bundle node
+	XmlNodeIq iq(L"set", SerialNext());
+	iq << XATTR(L"from", ptrW(StripResourceFromJid(m_ThreadInfo->fullJID)));
+	//TODO: add "from"
+	HXML pubsub_node = XmlAddChild(iq, L"pubsub");
+	xmlAddAttr(pubsub_node, L"xmlns", L"http://jabber.org/protocol/pubsub");
+	HXML publish_node = XmlAddChild(pubsub_node, L"publish");
+	{
+		wchar_t attr_val[128];
+		mir_snwprintf(attr_val, L"%s:bundles:%d", JABBER_FEAT_OMEMO, own_id);
+		xmlAddAttr(publish_node, L"node", attr_val);
+	}
+	HXML item_node = XmlAddChild(publish_node, L"item");
+	HXML bundle_node = XmlAddChild(item_node, L"bundle");
+	xmlAddAttr(bundle_node, L"xmlns", JABBER_FEAT_OMEMO);
+	//add signed pre key public
+	{
+		HXML signedPreKeyPublic_node = XmlAddChild(bundle_node, L"signedPreKeyPublic");
+		xmlAddAttr(signedPreKeyPublic_node, L"signedPreKeyId", L"1");
+		ptrW buf(getWStringA("OmemoSignedPreKeyPublic"));
+		xmlSetText(signedPreKeyPublic_node, buf);
+	}
+	//add pre key signature
+	{
+		HXML signedPreKeySignature_node = XmlAddChild(bundle_node, L"signedPreKeySignature");
+		ptrW buf(getWStringA("OmemoSignedPreKeySignature"));
+		xmlSetText(signedPreKeySignature_node, buf);
+	}
+	//add identity key
+	//it is must be a public key right ?, standart is a bit confusing...
+	{
+		HXML identityKey_node = XmlAddChild(bundle_node, L"identityKey");
+		ptrW buf(getWStringA("OmemoDevicePublicKey"));
+		xmlSetText(identityKey_node, buf);
+	}
+	//add prekeys
+	HXML prekeys_node = XmlAddChild(bundle_node, L"prekeys");
+	{
+		int i = 0;
+		char setting_name[64];
+		mir_snprintf(setting_name, "OmemoPreKey%dPublic", i);
+		wchar_t *val;
+		for (val = getWStringA(setting_name); val && val[0]; ++i, mir_snprintf(setting_name, "OmemoPreKey%dPublic", i), val = getWStringA(setting_name))
+		{
+			HXML preKeyPublic_node = XmlAddChild(prekeys_node, L"preKeyPublic");
+			xmlAddAttrInt(preKeyPublic_node, L"preKeyId", i + 1);
+			xmlSetText(preKeyPublic_node, val);
+			mir_free(val);
+			val = nullptr;
+		}
+		mir_free(val);
+		val = nullptr;
+	}
+
+	//send bundle
 	m_ThreadInfo->send(iq);
 
 }

@@ -206,6 +206,13 @@ void CJabberProto::OnLoggedIn()
 
 	setString("LastLoggedServer", m_ThreadInfo->conn.server);
 	m_pepServices.ResetPublishAll();
+
+	//is it correct place ?
+	if (m_options.UseOMEMO)
+	{
+		OmemoAnnounceDevice();
+		OmemoSendBundle();
+	}
 }
 
 void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo*)
