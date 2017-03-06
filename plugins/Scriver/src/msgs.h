@@ -130,7 +130,6 @@ class CSrmmWindow : public CScriverWindow
 	InfobarWindowData *m_pInfobarData;
 
 	void     GetContactUniqueId(char *buf, int maxlen);
-	wchar_t* GetIEViewSelection();
 	HICON    GetTabIcon();
 	void     GetTitlebarIcon(struct TitleBarData *tbd);
 	void     MessageDialogResize(int w, int h);

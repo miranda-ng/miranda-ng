@@ -27,15 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define ENTERCLICKTIME   1000   //max time in ms during which a double-tap on enter will cause a send
 
-wchar_t* CSrmmWindow::GetIEViewSelection()
-{
-	IEVIEWEVENT evt = { sizeof(evt) };
-	evt.hwnd = m_hwndIeview;
-	evt.hContact = m_hContact;
-	evt.iType = IEE_GET_SELECTION;
-	return mir_wstrdup((wchar_t*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt));
-}
-
 static wchar_t* GetQuotedTextW(wchar_t *text)
 {
 	size_t i, j, l = mir_wstrlen(text);
@@ -1623,10 +1614,14 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				st.codepage = 1200;
 
 				wchar_t *buffer = NULL;
-				if (m_hwndIeview != NULL)
-					buffer = GetIEViewSelection();
-				else
-					buffer = GetRichEditSelection(m_log.GetHwnd());
+				if (m_hwndIeview != NULL) {
+					IEVIEWEVENT evt = { sizeof(evt) };
+					evt.hwnd = m_hwndIeview;
+					evt.hContact = m_hContact;
+					evt.iType = IEE_GET_SELECTION;
+					buffer = mir_wstrdup((wchar_t*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt));
+				}
+				else buffer = GetRichEditSelection(m_log.GetHwnd());
 
 				if (buffer != NULL) {
 					wchar_t *quotedBuffer = GetQuotedTextW(buffer);
