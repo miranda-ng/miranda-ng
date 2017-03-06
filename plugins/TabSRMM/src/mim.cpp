@@ -502,7 +502,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 			if (pContainer == NULL)
 				pContainer = CreateContainer(szName, FALSE, hContact);
 			if (pContainer)
-				CreateNewTabForContact(pContainer, hContact, 0, NULL, TRUE, TRUE, FALSE, 0);
+				CreateNewTabForContact(pContainer, hContact, true, true, false);
 			return 0;
 		}
 
@@ -511,18 +511,18 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		if (pContainer != NULL) {
 			if (M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6)) {
 				if ((pContainer = FindMatchingContainer(L"default")) != NULL) {
-					CreateNewTabForContact(pContainer, hContact, 0, NULL, bActivate, bPopup, TRUE, hDbEvent);
+					CreateNewTabForContact(pContainer, hContact, bActivate, bPopup, true, hDbEvent);
 					return 0;
 				}
 			}
 			else {
-				CreateNewTabForContact(pContainer, hContact, 0, NULL, bActivate, bPopup, TRUE, hDbEvent);
+				CreateNewTabForContact(pContainer, hContact, bActivate, bPopup, true, hDbEvent);
 				return 0;
 			}
 		}
 		if (bAutoContainer) {
 			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, hContact)) != NULL) { // 2 means create minimized, don't popup...
-				CreateNewTabForContact(pContainer, hContact, 0, NULL, bActivate, bPopup, TRUE, hDbEvent);
+				CreateNewTabForContact(pContainer, hContact, bActivate, bPopup, true, hDbEvent);
 				SendMessageW(pContainer->hwnd, WM_SIZE, 0, 0);
 			}
 			return 0;

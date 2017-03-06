@@ -230,31 +230,11 @@ struct TContainerData
 
 struct SESSION_INFO;
 
-struct TNewWindowData
-{
-	MCONTACT hContact;
-	int      isWchar;
-	LPCSTR   szInitialText;
-	int      iTabID;
-	int      iTabImage;
-	int      iActivate;
-	TCITEM   item;
-	BOOL     bWantPopup;
-	HKL      hkl;
-
-	union {
-		MEVENT hdbEvent;
-		SESSION_INFO *si;
-	};
-	TContainerData *pContainer;
-};
-
 class CTabBaseDlg : public CSrmmBaseDialog
 {
 
 protected:
 	CCtrlEdit m_log, m_message;
-	TNewWindowData *newData;
 
 	void DM_AddDivider();
 	void DM_DismissTip(const POINT& pt);
@@ -374,7 +354,7 @@ public:
 	char *m_enteredText;
 
 public:
-	CTabBaseDlg(TNewWindowData*, int);
+	CTabBaseDlg(int iDialogId);
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
@@ -459,9 +439,11 @@ class CSrmmWindow : public CTabBaseDlg
 
 public:
 	int msgTop, rcLogBottom;
+	wchar_t *wszInitialText;
+	bool m_bActivate, m_bWantPopup;
 
 public:
-	CSrmmWindow(TNewWindowData*);
+	CSrmmWindow();
 
 	virtual void OnInitDialog() override;
 	virtual void OnDestroy() override;
@@ -489,7 +471,7 @@ public:
 	wchar_t m_wszSearch[255];
 
 public:
-	CChatRoomDlg(TNewWindowData*);
+	CChatRoomDlg(SESSION_INFO*);
 
 	virtual void OnInitDialog() override;
 	virtual void OnDestroy() override;

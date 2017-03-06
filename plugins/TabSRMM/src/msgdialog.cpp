@@ -417,7 +417,7 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 	dat->GetAvatarVisibility();
 
 	Utils::showDlgControl(hwndDlg, IDC_CONTACTPIC, dat->m_bShowAvatar ? SW_SHOW : SW_HIDE);
-	Utils::showDlgControl(hwndDlg, IDC_SPLITTER, dat->m_bIsAutosizingInput ? SW_HIDE : SW_SHOW);
+	Utils::showDlgControl(hwndDlg, IDC_SPLITTERY, dat->m_bIsAutosizingInput ? SW_HIDE : SW_SHOW);
 	Utils::showDlgControl(hwndDlg, IDC_MULTISPLITTER, (dat->m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
 
 	dat->EnableSendButton(GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE)) != 0);
@@ -797,7 +797,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return TRUE;
 
 	case WM_LBUTTONDOWN:
-		if (hwnd == GetDlgItem(hwndParent, IDC_SPLITTER) || hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY)) {
+		if (hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY) || hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY)) {
 			if (dat) {
 				GetClientRect(hwnd, &rc);
 				dat->m_savedSplitter = rc.right > rc.bottom ? (short)HIWORD(GetMessagePos()) + rc.bottom / 2 : (short)LOWORD(GetMessagePos()) + rc.right / 2;
@@ -852,7 +852,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			SendMessage(hwndParent, WM_SIZE, 0, 0);
 			RedrawWindow(hwndParent, NULL, NULL, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW);
 		}
-		else if ((dat && dat->m_bType == SESSIONTYPE_IM && hwnd == GetDlgItem(hwndParent, IDC_SPLITTER)) ||
+		else if ((dat && dat->m_bType == SESSIONTYPE_IM && hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY)) ||
 			(dat && dat->m_bType == SESSIONTYPE_CHAT && hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY))) {
 			POINT pt;
 			int selection;
@@ -929,8 +929,8 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CSrmmWindow::CSrmmWindow(TNewWindowData *pNewData)
-	: CTabBaseDlg(pNewData, IDD_MSGSPLITNEW)
+CSrmmWindow::CSrmmWindow()
+	: CTabBaseDlg(IDD_MSGSPLITNEW)
 {
 	m_pLog = &m_log;
 	m_pEntry = &m_message;
@@ -968,19 +968,13 @@ CThumbBase* CSrmmWindow::CreateThumb(CProxyWindow *pProxy) const
 
 void CSrmmWindow::OnInitDialog()
 {
-	m_pContainer = newData->pContainer;
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 
 	if (Utils::rtf_ctable == 0)
 		Utils::RTF_CTableInit();
 
-	newData->item.lParam = (LPARAM)m_hwnd;
-	TabCtrl_SetItem(m_hwndParent, newData->iTabID, &newData->item);
-	m_iTabID = newData->iTabID;
-
 	DM_ThemeChanged();
 
-	m_hContact = newData->hContact;
 	m_cache = CContactCache::getContactCache(m_hContact);
 	m_cache->updateNick();
 	m_cache->setWindowData(m_hwnd, this);
@@ -993,6 +987,15 @@ void CSrmmWindow::OnInitDialog()
 		m_cache->updateMeta();
 
 	m_cache->updateUIN();
+
+	// show a popup if wanted...
+	if (m_bWantPopup) {
+		DBEVENTINFO dbei = {};
+		m_bWantPopup = false;
+		db_event_get(m_hDbEventFirst, &dbei);
+		tabSRMM_ShowPopup(m_hContact, m_hDbEventFirst, dbei.eventType, 0, 0, m_hwnd, m_cache->getActiveProto());
+	}
+	m_hDbEventFirst = 0;
 
 	if (m_hContact && m_szProto != NULL) {
 		m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
@@ -1060,7 +1063,7 @@ void CSrmmWindow::OnInitDialog()
 	Utils::showDlgControl(m_hwnd, IDC_MULTISPLITTER, SW_HIDE);
 
 	RECT rc;
-	GetWindowRect(GetDlgItem(m_hwnd, IDC_SPLITTER), &rc);
+	GetWindowRect(GetDlgItem(m_hwnd, IDC_SPLITTERY), &rc);
 	
 	POINT pt;
 	pt.y = (rc.top + rc.bottom) / 2;
@@ -1133,7 +1136,7 @@ void CSrmmWindow::OnInitDialog()
 	// subclassing stuff
 	mir_subclassWindow(m_message.GetHwnd(), MessageEditSubclassProc);
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_CONTACTPIC), AvatarSubclassProc);
-	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTER), SplitterSubclassProc);
+	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTERY), SplitterSubclassProc);
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_MULTISPLITTER), SplitterSubclassProc);
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_PANELSPLITTER), SplitterSubclassProc);
 
@@ -1158,15 +1161,13 @@ void CSrmmWindow::OnInitDialog()
 				UpdateReadChars();
 		}
 	}
-	if (newData->szInitialText) {
-		if (newData->isWchar)
-			SetDlgItemTextW(m_hwnd, IDC_MESSAGE, (wchar_t*)newData->szInitialText);
-		else
-			SetDlgItemTextA(m_hwnd, IDC_MESSAGE, newData->szInitialText);
+	if (wszInitialText) {
+		SetDlgItemTextW(m_hwnd, IDC_MESSAGE, wszInitialText);
 		int len = GetWindowTextLength(m_message.GetHwnd());
 		PostMessage(m_message.GetHwnd(), EM_SETSEL, len, len);
 		if (len)
 			EnableSendButton(true);
+		mir_free(wszInitialText);
 	}
 
 	for (MEVENT hdbEvent = db_event_last(m_hContact); hdbEvent; hdbEvent = db_event_prev(m_hContact, hdbEvent)) {
@@ -1186,11 +1187,11 @@ void CSrmmWindow::OnInitDialog()
 		mir_subclassWindowFull(m_log.GetHwnd(), MessageLogSubclassProc, wndClass.lpfnWndProc);
 	}
 
-	SetWindowPos(m_hwnd, 0, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), newData->iActivate ? 0 : SWP_NOZORDER | SWP_NOACTIVATE);
+	SetWindowPos(m_hwnd, 0, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), m_bActivate ? 0 : SWP_NOZORDER | SWP_NOACTIVATE);
 	LoadSplitter();
 	ShowPicture(true);
 
-	if (m_pContainer->dwFlags & CNT_CREATE_MINIMIZED || !newData->iActivate || m_pContainer->dwFlags & CNT_DEFERREDTABSELECT) {
+	if (m_pContainer->dwFlags & CNT_CREATE_MINIMIZED || !m_bActivate || m_pContainer->dwFlags & CNT_DEFERREDTABSELECT) {
 		m_iFlashIcon = PluginConfig.g_IconMsgEvent;
 		SetTimer(m_hwnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, NULL);
 		m_bCanFlashTab = true;
@@ -1204,7 +1205,7 @@ void CSrmmWindow::OnInitDialog()
 		m_dwFlags |= MWF_NEEDCHECKSIZE | MWF_WASBACKGROUNDCREATE | MWF_DEFERREDSCROLL;
 	}
 
-	if (newData->iActivate) {
+	if (m_bActivate) {
 		m_pContainer->hwndActive = m_hwnd;
 		ShowWindow(m_hwnd, SW_SHOW);
 		SetActiveWindow(m_hwnd);
@@ -1227,14 +1228,6 @@ void CSrmmWindow::OnInitDialog()
 
 	m_dwFlags &= ~MWF_INITMODE;
 	TABSRMM_FireEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPEN, 0);
-
-	// show a popup if wanted...
-	if (newData->bWantPopup) {
-		DBEVENTINFO dbei = {};
-		newData->bWantPopup = FALSE;
-		db_event_get(newData->hdbEvent, &dbei);
-		tabSRMM_ShowPopup(m_hContact, newData->hdbEvent, dbei.eventType, 0, 0, m_hwnd, m_cache->getActiveProto());
-	}
 
 	if (m_pContainer->dwFlags & CNT_CREATE_MINIMIZED) {
 		m_pContainer->dwFlags &= ~CNT_CREATE_MINIMIZED;
@@ -1453,7 +1446,7 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 
 		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 
-	case IDC_SPLITTER:
+	case IDC_SPLITTERY:
 		urc->rcItem.right = urc->dlgNewSize.cx;
 		urc->rcItem.top -= m_splitterY - m_originalSplitterY;
 		urc->rcItem.bottom = urc->rcItem.top + 2;
@@ -2181,7 +2174,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case DM_CONFIGURETOOLBAR:
 		m_bShowUIElements = m_pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
 
-		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SPLITTER), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SPLITTER), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
+		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SPLITTERY), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SPLITTERY), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 
 		if (lParam == 1) {
 			GetSendFormat();
@@ -2255,7 +2248,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_multiSplitterX = oldSplitterX;
 			SendMessage(m_hwnd, WM_SIZE, 0, 0);
 		}
-		else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTER)) {
+		else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERY)) {
 			GetClientRect(m_hwnd, &rc);
 			rc.top += (m_pPanel.isActive() ? m_pPanel.getHeight() + 40 : 30);
 			pt.x = 0;
@@ -2643,7 +2636,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					int tabCount = TabCtrl_GetItemCount(m_hwndParent);
 					ptrA szFromStream(Message_GetFromStream(m_message.GetHwnd(), m_SendFormat ? 0 : SF_TEXT));
 
-					TCITEM tci = { 0 };
+					TCITEM tci = {};
 					tci.mask = TCIF_PARAM;
 					for (int i = 0; i < tabCount; i++) {
 						TabCtrl_GetItem(m_hwndParent, i, &tci);
@@ -3027,7 +3020,7 @@ quote_from_last:
 					i++;
 				TabCtrl_SetCurSel(m_hwndParent, i);
 
-				TCITEM item = { 0 };
+				TCITEM item = {};
 				item.mask = TCIF_PARAM;
 				TabCtrl_GetItem(m_hwndParent, i, &item);         // retrieve dialog hwnd for the now active tab...
 

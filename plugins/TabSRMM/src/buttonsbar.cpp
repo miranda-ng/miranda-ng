@@ -145,7 +145,7 @@ void CTabBaseDlg::BB_InitDlgButtons()
 	BYTE gap = DPISCALEX_S(db_get_b(NULL, SRMSGMOD, "ButtonsBarGap", 1));
 
 	RECT rcSplitter;
-	GetWindowRect(GetDlgItem(m_hwnd, (m_bType == SESSIONTYPE_IM) ? IDC_SPLITTER : IDC_SPLITTERY), &rcSplitter);
+	GetWindowRect(GetDlgItem(m_hwnd, (m_bType == SESSIONTYPE_IM) ? IDC_SPLITTERY : IDC_SPLITTERY), &rcSplitter);
 	POINT ptSplitter = { 0, rcSplitter.top };
 	ScreenToClient(m_hwnd, &ptSplitter);
 
@@ -220,7 +220,7 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 	HDWP hdwp = BeginDeferWindowPos(Srmm_GetButtonCount() + 1);
 
 	RECT rcSplitter;
-	GetWindowRect(GetDlgItem(hwnd, (m_bType == SESSIONTYPE_IM) ? IDC_SPLITTER : IDC_SPLITTERY), &rcSplitter);
+	GetWindowRect(GetDlgItem(hwnd, (m_bType == SESSIONTYPE_IM) ? IDC_SPLITTERY : IDC_SPLITTERY), &rcSplitter);
 
 	POINT ptSplitter = { 0, rcSplitter.top };
 	ScreenToClient(hwnd, &ptSplitter);

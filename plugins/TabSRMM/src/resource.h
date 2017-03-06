@@ -72,12 +72,14 @@
 #define IDC_THEMEEXPORT                 1002
 #define IDC_THEMEEXPORT2                1003
 #define IDC_THEMEIMPORT                 1003
+#define IDC_SPLITTERX                   1004
 #define IDC_EXPORT                      1005
 #define IDC_IMPORT                      1006
 #define IDC_PREVIEW                     1006
 #define IDC_LOG                         1006
 #define IDC_CHKNOTIFY_MESSAGE           1007
 #define IDC_FASTGRADIENT                1008
+#define IDC_SPLITTERY                   1008
 #define IDC_CHKNOTIFY_URL               1009
 #define IDC_USESKIN                     1011
 #define IDC_AUTOCLOSE                   1012
@@ -105,7 +107,6 @@
 #define IDC_CHKPREVIEW                  1034
 #define IDC_CHKINFINITE                 1035
 #define IDC_PANELSTATUS                 1036
-#define IDC_SPLITTER                    1037
 #define IDC_CHKDEFAULTCOL_MESSAGE       1038
 #define IDC_CHKDEFAULTCOL_MUC           1039
 #define IDC_CHKDEFAULTCOL_ERR           1040

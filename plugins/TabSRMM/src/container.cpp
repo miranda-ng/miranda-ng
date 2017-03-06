@@ -1428,7 +1428,7 @@ panel_found:
 		if ((iItem = GetTabItemFromMouse(hwndTab, (POINT*)lParam)) != -1) {
 			HWND hwndCurrent = pContainer->hwndActive;
 
-			TCITEM item = { 0 };
+			TCITEM item = {};
 			item.mask = TCIF_PARAM;
 			TabCtrl_GetItem(hwndTab, iItem, &item);
 			if (item.lParam) {
@@ -1635,7 +1635,7 @@ panel_found:
 		DWORD dwTimestamp;
 		{
 			int iItems = TabCtrl_GetItemCount(hwndTab);
-			TCITEM item = { 0 };
+			TCITEM item = {};
 
 			RECENTINFO *ri = (RECENTINFO *)lParam;
 			ri->iFirstIndex = ri->iMostRecent = -1;
@@ -1833,7 +1833,7 @@ panel_found:
 			if (lParam == 0 && TabCtrl_GetItemCount(hwndTab) > 0) {
 				int clients = TabCtrl_GetItemCount(hwndTab), iOpenJobs = 0;
 
-				TCITEM item = { 0 };
+				TCITEM item = {};
 				item.mask = TCIF_PARAM;
 				for (int i = 0; i < clients; i++) {
 					TabCtrl_GetItem(hwndTab, i, &item);
@@ -1858,7 +1858,7 @@ panel_found:
 				wp.length = sizeof(wp);
 				if (GetWindowPlacement(hwndDlg, &wp) != 0) {
 					if (pContainer->isCloned && pContainer->hContactFrom != 0) {
-						TCITEM item = { 0 };
+						TCITEM item = {};
 						item.mask = TCIF_PARAM;
 						TabCtrl_GetItem(hwndTab, TabCtrl_GetCurSel(hwndTab), &item);
 
@@ -1893,7 +1893,7 @@ panel_found:
 
 			// clear temp flags which should NEVER be saved...
 			if (pContainer->isCloned && pContainer->hContactFrom != 0) {
-				TCITEM item = { 0 };
+				TCITEM item = {};
 				item.mask = TCIF_PARAM;
 				pContainer->dwFlags &= ~(CNT_DEFERREDCONFIGURE | CNT_CREATE_MINIMIZED | CNT_DEFERREDSIZEREQUEST | CNT_CREATE_CLONED);
 				for (int i = 0; i < TabCtrl_GetItemCount(hwndTab); i++) {
@@ -2002,7 +2002,7 @@ int TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd)
 {
 	int iItems = TabCtrl_GetItemCount(hwndTab);
 
-	TCITEM item = { 0 };
+	TCITEM item = {};
 	item.mask = TCIF_PARAM;
 	for (int i = 0; i < iItems; i++) {
 		TabCtrl_GetItem(hwndTab, i, &item);
@@ -2014,7 +2014,7 @@ int TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd)
 
 HWND TSAPI GetHWNDFromTabIndex(HWND hwndTab, int idx)
 {
-	TCITEM item = { 0 };
+	TCITEM item = {};
 	item.mask = TCIF_PARAM;
 	TabCtrl_GetItem(hwndTab, idx, &item);
 	return (HWND)item.lParam;
@@ -2367,7 +2367,7 @@ void TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WP
 		return;
 	HWND hwndTab = GetDlgItem(pContainer->hwnd, IDC_MSGTABS);
 
-	TCITEM item = { 0 };
+	TCITEM item = {};
 	item.mask = TCIF_PARAM;
 
 	int nCount = TabCtrl_GetItemCount(hwndTab);

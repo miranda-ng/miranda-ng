@@ -274,7 +274,7 @@ void DoFlashAndSoundWorker(FLASH_PARAMS* p)
 			else if (dat->m_iFlashIcon) {
 				dat->m_hTabIcon = dat->m_iFlashIcon;
 
-				TCITEM item = { 0 };
+				TCITEM item = {};
 				item.mask = TCIF_IMAGE;
 				item.iImage = 0;
 				TabCtrl_SetItem(GetParent(si->hWnd), dat->m_iTabID, &item);

@@ -495,7 +495,7 @@ void CSideBar::populateAll()
 
 	int iItems = (int)TabCtrl_GetItemCount(hwndTab);
 
-	TCITEM item = { 0 };
+	TCITEM item = {};
 	item.mask = TCIF_PARAM;
 
 	m_iTopButtons = 0;

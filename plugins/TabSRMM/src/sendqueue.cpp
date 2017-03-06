@@ -389,7 +389,7 @@ void SendQueue::showErrorControls(CTabBaseDlg *dat, const int showCmd) const
 	HWND	hwndDlg = dat->GetHwnd();
 
 	if (showCmd) {
-		TCITEM item = { 0 };
+		TCITEM item = {};
 		dat->m_hTabIcon = PluginConfig.g_iconErr;
 		item.mask = TCIF_IMAGE;
 		item.iImage = 0;

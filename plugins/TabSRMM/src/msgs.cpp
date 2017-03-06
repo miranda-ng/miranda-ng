@@ -117,18 +117,14 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // basic window class
 
-CTabBaseDlg::CTabBaseDlg(TNewWindowData *pData, int iResource)
+CTabBaseDlg::CTabBaseDlg(int iResource)
 	: CSrmmBaseDialog(g_hInst, iResource),
 	m_log(this, IDC_LOG),
 	m_message(this, IDC_MESSAGE),
-	newData(pData),
-	m_pPanel(this),
-	
-	m_pContainer(pData->pContainer)
+	m_pPanel(this)
 {
 	m_pLog = &m_log;
 	m_pEntry = &m_message;
-	m_hContact = pData->hContact;
 	
 	m_autoClose = 0;
 	m_forceResizable = true;
@@ -449,7 +445,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 		if (pContainer == NULL)
 			pContainer = CreateContainer(szName, FALSE, hContact);
 		if (pContainer)
-			CreateNewTabForContact(pContainer, hContact, 0, NULL, TRUE, TRUE, FALSE, 0);
+			CreateNewTabForContact(pContainer, hContact, true, true, false, 0);
 	}
 	return 0;
 }
@@ -499,7 +495,7 @@ INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar
 		if (pContainer == NULL)
 			pContainer = CreateContainer(szName, FALSE, hContact);
 		if (pContainer)
-			CreateNewTabForContact(pContainer, hContact, isWchar, pszMsg, TRUE, TRUE, FALSE, 0);
+			CreateNewTabForContact(pContainer, hContact, true, true, false, 0, isWchar, pszMsg);
 	}
 	return 0;
 }
@@ -625,7 +621,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 // bActivateTab: make the new tab the active one
 // bPopupContainer: restore container if it was minimized, otherwise flash it...
 
-HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, int isSend, const char *pszInitialText, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup, MEVENT hdbEvent)
+HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, bool bActivateTab, bool bPopupContainer, bool bWantPopup, MEVENT hdbEvent, bool bIsUnicode, const char *pszInitialText)
 {
 	if (M.FindWindow(hContact) != 0) {
 		_DebugPopup(hContact, L"Warning: trying to create duplicate window");
@@ -638,16 +634,10 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 			if ((pContainer = CreateContainer(L"default", CNT_CREATEFLAG_CLONED, hContact)) == NULL)
 				return 0;
 
-	TNewWindowData newData = { 0 };
-	newData.hContact = hContact;
-	newData.isWchar = isSend;
-	newData.szInitialText = pszInitialText;
-	char *szProto = GetContactProto(newData.hContact);
-
-	memset(&newData.item, 0, sizeof(newData.item));
+	char *szProto = GetContactProto(hContact);
 
 	// obtain various status information about the contact
-	wchar_t *contactName = pcli->pfnGetContactDisplayName(newData.hContact, 0);
+	wchar_t *contactName = pcli->pfnGetContactDisplayName(hContact, 0);
 
 	// cut nickname if larger than x chars...
 	wchar_t newcontactname[128], tabtitle[128];
@@ -661,17 +651,12 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	}
 	else wcsncpy_s(newcontactname, L"_U_", _TRUNCATE);
 
-	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
 	if (M.GetByte("tabstatus", 1))
 		mir_snwprintf(tabtitle, L"%s (%s)  ", newcontactname, szStatus);
 	else
 		mir_snwprintf(tabtitle, L"%s   ", newcontactname);
-
-	newData.item.pszText = tabtitle;
-	newData.item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
-	newData.item.iImage = 0;
-	newData.item.cchTextMax = _countof(tabtitle);
 
 	HWND hwndTab = GetDlgItem(pContainer->hwnd, IDC_MSGTABS);
 	// hide the active tab
@@ -680,10 +665,10 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 
 	int iTabIndex_wanted = M.GetDword(hContact, "tabindex", pContainer->iChilds * 100);
 	int iCount = TabCtrl_GetItemCount(hwndTab);
-	TCITEM item = { 0 };
 
 	pContainer->iTabIndex = iCount;
 	if (iCount > 0) {
+		TCITEM item = {};
 		for (int i = iCount - 1; i >= 0; i--) {
 			item.mask = TCIF_PARAM;
 			TabCtrl_GetItem(hwndTab, i, &item);
@@ -697,22 +682,34 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 		}
 	}
 
-	int newItem = TabCtrl_InsertItem(hwndTab, pContainer->iTabIndex, &newData.item);
+	TCITEM item = {};
+	item.pszText = tabtitle;
+	item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
+	item.iImage = 0;
+	item.cchTextMax = _countof(tabtitle);
+	int iTabId = TabCtrl_InsertItem(hwndTab, pContainer->iTabIndex, &item);
+
 	SendMessage(hwndTab, EM_REFRESHWITHOUTCLIP, 0, 0);
 	if (bActivateTab)
-		TabCtrl_SetCurSel(hwndTab, newItem);
-	newData.iTabID = newItem;
-	newData.iTabImage = newData.item.iImage;
-	newData.pContainer = pContainer;
-	newData.iActivate = (int)bActivateTab;
-	pContainer->iChilds++;
-	newData.bWantPopup = bWantPopup;
-	newData.hdbEvent = hdbEvent;
+		TabCtrl_SetCurSel(hwndTab, iTabId);
 	
-	CSrmmWindow *pWindow = new CSrmmWindow(&newData);
+	CSrmmWindow *pWindow = new CSrmmWindow();
+	pWindow->m_hContact = hContact;
+	pWindow->m_iTabID = iTabId;
+	pWindow->m_pContainer = pContainer;
+	pContainer->iChilds++;
+
+	pWindow->m_bActivate = bActivateTab;
+	pWindow->m_bWantPopup = bWantPopup;
+	pWindow->m_hDbEventFirst = hdbEvent;
+	if (pszInitialText)
+		pWindow->wszInitialText = (bIsUnicode) ? mir_wstrdup((const wchar_t*)pszInitialText) : mir_a2u(pszInitialText);
 	pWindow->SetParent(hwndTab);
 	pWindow->Create();
+
 	HWND hwndNew = pWindow->GetHwnd();
+	item.lParam = (LPARAM)hwndNew;
+	TabCtrl_SetItem(hwndTab, iTabId, &item);
 
 	// switchbar support
 	if (pContainer->dwFlags & CNT_SIDEBAR)

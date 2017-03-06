@@ -1415,7 +1415,7 @@ void CTabBaseDlg::DM_UpdateTitle(WPARAM, LPARAM lParam)
 	if (m_iTabID == -1)
 		return;
 
-	TCITEM item = { 0 };
+	TCITEM item = {};
 
 	wchar_t newtitle[128];
 	if (m_hContact) {

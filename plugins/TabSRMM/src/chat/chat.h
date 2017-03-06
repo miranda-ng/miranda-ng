@@ -114,8 +114,6 @@ HICON LoadIconEx(char *pszIcoLibName);
 // services.c
 void ShowRoom(SESSION_INFO *si);
 
-HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup);
-
 // manager.c
 SESSION_INFO* SM_FindSessionByHWND(HWND h);
 SESSION_INFO* SM_FindSessionByHCONTACT(MCONTACT h);

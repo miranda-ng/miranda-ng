@@ -28,134 +28,6 @@
 
 #include "../stdafx.h"
 
-HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup)
-{
-	MCONTACT hContact = si->hContact;
-	if (M.FindWindow(hContact) != 0)
-		return 0;
-
-	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6)) {
-		if ((pContainer = FindMatchingContainer(L"default")) == NULL) {
-			wchar_t szName[CONTAINER_NAMELEN + 1];
-			mir_snwprintf(szName, L"default");
-			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact)) == NULL)
-				return 0;
-		}
-	}
-
-	TNewWindowData newData = { 0 };
-	newData.hContact = hContact;
-	memset(&newData.item, 0, sizeof(newData.item));
-
-	wchar_t *contactName = pcli->pfnGetContactDisplayName(newData.hContact, 0);
-
-	// cut nickname if larger than x chars...
-	wchar_t newcontactname[128];
-	if (mir_wstrlen(contactName) > 0) {
-		if (M.GetByte("cuttitle", 0))
-			CutContactName(contactName, newcontactname, _countof(newcontactname));
-		else
-			wcsncpy_s(newcontactname, contactName, _TRUNCATE);
-	}
-	else wcsncpy_s(newcontactname, L"_U_", _TRUNCATE);
-
-	newData.item.pszText = newcontactname;
-	newData.item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
-	newData.item.iImage = 0;
-
-	HWND hwndTab = GetDlgItem(pContainer->hwnd, IDC_MSGTABS);
-
-	// hide the active tab
-	if (pContainer->hwndActive && bActivateTab)
-		ShowWindow(pContainer->hwndActive, SW_HIDE);
-
-	int iTabIndex_wanted = M.GetDword(hContact, "tabindex", pContainer->iChilds * 100);
-	int iCount = TabCtrl_GetItemCount(hwndTab);
-
-	pContainer->iTabIndex = iCount;
-	if (iCount > 0) {
-		TCITEM item = { 0 };
-		for (int i = iCount - 1; i >= 0; i--) {
-			item.mask = TCIF_PARAM;
-			TabCtrl_GetItem(hwndTab, i, &item);
-			HWND hwnd = (HWND)item.lParam;
-			CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-			if (dat) {
-				int relPos = M.GetDword(dat->m_hContact, "tabindex", i * 100);
-				if (iTabIndex_wanted <= relPos)
-					pContainer->iTabIndex = i;
-			}
-		}
-	}
-
-	int newItem = TabCtrl_InsertItem(hwndTab, pContainer->iTabIndex, &newData.item);
-	SendMessage(hwndTab, EM_REFRESHWITHOUTCLIP, 0, 0);
-	if (bActivateTab)
-		TabCtrl_SetCurSel(hwndTab, newItem);
-	newData.iTabID = newItem;
-	newData.iTabImage = newData.item.iImage;
-	newData.pContainer = pContainer;
-	newData.iActivate = bActivateTab;
-	pContainer->iChilds++;
-	newData.bWantPopup = bWantPopup;
-	newData.si = si;
-
-	CChatRoomDlg *pDlg = new CChatRoomDlg(&newData);
-	pDlg->SetParent(GetDlgItem(pContainer->hwnd, IDC_MSGTABS));
-	pDlg->Create();
-
-	HWND hwndNew = pDlg->GetHwnd();
-	if (pContainer->dwFlags & CNT_SIDEBAR) {
-		CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwndNew, GWLP_USERDATA);
-		if (dat)
-			pContainer->SideBar->addSession(dat, pContainer->iTabIndex);
-	}
-	SendMessage(pContainer->hwnd, WM_SIZE, 0, 0);
-	// if the container is minimized, then pop it up...
-	if (IsIconic(pContainer->hwnd)) {
-		if (bPopupContainer) {
-			SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-			SetFocus(pContainer->hwndActive);
-		}
-		else {
-			if (pContainer->dwFlags & CNT_NOFLASH)
-				SendMessage(pContainer->hwnd, DM_SETICON, 0, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
-			else
-				FlashContainer(pContainer, 1, 0);
-		}
-	}
-	if (bActivateTab) {
-		if (PluginConfig.m_bHideOnClose && !IsWindowVisible(pContainer->hwnd)) {
-			WINDOWPLACEMENT wp = { 0 };
-			wp.length = sizeof(wp);
-			GetWindowPlacement(pContainer->hwnd, &wp);
-
-			BroadCastContainer(pContainer, DM_CHECKSIZE, 0, 0);			// make sure all tabs will re-check layout on activation
-			if (wp.showCmd == SW_SHOWMAXIMIZED)
-				ShowWindow(pContainer->hwnd, SW_SHOWMAXIMIZED);
-			else {
-				if (bPopupContainer)
-					ShowWindow(pContainer->hwnd, SW_SHOWNORMAL);
-				else
-					ShowWindow(pContainer->hwnd, SW_SHOWMINNOACTIVE);
-			}
-			SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);
-			SetFocus(hwndNew);
-		}
-		else {
-			SetFocus(hwndNew);
-			RedrawWindow(pContainer->hwnd, NULL, NULL, RDW_INVALIDATE);
-			UpdateWindow(pContainer->hwnd);
-			if (GetForegroundWindow() != pContainer->hwnd && bPopupContainer == TRUE)
-				SetForegroundWindow(pContainer->hwnd);
-		}
-	}
-
-	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled && !M.GetByte("forceAeroPeek", 0))
-		CWarning::show(CWarning::WARN_AEROPEEK_SKIN, MB_ICONWARNING | MB_OK);
-	return hwndNew;		// return handle of the new dialog
-}
-
 void ShowRoom(SESSION_INFO *si)
 {
 	if (si == nullptr)
@@ -179,6 +51,108 @@ void ShowRoom(SESSION_INFO *si)
 	}
 	if (pContainer == nullptr)
 		pContainer = CreateContainer(szName, FALSE, si->hContact);
-	if (pContainer)
-		si->hWnd = CreateNewRoom(pContainer, si, TRUE, TRUE, FALSE);
+	if (pContainer == nullptr)
+		return; // smth went wrong, nothing to do here
+
+	MCONTACT hContact = si->hContact;
+	if (M.FindWindow(hContact) != 0)
+		return;
+
+	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6)) {
+		if ((pContainer = FindMatchingContainer(L"default")) == NULL) {
+			wchar_t szName[CONTAINER_NAMELEN + 1];
+			mir_snwprintf(szName, L"default");
+			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact)) == NULL)
+				return;
+		}
+	}
+
+	wchar_t *contactName = pcli->pfnGetContactDisplayName(hContact, 0);
+
+	// cut nickname if larger than x chars...
+	wchar_t newcontactname[128];
+	if (mir_wstrlen(contactName) > 0) {
+		if (M.GetByte("cuttitle", 0))
+			CutContactName(contactName, newcontactname, _countof(newcontactname));
+		else
+			wcsncpy_s(newcontactname, contactName, _TRUNCATE);
+	}
+	else wcsncpy_s(newcontactname, L"_U_", _TRUNCATE);
+
+	HWND hwndTab = GetDlgItem(pContainer->hwnd, IDC_MSGTABS);
+
+	// hide the active tab
+	if (pContainer->hwndActive)
+		ShowWindow(pContainer->hwndActive, SW_HIDE);
+
+	int iTabIndex_wanted = M.GetDword(hContact, "tabindex", pContainer->iChilds * 100);
+	int iCount = TabCtrl_GetItemCount(hwndTab);
+
+	pContainer->iTabIndex = iCount;
+	if (iCount > 0) {
+		TCITEM item = {};
+		for (int i = iCount - 1; i >= 0; i--) {
+			item.mask = TCIF_PARAM;
+			TabCtrl_GetItem(hwndTab, i, &item);
+			HWND hwnd = (HWND)item.lParam;
+			CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			if (dat) {
+				int relPos = M.GetDword(dat->m_hContact, "tabindex", i * 100);
+				if (iTabIndex_wanted <= relPos)
+					pContainer->iTabIndex = i;
+			}
+		}
+	}
+
+	TCITEM item = {};
+	item.pszText = newcontactname;
+	item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
+	int iTabId = TabCtrl_InsertItem(hwndTab, pContainer->iTabIndex, &item);
+
+	SendMessage(hwndTab, EM_REFRESHWITHOUTCLIP, 0, 0);
+	TabCtrl_SetCurSel(hwndTab, iTabId);
+	pContainer->iChilds++;
+
+	CChatRoomDlg *pDlg = new CChatRoomDlg(si);
+	pDlg->m_iTabID = iTabId;
+	pDlg->m_pContainer = pContainer;
+	pDlg->SetParent(hwndTab);
+	pDlg->Create();
+
+	HWND hwndNew = pDlg->GetHwnd();
+	
+	if (pContainer->dwFlags & CNT_SIDEBAR)
+		pContainer->SideBar->addSession(pDlg, pContainer->iTabIndex);
+
+	SendMessage(pContainer->hwnd, WM_SIZE, 0, 0);
+	// if the container is minimized, then pop it up...
+	if (IsIconic(pContainer->hwnd)) {
+		SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+		SetFocus(pContainer->hwndActive);
+	}
+
+	if (PluginConfig.m_bHideOnClose && !IsWindowVisible(pContainer->hwnd)) {
+		WINDOWPLACEMENT wp = { 0 };
+		wp.length = sizeof(wp);
+		GetWindowPlacement(pContainer->hwnd, &wp);
+
+		BroadCastContainer(pContainer, DM_CHECKSIZE, 0, 0);			// make sure all tabs will re-check layout on activation
+		if (wp.showCmd == SW_SHOWMAXIMIZED)
+			ShowWindow(pContainer->hwnd, SW_SHOWMAXIMIZED);
+		else {
+			ShowWindow(pContainer->hwnd, SW_SHOWNORMAL);
+		}
+		SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);
+		SetFocus(hwndNew);
+	}
+	else {
+		SetFocus(hwndNew);
+		RedrawWindow(pContainer->hwnd, NULL, NULL, RDW_INVALIDATE);
+		UpdateWindow(pContainer->hwnd);
+		if (GetForegroundWindow() != pContainer->hwnd)
+			SetForegroundWindow(pContainer->hwnd);
+	}
+
+	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled && !M.GetByte("forceAeroPeek", 0))
+		CWarning::show(CWarning::WARN_AEROPEEK_SKIN, MB_ICONWARNING | MB_OK);
 }

@@ -615,7 +615,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 		InvalidateRect(hwnd, NULL, FALSE);
 	tabdat->iHoveredTabIndex = hotItem;
 
-	TCITEM tci = { 0 };
+	TCITEM tci = {};
 	tci.mask = TCIF_PARAM;
 
 	tabdat->fAeroTabs = (CSkin::m_fAeroSkinsValid && (isAero || PluginConfig.m_fillColor)) ? TRUE : FALSE;
@@ -1258,7 +1258,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				ti.cbSize = sizeof(ti);
 				ti.ptCursor = pt;
 
-				TCITEM item = { 0 };
+				TCITEM item = {};
 				item.mask = TCIF_PARAM;
 				int nItem = GetTabItemFromMouse(hwnd, &pt);
 				if (nItem >= 0 && nItem < TabCtrl_GetItemCount(hwnd)) {

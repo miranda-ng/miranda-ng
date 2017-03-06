@@ -1512,8 +1512,8 @@ static void __cdecl phase2(void * lParam)
 // the actual group chat session window procedure.Handles the entire chat session window
 // which is usually a (tabbed) child of a container class window.
 
-CChatRoomDlg::CChatRoomDlg(TNewWindowData *pData)
-	: CTabBaseDlg(pData, IDD_CHANNEL),
+CChatRoomDlg::CChatRoomDlg(SESSION_INFO *_si)
+	: CTabBaseDlg(IDD_CHANNEL),
 	m_btnOk(this, IDOK),
 	m_list(this, IDC_LIST),
 	m_btnBold(this, IDC_BOLD),
@@ -1528,7 +1528,7 @@ CChatRoomDlg::CChatRoomDlg(TNewWindowData *pData)
 {
 	m_bType = SESSIONTYPE_CHAT;
 
-	si = newData->si;
+	si = _si;
 	m_hContact = si->hContact;
 	m_szProto = GetContactProto(si->hContact);
 
@@ -1575,10 +1575,7 @@ void CChatRoomDlg::OnInitDialog()
 	m_cache = CContactCache::getContactCache(m_hContact);
 	m_cache->updateNick();
 	m_cache->updateUIN();
-	newData->item.lParam = (LPARAM)m_hwnd;
-	TabCtrl_SetItem(m_hwndParent, newData->iTabID, &newData->item);
-	m_iTabID = newData->iTabID;
-	m_pContainer = newData->pContainer;
+
 	si->hWnd = m_hwnd;
 	si->dat = this;
 	m_bIsAutosizingInput = IsAutoSplitEnabled();
@@ -2060,7 +2057,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (m_cache->getStatus() != m_cache->getOldStatus()) {
 				wcsncpy_s(m_wszStatus, pcli->pfnGetStatusModeDescription(m_wStatus, 0), _TRUNCATE);
 
-				TCITEM item = { 0 };
+				TCITEM item = {};
 				item.mask = TCIF_TEXT;
 				item.pszText = m_wszTitle;
 				TabCtrl_SetItem(m_hwndParent, m_iTabID, &item);
@@ -3037,7 +3034,7 @@ LABEL_SHOWWINDOW:
 					i++;
 				TabCtrl_SetCurSel(m_hwndParent, i);
 
-				TCITEM item = { 0 };
+				TCITEM item = {};
 				item.mask = TCIF_PARAM;
 				TabCtrl_GetItem(m_hwndParent, i, &item); // retrieve dialog hwnd for the now active tab...
 				m_pContainer->hwndActive = (HWND)item.lParam;

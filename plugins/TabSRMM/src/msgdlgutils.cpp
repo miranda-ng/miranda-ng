@@ -79,7 +79,7 @@ void TSAPI RearrangeTab(HWND hwndDlg, const CTabBaseDlg *dat, int iMode, BOOL fS
 	HWND hwndTab = GetParent(hwndDlg);
 	wchar_t oldText[512];
 
-	TCITEM item = { 0 };
+	TCITEM item = {};
 	item.mask = TCIF_IMAGE | TCIF_TEXT | TCIF_PARAM;
 	item.pszText = oldText;
 	item.cchTextMax = _countof(oldText);
@@ -200,7 +200,7 @@ void CTabBaseDlg::FlashTab(bool bInvertMode)
 	if (bInvertMode)
 		m_bTabFlash = !m_bTabFlash;
 
-	TCITEM item = { 0 };
+	TCITEM item = {};
 	item.mask = TCIF_IMAGE;
 	TabCtrl_SetItem(m_hwndParent, m_iTabID, &item);
 	if (m_pContainer->dwFlags & CNT_SIDEBAR)
@@ -480,7 +480,7 @@ void CTabBaseDlg::UpdateStatusBar() const
 
 void TSAPI HandleIconFeedback(CTabBaseDlg *dat, HICON iIcon)
 {
-	TCITEM item = { 0 };
+	TCITEM item = {};
 
 	if (iIcon == (HICON)-1) { // restore status image
 		if (dat->m_dwFlags & MWF_ERRORSTATE)
@@ -722,7 +722,7 @@ void CTabBaseDlg::ShowPicture(bool showNewPic)
 	RECT rc;
 	GetWindowRect(GetDlgItem(m_hwnd, IDC_CONTACTPIC), &rc);
 	if (m_minEditBoxSize.cy + DPISCALEY_S(3) > m_splitterY)
-		SendMessage(m_hwnd, DM_SPLITTERMOVED, (WPARAM)rc.bottom - m_minEditBoxSize.cy, (LPARAM)GetDlgItem(m_hwnd, IDC_SPLITTER));
+		SendMessage(m_hwnd, DM_SPLITTERMOVED, (WPARAM)rc.bottom - m_minEditBoxSize.cy, (LPARAM)GetDlgItem(m_hwnd, IDC_SPLITTERY));
 	if (!showNewPic)
 		SetDialogToType(m_hwnd);
 	else

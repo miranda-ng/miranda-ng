@@ -381,7 +381,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					else
 						SendMessage(hWnd, WM_CLOSE, 0, 1);
 
-					CreateNewTabForContact((TContainerData*)wParam, lParam, 0, NULL, TRUE, TRUE, FALSE, 0);
+					CreateNewTabForContact((TContainerData*)wParam, lParam, true, true, false);
 				}
 			}
 		}
