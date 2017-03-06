@@ -43,12 +43,17 @@ public:
 		AddBearerAuthHeader(token);
 		AddHeader("Content-Type", "application/octet-stream");
 
-		JSONNode params(JSON_NODE);
-		params
+		
+		JSONNode cursor;
+		cursor.set_name("cursor");
+		cursor
 			<< JSONNode("session_id", sessionId)
 			<< JSONNode("offset", (unsigned long)offset);
 
-		AddHeader("Dropbox-API-Arg", params.write().c_str());
+		JSONNode param;
+		param << cursor;
+
+		AddHeader("Dropbox-API-Arg", param.write().c_str());
 
 		SetData(data, size);
 	}
