@@ -710,7 +710,8 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 						SWP_NOSENDCHANGING | SWP_NOACTIVATE/*|SWP_NOCOPYBITS*/);
 					if (!pContainer->bSizingLoop && sizeChanged) {
 						dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-						dat->DM_ScrollToBottom(0, 1);
+						if (dat)
+							dat->DM_ScrollToBottom(0, 1);
 					}
 				}
 				else if (sizeChanged)
