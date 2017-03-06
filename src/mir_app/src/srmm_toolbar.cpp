@@ -207,7 +207,7 @@ MIR_APP_DLL(int) Srmm_SetButtonState(MCONTACT hContact, BBButton *bbdi)
 		ShowWindow(hwndBtn, (bbdi->bbbFlags & BBSF_HIDDEN) ? SW_HIDE : SW_SHOW);
 		EnableWindow(hwndBtn, !(bbdi->bbbFlags & BBSF_DISABLED));
 		Button_SetCheck(hwndBtn, (bbdi->bbbFlags & BBSF_PUSHED) != 0);
-		Button_SetCheck(hwndBtn, (bbdi->bbbFlags & BBSF_RELEASED) != 0);
+		Button_SetCheck(hwndBtn, (bbdi->bbbFlags & BBSF_RELEASED) == 0);
 	}
 	return 0;
 }
