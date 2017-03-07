@@ -156,7 +156,7 @@ struct TLogTheme
 
 struct TContainerSettings
 {
-	bool    fPrivate;
+	BOOL    fPrivate;
 	DWORD   dwFlags;
 	DWORD   dwFlagsEx;
 	DWORD   dwTransparency;
