@@ -104,7 +104,7 @@ void CJabberProto::OnIqResultNestedRosterGroups(HXML iqNode, CJabberIqInfo *pInf
 	// roster request
 	wchar_t *szUserData = mir_wstrdup(szGroupDelimeter ? szGroupDelimeter : L"\\");
 	m_ThreadInfo->send(
-		XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetRoster, JABBER_IQ_TYPE_GET, NULL, 0, -1, (void*)szUserData))
+		XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetRoster, JABBER_IQ_TYPE_GET, NULL, 0, -1, (void*)szUserData))
 			<< XCHILDNS(L"query", JABBER_FEAT_IQ_ROSTER));
 }
 
@@ -305,7 +305,7 @@ void CJabberProto::OnIqResultBind(HXML iqNode, CJabberIqInfo *pInfo)
 		}
 		if (m_ThreadInfo->bIsSessionAvailable)
 			m_ThreadInfo->send(
-				XmlNodeIq( AddIQ(&CJabberProto::OnIqResultSession, JABBER_IQ_TYPE_SET))
+				XmlNodeIq(AddIQ(&CJabberProto::OnIqResultSession, JABBER_IQ_TYPE_SET))
 				<< XCHILDNS(L"session", L"urn:ietf:params:xml:ns:xmpp-session"));
 		else
 			OnLoggedIn();

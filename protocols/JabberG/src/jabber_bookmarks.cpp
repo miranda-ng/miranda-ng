@@ -133,7 +133,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 
 				item->bAutoJoin = IsDlgButtonChecked(hwndDlg, IDC_CHECK_BM_AUTOJOIN) == BST_CHECKED;
 
-				XmlNodeIq iq( param->ppro->AddIQ(&CJabberProto::OnIqResultSetBookmarks, JABBER_IQ_TYPE_SET));
+				XmlNodeIq iq(param->ppro->AddIQ(&CJabberProto::OnIqResultSetBookmarks, JABBER_IQ_TYPE_SET));
 				param->ppro->SetBookmarkRequest(iq);
 				param->ppro->m_ThreadInfo->send(iq);
 			}
@@ -240,7 +240,7 @@ private:
 
 		m_lvBookmarks.SetItemState(iItem, 0, LVIS_SELECTED); // Unselect the item
 
-		XmlNodeIq iq( m_proto->AddIQ(&CJabberProto::OnIqResultSetBookmarks, JABBER_IQ_TYPE_SET));
+		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultSetBookmarks, JABBER_IQ_TYPE_SET));
 		m_proto->SetBookmarkRequest(iq);
 		m_proto->m_ThreadInfo->send(iq);
 	}
@@ -248,9 +248,9 @@ private:
 
 CJabberDlgBookmarks::CJabberDlgBookmarks(CJabberProto *proto) :
 	CSuper(proto, IDD_BOOKMARKS, NULL),
-	m_btnAdd(this,      IDC_ADD,    SKINICON_OTHER_ADDCONTACT, LPGEN("Add")),
-	m_btnEdit(this,     IDC_EDIT,   SKINICON_OTHER_RENAME,     LPGEN("Edit")),
-	m_btnRemove(this,   IDC_REMOVE, SKINICON_OTHER_DELETE,     LPGEN("Remove")),
+	m_btnAdd(this, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add")),
+	m_btnEdit(this, IDC_EDIT, SKINICON_OTHER_RENAME, LPGEN("Edit")),
+	m_btnRemove(this, IDC_REMOVE, SKINICON_OTHER_DELETE, LPGEN("Remove")),
 	m_lvBookmarks(this, IDC_BM_LIST, true, true)
 {
 	m_lvBookmarks.OnItemActivate = Callback(this, &CJabberDlgBookmarks::lvBookmarks_OnDoubleClick);
@@ -264,7 +264,7 @@ void CJabberDlgBookmarks::UpdateData()
 	if (!m_proto->m_bJabberOnline) return;
 
 	m_proto->m_ThreadInfo->send(
-		XmlNodeIq( m_proto->AddIQ(&CJabberProto::OnIqResultDiscoBookmarks, JABBER_IQ_TYPE_GET))
+		XmlNodeIq(m_proto->AddIQ(&CJabberProto::OnIqResultDiscoBookmarks, JABBER_IQ_TYPE_GET))
 			<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS(L"storage", L"storage:bookmarks"));
 }
 

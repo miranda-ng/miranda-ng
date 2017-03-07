@@ -168,7 +168,7 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 void CJabberProto::sendCaptchaResult(wchar_t* buf, ThreadData *info, LPCTSTR from, LPCTSTR challenge, LPCTSTR fromjid,  LPCTSTR sid)
 {
 	XmlNodeIq iq(L"set", SerialNext());
-	HXML query= iq <<XATTR(L"to", from) << XCHILD(L"captcha") << XATTR(L"xmlns", L"urn:xmpp:captcha") << XCHILD (L"x") << XATTR(L"xmlns", JABBER_FEAT_DATA_FORMS) << XATTR(L"type", L"submit");
+	HXML query= iq <<XATTR(L"to", from) << XCHILDNS(L"captcha", L"urn:xmpp:captcha") << XCHILDNS(L"x", JABBER_FEAT_DATA_FORMS) << XATTR(L"type", L"submit");
 		query << XCHILD(L"field") << XATTR (L"var", L"FORM_TYPE") << XCHILD(L"value", L"urn:xmpp:captcha");
 		query << XCHILD(L"field") << XATTR (L"var", L"from") << XCHILD(L"value", fromjid);
 		query << XCHILD(L"field") << XATTR (L"var", L"challenge") << XCHILD(L"value", challenge);
@@ -182,6 +182,6 @@ void CJabberProto::sendCaptchaError(ThreadData *info, LPCTSTR from, LPCTSTR to, 
 	XmlNode message(L"message");
 	message << XATTR(L"type", L"error") << XATTR(L"to", from) << XATTR(L"id", challenge) << XATTR(L"from", to)
 		<< XCHILD(L"error") << XATTR(L"type", L"modify")
-			<< XCHILD(L"not-acceptable") << XATTR(L"xmlns", L"urn:ietf:params:xml:ns:xmpp-stanzas");
+			<< XCHILDNS(L"not-acceptable", L"urn:ietf:params:xml:ns:xmpp-stanzas");
 	info->send(message);
 }

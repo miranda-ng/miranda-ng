@@ -598,103 +598,77 @@ wchar_t* StripResourceFromJid(const wchar_t *source)
 
 void CJabberProto::OmemoAnnounceDevice()
 {
-	//check "OmemoDeviceId%d" for own id and send  updated list if not exist
+	// check "OmemoDeviceId%d" for own id and send  updated list if not exist
 	DWORD own_id = omemo::GetOwnDeviceId(this);
-	int i = 0;
+
 	char setting_name[64];
-	mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-	for (DWORD val = getDword(setting_name, 0); val != 0; ++i, mir_snprintf(setting_name, "OmemoDeviceId%d", i), val = getDword(setting_name, 0))
-	{
+	for (int i = 0;; ++i) {
+		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
+		DWORD val = getDword(setting_name);
+		if (val == 0)
+			break;
 		if (val == own_id)
-			return; //nothing to do, list is fresh enough
+			return; // nothing to do, list is fresh enough
 	}
 
-	//add own device id
-	//construct node
-	XmlNodeIq iq(L"set", SerialNext());
-	iq << XATTR(L"from", ptrW(StripResourceFromJid(m_ThreadInfo->fullJID)));
-	HXML pubsub_node = XmlAddChild(iq, L"pubsub");
-	xmlAddAttr(pubsub_node, L"xmlns", L"http://jabber.org/protocol/pubsub");
-	HXML publish_node = XmlAddChild(pubsub_node, L"publish");
-	xmlAddAttr(publish_node, L"node", JABBER_FEAT_OMEMO L":devicelist");
-	HXML item_node = XmlAddChild(publish_node, L"item");
-	HXML list_node = XmlAddChild(item_node, L"list");
-	xmlAddAttr(list_node, L"xmlns", JABBER_FEAT_OMEMO);
-	i = 0;
-	mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-	for (DWORD val = getDword(setting_name, 0); val != 0; ++i, mir_snprintf(setting_name, "OmemoDeviceId%d", i), val = getDword(setting_name, 0))
-	{
-		HXML device_node = XmlAddChild(list_node, L"device");
-		xmlAddAttrInt(device_node, L"id", val);
+	// add own device id
+	// construct node
+	XmlNodeIq iq(L"set", SerialNext()); iq << XATTR(L"from", ptrW(StripResourceFromJid(m_ThreadInfo->fullJID)));
+	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish") << XATTR(L"node", JABBER_FEAT_OMEMO L":devicelist");
+	HXML list_node = publish_node << XCHILDNS(L"list", JABBER_FEAT_OMEMO);
+
+	for (int i = 0; ; ++i) {
+		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
+		DWORD val = getDword(setting_name);
+		if (val == 0)
+			break;
+
+		list_node << XCHILD(L"device") << XATTRI(L"id", val);
 	}
-	HXML device_node = XmlAddChild(list_node, L"device");
-	xmlAddAttrInt(device_node, L"id", own_id);
-	
-	//send device list back
+	list_node << XCHILD(L"device") << XATTRI(L"id", own_id);
+
+	// send device list back
 	m_ThreadInfo->send(iq);
-
 }
 
 void CJabberProto::OmemoSendBundle()
 {
-	//get own device id
+	// get own device id
 	DWORD own_id = omemo::GetOwnDeviceId(this);
-	//construct bundle node
-	XmlNodeIq iq(L"set", SerialNext());
-	iq << XATTR(L"from", ptrW(StripResourceFromJid(m_ThreadInfo->fullJID)));
-	//TODO: add "from"
-	HXML pubsub_node = XmlAddChild(iq, L"pubsub");
-	xmlAddAttr(pubsub_node, L"xmlns", L"http://jabber.org/protocol/pubsub");
-	HXML publish_node = XmlAddChild(pubsub_node, L"publish");
+	// construct bundle node
+	XmlNodeIq iq(L"set", SerialNext()); iq << XATTR(L"from", ptrW(StripResourceFromJid(m_ThreadInfo->fullJID)));
+	// TODO: add "from"
+	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish");
 	{
 		wchar_t attr_val[128];
 		mir_snwprintf(attr_val, L"%s:bundles:%d", JABBER_FEAT_OMEMO, own_id);
-		xmlAddAttr(publish_node, L"node", attr_val);
+		publish_node << XATTR(L"node", attr_val);
 	}
-	HXML item_node = XmlAddChild(publish_node, L"item");
-	HXML bundle_node = XmlAddChild(item_node, L"bundle");
-	xmlAddAttr(bundle_node, L"xmlns", JABBER_FEAT_OMEMO);
-	//add signed pre key public
-	{
-		HXML signedPreKeyPublic_node = XmlAddChild(bundle_node, L"signedPreKeyPublic");
-		xmlAddAttr(signedPreKeyPublic_node, L"signedPreKeyId", L"1");
-		ptrW buf(getWStringA("OmemoSignedPreKeyPublic"));
-		xmlSetText(signedPreKeyPublic_node, buf);
-	}
+	HXML bundle_node = publish_node << XCHILD(L"item") << XCHILDNS(L"bundle", JABBER_FEAT_OMEMO);
+
+	// add signed pre key public
+	bundle_node << XCHILD(L"signedPreKeyPublic", ptrW(getWStringA("OmemoSignedPreKeyPublic"))) << XATTR(L"signedPreKeyId", L"1");
+
 	//add pre key signature
-	{
-		HXML signedPreKeySignature_node = XmlAddChild(bundle_node, L"signedPreKeySignature");
-		ptrW buf(getWStringA("OmemoSignedPreKeySignature"));
-		xmlSetText(signedPreKeySignature_node, buf);
-	}
+	bundle_node << XCHILD(L"signedPreKeySignature", ptrW(getWStringA("OmemoSignedPreKeySignature")));
+
 	//add identity key
 	//it is must be a public key right ?, standart is a bit confusing...
-	{
-		HXML identityKey_node = XmlAddChild(bundle_node, L"identityKey");
-		ptrW buf(getWStringA("OmemoDevicePublicKey"));
-		xmlSetText(identityKey_node, buf);
-	}
+	bundle_node << XCHILD(L"identityKey", ptrW(getWStringA("OmemoDevicePublicKey")));
+
 	//add prekeys
 	HXML prekeys_node = XmlAddChild(bundle_node, L"prekeys");
-	{
-		int i = 0;
-		char setting_name[64];
+
+	char setting_name[64];
+	for (int i = 0;; i++) {
 		mir_snprintf(setting_name, "OmemoPreKey%dPublic", i);
-		wchar_t *val;
-		for (val = getWStringA(setting_name); val && val[0]; ++i, mir_snprintf(setting_name, "OmemoPreKey%dPublic", i), val = getWStringA(setting_name))
-		{
-			HXML preKeyPublic_node = XmlAddChild(prekeys_node, L"preKeyPublic");
-			xmlAddAttrInt(preKeyPublic_node, L"preKeyId", i + 1);
-			xmlSetText(preKeyPublic_node, val);
-			mir_free(val);
-			val = nullptr;
-		}
-		mir_free(val);
-		val = nullptr;
+		ptrW val(getWStringA(setting_name));
+		if (val == nullptr)
+			break;
+
+		prekeys_node << XCHILD(L"preKeyPublic", val) << XATTRI(L"preKeyId", i + 1);
 	}
 
-	//send bundle
+	// send bundle
 	m_ThreadInfo->send(iq);
-
 }
-

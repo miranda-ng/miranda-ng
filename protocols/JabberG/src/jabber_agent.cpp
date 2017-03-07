@@ -105,7 +105,7 @@ public:
 		SetDlgItemText(m_hwnd, IDC_FRAME_TEXT, TranslateT("Please wait..."));
 
 		m_proto->m_ThreadInfo->send( 
-			XmlNodeIq( m_proto->AddIQ(&CJabberProto::OnIqResultGetRegister, JABBER_IQ_TYPE_GET, m_jid))
+			XmlNodeIq(m_proto->AddIQ(&CJabberProto::OnIqResultGetRegister, JABBER_IQ_TYPE_GET, m_jid))
 				<< XQUERY(JABBER_FEAT_REGISTER));
 
 		// Enable WS_EX_CONTROLPARENT on IDC_FRAME (so tab stop goes through all its children)
@@ -236,7 +236,7 @@ public:
 		wchar_t *str2 = (wchar_t*)alloca(sizeof(wchar_t) * 128);
 		int id = 0;
 
-		XmlNodeIq iq( m_proto->AddIQ(&CJabberProto::OnIqResultSetRegister, JABBER_IQ_TYPE_SET, from));
+		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultSetRegister, JABBER_IQ_TYPE_SET, from));
 		HXML query = iq << XQUERY(JABBER_FEAT_REGISTER);
 
 		if ((xNode = XmlGetChild(queryNode , "x")) != NULL) {

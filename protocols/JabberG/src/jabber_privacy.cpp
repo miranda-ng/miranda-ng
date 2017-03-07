@@ -269,7 +269,7 @@ void CJabberProto::OnIqResultPrivacyLists(HXML iqNode, CJabberIqInfo *pInfo)
 				// Query contents only if list editior is visible!
 				if (m_pDlgPrivacyLists)
 					m_ThreadInfo->send(
-						XmlNodeIq( AddIQ(&CJabberProto::OnIqResultPrivacyList, JABBER_IQ_TYPE_GET))
+						XmlNodeIq(AddIQ(&CJabberProto::OnIqResultPrivacyList, JABBER_IQ_TYPE_GET))
 							<< XQUERY(JABBER_FEAT_PRIVACY_LISTS) << XCHILD(L"list") << XATTR(L"name", listName));
 			}
 		}
