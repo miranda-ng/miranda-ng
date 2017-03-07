@@ -684,9 +684,9 @@ void CTabBaseDlg::AdjustBottomAvatarDisplay()
 	bool bInfoPanel = m_pPanel.isActive();
 	HBITMAP hbm = (bInfoPanel && m_pContainer->avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
 	if (hbm) {
-		if (m_dynaSplitter == 0 || m_splitterY == 0)
+		if (m_dynaSplitter == 0 || m_iSplitterY == 0)
 			LoadSplitter();
-		m_dynaSplitter = m_splitterY - DPISCALEY_S(34);
+		m_dynaSplitter = m_iSplitterY - DPISCALEY_S(34);
 		DM_RecalcPictureSize();
 		Utils::showDlgControl(m_hwnd, IDC_CONTACTPIC, m_bShowAvatar ? SW_SHOW : SW_HIDE);
 		InvalidateRect(GetDlgItem(m_hwnd, IDC_CONTACTPIC), NULL, TRUE);
@@ -721,7 +721,7 @@ void CTabBaseDlg::ShowPicture(bool showNewPic)
 
 	RECT rc;
 	GetWindowRect(GetDlgItem(m_hwnd, IDC_CONTACTPIC), &rc);
-	if (m_minEditBoxSize.cy + DPISCALEY_S(3) > m_splitterY)
+	if (m_minEditBoxSize.cy + DPISCALEY_S(3) > m_iSplitterY)
 		SendMessage(m_hwnd, DM_SPLITTERMOVED, (WPARAM)rc.bottom - m_minEditBoxSize.cy, (LPARAM)GetDlgItem(m_hwnd, IDC_SPLITTERY));
 	if (!showNewPic)
 		SetDialogToType(m_hwnd);
@@ -1153,40 +1153,39 @@ void CTabBaseDlg::FindFirstEvent()
 
 void CTabBaseDlg::SaveSplitter()
 {
-	// group chats save their normal splitter position independently
-	if (m_bType == SESSIONTYPE_CHAT || m_bIsAutosizingInput)
+	if (m_bIsAutosizingInput)
 		return;
 
-	if (m_splitterY < DPISCALEY_S(MINSPLITTERY) || m_splitterY < 0)
-		m_splitterY = DPISCALEY_S(MINSPLITTERY);
+	if (m_iSplitterY < DPISCALEY_S(MINSPLITTERY) || m_iSplitterY < 0)
+		m_iSplitterY = DPISCALEY_S(MINSPLITTERY);
 
 	if (m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE)
-		db_set_dw(m_hContact, SRMSGMOD_T, "splitsplity", m_splitterY);
+		db_set_dw(m_hContact, SRMSGMOD_T, "splitsplity", m_iSplitterY);
 	else {
 		if (m_pContainer->settings->fPrivate)
-			m_pContainer->settings->splitterPos = m_splitterY;
+			m_pContainer->settings->iSplitterY = m_iSplitterY;
 		else
-			db_set_dw(0, SRMSGMOD_T, "splitsplity", m_splitterY);
+			db_set_dw(0, SRMSGMOD_T, "splitsplity", m_iSplitterY);
 	}
 }
 
 void CTabBaseDlg::LoadSplitter()
 {
 	if (m_bIsAutosizingInput) {
-		m_splitterY = GetDefaultMinimumInputHeight();
+		m_iSplitterY = GetDefaultMinimumInputHeight();
 		return;
 	}
 
 	if (!(m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE)) {
 		if (!m_pContainer->settings->fPrivate)
-			m_splitterY = (int)M.GetDword("splitsplity", (DWORD)60);
+			m_iSplitterY = (int)M.GetDword("splitsplity", 60);
 		else
-			m_splitterY = m_pContainer->settings->splitterPos;
+			m_iSplitterY = m_pContainer->settings->iSplitterY;
 	}
-	else m_splitterY = (int)M.GetDword(m_hContact, "splitsplity", M.GetDword("splitsplity", (DWORD)70));
+	else m_iSplitterY = (int)M.GetDword(m_hContact, "splitsplity", M.GetDword("splitsplity", 60));
 
-	if (m_splitterY < MINSPLITTERY || m_splitterY < 0)
-		m_splitterY = 150;
+	if (m_iSplitterY < MINSPLITTERY || m_iSplitterY < 0)
+		m_iSplitterY = 150;
 }
 
 void CTabBaseDlg::PlayIncomingSound() const

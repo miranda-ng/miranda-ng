@@ -56,7 +56,7 @@ wchar_t* GetWindowTitle(MCONTACT hContact, const char *szProto)
 				tokens[3] = mir_wstrdup(proto->tszAccountName);
 		}
 		
-		tmplt = db_get_wsa(NULL, SRMMMOD, SRMSGSET_WINDOWTITLE);
+		tmplt = db_get_wsa(0, SRMMMOD, SRMSGSET_WINDOWTITLE);
 		if (tmplt != NULL)
 			tszTemplate = tmplt;
 		else {
@@ -133,33 +133,33 @@ static int GetTabFromHWND(ParentWindowData *dat, HWND child)
 		TCITEM tci = { 0 };
 		tci.mask = TCIF_PARAM;
 		TabCtrl_GetItem(dat->hwndTabs, i, &tci);
-		MessageWindowTabData *mwtd = (MessageWindowTabData *)tci.lParam;
-		if (mwtd->hwnd == child)
+		CScriverWindow *pDlg = (CScriverWindow *)tci.lParam;
+		if (pDlg->GetHwnd() == child)
 			return i;
 	}
 	return -1;
 }
 
-static MessageWindowTabData* GetChildFromTab(HWND hwndTabs, int tabId)
+static CScriverWindow* GetChildFromTab(HWND hwndTabs, int tabId)
 {
 	TCITEM tci = { 0 };
 	tci.mask = TCIF_PARAM;
 	if (TabCtrl_GetItem(hwndTabs, tabId, &tci))
-		return (MessageWindowTabData *)tci.lParam;
+		return (CScriverWindow *)tci.lParam;
 
 	return NULL;
 }
 
-static MessageWindowTabData* GetChildFromHWND(ParentWindowData *dat, HWND hwnd)
+static CScriverWindow* GetChildFromHWND(ParentWindowData *dat, HWND hwnd)
 {
 	int l = TabCtrl_GetItemCount(dat->hwndTabs);
 	for (int i = 0; i < l; i++) {
 		TCITEM tci = { 0 };
 		tci.mask = TCIF_PARAM;
 		TabCtrl_GetItem(dat->hwndTabs, i, &tci);
-		MessageWindowTabData *mwtd = (MessageWindowTabData *)tci.lParam;
-		if (mwtd->hwnd == hwnd)
-			return mwtd;
+		CScriverWindow *pDlg = (CScriverWindow *)tci.lParam;
+		if (pDlg->GetHwnd() == hwnd)
+			return pDlg;
 	}
 	return NULL;
 }
@@ -172,8 +172,8 @@ static void GetMinimunWindowSize(ParentWindowData *dat, SIZE *size)
 	GetWindowRect(dat->hwnd, &rcWindow);
 	GetChildWindowRect(dat, &rc);
 	for (int i = 0; i < dat->childrenCount; i++) {
-		MessageWindowTabData * mwtd = GetChildFromTab(dat->hwndTabs, i);
-		SendMessage(mwtd->hwnd, WM_GETMINMAXINFO, 0, (LPARAM)&mmi);
+		CScriverWindow * pDlg = GetChildFromTab(dat->hwndTabs, i);
+		SendMessage(pDlg->GetHwnd(), WM_GETMINMAXINFO, 0, (LPARAM)&mmi);
 		if (i == 0 || mmi.ptMinTrackSize.x > minW) minW = mmi.ptMinTrackSize.x;
 		if (i == 0 || mmi.ptMinTrackSize.y > minH) minH = mmi.ptMinTrackSize.y;
 	}
@@ -243,18 +243,18 @@ static void ActivateChild(ParentWindowData *dat, HWND child)
 	if (i == -1)
 		return;
 
-	MessageWindowTabData *mwtd;
-	if ((mwtd = GetChildFromTab(dat->hwndTabs, i)) == NULL)
+	CScriverWindow *pDlg = GetChildFromTab(dat->hwndTabs, i);
+	if (pDlg == NULL)
 		return;
 
-	dat->hContact = mwtd->hContact;
+	dat->hContact = pDlg->m_hContact;
 	if (child != dat->hwndActive) {
 		HWND prev = dat->hwndActive;
 		dat->hwndActive = child;
 		SetupStatusBar(dat);
 		SendMessage(dat->hwndActive, GC_UPDATESTATUSBAR, 0, 0);
 		SendMessage(dat->hwndActive, DM_UPDATETITLEBAR, 0, 0);
-		SendMessage(dat->hwnd, WM_SIZE, 0, 0);
+		SendMessage(dat->hwndActive, WM_SIZE, 0, 0);
 		ShowWindow(dat->hwndActive, SW_SHOWNOACTIVATE);
 		SendMessage(dat->hwndActive, DM_SCROLLLOGTOBOTTOM, 0, 0);
 		if (prev != NULL)
@@ -266,26 +266,20 @@ static void ActivateChild(ParentWindowData *dat, HWND child)
 	SendMessage(dat->hwndActive, DM_ACTIVATE, WA_ACTIVE, 0);
 }
 
-static void AddChild(ParentWindowData *dat, HWND hwnd, MCONTACT hContact)
+static void AddChild(ParentWindowData *dat, CScriverWindow *pDlg)
 {
-	MessageWindowTabData *mwtd = (MessageWindowTabData *)mir_alloc(sizeof(MessageWindowTabData));
-	mwtd->hwnd = hwnd;
-	mwtd->hContact = hContact;
-	mwtd->szProto = GetContactProto(hContact);
-	mwtd->parent = dat;
-
 	dat->childrenCount++;
 
 	TCITEM tci;
 	tci.mask = TCIF_PARAM | TCIF_IMAGE | TCIF_TEXT;
-	tci.lParam = (LPARAM)mwtd;
+	tci.lParam = (LPARAM)pDlg;
 	tci.iImage = -1;
 	tci.pszText = L"";
 	TabCtrl_InsertItem(dat->hwndTabs, dat->childrenCount - 1, &tci);
-	SetWindowPos(mwtd->hwnd, HWND_TOP, dat->childRect.left, dat->childRect.top, dat->childRect.right - dat->childRect.left, dat->childRect.bottom - dat->childRect.top, SWP_HIDEWINDOW);
+	SetWindowPos(pDlg->GetHwnd(), HWND_TOP, dat->childRect.left, dat->childRect.top, dat->childRect.right - dat->childRect.left, dat->childRect.bottom - dat->childRect.top, SWP_HIDEWINDOW);
 	SendMessage(dat->hwnd, WM_SIZE, 0, 0);
 
-	EnableThemeDialogTexture(hwnd, ETDT_ENABLETAB);
+	EnableThemeDialogTexture(pDlg->GetHwnd(), ETDT_ENABLETAB);
 }
 
 static void RemoveChild(ParentWindowData *dat, HWND child)
@@ -296,12 +290,11 @@ static void RemoveChild(ParentWindowData *dat, HWND child)
 		tci.mask = TCIF_PARAM | TCIF_IMAGE;
 		TabCtrl_GetItem(dat->hwndTabs, tab, &tci);
 		TabCtrl_DeleteItem(dat->hwndTabs, tab);
-		mir_free((MessageWindowTabData *)tci.lParam);
 		dat->childrenCount--;
 		if (child == dat->hwndActive) {
 			if (tab == TabCtrl_GetItemCount(dat->hwndTabs)) tab--;
 			if (tab >= 0)
-				ActivateChild(dat, GetChildFromTab(dat->hwndTabs, tab)->hwnd);
+				ActivateChild(dat, GetChildFromTab(dat->hwndTabs, tab)->GetHwnd());
 			else
 				dat->hwndActive = NULL;
 		}
@@ -313,9 +306,9 @@ static void CloseOtherChilden(ParentWindowData *dat, HWND child)
 {
 	ActivateChild(dat, child);
 	for (int i = dat->childrenCount - 1; i >= 0; i--) {
-		MessageWindowTabData *mwtd = GetChildFromTab(dat->hwndTabs, i);
-		if (mwtd != NULL && mwtd->hwnd != child)
-			SendMessage(mwtd->hwnd, WM_CLOSE, 0, 0);
+		CScriverWindow *pDlg = GetChildFromTab(dat->hwndTabs, i);
+		if (pDlg != NULL && pDlg->GetHwnd() != child)
+			pDlg->Close();
 	}
 	ActivateChild(dat, child);
 }
@@ -325,7 +318,7 @@ static void ActivateNextChild(ParentWindowData *dat, HWND child)
 	int i = GetTabFromHWND(dat, child);
 	int l = TabCtrl_GetItemCount(dat->hwndTabs);
 	i = (i + 1) % l;
-	ActivateChild(dat, GetChildFromTab(dat->hwndTabs, i)->hwnd);
+	ActivateChild(dat, GetChildFromTab(dat->hwndTabs, i)->GetHwnd());
 }
 
 static void ActivatePrevChild(ParentWindowData *dat, HWND child)
@@ -333,16 +326,16 @@ static void ActivatePrevChild(ParentWindowData *dat, HWND child)
 	int i = GetTabFromHWND(dat, child);
 	int l = TabCtrl_GetItemCount(dat->hwndTabs);
 	i = (i + l - 1) % l;
-	ActivateChild(dat, GetChildFromTab(dat->hwndTabs, i)->hwnd);
+	ActivateChild(dat, GetChildFromTab(dat->hwndTabs, i)->GetHwnd());
 }
 
 static void ActivateChildByIndex(ParentWindowData *dat, int index)
 {
 	int l = TabCtrl_GetItemCount(dat->hwndTabs);
 	if (index < l) {
-		MessageWindowTabData *mwtd = GetChildFromTab(dat->hwndTabs, index);
-		if (mwtd != NULL)
-			ActivateChild(dat, mwtd->hwnd);
+		CScriverWindow *pDlg = GetChildFromTab(dat->hwndTabs, index);
+		if (pDlg != NULL)
+			ActivateChild(dat, pDlg->GetHwnd());
 	}
 }
 
@@ -407,9 +400,9 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			TCITEM tci;
 			tci.mask = TCIF_PARAM;
 			TabCtrl_GetItem(hwnd, tabId, &tci);
-			MessageWindowTabData *mwtd = (MessageWindowTabData *)tci.lParam;
-			if (mwtd != NULL) {
-				SendMessage(mwtd->hwnd, WM_CLOSE, 0, 0);
+			CScriverWindow *pDlg = (CScriverWindow *)tci.lParam;
+			if (pDlg != NULL) {
+				SendMessage(pDlg->GetHwnd(), WM_CLOSE, 0, 0);
 				dat->srcTab = -1;
 			}
 		}
@@ -420,7 +413,7 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		thinfo.pt.y = HIWORD(lParam);
 		tabId = TabCtrl_HitTest(hwnd, &thinfo);
 		if (tabId >= 0 && tabId == dat->srcTab) {
-			SendMessage(GetChildFromTab(hwnd, tabId)->hwnd, WM_CLOSE, 0, 0);
+			GetChildFromTab(hwnd, tabId)->Close();
 			dat->srcTab = -1;
 		}
 		dat->destTab = -1;
@@ -494,10 +487,10 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					TCITEM tci;
 					tci.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwnd, dat->srcTab, &tci);
-					MessageWindowTabData *mwtd = (MessageWindowTabData *)tci.lParam;
-					if (mwtd != NULL) {
-						HWND hChild = mwtd->hwnd;
-						MCONTACT hContact = mwtd->hContact;
+					CScriverWindow *pDlg = (CScriverWindow*)tci.lParam;
+					if (pDlg != NULL) {
+						HWND hChild = pDlg->GetHwnd();
+						MCONTACT hContact = pDlg->m_hContact;
 
 						POINT pt;
 						GetCursorPos(&pt);
@@ -506,7 +499,7 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							hParent = GetParent(hParent);
 
 						hParent = WindowList_Find(g_dat.hParentWindowList, (UINT_PTR)hParent);
-						if ((hParent != NULL && hParent != GetParent(hwnd)) || (hParent == NULL && mwtd->parent->childrenCount > 1 && (GetKeyState(VK_CONTROL) & 0x8000))) {
+						if ((hParent != NULL && hParent != GetParent(hwnd)) || (hParent == NULL && pDlg->m_pParent->childrenCount > 1 && (GetKeyState(VK_CONTROL) & 0x8000))) {
 							if (hParent == NULL) {
 								hParent = GetParentWindow(hContact, FALSE);
 
@@ -535,7 +528,7 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							SetParent(hChild, hParent);
 							SendMessage(GetParent(hwnd), CM_REMOVECHILD, 0, (LPARAM)hChild);
 							SendMessage(hChild, DM_SETPARENT, 0, (LPARAM)hParent);
-							SendMessage(hParent, CM_ADDCHILD, (WPARAM)hChild, hContact);
+							SendMessage(hParent, CM_ADDCHILD, (WPARAM)pDlg, 0);
 							SendMessage(hChild, DM_UPDATETABCONTROL, 0, 0);
 							SendMessage(hParent, CM_ACTIVATECHILD, 0, (LPARAM)hChild);
 							NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_OPENING);
@@ -582,7 +575,7 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					DeleteObject(hBmp);
 					ReleaseDC(NULL, hdc);
 					if (color1 != 0x000000 || color2 != 0xFFFFFF) {
-						SendMessage(GetChildFromTab(hwnd, dat->srcTab)->hwnd, WM_CLOSE, 0, 0);
+						GetChildFromTab(hwnd, dat->srcTab)->Close();
 						dat->srcTab = -1;
 					}
 				}
@@ -736,20 +729,20 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-			int savePerContact = db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
+			int savePerContact = db_get_b(0, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
 			NewMessageWindowLParam *newData = (NewMessageWindowLParam *)lParam;
 			dat = (ParentWindowData *)mir_alloc(sizeof(ParentWindowData));
 			dat->hContact = newData->hContact;
 			dat->nFlash = 0;
-			dat->nFlashMax = db_get_b(NULL, SRMMMOD, SRMSGSET_FLASHCOUNT, SRMSGDEFSET_FLASHCOUNT);
+			dat->nFlashMax = db_get_b(0, SRMMMOD, SRMSGSET_FLASHCOUNT, SRMSGDEFSET_FLASHCOUNT);
 			dat->childrenCount = 0;
 			dat->hwnd = hwndDlg;
 			dat->mouseLBDown = 0;
 			dat->windowWasCascaded = 0;
 			dat->bMinimized = 0;
 			dat->bVMaximized = 0;
-			dat->iSplitterX = db_get_dw(NULL, SRMMMOD, "splitterx", -1);
-			dat->iSplitterY = db_get_dw(NULL, SRMMMOD, "splittery", -1);
+			dat->iSplitterX = db_get_dw(0, SRMMMOD, "splitterx", -1);
+			dat->iSplitterY = db_get_dw(0, SRMMMOD, "splittery", -1);
 			dat->flags2 = g_dat.flags2;
 			dat->hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, hwndDlg, NULL, g_hInst, NULL);
 			dat->isChat = newData->isChat;
@@ -778,12 +771,12 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 
 			SetContainerWindowStyle(dat);
 
-			MCONTACT hSContact = savePerContact ? dat->hContact : NULL;
+			MCONTACT hSContact = savePerContact ? dat->hContact : 0;
 			dat->bTopmost = db_get_b(hSContact, SRMMMOD, SRMSGSET_TOPMOST, SRMSGDEFSET_TOPMOST);
 			if (ScriverRestoreWindowPosition(hwndDlg, hSContact, SRMMMOD, (newData->isChat && !savePerContact) ? "chat" : "", 0, SW_HIDE))
 				SetWindowPos(hwndDlg, 0, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_HIDEWINDOW);
 
-			if (!savePerContact && db_get_b(NULL, SRMMMOD, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE))
+			if (!savePerContact && db_get_b(0, SRMMMOD, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE))
 				WindowList_Broadcast(g_dat.hParentWindowList, DM_CASCADENEWWINDOW, (WPARAM)hwndDlg, (LPARAM)&dat->windowWasCascaded);
 
 			HMENU hMenu = GetSystemMenu(hwndDlg, FALSE);
@@ -854,7 +847,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 				MoveWindow(hwndDlg, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 			}
 			GetChildWindowRect(dat, &rcChild);
-			memcpy(&dat->childRect, &rcChild, sizeof(RECT));
+			dat->childRect = rcChild;
 			MoveWindow(dat->hwndActive, rcChild.left, rcChild.top, rcChild.right - rcChild.left, rcChild.bottom - rcChild.top, TRUE);
 			RedrawWindow(GetDlgItem(dat->hwndActive, IDC_LOG), NULL, NULL, RDW_INVALIDATE);
 			if (dat->flags2 & SMF2_SHOWSTATUSBAR) {
@@ -883,9 +876,9 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dat && dat->hwndActive && dis->hwndItem == dat->hwndStatus) {
-				MessageWindowTabData *mwtd = GetChildFromHWND(dat, dat->hwndActive);
-				if (mwtd != NULL)
-					DrawStatusIcons(mwtd->hContact, dis->hDC, dis->rcItem, 2);
+				CScriverWindow *pDlg = GetChildFromHWND(dat, dat->hwndActive);
+				if (pDlg != NULL)
+					DrawStatusIcons(pDlg->m_hContact, dis->hDC, dis->rcItem, 2);
 				return TRUE;
 			}
 			if (dis->hwndItem == dat->hwndTabs) {
@@ -914,8 +907,8 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 						int iSel = TabCtrl_GetCurSel(dat->hwndTabs);
 						tci.mask = TCIF_PARAM;
 						if (TabCtrl_GetItem(dat->hwndTabs, iSel, &tci)) {
-							MessageWindowTabData * mwtd = (MessageWindowTabData *)tci.lParam;
-							ActivateChild(dat, mwtd->hwnd);
+							CScriverWindow * pDlg = (CScriverWindow *)tci.lParam;
+							ActivateChild(dat, pDlg->GetHwnd());
 							SetFocus(dat->hwndActive);
 						}
 					}
@@ -930,11 +923,11 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 					ScreenToClient(dat->hwndTabs, &thinfo.pt);
 					int tabId = TabCtrl_HitTest(dat->hwndTabs, &thinfo);
 					if (tabId != -1) {
-						MessageWindowTabData *mwtd = GetChildFromTab(dat->hwndTabs, tabId);
+						CScriverWindow *pDlg = GetChildFromTab(dat->hwndTabs, tabId);
 						HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 						HMENU hSubMenu = GetSubMenu(hMenu, 3);
 						TranslateMenu(hSubMenu);
-						HMENU hUserMenu = (HMENU)SendMessage(mwtd->hwnd, DM_GETCONTEXTMENU, 0, 0);
+						HMENU hUserMenu = (HMENU)SendMessage(pDlg->GetHwnd(), DM_GETCONTEXTMENU, 0, 0);
 						if (hUserMenu != NULL) {
 							InsertMenu(hSubMenu, 0, MF_POPUP | MF_BYPOSITION, (UINT_PTR)hUserMenu, TranslateT("User menu"));
 							InsertMenu(hSubMenu, 1, MF_SEPARATOR | MF_BYPOSITION, 0, 0);
@@ -942,13 +935,13 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 						BOOL menuResult = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, x, y, 0, hwndDlg, NULL);
 						switch (menuResult) {
 						case IDM_CLOSETAB:
-							SendMessage(mwtd->hwnd, WM_CLOSE, 0, 0);
+							SendMessage(pDlg->GetHwnd(), WM_CLOSE, 0, 0);
 							break;
 						case IDM_CLOSEOTHERTABS:
-							CloseOtherChilden(dat, mwtd->hwnd);
+							CloseOtherChilden(dat, pDlg->GetHwnd());
 							break;
 						default:
-							Clist_MenuProcessCommand(LOWORD(menuResult), MPCF_CONTACTMENU, mwtd->hContact);
+							Clist_MenuProcessCommand(LOWORD(menuResult), MPCF_CONTACTMENU, pDlg->m_hContact);
 						}
 						if (hUserMenu != NULL)
 							DestroyMenu(hUserMenu);
@@ -964,9 +957,9 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 					NMMOUSE *nm = (NMMOUSE*)lParam;
 					SendMessage(dat->hwndStatus, SB_GETRECT, SendMessage(dat->hwndStatus, SB_GETPARTS, 0, 0) - 2, (LPARAM)&rc);
 					if (nm->pt.x >= rc.left) {
-						MessageWindowTabData *mwtd = GetChildFromHWND(dat, dat->hwndActive);
-						if (mwtd != NULL)
-							CheckStatusIconClick(mwtd->hContact, dat->hwndStatus, nm->pt, rc, 2, (pNMHDR->code == NM_RCLICK ? MBCF_RIGHTBUTTON : 0));
+						CScriverWindow *pDlg = GetChildFromHWND(dat, dat->hwndActive);
+						if (pDlg != NULL)
+							CheckStatusIconClick(pDlg->m_hContact, dat->hwndStatus, nm->pt, rc, 2, (pNMHDR->code == NM_RCLICK ? MBCF_RIGHTBUTTON : 0));
 					}
 					return TRUE;
 				}
@@ -1001,9 +994,9 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			RECT rc;
 			SendMessage(dat->hwndStatus, SB_GETRECT, SendMessage(dat->hwndStatus, SB_GETPARTS, 0, 0) - 2, (LPARAM)&rc);
 			if (pt.x >= rc.left) {
-				MessageWindowTabData *mwtd = GetChildFromHWND(dat, dat->hwndActive);
-				if (mwtd != NULL)
-					CheckStatusIconClick(mwtd->hContact, dat->hwndStatus, pt, rc, 2, MBCF_RIGHTBUTTON);
+				CScriverWindow *pDlg = GetChildFromHWND(dat, dat->hwndActive);
+				if (pDlg != NULL)
+					CheckStatusIconClick(pDlg->m_hContact, dat->hwndStatus, pt, rc, 2, MBCF_RIGHTBUTTON);
 				break;
 			}
 			else SendMessage(dat->hwndActive, WM_CONTEXTMENU, (WPARAM)hwndDlg, 0);
@@ -1115,20 +1108,19 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			TCITEM tci;
 			tci.mask = TCIF_PARAM | TCIF_IMAGE;
 			if (TabCtrl_GetItem(dat->hwndTabs, i, &tci)) {
-				mir_free((MessageWindowTabData *)tci.lParam);
 				ReleaseIcon(tci.iImage);
 				TabCtrl_DeleteItem(dat->hwndTabs, i);
 			}
 		}
 
-		db_set_dw(NULL, SRMMMOD, "splitterx", dat->iSplitterX);
-		db_set_dw(NULL, SRMMMOD, "splittery", dat->iSplitterY);
+		db_set_dw(0, SRMMMOD, "splitterx", dat->iSplitterX);
+		db_set_dw(0, SRMMMOD, "splittery", dat->iSplitterY);
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		WindowList_Remove(g_dat.hParentWindowList, hwndDlg);
 		{
-			int savePerContact = db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
-			MCONTACT hContact = (savePerContact) ? dat->hContact : NULL;
+			int savePerContact = db_get_b(0, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
+			MCONTACT hContact = (savePerContact) ? dat->hContact : 0;
 
 			WINDOWPLACEMENT wp = { sizeof(wp) };
 			GetWindowPlacement(hwndDlg, &wp);
@@ -1207,7 +1199,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 		return TRUE;
 
 	case CM_ADDCHILD:
-		AddChild(dat, (HWND)wParam, lParam);
+		AddChild(dat, (CScriverWindow*)wParam);
 		return TRUE;
 
 	case CM_ACTIVATECHILD:
@@ -1243,8 +1235,8 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 
 	case DM_SENDMESSAGE:
 		for (int i = 0; i < dat->childrenCount; i++) {
-			MessageWindowTabData * mwtd = GetChildFromTab(dat->hwndTabs, i);
-			SendMessage(mwtd->hwnd, DM_SENDMESSAGE, wParam, lParam);
+			CScriverWindow * pDlg = GetChildFromTab(dat->hwndTabs, i);
+			SendMessage(pDlg->GetHwnd(), DM_SENDMESSAGE, wParam, lParam);
 		}
 		break;
 
@@ -1335,8 +1327,8 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 		dat->flags2 ^= SMF2_SHOWINFOBAR;
 
 		for (int i = 0; i < dat->childrenCount; i++) {
-			MessageWindowTabData * mwtd = GetChildFromTab(dat->hwndTabs, i);
-			SendMessage(mwtd->hwnd, DM_SWITCHINFOBAR, 0, 0);
+			CScriverWindow * pDlg = GetChildFromTab(dat->hwndTabs, i);
+			SendMessage(pDlg->GetHwnd(), DM_SWITCHINFOBAR, 0, 0);
 		}
 		SendMessage(hwndDlg, WM_SIZE, 0, 0);
 		break;
@@ -1351,8 +1343,8 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 		dat->flags2 ^= SMF2_SHOWTOOLBAR;
 
 		for (int i = 0; i < dat->childrenCount; i++) {
-			MessageWindowTabData * mwtd = GetChildFromTab(dat->hwndTabs, i);
-			SendMessage(mwtd->hwnd, DM_SWITCHTOOLBAR, 0, 0);
+			CScriverWindow * pDlg = GetChildFromTab(dat->hwndTabs, i);
+			SendMessage(pDlg->GetHwnd(), DM_SWITCHTOOLBAR, 0, 0);
 		}
 
 		SendMessage(hwndDlg, WM_SIZE, 0, 0);

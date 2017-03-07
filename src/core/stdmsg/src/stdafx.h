@@ -99,8 +99,9 @@ struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 
 struct GlobalLogSettings : public GlobalLogSettingsBase
 {
-	int   iX, iY;
-	bool  bTabsEnable, bTabsAtBottom, bTabCloseOnDblClick, bTabRestore;
+	int iX, iY;
+	int iSplitterX, iSplitterY;
+	bool bTabsEnable, bTabsAtBottom, bTabCloseOnDblClick, bTabRestore;
 
 	HFONT MessageAreaFont;
 	COLORREF MessageAreaColor;
@@ -191,6 +192,8 @@ class CChatRoomDlg : public CSrmmBaseDialog
 
 	void SaveWindowPosition(bool bUpdateSession);
 	void SetWindowPosition();
+
+	int m_iSplitterX, m_iSplitterY;
 
 public:
 	CChatRoomDlg(SESSION_INFO*);

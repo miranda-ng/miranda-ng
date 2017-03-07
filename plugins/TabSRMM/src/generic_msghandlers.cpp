@@ -444,8 +444,8 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 			}
 
 			if (!m_bIsAutosizingInput) {
-				m_iSplitterSaved = m_splitterY;
-				m_splitterY = rc.bottom / 2;
+				m_iSplitterSaved = m_iSplitterY;
+				m_iSplitterY = rc.bottom / 2;
 				SendMessage(m_hwnd, WM_SIZE, 1, 1);
 			}
 
@@ -465,7 +465,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 			SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
 
 			if (!m_bIsAutosizingInput) {
-				m_splitterY = m_iSplitterSaved;
+				m_iSplitterY = m_iSplitterSaved;
 				SendMessage(m_hwnd, WM_SIZE, 0, 0);
 				DM_ScrollToBottom(0, 1);
 			}
@@ -1168,33 +1168,15 @@ int CTabBaseDlg::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 			newPos = 0;
 
 		if (this == srcDat) {
-			if (m_bType == SESSIONTYPE_IM) {
-				m_pContainer->settings->splitterPos = m_splitterY;
-				if (fCntGlobal) {
-					SaveSplitter();
-					if (PluginConfig.lastSPlitterPos.bSync)
-						g_Settings.iSplitterY = m_splitterY - DPISCALEY_S(23);
-				}
-			}
-			if (m_bType == SESSIONTYPE_CHAT) {
-				if (si) {
-					m_pContainer->settings->splitterPos = si->iSplitterY + DPISCALEY_S(23);
-					if (fCntGlobal) {
-						g_Settings.iSplitterY = si->iSplitterY;
-						if (PluginConfig.lastSPlitterPos.bSync)
-							db_set_dw(0, SRMSGMOD_T, "splitsplity", (DWORD)si->iSplitterY + DPISCALEY_S(23));
-					}
-				}
-			}
+			m_pContainer->settings->iSplitterY = m_iSplitterY;
+			if (fCntGlobal)
+				SaveSplitter();
 			return 0;
 		}
 
 		if (!fCntGlobal && m_pContainer != srcCnt)
 			return 0;
 		if (srcCnt->settings->fPrivate && m_pContainer != srcCnt)
-			return 0;
-
-		if (!PluginConfig.lastSPlitterPos.bSync && m_bType != srcDat->m_bType)
 			return 0;
 
 		// for inactive sessions, delay the splitter repositioning until they become
@@ -1208,21 +1190,13 @@ int CTabBaseDlg::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 	}
 	else newPos = wParam;
 
-	if (m_bType == SESSIONTYPE_IM) {
-		LoadSplitter();
-		AdjustBottomAvatarDisplay();
-		DM_RecalcPictureSize();
-		SendMessage(m_hwnd, WM_SIZE, 0, 0);
-		DM_ScrollToBottom(1, 1);
-		if (this != srcDat)
-			UpdateToolbarBG();
-	}
-	else {
-		if (si) {
-			si->iSplitterY = g_Settings.iSplitterY;
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
-		}
-	}
+	LoadSplitter();
+	AdjustBottomAvatarDisplay();
+	DM_RecalcPictureSize();
+	SendMessage(m_hwnd, WM_SIZE, 0, 0);
+	DM_ScrollToBottom(1, 1);
+	if (this != srcDat)
+		UpdateToolbarBG();
 	return 0;
 }
 
@@ -1387,19 +1361,12 @@ void CTabBaseDlg::DM_HandleAutoSizeRequest(REQRESIZE* rr)
 	if (iNewHeight > (cy - panelHeight) / 2)
 		iNewHeight = (cy - panelHeight) / 2;
 
-	if (m_bType == SESSIONTYPE_IM) {
-		m_dynaSplitter = rc.bottom - (rc.bottom - iNewHeight + DPISCALEY_S(2));
-		if (m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR)
-			m_dynaSplitter += DPISCALEY_S(22);
-		m_splitterY = m_dynaSplitter + DPISCALEY_S(34);
-		DM_RecalcPictureSize();
-	}
-	else if (si) {
-		si->iSplitterY = (rc.bottom - (rc.bottom - iNewHeight + DPISCALEY_S(3))) + DPISCALEY_S(34);
-		if (!(m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR))
-			si->iSplitterY -= DPISCALEY_S(22);
-		SendMessage(m_hwnd, WM_SIZE, 0, 0);
-	}
+	m_dynaSplitter = iNewHeight - DPISCALEY_S(2);
+	if (m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR)
+		m_dynaSplitter += DPISCALEY_S(22);
+	m_iSplitterY = m_dynaSplitter + DPISCALEY_S(34);
+	DM_RecalcPictureSize();
+
 	m_iInputAreaHeight = iNewHeight;
 	UpdateToolbarBG();
 	DM_ScrollToBottom(1, 0);

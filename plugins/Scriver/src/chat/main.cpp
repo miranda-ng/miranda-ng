@@ -142,8 +142,6 @@ int Chat_Load()
 
 int Chat_Unload(void)
 {
-	db_set_w(NULL, CHAT_MODULE, "SplitterX", (WORD)g_Settings.iSplitterX);
-
 	DestroyMenu(g_hMenu);
 	return 0;
 }

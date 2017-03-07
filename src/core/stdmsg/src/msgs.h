@@ -82,8 +82,7 @@ public:
 	MEVENT m_hDbEventFirst, m_hDbEventLast;
 	bool m_bIsAutoRTL;
 
-	int m_avatarWidth;
-	int m_avatarHeight;
+	int m_avatarWidth, m_avatarHeight;
 	int m_splitterPos, m_originalSplitterPos;
 	int m_lineHeight;
 

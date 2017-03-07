@@ -800,12 +800,8 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		if (hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY) || hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY)) {
 			if (dat) {
 				GetClientRect(hwnd, &rc);
-				dat->m_savedSplitter = rc.right > rc.bottom ? (short)HIWORD(GetMessagePos()) + rc.bottom / 2 : (short)LOWORD(GetMessagePos()) + rc.right / 2;
-				if (dat->m_bType == SESSIONTYPE_IM)
-					dat->m_savedSplitY = dat->m_splitterY;
-				else
-					dat->m_savedSplitY = dat->si->iSplitterY;
-
+				dat->m_iSavedMultiSplit = rc.right > rc.bottom ? (short)HIWORD(GetMessagePos()) + rc.bottom / 2 : (short)LOWORD(GetMessagePos()) + rc.right / 2;
+				dat->m_savedSplitterY = dat->m_iSplitterY;
 				dat->m_savedDynaSplit = dat->m_dynaSplitter;
 			}
 		}
@@ -860,7 +856,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			LONG messagePos = GetMessagePos();
 
 			GetClientRect(hwnd, &rc);
-			if (hwndCapture != hwnd || dat->m_savedSplitter == (rc.right > rc.bottom ? (short)HIWORD(messagePos) + rc.bottom / 2 : (short)LOWORD(messagePos) + rc.right / 2))
+			if (hwndCapture != hwnd || dat->m_iSavedMultiSplit == (rc.right > rc.bottom ? (short)HIWORD(messagePos) + rc.bottom / 2 : (short)LOWORD(messagePos) + rc.right / 2))
 				break;
 			GetCursorPos(&pt);
 
@@ -886,7 +882,6 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			case ID_SPLITTERCONTEXT_SAVEGLOBALFORALLSESSIONS:
 				{
-					BYTE bSync = M.GetByte(CHAT_MODULE, "SyncSplitter", 0);
 					DWORD dwOff_IM = 0, dwOff_CHAT = 0;
 
 					dwOff_CHAT = -(2 + (PluginConfig.m_DPIscaleY > 1.0 ? 1 : 0));
@@ -902,20 +897,15 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					PluginConfig.lastSPlitterPos.pos_chat = rcWin.bottom - (short)HIWORD(messagePos) + rc.bottom / 2;
 					PluginConfig.lastSPlitterPos.off_chat = dwOff_CHAT;
 					PluginConfig.lastSPlitterPos.off_im = dwOff_IM;
-					PluginConfig.lastSPlitterPos.bSync = bSync;
 					SendMessage(dat->GetHwnd(), DM_SPLITTERGLOBALEVENT, 0, 0);
 					M.BroadcastMessage(DM_SPLITTERGLOBALEVENT, 0, 0);
 				}
 				break;
 
 			default:
-				dat->m_splitterY = dat->m_savedSplitY;
+				dat->m_iSplitterY = dat->m_savedSplitterY;
 				dat->m_dynaSplitter = dat->m_savedDynaSplit;
 				dat->DM_RecalcPictureSize();
-				if (dat->m_bType == SESSIONTYPE_CHAT) {
-					dat->si->iSplitterY = dat->m_savedSplitY;
-					dat->m_splitterY = dat->si->iSplitterY + DPISCALEY_S(22);
-				}
 				dat->UpdateToolbarBG();
 				SendMessage(hwndParent, WM_SIZE, 0, 0);
 				dat->DM_ScrollToBottom(0, 1);
@@ -1036,7 +1026,7 @@ void CSrmmWindow::OnInitDialog()
 
 	GetMyNick();
 
-	m_multiSplitterX = (int)M.GetDword(SRMSGMOD, "multisplit", 150);
+	m_iMultiSplit = (int)M.GetDword(SRMSGMOD, "multisplit", 150);
 	m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
 	SetTimer(m_hwnd, TIMERID_TYPE, 1000, NULL);
 	m_iLastEventType = 0xffffffff;
@@ -1070,8 +1060,8 @@ void CSrmmWindow::OnInitDialog()
 	pt.x = 0;
 	ScreenToClient(m_hwnd, &pt);
 	m_originalSplitterY = pt.y;
-	if (m_splitterY == -1)
-		m_splitterY = m_originalSplitterY + 60;
+	if (m_iSplitterY == -1)
+		m_iSplitterY = m_originalSplitterY + 60;
 
 	GetWindowRect(m_message.GetHwnd(), &rc);
 	m_minEditBoxSize.cx = rc.right - rc.left;
@@ -1322,7 +1312,7 @@ void CSrmmWindow::OnDestroy()
 	M.RemoveWindow(m_hwnd);
 
 	if (m_cache->isValid())
-		db_set_dw(0, SRMSGMOD, "multisplit", m_multiSplitterX);
+		db_set_dw(0, SRMSGMOD, "multisplit", m_iMultiSplit);
 
 	{
 		int i = GetTabIndexFromHWND(m_hwndParent, m_hwnd);
@@ -1403,8 +1393,8 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 		if (m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED || m_bNotOnList)
 			urc->rcItem.bottom -= 20;
 		if (m_sendMode & SMODE_MULTIPLE)
-			urc->rcItem.right -= (m_multiSplitterX + 3);
-		urc->rcItem.bottom -= m_splitterY - m_originalSplitterY;
+			urc->rcItem.right -= (m_iMultiSplit + 3);
+		urc->rcItem.bottom -= m_iSplitterY - m_originalSplitterY;
 		if (!bShowToolbar || bBottomToolbar)
 			urc->rcItem.bottom += 21;
 		if (bInfoPanel)
@@ -1424,7 +1414,7 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_CONTACTPIC:
 		GetClientRect(m_message.GetHwnd(), &rc);
-		urc->rcItem.top -= m_splitterY - m_originalSplitterY;
+		urc->rcItem.top -= m_iSplitterY - m_originalSplitterY;
 		urc->rcItem.left = urc->rcItem.right - (m_pic.cx + 2);
 		if ((urc->rcItem.bottom - urc->rcItem.top) < (m_pic.cy/* + 2*/) && m_bShowAvatar) {
 			urc->rcItem.top = urc->rcItem.bottom - m_pic.cy;
@@ -1448,7 +1438,7 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_SPLITTERY:
 		urc->rcItem.right = urc->dlgNewSize.cx;
-		urc->rcItem.top -= m_splitterY - m_originalSplitterY;
+		urc->rcItem.top -= m_iSplitterY - m_originalSplitterY;
 		urc->rcItem.bottom = urc->rcItem.top + 2;
 		OffsetRect(&urc->rcItem, 0, 1);
 		urc->rcItem.left = 0;
@@ -1461,7 +1451,7 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.right = urc->dlgNewSize.cx;
 		if (m_bShowAvatar)
 			urc->rcItem.right -= m_pic.cx + 2;
-		urc->rcItem.top -= m_splitterY - m_originalSplitterY;
+		urc->rcItem.top -= m_iSplitterY - m_originalSplitterY;
 		if (bBottomToolbar && bShowToolbar)
 			urc->rcItem.bottom -= DPISCALEY_S(22);
 
@@ -1483,8 +1473,8 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 	case IDC_MULTISPLITTER:
 		if (bInfoPanel)
 			urc->rcItem.top += panelHeight;
-		urc->rcItem.left -= m_multiSplitterX;
-		urc->rcItem.right -= m_multiSplitterX;
+		urc->rcItem.left -= m_iMultiSplit;
+		urc->rcItem.right -= m_iMultiSplit;
 		urc->rcItem.bottom = rcLogBottom;
 		return RD_ANCHORX_RIGHT | RD_ANCHORY_HEIGHT;
 
@@ -1665,12 +1655,12 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_ipFieldHeight = CInfoPanel::m_ipConfig.height2;
 
 			if (m_pContainer->uChildMinHeight > 0 && HIWORD(lParam) >= m_pContainer->uChildMinHeight) {
-				if (m_splitterY > HIWORD(lParam) - DPISCALEY_S(MINLOGHEIGHT)) {
-					m_splitterY = HIWORD(lParam) - DPISCALEY_S(MINLOGHEIGHT);
-					m_dynaSplitter = m_splitterY - DPISCALEY_S(34);
+				if (m_iSplitterY > HIWORD(lParam) - DPISCALEY_S(MINLOGHEIGHT)) {
+					m_iSplitterY = HIWORD(lParam) - DPISCALEY_S(MINLOGHEIGHT);
+					m_dynaSplitter = m_iSplitterY - DPISCALEY_S(34);
 					DM_RecalcPictureSize();
 				}
-				if (m_splitterY < DPISCALEY_S(MINSPLITTERY))
+				if (m_iSplitterY < DPISCALEY_S(MINSPLITTERY))
 					LoadSplitter();
 			}
 
@@ -1740,7 +1730,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				GetClientRect(m_log.GetHwnd(), &rcLog);
 				rc.top = 0;
 				rc.right = rcClient.right;
-				rc.left = rcClient.right - m_multiSplitterX;
+				rc.left = rcClient.right - m_iMultiSplit;
 				rc.bottom = rcLog.bottom;
 				if (m_pPanel.isActive())
 					rc.top += (m_pPanel.getHeight() + 1);
@@ -2239,13 +2229,13 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			pt.x = wParam;
 			pt.y = 0;
 			ScreenToClient(m_hwnd, &pt);
-			int oldSplitterX = m_multiSplitterX;
-			m_multiSplitterX = rc.right - pt.x;
-			if (m_multiSplitterX < 25)
-				m_multiSplitterX = 25;
+			int oldSplitterX = m_iMultiSplit;
+			m_iMultiSplit = rc.right - pt.x;
+			if (m_iMultiSplit < 25)
+				m_iMultiSplit = 25;
 
-			if (m_multiSplitterX > ((rc.right - rc.left) - 80))
-				m_multiSplitterX = oldSplitterX;
+			if (m_iMultiSplit > ((rc.right - rc.left) - 80))
+				m_iMultiSplit = oldSplitterX;
 			SendMessage(m_hwnd, WM_SIZE, 0, 0);
 		}
 		else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERY)) {
@@ -2255,10 +2245,10 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			pt.y = wParam;
 			ScreenToClient(m_hwnd, &pt);
 
-			int oldSplitterY = m_splitterY;
+			int oldSplitterY = m_iSplitterY;
 			int oldDynaSplitter = m_dynaSplitter;
 
-			m_splitterY = rc.bottom - pt.y + DPISCALEY_S(23);
+			m_iSplitterY = rc.bottom - pt.y + DPISCALEY_S(23);
 
 			// attempt to fix splitter troubles..
 			// hardcoded limits... better solution is possible, but this works for now
@@ -2266,13 +2256,13 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR)
 				bottomtoolbarH = 22;
 
-			if (m_splitterY < (DPISCALEY_S(MINSPLITTERY) + 5 + bottomtoolbarH)) {	// min splitter size
-				m_splitterY = (DPISCALEY_S(MINSPLITTERY) + 5 + bottomtoolbarH);
-				m_dynaSplitter = m_splitterY - DPISCALEY_S(34);
+			if (m_iSplitterY < (DPISCALEY_S(MINSPLITTERY) + 5 + bottomtoolbarH)) {	// min splitter size
+				m_iSplitterY = (DPISCALEY_S(MINSPLITTERY) + 5 + bottomtoolbarH);
+				m_dynaSplitter = m_iSplitterY - DPISCALEY_S(34);
 				DM_RecalcPictureSize();
 			}
-			else if (m_splitterY >(rc.bottom - rc.top)) {
-				m_splitterY = oldSplitterY;
+			else if (m_iSplitterY >(rc.bottom - rc.top)) {
+				m_iSplitterY = oldSplitterY;
 				m_dynaSplitter = oldDynaSplitter;
 				DM_RecalcPictureSize();
 			}

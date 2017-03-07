@@ -93,7 +93,7 @@ static wchar_t* GetQuotedTextW(wchar_t *text)
 
 void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 {
-	if (hContact == NULL || hwnd == NULL)
+	if (hContact == 0 || hwnd == NULL)
 		return;
 
 	MessageWindowEventData mwe = { sizeof(mwe) };
@@ -175,7 +175,7 @@ void CSrmmWindow::SetDialogToType()
 
 void CSrmmWindow::SetStatusIcon()
 {
-	if (m_szProto == nullptr)
+	if (m_szProto == NULL)
 		return;
 
 	MCONTACT hContact = db_mc_getSrmmSub(m_hContact);
@@ -421,7 +421,7 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 
 	ParentWindowData *pdat = m_pParent;
 	bool bToolbar = (pdat->flags2 & SMF2_SHOWTOOLBAR) != 0;
-	int hSplitterPos = m_pParent->iSplitterY, toolbarHeight = (bToolbar) ? m_toolbarSize.cy : 0;
+	int hSplitterPos = pdat->iSplitterY, toolbarHeight = (bToolbar) ? m_toolbarSize.cy : 0;
 	int hSplitterMinTop = toolbarHeight + m_minLogBoxHeight, hSplitterMinBottom = m_minEditBoxHeight;
 	int infobarInnerHeight = INFO_BAR_INNER_HEIGHT;
 	int infobarHeight = INFO_BAR_HEIGHT;
@@ -471,7 +471,7 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 		}
 	}
 
-	m_pParent->iSplitterY = hSplitterPos;
+	pdat->iSplitterY = hSplitterPos;
 
 	int logY = infobarInnerHeight;
 	int logH = h - hSplitterPos - toolbarHeight - infobarInnerHeight;
@@ -547,7 +547,7 @@ bool CSrmmWindow::IsTypingNotificationSupported()
 
 bool CSrmmWindow::IsTypingNotificationEnabled()
 {
-	if (!db_get_b(m_hContact, SRMMMOD, SRMSGSET_TYPING, db_get_b(NULL, SRMMMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
+	if (!db_get_b(m_hContact, SRMMMOD, SRMSGSET_TYPING, db_get_b(0, SRMMMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
 		return FALSE;
 
 	DWORD protoStatus = CallProtoService(m_szProto, PS_GETSTATUS, 0, 0);
@@ -562,7 +562,7 @@ bool CSrmmWindow::IsTypingNotificationEnabled()
 		return FALSE;
 
 	if (db_get_b(m_hContact, "CList", "NotOnList", 0)
-		&& !db_get_b(NULL, SRMMMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
+		&& !db_get_b(0, SRMMMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
 		return FALSE;
 	return TRUE;
 }
@@ -650,6 +650,7 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming, const char *szInitia
 	m_btnUserMenu.OnClick = Callback(this, &CSrmmWindow::onClick_UserMenu);
 	
 	m_message.OnChange = Callback(this, &CSrmmWindow::onChange_Message);
+
 	m_splitter.OnChange = Callback(this, &CSrmmWindow::onChanged_Splitter);
 }
 
@@ -663,7 +664,7 @@ void CSrmmWindow::OnInitDialog()
 	m_pParent = (ParentWindowData *)GetWindowLongPtr(m_hwndParent, GWLP_USERDATA);
 	m_szProto = GetContactProto(m_hContact);
 
-	if (m_hContact && m_szProto != nullptr)
+	if (m_hContact && m_szProto != NULL)
 		m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
 	else
 		m_wStatus = ID_STATUS_OFFLINE;
@@ -770,10 +771,10 @@ void CSrmmWindow::OnInitDialog()
 
 	bool notifyUnread = false;
 	if (m_hContact) {
-		int historyMode = db_get_b(NULL, SRMMMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
+		int historyMode = db_get_b(0, SRMMMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
 		// This finds the first message to display, it works like shit
 		m_hDbEventFirst = db_event_firstUnread(m_hContact);
-		if (m_hDbEventFirst != NULL) {
+		if (m_hDbEventFirst != 0) {
 			DBEVENTINFO dbei = {};
 			db_event_get(m_hDbEventFirst, &dbei);
 			if (DbEventIsMessageOrCustom(&dbei) && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT))
@@ -784,12 +785,12 @@ void CSrmmWindow::OnInitDialog()
 		MEVENT hPrevEvent;
 		switch (historyMode) {
 		case LOADHISTORY_COUNT:
-			for (int i = db_get_w(NULL, SRMMMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT); i > 0; i--) {
-				if (m_hDbEventFirst == NULL)
+			for (int i = db_get_w(0, SRMMMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT); i > 0; i--) {
+				if (m_hDbEventFirst == 0)
 					hPrevEvent = db_event_last(m_hContact);
 				else
 					hPrevEvent = db_event_prev(m_hContact, m_hDbEventFirst);
-				if (hPrevEvent == NULL)
+				if (hPrevEvent == 0)
 					break;
 				dbei.cbBlob = 0;
 				m_hDbEventFirst = hPrevEvent;
@@ -800,7 +801,7 @@ void CSrmmWindow::OnInitDialog()
 			break;
 
 		case LOADHISTORY_TIME:
-			if (m_hDbEventFirst == NULL) {
+			if (m_hDbEventFirst == 0) {
 				dbei.timestamp = time(NULL);
 				hPrevEvent = db_event_last(m_hContact);
 			}
@@ -808,9 +809,9 @@ void CSrmmWindow::OnInitDialog()
 				db_event_get(m_hDbEventFirst, &dbei);
 				hPrevEvent = db_event_prev(m_hContact, m_hDbEventFirst);
 			}
-			DWORD firstTime = dbei.timestamp - 60 * db_get_w(NULL, SRMMMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
+			DWORD firstTime = dbei.timestamp - 60 * db_get_w(0, SRMMMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
 			for (;;) {
-				if (hPrevEvent == NULL)
+				if (hPrevEvent == 0)
 					break;
 				dbei.cbBlob = 0;
 				db_event_get(hPrevEvent, &dbei);
@@ -823,7 +824,7 @@ void CSrmmWindow::OnInitDialog()
 			break;
 		}
 	}
-	SendMessage(m_hwndParent, CM_ADDCHILD, (WPARAM)m_hwnd, m_hContact);
+	SendMessage(m_hwndParent, CM_ADDCHILD, (WPARAM)this, 0);
 
 	MEVENT hdbEvent = db_event_last(m_hContact);
 	if (hdbEvent) {
@@ -861,8 +862,8 @@ void CSrmmWindow::OnDestroy()
 	if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 		NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
-	IcoLib_ReleaseIcon(m_hStatusIcon); m_hStatusIcon = nullptr;
-	IcoLib_ReleaseIcon(m_hStatusIconBig); m_hStatusIconBig = nullptr;
+	IcoLib_ReleaseIcon(m_hStatusIcon); m_hStatusIcon = NULL;
+	IcoLib_ReleaseIcon(m_hStatusIconBig); m_hStatusIconBig = NULL;
 	if (m_hStatusIconOverlay != NULL) {
 		DestroyIcon(m_hStatusIconOverlay);
 		m_hStatusIconOverlay = NULL;
@@ -902,7 +903,7 @@ void CSrmmWindow::OnDestroy()
 
 void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 {
-	if (!m_btnOk.Enabled() || m_hContact == NULL)
+	if (!m_btnOk.Enabled() || m_hContact == 0)
 		return;
 
 	PARAFORMAT2 pf2;
@@ -947,10 +948,10 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 
 	SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
 	EnableWindow(GetDlgItem(m_hwnd, IDOK), FALSE);
-	if (db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
+	if (db_get_b(0, SRMMMOD, SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
 		ShowWindow(m_hwndParent, SW_MINIMIZE);
 
-	if (pButton == nullptr)
+	if (pButton == NULL)
 		SendMessage(m_hwndParent, DM_SENDMESSAGE, 0, (LPARAM)&msi);
 	else
 		SendMessage(m_hwnd, DM_SENDMESSAGE, 0, (LPARAM)&msi);
@@ -964,7 +965,7 @@ void CSrmmWindow::onClick_UserMenu(CCtrlButton *pButton)
 		RECT rc;
 		HMENU hMenu = Menu_BuildContactMenu(m_hContact);
 		GetWindowRect(pButton->GetHwnd(), &rc);
-		TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, m_hwnd, nullptr);
+		TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, m_hwnd, NULL);
 		DestroyMenu(hMenu);
 	}
 }
@@ -1088,10 +1089,10 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_DROPFILES:
-		if (m_szProto == nullptr) break;
+		if (m_szProto == NULL) break;
 		if (!(CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_1, 0)&PF1_FILESEND)) break;
 		if (m_wStatus == ID_STATUS_OFFLINE) break;
-		if (m_hContact != NULL) {
+		if (m_hContact != 0) {
 			wchar_t szFilename[MAX_PATH];
 			HDROP hDrop = (HDROP)wParam;
 			int fileCount = DragQueryFile(hDrop, -1, NULL, 0), totalCount = 0, i;
@@ -1209,9 +1210,9 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		SendMessage(m_hwnd, DM_GETAVATAR, 0, 0);
 		SetDialogToType();
 		{
-			COLORREF colour = db_get_dw(NULL, SRMMMOD, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
+			COLORREF colour = db_get_dw(0, SRMMMOD, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
 			m_log.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
-			colour = db_get_dw(NULL, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
+			colour = db_get_dw(0, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
 			m_message.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
 			InvalidateRect(m_message.GetHwnd(), NULL, FALSE);
 
@@ -1278,7 +1279,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			sid.dwId = 1;
 
 			BYTE typingNotify = (db_get_b(m_hContact, SRMMMOD, SRMSGSET_TYPING,
-				db_get_b(NULL, SRMMMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)));
+				db_get_b(0, SRMMMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)));
 			db_set_b(m_hContact, SRMMMOD, SRMSGSET_TYPING, (BYTE)!typingNotify);
 			sid.flags = typingNotify ? MBF_DISABLED : 0;
 			Srmm_ModifyIcon(m_hContact, &sid);
@@ -1324,10 +1325,10 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 		//fall through
 	case WM_MOUSEACTIVATE:
-		if (m_hDbUnreadEventFirst != NULL) {
+		if (m_hDbUnreadEventFirst != 0) {
 			MEVENT hDbEvent = m_hDbUnreadEventFirst;
-			m_hDbUnreadEventFirst = NULL;
-			while (hDbEvent != NULL) {
+			m_hDbUnreadEventFirst = 0;
+			while (hDbEvent != 0) {
 				DBEVENTINFO dbei = {};
 				db_event_get(hDbEvent, &dbei);
 				if (!(dbei.flags & DBEF_SENT) && (DbEventIsMessageOrCustom(&dbei) || dbei.eventType == EVENTTYPE_URL))
@@ -1387,7 +1388,8 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_SIZE:
 		if (wParam == SIZE_RESTORED || wParam == SIZE_MAXIMIZED) {
 			RECT rc;
-			GetClientRect(m_hwnd, &rc);
+			GetClientRect(m_pParent->hwndTabs, &rc);
+			TabCtrl_AdjustRect(m_pParent->hwndTabs, false, &rc);
 			MessageDialogResize(rc.right - rc.left, rc.bottom - rc.top);
 		}
 		return TRUE;
@@ -1435,12 +1437,12 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			MEVENT hDbEvent = lParam;
 			DBEVENTINFO dbei = {};
 			db_event_get(hDbEvent, &dbei);
-			if (m_hDbEventFirst == NULL)
+			if (m_hDbEventFirst == 0)
 				m_hDbEventFirst = hDbEvent;
 			if (DbEventIsShown(dbei)) {
 				if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT))) {
 					/* store the event when the container is hidden so that clist notifications can be removed */
-					if (!IsWindowVisible(m_hwndParent) && m_hDbUnreadEventFirst == NULL)
+					if (!IsWindowVisible(m_hwndParent) && m_hDbUnreadEventFirst == 0)
 						m_hDbUnreadEventFirst = hDbEvent;
 					m_lastMessage = dbei.timestamp;
 					SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
@@ -1452,7 +1454,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					if (IsAutoPopup(m_hContact))
 						SendMessage(m_hwndParent, CM_POPUPWINDOW, 1, (LPARAM)m_hwnd);
 				}
-				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == NULL)
+				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
 					SendMessage(m_hwnd, DM_APPENDTOLOG, WPARAM(hDbEvent), 0);
 				else
 					SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
@@ -1503,7 +1505,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			sid.dwId = 1;
 			if (IsTypingNotificationSupported() && g_dat.flags2 & SMF2_SHOWTYPINGSWITCH)
 				sid.flags = (db_get_b(m_hContact, SRMMMOD, SRMSGSET_TYPING,
-				db_get_b(NULL, SRMMMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW))) ? 0 : MBF_DISABLED;
+				db_get_b(0, SRMMMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW))) ? 0 : MBF_DISABLED;
 			else
 				sid.flags = MBF_HIDDEN;
 
@@ -1523,7 +1525,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 
 		SetDlgItemText(m_hwnd, IDC_LOG, L"");
-		m_hDbEventFirst = NULL;
+		m_hDbEventFirst = 0;
 		m_lastEventType = -1;
 		break;
 
@@ -1684,7 +1686,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			else result = m_iSendAllConfirm;
 
 			if (LOWORD(result) == IDYES)
-				onClick_Ok(nullptr);
+				onClick_Ok(NULL);
 			break;
 		}
 		break;

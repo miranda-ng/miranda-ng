@@ -157,6 +157,13 @@ static void OnLoadSettings()
 	g_Settings.bTabRestore = db_get_b(NULL, CHAT_MODULE, "TabRestore", 0) != 0;
 	g_Settings.bTabsAtBottom = db_get_b(NULL, CHAT_MODULE, "TabBottom", 0) != 0;
 	g_Settings.bTabCloseOnDblClick = db_get_b(NULL, CHAT_MODULE, "TabCloseOnDblClick", 0) != 0;
+
+	g_Settings.iSplitterX = db_get_w(NULL, CHAT_MODULE, "SplitterX", 105);
+	if (g_Settings.iSplitterX <= 50)
+		g_Settings.iSplitterX = 105;
+	g_Settings.iSplitterY = db_get_w(NULL, CHAT_MODULE, "SplitterY", 90);
+	if (g_Settings.iSplitterY <= 65)
+		g_Settings.iSplitterY = 90;
 }
 
 static void RegisterFonts()

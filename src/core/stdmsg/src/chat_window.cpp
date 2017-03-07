@@ -48,16 +48,16 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 	case IDOK:
 		GetWindowRect(m_hwndStatus, &rc);
 		urc->rcItem.left = bSend ? 315 : urc->dlgNewSize.cx;
-		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY + 23;
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 23;
 		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom - rc.top) - 1;
 		return RD_ANCHORX_RIGHT | RD_ANCHORY_CUSTOM;
 
 	case IDC_LOG:
 		urc->rcItem.top = 2;
 		urc->rcItem.left = 0;
-		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - si->iSplitterX : urc->dlgNewSize.cx;
+		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - m_iSplitterX : urc->dlgNewSize.cx;
 LBL_CalcBottom:
-		urc->rcItem.bottom = urc->dlgNewSize.cy - si->iSplitterY;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
 		if (!bToolbar)
 			urc->rcItem.bottom += 20;
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
@@ -65,17 +65,17 @@ LBL_CalcBottom:
 	case IDC_LIST:
 		urc->rcItem.top = 2;
 		urc->rcItem.right = urc->dlgNewSize.cx;
-		urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX + 2;
+		urc->rcItem.left = urc->dlgNewSize.cx - m_iSplitterX + 2;
 		goto LBL_CalcBottom;
 
 	case IDC_SPLITTERX:
 		urc->rcItem.top = 1;
-		urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX;
+		urc->rcItem.left = urc->dlgNewSize.cx - m_iSplitterX;
 		urc->rcItem.right = urc->rcItem.left + 2;
 		goto LBL_CalcBottom;
 
 	case IDC_SPLITTERY:
-		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY;
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY;
 		if (!bToolbar)
 			urc->rcItem.top += 20;
 		urc->rcItem.bottom = urc->rcItem.top + 2;
@@ -84,7 +84,7 @@ LBL_CalcBottom:
 	case IDC_MESSAGE:
 		GetWindowRect(m_hwndStatus, &rc);
 		urc->rcItem.right = bSend ? urc->dlgNewSize.cx - 64 : urc->dlgNewSize.cx;
-		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY + 22;
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 22;
 		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom - rc.top) - 1;
 		return RD_ANCHORX_LEFT | RD_ANCHORY_CUSTOM;
 	}
@@ -874,6 +874,9 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 
 	m_splitterX.OnChange = Callback(this, &CChatRoomDlg::OnSplitterX);
 	m_splitterY.OnChange = Callback(this, &CChatRoomDlg::OnSplitterY);
+
+	m_iSplitterX = g_Settings.iSplitterX;
+	m_iSplitterY = g_Settings.iSplitterY;
 }
 
 void CChatRoomDlg::OnInitDialog()
@@ -1109,12 +1112,12 @@ void CChatRoomDlg::OnSplitterX(CSplitter *pSplitter)
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 
-	m_si->iSplitterX = rc.right - pSplitter->GetPos() + 1;
-	if (m_si->iSplitterX < 35)
-		m_si->iSplitterX = 35;
-	if (m_si->iSplitterX > rc.right - rc.left - 35)
-		m_si->iSplitterX = rc.right - rc.left - 35;
-	g_Settings.iSplitterX = m_si->iSplitterX;
+	m_iSplitterX = rc.right - pSplitter->GetPos() + 1;
+	if (m_iSplitterX < 35)
+		m_iSplitterX = 35;
+	if (m_iSplitterX > rc.right - rc.left - 35)
+		m_iSplitterX = rc.right - rc.left - 35;
+	g_Settings.iSplitterX = m_iSplitterX;
 }
 
 void CChatRoomDlg::OnSplitterY(CSplitter *pSplitter)
@@ -1122,15 +1125,15 @@ void CChatRoomDlg::OnSplitterY(CSplitter *pSplitter)
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 
-	m_si->iSplitterY = rc.bottom - pSplitter->GetPos() + 1;
+	m_iSplitterY = rc.bottom - pSplitter->GetPos() + 1;
 	if (!IsWindowVisible(m_btnBold.GetHwnd()))
-		m_si->iSplitterY += 19;
+		m_iSplitterY += 19;
 
-	if (m_si->iSplitterY < 63)
-		m_si->iSplitterY = 63;
-	if (m_si->iSplitterY > rc.bottom - rc.top - 40)
-		m_si->iSplitterY = rc.bottom - rc.top - 40;
-	g_Settings.iSplitterY = m_si->iSplitterY;
+	if (m_iSplitterY < 63)
+		m_iSplitterY = 63;
+	if (m_iSplitterY > rc.bottom - rc.top - 40)
+		m_iSplitterY = rc.bottom - rc.top - 40;
+	g_Settings.iSplitterY = m_iSplitterY;
 }
 
 void CChatRoomDlg::SetWindowPosition()
@@ -1778,11 +1781,11 @@ LABEL_SHOWWINDOW:
 	case WM_GETMINMAXINFO:
 		{
 			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
-			mmi->ptMinTrackSize.x = m_si->iSplitterX + 43;
+			mmi->ptMinTrackSize.x = m_iSplitterX + 43;
 			if (mmi->ptMinTrackSize.x < 350)
 				mmi->ptMinTrackSize.x = 350;
 
-			mmi->ptMinTrackSize.y = m_si->iSplitterY + 80;
+			mmi->ptMinTrackSize.y = m_iSplitterY + 80;
 		}
 		break;
 

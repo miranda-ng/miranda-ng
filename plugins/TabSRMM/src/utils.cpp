@@ -503,8 +503,11 @@ int Utils::ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettin
 		if (dbv.type == DBVT_BLOB && dbv.cpbVal > 0 && dbv.cpbVal <= sizeof(TContainerSettings)) {
 			::memcpy((void*)cs, (void*)dbv.pbVal, dbv.cpbVal);
 			::db_free(&dbv);
-			if (hContact == 0 && szKey == 0)
+			if (hContact == 0 && szKey == 0) {
 				cs->fPrivate = false;
+				cs->iSplitterX = M.GetDword("splitsplitx", db_get_dw(0, CHAT_MODULE, "SplitterX", 150));
+			}
+
 			return 0;
 		}
 		cs->fPrivate = false;

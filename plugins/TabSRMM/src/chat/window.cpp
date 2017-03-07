@@ -256,6 +256,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 	bool bNick = si->iType != GCW_SERVER && si->bNicklistEnabled;
 	bool bInfoPanel = m_pPanel.isActive();
 	int  panelHeight = m_pPanel.getHeight() + 1;
+	int  iSplitterX = m_pContainer->settings->iSplitterX;
 
 	RECT rcTabs;
 	GetClientRect(m_hwnd, &rcTabs);
@@ -295,8 +296,8 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 	case IDC_LOG:
 		urc->rcItem.top = 0;
 		urc->rcItem.left = 0;
-		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - si->iSplitterX : urc->dlgNewSize.cx;
-		urc->rcItem.bottom = (bToolbar && !bBottomToolbar) ? (urc->dlgNewSize.cy - si->iSplitterY - (PluginConfig.m_DPIscaleY > 1.0 ? DPISCALEY_S(24) : DPISCALEY_S(23))) : (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(2));
+		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - iSplitterX : urc->dlgNewSize.cx;
+		urc->rcItem.bottom = (bToolbar && !bBottomToolbar) ? (urc->dlgNewSize.cy - m_iSplitterY - (PluginConfig.m_DPIscaleY > 1.0 ? DPISCALEY_S(24) : DPISCALEY_S(23))) : (urc->dlgNewSize.cy - m_iSplitterY - DPISCALEY_S(2));
 		if (bInfoPanel)
 			urc->rcItem.top += panelHeight;
 		if (CSkin::m_skinEnabled) {
@@ -313,8 +314,8 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 	case IDC_LIST:
 		urc->rcItem.top = 0;
 		urc->rcItem.right = urc->dlgNewSize.cx;
-		urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX + 2;
-		urc->rcItem.bottom = (bToolbar && !bBottomToolbar) ? (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(23)) : (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(2));
+		urc->rcItem.left = urc->dlgNewSize.cx - iSplitterX + 2;
+		urc->rcItem.bottom = (bToolbar && !bBottomToolbar) ? (urc->dlgNewSize.cy - m_iSplitterY - DPISCALEY_S(23)) : (urc->dlgNewSize.cy - m_iSplitterY - DPISCALEY_S(2));
 		if (bInfoPanel)
 			urc->rcItem.top += panelHeight;
 		if (CSkin::m_skinEnabled) {
@@ -329,9 +330,9 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_SPLITTERX:
-		urc->rcItem.right = urc->dlgNewSize.cx - si->iSplitterX + 2;
-		urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - si->iSplitterY - ((bToolbar && !bBottomToolbar) ? DPISCALEY_S(23) : DPISCALEY_S(2));
+		urc->rcItem.right = urc->dlgNewSize.cx - iSplitterX + 2;
+		urc->rcItem.left = urc->dlgNewSize.cx - iSplitterX;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY - ((bToolbar && !bBottomToolbar) ? DPISCALEY_S(23) : DPISCALEY_S(2));
 		urc->rcItem.top = 0;
 		if (bInfoPanel)
 			urc->rcItem.top += panelHeight;
@@ -339,8 +340,8 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_SPLITTERY:
 		urc->rcItem.right = urc->dlgNewSize.cx;
-		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - si->iSplitterY + DPISCALEY_S(2);
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY + DPISCALEY_S(2);
 		urc->rcItem.left = 0;
 		urc->rcItem.bottom++;
 		urc->rcItem.top++;
@@ -348,7 +349,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_MESSAGE:
 		urc->rcItem.right = urc->dlgNewSize.cx;
-		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY + 3;
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3;
 		urc->rcItem.bottom = urc->dlgNewSize.cy; // - 1 ;
 
 		if (m_bIsAutosizingInput)
@@ -1581,17 +1582,10 @@ void CChatRoomDlg::OnInitDialog()
 	m_bIsAutosizingInput = IsAutoSplitEnabled();
 	m_fLimitedUpdate = false;
 	m_iInputAreaHeight = -1;
-	if (!m_pContainer->settings->fPrivate)
-		si->iSplitterY = g_Settings.iSplitterY;
-	else {
-		if (M.GetByte(CHAT_MODULE, "SyncSplitter", 0))
-			si->iSplitterY = m_pContainer->settings->splitterPos - DPISCALEY_S(23);
-		else
-			si->iSplitterY = g_Settings.iSplitterY;
-	}
-
+	
+	m_iSplitterY = m_pContainer->settings->iSplitterY;
 	if (m_bIsAutosizingInput)
-		si->iSplitterY = GetDefaultMinimumInputHeight();
+		m_iSplitterY = GetDefaultMinimumInputHeight();
 
 	CProxyWindow::add(this);
 
@@ -1601,7 +1595,7 @@ void CChatRoomDlg::OnInitDialog()
 		SetTimer(m_hwnd, TIMERID_TYPE, 1000, NULL);
 	}
 
-	m_pPanel.getVisibility();
+	m_pPanel.setActive(false);
 	m_pPanel.Configure();
 	M.AddWindow(m_hwnd, m_hContact);
 	BroadCastContainer(m_pContainer, DM_REFRESHTABINDEX, 0, 0);
@@ -1680,12 +1674,6 @@ void CChatRoomDlg::OnDestroy()
 	si = NULL;
 
 	TABSRMM_FireEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING, 0);
-
-	if (!m_bIsAutosizingInput)
-		db_set_w(NULL, CHAT_MODULE, "SplitterX", (WORD)g_Settings.iSplitterX);
-
-	if (m_pContainer->settings->fPrivate && !IsAutoSplitEnabled())
-		db_set_w(NULL, CHAT_MODULE, "splitY", (WORD)g_Settings.iSplitterY);
 
 	DM_FreeTheme();
 
@@ -2429,12 +2417,12 @@ LABEL_SHOWWINDOW:
 				pt.x = wParam, pt.y = 0;
 				ScreenToClient(m_hwnd, &pt);
 
-				si->iSplitterX = rc.right - pt.x + 1;
-				if (si->iSplitterX < 35)
-					si->iSplitterX = 35;
-				if (si->iSplitterX > rc.right - rc.left - 35)
-					si->iSplitterX = rc.right - rc.left - 35;
-				g_Settings.iSplitterX = si->iSplitterX;
+				int iSplitterX = rc.right - pt.x + 1;
+				if (iSplitterX < 35)
+					iSplitterX = 35;
+				if (iSplitterX > rc.right - rc.left - 35)
+					iSplitterX = rc.right - rc.left - 35;
+				m_pContainer->settings->iSplitterX = iSplitterX;
 				SendMessage(m_hwnd, WM_SIZE, 0, 0);
 			}
 			else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERY) || lParam == -1) {
@@ -2443,12 +2431,12 @@ LABEL_SHOWWINDOW:
 				pt.x = 0, pt.y = wParam;
 				ScreenToClient(m_hwnd, &pt);
 
-				si->iSplitterY = rc.bottom - pt.y + DPISCALEY_S(1);
-				if (si->iSplitterY < DPISCALEY_S(23))
-					si->iSplitterY = DPISCALEY_S(23);
-				if (si->iSplitterY > rc.bottom - rc.top - DPISCALEY_S(40))
-					si->iSplitterY = rc.bottom - rc.top - DPISCALEY_S(40);
-				g_Settings.iSplitterY = si->iSplitterY;
+				m_iSplitterY = rc.bottom - pt.y + DPISCALEY_S(1);
+				if (m_iSplitterY < DPISCALEY_S(23))
+					m_iSplitterY = DPISCALEY_S(23);
+				if (m_iSplitterY > rc.bottom - rc.top - DPISCALEY_S(40))
+					m_iSplitterY = rc.bottom - rc.top - DPISCALEY_S(40);
+				m_pContainer->settings->iSplitterY = m_iSplitterY;
 				UpdateToolbarBG();
 				SendMessage(m_hwnd, WM_SIZE, 0, 0);
 			}

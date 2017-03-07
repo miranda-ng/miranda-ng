@@ -36,7 +36,6 @@ struct TSplitterBroadCast {
 	LONG pos, pos_chat;
 	LONG off_chat, off_im;
 	LPARAM lParam;
-	BYTE bSync;
 };
 
 typedef BOOL(WINAPI *pfnSetMenuInfo)(HMENU hmenu, LPCMENUINFO lpcmi);

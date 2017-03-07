@@ -234,8 +234,6 @@ EXTERN_C MIR_APP_DLL(GCSessionInfoBase*) Chat_NewSession(
 		si->wStatus = ID_STATUS_ONLINE;
 	si->iType = iType;
 	si->ptszName = mir_wstrdup(ptszName);
-	si->iSplitterX = g_Settings->iSplitterX;
-	si->iSplitterY = g_Settings->iSplitterY;
 	si->iLogFilterFlags = db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
 	si->bFilterEnabled = db_get_b(NULL, CHAT_MODULE, "FilterEnabled", 0);
 	si->bNicklistEnabled = db_get_b(NULL, CHAT_MODULE, "ShowNicklist", 1);

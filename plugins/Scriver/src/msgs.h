@@ -83,15 +83,6 @@ struct ParentWindowData
 	ParentWindowData *prev, *next;
 };
 
-struct MessageWindowTabData
-{
-	HWND hwnd;
-	MCONTACT hContact;
-	char *szProto;
-	ParentWindowData *parent;
-	HICON hIcon;
-};
-
 #define NMWLP_INCOMING 1
 
 class CScriverWindow : public CSrmmBaseDialog
@@ -171,7 +162,7 @@ public:
 
 	void onChange_Message(CCtrlEdit*);
 
-	void onChanged_Splitter(CSplitter *pSplitter);
+	void onChanged_Splitter(CSplitter*);
 };
 
 class CChatRoomDlg : public CScriverWindow
@@ -210,8 +201,8 @@ public:
 
 	void onDblClick_List(CCtrlListBox*);
 
-	void OnSplitterX(CSplitter *pSplitter);
-	void OnSplitterY(CSplitter *pSplitter);
+	void OnSplitterX(CSplitter*);
+	void OnSplitterY(CSplitter*);
 };
 
 #define HM_DBEVENTADDED        (WM_USER+10)

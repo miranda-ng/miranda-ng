@@ -158,11 +158,11 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			dat->szSearchQuery = NULL;
 			mir_free(dat->szSearchResult);
 			dat->szSearchResult = NULL;
-			if ((isCtrl != 0) ^ (0 != db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER))) {
+			if ((isCtrl != 0) ^ (0 != db_get_b(0, SRMMMOD, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER))) {
 				PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
 				return 0;
 			}
-			if (db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER)) {
+			if (db_get_b(0, SRMMMOD, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER)) {
 				if (dat->lastEnterTime + 2 < time(NULL))
 					dat->lastEnterTime = time(NULL);
 				else {
@@ -316,7 +316,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 			if (pci->MM_FindModule(si->pszModule) && pci->MM_FindModule(si->pszModule)->bBkgColor) {
 				int index = pci->GetColorIndex(si->pszModule, cf.crBackColor);
-				COLORREF crB = db_get_dw(NULL, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
+				COLORREF crB = db_get_dw(0, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
 				u = IsDlgButtonChecked(GetParent(hwnd), IDC_BKGCOLOR);
 
 				if (index >= 0) {
@@ -445,7 +445,7 @@ static LRESULT CALLBACK ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 {
 	switch (msg) {
 	case WM_RBUTTONUP:
-		if (db_get_b(NULL, CHAT_MODULE, "RightClickFilter", 0) != 0) {
+		if (db_get_b(0, CHAT_MODULE, "RightClickFilter", 0) != 0) {
 			if (GetDlgItem(GetParent(hwnd), IDC_FILTER) == hwnd)
 				SendMessage(GetParent(hwnd), GC_SHOWFILTERMENU, 0, 0);
 			if (GetDlgItem(GetParent(hwnd), IDC_COLOR) == hwnd)
@@ -678,11 +678,11 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					break;
 
 				case ID_MESS:
-					pci->DoEventHookAsync(GetParent(hwnd), pDlg->m_si->ptszID, pDlg->m_si->pszModule, GC_USER_PRIVMESS, ui, nullptr, 0);
+					pci->DoEventHookAsync(GetParent(hwnd), pDlg->m_si->ptszID, pDlg->m_si->pszModule, GC_USER_PRIVMESS, ui, NULL, 0);
 					break;
 
 				default:
-					pci->DoEventHookAsync(GetParent(hwnd), pDlg->m_si->ptszID, pDlg->m_si->pszModule, GC_USER_NICKLISTMENU, ui, nullptr, uID);
+					pci->DoEventHookAsync(GetParent(hwnd), pDlg->m_si->ptszID, pDlg->m_si->pszModule, GC_USER_NICKLISTMENU, ui, NULL, uID);
 					break;
 				}
 				DestroyGCMenu(&hMenu, 1);
@@ -710,7 +710,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			int index = SendMessage(hwnd, LB_GETCURSEL, 0, 0);
 			if (index != LB_ERR) {
 				USERINFO *ui = pci->SM_GetUserFromIndex(pDlg->m_si->ptszID, pDlg->m_si->pszModule, index);
-				pci->DoEventHookAsync(GetParent(hwnd), pDlg->m_si->ptszID, pDlg->m_si->pszModule, GC_USER_PRIVMESS, ui, nullptr, 0);
+				pci->DoEventHookAsync(GetParent(hwnd), pDlg->m_si->ptszID, pDlg->m_si->pszModule, GC_USER_PRIVMESS, ui, NULL, 0);
 			}
 			break;
 		}
@@ -807,10 +807,10 @@ void CChatRoomDlg::MessageDialogResize(int w, int h)
 	int  hSplitterMinTop = TOOLBAR_HEIGHT + m_minLogBoxHeight, hSplitterMinBottom = m_minEditBoxHeight;
 	int  toolbarHeight = bToolbar ? TOOLBAR_HEIGHT : 0;
 
-	if (h - m_si->iSplitterY < hSplitterMinTop)
-		m_si->iSplitterY = h - hSplitterMinTop;
-	if (m_si->iSplitterY < hSplitterMinBottom)
-		m_si->iSplitterY = hSplitterMinBottom;
+	if (h - m_pParent->iSplitterY < hSplitterMinTop)
+		m_pParent->iSplitterY = h - hSplitterMinTop;
+	if (m_pParent->iSplitterY < hSplitterMinBottom)
+		m_pParent->iSplitterY = hSplitterMinBottom;
 
 	ShowWindow(m_splitterX.GetHwnd(), bNick ? SW_SHOW : SW_HIDE);
 	if (m_si->iType != GCW_SERVER)
@@ -830,15 +830,15 @@ void CChatRoomDlg::MessageDialogResize(int w, int h)
 			m_btnChanMgr.Enable(pci->MM_FindModule(m_si->pszModule)->bChanMgr);
 	}
 
-	HDWP hdwp = BeginDeferWindowPos(5);
-	int toolbarTopY = bToolbar ? h - m_si->iSplitterY - toolbarHeight : h - m_si->iSplitterY;
+	int toolbarTopY = bToolbar ? h - m_pParent->iSplitterY - toolbarHeight : h - m_pParent->iSplitterY;
 	int logBottom = (m_hwndIeview != NULL) ? toolbarTopY / 2 : toolbarTopY;
 
-	hdwp = DeferWindowPos(hdwp, m_log.GetHwnd(), 0, 1, 0, bNick ? w - m_si->iSplitterX - 1 : w - 2, logBottom, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, m_nickList.GetHwnd(), 0, w - m_si->iSplitterX + 2, 0, m_si->iSplitterX - 3, toolbarTopY, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, m_splitterX.GetHwnd(), 0, w - m_si->iSplitterX, 1, 2, toolbarTopY - 1, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, m_splitterY.GetHwnd(), 0, 0, h - m_si->iSplitterY, w, SPLITTER_HEIGHT, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), 0, 1, h - m_si->iSplitterY + SPLITTER_HEIGHT, w - 2, m_si->iSplitterY - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
+	HDWP hdwp = BeginDeferWindowPos(5);
+	hdwp = DeferWindowPos(hdwp, m_log.GetHwnd(), 0, 1, 0, bNick ? w - m_pParent->iSplitterX - 1 : w - 2, logBottom, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_nickList.GetHwnd(), 0, w - m_pParent->iSplitterX + 2, 0, m_pParent->iSplitterX - 3, toolbarTopY, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_splitterX.GetHwnd(), 0, w - m_pParent->iSplitterX, 1, 2, toolbarTopY - 1, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_splitterY.GetHwnd(), 0, 0, h - m_pParent->iSplitterY, w, SPLITTER_HEIGHT, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), 0, 1, h - m_pParent->iSplitterY + SPLITTER_HEIGHT, w - 2, m_pParent->iSplitterY - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
 	EndDeferWindowPos(hdwp);
 
 	SetButtonsPos(m_hwnd, m_hContact, bToolbar);
@@ -851,7 +851,7 @@ void CChatRoomDlg::MessageDialogResize(int w, int h)
 		ieWindow.hwnd = m_hwndIeview;
 		ieWindow.x = 0;
 		ieWindow.y = logBottom + 1;
-		ieWindow.cx = bNick ? w - m_si->iSplitterX : w;
+		ieWindow.cx = bNick ? w - m_pParent->iSplitterX : w;
 		ieWindow.cy = logBottom;
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 	}
@@ -903,6 +903,7 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 	m_nickList.OnDblClick = Callback(this, &CChatRoomDlg::onDblClick_List);
 
 	m_message.OnChange = Callback(this, &CChatRoomDlg::onChange_Message);
+	
 	m_splitterX.OnChange = Callback(this, &CChatRoomDlg::OnSplitterX);
 	m_splitterY.OnChange = Callback(this, &CChatRoomDlg::OnSplitterY);
 }
@@ -912,6 +913,7 @@ void CChatRoomDlg::OnInitDialog()
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
 
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
+	m_pParent = (ParentWindowData *)GetWindowLongPtr(m_hwndParent, GWLP_USERDATA);
 
 	RichUtil_SubClass(m_message.GetHwnd());
 	RichUtil_SubClass(m_log.GetHwnd());
@@ -926,10 +928,16 @@ void CChatRoomDlg::OnInitDialog()
 
 	Srmm_CreateToolbarIcons(m_hwnd, BBBF_ISCHATBUTTON);
 
-	RECT minEditInit;
-	GetWindowRect(m_message.GetHwnd(), &minEditInit);
-	m_minEditBoxHeight = minEditInit.bottom - minEditInit.top;
-	m_minLogBoxHeight = m_minEditBoxHeight;
+	RECT rc;
+	GetWindowRect(m_message.GetHwnd(), &rc);
+	m_minLogBoxHeight = m_minEditBoxHeight = rc.bottom - rc.top;
+	if (m_pParent->iSplitterY == -1)
+		m_pParent->iSplitterY = m_minEditBoxHeight;
+
+	if (m_pParent->iSplitterX == -1) {
+		GetWindowRect(m_nickList.GetHwnd(), &rc);
+		m_pParent->iSplitterX = rc.right - rc.left;
+	}
 
 	m_message.SendMsg(EM_SUBCLASSED, 0, 0);
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_CHANGE | ENM_REQUESTRESIZE);
@@ -940,7 +948,7 @@ void CChatRoomDlg::OnInitDialog()
 	m_log.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 	m_log.SendMsg(EM_AUTOURLDETECT, 1, 0);
 
-	if (db_get_b(NULL, CHAT_MODULE, "UseIEView", 0)) {
+	if (db_get_b(0, CHAT_MODULE, "UseIEView", 0)) {
 		IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
 		ieWindow.iType = IEW_CREATE;
 		ieWindow.dwMode = IEWM_CHAT;
@@ -965,7 +973,7 @@ void CChatRoomDlg::OnInitDialog()
 	SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
 	SendMessage(m_hwnd, DM_UPDATETITLEBAR, 0, 0);
 
-	SendMessage(m_hwndParent, CM_ADDCHILD, (WPARAM)m_hwnd, m_hContact);
+	SendMessage(m_hwndParent, CM_ADDCHILD, (WPARAM)this, 0);
 	PostMessage(m_hwnd, GC_UPDATENICKLIST, 0, 0);
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPEN);
 }
@@ -994,21 +1002,18 @@ void CChatRoomDlg::OnSplitterX(CSplitter *pSplitter)
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 
-	m_si->iSplitterX = rc.right - pSplitter->GetPos() + 1;
-	if (m_si->iSplitterX < 35)
-		m_si->iSplitterX = 35;
-	if (m_si->iSplitterX > rc.right - rc.left - 35)
-		m_si->iSplitterX = rc.right - rc.left - 35;
-	g_Settings.iSplitterX = m_si->iSplitterX;
+	m_pParent->iSplitterX = rc.right - pSplitter->GetPos() + 1;
+	if (m_pParent->iSplitterX < 35)
+		m_pParent->iSplitterX = 35;
+	if (m_pParent->iSplitterX > rc.right - rc.left - 35)
+		m_pParent->iSplitterX = rc.right - rc.left - 35;
 }
 
 void CChatRoomDlg::OnSplitterY(CSplitter *pSplitter)
 {
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
-
-	m_si->iSplitterY = rc.bottom - pSplitter->GetPos();
-	g_Settings.iSplitterY = m_si->iSplitterY;
+	m_pParent->iSplitterY = rc.bottom - pSplitter->GetPos();
 }
 
 void CChatRoomDlg::onDblClick_List(CCtrlListBox*)
@@ -1034,7 +1039,7 @@ void CChatRoomDlg::onDblClick_List(CCtrlListBox*)
 			m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)pszName);
 			PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 		}
-		else pci->DoEventHookAsync(m_hwnd, m_si->ptszID, m_si->pszModule, GC_USER_PRIVMESS, ui, nullptr, 0);
+		else pci->DoEventHookAsync(m_hwnd, m_si->ptszID, m_si->pszModule, GC_USER_PRIVMESS, ui, NULL, 0);
 	}
 }
 
@@ -1111,7 +1116,7 @@ void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
 
 	m_si->bFilterEnabled = !m_si->bFilterEnabled;
 	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon(m_si->bFilterEnabled ? "chat_filter" : "chat_filter2"));
-	if (m_si->bFilterEnabled && db_get_b(NULL, CHAT_MODULE, "RightClickFilter", 0) == 0)
+	if (m_si->bFilterEnabled && db_get_b(0, CHAT_MODULE, "RightClickFilter", 0) == 0)
 		SendMessage(m_hwnd, GC_SHOWFILTERMENU, 0, 0);
 	else
 		SendMessage(m_hwnd, GC_REDRAWLOG, 0, 0);
@@ -1151,7 +1156,7 @@ void CChatRoomDlg::onClick_Color(CCtrlButton *pButton)
 	cf.dwEffects = 0;
 
 	if (IsDlgButtonChecked(m_hwnd, IDC_COLOR)) {
-		if (db_get_b(NULL, CHAT_MODULE, "RightClickFilter", 0) == 0)
+		if (db_get_b(0, CHAT_MODULE, "RightClickFilter", 0) == 0)
 			SendMessage(m_hwnd, GC_SHOWCOLORCHOOSER, 0, IDC_COLOR);
 		else if (m_si->bFGSet) {
 			cf.dwMask = CFM_COLOR;
@@ -1185,7 +1190,7 @@ void CChatRoomDlg::onClick_BkColor(CCtrlButton *pButton)
 	cf.dwEffects = 0;
 
 	if (IsDlgButtonChecked(m_hwnd, IDC_BKGCOLOR)) {
-		if (db_get_b(NULL, CHAT_MODULE, "RightClickFilter", 0) == 0)
+		if (db_get_b(0, CHAT_MODULE, "RightClickFilter", 0) == 0)
 			SendMessage(m_hwnd, GC_SHOWCOLORCHOOSER, 0, IDC_BKGCOLOR);
 		else if (m_si->bBGSet) {
 			cf.dwMask = CFM_BACKCOLOR;
@@ -1198,7 +1203,7 @@ void CChatRoomDlg::onClick_BkColor(CCtrlButton *pButton)
 	}
 	else {
 		cf.dwMask = CFM_BACKCOLOR;
-		cf.crBackColor = (COLORREF)db_get_dw(NULL, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
+		cf.crBackColor = (COLORREF)db_get_dw(0, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
 		if (pInfo->bSingleFormat)
 			m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 		else
@@ -1254,18 +1259,18 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		cf.dwMask = CFM_COLOR | CFM_BOLD | CFM_UNDERLINE | CFM_BACKCOLOR;
 		cf.dwEffects = 0;
 		cf.crTextColor = crFore;
-		cf.crBackColor = db_get_dw(NULL, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
-		m_message.SendMsg(EM_SETBKGNDCOLOR, 0, db_get_dw(NULL, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR));
+		cf.crBackColor = db_get_dw(0, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
+		m_message.SendMsg(EM_SETBKGNDCOLOR, 0, db_get_dw(0, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR));
 		m_message.SendMsg(WM_SETFONT, (WPARAM)g_Settings.MessageBoxFont, MAKELPARAM(TRUE, 0));
 		m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 		{
 			// nicklist
 			int ih = GetTextPixelSize(L"AQG_glo'", g_Settings.UserListFont, FALSE);
 			int ih2 = GetTextPixelSize(L"AQG_glo'", g_Settings.UserListHeadingsFont, FALSE);
-			int height = db_get_b(NULL, CHAT_MODULE, "NicklistRowDist", 12);
+			int height = db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12);
 			int font = ih > ih2 ? ih : ih2;
 			// make sure we have space for icon!
-			if (db_get_b(NULL, CHAT_MODULE, "ShowContactStatus", 0))
+			if (db_get_b(0, CHAT_MODULE, "ShowContactStatus", 0))
 				font = font > 16 ? font : 16;
 
 			m_nickList.SendMsg(LB_SETITEMHEIGHT, 0, height > font ? height : font);
@@ -1345,7 +1350,8 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (IsIconic(m_hwnd)) break;
 
 		if (wParam == SIZE_RESTORED || wParam == SIZE_MAXIMIZED) {
-			GetClientRect(m_hwnd, &rc);
+			GetClientRect(m_pParent->hwndTabs, &rc);
+			TabCtrl_AdjustRect(m_pParent->hwndTabs, false, &rc);
 			MessageDialogResize(rc.right - rc.left, rc.bottom - rc.top);
 		}
 		break;
@@ -1457,9 +1463,9 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			int ih = GetTextPixelSize(L"AQGgl'", g_Settings.UserListFont, FALSE);
 			int ih2 = GetTextPixelSize(L"AQGg'", g_Settings.UserListHeadingsFont, FALSE);
 			int font = ih > ih2 ? ih : ih2;
-			int height = db_get_b(NULL, CHAT_MODULE, "NicklistRowDist", 12);
+			int height = db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12);
 			// make sure we have space for icon!
-			if (db_get_b(NULL, CHAT_MODULE, "ShowContactStatus", 0))
+			if (db_get_b(0, CHAT_MODULE, "ShowContactStatus", 0))
 				font = font > 16 ? font : 16;
 			mis->itemHeight = height > font ? height : font;
 		}
@@ -1572,7 +1578,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			goto LABEL_SHOWWINDOW;
 
 		case SESSION_INITDONE:
-			if (db_get_b(NULL, CHAT_MODULE, "PopupOnJoin", 0) != 0)
+			if (db_get_b(0, CHAT_MODULE, "PopupOnJoin", 0) != 0)
 				return TRUE;
 			// fall through
 		case WINDOW_VISIBLE:
@@ -1700,7 +1706,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_GETMINMAXINFO:
 		{
 			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
-			mmi->ptMinTrackSize.x = m_si->iSplitterX + 43;
+			mmi->ptMinTrackSize.x = m_pParent->iSplitterX + 43;
 			if (mmi->ptMinTrackSize.x < 350)
 				mmi->ptMinTrackSize.x = 350;
 

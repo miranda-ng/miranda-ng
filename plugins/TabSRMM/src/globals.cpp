@@ -35,7 +35,7 @@ bool g_bShutdown = false;
 
 CGlobals PluginConfig;
 
-static TContainerSettings _cnt_default = { false, CNT_FLAGS_DEFAULT, CNT_FLAGSEX_DEFAULT, 255, CInfoPanel::DEGRADE_THRESHOLD, 60, L"%n (%s)", 1, 0 };
+static TContainerSettings _cnt_default = { false, CNT_FLAGS_DEFAULT, CNT_FLAGSEX_DEFAULT, 255, CInfoPanel::DEGRADE_THRESHOLD, 60, 60, L"%n (%s)", 1, 0 };
 
 wchar_t* CGlobals::m_default_container_name = L"default";
 

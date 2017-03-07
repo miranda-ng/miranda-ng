@@ -114,10 +114,6 @@ static void OnLoadSettings()
 
 	g_Settings.LogIconSize = (g_Settings.bScaleIcons) ? 12 : 16;
 
-	g_Settings.iSplitterY = db_get_w(NULL, CHAT_MODULE, "splitY", 50);
-	if (g_Settings.iSplitterY <= 20)
-		g_Settings.iSplitterY = 50;
-
 	// nicklist
 	if (g_Settings.UserListFonts[0]) {
 		DeleteObject(g_Settings.UserListFonts[CHAT_STATUS_NORMAL]);
@@ -260,9 +256,6 @@ int Chat_Unload(void)
 			DeleteObject(g_Settings.UserListFonts[i]);
 
 	delete g_Settings.Highlight;
-
-	db_set_w(NULL, CHAT_MODULE, "SplitterX", (WORD)g_Settings.iSplitterX);
-	db_set_w(NULL, CHAT_MODULE, "splitY", (WORD)g_Settings.iSplitterY);
 
 	DestroyMenu(g_hMenu);
 	return 0;

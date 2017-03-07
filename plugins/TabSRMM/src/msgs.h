@@ -156,17 +156,17 @@ struct TLogTheme
 
 struct TContainerSettings
 {
-	bool	fPrivate;
-	DWORD	dwFlags;
-	DWORD	dwFlagsEx;
-	DWORD	dwTransparency;
-	DWORD	panelheight;
-	DWORD	splitterPos;
-	wchar_t	szTitleFormat[TITLE_FORMATLEN + 2];
-	WORD	avatarMode;
-	WORD	ownAvatarMode;
-	WORD	autoCloseSeconds;
-	BYTE	reserved[10];
+	bool    fPrivate;
+	DWORD   dwFlags;
+	DWORD   dwFlagsEx;
+	DWORD   dwTransparency;
+	DWORD   panelheight;
+	int     iSplitterY;
+	wchar_t szTitleFormat[TITLE_FORMATLEN + 2];
+	WORD    avatarMode;
+	WORD    ownAvatarMode;
+	WORD    autoCloseSeconds;
+	int     iSplitterX;
 };
 
 struct ButtonItem;
@@ -175,7 +175,7 @@ struct TContainerData
 {
 	TContainerData *pNext;
 
-	wchar_t    szName[CONTAINER_NAMELEN + 4];		// container name
+	wchar_t  szName[CONTAINER_NAMELEN + 4];		// container name
 	HWND     hwndActive;		// active message window
 	HWND     hwnd;				// the container handle
 	int      iTabIndex;			// next tab id
@@ -199,7 +199,7 @@ struct TContainerData
 	DWORD    dwFlashingStarted;
 	HWND     hWndOptions;
 	BOOL     bSizingLoop;
-	wchar_t    szRelThemeFile[MAX_PATH], szAbsThemeFile[MAX_PATH];
+	wchar_t  szRelThemeFile[MAX_PATH], szAbsThemeFile[MAX_PATH];
 	TTemplateSet *ltr_templates, *rtl_templates;
 	HDC      cachedDC;
 	HBITMAP  cachedHBM, oldHBM;
@@ -280,8 +280,9 @@ public:
 	RECT     m_rcNick, m_rcUIN, m_rcStatus, m_rcPic;
 	MEVENT   m_hDbEventFirst, m_hDbEventLast;
 	int      m_sendMode;
-	int      m_splitterY, m_originalSplitterY, m_dynaSplitter, m_savedSplitter, m_savedSplitY, m_savedDynaSplit;
-	int      m_multiSplitterX;
+	int      m_originalSplitterY;
+	int      m_iSplitterY, m_dynaSplitter;
+	int      m_savedSplitterY, m_savedDynaSplit;
 	SIZE     m_minEditBoxSize;
 	int      m_nTypeSecs;
 	int      m_nTypeMode;
@@ -439,6 +440,7 @@ class CSrmmWindow : public CTabBaseDlg
 
 public:
 	int msgTop, rcLogBottom;
+	int m_iSavedMultiSplit, m_iMultiSplit;
 	wchar_t *wszInitialText;
 	bool m_bActivate, m_bWantPopup;
 
@@ -704,6 +706,7 @@ struct TIconDescW
 #define DM_SCROLLIEVIEW          (TM_USER+102)
 #define DM_UPDATEUIN             (TM_USER+103)
 
+#define MINSPLITTERX         60
 #define MINSPLITTERY         42
 #define MINLOGHEIGHT         30
 #define ERRORPANEL_HEIGHT    51

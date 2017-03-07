@@ -64,7 +64,7 @@ int IsAutoPopup(MCONTACT hContact) {
 		char *szProto = GetContactProto(hContact);
 
 		hContact = db_mc_getSrmmSub(hContact);
-		if (hContact != NULL)
+		if (hContact != 0)
 			szProto = GetContactProto(hContact);
 
 		if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
@@ -287,7 +287,7 @@ static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
-	if (mwid == NULL || mwid->cbSize != sizeof(MessageWindowInputData) || mwid->hContact == NULL || mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)
+	if (mwid == NULL || mwid->cbSize != sizeof(MessageWindowInputData) || mwid->hContact == 0 || mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)
 		return 1;
 
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
@@ -307,18 +307,18 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 {
 	StatusTextData *st = (StatusTextData*)lParam;
-	if (st != nullptr && st->cbSize != sizeof(StatusTextData))
+	if (st != NULL && st->cbSize != sizeof(StatusTextData))
 		return 1;
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
-	if (hwnd == nullptr) {
+	if (hwnd == NULL) {
 		hwnd = SM_FindWindowByContact(hContact);
-		if (hwnd == nullptr)
+		if (hwnd == NULL)
 			return 1;
 	}
 
 	CScriverWindow *dat = (CScriverWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (dat == nullptr || dat->m_pParent == nullptr)
+	if (dat == NULL || dat->m_pParent == NULL)
 		return 1;
 
 	ParentWindowData *pdat = dat->m_pParent;
@@ -404,7 +404,7 @@ void ChangeStatusIcons()
 	sid.hIcon = GetCachedIcon("scriver_TYPING");
 	sid.hIconDisabled = GetCachedIcon("scriver_TYPINGOFF");
 	sid.flags = MBF_HIDDEN;
-	Srmm_ModifyIcon(NULL, &sid);
+	Srmm_ModifyIcon(0, &sid);
 }
 
 int StatusIconPressed(WPARAM wParam, LPARAM lParam)

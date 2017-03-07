@@ -144,7 +144,7 @@ EventData* getEventFromDB(CSrmmWindow *dat, MCONTACT hContact, MEVENT hDbEvent)
 	evt->time = dbei.timestamp;
 	evt->pszNick = NULL;
 	if (evt->dwFlags & IEEDF_SENT)
-		evt->pszNickT = Contact_GetInfo(CNF_DISPLAY, NULL, dat->m_szProto);
+		evt->pszNickT = Contact_GetInfo(CNF_DISPLAY, 0, dat->m_szProto);
 	else
 		evt->pszNickT = mir_wstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
 
@@ -295,13 +295,13 @@ static char* CreateRTFHeader()
 	else
 		colour = GetSysColor(COLOR_HOTLIGHT);
 	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = db_get_dw(NULL, SRMMMOD, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
+	colour = db_get_dw(0, SRMMMOD, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
 	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = db_get_dw(NULL, SRMMMOD, SRMSGSET_INCOMINGBKGCOLOUR, SRMSGDEFSET_INCOMINGBKGCOLOUR);
+	colour = db_get_dw(0, SRMMMOD, SRMSGSET_INCOMINGBKGCOLOUR, SRMSGDEFSET_INCOMINGBKGCOLOUR);
 	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = db_get_dw(NULL, SRMMMOD, SRMSGSET_OUTGOINGBKGCOLOUR, SRMSGDEFSET_OUTGOINGBKGCOLOUR);
+	colour = db_get_dw(0, SRMMMOD, SRMSGSET_OUTGOINGBKGCOLOUR, SRMSGDEFSET_OUTGOINGBKGCOLOUR);
 	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = db_get_dw(NULL, SRMMMOD, SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR);
+	colour = db_get_dw(0, SRMMMOD, SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR);
 	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 	buf.Append("}");
 	return buf.Detach();
@@ -756,7 +756,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 		evt.hDbEventFirst = hDbEventFirst;
 		evt.count = count;
 		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt);
-		m_hDbEventLast = evt.hDbEventFirst != NULL ? evt.hDbEventFirst : m_hDbEventLast;
+		m_hDbEventLast = evt.hDbEventFirst != 0 ? evt.hDbEventFirst : m_hDbEventLast;
 
 		memset(&ieWindow, 0, sizeof(ieWindow));
 		ieWindow.cbSize = sizeof(ieWindow);
@@ -814,7 +814,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 		smre.hwndRichEditControl = m_log.GetHwnd();
 
 		MCONTACT hContact = db_mc_getSrmmSub(m_hContact);
-		smre.Protocolname = (hContact != NULL) ? GetContactProto(hContact) : m_szProto;
+		smre.Protocolname = (hContact != 0) ? GetContactProto(hContact) : m_szProto;
 
 		if (fi.chrg.cpMin > 0) {
 			sel.cpMin = fi.chrg.cpMin;
@@ -847,9 +847,9 @@ void LoadMsgLogIcons(void)
 	RECT rc;
 
 	g_hImageList = ImageList_Create(10, 10, ILC_COLOR32 | ILC_MASK, _countof(pLogIconBmpBits), 0);
-	HBRUSH hBkgBrush = CreateSolidBrush(db_get_dw(NULL, SRMMMOD, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
-	HBRUSH hInBkgBrush = CreateSolidBrush(db_get_dw(NULL, SRMMMOD, SRMSGSET_INCOMINGBKGCOLOUR, SRMSGDEFSET_INCOMINGBKGCOLOUR));
-	HBRUSH hOutBkgBrush = CreateSolidBrush(db_get_dw(NULL, SRMMMOD, SRMSGSET_OUTGOINGBKGCOLOUR, SRMSGDEFSET_OUTGOINGBKGCOLOUR));
+	HBRUSH hBkgBrush = CreateSolidBrush(db_get_dw(0, SRMMMOD, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
+	HBRUSH hInBkgBrush = CreateSolidBrush(db_get_dw(0, SRMMMOD, SRMSGSET_INCOMINGBKGCOLOUR, SRMSGDEFSET_INCOMINGBKGCOLOUR));
+	HBRUSH hOutBkgBrush = CreateSolidBrush(db_get_dw(0, SRMMMOD, SRMSGSET_OUTGOINGBKGCOLOUR, SRMSGDEFSET_OUTGOINGBKGCOLOUR));
 
 	BITMAPINFOHEADER bih = { sizeof(bih) };
 	bih.biBitCount = 24;

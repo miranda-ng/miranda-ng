@@ -323,13 +323,6 @@ int OptionsInit(void)
 	g_Settings->iWidth = db_get_dw(NULL, CHAT_MODULE, "roomwidth", -1);
 	g_Settings->iHeight = db_get_dw(NULL, CHAT_MODULE, "roomheight", -1);
 
-	g_Settings->iSplitterX = db_get_w(NULL, CHAT_MODULE, "SplitterX", 105);
-	if (g_Settings->iSplitterX <= 50)
-		g_Settings->iSplitterX = 105;
-	g_Settings->iSplitterY = db_get_w(NULL, CHAT_MODULE, "SplitterY", 90);
-	if (g_Settings->iSplitterY <= 65)
-		g_Settings->iSplitterY = 90;
-
 	SkinAddNewSoundEx("ChatMessage", LPGEN("Group chats"), LPGEN("Incoming message"));
 	SkinAddNewSoundEx("ChatHighlight", LPGEN("Group chats"), LPGEN("Message is highlighted"));
 	SkinAddNewSoundEx("ChatAction", LPGEN("Group chats"), LPGEN("User has performed an action"));
