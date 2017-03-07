@@ -167,6 +167,7 @@ struct TContainerSettings
 	WORD    ownAvatarMode;
 	WORD    autoCloseSeconds;
 	int     iSplitterX;
+	BYTE	  reserved[10];
 };
 
 struct ButtonItem;

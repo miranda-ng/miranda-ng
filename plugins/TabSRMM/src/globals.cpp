@@ -196,6 +196,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_cRichBorders = M.GetDword(FONTMODULE, "cRichBorders", 0);
 
 	::memcpy(&globalContainerSettings, &_cnt_default, sizeof(TContainerSettings));
+	globalContainerSettings.iSplitterX = db_get_dw(0, CHAT_MODULE, "SplitterX", 150);
 	Utils::ReadContainerSettingsFromDB(0, &globalContainerSettings);
 	globalContainerSettings.fPrivate = false;
 	if (fReloadSkins)

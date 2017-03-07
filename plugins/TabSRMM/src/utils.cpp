@@ -498,9 +498,6 @@ int Utils::ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettin
 {
 	memcpy(cs, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
 
-	if (hContact == 0 && szKey == 0)
-		cs->iSplitterX = M.GetDword("splitsplitx", db_get_dw(0, CHAT_MODULE, "SplitterX", 150));
-
 	DBVARIANT dbv = { 0 };
 	if (0 == db_get(hContact, SRMSGMOD_T, szKey ? szKey : CNT_KEYNAME, &dbv)) {
 		if (dbv.type == DBVT_BLOB && dbv.cpbVal > 0 && dbv.cpbVal <= sizeof(TContainerSettings)) {
