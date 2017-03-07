@@ -12,6 +12,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mir_app", "..\src\mir_app\m
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libjson", "..\libs\libjson\libjson.vcxproj", "{F6A9340E-B8D9-4C75-BE30-47DC66D0ABC7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libaxolotl", "..\libs\libaxolotl\libaxolotl.vcxproj", "{620E0BE7-3763-4F35-9DBD-4770104E269C}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AVS", "..\plugins\AVS\avs.vcxproj", "{7711F563-6473-4ABD-B5E3-477CE8384AD6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zlib", "..\libs\zlib\zlib.vcxproj", "{E2A369CD-EDA3-414F-8AD0-E732CD7EE68C}"
@@ -554,6 +556,14 @@ Global
 		{F6A9340E-B8D9-4C75-BE30-47DC66D0ABC7}.Release|Win32.Build.0 = Release|Win32
 		{F6A9340E-B8D9-4C75-BE30-47DC66D0ABC7}.Release|x64.ActiveCfg = Release|x64
 		{F6A9340E-B8D9-4C75-BE30-47DC66D0ABC7}.Release|x64.Build.0 = Release|x64
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Debug|Win32.Build.0 = Debug|Win32
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Debug|x64.ActiveCfg = Debug|x64
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Debug|x64.Build.0 = Debug|x64
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Release|Win32.ActiveCfg = Release|Win32
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Release|Win32.Build.0 = Release|Win32
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Release|x64.ActiveCfg = Release|x64
+		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
