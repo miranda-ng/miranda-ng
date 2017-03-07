@@ -114,7 +114,6 @@ typedef struct _DWM_THUMBNAIL_PROPERTIES
 
 #include "resource.h"
 #include "version.h"
-#include "buttonbar.h"
 #include "infopanel.h"
 #include "msgs.h"
 #include "msgdlgutils.h"

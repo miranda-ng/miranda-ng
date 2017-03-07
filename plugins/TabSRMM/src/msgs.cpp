@@ -37,7 +37,8 @@ HMODULE g_hIconDLL = 0, g_hMsftedit;
 
 static void UnloadIcons();
 
-void Chat_AddIcons(void);
+void Chat_AddIcons();
+void CB_InitCustomButtons();
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // fired event when user changes IEView plugin options. Apply them to all open tabs
