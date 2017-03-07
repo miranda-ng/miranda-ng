@@ -494,29 +494,80 @@ LRESULT CALLBACK Utils::PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam
 // @param cs		TContainerSettings* target structure
 // @return			0 on success, 1 failure (blob does not exist OR is not a valid private setting structure
 
+struct TOldContainerSettings
+{
+	BOOL    fPrivate;
+	DWORD   dwFlags;
+	DWORD   dwFlagsEx;
+	DWORD   dwTransparency;
+	DWORD   panelheight;
+	int     iSplitterY;
+	wchar_t szTitleFormat[32];
+	WORD    avatarMode;
+	WORD    ownAvatarMode;
+	WORD    autoCloseSeconds;
+	BYTE    reserved[10];
+};
+
 int Utils::ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey)
 {
 	memcpy(cs, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
 
-	DBVARIANT dbv = { 0 };
-	if (0 == db_get(hContact, SRMSGMOD_T, szKey ? szKey : CNT_KEYNAME, &dbv)) {
-		if (dbv.type == DBVT_BLOB && dbv.cpbVal > 0 && dbv.cpbVal <= sizeof(TContainerSettings)) {
-			::memcpy((void*)cs, (void*)dbv.pbVal, dbv.cpbVal);
-			::db_free(&dbv);
-			return 0;
+	CMStringA szSetting(szKey ? szKey : CNT_KEYNAME);
+	cs->iSplitterX = db_get_dw(0, SRMSGMOD_T, szSetting + "_SplitterX", -1);
+	if (cs->iSplitterX == -1) { // nothing? try the old format
+		DBVARIANT dbv = { 0 };
+		if (0 == db_get(hContact, SRMSGMOD_T, szSetting, &dbv)) {
+			TOldContainerSettings oldBin = {};
+			if (dbv.type == DBVT_BLOB && dbv.cpbVal > 0 && dbv.cpbVal <= sizeof(oldBin)) {
+				::memcpy(&oldBin, (void*)dbv.pbVal, dbv.cpbVal);
+				cs->dwFlags = oldBin.dwFlags;
+				cs->dwFlagsEx = oldBin.dwFlagsEx;
+				cs->dwTransparency = oldBin.dwTransparency;
+				cs->panelheight = oldBin.panelheight;
+				if (szKey == nullptr)
+					cs->iSplitterX = db_get_dw(0, CHAT_MODULE, "SplitterX", 150);
+				cs->iSplitterY = oldBin.iSplitterY;
+				wcsncpy_s(cs->szTitleFormat, oldBin.szTitleFormat, _TRUNCATE);
+				cs->avatarMode = oldBin.avatarMode;
+				cs->ownAvatarMode = oldBin.ownAvatarMode;
+				cs->autoCloseSeconds = oldBin.autoCloseSeconds;
+				WriteContainerSettingsToDB(hContact, cs, szKey);
+				db_unset(hContact, SRMSGMOD_T, szSetting);
+				::db_free(&dbv);
+				return 0;
+			}
 		}
 		cs->fPrivate = false;
 		db_free(&dbv);
 		return 1;
 	}
 
-	cs->fPrivate = false;
-	return 1;
+	cs->dwFlags = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_Flags", 0);
+	cs->dwFlagsEx = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_FlagsEx", 0);
+	cs->dwTransparency = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_Transparency", 0);
+	cs->panelheight = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_PanelY", 0);
+	cs->iSplitterY = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_SplitterY", 0);
+	cs->avatarMode = db_get_w(hContact, SRMSGMOD_T, szSetting + "_AvatarMode", 0);
+	cs->ownAvatarMode = db_get_w(hContact, SRMSGMOD_T, szSetting + "_OwnAvatarMode", 0);
+	cs->autoCloseSeconds = db_get_w(hContact, SRMSGMOD_T, szSetting + "_AutoCloseSecs", 0);
+	db_get_wstatic(hContact, SRMSGMOD_T, szSetting + "_Format", cs->szTitleFormat, _countof(cs->szTitleFormat));
+	return 0;
 }
 
 int Utils::WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey)
 {
-	::db_set_blob(hContact, SRMSGMOD_T, szKey ? szKey : CNT_KEYNAME, cs, sizeof(TContainerSettings));
+	CMStringA szSetting(szKey ? szKey : CNT_KEYNAME);
+	db_set_dw(hContact, SRMSGMOD_T, szSetting + "_Flags", cs->dwFlags);
+	db_set_dw(hContact, SRMSGMOD_T, szSetting + "_FlagsEx", cs->dwFlagsEx);
+	db_set_dw(hContact, SRMSGMOD_T, szSetting + "_Transparency", cs->dwTransparency);
+	db_set_dw(hContact, SRMSGMOD_T, szSetting + "_PanelY", cs->panelheight);
+	db_set_dw(hContact, SRMSGMOD_T, szSetting + "_SplitterX", cs->iSplitterX);
+	db_set_dw(hContact, SRMSGMOD_T, szSetting + "_SplitterY", cs->iSplitterY);
+	db_set_ws(hContact, SRMSGMOD_T, szSetting + "_Format", cs->szTitleFormat);
+	db_set_w(hContact, SRMSGMOD_T, szSetting + "_AvatarMode", cs->avatarMode);
+	db_set_w(hContact, SRMSGMOD_T, szSetting + "_OwnAvatarMode", cs->ownAvatarMode);
+	db_set_w(hContact, SRMSGMOD_T, szSetting + "_AutoCloseSecs", cs->autoCloseSeconds);
 	return 0;
 }
 

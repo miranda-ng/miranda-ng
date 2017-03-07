@@ -156,18 +156,16 @@ struct TLogTheme
 
 struct TContainerSettings
 {
-	BOOL    fPrivate;
 	DWORD   dwFlags;
 	DWORD   dwFlagsEx;
 	DWORD   dwTransparency;
 	DWORD   panelheight;
-	int     iSplitterY;
+	int     iSplitterX, iSplitterY;
 	wchar_t szTitleFormat[TITLE_FORMATLEN + 2];
 	WORD    avatarMode;
 	WORD    ownAvatarMode;
 	WORD    autoCloseSeconds;
-	int     iSplitterX;
-	BYTE	  reserved[10];
+	bool    fPrivate;
 };
 
 struct ButtonItem;

@@ -35,7 +35,7 @@ bool g_bShutdown = false;
 
 CGlobals PluginConfig;
 
-static TContainerSettings _cnt_default = { false, CNT_FLAGS_DEFAULT, CNT_FLAGSEX_DEFAULT, 255, CInfoPanel::DEGRADE_THRESHOLD, 60, 60, L"%n (%s)", 1, 0 };
+static TContainerSettings _cnt_default = { CNT_FLAGS_DEFAULT, CNT_FLAGSEX_DEFAULT, 255, CInfoPanel::DEGRADE_THRESHOLD, 60, 60, L"%n (%s)", 1, 0 };
 
 wchar_t* CGlobals::m_default_container_name = L"default";
 
@@ -196,7 +196,6 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_cRichBorders = M.GetDword(FONTMODULE, "cRichBorders", 0);
 
 	::memcpy(&globalContainerSettings, &_cnt_default, sizeof(TContainerSettings));
-	globalContainerSettings.iSplitterX = db_get_dw(0, CHAT_MODULE, "SplitterX", 150);
 	Utils::ReadContainerSettingsFromDB(0, &globalContainerSettings);
 	globalContainerSettings.fPrivate = false;
 	if (fReloadSkins)
