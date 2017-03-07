@@ -261,8 +261,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					if (pContainer->settings != &PluginConfig.globalContainerSettings) {
 						char szCname[40];
 						mir_snprintf(szCname, "%s%d_Blob", CNT_BASEKEYNAME, pContainer->iContainerIndex);
-						pContainer->settings->fPrivate = false;
-						db_set_blob(0, SRMSGMOD_T, szCname, pContainer->settings, sizeof(TContainerSettings));
+						Utils::WriteContainerSettingsToDB(0, pContainer->settings, szCname);
 						mir_free(pContainer->settings);
 					}
 					pContainer->settings = &PluginConfig.globalContainerSettings;
@@ -355,7 +354,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_CNTPRIVATE)) {
 				ReloadGlobalContainerSettings(true);
-				::db_set_blob(0, SRMSGMOD_T, CNT_KEYNAME, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
+				Utils::WriteContainerSettingsToDB(0, &PluginConfig.globalContainerSettings, nullptr);
 			}
 			else {
 				char *szSetting = "CNTW_";

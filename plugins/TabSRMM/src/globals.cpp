@@ -494,7 +494,7 @@ int CGlobals::OkToExit(WPARAM, LPARAM)
 	CMimAPI::m_shutDown = true;
 
 	PluginConfig.globalContainerSettings.fPrivate = false;
-	::db_set_blob(0, SRMSGMOD_T, CNT_KEYNAME, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
+	Utils::WriteContainerSettingsToDB(0, &PluginConfig.globalContainerSettings, nullptr);
 	return 0;
 }
 
