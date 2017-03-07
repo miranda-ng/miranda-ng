@@ -75,7 +75,7 @@ void InputAreaContextMenu(HWND hwnd, WPARAM, LPARAM lParam, MCONTACT hContact)
 	mwpd.pt = pt;
 	NotifyEventHooks(hHookWinPopup, 0, (LPARAM)&mwpd);
 
-	int selection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, GetParent(hwnd), NULL);
+	int selection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, GetParent(hwnd), nullptr);
 
 	// Second notification
 	mwpd.selection = selection;
@@ -201,40 +201,40 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CScriv
 
 		if ((wParam == VK_UP || wParam == VK_DOWN) && isCtrl && !db_get_b(0, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
 			if (windowData->cmdList) {
-				TCmdList *cmdListNew = NULL;
+				TCmdList *cmdListNew = nullptr;
 				if (wParam == VK_UP) {
-					if (windowData->cmdListCurrent == NULL) {
+					if (windowData->cmdListCurrent == nullptr) {
 						cmdListNew = tcmdlist_last(windowData->cmdList);
-						while (cmdListNew != NULL && cmdListNew->temporary) {
+						while (cmdListNew != nullptr && cmdListNew->temporary) {
 							windowData->cmdList = tcmdlist_remove(windowData->cmdList, cmdListNew);
 							cmdListNew = tcmdlist_last(windowData->cmdList);
 						}
-						if (cmdListNew != NULL) {
+						if (cmdListNew != nullptr) {
 							char *textBuffer = GetRichTextUtf(hwnd);
-							if (textBuffer != NULL)
+							if (textBuffer != nullptr)
 								// takes textBuffer to a queue, no leak here
 								windowData->cmdList = tcmdlist_append(windowData->cmdList, textBuffer, 20, TRUE);
 						}
 					}
-					else if (windowData->cmdListCurrent->prev != NULL)
+					else if (windowData->cmdListCurrent->prev != nullptr)
 						cmdListNew = windowData->cmdListCurrent->prev;
 				}
 				else {
-					if (windowData->cmdListCurrent != NULL) {
-						if (windowData->cmdListCurrent->next != NULL)
+					if (windowData->cmdListCurrent != nullptr) {
+						if (windowData->cmdListCurrent->next != nullptr)
 							cmdListNew = windowData->cmdListCurrent->next;
 						else if (!windowData->cmdListCurrent->temporary)
 							SetWindowText(hwnd, L"");
 					}
 				}
-				if (cmdListNew != NULL) {
+				if (cmdListNew != nullptr) {
 					SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
 
 					int iLen = SetRichTextRTF(hwnd, cmdListNew->szCmd);
 
 					SendMessage(hwnd, EM_SCROLLCARET, 0, 0);
 					SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
-					RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
+					RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE);
 					SendMessage(hwnd, EM_SETSEL, iLen, iLen);
 					windowData->cmdListCurrent = cmdListNew;
 				}

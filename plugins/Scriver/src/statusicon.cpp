@@ -36,7 +36,7 @@ void DrawStatusIcons(MCONTACT hContact, HDC hDC, const RECT &r, int gap)
 		HICON hIcon = ((si->flags & MBF_DISABLED) && si->hIconDisabled) ? si->hIconDisabled : si->hIcon;
 
 		SetBkMode(hDC, TRANSPARENT);
-		DrawIconEx(hDC, x, (r.top + r.bottom - cy_icon) >> 1, hIcon, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
+		DrawIconEx(hDC, x, (r.top + r.bottom - cy_icon) >> 1, hIcon, cx_icon, cy_icon, 0, nullptr, DI_NORMAL);
 
 		x += cx_icon + gap;
 	}
@@ -46,7 +46,7 @@ void CheckStatusIconClick(MCONTACT hContact, HWND hwndFrom, POINT pt, const RECT
 {
 	unsigned int iconNum = (pt.x - rc.left) / (GetSystemMetrics(SM_CXSMICON) + gap);
 	StatusIconData *si = Srmm_GetNthIcon(hContact, iconNum);
-	if (si == NULL)
+	if (si == nullptr)
 		return;
 
 	ClientToScreen(hwndFrom, &pt);
@@ -65,9 +65,9 @@ static int OnSrmmIconChanged(WPARAM hContact, LPARAM)
 		WindowList_Broadcast(g_dat.hParentWindowList, DM_STATUSICONCHANGE, 0, 0);
 	else {
 		HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
-		if (hwnd == NULL)
+		if (hwnd == nullptr)
 			hwnd = SM_FindWindowByContact(hContact);
-		if (hwnd != NULL)
+		if (hwnd != nullptr)
 			PostMessage(GetParent(hwnd), DM_STATUSICONCHANGE, 0, 0);
 	}
 	return 0;
@@ -90,7 +90,7 @@ int DeinitStatusIcons()
 int GetStatusIconsCount(MCONTACT hContact)
 {
 	int nIcon = 0;
-	while (Srmm_GetNthIcon(hContact, nIcon) != NULL)
+	while (Srmm_GetNthIcon(hContact, nIcon) != nullptr)
 		nIcon++;
 	return nIcon;
 }

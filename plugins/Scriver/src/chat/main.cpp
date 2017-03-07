@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // globals
 CHAT_MANAGER *pci, saveCI;
-HMENU g_hMenu = NULL;
+HMENU g_hMenu = nullptr;
 
 GlobalLogSettings g_Settings;
 
@@ -48,7 +48,7 @@ void LoadModuleIcons(MODULEINFO *mi)
 static void OnReplaceSession(SESSION_INFO *si)
 {
 	if (si->hWnd)
-		RedrawWindow(GetDlgItem(si->hWnd, IDC_CHAT_LIST), NULL, NULL, RDW_INVALIDATE);
+		RedrawWindow(GetDlgItem(si->hWnd, IDC_CHAT_LIST), nullptr, nullptr, RDW_INVALIDATE);
 }
 
 static void OnNewUser(SESSION_INFO *si, USERINFO*)
@@ -109,7 +109,7 @@ static void OnLoadSettings()
 		DeleteObject(g_Settings.MessageBoxFont);
 
 	LOGFONT lf;
-	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, NULL);
+	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, nullptr);
 	g_Settings.MessageBoxFont = CreateFontIndirect(&lf);
 }
 

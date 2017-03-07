@@ -84,7 +84,7 @@ int RichUtil_SubClass(HWND hwndEdit)
 
 static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TRichUtil *ru = NULL, tru;
+	TRichUtil *ru = nullptr, tru;
 	int idx;
 	LRESULT ret;
 
@@ -132,7 +132,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					nState = ETS_READONLY;
 				else nState = ETS_NORMAL;
 
-				DrawThemeBackground(hTheme, hdc, EP_EDITTEXT, nState, &rcBorder, NULL);
+				DrawThemeBackground(hTheme, hdc, EP_EDITTEXT, nState, &rcBorder, nullptr);
 				CloseThemeData(hTheme);
 				ReleaseDC(hwnd, hdc);
 				return 0;
@@ -170,7 +170,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return ret;
 
 	case WM_ENABLE:
-		RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_NOCHILDREN | RDW_UPDATENOW | RDW_FRAME);
+		RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_NOCHILDREN | RDW_UPDATENOW | RDW_FRAME);
 		break;
 
 	case WM_GETDLGCODE:
@@ -196,6 +196,6 @@ static void RichUtil_ClearUglyBorder(TRichUtil *ru)
 	}
 
 	// Redraw window since the style may have changed
-	SetWindowPos(ru->hwnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
-	RedrawWindow(ru->hwnd, NULL, NULL, RDW_INVALIDATE | RDW_NOCHILDREN | RDW_UPDATENOW | RDW_FRAME);
+	SetWindowPos(ru->hwnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+	RedrawWindow(ru->hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_NOCHILDREN | RDW_UPDATENOW | RDW_FRAME);
 }

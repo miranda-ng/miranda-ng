@@ -28,7 +28,7 @@ wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2)
 			if (!s2[k + 1])
 				return (wchar_t*)(s1 + i);
 
-	return NULL;
+	return nullptr;
 }
 
 UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText)
@@ -103,7 +103,7 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *s
 		else if (gcmi.Item[i].uType == MENU_CHECK)
 			AppendMenu(*hMenu, dwState | MF_CHECKED | MF_STRING, gcmi.Item[i].dwID, ptszText);
 	}
-	return TrackPopupMenu(*hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
+	return TrackPopupMenu(*hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
 }
 
 void DestroyGCMenu(HMENU *hMenu, int iIndex)
@@ -113,7 +113,7 @@ void DestroyGCMenu(HMENU *hMenu, int iIndex)
 	mii.fMask = MIIM_SUBMENU;
 	while(GetMenuItemInfo(*hMenu, iIndex, TRUE, &mii))
 	{
-		if (mii.hSubMenu != NULL)
+		if (mii.hSubMenu != nullptr)
 			DestroyMenu(mii.hSubMenu);
 		RemoveMenu(*hMenu, iIndex, MF_BYPOSITION);
 	}

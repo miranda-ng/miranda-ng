@@ -72,7 +72,7 @@ static HICON GetExtraStatusIcon(InfobarWindowData* idat)
 	if (bXStatus > 0)
 		return (HICON)CallProtoService(idat->mwd->m_szProto, PS_GETCUSTOMSTATUSICON, bXStatus, 0);
 
-	return NULL;
+	return nullptr;
 }
 
 void RefreshInfobar(InfobarWindowData* idat)
@@ -97,10 +97,10 @@ void RefreshInfobar(InfobarWindowData* idat)
 	if (hIcon)
 		DestroyIcon(hIcon);
 
-	SetToolTipText(hwnd, idat->hXStatusTip, szText, NULL);
+	SetToolTipText(hwnd, idat->hXStatusTip, szText, nullptr);
 	SendMessage(hwnd, WM_SIZE, 0, 0);
-	InvalidateRect(hwnd, NULL, TRUE);
-	RedrawWindow(GetDlgItem(hwnd, IDC_AVATAR), NULL, NULL, RDW_INVALIDATE);
+	InvalidateRect(hwnd, nullptr, TRUE);
+	RedrawWindow(GetDlgItem(hwnd, IDC_AVATAR), nullptr, nullptr, RDW_INVALIDATE);
 }
 
 static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -117,7 +117,7 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		idat->hWnd = hwnd;
 		{
 			RECT rect = { 0 };
-			idat->hXStatusTip = CreateToolTip(hwnd, NULL, NULL, &rect);
+			idat->hXStatusTip = CreateToolTip(hwnd, nullptr, nullptr, &rect);
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)idat);
 			SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_AUTOURLDETECT, TRUE, 0);
 			SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK | ENM_KEYEVENTS);
@@ -258,15 +258,15 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 			POINT pt;
 			GetCursorPos(&pt);
-			TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, GetParent(hwnd), NULL);
+			TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, GetParent(hwnd), nullptr);
 			DestroyMenu(hMenu);
 		}
 		break;
 
 	case WM_DESTROY:
-		if (idat->hXStatusTip != NULL) {
+		if (idat->hXStatusTip != nullptr) {
 			DestroyWindow(idat->hXStatusTip);
-			idat->hXStatusTip = NULL;
+			idat->hXStatusTip = nullptr;
 		}
 		mir_free(idat);
 	}

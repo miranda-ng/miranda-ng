@@ -25,27 +25,27 @@ HWND SM_FindWindowByContact(MCONTACT hContact)
 {
 	SESSION_INFO *pTemp = pci->wndList;
 
-	while (pTemp != NULL) {
+	while (pTemp != nullptr) {
 		if (pTemp->hContact == hContact)
 			return pTemp->hWnd;
 
 		pTemp = pTemp->next;
 	}
-	return NULL;
+	return nullptr;
 }
 
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const wchar_t* pszOriginal, const wchar_t* pszCurrent)
 {
-	SESSION_INFO* pResult = NULL;
-	if (prevSession == NULL && my_strstri(currSession->ptszName, pszOriginal) == currSession->ptszName)
+	SESSION_INFO* pResult = nullptr;
+	if (prevSession == nullptr && my_strstri(currSession->ptszName, pszOriginal) == currSession->ptszName)
 		pResult = currSession;
 	else {
-		wchar_t* pszName = NULL;
+		wchar_t* pszName = nullptr;
 		SESSION_INFO* pTemp = pci->wndList;
 		if (currSession == prevSession)
 			pszCurrent = pszOriginal;
 
-		while (pTemp != NULL) {
+		while (pTemp != nullptr) {
 			if (pTemp != currSession && !mir_strcmpi(pszModule, pTemp->pszModule)) {
 				if (my_strstri(pTemp->ptszName, pszOriginal) == pTemp->ptszName) {
 					if (prevSession != pTemp && mir_wstrcmpi(pTemp->ptszName, pszCurrent) > 0 && (!pszName || mir_wstrcmpi(pTemp->ptszName, pszName) < 0)) {

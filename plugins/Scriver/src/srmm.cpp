@@ -66,7 +66,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	pcli = Clist_GetInterface();
 
 	if (IsWinVer7Plus())
-		CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
+		CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
 
 	return OnLoadModule();
 }

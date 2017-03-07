@@ -79,7 +79,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 	MCONTACT hContact = db_mc_tryMeta(pcle->hContact);
 
 	HWND hwndExisting = WindowList_Find(pci->hWindowList, hContact);
-	if (hwndExisting == NULL)
+	if (hwndExisting == nullptr)
 		(new CSrmmWindow(hContact))->Show();
 	else
 		SendMessage(GetParent(hwndExisting), CM_POPUPWINDOW, 0, (LPARAM)hwndExisting);
@@ -95,7 +95,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
-	if (hwnd == NULL)
+	if (hwnd == nullptr)
 		hwnd = WindowList_Find(pci->hWindowList, hContact = db_event_getContact(hDbEvent));
 	if (hwnd)
 		SendMessage(hwnd, HM_DBEVENTADDED, hContact, lParam);
@@ -105,7 +105,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 
 	pcli->pfnRemoveEvent(hContact, 1);
 	/* does a window for the contact exist? */
-	if (hwnd == NULL) {
+	if (hwnd == nullptr) {
 		/* new message */
 		SkinPlaySound("AlertMsg");
 		if (IsAutoPopup(hContact)) {
@@ -113,7 +113,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 			return 0;
 		}
 	}
-	if (hwnd == NULL || !IsWindowVisible(GetParent(hwnd))) {
+	if (hwnd == nullptr || !IsWindowVisible(GetParent(hwnd))) {
 		wchar_t toolTip[256];
 		mir_snwprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 
@@ -137,14 +137,14 @@ static INT_PTR SendMessageCommandWorker(MCONTACT hContact, LPCSTR pszMsg, bool i
 
 	/* does the MCONTACT's protocol support IM messages? */
 	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return 1; /* unknown contact */
 
 	if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 		return 1;
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
-	if (hwnd != NULL) {
+	if (hwnd != nullptr) {
 		if (pszMsg) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, GetWindowTextLength(hEdit));
@@ -195,7 +195,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 	else if (lParam && (g_dat.flags2 & SMF2_SHOWTYPINGTRAY)) {
 		wchar_t szTip[256];
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
-		Clist_TrayNotifyW(NULL, TranslateT("Typing notification"), szTip, NIIF_INFO, 1000 * 4);
+		Clist_TrayNotifyW(nullptr, TranslateT("Typing notification"), szTip, NIIF_INFO, 1000 * 4);
 	}
 	return 0;
 }
@@ -203,7 +203,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
-	char *szProto = GetContactProto(hContact); // szProto maybe NULL
+	char *szProto = GetContactProto(hContact); // szProto maybe nullptr
 	if (!strcmp(cws->szModule, "CList") || !mir_strcmp(cws->szModule, szProto))
 		WindowList_Broadcast(pci->hWindowList, DM_CLISTSETTINGSCHANGED, hContact, lParam);
 	return 0;
@@ -243,7 +243,7 @@ static void RestoreUnreadMessageAlerts(void)
 			if ((dbei.flags & (DBEF_SENT | DBEF_READ)) || !DbEventIsMessageOrCustom(&dbei))
 				continue;
 
-			int windowAlreadyExists = WindowList_Find(pci->hWindowList, hContact) != NULL;
+			int windowAlreadyExists = WindowList_Find(pci->hWindowList, hContact) != nullptr;
 			if (windowAlreadyExists)
 				continue;
 
@@ -287,15 +287,15 @@ static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
-	if (mwid == NULL || mwid->cbSize != sizeof(MessageWindowInputData) || mwid->hContact == 0 || mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)
+	if (mwid == nullptr || mwid->cbSize != sizeof(MessageWindowInputData) || mwid->hContact == 0 || mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)
 		return 1;
 
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
-	if (mwd == NULL || mwd->cbSize != sizeof(MessageWindowData))
+	if (mwd == nullptr || mwd->cbSize != sizeof(MessageWindowData))
 		return 1;
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, mwid->hContact);
-	if (hwnd == NULL)
+	if (hwnd == nullptr)
 		hwnd = SM_FindWindowByContact(mwid->hContact);
 	mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 	mwd->hwndWindow = hwnd;
@@ -307,24 +307,24 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 {
 	StatusTextData *st = (StatusTextData*)lParam;
-	if (st != NULL && st->cbSize != sizeof(StatusTextData))
+	if (st != nullptr && st->cbSize != sizeof(StatusTextData))
 		return 1;
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
-	if (hwnd == NULL) {
+	if (hwnd == nullptr) {
 		hwnd = SM_FindWindowByContact(hContact);
-		if (hwnd == NULL)
+		if (hwnd == nullptr)
 			return 1;
 	}
 
 	CScriverWindow *dat = (CScriverWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (dat == NULL || dat->m_pParent == NULL)
+	if (dat == nullptr || dat->m_pParent == nullptr)
 		return 1;
 
 	ParentWindowData *pdat = dat->m_pParent;
 
-	SendMessage(pdat->hwndStatus, SB_SETICON, 0, (LPARAM)(st == NULL ? 0 : st->hIcon));
-	SendMessage(pdat->hwndStatus, SB_SETTEXT, 0, (LPARAM)(st == NULL ? L"" : st->tszText));
+	SendMessage(pdat->hwndStatus, SB_SETICON, 0, (LPARAM)(st == nullptr ? 0 : st->hIcon));
+	SendMessage(pdat->hwndStatus, SB_SETTEXT, 0, (LPARAM)(st == nullptr ? L"" : st->tszText));
 	return 0;
 }
 
@@ -414,10 +414,10 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, wParam);
-	if (hwnd == NULL)
+	if (hwnd == nullptr)
 		hwnd = SM_FindWindowByContact(wParam);
 
-	if (hwnd != NULL)
+	if (hwnd != nullptr)
 		SendMessage(hwnd, DM_SWITCHTYPING, 0, 0);
 	return 0;
 }
@@ -550,7 +550,7 @@ static int MetaContactChanged(WPARAM hMeta, LPARAM)
 {
 	if (hMeta) {
 		HWND hwnd = WindowList_Find(pci->hWindowList, hMeta);
-		if (hwnd != NULL)
+		if (hwnd != nullptr)
 			SendMessage(hwnd, DM_GETAVATAR, 0, 0);
 	}
 	return 0;
@@ -615,7 +615,7 @@ int OnUnloadModule(void)
 int OnLoadModule(void)
 {
 	hMsftEdit = LoadLibrary(L"Msftedit.dll");
-	if (hMsftEdit == NULL) {
+	if (hMsftEdit == nullptr) {
 		if (IDYES != MessageBox(0,
 			TranslateT("Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda."),
 			TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
@@ -680,14 +680,14 @@ STDMETHODIMP CREOleCallback::QueryInterface(REFIID riid, LPVOID * ppvObj)
 		AddRef();
 		return S_OK;
 	}
-	*ppvObj = NULL;
+	*ppvObj = nullptr;
 	return E_NOINTERFACE;
 }
 
 STDMETHODIMP_(ULONG) CREOleCallback::AddRef()
 {
 	if (refCount == 0)
-		StgCreateDocfile(NULL, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &pictStg);
+		StgCreateDocfile(nullptr, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &pictStg);
 
 	return ++refCount;
 }
@@ -697,7 +697,7 @@ STDMETHODIMP_(ULONG) CREOleCallback::Release()
 	if (--refCount == 0) {
 		if (pictStg) {
 			pictStg->Release();
-			pictStg = NULL;
+			pictStg = nullptr;
 		}
 	}
 	return refCount;
@@ -737,7 +737,7 @@ STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE *lplpstg)
 {
 	wchar_t sztName[64];
 	mir_snwprintf(sztName, L"s%u", nextStgId++);
-	if (pictStg == NULL)
+	if (pictStg == nullptr)
 		return STG_E_MEDIUMFULL;
 	return pictStg->CreateStorage(sztName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);
 }

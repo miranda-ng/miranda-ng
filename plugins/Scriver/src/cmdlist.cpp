@@ -32,11 +32,11 @@ TCmdList* tcmdlist_append(TCmdList *list, char *data, int maxSize, BOOL temporar
 	new_list->temporary = temporary;
 	new_list->szCmd = data;
 
-	TCmdList *attach_to = NULL;
-	for (TCmdList *n = list; n != NULL; n = n->next)
+	TCmdList *attach_to = nullptr;
+	for (TCmdList *n = list; n != nullptr; n = n->next)
 		attach_to = n;
 
-	if (attach_to == NULL)
+	if (attach_to == nullptr)
 		return new_list;
 
 	new_list->prev = attach_to;
@@ -70,7 +70,7 @@ TCmdList *tcmdlist_remove(TCmdList *list, TCmdList *n)
 int tcmdlist_len(TCmdList *list)
 {
 	int i = 0;
-	for (TCmdList *n = list; n != NULL; n = n->next)
+	for (TCmdList *n = list; n != nullptr; n = n->next)
 		i++;
 
 	return i;
@@ -78,18 +78,18 @@ int tcmdlist_len(TCmdList *list)
 
 TCmdList* tcmdlist_last(TCmdList *list)
 {
-	for (TCmdList *n = list; n != NULL; n = n->next)
+	for (TCmdList *n = list; n != nullptr; n = n->next)
 		if (!n->next)
 			return n;
 
-	return NULL;
+	return nullptr;
 }
 
 void tcmdlist_free(TCmdList *list)
 {
 	TCmdList *n = list, *next;
 
-	while (n != NULL) {
+	while (n != nullptr) {
 		next = n->next;
 		mir_free(n->szCmd);
 		mir_free(n);

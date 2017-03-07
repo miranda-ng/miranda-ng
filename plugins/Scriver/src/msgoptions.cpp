@@ -170,7 +170,7 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 		mir_snprintf(str, "%s%d", "SRMFont", i);
 
 		ptrW tszFace(db_get_wsa(0, SRMMMOD, str));
-		if (tszFace == NULL)
+		if (tszFace == nullptr)
 			mir_wstrcpy(lf->lfFaceName, fontOptionsList[i].szDefFace);
 		else
 			wcsncpy(lf->lfFaceName, tszFace, _countof(lf->lfFaceName));
@@ -203,7 +203,7 @@ static const struct CheckBoxValues_t statusValues[] =
 static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)
 {
 	TVINSERTSTRUCT tvis;
-	tvis.hParent = NULL;
+	tvis.hParent = nullptr;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 	for (int i = 0; i < nValues; i++) {
@@ -239,7 +239,7 @@ static void ApplyChanges(int i)
 		ReloadGlobals();
 		WindowList_Broadcast(g_dat.hParentWindowList, DM_OPTIONSAPPLIED, 0, 0);
 		WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, 0, 0);
-		pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
+		pci->SM_BroadcastMessage(nullptr, GC_SETWNDPROPS, 0, 0, TRUE);
 	}
 }
 
@@ -971,7 +971,7 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.szTitle.a = LPGEN("Typing notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
-	odp.szTab.a = NULL;
+	odp.szTab.a = nullptr;
 	Options_AddPage(wParam, &odp);
 
 	if (g_dat.popupInstalled) {

@@ -30,7 +30,7 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 	LOGSTREAMDATA *lstrdat = (LOGSTREAMDATA*)dwCookie;
 	if (lstrdat) {
 		// create the RTF
-		if (lstrdat->buffer == NULL) {
+		if (lstrdat->buffer == nullptr) {
 			lstrdat->bufferOffset = 0;
 			lstrdat->buffer = pci->Log_CreateRTF(lstrdat);
 			lstrdat->bufferLen = (int)mir_strlen(lstrdat->buffer);
@@ -44,7 +44,7 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 		// free stuff if the streaming operation is complete
 		if (lstrdat->bufferOffset == lstrdat->bufferLen) {
 			mir_free(lstrdat->buffer);
-			lstrdat->buffer = NULL;
+			lstrdat->buffer = nullptr;
 		}
 	}
 
@@ -124,7 +124,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 		SMADD_RICHEDIT3 sm = { sizeof(sm) };
 		sm.hwndRichEditControl = hwndRich;
 		sm.Protocolname = si->pszModule;
-		sm.rangeToReplace = bRedraw ? NULL : &newsel;
+		sm.rangeToReplace = bRedraw ? nullptr : &newsel;
 		sm.flags = 0;
 		sm.disableRedraw = TRUE;
 		sm.hContact = si->hContact;
@@ -141,7 +141,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 	if (oldsel.cpMax != oldsel.cpMin) {
 		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&oldsel);
 		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
-		InvalidateRect(hwndRich, NULL, TRUE);
+		InvalidateRect(hwndRich, nullptr, TRUE);
 	}
 
 	// need to invalidate the window
@@ -149,6 +149,6 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 		sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich, CP_ACP, FALSE);
 		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&sel);
 		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
-		InvalidateRect(hwndRich, NULL, TRUE);
+		InvalidateRect(hwndRich, nullptr, TRUE);
 	}
 }

@@ -27,7 +27,7 @@ GlobalMessageData g_dat;
 
 static const char *buttonIcons[] =
 {
-	"scriver_CLOSEX", "scriver_QUOTE", "scriver_ADD", NULL, 
+	"scriver_CLOSEX", "scriver_QUOTE", "scriver_ADD", nullptr, 
 	"scriver_USERDETAILS", "scriver_HISTORY", "scriver_SEND"
 };
 
@@ -114,18 +114,18 @@ static int ackevent(WPARAM, LPARAM lParam)
 
 	MCONTACT hContact = pAck->hContact;
 	MessageSendQueueItem *item = FindSendQueueItem(hContact, (HANDLE)pAck->hProcess);
-	if (item == NULL)
+	if (item == nullptr)
 		item = FindSendQueueItem(hContact = db_mc_getMeta(pAck->hContact), (HANDLE)pAck->hProcess);
-	if (item == NULL)
+	if (item == nullptr)
 		return 0;
 
 	HWND hwndSender = item->hwndSender;
 	if (pAck->result == ACKRESULT_FAILED) {
-		if (item->hwndErrorDlg != NULL)
+		if (item->hwndErrorDlg != nullptr)
 			item = FindOldestPendingSendQueueItem(hwndSender, hContact);
 
-		if (item != NULL && item->hwndErrorDlg == NULL) {
-			if (hwndSender != NULL) {
+		if (item != nullptr && item->hwndErrorDlg == nullptr) {
+			if (hwndSender != nullptr) {
 				SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
 
 				ErrorWindowData *ewd = (ErrorWindowData*)mir_alloc(sizeof(ErrorWindowData));
@@ -147,7 +147,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_UTF | DBEF_SENT | ((item->flags & PREF_RTL) ? DBEF_RTL : 0);
 	dbei.szModule = GetContactProto(hContact);
-	dbei.timestamp = time(NULL);
+	dbei.timestamp = time(nullptr);
 	dbei.cbBlob = (int)mir_strlen(item->sendBuffer) + 1;
 	dbei.pBlob = (PBYTE)item->sendBuffer;
 
@@ -157,14 +157,14 @@ static int ackevent(WPARAM, LPARAM lParam)
 	item->sendBuffer = (char *)dbei.pBlob;
 	db_event_add(hContact, &dbei);
 
-	if (item->hwndErrorDlg != NULL)
+	if (item->hwndErrorDlg != nullptr)
 		DestroyWindow(item->hwndErrorDlg);
 
 	if (RemoveSendQueueItem(item) && db_get_b(0, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
-		if (hwndSender != NULL)
+		if (hwndSender != nullptr)
 			DestroyWindow(hwndSender);
 	}
-	else if (hwndSender != NULL) {
+	else if (hwndSender != nullptr) {
 		SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
 		SkinPlaySound("SendMsg");
 	}
@@ -218,7 +218,7 @@ HICON GetCachedIcon(const char *name)
 		if (!mir_strcmp(iconList[i].szName, name))
 			return IcoLib_GetIconByHandle(iconList[i].hIcolib);
 
-	return NULL;
+	return nullptr;
 }
 
 void LoadGlobalIcons()
@@ -234,8 +234,8 @@ void LoadGlobalIcons()
 	ImageList_RemoveAll(g_dat.hHelperIconList);
 	ImageList_RemoveAll(g_dat.hSearchEngineIconList);
 	for (i = 0; i < _countof(buttonIcons); i++) {
-		if (buttonIcons[i] == NULL)
-			ImageList_AddIcon_ProtoEx(g_dat.hButtonIconList, NULL, ID_STATUS_OFFLINE);
+		if (buttonIcons[i] == nullptr)
+			ImageList_AddIcon_ProtoEx(g_dat.hButtonIconList, nullptr, ID_STATUS_OFFLINE);
 		else
 			ImageList_AddIcon(g_dat.hButtonIconList, GetCachedIcon(buttonIcons[i]));
 	}
@@ -274,27 +274,27 @@ static struct { UINT cpId; const wchar_t *cpName; } cpTable[] =
 void LoadInfobarFonts()
 {
 	LOGFONT lf;
-	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, NULL);
+	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, nullptr);
 	g_dat.minInputAreaHeight = db_get_dw(0, SRMMMOD, SRMSGSET_AUTORESIZELINES, SRMSGDEFSET_AUTORESIZELINES) * abs(lf.lfHeight) * g_dat.logPixelSY / 72;
 	
-	if (g_dat.hInfobarBrush != NULL)
+	if (g_dat.hInfobarBrush != nullptr)
 		DeleteObject(g_dat.hInfobarBrush);
 	g_dat.hInfobarBrush = CreateSolidBrush(db_get_dw(0, SRMMMOD, SRMSGSET_INFOBARBKGCOLOUR, SRMSGDEFSET_INFOBARBKGCOLOUR));
 }
 
 void InitGlobals()
 {
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 
 	memset(&g_dat, 0, sizeof(struct GlobalMessageData));
 	g_dat.hParentWindowList = WindowList_Create();
 
 	HookEvent(ME_PROTO_ACK, ackevent);
 	ReloadGlobals();
-	g_dat.lastParent = NULL;
-	g_dat.lastChatParent = NULL;
-	g_dat.hTabIconList = NULL;
-	g_dat.tabIconListUsage = NULL;
+	g_dat.lastParent = nullptr;
+	g_dat.lastChatParent = nullptr;
+	g_dat.hTabIconList = nullptr;
+	g_dat.tabIconListUsage = nullptr;
 	g_dat.tabIconListUsageSize = 0;
 	g_dat.hButtonIconList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 0);
 	g_dat.hChatButtonIconList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 0);
@@ -304,12 +304,12 @@ void InitGlobals()
 	g_dat.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
 	g_dat.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 	LoadInfobarFonts();
-	ReleaseDC(NULL, hdc);
+	ReleaseDC(nullptr, hdc);
 }
 
 void FreeGlobals()
 {
-	if (g_dat.hInfobarBrush != NULL)
+	if (g_dat.hInfobarBrush != nullptr)
 		DeleteObject(g_dat.hInfobarBrush);
 	if (g_dat.hTabIconList)
 		ImageList_Destroy(g_dat.hTabIconList);

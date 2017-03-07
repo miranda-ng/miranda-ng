@@ -36,7 +36,7 @@ void logInfo(const char *fmt, ...)
 	va_list vararg;
 	int strsize;
 	FILE *flog = fopen(filename, "at");
-	if (flog != NULL) {
+	if (flog != nullptr) {
 		GetLocalTime(&time);
 		va_start(vararg, fmt);
 		str = (char*)malloc(strsize = 2048);
@@ -68,7 +68,7 @@ char* GetRichTextUtf(HWND hwnd)
 {
 	int textBufferSize = GetRichTextLength(hwnd, CP_UTF8, TRUE);
 	if (textBufferSize == 0)
-		return NULL;
+		return nullptr;
 
 	textBufferSize++;
 	char *textBuffer = (char*)mir_alloc(textBufferSize);
@@ -106,7 +106,7 @@ static DWORD CALLBACK RichTextStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, 
 	static DWORD dwRead;
 	char **ppText = (char**)dwCookie;
 
-	if (*ppText == NULL) {
+	if (*ppText == nullptr) {
 		*ppText = (char*)mir_alloc(cb + 1);
 		memcpy(*ppText, pbBuff, cb);
 		(*ppText)[cb] = 0;
@@ -130,9 +130,9 @@ static DWORD CALLBACK RichTextStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, 
 char* GetRichTextRTF(HWND hwnd)
 {
 	if (hwnd == 0)
-		return NULL;
+		return nullptr;
 
-	char *pszText = NULL;
+	char *pszText = nullptr;
 	EDITSTREAM stream = { 0 };
 	stream.pfnCallback = RichTextStreamCallback;
 	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
@@ -166,7 +166,7 @@ wchar_t* GetRichTextWord(HWND hwnd, POINTL *ptl)
 {
 	long iCharIndex, start, end, iRes;
 	wchar_t *pszWord = GetRichEditSelection(hwnd);
-	if (pszWord == NULL) {
+	if (pszWord == nullptr) {
 		iCharIndex = SendMessage(hwnd, EM_CHARFROMPOS, 0, (LPARAM)ptl);
 		if (iCharIndex >= 0) {
 			start = SendMessage(hwnd, EM_FINDWORDBREAK, WB_LEFT, iCharIndex); //-iChars;
@@ -183,12 +183,12 @@ wchar_t* GetRichTextWord(HWND hwnd, POINTL *ptl)
 				iRes = SendMessage(hwnd, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 				if (iRes <= 0) {
 					mir_free(pszWord);
-					pszWord = NULL;
+					pszWord = nullptr;
 				}
 			}
 		}
 	}
-	if (pszWord != NULL)
+	if (pszWord != nullptr)
 		rtrimText(pszWord);
 
 	return pszWord;
@@ -210,10 +210,10 @@ wchar_t *GetRichEditSelection(HWND hwnd)
 	CHARRANGE sel;
 	SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 	if (sel.cpMin == sel.cpMax)
-		return NULL;
+		return nullptr;
 		
 	MessageSendQueueItem msi;
-	msi.sendBuffer = NULL;
+	msi.sendBuffer = nullptr;
 	msi.sendBufferSize = 0;
 
 	EDITSTREAM stream;
@@ -388,7 +388,7 @@ void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList)
 void CSrmmWindow::GetContactUniqueId(char *buf, int maxlen)
 {
 	ptrW id(Contact_GetInfo(CNF_UNIQUEID, m_hContact, m_szProto));
-	if (id != NULL)
+	if (id != nullptr)
 		strncpy_s(buf, maxlen, _T2A(id), _TRUNCATE);
 }
 
@@ -397,11 +397,11 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT *rec
 	TOOLINFO ti = { 0 };
 	HWND hwndTT;
 	hwndTT = CreateWindowEx(WS_EX_TOPMOST,
-		TOOLTIPS_CLASS, NULL,
+		TOOLTIPS_CLASS, nullptr,
 		WS_POPUP | TTS_NOPREFIX,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-		hwndParent, NULL, g_hInst, NULL);
+		hwndParent, nullptr, g_hInst, nullptr);
 
 	SetWindowPos(hwndTT, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 	ti.cbSize = sizeof(TOOLINFO);
@@ -450,7 +450,7 @@ void SetButtonsPos(HWND hwndDlg, MCONTACT hContact, bool bShow)
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
 		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
-		if (hwndButton == NULL)
+		if (hwndButton == nullptr)
 			continue;
 
 		if (cbd->m_dwButtonCID == IDC_ADD)
@@ -464,10 +464,10 @@ void SetButtonsPos(HWND hwndDlg, MCONTACT hContact, bool bShow)
 		int width = iGap + cbd->m_iButtonWidth;
 		if (cbd->m_bRSided) {
 			iRightX -= width;
-			hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iRightX, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, iRightX, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		}
 		else {
-			hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iLeftX, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, iLeftX, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 			iLeftX += width;
 		}
 	}

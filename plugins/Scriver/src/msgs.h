@@ -146,7 +146,7 @@ public:
 	AVATARCACHEENTRY *m_ace;
 
 public:
-	CSrmmWindow(MCONTACT hContact, bool bIncoming = false, const char *szInitialText = NULL, bool bIsUnicode = false);
+	CSrmmWindow(MCONTACT hContact, bool bIncoming = false, const char *szInitialText = nullptr, bool bIsUnicode = false);
 
 	virtual void OnInitDialog() override;
 	virtual void OnDestroy() override;
@@ -249,7 +249,7 @@ public:
 
 struct CREOleCallback : public IRichEditOleCallback
 {
-	CREOleCallback() : refCount(0), nextStgId(0), pictStg(NULL) {}
+	CREOleCallback() : refCount(0), nextStgId(0), pictStg(nullptr) {}
 	unsigned refCount;
 	IStorage *pictStg;
 	int nextStgId;

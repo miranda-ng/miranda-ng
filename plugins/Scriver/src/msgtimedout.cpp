@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ErrorWindowData *ewd = (ErrorWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	//if (ewd==NULL && msg!=WM_INITDIALOG) return FALSE;
+	//if (ewd==nullptr && msg!=WM_INITDIALOG) return FALSE;
 	switch (msg) {
 		case WM_INITDIALOG:
 		{
@@ -35,7 +35,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			ewd = (ErrorWindowData *) lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) ewd);
 			TranslateDialogDefault(hwndDlg);
-			if (ewd != NULL) {
+			if (ewd != nullptr) {
 				ShowWindow(GetParent(ewd->hwndParent), SW_RESTORE);
 				if (ewd->szDescription)
 					SetDlgItemText(hwndDlg, IDC_ERRORTEXT, ewd->szDescription);

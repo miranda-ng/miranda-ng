@@ -93,7 +93,7 @@ static wchar_t* GetQuotedTextW(wchar_t *text)
 
 void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 {
-	if (hContact == 0 || hwnd == NULL)
+	if (hContact == 0 || hwnd == nullptr)
 		return;
 
 	MessageWindowEventData mwe = { sizeof(mwe) };
@@ -129,7 +129,7 @@ int RTL_Detect(WCHAR *pszwText)
 static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t* szFilename)
 {
 	*pppFiles = (wchar_t**)mir_realloc(*pppFiles, (++*totalCount + 1)*sizeof(wchar_t*));
-	(*pppFiles)[*totalCount] = NULL;
+	(*pppFiles)[*totalCount] = nullptr;
 	(*pppFiles)[*totalCount - 1] = mir_wstrdup(szFilename);
 
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
@@ -161,7 +161,7 @@ void CSrmmWindow::SetDialogToType()
 		ShowWindow(m_pInfobarData->hWnd, SW_HIDE);
 
 	ShowWindow(m_message.GetHwnd(), SW_SHOW);
-	if (m_hwndIeview != NULL)
+	if (m_hwndIeview != nullptr)
 		ShowWindow(m_log.GetHwnd(), SW_HIDE);
 	else
 		ShowWindow(m_log.GetHwnd(), SW_SHOW);
@@ -175,7 +175,7 @@ void CSrmmWindow::SetDialogToType()
 
 void CSrmmWindow::SetStatusIcon()
 {
-	if (m_szProto == NULL)
+	if (m_szProto == nullptr)
 		return;
 
 	MCONTACT hContact = db_mc_getSrmmSub(m_hContact);
@@ -186,7 +186,7 @@ void CSrmmWindow::SetStatusIcon()
 	m_hStatusIcon = Skin_LoadProtoIcon(szProto, m_wStatus, false);
 	m_hStatusIconBig = Skin_LoadProtoIcon(szProto, m_wStatus, true);
 
-	if (m_hStatusIconOverlay != NULL)
+	if (m_hStatusIconOverlay != nullptr)
 		DestroyIcon(m_hStatusIconOverlay);
 
 	int index = ImageList_ReplaceIcon(g_dat.hHelperIconList, 0, m_hStatusIcon);
@@ -203,7 +203,7 @@ void CSrmmWindow::GetTitlebarIcon(TitleBarData *tbd)
 	}
 	else {
 		tbd->hIcon = (g_dat.flags & SMF_STATUSICON) ? m_hStatusIcon : g_dat.hMsgIcon;
-		tbd->hIconNot = NULL;
+		tbd->hIconNot = nullptr;
 	}
 	tbd->hIconBig = (g_dat.flags & SMF_STATUSICON) ? m_hStatusIconBig : g_dat.hMsgIconBig;
 }
@@ -232,7 +232,7 @@ static LRESULT CALLBACK LogEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 	case WM_SETCURSOR:
 		if (inMenu) {
-			SetCursor(LoadCursor(NULL, IDC_ARROW));
+			SetCursor(LoadCursor(nullptr, IDC_ARROW));
 			return TRUE;
 		}
 		break;
@@ -269,7 +269,7 @@ static LRESULT CALLBACK LogEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		else ModifyMenu(hSubMenu, 5, MF_STRING | MF_GRAYED | MF_BYPOSITION, 5, TranslateT("No word to look up"));
 
 		inMenu = TRUE;
-		int uID = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
+		int uID = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
 		inMenu = FALSE;
 
 		switch (uID) {
@@ -486,7 +486,7 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 
 	SetButtonsPos(m_hwnd, m_hContact, bToolbar);
 
-	if (m_hwndIeview != NULL) {
+	if (m_hwndIeview != nullptr) {
 		IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
 		ieWindow.iType = IEW_SETPOS;
 		ieWindow.parent = m_hwnd;
@@ -497,13 +497,13 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 		ieWindow.cy = logH;
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 	}
-	else RedrawWindow(m_log.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
+	else RedrawWindow(m_log.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 
-	RedrawWindow(m_message.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
+	RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 
 	RefreshInfobar(m_pInfobarData);
 
-	RedrawWindow(GetDlgItem(m_hwnd, IDC_AVATAR), NULL, NULL, RDW_INVALIDATE);
+	RedrawWindow(GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, nullptr, RDW_INVALIDATE);
 }
 
 void CSrmmWindow::UpdateReadChars()
@@ -515,7 +515,7 @@ void CSrmmWindow::UpdateReadChars()
 		StatusBarData sbd;
 		sbd.iItem = 1;
 		sbd.iFlags = SBDF_TEXT | SBDF_ICON;
-		sbd.hIcon = NULL;
+		sbd.hIcon = nullptr;
 		sbd.pszText = szText;
 		mir_snwprintf(szText, L"%d", len);
 		SendMessage(m_hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)m_hwnd);
@@ -525,13 +525,13 @@ void CSrmmWindow::UpdateReadChars()
 void CSrmmWindow::ShowAvatar()
 {
 	INT_PTR res = CallService(MS_AV_GETAVATARBITMAP, m_hContact, 0);
-	m_ace = res != CALLSERVICE_NOTFOUND ? (AVATARCACHEENTRY*)res : NULL;
-	m_hbmpAvatarPic = (m_ace != NULL && (m_ace->dwFlags & AVS_HIDEONCLIST) == 0) ? m_ace->hbmPic : NULL;
+	m_ace = res != CALLSERVICE_NOTFOUND ? (AVATARCACHEENTRY*)res : nullptr;
+	m_hbmpAvatarPic = (m_ace != nullptr && (m_ace->dwFlags & AVS_HIDEONCLIST) == 0) ? m_ace->hbmPic : nullptr;
 	SendMessage(m_hwnd, WM_SIZE, 0, 0);
 
 	RefreshInfobar(m_pInfobarData);
 
-	RedrawWindow(GetDlgItem(m_hwnd, IDC_AVATAR), NULL, NULL, RDW_INVALIDATE);
+	RedrawWindow(GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, nullptr, RDW_INVALIDATE);
 }
 
 bool CSrmmWindow::IsTypingNotificationSupported()
@@ -664,17 +664,17 @@ void CSrmmWindow::OnInitDialog()
 	m_pParent = (ParentWindowData *)GetWindowLongPtr(m_hwndParent, GWLP_USERDATA);
 	m_szProto = GetContactProto(m_hContact);
 
-	if (m_hContact && m_szProto != NULL)
+	if (m_hContact && m_szProto != nullptr)
 		m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
 	else
 		m_wStatus = ID_STATUS_OFFLINE;
 
 	m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
-	SetTimer(m_hwnd, TIMERID_TYPE, 1000, NULL);
+	SetTimer(m_hwnd, TIMERID_TYPE, 1000, nullptr);
 
 	m_lastEventType = -1;
-	m_lastEventTime = time(NULL);
-	m_startTime = time(NULL);
+	m_lastEventTime = time(nullptr);
+	m_startTime = time(nullptr);
 
 	m_bUseRtl = db_get_b(m_hContact, SRMMMOD, "UseRTL", 0) != 0;
 	m_bUseIEView = g_dat.ieviewInstalled ? (g_dat.flags & SMF_USEIEVIEW) != 0 : false;
@@ -765,7 +765,7 @@ void CSrmmWindow::OnInitDialog()
 		ieWindow.cy = 300;
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 		m_hwndIeview = ieWindow.hwnd;
-		if (m_hwndIeview == NULL)
+		if (m_hwndIeview == nullptr)
 			m_bUseIEView = false;
 	}
 
@@ -802,7 +802,7 @@ void CSrmmWindow::OnInitDialog()
 
 		case LOADHISTORY_TIME:
 			if (m_hDbEventFirst == 0) {
-				dbei.timestamp = time(NULL);
+				dbei.timestamp = time(nullptr);
 				hPrevEvent = db_event_last(m_hContact);
 			}
 			else {
@@ -844,7 +844,7 @@ void CSrmmWindow::OnInitDialog()
 		if (GetForegroundWindow() != m_hwndParent || m_pParent->hwndActive != m_hwnd) {
 			m_iShowUnread = 1;
 			SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
-			SetTimer(m_hwnd, TIMERID_UNREAD, TIMEOUT_UNREAD, NULL);
+			SetTimer(m_hwnd, TIMERID_UNREAD, TIMEOUT_UNREAD, nullptr);
 		}
 		SendMessage(m_hwndParent, CM_STARTFLASHING, 0, 0);
 	}
@@ -862,11 +862,11 @@ void CSrmmWindow::OnDestroy()
 	if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 		NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
-	IcoLib_ReleaseIcon(m_hStatusIcon); m_hStatusIcon = NULL;
-	IcoLib_ReleaseIcon(m_hStatusIconBig); m_hStatusIconBig = NULL;
-	if (m_hStatusIconOverlay != NULL) {
+	IcoLib_ReleaseIcon(m_hStatusIcon); m_hStatusIcon = nullptr;
+	IcoLib_ReleaseIcon(m_hStatusIconBig); m_hStatusIconBig = nullptr;
+	if (m_hStatusIconOverlay != nullptr) {
 		DestroyIcon(m_hStatusIconOverlay);
-		m_hStatusIconOverlay = NULL;
+		m_hStatusIconOverlay = nullptr;
 	}	
 
 	ReleaseSendQueueItems(m_hwnd);
@@ -882,7 +882,7 @@ void CSrmmWindow::OnDestroy()
 	WindowList_Remove(pci->hWindowList, m_hwnd);
 
 	HFONT hFont = (HFONT)m_message.SendMsg(WM_GETFONT, 0, 0);
-	if (hFont != NULL && hFont != (HFONT)m_btnOk.SendMsg(WM_GETFONT, 0, 0))
+	if (hFont != nullptr && hFont != (HFONT)m_btnOk.SendMsg(WM_GETFONT, 0, 0))
 		DeleteObject(hFont);
 
 	db_set_b(m_hContact, SRMMMOD, "UseRTL", m_bUseRtl);
@@ -892,7 +892,7 @@ void CSrmmWindow::OnDestroy()
 
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
 	SendMessage(m_hwndParent, CM_REMOVECHILD, 0, (LPARAM)m_hwnd);
-	if (m_hwndIeview != NULL) {
+	if (m_hwndIeview != nullptr) {
 		IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
 		ieWindow.iType = IEW_DESTROY;
 		ieWindow.hwnd = m_hwndIeview;
@@ -934,14 +934,14 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 
 	/* Store messaging history */
 	TCmdList *cmdListNew = tcmdlist_last(cmdList);
-	while (cmdListNew != NULL && cmdListNew->temporary) {
+	while (cmdListNew != nullptr && cmdListNew->temporary) {
 		cmdList = tcmdlist_remove(cmdList, cmdListNew);
 		cmdListNew = tcmdlist_last(cmdList);
 	}
-	if (msi.sendBuffer != NULL)
+	if (msi.sendBuffer != nullptr)
 		cmdList = tcmdlist_append(cmdList, rtrim(msi.sendBuffer), 20, FALSE);
 
-	cmdListCurrent = NULL;
+	cmdListCurrent = nullptr;
 
 	if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 		NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
@@ -951,7 +951,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 	if (db_get_b(0, SRMMMOD, SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
 		ShowWindow(m_hwndParent, SW_MINIMIZE);
 
-	if (pButton == NULL)
+	if (pButton == nullptr)
 		SendMessage(m_hwndParent, DM_SENDMESSAGE, 0, (LPARAM)&msi);
 	else
 		SendMessage(m_hwnd, DM_SENDMESSAGE, 0, (LPARAM)&msi);
@@ -965,7 +965,7 @@ void CSrmmWindow::onClick_UserMenu(CCtrlButton *pButton)
 		RECT rc;
 		HMENU hMenu = Menu_BuildContactMenu(m_hContact);
 		GetWindowRect(pButton->GetHwnd(), &rc);
-		TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, m_hwnd, NULL);
+		TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, m_hwnd, nullptr);
 		DestroyMenu(hMenu);
 	}
 }
@@ -979,8 +979,8 @@ void CSrmmWindow::onClick_Quote(CCtrlButton*)
 	st.flags = ST_SELECTION;
 	st.codepage = 1200;
 
-	wchar_t *buffer = NULL;
-	if (m_hwndIeview != NULL) {
+	wchar_t *buffer = nullptr;
+	if (m_hwndIeview != nullptr) {
 		IEVIEWEVENT evt = { sizeof(evt) };
 		evt.hwnd = m_hwndIeview;
 		evt.hContact = m_hContact;
@@ -989,7 +989,7 @@ void CSrmmWindow::onClick_Quote(CCtrlButton*)
 	}
 	else buffer = GetRichEditSelection(m_log.GetHwnd());
 
-	if (buffer != NULL) {
+	if (buffer != nullptr) {
 		wchar_t *quotedBuffer = GetQuotedTextW(buffer);
 		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
 		mir_free(quotedBuffer);
@@ -1004,7 +1004,7 @@ void CSrmmWindow::onClick_Quote(CCtrlButton*)
 		db_event_get(m_hDbEventLast, &dbei);
 		if (DbEventIsMessageOrCustom(&dbei)) {
 			buffer = DbEvent_GetTextW(&dbei, CP_ACP);
-			if (buffer != NULL) {
+			if (buffer != nullptr) {
 				wchar_t *quotedBuffer = GetQuotedTextW(buffer);
 				m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
 				mir_free(quotedBuffer);
@@ -1040,7 +1040,7 @@ void CSrmmWindow::onClick_History(CCtrlButton*)
 void CSrmmWindow::onChange_Message(CCtrlEdit*)
 {
 	int len = GetRichTextLength(m_message.GetHwnd(), 1200, FALSE);
-	cmdListCurrent = NULL;
+	cmdListCurrent = nullptr;
 	UpdateReadChars();
 	EnableWindow(GetDlgItem(m_hwnd, IDOK), len != 0);
 	if (!(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000)) {
@@ -1079,7 +1079,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			POINT pt;
 			HMENU hMenu = Menu_BuildContactMenu(m_hContact);
 			GetCursorPos(&pt);
-			TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, m_hwnd, NULL);
+			TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, m_hwnd, nullptr);
 			DestroyMenu(hMenu);
 		}
 		break;
@@ -1089,14 +1089,14 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_DROPFILES:
-		if (m_szProto == NULL) break;
+		if (m_szProto == nullptr) break;
 		if (!(CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_1, 0)&PF1_FILESEND)) break;
 		if (m_wStatus == ID_STATUS_OFFLINE) break;
 		if (m_hContact != 0) {
 			wchar_t szFilename[MAX_PATH];
 			HDROP hDrop = (HDROP)wParam;
-			int fileCount = DragQueryFile(hDrop, -1, NULL, 0), totalCount = 0, i;
-			wchar_t** ppFiles = NULL;
+			int fileCount = DragQueryFile(hDrop, -1, nullptr, 0), totalCount = 0, i;
+			wchar_t** ppFiles = nullptr;
 			for (i = 0; i < fileCount; i++) {
 				DragQueryFile(hDrop, i, szFilename, _countof(szFilename));
 				AddToFileList(&ppFiles, &totalCount, szFilename);
@@ -1185,7 +1185,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case DM_OPTIONSAPPLIED:
 		m_bUseIEView = g_dat.ieviewInstalled ? (g_dat.flags & SMF_USEIEVIEW) != 0 : false;
-		if (m_bUseIEView && m_hwndIeview == NULL) {
+		if (m_bUseIEView && m_hwndIeview == nullptr) {
 			IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
 			ieWindow.iType = IEW_CREATE;
 			ieWindow.dwMode = IEWM_SCRIVER;
@@ -1194,17 +1194,17 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			ieWindow.cy = 300;
 			CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 			m_hwndIeview = ieWindow.hwnd;
-			if (m_hwndIeview == NULL)
+			if (m_hwndIeview == nullptr)
 				m_bUseIEView = false;
 		}
-		else if (!m_bUseIEView && m_hwndIeview != NULL) {
-			if (m_hwndIeview != NULL) {
+		else if (!m_bUseIEView && m_hwndIeview != nullptr) {
+			if (m_hwndIeview != nullptr) {
 				IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
 				ieWindow.iType = IEW_DESTROY;
 				ieWindow.hwnd = m_hwndIeview;
 				CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 			}
-			m_hwndIeview = NULL;
+			m_hwndIeview = nullptr;
 		}
 
 		SendMessage(m_hwnd, DM_GETAVATAR, 0, 0);
@@ -1214,7 +1214,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			m_log.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
 			colour = db_get_dw(0, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
 			m_message.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
-			InvalidateRect(m_message.GetHwnd(), NULL, FALSE);
+			InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
 
 			LOGFONT lf;
 			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &colour);
@@ -1352,7 +1352,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			HWND hLog;
 			POINT pt;
 			GetCursorPos(&pt);
-			if (m_hwndIeview != NULL)
+			if (m_hwndIeview != nullptr)
 				hLog = m_hwndIeview;
 			else
 				hLog = m_log.GetHwnd();
@@ -1399,7 +1399,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (wParam == 0 || wParam == m_hContact)
 			StreamInEvents(m_hDbEventFirst, -1, 0);
 
-		InvalidateRect(m_log.GetHwnd(), NULL, FALSE);
+		InvalidateRect(m_log.GetHwnd(), nullptr, FALSE);
 		break;
 
 	case DM_APPENDTOLOG:   //takes wParam=hDbEvent
@@ -1407,7 +1407,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_SCROLLLOGTOBOTTOM:
-		if (m_hwndIeview == NULL) {
+		if (m_hwndIeview == nullptr) {
 			if ((GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) == 0)
 				break;
 
@@ -1421,7 +1421,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					PostMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
 				}
 			}
-			RedrawWindow(m_log.GetHwnd(), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+			RedrawWindow(m_log.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 		}
 		else {
 			IEVIEWWINDOW ieWindow;
@@ -1462,7 +1462,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					if (GetActiveWindow() != m_hwndParent || GetForegroundWindow() != m_hwndParent || m_pParent->hwndActive != m_hwnd) {
 						m_iShowUnread = 1;
 						SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
-						SetTimer(m_hwnd, TIMERID_UNREAD, TIMEOUT_UNREAD, NULL);
+						SetTimer(m_hwnd, TIMERID_UNREAD, TIMEOUT_UNREAD, nullptr);
 					}
 					SendMessage(m_hwndParent, CM_STARTFLASHING, 0, 0);
 				}
@@ -1488,8 +1488,8 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			else if (m_lastMessage) {
 				wchar_t date[64], time[64];
-				TimeZone_PrintTimeStamp(NULL, m_lastMessage, L"d", date, _countof(date), 0);
-				TimeZone_PrintTimeStamp(NULL, m_lastMessage, L"t", time, _countof(time), 0);
+				TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"d", date, _countof(date), 0);
+				TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"t", time, _countof(time), 0);
 				mir_snwprintf(szText, TranslateT("Last message received on %s at %s."), date, time);
 				sbd.pszText = szText;
 			}
@@ -1514,7 +1514,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_CLEARLOG:
-		if (m_hwndIeview != NULL) {
+		if (m_hwndIeview != nullptr) {
 			IEVIEWEVENT evt = { sizeof(evt) };
 			evt.iType = IEE_CLEAR_LOG;
 			evt.dwFlags = (m_bUseRtl) ? IEEF_RTL : 0;
@@ -1582,7 +1582,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case DM_STARTMESSAGESENDING:
 		m_iMessagesInProgress++;
 	case DM_SHOWMESSAGESENDING:
-		SetTimer(m_hwnd, TIMERID_MSGSEND, 1000, NULL);
+		SetTimer(m_hwnd, TIMERID_MSGSEND, 1000, nullptr);
 		if (g_dat.flags & SMF_SHOWPROGRESS)
 			SendMessage(GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
 		break;
@@ -1608,7 +1608,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case DM_ERRORDECIDED:
 		{
 			MessageSendQueueItem *item = (MessageSendQueueItem *)lParam;
-			item->hwndErrorDlg = NULL;
+			item->hwndErrorDlg = nullptr;
 			switch (wParam) {
 			case MSGERROR_CANCEL:
 				RemoveSendQueueItem(item);
@@ -1686,7 +1686,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			else result = m_iSendAllConfirm;
 
 			if (LOWORD(result) == IDYES)
-				onClick_Ok(NULL);
+				onClick_Ok(nullptr);
 			break;
 		}
 		break;
