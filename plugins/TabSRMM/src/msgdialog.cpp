@@ -2159,9 +2159,9 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		return 0;
 
+	case DM_CONFIGURETOOLBAR:
 		// configures the toolbar only... if lParam != 0, then it also calls
 		// SetDialogToType() to reconfigure the message window
-	case DM_CONFIGURETOOLBAR:
 		m_bShowUIElements = m_pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
 
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SPLITTERY), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SPLITTERY), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);

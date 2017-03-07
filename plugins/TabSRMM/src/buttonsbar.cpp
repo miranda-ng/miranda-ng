@@ -206,26 +206,24 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 	if (!m_hwnd || !IsWindowVisible(m_hwnd))
 		return 0;
 
-	HWND hwnd = m_hwnd;
-	RECT rect;
 	HWND hwndButton = 0;
 
 	BYTE gap = DPISCALEX_S(db_get_b(NULL, SRMSGMOD, "ButtonsBarGap", 1));
 	bool showToolbar = !(m_pContainer->dwFlags & CNT_HIDETOOLBAR);
 	bool bBottomToolbar = (m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR) != 0;
 
-	HWND hwndToggleSideBar = GetDlgItem(hwnd, IDC_TOGGLESIDEBAR);
+	HWND hwndToggleSideBar = GetDlgItem(m_hwnd, IDC_TOGGLESIDEBAR);
 	ShowWindow(hwndToggleSideBar, (showToolbar && m_pContainer->SideBar->isActive()) ? SW_SHOW : SW_HIDE);
 
 	HDWP hdwp = BeginDeferWindowPos(Srmm_GetButtonCount() + 1);
 
 	RECT rcSplitter;
-	GetWindowRect(GetDlgItem(hwnd, (m_bType == SESSIONTYPE_IM) ? IDC_SPLITTERY : IDC_SPLITTERY), &rcSplitter);
-
+	GetWindowRect(GetDlgItem(m_hwnd, IDC_SPLITTERY), &rcSplitter);
 	POINT ptSplitter = { 0, rcSplitter.top };
-	ScreenToClient(hwnd, &ptSplitter);
+	ScreenToClient(m_hwnd, &ptSplitter);
 
-	GetClientRect(hwnd, &rect);
+	RECT rect;
+	GetClientRect(m_hwnd, &rect);
 
 	int splitterY = (!bBottomToolbar) ? ptSplitter.y - DPISCALEY_S(1) : rect.bottom;
 	int tempL = m_bbLSideWidth, tempR = m_bbRSideWidth;
@@ -249,7 +247,7 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 			continue;
 
 		if (((m_bType == SESSIONTYPE_IM) && cbd->m_bIMButton) || ((m_bType == SESSIONTYPE_CHAT) && cbd->m_bChatButton)) {
-			hwndButton = GetDlgItem(hwnd, cbd->m_dwButtonCID);
+			hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
 
 			if (!showToolbar) {
 				ShowWindow(hwndButton, SW_HIDE);
@@ -299,7 +297,7 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 			continue;
 
 		if (((m_bType == SESSIONTYPE_IM) && cbd->m_bIMButton) || ((m_bType == SESSIONTYPE_CHAT) && cbd->m_bChatButton)) {
-			hwndButton = GetDlgItem(hwnd, cbd->m_dwButtonCID);
+			hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
 
 			if (!showToolbar) {
 				ShowWindow(hwndButton, SW_HIDE);

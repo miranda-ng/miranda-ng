@@ -252,7 +252,7 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 {
 	bool bToolbar = !(m_pContainer->dwFlags & CNT_HIDETOOLBAR);
-	bool bBottomToolbar = m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR ? 1 : 0;
+	bool bBottomToolbar = (m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR) != 0;
 	bool bNick = si->iType != GCW_SERVER && si->bNicklistEnabled;
 	bool bInfoPanel = m_pPanel.isActive();
 	int  panelHeight = m_pPanel.getHeight() + 1;
@@ -297,7 +297,9 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.top = 0;
 		urc->rcItem.left = 0;
 		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - iSplitterX : urc->dlgNewSize.cx;
-		urc->rcItem.bottom = (bToolbar && !bBottomToolbar) ? (urc->dlgNewSize.cy - m_iSplitterY - (PluginConfig.m_DPIscaleY > 1.0 ? DPISCALEY_S(24) : DPISCALEY_S(23))) : (urc->dlgNewSize.cy - m_iSplitterY - DPISCALEY_S(2));
+		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
+		if (!bToolbar || bBottomToolbar)
+			urc->rcItem.bottom += DPISCALEY_S(21);
 		if (bInfoPanel)
 			urc->rcItem.top += panelHeight;
 		if (CSkin::m_skinEnabled) {
@@ -315,7 +317,9 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.top = 0;
 		urc->rcItem.right = urc->dlgNewSize.cx;
 		urc->rcItem.left = urc->dlgNewSize.cx - iSplitterX + 2;
-		urc->rcItem.bottom = (bToolbar && !bBottomToolbar) ? (urc->dlgNewSize.cy - m_iSplitterY - DPISCALEY_S(23)) : (urc->dlgNewSize.cy - m_iSplitterY - DPISCALEY_S(2));
+		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
+		if (!bToolbar || bBottomToolbar)
+			urc->rcItem.bottom += DPISCALEY_S(21);
 		if (bInfoPanel)
 			urc->rcItem.top += panelHeight;
 		if (CSkin::m_skinEnabled) {
@@ -332,7 +336,9 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 	case IDC_SPLITTERX:
 		urc->rcItem.right = urc->dlgNewSize.cx - iSplitterX + 2;
 		urc->rcItem.left = urc->dlgNewSize.cx - iSplitterX;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY - ((bToolbar && !bBottomToolbar) ? DPISCALEY_S(23) : DPISCALEY_S(2));
+		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
+		if (!bToolbar || bBottomToolbar)
+			urc->rcItem.bottom += DPISCALEY_S(21);
 		urc->rcItem.top = 0;
 		if (bInfoPanel)
 			urc->rcItem.top += panelHeight;
@@ -340,8 +346,8 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_SPLITTERY:
 		urc->rcItem.right = urc->dlgNewSize.cx;
-		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY + DPISCALEY_S(2);
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + DPISCALEY_S(23);
+		urc->rcItem.bottom = urc->rcItem.top + DPISCALEY_S(2);
 		urc->rcItem.left = 0;
 		urc->rcItem.bottom++;
 		urc->rcItem.top++;
@@ -349,14 +355,14 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_MESSAGE:
 		urc->rcItem.right = urc->dlgNewSize.cx;
-		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3;
-		urc->rcItem.bottom = urc->dlgNewSize.cy; // - 1 ;
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3 + DPISCALEY_S(23);
+		urc->rcItem.bottom = urc->dlgNewSize.cy;
+		if (bBottomToolbar && bToolbar)
+			urc->rcItem.bottom -= DPISCALEY_S(22);
 
 		if (m_bIsAutosizingInput)
 			urc->rcItem.top -= DPISCALEY_S(1);
 
-		if (bBottomToolbar && bToolbar)
-			urc->rcItem.bottom -= DPISCALEY_S(22);
 		if (CSkin::m_skinEnabled) {
 			CSkinItem *item = &SkinItems[ID_EXTBKINPUTAREA];
 			if (!item->IGNORED) {

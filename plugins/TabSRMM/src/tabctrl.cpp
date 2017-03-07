@@ -29,7 +29,7 @@
 
 #include "stdafx.h"
 
-static WNDPROC		OldTabControlClassProc;
+static WNDPROC OldTabControlClassProc;
 
 #define FIXED_TAB_SIZE 100
 
@@ -940,23 +940,23 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	switch (msg) {
 	case WM_NCCREATE:
-	{
-		WNDCLASSEX wcl = { 0 };
-		wcl.cbSize = sizeof(wcl);
-		GetClassInfoEx(g_hInst, L"SysTabControl32", &wcl);
-		OldTabControlClassProc = wcl.lpfnWndProc;
+		{
+			WNDCLASSEX wcl = { 0 };
+			wcl.cbSize = sizeof(wcl);
+			GetClassInfoEx(g_hInst, L"SysTabControl32", &wcl);
+			OldTabControlClassProc = wcl.lpfnWndProc;
 
-		tabdat = (TabControlData*)mir_calloc(sizeof(TabControlData));
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)tabdat);
-		tabdat->hwnd = hwnd;
-		tabdat->cx = GetSystemMetrics(SM_CXSMICON);
-		tabdat->cy = GetSystemMetrics(SM_CYSMICON);
-		tabdat->fTipActive = FALSE;
-		tabdat->iHoveredTabIndex = -1;
-		tabdat->iHoveredCloseIcon = -1;
-		SendMessage(hwnd, EM_THEMECHANGED, 0, 0);
-	}
-	return TRUE;
+			tabdat = (TabControlData*)mir_calloc(sizeof(TabControlData));
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)tabdat);
+			tabdat->hwnd = hwnd;
+			tabdat->cx = GetSystemMetrics(SM_CXSMICON);
+			tabdat->cy = GetSystemMetrics(SM_CYSMICON);
+			tabdat->fTipActive = FALSE;
+			tabdat->iHoveredTabIndex = -1;
+			tabdat->iHoveredCloseIcon = -1;
+			SendMessage(hwnd, EM_THEMECHANGED, 0, 0);
+		}
+		return TRUE;
 
 	case EM_THEMECHANGED:
 		tabdat->m_xpad = M.GetByte("x-pad", 3);
