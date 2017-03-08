@@ -584,18 +584,6 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 	}
 }
 
-wchar_t* StripResourceFromJid(const wchar_t *source)
-{
-	if (!source)
-		return 0;
-	wchar_t *result = (wchar_t*)mir_alloc(wcslen(source));
-	int i = 0;
-	for (; source[i] != '/' && source[i] != 0; i++)
-		result[i] = source[i];
-	result[i] = 0;
-	return result;
-}
-
 void CJabberProto::OmemoAnnounceDevice()
 {
 	// check "OmemoDeviceId%d" for own id and send  updated list if not exist
@@ -613,7 +601,8 @@ void CJabberProto::OmemoAnnounceDevice()
 
 	// add own device id
 	// construct node
-	XmlNodeIq iq(L"set", SerialNext()); iq << XATTR(L"from", ptrW(StripResourceFromJid(m_ThreadInfo->fullJID)));
+	wchar_t szBareJid[JABBER_MAX_JID_LEN];
+	XmlNodeIq iq(L"set", SerialNext()); iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid)));
 	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish") << XATTR(L"node", JABBER_FEAT_OMEMO L":devicelist");
 	HXML list_node = publish_node << XCHILDNS(L"list", JABBER_FEAT_OMEMO);
 
@@ -635,8 +624,11 @@ void CJabberProto::OmemoSendBundle()
 {
 	// get own device id
 	DWORD own_id = omemo::GetOwnDeviceId(this);
+
 	// construct bundle node
-	XmlNodeIq iq(L"set", SerialNext()); iq << XATTR(L"from", ptrW(StripResourceFromJid(m_ThreadInfo->fullJID)));
+	wchar_t szBareJid[JABBER_MAX_JID_LEN];
+	XmlNodeIq iq(L"set", SerialNext()); iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid)));
+
 	// TODO: add "from"
 	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish");
 	{
