@@ -1705,6 +1705,10 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 
 				switch (((MSGFILTER *)lParam)->msg) {
+				case WM_RBUTTONUP:
+					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
+					return TRUE;
+
 				case WM_CHAR:
 					if (!(GetKeyState(VK_CONTROL) & 0x8000)) {
 						SetFocus(m_message.GetHwnd());
@@ -1714,6 +1718,13 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					return TRUE;
 				}
 				break;
+			}
+			break;
+		
+		case IDC_MESSAGE:
+			if (pNmhdr->code == EN_MSGFILTER && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
+				SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
+				return TRUE;
 			}
 			break;
 		}
