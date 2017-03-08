@@ -800,7 +800,6 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	case WM_LBUTTONDOWN:
 		if (hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY)) {
 			GetClientRect(hwnd, &rc);
-			dat->m_iSavedMultiSplit = rc.right > rc.bottom ? (short)HIWORD(GetMessagePos()) + rc.bottom / 2 : (short)LOWORD(GetMessagePos()) + rc.right / 2;
 			dat->m_savedSplitterY = dat->m_iSplitterY;
 			dat->m_savedDynaSplit = dat->m_dynaSplitter;
 		}
@@ -848,21 +847,20 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			RedrawWindow(hwndParent, NULL, NULL, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW);
 		}
 		else if (hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY)) {
-			HMENU hMenu = GetSubMenu(PluginConfig.g_hMenuContext, 12);
-			LONG messagePos = GetMessagePos();
-
-			GetClientRect(hwnd, &rc);
-			if (hwndCapture != hwnd || dat->m_iSavedMultiSplit == (rc.right > rc.bottom ? (short)HIWORD(messagePos) + rc.bottom / 2 : (short)LOWORD(messagePos) + rc.right / 2))
+			if (hwndCapture != hwnd)
 				break;
 
 			POINT pt;
 			GetCursorPos(&pt);
 
+			LONG messagePos = GetMessagePos();
+			GetClientRect(hwnd, &rc);
+
 			int selection;
 			if (dat->m_bIsAutosizingInput)
 				selection = ID_SPLITTERCONTEXT_SETPOSITIONFORTHISSESSION;
 			else
-				selection = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndParent, NULL);
+				selection = TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 12), TPM_RETURNCMD, pt.x, pt.y, 0, hwndParent, NULL);
 
 			switch (selection) {
 			case ID_SPLITTERCONTEXT_SAVEFORTHISCONTACTONLY:
