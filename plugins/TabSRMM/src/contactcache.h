@@ -84,8 +84,6 @@ struct CContactCache : public MZeroedObject
 	__forceinline LPCWSTR  getXStatusMsg() const { return m_xStatusMsg; }
 	__forceinline LPCWSTR  getListeningInfo() const { return m_ListeningInfo; }
 	__forceinline BYTE     getXStatusId() const { return m_xStatus; }
-	__forceinline HWND     getWindowData(CSrmmWindow* &dat) const { dat = m_dat; return m_hwnd; }
-	__forceinline HWND     getHwnd() const { return m_hwnd; }
 
 	__forceinline DWORD    getSessionStart() const { return m_stats->started; }
 	__forceinline int      getSessionMsgCount() const { return (int)m_stats->messageCount; }
@@ -107,7 +105,7 @@ struct CContactCache : public MZeroedObject
 	void     updateMeta();
 	bool     updateUIN();
 	void     updateStatusMsg(const char *szKey = 0);
-	void     setWindowData(const HWND hwnd = 0, CSrmmWindow *dat = 0);
+	void     setWindowData(CSrmmWindow *dat = 0);
 	void     resetMeta();
 	void     closeWindow();
 	void     deletedHandler();
@@ -142,7 +140,6 @@ private:
 	bool     m_isValid;
 	bool     m_isFavorite;
 	bool     m_isRecent;
-	HWND     m_hwnd;
 	int      m_nMax;
 	int      m_iHistoryCurrent, m_iHistoryTop, m_iHistorySize;
 

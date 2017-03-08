@@ -592,25 +592,19 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	if (tabdat == NULL || tabdat->pContainer == NULL)
 		return;
 
-	PAINTSTRUCT ps;
-	HDC hdc;
-	RECT rectTemp, rctPage, rctActive, rcItem, rctClip, rctOrig;
-	RECT rectUpDn = { 0, 0, 0, 0 };
-	int nCount = TabCtrl_GetItemCount(hwnd), i;
-	int iActive, hotItem;
-	POINT pt;
-	DWORD dwStyle = tabdat->dwStyle;
-	UINT uiFlags = 1;
-	UINT uiBottom = 0;
-	bool  isAero = M.isAero();
-	HANDLE hpb = 0;
-	BOOL bClassicDraw = !isAero && (tabdat->m_VisualStyles == FALSE || CSkin::m_skinEnabled);
-
 	if (GetUpdateRect(hwnd, NULL, TRUE) == 0)
 		return;
 
+	RECT  rectTemp, rctPage, rctActive, rcItem, rctClip, rctOrig;
+	RECT  rectUpDn = { 0, 0, 0, 0 };
+	int   nCount = TabCtrl_GetItemCount(hwnd), i;
+	DWORD dwStyle = tabdat->dwStyle;
+	bool  isAero = M.isAero();
+	BOOL  bClassicDraw = !isAero && (tabdat->m_VisualStyles == FALSE || CSkin::m_skinEnabled);
+
+	POINT pt;
 	GetCursorPos(&pt);
-	hotItem = GetTabItemFromMouse(hwnd, &pt);
+	int hotItem = GetTabItemFromMouse(hwnd, &pt);
 	if (tabdat->iHoveredTabIndex != hotItem)
 		InvalidateRect(hwnd, NULL, FALSE);
 	tabdat->iHoveredTabIndex = hotItem;
@@ -634,6 +628,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	}
 	else tabdat->fAeroTabs = FALSE;
 
+	PAINTSTRUCT ps;
 	HDC hdcreal = BeginPaint(hwnd, &ps);
 
 	// switchbar is active, don't paint a single pixel, the tab control won't be visible at all
@@ -648,18 +643,21 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 
 	GetClientRect(hwnd, &rctPage);
 	rctOrig = rctPage;
-	iActive = TabCtrl_GetCurSel(hwnd);
+	int iActive = TabCtrl_GetCurSel(hwnd);
 	TabCtrl_GetItemRect(hwnd, iActive, &rctActive);
 	int cx = rctPage.right - rctPage.left;
 	int cy = rctPage.bottom - rctPage.top;
 
 	// draw everything to a memory dc to avoid flickering
+	HDC hdc;
+	HANDLE hpb;
 	HBITMAP bmpMem, bmpOld;
 	if (CMimAPI::m_haveBufferedPaint) {
 		hpb = tabdat->hbp = CSkin::InitiateBufferedPaint(hdcreal, rctPage, hdc);
 		bmpMem = bmpOld = 0;
 	}
 	else {
+		hpb = nullptr;
 		hdc = CreateCompatibleDC(hdcreal);
 		bmpMem = tabdat->fAeroTabs ? CSkin::CreateAeroCompatibleBitmap(rctPage, hdcreal) : CreateCompatibleBitmap(hdcreal, cx, cy);
 		bmpOld = (HBITMAP)SelectObject(hdc, bmpMem);
@@ -673,6 +671,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	else
 		CSkin::FillBack(hdc, &rctPage);
 
+	UINT uiBottom;
 	if (dwStyle & TCS_BUTTONS) {
 		RECT rc1;
 		TabCtrl_GetItemRect(hwnd, nCount - 1, &rc1);
@@ -710,7 +709,9 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 		ExcludeClipRect(hdc, rctClip.left, rctClip.top, rctClip.right, rctClip.bottom);
 	else
 		memset(&rctClip, 0, sizeof(RECT));
+	
 	if ((!bClassicDraw || PluginConfig.m_fillColor) && IntersectRect(&rectTemp, &rctPage, &ps.rcPaint) && !CSkin::m_skinEnabled) {
+		UINT uiFlags = 1;
 		RECT rcClient = rctPage;
 		if (dwStyle & TCS_BOTTOM) {
 			rcClient.bottom = rctPage.bottom;
@@ -835,8 +836,6 @@ page_done:
 		FillRect(hdc, &rcPage, CSkin::m_BrushBack);
 	}
 
-	uiFlags = 0;
-
 	// figure out hottracked item (if any)
 	if (tabdat->bRefreshWithoutClip)
 		goto skip_tabs;
@@ -857,7 +856,7 @@ page_done:
 		if (IntersectRect(&rectTemp, &rcItem, &ps.rcPaint) || bClassicDraw) {
 			int nHint = 0;
 			if (!bClassicDraw && !(dwStyle & TCS_BUTTONS)) {
-				DrawThemesXpTabItem(hdc, &rcItem, uiFlags | uiBottom | (i == hotItem ? 4 : 0), tabdat, dat);
+				DrawThemesXpTabItem(hdc, &rcItem, uiBottom | (i == hotItem ? 4 : 0), tabdat, dat);
 				DrawItem(tabdat, hdc, &rcItem, nHint | (i == hotItem ? HINT_HOTTRACK : 0), i, dat);
 			}
 			else {

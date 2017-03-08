@@ -173,7 +173,7 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 
 	if (m_bIsAutosizingInput && m_iInputAreaHeight == -1) {
 		m_iInputAreaHeight = 0;
-		SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_REQUESTRESIZE, 0, 0);
+		m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
 	}
 
 	m_pPanel.dismissConfig();

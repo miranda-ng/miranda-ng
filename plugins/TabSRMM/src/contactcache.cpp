@@ -53,10 +53,10 @@ CContactCache::CContactCache(MCONTACT hContact)
 	m_isValid = false;
 }
 
-/**
- * 2nd part of the object initialization that must be callable during the
- * object's lifetime (not only on construction).
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// 2nd part of the object initialization that must be callable during the
+// object's lifetime (not only on construction).
+
 void CContactCache::initPhaseTwo()
 {
 	m_szAccount = 0;
@@ -80,10 +80,10 @@ void CContactCache::initPhaseTwo()
 	}
 }
 
-/**
- * reset meta contact information. Used when meta contacts are disabled
- * on user's request.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// reset meta contact information.Used when meta contacts are disabled
+// on user's request.
+
 void CContactCache::resetMeta()
 {
 	m_isMeta = false;
@@ -92,21 +92,21 @@ void CContactCache::resetMeta()
 	initPhaseTwo();
 }
 
-/**
- * if the contact has an open message window, close it.
- * window procedure will use setWindowData() to reset m_hwnd to 0.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// if the contact has an open message window, close it.
+// window procedure will use setWindowData() to reset m_hwnd to 0.
+
 void CContactCache::closeWindow()
 {
-	if (m_hwnd)
-		::SendMessage(m_hwnd, WM_CLOSE, 1, 2);
+	if (m_dat)
+		::SendMessage(m_dat->GetHwnd(), WM_CLOSE, 1, 2);
 }
 
-/**
- * update private copy of the nick name. Use contact list name cache
- *
- * @return bool: true if nick has changed.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// update private copy of the nick name.Use contact list name cache
+// 
+// @return bool: true if nick has changed.
+
 bool CContactCache::updateNick()
 {
 	bool fChanged = false;
@@ -119,11 +119,11 @@ bool CContactCache::updateNick()
 	return fChanged;
 }
 
-/**
- * update meta (subcontact and -protocol) status. This runs when the
- * MC protocol fires one of its events OR when a relevant database value changes
- * in the master contact.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// update meta(subcontact and - protocol) status.This runs when the
+// MC protocol fires one of its events OR when a relevant database value changes
+// in the master contact.
+
 void CContactCache::updateMeta()
 {
 	if (m_isValid) {
@@ -148,10 +148,10 @@ void CContactCache::updateMeta()
 	}
 }
 
-/**
- * obtain the UIN. This is only maintained for open message windows
- * it also run when the subcontact for a MC changes.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// obtain the UIN.This is only maintained for open message windows
+// it also run when the subcontact for a MC changes.
+
 bool CContactCache::updateUIN()
 {
 	m_szUIN[0] = 0;
@@ -201,56 +201,46 @@ void CContactCache::allocStats()
 	}
 }
 
-/**
- * set the window data for this contact. The window procedure of the message
- * dialog will use this in WM_INITDIALOG and WM_DESTROY to tell the cache
- * that a message window is open for this contact.
- *
- * @param hwnd:		window handle
- * @param dat:		_MessageWindowData - window data structure
- */
-void CContactCache::setWindowData(const HWND hwnd, CSrmmWindow *dat)
+/////////////////////////////////////////////////////////////////////////////////////////
+//set the window data for this contact.The window procedure of the message
+// dialog will use this in WM_INITDIALOG and WM_DESTROY to tell the cache
+// that a message window is open for this contact.
+//
+// @param dat: CSrmmWindow* - window data structure
+
+void CContactCache::setWindowData(CSrmmWindow *dat)
 {
-	m_hwnd = hwnd;
 	m_dat = dat;
-	if (hwnd && dat && m_history == 0)
-		allocHistory();
-	if (hwnd)
+	
+	if (dat) {
+		if (m_history == nullptr)
+			allocHistory();
 		updateStatusMsg();
+	}
 	else {
-		/* release memory - not needed when window isn't open */
-		if (m_szStatusMsg) {
-			mir_free(m_szStatusMsg);
-			m_szStatusMsg = 0;
-		}
-		if (m_ListeningInfo) {
-			mir_free(m_ListeningInfo);
-			m_ListeningInfo = 0;
-		}
-		if (m_xStatusMsg) {
-			mir_free(m_xStatusMsg);
-			m_xStatusMsg = 0;
-		}
+		// release memory - not needed when window isn't open
+		replaceStrW(m_szStatusMsg, nullptr);
+		replaceStrW(m_ListeningInfo, nullptr);
+		replaceStrW(m_xStatusMsg, nullptr);
 	}
 }
 
-/**
- * saves message to the input history.
- * it's using streamout in UTF8 format - no unicode "issues" and all RTF formatting is saved to the history.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// saves message to the input history.
+// it's using streamout in UTF8 format - no unicode "issues" and all RTF formatting is saved to the history.
+
 void CContactCache::saveHistory(WPARAM wParam, LPARAM)
 {
-	int  oldTop = 0;
-
-	if (m_hwnd == 0 || m_dat == 0)
+	if (m_dat == nullptr)
 		return;
 
+	int oldTop = 0;
 	if (wParam) {
 		oldTop = m_iHistoryTop;
 		m_iHistoryTop = (int)wParam;
 	}
 
-	char *szFromStream = ::Message_GetFromStream(GetDlgItem(m_hwnd, IDC_MESSAGE), SF_RTFNOOBJS | SFF_PLAINRTF | SF_NCRFORNONASCII);
+	char *szFromStream = ::Message_GetFromStream(GetDlgItem(m_dat->GetHwnd(), IDC_MESSAGE), SF_RTFNOOBJS | SFF_PLAINRTF | SF_NCRFORNONASCII);
 	if (szFromStream != NULL) {
 		size_t 	iLength = 0, iStreamLength = 0;
 		iLength = iStreamLength = (mir_strlen(szFromStream) + 1);
@@ -290,17 +280,17 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM)
 		m_iHistoryTop = oldTop;
 }
 
-/**
- * handle the input history scrolling for the message input area
- * @param wParam: VK_ keyboard code (VK_UP or VK_DOWN)
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// handle the input history scrolling for the message input area
+// @param wParam: VK_ keyboard code (VK_UP or VK_DOWN)
+
 void CContactCache::inputHistoryEvent(WPARAM wParam)
 {
-	if (m_hwnd == 0 || m_dat == 0)
+	if (m_dat == nullptr)
 		return;
 
 	if (m_history != NULL && m_history[0].szText != NULL) {     // at least one entry needs to be alloced, otherwise we get a nice infinite loop ;)
-		HWND hwndEdit = ::GetDlgItem(m_hwnd, IDC_MESSAGE);
+		HWND hwndEdit = ::GetDlgItem(m_dat->GetHwnd(), IDC_MESSAGE);
 		SETTEXTEX stx = { ST_DEFAULT, CP_UTF8 };
 
 		if (m_dat->m_dwFlags & MWF_NEEDHISTORYSAVE) {
@@ -335,19 +325,19 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 			}
 			else ::SetWindowText(hwndEdit, L"");
 		}
-		::SendMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(::GetDlgCtrlID(hwndEdit), EN_CHANGE), (LPARAM)hwndEdit);
+		::SendMessage(m_dat->GetHwnd(), WM_COMMAND, MAKEWPARAM(::GetDlgCtrlID(hwndEdit), EN_CHANGE), (LPARAM)hwndEdit);
 		m_dat->m_dwFlags &= ~MWF_NEEDHISTORYSAVE;
 	}
 }
 
-/**
- * allocate the input history (on-demand, when it is requested by
- * opening a message window for this contact).
- *
- * note: it allocs historysize + 1 elements, because the + 1 is used
- * for the temporary buffer which saves the current input line when
- * using input history scrolling.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// allocate the input history(on - demand, when it is requested by
+// opening a message window for this contact).
+//
+// note: it allocs historysize + 1 elements, because the + 1 is used
+// for the temporary buffer which saves the current input line when
+// using input history scrolling.
+
 void CContactCache::allocHistory()
 {
 	m_iHistorySize = M.GetByte("historysize", 15);
@@ -362,9 +352,9 @@ void CContactCache::allocHistory()
 	m_history[m_iHistorySize].lLen = HISTORY_INITIAL_ALLOCSIZE;
 }
 
-/**
- * release additional memory resources
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// release additional memory resources
+
 void CContactCache::releaseAlloced()
 {
 	if (m_stats) {
@@ -384,37 +374,37 @@ void CContactCache::releaseAlloced()
 	m_szStatusMsg = NULL;
 }
 
-/**
- * when a contact is deleted, mark it as invalid in the cache and release
- * all memory it has allocated.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// when a contact is deleted, mark it as invalid in the cache and release
+// all memory it has allocated.
+
 void CContactCache::deletedHandler()
 {
 	cc = &ccInvalid;
 	m_isValid = false;
-	if (m_hwnd)
-		::SendMessage(m_hwnd, WM_CLOSE, 1, 2);
+	if (m_dat)
+		::SendMessage(m_dat->GetHwnd(), WM_CLOSE, 1, 2);
 
 	releaseAlloced();
 	m_hContact = INVALID_CONTACT_ID;
 }
 
-/**
- * udpate favorite or recent state. runs when user manually adds
- * or removes a user from that list or when database setting is
- * changed from elsewhere
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// udpate favorite or recent state.runs when user manually adds
+// or removes a user from that list or when database setting is
+// changed from elsewhere
+
 void CContactCache::updateFavorite()
 {
 	m_isFavorite = M.GetBool(m_hContact, "isFavorite", false);
 	m_isRecent = M.GetDword(m_hContact, "isRecent", 0) ? true : false;
 }
 
-/**
- * update all or only the given status message information from the database
- *
- * @param szKey: char* database key name or 0 to reload all messages
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// update all or only the given status message information from the database
+//
+// @param szKey: char* database key name or 0 to reload all messages
+
 void CContactCache::updateStatusMsg(const char *szKey)
 {
 	if (!m_isValid)
@@ -449,14 +439,13 @@ void CContactCache::updateStatusMsg(const char *szKey)
 	m_xStatus = db_get_b(hContact, cc->szProto, "XStatusId", 0);
 }
 
-/**
- * retrieve contact cache entry for the given contact. It _never_ returns zero, for a hContact
- * 0, it retrieves a dummy object.
- * Non-existing cache entries are created on demand.
- *
- * @param 	hContact:			contact handle
- * @return	CContactCache*		pointer to the cache entry for this contact
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// retrieve contact cache entry for the given contact.It _never_ returns zero, for a hContact
+// 0, it retrieves a dummy object.
+// Non-existing cache entries are created on demand.
+//
+// @param 	hContact:			contact handle
+// @return	CContactCache*		pointer to the cache entry for this contact
 
 CContactCache* CContactCache::getContactCache(MCONTACT hContact)
 {
@@ -468,13 +457,13 @@ CContactCache* CContactCache::getContactCache(MCONTACT hContact)
 	return cc;
 }
 
-/**
- * when the state of the meta contacts protocol changes from enabled to disabled
- * (or vice versa), this updates the contact cache
- *
- * it is ONLY called from the DBSettingChanged() event handler when the relevant
- * database value is touched.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// when the state of the meta contacts protocol changes from enabled to disabled
+// (or vice versa), this updates the contact cache
+//
+// it is ONLY called from the DBSettingChanged() event handler when the relevant
+// database value is touched.
+
 int CContactCache::cacheUpdateMetaChanged(WPARAM bMetaEnabled, LPARAM)
 {
 	for (int i = 0; i < arContacts.getCount(); i++) {
@@ -495,12 +484,12 @@ int CContactCache::cacheUpdateMetaChanged(WPARAM bMetaEnabled, LPARAM)
 	return 0;
 }
 
-/**
- * normalize the status message with proper cr/lf sequences.
- * @param src wchar_t*:		original status message
- * @param fStripAll bool:	strip all cr/lf sequences and replace them with spaces (use for title bar)
- * @return wchar_t*:			converted status message. CALLER is responsible to mir_free it, MUST use mir_free()
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// normalize the status message with proper cr / lf sequences.
+// @param src wchar_t*:		original status message
+// @param fStripAll bool:	strip all cr/lf sequences and replace them with spaces (use for title bar)
+// @return wchar_t*:			converted status message. CALLER is responsible to mir_free it, MUST use mir_free()
+
 wchar_t* CContactCache::getNormalizedStatusMsg(const wchar_t *src, bool fStripAll)
 {
 	if (src == 0 || mir_wstrlen(src) < 2)
@@ -525,12 +514,12 @@ wchar_t* CContactCache::getNormalizedStatusMsg(const wchar_t *src, bool fStripAl
 	return mir_wstrndup(dest, dest.GetLength());
 }
 
-/**
- * retrieve the tab/title icon for the corresponding session.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// retrieve the tab / title icon for the corresponding session.
+
 HICON CContactCache::getIcon(int &iSize) const
 {
-	if (!m_dat || !m_hwnd)
+	if (!m_dat)
 		return Skin_LoadProtoIcon(cc->szProto, getStatus());
 
 	if (m_dat->m_dwFlags & MWF_ERRORSTATE)
@@ -557,17 +546,17 @@ size_t CContactCache::getMaxMessageLength()
 		m_nMax = CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, hContact);
 		if (m_nMax) {
 			if (M.GetByte("autosplit", 0)) {
-				if (m_hwnd)
-					::SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_EXLIMITTEXT, 0, 20000);
+				if (m_dat)
+					::SendDlgItemMessage(m_dat->GetHwnd(), IDC_MESSAGE, EM_EXLIMITTEXT, 0, 20000);
 			}
 			else {
-				if (m_hwnd)
-					::SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_EXLIMITTEXT, 0, (LPARAM)m_nMax);
+				if (m_dat)
+					::SendDlgItemMessage(m_dat->GetHwnd(), IDC_MESSAGE, EM_EXLIMITTEXT, 0, (LPARAM)m_nMax);
 			}
 		}
 		else {
-			if (m_hwnd)
-				::SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_EXLIMITTEXT, 0, 20000);
+			if (m_dat)
+				::SendDlgItemMessage(m_dat->GetHwnd(), IDC_MESSAGE, EM_EXLIMITTEXT, 0, 20000);
 			m_nMax = 20000;
 		}
 	}

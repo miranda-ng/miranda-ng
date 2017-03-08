@@ -265,7 +265,7 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 
 	if (m_bIsAutosizingInput && m_iInputAreaHeight == -1) {
 		m_iInputAreaHeight = 0;
-		SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_REQUESTRESIZE, 0, 0);
+		m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
 	}
 
 	if (m_pWnd)
@@ -434,7 +434,6 @@ static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	HWND hwndParent = GetParent(hwnd);
 	CSrmmWindow *mwdat = (CSrmmWindow*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
 	bool isCtrl, isShift, isAlt;
-	mwdat->KbdState(isShift, isCtrl, isAlt);
 
 	switch (msg) {
 	case WM_KILLFOCUS:
@@ -449,6 +448,7 @@ static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		break;
 
 	case WM_CHAR:
+		mwdat->KbdState(isShift, isCtrl, isAlt);
 		if (wParam == 0x03 && isCtrl) // Ctrl+C
 			return Utils::WMCopyHandler(hwnd, MessageLogSubclassProc, msg, wParam, lParam);
 		if (wParam == 0x11 && isCtrl)
@@ -478,6 +478,7 @@ static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		break;
 
 	case WM_KEYDOWN:
+		mwdat->KbdState(isShift, isCtrl, isAlt);
 		if (wParam == VK_INSERT && isCtrl)
 			return Utils::WMCopyHandler(hwnd, MessageLogSubclassProc, msg, wParam, lParam);
 		break;
@@ -922,11 +923,6 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 CSrmmWindow::CSrmmWindow()
 	: CTabBaseDlg(IDD_MSGSPLITNEW)
 {
-	m_pLog = &m_log;
-	m_pEntry = &m_message;
-	m_autoClose = 0;
-
-	m_dwFlags = MWF_INITMODE;
 	m_bType = SESSIONTYPE_IM;
 }
 
@@ -967,7 +963,7 @@ void CSrmmWindow::OnInitDialog()
 
 	m_cache = CContactCache::getContactCache(m_hContact);
 	m_cache->updateNick();
-	m_cache->setWindowData(m_hwnd, this);
+	m_cache->setWindowData(this);
 	M.AddWindow(m_hwnd, m_hContact);
 	BroadCastContainer(m_pContainer, DM_REFRESHTABINDEX, 0, 0);
 	CProxyWindow::add(this);

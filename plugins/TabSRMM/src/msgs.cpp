@@ -122,12 +122,13 @@ CTabBaseDlg::CTabBaseDlg(int iResource)
 	: CSrmmBaseDialog(g_hInst, iResource),
 	m_log(this, IDC_LOG),
 	m_message(this, IDC_MESSAGE),
-	m_pPanel(this)
+	m_pPanel(this),
+	m_dwFlags(MWF_INITMODE)
 {
 	m_pLog = &m_log;
 	m_pEntry = &m_message;
 	
-	m_autoClose = 0;
+	m_autoClose = CLOSE_ON_CANCEL;
 	m_forceResizable = true;
 }
 

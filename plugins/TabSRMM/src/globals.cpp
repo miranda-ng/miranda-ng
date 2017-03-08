@@ -415,7 +415,7 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 					dat->m_nTypeSecs = 0;
 					dat->m_bShowTyping = 0;
 					dat->m_wszStatusBar[0] = 0;
-					PostMessage(c->getHwnd(), DM_UPDATELASTMESSAGE, 0, 0);
+					PostMessage(dat->GetHwnd(), DM_UPDATELASTMESSAGE, 0, 0);
 				}
 			}
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_LOGSTATUSCHANGE, MAKELONG(c->getStatus(), c->getOldStatus()), (LPARAM)c);
@@ -447,10 +447,11 @@ int CGlobals::MetaContactEvent(WPARAM hContact, LPARAM)
 	if (hContact) {
 		CContactCache *c = CContactCache::getContactCache(hContact);
 		c->updateMeta();
-		if (c->getHwnd()) {
-			::PostMessage(c->getHwnd(), DM_UPDATETITLE, 0, 1);
-			::PostMessage(c->getHwnd(), DM_UPDATEPICLAYOUT, 0, 0);
-			InvalidateRect(c->getHwnd(), 0, TRUE); // force redraw
+		CTabBaseDlg *pDlg = c->getDat();
+		if (pDlg) {
+			::PostMessage(pDlg->GetHwnd(), DM_UPDATETITLE, 0, 1);
+			::PostMessage(pDlg->GetHwnd(), DM_UPDATEPICLAYOUT, 0, 0);
+			InvalidateRect(pDlg->GetHwnd(), 0, TRUE); // force redraw
 		}
 	}
 	return 0;
