@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "..\src\chat\chat_resource.h"
+#include "..\src\chat_resource.h"
 #include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
@@ -294,7 +294,8 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "..\\src\\chat\\chat_resource.h\0"
+	"..\\src\\chat_resource.h\r\n"
+	"..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 

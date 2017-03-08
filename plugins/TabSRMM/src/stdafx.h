@@ -120,7 +120,7 @@ typedef struct _DWM_THUMBNAIL_PROPERTIES
 #include "typingnotify.h"
 #include "nen.h"
 #include "functions.h"
-#include "chat/chat.h"
+#include "chat.h"
 #include "contactcache.h"
 #include "translator.h"
 #include "themes.h"
@@ -133,7 +133,7 @@ typedef struct _DWM_THUMBNAIL_PROPERTIES
 #include "utils.h"
 #include "sendlater.h"
 #include "ImageDataObject.h"
-#include "chat/muchighlight.h"
+#include "muchighlight.h"
 
 
 /*

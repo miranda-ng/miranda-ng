@@ -24,7 +24,7 @@
 //
 // (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
 
-#include "../stdafx.h"
+#include "stdafx.h"
 
 static int sttCompareNicknames(const wchar_t *s1, const wchar_t *s2)
 {
