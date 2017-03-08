@@ -70,8 +70,8 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 
 	m_MimIconRefCount++;
 
-	m_hwndToolbar = ::CreateWindowEx(WS_EX_TOOLWINDOW, TOOLBARCLASSNAME, NULL, WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE | TBSTYLE_FLAT | TBSTYLE_TRANSPARENT | TBSTYLE_LIST |/*CCS_NOPARENTALIGN|*/CCS_NODIVIDER | CCS_TOP,
-		0, 0, 0, 0, hwndParent, NULL, g_hInst, NULL);
+	m_hwndToolbar = ::CreateWindowEx(WS_EX_TOOLWINDOW, TOOLBARCLASSNAME, nullptr, WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE | TBSTYLE_FLAT | TBSTYLE_TRANSPARENT | TBSTYLE_LIST |/*CCS_NOPARENTALIGN|*/CCS_NODIVIDER | CCS_TOP,
+		0, 0, 0, 0, hwndParent, nullptr, g_hInst, nullptr);
 
 	::SendMessage(m_hwndToolbar, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
 
@@ -277,7 +277,7 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 			if (iIndex >= 0 && iIndex < NR_BUTTONS)
 				szText = (wchar_t*)m_TbButtons[iIndex].iString;
 			else
-				szText = NULL;
+				szText = nullptr;
 
 			UINT uState = nmtb->nmcd.uItemState;
 
@@ -673,7 +673,7 @@ RECT   rcLastStatusBarClick;		// remembers click (down event) point for status b
 LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TContainerData *pContainer = (TContainerData*)GetWindowLongPtr(GetParent(hWnd), GWLP_USERDATA);
-	CSrmmWindow *dat = NULL;
+	CSrmmWindow *dat = nullptr;
 	POINT pt;
 
 	if (OldStatusBarproc == 0) {
@@ -741,7 +741,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			HANDLE hbp = 0;
 			HDC hdcMem;
 			if (CMimAPI::m_haveBufferedPaint) {
-				hbp = CMimAPI::m_pfnBeginBufferedPaint(hdc, &rcClient, BPBF_TOPDOWNDIB, NULL, &hdcMem);
+				hbp = CMimAPI::m_pfnBeginBufferedPaint(hdc, &rcClient, BPBF_TOPDOWNDIB, nullptr, &hdcMem);
 				hbm = hbmOld = 0;
 			}
 			else {
@@ -942,14 +942,14 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_TIMER:
-		if (pContainer == NULL || wParam != TIMERID_HOVER)
+		if (pContainer == nullptr || wParam != TIMERID_HOVER)
 			break;
 		KillTimer(hWnd, TIMERID_HOVER);
 		GetCursorPos(&pt);
 		if (pt.x != ptMouse.x || pt.y != ptMouse.y)
 			break;
 		dat = (CSrmmWindow*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-		if (dat != NULL) {
+		if (dat != nullptr) {
 			RECT rc;
 			SIZE size;
 			wchar_t wBuf[512]; wBuf[0] = 0;
@@ -961,7 +961,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			if (PtInRect(&rc, pt)) {
 				unsigned int iconNum = (pt.x - rc.left) / (PluginConfig.m_smcxicon + 2);
 				StatusIconData *sid = Srmm_GetNthIcon(dat->m_hContact, iconNum);
-				if (sid == NULL)
+				if (sid == nullptr)
 					break;
 
 				if (!mir_strcmp(sid->szModule, MSG_ICON_MODULE)) {
@@ -1011,7 +1011,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 				if (PtInRect(&rc, pt) && ((rc.right - rc.left) < size.cx)) {
 					if (dat->m_bType == SESSIONTYPE_CHAT) {
 						ptrW tszTopic(db_get_wsa(dat->m_hContact, dat->m_szProto, "Topic"));
-						if (tszTopic != NULL) {
+						if (tszTopic != nullptr) {
 							tooltip_active = TRUE;
 							CallService("mToolTip/ShowTipW", tszTopic, (LPARAM)&ti);
 						}

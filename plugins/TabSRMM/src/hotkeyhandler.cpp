@@ -108,7 +108,7 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 	}
 
 	SESSION_INFO *si = SM_FindSessionByHCONTACT(hContact);
-	if (si != NULL) {
+	if (si != nullptr) {
 		// session does exist, but no window is open for it
 		if (si->hWnd) {
 			TContainerData *pContainer = 0;
@@ -157,13 +157,13 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		WM_TASKBARCREATED = RegisterWindowMessageA("TaskbarCreated");
 		ShowWindow(hwndDlg, SW_HIDE);
 		hSvcHotkeyProcessor = CreateServiceFunction(MS_TABMSG_HOTKEYPROCESS, HotkeyProcessor);
-		SetTimer(hwndDlg, TIMERID_SENDLATER, TIMEOUT_SENDLATER, NULL);
+		SetTimer(hwndDlg, TIMERID_SENDLATER, TIMEOUT_SENDLATER, nullptr);
 		break;
 
 	case WM_HOTKEY:
 		{
 			CLISTEVENT *cli = pcli->pfnGetEvent(-1, 0);
-			if (cli != NULL) {
+			if (cli != nullptr) {
 				if (strncmp(cli->pszService, "SRMsg/TypingMessage", mir_strlen(cli->pszService))) {
 					CallService(cli->pszService, 0, (LPARAM)cli);
 					break;
@@ -197,7 +197,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				HWND hWnd = M.FindWindow((MCONTACT)dis->itemID);
 				DWORD idle = 0;
 
-				if (hWnd == NULL) {
+				if (hWnd == nullptr) {
 					SESSION_INFO *si = SM_FindSessionByHCONTACT((MCONTACT)dis->itemID);
 					hWnd = si ? si->hWnd : 0;
 				}
@@ -211,7 +211,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					if (dis->itemData > 0)
 						hIcon = (dis->itemData & 0x10000000) ? pci->hIcons[ICON_HIGHLIGHT] : PluginConfig.g_IconMsgEvent;
-					else if (dat != NULL) {
+					else if (dat != nullptr) {
 						hIcon = dat->GetMyContactIcon(0);
 						idle = dat->m_idle;
 					}
@@ -234,10 +234,10 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					if (wParam == 100)
 						SetForegroundWindow(hwndDlg);
 					if (GetMenuItemCount(PluginConfig.g_hMenuTrayUnread) > 0) {
-						BOOL iSelection = TrackPopupMenu(PluginConfig.g_hMenuTrayUnread, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+						BOOL iSelection = TrackPopupMenu(PluginConfig.g_hMenuTrayUnread, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
 						HandleMenuEntryFromhContact((MCONTACT)iSelection);
 					}
-					else TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 8), TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+					else TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 8), TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
 
 					if (wParam == 100)
 						PostMessage(hwndDlg, WM_NULL, 0, 0);
@@ -264,7 +264,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							}
 						} while (--i >= 0);
 
-						if (uid == 0 && pLastActiveContainer != NULL) {                // no session found, restore last active container
+						if (uid == 0 && pLastActiveContainer != nullptr) {                // no session found, restore last active container
 							if (IsIconic(pLastActiveContainer->hwnd) || !IsWindowVisible(pLastActiveContainer->hwnd)) {
 								SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
 								SetForegroundWindow(pLastActiveContainer->hwnd);
@@ -298,7 +298,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				CheckMenuItem(submenu, ID_TRAYCONTEXT_DON, MF_BYCOMMAND | (nen_options.iNoAutoPopup ? MF_CHECKED : MF_UNCHECKED));
 				EnableMenuItem(submenu, ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS, MF_BYCOMMAND | (nen_options.bTraySupport) ? MF_ENABLED : MF_GRAYED);
 				CheckMenuItem(submenu, ID_TRAYCONTEXT_SHOWTHETRAYICON, MF_BYCOMMAND | (nen_options.bTraySupport ? MF_CHECKED : MF_UNCHECKED));
-				BOOL iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+				BOOL iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
 				if (iSelection) {
 					MENUITEMINFO mii = { 0 };
 					mii.cbSize = sizeof(mii);
@@ -352,7 +352,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	// wParam is the hContact
 	// lParam the event handle
 	case DM_HANDLECLISTEVENT:
-		// if lParam == NULL, don't consider clist events, just open the message tab
+		// if lParam == nullptr, don't consider clist events, just open the message tab
 		if (lParam == 0)
 			HandleMenuEntryFromhContact(wParam);
 		else {
@@ -442,8 +442,8 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 				if (pCont->SideBar)
 					if (pCont->SideBar->isActive()) // the container for the sidebar buttons
-						RedrawWindow(GetDlgItem(pCont->hwnd, 5000), NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW); 
-				RedrawWindow(pCont->hwnd, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+						RedrawWindow(GetDlgItem(pCont->hwnd, 5000), nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW); 
+				RedrawWindow(pCont->hwnd, nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 			}
 		}
 		M.BroadcastMessage(WM_DWMCOMPOSITIONCHANGED, 0, 0);
@@ -528,7 +528,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				DeleteObject(pCont->cachedHBM);
 				DeleteDC(pCont->cachedDC);
 				pCont->cachedDC = 0;
-				RedrawWindow(pCont->hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
+				RedrawWindow(pCont->hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
 			}
 		break;
 

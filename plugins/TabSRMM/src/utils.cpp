@@ -174,7 +174,7 @@ invalid_code:
 			// search a corresponding endmarker which fulfills the criteria
 			INT_PTR mark = beginmark + 1;
 			while ((endmark = message.find(endmarker, mark)) != message.npos) {
-				if (iswpunct(message[endmark + 1]) || iswspace(message[endmark + 1]) || message[endmark + 1] == 0 || wcschr(L"*/_", message[endmark + 1]) != NULL)
+				if (iswpunct(message[endmark + 1]) || iswspace(message[endmark + 1]) || message[endmark + 1] == 0 || wcschr(L"*/_", message[endmark + 1]) != nullptr)
 					goto ok;
 				mark = endmark + 1;
 			}
@@ -287,7 +287,7 @@ bool Utils::FormatTitleBar(const CTabBaseDlg *dat, const wchar_t *szFormat, CMSt
 				BYTE xStatus = dat->m_cache->getXStatusId();
 				if (dat->m_wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
 					ptrW szXStatus(db_get_wsa(dat->m_hContact, dat->m_szProto, "XStatusName"));
-					dest.Append((szXStatus != NULL) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
+					dest.Append((szXStatus != nullptr) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
 				}
 			}
 			break;
@@ -297,7 +297,7 @@ bool Utils::FormatTitleBar(const CTabBaseDlg *dat, const wchar_t *szFormat, CMSt
 				BYTE xStatus = dat->m_cache->getXStatusId();
 				if (dat->m_wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
 					ptrW szXStatus(db_get_wsa(dat->m_hContact, dat->m_szProto, "XStatusName"));
-					dest.Append((szXStatus != NULL) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
+					dest.Append((szXStatus != nullptr) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
 				}
 				else dest.Append(dat->m_wszStatus[0] ? dat->m_wszStatus : L"(undef)");
 			}
@@ -318,7 +318,7 @@ bool Utils::FormatTitleBar(const CTabBaseDlg *dat, const wchar_t *szFormat, CMSt
 		case 'g':
 			{
 				ptrW tszGroup(db_get_wsa(dat->m_hContact, "CList", "Group"));
-				if (tszGroup != NULL)
+				if (tszGroup != nullptr)
 					dest.Append(tszGroup);
 			}
 			break;
@@ -335,9 +335,9 @@ bool Utils::FormatTitleBar(const CTabBaseDlg *dat, const wchar_t *szFormat, CMSt
 
 char* Utils::FilterEventMarkers(char *szText)
 {
-	for (char *p = strstr(szText, "~-+"); p != NULL; p = strstr(p, "~-+")) {
+	for (char *p = strstr(szText, "~-+"); p != nullptr; p = strstr(p, "~-+")) {
 		char *pEnd = strstr(p + 3, "+-~");
-		if (pEnd == NULL)
+		if (pEnd == nullptr)
 			break;
 
 		strdel(p, (pEnd - p) + 3);
@@ -348,9 +348,9 @@ char* Utils::FilterEventMarkers(char *szText)
 
 WCHAR* Utils::FilterEventMarkers(WCHAR *wszText)
 {
-	for (WCHAR *p = wcsstr(wszText, L"~-+"); p != NULL; p = wcsstr(p, L"~-+")) {
+	for (WCHAR *p = wcsstr(wszText, L"~-+"); p != nullptr; p = wcsstr(p, L"~-+")) {
 		WCHAR *pEnd = wcsstr(p + 3, L"+-~");
-		if (pEnd == NULL)
+		if (pEnd == nullptr)
 			break;
 
 		strdelw(p, (pEnd - p) + 3);
@@ -622,12 +622,12 @@ void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSett
 	if (mir_wstrlen(pContainer->szRelThemeFile) > 1) {
 		if (pContainer->fPrivateThemeChanged == TRUE) {
 			PathToRelativeW(pContainer->szRelThemeFile, pContainer->szAbsThemeFile, M.getDataPath());
-			db_set_ws(NULL, SRMSGMOD_T, szCName, pContainer->szAbsThemeFile);
+			db_set_ws(0, SRMSGMOD_T, szCName, pContainer->szAbsThemeFile);
 			pContainer->fPrivateThemeChanged = FALSE;
 		}
 	}
 	else {
-		::db_unset(NULL, SRMSGMOD_T, szCName);
+		::db_unset(0, SRMSGMOD_T, szCName);
 		pContainer->fPrivateThemeChanged = FALSE;
 	}
 }
@@ -672,12 +672,12 @@ void Utils::scaleAvatarHeightLimited(const HBITMAP hBm, double& dNewWidth, doubl
 
 HICON Utils::iconFromAvatar(const CTabBaseDlg *dat)
 {
-	if (!ServiceExists(MS_AV_GETAVATARBITMAP) || dat == NULL)
+	if (!ServiceExists(MS_AV_GETAVATARBITMAP) || dat == nullptr)
 		return 0;
 
 	AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, dat->m_hContact, 0);
-	if (ace == NULL || ace->hbmPic == NULL)
-		return NULL;
+	if (ace == nullptr || ace->hbmPic == nullptr)
+		return nullptr;
 
 	LONG lIconSize = Win7Taskbar->getIconSize();
 	double dNewWidth, dNewHeight;
@@ -733,7 +733,7 @@ AVATARCACHEENTRY* Utils::loadAvatarFromAVS(const MCONTACT hContact)
 void Utils::sendContactMessage(MCONTACT hContact, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	HWND h = M.FindWindow(hContact);
-	if (h != NULL)
+	if (h != nullptr)
 		PostMessage(h, uMsg, wParam, lParam);
 }
 
@@ -822,11 +822,11 @@ void Utils::showDlgControl(const HWND hwnd, UINT id, int showCmd)
 DWORD CALLBACK Utils::StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {
 	wchar_t *szFilename = (wchar_t*)dwCookie;
-	HANDLE hFile = CreateFile(szFilename, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = CreateFile(szFilename, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile != INVALID_HANDLE_VALUE) {
-		SetFilePointer(hFile, 0, NULL, FILE_END);
+		SetFilePointer(hFile, 0, nullptr, FILE_END);
 		FilterEventMarkers((char*)pbBuff);
-		WriteFile(hFile, pbBuff, cb, (DWORD *)pcb, NULL);
+		WriteFile(hFile, pbBuff, cb, (DWORD *)pcb, nullptr);
 		*pcb = cb;
 		CloseHandle(hFile);
 		return 0;
@@ -854,11 +854,11 @@ bool Utils::extractResource(const HMODULE h, const UINT uID, const wchar_t *tszN
 				if (PathFileExists(szFilename))
 					return true;
 
-			HANDLE hFile = CreateFile(szFilename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+			HANDLE hFile = CreateFile(szFilename, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
 			if (hFile == INVALID_HANDLE_VALUE)
 				return false;
 
-			WriteFile(hFile, (void*)pData, dwSize, &written, NULL);
+			WriteFile(hFile, (void*)pData, dwSize, &written, nullptr);
 			CloseHandle(hFile);
 		}
 	}
@@ -882,7 +882,7 @@ wchar_t* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich)
 	tr.chrg = _e->chrg;
 	tr.lpstrText = (wchar_t*)mir_alloc(sizeof(wchar_t) * (tr.chrg.cpMax - tr.chrg.cpMin + 8));
 	::SendMessage(hwndRich, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-	if (wcschr(tr.lpstrText, '@') != NULL && wcschr(tr.lpstrText, ':') == NULL && wcschr(tr.lpstrText, '/') == NULL) {
+	if (wcschr(tr.lpstrText, '@') != nullptr && wcschr(tr.lpstrText, ':') == nullptr && wcschr(tr.lpstrText, '/') == nullptr) {
 		mir_wstrncpy(tr.lpstrText, L"mailto:", 7);
 		mir_wstrncpy(tr.lpstrText + 7, tr.lpstrText, tr.chrg.cpMax - tr.chrg.cpMin + 1);
 	}
@@ -903,7 +903,7 @@ void Utils::sanitizeFilename(wchar_t* tszFilename)
 	for (size_t i = 0; i < forbiddenCharactersLen; i++) {
 		wchar_t*	szFound = 0;
 
-		while ((szFound = wcschr(tszFilename, (int)forbiddenCharacters[i])) != NULL)
+		while ((szFound = wcschr(tszFilename, (int)forbiddenCharacters[i])) != nullptr)
 			*szFound = ' ';
 	}
 }
@@ -981,9 +981,9 @@ LRESULT Utils::WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM wPa
 	LRESULT result = mir_callNextSubclass(hwnd, oldWndProc, msg, wParam, lParam);
 
 	ptrA szFromStream(Message_GetFromStream(hwnd, SF_TEXT | SFF_SELECTION));
-	if (szFromStream != NULL) {
+	if (szFromStream != nullptr) {
 		ptrW converted(mir_utf8decodeW(szFromStream));
-		if (converted != NULL) {
+		if (converted != nullptr) {
 			Utils::FilterEventMarkers(converted);
 			Utils::CopyToClipBoard(converted, hwnd);
 		}
@@ -998,7 +998,7 @@ LRESULT Utils::WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM wPa
 void Utils::AddToFileList(wchar_t ***pppFiles, int *totalCount, LPCTSTR szFilename)
 {
 	*pppFiles = (wchar_t**)mir_realloc(*pppFiles, (++*totalCount + 1) * sizeof(wchar_t*));
-	(*pppFiles)[*totalCount] = NULL;
+	(*pppFiles)[*totalCount] = nullptr;
 	(*pppFiles)[*totalCount - 1] = mir_wstrdup(szFilename);
 
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {

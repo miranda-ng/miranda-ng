@@ -29,7 +29,7 @@
 #include "stdafx.h"
 
 HANDLE g_hWindowList;
-HMENU  g_hMenu = NULL;
+HMENU  g_hMenu = nullptr;
 
 CHAT_MANAGER *pci;
 TMUCSettings g_Settings;
@@ -50,7 +50,7 @@ static void OnReplaceSession(SESSION_INFO *si)
 	if (si->hContact)
 		Chat_SetFilters(si);
 	if (si->hWnd)
-		RedrawWindow(GetDlgItem(si->hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
+		RedrawWindow(GetDlgItem(si->hWnd, IDC_LIST), nullptr, nullptr, RDW_INVALIDATE);
 }
 
 static void OnSetTopic(SESSION_INFO *si)
@@ -84,7 +84,7 @@ static void OnCreateModule(MODULEINFO *mi)
 
 static void OnLoadSettings()
 {
-	g_Settings.iEventLimitThreshold = db_get_w(NULL, CHAT_MODULE, "LogLimitThreshold", 20);
+	g_Settings.iEventLimitThreshold = db_get_w(0, CHAT_MODULE, "LogLimitThreshold", 20);
 	g_Settings.dwIconFlags = M.GetDword(CHAT_MODULE, "IconFlags", 0x0000);
 	g_Settings.bOpenInDefault = M.GetBool(CHAT_MODULE, "DefaultContainer", true);
 	g_Settings.UserListColors[CHAT_STATUS_NORMAL] = M.GetDword(CHATFONT_MODULE, "Font18Col", RGB(0, 0, 0));
@@ -122,13 +122,13 @@ static void OnLoadSettings()
 	}
 
 	LOGFONT lf;
-	pci->LoadMsgDlgFont(18, &lf, NULL);
+	pci->LoadMsgDlgFont(18, &lf, nullptr);
 	g_Settings.UserListFonts[CHAT_STATUS_NORMAL] = CreateFontIndirect(&lf);
 
-	pci->LoadMsgDlgFont(19, &lf, NULL);
+	pci->LoadMsgDlgFont(19, &lf, nullptr);
 	g_Settings.UserListFonts[CHAT_STATUS_AWAY] = CreateFontIndirect(&lf);
 
-	pci->LoadMsgDlgFont(5, &lf, NULL);
+	pci->LoadMsgDlgFont(5, &lf, nullptr);
 	g_Settings.UserListFonts[CHAT_STATUS_OFFLINE] = CreateFontIndirect(&lf);
 
 	int ih = GetTextPixelSize(L"AQGglo", g_Settings.UserListFonts[CHAT_STATUS_NORMAL], false);
@@ -170,30 +170,30 @@ static int CopyChatSetting(const char *szSetting, LPARAM param)
 static void CheckUpdate()
 {
 	// already converted?
-	int compat = db_get_b(NULL, "Compatibility", "TabChatFonts", 0);
+	int compat = db_get_b(0, "Compatibility", "TabChatFonts", 0);
 	if (compat >= 3)
 		return;
 
 	if (compat == 0) {
 		LIST<char> szSettings(120);
-		db_enum_settings(NULL, CopyChatSetting, CHAT_OLDFONTMODULE, &szSettings);
+		db_enum_settings(0, CopyChatSetting, CHAT_OLDFONTMODULE, &szSettings);
 
 		DBVARIANT dbv;
 		for (int i = szSettings.getCount() - 1; i >= 0; i--) {
 			char *p = szSettings[i];
-			db_get(NULL, CHAT_OLDFONTMODULE, p, &dbv);
-			db_set(NULL, CHATFONT_MODULE, p, &dbv);
+			db_get(0, CHAT_OLDFONTMODULE, p, &dbv);
+			db_set(0, CHATFONT_MODULE, p, &dbv);
 			db_free(&dbv);
 			mir_free(p);
 		}
 
-		db_delete_module(NULL, CHAT_OLDFONTMODULE);
+		db_delete_module(0, CHAT_OLDFONTMODULE);
 		compat++;
 	}
 
 	if (compat == 1) {
 		DWORD oldBackColor = db_get_dw(0, FONTMODULE, "BkgColourMUC", SRMSGDEFSET_BKGCOLOUR);
-		db_set_dw(NULL, CHAT_MODULE, "ColorLogBG", oldBackColor);
+		db_set_dw(0, CHAT_MODULE, "ColorLogBG", oldBackColor);
 		db_unset(0, FONTMODULE, "BkgColourMUC");
 		compat++;
 	}
@@ -201,12 +201,12 @@ static void CheckUpdate()
 	if (compat == 2) {
 		COLORREF color0 = M.GetDword(CHAT_MODULE, "NickColor2", 0);
 		COLORREF color2 = M.GetDword(CHAT_MODULE, "NickColor0", 0);
-		db_set_dw(NULL, CHAT_MODULE, "NickColor0", color0);
-		db_set_dw(NULL, CHAT_MODULE, "NickColor2", color2);
+		db_set_dw(0, CHAT_MODULE, "NickColor0", color0);
+		db_set_dw(0, CHAT_MODULE, "NickColor2", color2);
 		compat++;
 	}
 
-	db_set_b(NULL, "Compatibility", "TabChatFonts", 3);
+	db_set_b(0, "Compatibility", "TabChatFonts", 3);
 }
 
 // load the module

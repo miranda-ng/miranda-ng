@@ -250,10 +250,10 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 	else
 		foundWin = 0;
 
-	TContainerData *pContainer = NULL;
+	TContainerData *pContainer = nullptr;
 	if (hwnd) {
 		SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
-		if (pContainer == NULL) // should never happen
+		if (pContainer == nullptr) // should never happen
 			return 0;
 	}
 
@@ -301,7 +301,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 		wchar_t szTip[256];
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
 		if (fShowOnClist && M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0))
-			Clist_TrayNotifyW(NULL, TranslateT("Typing notification"), szTip, NIIF_INFO, 1000 * 4);
+			Clist_TrayNotifyW(nullptr, TranslateT("Typing notification"), szTip, NIIF_INFO, 1000 * 4);
 
 		if (fShowOnClist) {
 			pcli->pfnRemoveEvent(hContact, 1);
@@ -337,9 +337,9 @@ int CMimAPI::ProtoAck(WPARAM, LPARAM lParam)
 		for (int j = 0; j < SendQueue::NR_SENDJOBS; j++) {
 			SendJob &p = jobs[j];
 			if (pAck->hProcess == p.hSendId && pAck->hContact == p.hContact) {
-				CSrmmWindow *dat = p.hOwnerWnd ? (CSrmmWindow*)GetWindowLongPtr(p.hOwnerWnd, GWLP_USERDATA) : NULL;
-				if (dat == NULL) {
-					sendQueue->ackMessage(NULL, (WPARAM)MAKELONG(j, i), lParam);
+				CSrmmWindow *dat = p.hOwnerWnd ? (CSrmmWindow*)GetWindowLongPtr(p.hOwnerWnd, GWLP_USERDATA) : nullptr;
+				if (dat == nullptr) {
+					sendQueue->ackMessage(nullptr, (WPARAM)MAKELONG(j, i), lParam);
 					return 0;
 				}
 				if (dat->m_hContact == p.hContact || dat->m_hContact == hMeta) {
@@ -358,8 +358,8 @@ int CMimAPI::ProtoAck(WPARAM, LPARAM lParam)
 
 int CMimAPI::PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	if (hContact == NULL)
-		return NULL;
+	if (hContact == 0)
+		return 0;
 
 	bool bEnabled = false;
 	char *szProto = GetContactProto(hContact);
@@ -410,7 +410,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	db_event_get(hDbEvent, &dbei);
 
 	HWND hwnd = M.FindWindow(hContact);
-	if (hwnd == NULL)
+	if (hwnd == nullptr)
 		hwnd = M.FindWindow(db_event_getContact(hDbEvent));
 
 	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);
@@ -429,7 +429,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (hwnd) {
 		TContainerData *pTargetContainer = 0;
 		SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pTargetContainer);
-		if (pTargetContainer == NULL || !PluginConfig.m_bHideOnClose || IsWindowVisible(pTargetContainer->hwnd))
+		if (pTargetContainer == nullptr || !PluginConfig.m_bHideOnClose || IsWindowVisible(pTargetContainer->hwnd))
 			return 0;
 
 		WINDOWPLACEMENT wp = { 0 };
@@ -447,7 +447,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 			}
 
 			TContainerData *pContainer = FindContainerByName(szName);
-			if (pContainer != NULL) {
+			if (pContainer != nullptr) {
 				if (bAutoContainer) {
 					ShowWindow(pTargetContainer->hwnd, SW_SHOWMINNOACTIVE);
 					return 0;
@@ -499,7 +499,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (bAllowAutoCreate && (bAutoPopup || bAutoCreate)) {
 		if (bAutoPopup) {
 			TContainerData *pContainer = FindContainerByName(szName);
-			if (pContainer == NULL)
+			if (pContainer == nullptr)
 				pContainer = CreateContainer(szName, FALSE, hContact);
 			if (pContainer)
 				CreateNewTabForContact(pContainer, hContact, true, true, false);
@@ -508,9 +508,9 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 
 		bool bActivate = false, bPopup = M.GetByte("cpopup", 0) != 0;
 		TContainerData *pContainer = FindContainerByName(szName);
-		if (pContainer != NULL) {
+		if (pContainer != nullptr) {
 			if (M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6)) {
-				if ((pContainer = FindMatchingContainer(L"default")) != NULL) {
+				if ((pContainer = FindMatchingContainer(L"default")) != nullptr) {
 					CreateNewTabForContact(pContainer, hContact, bActivate, bPopup, true, hDbEvent);
 					return 0;
 				}
@@ -521,7 +521,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 			}
 		}
 		if (bAutoContainer) {
-			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, hContact)) != NULL) { // 2 means create minimized, don't popup...
+			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, hContact)) != nullptr) { // 2 means create minimized, don't popup...
 				CreateNewTabForContact(pContainer, hContact, bActivate, bPopup, true, hDbEvent);
 				SendMessageW(pContainer->hwnd, WM_SIZE, 0, 0);
 			}
@@ -533,7 +533,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	// the contact list for flashing
 nowindowcreate:
 	if (!(dbei.flags & DBEF_READ)) {
-		UpdateTrayMenu(0, 0, dbei.szModule, NULL, hContact, 1);
+		UpdateTrayMenu(0, 0, dbei.szModule, nullptr, hContact, 1);
 		if (!nen_options.bTraySupport) {
 			wchar_t toolTip[256], *contactName;
 

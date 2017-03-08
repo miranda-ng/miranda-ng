@@ -145,7 +145,7 @@ public:
 		m_isEnabled = IsWinVer7Plus() ? true : false;
 
 		if (m_isEnabled) {
-			::CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&m_pTaskbarInterface);
+			::CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&m_pTaskbarInterface);
 			updateMetrics();
 			if (0 == m_pTaskbarInterface)
 				m_isEnabled = false;
@@ -157,7 +157,7 @@ public:
 		WNDCLASSEX wcex = { sizeof(wcex) };
 		wcex.lpfnWndProc = CProxyWindow::stubWndProc;
 		wcex.hInstance = g_hInst;
-		wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+		wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 		wcex.lpszClassName = PROXYCLASSNAME;
 		::RegisterClassEx(&wcex);

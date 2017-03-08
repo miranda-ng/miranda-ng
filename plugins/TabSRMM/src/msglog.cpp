@@ -45,7 +45,7 @@ struct TCpTable cpTable[] = {
 	{ 1257, LPGENW("Baltic") },
 	{ 1258, LPGENW("Vietnamese") },
 	{ 1361, LPGENW("Korean (Johab)") },
-	{ (UINT)-1, NULL }
+	{ (UINT)-1, nullptr }
 };
 
 wchar_t* weekDays[7] = { LPGENW("Sunday"), LPGENW("Monday"), LPGENW("Tuesday"), LPGENW("Wednesday"), LPGENW("Thursday"), LPGENW("Friday"), LPGENW("Saturday") };
@@ -59,8 +59,8 @@ wchar_t* months[12] =
 static time_t today;
 
 int g_groupBreak = TRUE;
-static wchar_t *szMyName = NULL;
-static wchar_t *szYourName = NULL;
+static wchar_t *szMyName = nullptr;
+static wchar_t *szYourName = nullptr;
 
 static int logPixelSY;
 static wchar_t szToday[22], szYesterday[22];
@@ -121,9 +121,9 @@ static void TrimMessage(wchar_t *msg)
 
 void TSAPI CacheLogFonts()
 {
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-	ReleaseDC(NULL, hdc);
+	ReleaseDC(nullptr, hdc);
 
 	memset(logfonts, 0, (sizeof(LOGFONTA) * (MSGDLGFONTCOUNT + 2)));
 	for (int i = 0; i < MSGDLGFONTCOUNT; i++) {
@@ -227,7 +227,7 @@ TLogIcon::TLogIcon(HICON hIcon, COLORREF backgroundColor)
 
 	HBITMAP hoBmp = (HBITMAP)SelectObject(m_hdcMem, m_hBmp);
 	FillRect(m_hdcMem, &rc, m_hBkgBrush);
-	DrawIconEx(m_hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, NULL, DI_NORMAL);
+	DrawIconEx(m_hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, nullptr, DI_NORMAL);
 	SelectObject(m_hdcMem, hoBmp);
 }
 
@@ -235,7 +235,7 @@ TLogIcon::~TLogIcon()
 {
 	DeleteDC(m_hdcMem);
 	DeleteObject(m_hBmp);
-	ReleaseDC(NULL, m_hdc);
+	ReleaseDC(nullptr, m_hdc);
 	DeleteObject(m_hBkgBrush);
 }
 
@@ -245,7 +245,7 @@ static int TSAPI GetColorIndex(char *rtffont)
 {
 	char *p;
 
-	if ((p = strstr(rtffont, "\\cf")) != NULL)
+	if ((p = strstr(rtffont, "\\cf")) != nullptr)
 		return atoi(p + 3);
 	return 0;
 }
@@ -340,7 +340,7 @@ static void Build_RTF_Header(CMStringA &str, CTabBaseDlg *dat)
 	for (i = 0; i < MSGDLGFONTCOUNT; i++)
 		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(fontColors[i]), GetGValue(fontColors[i]), GetBValue(fontColors[i]));
 
-	COLORREF colour = (GetSysColorBrush(COLOR_HOTLIGHT) == NULL) ? RGB(0, 0, 255) : GetSysColor(COLOR_HOTLIGHT);
+	COLORREF colour = (GetSysColorBrush(COLOR_HOTLIGHT) == nullptr) ? RGB(0, 0, 255) : GetSysColor(COLOR_HOTLIGHT);
 	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 
 	// OnO: Create incoming and outcoming colours
@@ -445,7 +445,7 @@ int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 
 static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, MEVENT hDbEvent, LogStreamData *streamData)
 {
-	HANDLE hTimeZone = NULL;
+	HANDLE hTimeZone = nullptr;
 	BOOL skipToNext = FALSE, skipFont = FALSE;
 	struct tm event_time = { 0 };
 	BOOL isBold = FALSE, isItalic = FALSE, isUnderline = FALSE;
@@ -457,24 +457,24 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 	else {
 		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 		if (dbei.cbBlob == -1)
-			return NULL;
+			return nullptr;
 
 		dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 		db_event_get(hDbEvent, &dbei);
 		if (!DbEventIsShown(&dbei)) {
 			mir_free(dbei.pBlob);
-			return NULL;
+			return nullptr;
 		}
 	}
 
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.markedRead())
 		dat->m_cache->updateStats(TSessionStats::SET_LAST_RCV, mir_strlen((char *)dbei.pBlob));
 
-	wchar_t *formatted = NULL;
+	wchar_t *formatted = nullptr;
 	wchar_t *msg = DbEvent_GetTextW(&dbei, CP_UTF8);
 	if (!msg) {
 		mir_free(dbei.pBlob);
-		return NULL;
+		return nullptr;
 	}
 	TrimMessage(msg);
 	formatted = const_cast<wchar_t *>(Utils::FormatRaw(dat, msg, dwFormattingParams, FALSE));
@@ -545,7 +545,7 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 
 	// templated code starts here
 	if (dwEffectiveFlags & MWF_LOG_SHOWTIME) {
-		hTimeZone = ((dat->m_dwFlags & MWF_LOG_LOCALTIME) && !isSent) ? dat->m_hTimeZone : NULL;
+		hTimeZone = ((dat->m_dwFlags & MWF_LOG_LOCALTIME) && !isSent) ? dat->m_hTimeZone : nullptr;
 		time_t local_time = TimeZone_UtcToLocal(hTimeZone, dbei.timestamp);
 		event_time = *gmtime(&local_time);
 	}
@@ -1027,7 +1027,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 {
 	LogStreamData *dat = (LogStreamData*)dwCookie;
 
-	if (dat->buffer == NULL) {
+	if (dat->buffer == nullptr) {
 		dat->bufferOffset = 0;
 		switch (dat->stage) {
 		case STREAMSTAGE_HEADER:
@@ -1046,7 +1046,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
 					if (--dat->eventsToInsert == 0)
 						break;
-				} while (dat->buffer == NULL && dat->hDbEvent);
+				} while (dat->buffer == nullptr && dat->hDbEvent);
 
 				if (dat->buffer)
 					break;
@@ -1070,7 +1070,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	memcpy(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
 	dat->bufferOffset += *pcb;
 	if (dat->bufferOffset == dat->bufferLen)
-		replaceStr(dat->buffer, NULL);
+		replaceStr(dat->buffer, nullptr);
 	return 0;
 }
 
@@ -1181,7 +1181,7 @@ static void ReplaceIcons(HWND hwndDlg, CTabBaseDlg *dat, LONG startAt, int fAppe
 		if (startAt > 0)
 			smadd.rangeToReplace = &sel;
 		else
-			smadd.rangeToReplace = NULL;
+			smadd.rangeToReplace = nullptr;
 		smadd.disableRedraw = TRUE;
 		CallService(MS_SMILEYADD_REPLACESMILEYS, TABSRMM_SMILEYADD_BKGCOLORMODE, (LPARAM)&smadd);
 	}
@@ -1212,19 +1212,19 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 	HWND hwndrtf = m_hwndIEView ? m_hwndIWebBrowserControl : m_log.GetHwnd();
 
 	rtfFonts = m_pContainer->theme.rtfFonts ? m_pContainer->theme.rtfFonts : &(rtfFontsGlobal[0][0]);
-	time_t now = time(NULL);
+	time_t now = time(nullptr);
 
 	struct tm tm_now = *localtime(&now);
 	struct tm tm_today = tm_now;
 	tm_today.tm_hour = tm_today.tm_min = tm_today.tm_sec = 0;
 	today = mktime(&tm_today);
 
-	if (m_hwndIEView != NULL || m_hwndHPP != NULL) {
+	if (m_hwndIEView != nullptr || m_hwndHPP != nullptr) {
 		const char *pszService;
 		IEVIEWEVENT event = { 0 };
 		event.cbSize = sizeof(IEVIEWEVENT);
 		event.hContact = m_hContact;
-		if (m_hwndIEView != NULL) {
+		if (m_hwndIEView != nullptr) {
 			event.pszProto = m_szProto;
 			event.hwnd = m_hwndIEView;
 			pszService = MS_IEVIEW_EVENT;
@@ -1243,7 +1243,7 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 		}
 
 		IEVIEWEVENTDATA evData = { 0 };
-		if (dbei_s != NULL && hDbEventFirst == 0) {
+		if (dbei_s != nullptr && hDbEventFirst == 0) {
 			evData.cbSize = sizeof(evData);
 			event.iType = IEE_LOG_MEM_EVENTS;
 			if (dbei_s->flags & DBEF_SENT)
@@ -1357,7 +1357,7 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 	ReplaceIcons(m_hwnd, this, startAt, fAppend, isSent);
 	m_clr_added = FALSE;
 
-	if (m_hwndIEView == NULL && m_hwndHPP == NULL) {
+	if (m_hwndIEView == nullptr && m_hwndHPP == nullptr) {
 		int len = GetWindowTextLength(hwndrtf);
 		SendMessage(hwndrtf, EM_SETSEL, len - 1, len - 1);
 	}
@@ -1365,7 +1365,7 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 	DM_ScrollToBottom(0, 0);
 
 	SendMessage(hwndrtf, WM_SETREDRAW, TRUE, 0);
-	InvalidateRect(hwndrtf, NULL, FALSE);
+	InvalidateRect(hwndrtf, nullptr, FALSE);
 	EnableWindow(GetDlgItem(m_hwnd, IDC_QUOTE), m_hDbEventLast != 0);
 	mir_free(streamData.buffer);
 }

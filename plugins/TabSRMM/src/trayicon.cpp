@@ -93,9 +93,9 @@ void TSAPI CreateTrayMenus(int mode)
 {
 	if (mode) {
 		mir_snwprintf(g_eventName, L"tsr_evt_%d", GetCurrentThreadId());
-		g_hEvent = CreateEvent(NULL, FALSE, FALSE, g_eventName);
+		g_hEvent = CreateEvent(nullptr, FALSE, FALSE, g_eventName);
 		isAnimThreadRunning = TRUE;
-		hTrayAnimThread = mir_forkthread(TrayAnimThread, NULL);
+		hTrayAnimThread = mir_forkthread(TrayAnimThread, nullptr);
 
 		PluginConfig.g_hMenuTrayUnread = CreatePopupMenu();
 		PluginConfig.g_hMenuFavorites = CreatePopupMenu();
@@ -194,17 +194,17 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const wchar_t *szNickname, c
 	wchar_t szMenuEntry[80];
 	wchar_t	szFinalNick[100];
 
-	if (szNickname == NULL)
+	if (szNickname == nullptr)
 		wcsncpy_s(szFinalNick, pcli->pfnGetContactDisplayName(hContact, 0), _TRUNCATE);
 	else
 		wcsncpy_s(szFinalNick, szNickname, _TRUNCATE);
 
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		szProto = GetContactProto(hContact);
 	if (szProto) {
 		if (wStatus == 0)
 			wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-		if (szStatus == NULL)
+		if (szStatus == nullptr)
 			szStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
 	}
 	else
@@ -232,7 +232,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const wchar_t *szNickname, c
 					}
 				}
 			addnew:
-				db_set_dw(hContact, SRMSGMOD_T, "isRecent", time(NULL));
+				db_set_dw(hContact, SRMSGMOD_T, "isRecent", time(nullptr));
 				AppendMenu(hMenu, MF_BYCOMMAND, (UINT_PTR)hContact, szMenuEntry);
 			}
 			else if (hMenu == PluginConfig.g_hMenuFavorites) {            // insert the item sorted...
@@ -247,7 +247,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const wchar_t *szNickname, c
 				else {
 					for (i = 0; i <= c; i++) {
 						mii2.cch = 0;
-						mii2.dwTypeData = NULL;
+						mii2.dwTypeData = nullptr;
 						GetMenuItemInfo(PluginConfig.g_hMenuFavorites, i, TRUE, &mii2);
 						mii2.cch++;
 						mii2.dwTypeData = szBuffer;
@@ -288,12 +288,12 @@ void TSAPI LoadFavoritesAndRecent()
 	int iIndex = 0, i, j;
 
 	RCENTRY *recentEntries = new RCENTRY[nen_options.wMaxRecent + 1];
-	if (recentEntries == NULL)
+	if (recentEntries == nullptr)
 		return;
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (M.GetByte(hContact, "isFavorite", 0))
-			AddContactToFavorites(hContact, NULL, NULL, NULL, 0, 0, 1, PluginConfig.g_hMenuFavorites);
+			AddContactToFavorites(hContact, nullptr, nullptr, nullptr, 0, 0, 1, PluginConfig.g_hMenuFavorites);
 		if ((dwRecent = M.GetDword(hContact, "isRecent", 0)) != 0 && iIndex < nen_options.wMaxRecent) {
 			recentEntries[iIndex].dwTimestamp = dwRecent;
 			recentEntries[iIndex++].hContact = hContact;
@@ -315,7 +315,7 @@ void TSAPI LoadFavoritesAndRecent()
 		}
 	}
 	for (i = 0; i < iIndex; i++)
-		AddContactToFavorites(recentEntries[i].hContact, NULL, NULL, NULL, 0, 0, 1, PluginConfig.g_hMenuRecent);
+		AddContactToFavorites(recentEntries[i].hContact, nullptr, nullptr, nullptr, 0, 0, 1, PluginConfig.g_hMenuRecent);
 
 	delete[] recentEntries;
 }

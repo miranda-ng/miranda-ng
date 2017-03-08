@@ -72,7 +72,7 @@ CTaskbarInteract* Win7Taskbar = 0;
 bool CTaskbarInteract::setOverlayIcon(HWND hwndDlg, LPARAM lParam) const
 {
 	if (m_pTaskbarInterface && m_isEnabled && m_fHaveLargeicons) {
-		m_pTaskbarInterface->SetOverlayIcon(hwndDlg, (HICON)lParam, NULL);
+		m_pTaskbarInterface->SetOverlayIcon(hwndDlg, (HICON)lParam, nullptr);
 		return true;
 	}
 	return false;
@@ -120,7 +120,7 @@ bool CTaskbarInteract::haveLargeIcons()
 void CTaskbarInteract::clearOverlayIcon(HWND hwndDlg) const
 {
 	if (m_pTaskbarInterface && m_isEnabled)
-		m_pTaskbarInterface->SetOverlayIcon(hwndDlg, NULL, NULL);
+		m_pTaskbarInterface->SetOverlayIcon(hwndDlg, nullptr, nullptr);
 }
 
 LONG CTaskbarInteract::updateMetrics()
@@ -231,7 +231,7 @@ CProxyWindow::CProxyWindow(CTabBaseDlg *dat)
 	m_thumb = 0;
 
 	m_hwndProxy = ::CreateWindowEx(/*WS_EX_TOOLWINDOW | */WS_EX_NOACTIVATE, PROXYCLASSNAME, L"",
-		WS_POPUP | WS_BORDER | WS_SYSMENU | WS_CAPTION, -32000, -32000, 10, 10, NULL, NULL, g_hInst, (LPVOID)this);
+		WS_POPUP | WS_BORDER | WS_SYSMENU | WS_CAPTION, -32000, -32000, 10, 10, nullptr, nullptr, g_hInst, (LPVOID)this);
 
 #if defined(__LOGDEBUG_)
 	_DebugTraceW(L"create proxy object for: %s", m_dat->cache->getNick());
@@ -314,7 +314,7 @@ void CProxyWindow::sendThumb(LONG width, LONG height)
  */
 void CProxyWindow::sendPreview()
 {
-	if (m_dat->m_pContainer == NULL)
+	if (m_dat->m_pContainer == nullptr)
 		return;
 
 	CSrmmWindow *dat_active = reinterpret_cast<CSrmmWindow *>(::GetWindowLongPtr(m_dat->m_pContainer->hwndActive, GWLP_USERDATA));
@@ -866,7 +866,7 @@ void CThumbMUC::renderContent()
 			m_rcIcon.top += m_sz.cy;
 		}
 		if (si->iType != GCW_SERVER) {
-			wchar_t* _p = NULL;
+			wchar_t* _p = nullptr;
 			if (si->ptszStatusbarText)
 				_p = wcschr(si->ptszStatusbarText, ']');
 			if (_p) {

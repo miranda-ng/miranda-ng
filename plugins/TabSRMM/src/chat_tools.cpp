@@ -113,7 +113,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 		pd.lchIcon = LoadIconEx("window");
 
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
-	mir_snwprintf(pd.lptzContactName, L"%s - %s", (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName, pcli->pfnGetContactDisplayName(hContact, 0));
+	mir_snwprintf(pd.lptzContactName, L"%s - %s", (pa == nullptr) ? _A2T(pszProtoName) : pa->tszAccountName, pcli->pfnGetContactDisplayName(hContact, 0));
 	wcsncpy_s(pd.lptzText, TranslateW(szBuf), _TRUNCATE);
 	pd.iSeconds = g_Settings.iPopupTimeout;
 
@@ -138,11 +138,11 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 {
 	int iEvent = gce->pDest->iType;
-	if (si == NULL || !(iEvent & si->iLogPopupFlags))
+	if (si == nullptr || !(iEvent & si->iLogPopupFlags))
 		return true;
 
 	CTabBaseDlg *dat = si->dat;
-	TContainerData *pContainer = dat ? dat->m_pContainer : NULL;
+	TContainerData *pContainer = dat ? dat->m_pContainer : nullptr;
 
 	wchar_t *bbStart, *bbEnd;
 	if (g_Settings.bBBCodeInPopups) {
@@ -160,7 +160,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 	char *szProto = dat ? dat->m_szProto : si->pszModule;
 	if (nen_options.dwStatusMask != -1) {
 		DWORD dwStatus = 0;
-		if (szProto != NULL) {
+		if (szProto != nullptr) {
 			dwStatus = (DWORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 			if (!(dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE || ((1 << (dwStatus - ID_STATUS_ONLINE)) & nen_options.dwStatusMask)))            // should never happen, but...
 				return 0;
@@ -241,7 +241,7 @@ void DoFlashAndSoundWorker(FLASH_PARAMS* p)
 						dat->m_iFlashIcon = p->hNotifyIcon;
 				}
 				dat->m_bCanFlashTab = TRUE;
-				SetTimer(si->hWnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, NULL);
+				SetTimer(si->hWnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, nullptr);
 			}
 		}
 		if (dat->m_pWnd) {
@@ -299,7 +299,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	if (gce == 0 || si == 0 || gce->bIsMe || si->iType == GCW_SERVER)
 		return FALSE;
 
-	CTabBaseDlg *dat = NULL;
+	CTabBaseDlg *dat = nullptr;
 	FLASH_PARAMS *params = (FLASH_PARAMS*)mir_calloc(sizeof(FLASH_PARAMS));
 	params->hContact = si->hContact;
 	params->bInactive = TRUE;
@@ -323,7 +323,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			DoTrayIcon(si, gce);
 		}
 
-		if (g_Settings.bCreateWindowOnHighlight && dat == NULL)
+		if (g_Settings.bCreateWindowOnHighlight && dat == nullptr)
 			wParamForHighLight = 1;
 
 		if (dat && g_Settings.bAnnoyingHighlight && params->bInactive && dat->m_pContainer->hwnd != GetForegroundWindow()) {
@@ -484,7 +484,7 @@ wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2)
 			if (!s2[k + 1])
 				return (wchar_t*)(s1 + i);
 
-	return NULL;
+	return nullptr;
 }
 
 /*
@@ -522,12 +522,12 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 
 		EnableMenuItem(*hMenu, ID_CLEARLOG, MF_ENABLED);
 		EnableMenuItem(*hMenu, ID_COPYALL, MF_ENABLED);
-		ModifyMenu(*hMenu, 4, MF_GRAYED | MF_BYPOSITION, 4, NULL);
+		ModifyMenu(*hMenu, 4, MF_GRAYED | MF_BYPOSITION, 4, nullptr);
 		if (!i) {
 			EnableMenuItem(*hMenu, ID_COPYALL, MF_BYCOMMAND | MF_GRAYED);
 			EnableMenuItem(*hMenu, ID_CLEARLOG, MF_BYCOMMAND | MF_GRAYED);
 			if (pszWordText && pszWordText[0])
-				ModifyMenu(*hMenu, 4, MF_ENABLED | MF_BYPOSITION, 4, NULL);
+				ModifyMenu(*hMenu, 4, MF_ENABLED | MF_BYPOSITION, 4, nullptr);
 		}
 
 		if (pszWordText && pszWordText[0]) {
@@ -589,7 +589,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 		InsertMenu(*hMenu, pos, MF_BYPOSITION, (UINT_PTR)20021, TranslateT("Edit highlight list..."));
 	}
 
-	return TrackPopupMenu(*hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+	return TrackPopupMenu(*hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
 }
 
 void DestroyGCMenu(HMENU *hMenu, int iIndex)
@@ -598,7 +598,7 @@ void DestroyGCMenu(HMENU *hMenu, int iIndex)
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_SUBMENU;
 	while (GetMenuItemInfo(*hMenu, iIndex, TRUE, &mii)) {
-		if (mii.hSubMenu != NULL)
+		if (mii.hSubMenu != nullptr)
 			DestroyMenu(mii.hSubMenu);
 		RemoveMenu(*hMenu, iIndex, MF_BYPOSITION);
 	}
@@ -610,7 +610,7 @@ void DestroyGCMenu(HMENU *hMenu, int iIndex)
  */
 void Chat_SetFilters(SESSION_INFO *si)
 {
-	if (si == NULL)
+	if (si == nullptr)
 		return;
 
 	DWORD dwFlags_default = M.GetDword(CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
@@ -674,15 +674,15 @@ char GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex)
 bool IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 {
 	if (!g_Settings.bHighlightEnabled || !gce || gce->bIsMe)
-		return FALSE;
+		return false;
 
 	GCEVENT evTmp = *gce;
 
 	int dwMask = 0;
-	if (gce->ptszText != NULL)
+	if (gce->ptszText != nullptr)
 		dwMask |= CMUCHighlight::MATCH_TEXT;
 
-	if (gce->ptszNick != NULL) {
+	if (gce->ptszNick != nullptr) {
 		dwMask |= CMUCHighlight::MATCH_NICKNAME;
 		if (si && g_Settings.bLogClassicIndicators) {
 			size_t len = mir_wstrlen(gce->ptszNick) + 1;

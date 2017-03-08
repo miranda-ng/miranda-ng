@@ -2,9 +2,9 @@
 
 HANDLE hTypingNotify;
 
-static HGENMENU hDisableMenu = NULL;
+static HGENMENU hDisableMenu = nullptr;
 
-static MWindowList hPopupsList = NULL;
+static MWindowList hPopupsList = nullptr;
 
 static BYTE   OnePopup;
 static BYTE   ShowMenu;
@@ -355,8 +355,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 					ppd.lchIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 					ppd.lchContact = wParam;
-					ppd.PluginWindowProc = NULL;
-					ppd.PluginData = NULL;
+					ppd.PluginWindowProc = nullptr;
+					ppd.PluginData = nullptr;
 					PUAddPopupT(&ppd);
 				}
 			}
@@ -420,7 +420,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_TIMEOUT_VALUE:
 		case IDC_TIMEOUT_VALUE2:
-			int newValue = GetDlgItemInt(hwndDlg, idCtrl, NULL, 0);
+			int newValue = GetDlgItemInt(hwndDlg, idCtrl, nullptr, 0);
 
 			if (wNotifyCode == EN_KILLFOCUS) {
 				int oldValue;

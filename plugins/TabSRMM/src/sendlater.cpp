@@ -441,7 +441,7 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT;
 				dbei.szModule = GetContactProto((p->hContact));
-				dbei.timestamp = time(NULL);
+				dbei.timestamp = time(nullptr);
 				dbei.cbBlob = (int)mir_strlen(p->sendBuffer) + 1;
 				dbei.flags |= DBEF_UTF;
 				dbei.pBlob = (PBYTE)(p->sendBuffer);
@@ -708,7 +708,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					::EnableMenuItem(hSubMenu, ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD, MF_ENABLED);
 
 				m_fIsInteractive = true;
-				int selection = ::TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwndDlg, NULL);
+				int selection = ::TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwndDlg, nullptr);
 				if (selection == ID_QUEUEMANAGER_CANCELALLMULTISENDJOBS) {
 					for (int i = 0; i < m_sendLaterJobList.getCount(); i++) {
 						CSendLaterJob *p = m_sendLaterJobList[i];

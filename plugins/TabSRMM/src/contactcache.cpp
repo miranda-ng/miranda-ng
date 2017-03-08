@@ -41,7 +41,7 @@ CContactCache::CContactCache(MCONTACT hContact)
 	m_iStatus = m_iOldStatus = ID_STATUS_OFFLINE;
 
 	if (hContact) {
-		if ((cc = db_get_contact(hContact)) != NULL) {
+		if ((cc = db_get_contact(hContact)) != nullptr) {
 			initPhaseTwo();
 			return;
 		}
@@ -142,7 +142,7 @@ void CContactCache::updateMeta()
 	}
 	else {
 		m_hSub = 0;
-		m_szMetaProto = NULL;
+		m_szMetaProto = nullptr;
 		m_iMetaStatus = ID_STATUS_OFFLINE;
 		m_xStatus = 0;
 	}
@@ -158,7 +158,7 @@ bool CContactCache::updateUIN()
 
 	if (m_isValid) {
 		ptrW uid(Contact_GetInfo(CNF_DISPLAYUID, getActiveContact(), getActiveProto()));
-		if (uid != NULL)
+		if (uid != nullptr)
 			wcsncpy_s(m_szUIN, uid, _TRUNCATE);
 	}
 
@@ -241,11 +241,11 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM)
 	}
 
 	char *szFromStream = ::Message_GetFromStream(GetDlgItem(m_dat->GetHwnd(), IDC_MESSAGE), SF_RTFNOOBJS | SFF_PLAINRTF | SF_NCRFORNONASCII);
-	if (szFromStream != NULL) {
+	if (szFromStream != nullptr) {
 		size_t 	iLength = 0, iStreamLength = 0;
 		iLength = iStreamLength = (mir_strlen(szFromStream) + 1);
 
-		if (iLength > 0 && m_history != NULL) { // XXX: iLength > 1 ?
+		if (iLength > 0 && m_history != nullptr) { // XXX: iLength > 1 ?
 			if ((m_iHistoryTop == m_iHistorySize) && oldTop == 0) {         // shift the stack down...
 				TInputHistory ihTemp = m_history[0];
 				m_iHistoryTop--;
@@ -253,7 +253,7 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM)
 				m_history[m_iHistoryTop] = ihTemp;
 			}
 			if (iLength > m_history[m_iHistoryTop].lLen) {
-				if (m_history[m_iHistoryTop].szText == NULL) {
+				if (m_history[m_iHistoryTop].szText == nullptr) {
 					if (iLength < HISTORY_INITIAL_ALLOCSIZE)
 						iLength = HISTORY_INITIAL_ALLOCSIZE;
 					m_history[m_iHistoryTop].szText = (wchar_t*)mir_alloc(iLength);
@@ -289,7 +289,7 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 	if (m_dat == nullptr)
 		return;
 
-	if (m_history != NULL && m_history[0].szText != NULL) {     // at least one entry needs to be alloced, otherwise we get a nice infinite loop ;)
+	if (m_history != nullptr && m_history[0].szText != nullptr) {     // at least one entry needs to be alloced, otherwise we get a nice infinite loop ;)
 		HWND hwndEdit = ::GetDlgItem(m_dat->GetHwnd(), IDC_MESSAGE);
 		SETTEXTEX stx = { ST_DEFAULT, CP_UTF8 };
 
@@ -311,14 +311,14 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 				m_iHistoryCurrent = m_iHistoryTop;
 		}
 		if (m_iHistoryCurrent == m_iHistoryTop) {
-			if (m_history[m_iHistorySize].szText != NULL) {           // replace the temp buffer
+			if (m_history[m_iHistorySize].szText != nullptr) {           // replace the temp buffer
 				::SetWindowText(hwndEdit, L"");
 				::SendMessage(hwndEdit, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistorySize].szText);
 				::SendMessage(hwndEdit, EM_SETSEL, -1, -1);
 			}
 		}
 		else {
-			if (m_history[m_iHistoryCurrent].szText != NULL) {
+			if (m_history[m_iHistoryCurrent].szText != nullptr) {
 				::SetWindowText(hwndEdit, L"");
 				::SendMessage(hwndEdit, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistoryCurrent].szText);
 				::SendMessage(hwndEdit, EM_SETSEL, -1, -1);
@@ -371,7 +371,7 @@ void CContactCache::releaseAlloced()
 	}
 
 	mir_free(m_szStatusMsg);
-	m_szStatusMsg = NULL;
+	m_szStatusMsg = nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -450,7 +450,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 CContactCache* CContactCache::getContactCache(MCONTACT hContact)
 {
 	CContactCache *cc = arContacts.find((CContactCache*)&hContact);
-	if (cc == NULL) {
+	if (cc == nullptr) {
 		cc = new CContactCache(hContact);
 		arContacts.insert(cc);
 	}

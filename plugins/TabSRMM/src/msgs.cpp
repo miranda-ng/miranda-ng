@@ -55,7 +55,7 @@ int IEViewOptionsChanged(WPARAM, LPARAM)
 int SmileyAddOptionsChanged(WPARAM, LPARAM)
 {
 	M.BroadcastMessage(DM_SMILEYOPTIONSCHANGED, 0, 0);
-	pci->SM_BroadcastMessage(NULL, DM_SMILEYOPTIONSCHANGED, 0, 0, FALSE);
+	pci->SM_BroadcastMessage(nullptr, DM_SMILEYOPTIONSCHANGED, 0, 0, FALSE);
 	return 0;
 }
 
@@ -78,11 +78,11 @@ static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
-	if (mwid == NULL || (mwid->cbSize != sizeof(MessageWindowInputData)) || (mwid->hContact == NULL) || (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH))
+	if (mwid == nullptr || (mwid->cbSize != sizeof(MessageWindowInputData)) || (mwid->hContact == 0) || (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH))
 		return 1;
 
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
-	if (mwd == NULL || (mwd->cbSize != sizeof(MessageWindowData)))
+	if (mwd == nullptr || (mwd->cbSize != sizeof(MessageWindowData)))
 		return 1;
 
 	HWND hwnd = M.FindWindow(mwid->hContact);
@@ -97,7 +97,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	else
 	{
 		SESSION_INFO *si = SM_FindSessionByHCONTACT(mwid->hContact);
-		if (si != NULL && si->hWnd != 0) {
+		if (si != nullptr && si->hWnd != 0) {
 			mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 			mwd->hwndWindow = si->hWnd;
 			mwd->local = GetParent(GetParent(si->hWnd));
@@ -203,8 +203,8 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				break;
 
 			TContainerData *pNewContainer = FindContainerByName(szNewName);
-			if (pNewContainer == NULL)
-				if ((pNewContainer = CreateContainer(szNewName, FALSE, m_hContact)) == NULL)
+			if (pNewContainer == nullptr)
+				if ((pNewContainer = CreateContainer(szNewName, FALSE, m_hContact)) == nullptr)
 					break;
 
 			db_set_ws(m_hContact, SRMSGMOD_T, "containerW", szNewName);
@@ -288,7 +288,7 @@ static void SetStatusTextWorker(CTabBaseDlg *dat, StatusTextData *st)
 		dat->m_sbCustom = nullptr;
 	}
 
-	if (st != NULL && st->cbSize == sizeof(StatusTextData))
+	if (st != nullptr && st->cbSize == sizeof(StatusTextData))
 		dat->m_sbCustom = new StatusTextData(*st);
 
 	dat->UpdateStatusBar();
@@ -297,9 +297,9 @@ static void SetStatusTextWorker(CTabBaseDlg *dat, StatusTextData *st)
 static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 {
 	SESSION_INFO *si = SM_FindSessionByHCONTACT(hContact);
-	if (si == NULL) {
+	if (si == nullptr) {
 		HWND hwnd = M.FindWindow(hContact);
-		if (hwnd != NULL)
+		if (hwnd != nullptr)
 			SetStatusTextWorker((CTabBaseDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA), (StatusTextData*)lParam);
 
 		if (hContact = db_mc_getMeta(hContact))
@@ -396,14 +396,14 @@ static INT_PTR ReloadSettings(WPARAM, LPARAM lParam)
 INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd = 0;
-	TContainerData *pContainer = NULL;
+	TContainerData *pContainer = nullptr;
 
 	if (wParam)
 		hwnd = M.FindWindow(wParam);
 	else if (lParam)
 		hwnd = (HWND)lParam;
 	else
-		return NULL;
+		return 0;
 
 	if (!hwnd)
 		return 0;
@@ -444,7 +444,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 		wchar_t szName[CONTAINER_NAMELEN + 1];
 		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
 		TContainerData *pContainer = FindContainerByName(szName);
-		if (pContainer == NULL)
+		if (pContainer == nullptr)
 			pContainer = CreateContainer(szName, FALSE, hContact);
 		if (pContainer)
 			CreateNewTabForContact(pContainer, hContact, true, true, false, 0);
@@ -472,7 +472,7 @@ INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar
 
 	// does the MCONTACT's protocol support IM messages?
 	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return 0; // unknown contact
 	if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 		return 0;
@@ -494,7 +494,7 @@ INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar
 		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
 
 		TContainerData *pContainer = FindContainerByName(szName);
-		if (pContainer == NULL)
+		if (pContainer == nullptr)
 			pContainer = CreateContainer(szName, FALSE, hContact);
 		if (pContainer)
 			CreateNewTabForContact(pContainer, hContact, true, true, false, 0, isWchar, pszMsg);
@@ -535,7 +535,7 @@ int SplitmsgShutdown(void)
 
 	if (g_hIconDLL) {
 		FreeLibrary(g_hIconDLL);
-		g_hIconDLL = NULL;
+		g_hIconDLL = nullptr;
 	}
 
 	ImageList_RemoveAll(PluginConfig.g_hImageList);
@@ -632,8 +632,8 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 
 	// if we have a max # of tabs/container set and want to open something in the default container...
 	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6))
-		if ((pContainer = FindMatchingContainer(L"default")) == NULL)
-			if ((pContainer = CreateContainer(L"default", CNT_CREATEFLAG_CLONED, hContact)) == NULL)
+		if ((pContainer = FindMatchingContainer(L"default")) == nullptr)
+			if ((pContainer = CreateContainer(L"default", CNT_CREATEFLAG_CLONED, hContact)) == nullptr)
 				return 0;
 
 	char *szProto = GetContactProto(hContact);
@@ -653,7 +653,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	}
 	else wcsncpy_s(newcontactname, L"_U_", _TRUNCATE);
 
-	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
 	if (M.GetByte("tabstatus", 1))
 		mir_snwprintf(tabtitle, L"%s (%s)  ", newcontactname, szStatus);
@@ -736,15 +736,15 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	if (bActivateTab) {
 		ActivateExistingTab(pContainer, hwndNew);
 		SetFocus(hwndNew);
-		RedrawWindow(pContainer->hwnd, NULL, NULL, RDW_ERASENOW);
+		RedrawWindow(pContainer->hwnd, nullptr, nullptr, RDW_ERASENOW);
 		UpdateWindow(pContainer->hwnd);
 		if (GetForegroundWindow() != pContainer->hwnd && bPopupContainer == TRUE)
 			SetForegroundWindow(pContainer->hwnd);
 	}
 	else if (!IsIconic(pContainer->hwnd) && IsWindowVisible(pContainer->hwnd)) {
 		SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);
-		RedrawWindow(pContainer->hwndActive, NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
-		RedrawWindow(pContainer->hwndActive, NULL, NULL, RDW_ERASENOW | RDW_UPDATENOW);
+		RedrawWindow(pContainer->hwndActive, nullptr, nullptr, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
+		RedrawWindow(pContainer->hwndActive, nullptr, nullptr, RDW_ERASENOW | RDW_UPDATENOW);
 	}
 
 	if (PluginConfig.m_bHideOnClose&&!IsWindowVisible(pContainer->hwnd)) {
@@ -788,7 +788,7 @@ TContainerData* TSAPI FindMatchingContainer(const wchar_t *szName)
 			if (!wcsncmp(p->szName, L"default", 6) && p->iChilds < iMaxTabs)
 				return p;
 
-		return NULL;
+		return nullptr;
 	}
 	return FindContainerByName(szName);
 }
@@ -803,7 +803,7 @@ void TSAPI CreateImageList(BOOL bInitial)
 	// an icon on each tab. This is a blank and empty icon
 	if (bInitial) {
 		PluginConfig.g_hImageList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 0);
-		HICON hIcon = CreateIcon(g_hInst, 16, 16, 1, 4, NULL, NULL);
+		HICON hIcon = CreateIcon(g_hInst, 16, 16, 1, 4, nullptr, nullptr);
 		ImageList_AddIcon(PluginConfig.g_hImageList, hIcon);
 		DestroyIcon(hIcon);
 	}
@@ -822,11 +822,11 @@ void TSAPI CreateImageList(BOOL bInitial)
 
 int TABSRMM_FireEvent(MCONTACT hContact, HWND hwnd, unsigned int type, unsigned int subType)
 {
-	if (hContact == NULL || hwnd == NULL)
+	if (hContact == 0 || hwnd == nullptr)
 		return 0;
 
 	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (dat == NULL)
+	if (dat == nullptr)
 		return 0;
 	BYTE bType = dat->m_bType;
 
@@ -1173,14 +1173,14 @@ STDMETHODIMP CREOleCallback::QueryInterface(REFIID riid, LPVOID * ppvObj)
 		AddRef();
 		return S_OK;
 	}
-	*ppvObj = NULL;
+	*ppvObj = nullptr;
 	return E_NOINTERFACE;
 }
 
 STDMETHODIMP_(ULONG) CREOleCallback::AddRef()
 {
 	if (refCount == 0)
-		StgCreateDocfile(NULL, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &pictStg);
+		StgCreateDocfile(nullptr, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &pictStg);
 
 	return ++refCount;
 }
@@ -1190,7 +1190,7 @@ STDMETHODIMP_(ULONG) CREOleCallback::Release()
 	if (--refCount == 0) {
 		if (pictStg) {
 			pictStg->Release();
-			pictStg = NULL;
+			pictStg = nullptr;
 		}
 	}
 	return refCount;
@@ -1230,7 +1230,7 @@ STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE *lplpstg)
 {
 	wchar_t sztName[64];
 	mir_snwprintf(sztName, L"s%u", nextStgId++);
-	if (pictStg == NULL)
+	if (pictStg == nullptr)
 		return STG_E_MEDIUMFULL;
 	return pictStg->CreateStorage(sztName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);
 }

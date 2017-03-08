@@ -35,8 +35,8 @@ TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 		SIDEBARLAYOUT_DYNHEIGHT | SIDEBARLAYOUT_VERTICALORIENTATION,
 		CSideBar::m_DefaultContentRenderer,
 		CSideBar::m_DefaultBackgroundRenderer,
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
 		SIDEBARLAYOUT_VERTICAL
 	},
 	{
@@ -45,8 +45,8 @@ TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 		0,
 		CSideBar::m_DefaultContentRenderer,
 		CSideBar::m_DefaultBackgroundRenderer,
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
 		SIDEBARLAYOUT_NORMAL
 	},
 	{
@@ -55,8 +55,8 @@ TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 		SIDEBARLAYOUT_NOCLOSEBUTTONS,
 		CSideBar::m_AdvancedContentRenderer,
 		CSideBar::m_DefaultBackgroundRenderer,
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
 		SIDEBARLAYOUT_NORMAL
 	},
 	{
@@ -66,7 +66,7 @@ TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 		CSideBar::m_AdvancedContentRenderer,
 		CSideBar::m_DefaultBackgroundRenderer,
 		CSideBar::m_measureAdvancedVertical,
-		NULL,
+		nullptr,
 		SIDEBARLAYOUT_VERTICAL
 	}
 };
@@ -95,7 +95,7 @@ void CSideBarButton::_create()
 	m_sz.cx = m_sz.cy = 0;
 
 	m_hwnd = ::CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
-		0, 0, 40, 40, m_sideBar->getScrollWnd(), reinterpret_cast<HMENU>(m_id), g_hInst, NULL);
+		0, 0, 40, 40, m_sideBar->getScrollWnd(), reinterpret_cast<HMENU>(m_id), g_hInst, nullptr);
 	if (m_hwnd) {
 		CustomizeButton(m_hwnd);
 		::SendMessage(m_hwnd, BUTTONSETASSIDEBARBUTTON, (WPARAM)this, 0);
@@ -260,7 +260,7 @@ void CSideBarButton::renderIconAndNick(const HDC hdc, const RECT *rcItem) const
 			if (m_dat->m_dwFlagsEx & MWF_SHOW_ISIDLE && PluginConfig.m_bIdleDetect)
 				CSkin::DrawDimmedIcon(hdc, ix, iy, iSize, iSize, hIcon, 180);
 			else
-				::DrawIconEx(hdc, ix, iy, hIcon, iSize, iSize, 0, NULL, DI_NORMAL | DI_COMPAT);
+				::DrawIconEx(hdc, ix, iy, hIcon, iSize, iSize, 0, nullptr, DI_NORMAL | DI_COMPAT);
 		}
 
 		rc.left += (iSize + 7);
@@ -490,7 +490,7 @@ void CSideBar::removeAll()
 void CSideBar::populateAll()
 {
 	HWND	hwndTab = ::GetDlgItem(m_pContainer->hwnd, IDC_MSGTABS);
-	if (hwndTab == NULL)
+	if (hwndTab == nullptr)
 		return;
 
 	int iItems = (int)TabCtrl_GetItemCount(hwndTab);
@@ -506,11 +506,11 @@ void CSideBar::populateAll()
 			continue;
 
 		CSrmmWindow *dat = (CSrmmWindow*)::GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
-		if (dat == NULL)
+		if (dat == nullptr)
 			continue;
 
 		CSideBarButton *b_item = findSession(dat);
-		if (b_item == NULL)
+		if (b_item == nullptr)
 			addSession(dat, i);
 		else {
 			b_item->setLayout(m_currentLayout);
@@ -568,7 +568,7 @@ HRESULT CSideBar::removeSession(CTabBaseDlg *dat)
 	if (dat) {
 		CSideBarButton *item = findSession(dat);
 
-		if (item != NULL) {
+		if (item != nullptr) {
 			m_iTopButtons--;
 			if (m_dwFlags & SIDEBARLAYOUT_DYNHEIGHT) {
 				SIZE sz = item->getSize();
@@ -655,7 +655,7 @@ void CSideBar::updateSession(CTabBaseDlg *dat)
 		return;
 
 	CSideBarButton *item = findSession(dat);
-	if (item == NULL)
+	if (item == nullptr)
 		return;
 
 	if (m_dwFlags & SIDEBARLAYOUT_DYNHEIGHT) {
@@ -665,11 +665,11 @@ void CSideBar::updateSession(CTabBaseDlg *dat)
 		m_topHeight += (sz.cy + 1);
 		if (sz.cy != oldHeight) {
 			Invalidate();
-			::InvalidateRect(item->getHwnd(), NULL, TRUE);
+			::InvalidateRect(item->getHwnd(), nullptr, TRUE);
 		}
-		else ::InvalidateRect(item->getHwnd(), NULL, FALSE);
+		else ::InvalidateRect(item->getHwnd(), nullptr, FALSE);
 	}
-	else ::InvalidateRect(item->getHwnd(), NULL, FALSE);
+	else ::InvalidateRect(item->getHwnd(), nullptr, FALSE);
 }
 
 /**
@@ -684,7 +684,7 @@ void CSideBar::updateSession(CTabBaseDlg *dat)
 const CSideBarButton* CSideBar::setActiveItem(const CTabBaseDlg *dat)
 {
 	CSideBarButton *item = findSession(dat);
-	if (item != NULL)
+	if (item != nullptr)
 		return setActiveItem(item);
 
 	return 0;
@@ -746,14 +746,14 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 
 		if (p.isTopAligned()) {
 			if (m_totalItemHeight <= m_firstVisibleOffset) {				// partially visible
-				if (!fOnlyCalc && NULL != hwnd) /* Wine fix. */
+				if (!fOnlyCalc && nullptr != hwnd) /* Wine fix. */
 					hdwp = ::DeferWindowPos(hdwp, hwnd, 0, 2, -(m_firstVisibleOffset - m_totalItemHeight),
 						m_elementWidth, height, SWP_SHOWWINDOW | dwFlags);
 				spaceUsed += ((height + 1) - (m_firstVisibleOffset - m_totalItemHeight));
 				m_totalItemHeight += (height + 1);
 			}
 			else {
-				if (!fOnlyCalc && NULL != hwnd) /* Wine fix. */
+				if (!fOnlyCalc && nullptr != hwnd) /* Wine fix. */
 					hdwp = ::DeferWindowPos(hdwp, hwnd, 0, 2, spaceUsed, m_elementWidth, height, SWP_SHOWWINDOW | dwFlags);
 				spaceUsed += (height + 1);
 				m_totalItemHeight += (height + 1);
@@ -777,8 +777,8 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 			m_elementWidth + 4, 14, dwFlags | SWP_SHOWWINDOW);
 		::EnableWindow(m_up->getHwnd(), topEnabled);
 		::EnableWindow(m_down->getHwnd(), bottomEnabled);
-		::InvalidateRect(m_up->getHwnd(), NULL, FALSE);
-		::InvalidateRect(m_down->getHwnd(), NULL, FALSE);
+		::InvalidateRect(m_up->getHwnd(), nullptr, FALSE);
+		::InvalidateRect(m_down->getHwnd(), nullptr, FALSE);
 	}
 }
 
@@ -807,8 +807,8 @@ void CSideBar::showAll(int showCmd)
 
 CSideBarButton* CSideBar::findSession(const CTabBaseDlg *dat)
 {
-	if (dat == NULL)
-		return NULL;
+	if (dat == nullptr)
+		return nullptr;
 
 	for (int i = 0; i < m_buttonlist.getCount(); i++) {
 		CSideBarButton &p = m_buttonlist[i];
@@ -816,7 +816,7 @@ CSideBarButton* CSideBar::findSession(const CTabBaseDlg *dat)
 			return &p;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /**
@@ -830,8 +830,8 @@ CSideBarButton* CSideBar::findSession(const CTabBaseDlg *dat)
 
 CSideBarButton* CSideBar::findSession(const MCONTACT hContact)
 {
-	if (hContact == NULL)
-		return NULL;
+	if (hContact == 0)
+		return nullptr;
 
 	for (int i = 0; i < m_buttonlist.getCount(); i++) {
 		CSideBarButton &p = m_buttonlist[i];
@@ -839,7 +839,7 @@ CSideBarButton* CSideBar::findSession(const MCONTACT hContact)
 			return &p;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CSideBar::processScrollerButtons(UINT commandID)
@@ -869,7 +869,7 @@ void CSideBar::invalidateButton(CTabBaseDlg *dat)
 {
 	if (m_isActive && m_isVisible) {
 		CSideBarButton *item = findSession(dat);
-		if (item != NULL)
+		if (item != nullptr)
 			RedrawWindow(item->m_buttonControl->hwnd, 0, 0, RDW_INVALIDATE | RDW_UPDATENOW);
 	}
 }

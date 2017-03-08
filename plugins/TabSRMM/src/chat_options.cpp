@@ -136,40 +136,40 @@ struct branch_t
 	HTREEITEM hItem;
 };
 static branch_t branch1[] = {
-	{ LPGENW("Open new chat rooms in the default container"), "DefaultContainer", 0, 1, NULL },
-	{ LPGENW("Flash window when someone speaks"), "FlashWindow", 0, 0, NULL },
-	{ LPGENW("Flash window when a word is highlighted"), "FlashWindowHighlight", 0, 1, NULL },
-	{ LPGENW("Create tabs or windows for highlight events"), "CreateWindowOnHighlight", 0, 0, NULL },
-	{ LPGENW("Activate chat window on highlight"), "AnnoyingHighlight", 0, 0, NULL },
-	{ LPGENW("Show list of users in the chat room"), "ShowNicklist", 0, 1, NULL },
-	{ LPGENW("Colorize nicknames in member list"), "ColorizeNicks", 0, 1, NULL },
-	{ LPGENW("Show button menus when right clicking the buttons"), "RightClickFilter", 0, 1, NULL },
-	{ LPGENW("Show topic as status message on the contact list"), "TopicOnClist", 0, 1, NULL },
-	{ LPGENW("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0, 0, NULL },
-	{ LPGENW("Hide or show the window by double click in the contact list"), "ToggleVisibility", 0, 0, NULL },
-	{ LPGENW("Sync splitter position with standard IM sessions"), "SyncSplitter", 0, 0, NULL },
-	{ LPGENW("Show contact's status modes if supported by the protocol"), "ShowContactStatus", 0, 1, NULL },
-	{ LPGENW("Display contact's status icon before user role icon"), "ContactStatusFirst", 0, 0, NULL },
-	{ LPGENW("Use IRC style status indicators in the nick list"), "ClassicIndicators", 0, 0, NULL },
-	{ LPGENW("Use alternative sorting method in member list"), "AlternativeSorting", 0, 1, NULL }
+	{ LPGENW("Open new chat rooms in the default container"), "DefaultContainer", 0, 1, nullptr },
+	{ LPGENW("Flash window when someone speaks"), "FlashWindow", 0, 0, nullptr },
+	{ LPGENW("Flash window when a word is highlighted"), "FlashWindowHighlight", 0, 1, nullptr },
+	{ LPGENW("Create tabs or windows for highlight events"), "CreateWindowOnHighlight", 0, 0, nullptr },
+	{ LPGENW("Activate chat window on highlight"), "AnnoyingHighlight", 0, 0, nullptr },
+	{ LPGENW("Show list of users in the chat room"), "ShowNicklist", 0, 1, nullptr },
+	{ LPGENW("Colorize nicknames in member list"), "ColorizeNicks", 0, 1, nullptr },
+	{ LPGENW("Show button menus when right clicking the buttons"), "RightClickFilter", 0, 1, nullptr },
+	{ LPGENW("Show topic as status message on the contact list"), "TopicOnClist", 0, 1, nullptr },
+	{ LPGENW("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0, 0, nullptr },
+	{ LPGENW("Hide or show the window by double click in the contact list"), "ToggleVisibility", 0, 0, nullptr },
+	{ LPGENW("Sync splitter position with standard IM sessions"), "SyncSplitter", 0, 0, nullptr },
+	{ LPGENW("Show contact's status modes if supported by the protocol"), "ShowContactStatus", 0, 1, nullptr },
+	{ LPGENW("Display contact's status icon before user role icon"), "ContactStatusFirst", 0, 0, nullptr },
+	{ LPGENW("Use IRC style status indicators in the nick list"), "ClassicIndicators", 0, 0, nullptr },
+	{ LPGENW("Use alternative sorting method in member list"), "AlternativeSorting", 0, 1, nullptr }
 };
 
 static branch_t branch2[] = {
-	{ LPGENW("Prefix all events with a timestamp"), "ShowTimeStamp", 0, 1, NULL },
-	{ LPGENW("Timestamp only when event time differs"), "ShowTimeStampIfChanged", 0, 0, NULL },
-	{ LPGENW("Timestamp has same color as the event"), "TimeStampEventColour", 0, 0, NULL },
-	{ LPGENW("Indent the second line of a message"), "LogIndentEnabled", 0, 1, NULL },
-	{ LPGENW("Limit user names in the message log to 20 characters"), "LogLimitNames", 0, 1, NULL },
-	{ LPGENW("Add a colon (:) to auto-completed user names"), "AddColonToAutoComplete", 0, 1, NULL },
-	{ LPGENW("Add a comma instead of a colon to auto-completed user names"), "UseCommaAsColon", 0, 0, NULL },
-	{ LPGENW("Start private conversation on double click in nick list (insert nick if unchecked)"), "DoubleClick4Privat", 0, 0, NULL },
-	{ LPGENW("Strip colors from messages in the log"), "StripFormatting", 0, 0, NULL },
-	{ LPGENW("Enable the 'event filter' for new rooms"), "FilterEnabled", 0, 0, NULL },
-	{ LPGENW("Use IRC style status indicators in the log"), "LogClassicIndicators", 0, 0, NULL },
-	{ LPGENW("Allow clickable user names in the message log"), "ClickableNicks", 0, 1, NULL },
-	{ LPGENW("Add new line after names"), "NewlineAfterNames", 0, 0, NULL },
-	{ LPGENW("Colorize user names in message log"), "ColorizeNicksInLog", 0, 1, NULL },
-	{ LPGENW("Scale down icons to 10x10 pixels in the chat log"), "ScaleIcons", 0, 1, NULL }
+	{ LPGENW("Prefix all events with a timestamp"), "ShowTimeStamp", 0, 1, nullptr },
+	{ LPGENW("Timestamp only when event time differs"), "ShowTimeStampIfChanged", 0, 0, nullptr },
+	{ LPGENW("Timestamp has same color as the event"), "TimeStampEventColour", 0, 0, nullptr },
+	{ LPGENW("Indent the second line of a message"), "LogIndentEnabled", 0, 1, nullptr },
+	{ LPGENW("Limit user names in the message log to 20 characters"), "LogLimitNames", 0, 1, nullptr },
+	{ LPGENW("Add a colon (:) to auto-completed user names"), "AddColonToAutoComplete", 0, 1, nullptr },
+	{ LPGENW("Add a comma instead of a colon to auto-completed user names"), "UseCommaAsColon", 0, 0, nullptr },
+	{ LPGENW("Start private conversation on double click in nick list (insert nick if unchecked)"), "DoubleClick4Privat", 0, 0, nullptr },
+	{ LPGENW("Strip colors from messages in the log"), "StripFormatting", 0, 0, nullptr },
+	{ LPGENW("Enable the 'event filter' for new rooms"), "FilterEnabled", 0, 0, nullptr },
+	{ LPGENW("Use IRC style status indicators in the log"), "LogClassicIndicators", 0, 0, nullptr },
+	{ LPGENW("Allow clickable user names in the message log"), "ClickableNicks", 0, 1, nullptr },
+	{ LPGENW("Add new line after names"), "NewlineAfterNames", 0, 0, nullptr },
+	{ LPGENW("Colorize user names in message log"), "ColorizeNicksInLog", 0, 1, nullptr },
+	{ LPGENW("Scale down icons to 10x10 pixels in the chat log"), "ScaleIcons", 0, 1, nullptr }
 };
 
 static HWND hPathTip = 0;
@@ -223,8 +223,8 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 			wcsncpy_s(lf->lfFaceName, L"Webdings", _TRUNCATE);
 		}
 		else {
-			ptrW tszDefFace(db_get_wsa(NULL, szMod, str));
-			if (tszDefFace == NULL)
+			ptrW tszDefFace(db_get_wsa(0, szMod, str));
+			if (tszDefFace == nullptr)
 				wcsncpy_s(lf->lfFaceName, fol[j].szDefFace, _TRUNCATE);
 			else
 				wcsncpy_s(lf->lfFaceName, tszDefFace, _TRUNCATE);
@@ -235,7 +235,7 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 static HTREEITEM InsertBranch(HWND hwndTree, wchar_t* pszDescr, BOOL bExpanded)
 {
 	TVINSERTSTRUCT tvis;
-	tvis.hParent = NULL;
+	tvis.hParent = nullptr;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 	tvis.item.pszText = TranslateW(pszDescr);
@@ -354,8 +354,8 @@ HICON LoadIconEx(char *pszIcoLibName)
 
 static void InitSetting(wchar_t* &ppPointer, const char *pszSetting, const wchar_t *pszDefault)
 {
-	ptrW val(db_get_wsa(NULL, CHAT_MODULE, pszSetting));
-	replaceStrW(ppPointer, (val != NULL) ? val : pszDefault);
+	ptrW val(db_get_wsa(0, CHAT_MODULE, pszSetting));
+	replaceStrW(ppPointer, (val != nullptr) ? val : pszDefault);
 }
 
 #define OPT_FIXHEADINGS (WM_USER+1)
@@ -365,11 +365,11 @@ static UINT _o1controls[] = { IDC_CHECKBOXES, IDC_GROUP, IDC_STATIC_ADD };
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
 {
 	HWND hwndTT = CreateWindowEx(WS_EX_TOPMOST,
-		TOOLTIPS_CLASS, NULL,
+		TOOLTIPS_CLASS, nullptr,
 		WS_POPUP | TTS_NOPREFIX,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-		hwndParent, NULL, g_hInst, NULL);
+		hwndParent, nullptr, g_hInst, nullptr);
 
 	SetWindowPos(hwndTT, HWND_TOPMOST, 0, 0, 0, 0,
 		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
@@ -408,7 +408,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading1, branch1, _countof(branch1), 0x0000);
 			FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading2, branch2, _countof(branch2), 0x0000);
 
-			wchar_t* pszGroup = NULL;
+			wchar_t* pszGroup = nullptr;
 			InitSetting(pszGroup, "AddToGroup", L"Chat rooms");
 			SetDlgItemText(hwndDlg, IDC_GROUP, pszGroup);
 			mir_free(pszGroup);
@@ -433,16 +433,16 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				int iLen;
-				wchar_t *pszText = NULL;
+				wchar_t *pszText = nullptr;
 				BYTE b;
 
 				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_GROUP));
 				if (iLen > 0) {
 					pszText = (wchar_t*)mir_realloc(pszText, (iLen + 2) * sizeof(wchar_t));
 					GetDlgItemText(hwndDlg, IDC_GROUP, pszText, iLen + 1);
-					db_set_ws(NULL, CHAT_MODULE, "AddToGroup", pszText);
+					db_set_ws(0, CHAT_MODULE, "AddToGroup", pszText);
 				}
-				else db_set_ws(NULL, CHAT_MODULE, "AddToGroup", L"");
+				else db_set_ws(0, CHAT_MODULE, "AddToGroup", L"");
 
 				mir_free(pszText);
 
@@ -453,7 +453,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				pci->ReloadSettings();
 				pci->MM_IconsChanged();
 				pci->MM_FontsChanged();
-				pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
+				pci->SM_BroadcastMessage(nullptr, GC_SETWNDPROPS, 0, 0, TRUE);
 				SM_ReconfigureFilters();
 				return TRUE;
 			}
@@ -672,7 +672,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		TranslateDialogDefault(hwndDlg);
 		{
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_SETRANGE, 0, MAKELONG(5000, 0));
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, CHAT_MODULE, "LogLimit", 100), 0));
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_SETPOS, 0, MAKELONG(db_get_w(0, CHAT_MODULE, "LogLimit", 100), 0));
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN3, UDM_SETRANGE, 0, MAKELONG(255, 10));
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN3, UDM_SETPOS, 0, MAKELONG(M.GetByte(CHAT_MODULE, "NicklistRowDist", 12), 0));
 			SetDlgItemText(hwndDlg, IDC_LOGTIMESTAMP, g_Settings.pszTimeStampLog);
@@ -684,7 +684,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			Utils::enableDlgControl(hwndDlg, IDC_LOGDIRECTORY, g_Settings.bLoggingEnabled);
 			Utils::enableDlgControl(hwndDlg, IDC_FONTCHOOSE, g_Settings.bLoggingEnabled);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN4, UDM_SETRANGE, 0, MAKELONG(10000, 0));
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN4, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, CHAT_MODULE, "LoggingLimit", 100), 0));
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN4, UDM_SETPOS, 0, MAKELONG(db_get_w(0, CHAT_MODULE, "LoggingLimit", 100), 0));
 			Utils::enableDlgControl(hwndDlg, IDC_LIMIT, g_Settings.bLoggingEnabled);
 
 			wchar_t tszTooltipText[2048];
@@ -723,7 +723,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			hPathTip = CreateToolTip(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), tszTooltipText, TranslateT("Variables"));
 		}
 		if (hPathTip)
-			SetTimer(hwndDlg, 0, 3000, NULL);
+			SetTimer(hwndDlg, 0, 3000, nullptr);
 		break;
 
 	case WM_COMMAND:
@@ -818,66 +818,66 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY) {
-			char *pszText = NULL;
+			char *pszText = nullptr;
 
 			int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY));
 			if (iLen > 0) {
 				wchar_t *pszText1 = (wchar_t*)mir_alloc(iLen*sizeof(wchar_t) + 2);
 				GetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, pszText1, iLen + 1);
-				db_set_ws(NULL, CHAT_MODULE, "LogDirectory", pszText1);
+				db_set_ws(0, CHAT_MODULE, "LogDirectory", pszText1);
 				mir_free(pszText1);
 				g_Settings.bLoggingEnabled = IsDlgButtonChecked(hwndDlg, IDC_LOGGING) == BST_CHECKED;
 				db_set_b(0, CHAT_MODULE, "LoggingEnabled", g_Settings.bLoggingEnabled);
 			}
 			else {
-				db_unset(NULL, CHAT_MODULE, "LogDirectory");
+				db_unset(0, CHAT_MODULE, "LogDirectory");
 				db_set_b(0, CHAT_MODULE, "LoggingEnabled", 0);
 			}
 			pci->SM_InvalidateLogDirectories();
 
 			iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN4, UDM_GETPOS, 0, 0);
-			db_set_w(NULL, CHAT_MODULE, "LoggingLimit", (WORD)iLen);
+			db_set_w(0, CHAT_MODULE, "LoggingLimit", (WORD)iLen);
 
 			iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN3, UDM_GETPOS, 0, 0);
 			if (iLen > 0)
 				db_set_b(0, CHAT_MODULE, "NicklistRowDist", (BYTE)iLen);
 			else
-				db_unset(NULL, CHAT_MODULE, "NicklistRowDist");
+				db_unset(0, CHAT_MODULE, "NicklistRowDist");
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOGTIMESTAMP));
 			if (iLen > 0) {
 				pszText = (char *)mir_realloc(pszText, iLen + 1);
 				GetDlgItemTextA(hwndDlg, IDC_LOGTIMESTAMP, pszText, iLen + 1);
-				db_set_s(NULL, CHAT_MODULE, "LogTimestamp", pszText);
+				db_set_s(0, CHAT_MODULE, "LogTimestamp", pszText);
 			}
-			else db_unset(NULL, CHAT_MODULE, "LogTimestamp");
+			else db_unset(0, CHAT_MODULE, "LogTimestamp");
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_TIMESTAMP));
 			if (iLen > 0) {
 				pszText = (char *)mir_realloc(pszText, iLen + 1);
 				GetDlgItemTextA(hwndDlg, IDC_TIMESTAMP, pszText, iLen + 1);
-				db_set_s(NULL, CHAT_MODULE, "HeaderTime", pszText);
+				db_set_s(0, CHAT_MODULE, "HeaderTime", pszText);
 			}
-			else db_unset(NULL, CHAT_MODULE, "HeaderTime");
+			else db_unset(0, CHAT_MODULE, "HeaderTime");
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_INSTAMP));
 			if (iLen > 0) {
 				pszText = (char *)mir_realloc(pszText, iLen + 1);
 				GetDlgItemTextA(hwndDlg, IDC_INSTAMP, pszText, iLen + 1);
-				db_set_s(NULL, CHAT_MODULE, "HeaderIncoming", pszText);
+				db_set_s(0, CHAT_MODULE, "HeaderIncoming", pszText);
 			}
-			else db_unset(NULL, CHAT_MODULE, "HeaderIncoming");
+			else db_unset(0, CHAT_MODULE, "HeaderIncoming");
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_OUTSTAMP));
 			if (iLen > 0) {
 				pszText = (char *)mir_realloc(pszText, iLen + 1);
 				GetDlgItemTextA(hwndDlg, IDC_OUTSTAMP, pszText, iLen + 1);
-				db_set_s(NULL, CHAT_MODULE, "HeaderOutgoing", pszText);
+				db_set_s(0, CHAT_MODULE, "HeaderOutgoing", pszText);
 			}
-			else db_unset(NULL, CHAT_MODULE, "HeaderOutgoing");
+			else db_unset(0, CHAT_MODULE, "HeaderOutgoing");
 
 			iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_GETPOS, 0, 0);
-			db_set_w(NULL, CHAT_MODULE, "LogLimit", (WORD)iLen);
+			db_set_w(0, CHAT_MODULE, "LogLimit", (WORD)iLen);
 			mir_free(pszText);
 
 			if (pci->hListBkgBrush)
@@ -887,7 +887,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			pci->ReloadSettings();
 			pci->MM_FontsChanged();
 			pci->MM_FixColors();
-			pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
+			pci->SM_BroadcastMessage(nullptr, GC_SETWNDPROPS, 0, 0, TRUE);
 
 			PluginConfig.reloadSettings();
 			CacheMsgLogIcons();
@@ -995,7 +995,7 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lParam)
 
 				pci->ReloadSettings();
 				pci->MM_FontsChanged();
-				pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
+				pci->SM_BroadcastMessage(nullptr, GC_SETWNDPROPS, 0, 0, TRUE);
 				SM_ReconfigureFilters();
 				return TRUE;
 			}

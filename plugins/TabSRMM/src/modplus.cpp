@@ -44,7 +44,7 @@ static wchar_t* getMenuEntry(int i)
 {
 	char MEntry[256];
 	mir_snprintf(MEntry, "MenuEntry_%u", i);
-	return db_get_wsa(NULL, "tabmodplus", MEntry);
+	return db_get_wsa(0, "tabmodplus", MEntry);
 }
 
 static int RegisterCustomButton(WPARAM, LPARAM)
@@ -96,7 +96,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 				AppendMenu(hMenu, MF_STRING, menunum + 1, pwszText);
 			}
 
-			int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);
+			int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, nullptr);
 			if (res != 0) {
 				bufSize = textlenght + mir_wstrlen(arMenuLines[res-1]) + 2;
 				pwszFormatedText.Format(arMenuLines[res-1], pszText);

@@ -37,7 +37,7 @@ int g_iWheelCarryover = 0;
 
 extern HMENU g_hMenu;
 
-static HKL hkl = NULL;
+static HKL hkl = nullptr;
 char szIndicators[] = { 0, '+', '%', '@', '!', '*' };
 
 struct MESSAGESUBDATA
@@ -60,10 +60,10 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT *ptClient, UINT uMsg, WPARAM wPa
 	long res = 0, cnt = 0;
 	long cpMin = 0, cpMax = 0;
 	POINT ptEnd = { 0 };
-	IRichEditOle *RichEditOle = NULL;
-	ITextDocument *TextDocument = NULL;
-	ITextRange *TextRange = NULL;
-	ITextFont *TextFont = NULL;
+	IRichEditOle *RichEditOle = nullptr;
+	ITextDocument *TextDocument = nullptr;
+	ITextRange *TextRange = nullptr;
+	ITextFont *TextFont = nullptr;
 	BOOL bIsCustomLink = FALSE;
 
 	POINT pt = *ptClient;
@@ -131,7 +131,7 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT *ptClient, UINT uMsg, WPARAM wPa
 
 bool IsStringValidLink(wchar_t *pszText)
 {
-	if (pszText == NULL)
+	if (pszText == nullptr)
 		return false;
 
 	if (mir_wstrlen(pszText) < 5 || wcschr(pszText, '"'))
@@ -140,7 +140,7 @@ bool IsStringValidLink(wchar_t *pszText)
 	if (towlower(pszText[0]) == 'w' && towlower(pszText[1]) == 'w' && towlower(pszText[2]) == 'w' && pszText[3] == '.' && iswalnum(pszText[4]))
 		return true;
 
-	return wcsstr(pszText, L"://") != NULL;
+	return wcsstr(pszText, L"://") != nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -149,7 +149,7 @@ bool IsStringValidLink(wchar_t *pszText)
 
 void CChatRoomDlg::UpdateWindowState(UINT msg)
 {
-	if (si == NULL)
+	if (si == nullptr)
 		return;
 
 	if (msg == WM_ACTIVATE) {
@@ -237,7 +237,7 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 	}
 	BB_SetButtonsPos();
 	if (M.isAero())
-		InvalidateRect(m_hwndParent, NULL, FALSE);
+		InvalidateRect(m_hwndParent, nullptr, FALSE);
 	if (m_pContainer->dwFlags & CNT_SIDEBAR)
 		m_pContainer->SideBar->setActiveItem(this);
 
@@ -394,7 +394,7 @@ static bool TabAutoComplete(HWND hwnd, MESSAGESUBDATA *dat, SESSION_INFO *si)
 		return false;
 
 	bool isTopic = false, isRoom = false;
-	wchar_t *pszName = NULL;
+	wchar_t *pszName = nullptr;
 	wchar_t *pszText = (wchar_t*)mir_calloc((iLen + 10) * sizeof(wchar_t));
 
 	gt.flags = GT_DEFAULT;
@@ -404,7 +404,7 @@ static bool TabAutoComplete(HWND hwnd, MESSAGESUBDATA *dat, SESSION_INFO *si)
 	if (start > 1 && pszText[start - 1] == ' ' && pszText[start - 2] == ':')
 		start -= 2;
 
-	if (dat->szSearchResult != NULL) {
+	if (dat->szSearchResult != nullptr) {
 		int cbResult = (int)mir_wstrlen(dat->szSearchResult);
 		if (start >= cbResult && !wcsnicmp(dat->szSearchResult, pszText + start - cbResult, cbResult)) {
 			start -= cbResult;
@@ -428,23 +428,23 @@ LBL_SkipEnd:
 		if (topicStart > 5 && wcsstr(&pszText[topicStart - 6], L"/topic") == &pszText[topicStart - 6])
 			isTopic = TRUE;
 	}
-	if (dat->szSearchQuery == NULL) {
+	if (dat->szSearchQuery == nullptr) {
 		dat->szSearchQuery = mir_wstrndup(pszText + start, end - start);
 		dat->szSearchResult = mir_wstrdup(dat->szSearchQuery);
-		dat->lastSession = NULL;
+		dat->lastSession = nullptr;
 	}
 	if (isTopic)
 		pszName = si->ptszTopic;
 	else if (isRoom) {
 		dat->lastSession = SM_FindSessionAutoComplete(si->pszModule, si, dat->lastSession, dat->szSearchQuery, dat->szSearchResult);
-		if (dat->lastSession != NULL)
+		if (dat->lastSession != nullptr)
 			pszName = dat->lastSession->ptszName;
 	}
 	else pszName = pci->UM_FindUserAutoComplete(si->pUsers, dat->szSearchQuery, dat->szSearchResult);
 
-	replaceStrW(dat->szSearchResult, NULL);
+	replaceStrW(dat->szSearchResult, nullptr);
 
-	if (pszName != NULL) {
+	if (pszName != nullptr) {
 		dat->szSearchResult = mir_wstrdup(pszName);
 		if (end != start) {
 			ptrW szReplace;
@@ -464,7 +464,7 @@ LBL_SkipEnd:
 		SendMessage(hwnd, EM_SETSEL, start, end);
 		SendMessage(hwnd, EM_REPLACESEL, TRUE, (LPARAM)dat->szSearchQuery);
 	}
-	replaceStrW(dat->szSearchQuery, NULL);
+	replaceStrW(dat->szSearchQuery, nullptr);
 	return false;
 }
 
@@ -524,7 +524,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			mwpd.pt = pt;
 			NotifyEventHooks(PluginConfig.m_event_MsgPopup, 0, (LPARAM)&mwpd);
 
-			int iSelection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, GetParent(hwnd), NULL);
+			int iSelection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, GetParent(hwnd), nullptr);
 
 			mwpd.selection = iSelection;
 			mwpd.uType = MSG_WINDOWPOPUP_SELECTED;
@@ -599,7 +599,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 		if (isCtrl && !isAlt && !isShift) {
 			MODULEINFO *mi = pci->MM_FindModule(mwdat->si->pszModule);
-			if (mi == NULL)
+			if (mi == nullptr)
 				return 0;
 
 			switch (wParam) {
@@ -716,8 +716,8 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				break;
 
 			if (PluginConfig.m_bSendOnDblEnter) {
-				if (dat->lastEnterTime + 2 < time(NULL)) {
-					dat->lastEnterTime = time(NULL);
+				if (dat->lastEnterTime + 2 < time(nullptr)) {
+					dat->lastEnterTime = time(nullptr);
 					break;
 				}
 
@@ -744,7 +744,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
 			bool fCompleted = TabAutoComplete(hwnd, dat, mwdat->si);
 			SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
-			RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
+			RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE);
 			if (!fCompleted && !PluginConfig.m_bAllowTab) {
 				if ((GetSendButtonState(mwdat->GetHwnd()) != PBS_DISABLED))
 					SetFocus(GetDlgItem(mwdat->GetHwnd(), IDOK));
@@ -755,9 +755,9 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		}
 		if (wParam != VK_RIGHT && wParam != VK_LEFT) {
 			mir_free(dat->szSearchQuery);
-			dat->szSearchQuery = NULL;
+			dat->szSearchQuery = nullptr;
 			mir_free(dat->szSearchResult);
-			dat->szSearchResult = NULL;
+			dat->szSearchResult = nullptr;
 		}
 
 		if (wParam == VK_F4 && isCtrl && !isAlt) { // ctrl-F4 (close tab)
@@ -788,7 +788,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
 
 			LOGFONTA lf;
-			LoadLogfont(MSGFONTID_MESSAGEAREA, &lf, NULL, FONTMODULE);
+			LoadLogfont(MSGFONTID_MESSAGEAREA, &lf, nullptr, FONTMODULE);
 
 			SETTEXTEX ste;
 			ste.flags = ST_DEFAULT;
@@ -804,7 +804,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 			SendMessage(hwnd, EM_SCROLLCARET, 0, 0);
 			SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
-			RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
+			RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE);
 			SendMessage(hwnd, EM_SETSEL, iLen, iLen);
 			dat->lastEnterTime = 0;
 			return 0;
@@ -824,7 +824,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				// If we cannot load the message from history, load the last edited text.
 				SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&ste, (LPARAM)mwdat->m_enteredText);
 				mir_free(mwdat->m_enteredText);
-				mwdat->m_enteredText = NULL;
+				mwdat->m_enteredText = nullptr;
 			}
 
 			GETTEXTLENGTHEX gtl = { 0 };
@@ -833,7 +833,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 			SendMessage(hwnd, EM_SCROLLCARET, 0, 0);
 			SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
-			RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
+			RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE);
 			SendMessage(hwnd, EM_SETSEL, iLen, iLen);
 			dat->lastEnterTime = 0;
 			return 0;
@@ -851,7 +851,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 	case WM_RBUTTONUP:
 	case WM_MBUTTONUP:
 		COLORREF cr;
-		LoadLogfont(MSGFONTID_MESSAGEAREA, NULL, &cr, FONTMODULE);
+		LoadLogfont(MSGFONTID_MESSAGEAREA, nullptr, &cr, FONTMODULE);
 
 		CHARFORMAT2 cf;
 		cf.cbSize = sizeof(CHARFORMAT2);
@@ -860,7 +860,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		SendMessage(hwnd, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 		{
 			MODULEINFO *mi = pci->MM_FindModule(mwdat->si->pszModule);
-			if (mi == NULL)
+			if (mi == nullptr)
 				break;
 
 			if (mi->bColor) {
@@ -1353,7 +1353,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 							SendMessage(hwnd, LB_SETSEL, FALSE, -1);
 							SendMessage(hwnd, LB_SETSEL, TRUE, i);
 							dat->m_iSearchItem = i;
-							InvalidateRect(hwnd, NULL, FALSE);
+							InvalidateRect(hwnd, nullptr, FALSE);
 							return 0;
 						}
 					}
@@ -1399,7 +1399,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 	case WM_CONTEXTMENU:
 		{
 			SESSION_INFO *si = dat->si;
-			if (si == NULL)
+			if (si == nullptr)
 				break;
 
 			int height = 0;
@@ -1494,14 +1494,14 @@ int GetTextPixelSize(wchar_t* pszText, HFONT hFont, bool bWidth)
 	if (!pszText || !hFont)
 		return 0;
 
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
 
 	RECT rc = { 0 };
 	DrawText(hdc, pszText, -1, &rc, DT_CALCRECT);
 
 	SelectObject(hdc, hOldFont);
-	ReleaseDC(NULL, hdc);
+	ReleaseDC(nullptr, hdc);
 	return bWidth ? rc.right - rc.left : rc.bottom - rc.top;
 }
 
@@ -1598,7 +1598,7 @@ void CChatRoomDlg::OnInitDialog()
 	// Typing support for GCW_PRIVMESS sessions
 	if (si->iType == GCW_PRIVMESS) {
 		m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
-		SetTimer(m_hwnd, TIMERID_TYPE, 1000, NULL);
+		SetTimer(m_hwnd, TIMERID_TYPE, 1000, nullptr);
 	}
 
 	m_pPanel.setActive(false);
@@ -1620,7 +1620,7 @@ void CChatRoomDlg::OnInitDialog()
 
 	m_pPanel.loadHeight();
 
-	if (PluginConfig.g_hMenuTrayUnread != 0 && m_hContact != 0 && m_szProto != NULL)
+	if (PluginConfig.g_hMenuTrayUnread != 0 && m_hContact != 0 && m_szProto != nullptr)
 		UpdateTrayMenu(0, m_wStatus, m_szProto, m_wszStatus, m_hContact, FALSE);
 
 	DM_ThemeChanged();
@@ -1629,7 +1629,7 @@ void CChatRoomDlg::OnInitDialog()
 	GetMYUIN();
 	GetMyNick();
 
-	HWND hwndBtn = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20), m_hwnd, (HMENU)IDC_TOGGLESIDEBAR, g_hInst, NULL);
+	HWND hwndBtn = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20), m_hwnd, (HMENU)IDC_TOGGLESIDEBAR, g_hInst, nullptr);
 	CustomizeButton(hwndBtn);
 	SendMessage(hwndBtn, BUTTONSETASTHEMEDBTN, 1, 0);
 	SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)m_pContainer, 0);
@@ -1675,9 +1675,9 @@ void CChatRoomDlg::OnDestroy()
 	if (pcli->pfnGetEvent(si->hContact, 0))
 		pcli->pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 	si->wState &= ~STATE_TALK;
-	si->hWnd = NULL;
-	si->dat = NULL;
-	si = NULL;
+	si->hWnd = nullptr;
+	si->dat = nullptr;
+	si = nullptr;
 
 	TABSRMM_FireEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING, 0);
 
@@ -1728,7 +1728,7 @@ void CChatRoomDlg::OnClick_OK(CCtrlButton*)
 		return;
 
 	MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
-	if (mi == NULL)
+	if (mi == nullptr)
 		return;
 
 	ptrA pszRtf(Message_GetFromStream(m_message.GetHwnd()));
@@ -1758,7 +1758,7 @@ void CChatRoomDlg::OnClick_OK(CCtrlButton*)
 	bool fSound = true;
 	if (ptszText[0] == '/' || si->iType == GCW_SERVER)
 		fSound = false;
-	pci->DoEventHookAsync(m_hwnd, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, 0);
+	pci->DoEventHookAsync(m_hwnd, si->ptszID, si->pszModule, GC_USER_MESSAGE, nullptr, ptszText, 0);
 	mi->idleTimeStamp = time(0);
 	mi->lastIdleCheck = 0;
 	pci->SM_BroadcastMessage(si->pszModule, GC_UPDATESTATUSBAR, 0, 1, TRUE);
@@ -1805,7 +1805,7 @@ void CChatRoomDlg::OnClick_History(CCtrlButton *pButton)
 		CallService("MSP/HTMLlog/ViewLog", (WPARAM)si->pszModule, (LPARAM)szName);
 	}
 	else if (pInfo)
-		ShellExecute(m_hwnd, NULL, pci->GetChatLogsFilename(si, 0), NULL, NULL, SW_SHOW);
+		ShellExecute(m_hwnd, nullptr, pci->GetChatLogsFilename(si, 0), nullptr, nullptr, SW_SHOW);
 }
 
 void CChatRoomDlg::OnClick_ShowNickList(CCtrlButton *pButton)
@@ -1819,14 +1819,14 @@ void CChatRoomDlg::OnClick_ShowNickList(CCtrlButton *pButton)
 
 	SendMessage(m_hwnd, WM_SIZE, 0, 0);
 	if (CSkin::m_skinEnabled)
-		InvalidateRect(m_hwnd, NULL, TRUE);
+		InvalidateRect(m_hwnd, nullptr, TRUE);
 	PostMessage(m_hwnd, GC_SCROLLTOBOTTOM, 0, 0);
 }
 
 void CChatRoomDlg::OnClick_ChanMgr(CCtrlButton *pButton)
 {
 	if (pButton->Enabled())
-		pci->DoEventHookAsync(m_hwnd, si->ptszID, si->pszModule, GC_USER_CHANMGR, NULL, NULL, 0);
+		pci->DoEventHookAsync(m_hwnd, si->ptszID, si->pszModule, GC_USER_CHANMGR, nullptr, nullptr, 0);
 }
 
 void CChatRoomDlg::OnClick_BIU(CCtrlButton *pButton)
@@ -1869,7 +1869,7 @@ void CChatRoomDlg::OnClick_Color(CCtrlButton *pButton)
 	}
 	else {
 		COLORREF cr;
-		LoadLogfont(MSGFONTID_MESSAGEAREA, NULL, &cr, FONTMODULE);
+		LoadLogfont(MSGFONTID_MESSAGEAREA, nullptr, &cr, FONTMODULE);
 		cf.dwMask = CFM_COLOR;
 		cf.crTextColor = cr;
 		m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
@@ -1950,12 +1950,12 @@ void CChatRoomDlg::OnDblClick_List(CCtrlListBox*)
 		PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 		SetFocus(m_message.GetHwnd());
 	}
-	else pci->DoEventHookAsync(m_hwnd, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui, NULL, 0);
+	else pci->DoEventHookAsync(m_hwnd, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui, nullptr, 0);
 }
 
 INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	if (si == NULL && (uMsg == WM_ACTIVATE || uMsg == WM_SETFOCUS))
+	if (si == nullptr && (uMsg == WM_ACTIVATE || uMsg == WM_SETFOCUS))
 		return 0;
 
 	POINT pt, tmp, cur;
@@ -1980,7 +1980,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case GC_SETWNDPROPS:
-		pInfo = si ? pci->MM_FindModule(si->pszModule) : NULL;
+		pInfo = si ? pci->MM_FindModule(si->pszModule) : nullptr;
 		if (pInfo) {
 			m_btnBold.Enable(pInfo->bBold);
 			m_btnItalic.Enable(pInfo->bItalics);
@@ -1996,7 +1996,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		m_btnOk.SendMsg(BUTTONSETASNORMAL, TRUE, 0);
 
 		m_list.SetItemHeight(0, g_Settings.iNickListFontHeight);
-		InvalidateRect(m_list.GetHwnd(), NULL, TRUE);
+		InvalidateRect(m_list.GetHwnd(), nullptr, TRUE);
 
 		m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(si->bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
 		SendMessage(m_hwnd, WM_SIZE, 0, 0);
@@ -2071,7 +2071,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (m_pContainer->hwndActive != m_hwnd || m_pContainer->hwndStatus == 0 || CMimAPI::m_shutDown || m_wszStatusBar[0])
 			break;
 
-		if (si->pszModule != NULL) {
+		if (si->pszModule != nullptr) {
 			wchar_t  szFinalStatusBarText[512];
 
 			//Mad: strange rare crash here...
@@ -2156,7 +2156,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case GC_REDRAWWINDOW:
-		InvalidateRect(m_hwnd, NULL, TRUE);
+		InvalidateRect(m_hwnd, nullptr, TRUE);
 		break;
 
 	case GC_REDRAWLOG:
@@ -2166,7 +2166,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (si->iEventCount > 60) {
 				int index = 0;
 				while (index < 59) {
-					if (pLog->next == NULL)
+					if (pLog->next == nullptr)
 						break;
 					pLog = pLog->next;
 					if ((si->iType != GCW_CHATROOM && si->iType != GCW_PRIVMESS) || !si->bFilterEnabled || (si->iLogFilterFlags&pLog->iType) != 0)
@@ -2255,7 +2255,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				int index = dis->itemID;
 
 				USERINFO *ui = pci->UM_FindUserFromIndex(si->pUsers, index);
-				if (ui == NULL)
+				if (ui == nullptr)
 					return TRUE;
 
 				int height = dis->rcItem.bottom - dis->rcItem.top;
@@ -2291,7 +2291,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				if (g_Settings.bShowContactStatus && g_Settings.bContactStatusFirst && ui->ContactStatus) {
 					HICON icon = Skin_LoadProtoIcon(si->pszModule, ui->ContactStatus);
-					DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 8, icon, 16, 16, 0, NULL, DI_NORMAL);
+					DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 8, icon, 16, 16, 0, nullptr, DI_NORMAL);
 					IcoLib_ReleaseIcon(icon);
 					x_offset += 18;
 				}
@@ -2309,13 +2309,13 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					else x_offset += 8;
 				}
 				else {
-					DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 5, hIcon, 10, 10, 0, NULL, DI_NORMAL);
+					DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 5, hIcon, 10, 10, 0, nullptr, DI_NORMAL);
 					x_offset += 12;
 				}
 
 				if (g_Settings.bShowContactStatus && !g_Settings.bContactStatusFirst && ui->ContactStatus) {
 					HICON icon = Skin_LoadProtoIcon(si->pszModule, ui->ContactStatus);
-					DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 8, icon, 16, 16, 0, NULL, DI_NORMAL);
+					DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 8, icon, 16, 16, 0, nullptr, DI_NORMAL);
 					IcoLib_ReleaseIcon(icon);
 					x_offset += 18;
 				}
@@ -2452,9 +2452,9 @@ LABEL_SHOWWINDOW:
 				GetClientRect(m_log.GetHwnd(), &rc);
 				if ((pt.y + 2 >= MIN_PANELHEIGHT + 2) && (pt.y + 2 < 100) && (pt.y + 2 < rc.bottom - 30))
 					m_pPanel.setHeight(pt.y + 2);
-				RedrawWindow(m_hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);
+				RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);
 				if (M.isAero())
-					InvalidateRect(m_hwndParent, NULL, FALSE);
+					InvalidateRect(m_hwndParent, nullptr, FALSE);
 				SendMessage(m_hwnd, WM_SIZE, DM_SPLITTERMOVED, 0);
 				break;
 			}
@@ -2584,14 +2584,14 @@ LABEL_SHOWWINDOW:
 						return _dlgReturn(m_hwnd, 1);
 					case TABSRMM_HK_FILTERTOGGLE:
 						OnClick_Filter(&m_btnFilter);
-						InvalidateRect(m_btnFilter.GetHwnd(), NULL, TRUE);
+						InvalidateRect(m_btnFilter.GetHwnd(), nullptr, TRUE);
 						return _dlgReturn(m_hwnd, 1);
 					case TABSRMM_HK_LISTTOGGLE:
 						OnClick_ShowNickList(&m_btnNickList);
 						return _dlgReturn(m_hwnd, 1);
 					case TABSRMM_HK_MUC_SHOWSERVER:
 						if (si->iType != GCW_SERVER)
-							pci->DoEventHookAsync(m_hwnd, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, L"/servershow", 0);
+							pci->DoEventHookAsync(m_hwnd, si->ptszID, si->pszModule, GC_USER_MESSAGE, nullptr, L"/servershow", 0);
 						return _dlgReturn(m_hwnd, 1);
 					}
 				}
@@ -2650,7 +2650,7 @@ LABEL_SHOWWINDOW:
 					}
 
 					HMENU hMenu = 0;
-					UINT uID = CreateGCMenu(m_hwnd, &hMenu, 1, pt, si, NULL, pszWord);
+					UINT uID = CreateGCMenu(m_hwnd, &hMenu, 1, pt, si, nullptr, pszWord);
 					switch (uID) {
 					case 0:
 						PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
@@ -2684,7 +2684,7 @@ LABEL_SHOWWINDOW:
 
 					default:
 						PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-						pci->DoEventHookAsync(m_hwnd, si->ptszID, si->pszModule, GC_USER_LOGMENU, NULL, NULL, (LPARAM)uID);
+						pci->DoEventHookAsync(m_hwnd, si->ptszID, si->pszModule, GC_USER_LOGMENU, nullptr, nullptr, (LPARAM)uID);
 						break;
 					}
 
@@ -2711,7 +2711,7 @@ LABEL_SHOWWINDOW:
 						m_pContainer->MenuBar->Cancel();
 
 						TEXTRANGE tr;
-						tr.lpstrText = NULL;
+						tr.lpstrText = nullptr;
 						tr.chrg = ((ENLINK*)lParam)->chrg;
 						tr.lpstrText = (wchar_t*)mir_alloc(sizeof(wchar_t) * (tr.chrg.cpMax - tr.chrg.cpMin + 2));
 						SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
@@ -2739,11 +2739,11 @@ LABEL_SHOWWINDOW:
 										break;
 
 									case ID_MESS:
-										pci->DoEventHookAsync(m_hwnd, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui, NULL, 0);
+										pci->DoEventHookAsync(m_hwnd, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui, nullptr, 0);
 										break;
 
 									default:
-										pci->DoEventHookAsync(m_hwnd, si->ptszID, si->pszModule, GC_USER_NICKLISTMENU, ui, NULL, (LPARAM)uID);
+										pci->DoEventHookAsync(m_hwnd, si->ptszID, si->pszModule, GC_USER_NICKLISTMENU, ui, nullptr, (LPARAM)uID);
 										break;
 									}
 									DestroyGCMenu(&hMenu, 1);
@@ -2971,11 +2971,11 @@ LABEL_SHOWWINDOW:
 
 			MsgWindowUpdateMenu(subMenu, MENU_TABCONTEXT);
 
-			int iSelection = TrackPopupMenu(subMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, NULL);
+			int iSelection = TrackPopupMenu(subMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr);
 			if (iSelection >= IDM_CONTAINERMENU) {
 				char szIndex[10];
 				_itoa_s(iSelection - IDM_CONTAINERMENU, szIndex, 10);
-				ptrW wszContainer(db_get_wsa(NULL, "TAB_ContainersW", szIndex));
+				ptrW wszContainer(db_get_wsa(0, "TAB_ContainersW", szIndex));
 				if (wszContainer != nullptr)
 					SendMessage(m_hwnd, DM_CONTAINERSELECTED, 0, wszContainer);
 				break;
@@ -3157,10 +3157,10 @@ void ShowRoom(SESSION_INFO *si)
 		return;
 
 	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6)) {
-		if ((pContainer = FindMatchingContainer(L"default")) == NULL) {
+		if ((pContainer = FindMatchingContainer(L"default")) == nullptr) {
 			wchar_t szName[CONTAINER_NAMELEN + 1];
 			mir_snwprintf(szName, L"default");
-			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact)) == NULL)
+			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact)) == nullptr)
 				return;
 		}
 	}
@@ -3247,7 +3247,7 @@ void ShowRoom(SESSION_INFO *si)
 	}
 	else {
 		SetFocus(hwndNew);
-		RedrawWindow(pContainer->hwnd, NULL, NULL, RDW_INVALIDATE);
+		RedrawWindow(pContainer->hwnd, nullptr, nullptr, RDW_INVALIDATE);
 		UpdateWindow(pContainer->hwnd);
 		if (GetForegroundWindow() != pContainer->hwnd)
 			SetForegroundWindow(pContainer->hwnd);

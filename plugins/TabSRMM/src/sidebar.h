@@ -156,8 +156,8 @@ public:
 		CSideBarButton *oldItem = m_activeItem;
 		m_activeItem = const_cast<CSideBarButton *>(newItem);
 		if (oldItem)
-			::InvalidateRect(oldItem->getHwnd(), NULL, FALSE);
-		::InvalidateRect(m_activeItem->getHwnd(), NULL, FALSE);
+			::InvalidateRect(oldItem->getHwnd(), nullptr, FALSE);
+		::InvalidateRect(m_activeItem->getHwnd(), nullptr, FALSE);
 		scrollIntoView(m_activeItem);
 		return(oldItem);
 	}

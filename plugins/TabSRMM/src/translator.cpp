@@ -33,7 +33,7 @@ TOptionListGroup m_lvGroupsModPlus[] =
 	{ 0, LPGENW("Message window tweaks") },
 	{ 0, LPGENW("Display metacontact icons") },
 	{ 0, LPGENW("Error feedback") },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 TOptionListItem m_lvItemsModPlus[] =
@@ -47,7 +47,7 @@ TOptionListItem m_lvItemsModPlus[] =
 	{ 0, LPGENW("On tab control"), 1, LOI_TYPE_SETTING, (UINT_PTR)"MetaiconTab", 1 },
 	{ 0, LPGENW("On the button bar"), 0, LOI_TYPE_SETTING, (UINT_PTR)"MetaiconBar", 1 },
 	{ 0, LPGENW("Disable error popups on sending failures"), 0, LOI_TYPE_SETTING, (UINT_PTR)"adv_noErrorPopups", 2 },
-	{ 0, NULL, 0, 0, 0, 0 }
+	{ 0, nullptr, 0, 0, 0, 0 }
 };
 
 TOptionListItem m_lvItemsNEN[] =
@@ -77,7 +77,7 @@ TOptionListItem m_lvItemsNEN[] =
 	{ 0, LPGENW("Remove popups for a contact when I start typing a reply"), PU_REMOVE_ON_TYPE, LOI_TYPE_FLAG, (UINT_PTR)&nen_options.dwRemoveMask, 7 },
 	{ 0, LPGENW("Remove popups for a contact when I send a reply"), PU_REMOVE_ON_SEND, LOI_TYPE_FLAG, (UINT_PTR)&nen_options.dwRemoveMask, 7 },
 
-	{ 0, NULL, 0, 0, 0, 0 }
+	{ 0, nullptr, 0, 0, 0, 0 }
 };
 
 TOptionListGroup m_lvGroupsNEN[] =
@@ -90,7 +90,7 @@ TOptionListGroup m_lvGroupsNEN[] =
 	{ 0, LPGENW("Timeout actions (popups only)") },
 	{ 0, LPGENW("Combine notifications for the same contact") },
 	{ 0, LPGENW("Remove popups under following conditions") },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 TOptionListGroup m_lvGroupsMsg[] =
@@ -98,7 +98,7 @@ TOptionListGroup m_lvGroupsMsg[] =
 	{ 0, LPGENW("Message window behavior") },
 	{ 0, LPGENW("Sending messages") },
 	{ 0, LPGENW("Other options") },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 TOptionListItem m_lvItemsMsg[] =
@@ -115,7 +115,7 @@ TOptionListItem m_lvItemsMsg[] =
 	{ 0, LPGENW("Automatically split long messages (experimental, use with care)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"autosplit", 2 },
 	{ 0, LPGENW("Log status changes"), 0, LOI_TYPE_SETTING, (UINT_PTR)"logstatuschanges", 2 },
 	{ 0, LPGENW("Automatically copy selected text"), 1, LOI_TYPE_SETTING, (UINT_PTR)"autocopy", 2 },
-	{ 0, NULL, 0, 0, 0, 0 }
+	{ 0, nullptr, 0, 0, 0, 0 }
 };
 
 TOptionListGroup m_lvGroupsLog[] =
@@ -124,7 +124,7 @@ TOptionListGroup m_lvGroupsLog[] =
 	{ 0, LPGENW("Support for external plugins") },
 	{ 0, LPGENW("Timestamp settings (note: timestamps also depend on your templates)") },
 	{ 0, LPGENW("Message log icons") },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 TOptionListItem m_lvItemsLog[] =
@@ -148,7 +148,7 @@ TOptionListItem m_lvItemsLog[] =
 	{ 0, LPGENW("Underline timestamp/nickname (IEView Compatibility Mode)"), 0, LOI_TYPE_FLAG, MWF_LOG_UNDERLINE, 1 },
 	{ 0, LPGENW("Show timestamp after nickname (IEView Compatibility Mode)"), 0, LOI_TYPE_FLAG, MWF_LOG_SWAPNICK, 1 },
 	{ 0, LPGENW("Use normal templates (uncheck to use simple templates if your template set supports them)"), 1, LOI_TYPE_FLAG, MWF_LOG_NORMALTEMPLATES, 0 },
-	{ 0, NULL, 0, 0, 0, 0 }
+	{ 0, nullptr, 0, 0, 0, 0 }
 };
 
 TOptionListGroup m_lvGroupsTab[] =
@@ -156,7 +156,7 @@ TOptionListGroup m_lvGroupsTab[] =
 	{ 0, LPGENW("Tab options") },
 	{ 0, LPGENW("How to create tabs and windows for incoming messages") },
 	{ 0, LPGENW("Miscellaneous options") },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 TOptionListItem m_lvItemsTab[] =
@@ -173,7 +173,7 @@ TOptionListItem m_lvItemsTab[] =
 	{ 0, LPGENW("Close button only hides message windows"), 0, LOI_TYPE_SETTING, (UINT_PTR)"hideonclose", 2 },
 	{ 0, LPGENW("Allow TAB key in typing area (this will disable focus selection by TAB key)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"tabmode", 2 },
 	{ 0, LPGENW("Add offline contacts to multisend list"), 0, LOI_TYPE_SETTING, (UINT_PTR) "AllowOfflineMultisend", 2 },
-	{ 0, NULL, 0, 0, 0, 0 }
+	{ 0, nullptr, 0, 0, 0, 0 }
 };
 
 TOptionListItem* CTranslator::getTree(UINT id)

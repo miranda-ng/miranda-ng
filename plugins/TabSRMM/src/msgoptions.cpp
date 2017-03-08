@@ -292,7 +292,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case IDC_THEMEEXPORT:
 		{
 			const wchar_t *szFilename = GetThemeFileName(1);
-			if (szFilename != NULL)
+			if (szFilename != nullptr)
 				WriteThemeToINI(szFilename, 0);
 		}
 		break;
@@ -311,7 +311,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				const wchar_t*	szFilename = GetThemeFileName(0);
 				DWORD dwFlags = THEME_READ_FONTS;
 
-				if (szFilename != NULL) {
+				if (szFilename != nullptr) {
 					int result = MessageBox(0, TranslateT("Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all."),
 						TranslateT("Load theme"), MB_YESNOCANCEL);
 					if (result == IDCANCEL)
@@ -394,7 +394,7 @@ void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags, BOOL bFromMem)
 	ImageList_Destroy(TreeView_SetImageList(hwndTree, CreateStateImageList(), TVSIL_NORMAL));
 
 	// fill the list box, create groups first, then add items
-	for (int i = 0; lvGroups[i].szName != NULL; i++) {
+	for (int i = 0; lvGroups[i].szName != nullptr; i++) {
 		tvi.hParent = 0;
 		tvi.hInsertAfter = TVI_LAST;
 		tvi.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
@@ -405,7 +405,7 @@ void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags, BOOL bFromMem)
 		lvGroups[i].handle = (LRESULT)TreeView_InsertItem(hwndTree, &tvi);
 	}
 
-	for (int i = 0; lvItems[i].szName != NULL; i++) {
+	for (int i = 0; lvItems[i].szName != nullptr; i++) {
 		tvi.hParent = (HTREEITEM)lvGroups[lvItems[i].uGroup].handle;
 		tvi.hInsertAfter = TVI_LAST;
 		tvi.item.pszText = TranslateW(lvItems[i].szName);
@@ -446,7 +446,7 @@ void TreeViewSetFromDB(HWND hwndTree, UINT id, DWORD dwFlags)
 	TVITEM item = { 0 };
 	TOptionListItem *lvItems = CTranslator::getTree(id);
 
-	for (int i = 0; lvItems[i].szName != NULL; i++) {
+	for (int i = 0; lvItems[i].szName != nullptr; i++) {
 		item.mask = TVIF_HANDLE | TVIF_IMAGE;
 		item.hItem = (HTREEITEM)lvItems[i].handle;
 		if (lvItems[i].uType == LOI_TYPE_FLAG)
@@ -462,22 +462,22 @@ void TreeViewToDB(HWND hwndTree, UINT id, char *DBPath, DWORD *dwFlags)
 	TVITEM item = { 0 };
 	TOptionListItem *lvItems = CTranslator::getTree(id);
 
-	for (int i = 0; lvItems[i].szName != NULL; i++) {
+	for (int i = 0; lvItems[i].szName != nullptr; i++) {
 		item.mask = TVIF_HANDLE | TVIF_IMAGE;
 		item.hItem = (HTREEITEM)lvItems[i].handle;
 		TreeView_GetItem(hwndTree, &item);
 
 		switch (lvItems[i].uType) {
 		case LOI_TYPE_FLAG:
-			if (dwFlags != NULL)
+			if (dwFlags != nullptr)
 				(*dwFlags) |= (item.iImage == IMG_CHECK) ? lvItems[i].lParam : 0;
-			if (DBPath == NULL) {
+			if (DBPath == nullptr) {
 				UINT *tm = (UINT*)lvItems[i].lParam;
 				(*tm) = (item.iImage == IMG_CHECK) ? ((*tm) | lvItems[i].id) : ((*tm) & ~lvItems[i].id);
 			}
 			break;
 		case LOI_TYPE_SETTING:
-			if (DBPath != NULL) {
+			if (DBPath != nullptr) {
 				db_set_b(0, DBPath, (char *)lvItems[i].lParam, (BYTE)((item.iImage == IMG_CHECK) ? 1 : 0));
 			}
 			else {
@@ -554,8 +554,8 @@ BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM, LPARAM lParam)
 	item.iSelectedImage = item.iImage;
 	SendMessage(hwndTree, TVM_SETITEM, 0, (LPARAM)&item);
 	if (item.mask & TVIF_STATE) {
-		RedrawWindow(hwndTree, NULL, NULL, RDW_INVALIDATE | RDW_NOFRAME | RDW_ERASENOW | RDW_ALLCHILDREN);
-		InvalidateRect(hwndTree, NULL, TRUE);
+		RedrawWindow(hwndTree, nullptr, nullptr, RDW_INVALIDATE | RDW_NOFRAME | RDW_ERASENOW | RDW_ALLCHILDREN);
+		InvalidateRect(hwndTree, nullptr, TRUE);
 	}
 	else {
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -619,7 +619,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_set_b(0, SRMSGMOD_T, "dontscaleavatars", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PRESERVEAVATARSIZE) ? 1 : 0));
 
 				// scan the tree view and obtain the options...
-				TreeViewToDB(GetDlgItem(hwndDlg, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, SRMSGMOD_T, NULL);
+				TreeViewToDB(GetDlgItem(hwndDlg, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, SRMSGMOD_T, nullptr);
 				PluginConfig.reloadSettings();
 				M.BroadcastMessage(DM_OPTIONSAPPLIED, 1, 0);
 				return TRUE;
@@ -669,9 +669,9 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			TreeViewInit(GetDlgItem(hwndDlg, IDC_LOGOPTIONS), CTranslator::TREE_LOG, dwFlags, FALSE);
 
 			SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
-			SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_SETPOS, 0, db_get_w(NULL, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
+			SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_SETPOS, 0, db_get_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
 			SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_SETRANGE, 0, MAKELONG(24 * 60, 0));
-			SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_SETPOS, 0, db_get_w(NULL, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
+			SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_SETPOS, 0, db_get_w(0, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
 
 			SetDlgItemInt(hwndDlg, IDC_INDENTAMOUNT, M.GetDword("IndentAmount", 20), FALSE);
 			SendDlgItemMessage(hwndDlg, IDC_INDENTSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
@@ -796,8 +796,8 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_TIME);
 				else
 					db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_UNREAD);
-				db_set_w(NULL, SRMSGMOD, SRMSGSET_LOADCOUNT, (WORD)SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_GETPOS, 0, 0));
-				db_set_w(NULL, SRMSGMOD, SRMSGSET_LOADTIME, (WORD)SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_GETPOS, 0, 0));
+				db_set_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, (WORD)SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_GETPOS, 0, 0));
+				db_set_w(0, SRMSGMOD, SRMSGSET_LOADTIME, (WORD)SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_GETPOS, 0, 0));
 
 				db_set_dw(0, SRMSGMOD_T, "IndentAmount", (DWORD)GetDlgItemInt(hwndDlg, IDC_INDENTAMOUNT, &translated, FALSE));
 				db_set_dw(0, SRMSGMOD_T, "RightIndent", (DWORD)GetDlgItemInt(hwndDlg, IDC_RIGHTINDENT, &translated, FALSE));
@@ -999,7 +999,7 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 
 		CheckDlgButton(hwndDlg, IDC_CUT_TABTITLE, M.GetByte("cuttitle", 0) ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_SETRANGE, 0, MAKELONG(20, 5));
-		SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_SETPOS, 0, (WPARAM)db_get_w(NULL, SRMSGMOD_T, "cut_at", 15));
+		SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_SETPOS, 0, (WPARAM)db_get_w(0, SRMSGMOD_T, "cut_at", 15));
 
 		Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAX, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE) != 0);
 		Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAXSPIN, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE) != 0);
@@ -1047,10 +1047,10 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				db_set_b(0, SRMSGMOD_T, "cuttitle", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE));
-				db_set_w(NULL, SRMSGMOD_T, "cut_at", (WORD)SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_GETPOS, 0, 0));
+				db_set_w(0, SRMSGMOD_T, "cut_at", (WORD)SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_GETPOS, 0, 0));
 
 				// scan the tree view and obtain the options...
-				TreeViewToDB(GetDlgItem(hwndDlg, IDC_TABMSGOPTIONS), CTranslator::TREE_TAB, SRMSGMOD_T, NULL);
+				TreeViewToDB(GetDlgItem(hwndDlg, IDC_TABMSGOPTIONS), CTranslator::TREE_TAB, SRMSGMOD_T, nullptr);
 
 				PluginConfig.m_EscapeCloses = (int)SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_GETCURSEL, 0, 0);
 				db_set_b(0, SRMSGMOD_T, "escmode", (BYTE)PluginConfig.m_EscapeCloses);
@@ -1183,9 +1183,9 @@ INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		default:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				TreeViewToDB(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, SRMSGMOD_T, NULL);
+				TreeViewToDB(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, SRMSGMOD_T, nullptr);
 
-				int msgTimeout = 1000 * GetDlgItemInt(hwndDlg, IDC_SECONDS, NULL, FALSE);
+				int msgTimeout = 1000 * GetDlgItemInt(hwndDlg, IDC_SECONDS, nullptr, FALSE);
 				PluginConfig.m_MsgTimeout = msgTimeout >= SRMSGSET_MSGTIMEOUT_MIN ? msgTimeout : SRMSGSET_MSGTIMEOUT_MIN;
 				db_set_dw(0, SRMSGMOD, SRMSGSET_MSGTIMEOUT, PluginConfig.m_MsgTimeout);
 
@@ -1204,7 +1204,7 @@ INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		else if (LOWORD(wParam) == IDC_PLUS_REVERT) {		// revert to defaults...
 			TOptionListItem *lvItems = CTranslator::getTree(CTranslator::TREE_MODPLUS);
 
-			for (int i = 0; lvItems[i].szName != NULL; i++)
+			for (int i = 0; lvItems[i].szName != nullptr; i++)
 				if (lvItems[i].uType == LOI_TYPE_SETTING)
 					db_set_b(0, SRMSGMOD_T, (char *)lvItems[i].lParam, (BYTE)lvItems[i].id);
 			TreeViewSetFromDB(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, 0);
@@ -1380,7 +1380,7 @@ DWORD OptCheckBox_LoadValue(struct OptCheckBox *cb)
 		case DBVT_BYTE:
 			return M.GetByte(cb->dbModule, cb->dbSetting, cb->defValue);
 		case DBVT_WORD:
-			return db_get_w(NULL, cb->dbModule, cb->dbSetting, cb->defValue);
+			return db_get_w(0, cb->dbModule, cb->dbSetting, cb->defValue);
 		case DBVT_DWORD:
 			return M.GetDword(cb->dbModule, cb->dbSetting, cb->defValue);
 		}
@@ -1422,7 +1422,7 @@ void OptCheckBox_Save(HWND hwnd, OptCheckBox *cb)
 		db_set_b(0, cb->dbModule, cb->dbSetting, (BYTE)value);
 		break;
 	case DBVT_WORD:
-		db_set_w(NULL, cb->dbModule, cb->dbSetting, (WORD)value);
+		db_set_w(0, cb->dbModule, cb->dbSetting, (WORD)value);
 		break;
 	case DBVT_DWORD:
 		db_set_dw(0, cb->dbModule, cb->dbSetting, (DWORD)value);
@@ -1502,9 +1502,9 @@ static INT_PTR CALLBACK DlgProcTabSrmmModernOptions(HWND hwndDlg, UINT msg, WPAR
 			}
 
 			SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
-			SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_SETPOS, 0, db_get_w(NULL, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
+			SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_SETPOS, 0, db_get_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
 			SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_SETRANGE, 0, MAKELONG(24 * 60, 0));
-			SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_SETPOS, 0, db_get_w(NULL, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
+			SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_SETPOS, 0, db_get_w(0, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
 
 			SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 5));
 			SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_SETPOS, 0, maxhist);
@@ -1571,8 +1571,8 @@ static INT_PTR CALLBACK DlgProcTabSrmmModernOptions(HWND hwndDlg, UINT msg, WPAR
 					db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_TIME);
 				else
 					db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_UNREAD);
-				db_set_w(NULL, SRMSGMOD, SRMSGSET_LOADCOUNT, (WORD)SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_GETPOS, 0, 0));
-				db_set_w(NULL, SRMSGMOD, SRMSGSET_LOADTIME, (WORD)SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_GETPOS, 0, 0));
+				db_set_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, (WORD)SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_GETPOS, 0, 0));
+				db_set_w(0, SRMSGMOD, SRMSGSET_LOADTIME, (WORD)SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_GETPOS, 0, 0));
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM))
 					db_set_dw(0, SRMSGMOD_T, "maxhist", (DWORD)SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_GETPOS, 0, 0));
@@ -1619,7 +1619,7 @@ static int ModernOptInitialise(WPARAM wParam, LPARAM)
 	obj.iSection = MODERNOPT_PAGE_MSGS;
 	obj.iType = MODERNOPT_TYPE_SECTIONPAGE;
 	obj.iBoldControls = iBoldControls;
-	obj.lpzClassicGroup = NULL;
+	obj.lpzClassicGroup = nullptr;
 	obj.lpzClassicPage = "Message Sessions";
 	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM";
 

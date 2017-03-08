@@ -80,12 +80,12 @@ public:
 	STDMETHOD(GetData)(FORMATETC*, STGMEDIUM *pmedium) {
 		HANDLE hDst;
 		hDst = ::OleDuplicateData(m_stgmed.hBitmap, CF_BITMAP, 0);
-		if (hDst == NULL)
+		if (hDst == nullptr)
 			return E_HANDLE;
 
 		pmedium->tymed = TYMED_GDI;
 		pmedium->hBitmap = (HBITMAP)hDst;
-		pmedium->pUnkForRelease = NULL;
+		pmedium->pUnkForRelease = nullptr;
 
 		return S_OK;
 	}

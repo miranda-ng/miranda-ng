@@ -120,7 +120,7 @@ bool CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dw
 	if ((m_dwFlags & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != 0) {
 		wchar_t	*p = pci->RemoveFormatting(pgce->ptszText);
 		p = NEWWSTR_ALLOCA(p);
-		if (p == NULL)
+		if (p == nullptr)
 			return false;
 		CharLower(p);
 

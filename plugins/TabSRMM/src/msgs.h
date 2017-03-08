@@ -729,7 +729,7 @@ struct TIconDescW
 
 struct CREOleCallback : public IRichEditOleCallback
 {
-	CREOleCallback() : refCount(0), nextStgId(0), pictStg(NULL) {}
+	CREOleCallback() : refCount(0), nextStgId(0), pictStg(nullptr) {}
 	unsigned refCount;
 	IStorage *pictStg;
 	int nextStgId;

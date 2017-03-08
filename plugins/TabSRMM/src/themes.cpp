@@ -318,7 +318,7 @@ static DWORD __inline argb_from_cola(COLORREF col, UINT32 alpha)
 void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_dest, BYTE clr_dest_trans, BYTE bGradient,
 	BYTE bCorner, DWORD dwRadius, CImageItem *imageItem)
 {
-	if (rc == NULL)
+	if (rc == nullptr)
 		return;
 
 	LONG realHeight = (rc->bottom - rc->top);
@@ -397,8 +397,8 @@ void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_de
 		return;
 
 	void *pvBits;
-	HBITMAP hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
-	if (hbitmap == NULL || pvBits == NULL) {
+	HBITMAP hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, nullptr, 0x0);
+	if (hbitmap == nullptr || pvBits == nullptr) {
 		DeleteDC(hdc);
 		return;
 	}
@@ -473,8 +473,8 @@ void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_de
 	}
 
 	// TL+BL CORNER
-	hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
-	if (hbitmap == 0 || pvBits == NULL)  {
+	hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, nullptr, 0x0);
+	if (hbitmap == 0 || pvBits == nullptr)  {
 		DeleteObject(BrMask);
 		DeleteDC(hdc);
 		return;
@@ -513,7 +513,7 @@ void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_de
 	DeleteObject(hbitmap);
 
 	// TR+BR CORNER
-	hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
+	hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, nullptr, 0x0);
 	holdbitmap = (HBITMAP)SelectObject(hdc, hbitmap);
 	RoundRect(hdc, -1 - ulBitmapWidth, -1, ulBitmapWidth + 1, (realHeight + 1), dwRadius, dwRadius);
 
@@ -747,7 +747,7 @@ static struct
 	L"Global", L"TabTextActive", "S_tab_txt_active", 5, 0,
 	L"Global", L"TabTextUnread", "S_tab_txt_unread", 5, 0,
 	L"Global", L"TabTextHottrack", "S_tab_txt_hottrack", 5, 0,
-	NULL, NULL, NULL, 0, 0
+	nullptr, nullptr, nullptr, 0, 0
 };
 
 void CImageItem::Create(const wchar_t *szImageFile)
@@ -817,7 +817,7 @@ wchar_t* CImageItem::Read(const wchar_t *szFilename)
 		szFinalName = new wchar_t[MAX_PATH];
 		//strncpy(m_szName, &m_szName[1], sizeof(m_szName));
 		//m_szName[sizeof(m_szName) - 1] = 0;
-		_wsplitpath(szFilename, szDrive, szPath, NULL, NULL);
+		_wsplitpath(szFilename, szDrive, szPath, nullptr, nullptr);
 		mir_snwprintf(szFinalName, MAX_PATH, L"%s\\%s%s", szDrive, szPath, buffer);
 		if (!PathFileExists(szFinalName)) {
 			delete[] szFinalName;
@@ -916,7 +916,7 @@ void CImageItem::SetBitmap32Alpha(HBITMAP hBitmap, BYTE bAlpha)
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	BYTE *p = (BYTE *)mir_alloc(dwLen);
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 	memset(p, 0, dwLen);
 
@@ -1056,7 +1056,7 @@ void CSkin::Init(bool fStartup)
 
 bool CSkin::warnToClose() const
 {
-	if (::pFirstContainer == NULL)
+	if (::pFirstContainer == nullptr)
 		return true;
 
 	if (MessageBox(0,
@@ -1077,27 +1077,27 @@ void CSkin::UnloadAeroTabs()
 {
 	if (m_tabTop) {
 		delete m_tabTop;
-		m_tabTop = NULL;
+		m_tabTop = nullptr;
 	}
 
 	if (m_tabBottom) {
 		delete m_tabBottom;
-		m_tabBottom = NULL;
+		m_tabBottom = nullptr;
 	}
 
 	if (m_tabGlowTop) {
 		delete m_tabGlowTop;
-		m_tabGlowTop = NULL;
+		m_tabGlowTop = nullptr;
 	}
 
 	if (m_tabGlowBottom) {
 		delete m_tabGlowBottom;
-		m_tabGlowTop = NULL;
+		m_tabGlowTop = nullptr;
 	}
 
 	if (m_switchBarItem) {
 		delete m_switchBarItem;
-		m_switchBarItem = NULL;
+		m_switchBarItem = nullptr;
 	}
 }
 
@@ -1207,11 +1207,11 @@ void CSkin::LoadIcon(const wchar_t *szSection, const wchar_t *name, HICON &hIcon
 	if (mir_wstrcmpi(buffer, L"none")) {
 		wchar_t szDrive[MAX_PATH], szDir[MAX_PATH], szImagePath[MAX_PATH];
 
-		_wsplitpath(m_tszFileName, szDrive, szDir, NULL, NULL);
+		_wsplitpath(m_tszFileName, szDrive, szDir, nullptr, nullptr);
 		mir_snwprintf(szImagePath, L"%s\\%s\\%s", szDrive, szDir, buffer);
 		hIcon = (HICON)LoadImage(0, szImagePath, IMAGE_ICON, 16, 16, LR_LOADFROMFILE);
 	}
-	else hIcon = NULL;
+	else hIcon = nullptr;
 }
 
 
@@ -1329,7 +1329,7 @@ void CSkin::ReadImageItem(const wchar_t *itemname)
 				if (tmpItem.getHbm() || (tmpItem.getFlags() & IMAGE_GLYPH)) {
 					CImageItem *newItem = new CImageItem(tmpItem);
 					SkinItems[i].imageItem = newItem;
-					if (m_ImageItems == NULL)
+					if (m_ImageItems == nullptr)
 						m_ImageItems = newItem;
 					else {
 						CImageItem *pItem = m_ImageItems;
@@ -1376,7 +1376,7 @@ void CSkin::Load(void)
 		return;
 
 	i = 0;
-	while (_tagSettings[i].szIniKey != NULL) {
+	while (_tagSettings[i].szIniKey != nullptr) {
 		data = 0;
 		data = GetPrivateProfileInt(_tagSettings[i].szIniKey, _tagSettings[i].szIniName,
 			_tagSettings[i].defaultval, m_tszFileName);
@@ -1388,7 +1388,7 @@ void CSkin::Load(void)
 			db_set_dw(0, SRMSGMOD_T, _tagSettings[i].szSetting, data);
 			break;
 		case 2:
-			db_set_w(NULL, SRMSGMOD_T, _tagSettings[i].szSetting, (WORD)data);
+			db_set_w(0, SRMSGMOD_T, _tagSettings[i].szSetting, (WORD)data);
 			break;
 		case 5:
 			GetPrivateProfileString(_tagSettings[i].szIniKey, _tagSettings[i].szIniName, L"000000",
@@ -1476,7 +1476,7 @@ void CSkin::Load(void)
 
 	GetPrivateProfileString(L"Theme", L"File", L"None", buffer, MAX_PATH, m_tszFileName);
 
-	_wsplitpath(m_tszFileName, szDrive, szPath, NULL, NULL);
+	_wsplitpath(m_tszFileName, szDrive, szPath, nullptr, nullptr);
 	mir_snwprintf(szFinalName, L"%s\\%s\\%s", szDrive, szPath, buffer);
 	if (PathFileExists(szFinalName)) {
 		ReadThemeFromINI(szFinalName, 0, FALSE, m_fLoadOnStartup ? 0 : M.GetByte("skin_loadmode", 0));
@@ -1523,11 +1523,11 @@ void CSkin::Load(void)
 
 void CSkin::LoadItems()
 {
-	wchar_t *szSections = NULL;
+	wchar_t *szSections = nullptr;
 	wchar_t *p, *p1;
 	TIconDesc tmpIconDesc = { 0 };
 
-	if (m_skinIcons == NULL)
+	if (m_skinIcons == nullptr)
 		m_skinIcons = (TIconDescW *)mir_calloc(sizeof(TIconDescW) * NR_MAXSKINICONS);
 
 	m_nrSkinIcons = 0;
@@ -2154,7 +2154,7 @@ HBITMAP CSkin::CreateAeroCompatibleBitmap(const RECT &rc, HDC dc)
 	dib.bmiHeader.biBitCount = 32;
 	dib.bmiHeader.biCompression = BI_RGB;
 
-	return CreateDIBSection(dc, &dib, DIB_RGB_COLORS, NULL, NULL, 0);
+	return CreateDIBSection(dc, &dib, DIB_RGB_COLORS, nullptr, nullptr, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -2287,7 +2287,7 @@ void CTabBaseDlg::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 
 HANDLE CSkin::InitiateBufferedPaint(const HDC hdcSrc, RECT& rc, HDC& hdcOut)
 {
-	return CMimAPI::m_pfnBeginBufferedPaint(hdcSrc, &rc, BPBF_TOPDOWNDIB, NULL, &hdcOut);
+	return CMimAPI::m_pfnBeginBufferedPaint(hdcSrc, &rc, BPBF_TOPDOWNDIB, nullptr, &hdcOut);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -2406,10 +2406,10 @@ void CSkin::initAeroEffect()
 	}
 
 	for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
-		InvalidateRect(GetDlgItem(p->hwnd, IDC_MSGTABS), NULL, TRUE);
-		InvalidateRect(p->hwnd, NULL, TRUE);
+		InvalidateRect(GetDlgItem(p->hwnd, IDC_MSGTABS), nullptr, TRUE);
+		InvalidateRect(p->hwnd, nullptr, TRUE);
 		if (IsWindow(GetDlgItem(p->hwnd, 5000)))
-			InvalidateRect(GetDlgItem(p->hwnd, 5000), NULL, TRUE);
+			InvalidateRect(GetDlgItem(p->hwnd, 5000), nullptr, TRUE);
 	}
 }
 

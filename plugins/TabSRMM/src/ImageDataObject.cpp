@@ -48,7 +48,7 @@ bool CImageDataObject::InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap)
 	pRichEditOle->GetClientSite(&pOleClientSite);
 
 	CComPtr<ILockBytes> lpLockBytes;
-	if (FAILED(::CreateILockBytesOnHGlobal(NULL, TRUE, &lpLockBytes)))
+	if (FAILED(::CreateILockBytesOnHGlobal(nullptr, TRUE, &lpLockBytes)))
 		return false;
 
 	// Initialize a Storage Object
@@ -58,7 +58,7 @@ bool CImageDataObject::InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap)
 
 	// The final ole object which will be inserted in the richedit control
 	CComPtr<IOleObject> pOleObject = pods->GetOleObject(pOleClientSite, pStorage);
-	if (pOleObject == NULL)
+	if (pOleObject == nullptr)
 		return false;
 
 	// all items are "contained" -- this makes our reference to this object
@@ -88,11 +88,11 @@ void CImageDataObject::SetBitmap(HBITMAP hBitmap)
 	STGMEDIUM stgm;
 	stgm.tymed = TYMED_GDI;                 // Storage medium = HBITMAP handle
 	stgm.hBitmap = hBitmap;
-	stgm.pUnkForRelease = NULL;       // Use ReleaseStgMedium
+	stgm.pUnkForRelease = nullptr;       // Use ReleaseStgMedium
 
 	FORMATETC fm;
 	fm.cfFormat = CF_BITMAP;                // Clipboard format = CF_BITMAP
-	fm.ptd = NULL;                              // Target Device = Screen
+	fm.ptd = nullptr;                              // Target Device = Screen
 	fm.dwAspect = DVASPECT_CONTENT; // Level of detail = Full content
 	fm.lindex = -1;                             // Index = Not applicaple
 	fm.tymed = TYMED_GDI;                     // Storage medium = HBITMAP handle
@@ -104,6 +104,6 @@ IOleObject* CImageDataObject::GetOleObject(IOleClientSite *pOleClientSite, IStor
 {
 	IOleObject *pOleObject;
 	if (FAILED(::OleCreateStaticFromData(this, IID_IOleObject, OLERENDER_FORMAT, &m_format, pOleClientSite, pStorage, (void **)&pOleObject)))
-		return NULL;
+		return nullptr;
 	return pOleObject;
 }

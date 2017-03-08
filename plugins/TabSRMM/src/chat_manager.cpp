@@ -28,7 +28,7 @@
 
 static int sttCompareNicknames(const wchar_t *s1, const wchar_t *s2)
 {
-	if (s2 == NULL)
+	if (s2 == nullptr)
 		return 1;
 
 	// skip rubbish
@@ -89,7 +89,7 @@ SESSION_INFO* SM_FindSessionByHWND(HWND hWnd)
 		if (si->hWnd == hWnd)
 			return si;
 
-	return NULL;
+	return nullptr;
 }
 
 SESSION_INFO* SM_FindSessionByHCONTACT(MCONTACT h)
@@ -98,19 +98,19 @@ SESSION_INFO* SM_FindSessionByHCONTACT(MCONTACT h)
 		if (si->hContact == h)
 			return si;
 
-	return NULL;
+	return nullptr;
 }
 
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const wchar_t* pszOriginal, const wchar_t* pszCurrent)
 {
-	if (prevSession == NULL && my_strstri(currSession->ptszName, pszOriginal) == currSession->ptszName)
+	if (prevSession == nullptr && my_strstri(currSession->ptszName, pszOriginal) == currSession->ptszName)
 		return currSession;
 
-	wchar_t *pszName = NULL;
+	wchar_t *pszName = nullptr;
 	if (currSession == prevSession)
 		pszCurrent = pszOriginal;
 
-	SESSION_INFO *pResult = NULL;
+	SESSION_INFO *pResult = nullptr;
 	for (SESSION_INFO *si = pci->wndList; si; si = si->next)
 		if (si != currSession && !mir_strcmpi(pszModule, si->pszModule))
 			if (my_strstri(si->ptszName, pszOriginal) == si->ptszName)

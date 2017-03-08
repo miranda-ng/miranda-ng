@@ -171,7 +171,7 @@ void CInfoPanel::showHide() const
 
 		if (!m_active && m_dat->m_hwndPanelPic) {
 			::DestroyWindow(m_dat->m_hwndPanelPic);
-			m_dat->m_hwndPanelPic = NULL;
+			m_dat->m_hwndPanelPic = nullptr;
 		}
 
 		m_dat->m_iRealAvatarHeight = 0;
@@ -184,29 +184,29 @@ void CInfoPanel::showHide() const
 		if (m_active) {
 			if (m_dat->m_hwndContactPic) {
 				::DestroyWindow(m_dat->m_hwndContactPic);
-				m_dat->m_hwndContactPic = NULL;
+				m_dat->m_hwndContactPic = nullptr;
 			}
 			m_dat->GetAvatarVisibility();
 			Configure();
-			InvalidateRect(hwndDlg, NULL, FALSE);
+			InvalidateRect(hwndDlg, nullptr, FALSE);
 		}
 		Utils::showDlgControl(hwndDlg, IDC_PANELSPLITTER, m_active ? SW_SHOW : SW_HIDE);
 		::SendMessage(hwndDlg, WM_SIZE, 0, 0);
-		::InvalidateRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), NULL, TRUE);
+		::InvalidateRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), nullptr, TRUE);
 	}
 	else {
 		Utils::showDlgControl(hwndDlg, IDC_PANELSPLITTER, m_active ? SW_SHOW : SW_HIDE);
 
 		if (m_active) {
 			Configure();
-			::InvalidateRect(hwndDlg, NULL, FALSE);
+			::InvalidateRect(hwndDlg, nullptr, FALSE);
 		}
 
 		::SendMessage(hwndDlg, WM_SIZE, 0, 0);
 	}
 	::SetAeroMargins(m_dat->m_pContainer);
 	if (M.isAero())
-		::InvalidateRect(GetParent(hwndDlg), NULL, FALSE);
+		::InvalidateRect(GetParent(hwndDlg), nullptr, FALSE);
 	m_dat->DM_ScrollToBottom(0, 1);
 }
 
@@ -376,7 +376,7 @@ void CInfoPanel::renderContent(const HDC hdc)
 
 void CInfoPanel::RenderIPNickname(const HDC hdc, RECT &rcItem)
 {
-	const wchar_t *szStatusMsg = NULL;
+	const wchar_t *szStatusMsg = nullptr;
 	const wchar_t *szTextToShow = 0;
 	bool fShowUin = false;
 	COLORREF clr = 0;
@@ -486,7 +486,7 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 		wchar_t szBuf[256];
 
 		if (m_dat->m_idle) {
-			time_t diff = time(NULL) - m_dat->m_idle;
+			time_t diff = time(nullptr) - m_dat->m_idle;
 			int i_hrs = diff / 3600;
 			int i_mins = (diff - i_hrs * 3600) / 60;
 			mir_snwprintf(szBuf, TranslateT("%s    Idle: %dh,%02dm"), tszUin, i_hrs, i_mins);
@@ -779,7 +779,7 @@ void CInfoPanel::handleClick(const POINT& pt)
 	}
 	HMENU m = constructContextualMenu();
 	if (m) {
-		LRESULT r = ::TrackPopupMenu(m, TPM_RETURNCMD, pt.x, pt.y, 0, m_dat->GetHwnd(), NULL);
+		LRESULT r = ::TrackPopupMenu(m, TPM_RETURNCMD, pt.x, pt.y, 0, m_dat->GetHwnd(), nullptr);
 
 		::DestroyMenu(m);
 		if (S_OK != cmdHandler(r))
@@ -1210,8 +1210,8 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			if (m_height != lOldHeight) {
 				::SendMessage(m_dat->GetHwnd(), WM_SIZE, 0, 0);
 				::SetAeroMargins(m_dat->m_pContainer);
-				::RedrawWindow(m_dat->GetHwnd(), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
-				::RedrawWindow(GetParent(m_dat->GetHwnd()), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+				::RedrawWindow(m_dat->GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
+				::RedrawWindow(GetParent(m_dat->GetHwnd()), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 			}
 		}
 		break;
@@ -1309,7 +1309,7 @@ CTip::CTip(const HWND hwndParent, const MCONTACT hContact, const wchar_t *pszTex
 		0, 0, 40, 40, 0, 0, g_hInst, this);
 
 	m_hRich = ::CreateWindowEx(0, L"RICHEDIT50W", L"", WS_CHILD | ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL | ES_READONLY | WS_VSCROLL | WS_TABSTOP,
-		0, 0, 40, 40, m_hwnd, reinterpret_cast<HMENU>(1000), g_hInst, NULL);
+		0, 0, 40, 40, m_hwnd, reinterpret_cast<HMENU>(1000), g_hInst, nullptr);
 
 	::SendMessage(m_hRich, EM_AUTOURLDETECT, TRUE, 0);
 	::SendMessage(m_hRich, EM_SETEVENTMASK, 0, ENM_LINK);
@@ -1359,7 +1359,7 @@ void CTip::show(const RECT& rc, POINT& pt, const HICON hIcon, const wchar_t *szT
 		smadd.Protocolname = const_cast<char *>(c->getActiveProto());
 		smadd.hContact = c->getActiveContact();
 		smadd.flags = 0;
-		smadd.rangeToReplace = NULL;
+		smadd.rangeToReplace = nullptr;
 		smadd.disableRedraw = TRUE;
 		CallService(MS_SMILEYADD_REPLACESMILEYS, TABSRMM_SMILEYADD_BKGCOLORMODE, (LPARAM)&smadd);
 	}
@@ -1411,7 +1411,7 @@ void CTip::registerClass()
 	wc.cbSize = sizeof(wc);
 	wc.lpszClassName = L"RichEditTipClass";
 	wc.lpfnWndProc = CTip::WndProcStub;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.cbWndExtra = sizeof(CTip *);
 	wc.style = CS_GLOBALCLASS | CS_DBLCLKS | CS_PARENTDC;
 	RegisterClassEx(&wc);

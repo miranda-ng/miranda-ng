@@ -96,12 +96,12 @@ void LoadDefaultTemplates()
 
 	if (M.GetByte(RTLTEMPLATES_MODULE, "setup", 0) < 2) {
 		for (int i = 0; i <= TMPL_ERRMSG; i++)
-			db_set_ws(NULL, RTLTEMPLATES_MODULE, TemplateNames[i], RTL_Default.szTemplates[i]);
+			db_set_ws(0, RTLTEMPLATES_MODULE, TemplateNames[i], RTL_Default.szTemplates[i]);
 		db_set_b(0, RTLTEMPLATES_MODULE, "setup", 2);
 	}
 	if (M.GetByte(TEMPLATES_MODULE, "setup", 0) < 2) {
 		for (int i = 0; i <= TMPL_ERRMSG; i++)
-			db_set_ws(NULL, TEMPLATES_MODULE, TemplateNames[i], LTR_Default.szTemplates[i]);
+			db_set_ws(0, TEMPLATES_MODULE, TemplateNames[i], LTR_Default.szTemplates[i]);
 		db_set_b(0, TEMPLATES_MODULE, "setup", 2);
 	}
 	LoadTemplatesFrom(&LTR_Active, 0, 0);
@@ -121,7 +121,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		teInfo = (TemplateEditorInfo *)dat->m_pContainer;
 		tSet = teInfo->rtl ? dat->m_pContainer->rtl_templates : dat->m_pContainer->ltr_templates;
 	}
-	else tSet = NULL;
+	else tSet = nullptr;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -242,7 +242,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					Utils::enableDlgControl(hwndDlg, IDC_TEMPLATELIST, FALSE);
 					Utils::enableDlgControl(hwndDlg, IDC_REVERT, TRUE);
 				}
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), NULL, FALSE);
+				InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), nullptr, FALSE);
 			}
 			break;
 
@@ -258,7 +258,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				Utils::enableDlgControl(hwndDlg, IDC_FORGET, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_TEMPLATELIST, TRUE);
 				Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), NULL, FALSE);
+				InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), nullptr, FALSE);
 				db_set_ws(teInfo->hContact, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[teInfo->inEdit], newTemplate);
 				SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
 			}
@@ -270,7 +270,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			teInfo->selchanging = TRUE;
 			SetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, tSet->szTemplates[teInfo->inEdit]);
 			SetFocus(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE));
-			InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), NULL, FALSE);
+			InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), nullptr, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_SAVETEMPLATE, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_FORGET, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_TEMPLATELIST, TRUE);
@@ -287,7 +287,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, tSet->szTemplates[teInfo->inEdit]);
 			db_unset(teInfo->hContact, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[teInfo->inEdit]);
 			SetFocus(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE));
-			InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), NULL, FALSE);
+			InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), nullptr, FALSE);
 			teInfo->selchanging = FALSE;
 			Utils::enableDlgControl(hwndDlg, IDC_SAVETEMPLATE, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
@@ -343,7 +343,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			DBEVENTINFO dbei = {};
 			dbei.szModule = dat->m_szProto;
-			dbei.timestamp = time(NULL);
+			dbei.timestamp = time(nullptr);
 			dbei.eventType = (iIndex == 6) ? EVENTTYPE_STATUSCHANGE : EVENTTYPE_MESSAGE;
 			dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
 			if (dbei.eventType == EVENTTYPE_ERRMSG)
@@ -352,7 +352,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob) + 1;
 			dbei.flags = (iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0;
 			dbei.flags |= (teInfo->rtl ? DBEF_RTL : 0);
-			dat->m_lastEventTime = (iIndex == 4 || iIndex == 5) ? time(NULL) - 1 : 0;
+			dat->m_lastEventTime = (iIndex == 4 || iIndex == 5) ? time(nullptr) - 1 : 0;
 			dat->m_iLastEventType = MAKELONG(dbei.flags, dbei.eventType);
 			SetDlgItemText(hwndDlg, IDC_PREVIEW, L"");
 			dat->m_dwFlags = MWF_LOG_ALL;

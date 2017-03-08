@@ -142,7 +142,7 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 
 void CTabBaseDlg::BB_InitDlgButtons()
 {
-	BYTE gap = DPISCALEX_S(db_get_b(NULL, SRMSGMOD, "ButtonsBarGap", 1));
+	BYTE gap = DPISCALEX_S(db_get_b(0, SRMSGMOD, "ButtonsBarGap", 1));
 
 	RECT rcSplitter;
 	GetWindowRect(GetDlgItem(m_hwnd, (m_bType == SESSIONTYPE_IM) ? IDC_SPLITTERY : IDC_SPLITTERY), &rcSplitter);
@@ -159,7 +159,7 @@ void CTabBaseDlg::BB_InitDlgButtons()
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
 		HWND hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
-		if (hwndButton == NULL)
+		if (hwndButton == nullptr)
 			continue;
 
 		if (!cbd->m_bHidden) {
@@ -208,7 +208,7 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 
 	HWND hwndButton = 0;
 
-	BYTE gap = DPISCALEX_S(db_get_b(NULL, SRMSGMOD, "ButtonsBarGap", 1));
+	BYTE gap = DPISCALEX_S(db_get_b(0, SRMSGMOD, "ButtonsBarGap", 1));
 	bool showToolbar = !(m_pContainer->dwFlags & CNT_HIDETOOLBAR);
 	bool bBottomToolbar = (m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR) != 0;
 
@@ -235,8 +235,8 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 		foravatar = m_pic.cx + gap;
 
 	if ((m_pContainer->dwFlags & CNT_SIDEBAR) && (m_pContainer->SideBar->getFlags() & CSideBar::SIDEBARORIENTATION_LEFT)) {
-		if (NULL != hwndToggleSideBar) /* Wine fix. */
-			hdwp = DeferWindowPos(hdwp, hwndToggleSideBar, NULL, 4, 2 + splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		if (nullptr != hwndToggleSideBar) /* Wine fix. */
+			hdwp = DeferWindowPos(hdwp, hwndToggleSideBar, nullptr, 4, 2 + splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		lwidth += 10;
 		tempL -= 10;
 	}
@@ -251,8 +251,8 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 
 			if (!showToolbar) {
 				ShowWindow(hwndButton, SW_HIDE);
-				if (NULL != hwndButton) /* Wine fix. */
-					hdwp = DeferWindowPos(hdwp, hwndButton, NULL, lwidth, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+				if (nullptr != hwndButton) /* Wine fix. */
+					hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, lwidth, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 				if (IsWindowVisible(hwndButton) || (cbd->m_bSeparator && !(cbd->m_bAutoHidden || cbd->m_bHidden)))
 					lwidth += cbd->m_iButtonWidth + gap;
 				if (!IsWindowEnabled(hwndButton) && !IsWindowVisible(hwndButton) && !cbd->m_bAutoHidden)
@@ -278,16 +278,16 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 					cbd->m_bAutoHidden = 0;
 				}
 			}
-			if (NULL != hwndButton) /* Wine fix. */
-				hdwp = DeferWindowPos(hdwp, hwndButton, NULL, lwidth, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);// SWP_NOCOPYBITS);
+			if (nullptr != hwndButton) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, lwidth, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);// SWP_NOCOPYBITS);
 			if (IsWindowVisible(hwndButton) || (cbd->m_bSeparator && !(cbd->m_bAutoHidden || cbd->m_bHidden)))
 				lwidth += cbd->m_iButtonWidth + gap;
 		}
 	}
 
 	if ((m_pContainer->dwFlags & CNT_SIDEBAR) && (m_pContainer->SideBar->getFlags() & CSideBar::SIDEBARORIENTATION_RIGHT)) {
-		if (NULL != hwndToggleSideBar) /* Wine fix. */
-			hdwp = DeferWindowPos(hdwp, hwndToggleSideBar, NULL, rect.right - foravatar - 10, 2 + splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		if (nullptr != hwndToggleSideBar) /* Wine fix. */
+			hdwp = DeferWindowPos(hdwp, hwndToggleSideBar, nullptr, rect.right - foravatar - 10, 2 + splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		rwidth += 12;
 		tempR -= 12;
 	}
@@ -303,8 +303,8 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 				ShowWindow(hwndButton, SW_HIDE);
 				if (IsWindowVisible(hwndButton) || (cbd->m_bSeparator && !(cbd->m_bAutoHidden || cbd->m_bHidden)))
 					rwidth += cbd->m_iButtonWidth + gap;
-				if (NULL != hwndButton) /* Wine fix. */
-					hdwp = DeferWindowPos(hdwp, hwndButton, NULL, rect.right - foravatar - rwidth + gap, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+				if (nullptr != hwndButton) /* Wine fix. */
+					hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, rect.right - foravatar - rwidth + gap, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 				if (!IsWindowEnabled(hwndButton) && !IsWindowVisible(hwndButton) && !cbd->m_bAutoHidden)
 					cbd->m_bAutoHidden = 1;
 				continue;
@@ -331,8 +331,8 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 
 			if (IsWindowVisible(hwndButton) || (cbd->m_bSeparator && !(cbd->m_bAutoHidden || cbd->m_bHidden)))
 				rwidth += cbd->m_iButtonWidth + gap;
-			if (NULL != hwndButton) /* Wine fix. */
-				hdwp = DeferWindowPos(hdwp, hwndButton, NULL, rect.right - foravatar - rwidth + gap, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			if (nullptr != hwndButton) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, rect.right - foravatar - rwidth + gap, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		}
 	}
 	return EndDeferWindowPos(hdwp);
@@ -351,7 +351,7 @@ void CTabBaseDlg::CB_DestroyAllButtons()
 void CTabBaseDlg::CB_DestroyButton(DWORD dwButtonCID, DWORD dwFlags)
 {
 	HWND hwndButton = GetDlgItem(m_hwnd, dwButtonCID);
-	if (hwndButton == NULL)
+	if (hwndButton == nullptr)
 		return;
 
 	RECT rc = { 0 };
@@ -368,7 +368,7 @@ void CTabBaseDlg::CB_DestroyButton(DWORD dwButtonCID, DWORD dwFlags)
 void CTabBaseDlg::CB_ChangeButton(CustomButtonData *cbd)
 {
 	HWND hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
-	if (hwndButton == NULL)
+	if (hwndButton == nullptr)
 		return;
 
 	if (cbd->m_hIcon)

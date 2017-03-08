@@ -182,7 +182,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_ISFAVORITE)) {
 				if (!M.GetByte(hContact, "isFavorite", 0))
-					AddContactToFavorites(hContact, NULL, NULL, NULL, 0, 0, 1, PluginConfig.g_hMenuFavorites);
+					AddContactToFavorites(hContact, nullptr, nullptr, nullptr, 0, 0, 1, PluginConfig.g_hMenuFavorites);
 			}
 			else DeleteMenu(PluginConfig.g_hMenuFavorites, hContact, MF_BYCOMMAND);
 
@@ -343,7 +343,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 			HWND	hwnd = M.FindWindow(hContact);
 			DWORD	*dwActionToTake = (DWORD *)lParam, dwMask = 0, dwFlags = 0, maskval;
 
-			CSrmmWindow *dat = NULL;
+			CSrmmWindow *dat = nullptr;
 			if (hwnd)
 				dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 

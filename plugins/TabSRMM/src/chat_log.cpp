@@ -44,12 +44,12 @@ static char *szDivider = "\\strike----------------------------------------------
 
 static char* u2a(const wchar_t* src, int codepage)
 {
-	int cbLen = WideCharToMultiByte(codepage, 0, src, -1, NULL, 0, NULL, NULL);
+	int cbLen = WideCharToMultiByte(codepage, 0, src, -1, nullptr, 0, nullptr, nullptr);
 	char* result = (char*)mir_alloc(cbLen + 1);
-	if (result == NULL)
-		return NULL;
+	if (result == nullptr)
+		return nullptr;
 
-	WideCharToMultiByte(codepage, 0, src, -1, result, cbLen, NULL, NULL);
+	WideCharToMultiByte(codepage, 0, src, -1, result, cbLen, nullptr, nullptr);
 	result[cbLen] = 0;
 	return result;
 }
@@ -61,15 +61,15 @@ static char* t2acp(const wchar_t* src, int codepage)
 
 static wchar_t *a2tcp(const char *text, int cp)
 {
-	if (text != NULL) {
-		int cbLen = MultiByteToWideChar(cp, 0, text, -1, NULL, 0);
+	if (text != nullptr) {
+		int cbLen = MultiByteToWideChar(cp, 0, text, -1, nullptr, 0);
 		wchar_t* result = (wchar_t*)mir_alloc(sizeof(wchar_t)*(cbLen + 1));
-		if (result == NULL)
-			return NULL;
+		if (result == nullptr)
+			return nullptr;
 		MultiByteToWideChar(cp, 0, text, -1, result, cbLen);
 		return result;
 	}
-	return NULL;
+	return nullptr;
 }
 
 static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, wchar_t **buffer, int *cbBufferEnd, int *cbBufferAlloced, const wchar_t *fmt, ...)
@@ -171,7 +171,7 @@ static void AddEventToBufferIEView(wchar_t **buffer, int *bufferEnd, int *buffer
 		switch (streamData->lin->iType) {
 		case GC_EVENT_MESSAGE:
 			if (streamData->lin->ptszText) {
-				wchar_t *ptszTemp = NULL;
+				wchar_t *ptszTemp = nullptr;
 				wchar_t *ptszText = streamData->lin->ptszText;
 				if (streamData->dat->codePage != CP_ACP) {
 					char *aText = t2acp(streamData->lin->ptszText, CP_ACP);
@@ -251,7 +251,7 @@ static void AddEventToBufferIEView(wchar_t **buffer, int *bufferEnd, int *buffer
 
 static void LogEventIEView(LOGSTREAMDATA *streamData, wchar_t *ptszNick)
 {
-	wchar_t *buffer = NULL;
+	wchar_t *buffer = nullptr;
 	int bufferEnd = 0;
 	int bufferAlloced = 0;
 	IEVIEWEVENTDATA ied;
@@ -316,7 +316,7 @@ static void LogEventIEView(LOGSTREAMDATA *streamData, wchar_t *ptszNick)
 	ied.dwData |= g_Settings.bShowTime ? IEEDD_GC_SHOW_TIME : 0;
 	ied.dwData |= IEEDD_GC_SHOW_ICON;
 	ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
-	ied.next = NULL;
+	ied.next = nullptr;
 	CallService(streamData->dat->m_hwndIEView ? MS_IEVIEW_EVENT : MS_HPP_EG_EVENT, 0, (LPARAM)&event);
 	mir_free(buffer);
 }
@@ -521,12 +521,12 @@ static void Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, CMStringA 
 static void AddEventToBuffer(CMStringA &str, LOGSTREAMDATA *streamData)
 {
 	wchar_t szTemp[512], szTemp2[512];
-	wchar_t* pszNick = NULL;
+	wchar_t* pszNick = nullptr;
 
-	if (streamData == NULL)
+	if (streamData == nullptr)
 		return;
 
-	if (streamData->lin == NULL)
+	if (streamData->lin == nullptr)
 		return;
 
 	if (streamData->lin->ptszNick) {
@@ -637,10 +637,10 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 
 	// get the number of pixels per logical inch
 	if (pci->logPixelSY == 0) {
-		HDC hdc = GetDC(NULL);
+		HDC hdc = GetDC(nullptr);
 		pci->logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		pci->logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 	}
 
 	// ### RTF HEADER
@@ -674,7 +674,7 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 
 		szString[1] = 0;
 		szString[0] = 0x28;
-		pci->LoadMsgDlgFont(17, &lf, NULL);
+		pci->LoadMsgDlgFont(17, &lf, nullptr);
 		HFONT hFont = CreateFontIndirect(&lf);
 		int iText = GetTextPixelSize(szString, hFont, true) + 3;
 		DeleteObject(hFont);
@@ -717,7 +717,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	while (lin) {
 		// filter
 		if ((streamData->si->iType != GCW_CHATROOM && streamData->si->iType != GCW_PRIVMESS) || !streamData->si->bFilterEnabled || (streamData->si->iLogFilterFlags & lin->iType) != 0) {
-			if (lin->next != NULL)
+			if (lin->next != nullptr)
 				str.Append("\\par ");
 
 			if (streamData->dat->m_dwFlags & MWF_DIVIDERWANTED || lin->dwFlags & MWF_DIVIDERWANTED) {
@@ -836,7 +836,7 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 
 	if (lstrdat) {
 		// create the RTF
-		if (lstrdat->buffer == NULL) {
+		if (lstrdat->buffer == nullptr) {
 			lstrdat->bufferOffset = 0;
 			lstrdat->buffer = Log_CreateRTF(lstrdat);
 			lstrdat->bufferLen = (int)mir_strlen(lstrdat->buffer);
@@ -850,7 +850,7 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 		// mir_free stuff if the streaming operation is complete
 		if (lstrdat->bufferOffset == lstrdat->bufferLen) {
 			mir_free(lstrdat->buffer);
-			lstrdat->buffer = NULL;
+			lstrdat->buffer = nullptr;
 		}
 	}
 
@@ -908,13 +908,13 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 
 	//get the number of pixels per logical inch
 	if (bRedraw) {
-		HDC hdc = GetDC(NULL);
+		HDC hdc = GetDC(nullptr);
 		pci->logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		pci->logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 		SendMessage(hwndRich, WM_SETREDRAW, FALSE, 0);
 		bFlag = true;
-		//			SetCursor(LoadCursor(NULL, IDC_ARROW));
+		//			SetCursor(LoadCursor(nullptr, IDC_ARROW));
 	}
 
 	// stream in the event(s)
@@ -974,7 +974,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 		SMADD_RICHEDIT3 sm = { sizeof(sm) };
 		sm.hwndRichEditControl = hwndRich;
 		sm.Protocolname = si->pszModule;
-		sm.rangeToReplace = bRedraw ? NULL : &newsel;
+		sm.rangeToReplace = bRedraw ? nullptr : &newsel;
 		sm.disableRedraw = TRUE;
 		sm.hContact = si->hContact;
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
@@ -1010,7 +1010,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 	if (oldsel.cpMax != oldsel.cpMin) {
 		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&oldsel);
 		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
-		InvalidateRect(hwndRich, NULL, TRUE);
+		InvalidateRect(hwndRich, nullptr, TRUE);
 	}
 
 	// need to invalidate the window
@@ -1018,6 +1018,6 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 		sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich);
 		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&sel);
 		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
-		InvalidateRect(hwndRich, NULL, TRUE);
+		InvalidateRect(hwndRich, nullptr, TRUE);
 	}
 }

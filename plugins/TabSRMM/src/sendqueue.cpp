@@ -79,7 +79,7 @@ int SendQueue::addTo(CTabBaseDlg *dat, size_t iLen, int dwFlags)
 			// this entry is used, check if it's orphaned and can be removed...
 			if (m_jobs[i].hOwnerWnd && IsWindow(m_jobs[i].hOwnerWnd)) // window exists, do not reuse it
 				continue;
-			if (time(NULL) - m_jobs[i].dwTime < 120) // non-acked entry, but not old enough, don't re-use it
+			if (time(nullptr) - m_jobs[i].dwTime < 120) // non-acked entry, but not old enough, don't re-use it
 				continue;
 			clearJob(i);
 			iFound = i;
@@ -99,7 +99,7 @@ entry_found:
 	memcpy(job.szSendBuffer, dat->m_sendBuffer, iLen);
 
 	job.dwFlags = dwFlags;
-	job.dwTime = time(NULL);
+	job.dwTime = time(nullptr);
 
 	HWND	hwndDlg = dat->GetHwnd();
 
@@ -235,7 +235,7 @@ int SendQueue::sendQueued(CTabBaseDlg *dat, const int iEntry)
 		return 0;
 	}
 
-	if (dat->m_hContact == NULL)
+	if (dat->m_hContact == 0)
 		return 0;  //never happens
 
 	dat->m_nMax = (int)dat->m_cache->getMaxMessageLength(); // refresh length info
@@ -289,7 +289,7 @@ int SendQueue::sendQueued(CTabBaseDlg *dat, const int iEntry)
 			ack.result = ACKRESULT_SUCCESS;
 			SendMessage(hwndDlg, HM_EVENTSENT, (WPARAM)MAKELONG(iEntry, 0), (LPARAM)&ack);
 		}
-		else SetTimer(hwndDlg, TIMERID_MSGSEND + iEntry, PluginConfig.m_MsgTimeout, NULL);
+		else SetTimer(hwndDlg, TIMERID_MSGSEND + iEntry, PluginConfig.m_MsgTimeout, nullptr);
 	}
 
 	dat->m_iOpenJobs++;
@@ -354,14 +354,14 @@ void SendQueue::logError(CTabBaseDlg *dat, int iSendJobIndex, const wchar_t *szE
 	}
 	else {
 		iMsgLen = 0;
-		dbei.pBlob = NULL;
+		dbei.pBlob = nullptr;
 	}
 
 	dbei.flags = DBEF_UTF;
 	dbei.cbBlob = (int)iMsgLen;
-	dbei.timestamp = time(NULL);
+	dbei.timestamp = time(nullptr);
 	dbei.szModule = (char *)szErrMsg;
-	dat->StreamInEvents(NULL, 1, 1, &dbei);
+	dat->StreamInEvents(0, 1, 1, &dbei);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -413,7 +413,7 @@ void SendQueue::showErrorControls(CTabBaseDlg *dat, const int showCmd) const
 
 void SendQueue::recallFailed(const CTabBaseDlg *dat, int iEntry) const
 {
-	if (dat == NULL)
+	if (dat == nullptr)
 		return;
 
 	int iLen = GetWindowTextLength(GetDlgItem(dat->GetHwnd(), IDC_MESSAGE));
@@ -493,7 +493,7 @@ int SendQueue::RTL_Detect(const WCHAR *pszwText)
 	size_t iLen = mir_wstrlen(pszwText);
 
 	WORD *infoTypeC2 = (WORD*)mir_calloc(sizeof(WORD) * (iLen + 2));
-	if (infoTypeC2 == NULL)
+	if (infoTypeC2 == nullptr)
 		return 0;
 
 	GetStringTypeW(CT_CTYPE2, pszwText, (int)iLen, infoTypeC2);
@@ -557,7 +557,7 @@ int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT;
 	dbei.szModule = GetContactProto(job.hContact);
-	dbei.timestamp = time(NULL);
+	dbei.timestamp = time(nullptr);
 	dbei.cbBlob = (int)mir_strlen(job.szSendBuffer) + 1;
 
 	if (dat)
@@ -584,7 +584,7 @@ int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 
 	M.BroadcastMessage(DM_APPENDMCEVENT, job.hContact, LPARAM(hNewEvent));
 
-	job.hSendId = NULL;
+	job.hSendId = nullptr;
 	job.iAcksNeeded--;
 
 	if (job.iAcksNeeded == 0) {              // everything sent
@@ -648,11 +648,11 @@ int SendQueue::doSendLater(int iJobIndex, CTabBaseDlg *dat, MCONTACT hContact, b
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.flags = DBEF_SENT | DBEF_UTF;
 		dbei.szModule = GetContactProto(dat->m_hContact);
-		dbei.timestamp = time(NULL);
+		dbei.timestamp = time(nullptr);
 		dbei.cbBlob = (int)mir_strlen(utfText) + 1;
 		dbei.pBlob = (PBYTE)(char*)utfText;
 		dat->StreamInEvents(0, 1, 1, &dbei);
-		if (dat->m_hDbEventFirst == NULL)
+		if (dat->m_hDbEventFirst == 0)
 			SendMessage(dat->GetHwnd(), DM_REMAKELOG, 0, 0);
 		dat->m_cache->saveHistory(0, 0);
 		dat->EnableSendButton(false);

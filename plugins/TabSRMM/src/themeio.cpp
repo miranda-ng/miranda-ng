@@ -104,7 +104,7 @@ static void TSAPI LoadLogfontFromINI(int i, char *szKey, LOGFONTA *lf, COLORREF 
 		*colour = GetPrivateProfileIntA(szKey, "Color", 0, szIniFilename);
 
 	if (lf) {
-		HDC hdc = GetDC(NULL);
+		HDC hdc = GetDC(nullptr);
 		if (i == H_MSGFONTID_DIVIDERS)
 			lf->lfHeight = 5;
 		else {
@@ -115,7 +115,7 @@ static void TSAPI LoadLogfontFromINI(int i, char *szKey, LOGFONTA *lf, COLORREF 
 				lf->lfHeight = bSize;
 		}
 
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
@@ -163,7 +163,7 @@ static struct _tagFontBlocks {
 	FONTMODULE, 0, MSGDLGFONTCOUNT, "Font%d", "StdFonts",
 	FONTMODULE, 100, IPFONTCOUNT, "IPFont%d", "MiscFonts",
 	CHATFONT_MODULE, 0, CHATFONTCOUNT, "ChatFont%d", CHATFONT_MODULE,
-	NULL, 0, 0, NULL
+	nullptr, 0, 0, nullptr
 };
 
 int TSAPI CheckThemeVersion(const wchar_t *szIniFilename)
@@ -194,7 +194,7 @@ void TSAPI WriteThemeToINI(const wchar_t *szIniFilenameT, CSrmmWindow *dat)
 		for (i = 0; i < fontBlocks[n].iCount; i++) {
 			mir_snprintf(szTemp, "Font%d", firstIndex + i);
 			mir_snprintf(szAppname, fontBlocks[n].szIniTemp, firstIndex + i);
-			if (!db_get_s(NULL, szModule, szTemp, &dbv)) {
+			if (!db_get_s(0, szModule, szTemp, &dbv)) {
 				WritePrivateProfileStringA(szAppname, "Face", dbv.pszVal, szIniFilename);
 				db_free(&dbv);
 			}
@@ -258,7 +258,7 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 	if ((version = GetPrivateProfileIntA("TabSRMM Theme", "Version", 0, szIniFilename)) == 0)        // no version number.. assume 1
 		version = 1;
 
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	if (dat == 0) {
 		while (fontBlocks[n].szModule && (dwFlags & THEME_READ_FONTS)) {
 			char *szModule = fontBlocks[n].szModule;
@@ -278,7 +278,7 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 				if (GetPrivateProfileStringA(szAppname, "Face", "Verdana", szBuf, sizeof(szBuf), szIniFilename) != 0) {
 					if (i == MSGFONTID_SYMBOLS_IN || i == MSGFONTID_SYMBOLS_OUT)
 						strncpy_s(szBuf, "Arial", _TRUNCATE);
-					db_set_s(NULL, szModule, szTemp, szBuf);
+					db_set_s(0, szModule, szTemp, szBuf);
 				}
 
 				mir_snprintf(szTemp, "Font%dCol", firstIndex + i);
@@ -302,7 +302,7 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 			n++;
 		}
 		def = SRMSGDEFSET_BKGCOLOUR;
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 
 		if (dwFlags & THEME_READ_FONTS) {
 			COLORREF defclr;
@@ -341,7 +341,7 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 	}
 	else {
 		int SY = GetDeviceCaps(hdc, LOGPIXELSY);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 		if (!noAdvanced) {
 			for (i = 0; i < MSGDLGFONTCOUNT; i++) {
 				mir_snprintf(szTemp, "Font%d", i);
@@ -382,7 +382,7 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 
 				if (mir_strcmp(szTemplateBuffer, "[undef]")) {
 					if (dat == 0)
-						db_set_utf(NULL, TEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
+						db_set_utf(0, TEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
 					decoded = mir_utf8decodeW(szTemplateBuffer);
 					if (dat == 0)
 						wcsncpy_s(LTR_Active.szTemplates[i], decoded, _TRUNCATE);
@@ -395,7 +395,7 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 
 				if (mir_strcmp(szTemplateBuffer, "[undef]")) {
 					if (dat == 0)
-						db_set_utf(NULL, RTLTEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
+						db_set_utf(0, RTLTEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
 					decoded = mir_utf8decodeW(szTemplateBuffer);
 					if (dat == 0)
 						wcsncpy_s(RTL_Active.szTemplates[i], decoded, _TRUNCATE);
@@ -439,12 +439,12 @@ const wchar_t* TSAPI GetThemeFileName(int iMode)
 		if (GetOpenFileName(&ofn))
 			return szFilename;
 		else
-			return NULL;
+			return nullptr;
 	}
 	else {
 		if (GetSaveFileName(&ofn))
 			return szFilename;
 		else
-			return NULL;
+			return nullptr;
 	}
 }

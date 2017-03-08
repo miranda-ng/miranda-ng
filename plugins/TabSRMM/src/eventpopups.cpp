@@ -56,7 +56,7 @@ static void PU_CleanUp()
 {
 	for (int i = arPopupList.getCount() - 1; i >= 0; i--) {
 		PLUGIN_DATAT *p = arPopupList[i];
-		if (p->hContact != NULL)
+		if (p->hContact != 0)
 			continue;
 
 		mir_free(p->eventData);
@@ -93,7 +93,7 @@ int TSAPI NEN_ReadOptions(NEN_OPTIONS *options)
 	options->iDelayMsg = (int)M.GetDword(MODULE, OPT_DELAY_MESSAGE, DEFAULT_DELAY);
 	options->iDelayOthers = (int)M.GetDword(MODULE, OPT_DELAY_OTHERS, DEFAULT_DELAY);
 	options->iDelayErr = (int)M.GetDword(MODULE, OPT_DELAY_ERR, DEFAULT_DELAY);
-	options->iDelayDefault = (int)DBGetContactSettingRangedWord(NULL, "Popup", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
+	options->iDelayDefault = (int)DBGetContactSettingRangedWord(0, "Popup", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
 	options->bShowHeaders = (BYTE)M.GetByte(MODULE, OPT_SHOW_HEADERS, FALSE);
 	options->bNoRSS = (BOOL)M.GetByte(MODULE, OPT_NORSS, FALSE);
 	options->iDisable = (BYTE)M.GetByte(MODULE, OPT_DISABLE, 0);
@@ -254,7 +254,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 				g_Settings.iPopupTimeout = SendDlgItemMessage(hWnd, IDC_DELAY_MESSAGE_MUC_SPIN, UDM_GETPOS, 0, 0);
 
 				if (IsDlgButtonChecked(hWnd, IDC_LIMITPREVIEW))
-					options->iLimitPreview = GetDlgItemInt(hWnd, IDC_MESSAGEPREVIEWLIMIT, NULL, FALSE);
+					options->iLimitPreview = GetDlgItemInt(hWnd, IDC_MESSAGEPREVIEWLIMIT, nullptr, FALSE);
 				else
 					options->iLimitPreview = 0;
 				Utils::enableDlgControl(hWnd, IDC_COLBACK_MESSAGE, !options->bDefaultColorMsg);
@@ -305,10 +305,10 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 			case PSN_APPLY:
 				// scan the tree view and obtain the options...
-				TreeViewToDB(GetDlgItem(hWnd, IDC_EVENTOPTIONS), CTranslator::TREE_NEN, NULL, NULL);
+				TreeViewToDB(GetDlgItem(hWnd, IDC_EVENTOPTIONS), CTranslator::TREE_NEN, nullptr, nullptr);
 
 				db_set_b(0, CHAT_MODULE, "PopupStyle", (BYTE)g_Settings.iPopupStyle);
-				db_set_w(NULL, CHAT_MODULE, "PopupTimeout", g_Settings.iPopupTimeout);
+				db_set_w(0, CHAT_MODULE, "PopupTimeout", g_Settings.iPopupTimeout);
 
 				g_Settings.crPUBkgColour = SendDlgItemMessage(hWnd, IDC_COLBACK_MUC, CPM_GETCOLOUR, 0, 0);
 				db_set_dw(0, CHAT_MODULE, "PopupColorBG", (DWORD)g_Settings.crPUBkgColour);
@@ -361,7 +361,7 @@ static int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATAT* pdata)
 static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	PLUGIN_DATAT *pdata = (PLUGIN_DATAT*)PUGetPluginData(hWnd);
-	if (pdata == NULL)
+	if (pdata == nullptr)
 		return FALSE;
 
 	switch (message) {
@@ -378,7 +378,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	case UM_INITPOPUP:
 		pdata->hWnd = hWnd;
 		if (pdata->iSeconds > 0)
-			SetTimer(hWnd, TIMER_TO_ACTION, pdata->iSeconds * 1000, NULL);
+			SetTimer(hWnd, TIMER_TO_ACTION, pdata->iSeconds * 1000, nullptr);
 		break;
 	case WM_MOUSEWHEEL:
 		break;
@@ -495,7 +495,7 @@ static int PopupUpdateT(MCONTACT hContact, MEVENT hEvent)
 	if (!pdata)
 		return 1;
 
-	if (hEvent == NULL)
+	if (hEvent == 0)
 		return 0;
 
 	wchar_t szHeader[256];
@@ -647,7 +647,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 
 static int TSAPI PopupPreview(NEN_OPTIONS *pluginOptions)
 {
-	PopupShowT(pluginOptions, NULL, NULL, EVENTTYPE_MESSAGE, NULL);
+	PopupShowT(pluginOptions, 0, 0, EVENTTYPE_MESSAGE, nullptr);
 	return 0;
 }
 
@@ -655,7 +655,7 @@ static int TSAPI PopupPreview(NEN_OPTIONS *pluginOptions)
 // bForced is used to only update the status, nickname etc. and does NOT update the unread count
 void TSAPI UpdateTrayMenuState(CTabBaseDlg *dat, BOOL bForced)
 {
-	if (PluginConfig.g_hMenuTrayUnread == 0 || dat->m_hContact == NULL)
+	if (PluginConfig.g_hMenuTrayUnread == 0 || dat->m_hContact == 0)
 		return;
 
 	MENUITEMINFO mii = { 0 };
@@ -686,7 +686,7 @@ void TSAPI UpdateTrayMenuState(CTabBaseDlg *dat, BOOL bForced)
 // if we want tray support, add the contact to the list of unread sessions in the tray menu
 int TSAPI UpdateTrayMenu(const CTabBaseDlg *dat, WORD wStatus, const char *szProto, const wchar_t *szStatus, MCONTACT hContact, DWORD fromEvent)
 {
-	if (!PluginConfig.g_hMenuTrayUnread || hContact == 0 || szProto == NULL)
+	if (!PluginConfig.g_hMenuTrayUnread || hContact == 0 || szProto == nullptr)
 		return 0;
 
 	PROTOACCOUNT *acc = Proto_GetAccount(szProto);
@@ -695,7 +695,7 @@ int TSAPI UpdateTrayMenu(const CTabBaseDlg *dat, WORD wStatus, const char *szPro
 		return 0;
 
 	WORD wMyStatus = (wStatus == 0) ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : wStatus;
-	const wchar_t	*szMyStatus = (szStatus == NULL) ? pcli->pfnGetStatusModeDescription(wMyStatus, 0) : szStatus;
+	const wchar_t	*szMyStatus = (szStatus == nullptr) ? pcli->pfnGetStatusModeDescription(wMyStatus, 0) : szStatus;
 
 	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
@@ -704,7 +704,7 @@ int TSAPI UpdateTrayMenu(const CTabBaseDlg *dat, WORD wStatus, const char *szPro
 	mii.hbmpItem = HBMMENU_CALLBACK;
 
 	wchar_t	szMenuEntry[80];
-	const wchar_t *szNick = NULL;
+	const wchar_t *szNick = nullptr;
 	if (dat != 0) {
 		szNick = dat->m_cache->getNick();
 		GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
@@ -764,13 +764,13 @@ int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, WORD eventType, int wi
 	*/
 
 	if (nen_options.dwStatusMask != -1) {
-		if (szProto != NULL) {
+		if (szProto != nullptr) {
 			DWORD dwStatus = (DWORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 			if (!(dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE || ((1 << (dwStatus - ID_STATUS_ONLINE)) & nen_options.dwStatusMask)))           // should never happen, but...
 				return 0;
 		}
 	}
-	if (nen_options.bNoRSS && szProto != NULL && !strncmp(szProto, "RSS", 3))
+	if (nen_options.bNoRSS && szProto != nullptr && !strncmp(szProto, "RSS", 3))
 		return 0;                                        // filter out RSS popups
 
 	if (windowOpen && pContainer != 0) {               // message window is open, need to check the container config if we want to see a popup nonetheless

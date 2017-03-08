@@ -74,8 +74,8 @@ void CGlobals::reloadSystemStartup()
 	SkinAddNewSoundEx("SendMsg", LPGEN("Instant messages"), LPGEN("Outgoing"));
 	SkinAddNewSoundEx("SendError", LPGEN("Instant messages"), LPGEN("Message send error"));
 
-	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
-	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
+	hCurSplitNS = LoadCursor(nullptr, IDC_SIZENS);
+	hCurSplitWE = LoadCursor(nullptr, IDC_SIZEWE);
 
 	HDC hScrnDC = GetDC(0);
 	m_DPIscaleX = GetDeviceCaps(hScrnDC, LOGPIXELSX) / 96.0;
@@ -142,7 +142,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_bSendOnDblEnter = M.GetBool("SendOnDblEnter", false);
 	m_bAutoLocaleSupport = M.GetBool("al", false);
 	m_bAutoSwitchTabs = M.GetBool("autoswitchtabs", true);
-	m_iTabNameLimit = db_get_w(NULL, SRMSGMOD_T, "cut_at", 15);
+	m_iTabNameLimit = db_get_w(0, SRMSGMOD_T, "cut_at", 15);
 	m_bCutContactNameOnTabs = M.GetBool("cuttitle", false);
 	m_bStatusOnTabs = M.GetBool("tabstatus", true);
 	m_bLogStatusChanges = M.GetBool("logstatuschanges", false);
@@ -298,7 +298,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 		db_set_b(0, SRMSGMOD_T, "avatarmode", 2);
 
 	PluginConfig.g_hwndHotkeyHandler = CreateWindowEx(0, L"TSHK", L"", WS_POPUP,
-		0, 0, 40, 40, 0, 0, g_hInst, NULL);
+		0, 0, 40, 40, 0, 0, g_hInst, nullptr);
 
 	::CreateTrayMenus(TRUE);
 	if (nen_options.bTraySupport)
@@ -360,7 +360,7 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	CContactCache *c = CContactCache::getContactCache(hContact);
 	const char *szProto = c->getProto();
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return 0;
 
 	if (!c->isValid())
@@ -401,7 +401,7 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 			PostMessage(hwnd, DM_UPDATEUIN, 0, 0);
 	}
 
-	if (hwnd != NULL) {
+	if (hwnd != nullptr) {
 		if (!strcmp(setting, "MirVer"))
 			PostMessage(hwnd, DM_CLIENTCHANGED, 0, 0);
 		if (fChanged || fExtendedStatusChange)
@@ -525,7 +525,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 			DBEVENTINFO dbei = {};
 			db_event_get(hDbEvent, &dbei);
 			if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_MESSAGE) {
-				if (M.FindWindow(hContact) != NULL)
+				if (M.FindWindow(hContact) != nullptr)
 					continue;
 
 				arEvents.insert(new MSavedEvent(hContact, hDbEvent));
@@ -556,7 +556,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 		return;
 
 	CSrmmWindow *dat = c->getDat();
-	if (dat == NULL || !c->isValid())
+	if (dat == nullptr || !c->isValid())
 		return;
 
 	MCONTACT hContact = c->getContact();
@@ -591,9 +591,9 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	dbei.cbBlob = (int)mir_strlen(szMsg) + 1;
 	dbei.flags = DBEF_UTF | DBEF_READ;
 	dbei.eventType = EVENTTYPE_STATUSCHANGE;
-	dbei.timestamp = time(NULL);
+	dbei.timestamp = time(nullptr);
 	dbei.szModule = (char*)c->getProto();
-	dat->StreamInEvents(NULL, 1, 1, &dbei);
+	dat->StreamInEvents(0, 1, 1, &dbei);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

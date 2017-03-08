@@ -100,21 +100,23 @@ static UINT FindLeftDownItem(HWND hwnd)
 /////////////////////////////////////////////////////////////////////////////////////////
 // tab control color definitions, including the database setting key names
 
-static struct colOptions
+struct colOptions
 {
 	UINT defclr;
 	char *szKey;
 	char *szSkinnedKey;
-} tabcolors[] = {
-	COLOR_BTNTEXT, "tab_txt_normal", "S_tab_txt_normal",
-	COLOR_BTNTEXT, "tab_txt_active", "S_tab_txt_active",
-	COLOR_HOTLIGHT, "tab_txt_hottrack", "S_tab_txt_hottrack",
-	COLOR_HOTLIGHT, "tab_txt_unread", "S_tab_txt_unread",
-	COLOR_3DFACE, "tab_bg_normal", "tab_bg_normal",
-	COLOR_3DFACE, "tab_bg_active", "tab_bg_active",
-	COLOR_3DFACE, "tab_bg_hottrack", "tab_bg_hottrack",
-	COLOR_3DFACE, "tab_bg_unread", "tab_bg_unread",
-	0, 0, NULL, NULL
+}
+static tabcolors[] =
+{
+	{ COLOR_BTNTEXT, "tab_txt_normal", "S_tab_txt_normal" },
+	{ COLOR_BTNTEXT, "tab_txt_active", "S_tab_txt_active" },
+	{ COLOR_HOTLIGHT, "tab_txt_hottrack", "S_tab_txt_hottrack" },
+	{ COLOR_HOTLIGHT, "tab_txt_unread", "S_tab_txt_unread" },
+	{ COLOR_3DFACE, "tab_bg_normal", "tab_bg_normal" },
+	{ COLOR_3DFACE, "tab_bg_active", "tab_bg_active" },
+	{ COLOR_3DFACE, "tab_bg_hottrack", "tab_bg_hottrack" },
+	{ COLOR_3DFACE, "tab_bg_unread", "tab_bg_unread" },
+	{ 0, 0, nullptr }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -162,7 +164,7 @@ void TSAPI FillTabBackground(const HDC hdc, int iStateId, const CTabBaseDlg *dat
 
 static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int nItem, CSrmmWindow *dat)
 {
-	if (dat == NULL)
+	if (dat == nullptr)
 		return;
 
 	InflateRect(rcItem, -2, -2);
@@ -200,7 +202,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 		if (dat->m_dwFlagsEx & MWF_SHOW_ISIDLE && PluginConfig.m_bIdleDetect)
 			CSkin::DrawDimmedIcon(dc, ix, iy, iSize, iSize, hIcon, 180);
 		else
-			DrawIconEx(dc, ix, iy, hIcon, iSize, iSize, 0, NULL, DI_NORMAL | DI_COMPAT);
+			DrawIconEx(dc, ix, iy, hIcon, iSize, iSize, 0, nullptr, DI_NORMAL | DI_COMPAT);
 	}
 
 	rcItem->left += (iSize + 2 + tabdat->m_xpad);
@@ -417,7 +419,7 @@ static HRESULT DrawThemesPartWithAero(const TabControlData *tabdat, HDC hDC, int
 			tabdat->helperGlowItem->Render(hDC, prcBox, true);
 	}
 	else if (tabdat->hTheme != 0) {
-		hResult = DrawThemeBackground(tabdat->hTheme, hDC, iPartId, iStateId, prcBox, NULL);
+		hResult = DrawThemeBackground(tabdat->hTheme, hDC, iPartId, iStateId, prcBox, nullptr);
 	}
 
 	return hResult;
@@ -431,7 +433,7 @@ static HRESULT DrawThemesPart(const TabControlData *tabdat, HDC hDC, int iPartId
 	HRESULT hResult = 0;
 
 	if (tabdat->hTheme != 0)
-		hResult = DrawThemeBackground(tabdat->hTheme, hDC, iPartId, iStateId, prcBox, NULL);
+		hResult = DrawThemeBackground(tabdat->hTheme, hDC, iPartId, iStateId, prcBox, nullptr);
 
 	return hResult;
 }
@@ -446,7 +448,7 @@ static void DrawThemesXpTabItem(HDC pDC, RECT *rcItem, UINT uiFlag, TabControlDa
 	BOOL bSel = (uiFlag & 2) ? TRUE : FALSE;
 	BOOL bHot = (uiFlag & 4) ? TRUE : FALSE;
 	BOOL bBottom = (uiFlag & 8) ? TRUE : FALSE;	// mirror
-	LPBYTE pcImg = NULL;
+	LPBYTE pcImg = nullptr;
 	int nStart = 0, nLenSub = 0;
 
 	SIZE szBmp;
@@ -589,10 +591,10 @@ static POINT ptMouseT = { 0 };
 
 static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 {
-	if (tabdat == NULL || tabdat->pContainer == NULL)
+	if (tabdat == nullptr || tabdat->pContainer == nullptr)
 		return;
 
-	if (GetUpdateRect(hwnd, NULL, TRUE) == 0)
+	if (GetUpdateRect(hwnd, nullptr, TRUE) == 0)
 		return;
 
 	RECT  rectTemp, rctPage, rctActive, rcItem, rctClip, rctOrig;
@@ -606,7 +608,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	GetCursorPos(&pt);
 	int hotItem = GetTabItemFromMouse(hwnd, &pt);
 	if (tabdat->iHoveredTabIndex != hotItem)
-		InvalidateRect(hwnd, NULL, FALSE);
+		InvalidateRect(hwnd, nullptr, FALSE);
 	tabdat->iHoveredTabIndex = hotItem;
 
 	TCITEM tci = {};
@@ -932,7 +934,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	POINT pt;
 	TabControlData *tabdat = (TabControlData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (tabdat) {
-		if (tabdat->pContainer == NULL)
+		if (tabdat->pContainer == nullptr)
 			tabdat->pContainer = (TContainerData*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 		tabdat->dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 	}
@@ -978,14 +980,14 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		// it is sufficient to search it once. So this message is called, whenever
 		// a new tab is inserted
 		HWND hwndChild;
-		if ((hwndChild = FindWindowEx(hwnd, 0, L"msctls_updown32", NULL)) != 0)
+		if ((hwndChild = FindWindowEx(hwnd, 0, L"msctls_updown32", nullptr)) != 0)
 			DestroyWindow(hwndChild);
 
 		return 0;
 
 	case EM_VALIDATEBOTTOM:
 		if ((tabdat->dwStyle & TCS_BOTTOM) && tabdat->m_VisualStyles != 0 && PluginConfig.tabConfig.m_bottomAdjust != 0)
-			InvalidateRect(hwnd, NULL, FALSE);
+			InvalidateRect(hwnd, nullptr, FALSE);
 		break;
 
 	case EM_REFRESHWITHOUTCLIP:
@@ -993,7 +995,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			return 0;
 
 		tabdat->bRefreshWithoutClip = TRUE;
-		RedrawWindow(hwnd, NULL, NULL, RDW_UPDATENOW | RDW_NOCHILDREN | RDW_INVALIDATE);
+		RedrawWindow(hwnd, nullptr, nullptr, RDW_UPDATENOW | RDW_NOCHILDREN | RDW_INVALIDATE);
 		tabdat->bRefreshWithoutClip = FALSE;
 		return 0;
 
@@ -1037,7 +1039,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	case WM_SETCURSOR:
 		GetCursorPos(&pt);
-		InvalidateRect(hwnd, NULL, FALSE); /* wine: fix for erase/paint tab on mouse enter/leave tab. */
+		InvalidateRect(hwnd, nullptr, FALSE); /* wine: fix for erase/paint tab on mouse enter/leave tab. */
 		SendMessage(GetParent(hwnd), msg, wParam, lParam);
 		if (abs(pt.x - ptMouseT.x) < 4 && abs(pt.y - ptMouseT.y) < 4)
 			return 1;
@@ -1109,7 +1111,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				int i = GetTabItemFromMouse(hwnd, &pt);
 				if (i != -1) {
 					TCITEM tc;
-					CSrmmWindow *dat = NULL;
+					CSrmmWindow *dat = nullptr;
 
 					tc.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwnd, i, &tc);
@@ -1189,12 +1191,12 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			int iOld = tabdat->iHoveredTabIndex;
 			tabdat->iHoveredTabIndex = GetTabItemFromMouse(hwnd, &pt);
 			if (tabdat->iHoveredTabIndex != iOld)
-				InvalidateRect(hwnd, NULL, FALSE);
+				InvalidateRect(hwnd, nullptr, FALSE);
 			if (tabdat->fCloseButton && tabdat->iHoveredTabIndex != -1) {
 				iOld = tabdat->iHoveredCloseIcon;
 				tabdat->iHoveredCloseIcon = TabCtrl_TestForCloseButton(tabdat, hwnd, &pt);
 				if (tabdat->iHoveredCloseIcon != iOld)
-					InvalidateRect(hwnd, NULL, FALSE);
+					InvalidateRect(hwnd, nullptr, FALSE);
 			}
 		}
 		break;
@@ -1203,7 +1205,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		{
 			LRESULT res = CallWindowProc(OldTabControlClassProc, hwnd, msg, wParam, lParam);
 			if (res != HTCLIENT)
-				InvalidateRect(hwnd, NULL, FALSE);
+				InvalidateRect(hwnd, nullptr, FALSE);
 			return (res);
 		}
 		break;
@@ -1222,7 +1224,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			if (i != -1 && i != tabdat->iBeginIndex)
 				RearrangeTab(tabdat->hwndDrag, tabdat->dragDat, MAKELONG(i, 0xffff), tabdat->fSavePos);
 			tabdat->hwndDrag = (HWND)-1;
-			tabdat->dragDat = NULL;
+			tabdat->dragDat = nullptr;
 			if (tabdat->himlDrag) {
 				ImageList_RemoveAll(tabdat->himlDrag);
 				ImageList_Destroy(tabdat->himlDrag);
@@ -1247,7 +1249,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		return 0;
 
 	case WM_TIMER:
-		InvalidateRect(hwnd, NULL, FALSE); /* wine: fix for erase/paint tab on mouse enter/leave tab. */
+		InvalidateRect(hwnd, nullptr, FALSE); /* wine: fix for erase/paint tab on mouse enter/leave tab. */
 		if (wParam == TIMERID_HOVER_T &&  M.GetByte("d_tooltips", 0)) {
 			KillTimer(hwnd, TIMERID_HOVER_T);
 
@@ -1288,7 +1290,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				SendMessage(GetParent(hwnd), DM_SELECTTAB, DM_SELECT_PREV, 0);
 			else if (amount < 0)
 				SendMessage(GetParent(hwnd), DM_SELECTTAB, DM_SELECT_NEXT, 0);
-			InvalidateRect(hwnd, NULL, FALSE);
+			InvalidateRect(hwnd, nullptr, FALSE);
 		}
 		break;
 
@@ -1320,7 +1322,7 @@ void TSAPI ReloadTabConfig()
 	SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), &nclim, 0);
 	PluginConfig.tabConfig.m_hMenuFont = CreateFontIndirect(&nclim.lfMessageFont);
 
-	for (int i = 0; tabcolors[i].szKey != NULL; i++)
+	for (int i = 0; tabcolors[i].szKey != nullptr; i++)
 		PluginConfig.tabConfig.colors[i] = M.GetDword(CSkin::m_skinEnabled ? tabcolors[i].szSkinnedKey : tabcolors[i].szKey, GetSysColor(tabcolors[i].defclr));
 
 	PluginConfig.tabConfig.m_brushes[0] = CreateSolidBrush(PluginConfig.tabConfig.colors[4]);
@@ -1408,8 +1410,8 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			case PSN_APPLY:
 				BOOL translated;
 
-				db_set_b(0, SRMSGMOD_T, "y-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE)));
-				db_set_b(0, SRMSGMOD_T, "x-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE)));
+				db_set_b(0, SRMSGMOD_T, "y-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_TABPADDING, nullptr, FALSE)));
+				db_set_b(0, SRMSGMOD_T, "x-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_HTABPADDING, nullptr, FALSE)));
 				db_set_b(0, SRMSGMOD_T, "tborder", (BYTE)GetDlgItemInt(hwndDlg, IDC_TABBORDER, &translated, FALSE));
 				db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_left" : "tborder_outer_left", (BYTE)GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTER, &translated, FALSE));
 				db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_right" : "tborder_outer_right", (BYTE)GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERRIGHT, &translated, FALSE));
@@ -1425,8 +1427,8 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 				for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
 					HWND hwndTab = GetDlgItem(p->hwnd, IDC_MSGTABS);
-					TabCtrl_SetPadding(hwndTab, GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE), GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE));
-					RedrawWindow(hwndTab, NULL, NULL, RDW_INVALIDATE | RDW_ERASE);
+					TabCtrl_SetPadding(hwndTab, GetDlgItemInt(hwndDlg, IDC_HTABPADDING, nullptr, FALSE), GetDlgItemInt(hwndDlg, IDC_TABPADDING, nullptr, FALSE));
+					RedrawWindow(hwndTab, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE);
 				}
 				return TRUE;
 			}
@@ -1467,28 +1469,28 @@ int TSAPI RegisterTabCtrlClass(void)
 
 	wc.lpszClassName = L"TSTabCtrlClass";
 	wc.lpfnWndProc = TabControlSubclassProc;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.cbWndExtra = sizeof(TabControlData*);
 	wc.style = CS_GLOBALCLASS | CS_DBLCLKS | CS_PARENTDC;
 	RegisterClassEx(&wc);
 
 	wc.lpszClassName = L"TSStatusBarClass";
 	wc.lpfnWndProc = StatusBarSubclassProc;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.cbWndExtra = sizeof(void*);
 	wc.style = CS_GLOBALCLASS | CS_DBLCLKS | CS_PARENTDC;
 	RegisterClassEx(&wc);
 
 	wc.lpszClassName = L"TS_SideBarClass";
 	wc.lpfnWndProc = CSideBar::wndProcStub;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.cbWndExtra = sizeof(void*);
 	wc.style = CS_GLOBALCLASS;// | CS_DBLCLKS; // | CS_PARENTDC;
 	RegisterClassEx(&wc);
 
 	wc.lpszClassName = L"TSHK";
 	wc.lpfnWndProc = HotkeyHandlerDlgProc;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.cbWndExtra = sizeof(void*);
 	wc.style = CS_GLOBALCLASS;// | CS_DBLCLKS; // | CS_PARENTDC;
 	RegisterClassEx(&wc);
