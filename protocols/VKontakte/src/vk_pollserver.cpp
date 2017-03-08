@@ -34,8 +34,14 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 
 	JSONNode jnRoot;
 	JSONNode jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
-	if (!jnResponse)
+	if (!jnResponse) {
+		if (!pReq->bNeedsRestart) {
+			debugLogA("CVkProto::OnReceivePollingInfo PollingThread not start (getLongPollServer error)");
+			m_pollingConn = NULL;
+			ShutdownSession();
+		}
 		return;
+	}
 
 	char ts[32];
 	itoa(jnResponse["ts"].as_int(), ts, 10);
