@@ -649,7 +649,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 	}
 
 	if (si->iLogFilterFlags == 0)
-		si->bFilterEnabled = 0;
+		si->bFilterEnabled = false;
 }
 
 char GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex)

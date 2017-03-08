@@ -304,7 +304,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				u = IsDlgButtonChecked(GetParent(hwnd), IDC_COLOR);
 
 				if (index >= 0) {
-					si->bFGSet = TRUE;
+					si->bFGSet = true;
 					si->iFG = index;
 				}
 

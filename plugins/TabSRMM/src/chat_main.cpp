@@ -36,7 +36,7 @@ TMUCSettings g_Settings;
 
 static void OnCreateSession(SESSION_INFO *si, MODULEINFO *mi)
 {
-	si->bFilterEnabled = db_get_b(si->hContact, "Chat", "FilterEnabled", M.GetByte("Chat", "FilterEnabled", 0));
+	si->bFilterEnabled = db_get_b(si->hContact, "Chat", "FilterEnabled", M.GetByte("Chat", "FilterEnabled", 0)) != 0;
 
 	Chat_SetFilters(si);
 	if (mi) {

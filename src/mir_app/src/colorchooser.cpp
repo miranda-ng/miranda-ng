@@ -140,7 +140,7 @@ public:
 				int ctrlId = GetDlgCtrlID(m_hwndChooser);
 
 				if (m_bForeground) {
-					m_si->bFGSet = TRUE;
+					m_si->bFGSet = true;
 					m_si->iFG = iCurrentHotTrack;
 					if (IsDlgButtonChecked(hWindow, ctrlId)) {
 						cf.dwMask = CFM_COLOR;
@@ -149,7 +149,7 @@ public:
 					}
 				}
 				else {
-					m_si->bBGSet = TRUE;
+					m_si->bBGSet = true;
 					m_si->iBG = iCurrentHotTrack;
 					if (IsDlgButtonChecked(hWindow, ctrlId)) {
 						cf.dwMask = CFM_BACKCOLOR;

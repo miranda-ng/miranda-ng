@@ -161,7 +161,7 @@ BOOL SM_SetOffline(const wchar_t *pszID, const char *pszModule)
 		si->pMe = NULL;
 		si->nUsersInNicklist = 0;
 		if (si->iType != GCW_SERVER)
-			si->bInitDone = FALSE;
+			si->bInitDone = false;
 		if (chatApi.OnOfflineSession)
 			chatApi.OnOfflineSession(si);
 		if (pszID)

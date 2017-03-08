@@ -868,7 +868,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				UINT u = IsDlgButtonChecked(GetParent(hwnd), IDC_COLOR);
 
 				if (index >= 0) {
-					mwdat->si->bFGSet = TRUE;
+					mwdat->si->bFGSet = true;
 					mwdat->si->iFG = index;
 				}
 
@@ -884,7 +884,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				UINT u = IsDlgButtonChecked(hwndParent, IDC_BKGCOLOR);
 
 				if (index >= 0) {
-					mwdat->si->bBGSet = TRUE;
+					mwdat->si->bBGSet = true;
 					mwdat->si->iBG = index;
 				}
 
@@ -1776,7 +1776,7 @@ void CChatRoomDlg::OnClick_Filter(CCtrlButton *pButton)
 
 	if (si->iLogFilterFlags == 0 && !si->bFilterEnabled) {
 		MessageBox(0, TranslateT("The filter cannot be enabled, because there are no event types selected either global or for this chat room"), TranslateT("Event filter error"), MB_OK);
-		si->bFilterEnabled = 0;
+		si->bFilterEnabled = false;
 	}
 	else si->bFilterEnabled = !si->bFilterEnabled;
 

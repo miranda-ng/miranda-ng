@@ -174,12 +174,13 @@ struct GCSessionInfoBase
 {
 	HWND        hWnd;
 
-	BOOL        bFGSet;
-	BOOL        bBGSet;
-	BOOL        bFilterEnabled;
-	BOOL        bNicklistEnabled;
-	BOOL        bInitDone;
-	BOOL        bTrimmed;
+	bool        bFGSet;
+	bool        bBGSet;
+	bool        bFilterEnabled;
+	bool        bNicklistEnabled;
+	bool        bInitDone;
+	bool        bHasToolTip;
+	bool        bTrimmed;
 
 	char*       pszModule;
 	wchar_t*    ptszID;
@@ -200,11 +201,10 @@ struct GCSessionInfoBase
 	WORD        wStatus;
 	WORD        wState;
 	WORD        wCommandsNum;
-	void       *pItemData;
+	void*       pItemData;
 	MCONTACT    hContact;
 	time_t      LastTime;
 
-	BOOL        isToolTip;
 	int         currentHovered;
 
 	COMMANDINFO* lpCommands;

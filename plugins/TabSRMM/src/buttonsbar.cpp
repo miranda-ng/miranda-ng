@@ -206,8 +206,6 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 	if (!m_hwnd || !IsWindowVisible(m_hwnd))
 		return 0;
 
-	HWND hwndButton = 0;
-
 	BYTE gap = DPISCALEX_S(db_get_b(0, SRMSGMOD, "ButtonsBarGap", 1));
 	bool showToolbar = !(m_pContainer->dwFlags & CNT_HIDETOOLBAR);
 	bool bBottomToolbar = (m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR) != 0;
@@ -247,7 +245,7 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 			continue;
 
 		if (((m_bType == SESSIONTYPE_IM) && cbd->m_bIMButton) || ((m_bType == SESSIONTYPE_CHAT) && cbd->m_bChatButton)) {
-			hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
+			HWND hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
 
 			if (!showToolbar) {
 				ShowWindow(hwndButton, SW_HIDE);
@@ -297,7 +295,7 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 			continue;
 
 		if (((m_bType == SESSIONTYPE_IM) && cbd->m_bIMButton) || ((m_bType == SESSIONTYPE_CHAT) && cbd->m_bChatButton)) {
-			hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
+			HWND hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
 
 			if (!showToolbar) {
 				ShowWindow(hwndButton, SW_HIDE);

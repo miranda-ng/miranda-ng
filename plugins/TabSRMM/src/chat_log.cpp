@@ -895,7 +895,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 	if (oldsel.cpMax != oldsel.cpMin)
 		SendMessage(hwndRich, WM_SETREDRAW, FALSE, 0);
 
-	//set the insertion point at the bottom
+	// set the insertion point at the bottom
 	sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich);
 	SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&sel);
 
@@ -906,7 +906,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 	// should the event(s) be appended to the current log
 	WPARAM wp = bRedraw ? SF_RTF : SFF_SELECTION | SF_RTF;
 
-	//get the number of pixels per logical inch
+	// get the number of pixels per logical inch
 	if (bRedraw) {
 		HDC hdc = GetDC(nullptr);
 		pci->logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
@@ -914,7 +914,6 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 		ReleaseDC(nullptr, hdc);
 		SendMessage(hwndRich, WM_SETREDRAW, FALSE, 0);
 		bFlag = true;
-		//			SetCursor(LoadCursor(nullptr, IDC_ARROW));
 	}
 
 	// stream in the event(s)
@@ -997,7 +996,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 			SendMessage(hwndRich, EM_SETSEL, 0, fi.chrgText.cpMax + 1);
 			SendMessage(hwndRich, EM_REPLACESEL, TRUE, (LPARAM)L"");
 		}
-		si->bTrimmed = FALSE;
+		si->bTrimmed = false;
 	}
 
 	// scroll log to bottom if the log was previously scrolled to bottom, else restore old position

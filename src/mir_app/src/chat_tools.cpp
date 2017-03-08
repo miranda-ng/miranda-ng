@@ -868,7 +868,7 @@ static void CALLBACK ChatTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 
 		CLCINFOTIP ti = { sizeof(ti) };
 		if (CallService("mToolTip/ShowTipW", (WPARAM)tszBuf, (LPARAM)&ti))
-			si->isToolTip = TRUE;
+			si->bHasToolTip = true;
 	}
 	KillTimer(hwnd, idEvent);
 }
@@ -894,9 +894,9 @@ MIR_APP_DLL(void) Chat_HoverMouse(SESSION_INFO *si, HWND hwnd, LPARAM lParam, bo
 
 				KillTimer(hwnd, 1);
 
-				if (si->isToolTip) {
+				if (si->bHasToolTip) {
 					CallService("mToolTip/HideTip", 0, 0);
-					si->isToolTip = FALSE;
+					si->bHasToolTip = false;
 				}
 
 				if (nItemUnderMouse != -1)
@@ -907,9 +907,9 @@ MIR_APP_DLL(void) Chat_HoverMouse(SESSION_INFO *si, HWND hwnd, LPARAM lParam, bo
 		else {
 			if (bUseToolTip) {
 				KillTimer(hwnd, 1);
-				if (si->isToolTip) {
+				if (si->bHasToolTip) {
 					CallService("mToolTip/HideTip", 0, 0);
-					si->isToolTip = FALSE;
+					si->bHasToolTip = false;
 				}
 			}
 			else ProcessNickListHovering(hwnd, -1, NULL);
