@@ -1350,8 +1350,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (IsIconic(m_hwnd)) break;
 
 		if (wParam == SIZE_RESTORED || wParam == SIZE_MAXIMIZED) {
-			GetClientRect(m_pParent->hwndTabs, &rc);
-			TabCtrl_AdjustRect(m_pParent->hwndTabs, false, &rc);
+			GetClientRect(m_hwnd, &rc);
 			MessageDialogResize(rc.right - rc.left, rc.bottom - rc.top);
 		}
 		break;

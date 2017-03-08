@@ -1388,8 +1388,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_SIZE:
 		if (wParam == SIZE_RESTORED || wParam == SIZE_MAXIMIZED) {
 			RECT rc;
-			GetClientRect(m_pParent->hwndTabs, &rc);
-			TabCtrl_AdjustRect(m_pParent->hwndTabs, false, &rc);
+			GetClientRect(m_hwnd, &rc);
 			MessageDialogResize(rc.right - rc.left, rc.bottom - rc.top);
 		}
 		return TRUE;
