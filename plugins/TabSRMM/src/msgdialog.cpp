@@ -786,7 +786,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 {
 	RECT rc;
 	HWND hwndParent = GetParent(hwnd);
-	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
+	CTabBaseDlg *dat = (CTabBaseDlg*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_NCHITTEST:
@@ -798,13 +798,11 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return TRUE;
 
 	case WM_LBUTTONDOWN:
-		if (hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY) || hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY)) {
-			if (dat) {
-				GetClientRect(hwnd, &rc);
-				dat->m_iSavedMultiSplit = rc.right > rc.bottom ? (short)HIWORD(GetMessagePos()) + rc.bottom / 2 : (short)LOWORD(GetMessagePos()) + rc.right / 2;
-				dat->m_savedSplitterY = dat->m_iSplitterY;
-				dat->m_savedDynaSplit = dat->m_dynaSplitter;
-			}
+		if (hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY)) {
+			GetClientRect(hwnd, &rc);
+			dat->m_iSavedMultiSplit = rc.right > rc.bottom ? (short)HIWORD(GetMessagePos()) + rc.bottom / 2 : (short)LOWORD(GetMessagePos()) + rc.right / 2;
+			dat->m_savedSplitterY = dat->m_iSplitterY;
+			dat->m_savedDynaSplit = dat->m_dynaSplitter;
 		}
 		SetCapture(hwnd);
 		return 0;
@@ -845,22 +843,22 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 		ReleaseCapture();
 		dat->DM_ScrollToBottom(0, 1);
-		if (dat && dat->m_bType == SESSIONTYPE_IM && hwnd == GetDlgItem(hwndParent, IDC_PANELSPLITTER)) {
+		if (dat->m_bType == SESSIONTYPE_IM && hwnd == GetDlgItem(hwndParent, IDC_PANELSPLITTER)) {
 			SendMessage(hwndParent, WM_SIZE, 0, 0);
 			RedrawWindow(hwndParent, NULL, NULL, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW);
 		}
-		else if ((dat && dat->m_bType == SESSIONTYPE_IM && hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY)) ||
-			(dat && dat->m_bType == SESSIONTYPE_CHAT && hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY))) {
-			POINT pt;
-			int selection;
+		else if (hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY)) {
 			HMENU hMenu = GetSubMenu(PluginConfig.g_hMenuContext, 12);
 			LONG messagePos = GetMessagePos();
 
 			GetClientRect(hwnd, &rc);
 			if (hwndCapture != hwnd || dat->m_iSavedMultiSplit == (rc.right > rc.bottom ? (short)HIWORD(messagePos) + rc.bottom / 2 : (short)LOWORD(messagePos) + rc.right / 2))
 				break;
+
+			POINT pt;
 			GetCursorPos(&pt);
 
+			int selection;
 			if (dat->m_bIsAutosizingInput)
 				selection = ID_SPLITTERCONTEXT_SETPOSITIONFORTHISSESSION;
 			else

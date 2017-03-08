@@ -282,6 +282,7 @@ public:
 	int      m_originalSplitterY;
 	int      m_iSplitterY, m_dynaSplitter;
 	int      m_savedSplitterY, m_savedDynaSplit;
+	int      m_iSavedMultiSplit, m_iMultiSplit;
 	SIZE     m_minEditBoxSize;
 	int      m_nTypeSecs;
 	int      m_nTypeMode;
@@ -439,7 +440,6 @@ class CSrmmWindow : public CTabBaseDlg
 
 public:
 	int msgTop, rcLogBottom;
-	int m_iSavedMultiSplit, m_iMultiSplit;
 	wchar_t *wszInitialText;
 	bool m_bActivate, m_bWantPopup;
 
