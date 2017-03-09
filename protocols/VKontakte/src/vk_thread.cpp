@@ -487,10 +487,11 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 		return;
 	}
 
-	CMStringW code(FORMAT, L"var userIDs=\"%i\";var res=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});return{\"freeoffline\":0,\"norepeat\":1,\"usercount\":res.length,\"users\":res};",
-		userID, CMStringW(fieldsName));
-	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
-		<< WCHAR_PARAM("code", code));
+	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.RetrieveUserInfo", true, &CVkProto::OnReceiveUserInfo)
+		<< INT_PARAM("userid", userID)
+		<< CHAR_PARAM("fields", fieldsName)
+	);
+
 }
 
 void CVkProto::RetrieveGroupInfo(LONG groupID)
@@ -521,7 +522,7 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 	if (!IsOnline())
 		return;
 
-	CMStringW userIDs, code;
+	CMStringA userIDs;
 	int i = 0;
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
@@ -534,33 +535,21 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 
 		if (!userIDs.IsEmpty())
 			userIDs.AppendChar(',');
-		userIDs.AppendFormat(L"%i", userID);
+		userIDs.AppendFormat("%i", userID);
 
 		if (i == MAX_CONTACTS_PER_REQUEST)
 			break;
 		i++;
 	}
 
-	CMStringW codeformat("var userIDs=\"%s\";var _fields=\"%s\";");
+	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.RetrieveUsersInfo", true, &CVkProto::OnReceiveUserInfo)
+		<< CHAR_PARAM("userids", userIDs)
+		<< CHAR_PARAM("fields", (bFreeOffline ? "online,status" : fieldsName))
+		<< INT_PARAM("norepeat", (int)bRepeat)
+		<< INT_PARAM("setonline", (int)m_bNeedSendOnline)
+		<< INT_PARAM("func_v", (bFreeOffline && !m_vkOptions.bLoadFullCList) ? 1 : 2)
+	);
 
-	if (m_bNeedSendOnline)
-		codeformat += L"API.account.setOnline();";
-
-	if (bFreeOffline && !m_vkOptions.bLoadFullCList)
-		codeformat += CMStringW("var US=[];var res=API.users.get({\"user_ids\":API.friends.getOnline(),\"fields\":_fields,\"name_case\":\"nom\"});"
-			"var t=10;while(t>0){"
-			"US=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});"
-			"var index=US.length;while(index>0){"
-			"index=index-1;if(US[index].online!=0){res.push(US[index]);};};"
-			"t=t-1;if(res.length>0)t=0;};"
-			"return{\"freeoffline\":1,\"norepeat\":%d,\"usercount\":res.length,\"users\":res,\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
-	else
-		codeformat += CMStringW("var res=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});"
-			"return{\"freeoffline\":0,\"norepeat\":%d,\"usercount\":res.length,\"users\":res,\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
-	code.AppendFormat(codeformat, userIDs, CMStringW(bFreeOffline ? "online,status" : fieldsName), (int)bRepeat);
-
-	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
-		<< WCHAR_PARAM("code", code));
 }
 
 void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)

@@ -180,10 +180,10 @@ void CVkProto::RetrieveStatusMusic(const CMStringW &StatusMsg)
 	debugLogA("CVkProto::RetrieveStatusMusic");
 	if (!IsOnline() || m_iStatus == ID_STATUS_INVISIBLE || m_vkOptions.iMusicSendMetod == MusicSendMetod::sendNone)
 		return;
-
-	CMStringW code;
+	
 	CMStringW wszOldStatusMsg(db_get_wsa(0, m_szModuleName, "OldStatusMsg"));
 	if (StatusMsg.IsEmpty()) {
+		CMStringW code;
 		if (m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastOnly)
 			code = "API.audio.setBroadcast();return null;";
 		else {
@@ -191,41 +191,16 @@ void CVkProto::RetrieveStatusMusic(const CMStringW &StatusMsg)
 			code.AppendFormat(codeformat, wszOldStatusMsg);
 		}
 		m_bSetBroadcast = false;
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveStatus)
+			<< WCHAR_PARAM("code", code));
 	}
 	else {
-		if (m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastOnly) {
-			CMStringW codeformat("var StatusMsg=\"%s\";var CntLmt=100;var OldMsg=API.status.get();"
-				"var Tracks=API.audio.search({\"q\":StatusMsg,\"count\":CntLmt,\"search_own\":1});"
-				"var Cnt=Tracks.count;if(Cnt>CntLmt){Cnt=CntLmt;}"
-				"if(Cnt==0){API.audio.setBroadcast();}"
-				"else{var i=0;var j=0;var Track=\" \";"
-				"while(i<Cnt){Track=Tracks.items[i].artist+\" - \"+Tracks.items[i].title;if(Track==StatusMsg){j=i;}i=i+1;}"
-				"Track=Tracks.items[j].owner_id+\"_\"+Tracks.items[j].id;API.audio.setBroadcast({\"audio\":Track});"
-				"};return OldMsg;");
-			code.AppendFormat(codeformat, StatusMsg);
-		}
-		else if (m_vkOptions.iMusicSendMetod == MusicSendMetod::sendStatusOnly) {
-			CMStringW codeformat("var StatusMsg=\"&#9835; %s\";var OldMsg=API.status.get();"
-				"API.status.set({\"text\":StatusMsg});"
-				"return OldMsg;");
-			code.AppendFormat(codeformat, StatusMsg);
-		}
-		else if (m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastAndStatus) {
-			CMStringW codeformat("var StatusMsg=\"%s\";var CntLmt=100;var Track=\" \";var OldMsg=API.status.get();"
-				"var Tracks=API.audio.search({\"q\":StatusMsg,\"count\":CntLmt,\"search_own\":1});"
-				"var Cnt=Tracks.count;if(Cnt>CntLmt){Cnt=CntLmt;}"
-				"if(Cnt==0){Track=\"&#9835; \"+StatusMsg;API.status.set({\"text\":Track});}"
-				"else{var i=0;var j=-1;"
-				"while(i<Cnt){Track=Tracks.items[i].artist+\" - \"+Tracks.items[i].title;if(Track==StatusMsg){j=i;}i=i+1;}"
-				"if(j==-1){Track=\"&#9835; \"+StatusMsg;API.status.set({\"text\":Track});}else{"
-				"Track=Tracks.items[j].owner_id+\"_\"+Tracks.items[j].id;};API.audio.setBroadcast({\"audio\":Track});"
-				"};return OldMsg;");
-			code.AppendFormat(codeformat, StatusMsg);
-		}
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.RetrieveStatusMusic", true, &CVkProto::OnReceiveStatus)
+			<< WCHAR_PARAM("statusmsg", StatusMsg)
+			<< INT_PARAM("func_v", (int)(m_vkOptions.iMusicSendMetod))
+		);
 		m_bSetBroadcast = true;
 	}
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveStatus)
-		<< WCHAR_PARAM("code", code));
 }
 
 INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM, LPARAM lParam)

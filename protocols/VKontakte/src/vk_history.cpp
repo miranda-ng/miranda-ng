@@ -123,20 +123,15 @@ void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int 
 	if (VK_INVALID_USER == userID || userID == VK_FEED_USER)
 		return;
 
-	CMStringA code(FORMAT, "var iOffset=%d;var iReqCount=%d;var userID=%d;var iTime=%d;var lastMid=%d;"
-		"var Hist=API.messages.getHistory({\"user_id\":userID,\"count\":iReqCount,\"offset\":iOffset});"
-		"var ext=Hist.items.length;var index=0;"
-		"while(ext!=0){if(Hist.items[index].date>iTime){if(Hist.items[index].id>lastMid)"
-		"{index=index+1;ext=ext-1;}else ext=0;}else ext=0;};"
-		"var ret=Hist.items.slice(0,index);"
-		"var FMsgs=ret@.fwd_messages;var Idx=0;var Uids=[];while(Idx<FMsgs.length){"
-		"var Jdx=0;var CFMsgs=parseInt(FMsgs[Idx].length);while(Jdx<CFMsgs){"
-		"Uids.unshift(FMsgs[Idx][Jdx].user_id);Jdx=Jdx+1;};Idx=Idx+1;};"
-		"var FUsers=API.users.get({\"user_ids\":Uids,\"name_case\":\"gen\"});"
-		"return{\"count\":index,\"datetime\":iTime,\"items\":ret,\"fwd_users\":FUsers,\"once\":%d,\"rcount\":iReqCount};",
-		iOffset, iCount, userID, iTime, iLastMsgId, (int)once);
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveHistoryMessages, AsyncHttpRequest::rpLow)
-		<< CHAR_PARAM("code", code))->pUserInfo = new CVkSendMsgParam(hContact, iLastMsgId, iOffset);
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.GetServerHistory", true, &CVkProto::OnReceiveHistoryMessages, AsyncHttpRequest::rpLow)
+		<< INT_PARAM("reqcount", iCount)
+		<< INT_PARAM("offset", iOffset)
+		<< INT_PARAM("userid", userID)
+		<< INT_PARAM("time", iTime)
+		<< INT_PARAM("lastmid", iLastMsgId)
+		<< INT_PARAM("once", (int)once)
+	)->pUserInfo = new CVkSendMsgParam(hContact, iLastMsgId, iOffset);
+
 }
 
 void CVkProto::GetHistoryDlg(MCONTACT hContact, int iLastMsg)

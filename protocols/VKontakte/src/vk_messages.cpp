@@ -198,21 +198,9 @@ void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
 	if (!IsOnline() || mids.IsEmpty())
 		return;
 
-	CMStringA code(FORMAT, "var Mids=\"%s\";"
-		"var Msgs=API.messages.getById({\"message_ids\":Mids});"
-		"var FMsgs=Msgs.items@.fwd_messages;"
-		"var Idx=0;var Uids=[];"
-		"while(Idx<FMsgs.length){"
-		"var Jdx=0;var CFMsgs=parseInt(FMsgs[Idx].length);"
-		"while(Jdx<CFMsgs){Uids.unshift(FMsgs[Idx][Jdx].user_id);"
-		"Jdx=Jdx+1;};Idx=Idx+1;};"
-		"var FUsers=API.users.get({\"user_ids\":Uids,\"name_case\":\"gen\"});"
-		"return{\"Msgs\":Msgs,\"fwd_users\":FUsers};",
-		mids
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.RetrieveMessagesByIds", true, &CVkProto::OnReceiveMessages, AsyncHttpRequest::rpHigh)
+		<< CHAR_PARAM("mids", mids)
 	);
-
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveMessages, AsyncHttpRequest::rpHigh)
-		<< CHAR_PARAM("code", code));
 }
 
 void CVkProto::RetrieveUnreadMessages()
@@ -221,10 +209,7 @@ void CVkProto::RetrieveUnreadMessages()
 	if (!IsOnline())
 		return;
 
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveDlgs, AsyncHttpRequest::rpHigh)
-		<< CHAR_PARAM("code", "var dlg=API.messages.getDialogs({\"count\":200});"
-			"var users=API.friends.areFriends({\"user_ids\":dlg.items@.message@.user_id});var groups=API.groups.get();"
-			"return{\"dialogs\":dlg, \"users\":users, \"groups\":groups.items};"));
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.RetrieveUnreadMessages", true, &CVkProto::OnReceiveDlgs, AsyncHttpRequest::rpHigh));
 }
 
 void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)

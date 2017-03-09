@@ -713,7 +713,8 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 		m_vkOptions.bNotificationFilterInvites ? L",\"groupinvates\":API.groups.getInvites({\"extended\":1})};" : L"};");
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveUnreadNotifications)
-		<< WCHAR_PARAM("code", code)		);
+		<< WCHAR_PARAM("code", code)
+	);
 
 	setDword("LastNotificationsReqTime", (DWORD)time(NULL));
 }

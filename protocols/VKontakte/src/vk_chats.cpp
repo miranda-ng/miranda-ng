@@ -93,33 +93,12 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 
 void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 {
+	debugLogA("CVkProto::RetrieveChatInfo");
 
-	CMStringA wszQuery(FORMAT, "var ChatId=%d;", cc->m_chatid);
-	wszQuery += "var Info=API.messages.getChat({\"chat_id\":ChatId});"
-		"var ChatUsers=API.messages.getChatUsers({\"chat_id\":ChatId,\"fields\":\"id,first_name,last_name\"});";
-
-	if (!cc->m_bHistoryRead) {
-		wszQuery += "var ChatMsg=API.messages.getHistory({\"chat_id\":ChatId,\"count\":20,\"rev\":0});var UR=parseInt(ChatMsg.unread);"
-			"if(UR>20){if(UR>200)UR=200;ChatMsg=API.messages.getHistory({\"chat_id\":ChatId,\"count\":UR,\"rev\":0});};"
-			"var FMsgs = ChatMsg.items@.fwd_messages;var Idx = 0;var Uids =[];while (Idx < FMsgs.length){"
-			"var Jdx = 0;var CFMsgs = parseInt(FMsgs[Idx].length);while (Jdx < CFMsgs){"
-			"Uids.unshift(FMsgs[Idx][Jdx].user_id);Jdx = Jdx + 1;};Idx = Idx + 1;};"
-			"var FUsers = API.users.get({\"user_ids\": Uids, \"name_case\":\"gen\"});"
-			"var MsgUsers=API.users.get({\"user_ids\":ChatMsg.items@.user_id,\"fields\":\"id,first_name,last_name\"});";
-	}
-
-	wszQuery += "return {\"info\":Info,\"users\":ChatUsers";
-
-	if (!cc->m_bHistoryRead)
-		wszQuery += ",\"msgs\":ChatMsg,\"fwd_users\":FUsers,\"msgs_users\":MsgUsers";
-
-	wszQuery +="};";
-
-	debugLogA("CVkProto::RetrieveChantInfo(%d)", cc->m_chatid);
-	if (!IsOnline())
-		return;
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveChatInfo)
-		<< CHAR_PARAM("code", wszQuery))->pUserInfo = cc;
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.RetrieveChatInfo", true, &CVkProto::OnReceiveChatInfo)
+		<< INT_PARAM("chatid", cc->m_chatid)
+		<< INT_PARAM("func_v", cc->m_bHistoryRead ? 1 : 2)
+	)->pUserInfo = cc;
 }
 
 void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -569,18 +548,13 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 	case IDM_DESTROY:
 		if (IDYES == MessageBoxW(NULL,
 			TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"),
-			TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION))
-		{
-			CMStringA code;
-			code.Format("API.messages.removeChatUser({\"chat_id\":%d, \"user_id\":%d});"
-				"var Hist = API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
-				"var countMsg = Hist.count;var itemsMsg = Hist.items@.id; "
-				"while (countMsg > 0) { API.messages.delete({\"message_ids\":itemsMsg});"
-				"Hist=API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
-				"countMsg = Hist.count;itemsMsg = Hist.items@.id;}; return 1;", cc->m_chatid, m_myUserId, cc->m_chatid, cc->m_chatid);
-			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnChatDestroy)
-				<< CHAR_PARAM("code", code))->pUserInfo = cc;
-		}
+			TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION)
+		)
+			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.DestroyChat", true, &CVkProto::OnChatDestroy)
+				<< INT_PARAM("chatid", cc->m_chatid)
+				<< INT_PARAM("userid", m_myUserId)
+			)->pUserInfo = cc;
+	
 		break;
 	}
 }
@@ -703,14 +677,9 @@ INT_PTR __cdecl CVkProto::SvcDestroyKickChat(WPARAM hContact, LPARAM)
 	if (chat_id == VK_INVALID_USER)
 		return 1;
 
-	CMStringA code;
-	code.Format("var Hist = API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
-		"var countMsg = Hist.count;var itemsMsg = Hist.items@.id; "
-		"while (countMsg > 0) { API.messages.delete({\"message_ids\":itemsMsg});"
-		"Hist=API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
-		"countMsg = Hist.count;itemsMsg = Hist.items@.id;}; return 1;", chat_id, chat_id);
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
-		<< CHAR_PARAM("code", code));
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.DestroyKickChat", true, &CVkProto::OnReceiveSmth)
+		<< INT_PARAM("chatid", chat_id)
+	);
 
 	db_delete_contact(hContact);
 
