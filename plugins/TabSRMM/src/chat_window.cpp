@@ -1063,9 +1063,9 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 					db_set_dw(si->hContact, CHAT_MODULE, "TrayIconMask", dwMask);
 				}
 				Chat_SetFilters(si);
-				SendMessage(si->hWnd, GC_CHANGEFILTERFLAG, 0, iFlags);
+				SendMessage(si->pDlg->GetHwnd(), GC_CHANGEFILTERFLAG, 0, iFlags);
 				if (si->bFilterEnabled)
-					SendMessage(si->hWnd, GC_REDRAWLOG, 0, 0);
+					SendMessage(si->pDlg->GetHwnd(), GC_REDRAWLOG, 0, 0);
 			}
 		}
 		DestroyWindow(hwndDlg);
@@ -1511,8 +1511,8 @@ static void __cdecl phase2(void * lParam)
 
 	SESSION_INFO *si = (SESSION_INFO*)lParam;
 	Sleep(30);
-	if (si && si->hWnd)
-		PostMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
+	if (si && si->pDlg)
+		PostMessage(si->pDlg->GetHwnd(), GC_REDRAWLOG2, 0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1581,8 +1581,7 @@ void CChatRoomDlg::OnInitDialog()
 	m_cache->updateNick();
 	m_cache->updateUIN();
 
-	m_si->hWnd = m_hwnd;
-	m_si->dat = this;
+	m_si->pDlg = this;
 	m_bIsAutosizingInput = IsAutoSplitEnabled();
 	m_fLimitedUpdate = false;
 	m_iInputAreaHeight = -1;
@@ -1673,8 +1672,7 @@ void CChatRoomDlg::OnDestroy()
 	if (pcli->pfnGetEvent(m_si->hContact, 0))
 		pcli->pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
 	m_si->wState &= ~STATE_TALK;
-	m_si->hWnd = nullptr;
-	m_si->dat = nullptr;
+	m_si->pDlg = nullptr;
 	m_si = nullptr;
 
 	TABSRMM_FireEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING, 0);
@@ -2356,7 +2354,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		switch (wParam) {
 		case SESSION_OFFLINE:
 			SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-			SendMessage(m_si->hWnd, GC_UPDATENICKLIST, 0, 0);
+			SendMessage(m_si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
 			return TRUE;
 
 		case SESSION_ONLINE:
@@ -3126,15 +3124,15 @@ void ShowRoom(SESSION_INFO *si)
 	if (si == nullptr)
 		return;
 
-	if (si->hWnd != nullptr) {
-		ActivateExistingTab(si->dat->m_pContainer, si->hWnd);
+	if (si->pDlg != nullptr) {
+		ActivateExistingTab(si->pDlg->m_pContainer, si->pDlg->GetHwnd());
 		return;
 	}
 
 	wchar_t szName[CONTAINER_NAMELEN + 2]; szName[0] = 0;
 	TContainerData *pContainer = nullptr;
-	if (si->dat != nullptr)
-		pContainer = si->dat->m_pContainer;
+	if (si->pDlg != nullptr)
+		pContainer = si->pDlg->m_pContainer;
 	if (pContainer == nullptr) {
 		GetContainerNameForContact(si->hContact, szName, CONTAINER_NAMELEN);
 		if (!g_Settings.bOpenInDefault && !mir_wstrcmp(szName, L"default"))

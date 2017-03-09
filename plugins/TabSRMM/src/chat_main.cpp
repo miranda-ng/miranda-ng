@@ -31,6 +31,9 @@
 HANDLE g_hWindowList;
 HMENU  g_hMenu = nullptr;
 
+pfnDoPopup oldDoPopup, oldLogToFile;
+pfnDoTrayIcon oldDoTrayIcon;
+
 CHAT_MANAGER *pci;
 TMUCSettings g_Settings;
 
@@ -49,31 +52,31 @@ static void OnReplaceSession(SESSION_INFO *si)
 {
 	if (si->hContact)
 		Chat_SetFilters(si);
-	if (si->hWnd)
-		RedrawWindow(GetDlgItem(si->hWnd, IDC_LIST), nullptr, nullptr, RDW_INVALIDATE);
+	if (si->pDlg)
+		RedrawWindow(GetDlgItem(si->pDlg->GetHwnd(), IDC_LIST), nullptr, nullptr, RDW_INVALIDATE);
 }
 
 static void OnSetTopic(SESSION_INFO *si)
 {
-	if (si->hWnd)
-		si->dat->m_pPanel.Invalidate(true);
+	if (si->pDlg)
+		si->pDlg->m_pPanel.Invalidate(true);
 }
 
 static void OnNewUser(SESSION_INFO *si, USERINFO*)
 {
-	if (si->hWnd) {
-		SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
-		if (si->dat)
-			si->dat->GetMyNick();
+	if (si->pDlg) {
+		SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
+		if (si->pDlg)
+			si->pDlg->GetMyNick();
 	}
 }
 
 static void OnChangeNick(SESSION_INFO *si)
 {
-	if (si->hWnd) {
-		if (si->dat)
-			si->dat->GetMyNick();
-		SendMessage(si->hWnd, GC_UPDATESTATUSBAR, 0, 0);
+	if (si->pDlg) {
+		if (si->pDlg)
+			si->pDlg->GetMyNick();
+		SendMessage(si->pDlg->GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
 	}
 }
 
@@ -158,8 +161,6 @@ void Chat_ModulesLoaded()
 /////////////////////////////////////////////////////////////////////////////////////////
 // load the group chat module
 
-CHAT_MANAGER saveCI;
-
 static int CopyChatSetting(const char *szSetting, LPARAM param)
 {
 	LIST<char> *szSettings = (LIST<char>*)param;
@@ -216,7 +217,7 @@ int Chat_Load()
 
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Message Sessions") L"/" LPGENW("Group chats"), FONTMODE_ALTER };
 	pci = Chat_GetInterface(&data);
-	saveCI = *pci;
+	
 	pci->OnCreateModule = OnCreateModule;
 	pci->OnNewUser = OnNewUser;
 
@@ -232,9 +233,9 @@ int Chat_Load()
 	// this operation is unsafe, that's why we restore the old pci state on exit
 	pci->DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
 	pci->IsHighlighted = IsHighlighted;
-	pci->LogToFile = LogToFile;
-	pci->DoPopup = DoPopup;
-	pci->ShowPopup = ShowPopup;
+	oldLogToFile = pci->LogToFile; pci->LogToFile = LogToFile;
+	oldDoPopup = pci->DoPopup; pci->DoPopup = DoPopup;
+	oldDoTrayIcon = pci->DoTrayIcon; pci->ShowPopup = ShowPopup;
 	pci->Log_CreateRTF = Log_CreateRTF;
 	pci->Log_CreateRtfHeader = Log_CreateRtfHeader;
 	pci->UM_CompareItem = UM_CompareItem;

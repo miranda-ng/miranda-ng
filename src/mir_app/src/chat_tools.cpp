@@ -154,8 +154,8 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			if (cli.pfnGetEvent(si->hContact, 0))
 				cli.pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 
-		if (si->hWnd && KillTimer(si->hWnd, TIMERID_FLASHWND))
-			FlashWindow(si->hWnd, FALSE);
+		if (si->pDlg && KillTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND))
+			FlashWindow(si->pDlg->GetHwnd(), FALSE);
 
 		PUDeletePopup(hWnd);
 		break;
@@ -273,7 +273,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	if (!gce || !si || gce->bIsMe || si->iType == GCW_SERVER)
 		return FALSE;
 
-	BOOL bInactive = si->hWnd == NULL || GetForegroundWindow() != si->hWnd;
+	BOOL bInactive = si->pDlg == NULL || GetForegroundWindow() != si->pDlg->GetHwnd();
 
 	int iEvent = gce->pDest->iType;
 
@@ -631,15 +631,14 @@ BOOL DoEventHookAsync(HWND hwnd, const wchar_t *pszID, const char *pszModule, in
 	return TRUE;
 }
 
-BOOL DoEventHook(const wchar_t *pszID, const char *pszModule, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem)
+BOOL DoEventHook(SESSION_INFO *si, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem)
 {
-	SESSION_INFO *si = chatApi.SM_FindSession(pszID, pszModule);
-	if (si == NULL)
+	if (si == nullptr)
 		return FALSE;
 
-	GCDEST gcd = { (char*)pszModule, pszID, iType };
+	GCDEST gcd = { si->pszModule, si->ptszID, iType };
 	GCHOOK gch = { 0 };
-	if (pUser != NULL) {
+	if (pUser != nullptr) {
 		gch.ptszUID = pUser->pszUID;
 		gch.ptszNick = pUser->pszNick;
 	}

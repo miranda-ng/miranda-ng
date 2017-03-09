@@ -171,13 +171,12 @@ bool LoadMessageFont(LOGFONT *lf, COLORREF *colour)
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "SRMFont%d", i);
 
-		DBVARIANT dbv;
-		if (db_get_ws(NULL, "SRMM", str, &dbv))
+		ptrW wszFontFace(db_get_wsa(NULL, "SRMM", str));
+		if (wszFontFace == nullptr)
 			mir_wstrcpy(lf->lfFaceName, L"Arial");
-		else {
-			mir_wstrncpy(lf->lfFaceName, dbv.ptszVal, _countof(lf->lfFaceName));
-			db_free(&dbv);
-		}
+		else
+			mir_wstrncpy(lf->lfFaceName, wszFontFace, _countof(lf->lfFaceName));
+
 		mir_snprintf(str, "SRMFont%dSet", i);
 		lf->lfCharSet = db_get_b(NULL, "SRMM", str, DEFAULT_CHARSET);
 	}

@@ -27,6 +27,11 @@ struct MODULEINFO : public GCModuleInfoBase {};
 struct SESSION_INFO : public GCSessionInfoBase {};
 struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 
+class CChatRoomDlg : public CSrmmBaseDialog
+{
+	CChatRoomDlg(); // just to suppress compiler's warnings, never implemented
+};
+
 extern HGENMENU hJoinMenuItem, hLeaveMenuItem;
 extern GlobalLogSettingsBase *g_Settings;
 extern int g_cbSession, g_cbModuleInfo, g_iFontMode, g_iChatLang;
@@ -34,6 +39,7 @@ extern wchar_t *g_szFontGroup;
 extern mir_cs csChat;
 
 extern char* pLogIconBmpBits[14];
+extern LIST<SESSION_INFO> g_arSessions;
 
 // log.c
 void   LoadMsgLogBitmaps(void);
@@ -104,7 +110,7 @@ bool     IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
 UINT     CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText);
 void     DestroyGCMenu(HMENU *hMenu, int iIndex);
 BOOL     DoEventHookAsync(HWND hwnd, const wchar_t *pszID, const char *pszModule, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem);
-BOOL     DoEventHook(const wchar_t *pszID, const char *pszModule, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem);
+BOOL     DoEventHook(SESSION_INFO *si, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem);
 BOOL     IsEventSupported(int eventType);
 BOOL     LogToFile(SESSION_INFO *si, GCEVENT *gce);
 BOOL     DoTrayIcon(SESSION_INFO *si, GCEVENT *gce);

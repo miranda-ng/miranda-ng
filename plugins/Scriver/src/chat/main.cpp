@@ -22,8 +22,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../stdafx.h"
 
 // globals
-CHAT_MANAGER *pci, saveCI;
+CHAT_MANAGER *pci;
 HMENU g_hMenu = nullptr;
+
+pfnDoTrayIcon oldDoTrayIcon;
+pfnDoPopup    oldDoPopup;
 
 GlobalLogSettings g_Settings;
 
@@ -47,39 +50,40 @@ void LoadModuleIcons(MODULEINFO *mi)
 
 static void OnReplaceSession(SESSION_INFO *si)
 {
-	if (si->hWnd)
-		RedrawWindow(GetDlgItem(si->hWnd, IDC_CHAT_LIST), nullptr, nullptr, RDW_INVALIDATE);
+	if (si->pDlg)
+		RedrawWindow(GetDlgItem(si->pDlg->GetHwnd(), IDC_CHAT_LIST), nullptr, nullptr, RDW_INVALIDATE);
 }
 
 static void OnNewUser(SESSION_INFO *si, USERINFO*)
 {
-	if (si->hWnd)
-		SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
+	if (si->pDlg)
+		SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
 }
 
 static void OnSetStatus(SESSION_INFO *si, int)
 {
-	PostMessage(si->hWnd, GC_FIXTABICONS, 0, 0);
+	if (si->pDlg)
+		PostMessage(si->pDlg->GetHwnd(), GC_FIXTABICONS, 0, 0);
 }
 
 static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
 {
-	if (!bInactive || !si->hWnd)
+	if (!bInactive || !si->pDlg)
 		return;
 
 	if (g_Settings.bFlashWindowHighlight)
-		SendMessage(GetParent(si->hWnd), CM_STARTFLASHING, 0, 0);
-	SendMessage(si->hWnd, GC_SETMESSAGEHIGHLIGHT, 0, 0);
+		SendMessage(GetParent(si->pDlg->GetHwnd()), CM_STARTFLASHING, 0, 0);
+	SendMessage(si->pDlg->GetHwnd(), GC_SETMESSAGEHIGHLIGHT, 0, 0);
 }
 
 static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 {
-	if (!bInactive || !si->hWnd)
+	if (!bInactive || !si->pDlg)
 		return;
 
 	if (g_Settings.bFlashWindow)
-		SendMessage(GetParent(si->hWnd), CM_STARTFLASHING, 0, 0);
-	SendMessage(si->hWnd, GC_SETTABHIGHLIGHT, 0, 0);
+		SendMessage(GetParent(si->pDlg->GetHwnd()), CM_STARTFLASHING, 0, 0);
+	SendMessage(si->pDlg->GetHwnd(), GC_SETTABHIGHLIGHT, 0, 0);
 }
 
 static void OnCreateModule(MODULEINFO *mi)
@@ -92,14 +96,14 @@ static void OnCreateModule(MODULEINFO *mi)
 static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 {
 	if (gce->pDest->iType & g_Settings.dwTrayIconFlags)
-		return saveCI.DoTrayIcon(si, gce);
+		return oldDoTrayIcon(si, gce);
 	return TRUE;
 }
 
 static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 {
 	if (gce->pDest->iType & g_Settings.dwPopupFlags)
-		return saveCI.DoPopup(si, gce);
+		return oldDoPopup(si, gce);
 	return TRUE;
 }
 
@@ -117,7 +121,6 @@ int Chat_Load()
 {
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Messaging") L"/" LPGENW("Group chats"), FONTMODE_SKIP };
 	pci = Chat_GetInterface(&data);
-	saveCI = *pci;
 
 	pci->OnCreateModule = OnCreateModule;
 	pci->OnNewUser = OnNewUser;
@@ -131,8 +134,8 @@ int Chat_Load()
 	pci->OnFlashHighlight = OnFlashHighlight;
 	pci->ShowRoom = ShowRoom;
 
-	pci->DoPopup = DoPopup;
-	pci->DoTrayIcon = DoTrayIcon;
+	oldDoPopup = pci->DoPopup; pci->DoPopup = DoPopup;
+	oldDoTrayIcon = pci->DoTrayIcon; pci->DoTrayIcon = DoTrayIcon;
 	pci->ReloadSettings();
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));

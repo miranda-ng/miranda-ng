@@ -426,9 +426,9 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			if (iFlags & GC_EVENT_ADDSTATUS)
 				iFlags |= GC_EVENT_REMOVESTATUS;
 
-			SendMessage(si->hWnd, GC_CHANGEFILTERFLAG, 0, iFlags);
+			SendMessage(si->pDlg->GetHwnd(), GC_CHANGEFILTERFLAG, 0, iFlags);
 			if (si->bFilterEnabled)
-				SendMessage(si->hWnd, GC_REDRAWLOG, 0, 0);
+				SendMessage(si->pDlg->GetHwnd(), GC_REDRAWLOG, 0, 0);
 			PostMessage(hwndDlg, WM_CLOSE, 0, 0);
 		}
 		break;
@@ -794,8 +794,8 @@ static void __cdecl phase2(void *lParam)
 
 	SESSION_INFO *si = (SESSION_INFO*)lParam;
 	Sleep(30);
-	if (si && si->hWnd)
-		PostMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
+	if (si && si->pDlg)
+		PostMessage(si->pDlg->GetHwnd(), GC_REDRAWLOG2, 0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -982,7 +982,7 @@ void CChatRoomDlg::OnDestroy()
 {
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING);
 
-	m_si->hWnd = nullptr;
+	m_si->pDlg = nullptr;
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
 
 	SendMessage(m_hwndParent, CM_REMOVECHILD, 0, (LPARAM)m_hwnd);
@@ -1443,7 +1443,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 
 		SendMessage(m_hwnd, GC_FIXTABICONS, 0, 0);
-		if (!m_si->hWnd) {
+		if (!m_si->pDlg) {
 			ShowRoom(m_si);
 			SendMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 		}
@@ -1750,7 +1750,7 @@ void ShowRoom(SESSION_INFO *si)
 		return;
 
 	// Do we need to create a window?
-	if (si->hWnd == nullptr) {
+	if (si->pDlg == nullptr) {
 		HWND hParent = GetParentWindow(si->hContact, TRUE);
 
 		CChatRoomDlg *pDlg = new CChatRoomDlg(si);
@@ -1758,11 +1758,11 @@ void ShowRoom(SESSION_INFO *si)
 		pDlg->Show();
 		
 		pDlg->m_pParent = (ParentWindowData*)GetWindowLongPtr(hParent, GWLP_USERDATA);
-		si->hWnd = pDlg->GetHwnd();
+		si->pDlg = pDlg;
 	}
-	SendMessage(si->hWnd, DM_UPDATETABCONTROL, -1, (LPARAM)si);
-	SendMessage(GetParent(si->hWnd), CM_ACTIVATECHILD, 0, (LPARAM)si->hWnd);
-	SendMessage(GetParent(si->hWnd), CM_POPUPWINDOW, 0, (LPARAM)si->hWnd);
-	SendMessage(si->hWnd, WM_MOUSEACTIVATE, 0, 0);
-	SetFocus(GetDlgItem(si->hWnd, IDC_MESSAGE));
+	SendMessage(si->pDlg->GetHwnd(), DM_UPDATETABCONTROL, -1, (LPARAM)si);
+	SendMessage(GetParent(si->pDlg->GetHwnd()), CM_ACTIVATECHILD, 0, (LPARAM)si->pDlg->GetHwnd());
+	SendMessage(GetParent(si->pDlg->GetHwnd()), CM_POPUPWINDOW, 0, (LPARAM)si->pDlg->GetHwnd());
+	SendMessage(si->pDlg->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
+	SetFocus(GetDlgItem(si->pDlg->GetHwnd(), IDC_MESSAGE));
 }

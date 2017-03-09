@@ -243,7 +243,7 @@ void CTabbedWindow::TabClicked()
 		}
 
 		SendMessage(m_hwnd, GC_FIXTABICONS, 0, (LPARAM)pDlg);
-		if (!s->hWnd) {
+		if (!s->pDlg) {
 			pci->ShowRoom(s);
 			SendMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 		}
@@ -527,9 +527,9 @@ void ShowRoom(SESSION_INFO *si)
 		return;
 
 	// Do we need to create a window?
-	if (si->hWnd == NULL) {
+	if (si->pDlg == nullptr) {
 		if (g_Settings.bTabsEnable) {
-			if (pDialog == NULL) {
+			if (pDialog == nullptr) {
 				pDialog = new CTabbedWindow();
 				pDialog->Show();
 			}
@@ -541,22 +541,22 @@ void ShowRoom(SESSION_INFO *si)
 			pRoom->Show();
 		}
 
-		PostMessage(si->hWnd, WM_SIZE, 0, 0);
+		PostMessage(si->pDlg->GetHwnd(), WM_SIZE, 0, 0);
 		if (si->iType != GCW_SERVER)
-			SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
+			SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
 		else
-			SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
-		SendMessage(si->hWnd, GC_REDRAWLOG, 0, 0);
-		SendMessage(si->hWnd, GC_UPDATESTATUSBAR, 0, 0);
+			SendMessage(si->pDlg->GetHwnd(), GC_UPDATETITLE, 0, 0);
+		SendMessage(si->pDlg->GetHwnd(), GC_REDRAWLOG, 0, 0);
+		SendMessage(si->pDlg->GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
 	}
 
-	SetWindowLongPtr(si->hWnd, GWL_EXSTYLE, GetWindowLongPtr(si->hWnd, GWL_EXSTYLE) | WS_EX_APPWINDOW);
+	SetWindowLongPtr(si->pDlg->GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(si->pDlg->GetHwnd(), GWL_EXSTYLE) | WS_EX_APPWINDOW);
 
-	if (IsIconic(si->hWnd))
-		ShowWindow(si->hWnd, SW_NORMAL);
-	ShowWindow(si->hWnd, SW_SHOW);
-	SetForegroundWindow(si->hWnd);
+	if (IsIconic(si->pDlg->GetHwnd()))
+		ShowWindow(si->pDlg->GetHwnd(), SW_NORMAL);
+	ShowWindow(si->pDlg->GetHwnd(), SW_SHOW);
+	SetForegroundWindow(si->pDlg->GetHwnd());
 
-	SendMessage(si->hWnd, WM_MOUSEACTIVATE, 0, 0);
-	SetFocus(GetDlgItem(si->hWnd, IDC_MESSAGE));
+	SendMessage(si->pDlg->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
+	SetFocus(GetDlgItem(si->pDlg->GetHwnd(), IDC_MESSAGE));
 }

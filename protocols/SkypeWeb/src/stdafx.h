@@ -62,8 +62,7 @@ extern char g_szMirVer[];
 extern HANDLE g_hCallEvent;
 extern FI_INTERFACE *fii;
 
-struct SESSION_INFO : public GCSessionInfoBase
-{};
+struct SESSION_INFO : public GCSessionInfoBase {};
 
 #define SKYPE_ENDPOINTS_HOST "client-s.gateway.messenger.live.com"
 

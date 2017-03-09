@@ -22,56 +22,42 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+pfnDoTrayIcon oldDoTrayIcon;
+pfnDoPopup    oldDoPopup;
+
 SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si)
 {
-	if (!si)
-		return NULL;
+	int i = pci->arSessions.indexOf(si);
+	if (i == -1)
+		return nullptr;
 
-	BOOL bFound = FALSE;
-	SESSION_INFO *pTemp = pci->wndList;
-	while (pTemp != NULL) {
-		if (si == pTemp) {
-			if (bFound)
-				return NULL;
-			else
-				bFound = TRUE;
-		}
-		else if (bFound == TRUE && pTemp->hWnd)
-			return pTemp;
-		pTemp = pTemp->next;
-		if (pTemp == NULL && bFound)
-			pTemp = pci->wndList;
+	for (i--; i >= 0; i--) {
+		SESSION_INFO *p = pci->arSessions[i];
+		if (p->pDlg)
+			return p;
 	}
-	return NULL;
+
+	return nullptr;
 }
 
 SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si)
 {
-	if (!si)
-		return NULL;
+	int i = pci->arSessions.indexOf(si);
+	if (i == -1)
+		return nullptr;
 
-	SESSION_INFO *pTemp = pci->wndList, *pLast = NULL;
-	while (pTemp != NULL) {
-		if (si == pTemp) {
-			if (pLast) {
-				if (pLast != pTemp)
-					return pLast;
-				else
-					return NULL;
-			}
-		}
-		if (pTemp->hWnd)
-			pLast = pTemp;
-		pTemp = pTemp->next;
-		if (pTemp == NULL)
-			pTemp = pci->wndList;
+	for (i++; i < pci->arSessions.getCount(); i++) {
+		SESSION_INFO *p = pci->arSessions[i];
+		if (p->pDlg)
+			return p;
 	}
-	return NULL;
+
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CHAT_MANAGER *pci, saveCI;
+CHAT_MANAGER *pci;
 
 HMENU g_hMenu = NULL;
 
@@ -95,14 +81,14 @@ static void OnCreateModule(MODULEINFO *mi)
 
 static void OnReplaceSession(SESSION_INFO *si)
 {
-	if (si->hWnd)
-		RedrawWindow(GetDlgItem(si->hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
+	if (si->pDlg)
+		RedrawWindow(GetDlgItem(si->pDlg->GetHwnd(), IDC_LIST), NULL, NULL, RDW_INVALIDATE);
 }
 
 static void OnNewUser(SESSION_INFO *si, USERINFO*)
 {
-	if (si->hWnd)
-		SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
+	if (si->pDlg)
+		SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
 }
 
 static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
@@ -110,10 +96,10 @@ static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
 	if (!bInactive)
 		return;
 
-	if (!g_Settings.bTabsEnable && si->hWnd && g_Settings.bFlashWindowHighlight)
-		SetTimer(si->hWnd, TIMERID_FLASHWND, 900, NULL);
+	if (!g_Settings.bTabsEnable && si->pDlg && g_Settings.bFlashWindowHighlight)
+		SetTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND, 900, NULL);
 	if (g_Settings.bTabsEnable && si->pDlg)
-		SendMessage(si->hWnd, GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si->pDlg);
+		SendMessage(si->pDlg->GetHwnd(), GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si->pDlg);
 }
 
 static void OnFlashWindow(SESSION_INFO *si, int bInactive)
@@ -121,23 +107,23 @@ static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 	if (!bInactive)
 		return;
 
-	if (!g_Settings.bTabsEnable && si->hWnd && g_Settings.bFlashWindow)
-		SetTimer(si->hWnd, TIMERID_FLASHWND, 900, NULL);
+	if (!g_Settings.bTabsEnable && si->pDlg && g_Settings.bFlashWindow)
+		SetTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND, 900, NULL);
 	if (g_Settings.bTabsEnable && si->pDlg)
-		SendMessage(si->hWnd, GC_SETTABHIGHLIGHT, 0, (LPARAM)si->pDlg);
+		SendMessage(si->pDlg->GetHwnd(), GC_SETTABHIGHLIGHT, 0, (LPARAM)si->pDlg);
 }
 
 static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 {
 	if (gce->pDest->iType & g_Settings.dwTrayIconFlags)
-		return saveCI.DoTrayIcon(si, gce);
+		return oldDoTrayIcon(si, gce);
 	return TRUE;
 }
 
 static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 {
 	if (gce->pDest->iType & g_Settings.dwPopupFlags)
-		return saveCI.DoPopup(si, gce);
+		return oldDoPopup(si, gce);
 	return TRUE;
 }
 
@@ -212,10 +198,8 @@ void Load_ChatModule()
 
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Chat module"), FONTMODE_SKIP };
 	pci = Chat_GetInterface(&data);
-	saveCI = *pci;
 
 	pci->OnNewUser = OnNewUser;
-
 	pci->OnCreateModule = OnCreateModule;
 	pci->OnReplaceSession = OnReplaceSession;
 
@@ -224,8 +208,8 @@ void Load_ChatModule()
 	pci->OnFlashHighlight = OnFlashHighlight;
 	pci->ShowRoom = ShowRoom;
 
-	pci->DoPopup = DoPopup;
-	pci->DoTrayIcon = DoTrayIcon;
+	oldDoPopup = pci->DoPopup; pci->DoPopup = DoPopup;
+	oldDoTrayIcon = pci->DoTrayIcon; pci->DoTrayIcon = DoTrayIcon;
 	pci->ReloadSettings();
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));

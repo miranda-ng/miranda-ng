@@ -110,11 +110,11 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 	SESSION_INFO *si = SM_FindSessionByHCONTACT(hContact);
 	if (si != nullptr) {
 		// session does exist, but no window is open for it
-		if (si->hWnd) {
+		if (si->pDlg) {
 			TContainerData *pContainer = 0;
-			SendMessage(si->hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
+			SendMessage(si->pDlg->GetHwnd(), DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 			if (pContainer) {
-				ActivateExistingTab(pContainer, si->hWnd);
+				ActivateExistingTab(pContainer, si->pDlg->GetHwnd());
 				if (GetForegroundWindow() != pContainer->hwnd)
 					SetForegroundWindow(pContainer->hwnd);
 				SetFocus(GetDlgItem(pContainer->hwndActive, IDC_MESSAGE));
@@ -199,7 +199,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				if (hWnd == nullptr) {
 					SESSION_INFO *si = SM_FindSessionByHCONTACT((MCONTACT)dis->itemID);
-					hWnd = si ? si->hWnd : 0;
+					hWnd = si ? si->pDlg->GetHwnd() : nullptr;
 				}
 
 				CSrmmWindow *dat = 0;

@@ -1209,7 +1209,7 @@ panel_found:
 			if (hwnd == 0) {
 				SESSION_INFO *si = SM_FindSessionByHCONTACT(wParam);
 				if (si) {
-					SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
+					SendMessage(si->pDlg->GetHwnd(), GC_UPDATETITLE, 0, 0);
 					return 0;
 				}
 			}

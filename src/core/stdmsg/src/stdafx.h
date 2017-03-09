@@ -92,7 +92,6 @@ struct MODULEINFO : public GCModuleInfoBase
 struct SESSION_INFO : public GCSessionInfoBase
 {
 	int iX, iY;
-	class CChatRoomDlg *pDlg;
 };
 
 struct LOGSTREAMDATA : public GCLogStreamDataBase {};
@@ -110,7 +109,6 @@ struct GlobalLogSettings : public GlobalLogSettingsBase
 /////////////////////////////////////////////////////////////////////////////////////////
 
 extern GlobalLogSettings g_Settings;
-extern CHAT_MANAGER saveCI;
 extern HMENU g_hMenu;
 extern HIMAGELIST hIconsList;
 

@@ -108,8 +108,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_ibb.h"
 #include "jabber_db_utils.h"
 
-struct SESSION_INFO : public GCSessionInfoBase
-{};
+struct SESSION_INFO : public GCSessionInfoBase {};
 
 struct CJabberProto;
 

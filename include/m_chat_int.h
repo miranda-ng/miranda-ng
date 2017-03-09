@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CHAT_INT_H__
 #define M_CHAT_INT_H__ 1
 
+#pragma warning(disable:4512)
+
 #include <m_string.h>
 #include <m_chat.h>
 #include <m_gui.h>
@@ -101,6 +103,8 @@ struct SESSION_INFO;
 struct MODULEINFO;
 struct LOGSTREAMDATA;
 
+class CChatRoomDlg;
+
 struct GCModuleInfoBase
 {
 	char*     pszModule;
@@ -172,7 +176,7 @@ struct USERINFO
 
 struct GCSessionInfoBase
 {
-	HWND        hWnd;
+	MCONTACT    hContact;
 
 	bool        bFGSet;
 	bool        bBGSet;
@@ -202,11 +206,11 @@ struct GCSessionInfoBase
 	WORD        wState;
 	WORD        wCommandsNum;
 	void*       pItemData;
-	MCONTACT    hContact;
 	time_t      LastTime;
 
 	int         currentHovered;
 
+	CChatRoomDlg *pDlg;
 	COMMANDINFO* lpCommands;
 	COMMANDINFO* lpCurrentCommand;
 	LOGINFO*    pLog;
@@ -216,7 +220,6 @@ struct GCSessionInfoBase
 	STATUSINFO* pStatuses;
 
 	wchar_t     pszLogFileName[MAX_PATH];
-	SESSION_INFO *next;
 };
 
 struct GCLogStreamDataBase
@@ -290,8 +293,13 @@ struct CHAT_MANAGER_INITDATA
 	int iFontMode;
 };
 
+typedef BOOL (*pfnDoTrayIcon)(SESSION_INFO *si, GCEVENT *gce);
+typedef BOOL (*pfnDoPopup)(SESSION_INFO *si, GCEVENT *gce);
+
 struct CHAT_MANAGER
 {
+	CHAT_MANAGER();
+
 	void          (*SetActiveSession)(const wchar_t *pszID, const char *pszModule);
 	void          (*SetActiveSessionEx)(SESSION_INFO *si);
 	SESSION_INFO* (*GetActiveSession)(void);
@@ -373,7 +381,7 @@ struct CHAT_MANAGER
 	HBRUSH hListBkgBrush, hListSelectedBkgBrush;
 	HANDLE hBuildMenuEvent, hSendEvent;
 	FONTINFO aFonts[OPTIONS_FONTCOUNT];
-	SESSION_INFO *wndList;
+	LIST<SESSION_INFO> &arSessions;
 	char **pLogIconBmpBits;
 	MWindowList hWindowList;
 

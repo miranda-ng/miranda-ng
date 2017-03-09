@@ -819,8 +819,8 @@ static void __cdecl phase2(void * lParam)
 {
 	SESSION_INFO *si = (SESSION_INFO*)lParam;
 	Sleep(30);
-	if (si && si->hWnd)
-		PostMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
+	if (si && si->pDlg)
+		PostMessage(si->pDlg->GetHwnd(), GC_REDRAWLOG2, 0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -881,7 +881,6 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 
 void CChatRoomDlg::OnInitDialog()
 {
-	m_si->hWnd = m_hwnd;
 	m_si->pDlg = this;
 
 	if (g_Settings.bTabsEnable)
@@ -937,8 +936,7 @@ void CChatRoomDlg::OnDestroy()
 
 	WindowList_Remove(pci->hWindowList, m_hwnd);
 
-	m_si->pDlg = NULL;
-	m_si->hWnd = NULL;
+	m_si->pDlg = nullptr;
 	m_si->wState &= ~STATE_TALK;
 	DestroyWindow(m_hwndStatus); m_hwndStatus = NULL;
 
@@ -1168,14 +1166,14 @@ void CChatRoomDlg::SetWindowPosition()
 	else SetWindowPos(m_hwnd, 0, (screen.right - screen.left) / 2 - (550) / 2, (screen.bottom - screen.top) / 2 - (400) / 2, (550), (400), SWP_NOZORDER | SWP_HIDEWINDOW | SWP_NOACTIVATE);
 
 	SESSION_INFO *pActive = pci->GetActiveSession();
-	if (pActive && pActive->hWnd && db_get_b(NULL, CHAT_MODULE, "CascadeWindows", 1)) {
+	if (pActive && pActive->pDlg && db_get_b(NULL, CHAT_MODULE, "CascadeWindows", 1)) {
 		RECT rcThis, rcNew;
 		int dwFlag = SWP_NOZORDER | SWP_NOACTIVATE;
 		if (!IsWindowVisible(m_hwnd))
 			dwFlag |= SWP_HIDEWINDOW;
 
 		GetWindowRect(m_hwnd, &rcThis);
-		GetWindowRect(pActive->hWnd, &rcNew);
+		GetWindowRect(pActive->pDlg->GetHwnd(), &rcNew);
 
 		int offset = GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYFRAME);
 		SetWindowPos(m_hwnd, 0, rcNew.left + offset, rcNew.top + offset, rcNew.right - rcNew.left, rcNew.bottom - rcNew.top, dwFlag);
@@ -1491,7 +1489,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		switch (wParam) {
 		case SESSION_OFFLINE:
 			SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-			SendMessage(m_si->hWnd, GC_UPDATENICKLIST, 0, 0);
+			SendMessage(m_si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
 			return TRUE;
 
 		case SESSION_ONLINE:

@@ -50,7 +50,6 @@ struct MODULEINFO : public GCModuleInfoBase
 
 struct SESSION_INFO : public GCSessionInfoBase
 {
-	CChatRoomDlg *dat;
 	int iLogTrayFlags, iLogPopupFlags, iDiskLogFlags;
 };
 
@@ -93,7 +92,6 @@ struct FLASH_PARAMS
 };
 
 extern TMUCSettings g_Settings;
-extern CHAT_MANAGER saveCI;
 
 #pragma comment(lib,"comctl32.lib")
 

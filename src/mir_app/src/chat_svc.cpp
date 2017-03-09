@@ -220,12 +220,7 @@ EXTERN_C MIR_APP_DLL(GCSessionInfoBase*) Chat_NewSession(
 	si->ptszID = mir_wstrdup(ptszID);
 	si->pszModule = mir_strdup(pszModule);
 
-	if (chatApi.wndList == NULL) // list is empty
-		chatApi.wndList = si;
-	else {
-		si->next = chatApi.wndList;
-		chatApi.wndList = si;
-	}
+	chatApi.arSessions.insert(si);
 	lck.unlock();
 
 	// set the defaults
@@ -413,7 +408,8 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 {
 	int bManyFix = 0;
 
-	for (SESSION_INFO *p = chatApi.wndList; p != NULL; p = p->next) {
+	for (int i = 0; i < g_arSessions.getCount(); i++) {
+		SESSION_INFO *p = g_arSessions[i];
 		if (!p->bInitDone || mir_strcmpi(p->pszModule, gce->pDest->pszModule))
 			continue;
 
@@ -423,11 +419,11 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 		if (chatApi.OnEventBroadcast)
 			chatApi.OnEventBroadcast(p, gce);
 
-		if (p->hWnd && p->bInitDone) {
+		if (p->pDlg && p->bInitDone) {
 			if (SM_AddEvent(p->ptszID, p->pszModule, gce, FALSE))
-				SendMessage(p->hWnd, GC_ADDLOG, 0, 0);
+				SendMessage(p->pDlg->GetHwnd(), GC_ADDLOG, 0, 0);
 			else
-				SendMessage(p->hWnd, GC_REDRAWLOG2, 0, 0);
+				SendMessage(p->pDlg->GetHwnd(), GC_REDRAWLOG2, 0, 0);
 		}
 
 		if (!(gce->dwFlags & GCEF_NOTNOTIFY)) {
@@ -569,11 +565,11 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 			}
 			
 			int isOk = SM_AddEvent(pWnd, pMod, gce, bIsHighlighted);
-			if (si->hWnd) {
+			if (si->pDlg) {
 				if (isOk)
-					SendMessage(si->hWnd, GC_ADDLOG, 0, 0);
+					SendMessage(si->pDlg->GetHwnd(), GC_ADDLOG, 0, 0);
 				else
-					SendMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
+					SendMessage(si->pDlg->GetHwnd(), GC_REDRAWLOG2, 0, 0);
 			}
 
 			if (!(gce->dwFlags & GCEF_NOTNOTIFY)) {
@@ -637,8 +633,8 @@ MIR_APP_DLL(int) Chat_ChangeSessionName(const char *szModule, const wchar_t *wsz
 
 		replaceStrW(si->ptszName, wszNewName);
 		db_set_ws(si->hContact, szModule, "Nick", wszNewName);
-		if (si->hWnd)
-			SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
+		if (si->pDlg)
+			SendMessage(si->pDlg->GetHwnd(), GC_UPDATETITLE, 0, 0);
 	}
 	return 0;
 }
@@ -649,7 +645,8 @@ MIR_APP_DLL(int) Chat_ChangeUserId(const char *szModule, const wchar_t *wszId, c
 		return GC_EVENT_ERROR;
 	
 	mir_cslock lck(csChat);
-	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next) {
+	for (int i = 0; i < g_arSessions.getCount(); i++) {
+		SESSION_INFO *si = g_arSessions[i];
 		if ((wszId && mir_wstrcmpi(si->ptszID, wszId)) || mir_strcmpi(si->pszModule, szModule))
 			continue;
 
@@ -676,12 +673,13 @@ MIR_APP_DLL(int) Chat_SendUserMessage(const char *szModule, const wchar_t *wszId
 		return GC_EVENT_ERROR;
 	
 	mir_cslock lck(csChat);
-	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next) {
+	for (int i = 0; i < g_arSessions.getCount(); i++) {
+		SESSION_INFO *si = g_arSessions[i];
 		if ((wszId && mir_wstrcmpi(si->ptszID, wszId)) || mir_strcmpi(si->pszModule, szModule))
 			continue;
 
 		if (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS)
-			DoEventHook(si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, wszText, 0);
+			DoEventHook(si, GC_USER_MESSAGE, NULL, wszText, 0);
 		if (wszId)
 			break;
 	}
@@ -702,8 +700,8 @@ MIR_APP_DLL(int) Chat_SetStatusbarText(const char *szModule, const wchar_t *wszI
 		else
 			db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 
-		if (si->hWnd)
-			SendMessage(si->hWnd, GC_UPDATESTATUSBAR, 0, 0);
+		if (si->pDlg)
+			SendMessage(si->pDlg->GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
 	}
 	return 0;
 }
@@ -714,13 +712,14 @@ MIR_APP_DLL(int) Chat_SetStatusEx(const char *szModule, const wchar_t *wszId, in
 		return GC_EVENT_ERROR;
 
 	mir_cslock lck(csChat);
-	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next) {
+	for (int i = 0; i < g_arSessions.getCount(); i++) {
+		SESSION_INFO *si = g_arSessions[i];
 		if ((wszId && mir_wstrcmpi(si->ptszID, wszId)) || mir_strcmpi(si->pszModule, szModule))
 			continue;
 
 		chatApi.UM_SetStatusEx(si->pUsers, wszText, flags);
-		if (si->hWnd)
-			RedrawWindow(GetDlgItem(si->hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
+		if (si->pDlg)
+			RedrawWindow(GetDlgItem(si->pDlg->GetHwnd(), IDC_LIST), NULL, NULL, RDW_INVALIDATE);
 		if (wszId)
 			break;
 	}

@@ -237,6 +237,9 @@ extern HMODULE g_hIconDLL;
 extern HMENU g_hMenu;
 extern bool g_bShutdown;
 
+extern pfnDoPopup oldDoPopup, oldLogToFile;
+extern pfnDoTrayIcon oldDoTrayIcon;
+
 extern CREOleCallback reOleCallback;
 extern CREOleCallback2 reOleCallback2;
 

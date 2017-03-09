@@ -117,8 +117,8 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 	SESSION_INFO *si = SM_FindSession(roomid, szProto);
 	if (si) {
 		// is the "toggle visibility option set, so we need to close the window?
-		if (si->hWnd != NULL && db_get_b(NULL, CHAT_MODULE, "ToggleVisibility", 0) == 1 && !cli.pfnGetEvent(hContact, 0) && IsWindowVisible(si->hWnd) && !IsIconic(si->hWnd)) {
-			PostMessage(si->hWnd, GC_CLOSEWINDOW, 0, 0);
+		if (si->pDlg != NULL && db_get_b(NULL, CHAT_MODULE, "ToggleVisibility", 0) == 1 && !cli.pfnGetEvent(hContact, 0) && IsWindowVisible(si->pDlg->GetHwnd()) && !IsIconic(si->pDlg->GetHwnd())) {
+			PostMessage(si->pDlg->GetHwnd(), GC_CLOSEWINDOW, 0, 0);
 			return 1;
 		}
 		chatApi.ShowRoom(si);

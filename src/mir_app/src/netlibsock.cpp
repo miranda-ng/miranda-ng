@@ -69,7 +69,7 @@ MIR_APP_DLL(int) Netlib_Recv(HNETLIBCONN nlc, char *buf, int len, int flags)
 		recvResult = NetlibHttpGatewayRecv(nlc, buf, len, flags);
 	else {
 		if (!nlc->foreBuf.isEmpty()) {
-			recvResult = min(len, nlc->foreBuf.length());
+			recvResult = min(len, (int)nlc->foreBuf.length());
 			memcpy(buf, nlc->foreBuf.data(), recvResult);
 			nlc->foreBuf.remove(recvResult);
 		}

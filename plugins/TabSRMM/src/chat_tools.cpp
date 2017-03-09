@@ -49,8 +49,8 @@ static void __stdcall Chat_DismissPopup(void *pi)
 		if (pcli->pfnGetEvent(si->hContact, 0))
 			pcli->pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 
-	if (si->hWnd && KillTimer(si->hWnd, TIMERID_FLASHWND))
-		FlashWindow(si->hWnd, FALSE);
+	if (si->pDlg && KillTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND))
+		FlashWindow(si->pDlg->GetHwnd(), FALSE);
 }
 
 static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -88,7 +88,7 @@ BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 {
 	int iEvent = gce->pDest->iType;
 	if (si && (iEvent & si->iLogTrayFlags))
-		return saveCI.DoTrayIcon(si, gce);
+		return oldDoTrayIcon(si, gce);
 	return TRUE;
 }
 
@@ -141,7 +141,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 	if (si == nullptr || !(iEvent & si->iLogPopupFlags))
 		return true;
 
-	CTabBaseDlg *dat = si->dat;
+	CTabBaseDlg *dat = si->pDlg;
 	TContainerData *pContainer = dat ? dat->m_pContainer : nullptr;
 
 	wchar_t *bbStart, *bbEnd;
@@ -184,7 +184,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 			if (pContainer->dwFlags & CNT_DONTREPORTFOCUSED)
 				goto passed;
 
-			if (pContainer->hwndActive == si->hWnd)
+			if (pContainer->hwndActive == si->pDlg->GetHwnd())
 				return 0;
 
 			goto passed;
@@ -204,32 +204,32 @@ passed:
 		ShowPopup(si->hContact, si, pci->hIcons[ICON_MESSAGE], si->pszModule, si->ptszName, clr ? clr : pci->aFonts[9].color,
 			TranslateT("%s%s says:%s %s"), bbStart, gce->ptszNick, bbEnd, pci->RemoveFormatting(gce->ptszText));
 	}
-	else saveCI.DoPopup(si, gce);
+	else oldDoPopup(si, gce);
 
 	return TRUE;
 }
 
-void DoFlashAndSoundWorker(FLASH_PARAMS* p)
+void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 {
 	SESSION_INFO *si = SM_FindSessionByHCONTACT(p->hContact);
-	if (si == 0)
+	if (si == nullptr)
 		return;
 
 	CTabBaseDlg *dat = 0;
-	if (si->hWnd) {
-		dat = si->dat;
+	if (si->pDlg) {
+		dat = si->pDlg;
 		if (dat) {
 			p->bInactive = dat->m_pContainer->hwnd != GetForegroundWindow();
-			p->bActiveTab = (dat->m_pContainer->hwndActive == si->hWnd);
+			p->bActiveTab = (dat->m_pContainer->hwndActive == si->pDlg->GetHwnd());
 		}
-		if (p->sound && Utils::mustPlaySound(si->dat))
+		if (p->sound && Utils::mustPlaySound(si->pDlg))
 			SkinPlaySound(p->sound);
 	}
 	else if (p->sound)
 		SkinPlaySound(p->sound);
 
 	if (dat) {
-		HWND hwndTab = GetParent(si->hWnd);
+		HWND hwndTab = GetParent(si->pDlg->GetHwnd());
 		BOOL bForcedIcon = (p->hNotifyIcon == pci->hIcons[ICON_HIGHLIGHT] || p->hNotifyIcon == pci->hIcons[ICON_MESSAGE]);
 
 		if ((p->iEvent & si->iLogTrayFlags) || bForcedIcon) {
@@ -241,7 +241,7 @@ void DoFlashAndSoundWorker(FLASH_PARAMS* p)
 						dat->m_iFlashIcon = p->hNotifyIcon;
 				}
 				dat->m_bCanFlashTab = TRUE;
-				SetTimer(si->hWnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, nullptr);
+				SetTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND, TIMEOUT_FLASHWND, nullptr);
 			}
 		}
 		if (dat->m_pWnd) {
@@ -251,12 +251,12 @@ void DoFlashAndSoundWorker(FLASH_PARAMS* p)
 
 		// autoswitch tab..
 		if (p->bMustAutoswitch) {
-			if ((IsIconic(dat->m_pContainer->hwnd)) && !IsZoomed(dat->m_pContainer->hwnd) && PluginConfig.haveAutoSwitch() && dat->m_pContainer->hwndActive != si->hWnd) {
-				int iItem = GetTabIndexFromHWND(hwndTab, si->hWnd);
+			if ((IsIconic(dat->m_pContainer->hwnd)) && !IsZoomed(dat->m_pContainer->hwnd) && PluginConfig.haveAutoSwitch() && dat->m_pContainer->hwndActive != si->pDlg->GetHwnd()) {
+				int iItem = GetTabIndexFromHWND(hwndTab, si->pDlg->GetHwnd());
 				if (iItem >= 0) {
 					TabCtrl_SetCurSel(hwndTab, iItem);
 					ShowWindow(dat->m_pContainer->hwndActive, SW_HIDE);
-					dat->m_pContainer->hwndActive = si->hWnd;
+					dat->m_pContainer->hwndActive = si->pDlg->GetHwnd();
 					SendMessage(dat->m_pContainer->hwnd, DM_UPDATETITLE, dat->m_hContact, 0);
 					dat->m_pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
 				}
@@ -277,7 +277,7 @@ void DoFlashAndSoundWorker(FLASH_PARAMS* p)
 				TCITEM item = {};
 				item.mask = TCIF_IMAGE;
 				item.iImage = 0;
-				TabCtrl_SetItem(GetParent(si->hWnd), dat->m_iTabID, &item);
+				TabCtrl_SetItem(GetParent(si->pDlg->GetHwnd()), dat->m_iTabID, &item);
 			}
 
 			HICON hIcon = (HICON)SendMessage(dat->m_pContainer->hwnd, WM_GETICON, ICON_BIG, 0);
@@ -303,9 +303,9 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	FLASH_PARAMS *params = (FLASH_PARAMS*)mir_calloc(sizeof(FLASH_PARAMS));
 	params->hContact = si->hContact;
 	params->bInactive = TRUE;
-	if (si->hWnd && si->dat) {
-		dat = si->dat;
-		if ((si->hWnd == si->dat->m_pContainer->hwndActive) && GetForegroundWindow() == si->dat->m_pContainer->hwnd)
+	if (si->pDlg) {
+		dat = si->pDlg;
+		if ((si->pDlg->GetHwnd() == si->pDlg->m_pContainer->hwndActive) && GetForegroundWindow() == si->pDlg->m_pContainer->hwnd)
 			params->bInactive = FALSE;
 	}
 	params->bActiveTab = params->bMustFlash = params->bMustAutoswitch = FALSE;
@@ -333,8 +333,8 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 		if (dat || !nen_options.iMUCDisable)
 			DoPopup(si, gce);
-		if (params->bInactive && si && si->hWnd)
-			SendMessage(si->hWnd, GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si);
+		if (params->bInactive && si && si->pDlg)
+			SendMessage(si->pDlg->GetHwnd(), GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si);
 		if (g_Settings.bFlashWindowHighlight && params->bInactive)
 			params->bMustFlash = TRUE;
 		params->bMustAutoswitch = TRUE;
@@ -502,7 +502,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	if (!(gce->pDest->iType & si->iDiskLogFlags))
 		return FALSE;
 
-	return saveCI.LogToFile(si, gce); // call kernel method
+	return oldLogToFile(si, gce); // call kernel method
 }
 
 UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText)

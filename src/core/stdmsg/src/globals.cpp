@@ -44,8 +44,11 @@ static int IconsChanged(WPARAM, LPARAM)
 
 static int OnShutdown(WPARAM, LPARAM)
 {
-	for (SESSION_INFO *si = pci->wndList; si; si = si->next)
-		SendMessage(si->hWnd, WM_CLOSE, 0, 0);
+	for (int i = 0; i < pci->arSessions.getCount(); i++) {
+		SESSION_INFO *si = pci->arSessions[i];
+		if (si->pDlg)
+			si->pDlg->Close();
+	}
 
 	UninitTabs();
 	ImageList_Destroy(hIconsList);

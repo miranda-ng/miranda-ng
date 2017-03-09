@@ -97,12 +97,12 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	else
 	{
 		SESSION_INFO *si = SM_FindSessionByHCONTACT(mwid->hContact);
-		if (si != nullptr && si->hWnd != 0) {
+		if (si != nullptr && si->pDlg != nullptr) {
 			mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-			mwd->hwndWindow = si->hWnd;
-			mwd->local = GetParent(GetParent(si->hWnd));
-			SendMessage(si->hWnd, DM_GETWINDOWSTATE, 0, 0);
-			mwd->uState = GetWindowLongPtr(si->hWnd, DWLP_MSGRESULT);
+			mwd->hwndWindow = si->pDlg->GetHwnd();
+			mwd->local = GetParent(GetParent(si->pDlg->GetHwnd()));
+			SendMessage(si->pDlg->GetHwnd(), DM_GETWINDOWSTATE, 0, 0);
+			mwd->uState = GetWindowLongPtr(si->pDlg->GetHwnd(), DWLP_MSGRESULT);
 			return 0;
 		}
 		else {
@@ -321,7 +321,7 @@ static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 			if (hwnd = M.FindWindow(hContact))
 				SetStatusTextWorker((CTabBaseDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA), (StatusTextData*)lParam);
 	}
-	else SetStatusTextWorker(si->dat, (StatusTextData*)lParam);
+	else SetStatusTextWorker(si->pDlg, (StatusTextData*)lParam);
 
 	return 0;
 }
