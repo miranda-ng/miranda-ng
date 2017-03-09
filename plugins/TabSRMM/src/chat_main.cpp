@@ -37,7 +37,7 @@ pfnDoTrayIcon oldDoTrayIcon;
 CHAT_MANAGER *pci;
 TMUCSettings g_Settings;
 
-static void OnCreateSession(SESSION_INFO *si, MODULEINFO *mi)
+static void OnCreateSession(SESSION_INFO*, MODULEINFO *mi)
 {
 	if (mi) {
 		mi->idleTimeStamp = time(0);

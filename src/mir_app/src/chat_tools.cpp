@@ -606,31 +606,6 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	return TRUE;
 }
 
-BOOL DoEventHookAsync(HWND hwnd, const wchar_t *pszID, const char *pszModule, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem)
-{
-	SESSION_INFO *si = chatApi.SM_FindSession(pszID, pszModule);
-	if (si == NULL)
-		return FALSE;
-
-	GCDEST *gcd = (GCDEST*)mir_calloc(sizeof(GCDEST));
-	gcd->pszModule = mir_strdup(pszModule);
-	gcd->ptszID = mir_wstrdup(pszID);
-	gcd->iType = iType;
-
-	GCHOOK *gch = (GCHOOK*)mir_calloc(sizeof(GCHOOK));
-	if (pUser != NULL) {
-		gch->ptszUID = mir_wstrdup(pUser->pszUID);
-		gch->ptszNick = mir_wstrdup(pUser->pszNick);
-	}
-	else gch->ptszUID = gch->ptszNick = nullptr;
-
-	gch->ptszText = mir_wstrdup(pszText);
-	gch->dwData = dwItem;
-	gch->pDest = gcd;
-	PostMessage(hwnd, GC_FIREHOOK, 0, (LPARAM)gch);
-	return TRUE;
-}
-
 BOOL DoEventHook(SESSION_INFO *si, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem)
 {
 	if (si == nullptr)
@@ -851,22 +826,22 @@ static void CALLBACK ChatTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 
 	USERINFO *ui1 = chatApi.SM_GetUserFromIndex(si->ptszID, si->pszModule, si->currentHovered);
 	if (ui1) {
-		wchar_t tszBuf[1024]; tszBuf[0] = 0;
+		CMStringW wszBuf;
 		if (ProtoServiceExists(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
 			wchar_t *p = (wchar_t*)CallProtoService(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)si->ptszID, (LPARAM)ui1->pszUID);
 			if (p) {
-				wcsncpy_s(tszBuf, p, _TRUNCATE);
+				wszBuf = p;
 				mir_free(p);
 			}
 		}
-		if (tszBuf[0] == 0)
-			mir_snwprintf(tszBuf, L"<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s",
-			TranslateT("Nick"), ui1->pszNick,
-			TranslateT("Unique ID"), ui1->pszUID,
-			TranslateT("Status"), chatApi.TM_WordToString(si->pStatuses, ui1->Status));
+		if (wszBuf.IsEmpty())
+			wszBuf.Format(L"<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s",
+				TranslateT("Nick"), ui1->pszNick,
+				TranslateT("Unique ID"), ui1->pszUID,
+				TranslateT("Status"), chatApi.TM_WordToString(si->pStatuses, ui1->Status));
 
 		CLCINFOTIP ti = { sizeof(ti) };
-		if (CallService("mToolTip/ShowTipW", (WPARAM)tszBuf, (LPARAM)&ti))
+		if (CallService("mToolTip/ShowTipW", (WPARAM)wszBuf.c_str(), (LPARAM)&ti))
 			si->bHasToolTip = true;
 	}
 	KillTimer(hwnd, idEvent);

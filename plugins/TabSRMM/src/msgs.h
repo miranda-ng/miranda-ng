@@ -354,7 +354,7 @@ public:
 
 public:
 	CTabBaseDlg(int iDialogId, SESSION_INFO* = nullptr);
-	virtual ~CTabBaseDlg() override;
+	virtual ~CTabBaseDlg();
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 

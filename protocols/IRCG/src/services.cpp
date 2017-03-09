@@ -410,14 +410,14 @@ static void DoChatFormatting(wchar_t* pszText)
 				iRemoveChars = 2;
 				break;
 			case 'c':
-			{
-				mir_wstrcpy(InsertThis, L"\003");
-				iRemoveChars = 2;
+				{
+					mir_wstrcpy(InsertThis, L"\003");
+					iRemoveChars = 2;
 
-				wchar_t szTemp[3];
-				mir_wstrncpy(szTemp, p1 + 2, 3);
-				iFG = _wtoi(szTemp);
-			}
+					wchar_t szTemp[3];
+					mir_wstrncpy(szTemp, p1 + 2, 3);
+					iFG = _wtoi(szTemp);
+				}
 				break;
 			case 'C':
 				if (p1[2] == '%' && p1[3] == 'F') {
@@ -505,11 +505,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 				break;
 
 			case GC_USER_PRIVMESS:
-			{
-				wchar_t szTemp[4000];
-				mir_snwprintf(szTemp, L"/QUERY %s", gch->ptszUID);
-				PostIrcMessageWnd(p1, NULL, szTemp);
-			}
+				PostIrcMessageWnd(p1, NULL, CMStringW(FORMAT, L"/QUERY %s", gch->ptszUID));
 				break;
 
 			case GC_USER_LOGMENU:
@@ -544,29 +540,29 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 						PostIrcMessage(L"/nickserv DROP");
 					break;
 				case 8:		// nickserv Identify
-				{
-					CQuestionDlg* dlg = new CQuestionDlg(this);
-					dlg->Show();
-					HWND question_hWnd = dlg->GetHwnd();
-					HWND hEditCtrl = GetDlgItem(question_hWnd, IDC_EDIT);
-					SetDlgItemText(question_hWnd, IDC_CAPTION, TranslateT("Identify nick"));
-					SetDlgItemText(question_hWnd, IDC_TEXT, TranslateT("Please enter your password"));
-					SetDlgItemText(question_hWnd, IDC_HIDDENEDIT, L"/nickserv IDENTIFY %question=\"%s\",\"%s\"");
-					SetWindowLongPtr(GetDlgItem(question_hWnd, IDC_EDIT), GWL_STYLE,
-						(LONG)GetWindowLongPtr(GetDlgItem(question_hWnd, IDC_EDIT), GWL_STYLE) | ES_PASSWORD);
-					SendMessage(hEditCtrl, EM_SETPASSWORDCHAR, (WPARAM)'*', 0);
-					SetFocus(hEditCtrl);
-					dlg->Activate();
-				}
+					{
+						CQuestionDlg* dlg = new CQuestionDlg(this);
+						dlg->Show();
+						HWND question_hWnd = dlg->GetHwnd();
+						HWND hEditCtrl = GetDlgItem(question_hWnd, IDC_EDIT);
+						SetDlgItemText(question_hWnd, IDC_CAPTION, TranslateT("Identify nick"));
+						SetDlgItemText(question_hWnd, IDC_TEXT, TranslateT("Please enter your password"));
+						SetDlgItemText(question_hWnd, IDC_HIDDENEDIT, L"/nickserv IDENTIFY %question=\"%s\",\"%s\"");
+						SetWindowLongPtr(GetDlgItem(question_hWnd, IDC_EDIT), GWL_STYLE,
+							(LONG)GetWindowLongPtr(GetDlgItem(question_hWnd, IDC_EDIT), GWL_STYLE) | ES_PASSWORD);
+						SendMessage(hEditCtrl, EM_SETPASSWORDCHAR, (WPARAM)'*', 0);
+						SetFocus(hEditCtrl);
+						dlg->Activate();
+					}
 					break;
 				case 9:		// nickserv remind password
-				{
-					DBVARIANT dbv;
-					if (!getWString("Nick", &dbv)) {
-						PostIrcMessage(L"/nickserv SENDPASS %s", dbv.ptszVal);
-						db_free(&dbv);
+					{
+						DBVARIANT dbv;
+						if (!getWString("Nick", &dbv)) {
+							PostIrcMessage(L"/nickserv SENDPASS %s", dbv.ptszVal);
+							db_free(&dbv);
+						}
 					}
-				}
 					break;
 				case 10:		// nickserv set new password
 					PostIrcMessage(L"/nickserv SET PASSWORD %%question=\"%s\",\"%s\"",

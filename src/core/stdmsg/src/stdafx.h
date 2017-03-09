@@ -92,6 +92,7 @@ struct MODULEINFO : public GCModuleInfoBase
 struct SESSION_INFO : public GCSessionInfoBase
 {
 	int iX, iY;
+	int iWidth, iHeight;
 };
 
 struct LOGSTREAMDATA : public GCLogStreamDataBase {};
@@ -174,6 +175,7 @@ class CChatRoomDlg : public CSrmmBaseDialog
 	friend struct CTabbedWindow;
 
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	HWND m_hwndStatus;
 

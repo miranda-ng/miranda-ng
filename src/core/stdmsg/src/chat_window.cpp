@@ -689,7 +689,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	return mir_callNextSubclass(hwnd, LogSubclassProc, msg, wParam, lParam);
 }
 
-static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK CChatRoomDlg::NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	SESSION_INFO *si = (SESSION_INFO*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
@@ -781,11 +781,11 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					break;
 
 				case ID_MESS:
-					pci->DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui, nullptr, 0);
+					si->pDlg->DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
 					break;
 
 				default:
-					pci->DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_NICKLISTMENU, ui, nullptr, uID);
+					si->pDlg->DoEventHook(GC_USER_NICKLISTMENU, ui, nullptr, uID);
 					break;
 				}
 				DestroyGCMenu(&hMenu, 1);
@@ -1047,7 +1047,7 @@ void CChatRoomDlg::OnClick_NickList(CCtrlButton *pButton)
 void CChatRoomDlg::OnClick_Options(CCtrlButton *pButton)
 {
 	if (pButton->Enabled())
-		pci->DoEventHookAsync(m_hwnd, m_si->ptszID, m_si->pszModule, GC_USER_CHANMGR, nullptr, nullptr, 0);
+		DoEventHook(GC_USER_CHANMGR, nullptr, nullptr, 0);
 }
 
 void CChatRoomDlg::OnClick_Ok(CCtrlButton *pButton)
@@ -1078,7 +1078,7 @@ void CChatRoomDlg::OnClick_Ok(CCtrlButton *pButton)
 
 	EnableWindow(m_btnOk.GetHwnd(), FALSE);
 
-	pci->DoEventHookAsync(m_hwnd, m_si->ptszID, m_si->pszModule, GC_USER_MESSAGE, nullptr, ptszText, 0);
+	DoEventHook(GC_USER_MESSAGE, nullptr, ptszText, 0);
 
 	SetFocus(m_message.GetHwnd());
 }
@@ -1101,7 +1101,7 @@ void CChatRoomDlg::OnListDblclick(CCtrlListBox*)
 		SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)buf.c_str());
 		PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 	}
-	else pci->DoEventHookAsync(m_hwnd, m_si->ptszID, m_si->pszModule, GC_USER_PRIVMESS, ui, nullptr, 0);
+	else DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
 }
 
 void CChatRoomDlg::OnSplitterX(CSplitter *pSplitter)
@@ -1321,10 +1321,10 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (!IsIconic(m_hwnd)) {
 			SendMessage(m_hwndStatus, WM_SIZE, 0, 0);
 
-			BOOL bControl = (BOOL)db_get_b(0, CHAT_MODULE, "ShowTopButtons", 1);
-			BOOL bFormat = (BOOL)db_get_b(0, CHAT_MODULE, "ShowFormatButtons", 1);
-			BOOL bSend = (BOOL)db_get_b(0, CHAT_MODULE, "ShowSend", 0);
-			BOOL bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
+			bool bSend = db_get_b(0, CHAT_MODULE, "ShowSend", 0) != 0;
+			bool bFormat = db_get_b(0, CHAT_MODULE, "ShowFormatButtons", 1) != 0;
+			bool bControl = db_get_b(0, CHAT_MODULE, "ShowTopButtons", 1) != 0;
+			bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 
 			ShowWindow(m_btnBold.GetHwnd(), bFormat ? SW_SHOW : SW_HIDE);
 			ShowWindow(m_btnItalic.GetHwnd(), bFormat ? SW_SHOW : SW_HIDE);
@@ -1344,13 +1344,13 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				ShowWindow(m_nickList.GetHwnd(), SW_HIDE);
 
 			if (m_si->iType == GCW_SERVER) {
-				EnableWindow(m_btnNickList.GetHwnd(), FALSE);
-				EnableWindow(m_btnFilter.GetHwnd(), FALSE);
-				EnableWindow(m_btnChannelMgr.GetHwnd(), FALSE);
+				EnableWindow(m_btnNickList.GetHwnd(), false);
+				EnableWindow(m_btnFilter.GetHwnd(), false);
+				EnableWindow(m_btnChannelMgr.GetHwnd(), false);
 			}
 			else {
-				EnableWindow(m_btnNickList.GetHwnd(), TRUE);
-				EnableWindow(m_btnFilter.GetHwnd(), TRUE);
+				EnableWindow(m_btnNickList.GetHwnd(), true);
+				EnableWindow(m_btnFilter.GetHwnd(), true);
 				if (m_si->iType == GCW_CHATROOM)
 					EnableWindow(m_btnChannelMgr.GetHwnd(), pci->MM_FindModule(m_si->pszModule)->bChanMgr);
 			}
@@ -1358,7 +1358,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			CSrmmBaseDialog::DlgProc(uMsg, wParam, lParam); // call built-in resizer
 			SetButtonsPos(m_hwnd, true);
 
-			InvalidateRect(m_hwndStatus, nullptr, TRUE);
+			InvalidateRect(m_hwndStatus, nullptr, true);
 			RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 			RedrawWindow(m_btnOk.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 			SaveWindowPosition(false);
@@ -1549,21 +1549,6 @@ LABEL_SHOWWINDOW:
 		}
 		break;
 
-	case GC_FIREHOOK:
-		if (lParam) {
-			GCHOOK *gch = (GCHOOK *)lParam;
-			NotifyEventHooks(pci->hSendEvent, 0, lParam);
-			if (gch->pDest) {
-				mir_free((void*)gch->pDest->ptszID);
-				mir_free((void*)gch->pDest->pszModule);
-				mir_free(gch->pDest);
-			}
-			mir_free((void*)gch->ptszText);
-			mir_free((void*)gch->ptszUID);
-			mir_free(gch);
-		}
-		break;
-
 	case GC_CLOSEWINDOW:
 		if (g_Settings.bTabsEnable)
 			SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
@@ -1725,7 +1710,7 @@ LABEL_SHOWWINDOW:
 
 				default:
 					PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-					pci->DoEventHookAsync(m_hwnd, m_si->ptszID, m_si->pszModule, GC_USER_LOGMENU, nullptr, nullptr, uID);
+					DoEventHook(GC_USER_LOGMENU, nullptr, nullptr, uID);
 					break;
 				}
 				DestroyGCMenu(&hMenu, 5);

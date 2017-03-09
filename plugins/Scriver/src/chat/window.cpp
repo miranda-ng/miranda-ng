@@ -566,7 +566,7 @@ LRESULT CALLBACK CChatRoomDlg::LogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 			default:
 				PostMessage(GetParent(hwnd), WM_MOUSEACTIVATE, 0, 0);
-				pci->DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_LOGMENU, nullptr, nullptr, uID);
+				pDlg->DoEventHook(GC_USER_LOGMENU, nullptr, nullptr, uID);
 				break;
 			}
 			DestroyGCMenu(&hMenu, 5);
@@ -678,11 +678,11 @@ LRESULT CALLBACK CChatRoomDlg::NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM 
 					break;
 
 				case ID_MESS:
-					pci->DoEventHookAsync(GetParent(hwnd), pDlg->m_si->ptszID, pDlg->m_si->pszModule, GC_USER_PRIVMESS, ui, nullptr, 0);
+					pDlg->DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
 					break;
 
 				default:
-					pci->DoEventHookAsync(GetParent(hwnd), pDlg->m_si->ptszID, pDlg->m_si->pszModule, GC_USER_NICKLISTMENU, ui, nullptr, uID);
+					pDlg->DoEventHook(GC_USER_NICKLISTMENU, ui, nullptr, uID);
 					break;
 				}
 				DestroyGCMenu(&hMenu, 1);
@@ -710,7 +710,7 @@ LRESULT CALLBACK CChatRoomDlg::NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM 
 			int index = SendMessage(hwnd, LB_GETCURSEL, 0, 0);
 			if (index != LB_ERR) {
 				USERINFO *ui = pci->SM_GetUserFromIndex(pDlg->m_si->ptszID, pDlg->m_si->pszModule, index);
-				pci->DoEventHookAsync(GetParent(hwnd), pDlg->m_si->ptszID, pDlg->m_si->pszModule, GC_USER_PRIVMESS, ui, nullptr, 0);
+				pDlg->DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
 			}
 			break;
 		}
@@ -1037,7 +1037,7 @@ void CChatRoomDlg::onDblClick_List(CCtrlListBox*)
 			m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)pszName);
 			PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 		}
-		else pci->DoEventHookAsync(m_hwnd, m_si->ptszID, m_si->pszModule, GC_USER_PRIVMESS, ui, nullptr, 0);
+		else DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
 	}
 }
 
@@ -1076,7 +1076,7 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 
 	EnableWindow(m_btnOk.GetHwnd(), FALSE);
 
-	pci->DoEventHookAsync(m_hwnd, m_si->ptszID, m_si->pszModule, GC_USER_MESSAGE, nullptr, ptszText, 0);
+	DoEventHook(GC_USER_MESSAGE, nullptr, ptszText, 0);
 	SetFocus(m_message.GetHwnd());
 }
 
@@ -1093,7 +1093,7 @@ void CChatRoomDlg::onClick_History(CCtrlButton *pButton)
 void CChatRoomDlg::onClick_ChanMgr(CCtrlButton *pButton)
 {
 	if (pButton->Enabled())
-		pci->DoEventHookAsync(m_hwnd, m_si->ptszID, m_si->pszModule, GC_USER_CHANMGR, nullptr, nullptr, 0);
+		DoEventHook(GC_USER_CHANMGR, nullptr, nullptr, 0);
 }
 
 void CChatRoomDlg::onClick_ShowList(CCtrlButton *pButton)
@@ -1590,22 +1590,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SendMessage(m_hwnd, WM_SIZE, 0, 0);
 			SetForegroundWindow(m_hwnd);
 			return TRUE;
-		}
-		break;
-
-	case GC_FIREHOOK:
-		if (lParam) {
-			NotifyEventHooks(pci->hSendEvent, 0, lParam);
-			GCHOOK *gch = (GCHOOK*)lParam;
-			if (gch->pDest) {
-				mir_free((void*)gch->pDest->ptszID);
-				mir_free((void*)gch->pDest->pszModule);
-				mir_free(gch->pDest);
-			}
-			mir_free(gch->ptszText);
-			mir_free(gch->ptszUID);
-			mir_free(gch->ptszNick);
-			mir_free(gch);
 		}
 		break;
 

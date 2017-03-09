@@ -187,12 +187,12 @@ static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO * ui)
 
 BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool bIsHighlighted)
 {
-	SESSION_INFO *p = SM_FindSession(pszID, pszModule);
-	if (p == nullptr)
+	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
+	if (si == nullptr)
 		return TRUE;
 
-	LOGINFO *li = chatApi.LM_AddEvent(&p->pLog, &p->pLogEnd);
-	p->iEventCount += 1;
+	LOGINFO *li = chatApi.LM_AddEvent(&si->pLog, &si->pLogEnd);
+	si->iEventCount++;
 
 	li->iType = gce->pDest->iType;
 	li->ptszNick = mir_wstrdup(gce->ptszNick);
@@ -204,10 +204,10 @@ BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool
 	li->time = gce->time;
 	li->bIsHighlighted = bIsHighlighted;
 
-	if (g_Settings->iEventLimit > 0 && p->iEventCount > g_Settings->iEventLimit + 20) {
-		chatApi.LM_TrimLog(&p->pLog, &p->pLogEnd, p->iEventCount - g_Settings->iEventLimit);
-		p->bTrimmed = true;
-		p->iEventCount = g_Settings->iEventLimit;
+	if (g_Settings->iEventLimit > 0 && si->iEventCount > g_Settings->iEventLimit + 20) {
+		chatApi.LM_TrimLog(&si->pLog, &si->pLogEnd, si->iEventCount - g_Settings->iEventLimit);
+		si->bTrimmed = true;
+		si->iEventCount = g_Settings->iEventLimit;
 		return FALSE;
 	}
 	return TRUE;
@@ -437,7 +437,9 @@ static void SM_AddCommand(const wchar_t *pszID, const char *pszModule, const cha
 
 	if (si->wCommandsNum > WINDOWS_COMMANDS_MAX) {
 		COMMANDINFO *pCurComm = si->lpCommands;
-		while (pCurComm->next != nullptr) { pCurComm = pCurComm->next; }
+		while (pCurComm->next != nullptr)
+			pCurComm = pCurComm->next;
+		
 		COMMANDINFO *pLast = pCurComm->last;
 		mir_free(pCurComm->lpCommand);
 		mir_free(pCurComm);
@@ -527,7 +529,7 @@ char* SM_GetUsers(SESSION_INFO *si)
 	if (utemp == nullptr)
 		return nullptr;
 
-	char* p = nullptr;
+	char *p = nullptr;
 	size_t alloced = 0;
 	do {
 		size_t pLen = mir_strlen(p), nameLen = mir_wstrlen(utemp->pszUID);
@@ -1041,12 +1043,6 @@ static BOOL LM_RemoveAll(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd)
 	return TRUE;
 }
 
-static BOOL DoEventHook(const wchar_t *pszID, const char *pszModule, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem)
-{
-	SESSION_INFO *si = chatApi.SM_FindSession(pszID, pszModule);
-	return (si) ? DoEventHook(si, iType, pUser, pszText, dwItem) : FALSE;
-}
-
 MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _hLangpack)
 {
 	if (pInit == nullptr)
@@ -1145,9 +1141,6 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _
 	chatApi.Log_CreateRtfHeader = Log_CreateRtfHeader;
 	chatApi.LoadMsgDlgFont = LoadMsgDlgFont;
 	chatApi.MakeTimeStamp = MakeTimeStamp;
-
-	chatApi.DoEventHook = DoEventHook;
-	chatApi.DoEventHookAsync = DoEventHookAsync;
 
 	chatApi.DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
 	chatApi.DoTrayIcon = DoTrayIcon;

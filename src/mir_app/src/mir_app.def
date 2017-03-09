@@ -410,3 +410,4 @@ ProtoGetAvatarMimeType @401
 ?isChat@CSrmmBaseDialog@@QBE_NXZ @411 NONAME
 Srmm_LogStreamCallback @412
 Srmm_MessageStreamCallback @413
+?DoEventHook@CSrmmBaseDialog@@IAEXHPBUUSERINFO@@PB_WH@Z @414 NONAME

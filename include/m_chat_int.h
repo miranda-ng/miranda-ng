@@ -48,7 +48,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GC_SETVISIBILITY       (WM_USER+107)
 #define GC_SETWNDPROPS         (WM_USER+108)
 #define GC_REDRAWLOG           (WM_USER+109)
-#define GC_FIREHOOK            (WM_USER+110)
 #define GC_FILTERFIX           (WM_USER+111)
 #define GC_CHANGEFILTERFLAG    (WM_USER+112)
 #define GC_SHOWFILTERMENU      (WM_USER+113)
@@ -168,9 +167,9 @@ struct USERINFO
 {
 	wchar_t* pszNick;
 	wchar_t* pszUID;
-	WORD   Status;
-	int    iStatusEx;
-	WORD   ContactStatus;
+	WORD     Status;
+	int      iStatusEx;
+	WORD     ContactStatus;
 	USERINFO *next;
 };
 
@@ -191,8 +190,6 @@ struct GCSessionInfoBase
 	int         iType;
 	int         nUsersInNicklist;
 	int         iEventCount;
-	int         iWidth;
-	int         iHeight;
 	int         iStatusCount;
 
 	WORD        wStatus;
@@ -345,9 +342,6 @@ struct CHAT_MANAGER
 	void          (*LoadMsgDlgFont)(int i, LOGFONT *lf, COLORREF *color);
 	wchar_t*      (*MakeTimeStamp)(wchar_t *pszStamp, time_t time);
 
-	BOOL          (*DoEventHook)(const wchar_t *pszID, const char *pszModule, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem);
-	BOOL          (*DoEventHookAsync)(HWND hwnd, const wchar_t *pszID, const char *pszModule, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem);
-
 	BOOL          (*DoSoundsFlashPopupTrayStuff)(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
 	BOOL          (*DoTrayIcon)(SESSION_INFO *si, GCEVENT *gce);
 	BOOL          (*DoPopup)(SESSION_INFO *si, GCEVENT *gce);
@@ -422,8 +416,9 @@ class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 protected:
 	CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si = nullptr);
 
-protected:
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	void DoEventHook(int iType, const USERINFO *pUser, const wchar_t *pszText, INT_PTR dwItem);
 
 protected:
 	CCtrlEdit *m_pLog, *m_pEntry;
