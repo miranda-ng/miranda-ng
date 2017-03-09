@@ -173,6 +173,8 @@ class CChatRoomDlg : public CSrmmBaseDialog
 {
 	friend struct CTabbedWindow;
 
+	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
 	HWND m_hwndStatus;
 
 	CCtrlEdit m_message, m_log;
@@ -186,6 +188,7 @@ class CChatRoomDlg : public CSrmmBaseDialog
 	{	return (g_Settings.bTabsEnable) ? GetParent(m_hwndParent) : m_hwnd;
 	}
 
+	void Log_StreamInEvent(LOGINFO *lin, BOOL bRedraw);
 	void SaveWindowPosition(bool bUpdateSession);
 	void SetWindowPosition();
 

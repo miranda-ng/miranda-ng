@@ -253,7 +253,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 {
 	bool bToolbar = !(m_pContainer->dwFlags & CNT_HIDETOOLBAR);
 	bool bBottomToolbar = (m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR) != 0;
-	bool bNick = m_si->iType != GCW_SERVER && m_si->bNicklistEnabled;
+	bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 	bool bInfoPanel = m_pPanel.isActive();
 	int  panelHeight = m_pPanel.getHeight() + 1;
 	int  iSplitterX = m_pContainer->settings->iSplitterX;
@@ -265,8 +265,8 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		Utils::showDlgControl(m_hwnd, IDC_SPLITTERY, SW_HIDE);
 
 	if (m_si->iType != GCW_SERVER) {
-		Utils::showDlgControl(m_hwnd, IDC_LIST, m_si->bNicklistEnabled ? SW_SHOW : SW_HIDE);
-		Utils::showDlgControl(m_hwnd, IDC_SPLITTERX, m_si->bNicklistEnabled ? SW_SHOW : SW_HIDE);
+		Utils::showDlgControl(m_hwnd, IDC_LIST, m_bNicklistEnabled ? SW_SHOW : SW_HIDE);
+		Utils::showDlgControl(m_hwnd, IDC_SPLITTERX, m_bNicklistEnabled ? SW_SHOW : SW_HIDE);
 
 		m_btnNickList.Enable(true);
 		m_btnFilter.Enable(true);
@@ -868,8 +868,8 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 				UINT u = IsDlgButtonChecked(GetParent(hwnd), IDC_COLOR);
 
 				if (index >= 0) {
-					mwdat->m_si->bFGSet = true;
-					mwdat->m_si->iFG = index;
+					mwdat->m_bFGSet = true;
+					mwdat->m_iFG = index;
 				}
 
 				if (u == BST_UNCHECKED && cf.crTextColor != cr)
@@ -884,8 +884,8 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 				UINT u = IsDlgButtonChecked(hwndParent, IDC_BKGCOLOR);
 
 				if (index >= 0) {
-					mwdat->m_si->bBGSet = true;
-					mwdat->m_si->iBG = index;
+					mwdat->m_bBGSet = true;
+					mwdat->m_iBG = index;
 				}
 
 				if (u == BST_UNCHECKED && cf.crBackColor != crB)
@@ -965,22 +965,22 @@ static UINT _eventorder[] =
 	GC_EVENT_NOTICE
 };
 
-static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK CChatRoomDlg::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	SESSION_INFO *si = (SESSION_INFO*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CChatRoomDlg *pDlg = (CChatRoomDlg*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		si = (SESSION_INFO*)lParam;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)si);
+		pDlg = (CChatRoomDlg*)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		{
-			DWORD dwMask = db_get_dw(si->hContact, CHAT_MODULE, "FilterMask", 0);
-			DWORD dwFlags = db_get_dw(si->hContact, CHAT_MODULE, "FilterFlags", 0);
+			DWORD dwMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterMask", 0);
+			DWORD dwFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterFlags", 0);
 
-			DWORD dwPopupMask = db_get_dw(si->hContact, CHAT_MODULE, "PopupMask", 0);
-			DWORD dwPopupFlags = db_get_dw(si->hContact, CHAT_MODULE, "PopupFlags", 0);
+			DWORD dwPopupMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "PopupMask", 0);
+			DWORD dwPopupFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "PopupFlags", 0);
 
-			DWORD dwTrayMask = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconMask", 0);
-			DWORD dwTrayFlags = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconFlags", 0);
+			DWORD dwTrayMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask", 0);
+			DWORD dwTrayFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconFlags", 0);
 
 			for (int i = 0; i < _countof(_eventorder); i++) {
 				CheckDlgButton(hwndDlg, IDC_1 + i, dwMask & _eventorder[i] ? (dwFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
@@ -1007,17 +1007,17 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
 			}
 
-			if (iFlags&GC_EVENT_ADDSTATUS)
+			if (iFlags & GC_EVENT_ADDSTATUS)
 				iFlags |= GC_EVENT_REMOVESTATUS;
 
-			if (si) {
+			if (pDlg) {
 				if (dwMask == 0) {
-					db_unset(si->hContact, CHAT_MODULE, "FilterFlags");
-					db_unset(si->hContact, CHAT_MODULE, "FilterMask");
+					db_unset(pDlg->m_hContact, CHAT_MODULE, "FilterFlags");
+					db_unset(pDlg->m_hContact, CHAT_MODULE, "FilterMask");
 				}
 				else {
-					db_set_dw(si->hContact, CHAT_MODULE, "FilterFlags", iFlags);
-					db_set_dw(si->hContact, CHAT_MODULE, "FilterMask", dwMask);
+					db_set_dw(pDlg->m_hContact, CHAT_MODULE, "FilterFlags", iFlags);
+					db_set_dw(pDlg->m_hContact, CHAT_MODULE, "FilterMask", dwMask);
 				}
 			}
 
@@ -1032,14 +1032,14 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			if (iFlags & GC_EVENT_ADDSTATUS)
 				iFlags |= GC_EVENT_REMOVESTATUS;
 
-			if (si) {
+			if (pDlg) {
 				if (dwMask == 0) {
-					db_unset(si->hContact, CHAT_MODULE, "PopupFlags");
-					db_unset(si->hContact, CHAT_MODULE, "PopupMask");
+					db_unset(pDlg->m_hContact, CHAT_MODULE, "PopupFlags");
+					db_unset(pDlg->m_hContact, CHAT_MODULE, "PopupMask");
 				}
 				else {
-					db_set_dw(si->hContact, CHAT_MODULE, "PopupFlags", iFlags);
-					db_set_dw(si->hContact, CHAT_MODULE, "PopupMask", dwMask);
+					db_set_dw(pDlg->m_hContact, CHAT_MODULE, "PopupFlags", iFlags);
+					db_set_dw(pDlg->m_hContact, CHAT_MODULE, "PopupMask", dwMask);
 				}
 			}
 
@@ -1053,19 +1053,19 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			if (iFlags & GC_EVENT_ADDSTATUS)
 				iFlags |= GC_EVENT_REMOVESTATUS;
 
-			if (si) {
+			if (pDlg) {
 				if (dwMask == 0) {
-					db_unset(si->hContact, CHAT_MODULE, "TrayIconFlags");
-					db_unset(si->hContact, CHAT_MODULE, "TrayIconMask");
+					db_unset(pDlg->m_hContact, CHAT_MODULE, "TrayIconFlags");
+					db_unset(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask");
 				}
 				else {
-					db_set_dw(si->hContact, CHAT_MODULE, "TrayIconFlags", iFlags);
-					db_set_dw(si->hContact, CHAT_MODULE, "TrayIconMask", dwMask);
+					db_set_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconFlags", iFlags);
+					db_set_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask", dwMask);
 				}
-				Chat_SetFilters(si);
-				SendMessage(si->pDlg->GetHwnd(), GC_CHANGEFILTERFLAG, 0, iFlags);
-				if (si->bFilterEnabled)
-					SendMessage(si->pDlg->GetHwnd(), GC_REDRAWLOG, 0, 0);
+				Chat_SetFilters(pDlg->m_si);
+				SendMessage(pDlg->GetHwnd(), GC_CHANGEFILTERFLAG, 0, iFlags);
+				if (pDlg->m_bFilterEnabled)
+					SendMessage(pDlg->GetHwnd(), GC_REDRAWLOG, 0, 0);
 			}
 		}
 		DestroyWindow(hwndDlg);
@@ -1520,7 +1520,7 @@ static void __cdecl phase2(void * lParam)
 // which is usually a (tabbed) child of a container class window.
 
 CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
-	: CTabBaseDlg(IDD_CHANNEL),
+	: CTabBaseDlg(IDD_CHANNEL, si),
 	m_btnOk(this, IDOK),
 	m_list(this, IDC_LIST),
 	m_btnBold(this, IDC_BOLD),
@@ -1533,9 +1533,9 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 	m_btnUnderline(this, IDC_UNDERLINE),
 	m_btnNickList(this, IDC_SHOWNICKLIST)
 {
-	m_si = si;
-	m_hContact = si->hContact;
-	m_szProto = GetContactProto(si->hContact);
+	m_szProto = GetContactProto(m_hContact);
+	m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled) != 0;
+	Chat_SetFilters(m_si);
 
 	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::OnClick_OK);
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::OnClick_Filter);
@@ -1767,22 +1767,22 @@ void CChatRoomDlg::OnClick_Filter(CCtrlButton *pButton)
 	if (!pButton->Enabled())
 		return;
 
-	if (m_si->iLogFilterFlags == 0 && !m_si->bFilterEnabled) {
+	if (m_iLogFilterFlags == 0 && !m_bFilterEnabled) {
 		MessageBox(0, TranslateT("The filter cannot be enabled, because there are no event types selected either global or for this chat room"), TranslateT("Event filter error"), MB_OK);
-		m_si->bFilterEnabled = false;
+		m_bFilterEnabled = false;
 	}
-	else m_si->bFilterEnabled = !m_si->bFilterEnabled;
+	else m_bFilterEnabled = !m_bFilterEnabled;
 
 	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON,
-		(LPARAM)(m_si->bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
+		(LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
 
-	if (m_si->bFilterEnabled && M.GetByte(CHAT_MODULE, "RightClickFilter", 0) == 0) {
+	if (m_bFilterEnabled && M.GetByte(CHAT_MODULE, "RightClickFilter", 0) == 0) {
 		SendMessage(m_hwnd, GC_SHOWFILTERMENU, 0, 0);
 		return;
 	}
 	SendMessage(m_hwnd, GC_REDRAWLOG, 0, 0);
 	SendMessage(m_hwnd, GC_UPDATETITLE, 0, 0);
-	db_set_b(m_si->hContact, CHAT_MODULE, "FilterEnabled", (BYTE)m_si->bFilterEnabled);
+	db_set_b(m_si->hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled);
 }
 
 void CChatRoomDlg::OnClick_History(CCtrlButton *pButton)
@@ -1808,7 +1808,7 @@ void CChatRoomDlg::OnClick_ShowNickList(CCtrlButton *pButton)
 	if (m_si->iType == GCW_SERVER)
 		return;
 
-	m_si->bNicklistEnabled = !m_si->bNicklistEnabled;
+	m_bNicklistEnabled = !m_bNicklistEnabled;
 
 	SendMessage(m_hwnd, WM_SIZE, 0, 0);
 	if (CSkin::m_skinEnabled)
@@ -1854,9 +1854,9 @@ void CChatRoomDlg::OnClick_Color(CCtrlButton *pButton)
 	if (IsDlgButtonChecked(m_hwnd, IDC_COLOR)) {
 		if (M.GetByte(CHAT_MODULE, "RightClickFilter", 0) == 0)
 			SendMessage(m_hwnd, GC_SHOWCOLORCHOOSER, 0, IDC_COLOR);
-		else if (m_si->bFGSet) {
+		else if (m_bFGSet) {
 			cf.dwMask = CFM_COLOR;
-			cf.crTextColor = pci->MM_FindModule(m_si->pszModule)->crColors[m_si->iFG];
+			cf.crTextColor = pci->MM_FindModule(m_si->pszModule)->crColors[m_iFG];
 			m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 		}
 	}
@@ -1881,9 +1881,9 @@ void CChatRoomDlg::OnClick_BkColor(CCtrlButton *pButton)
 	if (IsDlgButtonChecked(m_hwnd, IDC_BKGCOLOR)) {
 		if (M.GetByte(CHAT_MODULE, "RightClickFilter", 0) == 0)
 			SendMessage(m_hwnd, GC_SHOWCOLORCHOOSER, 0, IDC_BKGCOLOR);
-		else if (m_si->bBGSet) {
+		else if (m_bBGSet) {
 			cf.dwMask = CFM_BACKCOLOR;
-			cf.crBackColor = pci->MM_FindModule(m_si->pszModule)->crColors[m_si->iBG];
+			cf.crBackColor = pci->MM_FindModule(m_si->pszModule)->crColors[m_iBG];
 			m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 		}
 	}
@@ -1991,7 +1991,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		m_list.SetItemHeight(0, g_Settings.iNickListFontHeight);
 		InvalidateRect(m_list.GetHwnd(), nullptr, TRUE);
 
-		m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_si->bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
+		m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
 		SendMessage(m_hwnd, WM_SIZE, 0, 0);
 		SendMessage(m_hwnd, GC_REDRAWLOG2, 0, 0);
 		break;
@@ -2017,7 +2017,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				hIcon = Skin_LoadProtoIcon(m_si->pszModule, (m_wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : m_wStatus);
 				mir_snwprintf(szTemp,
 					(m_si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user%s)") : TranslateT("%s: chat room (%u users%s)"),
-					szNick, m_si->nUsersInNicklist, m_si->bFilterEnabled ? TranslateT(", event filter active") : L"");
+					szNick, m_si->nUsersInNicklist, m_bFilterEnabled ? TranslateT(", event filter active") : L"");
 				break;
 			case GCW_PRIVMESS:
 				hIcon = Skin_LoadProtoIcon(m_si->pszModule, (m_wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : m_wStatus);
@@ -2162,7 +2162,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					if (pLog->next == nullptr)
 						break;
 					pLog = pLog->next;
-					if ((m_si->iType != GCW_CHATROOM && m_si->iType != GCW_PRIVMESS) || !m_si->bFilterEnabled || (m_si->iLogFilterFlags&pLog->iType) != 0)
+					if ((m_si->iType != GCW_CHATROOM && m_si->iType != GCW_PRIVMESS) || !m_bFilterEnabled || (m_iLogFilterFlags & pLog->iType) != 0)
 						index++;
 				}
 				StreamInEvents(pLog, m_si, TRUE);
@@ -2470,12 +2470,12 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case GC_CHANGEFILTERFLAG:
-		if (m_si->iLogFilterFlags == 0 && m_si->bFilterEnabled)
+		if (m_iLogFilterFlags == 0 && m_bFilterEnabled)
 			SendMessage(m_hwnd, WM_COMMAND, IDC_FILTER, 0);
 		break;
 
 	case GC_SHOWFILTERMENU:
-		m_hwndFilter = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_FILTER), m_pContainer->hwnd, FilterWndProc, (LPARAM)m_si);
+		m_hwndFilter = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_FILTER), m_pContainer->hwnd, FilterWndProc, (LPARAM)this);
 		TranslateDialogDefault(m_hwndFilter);
 
 		RECT rcFilter;

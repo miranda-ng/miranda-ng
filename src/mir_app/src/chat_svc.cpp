@@ -229,19 +229,7 @@ EXTERN_C MIR_APP_DLL(GCSessionInfoBase*) Chat_NewSession(
 		si->wStatus = ID_STATUS_ONLINE;
 	si->iType = iType;
 	si->ptszName = mir_wstrdup(ptszName);
-	si->iLogFilterFlags = db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
-	si->bFilterEnabled = db_get_b(NULL, CHAT_MODULE, "FilterEnabled", 0) != 0;
-	si->bNicklistEnabled = db_get_b(NULL, CHAT_MODULE, "ShowNicklist", 1) != 0;
 	si->currentHovered = -1;
-
-	if (mi->bColor) {
-		si->iFG = 4;
-		si->bFGSet = true;
-	}
-	if (mi->bBkgColor) {
-		si->iBG = 2;
-		si->bBGSet = true;
-	}
 
 	wchar_t szTemp[256];
 	if (si->iType == GCW_SERVER)

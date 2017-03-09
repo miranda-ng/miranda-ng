@@ -360,8 +360,8 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CScriverWindow
 
-CScriverWindow::CScriverWindow(int iDialog)
-	: CSrmmBaseDialog(g_hInst, iDialog)
+CScriverWindow::CScriverWindow(int iDialog, SESSION_INFO *si)
+	: CSrmmBaseDialog(g_hInst, iDialog, si)
 {
 	m_autoClose = CLOSE_ON_CANCEL;
 }

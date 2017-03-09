@@ -610,18 +610,18 @@ void DestroyGCMenu(HMENU *hMenu, int iIndex)
  */
 void Chat_SetFilters(SESSION_INFO *si)
 {
-	if (si == nullptr)
-		return;
-
 	DWORD dwFlags_default = M.GetDword(CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
 	DWORD dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
 	DWORD dwMask = db_get_dw(si->hContact, CHAT_MODULE, "FilterMask", 0);
 
-	si->iLogFilterFlags = dwFlags_default;
-	for (int i = 0; i < 32; i++) {
-		DWORD dwBit = 1 << i;
-		if (dwMask & dwBit)
-			si->iLogFilterFlags = (dwFlags_local & dwBit) ? si->iLogFilterFlags | dwBit : si->iLogFilterFlags & ~dwBit;
+	CChatRoomDlg *pDlg = si->pDlg;
+	if (pDlg) {
+		pDlg->m_iLogFilterFlags = dwFlags_default;
+		for (int i = 0; i < 32; i++) {
+			DWORD dwBit = 1 << i;
+			if (dwMask & dwBit)
+				pDlg->m_iLogFilterFlags = (dwFlags_local & dwBit) ? pDlg->m_iLogFilterFlags | dwBit : pDlg->m_iLogFilterFlags & ~dwBit;
+		}
 	}
 
 	dwFlags_default = M.GetDword(CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
@@ -648,8 +648,8 @@ void Chat_SetFilters(SESSION_INFO *si)
 			si->iLogTrayFlags = (dwFlags_local & dwBit) ? si->iLogTrayFlags | dwBit : si->iLogTrayFlags & ~dwBit;
 	}
 
-	if (si->iLogFilterFlags == 0)
-		si->bFilterEnabled = false;
+	if (pDlg != nullptr && pDlg->m_iLogFilterFlags == 0)
+		pDlg->m_bFilterEnabled = 0;
 }
 
 char GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex)

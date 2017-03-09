@@ -25,25 +25,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EM_GETSCROLLPOS	(WM_USER+221)
 #endif
 
-void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw)
+void CChatRoomDlg::Log_StreamInEvent(LOGINFO* lin, BOOL bRedraw)
 {
-	if (hwndDlg == 0 || lin == 0 || si == 0)
+	if (m_hwnd == nullptr || lin == nullptr || m_si == nullptr)
 		return;
 
-	if (!bRedraw && (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) && si->bFilterEnabled && !(si->iLogFilterFlags & lin->iType))
+	if (!bRedraw && (m_si->iType == GCW_CHATROOM || m_si->iType == GCW_PRIVMESS) && m_bFilterEnabled && !(m_iLogFilterFlags & lin->iType))
 		return;
 
 	BOOL bFlag = FALSE;
 
-	HWND hwndRich = GetDlgItem(hwndDlg, IDC_LOG);
-
 	LOGSTREAMDATA streamData;
 	memset(&streamData, 0, sizeof(streamData));
-	streamData.hwnd = hwndRich;
-	streamData.si = si;
+	streamData.hwnd = m_log.GetHwnd();
+	streamData.si = m_si;
 	streamData.lin = lin;
 	streamData.bStripFormat = FALSE;
-	streamData.isFirst = bRedraw ? 1 : (GetRichTextLength(hwndRich, CP_ACP, FALSE) == 0);
+	streamData.isFirst = bRedraw ? 1 : (GetRichTextLength(m_log.GetHwnd(), CP_ACP, FALSE) == 0);
 
 	EDITSTREAM stream = { 0 };
 	stream.pfnCallback = Srmm_LogStreamCallback;
@@ -52,21 +50,21 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 	SCROLLINFO scroll;
 	scroll.cbSize = sizeof(SCROLLINFO);
 	scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
-	GetScrollInfo(hwndRich, SB_VERT, &scroll);
+	GetScrollInfo(m_log.GetHwnd(), SB_VERT, &scroll);
 
 	POINT point = { 0 };
-	SendMessage(hwndRich, EM_GETSCROLLPOS, 0, (LPARAM)&point);
+	m_log.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&point);
 
 	// do not scroll to bottom if there is a selection
 	CHARRANGE oldsel, sel, newsel;
-	SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM)&oldsel);
+	m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldsel);
 	if (oldsel.cpMax != oldsel.cpMin)
-		SendMessage(hwndRich, WM_SETREDRAW, FALSE, 0);
+		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
 
 	// set the insertion point at the bottom
-	sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich, CP_ACP, FALSE);
-	SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&sel);
-	SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM)&sel);
+	sel.cpMin = sel.cpMax = GetRichTextLength(m_log.GetHwnd(), CP_ACP, FALSE);
+	m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+	m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
 
 	// fix for the indent... must be a M$ bug
 	if (sel.cpMax == 0)
@@ -77,14 +75,14 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 
 	// get the number of pixels per logical inch
 	if (bRedraw) {
-		SendMessage(hwndRich, WM_SETREDRAW, FALSE, 0);
+		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
 		bFlag = TRUE;
 	}
 
 	// stream in the event(s)
 	streamData.lin = lin;
 	streamData.bRedraw = bRedraw;
-	SendMessage(hwndRich, EM_STREAMIN, wp, (LPARAM)&stream);
+	m_log.SendMsg(EM_STREAMIN, wp, (LPARAM)&stream);
 
 	// do smileys
 	if (g_dat.smileyAddInstalled && (bRedraw || (lin->ptszText && 
@@ -96,33 +94,33 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 			newsel.cpMin = 0;
 
 		SMADD_RICHEDIT3 sm = { sizeof(sm) };
-		sm.hwndRichEditControl = hwndRich;
-		sm.Protocolname = si->pszModule;
+		sm.hwndRichEditControl = m_log.GetHwnd();
+		sm.Protocolname = m_si->pszModule;
 		sm.rangeToReplace = bRedraw ? nullptr : &newsel;
 		sm.flags = 0;
 		sm.disableRedraw = TRUE;
-		sm.hContact = si->hContact;
+		sm.hContact = m_hContact;
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
 	}
 
 	// scroll log to bottom if the log was previously scrolled to bottom, else restore old position
 	if (bRedraw || (UINT)scroll.nPos >= (UINT)scroll.nMax - scroll.nPage - 5 || scroll.nMax - scroll.nMin - scroll.nPage < 50)
-		SendMessage(GetParent(hwndRich), GC_SCROLLTOBOTTOM, 0, 0);
+		SendMessage(GetParent(m_log.GetHwnd()), GC_SCROLLTOBOTTOM, 0, 0);
 	else
-		SendMessage(hwndRich, EM_SETSCROLLPOS, 0, (LPARAM)&point);
+		m_log.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&point);
 
 	// do we need to restore the selection
 	if (oldsel.cpMax != oldsel.cpMin) {
-		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&oldsel);
-		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
-		InvalidateRect(hwndRich, nullptr, TRUE);
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldsel);
+		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
+		InvalidateRect(m_log.GetHwnd(), nullptr, TRUE);
 	}
 
 	// need to invalidate the window
 	if (bFlag) {
-		sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich, CP_ACP, FALSE);
-		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&sel);
-		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
-		InvalidateRect(hwndRich, nullptr, TRUE);
+		sel.cpMin = sel.cpMax = GetRichTextLength(m_log.GetHwnd(), CP_ACP, FALSE);
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
+		InvalidateRect(m_log.GetHwnd(), nullptr, TRUE);
 	}
 }

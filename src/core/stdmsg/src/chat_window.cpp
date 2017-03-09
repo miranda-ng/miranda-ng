@@ -42,7 +42,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 	BOOL bFormat = (BOOL)db_get_b(NULL, CHAT_MODULE, "ShowFormatButtons", 1);
 	BOOL bToolbar = bFormat || bControl;
 	BOOL bSend = (BOOL)db_get_b(NULL, CHAT_MODULE, "ShowSend", 0);
-	BOOL bNick = si->iType != GCW_SERVER && si->bNicklistEnabled;
+	BOOL bNick = si->iType != GCW_SERVER && m_bNicklistEnabled;
 
 	switch (urc->wId) {
 	case IDOK:
@@ -95,6 +95,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 {
 	MESSAGESUBDATA *dat = (MESSAGESUBDATA*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	HWND hwndDlg = GetParent(hwnd);
+	CChatRoomDlg *pDlg = (CChatRoomDlg*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	CHARRANGE sel;
 
 	switch (msg) {
@@ -494,8 +495,8 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				UINT u = IsDlgButtonChecked(hwndDlg, IDC_COLOR);
 
 				if (index >= 0) {
-					dat->si->bFGSet = true;
-					dat->si->iFG = index;
+					pDlg->m_bFGSet = true;
+					pDlg->m_iFG = index;
 				}
 
 				if (u == BST_UNCHECKED && cf.crTextColor != g_Settings.MessageAreaColor)
@@ -510,8 +511,8 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				UINT u = IsDlgButtonChecked(hwndDlg, IDC_BKGCOLOR);
 
 				if (index >= 0) {
-					dat->si->bBGSet = TRUE;
-					dat->si->iBG = index;
+					pDlg->m_bBGSet = TRUE;
+					pDlg->m_iBG = index;
 				}
 				if (u == BST_UNCHECKED && cf.crBackColor != crB)
 					CheckDlgButton(hwndDlg, IDC_BKGCOLOR, BST_CHECKED);
@@ -559,23 +560,23 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 	return mir_callNextSubclass(hwnd, MessageSubclassProc, msg, wParam, lParam);
 }
 
-static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK CChatRoomDlg::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static SESSION_INFO *si = NULL;
+	static CChatRoomDlg *pDlg = NULL;
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		si = (SESSION_INFO*)lParam;
-		CheckDlgButton(hwndDlg, IDC_1, si->iLogFilterFlags & GC_EVENT_ACTION ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_2, si->iLogFilterFlags & GC_EVENT_MESSAGE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_3, si->iLogFilterFlags & GC_EVENT_NICK ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_4, si->iLogFilterFlags & GC_EVENT_JOIN ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_5, si->iLogFilterFlags & GC_EVENT_PART ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_6, si->iLogFilterFlags & GC_EVENT_TOPIC ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_7, si->iLogFilterFlags & GC_EVENT_ADDSTATUS ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_8, si->iLogFilterFlags & GC_EVENT_INFORMATION ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_9, si->iLogFilterFlags & GC_EVENT_QUIT ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_10, si->iLogFilterFlags & GC_EVENT_KICK ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_11, si->iLogFilterFlags & GC_EVENT_NOTICE ? BST_CHECKED : BST_UNCHECKED);
+		pDlg = (CChatRoomDlg*)lParam;
+		CheckDlgButton(hwndDlg, IDC_1, pDlg->m_iLogFilterFlags & GC_EVENT_ACTION ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_2, pDlg->m_iLogFilterFlags & GC_EVENT_MESSAGE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_3, pDlg->m_iLogFilterFlags & GC_EVENT_NICK ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_4, pDlg->m_iLogFilterFlags & GC_EVENT_JOIN ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_5, pDlg->m_iLogFilterFlags & GC_EVENT_PART ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_6, pDlg->m_iLogFilterFlags & GC_EVENT_TOPIC ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_7, pDlg->m_iLogFilterFlags & GC_EVENT_ADDSTATUS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_8, pDlg->m_iLogFilterFlags & GC_EVENT_INFORMATION ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_9, pDlg->m_iLogFilterFlags & GC_EVENT_QUIT ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_10, pDlg->m_iLogFilterFlags & GC_EVENT_KICK ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_11, pDlg->m_iLogFilterFlags & GC_EVENT_NOTICE ? BST_CHECKED : BST_UNCHECKED);
 		break;
 
 	case WM_CTLCOLOREDIT:
@@ -615,7 +616,7 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				iFlags |= GC_EVENT_REMOVESTATUS;
 
 			SendMessage(GetParent(hwndDlg), GC_CHANGEFILTERFLAG, 0, iFlags);
-			if (si->bFilterEnabled)
+			if (pDlg->m_bFilterEnabled)
 				SendMessage(GetParent(hwndDlg), GC_REDRAWLOG, 0, 0);
 			PostMessage(hwndDlg, WM_CLOSE, 0, 0);
 		}
@@ -826,7 +827,7 @@ static void __cdecl phase2(void * lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
-	CSrmmBaseDialog(g_hInst, g_Settings.bTabsEnable ? IDD_CHANNEL_TAB : IDD_CHANNEL),
+	CSrmmBaseDialog(g_hInst, g_Settings.bTabsEnable ? IDD_CHANNEL_TAB : IDD_CHANNEL, si),
 	m_nickList(this, IDC_LIST),
 	m_message(this, IDC_MESSAGE),
 	m_log(this, IDC_LOG),
@@ -848,10 +849,8 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY)
 {
-	m_si = si;
 	m_pLog = &m_log;
 	m_pEntry = &m_message;
-	m_hContact = si->hContact;
 
 	m_autoClose = 0;
 	m_forceResizable = true;
@@ -972,9 +971,9 @@ void CChatRoomDlg::OnClick_Color(CCtrlButton *pButton)
 	if (IsDlgButtonChecked(m_hwnd, IDC_COLOR)) {
 		if (db_get_b(NULL, CHAT_MODULE, "RightClickFilter", 0) == 0)
 			SendMessage(m_hwnd, GC_SHOWCOLORCHOOSER, 0, IDC_COLOR);
-		else if (m_si->bFGSet) {
+		else if (m_bFGSet) {
 			cf.dwMask = CFM_COLOR;
-			cf.crTextColor = pci->MM_FindModule(m_si->pszModule)->crColors[m_si->iFG];
+			cf.crTextColor = pci->MM_FindModule(m_si->pszModule)->crColors[m_iFG];
 			SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 		}
 	}
@@ -997,9 +996,9 @@ void CChatRoomDlg::OnClick_BkColor(CCtrlButton *pButton)
 	if (IsDlgButtonChecked(m_hwnd, IDC_BKGCOLOR)) {
 		if (db_get_b(NULL, CHAT_MODULE, "RightClickFilter", 0) == 0)
 			SendMessage(m_hwnd, GC_SHOWCOLORCHOOSER, 0, IDC_BKGCOLOR);
-		else if (m_si->bBGSet) {
+		else if (m_bBGSet) {
 			cf.dwMask = CFM_BACKCOLOR;
-			cf.crBackColor = pci->MM_FindModule(m_si->pszModule)->crColors[m_si->iBG];
+			cf.crBackColor = pci->MM_FindModule(m_si->pszModule)->crColors[m_iBG];
 			SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 		}
 	}
@@ -1015,9 +1014,9 @@ void CChatRoomDlg::OnClick_Filter(CCtrlButton *pButton)
 	if (!pButton->Enabled())
 		return;
 
-	m_si->bFilterEnabled = !m_si->bFilterEnabled;
-	SendDlgItemMessage(m_hwnd, IDC_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(m_si->bFilterEnabled ? "filter" : "filter2", FALSE));
-	if (m_si->bFilterEnabled && db_get_b(NULL, CHAT_MODULE, "RightClickFilter", 0) == 0)
+	m_bFilterEnabled = !m_bFilterEnabled;
+	SendDlgItemMessage(m_hwnd, IDC_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(m_bFilterEnabled ? "filter" : "filter2", FALSE));
+	if (m_bFilterEnabled && db_get_b(NULL, CHAT_MODULE, "RightClickFilter", 0) == 0)
 		SendMessage(m_hwnd, GC_SHOWFILTERMENU, 0, 0);
 	else
 		SendMessage(m_hwnd, GC_REDRAWLOG, 0, 0);
@@ -1038,8 +1037,8 @@ void CChatRoomDlg::OnClick_NickList(CCtrlButton *pButton)
 	if (!pButton->Enabled() || m_si->iType == GCW_SERVER)
 		return;
 
-	m_si->bNicklistEnabled = !m_si->bNicklistEnabled;
-	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(m_si->bNicklistEnabled ? "nicklist" : "nicklist2", FALSE));
+	m_bNicklistEnabled = !m_bNicklistEnabled;
+	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(m_bNicklistEnabled ? "nicklist" : "nicklist2", FALSE));
 
 	SendMessage(m_hwnd, GC_SCROLLTOBOTTOM, 0, 0);
 	SendMessage(m_hwnd, WM_SIZE, 0, 0);
@@ -1207,8 +1206,8 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	switch (uMsg) {
 	case GC_SETWNDPROPS:
-		SendDlgItemMessage(m_hwnd, IDC_SHOWNICKLIST, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(m_si->bNicklistEnabled ? "nicklist" : "nicklist2", FALSE));
-		SendDlgItemMessage(m_hwnd, IDC_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(m_si->bFilterEnabled ? "filter" : "filter2", FALSE));
+		SendDlgItemMessage(m_hwnd, IDC_SHOWNICKLIST, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(m_bNicklistEnabled ? "nicklist" : "nicklist2", FALSE));
+		SendDlgItemMessage(m_hwnd, IDC_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(m_bFilterEnabled ? "filter" : "filter2", FALSE));
 		{
 			MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
 			EnableWindow(m_btnBold.GetHwnd(), mi->bBold);
@@ -1325,7 +1324,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			BOOL bControl = (BOOL)db_get_b(NULL, CHAT_MODULE, "ShowTopButtons", 1);
 			BOOL bFormat = (BOOL)db_get_b(NULL, CHAT_MODULE, "ShowFormatButtons", 1);
 			BOOL bSend = (BOOL)db_get_b(NULL, CHAT_MODULE, "ShowSend", 0);
-			BOOL bNick = m_si->iType != GCW_SERVER && m_si->bNicklistEnabled;
+			BOOL bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 
 			ShowWindow(m_btnBold.GetHwnd(), bFormat ? SW_SHOW : SW_HIDE);
 			ShowWindow(m_btnItalic.GetHwnd(), bFormat ? SW_SHOW : SW_HIDE);
@@ -1340,7 +1339,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			ShowWindow(m_btnOk.GetHwnd(), bSend ? SW_SHOW : SW_HIDE);
 			ShowWindow(GetDlgItem(m_hwnd, IDC_SPLITTERX), bNick ? SW_SHOW : SW_HIDE);
 			if (m_si->iType != GCW_SERVER)
-				ShowWindow(m_nickList.GetHwnd(), m_si->bNicklistEnabled ? SW_SHOW : SW_HIDE);
+				ShowWindow(m_nickList.GetHwnd(), m_bNicklistEnabled ? SW_SHOW : SW_HIDE);
 			else
 				ShowWindow(m_nickList.GetHwnd(), SW_HIDE);
 
@@ -1381,13 +1380,13 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						break;
 
 					pLog = pLog->next;
-					if (m_si->iType != GCW_CHATROOM || !m_si->bFilterEnabled || (m_si->iLogFilterFlags&pLog->iType) != 0)
+					if (m_si->iType != GCW_CHATROOM || !m_bFilterEnabled || (m_iLogFilterFlags&pLog->iType) != 0)
 						index++;
 				}
-				Log_StreamInEvent(m_hwnd, pLog, m_si, TRUE);
+				Log_StreamInEvent(pLog, TRUE);
 				mir_forkthread(phase2, m_si);
 			}
-			else Log_StreamInEvent(m_hwnd, m_si->pLogEnd, m_si, TRUE);
+			else Log_StreamInEvent(m_si->pLogEnd, TRUE);
 		}
 		else SendMessage(m_hwnd, GC_CONTROL_MSG, WINDOW_CLEARLOG, 0);
 		break;
@@ -1395,12 +1394,12 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case GC_REDRAWLOG2:
 		m_si->LastTime = 0;
 		if (m_si->pLog)
-			Log_StreamInEvent(m_hwnd, m_si->pLogEnd, m_si, TRUE);
+			Log_StreamInEvent(m_si->pLogEnd, TRUE);
 		break;
 
 	case GC_ADDLOG:
 		if (m_si->pLogEnd)
-			Log_StreamInEvent(m_hwnd, m_si->pLog, m_si, FALSE);
+			Log_StreamInEvent(m_si->pLog, FALSE);
 		else
 			SendMessage(m_hwnd, GC_CONTROL_MSG, WINDOW_CLEARLOG, 0);
 		break;
@@ -1572,12 +1571,12 @@ LABEL_SHOWWINDOW:
 		return 0;
 
 	case GC_CHANGEFILTERFLAG:
-		m_si->iLogFilterFlags = lParam;
+		m_iLogFilterFlags = lParam;
 		break;
 
 	case GC_SHOWFILTERMENU:
 		{
-			HWND hwnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_FILTER), m_hwnd, FilterWndProc, (LPARAM)m_si);
+			HWND hwnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_FILTER), m_hwnd, FilterWndProc, (LPARAM)this);
 			TranslateDialogDefault(hwnd);
 			GetWindowRect(m_btnFilter.GetHwnd(), &rc);
 			SetWindowPos(hwnd, HWND_TOP, rc.left - 85, (IsWindowVisible(m_btnFilter.GetHwnd()) || IsWindowVisible(m_btnBold.GetHwnd())) ? rc.top - 206 : rc.top - 186, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);

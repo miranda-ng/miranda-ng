@@ -399,7 +399,7 @@ Chat_UnescapeTags @399 NONAME
 ProtoGetAvatarFormatByMimeType @400
 ProtoGetAvatarMimeType @401
 ?set_uin@DB_AUTH_BLOB@@QAEXK@Z @402 NONAME
-??0CSrmmBaseDialog@@IAE@PAUHINSTANCE__@@H@Z @403 NONAME
+??0CSrmmBaseDialog@@IAE@PAUHINSTANCE__@@HPAUSESSION_INFO@@@Z @403 NONAME
 ??0CSrmmBaseDialog@@QAE@ABV0@@Z @404 NONAME
 ??1CSrmmBaseDialog@@UAE@XZ @405 NONAME
 ??4CSrmmBaseDialog@@QAEAAV0@ABV0@@Z @406 NONAME

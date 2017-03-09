@@ -23,15 +23,36 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+#include "chat.h"
+
 extern HCURSOR g_hCurHyperlinkHand;
 
-CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog) :
+CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si) :
 	CDlgBase(hInst, idDialog),
-	m_si(nullptr),
+	m_si(si),
 	m_pLog(nullptr),
 	m_pEntry(nullptr),
 	m_hContact(0)
 {
+	m_bFilterEnabled = db_get_b(NULL, CHAT_MODULE, "FilterEnabled", 0) != 0;
+	m_bNicklistEnabled = db_get_b(NULL, CHAT_MODULE, "ShowNicklist", 1) != 0;
+	m_iLogFilterFlags = db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
+
+	if (si) {
+		m_hContact = si->hContact;
+
+		MODULEINFO *mi = chatApi.MM_FindModule(si->pszModule);
+		if (mi == nullptr) {
+			if (mi->bColor) {
+				m_iFG = 4;
+				m_bFGSet = true;
+			}
+			if (mi->bBkgColor) {
+				m_iBG = 2;
+				m_bBGSet = true;
+			}
+		}
+	}
 }
 
 INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)

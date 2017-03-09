@@ -70,7 +70,6 @@ extern GlobalLogSettings g_Settings;
 void UpgradeCheck(void);
 
 // log.c
-void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw);
 void LoadMsgLogBitmaps(void);
 void FreeMsgLogBitmaps(void);
 

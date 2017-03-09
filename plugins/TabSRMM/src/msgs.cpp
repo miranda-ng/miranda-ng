@@ -118,8 +118,8 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // basic window class
 
-CTabBaseDlg::CTabBaseDlg(int iResource)
-	: CSrmmBaseDialog(g_hInst, iResource),
+CTabBaseDlg::CTabBaseDlg(int iResource, SESSION_INFO *si)
+	: CSrmmBaseDialog(g_hInst, iResource, si),
 	m_log(this, IDC_LOG),
 	m_message(this, IDC_MESSAGE),
 	m_pPanel(this),

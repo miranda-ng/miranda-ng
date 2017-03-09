@@ -140,8 +140,8 @@ public:
 				int ctrlId = GetDlgCtrlID(m_hwndChooser);
 
 				if (m_bForeground) {
-					m_si->bFGSet = true;
-					m_si->iFG = iCurrentHotTrack;
+					m_si->pDlg->m_bFGSet = true;
+					m_si->pDlg->m_iFG = iCurrentHotTrack;
 					if (IsDlgButtonChecked(hWindow, ctrlId)) {
 						cf.dwMask = CFM_COLOR;
 						cf.crTextColor = m_pModule->crColors[iCurrentHotTrack];
@@ -149,8 +149,8 @@ public:
 					}
 				}
 				else {
-					m_si->bBGSet = true;
-					m_si->iBG = iCurrentHotTrack;
+					m_si->pDlg->m_bBGSet = true;
+					m_si->pDlg->m_iBG = iCurrentHotTrack;
 					if (IsDlgButtonChecked(hWindow, ctrlId)) {
 						cf.dwMask = CFM_BACKCOLOR;
 						cf.crBackColor = m_pModule->crColors[iCurrentHotTrack];
@@ -224,7 +224,7 @@ public:
 						iThisRow++;
 					}
 
-					if (m_bForeground && m_si->bFGSet && m_si->iFG == i || !m_bForeground && m_si->bBGSet && m_si->iBG == i) {
+					if (m_bForeground && m_si->pDlg->m_bFGSet && m_si->pDlg->m_iFG == i || !m_bForeground && m_si->pDlg->m_bBGSet && m_si->pDlg->m_iBG == i) {
 						rc.top = (iThisRow - 1) * 20 + 1 + 20;
 						rc.left = (iThisColumn - 1) * 25 + 1 + 1;
 						rc.bottom = iThisRow * 20 - 1 + 20;

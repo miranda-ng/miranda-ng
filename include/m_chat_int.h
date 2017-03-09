@@ -178,10 +178,6 @@ struct GCSessionInfoBase
 {
 	MCONTACT    hContact;
 
-	bool        bFGSet;
-	bool        bBGSet;
-	bool        bFilterEnabled;
-	bool        bNicklistEnabled;
 	bool        bInitDone;
 	bool        bHasToolTip;
 	bool        bTrimmed;
@@ -193,9 +189,6 @@ struct GCSessionInfoBase
 	wchar_t*    ptszTopic;
 
 	int         iType;
-	int         iFG;
-	int         iBG;
-	int         iLogFilterFlags;
 	int         nUsersInNicklist;
 	int         iEventCount;
 	int         iWidth;
@@ -211,15 +204,12 @@ struct GCSessionInfoBase
 	int         currentHovered;
 
 	CChatRoomDlg *pDlg;
-	COMMANDINFO* lpCommands;
-	COMMANDINFO* lpCurrentCommand;
-	LOGINFO*    pLog;
-	LOGINFO*    pLogEnd;
-	USERINFO*   pUsers;
-	USERINFO*   pMe;
-	STATUSINFO* pStatuses;
+	COMMANDINFO *lpCommands, *lpCurrentCommand;
+	LOGINFO *pLog, *pLogEnd;
+	USERINFO *pUsers, *pMe;
+	STATUSINFO *pStatuses;
 
-	wchar_t     pszLogFileName[MAX_PATH];
+	wchar_t pszLogFileName[MAX_PATH];
 };
 
 struct GCLogStreamDataBase
@@ -430,7 +420,7 @@ class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 {
 
 protected:
-	CSrmmBaseDialog(HINSTANCE hInst, int idDialog);
+	CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si = nullptr);
 
 protected:
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
@@ -441,6 +431,10 @@ protected:
 
 public:
 	MCONTACT m_hContact;
+	int m_iLogFilterFlags;
+	bool m_bFilterEnabled, m_bNicklistEnabled;
+	bool m_bFGSet, m_bBGSet;
+	COLORREF m_iFG, m_iBG;
 
 	__forceinline bool isChat() const { return m_si != nullptr; }
 

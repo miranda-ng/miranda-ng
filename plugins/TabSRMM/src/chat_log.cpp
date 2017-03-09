@@ -700,6 +700,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 {
 	LOGINFO *lin = streamData->lin;
 	MODULEINFO *mi = pci->MM_FindModule(streamData->si->pszModule);
+	SESSION_INFO *si = streamData->si;
 
 	// ### RTF HEADER
 
@@ -716,7 +717,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	// ### RTF BODY (one iteration per event that should be streamed in)
 	while (lin) {
 		// filter
-		if ((streamData->si->iType != GCW_CHATROOM && streamData->si->iType != GCW_PRIVMESS) || !streamData->si->bFilterEnabled || (streamData->si->iLogFilterFlags & lin->iType) != 0) {
+		if ((si->iType != GCW_CHATROOM && si->iType != GCW_PRIVMESS) || !si->pDlg->m_bFilterEnabled || (si->pDlg->m_iLogFilterFlags & lin->iType) != 0) {
 			if (lin->next != nullptr)
 				str.Append("\\par ");
 
@@ -773,9 +774,9 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				wchar_t szTimeStamp[30], szOldTimeStamp[30];
 
 				wcsncpy_s(szTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, lin->time), _TRUNCATE);
-				wcsncpy_s(szOldTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, streamData->si->LastTime), _TRUNCATE);
-				if (!g_Settings.bShowTimeIfChanged || streamData->si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
-					streamData->si->LastTime = lin->time;
+				wcsncpy_s(szOldTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, si->LastTime), _TRUNCATE);
+				if (!g_Settings.bShowTimeIfChanged || si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
+					si->LastTime = lin->time;
 					Log_AppendRTF(streamData, TRUE, str, L"%s", szTimeStamp);
 				}
 				str.Append("\\tab ");
@@ -787,7 +788,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				int  crNickIndex = 0;
 
 				if (g_Settings.bLogClassicIndicators || g_Settings.bColorizeNicksInLog)
-					pszIndicator[0] = GetIndicator(streamData->si, lin->ptszNick, &crNickIndex);
+					pszIndicator[0] = GetIndicator(si, lin->ptszNick, &crNickIndex);
 
 				str.Append(pci->Log_SetStyle(lin->bIsMe ? 2 : 1));
 				str.AppendChar(' ');
@@ -848,7 +849,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 	streamData.bStripFormat = FALSE;
 	streamData.dat = this;
 
-	if (!bRedraw && (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) && si->bFilterEnabled && (si->iLogFilterFlags & lin->iType) == 0)
+	if (!bRedraw && (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) && m_bFilterEnabled && (m_iLogFilterFlags & lin->iType) == 0)
 		return;
 
 	bool bFlag = false, fDoReplace;

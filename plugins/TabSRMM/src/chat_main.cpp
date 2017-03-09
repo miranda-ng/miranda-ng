@@ -39,9 +39,6 @@ TMUCSettings g_Settings;
 
 static void OnCreateSession(SESSION_INFO *si, MODULEINFO *mi)
 {
-	si->bFilterEnabled = db_get_b(si->hContact, "Chat", "FilterEnabled", M.GetByte("Chat", "FilterEnabled", 0)) != 0;
-
-	Chat_SetFilters(si);
 	if (mi) {
 		mi->idleTimeStamp = time(0);
 		pci->SM_BroadcastMessage(mi->pszModule, GC_UPDATESTATUSBAR, 0, 1, TRUE);

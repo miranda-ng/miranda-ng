@@ -88,7 +88,7 @@ struct ParentWindowData
 class CScriverWindow : public CSrmmBaseDialog
 {
 protected:
-	CScriverWindow(int iDialog);
+	CScriverWindow(int iDialog, SESSION_INFO* = nullptr);
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
@@ -174,10 +174,12 @@ class CChatRoomDlg : public CScriverWindow
 	CSplitter m_splitterX, m_splitterY;
 
 	void MessageDialogResize(int w, int h);
+	void Log_StreamInEvent(LOGINFO* lin, BOOL bRedraw);
 
 	static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 public:
 	wchar_t m_wszSearch[255];

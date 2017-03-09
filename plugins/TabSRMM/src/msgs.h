@@ -353,7 +353,7 @@ public:
 	char *m_enteredText;
 
 public:
-	CTabBaseDlg(int iDialogId);
+	CTabBaseDlg(int iDialogId, SESSION_INFO* = nullptr);
 	virtual ~CTabBaseDlg() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
@@ -468,6 +468,7 @@ class CChatRoomDlg : public CTabBaseDlg
 
 	static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	virtual CThumbBase* CreateThumb(CProxyWindow *pProxy) const override;
 	virtual void ClearLog() override;
