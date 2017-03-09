@@ -194,7 +194,7 @@ static void AddEventToBuffer(CMStringA &buf, LOGSTREAMDATA *streamData)
 	LOGINFO *lin = streamData->lin;
 
 	wchar_t szTemp[512], szTemp2[512];
-	wchar_t* pszNick = NULL;
+	wchar_t* pszNick = nullptr;
 	if (lin->ptszNick) {
 		if (g_Settings->bLogLimitNames && mir_wstrlen(lin->ptszNick) > 20) {
 			mir_wstrncpy(szTemp2, lin->ptszNick, 20);
@@ -312,7 +312,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				continue;
 
 		// create new line, and set font and color
-		if (lin->next != NULL)
+		if (lin->next != nullptr)
 			buf.Append("\\par ");
 		buf.AppendFormat("%s ", Log_SetStyle(0));
 
@@ -388,10 +388,10 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 	CMStringA buf;
 
 	// get the number of pixels per logical inch
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	chatApi.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 	chatApi.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
-	ReleaseDC(NULL, hdc);
+	ReleaseDC(nullptr, hdc);
 
 	// ### RTF HEADER
 
@@ -449,7 +449,7 @@ void LoadMsgLogBitmaps(void)
 	rc.right = bih.biWidth;
 	rc.bottom = bih.biHeight;
 
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	HBITMAP hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	PBYTE pBmpBits = (PBYTE)mir_alloc(widthBytes * bih.biHeight);
@@ -461,7 +461,7 @@ void LoadMsgLogBitmaps(void)
 		HICON hIcon = chatApi.hIcons[i];
 		HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
 		FillRect(hdcMem, &rc, hBkgBrush);
-		DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, NULL, DI_NORMAL);
+		DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, nullptr, DI_NORMAL);
 		SelectObject(hdcMem, hoBmp);
 		GetDIBits(hdc, hBmp, 0, bih.biHeight, pBmpBits, (BITMAPINFO *)& bih, DIB_RGB_COLORS);
 
@@ -473,14 +473,14 @@ void LoadMsgLogBitmaps(void)
 	mir_free(pBmpBits);
 	DeleteDC(hdcMem);
 	DeleteObject(hBmp);
-	ReleaseDC(NULL, hdc);
+	ReleaseDC(nullptr, hdc);
 	DeleteObject(hBkgBrush);
 
 	if (chatApi.logPixelSY == 0) {
-		hdc = GetDC(NULL);
+		hdc = GetDC(nullptr);
 		chatApi.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		chatApi.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 	}
 
 	for (int i = 0; i < OPTIONS_FONTCOUNT; i++) {

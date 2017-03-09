@@ -33,8 +33,6 @@ void CChatRoomDlg::Log_StreamInEvent(LOGINFO* lin, BOOL bRedraw)
 	if (!bRedraw && (m_si->iType == GCW_CHATROOM || m_si->iType == GCW_PRIVMESS) && m_bFilterEnabled && !(m_iLogFilterFlags & lin->iType))
 		return;
 
-	BOOL bFlag = FALSE;
-
 	LOGSTREAMDATA streamData;
 	memset(&streamData, 0, sizeof(streamData));
 	streamData.hwnd = m_log.GetHwnd();
@@ -74,9 +72,10 @@ void CChatRoomDlg::Log_StreamInEvent(LOGINFO* lin, BOOL bRedraw)
 	WPARAM wp = bRedraw ? SF_RTF : SFF_SELECTION | SF_RTF;
 
 	// get the number of pixels per logical inch
+	bool bFlag = false;
 	if (bRedraw) {
 		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
-		bFlag = TRUE;
+		bFlag = true;
 	}
 
 	// stream in the event(s)
@@ -85,9 +84,7 @@ void CChatRoomDlg::Log_StreamInEvent(LOGINFO* lin, BOOL bRedraw)
 	m_log.SendMsg(EM_STREAMIN, wp, (LPARAM)&stream);
 
 	// do smileys
-	if (g_dat.smileyAddInstalled && (bRedraw || (lin->ptszText && 
-		 lin->iType != GC_EVENT_JOIN && lin->iType != GC_EVENT_NICK && lin->iType != GC_EVENT_ADDSTATUS && lin->iType != GC_EVENT_REMOVESTATUS)))
-	{
+	if (g_dat.smileyAddInstalled && (bRedraw || (lin->ptszText && lin->iType != GC_EVENT_JOIN && lin->iType != GC_EVENT_NICK && lin->iType != GC_EVENT_ADDSTATUS && lin->iType != GC_EVENT_REMOVESTATUS))) {
 		newsel.cpMax = -1;
 		newsel.cpMin = sel.cpMin;
 		if (newsel.cpMin < 0)
