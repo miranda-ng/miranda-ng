@@ -235,6 +235,7 @@ int Chat_Load()
 	pci->LogToFile = LogToFile;
 	pci->DoPopup = DoPopup;
 	pci->ShowPopup = ShowPopup;
+	pci->Log_CreateRTF = Log_CreateRTF;
 	pci->Log_CreateRtfHeader = Log_CreateRtfHeader;
 	pci->UM_CompareItem = UM_CompareItem;
 	pci->ReloadSettings();

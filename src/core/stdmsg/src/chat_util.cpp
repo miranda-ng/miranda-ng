@@ -21,36 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-
-// The code for streaming the text is to a large extent copied from
-// the srmm module and then modified to fit the chat module.
-
-static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
-{
-	LOGSTREAMDATA *lstrdat = (LOGSTREAMDATA*)dwCookie;
-	if (lstrdat) {
-		// create the RTF
-		if (lstrdat->buffer == NULL) {
-			lstrdat->bufferOffset = 0;
-			lstrdat->buffer = pci->Log_CreateRTF(lstrdat);
-			lstrdat->bufferLen = (int)mir_strlen(lstrdat->buffer);
-		}
-
-		// give the RTF to the RE control
-		*pcb = min(cb, lstrdat->bufferLen - lstrdat->bufferOffset);
-		memcpy(pbBuff, lstrdat->buffer + lstrdat->bufferOffset, *pcb);
-		lstrdat->bufferOffset += *pcb;
-
-		// free stuff if the streaming operation is complete
-		if (lstrdat->bufferOffset == lstrdat->bufferLen) {
-			mir_free(lstrdat->buffer);
-			lstrdat->buffer = NULL;
-		}
-	}
-
-	return 0;
-}
-
 void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw)
 {
 	if (hwndDlg == 0 || lin == 0 || si == 0)
@@ -71,7 +41,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 	BOOL bFlag = FALSE;
 
 	EDITSTREAM stream = {};
-	stream.pfnCallback = Log_StreamCallback;
+	stream.pfnCallback = Srmm_LogStreamCallback;
 	stream.dwCookie = (DWORD_PTR)& streamData;
 
 	SCROLLINFO scroll;
@@ -156,32 +126,6 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static DWORD CALLBACK Message_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
-{
-	static DWORD dwRead;
-	char **ppText = (char **)dwCookie;
-
-	if (*ppText == NULL) {
-		*ppText = (char *)mir_alloc(cb + 1);
-		memcpy(*ppText, pbBuff, cb);
-		(*ppText)[cb] = 0;
-		*pcb = cb;
-		dwRead = cb;
-	}
-	else {
-		char *p = (char *)mir_alloc(dwRead + cb + 1);
-		memcpy(p, *ppText, dwRead);
-		memcpy(p + dwRead, pbBuff, cb);
-		p[dwRead + cb] = 0;
-		mir_free(*ppText);
-		*ppText = p;
-		*pcb = cb;
-		dwRead += cb;
-	}
-
-	return 0;
-}
-
 char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si)
 {
 	if (hwndDlg == 0 || si == 0)
@@ -190,7 +134,7 @@ char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si)
 	char* pszText = NULL;
 	EDITSTREAM stream;
 	memset(&stream, 0, sizeof(stream));
-	stream.pfnCallback = Message_StreamCallback;
+	stream.pfnCallback = Srmm_MessageStreamCallback;
 	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
 
 	DWORD dwFlags = SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16);

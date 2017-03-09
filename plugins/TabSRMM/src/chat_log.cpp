@@ -696,7 +696,7 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 	return str.Detach();
 }
 
-static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
+char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 {
 	LOGINFO *lin = streamData->lin;
 	MODULEINFO *mi = pci->MM_FindModule(streamData->si->pszModule);
@@ -830,33 +830,6 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	return str.Detach();
 }
 
-static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
-{
-	LOGSTREAMDATA *lstrdat = (LOGSTREAMDATA*)dwCookie;
-
-	if (lstrdat) {
-		// create the RTF
-		if (lstrdat->buffer == nullptr) {
-			lstrdat->bufferOffset = 0;
-			lstrdat->buffer = Log_CreateRTF(lstrdat);
-			lstrdat->bufferLen = (int)mir_strlen(lstrdat->buffer);
-		}
-
-		// give the RTF to the RE control
-		*pcb = min(cb, lstrdat->bufferLen - lstrdat->bufferOffset);
-		memcpy(pbBuff, lstrdat->buffer + lstrdat->bufferOffset, *pcb);
-		lstrdat->bufferOffset += *pcb;
-
-		// mir_free stuff if the streaming operation is complete
-		if (lstrdat->bufferOffset == lstrdat->bufferLen) {
-			mir_free(lstrdat->buffer);
-			lstrdat->buffer = nullptr;
-		}
-	}
-
-	return 0;
-}
-
 void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 {
 	CHARRANGE oldsel, sel, newsel;
@@ -881,7 +854,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 	bool bFlag = false, fDoReplace;
 
 	EDITSTREAM stream = { 0 };
-	stream.pfnCallback = Log_StreamCallback;
+	stream.pfnCallback = Srmm_LogStreamCallback;
 	stream.dwCookie = (DWORD_PTR)& streamData;
 
 	SCROLLINFO scroll = { 0 };

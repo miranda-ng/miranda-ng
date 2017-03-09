@@ -408,3 +408,5 @@ ProtoGetAvatarMimeType @401
 ??2CSrmmBaseDialog@@SAPEAX_K@Z @409 NONAME
 ??3CSrmmBaseDialog@@SAXPEAX@Z @410 NONAME
 ?isChat@CSrmmBaseDialog@@QEBA_NXZ @411 NONAME
+Srmm_LogStreamCallback @412
+Srmm_MessageStreamCallback @413

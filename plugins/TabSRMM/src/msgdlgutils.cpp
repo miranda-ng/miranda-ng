@@ -764,29 +764,6 @@ void CTabBaseDlg::FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei)
 // caller must mir_free the returned pointer.
 // UNICODE version returns UTF-8 encoded string.
 
-static DWORD CALLBACK Message_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
-{
-	static DWORD dwRead;
-	char **ppText = (char **)dwCookie;
-
-	if (*ppText == nullptr) {
-		*ppText = (char *)mir_alloc(cb + 2);
-		memcpy(*ppText, pbBuff, cb);
-		*pcb = cb;
-		dwRead = cb;
-		*(*ppText + cb) = '\0';
-	}
-	else {
-		char *p = (char *)mir_realloc(*ppText, dwRead + cb + 2);
-		memcpy(p + dwRead, pbBuff, cb);
-		*ppText = p;
-		*pcb = cb;
-		dwRead += cb;
-		*(*ppText + dwRead) = '\0';
-	}
-	return 0;
-}
-
 char* TSAPI Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags)
 {
 	if (hwndRtf == 0)
@@ -800,7 +777,7 @@ char* TSAPI Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags)
 
 	char *pszText = nullptr;
 	EDITSTREAM stream = { 0 };
-	stream.pfnCallback = Message_StreamCallback;
+	stream.pfnCallback = Srmm_MessageStreamCallback;
 	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
 	SendMessage(hwndRtf, EM_STREAMOUT, dwFlags, (LPARAM)&stream);
 	return pszText; // pszText contains the text

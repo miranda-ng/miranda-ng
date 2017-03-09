@@ -410,6 +410,14 @@ EXTERN_C MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pDa
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+// receives LOGSTREAMDATA* as the first parameter
+EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb);
+
+// receives char** as the first parameter
+EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_MessageStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 {
 

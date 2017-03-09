@@ -25,32 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EM_GETSCROLLPOS	(WM_USER+221)
 #endif
 
-static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
-{
-	LOGSTREAMDATA *lstrdat = (LOGSTREAMDATA*)dwCookie;
-	if (lstrdat) {
-		// create the RTF
-		if (lstrdat->buffer == nullptr) {
-			lstrdat->bufferOffset = 0;
-			lstrdat->buffer = pci->Log_CreateRTF(lstrdat);
-			lstrdat->bufferLen = (int)mir_strlen(lstrdat->buffer);
-		}
-
-		// give the RTF to the RE control
-		*pcb = min(cb, LONG(lstrdat->bufferLen - lstrdat->bufferOffset));
-		memcpy(pbBuff, lstrdat->buffer + lstrdat->bufferOffset, *pcb);
-		lstrdat->bufferOffset += *pcb;
-
-		// free stuff if the streaming operation is complete
-		if (lstrdat->bufferOffset == lstrdat->bufferLen) {
-			mir_free(lstrdat->buffer);
-			lstrdat->buffer = nullptr;
-		}
-	}
-
-	return 0;
-}
-
 void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw)
 {
 	if (hwndDlg == 0 || lin == 0 || si == 0)
@@ -72,7 +46,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 	streamData.isFirst = bRedraw ? 1 : (GetRichTextLength(hwndRich, CP_ACP, FALSE) == 0);
 
 	EDITSTREAM stream = { 0 };
-	stream.pfnCallback = Log_StreamCallback;
+	stream.pfnCallback = Srmm_LogStreamCallback;
 	stream.dwCookie = (DWORD_PTR)&streamData;
 
 	SCROLLINFO scroll;

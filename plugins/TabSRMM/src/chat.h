@@ -101,6 +101,7 @@ extern CHAT_MANAGER saveCI;
 
 // log.c
 char* Log_CreateRtfHeader(MODULEINFO *mi);
+char* Log_CreateRTF(LOGSTREAMDATA *streamData);
 
 // window.c
 int GetTextPixelSize(wchar_t* pszText, HFONT hFont, bool bWidth);

@@ -101,32 +101,6 @@ int SetRichTextRTF(HWND hwnd, const char *text)
 	return GetRichTextLength(hwnd, 1200, FALSE);
 }
 
-static DWORD CALLBACK RichTextStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
-{
-	static DWORD dwRead;
-	char **ppText = (char**)dwCookie;
-
-	if (*ppText == nullptr) {
-		*ppText = (char*)mir_alloc(cb + 1);
-		memcpy(*ppText, pbBuff, cb);
-		(*ppText)[cb] = 0;
-		*pcb = cb;
-		dwRead = cb;
-	}
-	else {
-		char *p = (char*)mir_alloc(dwRead + cb + 1);
-		memcpy(p, *ppText, dwRead);
-		memcpy(p + dwRead, pbBuff, cb);
-		p[dwRead + cb] = 0;
-		mir_free(*ppText);
-		*ppText = p;
-		*pcb = cb;
-		dwRead += cb;
-	}
-
-	return 0;
-}
-
 char* GetRichTextRTF(HWND hwnd)
 {
 	if (hwnd == 0)
@@ -134,7 +108,7 @@ char* GetRichTextRTF(HWND hwnd)
 
 	char *pszText = nullptr;
 	EDITSTREAM stream = { 0 };
-	stream.pfnCallback = RichTextStreamCallback;
+	stream.pfnCallback = Srmm_MessageStreamCallback;
 	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
 	SendMessage(hwnd, EM_STREAMOUT, SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16), (LPARAM)&stream);
 	return pszText; // pszText contains the text
