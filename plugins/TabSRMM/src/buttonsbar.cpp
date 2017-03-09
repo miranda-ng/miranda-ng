@@ -145,7 +145,7 @@ void CTabBaseDlg::BB_InitDlgButtons()
 	BYTE gap = DPISCALEX_S(db_get_b(0, SRMSGMOD, "ButtonsBarGap", 1));
 
 	RECT rcSplitter;
-	GetWindowRect(GetDlgItem(m_hwnd, (m_bType == SESSIONTYPE_IM) ? IDC_SPLITTERY : IDC_SPLITTERY), &rcSplitter);
+	GetWindowRect(GetDlgItem(m_hwnd, IDC_SPLITTERY), &rcSplitter);
 	POINT ptSplitter = { 0, rcSplitter.top };
 	ScreenToClient(m_hwnd, &ptSplitter);
 
@@ -154,7 +154,7 @@ void CTabBaseDlg::BB_InitDlgButtons()
 
 	m_bbLSideWidth = m_bbRSideWidth = 0;
 
-	Srmm_CreateToolbarIcons(m_hwnd, (m_bType == SESSIONTYPE_IM) ? BBBF_ISIMBUTTON : BBBF_ISCHATBUTTON);
+	Srmm_CreateToolbarIcons(m_hwnd, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
 
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
@@ -226,7 +226,7 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 	int splitterY = (!bBottomToolbar) ? ptSplitter.y - DPISCALEY_S(1) : rect.bottom;
 	int tempL = m_bbLSideWidth, tempR = m_bbRSideWidth;
 	int lwidth = 0, rwidth = 0;
-	int iOff = DPISCALEY_S((PluginConfig.m_DPIscaleY > 1.0) ? (m_bType == SESSIONTYPE_IM ? 22 : 23) : 22);
+	int iOff = DPISCALEY_S((PluginConfig.m_DPIscaleY > 1.0) ? (!isChat() ? 22 : 23) : 22);
 
 	int foravatar = 0;
 	if ((rect.bottom - ptSplitter.y - (rcSplitter.bottom - rcSplitter.top) /*- DPISCALEY(2)*/ - (bBottomToolbar ? DPISCALEY_S(24) : 0) < m_pic.cy - DPISCALEY_S(2)) && m_bShowAvatar && !PluginConfig.m_bAlwaysFullToolbarWidth)
@@ -244,7 +244,7 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 		if (cbd->m_bRSided) // filter only left buttons
 			continue;
 
-		if (((m_bType == SESSIONTYPE_IM) && cbd->m_bIMButton) || ((m_bType == SESSIONTYPE_CHAT) && cbd->m_bChatButton)) {
+		if ((!isChat() && cbd->m_bIMButton) || (isChat() && cbd->m_bChatButton)) {
 			HWND hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
 
 			if (!showToolbar) {
@@ -294,7 +294,7 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 		if (!cbd->m_bRSided) // filter only right buttons
 			continue;
 
-		if (((m_bType == SESSIONTYPE_IM) && cbd->m_bIMButton) || ((m_bType == SESSIONTYPE_CHAT) && cbd->m_bChatButton)) {
+		if ((!isChat() && cbd->m_bIMButton) || (isChat() && cbd->m_bChatButton)) {
 			HWND hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
 
 			if (!showToolbar) {

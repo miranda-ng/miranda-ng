@@ -46,7 +46,7 @@ CInfoPanel::CInfoPanel(CTabBaseDlg *dat)
 {
 	if (dat) {
 		m_dat = dat;
-		m_isChat = dat->m_bType == SESSIONTYPE_CHAT ? true : false;
+		m_isChat = dat->isChat();
 	}
 	m_defaultHeight = PluginConfig.m_panelHeight;
 	m_defaultMUCHeight = PluginConfig.m_MUCpanelHeight;
@@ -595,7 +595,7 @@ void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 
 void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 {
-	SESSION_INFO *si = m_dat->si;
+	SESSION_INFO *si = m_dat->m_si;
 	if (si == nullptr)
 		return;
 
@@ -654,7 +654,7 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 
 void CInfoPanel::Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem)
 {
-	SESSION_INFO *si = reinterpret_cast<SESSION_INFO*>(m_dat->si);
+	SESSION_INFO *si = reinterpret_cast<SESSION_INFO*>(m_dat->m_si);
 	if (si == 0)
 		return;
 
@@ -718,7 +718,7 @@ HMENU CInfoPanel::constructContextualMenu() const
 			Utils::addMenuItem(m, mii, PluginConfig.g_iconContainer, TranslateT("Messaging settings..."), ID_MESSAGELOGSETTINGS_FORTHISCONTACT, 1);
 		else {
 			::AppendMenu(m, MF_STRING, IDC_CHANMGR, TranslateT("Room settings..."));
-			if (GCW_SERVER & m_dat->si->iType)
+			if (GCW_SERVER & m_dat->m_si->iType)
 				::EnableMenuItem(m, IDC_CHANMGR, MF_BYCOMMAND | MF_GRAYED);
 		}
 		::AppendMenu(m, MF_SEPARATOR, 1000, 0);
@@ -747,7 +747,7 @@ LRESULT CInfoPanel::cmdHandler(UINT cmd)
 			return(S_OK);
 		}
 		if (m_hoverFlags & HOVER_UIN) {
-			Utils::CopyToClipBoard(m_isChat ? m_dat->si->ptszTopic : m_dat->m_cache->getUIN(), m_dat->GetHwnd());
+			Utils::CopyToClipBoard(m_isChat ? m_dat->m_si->ptszTopic : m_dat->m_cache->getUIN(), m_dat->GetHwnd());
 			return(S_OK);
 		}
 		break;

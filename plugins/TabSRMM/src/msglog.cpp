@@ -1092,7 +1092,7 @@ static void ReplaceIcons(HWND hwndDlg, CTabBaseDlg *dat, LONG startAt, int fAppe
 
 	FINDTEXTEX fi;
 	fi.chrg.cpMin = startAt;
-	if (dat->m_clr_added) {
+	if (dat->m_bClrAdded) {
 		fi.lpstrText = L"##col##";
 		fi.chrg.cpMax = -1;
 		CHARFORMAT2 cf2;
@@ -1278,7 +1278,7 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 	}
 
 	// separator strings used for grid lines, message separation and so on...
-	m_clr_added = FALSE;
+	m_bClrAdded = false;
 
 	if (m_szMicroLf[0] == 0)
 		SetupLogFormatting(this);
@@ -1355,7 +1355,7 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 	}
 
 	ReplaceIcons(m_hwnd, this, startAt, fAppend, isSent);
-	m_clr_added = FALSE;
+	m_bClrAdded = false;
 
 	if (m_hwndIEView == nullptr && m_hwndHPP == nullptr) {
 		int len = GetWindowTextLength(hwndrtf);

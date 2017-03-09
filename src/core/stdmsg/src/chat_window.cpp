@@ -827,7 +827,6 @@ static void __cdecl phase2(void * lParam)
 
 CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	CSrmmBaseDialog(g_hInst, g_Settings.bTabsEnable ? IDD_CHANNEL_TAB : IDD_CHANNEL),
-	m_si(si),
 	m_nickList(this, IDC_LIST),
 	m_message(this, IDC_MESSAGE),
 	m_log(this, IDC_LOG),
@@ -849,6 +848,7 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY)
 {
+	m_si = si;
 	m_pLog = &m_log;
 	m_pEntry = &m_message;
 	m_hContact = si->hContact;

@@ -94,7 +94,7 @@ int   TSAPI GetContainerNameForContact(MCONTACT hContact, wchar_t *szName, int i
 HMENU TSAPI BuildContainerMenu();
 void  TSAPI PreTranslateDates();
 void  TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT mode, bool fForceResize);
-void  TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WPARAM wParam, LPARAM lParam, BYTE iType = 0);
+void  TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WPARAM wParam, LPARAM lParam);
 void  TSAPI GetDefaultContainerTitleFormat();
 void  TSAPI SetAeroMargins(TContainerData *pContainer);
 int   TABSRMM_FireEvent(MCONTACT hContact, HWND hwnd, unsigned int type, unsigned int subType);

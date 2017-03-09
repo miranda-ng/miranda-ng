@@ -463,16 +463,16 @@ static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		break;
 
 	case WM_SYSKEYDOWN:
-		mwdat->m_fkeyProcessed = false;
+		mwdat->m_bkeyProcessed = false;
 		if (ProcessHotkeysByMsgFilter(hwnd, msg, wParam, lParam, IDC_LOG)) {
-			mwdat->m_fkeyProcessed = true;
+			mwdat->m_bkeyProcessed = true;
 			return 0;
 		}
 		break;
 
 	case WM_SYSCHAR:
-		if (mwdat->m_fkeyProcessed) {
-			mwdat->m_fkeyProcessed = false;
+		if (mwdat->m_bkeyProcessed) {
+			mwdat->m_bkeyProcessed = false;
 			return 0;
 		}
 		break;
@@ -523,12 +523,12 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 	// prevent the rich edit from switching text direction or keyboard layout when
 	// using hotkeys with ctrl-shift or alt-shift modifiers
-	if (mwdat->m_fkeyProcessed && (msg == WM_KEYUP)) {
+	if (mwdat->m_bkeyProcessed && (msg == WM_KEYUP)) {
 		GetKeyboardState(mwdat->kstate);
 		if (mwdat->kstate[VK_CONTROL] & 0x80 || mwdat->kstate[VK_SHIFT] & 0x80)
 			return 0;
 
-		mwdat->m_fkeyProcessed = false;
+		mwdat->m_bkeyProcessed = false;
 		return 0;
 	}
 
@@ -603,14 +603,14 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			SkinPlaySound("SoundOnTyping");
 
 		if (wParam == VK_INSERT && !isShift && !isCtrl && !isAlt) {
-			mwdat->m_fInsertMode = !mwdat->m_fInsertMode;
+			mwdat->m_bInsertMode = !mwdat->m_bInsertMode;
 			SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), EN_CHANGE), (LPARAM)hwnd);
 		}
 		if (wParam == VK_CAPITAL || wParam == VK_NUMLOCK)
 			SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), EN_CHANGE), (LPARAM)hwnd);
 
 		if (wParam == VK_RETURN) {
-			if (mwdat->m_fEditNotesActive)
+			if (mwdat->m_bEditNotesActive)
 				break;
 
 			if (isShift) {
@@ -692,9 +692,9 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		}
 
 	case WM_SYSKEYDOWN:
-		mwdat->m_fkeyProcessed = false;
+		mwdat->m_bkeyProcessed = false;
 		if (ProcessHotkeysByMsgFilter(hwnd, msg, wParam, lParam, IDC_MESSAGE)) {
-			mwdat->m_fkeyProcessed = true;
+			mwdat->m_bkeyProcessed = true;
 			return 0;
 		}
 		break;
@@ -707,8 +707,8 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		break;
 
 	case WM_SYSCHAR:
-		if (mwdat->m_fkeyProcessed) {
-			mwdat->m_fkeyProcessed = false;
+		if (mwdat->m_bkeyProcessed) {
+			mwdat->m_bkeyProcessed = false;
 			return 0;
 		}
 
@@ -842,7 +842,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 		ReleaseCapture();
 		dat->DM_ScrollToBottom(0, 1);
-		if (dat->m_bType == SESSIONTYPE_IM && hwnd == GetDlgItem(hwndParent, IDC_PANELSPLITTER)) {
+		if (!dat->isChat() && hwnd == GetDlgItem(hwndParent, IDC_PANELSPLITTER)) {
 			SendMessage(hwndParent, WM_SIZE, 0, 0);
 			RedrawWindow(hwndParent, nullptr, nullptr, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW);
 		}
@@ -866,7 +866,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			case ID_SPLITTERCONTEXT_SAVEFORTHISCONTACTONLY:
 				dat->m_dwFlagsEx |= MWF_SHOW_SPLITTEROVERRIDE;
 				db_set_b(dat->m_hContact, SRMSGMOD_T, "splitoverride", 1);
-				if (dat->m_bType == SESSIONTYPE_IM)
+				if (!dat->isChat())
 					dat->SaveSplitter();
 				break;
 
@@ -919,7 +919,6 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 CSrmmWindow::CSrmmWindow()
 	: CTabBaseDlg(IDD_MSGSPLITNEW)
 {
-	m_bType = SESSIONTYPE_IM;
 }
 
 void CSrmmWindow::ClearLog()
@@ -1224,7 +1223,7 @@ void CSrmmWindow::OnDestroy()
 	if (m_pContainer->dwFlags & CNT_SIDEBAR)
 		m_pContainer->SideBar->removeSession(this);
 	m_cache->setWindowData();
-	if (m_cache->isValid() && !m_fIsReattach && m_hContact && M.GetByte("deletetemp", 0))
+	if (!m_bIsReattach && m_hContact && M.GetByte("deletetemp", 0))
 		if (db_get_b(m_hContact, "CList", "NotOnList", 0))
 			db_delete_contact(m_hContact);
 
@@ -1234,9 +1233,6 @@ void CSrmmWindow::OnDestroy()
 	if (m_hwndPanelPic)
 		DestroyWindow(m_hwndPanelPic);
 
-	if (m_hClientIcon)
-		DestroyIcon(m_hClientIcon);
-
 	if (m_hwndPanelPicParent)
 		DestroyWindow(m_hwndPanelPicParent);
 
@@ -1245,7 +1241,7 @@ void CSrmmWindow::OnDestroy()
 		AddContactToFavorites(m_hContact, m_cache->getNick(), m_cache->getActiveProto(), m_wszStatus, m_wStatus,
 			Skin_LoadProtoIcon(m_cache->getActiveProto(), m_cache->getActiveStatus()), 1, PluginConfig.g_hMenuRecent);
 		if (m_hContact) {
-			if (!m_fEditNotesActive) {
+			if (!m_bEditNotesActive) {
 				char *msg = Message_GetFromStream(m_message.GetHwnd(), SF_TEXT);
 				if (msg) {
 					db_set_utf(m_hContact, SRMSGMOD, "SavedMsg", msg);
@@ -1261,9 +1257,6 @@ void CSrmmWindow::OnDestroy()
 		DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
 	DM_FreeTheme();
-
-	mir_free(m_sendBuffer);
-	mir_free(m_hHistoryEvents);
 
 	// search the sendqueue for unfinished send jobs and mir_free them. Leave unsent
 	// messages in the queue as they can be acked later
@@ -1284,19 +1277,8 @@ void CSrmmWindow::OnDestroy()
 		}
 	}
 
-	mir_free(m_hQueuedEvents);
-
-	if (m_hSmileyIcon)
-		DestroyIcon(m_hSmileyIcon);
-
-	if (m_hXStatusIcon)
-		DestroyIcon(m_hXStatusIcon);
-
 	if (m_hwndTip)
 		DestroyWindow(m_hwndTip);
-
-	if (m_hTaskbarIcon)
-		DestroyIcon(m_hTaskbarIcon);
 
 	UpdateTrayMenuState(this, FALSE);               // remove me from the tray menu (if still there)
 	if (PluginConfig.g_hMenuTrayUnread)
@@ -1306,14 +1288,12 @@ void CSrmmWindow::OnDestroy()
 	if (m_cache->isValid())
 		db_set_dw(0, SRMSGMOD, "multisplit", m_iMultiSplit);
 
-	{
-		int i = GetTabIndexFromHWND(m_hwndParent, m_hwnd);
-		if (i >= 0) {
-			SendMessage(m_hwndParent, WM_USER + 100, 0, 0);                      // remove tooltip
-			TabCtrl_DeleteItem(m_hwndParent, i);
-			BroadCastContainer(m_pContainer, DM_REFRESHTABINDEX, 0, 0);
-			m_iTabID = -1;
-		}
+	int i = GetTabIndexFromHWND(m_hwndParent, m_hwnd);
+	if (i >= 0) {
+		SendMessage(m_hwndParent, WM_USER + 100, 0, 0);                      // remove tooltip
+		TabCtrl_DeleteItem(m_hwndParent, i);
+		BroadCastContainer(m_pContainer, DM_REFRESHTABINDEX, 0, 0);
+		m_iTabID = -1;
 	}
 
 	TABSRMM_FireEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE, 0);
@@ -1332,14 +1312,6 @@ void CSrmmWindow::OnDestroy()
 		ieWindow.iType = IEW_DESTROY;
 		ieWindow.hwnd = m_hwndHPP;
 		CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
-	}
-	if (m_pWnd) {
-		delete m_pWnd;
-		m_pWnd = 0;
-	}
-	if (m_sbCustom) {
-		delete m_sbCustom;
-		m_sbCustom = 0;
 	}
 }
 
@@ -1569,7 +1541,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (CSkin::m_skinEnabled) {
 				UINT item_ids[2] = { ID_EXTBKHISTORY, ID_EXTBKINPUTAREA };
 				UINT ctl_ids[2] = { IDC_LOG, IDC_MESSAGE };
-				BOOL isEditNotesReason = m_fEditNotesActive;
+				BOOL isEditNotesReason = m_bEditNotesActive;
 				BOOL isSendLaterReason = (m_sendMode & SMODE_SENDLATER);
 				BOOL isMultipleReason = (m_sendMode & SMODE_MULTIPLE || m_sendMode & SMODE_CONTAINER);
 
@@ -1768,7 +1740,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 					if (msg == WM_SYSKEYUP) {
 						if (wp == VK_MENU)
-							if (!m_fkeyProcessed && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000) && !(lp & (1 << 24)))
+							if (!m_bkeyProcessed && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000) && !(lp & (1 << 24)))
 								m_pContainer->MenuBar->autoShow();
 
 						return _dlgReturn(m_hwnd, 0);
@@ -1777,7 +1749,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					if ((msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN) && !(GetKeyState(VK_RMENU) & 0x8000)) {
 						LRESULT mim_hotkey_check = CallService(MS_HOTKEY_CHECK, (WPARAM)&message, (LPARAM)TABSRMM_HK_SECTION_IM);
 						if (mim_hotkey_check)
-							m_fkeyProcessed = true;
+							m_bkeyProcessed = true;
 
 						switch (mim_hotkey_check) {
 						case TABSRMM_HK_SETUSERPREFS:
@@ -1867,7 +1839,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							return _dlgReturn(m_hwnd, 1);
 						}
 						if (DM_GenericHotkeysCheck(&message)) {
-							m_fkeyProcessed = true;
+							m_bkeyProcessed = true;
 							return _dlgReturn(m_hwnd, 1);
 						}
 					}
@@ -2551,7 +2523,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			if (m_fEditNotesActive) {
+			if (m_bEditNotesActive) {
 				SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_PIC, (LPARAM)TranslateT("You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode"));
 				return 0;
 			}

@@ -527,7 +527,7 @@ HICON CContactCache::getIcon(int &iSize) const
 	if (m_dat->m_bCanFlashTab)
 		return m_dat->m_iFlashIcon;
 
-	if (m_dat->si && m_dat->m_iFlashIcon) {
+	if (m_dat->isChat() && m_dat->m_iFlashIcon) {
 		int sizeX, sizeY;
 		Utils::getIconSize(m_dat->m_iFlashIcon, sizeX, sizeY);
 		iSize = sizeX;

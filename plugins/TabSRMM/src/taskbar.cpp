@@ -326,8 +326,8 @@ void CProxyWindow::sendPreview()
 	RECT rcContainer, rcTemp, rcRich, rcLog;
 	HDC hdc, dc;
 	int twips = (int)(15.0f / PluginConfig.m_DPIscaleY);
-	bool fIsChat = m_dat->m_bType != SESSIONTYPE_IM;
-	HWND 	hwndRich = ::GetDlgItem(m_dat->GetHwnd(), fIsChat ? IDC_LOG : IDC_LOG);
+	bool fIsChat = m_dat->isChat();
+	HWND 	hwndRich = ::GetDlgItem(m_dat->GetHwnd(), IDC_LOG);
 	LONG 	cx, cy;
 	POINT	ptOrigin = { 0 }, ptBottom;
 
@@ -357,7 +357,7 @@ void CProxyWindow::sendPreview()
 		pt = m_dat->m_pContainer->ptLogSaved;
 	}
 
-	::GetWindowRect(::GetDlgItem(m_dat->m_pContainer->hwndActive, dat_active->m_bType == SESSIONTYPE_IM ? IDC_LOG : IDC_LOG), &rcTemp);
+	::GetWindowRect(::GetDlgItem(m_dat->m_pContainer->hwndActive, IDC_LOG), &rcTemp);
 	ptBottom.x = rcTemp.left;
 	ptBottom.y = rcTemp.bottom;
 	::ScreenToClient(m_dat->m_pContainer->hwnd, &ptBottom);
@@ -679,7 +679,7 @@ void CThumbBase::renderBase()
 
 	m_rcIcon.top += (lIconSize + 3);
 	CSkin::RenderText(m_hdc, m_dat->m_hTheme, m_dat->m_wszStatus, &m_rcIcon, m_dtFlags | DT_CENTER | DT_WORD_ELLIPSIS, 10, 0, true);
-	if (m_dat->m_dwUnread && SESSIONTYPE_IM == m_dat->m_bType) {
+	if (m_dat->m_dwUnread && !m_dat->isChat()) {
 		wchar_t	tszTemp[30];
 
 		m_rcIcon.top += m_sz.cy;
@@ -698,7 +698,7 @@ void CThumbBase::renderBase()
  */
 void CThumbBase::setupRect()
 {
-	if (SESSIONTYPE_IM == m_pWnd->getDat()->m_bType) {
+	if (!m_pWnd->getDat()->isChat()) {
 		m_rcTop = m_rc;
 		m_rcBottom = m_rc;
 		m_rcBottom.top = m_rc.bottom - (2 * (m_rcBottom.bottom / 5)) - 2;

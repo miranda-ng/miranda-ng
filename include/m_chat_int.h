@@ -421,9 +421,12 @@ protected:
 
 protected:
 	CCtrlEdit *m_pLog, *m_pEntry;
+	SESSION_INFO *m_si;
 
 public:
 	MCONTACT m_hContact;
+
+	__forceinline bool isChat() const { return m_si != nullptr; }
 
 	__inline void* operator new(size_t size){ return calloc(1, size); }
 	__inline void operator delete(void* p) { free(p); }

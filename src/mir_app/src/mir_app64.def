@@ -407,3 +407,4 @@ ProtoGetAvatarMimeType @401
 ?DlgProc@CSrmmBaseDialog@@MEAA_JI_K_J@Z @408 NONAME
 ??2CSrmmBaseDialog@@SAPEAX_K@Z @409 NONAME
 ??3CSrmmBaseDialog@@SAXPEAX@Z @410 NONAME
+?isChat@CSrmmBaseDialog@@QEBA_NXZ @411 NONAME

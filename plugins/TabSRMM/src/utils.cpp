@@ -159,7 +159,7 @@ invalid_code:
 	}
 
 	if (!(dwFlags & MWF_LOG_TEXTFORMAT) || message.find(L"://") != message.npos) {
-		dat->m_clr_added = clr_was_added ? TRUE : FALSE;
+		dat->m_bClrAdded = clr_was_added;
 		return(message.c_str());
 	}
 
@@ -226,7 +226,7 @@ ok:
 		message.insert(beginmark, L"%%%");
 		message.replace(beginmark, 4, formatting_strings_begin[index]);
 	}
-	dat->m_clr_added = clr_was_added ? TRUE : FALSE;
+	dat->m_bClrAdded = clr_was_added;
 	return(message.c_str());
 }
 

@@ -60,7 +60,7 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
 		return;
 
 	RECT	rcWnd;
-	if (dat->m_bType == SESSIONTYPE_IM) {
+	if (!dat->isChat()) {
 		if (dat->m_pPanel.isActive())
 			GetWindowRect(GetDlgItem(dat->GetHwnd(), IDC_LOG), &rcWnd);
 		else
@@ -872,13 +872,10 @@ panel_found:
 				db_unset(dat->m_hContact, SRMSGMOD_T, "tabindex");
 				break;
 			case ID_TABMENU_LEAVECHATROOM:
-				if (dat && dat->m_bType == SESSIONTYPE_CHAT) {
-					SESSION_INFO *si = dat->si;
-					if (si && dat->m_hContact) {
-						char *szProto = GetContactProto(dat->m_hContact);
-						if (szProto)
-							CallProtoService(szProto, PS_LEAVECHAT, dat->m_hContact, 0);
-					}
+				if (dat && dat->isChat() && dat->m_hContact) {
+					char *szProto = GetContactProto(dat->m_hContact);
+					if (szProto)
+						CallProtoService(szProto, PS_LEAVECHAT, dat->m_hContact, 0);
 				}
 				break;
 			case ID_TABMENU_ATTACHTOCONTAINER:
@@ -1239,7 +1236,7 @@ panel_found:
 			}
 
 			dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-			if (dat && dat->m_bType == SESSIONTYPE_IM) {
+			if (dat && !dat->isChat()) {
 				if (dat->m_idle && pContainer->hwndActive && IsWindow(pContainer->hwndActive))
 					dat->m_pPanel.Invalidate(TRUE);
 			}
@@ -2362,7 +2359,7 @@ void TSAPI ReflashContainer(TContainerData *pContainer)
 
 // broadcasts a message to all child windows (tabs/sessions)
 
-void TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WPARAM wParam, LPARAM lParam, BYTE bType)
+void TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if (pContainer == nullptr)
 		return;
@@ -2374,15 +2371,8 @@ void TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WP
 	int nCount = TabCtrl_GetItemCount(hwndTab);
 	for (int i = 0; i < nCount; i++) {
 		TabCtrl_GetItem(hwndTab, i, &item);
-		if (IsWindow((HWND)item.lParam)) {
-			if (bType == SESSIONTYPE_ANY)
-				SendMessage((HWND)item.lParam, message, wParam, lParam);
-			else {
-				CTabBaseDlg *dat = (CTabBaseDlg*)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
-				if (dat && dat->m_bType == bType)
-					SendMessage((HWND)item.lParam, message, wParam, lParam);
-			}
-		}
+		if (IsWindow((HWND)item.lParam))
+			SendMessage((HWND)item.lParam, message, wParam, lParam);
 	}
 }
 

@@ -184,7 +184,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 	else if (dat->m_bCanFlashTab)
 		hIcon = dat->m_iFlashIcon;
 	else {
-		if (dat->m_bType == SESSIONTYPE_CHAT && dat->m_iFlashIcon) {
+		if (dat->isChat() && dat->m_iFlashIcon) {
 			hIcon = dat->m_iFlashIcon;
 
 			int sizeY;
@@ -829,7 +829,7 @@ page_done:
 			FillRect(hdc, &rcPage, CSkin::m_BrushBack);
 			rcPage.top = 0;
 		}
-		GetWindowRect(GetDlgItem(tabdat->helperDat->GetHwnd(), tabdat->helperDat->m_bType == SESSIONTYPE_IM ? IDC_LOG : IDC_LOG), &rcLog);
+		GetWindowRect(GetDlgItem(tabdat->helperDat->GetHwnd(), IDC_LOG), &rcLog);
 
 		pt.y = rcLog.top;
 		pt.x = rcLog.left;
@@ -1475,7 +1475,7 @@ int TSAPI RegisterTabCtrlClass(void)
 	RegisterClassEx(&wc);
 
 	wc.lpszClassName = L"TSStatusBarClass";
-	wc.lpfnWndProc = StatusBarSubclassProc;
+	wc.lpfnWndProc = &CTabBaseDlg::StatusBarSubclassProc;
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.cbWndExtra = sizeof(void*);
 	wc.style = CS_GLOBALCLASS | CS_DBLCLKS | CS_PARENTDC;

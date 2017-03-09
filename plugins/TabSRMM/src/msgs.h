@@ -132,7 +132,6 @@ struct TitleBtn {
 
 class CTaskbarInteract;
 class CMenuBar;
-class CInfoPanel;
 class CSideBar;
 class CProxyWindow;
 class CThumbBase;
@@ -231,6 +230,7 @@ struct SESSION_INFO;
 
 class CTabBaseDlg : public CSrmmBaseDialog
 {
+	friend class CInfoPanel;
 
 protected:
 	CCtrlEdit m_log, m_message;
@@ -252,7 +252,6 @@ protected:
 	void ResizeIeView();
 
 public:
-	BYTE     m_bType;
 	DWORD    m_dwFlags;
 	DWORD    m_dwFlagsEx;
 	char    *m_szProto;
@@ -265,14 +264,12 @@ public:
 	size_t   m_iSendBufferSize;
 	int      m_iSendLength;				// message length in utf-8 octets
 	HICON    m_hTabIcon, m_hTabStatusIcon, m_hXStatusIcon, m_hClientIcon, m_hTaskbarIcon;
-	HICON    m_iFlashIcon;
-	bool     m_bCanFlashTab, m_bTabFlash;
+	HICON    m_iFlashIcon, m_hSmileyIcon;
 	HWND     m_hwndIEView, m_hwndIWebBrowserControl, m_hwndHPP;
 	HWND     m_hwndContactPic, m_hwndPanelPic, m_hwndPanelPicParent;
 	UINT     m_bbLSideWidth, m_bbRSideWidth;
 	BYTE     kstate[256];
 
-	SESSION_INFO *si;
 	StatusTextData *m_sbCustom;
 	TContainerData *m_pContainer;		// parent container description structure
 
@@ -282,7 +279,6 @@ public:
 	int      m_originalSplitterY;
 	int      m_iSplitterY, m_dynaSplitter;
 	int      m_savedSplitterY, m_savedDynaSplit;
-	int      m_iMultiSplit;
 	SIZE     m_minEditBoxSize;
 	int      m_nTypeSecs;
 	int      m_nTypeMode;
@@ -293,11 +289,21 @@ public:
 	DWORD    m_dwTickLastEvent, m_dwUnread;
 	HBITMAP  m_hOwnPic;
 	SIZE     m_pic;
+	
 	BYTE     m_bShowTyping;
 	bool     m_bShowAvatar, m_bShowInfoAvatar, m_bShowUIElements;
 	bool     m_bUseOffset;
 	bool     m_bIsHistory, m_bIsMeta, m_bNotOnList;
-	HICON    m_hSmileyIcon;
+	bool     m_bkeyProcessed;
+	bool     m_bEditNotesActive;
+	bool     m_bActualHistory;
+	bool     m_bIsReattach;
+	bool     m_bIsAutosizingInput;
+	bool     m_fLimitedUpdate;
+	bool     m_bClrAdded;
+	bool     m_bInsertMode;
+	bool     m_bCanFlashTab, m_bTabFlash;
+
 	int      m_iLastEventType;
 	time_t   m_lastEventTime;
 	int      m_iRealAvatarHeight;
@@ -329,15 +335,9 @@ public:
 	int      m_nMax;            // max message size
 	int      m_textLen;         // current text len
 	LONG     m_ipFieldHeight;
-	BOOL     m_clr_added;
-	BOOL     m_fIsReattach;
 	WPARAM   m_wParam;          // used for "delayed" actions like moved splitters in minimized windows
 	LPARAM   m_lParam;
 	int      m_iHaveRTLLang;
-	BOOL     m_fInsertMode;
-	bool     m_fkeyProcessed;
-	bool     m_fEditNotesActive;
-	bool     m_bActualHistory;
 
 	CInfoPanel m_pPanel;
 	CContactCache *m_cache;
@@ -345,8 +345,6 @@ public:
 	CProxyWindow  *m_pWnd;	// proxy window object (win7+, for taskbar support).
 	// ALWAYS check this pointer before using it, it is not guaranteed to exist.
 
-	bool    m_bIsAutosizingInput;
-	bool    m_fLimitedUpdate;
 	DWORD   m_iSplitterSaved;
 	LONG    m_iInputAreaHeight;
 	POINT   m_ptTipActivation;
@@ -356,11 +354,14 @@ public:
 
 public:
 	CTabBaseDlg(int iDialogId);
+	virtual ~CTabBaseDlg() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	virtual CThumbBase* CreateThumb(CProxyWindow*) const = 0;
 	virtual void ClearLog() = 0;
+
+	static LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	HWND  DM_CreateClist();
 	void  DM_EventAdded(WPARAM wParam, LPARAM lParam);
@@ -439,6 +440,7 @@ class CSrmmWindow : public CTabBaseDlg
 	void ReplayQueue();
 
 public:
+	int m_iMultiSplit;
 	int msgTop, rcLogBottom;
 	wchar_t *wszInitialText;
 	bool m_bActivate, m_bWantPopup;
@@ -463,6 +465,9 @@ class CChatRoomDlg : public CTabBaseDlg
 	CCtrlButton m_btnFilter, m_btnHistory, m_btnChannelMgr, m_btnNickList, m_btnOk;
 	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline, m_btnColor, m_btnBkColor;
 	CCtrlListBox m_list;
+
+	static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	virtual CThumbBase* CreateThumb(CProxyWindow *pProxy) const override;
 	virtual void ClearLog() override;
@@ -953,10 +958,6 @@ struct SIDEBARITEM {
 #define ID_EXTBKINFOPANELBG	   23
 #define ID_EXTBKSIDEBARBG	   24
 #define ID_EXTBK_LAST 24
-
-#define SESSIONTYPE_ANY 0
-#define SESSIONTYPE_IM 1
-#define SESSIONTYPE_CHAT 2
 
 #define DEFAULT_SIDEBARWIDTH         30
 

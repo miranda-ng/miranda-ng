@@ -118,7 +118,7 @@ LBL_SkipEnd:
 	}
 }
 
-static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL isShift = GetKeyState(VK_SHIFT) & 0x8000;
 	BOOL isCtrl = GetKeyState(VK_CONTROL) & 0x8000;
@@ -459,7 +459,7 @@ static LRESULT CALLBACK ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	return mir_callNextSubclass(hwnd, ButtonSubclassProc, msg, wParam, lParam);
 }
 
-static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK CChatRoomDlg::LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static BOOL inMenu = FALSE;
 	CChatRoomDlg *pDlg = (CChatRoomDlg*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
@@ -582,7 +582,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	return mir_callNextSubclass(hwnd, LogSubclassProc, msg, wParam, lParam);
 }
 
-static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK CChatRoomDlg::NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CChatRoomDlg *pDlg = (CChatRoomDlg*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 
@@ -863,7 +863,6 @@ void CChatRoomDlg::MessageDialogResize(int w, int h)
 
 CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 	: CScriverWindow(IDD_CHANNEL),
-	m_si(si),
 
 	m_log(this, IDC_LOG),
 	m_message(this, IDC_MESSAGE),
@@ -883,6 +882,7 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 	m_btnShowList(this, IDC_SHOWNICKLIST),
 	m_btnUnderline(this, IDC_UNDERLINE)
 {
+	m_si = si;
 	m_pLog = &m_log;
 	m_pEntry = &m_message;
 	m_hContact = si->hContact;

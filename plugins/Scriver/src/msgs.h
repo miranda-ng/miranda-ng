@@ -175,8 +175,11 @@ class CChatRoomDlg : public CScriverWindow
 
 	void MessageDialogResize(int w, int h);
 
+	static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 public:
-	SESSION_INFO *m_si;
 	wchar_t m_wszSearch[255];
 
 public:

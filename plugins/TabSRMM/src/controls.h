@@ -29,8 +29,6 @@
 #ifndef __CONTROLS_H
 #define __CONTROLS_H
 
-extern LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
 class CMenuBar
 {
 public:

@@ -132,6 +132,21 @@ CTabBaseDlg::CTabBaseDlg(int iResource)
 	m_forceResizable = true;
 }
 
+CTabBaseDlg::~CTabBaseDlg()
+{
+	delete m_pWnd;
+	delete m_sbCustom;
+
+	mir_free(m_sendBuffer);
+	mir_free(m_hHistoryEvents);
+	mir_free(m_hQueuedEvents);
+
+	if (m_hClientIcon) DestroyIcon(m_hClientIcon);
+	if (m_hSmileyIcon) DestroyIcon(m_hSmileyIcon);
+	if (m_hXStatusIcon) DestroyIcon(m_hXStatusIcon);
+	if (m_hTaskbarIcon) DestroyIcon(m_hTaskbarIcon);
+}
+
 INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -147,7 +162,7 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				m_pPanel.loadHeight();
 			else {
 				if (srcDat && lParam && this != srcDat && !m_pPanel.isPrivateHeight()) {
-					if (srcDat->m_bType != m_bType && M.GetByte("syncAllPanels", 0) == 0)
+					if (srcDat->isChat() != isChat() && M.GetByte("syncAllPanels", 0) == 0)
 						return 0;
 
 					if (m_pContainer->settings->fPrivate && srcDat->m_pContainer != m_pContainer)
@@ -208,7 +223,7 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 
 			db_set_ws(m_hContact, SRMSGMOD_T, "containerW", szNewName);
-			m_fIsReattach = TRUE;
+			m_bIsReattach = true;
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_DOCREATETAB, (WPARAM)pNewContainer, m_hContact);
 			if (iOldItems > 1)                // there were more than 1 tab, container is still valid
 				SendMessage(m_pContainer->hwndActive, WM_SIZE, 0, 0);
@@ -586,7 +601,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 		TabCtrl_SetCurSel(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), GetTabIndexFromHWND(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), hwndChild));
 		SendMessage(pContainer->hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
 	}
-	if (dat->m_bType == SESSIONTYPE_IM)
+	if (!dat->isChat())
 		SendMessage(pContainer->hwnd, DM_UPDATETITLE, dat->m_hContact, 0);
 	if (IsIconic(pContainer->hwnd)) {
 		SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
@@ -613,7 +628,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 	else if (GetForegroundWindow() != pContainer->hwnd)
 		SetForegroundWindow(pContainer->hwnd);
 
-	if (dat->m_bType == SESSIONTYPE_IM)
+	if (!dat->isChat())
 		SetFocus(GetDlgItem(hwndChild, IDC_MESSAGE));
 	return TRUE;
 }
@@ -828,14 +843,13 @@ int TABSRMM_FireEvent(MCONTACT hContact, HWND hwnd, unsigned int type, unsigned 
 	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (dat == nullptr)
 		return 0;
-	BYTE bType = dat->m_bType;
 
 	MessageWindowEventData mwe = { sizeof(mwe) };
 	mwe.hContact = hContact;
 	mwe.hwndWindow = hwnd;
 	mwe.szModule = "tabSRMsgW";
 	mwe.uType = type;
-	if (bType == SESSIONTYPE_IM) {
+	if (!dat->isChat()) {
 		mwe.hwndInput = GetDlgItem(hwnd, IDC_MESSAGE);
 		mwe.hwndLog = GetDlgItem(hwnd, IDC_LOG);
 	}

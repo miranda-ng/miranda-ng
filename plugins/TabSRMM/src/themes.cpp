@@ -1957,7 +1957,7 @@ UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID
 			return orig;
 	}
 	if ((mwdat->m_sendMode & SMODE_MULTIPLE || mwdat->m_sendMode & SMODE_CONTAINER ||
-		mwdat->m_fEditNotesActive || mwdat->m_sendMode & SMODE_SENDLATER) && skinID == ID_EXTBKINPUTAREA) {
+		mwdat->m_bEditNotesActive || mwdat->m_sendMode & SMODE_SENDLATER) && skinID == ID_EXTBKINPUTAREA) {
 		InflateRect(&nccp->rgrc[0], -1, -1);
 		return WVR_REDRAW;
 	}
@@ -1975,7 +1975,7 @@ UINT CSkin::DrawRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID, 
 	if (0 == mwdat)
 		return result;
 
-	BOOL isEditNotesReason = ((mwdat->m_fEditNotesActive) && (skinID == ID_EXTBKINPUTAREA));
+	BOOL isEditNotesReason = ((mwdat->m_bEditNotesActive) && (skinID == ID_EXTBKINPUTAREA));
 	BOOL isSendLaterReason = ((mwdat->m_sendMode & SMODE_SENDLATER) && (skinID == ID_EXTBKINPUTAREA));
 	BOOL isMultipleReason = ((skinID == ID_EXTBKINPUTAREA) && (mwdat->m_sendMode & SMODE_MULTIPLE || mwdat->m_sendMode & SMODE_CONTAINER));
 
@@ -2205,14 +2205,14 @@ void CTabBaseDlg::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 	POINT	pt;
 
 	if (!(m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR)) {
-		::GetWindowRect(::GetDlgItem(m_hwnd, m_bType == SESSIONTYPE_CHAT ? IDC_LOG : IDC_LOG), &rc);
+		::GetWindowRect(m_log.GetHwnd(), &rc);
 		pt.y = rc.bottom + 0;
 		::ScreenToClient(m_hwnd, &pt);
 		rcToolbar.top = pt.y;
 		rcToolbar.left = 0;
 		rcToolbar.right = rcWindow.right;
 
-		if (m_bType == SESSIONTYPE_IM) {
+		if (!isChat()) {
 			if (m_dwFlags & MWF_ERRORSTATE)
 				rcToolbar.top += ERRORPANEL_HEIGHT;
 			if (m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED || m_bNotOnList) {
@@ -2225,13 +2225,13 @@ void CTabBaseDlg::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 			}
 		}
 
-		::GetWindowRect(::GetDlgItem(m_hwnd, m_bType == SESSIONTYPE_CHAT ? IDC_MESSAGE : IDC_MESSAGE), &rc);
+		::GetWindowRect(m_message.GetHwnd(), &rc);
 		pt.y = rc.top - (m_bIsAutosizingInput ? 1 : 2);
 		::ScreenToClient(m_hwnd, &pt);
 		rcToolbar.bottom = pt.y;
 	}
 	else {
-		GetWindowRect(::GetDlgItem(m_hwnd, m_bType == SESSIONTYPE_CHAT ? IDC_MESSAGE : IDC_MESSAGE), &rc);
+		GetWindowRect(m_message.GetHwnd(), &rc);
 		pt.y = rc.bottom - 2;
 		ScreenToClient(m_hwnd, &pt);
 		rcToolbar.top = pt.y + 1;
@@ -2454,7 +2454,7 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 void CTabBaseDlg::UpdateToolbarBG()
 {
 	RECT rcUpdate, rcTmp;
-	::GetWindowRect(::GetDlgItem(m_hwnd, m_bType == SESSIONTYPE_IM ? IDC_LOG : IDC_LOG), &rcTmp);
+	::GetWindowRect(m_log.GetHwnd(), &rcTmp);
 
 	POINT	pt;
 	pt.x = rcTmp.left;

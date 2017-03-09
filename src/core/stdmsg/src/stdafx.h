@@ -177,8 +177,6 @@ class CChatRoomDlg : public CSrmmBaseDialog
 
 	HWND m_hwndStatus;
 
-	SESSION_INFO *m_si;
-
 	CCtrlEdit m_message, m_log;
 	CCtrlListBox m_nickList;
 	CCtrlButton m_btnOk;

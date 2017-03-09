@@ -252,7 +252,7 @@ int CTabBaseDlg::MsgWindowUpdateMenu(HMENU submenu, int menuID)
 	bool bInfoPanel = m_pPanel.isActive();
 
 	if (menuID == MENU_TABCONTEXT) {
-		EnableMenuItem(submenu, ID_TABMENU_LEAVECHATROOM, (m_bType == SESSIONTYPE_CHAT && ProtoServiceExists(m_szProto, PS_LEAVECHAT)) ? MF_ENABLED : MF_DISABLED);
+		EnableMenuItem(submenu, ID_TABMENU_LEAVECHATROOM, (isChat() && ProtoServiceExists(m_szProto, PS_LEAVECHAT)) ? MF_ENABLED : MF_DISABLED);
 		EnableMenuItem(submenu, ID_TABMENU_ATTACHTOCONTAINER, (M.GetByte("useclistgroups", 0) || M.GetByte("singlewinmode", 0)) ? MF_GRAYED : MF_ENABLED);
 		EnableMenuItem(submenu, ID_TABMENU_CLEARSAVEDTABPOSITION, (M.GetDword(m_hContact, "tabindex", -1) != -1) ? MF_ENABLED : MF_GRAYED);
 	}
@@ -325,7 +325,7 @@ int CTabBaseDlg::MsgWindowMenuHandler(int selection, int menuId)
 			db_unset(m_hContact, SRMSGMOD_T, "tabindex");
 			break;
 		case ID_TABMENU_LEAVECHATROOM:
-			if (m_bType == SESSIONTYPE_CHAT && m_hContact != 0) {
+			if (isChat() && m_hContact != 0) {
 				char *szProto = GetContactProto(m_hContact);
 				if (szProto)
 					CallProtoService(szProto, PS_LEAVECHAT, m_hContact, 0);
@@ -407,7 +407,7 @@ void CTabBaseDlg::UpdateReadChars() const
 		return;
 
 	int len;
-	if (m_bType == SESSIONTYPE_CHAT)
+	if (isChat())
 		len = GetWindowTextLength(m_message.GetHwnd());
 	else {
 		// retrieve text length in UTF8 bytes, because this is the relevant length for most protocols
@@ -422,13 +422,13 @@ void CTabBaseDlg::UpdateReadChars() const
 	BOOL fNum = (GetKeyState(VK_NUMLOCK) & 1);
 
 	wchar_t szBuf[20]; szBuf[0] = 0;
-	if (m_fInsertMode)
+	if (m_bInsertMode)
 		mir_wstrcat(szBuf, L"O");
 	if (fCaps)
 		mir_wstrcat(szBuf, L"C");
 	if (fNum)
 		mir_wstrcat(szBuf, L"N");
-	if (m_fInsertMode || fCaps || fNum)
+	if (m_bInsertMode || fCaps || fNum)
 		mir_wstrcat(szBuf, L" | ");
 
 	wchar_t buf[128];
@@ -444,7 +444,7 @@ void CTabBaseDlg::UpdateReadChars() const
 void CTabBaseDlg::UpdateStatusBar() const
 {
 	if (m_pContainer->hwndStatus && m_pContainer->hwndActive == m_hwnd) {
-		if (m_bType == SESSIONTYPE_IM) {
+		if (!isChat()) {
 			if (m_wszStatusBar[0]) {
 				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 				SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_wszStatusBar);
@@ -897,7 +897,7 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pCol
 				int iCol = _wtoi(p + 3);
 				int iInd = GetRtfIndex(iCol, iNumColors, pIndex);
 
-				if (iCol && m_bType != SESSIONTYPE_CHAT)
+				if (iCol && !isChat())
 					res.AppendFormat((iInd > 0) ? (bInsideColor ? L"[/color][color=%s]" : L"[color=%s]") : (bInsideColor ? L"[/color]" : L""), Utils::rtf_ctable[iInd - 1].szName);
 
 				bInsideColor = iInd > 0;
@@ -996,7 +996,7 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pCol
 		}
 	}
 
-	if (bInsideColor && m_bType != SESSIONTYPE_CHAT)
+	if (bInsideColor && !isChat())
 		res.Append(L"[/color]");
 	if (bInsideUl)
 		res.Append(L"[/u]");
@@ -1641,7 +1641,7 @@ LRESULT TSAPI GetSendButtonState(HWND hwnd)
 void CTabBaseDlg::EnableSendButton(bool bMode) const
 {
 	SendDlgItemMessage(m_hwnd, IDOK, BUTTONSETASNORMAL, bMode, 0);
-	SendDlgItemMessage(m_hwnd, IDC_PIC, BUTTONSETASNORMAL, m_fEditNotesActive ? TRUE : (!bMode && m_iOpenJobs == 0) ? TRUE : FALSE, 0);
+	SendDlgItemMessage(m_hwnd, IDC_PIC, BUTTONSETASNORMAL, m_bEditNotesActive ? TRUE : (!bMode && m_iOpenJobs == 0) ? TRUE : FALSE, 0);
 
 	HWND hwndOK = GetDlgItem(GetParent(GetParent(m_hwnd)), IDOK);
 	if (IsWindow(hwndOK))
@@ -1728,12 +1728,7 @@ bool CTabBaseDlg::IsAutoSplitEnabled() const
 
 LONG CTabBaseDlg::GetDefaultMinimumInputHeight() const
 {
-	LONG height;
-
-	if (m_bType == SESSIONTYPE_IM)
-		height = ((m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR) ? DPISCALEY_S(46 + 22) : DPISCALEY_S(46));
-	else
-		height = ((m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR) ? DPISCALEY_S(22 + 46) : DPISCALEY_S(46)) - DPISCALEY_S(23);
+	LONG height = (m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR) ? DPISCALEY_S(46 + 22) : DPISCALEY_S(46);
 
 	if (CSkin::m_skinEnabled && !SkinItems[ID_EXTBKINPUTAREA].IGNORED)
 		height += (SkinItems[ID_EXTBKINPUTAREA].MARGIN_BOTTOM + SkinItems[ID_EXTBKINPUTAREA].MARGIN_TOP - 2);
