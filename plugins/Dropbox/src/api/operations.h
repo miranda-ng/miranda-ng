@@ -1,20 +1,17 @@
 #ifndef _DROPBOX_API_OPERATIONS_H_
 #define _DROPBOX_API_OPERATIONS_H_
 
-class ShareRequest : public HttpRequest
+class GetTemporaryLinkRequest : public HttpRequest
 {
 public:
-	ShareRequest(const char *token, const char *path, time_t expires = 0) :
-		HttpRequest(REQUEST_POST, DROPBOX_API_RPC "/sharing/create_shared_link_with_settings")
+	GetTemporaryLinkRequest(const char *token, const char *path) :
+		HttpRequest(REQUEST_POST, DROPBOX_API_RPC "/files/get_temporary_link")
 	{
 		AddBearerAuthHeader(token);
 		AddHeader("Content-Type", "application/json");
 
 		JSONNode root(JSON_NODE);
 		root << JSONNode("path", path);
-
-		if (expires)
-			root << JSONNode("expires", (unsigned int)expires);
 
 		json_string data = root.write();
 		SetData(data.c_str(), data.length());

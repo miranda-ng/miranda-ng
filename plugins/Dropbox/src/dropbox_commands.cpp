@@ -77,8 +77,7 @@ void CDropbox::CommandShare(void *arg)
 	}
 
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
-	//bool useShortUrl = db_get_b(NULL, MODULE, "UseSortLinks", 1) > 0;
-	ShareRequest request(token, path);
+	GetTemporaryLinkRequest request(token, path);
 	NLHR_PTR response(request.Send(param->instance->hNetlibConnection));
 
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK) {
@@ -92,7 +91,7 @@ void CDropbox::CommandShare(void *arg)
 		return;
 	}
 
-	CMStringA link = root.at("url").as_string().c_str();
+	CMStringA link = root.at("link").as_string().c_str();
 	ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
 	ProtoChainSend(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)link.GetBuffer());
 }

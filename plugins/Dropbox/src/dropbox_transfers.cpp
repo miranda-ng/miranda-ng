@@ -76,8 +76,7 @@ void CDropbox::CreateFolder(const char *path)
 void CDropbox::CreateDownloadUrl(const char *path, char *url)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
-	//bool useShortUrl = db_get_b(NULL, MODULE, "UseSortLinks", 1) > 0;
-	ShareRequest request(token, path);
+	GetTemporaryLinkRequest request(token, path);
 	NLHR_PTR response(request.Send(hNetlibConnection));
 
 	HandleJsonResponseError(response);
@@ -86,7 +85,7 @@ void CDropbox::CreateDownloadUrl(const char *path, char *url)
 	if (root.empty())
 		return;
 
-	JSONNode node = root.at("url");
+	JSONNode node = root.at("link");
 	mir_strcpy(url, node.as_string().c_str());
 }
 
