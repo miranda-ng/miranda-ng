@@ -436,6 +436,8 @@ class CSrmmWindow : public CTabBaseDlg
 	virtual CThumbBase* tabCreateThumb(CProxyWindow *pProxy) const override;
 	virtual void tabClearLog() override;
 
+	CCtrlButton m_btnOk, m_btnAdd, m_btnQuote, m_btnCancelAdd;
+
 	void MsgWindowUpdateState(UINT msg);
 	void ReplayQueue();
 
@@ -454,6 +456,15 @@ public:
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	void onClick_Ok(CCtrlButton*);
+	void onClick_Add(CCtrlButton*);
+	void onClick_Quote(CCtrlButton*);
+	void onClick_CancelAdd(CCtrlButton*);
+
+	void onChange_Message(CCtrlEdit*);
+
+	int OnFilter(MSGFILTER*);
 
 	void DM_OptionsApplied(WPARAM wParam, LPARAM lParam);
 };
@@ -486,19 +497,19 @@ public:
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
-	void OnClick_OK(CCtrlButton*);
-	void OnClick_Filter(CCtrlButton*);
-	void OnClick_History(CCtrlButton*);
-	void OnClick_ChanMgr(CCtrlButton*);
-	void OnClick_ShowNickList(CCtrlButton*);
+	void onClick_OK(CCtrlButton*);
+	void onClick_Filter(CCtrlButton*);
+	void onClick_History(CCtrlButton*);
+	void onClick_ChanMgr(CCtrlButton*);
+	void onClick_ShowNickList(CCtrlButton*);
 
-	void OnClick_BIU(CCtrlButton*);
-	void OnClick_Color(CCtrlButton*);
-	void OnClick_BkColor(CCtrlButton*);
+	void onClick_BIU(CCtrlButton*);
+	void onClick_Color(CCtrlButton*);
+	void onClick_BkColor(CCtrlButton*);
 	
-	void OnChange_Message(CCtrlEdit*);
+	void onChange_Message(CCtrlEdit*);
 
-	void OnDblClick_List(CCtrlListBox*);
+	void onDblClick_List(CCtrlListBox*);
 
 	void StreamInEvents(LOGINFO* lin, SESSION_INFO *si, bool bRedraw);
 	void UpdateWindowState(UINT msg);

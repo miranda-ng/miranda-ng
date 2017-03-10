@@ -1537,19 +1537,19 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 	m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled) != 0;
 	Chat_SetFilters(m_si);
 
-	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::OnClick_OK);
-	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::OnClick_Filter);
-	m_btnHistory.OnClick = Callback(this, &CChatRoomDlg::OnClick_History);
-	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::OnClick_ShowNickList);
-	m_btnChannelMgr.OnClick = Callback(this, &CChatRoomDlg::OnClick_ChanMgr);
+	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_OK);
+	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
+	m_btnHistory.OnClick = Callback(this, &CChatRoomDlg::onClick_History);
+	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::onClick_ShowNickList);
+	m_btnChannelMgr.OnClick = Callback(this, &CChatRoomDlg::onClick_ChanMgr);
 	
-	m_btnColor.OnClick = Callback(this, &CChatRoomDlg::OnClick_Color);
-	m_btnBkColor.OnClick = Callback(this, &CChatRoomDlg::OnClick_BkColor);
-	m_btnBold.OnClick = m_btnItalic.OnClick = m_btnUnderline.OnClick = Callback(this, &CChatRoomDlg::OnClick_BIU);
+	m_btnColor.OnClick = Callback(this, &CChatRoomDlg::onClick_Color);
+	m_btnBkColor.OnClick = Callback(this, &CChatRoomDlg::onClick_BkColor);
+	m_btnBold.OnClick = m_btnItalic.OnClick = m_btnUnderline.OnClick = Callback(this, &CChatRoomDlg::onClick_BIU);
 
-	m_message.OnChange = Callback(this, &CChatRoomDlg::OnChange_Message);
+	m_message.OnChange = Callback(this, &CChatRoomDlg::onChange_Message);
 
-	m_list.OnDblClick = Callback(this, &CChatRoomDlg::OnDblClick_List);
+	m_list.OnDblClick = Callback(this, &CChatRoomDlg::onDblClick_List);
 }
 
 CThumbBase* CChatRoomDlg::tabCreateThumb(CProxyWindow *pProxy) const
@@ -1715,7 +1715,7 @@ void CChatRoomDlg::OnDestroy()
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
 }
 
-void CChatRoomDlg::OnClick_OK(CCtrlButton*)
+void CChatRoomDlg::onClick_OK(CCtrlButton*)
 {
 	if (GetSendButtonState(m_hwnd) == PBS_DISABLED)
 		return;
@@ -1762,7 +1762,7 @@ void CChatRoomDlg::OnClick_OK(CCtrlButton*)
 	SetFocus(m_message.GetHwnd());
 }
 
-void CChatRoomDlg::OnClick_Filter(CCtrlButton *pButton)
+void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
 		return;
@@ -1785,7 +1785,7 @@ void CChatRoomDlg::OnClick_Filter(CCtrlButton *pButton)
 	db_set_b(m_si->hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled);
 }
 
-void CChatRoomDlg::OnClick_History(CCtrlButton *pButton)
+void CChatRoomDlg::onClick_History(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
 		return;
@@ -1801,7 +1801,7 @@ void CChatRoomDlg::OnClick_History(CCtrlButton *pButton)
 		ShellExecute(m_hwnd, nullptr, pci->GetChatLogsFilename(m_si, 0), nullptr, nullptr, SW_SHOW);
 }
 
-void CChatRoomDlg::OnClick_ShowNickList(CCtrlButton *pButton)
+void CChatRoomDlg::onClick_ShowNickList(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
 		return;
@@ -1816,13 +1816,13 @@ void CChatRoomDlg::OnClick_ShowNickList(CCtrlButton *pButton)
 	PostMessage(m_hwnd, GC_SCROLLTOBOTTOM, 0, 0);
 }
 
-void CChatRoomDlg::OnClick_ChanMgr(CCtrlButton *pButton)
+void CChatRoomDlg::onClick_ChanMgr(CCtrlButton *pButton)
 {
 	if (pButton->Enabled())
 		DoEventHook(GC_USER_CHANMGR, nullptr, nullptr, 0);
 }
 
-void CChatRoomDlg::OnClick_BIU(CCtrlButton *pButton)
+void CChatRoomDlg::onClick_BIU(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
 		return;
@@ -1842,7 +1842,7 @@ void CChatRoomDlg::OnClick_BIU(CCtrlButton *pButton)
 	m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 }
 
-void CChatRoomDlg::OnClick_Color(CCtrlButton *pButton)
+void CChatRoomDlg::onClick_Color(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
 		return;
@@ -1869,7 +1869,7 @@ void CChatRoomDlg::OnClick_Color(CCtrlButton *pButton)
 	}
 }
 
-void CChatRoomDlg::OnClick_BkColor(CCtrlButton *pButton)
+void CChatRoomDlg::onClick_BkColor(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
 		return;
@@ -1894,7 +1894,7 @@ void CChatRoomDlg::OnClick_BkColor(CCtrlButton *pButton)
 	}
 }
 
-void CChatRoomDlg::OnChange_Message(CCtrlEdit*)
+void CChatRoomDlg::onChange_Message(CCtrlEdit*)
 {
 	if (m_pContainer->hwndActive == m_hwnd)
 		UpdateReadChars();
@@ -1919,7 +1919,7 @@ void CChatRoomDlg::OnChange_Message(CCtrlEdit*)
 	}
 }
 
-void CChatRoomDlg::OnDblClick_List(CCtrlListBox*)
+void CChatRoomDlg::onDblClick_List(CCtrlListBox*)
 {
 	TVHITTESTINFO hti;
 	hti.pt.x = (short)LOWORD(GetMessagePos());
@@ -2496,14 +2496,14 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					
 					switch (mim_hotkey_check) {
 					case TABSRMM_HK_CHANNELMGR:
-						OnClick_ChanMgr(&m_btnChannelMgr);
+						onClick_ChanMgr(&m_btnChannelMgr);
 						return _dlgReturn(m_hwnd, 1);
 					case TABSRMM_HK_FILTERTOGGLE:
-						OnClick_Filter(&m_btnFilter);
+						onClick_Filter(&m_btnFilter);
 						InvalidateRect(m_btnFilter.GetHwnd(), nullptr, TRUE);
 						return _dlgReturn(m_hwnd, 1);
 					case TABSRMM_HK_LISTTOGGLE:
-						OnClick_ShowNickList(&m_btnNickList);
+						onClick_ShowNickList(&m_btnNickList);
 						return _dlgReturn(m_hwnd, 1);
 					case TABSRMM_HK_MUC_SHOWSERVER:
 						if (m_si->iType != GCW_SERVER)
