@@ -908,6 +908,8 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 
 void CChatRoomDlg::OnInitDialog()
 {
+	m_si->pDlg = this;
+
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
 
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
