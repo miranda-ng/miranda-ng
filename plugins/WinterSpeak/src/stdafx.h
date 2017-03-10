@@ -4,6 +4,8 @@
 #include <Winsock2.h>
 #include <CommCtrl.h>
 
+#include <memory>
+
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_database.h>

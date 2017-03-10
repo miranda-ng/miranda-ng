@@ -16,6 +16,7 @@
 #include <ctime>
 #include <fstream>
 #include <string>
+#include <memory>
 using std::string;
 using std::wstring;
 #include <map>
