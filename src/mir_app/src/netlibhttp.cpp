@@ -246,9 +246,9 @@ struct HttpSecurityContext
 				PHOSTENT host = (ip == INADDR_NONE) ? gethostbyname(szHost) : gethostbyaddr((char*)&ip, 4, AF_INET);
 				szSpnStr.Format("HTTP/%s", host && host->h_name ? host->h_name : szHost);
 				_strlwr(szSpnStr.GetBuffer() + 5);
-				Netlib_Logf(nlu, "Host SPN: %s", szSpnStr);
+				Netlib_Logf(nlu, "Host SPN: %s", szSpnStr.c_str());
 			}
-			m_hNtlmSecurity = Netlib_InitSecurityProvider(_A2T(szProvider), szSpnStr.IsEmpty() ? NULL : _A2T(szSpnStr.c_str()));
+			m_hNtlmSecurity = Netlib_InitSecurityProvider(_A2T(szProvider), szSpnStr.IsEmpty() ? nullptr : _A2T(szSpnStr.c_str()));
 			if (m_hNtlmSecurity) {
 				m_szProvider = mir_strdup(szProvider);
 				m_szHost = mir_strdup(szHost);
