@@ -36,8 +36,8 @@ HBITMAP ConvertIconToBitmap(HIMAGELIST hIml, int iconId)
 	bmi.bmiHeader.biWidth = g_iIconSX;
 	bmi.bmiHeader.biHeight = g_iIconSY;
 
-	HDC hdc = CreateCompatibleDC(NULL);
-	HBITMAP hbmp = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, NULL, NULL, 0);
+	HDC hdc = CreateCompatibleDC(nullptr);
+	HBITMAP hbmp = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, nullptr, nullptr, 0);
 	HBITMAP hbmpOld = (HBITMAP)SelectObject(hdc, hbmp);
 
 	BLENDFUNCTION bfAlpha = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };

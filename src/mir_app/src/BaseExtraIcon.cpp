@@ -70,7 +70,7 @@ void BaseExtraIcon::setDescIcon(const char *icon)
 
 void BaseExtraIcon::onClick(MCONTACT hContact)
 {
-	if (m_OnClick != NULL)
+	if (m_OnClick != nullptr)
 		m_OnClick(hContact, (LPARAM)ConvertToClistSlot(m_slot), m_onClickParam);
 }
 

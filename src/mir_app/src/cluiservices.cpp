@@ -41,31 +41,31 @@ EXTERN_C MIR_APP_DLL(void) Clist_GroupAdded(MGROUP hGroup)
 
 EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void)
 {
-	if (cli.hwndContactTree == NULL)
+	if (cli.hwndContactTree == nullptr)
 		return;
 
 	bool bRebuild = false;
 	LONG_PTR dwStyle = GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE);
 
 	// CLC does this automatically, but we need to force it if hideoffline or hideempty has changed
-	if ((db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) == 0) != ((dwStyle & CLS_HIDEOFFLINE) == 0)) {
-		if (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
+	if ((db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) == 0) != ((dwStyle & CLS_HIDEOFFLINE) == 0)) {
+		if (db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
 			dwStyle |= CLS_HIDEOFFLINE;
 		else
 			dwStyle &= ~CLS_HIDEOFFLINE;
 		bRebuild = true;
 	}
 
-	if ((db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) == 0) != ((dwStyle & CLS_HIDEEMPTYGROUPS) == 0)) {
-		if (db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT))
+	if ((db_get_b(0, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) == 0) != ((dwStyle & CLS_HIDEEMPTYGROUPS) == 0)) {
+		if (db_get_b(0, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT))
 			dwStyle |= CLS_HIDEEMPTYGROUPS;
 		else
 			dwStyle &= ~CLS_HIDEEMPTYGROUPS;
 		bRebuild = true;
 	}
 
-	if ((db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) == 0) != ((dwStyle & CLS_USEGROUPS) == 0)) {
-		if (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
+	if ((db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) == 0) != ((dwStyle & CLS_USEGROUPS) == 0)) {
+		if (db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
 			dwStyle |= CLS_USEGROUPS;
 		else
 			dwStyle &= ~CLS_USEGROUPS;
@@ -93,18 +93,18 @@ void fnCluiProtocolStatusChanged(int, const char*)
 	SendMessage(cli.hwndStatus, SB_GETBORDERS, 0, (LPARAM)&borders);
 
 	int *partWidths = (int*)alloca(cli.menuProtoCount * sizeof(int));
-	if (db_get_b(NULL, "CLUI", "EqualSections", 0)) {
+	if (db_get_b(0, "CLUI", "EqualSections", 0)) {
 		RECT rc;
 		GetClientRect(cli.hwndStatus, &rc);
-		rc.right -= borders[0] * 2 + (db_get_b(NULL, "CLUI", "ShowGrip", 1) ? GetSystemMetrics(SM_CXVSCROLL) : 0);
+		rc.right -= borders[0] * 2 + (db_get_b(0, "CLUI", "ShowGrip", 1) ? GetSystemMetrics(SM_CXVSCROLL) : 0);
 		for (int i = 0; i < cli.menuProtoCount; i++)
 			partWidths[i] = (i + 1) * rc.right / cli.menuProtoCount - (borders[2] >> 1);
 	}
 	else {
 		SIZE textSize;
-		BYTE showOpts = db_get_b(NULL, "CLUI", "SBarShow", 1);
+		BYTE showOpts = db_get_b(0, "CLUI", "SBarShow", 1);
 
-		HDC hdc = GetDC(NULL);
+		HDC hdc = GetDC(nullptr);
 		HFONT hFont = (HFONT)SelectObject(hdc, (HFONT)SendMessage(cli.hwndStatus, WM_GETFONT, 0, 0));
 		for (int i = 0; i < cli.menuProtoCount; i++) {  //count down since built in ones tend to go at the end
 			int x = 2;
@@ -125,7 +125,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 				x += GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
 			if (showOpts & 4) {
-				wchar_t* modeDescr = cli.pfnGetStatusModeDescription(CallProtoServiceInt(NULL, cli.menuProtos[i].szProto, PS_GETSTATUS, 0, 0), 0);
+				wchar_t* modeDescr = cli.pfnGetStatusModeDescription(CallProtoServiceInt(0, cli.menuProtos[i].szProto, PS_GETSTATUS, 0, 0), 0);
 				GetTextExtentPoint32(hdc, modeDescr, (int)mir_wstrlen(modeDescr), &textSize);
 				x += textSize.cx;
 				x += GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
@@ -133,7 +133,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 			partWidths[i] = (i ? partWidths[i - 1] : 0) + x + 2;
 		}
 		SelectObject(hdc, hFont);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 	}
 
 	partWidths[cli.menuProtoCount - 1] = -1;
@@ -141,7 +141,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 	SendMessage(cli.hwndStatus, SB_SETPARTS, cli.menuProtoCount, (LPARAM)partWidths);
 	
 	int flags = SBT_OWNERDRAW;
-	if (db_get_b(NULL, "CLUI", "SBarBevel", 1) == 0)
+	if (db_get_b(0, "CLUI", "SBarBevel", 1) == 0)
 		flags |= SBT_NOBORDERS;
 	
 	for (int i = 0; i < cli.menuProtoCount; i++)

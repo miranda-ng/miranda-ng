@@ -36,8 +36,8 @@ extern HANDLE hAckEvent;
 
 MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName)
 {
-	if (szProtoName == NULL)
-		return NULL;
+	if (szProtoName == nullptr)
+		return nullptr;
 	
 	PROTOCOLDESCRIPTOR tmp;
 	tmp.szName = (char*)szProtoName;
@@ -123,10 +123,10 @@ MIR_APP_DLL(HANDLE) ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc pF
 
 MIR_APP_DLL(void) ProtoWindowAdd(PROTO_INTERFACE *pThis, HWND hwnd)
 {
-	if (pThis->m_hWindowList == NULL)
+	if (pThis->m_hWindowList == nullptr)
 		pThis->m_hWindowList = WindowList_Create();
 
-	WindowList_Add(pThis->m_hWindowList, hwnd, NULL);
+	WindowList_Add(pThis->m_hWindowList, hwnd, 0);
 }
 
 MIR_APP_DLL(void) ProtoWindowRemove(PROTO_INTERFACE *pThis, HWND hwnd)
@@ -158,11 +158,11 @@ MIR_APP_DLL(LPCTSTR) ProtoGetAvatarExtension(int format)
 
 MIR_APP_DLL(int) ProtoGetAvatarFormat(const wchar_t *ptszFileName)
 {
-	if (ptszFileName == NULL)
+	if (ptszFileName == nullptr)
 		return PA_FORMAT_UNKNOWN;
 
 	const wchar_t *ptszExt = wcsrchr(ptszFileName, '.');
-	if (ptszExt == NULL)
+	if (ptszExt == nullptr)
 		return PA_FORMAT_UNKNOWN;
 
 	if (!wcsicmp(ptszExt, L".png"))
@@ -222,13 +222,13 @@ MIR_APP_DLL(int) ProtoGetBufferFormat(const void *pBuffer, const wchar_t **ptszE
 
 MIR_APP_DLL(int) ProtoGetAvatarFileFormat(const wchar_t *ptszFileName)
 {
-	HANDLE hFile = CreateFile(ptszFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = CreateFile(ptszFileName, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return PA_FORMAT_UNKNOWN;
 
 	DWORD dwBytes;
 	char buf[32];
-	BOOL res = ReadFile(hFile, buf, _countof(buf), &dwBytes, NULL);
+	BOOL res = ReadFile(hFile, buf, _countof(buf), &dwBytes, nullptr);
 	CloseHandle(hFile);
 
 	return (res && dwBytes == _countof(buf)) ? ProtoGetBufferFormat(buf) : PA_FORMAT_UNKNOWN;
@@ -253,7 +253,7 @@ MIR_APP_DLL(const wchar_t*) ProtoGetAvatarMimeType(int iFileType)
 {
 	if (iFileType >= 0 && iFileType < _countof(wszMimeTypes))
 		return wszMimeTypes[iFileType];
-	return NULL;
+	return nullptr;
 }
 
 MIR_APP_DLL(int) ProtoGetAvatarFormatByMimeType(const wchar_t *pwszMimeType)
@@ -270,12 +270,12 @@ MIR_APP_DLL(int) ProtoGetAvatarFormatByMimeType(const wchar_t *pwszMimeType)
 
 MCONTACT PROTO_INTERFACE::AddToList(int, PROTOSEARCHRESULT*)
 {
-	return NULL; // error
+	return 0; // error
 }
 
 MCONTACT PROTO_INTERFACE::AddToListByEvent(int, int, MEVENT)
 {
-	return NULL; // error
+	return 0; // error
 }
 
 int PROTO_INTERFACE::Authorize(MEVENT)
@@ -300,7 +300,7 @@ int PROTO_INTERFACE::AuthRequest(MCONTACT, const wchar_t*)
 
 HANDLE PROTO_INTERFACE::FileAllow(MCONTACT, HANDLE, const wchar_t*)
 {
-	return NULL; // error
+	return nullptr; // error
 }
 
 int PROTO_INTERFACE::FileCancel(MCONTACT, HANDLE)
@@ -330,27 +330,27 @@ int PROTO_INTERFACE::GetInfo(MCONTACT, int)
 
 HANDLE PROTO_INTERFACE::SearchBasic(const wchar_t*)
 {
-	return NULL; // error
+	return nullptr; // error
 }
 
 HANDLE PROTO_INTERFACE::SearchByEmail(const wchar_t*)
 {
-	return NULL; // error
+	return nullptr; // error
 }
 
 HANDLE PROTO_INTERFACE::SearchByName(const wchar_t*, const wchar_t*, const wchar_t*)
 {
-	return NULL; // error
+	return nullptr; // error
 }
 
 HWND PROTO_INTERFACE::SearchAdvanced(HWND)
 {
-	return NULL; // error
+	return nullptr; // error
 }
 
 HWND PROTO_INTERFACE::CreateExtendedSearchUI(HWND)
 {
-	return NULL; // error
+	return nullptr; // error
 }
 
 int PROTO_INTERFACE::RecvContacts(MCONTACT, PROTORECVEVENT*)
@@ -381,7 +381,7 @@ int PROTO_INTERFACE::SendContacts(MCONTACT, int, int, MCONTACT*)
 
 HANDLE PROTO_INTERFACE::SendFile(MCONTACT, const wchar_t*, wchar_t**)
 {
-	return NULL; // error
+	return nullptr; // error
 }
 
 int PROTO_INTERFACE::SendMsg(MCONTACT, int, const char*)
@@ -406,7 +406,7 @@ int PROTO_INTERFACE::SetStatus(int)
 
 HANDLE PROTO_INTERFACE::GetAwayMsg(MCONTACT)
 {
-	return NULL; // no away message
+	return nullptr; // no away message
 }
 
 int PROTO_INTERFACE::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*)

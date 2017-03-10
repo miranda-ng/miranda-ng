@@ -49,7 +49,7 @@ int fnGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.getCount()) {
-			if ((group = group->parent) == NULL)
+			if ((group = group->parent) == nullptr)
 				break;
 			group->scanIndex++;
 			continue;
@@ -84,7 +84,7 @@ ClcContact* fnFindItem(DWORD dwItem, ClcContact *cc)
 	if (IsHContactInfo(dwItem) && cc->type == CLCIT_INFO && cc->hContact == (dwItem & ~HCONTACT_ISINFO))
 		return cc;
 
-	return NULL;
+	return nullptr;
 }
 
 MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible)
@@ -96,7 +96,7 @@ MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcConta
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.getCount()) {
-			if ((group = group->parent) == NULL)
+			if ((group = group->parent) == nullptr)
 				break;
 
 			nowVisible = 1;
@@ -113,7 +113,7 @@ MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcConta
 
 		ClcContact *cc = group->cl[group->scanIndex];
 		ClcContact *res = cli.pfnFindItem(dwItem, cc);
-		if (res != NULL) {
+		if (res != nullptr) {
 			if (isVisible) {
 				if (!nowVisible)
 					*isVisible = 0;
@@ -148,8 +148,8 @@ MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcConta
 	}
 
 	if (isVisible) *isVisible = FALSE;
-	if (contact)   *contact = NULL;
-	if (subgroup)  *subgroup = NULL;
+	if (contact)   *contact = nullptr;
+	if (subgroup)  *subgroup = nullptr;
 	return false;
 }
 
@@ -164,7 +164,7 @@ int fnGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup 
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.getCount()) {
-			if ((group = group->parent) == NULL)
+			if ((group = group->parent) == nullptr)
 				break;
 			group->scanIndex++;
 			continue;
@@ -199,7 +199,7 @@ MIR_APP_DLL(DWORD) Clist_ContactToHItem(ClcContact *contact)
 	case CLCIT_INFO:
 		return contact->hContact | HCONTACT_ISINFO;
 	}
-	return NULL;
+	return 0;
 }
 
 MIR_APP_DLL(HANDLE) Clist_ContactToItemHandle(ClcContact *contact, DWORD *nmFlags)
@@ -216,5 +216,5 @@ MIR_APP_DLL(HANDLE) Clist_ContactToItemHandle(ClcContact *contact, DWORD *nmFlag
 			*nmFlags |= CLNF_ISINFO;
 		return (HANDLE)((UINT_PTR)contact->hContact | HCONTACT_ISINFO);
 	}
-	return NULL;
+	return nullptr;
 }

@@ -29,7 +29,7 @@ MIR_APP_DLL(HANDLE) Netlib_CreatePacketReceiver(HNETLIBCONN nlc, int iMaxSize)
 {
 	if (GetNetlibHandleType(nlc) != NLH_CONNECTION || iMaxSize == 0) {
 		SetLastError(ERROR_INVALID_PARAMETER);
-		return NULL;
+		return nullptr;
 	}
 	
 	NetlibPacketRecver *nlpr = (struct NetlibPacketRecver*)mir_calloc(sizeof(struct NetlibPacketRecver));
@@ -45,7 +45,7 @@ MIR_APP_DLL(HANDLE) Netlib_CreatePacketReceiver(HNETLIBCONN nlc, int iMaxSize)
 MIR_APP_DLL(int) Netlib_GetMorePackets(HANDLE hReceiver, NETLIBPACKETRECVER *nlprParam)
 {
 	NetlibPacketRecver *nlpr = (NetlibPacketRecver*)hReceiver;
-	if (GetNetlibHandleType(nlpr) != NLH_PACKETRECVER || nlprParam == NULL || nlprParam->bytesUsed > nlpr->packetRecver.bytesAvailable) {
+	if (GetNetlibHandleType(nlpr) != NLH_PACKETRECVER || nlprParam == nullptr || nlprParam->bytesUsed > nlpr->packetRecver.bytesAvailable) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return SOCKET_ERROR;
 	}

@@ -75,14 +75,14 @@ void CInstallIniDlg::OnInitDialog()
 		pszSecurityInfo = LPGENW("Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.");
 	else if (!mir_wstrcmpi(szSecurity, L"none"))
 		pszSecurityInfo = LPGENW("Security systems to prevent malicious changes have been disabled. You will receive no further warnings.");
-	else pszSecurityInfo = NULL;
+	else pszSecurityInfo = nullptr;
 	if (pszSecurityInfo) m_securityInfo.SetText(TranslateW(pszSecurityInfo));
 }
 
 void CInstallIniDlg::ViewIni_OnClick(CCtrlBase*)
 {
 	ptrW szPath(m_iniName.GetText());
-	ShellExecute(m_hwnd, L"open", szPath, NULL, NULL, SW_SHOW);
+	ShellExecute(m_hwnd, L"open", szPath, nullptr, nullptr, SW_SHOW);
 }
 
 void CInstallIniDlg::NoToAll_OnClick(CCtrlBase*)
@@ -99,7 +99,7 @@ static bool IsInSpaceSeparatedList(const char *szWord, const char *szList)
 
 	for (szItem = szList;;) {
 		szEnd = strchr(szItem, ' ');
-		if (szEnd == NULL)
+		if (szEnd == nullptr)
 			return !mir_strcmp(szItem, szWord);
 
 		if (size_t(szEnd - szItem) == wordLen)
@@ -270,7 +270,7 @@ struct SettingsList
 {
 	char *name;
 	SettingsList *next;
-} *setting_items = NULL;
+} *setting_items = nullptr;
 
 int SettingsEnumProc(const char *szSetting, LPARAM)
 {
@@ -314,7 +314,7 @@ static int EnumSettingsForDeletion(const char *szSetting, LPARAM param)
 static void ProcessIniFile(wchar_t* szIniPath, char *szSafeSections, char *szUnsafeSections, int secur, bool secFN)
 {
 	FILE *fp = _wfopen(szIniPath, L"rt");
-	if (fp == NULL)
+	if (fp == nullptr)
 		return;
 
 	bool warnThisSection = false;
@@ -322,7 +322,7 @@ static void ProcessIniFile(wchar_t* szIniPath, char *szSafeSections, char *szUns
 
 	while (!feof(fp)) {
 		char szLine[2048];
-		if (fgets(szLine, sizeof(szLine), fp) == NULL)
+		if (fgets(szLine, sizeof(szLine), fp) == nullptr)
 			break;
 LBL_NewLine:
 		size_t lineLength = mir_strlen(szLine);
@@ -334,7 +334,7 @@ LBL_NewLine:
 
 		if (szLine[0] == '[') {
 			char *szEnd = strchr(szLine + 1, ']');
-			if (szEnd == NULL)
+			if (szEnd == nullptr)
 				continue;
 
 			if (szLine[1] == '!')
@@ -362,11 +362,11 @@ LBL_NewLine:
 			}
 			if (szLine[1] == '?') {
 				mir_strncpy(szSection, szLine + 2, min(sizeof(szSection), (int)(szEnd - szLine - 1)));
-				db_enum_settings(NULL, SettingsEnumProc, szSection);
+				db_enum_settings(0, SettingsEnumProc, szSection);
 				while (setting_items) {
 					SettingsList *next = setting_items->next;
 
-					db_unset(NULL, szSection, setting_items->name);
+					db_unset(0, szSection, setting_items->name);
 
 					mir_free(setting_items->name);
 					mir_free(setting_items);
@@ -380,7 +380,7 @@ LBL_NewLine:
 			continue;
 
 		char *szValue = strchr(szLine, '=');
-		if (szValue == NULL)
+		if (szValue == nullptr)
 			continue;
 
 		char szName[128];
@@ -408,15 +408,15 @@ LBL_NewLine:
 		switch (szValue[0]) {
 		case 'b':
 		case 'B':
-			db_set_b(NULL, szSection, szName, (BYTE)strtol(szValue + 1, NULL, 0));
+			db_set_b(0, szSection, szName, (BYTE)strtol(szValue + 1, nullptr, 0));
 			break;
 		case 'w':
 		case 'W':
-			db_set_w(NULL, szSection, szName, (WORD)strtol(szValue + 1, NULL, 0));
+			db_set_w(0, szSection, szName, (WORD)strtol(szValue + 1, nullptr, 0));
 			break;
 		case 'd':
 		case 'D':
-			db_set_dw(NULL, szSection, szName, (DWORD)strtoul(szValue + 1, NULL, 0));
+			db_set_dw(0, szSection, szName, (DWORD)strtoul(szValue + 1, nullptr, 0));
 			break;
 		case 'l':
 		case 'L':
@@ -424,22 +424,22 @@ LBL_NewLine:
 			if (szValue[1] == '*') {
 				LIST<char> arSettings(1);
 				ESFDParam param = { &arSettings, szName };
-				db_enum_settings(NULL, EnumSettingsForDeletion, szSection, &param);
+				db_enum_settings(0, EnumSettingsForDeletion, szSection, &param);
 				
 				while (arSettings.getCount()) {
-					db_unset(NULL, szSection, arSettings[0]);
+					db_unset(0, szSection, arSettings[0]);
 					mir_free(arSettings[0]);
 					arSettings.remove(0);
 				}
 			}
-			db_unset(NULL, szSection, szName);
+			db_unset(0, szSection, szName);
 			break;
 		case 'e':
 		case 'E':
 			ConvertBackslashes(szValue + 1, Langpack_GetDefaultCodePage());
 		case 's':
 		case 'S':
-			db_set_s(NULL, szSection, szName, szValue + 1);
+			db_set_s(0, szSection, szName, szValue + 1);
 			break;
 		case 'g':
 		case 'G':
@@ -456,26 +456,26 @@ LBL_NewLine:
 			}
 		case 'u':
 		case 'U':
-			db_set_utf(NULL, szSection, szName, szValue + 1);
+			db_set_utf(0, szSection, szName, szValue + 1);
 			break;
 		case 'm':
 		case 'M':
 			{
 				CMStringA memo(szValue + 1);
 				memo.Append("\r\n");
-				while (fgets(szLine, sizeof(szLine), fp) != NULL) {
+				while (fgets(szLine, sizeof(szLine), fp) != nullptr) {
 					switch (szLine[0]) {
 					case 0: case '\r': case '\n': case ' ': case '\t':
 						break;
 					default:
-						db_set_utf(NULL, szSection, szName, memo);
+						db_set_utf(0, szSection, szName, memo);
 						goto LBL_NewLine;
 					}
 
 					memo.Append(rtrim(szLine + 1));
 					memo.Append("\r\n");
 				}
-				db_set_utf(NULL, szSection, szName, memo);
+				db_set_utf(0, szSection, szName, memo);
 			}
 			break;
 		case 'n':
@@ -493,14 +493,14 @@ LBL_NewLine:
 						break;
 					pszValue = pszEnd;
 				}
-				db_set_blob(NULL, szSection, szName, buf, len);
+				db_set_blob(0, szSection, szName, buf, len);
 				mir_free(buf);
 			}
 			break;
 		default:
 			wchar_t buf[250];
 			mir_snwprintf(buf, TranslateT("Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n."), _A2T(szName));
-			MessageBox(NULL, buf, TranslateT("Install database settings"), MB_ICONWARNING | MB_OK);
+			MessageBox(nullptr, buf, TranslateT("Install database settings"), MB_ICONWARNING | MB_OK);
 			break;
 		}
 	}
@@ -542,7 +542,7 @@ static void DoAutoExec(void)
 		return;
 
 	wchar_t *str2 = wcsrchr(szFindPath, '\\');
-	if (str2 == NULL)
+	if (str2 == nullptr)
 		szFindPath[0] = 0;
 	else
 		str2[1] = 0;

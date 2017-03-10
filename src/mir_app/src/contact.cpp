@@ -30,14 +30,14 @@ extern HANDLE hGroupChangeEvent;
 static int GetContactStatus(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return ID_STATUS_OFFLINE;
 	return db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 }
 
 void fnLoadContactTree(void)
 {
-	int hideOffline = db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+	int hideOffline = db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		int status = GetContactStatus(hContact);
 		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !db_get_b(hContact, "CList", "Hidden", 0))
@@ -48,12 +48,12 @@ void fnLoadContactTree(void)
 
 MIR_APP_DLL(int) Clist_ContactChangeGroup(MCONTACT hContact, MGROUP hGroup)
 {
-	CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), NULL, NULL };
+	CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), nullptr, nullptr };
 
-	if (hGroup == NULL)
+	if (hGroup == 0)
 		db_unset(hContact, "CList", "Group");
 	else {
-		grpChg.pszNewName = Clist_GroupGetName(hGroup, NULL);
+		grpChg.pszNewName = Clist_GroupGetName(hGroup, nullptr);
 		db_set_ws(hContact, "CList", "Group", grpChg.pszNewName);
 	}
 
@@ -64,12 +64,12 @@ MIR_APP_DLL(int) Clist_ContactChangeGroup(MCONTACT hContact, MGROUP hGroup)
 int fnSetHideOffline(int iValue)
 {
 	if (iValue == -1) // invert the current value
-		iValue = !db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+		iValue = !db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 
 	switch (iValue) {
 	case 0:
 	case 1:
-		db_set_b(NULL, "CList", "HideOffline", iValue);
+		db_set_b(0, "CList", "HideOffline", iValue);
 		break;
 
 	default:

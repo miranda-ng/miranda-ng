@@ -52,7 +52,7 @@ void CallbackExtraIcon::rebuildIcons()
 
 void CallbackExtraIcon::applyIcon(MCONTACT hContact)
 {
-	if (!isEnabled() || hContact == NULL)
+	if (!isEnabled() || hContact == 0)
 		return;
 
 	if (m_needToRebuild)
@@ -63,7 +63,7 @@ void CallbackExtraIcon::applyIcon(MCONTACT hContact)
 
 int CallbackExtraIcon::setIcon(int id, MCONTACT hContact, HANDLE icon)
 {
-	if (!isEnabled() || hContact == NULL || id != m_id)
+	if (!isEnabled() || hContact == 0 || id != m_id)
 		return -1;
 
 	return ClistSetExtraIcon(hContact, icon);

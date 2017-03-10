@@ -32,7 +32,7 @@ void AddFilterString(const PageHash key, wchar_t *data)
 	if (ContainsFilterString(key, data)) return;
 
 	CPageKeywords * values = filterStrings[key];
-	if (values == NULL) {
+	if (values == nullptr) {
 		values = new CPageKeywords(key);
 		filterStrings.insert(values);
 	}

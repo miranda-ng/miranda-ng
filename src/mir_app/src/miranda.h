@@ -85,7 +85,7 @@ void KillModuleToolbarIcons(int hLangpack);
 __forceinline char* Utf8DecodeA(const char* src)
 {
 	char* tmp = mir_strdup(src);
-	Utf8Decode(tmp, NULL);
+	Utf8Decode(tmp, nullptr);
 	return tmp;
 }
 

@@ -50,7 +50,7 @@ struct GroupItemSort
 static wchar_t* PrepareGroupName(wchar_t* str)
 {
 	wchar_t* p = wcschr(str, '&'), *d;
-	if (p == NULL)
+	if (p == nullptr)
 		return mir_wstrdup(str);
 
 	d = p = (wchar_t*)mir_alloc(sizeof(wchar_t)*(2 * mir_wstrlen(str) + 1));
@@ -105,7 +105,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		_itoa(i, intname, 10);
 
 		DBVARIANT dbv;
-		if (db_get_ws(NULL, "CListGroups", intname, &dbv))
+		if (db_get_ws(0, "CListGroups", intname, &dbv))
 			break;
 
 		if (dbv.ptszVal[0])

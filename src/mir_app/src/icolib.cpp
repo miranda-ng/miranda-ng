@@ -30,7 +30,7 @@ static BOOL bModuleInitialized = FALSE;
 static volatile LONG iStaticCount = 1;
 HANDLE hIcons2ChangedEvent, hIconsChangedEvent;
 
-HICON hIconBlank = NULL;
+HICON hIconBlank = nullptr;
 
 int iconEventActive = 0;
 
@@ -66,9 +66,9 @@ LIST<IcolibItem> iconList(20, sttCompareIcons);
 
 void __fastcall SafeDestroyIcon(HICON &hIcon)
 {
-	if (hIcon != NULL) {
+	if (hIcon != nullptr) {
 		DestroyIcon(hIcon);
-		hIcon = NULL;
+		hIcon = nullptr;
 	}
 }
 
@@ -77,7 +77,7 @@ void __fastcall SafeDestroyIcon(HICON &hIcon)
 static IconSourceFile* IconSourceFile_Get(const wchar_t *file, bool isPath)
 {
 	if (!file)
-		return NULL;
+		return nullptr;
 
 	IconSourceFile key;
 	if (isPath)
@@ -86,7 +86,7 @@ static IconSourceFile* IconSourceFile_Get(const wchar_t *file, bool isPath)
 		wcsncpy_s(key.file, file, _TRUNCATE);
 
 	IconSourceFile *p = iconSourceFileList.find(&key);
-	if (p != NULL) {
+	if (p != nullptr) {
 		p->ref_count++;
 		return p;
 	}
@@ -102,7 +102,7 @@ static IconSourceFile* IconSourceFile_Get(const wchar_t *file, bool isPath)
 
 static int IconSourceFile_Release(IconSourceFile *pItem)
 {
-	if (pItem == NULL || !pItem->ref_count)
+	if (pItem == nullptr || !pItem->ref_count)
 		return 1;
 
 	if (--pItem->ref_count <= 0) {
@@ -178,7 +178,7 @@ static int InternalGetDIB(HBITMAP bitmap, HPALETTE palette, void *bitmapInfo, vo
 		oldPal = SelectPalette(DC, palette, FALSE);
 		RealizePalette(DC);
 	}
-	else oldPal = NULL;
+	else oldPal = nullptr;
 
 	int result = GetDIBits(DC, bitmap, 0, ((BITMAPINFOHEADER*)bitmapInfo)->biHeight, Bits, (BITMAPINFO*)bitmapInfo, DIB_RGB_COLORS) == 0;
 
@@ -271,7 +271,7 @@ int IconSourceItem::getIconData(HICON hIcon)
 
 int IconSourceItem::releaseIcon()
 {
-	if (this == NULL || icon_ref_count == 0)
+	if (this == nullptr || icon_ref_count == 0)
 		return 1; // Failure
 
 	icon_ref_count--;
@@ -314,7 +314,7 @@ int IconSourceItem::compare(const IconSourceItem *p1, const IconSourceItem *p2)
 IconSourceItem* GetIconSourceItem(const wchar_t *file, int indx, int cxIcon, int cyIcon)
 {
 	if (!file)
-		return NULL;
+		return nullptr;
 
 	IconSourceFile *r_file = IconSourceFile_Get(file, true);
 	IconSourceItemKey key = { r_file, indx, cxIcon, cyIcon };
@@ -333,7 +333,7 @@ IconSourceItem* GetIconSourceItem(const wchar_t *file, int indx, int cxIcon, int
 IconSourceItem* GetIconSourceItemFromPath(const wchar_t *path, int cxIcon, int cyIcon)
 {
 	if (!path)
-		return NULL;
+		return nullptr;
 
 	wchar_t file[MAX_PATH];
 	mir_wstrncpy(file, path, _countof(file));
@@ -362,7 +362,7 @@ IconSourceItem* CreateStaticIconSourceItem(int cxIcon, int cyIcon)
 
 int IconSourceItem::release()
 {
-	if (this == NULL || ref_count <= 0)
+	if (this == nullptr || ref_count <= 0)
 		return 1;
 
 	ref_count--;
@@ -382,7 +382,7 @@ int IconSourceItem::release()
 static SectionItem* IcoLib_AddSection(wchar_t *sectionName, BOOL create_new)
 {
 	if (!sectionName)
-		return NULL;
+		return nullptr;
 
 	int indx;
 	if ((indx = sectionList.getIndex((SectionItem*)&sectionName)) != -1)
@@ -396,7 +396,7 @@ static SectionItem* IcoLib_AddSection(wchar_t *sectionName, BOOL create_new)
 		return newItem;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 static void IcoLib_RemoveSection(SectionItem *section)
@@ -420,13 +420,13 @@ IcolibItem* IcoLib_FindIcon(const char *pszIconName)
 
 IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big)
 {
-	if (hIcon == NULL)
-		return NULL;
+	if (hIcon == nullptr)
+		return nullptr;
 
 	for (int i = 0; i < iconList.getCount(); i++) {
 		IcolibItem *p = iconList[i];
 		if ((void*)p == hIcon) {
-			big = (p->source_small == NULL);
+			big = (p->source_small == nullptr);
 			return p;
 		}
 		if (p->source_small && p->source_small->icon == hIcon) {
@@ -439,7 +439,7 @@ IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void IcolibItem::clear()
@@ -450,12 +450,12 @@ void IcolibItem::clear()
 	if (section) {
 		if (!--section->ref_count)
 			IcoLib_RemoveSection(section);
-		section = NULL;
+		section = nullptr;
 	}
 	IconSourceFile_Release(default_file);
-	source_small->release(); source_small = NULL;
-	source_big->release(); source_big = NULL;
-	default_icon->release(); default_icon = NULL;
+	source_small->release(); source_small = nullptr;
+	source_big->release(); source_big = nullptr;
+	default_icon->release(); default_icon = nullptr;
 	SafeDestroyIcon(temp_icon);
 }
 
@@ -515,7 +515,7 @@ MIR_APP_DLL(HANDLE) IcoLib_AddIcon(SKINICONDESC *sid, int _hLang)
 			item->default_icon = CreateStaticIconSourceItem(cx, cy);
 			if (item->default_icon->getIconData(sid->hDefaultIcon)) {
 				item->default_icon->release();
-				item->default_icon = NULL;
+				item->default_icon = nullptr;
 			}
 		}
 	}
@@ -531,7 +531,7 @@ MIR_APP_DLL(HANDLE) IcoLib_AddIcon(SKINICONDESC *sid, int _hLang)
 
 static int ReleaseIconInternal(IcolibItem *item, bool big)
 {
-	if (item == NULL)
+	if (item == nullptr)
 		return 1;
 
 	IconSourceItem *source = big && !item->cx ? item->source_big : item->source_small;
@@ -548,7 +548,7 @@ static int ReleaseIconInternal(IcolibItem *item, bool big)
 
 MIR_APP_DLL(int) IcoLib_ReleaseIcon(HICON hIcon, bool big)
 {
-	if (hIcon == NULL)
+	if (hIcon == nullptr)
 		return 1;
 
 	mir_cslock lck(csIconList);
@@ -561,7 +561,7 @@ MIR_APP_DLL(int) IcoLib_ReleaseIcon(HICON hIcon, bool big)
 
 MIR_APP_DLL(int) IcoLib_Release(const char *szIconName, bool big)
 {
-	if (szIconName == NULL)
+	if (szIconName == nullptr)
 		return 1;
 
 	mir_cslock lck(csIconList);
@@ -614,7 +614,7 @@ MIR_APP_DLL(void) KillModuleIcons(int _hLang)
 
 HICON IconItem_GetDefaultIcon(IcolibItem *item, bool big)
 {
-	HICON hIcon = NULL;
+	HICON hIcon = nullptr;
 
 	if (item->default_icon && !big) {
 		item->source_small->release();
@@ -661,14 +661,14 @@ HICON IconItem_GetDefaultIcon(IcolibItem *item, bool big)
 HICON IconItem_GetIcon(HANDLE hIcoLib, bool big)
 {
 	IcolibItem *item = (IcolibItem*)hIcoLib;
-	if (item == NULL)
-		return NULL;
+	if (item == nullptr)
+		return nullptr;
 
 	big = big && !item->cx;
 	IconSourceItem* &source = big ? item->source_big : item->source_small;
-	if (source == NULL) {
-		ptrW tszCustomPath(db_get_wsa(NULL, "SkinIcons", item->name));
-		if (tszCustomPath != NULL) {
+	if (source == nullptr) {
+		ptrW tszCustomPath(db_get_wsa(0, "SkinIcons", item->name));
+		if (tszCustomPath != nullptr) {
 			wchar_t tszFullPath[MAX_PATH];
 			PathToAbsoluteW(tszCustomPath, tszFullPath);
 			int cx = item->cx ? item->cx : (big ? g_iIconX : g_iIconSX);
@@ -677,7 +677,7 @@ HICON IconItem_GetIcon(HANDLE hIcoLib, bool big)
 		}
 	}
 
-	HICON hIcon = NULL;
+	HICON hIcon = nullptr;
 	if (source)
 		hIcon = source->getIcon();
 
@@ -693,8 +693,8 @@ HICON IconItem_GetIcon(HANDLE hIcoLib, bool big)
 /////////////////////////////////////////////////////////////////////////////////////////
 // IcoLib_GetIcon
 // lParam: pszIconName
-// wParam: PLOADIMAGEPARAM or NULL.
-// if wParam == NULL, default is used:
+// wParam: PLOADIMAGEPARAM or nullptr.
+// if wParam == nullptr, default is used:
 //     uType = IMAGE_ICON
 //     cx/cyDesired = GetSystemMetrics(SM_CX/CYSMICON)
 //     fuLoad = 0
@@ -706,7 +706,7 @@ MIR_APP_DLL(HICON) IcoLib_GetIcon(const char* pszIconName, bool big)
 
 	mir_cslock lck(csIconList);
 	IcolibItem *item = IcoLib_FindIcon(pszIconName);
-	return (item) ? IconItem_GetIcon(item, big) : NULL;
+	return (item) ? IconItem_GetIcon(item, big) : nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -716,7 +716,7 @@ MIR_APP_DLL(HICON) IcoLib_GetIcon(const char* pszIconName, bool big)
 MIR_APP_DLL(HANDLE) IcoLib_GetIconHandle(const char *pszIconName)
 {
 	if (!pszIconName)
-		return NULL;
+		return nullptr;
 
 	mir_cslock lck(csIconList);
 	return IcoLib_FindIcon(pszIconName);
@@ -729,8 +729,8 @@ MIR_APP_DLL(HANDLE) IcoLib_GetIconHandle(const char *pszIconName)
 
 MIR_APP_DLL(HICON) IcoLib_GetIconByHandle(HANDLE hItem, bool big)
 {
-	if (hItem == NULL)
-		return NULL;
+	if (hItem == nullptr)
+		return nullptr;
 
 	mir_cslock lck(csIconList);
 	IcolibItem *pi = (IcolibItem*)hItem;
@@ -742,7 +742,7 @@ MIR_APP_DLL(HICON) IcoLib_GetIconByHandle(HANDLE hItem, bool big)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // IcoLib_IsManaged
-// lParam: NULL
+// lParam: nullptr
 // wParam: HICON
 
 MIR_APP_DLL(HANDLE) IcoLib_IsManaged(HICON hIcon)
@@ -755,7 +755,7 @@ MIR_APP_DLL(HANDLE) IcoLib_IsManaged(HICON hIcon)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // IcoLib_AddRef
-// lParam: NULL
+// lParam: nullptr
 // wParam: HICON
 
 MIR_APP_DLL(int) IcoLib_AddRef(HICON hIcon)

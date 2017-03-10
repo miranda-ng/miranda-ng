@@ -102,7 +102,7 @@ static PROTO_INTERFACE* defInitProto(const char* szModule, const wchar_t*)
 
 MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 {
-	if (pd == NULL)
+	if (pd == nullptr)
 		return 1;
 
 	if (pd->cbSize != sizeof(PROTOCOLDESCRIPTOR) && pd->cbSize != PROTOCOLDESCRIPTOR_V3_SIZE)
@@ -116,13 +116,13 @@ MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 	p->szName = mir_strdup(pd->szName);
 	protos.insert(p);
 
-	if (p->fnInit == NULL && (p->type == PROTOTYPE_PROTOCOL || p->type == PROTOTYPE_VIRTUAL)) {
+	if (p->fnInit == nullptr && (p->type == PROTOTYPE_PROTOCOL || p->type == PROTOTYPE_VIRTUAL)) {
 		// let's create a new container
 		PROTO_INTERFACE* ppi = AddDefaultAccount(pd->szName);
 		if (ppi) {
 			ppi->m_iVersion = (pd->cbSize == PROTOCOLDESCRIPTOR_V3_SIZE) ? 1 : 2;
 			PROTOACCOUNT *pa = Proto_GetAccount(pd->szName);
-			if (pa == NULL) {
+			if (pa == nullptr) {
 				pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 				pa->cbSize = sizeof(PROTOACCOUNT);
 				pa->szModuleName = mir_strdup(pd->szName);
@@ -152,8 +152,8 @@ static INT_PTR Proto_RecvMessage(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
-	if (pre->szMessage == NULL)
-		return NULL;
+	if (pre->szMessage == nullptr)
+		return 0;
 
 	ptrA pszTemp;
 	mir_ptr<BYTE> pszBlob;
@@ -193,7 +193,7 @@ static INT_PTR Proto_AuthRecv(WPARAM wParam, LPARAM lParam)
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = pre->lParam;
 	dbei.pBlob = (PBYTE)pre->szMessage;
-	return (INT_PTR)db_event_add(NULL, &dbei);
+	return (INT_PTR)db_event_add(0, &dbei);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -204,7 +204,7 @@ static int Proto_ValidTypingContact(MCONTACT hContact, char *szProto)
 	if (!hContact || !szProto)
 		return 0;
 
-	return (CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SUPPORTTYPING) ? 1 : 0;
+	return (CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SUPPORTTYPING) ? 1 : 0;
 }
 
 static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
@@ -215,7 +215,7 @@ static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		if (Proto_ValidTypingContact(wParam, szProto))
-			CallProtoServiceInt(NULL, szProto, PSS_USERISTYPING, wParam, lParam);
+			CallProtoServiceInt(0, szProto, PSS_USERISTYPING, wParam, lParam);
 	}
 
 	return 0;
@@ -242,16 +242,16 @@ static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 
 void Proto_SetStatus(const char *szProto, unsigned status)
 {
-	if (CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
+	if (CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
 		ptrW tszAwayMsg((wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, status, (LPARAM)szProto));
-		CallProtoServiceInt(NULL, szProto, PS_SETAWAYMSG, status, tszAwayMsg);
+		CallProtoServiceInt(0, szProto, PS_SETAWAYMSG, status, tszAwayMsg);
 	}
-	CallProtoServiceInt(NULL, szProto, PS_SETSTATUS, status, 0);
+	CallProtoServiceInt(0, szProto, PS_SETSTATUS, status, 0);
 }
 
 char** __fastcall Proto_FilesMatrixA(wchar_t **files)
 {
-	if (files == NULL) return NULL;
+	if (files == nullptr) return nullptr;
 
 	int count = 0;
 	while (files[count++]);
@@ -265,7 +265,7 @@ char** __fastcall Proto_FilesMatrixA(wchar_t **files)
 
 static wchar_t** __fastcall Proto_FilesMatrixU(char **files)
 {
-	if (files == NULL) return NULL;
+	if (files == nullptr) return nullptr;
 
 	int count = 0;
 	while (files[count++]);
@@ -280,7 +280,7 @@ static wchar_t** __fastcall Proto_FilesMatrixU(char **files)
 HICON Proto_GetIcon(PROTO_INTERFACE *ppro, int iconIndex)
 {
 	if (LOWORD(iconIndex) != PLI_PROTOCOL)
-		return NULL;
+		return nullptr;
 
 	if (iconIndex & PLIF_ICOLIBHANDLE)
 		return (HICON)ppro->m_hProtoIcon;
@@ -300,14 +300,14 @@ HICON Proto_GetIcon(PROTO_INTERFACE *ppro, int iconIndex)
 
 MIR_APP_DLL(PROTOACCOUNT*) Proto_GetAccount(const char *accName)
 {
-	if (accName == NULL)
-		return NULL;
+	if (accName == nullptr)
+		return nullptr;
 
 	int idx;
 	PROTOACCOUNT temp;
 	temp.szModuleName = (char*)accName;
 	if ((idx = accounts.getIndex(&temp)) == -1)
-		return NULL;
+		return nullptr;
 
 	return accounts[idx];
 }
@@ -315,8 +315,8 @@ MIR_APP_DLL(PROTOACCOUNT*) Proto_GetAccount(const char *accName)
 static INT_PTR srvProto_CreateAccount(WPARAM, LPARAM lParam)
 {
 	ACC_CREATE *p = (ACC_CREATE*)lParam;
-	if (p == NULL)
-		return NULL;
+	if (p == nullptr)
+		return 0;
 
 	PROTOACCOUNT *pa = Proto_CreateAccount(p->pszInternal, p->pszBaseProto, p->ptszAccountName);
 	if (pa) {
@@ -339,20 +339,20 @@ MIR_APP_DLL(bool) Proto_IsAccountEnabled(const PROTOACCOUNT *pa)
 
 MIR_APP_DLL(bool) Proto_IsAccountLocked(const PROTOACCOUNT *pa)
 {
-	return pa && db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
+	return pa && db_get_b(0, pa->szModuleName, "LockMainStatus", 0) != 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_APP_DLL(int) ProtoServiceExists(const char *szModule, const char *szService)
 {
-	if (szModule == NULL || szService == NULL)
+	if (szModule == nullptr || szService == nullptr)
 		return false;
 
 	PROTOACCOUNT *pa = Proto_GetAccount(szModule);
 	if (pa && !pa->bOldProto) {
 		TServiceListItem *item = (TServiceListItem*)bsearch(&szService, serviceItems, _countof(serviceItems), sizeof(serviceItems[0]), CompareServiceItems);
-		if (item != NULL)
+		if (item != nullptr)
 			return true;
 	}
 
@@ -366,7 +366,7 @@ MIR_APP_DLL(int) ProtoServiceExists(const char *szModule, const char *szService)
 
 MIR_APP_DLL(INT_PTR) CallProtoService(const char* szModule, const char* szService, WPARAM wParam, LPARAM lParam)
 {
-	return CallProtoServiceInt(NULL, szModule, szService, wParam, lParam);
+	return CallProtoServiceInt(0, szModule, szService, wParam, lParam);
 }
 
 INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
@@ -374,7 +374,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 	PROTOACCOUNT *pa = Proto_GetAccount(szModule);
 	if (pa && !pa->bOldProto) {
 		PROTO_INTERFACE *ppi = pa->ppro;
-		if (ppi != NULL && ppi->m_iVersion > 1) {
+		if (ppi != nullptr && ppi->m_iVersion > 1) {
 			TServiceListItem *item = (TServiceListItem*)bsearch(&szService, serviceItems, _countof(serviceItems), sizeof(serviceItems[0]), CompareServiceItems);
 			if (item) {
 				switch (item->id) {
@@ -430,7 +430,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 
 INT_PTR ProtoCallService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
 {
-	if (szModule == NULL || szService == NULL)
+	if (szModule == nullptr || szService == nullptr)
 		return false;
 
 	char str[MAXMODULELABELLENGTH * 2];
@@ -484,12 +484,12 @@ void UnloadProtocolsModule()
 
 	if (hAckEvent) {
 		DestroyHookableEvent(hAckEvent);
-		hAckEvent = NULL;
+		hAckEvent = nullptr;
 	}
 
 	if (hAccListChanged) {
 		DestroyHookableEvent(hAccListChanged);
-		hAccListChanged = NULL;
+		hAccListChanged = nullptr;
 	}
 }
 
@@ -498,5 +498,5 @@ void UnloadProtocolsModule()
 pfnUninitProto GetProtocolDestructor(char *szProto)
 {
 	PROTOCOLDESCRIPTOR *p = Proto_IsProtocolLoaded(szProto);
-	return (p == NULL) ? NULL : p->fnUninit;
+	return (p == nullptr) ? nullptr : p->fnUninit;
 }

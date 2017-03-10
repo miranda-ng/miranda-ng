@@ -54,17 +54,17 @@ struct LOGMSG
 
 static __int64 mirandaStartTime, perfCounterFreq;
 static int bIsActive = TRUE;
-static HANDLE hLogEvent = NULL;
-static HANDLE hLogger = NULL;
+static HANDLE hLogEvent = nullptr;
+static HANDLE hLogger = nullptr;
 
 static void InitLog()
 {
 	if (hLogger) {
 		mir_closeLog(hLogger);
-		hLogger = NULL;
+		hLogger = nullptr;
 	}
 
-	ptrW szBuf(db_get_wsa(NULL, "Netlib", "File"));
+	ptrW szBuf(db_get_wsa(0, "Netlib", "File"));
 	if (mir_wstrlen(szBuf)) {
 		logOptions.tszUserFile = szBuf.get();
 
@@ -73,7 +73,7 @@ static void InitLog()
 		logOptions.tszFile = path;
 	}
 	else {
-		db_set_ws(NULL, "Netlib", "File", logOptions.tszUserFile = L"%miranda_logpath%\\netlog.txt");
+		db_set_ws(0, "Netlib", "File", logOptions.tszUserFile = L"%miranda_logpath%\\netlog.txt");
 		logOptions.tszFile = VARSW(logOptions.tszUserFile);
 	}
 
@@ -113,9 +113,9 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		CheckDlgButton(hwndDlg, IDC_TOFILE, logOptions.toFile ? BST_CHECKED : BST_UNCHECKED);
 		SetDlgItemText(hwndDlg, IDC_FILENAME, logOptions.tszUserFile);
 		SetDlgItemText(hwndDlg, IDC_PATH, logOptions.tszFile);
-		CheckDlgButton(hwndDlg, IDC_SHOWTHISDLGATSTART, db_get_b(NULL, "Netlib", "ShowLogOptsAtStart", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWTHISDLGATSTART, db_get_b(0, "Netlib", "ShowLogOptsAtStart", 0) ? BST_CHECKED : BST_UNCHECKED);
 		{
-			ptrA szRun(db_get_sa(NULL, "Netlib", "RunAtStart"));
+			ptrA szRun(db_get_sa(0, "Netlib", "RunAtStart"));
 			if (szRun)
 				SetDlgItemTextA(hwndDlg, IDC_RUNATSTART, szRun);
 
@@ -182,7 +182,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				else if (!GetOpenFileName(&ofn))
 					return 1;
 
-				if (LOWORD(wParam) == IDC_RUNATSTARTBROWSE && wcschr(str, ' ') != NULL) {
+				if (LOWORD(wParam) == IDC_RUNATSTARTBROWSE && wcschr(str, ' ') != nullptr) {
 					memmove(str + 1, str, ((_countof(str) - 2) * sizeof(wchar_t)));
 					str[0] = '"';
 					mir_wstrcat(str, L"\"");
@@ -196,32 +196,32 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			if (str[0]) {
 				STARTUPINFO si = { sizeof(si) };
 				PROCESS_INFORMATION pi;
-				CreateProcess(NULL, str, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+				CreateProcess(nullptr, str, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi);
 			}
 			break;
 
 		case IDOK:
 			GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, _countof(str));
-			db_set_ws(NULL, "Netlib", "RunAtStart", str);
-			db_set_b(NULL, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTHISDLGATSTART));
+			db_set_ws(0, "Netlib", "RunAtStart", str);
+			db_set_b(0, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTHISDLGATSTART));
 
 			GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
 			logOptions.tszUserFile = rtrimw(str);
-			db_set_ws(NULL, "Netlib", "File", str);
+			db_set_ws(0, "Netlib", "File", str);
 
 			GetDlgItemText(hwndDlg, IDC_PATH, str, _countof(str));
 			logOptions.tszFile = rtrimw(str);
 
-			db_set_b(NULL, "Netlib", "DumpRecv", logOptions.dumpRecv = IsDlgButtonChecked(hwndDlg, IDC_DUMPRECV));
-			db_set_b(NULL, "Netlib", "DumpSent", logOptions.dumpSent = IsDlgButtonChecked(hwndDlg, IDC_DUMPSENT));
-			db_set_b(NULL, "Netlib", "DumpProxy", logOptions.dumpProxy = IsDlgButtonChecked(hwndDlg, IDC_DUMPPROXY));
-			db_set_b(NULL, "Netlib", "DumpSsl", logOptions.dumpSsl = IsDlgButtonChecked(hwndDlg, IDC_DUMPSSL));
-			db_set_b(NULL, "Netlib", "TextDumps", logOptions.textDumps = IsDlgButtonChecked(hwndDlg, IDC_TEXTDUMPS));
-			db_set_b(NULL, "Netlib", "AutoDetectText", logOptions.autoDetectText = IsDlgButtonChecked(hwndDlg, IDC_AUTODETECTTEXT));
-			db_set_b(NULL, "Netlib", "TimeFormat", logOptions.timeFormat = SendDlgItemMessage(hwndDlg, IDC_TIMEFORMAT, CB_GETCURSEL, 0, 0));
-			db_set_b(NULL, "Netlib", "ShowUser", logOptions.showUser = IsDlgButtonChecked(hwndDlg, IDC_SHOWNAMES));
-			db_set_b(NULL, "Netlib", "ToOutputDebugString", logOptions.toOutputDebugString = IsDlgButtonChecked(hwndDlg, IDC_TOOUTPUTDEBUGSTRING));
-			db_set_b(NULL, "Netlib", "ToFile", logOptions.toFile = IsDlgButtonChecked(hwndDlg, IDC_TOFILE));
+			db_set_b(0, "Netlib", "DumpRecv", logOptions.dumpRecv = IsDlgButtonChecked(hwndDlg, IDC_DUMPRECV));
+			db_set_b(0, "Netlib", "DumpSent", logOptions.dumpSent = IsDlgButtonChecked(hwndDlg, IDC_DUMPSENT));
+			db_set_b(0, "Netlib", "DumpProxy", logOptions.dumpProxy = IsDlgButtonChecked(hwndDlg, IDC_DUMPPROXY));
+			db_set_b(0, "Netlib", "DumpSsl", logOptions.dumpSsl = IsDlgButtonChecked(hwndDlg, IDC_DUMPSSL));
+			db_set_b(0, "Netlib", "TextDumps", logOptions.textDumps = IsDlgButtonChecked(hwndDlg, IDC_TEXTDUMPS));
+			db_set_b(0, "Netlib", "AutoDetectText", logOptions.autoDetectText = IsDlgButtonChecked(hwndDlg, IDC_AUTODETECTTEXT));
+			db_set_b(0, "Netlib", "TimeFormat", logOptions.timeFormat = SendDlgItemMessage(hwndDlg, IDC_TIMEFORMAT, CB_GETCURSEL, 0, 0));
+			db_set_b(0, "Netlib", "ShowUser", logOptions.showUser = IsDlgButtonChecked(hwndDlg, IDC_SHOWNAMES));
+			db_set_b(0, "Netlib", "ToOutputDebugString", logOptions.toOutputDebugString = IsDlgButtonChecked(hwndDlg, IDC_TOOUTPUTDEBUGSTRING));
+			db_set_b(0, "Netlib", "ToFile", logOptions.toFile = IsDlgButtonChecked(hwndDlg, IDC_TOFILE));
 			{
 				HWND hwndFilter = GetDlgItem(logOptions.hwndOpts, IDC_FILTER);
 				TVITEM tvi = { 0 };
@@ -236,11 +236,11 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 
 					if (tvi.lParam == -1) {
 						logOptions.toLog = checked;
-						db_set_dw(NULL, "Netlib", "NLlog", checked);
+						db_set_dw(0, "Netlib", "NLlog", checked);
 					}
 					else if (tvi.lParam < netlibUser.getCount()) {
 						netlibUser[tvi.lParam]->toLog = checked;
-						db_set_dw(NULL, netlibUser[tvi.lParam]->user.szSettingsModule, "NLlog", checked);
+						db_set_dw(0, netlibUser[tvi.lParam]->user.szSettingsModule, "NLlog", checked);
 					}
 
 					tvi.hItem = TreeView_GetNextSibling(hwndFilter, tvi.hItem);
@@ -259,7 +259,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 
 	case WM_DESTROY:
 		ImageList_Destroy(TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_FILTER), TVSIL_STATE));
-		logOptions.hwndOpts = NULL;
+		logOptions.hwndOpts = nullptr;
 		break;
 	}
 	return FALSE;
@@ -267,8 +267,8 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 
 void NetlibLogShowOptions(void)
 {
-	if (logOptions.hwndOpts == NULL)
-		logOptions.hwndOpts = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_NETLIBLOGOPTS), NULL, LogOptionsDlgProc);
+	if (logOptions.hwndOpts == nullptr)
+		logOptions.hwndOpts = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_NETLIBLOGOPTS), nullptr, LogOptionsDlgProc);
 	SetForegroundWindow(logOptions.hwndOpts);
 }
 
@@ -285,20 +285,20 @@ int NetlibLog_Worker(NetlibUser *nlu, const char *pszMsg, int flags)
 
 	DWORD dwOriginalLastError = GetLastError();
 
-	if ((nlu != NULL && GetNetlibHandleType(nlu) != NLH_USER) || pszMsg == NULL) {
+	if ((nlu != nullptr && GetNetlibHandleType(nlu) != NLH_USER) || pszMsg == nullptr) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
 
-	/* if the Netlib user handle is NULL, just pretend its not */
-	if (!(nlu != NULL ? nlu->toLog : logOptions.toLog))
+	/* if the Netlib user handle is nullptr, just pretend its not */
+	if (!(nlu != nullptr ? nlu->toLog : logOptions.toLog))
 		return 1;
 
 	LARGE_INTEGER liTimeNow;
 	char szTime[32], szHead[128];
 	switch (logOptions.timeFormat) {
 	case TIMEFORMAT_HHMMSS:
-		GetTimeFormatA(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, NULL, NULL, szTime, _countof(szTime));
+		GetTimeFormatA(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, nullptr, nullptr, szTime, _countof(szTime));
 		mir_strcat(szTime, " ");
 		break;
 
@@ -324,7 +324,7 @@ int NetlibLog_Worker(NetlibUser *nlu, const char *pszMsg, int flags)
 	if (flags & MSG_NOTITLE) 
 		szHead[0] = 0; 
 	else {
-		char *szUser = (logOptions.showUser) ? (nlu == NULL ? NULL : nlu->user.szSettingsModule) : NULL;
+		char *szUser = (logOptions.showUser) ? (nlu == nullptr ? nullptr : nlu->user.szSettingsModule) : nullptr;
 		if (szUser)
 			mir_snprintf(szHead, "[%s%04X] [%s] ", szTime, GetCurrentThreadId(), szUser);
 		else
@@ -356,14 +356,14 @@ MIR_APP_DLL(void) ProtoLogA(PROTO_INTERFACE *pThis, LPCSTR szFormat, va_list arg
 {
 	char buf[4096];
 	int res = _vsnprintf(buf, _countof(buf), szFormat, args);
-	NetlibLog_Worker(pThis ? pThis->m_hNetlibUser : NULL, (res != -1) ? buf : CMStringA().FormatV(szFormat, args), 0);
+	NetlibLog_Worker(pThis ? pThis->m_hNetlibUser : nullptr, (res != -1) ? buf : CMStringA().FormatV(szFormat, args), 0);
 }
 
 MIR_APP_DLL(void) ProtoLogW(PROTO_INTERFACE *pThis, LPCWSTR wszFormat, va_list args)
 {
 	WCHAR buf[4096];
 	int res = _vsnwprintf(buf, _countof(buf), wszFormat, args);
-	NetlibLog_Worker(pThis ? pThis->m_hNetlibUser : NULL, ptrA(Utf8EncodeW((res != -1) ? buf : CMStringW().FormatV(wszFormat, args))), 0);
+	NetlibLog_Worker(pThis ? pThis->m_hNetlibUser : nullptr, ptrA(Utf8EncodeW((res != -1) ? buf : CMStringW().FormatV(wszFormat, args))), 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -426,7 +426,7 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 		return;
 
 	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
-	NetlibUser *nlu = nlc ? nlc->nlu : NULL;
+	NetlibUser *nlu = nlc ? nlc->nlu : nullptr;
 	int titleLineLen;
 	if (flags & MSG_NOTITLE)
 		titleLineLen = 0;
@@ -435,7 +435,7 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 	ReleaseMutex(hConnectionHeaderMutex);
 
 	// check filter settings
-	if (nlu == NULL) {
+	if (nlu == nullptr) {
 		if (!logOptions.toLog)
 			return;
 	}
@@ -525,35 +525,35 @@ void NetlibLogInit(void)
 	CreateServiceFunction(MS_NETLIB_LOGWIN, ShowOptions);
 	hLogEvent = CreateHookableEvent(ME_NETLIB_FASTDUMP);
 
-	logOptions.dumpRecv = db_get_b(NULL, "Netlib", "DumpRecv", 1);
-	logOptions.dumpSent = db_get_b(NULL, "Netlib", "DumpSent", 1);
-	logOptions.dumpProxy = db_get_b(NULL, "Netlib", "DumpProxy", 1);
-	logOptions.dumpSsl = db_get_b(NULL, "Netlib", "DumpSsl", 0);
-	logOptions.textDumps = db_get_b(NULL, "Netlib", "TextDumps", 1);
-	logOptions.autoDetectText = db_get_b(NULL, "Netlib", "AutoDetectText", 1);
-	logOptions.timeFormat = db_get_b(NULL, "Netlib", "TimeFormat", TIMEFORMAT_HHMMSS);
-	logOptions.showUser = db_get_b(NULL, "Netlib", "ShowUser", 1);
-	logOptions.toOutputDebugString = db_get_b(NULL, "Netlib", "ToOutputDebugString", 0);
-	logOptions.toFile = db_get_b(NULL, "Netlib", "ToFile", 0);
-	logOptions.toLog = db_get_dw(NULL, "Netlib", "NLlog", 1);
+	logOptions.dumpRecv = db_get_b(0, "Netlib", "DumpRecv", 1);
+	logOptions.dumpSent = db_get_b(0, "Netlib", "DumpSent", 1);
+	logOptions.dumpProxy = db_get_b(0, "Netlib", "DumpProxy", 1);
+	logOptions.dumpSsl = db_get_b(0, "Netlib", "DumpSsl", 0);
+	logOptions.textDumps = db_get_b(0, "Netlib", "TextDumps", 1);
+	logOptions.autoDetectText = db_get_b(0, "Netlib", "AutoDetectText", 1);
+	logOptions.timeFormat = db_get_b(0, "Netlib", "TimeFormat", TIMEFORMAT_HHMMSS);
+	logOptions.showUser = db_get_b(0, "Netlib", "ShowUser", 1);
+	logOptions.toOutputDebugString = db_get_b(0, "Netlib", "ToOutputDebugString", 0);
+	logOptions.toFile = db_get_b(0, "Netlib", "ToFile", 0);
+	logOptions.toLog = db_get_dw(0, "Netlib", "NLlog", 1);
 
 	InitLog();
 
-	if (db_get_b(NULL, "Netlib", "ShowLogOptsAtStart", 0))
+	if (db_get_b(0, "Netlib", "ShowLogOptsAtStart", 0))
 		NetlibLogShowOptions();
 
-	ptrW szBuf(db_get_wsa(NULL, "Netlib", "RunAtStart"));
+	ptrW szBuf(db_get_wsa(0, "Netlib", "RunAtStart"));
 	if (szBuf) {
 		STARTUPINFO si = { sizeof(si) };
 		PROCESS_INFORMATION pi;
-		CreateProcess(NULL, szBuf, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+		CreateProcess(nullptr, szBuf, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi);
 	}
 }
 
 void NetlibLogShutdown(void)
 {
 	bIsActive = FALSE;
-	DestroyHookableEvent(hLogEvent); hLogEvent = NULL;
+	DestroyHookableEvent(hLogEvent); hLogEvent = nullptr;
 	if (IsWindow(logOptions.hwndOpts))
 		DestroyWindow(logOptions.hwndOpts);
 }

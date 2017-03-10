@@ -111,7 +111,7 @@ static int ConnectionListToSocketList(const HNETLIBCONN *hConns, fd_set *fd, int
 
 MIR_APP_DLL(int) Netlib_Select(NETLIBSELECT *nls)
 {
-	if (nls == NULL) {
+	if (nls == nullptr) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return SOCKET_ERROR;
 	}
@@ -133,12 +133,12 @@ MIR_APP_DLL(int) Netlib_Select(NETLIBSELECT *nls)
 	TIMEVAL tv;
 	tv.tv_sec = nls->dwTimeout / 1000;
 	tv.tv_usec = (nls->dwTimeout % 1000) * 1000;
-	return select(0, &readfd, &writefd, &exceptfd, nls->dwTimeout == INFINITE ? NULL : &tv);
+	return select(0, &readfd, &writefd, &exceptfd, nls->dwTimeout == INFINITE ? nullptr : &tv);
 }
 
 MIR_APP_DLL(int) Netlib_SelectEx(NETLIBSELECTEX *nls)
 {
-	if (nls == NULL) {
+	if (nls == nullptr) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return SOCKET_ERROR;
 	}
@@ -159,33 +159,33 @@ MIR_APP_DLL(int) Netlib_SelectEx(NETLIBSELECTEX *nls)
 	}
 	ReleaseMutex(hConnectionHeaderMutex);
 
-	int rc = (pending) ? pending : select(0, &readfd, &writefd, &exceptfd, nls->dwTimeout == INFINITE ? NULL : &tv);
+	int rc = (pending) ? pending : select(0, &readfd, &writefd, &exceptfd, nls->dwTimeout == INFINITE ? nullptr : &tv);
 
 	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
 	/* go thru each passed HCONN array and grab its socket handle, then give it to FD_ISSET()
 	to see if an event happened for that socket, if it has it will be returned as TRUE (otherwise not)
 	This happens for read/write/except */
-	NetlibConnection *conn = NULL;
+	NetlibConnection *conn = nullptr;
 	int j;
 	for (j = 0; j < FD_SETSIZE; j++) {
 		conn = (NetlibConnection*)nls->hReadConns[j];
-		if (conn == NULL || conn == INVALID_HANDLE_VALUE) break;
+		if (conn == nullptr || conn == INVALID_HANDLE_VALUE) break;
 
 		if (sslApi.pending(conn->hSsl))
 			nls->hReadStatus[j] = TRUE;
-		if (conn->usingHttpGateway && conn->nlhpi.szHttpGetUrl == NULL && conn->szProxyBuf.IsEmpty())
-			nls->hReadStatus[j] = (conn->pHttpProxyPacketQueue != NULL);
+		if (conn->usingHttpGateway && conn->nlhpi.szHttpGetUrl == nullptr && conn->szProxyBuf.IsEmpty())
+			nls->hReadStatus[j] = (conn->pHttpProxyPacketQueue != nullptr);
 		else
 			nls->hReadStatus[j] = FD_ISSET(conn->s, &readfd);
 	}
 	for (j = 0; j < FD_SETSIZE; j++) {
 		conn = (NetlibConnection*)nls->hWriteConns[j];
-		if (conn == NULL || conn == INVALID_HANDLE_VALUE) break;
+		if (conn == nullptr || conn == INVALID_HANDLE_VALUE) break;
 		nls->hWriteStatus[j] = FD_ISSET(conn->s, &writefd);
 	}
 	for (j = 0; j < FD_SETSIZE; j++) {
 		conn = (NetlibConnection*)nls->hExceptConns[j];
-		if (conn == NULL || conn == INVALID_HANDLE_VALUE) break;
+		if (conn == nullptr || conn == INVALID_HANDLE_VALUE) break;
 		nls->hExceptStatus[j] = FD_ISSET(conn->s, &exceptfd);
 	}
 	ReleaseMutex(hConnectionHeaderMutex);
@@ -199,14 +199,14 @@ MIR_APP_DLL(bool) Netlib_StringToAddress(const char *str, SOCKADDR_INET_M *addr)
 	if (!str) return false;
 
 	int len = sizeof(SOCKADDR_INET_M);
-	return !WSAStringToAddressA((char*)str, AF_INET6, NULL, (PSOCKADDR)addr, &len);
+	return !WSAStringToAddressA((char*)str, AF_INET6, nullptr, (PSOCKADDR)addr, &len);
 }
 
 MIR_APP_DLL(char*) Netlib_AddressToString(sockaddr_in *addr)
 {
 	char saddr[128];
 	DWORD len = sizeof(saddr);
-	if (!WSAAddressToStringA((PSOCKADDR)addr, sizeof(*addr), NULL, saddr, &len))
+	if (!WSAAddressToStringA((PSOCKADDR)addr, sizeof(*addr), nullptr, saddr, &len))
 		return mir_strdup(saddr);
 
 	if (addr->sin_family == AF_INET) {
@@ -217,7 +217,7 @@ MIR_APP_DLL(char*) Netlib_AddressToString(sockaddr_in *addr)
 		}
 		return mir_strdup(szIp);
 	}
-	return NULL;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -248,14 +248,14 @@ inline bool IsAddrGlobal(const IN6_ADDR *a)
 
 MIR_APP_DLL(NETLIBIPLIST*) Netlib_GetMyIp(bool bGlobalOnly)
 {
-	addrinfo *air = NULL, *ai, hints = { 0 };
+	addrinfo *air = nullptr, *ai, hints = { 0 };
 	const char *szMyHost = "";
 
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_flags = AI_PASSIVE;
 
-	if (GetAddrInfoA(szMyHost, NULL, &hints, &air))
-		return NULL;
+	if (GetAddrInfoA(szMyHost, nullptr, &hints, &air))
+		return nullptr;
 
 	unsigned n = 0;
 	for (ai = air; ai; ai = ai->ai_next) {

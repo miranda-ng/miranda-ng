@@ -40,11 +40,11 @@ POINT menuMousePoint;
 
 int Meta_SetNick(char *szProto)
 {
-	ptrW tszNick(Contact_GetInfo(CNF_DISPLAY, NULL, szProto));
-	if (tszNick == NULL)
+	ptrW tszNick(Contact_GetInfo(CNF_DISPLAY, 0, szProto));
+	if (tszNick == nullptr)
 		return 1;
 
-	db_set_ws(NULL, META_PROTO, "Nick", tszNick);
+	db_set_ws(0, META_PROTO, "Nick", tszNick);
 	return 0;
 }
 
@@ -60,11 +60,11 @@ int Meta_SetNick(char *szProto)
 BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 {
 	DBCachedContact *ccDest = CheckMeta(hMeta), *ccSub = currDb->m_cache->GetCachedContact(hSub);
-	if (ccDest == NULL || ccSub == NULL)
+	if (ccDest == nullptr || ccSub == nullptr)
 		return FALSE;
 
 	char *szProto = GetContactProto(hSub);
-	if (szProto == NULL) {
+	if (szProto == nullptr) {
 		MessageBox(0, TranslateT("Could not retrieve contact protocol"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
@@ -223,12 +223,12 @@ static int GetStatusPriority(int status)
 
 MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigned long capability)
 {
-	if (cc == NULL || cc->nDefault == -1)
-		return NULL;
+	if (cc == nullptr || cc->nDefault == -1)
+		return 0;
 
 	// if the default is beyond the end of the list (eek!) return null
 	if (cc->nDefault >= cc->nSubs)
-		return NULL;
+		return 0;
 
 	int most_online_status = ID_STATUS_OFFLINE;
 	MCONTACT most_online_contact = Meta_GetContactHandle(cc, cc->nDefault);
@@ -255,7 +255,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 
 		MCONTACT hContact = Meta_GetContactHandle(cc, i);
 		szProto = GetContactProto(hContact);
-		if (szProto == NULL || CallProtoService(szProto, PS_GETSTATUS, 0, 0) < ID_STATUS_ONLINE) // szProto offline or connecting
+		if (szProto == nullptr || CallProtoService(szProto, PS_GETSTATUS, 0, 0) < ID_STATUS_ONLINE) // szProto offline or connecting
 			continue;
 
 		DWORD caps = CallProtoService(szProto, PS_GETCAPS, pflagnum, 0);
@@ -290,7 +290,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 DBCachedContact* CheckMeta(MCONTACT hMeta)
 {
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMeta);
-	return (cc == NULL || cc->nSubs == -1) ? NULL : cc;
+	return (cc == nullptr || cc->nSubs == -1) ? nullptr : cc;
 }
 
 int Meta_GetContactNumber(DBCachedContact *cc, MCONTACT hContact)
@@ -323,11 +323,11 @@ int Meta_HideLinkedContacts(void)
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
-		if (cc == NULL || cc->parentID == 0)
+		if (cc == nullptr || cc->parentID == 0)
 			continue;
 
 		DBCachedContact *ccMeta = CheckMeta(cc->parentID);
-		if (ccMeta == NULL)
+		if (ccMeta == nullptr)
 			continue;
 
 		// get contact number
@@ -427,7 +427,7 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 		return 1;
 
 	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return 1;
 
 	if (options.clist_contact_name == CNNT_NICK) {
@@ -451,7 +451,7 @@ int Meta_SetAllNicks()
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		DBCachedContact *cc = CheckMeta(hContact);
-		if (cc == NULL)
+		if (cc == nullptr)
 			continue;
 		MCONTACT most_online = Meta_GetMostOnline(cc);
 		Meta_CopyContactNick(cc, most_online);

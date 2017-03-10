@@ -49,12 +49,12 @@ static OBJLIST<Icon> usedIcons(50, SortFunc);
 static Icon* FindIcon(const char *icolibName)
 {
 	Icon *icon = usedIcons.find((Icon*)&icolibName);
-	if (icon == NULL)
+	if (icon == nullptr)
 		usedIcons.insert(icon = new Icon(icolibName));
 
 	if (icon->hImage == INVALID_HANDLE_VALUE) {
 		HICON hIcon = IcoLib_GetIcon(icon->name);
-		if (hIcon != NULL) {
+		if (hIcon != nullptr) {
 			icon->hImage = ExtraIcon_AddIcon(hIcon);
 			IcoLib_ReleaseIcon(hIcon);
 		}
@@ -78,7 +78,7 @@ HANDLE AddIcon(const char *icolibName)
 void RemoveIcon(const char *icolibName)
 {
 	Icon *icon = usedIcons.find((Icon*)&icolibName);
-	if (icon != NULL)
+	if (icon != nullptr)
 		icon->refCount--;
 }
 

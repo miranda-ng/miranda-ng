@@ -131,11 +131,11 @@ static HICON LoadSmallIcon(HINSTANCE hInstance, LPCTSTR lpIconName)
 {
 	wchar_t filename[MAX_PATH];
 	if (GetModuleFileName(hInstance, filename, MAX_PATH) == 0)
-		return NULL;
+		return nullptr;
 
-	HICON hIcon = NULL; // icon handle
+	HICON hIcon = nullptr; // icon handle
 	int index = -(INT_PTR)lpIconName;
-	ExtractIconEx(filename, index, NULL, &hIcon, 1);
+	ExtractIconEx(filename, index, nullptr, &hIcon, 1);
 	return hIcon;
 }
 
@@ -143,7 +143,7 @@ static HICON LoadSmallIcon(HINSTANCE hInstance, LPCTSTR lpIconName)
 HICON LoadIconEx(HINSTANCE hInstance, LPCTSTR lpIconName, BOOL bShared)
 {
 	HICON hResIcon = bShared ? LoadSmallIconShared(hInstance, lpIconName) : LoadSmallIcon(hInstance, lpIconName);
-	if (hResIcon == NULL && g_hInst != hInstance) // Icon not found in hInstance, let's try to load it from core
+	if (hResIcon == nullptr && g_hInst != hInstance) // Icon not found in hInstance, let's try to load it from core
 		hResIcon = bShared ? LoadSmallIconShared(g_hInst, lpIconName) : LoadSmallIcon(g_hInst, lpIconName);
 
 	return hResIcon;
@@ -230,9 +230,9 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 {
 	char iconName[MAX_PATH];
 	INT_PTR caps2;
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		caps2 = -1;
-	else if ((caps2 = CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAGNUM_2, 0)) == CALLSERVICE_NOTFOUND)
+	else if ((caps2 = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_2, 0)) == CALLSERVICE_NOTFOUND)
 		caps2 = 0;
 
 	if (IsStatusConnecting(status)) {
@@ -248,7 +248,7 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 		}
 
 	if (statusIndx == -1)
-		return NULL;
+		return nullptr;
 
 	if (!szProto) {
 		// Only return a protocol specific icon if there is only one protocol
@@ -270,11 +270,11 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 	// format: core_status_%s%d
 	mir_snprintf(iconName, "%s%s%d", statusIconsFmt, szProto, statusIndx);
 	HICON hIcon = IcoLib_GetIcon(iconName, big);
-	if (hIcon == NULL && (caps2 == 0 || (caps2 & statusIcons[statusIndx].pf2))) {
+	if (hIcon == nullptr && (caps2 == 0 || (caps2 & statusIcons[statusIndx].pf2))) {
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa) {
 			wchar_t szPath[MAX_PATH], szFullPath[MAX_PATH], *str;
-			GetModuleFileName(NULL, szPath, _countof(szPath));
+			GetModuleFileName(nullptr, szPath, _countof(szPath));
 
 			// Queried protocol isn't in list, adding
 			wchar_t tszSection[MAX_PATH];
@@ -285,21 +285,21 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 			sid.flags = SIDF_ALL_UNICODE;
 
 			str = wcsrchr(szPath, '\\');
-			if (str != NULL)
+			if (str != nullptr)
 				*str = 0;
 			mir_snwprintf(szFullPath, L"%s\\Icons\\proto_%S.dll", szPath, pa->szProtoName);
 			if (GetFileAttributes(szFullPath) != INVALID_FILE_ATTRIBUTES)
 				sid.defaultFile.w = szFullPath;
 			else {
 				mir_snwprintf(szFullPath, L"%s\\Plugins\\%S.dll", szPath, szProto);
-				if (int(ExtractIconEx(szFullPath, statusIcons[statusIndx].resource_id, NULL, &hIcon, 1)) > 0) {
+				if (int(ExtractIconEx(szFullPath, statusIcons[statusIndx].resource_id, nullptr, &hIcon, 1)) > 0) {
 					DestroyIcon(hIcon);
 					sid.defaultFile.w = szFullPath;
-					hIcon = NULL;
+					hIcon = nullptr;
 				}
 
-				if (sid.defaultFile.a == NULL) {
-					if (str != NULL)
+				if (sid.defaultFile.a == nullptr) {
+					if (str != nullptr)
 						*str = '\\';
 					sid.defaultFile.w = szPath;
 				}
@@ -331,7 +331,7 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 			return hIcon;
 	}
 
-	if (hIcon == NULL) {
+	if (hIcon == nullptr) {
 		mir_snprintf(iconName, "%s%s%d", statusIconsFmt, GLOBAL_PROTO_NAME, statusIndx);
 		hIcon = IcoLib_GetIcon(iconName, big);
 	}
@@ -345,7 +345,7 @@ MIR_APP_DLL(HANDLE) Skin_GetIconHandle(int idx)
 		if (idx == mainIcons[i].id)
 			return mainIcons[i].hIcolib;
 
-	return NULL;
+	return nullptr;
 }
 
 MIR_APP_DLL(char*) Skin_GetIconName(int idx)
@@ -358,7 +358,7 @@ MIR_APP_DLL(char*) Skin_GetIconName(int idx)
 			return szIconName;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 MIR_APP_DLL(HICON) Skin_LoadIcon(int idx, bool big)
@@ -366,9 +366,9 @@ MIR_APP_DLL(HICON) Skin_LoadIcon(int idx, bool big)
 	// Query for global status icons
 	if (idx < SKINICON_EVENT_MESSAGE) {
 		if (idx >= _countof(statusIcons))
-			return NULL;
+			return nullptr;
 
-		return Skin_LoadProtoIcon(NULL, statusIcons[idx].id, big);
+		return Skin_LoadProtoIcon(nullptr, statusIcons[idx].id, big);
 	}
 
 	return IcoLib_GetIconByHandle(Skin_GetIconHandle(idx), big);
@@ -391,7 +391,7 @@ int LoadSkinIcons(void)
 	// Add main icons to list
 	for (int i = 0; i < _countof(mainIcons); i++) {
 		mir_snprintf(iconName, "%s%d", mainIconsFmt, i);
-		sid.section.a = mainIcons[i].section == NULL ? (char*)LPGEN("Main icons") : (char*)mainIcons[i].section;
+		sid.section.a = mainIcons[i].section == nullptr ? (char*)LPGEN("Main icons") : (char*)mainIcons[i].section;
 		sid.description.a = (char*)mainIcons[i].description;
 		sid.iDefaultIndex = mainIcons[i].resource_id;
 		mainIcons[i].hIcolib = IcoLib_AddIcon(&sid, 0);

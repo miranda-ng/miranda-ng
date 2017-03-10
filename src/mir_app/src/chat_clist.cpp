@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *pszDisplayName, int iType)
 {
 	wchar_t pszGroup[50]; *pszGroup = '\0';
-	ptrW groupName(db_get_wsa(NULL, CHAT_MODULE, "AddToGroup"));
+	ptrW groupName(db_get_wsa(0, CHAT_MODULE, "AddToGroup"));
 	if (groupName)
 		wcsncpy_s(pszGroup, groupName, _TRUNCATE);
 	else
@@ -54,8 +54,8 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 	}
 
 	// here we create a new one since no one is to be found
-	if ((hContact = db_add_contact()) == NULL)
-		return NULL;
+	if ((hContact = db_add_contact()) == 0)
+		return 0;
 
 	Proto_AddToContact(hContact, pszModule);
 	if (pszGroup[0])
@@ -105,19 +105,19 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 		return 0;
 
 	char *szProto = GetContactProto(hContact);
-	if (chatApi.MM_FindModule(szProto) == NULL)
+	if (chatApi.MM_FindModule(szProto) == nullptr)
 		return 0;
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 0)
 		return 0;
 
 	ptrW roomid(db_get_wsa(hContact, szProto, "ChatRoomID"));
-	if (roomid == NULL)
+	if (roomid == nullptr)
 		return 0;
 
 	SESSION_INFO *si = SM_FindSession(roomid, szProto);
 	if (si) {
 		// is the "toggle visibility option set, so we need to close the window?
-		if (si->pDlg != NULL && db_get_b(NULL, CHAT_MODULE, "ToggleVisibility", 0) == 1 && !cli.pfnGetEvent(hContact, 0) && IsWindowVisible(si->pDlg->GetHwnd()) && !IsIconic(si->pDlg->GetHwnd())) {
+		if (si->pDlg != nullptr && db_get_b(0, CHAT_MODULE, "ToggleVisibility", 0) == 1 && !cli.pfnGetEvent(hContact, 0) && IsWindowVisible(si->pDlg->GetHwnd()) && !IsIconic(si->pDlg->GetHwnd())) {
 			PostMessage(si->pDlg->GetHwnd(), GC_CLOSEWINDOW, 0, 0);
 			return 1;
 		}
@@ -230,7 +230,7 @@ MCONTACT FindRoom(const char *pszModule, const wchar_t *pszRoom)
 			continue;
 
 		ptrW roomid(db_get_wsa(hContact, pszModule, "ChatRoomID"));
-		if (roomid != NULL && !mir_wstrcmpi(roomid, pszRoom))
+		if (roomid != nullptr && !mir_wstrcmpi(roomid, pszRoom))
 			return hContact;
 	}
 

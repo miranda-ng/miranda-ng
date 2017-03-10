@@ -33,12 +33,12 @@ static DWORD GetMask(MCONTACT hContact)
 {
 	DWORD mask = db_get_dw(hContact, "Ignore", "Mask1", (DWORD)-1);
 	if (mask == (DWORD)-1) {
-		if (hContact == NULL) mask = 0;
+		if (hContact == 0) mask = 0;
 		else {
 			if (db_get_b(hContact, "CList", "Hidden", 0) || db_get_b(hContact, "CList", "NotOnList", 0))
-				mask = db_get_dw(NULL, "Ignore", "Mask1", 0);
+				mask = db_get_dw(0, "Ignore", "Mask1", 0);
 			else
-				mask = db_get_dw(NULL, "Ignore", "Default1", 0);
+				mask = db_get_dw(0, "Ignore", "Default1", 0);
 		}
 	}
 	return mask;
@@ -178,8 +178,8 @@ static void SetAllContactIcons(HWND hwndList)
 			DWORD proto1Caps, proto4Caps;
 			char *szProto = GetContactProto(hContact);
 			if (szProto) {
-				proto1Caps = CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-				proto4Caps = CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+				proto1Caps = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+				proto4Caps = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 			}
 			else proto1Caps = proto4Caps = 0;
 			InitialiseItem(hwndList, hContact, hItem, proto1Caps, proto4Caps);
@@ -235,11 +235,11 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 
 			cii.pszText = TranslateT("** Unknown contacts **");
 			hItemUnknown = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
-			InitialiseItem(GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemUnknown, 0xFFFFFFFF, 0xFFFFFFFF);
+			InitialiseItem(GetDlgItem(hwndDlg, IDC_LIST), 0, hItemUnknown, 0xFFFFFFFF, 0xFFFFFFFF);
 		}
 
 		SetAllContactIcons(GetDlgItem(hwndDlg, IDC_LIST));
-		SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+		SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 		return TRUE;
 
 	case WM_SETFOCUS:
@@ -255,7 +255,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 				SetAllContactIcons(GetDlgItem(hwndDlg, IDC_LIST));
 				//fall through
 			case CLN_CONTACTMOVED:
-				SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+				SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 				break;
 			case CLN_OPTIONSCHANGED:
 				ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
@@ -270,7 +270,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 
 				DWORD hitFlags;
 				HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
-				if (hItem == NULL || !(hitFlags & CLCHT_ONITEMEXTRA))
+				if (hItem == nullptr || !(hitFlags & CLCHT_ONITEMEXTRA))
 					break;
 
 				if (nm->iColumn == IGNOREEVENT_MAX) { // ignore all
@@ -289,7 +289,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 						iImage = 0;
 					SetIconsForColumn(GetDlgItem(hwndDlg, IDC_LIST), hItem, hItemAll, nm->iColumn, iImage);
 				}
-				SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+				SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 			break;
@@ -306,8 +306,8 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 						db_set_b(hContact, "CList", "Hidden", 1);
 				}
 
-				SaveItemMask(GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemAll, "Default1");
-				SaveItemMask(GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemUnknown, "Mask1");
+				SaveItemMask(GetDlgItem(hwndDlg, IDC_LIST), 0, hItemAll, "Default1");
+				SaveItemMask(GetDlgItem(hwndDlg, IDC_LIST), 0, hItemUnknown, "Mask1");
 				return TRUE;
 			}
 		}
@@ -407,7 +407,7 @@ static INT_PTR IgnoreRecvAuth(WPARAM wParam, LPARAM lParam)
 static int IgnoreAddedNotify(WPARAM, LPARAM lParam)
 {
 	DBEVENTINFO *dbei = (DBEVENTINFO*)lParam;
-	if (dbei && dbei->eventType == EVENTTYPE_ADDED && dbei->pBlob != NULL) {
+	if (dbei && dbei->eventType == EVENTTYPE_ADDED && dbei->pBlob != nullptr) {
 		MCONTACT hContact = DbGetAuthEventContact(dbei);
 		if (db_is_contact(hContact) && IsIgnored(hContact, IGNOREEVENT_YOUWEREADDED))
 			return 1;

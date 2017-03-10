@@ -80,7 +80,7 @@ static INT_PTR FreeOwnerDataTrayMenu(WPARAM, LPARAM lParam)
 static INT_PTR TrayMenuOnAddService(WPARAM wParam, LPARAM lParam)
 {
 	MENUITEMINFO *mii = (MENUITEMINFO*)wParam;
-	if (mii == NULL)
+	if (mii == nullptr)
 		return 0;
 
 	if (hTrayMainMenuItemProxy == (HGENMENU)lParam) {

@@ -63,7 +63,7 @@ static int fnIsVisibleContact(ClcCacheEntry*, ClcGroup*)
 static void fnReloadProtoMenus(void)
 {
 	RebuildMenuOrder();
-	if (db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
+	if (db_get_b(0, "CList", "MoveProtoMenus", TRUE))
 		BuildProtoMenus();
 	cli.pfnCluiProtocolStatusChanged(0, 0);
 }

@@ -42,11 +42,11 @@ static int sttCompareHotkeys(const THotkeyItem *p1, const THotkeyItem *p2)
 
 LIST<THotkeyItem> hotkeys(10, sttCompareHotkeys);
 DWORD g_pid = 0, g_hkid = 1;
-HWND g_hwndHotkeyHost = NULL, g_hwndHkOptions = NULL;
+HWND g_hwndHotkeyHost = nullptr, g_hwndHkOptions = nullptr;
 HANDLE hEvChanged = 0;
 
 static BOOL bModuleInitialized = FALSE;
-static HHOOK hhkKeyboard = NULL;
+static HHOOK hhkKeyboard = nullptr;
 
 WORD GetHotkeyValue(INT_PTR idHotkey)
 {
@@ -148,7 +148,7 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 
 	p->hLangpack = (int)wParam;
 	p->allowSubHotkeys = TRUE;
-	p->rootHotkey = NULL;
+	p->rootHotkey = nullptr;
 	p->nSubHotkeys = 0;
 
 	if (p->rootHotkey = hotkeys.find(p)) {
@@ -169,14 +169,14 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		p->pszName = mir_strdup(desc->pszName);
-		p->Enabled = !db_get_b(NULL, DBMODULENAME "Off", p->pszName, 0);
+		p->Enabled = !db_get_b(0, DBMODULENAME "Off", p->pszName, 0);
 	}
 
 	p->pszService = desc->pszService ? mir_strdup(desc->pszService) : 0;
 	p->DefHotkey = desc->DefHotKey & ~HKF_MIRANDA_LOCAL;
-	p->Hotkey = db_get_w(NULL, DBMODULENAME, p->pszName, p->DefHotkey);
+	p->Hotkey = db_get_w(0, DBMODULENAME, p->pszName, p->DefHotkey);
 	p->type = p->pszService ?
-		(THotkeyType)db_get_b(NULL, DBMODULENAME "Types", p->pszName,
+		(THotkeyType)db_get_b(0, DBMODULENAME "Types", p->pszName,
 		(desc->DefHotKey & HKF_MIRANDA_LOCAL) ? HKT_LOCAL : HKT_GLOBAL) : HKT_MANUAL;
 	p->lParam = desc->lParam;
 
@@ -197,10 +197,10 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 		/* try to load alternatives from db */
 		int count, i;
 		mir_snprintf(buf, "%s$count", p->pszName);
-		count = (int)db_get_dw(NULL, DBMODULENAME, buf, -1);
+		count = (int)db_get_dw(0, DBMODULENAME, buf, -1);
 		for (i = 0; i < count; i++) {
 			mir_snprintf(buf, "%s$%d", p->pszName, i);
-			if (!db_get_w(NULL, DBMODULENAME, buf, 0))
+			if (!db_get_w(0, DBMODULENAME, buf, 0))
 				continue;
 
 			svcHotkeyRegister(wParam, lParam);
@@ -209,7 +209,7 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		mir_free(p->pszName);
-		p->pszName = NULL;
+		p->pszName = nullptr;
 	}
 
 	return p->idHotkey;
@@ -353,20 +353,20 @@ int LoadSkinHotkeys(void)
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
 	wcl.hInstance = g_hInst;
-	wcl.hIcon = NULL;
-	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wcl.hIcon = nullptr;
+	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszMenuName = NULL;
+	wcl.lpszMenuName = nullptr;
 	wcl.lpszClassName = L"MirandaHotkeyHostWnd";
-	wcl.hIconSm = NULL;
+	wcl.hIconSm = nullptr;
 	RegisterClassEx(&wcl);
 
 	g_pid = GetCurrentProcessId();
 
-	g_hwndHotkeyHost = CreateWindow(L"MirandaHotkeyHostWnd", NULL, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, g_hInst, NULL);
+	g_hwndHotkeyHost = CreateWindow(L"MirandaHotkeyHostWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_hInst, nullptr);
 	SetWindowPos(g_hwndHotkeyHost, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
 
-	hhkKeyboard = SetWindowsHookEx(WH_KEYBOARD, sttKeyboardProc, NULL, hMainThreadId);
+	hhkKeyboard = SetWindowsHookEx(WH_KEYBOARD, sttKeyboardProc, nullptr, hMainThreadId);
 
 	hEvChanged = CreateHookableEvent(ME_HOTKEYS_CHANGED);
 
@@ -383,15 +383,15 @@ int LoadSkinHotkeys(void)
 		mir_snprintf(szSetting, "HK%s", oldSettings[i]);
 
 		WORD key;
-		if ((key = db_get_w(NULL, "Clist", szSetting, 0))) {
-			db_unset(NULL, "Clist", szSetting);
-			db_set_w(NULL, DBMODULENAME, newSettings[i], key);
+		if ((key = db_get_w(0, "Clist", szSetting, 0))) {
+			db_unset(0, "Clist", szSetting);
+			db_set_w(0, DBMODULENAME, newSettings[i], key);
 		}
 
 		mir_snprintf(szSetting, "HKEn%s", oldSettings[i]);
-		if ((key = db_get_b(NULL, "Clist", szSetting, 0))) {
-			db_unset(NULL, "Clist", szSetting);
-			db_set_b(NULL, DBMODULENAME "Off", newSettings[i], (BYTE)(key == 0));
+		if ((key = db_get_b(0, "Clist", szSetting, 0))) {
+			db_unset(0, "Clist", szSetting);
+			db_set_b(0, DBMODULENAME "Off", newSettings[i], (BYTE)(key == 0));
 		}
 	}
 

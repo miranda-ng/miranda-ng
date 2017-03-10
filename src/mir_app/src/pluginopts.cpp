@@ -92,7 +92,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 	LVITEM it = { 0 };
 	// column  1: Checkbox +  Enable/disabled icons
 	it.mask = LVIF_PARAM | LVIF_IMAGE;
-	it.iImage = (hInst != NULL) ? 2 : 3;
+	it.iImage = (hInst != nullptr) ? 2 : 3;
 	bool bNoCheckbox = (dat->flags & STATIC_PLUGIN) != 0;
 	if (bNoCheckbox || hasMuuid(pi, miid_clist) || hasMuuid(pi, miid_protocol))
 		it.iImage += 2;
@@ -184,7 +184,7 @@ static void RemoveAllItems(HWND hwnd)
 static bool LoadPluginDynamically(PluginListItemData *dat)
 {
 	wchar_t exe[MAX_PATH];
-	GetModuleFileName(NULL, exe, _countof(exe));
+	GetModuleFileName(nullptr, exe, _countof(exe));
 	wchar_t *p = wcsrchr(exe, '\\'); if (p) *p = 0;
 
 	pluginEntry* pPlug = OpenPlugin(dat->fileName, L"Plugins", exe);
@@ -212,7 +212,7 @@ static bool UnloadPluginDynamically(PluginListItemData *dat)
 		if (!Plugin_UnloadDyn(p))
 			return false;
 
-		dat->hInst = NULL;
+		dat->hInst = nullptr;
 	}
 	return true;
 }
@@ -304,7 +304,7 @@ static int CALLBACK SortPlugins(WPARAM i1, LPARAM i2, LPARAM)
 
 static wchar_t *latin2t(const char *p)
 {
-	if (p == NULL)
+	if (p == nullptr)
 		return mir_wstrdup(L"");
 
 	return mir_a2u_cp(p, 1250);
@@ -427,19 +427,19 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						ListView_GetItemText(hwndList, hdr->iItem, 2, buf, _countof(buf));
 						SetDlgItemText(hwndDlg, IDC_PLUGININFOFRAME, sel ? buf : L"");
 
-						ptrW tszAuthor(latin2t(sel ? dat->author : NULL));
+						ptrW tszAuthor(latin2t(sel ? dat->author : nullptr));
 						SetDlgItemText(hwndDlg, IDC_PLUGINAUTHOR, tszAuthor);
 
-						ptrW tszEmail(latin2t(sel ? dat->authorEmail : NULL));
+						ptrW tszEmail(latin2t(sel ? dat->authorEmail : nullptr));
 						SetDlgItemText(hwndDlg, IDC_PLUGINEMAIL, tszEmail);
 
 						ptrW p(Langpack_PcharToTchar(dat->description));
 						SetDlgItemText(hwndDlg, IDC_PLUGINLONGINFO, sel ? p.get() : L"");
 
-						ptrW tszCopyright(latin2t(sel ? dat->copyright : NULL));
+						ptrW tszCopyright(latin2t(sel ? dat->copyright : nullptr));
 						SetDlgItemText(hwndDlg, IDC_PLUGINCPYR, tszCopyright);
 
-						ptrW tszUrl(latin2t(sel ? dat->homepage : NULL));
+						ptrW tszUrl(latin2t(sel ? dat->homepage : nullptr));
 						SetDlgItemText(hwndDlg, IDC_PLUGINURL, tszUrl);
 
 						if (dat->uuid != miid_last) {
@@ -561,7 +561,7 @@ int PluginOptionsInit(WPARAM wParam, LPARAM)
 
 void LoadPluginOptions()
 {
-	bOldMode = db_get_b(NULL, "Options", "OldPluginSettings", false) != 0;
+	bOldMode = db_get_b(0, "Options", "OldPluginSettings", false) != 0;
 
 	hevLoadModule = CreateHookableEvent(ME_SYSTEM_MODULELOAD);
 	hevUnloadModule = CreateHookableEvent(ME_SYSTEM_MODULEUNLOAD);

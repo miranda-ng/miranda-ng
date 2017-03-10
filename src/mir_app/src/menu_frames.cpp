@@ -62,7 +62,7 @@ static INT_PTR AddContextFrameMenuItem(WPARAM, LPARAM lParam)
 INT_PTR FrameMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	FrameMenuExecParam *fmep = (FrameMenuExecParam*)wParam;
-	if (fmep == NULL)
+	if (fmep == nullptr)
 		return -1;
 
 	CallService(fmep->szServiceName, lParam, 0);
@@ -72,7 +72,7 @@ INT_PTR FrameMenuExecService(WPARAM wParam, LPARAM lParam)
 INT_PTR FrameMenuCheckService(WPARAM wParam, LPARAM)
 {
 	TCheckProcParam *pcpp = (TCheckProcParam*)wParam;
-	if (pcpp == NULL)
+	if (pcpp == nullptr)
 		return FALSE;
 
 	TMO_IntMenuItem *pimi = pcpp->MenuItemHandle;

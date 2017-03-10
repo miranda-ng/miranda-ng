@@ -26,11 +26,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HINSTANCE ProtoGetInstance(const char *szModuleName)
 {
 	PROTOACCOUNT *pa = Proto_GetAccount(szModuleName);
-	if (pa == NULL)
-		return NULL;
+	if (pa == nullptr)
+		return nullptr;
 
 	PROTOCOLDESCRIPTOR *p = Proto_IsProtocolLoaded(pa->szProtoName);
-	return (p == NULL) ? NULL : GetInstByAddress(p->fnInit);
+	return (p == nullptr) ? nullptr : GetInstByAddress(p->fnInit);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ CProtoIntDlgBase::CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog, bool sh
 	: CDlgBase(::ProtoGetInstance(proto->m_szModuleName), idDialog),
 	m_proto_interface(proto),
 	m_show_label(show_label),
-	m_hwndStatus(NULL)
+	m_hwndStatus(nullptr)
 {}
 
 void CProtoIntDlgBase::CreateLink(CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue)
@@ -72,7 +72,7 @@ INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		result = CSuper::DlgProc(msg, wParam, lParam);
 		m_proto_interface->WindowSubscribe(m_hwnd);
 		if (m_show_label) {
-			m_hwndStatus = CreateStatusWindow(WS_CHILD | WS_VISIBLE, NULL, m_hwnd, 999);
+			m_hwndStatus = CreateStatusWindow(WS_CHILD | WS_VISIBLE, nullptr, m_hwnd, 999);
 			SetWindowPos(m_hwndStatus, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			UpdateStatusBar();
 			UpdateProtoTitle();
@@ -98,7 +98,7 @@ INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (m_hwndStatus) {
 			RECT rcStatus; GetWindowRect(m_hwndStatus, &rcStatus);
 			RECT rcClient; GetClientRect(m_hwnd, &rcClient);
-			SetWindowPos(m_hwndStatus, NULL, 0, rcClient.bottom - (rcStatus.bottom - rcStatus.top), rcClient.right, (rcStatus.bottom - rcStatus.top), SWP_NOZORDER);
+			SetWindowPos(m_hwndStatus, nullptr, 0, rcClient.bottom - (rcStatus.bottom - rcStatus.top), rcClient.right, (rcStatus.bottom - rcStatus.top), SWP_NOZORDER);
 			UpdateStatusBar();
 		}
 		break;

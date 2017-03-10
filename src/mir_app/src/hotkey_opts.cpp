@@ -262,7 +262,7 @@ static void sttOptionsDeleteHotkey(HWND hwndList, int idx, THotkeyItem *item)
 static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	wchar_t title1[256] = { 0 }, title2[256] = { 0 };
-	THotkeyItem *item1 = NULL, *item2 = NULL;
+	THotkeyItem *item1 = nullptr, *item2 = nullptr;
 	LVITEM lvi = { 0 };
 	int res;
 
@@ -294,7 +294,7 @@ static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lP
 			return res;
 		return 1;
 	}
-	/* item1 != NULL && item2 != NULL */
+	/* item1 != nullptr && item2 != nullptr */
 
 	if (res = mir_wstrcmp(item1->getSection(), item2->getSection())) return res;
 	if (res = mir_wstrcmp(item1->getDescr(), item2->getDescr())) return res;
@@ -309,8 +309,8 @@ static void sttOptionsAddHotkey(HWND hwndList, THotkeyItem *item)
 	mir_snprintf(buf, "mir_hotkey_%d_%d", g_pid, g_hkid++);
 
 	THotkeyItem *newItem = (THotkeyItem *)mir_alloc(sizeof(THotkeyItem));
-	newItem->pszName = NULL;
-	newItem->pszService = item->pszService ? mir_strdup(item->pszService) : NULL;
+	newItem->pszName = nullptr;
+	newItem->pszService = item->pszService ? mir_strdup(item->pszService) : nullptr;
 	newItem->pwszSection = mir_wstrdup(item->pwszSection);
 	newItem->pwszDescription = mir_wstrdup(item->pwszDescription);
 	newItem->lParam = item->lParam;
@@ -332,7 +332,7 @@ static void sttOptionsAddHotkey(HWND hwndList, THotkeyItem *item)
 	ListView_SortItemsEx(hwndList, sttOptionsSortList, (LPARAM)hwndList);
 
 	SendMessage(hwndList, WM_SETREDRAW, TRUE, 0);
-	RedrawWindow(hwndList, NULL, NULL, RDW_INVALIDATE);
+	RedrawWindow(hwndList, nullptr, nullptr, RDW_INVALIDATE);
 
 	item->OptChanged = TRUE;
 }
@@ -356,10 +356,10 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 	item->type = item->OptType;
 	item->Enabled = item->OptEnabled;
 
-	db_set_w(NULL, DBMODULENAME, item->pszName, item->Hotkey);
-	db_set_b(NULL, DBMODULENAME "Off", item->pszName, (BYTE)!item->Enabled);
+	db_set_w(0, DBMODULENAME, item->pszName, item->Hotkey);
+	db_set_b(0, DBMODULENAME "Off", item->pszName, (BYTE)!item->Enabled);
 	if (item->type != HKT_MANUAL)
-		db_set_b(NULL, DBMODULENAME "Types", item->pszName, (BYTE)item->type);
+		db_set_b(0, DBMODULENAME "Types", item->pszName, (BYTE)item->type);
 
 	item->nSubHotkeys = 0;
 	for (i = 0; i < hotkeys.getCount(); i++) {
@@ -369,16 +369,16 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 			subItem->type = subItem->OptType;
 
 			mir_snprintf(buf, "%s$%d", item->pszName, item->nSubHotkeys);
-			db_set_w(NULL, DBMODULENAME, buf, subItem->Hotkey);
+			db_set_w(0, DBMODULENAME, buf, subItem->Hotkey);
 			if (subItem->type != HKT_MANUAL)
-				db_set_b(NULL, DBMODULENAME "Types", buf, (BYTE)subItem->type);
+				db_set_b(0, DBMODULENAME "Types", buf, (BYTE)subItem->type);
 
 			++item->nSubHotkeys;
 		}
 	}
 
 	mir_snprintf(buf, "%s$count", item->pszName);
-	db_set_dw(NULL, DBMODULENAME, buf, item->nSubHotkeys);
+	db_set_dw(0, DBMODULENAME, buf, item->nSubHotkeys);
 }
 
 static void sttBuildHotkeyList(HWND hwndList)
@@ -440,10 +440,10 @@ static void sttOptionsStartEdit(HWND hwndDlg, HWND hwndHotkey)
 
 		SetWindowPos(hwndHotkey, HWND_BOTTOM, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
 		SetWindowPos(GetDlgItem(hwndDlg, IDC_HOTKEY), HWND_TOP, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_SHOWWINDOW);
-		RedrawWindow(GetDlgItem(hwndDlg, IDC_HOTKEY), NULL, NULL, RDW_INVALIDATE);
+		RedrawWindow(GetDlgItem(hwndDlg, IDC_HOTKEY), nullptr, nullptr, RDW_INVALIDATE);
 
 		SetFocus(GetDlgItem(hwndDlg, IDC_HOTKEY));
-		RedrawWindow(GetDlgItem(hwndDlg, IDC_HOTKEY), NULL, NULL, RDW_INVALIDATE);
+		RedrawWindow(GetDlgItem(hwndDlg, IDC_HOTKEY), nullptr, nullptr, RDW_INVALIDATE);
 	}
 }
 
@@ -515,7 +515,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			currentLanguage = LOWORD(GetKeyboardLayout(0));
 			sttBuildHotkeyList(hwndHotkey);
 		}
-		SetTimer(hwndDlg, 1024, 1000, NULL);
+		SetTimer(hwndDlg, 1024, 1000, nullptr);
 		initialized = TRUE;
 		{
 			/* load group states */
@@ -539,7 +539,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				szSetting = mir_u2a(lvi.pszText);
 
 				ListView_SetCheckState(hwndHotkey, lvi.iItem,
-					db_get_b(NULL, DBMODULENAME "UI", szSetting, TRUE));
+					db_get_b(0, DBMODULENAME "UI", szSetting, TRUE));
 
 				mir_free(szSetting);
 			}
@@ -668,7 +668,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			HWND hwndList = (HWND)wParam;
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			LVITEM lvi = { 0 };
-			THotkeyItem *item = NULL;
+			THotkeyItem *item = nullptr;
 
 			lvi.iItem = ListView_GetNextItem(hwndHotkey, -1, LVNI_SELECTED);
 			if (lvi.iItem < 0) return FALSE;
@@ -696,7 +696,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			AppendMenu(hMenu, MF_STRING, (UINT_PTR)MI_CHANGE, TranslateT("Modify"));
 			SetMenuItemInfo(hMenu, (UINT_PTR)MI_CHANGE, FALSE, &mii);
 			if (item->type != HKT_MANUAL) {
-				AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
+				AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
 				AppendMenu(hMenu, MF_STRING |
 					((item->OptType == HKT_GLOBAL) ? MF_CHECKED : 0),
 					(UINT_PTR)MI_SYSTEM, TranslateT("System scope"));
@@ -704,17 +704,17 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					((item->OptType == HKT_LOCAL) ? MF_CHECKED : 0),
 					(UINT_PTR)MI_LOCAL, TranslateT("Miranda scope"));
 			}
-			AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
+			AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
 			if (!item->rootHotkey)
 				AppendMenu(hMenu, MF_STRING, (UINT_PTR)MI_ADD, TranslateT("Add binding"));
 			else
 				AppendMenu(hMenu, MF_STRING, (UINT_PTR)MI_REMOVE, TranslateT("Remove"));
 			if (item->Hotkey != item->OptHotkey) {
-				AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
+				AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
 				AppendMenu(hMenu, MF_STRING, (UINT_PTR)MI_REVERT, TranslateT("Undo"));
 			}
 
-			switch (TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
+			switch (TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr)) {
 			case MI_CHANGE:
 				sttOptionsStartEdit(hwndDlg, hwndHotkey);
 				break;
@@ -796,7 +796,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				switch (lpnmhdr->code) {
 				case NM_CLICK:
 					{
-						THotkeyItem *item = NULL;
+						THotkeyItem *item = nullptr;
 						LPNMITEMACTIVATE lpnmia = (LPNMITEMACTIVATE)lParam;
 						LVHITTESTINFO lvhti = { 0 };
 						LVITEM lvi = { 0 };
@@ -1004,7 +1004,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		{
 			int count = ListView_GetItemCount(hwndHotkey);
 
-			g_hwndHkOptions = NULL;
+			g_hwndHkOptions = nullptr;
 
 			KillTimer(hwndDlg, 1024);
 
@@ -1022,7 +1022,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				lvi.iSubItem = 1;
 				ListView_GetItem(hwndHotkey, &lvi);
 
-				db_set_b(NULL, DBMODULENAME "UI", _T2A(lvi.pszText), ListView_GetCheckState(hwndHotkey, lvi.iItem));
+				db_set_b(0, DBMODULENAME "UI", _T2A(lvi.pszText), ListView_GetCheckState(hwndHotkey, lvi.iItem));
 			}
 		}
 	}

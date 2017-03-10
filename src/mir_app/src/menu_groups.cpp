@@ -55,12 +55,12 @@ MIR_APP_DLL(HMENU) Menu_BuildGroupMenu()
 MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam *gmp)
 {
 	GroupMenuExecParam *mmep = (GroupMenuExecParam*)mir_calloc(sizeof(GroupMenuExecParam));
-	if (mmep == NULL)
+	if (mmep == nullptr)
 		return 0;
 
 	// we need just one parametr.
 	mmep->szServiceName = mir_strdup(pmi->pszService);
-	if (gmp != NULL) {
+	if (gmp != nullptr) {
 		mmep->Param1 = gmp->wParam;
 		mmep->Param2 = gmp->lParam;
 	}
@@ -93,7 +93,7 @@ INT_PTR GroupMenuExecService(WPARAM wParam, LPARAM lParam)
 INT_PTR FreeOwnerDataGroupMenu(WPARAM, LPARAM lParam)
 {
 	GroupMenuExecParam *mmep = (GroupMenuExecParam *)lParam;
-	if (mmep != NULL) {
+	if (mmep != nullptr) {
 		mir_free(mmep->szServiceName);
 		mir_free(mmep);
 	}
@@ -106,7 +106,7 @@ INT_PTR FreeOwnerDataGroupMenu(WPARAM, LPARAM lParam)
 static INT_PTR HideGroupsHelper(WPARAM, LPARAM)
 {
 	int newVal = !(GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
-	db_set_b(NULL, "CList", "HideEmptyGroups", (BYTE)newVal);
+	db_set_b(0, "CList", "HideEmptyGroups", (BYTE)newVal);
 	SendMessage(cli.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
 	return newVal;
 }
@@ -114,7 +114,7 @@ static INT_PTR HideGroupsHelper(WPARAM, LPARAM)
 static INT_PTR UseGroupsHelper(WPARAM, LPARAM)
 {
 	int newVal = !(GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
-	db_set_b(NULL, "CList", "UseGroups", (BYTE)newVal);
+	db_set_b(0, "CList", "UseGroups", (BYTE)newVal);
 	SendMessage(cli.hwndContactTree, CLM_SETUSEGROUPS, newVal,0);
 	return newVal;
 }
@@ -141,7 +141,7 @@ static INT_PTR CreateGroupHelper(WPARAM, LPARAM)
 
 static int OnBuildGroupMenu(WPARAM, LPARAM)
 {
-	bool bChecked = db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) != 0;
+	bool bChecked = db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) != 0;
 	Menu_SetChecked(hHideOfflineUsersMenuItem, bChecked);
 
 	bChecked = SendMessage(cli.hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0) != 0;
@@ -183,12 +183,12 @@ HMENU cliBuildGroupPopupMenu(ClcGroup *group)
 MIR_APP_DLL(HGENMENU) Menu_AddSubGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam *gmp)
 {
 	SubGroupMenuExecParam *mmep = (SubGroupMenuExecParam*)mir_calloc(sizeof(SubGroupMenuExecParam));
-	if (mmep == NULL)
+	if (mmep == nullptr)
 		return 0;
 
 	// we need just one parametr.
 	mmep->szServiceName = mir_strdup(pmi->pszService);
-	if (gmp != NULL) {
+	if (gmp != nullptr) {
 		mmep->Param1 = gmp->wParam;
 		mmep->Param2 = gmp->lParam;
 	}
@@ -238,7 +238,7 @@ static INT_PTR SubGroupMenuExecService(WPARAM wParam, LPARAM lParam)
 static INT_PTR FreeOwnerDataSubGroupMenu(WPARAM, LPARAM lParam)
 {
 	SubGroupMenuExecParam *mmep = (SubGroupMenuExecParam *)lParam;
-	if (mmep != NULL) {
+	if (mmep != nullptr) {
 		mir_free(mmep->szServiceName);
 		mir_free(mmep);
 	}
@@ -297,7 +297,7 @@ void InitGroupMenus(void)
 
 		SET_UID(mi, 0xe6269658, 0x69, 0x4094, 0x9b, 0x35, 0x4e, 0x80, 0x29, 0x26, 0xf, 0x8e);
 		mi.position = 500001;
-		mi.hIcolibItem = NULL;
+		mi.hIcolibItem = nullptr;
 		mi.pszService = MS_CLIST_TOGGLEHIDEOFFLINE;
 		mi.name.a = LPGEN("&Hide offline users");
 		gmp.wParam = -1;

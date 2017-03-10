@@ -31,7 +31,7 @@ LIST<DATABASELINK> arDbPlugins(5);
 
 MIR_APP_DLL(void) RegisterDatabasePlugin(DATABASELINK *pDescr)
 {
-	if (pDescr != NULL)
+	if (pDescr != nullptr)
 		arDbPlugins.insert(pDescr);
 }
 
@@ -43,20 +43,20 @@ MIR_APP_DLL(DATABASELINK*) FindDatabasePlugin(const wchar_t *ptszFileName)
 			return arDbPlugins[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 MIR_APP_DLL(void) InitDbInstance(MIDatabase *pDatabase)
 {
-	if (pDatabase != NULL)
+	if (pDatabase != nullptr)
 		pDatabase->m_cache = new MDatabaseCache(pDatabase->GetContactSize());
 }
 
 MIR_APP_DLL(void) DestroyDbInstance(MIDatabase *pDatabase)
 {
-	if (pDatabase != NULL) {
+	if (pDatabase != nullptr) {
 		MDatabaseCache *pCache = (MDatabaseCache*)pDatabase->m_cache;
-		pDatabase->m_cache = NULL;
+		pDatabase->m_cache = nullptr;
 		delete pCache;
 	}
 }

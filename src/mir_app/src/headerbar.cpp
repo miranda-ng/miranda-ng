@@ -74,7 +74,7 @@ int LoadHeaderbarModule()
 	wc.cbSize = sizeof(wc);
 	wc.lpszClassName = L"MHeaderbarCtrl";
 	wc.lpfnWndProc = MHeaderbarWndProc;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.cbWndExtra = sizeof(MHeaderbarCtrl*);
 	wc.style = CS_GLOBALCLASS|CS_SAVEBITS;
 	RegisterClassEx(&wc);
@@ -149,7 +149,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 	bmi.bmiHeader.biPlanes = 1;
 	bmi.bmiHeader.biBitCount = 32;
 	bmi.bmiHeader.biCompression = BI_RGB;
-	HBITMAP hBmp = CreateDIBSection(tempDC, &bmi, DIB_RGB_COLORS, NULL, NULL, 0);
+	HBITMAP hBmp = CreateDIBSection(tempDC, &bmi, DIB_RGB_COLORS, nullptr, nullptr, 0);
 
 	HBITMAP hOldBmp = (HBITMAP)SelectObject(tempDC, hBmp);
 
@@ -187,7 +187,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 		DrawIcon(tempDC, 10, iTopSpace, mit->hIcon);
 	else {
 		HICON hIcon = (HICON)SendMessage(GetParent(hwndDlg), WM_GETICON, ICON_BIG, 0);
-		if (hIcon == NULL)
+		if (hIcon == nullptr)
 			hIcon = (HICON)SendMessage(GetParent(hwndDlg), WM_GETICON, ICON_SMALL, 0);
 		DrawIcon(tempDC, 10, iTopSpace, hIcon);
 	}
@@ -245,7 +245,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 
 		for (int i = 0; i < mit->nControlsToRedraw; i++) {
 			GetWindowRect(mit->controlsToRedraw[i], &temprc);
-			MapWindowPoints(NULL, hwndDlg, (LPPOINT)&temprc, 2);
+			MapWindowPoints(nullptr, hwndDlg, (LPPOINT)&temprc, 2);
 			HRGN hRgnTmp = CreateRectRgnIndirect(&temprc);
 			CombineRgn(hRgn, hRgn, hRgnTmp, RGN_DIFF);
 			DeleteObject(hRgnTmp);
@@ -256,7 +256,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 
 	BitBlt(hdc, mit->rc.left, mit->rc.top, mit->width, mit->height, tempDC, 0, 0, SRCCOPY);
 
-	SelectClipRgn(hdc, NULL);
+	SelectClipRgn(hdc, nullptr);
 
 	SelectObject(tempDC, hOldBmp);
 	DeleteObject(hBmp);
@@ -283,7 +283,7 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			RECT rcWnd; GetWindowRect(hwndDlg, &rcWnd);
 			itc->controlsToRedraw = 0;
 			itc->nControlsToRedraw = 0;
-			for (HWND hChild = FindWindowEx(hParent, NULL, NULL, NULL); hChild; hChild = FindWindowEx(hParent, hChild, NULL, NULL)) {
+			for (HWND hChild = FindWindowEx(hParent, nullptr, nullptr, nullptr); hChild; hChild = FindWindowEx(hParent, hChild, nullptr, nullptr)) {
 				if (hChild != hwndDlg) {
 					RECT rcChild; GetWindowRect(hChild, &rcChild);
 					RECT rc;
@@ -321,7 +321,7 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 	case WM_SETICON:
 		if (wParam < 3) {
 			itc->hIcon = (HICON)lParam;
-			InvalidateRect(hwndDlg, NULL, FALSE);
+			InvalidateRect(hwndDlg, nullptr, FALSE);
 		}
 		break;
 
@@ -329,7 +329,7 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		return 1;
 
 	case WM_NCPAINT:
-		InvalidateRect(hwndDlg, NULL, FALSE);
+		InvalidateRect(hwndDlg, nullptr, FALSE);
 		break;
 
 	case WM_PAINT:

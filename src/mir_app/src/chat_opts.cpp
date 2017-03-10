@@ -71,8 +71,8 @@ static FontOptionsList fontOptionsList[] =
 
 static void LoadColors()
 {
-	g_Settings->crUserListBGColor = db_get_dw(NULL, CHAT_MODULE, "ColorNicklistBG", GetSysColor(COLOR_WINDOW));
-	g_Settings->crUserListSelectedBGColor = db_get_dw(NULL, CHAT_MODULE, "ColorNicklistSelectedBG", GetSysColor(COLOR_HIGHLIGHT));
+	g_Settings->crUserListBGColor = db_get_dw(0, CHAT_MODULE, "ColorNicklistBG", GetSysColor(COLOR_WINDOW));
+	g_Settings->crUserListSelectedBGColor = db_get_dw(0, CHAT_MODULE, "ColorNicklistSelectedBG", GetSysColor(COLOR_HIGHLIGHT));
 }
 
 void LoadLogFonts(void)
@@ -81,11 +81,11 @@ void LoadLogFonts(void)
 		LoadMsgDlgFont(i, &chatApi.aFonts[i].lf, &chatApi.aFonts[i].color);
 	LoadColors();
 
-	if (chatApi.hListBkgBrush != NULL)
+	if (chatApi.hListBkgBrush != nullptr)
 		DeleteObject(chatApi.hListBkgBrush);
 	chatApi.hListBkgBrush = CreateSolidBrush(g_Settings->crUserListBGColor);
 
-	if (chatApi.hListSelectedBkgBrush != NULL)
+	if (chatApi.hListSelectedBkgBrush != nullptr)
 		DeleteObject(chatApi.hListSelectedBkgBrush);
 	chatApi.hListSelectedBkgBrush = CreateSolidBrush(g_Settings->crUserListSelectedBGColor);
 }
@@ -98,30 +98,30 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 
 	if (colour) {
 		mir_snprintf(str, "Font%dCol", i);
-		*colour = db_get_dw(NULL, CHATFONT_MODULE, str, FO.defColour);
+		*colour = db_get_dw(0, CHATFONT_MODULE, str, FO.defColour);
 	}
 	if (lf) {
 		mir_snprintf(str, "Font%dSize", i);
-		lf->lfHeight = (char)db_get_b(NULL, CHATFONT_MODULE, str, FO.defSize);
+		lf->lfHeight = (char)db_get_b(0, CHATFONT_MODULE, str, FO.defSize);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
 		mir_snprintf(str, "Font%dSty", i);
-		style = db_get_b(NULL, CHATFONT_MODULE, str, FO.defStyle);
+		style = db_get_b(0, CHATFONT_MODULE, str, FO.defStyle);
 		lf->lfWeight = style & FONTF_BOLD ? FW_BOLD : FW_NORMAL;
 		lf->lfItalic = style & FONTF_ITALIC ? 1 : 0;
 		lf->lfUnderline = 0;
 		lf->lfStrikeOut = 0;
 		mir_snprintf(str, "Font%dSet", i);
-		lf->lfCharSet = db_get_b(NULL, CHATFONT_MODULE, str, FO.defCharset);
+		lf->lfCharSet = db_get_b(0, CHATFONT_MODULE, str, FO.defCharset);
 		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "Font%d", i);
 
-		ptrW tszFace(db_get_wsa(NULL, CHATFONT_MODULE, str));
-		if (tszFace == NULL)
+		ptrW tszFace(db_get_wsa(0, CHATFONT_MODULE, str));
+		if (tszFace == nullptr)
 			mir_wstrcpy(lf->lfFaceName, FO.szDefFace);
 		else
 			wcsncpy_s(lf->lfFaceName, tszFace, _TRUNCATE);
@@ -192,7 +192,7 @@ HICON LoadIconEx(char* pszIcoLibName, bool big)
 static void InitSetting(wchar_t** ppPointer, char* pszSetting, wchar_t* pszDefault)
 {
 	DBVARIANT dbv;
-	if (!db_get_ws(NULL, CHAT_MODULE, pszSetting, &dbv)) {
+	if (!db_get_ws(0, CHAT_MODULE, pszSetting, &dbv)) {
 		replaceStrW(*ppPointer, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -204,33 +204,33 @@ static void InitSetting(wchar_t** ppPointer, char* pszSetting, wchar_t* pszDefau
 void LoadGlobalSettings(void)
 {
 	g_Settings->LogIconSize = 10;
-	g_Settings->bLogLimitNames = db_get_b(NULL, CHAT_MODULE, "LogLimitNames", 1) != 0;
-	g_Settings->bShowTime = db_get_b(NULL, CHAT_MODULE, "ShowTimeStamp", 1) != 0;
-	g_Settings->bSoundsFocus = db_get_b(NULL, CHAT_MODULE, "SoundsFocus", 0) != 0;
-	g_Settings->bShowTimeIfChanged = (BOOL)db_get_b(NULL, CHAT_MODULE, "ShowTimeStampIfChanged", 0) != 0;
-	g_Settings->bTimeStampEventColour = (BOOL)db_get_b(NULL, CHAT_MODULE, "TimeStampEventColour", 0) != 0;
-	g_Settings->iEventLimit = db_get_w(NULL, CHAT_MODULE, "LogLimit", 100);
-	g_Settings->dwIconFlags = db_get_dw(NULL, CHAT_MODULE, "IconFlags", 0x0000);
-	g_Settings->dwTrayIconFlags = db_get_dw(NULL, CHAT_MODULE, "TrayIconFlags", 0x1000);
-	g_Settings->dwPopupFlags = db_get_dw(NULL, CHAT_MODULE, "PopupFlags", 0x0000);
-	g_Settings->LoggingLimit = db_get_w(NULL, CHAT_MODULE, "LoggingLimit", 100);
-	g_Settings->bLoggingEnabled = (BOOL)db_get_b(NULL, CHAT_MODULE, "LoggingEnabled", 0) != 0;
-	g_Settings->bFlashWindow = (BOOL)db_get_b(NULL, CHAT_MODULE, "FlashWindow", 0) != 0;
-	g_Settings->bFlashWindowHighlight = (BOOL)db_get_b(NULL, CHAT_MODULE, "FlashWindowHighlight", false) != 0;
-	g_Settings->bHighlightEnabled = (BOOL)db_get_b(NULL, CHAT_MODULE, "HighlightEnabled", 1) != 0;
-	g_Settings->crLogBackground = db_get_dw(NULL, CHAT_MODULE, "ColorLogBG", GetSysColor(COLOR_WINDOW));
-	g_Settings->crUserListColor = db_get_dw(NULL, CHATFONT_MODULE, "Font18Col", RGB(0, 0, 0));
-	g_Settings->crUserListHeadingsColor = db_get_dw(NULL, CHATFONT_MODULE, "Font19Col", RGB(170, 170, 170));
-	g_Settings->bStripFormat = (BOOL)db_get_b(NULL, CHAT_MODULE, "StripFormatting", 0) != 0;
-	g_Settings->bTrayIconInactiveOnly = (BOOL)db_get_b(NULL, CHAT_MODULE, "TrayIconInactiveOnly", 1) != 0;
-	g_Settings->bPopupInactiveOnly = (BOOL)db_get_b(NULL, CHAT_MODULE, "PopupInactiveOnly", 1) != 0;
-	g_Settings->bAddColonToAutoComplete = (BOOL)db_get_b(NULL, CHAT_MODULE, "AddColonToAutoComplete", 1) != 0;
-	g_Settings->iPopupStyle = db_get_b(NULL, CHAT_MODULE, "PopupStyle", 1);
-	g_Settings->iPopupTimeout = db_get_w(NULL, CHAT_MODULE, "PopupTimeout", 3);
-	g_Settings->crPUBkgColour = db_get_dw(NULL, CHAT_MODULE, "PopupColorBG", GetSysColor(COLOR_WINDOW));
-	g_Settings->crPUTextColour = db_get_dw(NULL, CHAT_MODULE, "PopupColorText", 0);
-	g_Settings->bShowContactStatus = db_get_b(NULL, CHAT_MODULE, "ShowContactStatus", 0) != 0;
-	g_Settings->bContactStatusFirst = db_get_b(NULL, CHAT_MODULE, "ContactStatusFirst", 0) != 0;
+	g_Settings->bLogLimitNames = db_get_b(0, CHAT_MODULE, "LogLimitNames", 1) != 0;
+	g_Settings->bShowTime = db_get_b(0, CHAT_MODULE, "ShowTimeStamp", 1) != 0;
+	g_Settings->bSoundsFocus = db_get_b(0, CHAT_MODULE, "SoundsFocus", 0) != 0;
+	g_Settings->bShowTimeIfChanged = db_get_b(0, CHAT_MODULE, "ShowTimeStampIfChanged", 0) != 0;
+	g_Settings->bTimeStampEventColour = db_get_b(0, CHAT_MODULE, "TimeStampEventColour", 0) != 0;
+	g_Settings->iEventLimit = db_get_w(0, CHAT_MODULE, "LogLimit", 100);
+	g_Settings->dwIconFlags = db_get_dw(0, CHAT_MODULE, "IconFlags", 0x0000);
+	g_Settings->dwTrayIconFlags = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", 0x1000);
+	g_Settings->dwPopupFlags = db_get_dw(0, CHAT_MODULE, "PopupFlags", 0x0000);
+	g_Settings->LoggingLimit = db_get_w(0, CHAT_MODULE, "LoggingLimit", 100);
+	g_Settings->bLoggingEnabled = db_get_b(0, CHAT_MODULE, "LoggingEnabled", 0) != 0;
+	g_Settings->bFlashWindow = db_get_b(0, CHAT_MODULE, "FlashWindow", 0) != 0;
+	g_Settings->bFlashWindowHighlight = db_get_b(0, CHAT_MODULE, "FlashWindowHighlight", false) != 0;
+	g_Settings->bHighlightEnabled = db_get_b(0, CHAT_MODULE, "HighlightEnabled", 1) != 0;
+	g_Settings->crLogBackground = db_get_dw(0, CHAT_MODULE, "ColorLogBG", GetSysColor(COLOR_WINDOW));
+	g_Settings->crUserListColor = db_get_dw(0, CHATFONT_MODULE, "Font18Col", RGB(0, 0, 0));
+	g_Settings->crUserListHeadingsColor = db_get_dw(0, CHATFONT_MODULE, "Font19Col", RGB(170, 170, 170));
+	g_Settings->bStripFormat = db_get_b(0, CHAT_MODULE, "StripFormatting", 0) != 0;
+	g_Settings->bTrayIconInactiveOnly = db_get_b(0, CHAT_MODULE, "TrayIconInactiveOnly", 1) != 0;
+	g_Settings->bPopupInactiveOnly = db_get_b(0, CHAT_MODULE, "PopupInactiveOnly", 1) != 0;
+	g_Settings->bAddColonToAutoComplete = db_get_b(0, CHAT_MODULE, "AddColonToAutoComplete", 1) != 0;
+	g_Settings->iPopupStyle = db_get_b(0, CHAT_MODULE, "PopupStyle", 1);
+	g_Settings->iPopupTimeout = db_get_w(0, CHAT_MODULE, "PopupTimeout", 3);
+	g_Settings->crPUBkgColour = db_get_dw(0, CHAT_MODULE, "PopupColorBG", GetSysColor(COLOR_WINDOW));
+	g_Settings->crPUTextColour = db_get_dw(0, CHAT_MODULE, "PopupColorText", 0);
+	g_Settings->bShowContactStatus = db_get_b(0, CHAT_MODULE, "ShowContactStatus", 0) != 0;
+	g_Settings->bContactStatusFirst = db_get_b(0, CHAT_MODULE, "ContactStatusFirst", 0) != 0;
 
 	LoadColors();
 
@@ -244,17 +244,17 @@ void LoadGlobalSettings(void)
 	InitSetting(&g_Settings->pszHighlightWords, "HighlightWords", L"%m");
 
 	InitSetting(&g_Settings->pszLogDir, "LogDirectory", L"%miranda_logpath%\\%proto%\\%userid%.log");
-	g_Settings->bLogIndentEnabled = db_get_b(NULL, CHAT_MODULE, "LogIndentEnabled", 1) != 0;
+	g_Settings->bLogIndentEnabled = db_get_b(0, CHAT_MODULE, "LogIndentEnabled", 1) != 0;
 
 	LOGFONT lf;
 	if (g_Settings->UserListFont)
 		DeleteObject(g_Settings->UserListFont);
-	LoadMsgDlgFont(18, &lf, NULL);
+	LoadMsgDlgFont(18, &lf, nullptr);
 	g_Settings->UserListFont = CreateFontIndirect(&lf);
 
 	if (g_Settings->UserListHeadingsFont)
 		DeleteObject(g_Settings->UserListHeadingsFont);
-	LoadMsgDlgFont(19, &lf, NULL);
+	LoadMsgDlgFont(19, &lf, nullptr);
 	g_Settings->UserListHeadingsFont = CreateFontIndirect(&lf);
 
 	SetIndentSize();
@@ -262,7 +262,7 @@ void LoadGlobalSettings(void)
 
 static void FreeGlobalSettings(void)
 {
-	if (g_Settings == NULL)
+	if (g_Settings == nullptr)
 		return;
 
 	mir_free(g_Settings->pszTimeStamp);
@@ -283,9 +283,9 @@ void SetIndentSize()
 {
 	if (g_Settings->bShowTime) {
 		LOGFONT lf;
-		LoadMsgDlgFont(0, &lf, NULL);
+		LoadMsgDlgFont(0, &lf, nullptr);
 		HFONT hFont = CreateFontIndirect(&lf);
-		int iText = GetTextPixelSize(MakeTimeStamp(g_Settings->pszTimeStamp, time(NULL)), hFont, TRUE);
+		int iText = GetTextPixelSize(MakeTimeStamp(g_Settings->pszTimeStamp, time(nullptr)), hFont, TRUE);
 		DeleteObject(hFont);
 		g_Settings->LogTextIndent = iText * 12 / 10;
 	}
@@ -297,13 +297,13 @@ int GetTextPixelSize(wchar_t* pszText, HFONT hFont, BOOL bWidth)
 	if (!pszText || !hFont)
 		return 0;
 
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
 
 	RECT rc = { 0 };
 	DrawText(hdc, pszText, -1, &rc, DT_CALCRECT);
 	SelectObject(hdc, hOldFont);
-	ReleaseDC(NULL, hdc);
+	ReleaseDC(nullptr, hdc);
 	return bWidth ? rc.right - rc.left : rc.bottom - rc.top;
 }
 
@@ -312,16 +312,16 @@ int OptionsInit(void)
 	LoadLogFonts();
 
 	LOGFONT lf;
-	LoadMsgDlgFont(18, &lf, NULL);
+	LoadMsgDlgFont(18, &lf, nullptr);
 	mir_wstrcpy(lf.lfFaceName, L"MS Shell Dlg");
 	lf.lfUnderline = lf.lfItalic = lf.lfStrikeOut = 0;
 	lf.lfHeight = -17;
 	lf.lfWeight = FW_BOLD;
 	g_Settings->NameFont = CreateFontIndirect(&lf);
-	g_Settings->UserListFont = NULL;
-	g_Settings->UserListHeadingsFont = NULL;
-	g_Settings->iWidth = db_get_dw(NULL, CHAT_MODULE, "roomwidth", -1);
-	g_Settings->iHeight = db_get_dw(NULL, CHAT_MODULE, "roomheight", -1);
+	g_Settings->UserListFont = nullptr;
+	g_Settings->UserListHeadingsFont = nullptr;
+	g_Settings->iWidth = db_get_dw(0, CHAT_MODULE, "roomwidth", -1);
+	g_Settings->iHeight = db_get_dw(0, CHAT_MODULE, "roomheight", -1);
 
 	SkinAddNewSoundEx("ChatMessage", LPGEN("Group chats"), LPGEN("Incoming message"));
 	SkinAddNewSoundEx("ChatHighlight", LPGEN("Group chats"), LPGEN("Message is highlighted"));

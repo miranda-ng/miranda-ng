@@ -40,8 +40,8 @@ wchar_t* RemoveFormatting(const wchar_t *pszWord)
 {
 	static wchar_t szTemp[10000];
 
-	if (pszWord == NULL)
-		return NULL;
+	if (pszWord == nullptr)
+		return nullptr;
 
 	wchar_t *d = szTemp;
 	size_t cbLen = mir_wstrlen(pszWord);
@@ -184,7 +184,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char *pszProtoNa
 		pd.lchIcon = LoadIconEx("window", FALSE);
 
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
-	mir_snwprintf(pd.lptzContactName, L"%s - %s", (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName, cli.pfnGetContactDisplayName(hContact, 0));
+	mir_snwprintf(pd.lptzContactName, L"%s - %s", (pa == nullptr) ? _A2T(pszProtoName) : pa->tszAccountName, cli.pfnGetContactDisplayName(hContact, 0));
 	mir_wstrncpy(pd.lptzText, TranslateW(szBuf), _countof(pd.lptzText));
 	pd.iSeconds = g_Settings->iPopupTimeout;
 
@@ -273,7 +273,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	if (!gce || !si || gce->bIsMe || si->iType == GCW_SERVER)
 		return FALSE;
 
-	BOOL bInactive = si->pDlg == NULL || GetForegroundWindow() != si->pDlg->GetHwnd();
+	BOOL bInactive = si->pDlg == nullptr || GetForegroundWindow() != si->pDlg->GetHwnd();
 
 	int iEvent = gce->pDest->iType;
 
@@ -383,9 +383,9 @@ void CheckColorsInModule(const char *pszModule)
 	MODULEINFO *pMod = chatApi.MM_FindModule(pszModule);
 	int i = 0;
 	COLORREF crFG;
-	COLORREF crBG = (COLORREF)db_get_dw(NULL, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
+	COLORREF crBG = (COLORREF)db_get_dw(0, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
 
-	LoadMsgDlgFont(17, NULL, &crFG);
+	LoadMsgDlgFont(17, nullptr, &crFG);
 
 	if (!pMod)
 		return;
@@ -408,7 +408,7 @@ const wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2)
 			if (!s2[k + 1])
 				return s1 + i;
 
-	return NULL;
+	return nullptr;
 }
 
 static wchar_t szTrimString[] = L":,.!?;\'>)";
@@ -418,7 +418,7 @@ bool IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 	if (!g_Settings->bHighlightEnabled || !g_Settings->pszHighlightWords || !gce || !si || !si->pMe)
 		return FALSE;
 
-	if (gce->ptszText == NULL)
+	if (gce->ptszText == nullptr)
 		return FALSE;
 
 	wchar_t *buf = RemoveFormatting(NEWWSTR_ALLOCA(gce->ptszText));
@@ -471,11 +471,11 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	mir_wstrncpy(szTime, chatApi.MakeTimeStamp(g_Settings->pszTimeStampLog, gce->time), 99);
 
 	FILE *hFile = _wfopen(si->pszLogFileName, L"ab+");
-	if (hFile == NULL)
+	if (hFile == nullptr)
 		return FALSE;
 
 	wchar_t szTemp[512], szTemp2[512];
-	wchar_t* pszNick = NULL;
+	wchar_t* pszNick = nullptr;
 	if (bFileJustCreated)
 		fputws((const wchar_t*)"\377\376", hFile);		//UTF-16 LE BOM == FF FE
 	if (gce->ptszNick) {
@@ -708,8 +708,8 @@ wchar_t* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 		rva[9].key.w = L"weekday";
 		rva[9].value.w = mir_wstrdup(chatApi.MakeTimeStamp(L"%A", tTime));
 		// end of array
-		rva[10].key.w = NULL;
-		rva[10].value.w = NULL;
+		rva[10].key.w = nullptr;
+		rva[10].value.w = nullptr;
 
 		wchar_t tszTemp[MAX_PATH], *ptszVarPath;
 		if (g_Settings->pszLogDir[mir_wstrlen(g_Settings->pszLogDir) - 1] == '\\') {
@@ -743,8 +743,8 @@ wchar_t* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *parentdat)
 {
 	static int currentHovered = -1;
-	static HWND hwndToolTip = NULL;
-	static HWND oldParent = NULL;
+	static HWND hwndToolTip = nullptr;
+	static HWND oldParent = nullptr;
 
 	if (hoveredItem == currentHovered)
 		return;
@@ -754,7 +754,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 	if (oldParent != hwnd && hwndToolTip) {
 		SendMessage(hwndToolTip, TTM_DELTOOL, 0, 0);
 		DestroyWindow(hwndToolTip);
-		hwndToolTip = NULL;
+		hwndToolTip = nullptr;
 	}
 
 	if (hoveredItem == -1) {
@@ -765,10 +765,10 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 	bool bNewTip = false;
 	if (!hwndToolTip) {
 		bNewTip = true;
-		hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL,
+		hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, nullptr,
 			WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
 			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-			hwnd, NULL, g_hInst, NULL);
+			hwnd, nullptr, g_hInst, nullptr);
 	}
 
 	RECT clientRect;
@@ -787,7 +787,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 	if (ui1) {
 		if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
 			wchar_t *p = (wchar_t*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
-			if (p != NULL) {
+			if (p != nullptr) {
 				wcsncpy_s(tszBuf, p, _TRUNCATE);
 				mir_free(p);
 			}
@@ -802,7 +802,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 	}
 
 	SendMessage(hwndToolTip, bNewTip ? TTM_ADDTOOL : TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
-	SendMessage(hwndToolTip, TTM_ACTIVATE, (ti.lpszText != NULL), 0);
+	SendMessage(hwndToolTip, TTM_ACTIVATE, (ti.lpszText != nullptr), 0);
 	SendMessage(hwndToolTip, TTM_SETMAXTIPWIDTH, 0, 400);
 }
 
@@ -886,7 +886,7 @@ MIR_APP_DLL(void) Chat_HoverMouse(SESSION_INFO *si, HWND hwnd, LPARAM lParam, bo
 					si->bHasToolTip = false;
 				}
 			}
-			else ProcessNickListHovering(hwnd, -1, NULL);
+			else ProcessNickListHovering(hwnd, -1, nullptr);
 		}
 	}
 }

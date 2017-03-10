@@ -50,7 +50,7 @@ Here you can set up your IM accounts.\n\n\
 Select an account from the list on the left to see the available options. \
 Alternatively, just click on the Plus sign underneath the list to set up a new IM account.")
 
-static class CAccountManagerDlg *pAccMgr = NULL;
+static class CAccountManagerDlg *pAccMgr = nullptr;
 
 extern HANDLE hAccListChanged;
 
@@ -59,8 +59,8 @@ int UnloadPlugin(wchar_t* buf, int bufLen);
 PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBaseProto, const wchar_t *tszAccountName)
 {
 	PROTOACCOUNT *pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
-	if (pa == NULL)
-		return NULL;
+	if (pa == nullptr)
+		return nullptr;
 
 	pa->cbSize = sizeof(PROTOACCOUNT);
 	pa->bIsEnabled = pa->bIsVisible = true;
@@ -73,7 +73,7 @@ PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBasePr
 		int count = 1;
 		while (true) {
 			mir_snprintf(buf, "%s_%d", szBaseProto, count++);
-			if (ptrA(db_get_sa(NULL, buf, "AM_BaseProto")) == NULL)
+			if (ptrA(db_get_sa(0, buf, "AM_BaseProto")) == nullptr)
 				break;
 		}
 		pa->szModuleName = mir_strdup(buf);
@@ -82,12 +82,12 @@ PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBasePr
 
 	pa->tszAccountName = mir_wstrdup(tszAccountName);
 
-	db_set_s(NULL, pa->szModuleName, "AM_BaseProto", szBaseProto);
+	db_set_s(0, pa->szModuleName, "AM_BaseProto", szBaseProto);
 	accounts.insert(pa);
 
 	if (ActivateAccount(pa)) {
 		pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
-		if (!db_get_b(NULL, "CList", "MoveProtoMenus", true))
+		if (!db_get_b(0, "CList", "MoveProtoMenus", true))
 			pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
 	}
 
@@ -108,7 +108,7 @@ static bool FindAccountByName(const char *szModuleName)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Account edit form
-// gets PROTOACCOUNT* as a parameter, or NULL to edit a new one
+// gets PROTOACCOUNT* as a parameter, or nullptr to edit a new one
 
 class ÑAccountFormDlg : public CDlgBase
 {
@@ -238,7 +238,7 @@ public:
 	CAccountListCtrl(CDlgBase *dlg, int ctrlId) :
 		CCtrlListBox(dlg, ctrlId),
 		m_iItem(-1),
-		m_hwndEdit(NULL)
+		m_hwndEdit(nullptr)
 	{}
 
 	__forceinline CAccountManagerDlg* PARENT() { return (CAccountManagerDlg*)m_parentWnd; }
@@ -284,7 +284,7 @@ class CAccountManagerDlg : public CDlgBase
 
 		m_iSelected = iItem;
 		m_accList.SetItemHeight(m_iSelected, m_selectedHeight);
-		RedrawWindow(m_accList.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
+		RedrawWindow(m_accList.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 	}
 
 	void UpdateAccountInfo()
@@ -320,7 +320,7 @@ class CAccountManagerDlg : public CDlgBase
 						ShowWindow(GetDlgItem(m_hwnd, IDC_TXT_INFO), SW_HIDE);
 
 						GetWindowRect(GetDlgItem(m_hwnd, IDC_TXT_INFO), &rc);
-						MapWindowPoints(NULL, m_hwnd, (LPPOINT)&rc, 2);
+						MapWindowPoints(nullptr, m_hwnd, (LPPOINT)&rc, 2);
 						SetWindowPos(hwnd, m_accList.GetHwnd(), rc.left, rc.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 
 						pa->hwndAccMgrUI = hwnd;
@@ -419,7 +419,7 @@ public:
 		m_iSelected = -1;
 		SendMessage(m_hwnd, WM_MY_REFRESH, 0, 0);
 
-		Utils_RestoreWindowPositionNoSize(m_hwnd, NULL, "AccMgr", "");
+		Utils_RestoreWindowPositionNoSize(m_hwnd, 0, "AccMgr", "");
 	}
 
 	virtual void OnApply() override
@@ -459,7 +459,7 @@ public:
 			pa->bAccMgrUIChanged = FALSE;
 			if (pa->hwndAccMgrUI) {
 				::DestroyWindow(pa->hwndAccMgrUI);
-				pa->hwndAccMgrUI = NULL;
+				pa->hwndAccMgrUI = nullptr;
 			}
 		}
 
@@ -469,10 +469,10 @@ public:
 		Button_FreeIcon_IcoLib(m_hwnd, IDC_REMOVE);
 		Button_FreeIcon_IcoLib(m_hwnd, IDC_OPTIONS);
 		Button_FreeIcon_IcoLib(m_hwnd, IDC_UPGRADE);
-		Utils_SaveWindowPosition(m_hwnd, NULL, "AccMgr", "");
+		Utils_SaveWindowPosition(m_hwnd, 0, "AccMgr", "");
 		DeleteObject(m_hfntTitle);
 		DeleteObject(m_hfntText);
-		pAccMgr = NULL;
+		pAccMgr = nullptr;
 	}
 
 	void OnListMenu(void*)
@@ -505,7 +505,7 @@ public:
 		if (pa->bOldProto || pa->bDynDisabled)
 			AppendMenu(hMenu, MF_STRING, 5, TranslateT("Upgrade"));
 
-		switch (TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, NULL)) {
+		switch (TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr)) {
 		case 1:
 			m_accList.InitRename();
 			break;
@@ -544,19 +544,19 @@ public:
 	void OnAccountCheck(int iItem)
 	{
 		PROTOACCOUNT *pa = (PROTOACCOUNT*)m_accList.GetItemData(iItem);
-		if (pa == NULL || pa->bOldProto || pa->bDynDisabled)
+		if (pa == nullptr || pa->bOldProto || pa->bDynDisabled)
 			return;
 
 		pa->bIsEnabled = !pa->bIsEnabled;
 		if (pa->bIsEnabled) {
 			if (ActivateAccount(pa)) {
 				pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
-				if (!db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
+				if (!db_get_b(0, "CList", "MoveProtoMenus", TRUE))
 					pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
 			}
 		}
 		else {
-			DWORD dwStatus = CallProtoServiceInt(NULL, pa->szModuleName, PS_GETSTATUS, 0, 0);
+			DWORD dwStatus = CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0);
 			if (dwStatus >= ID_STATUS_ONLINE) {
 				wchar_t buf[200];
 				mir_snwprintf(buf, TranslateT("Account %s is being disabled"), pa->tszAccountName);
@@ -571,7 +571,7 @@ public:
 		WriteDbAccounts();
 		NotifyEventHooks(hAccListChanged, PRAC_CHECKED, (LPARAM)pa);
 		UpdateAccountInfo();
-		RedrawWindow(m_accList.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
+		RedrawWindow(m_accList.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 	}
 
 	void OnOk(CCtrlButton*)
@@ -594,7 +594,7 @@ public:
 
 	void OnAdd(CCtrlButton*)
 	{
-		if (IDOK == ÑAccountFormDlg(this, PRAC_ADDED, NULL).DoModal())
+		if (IDOK == ÑAccountFormDlg(this, PRAC_ADDED, nullptr).DoModal())
 			SendMessage(m_hwnd, WM_MY_REFRESH, 0, 0);
 	}
 
@@ -679,13 +679,13 @@ public:
 			m_iSelected = -1;
 			{
 				int i = m_accList.GetCurSel();
-				PROTOACCOUNT *acc = (i == LB_ERR) ? NULL : (PROTOACCOUNT *)m_accList.GetItemData(i);
+				PROTOACCOUNT *acc = (i == LB_ERR) ? nullptr : (PROTOACCOUNT *)m_accList.GetItemData(i);
 
 				m_accList.ResetContent();
 				for (i = 0; i < accounts.getCount(); i++) {
 					PROTOACCOUNT *p = accounts[i];
 					PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(p->szProtoName);
-					if (pd != NULL && pd->type != PROTOTYPE_PROTOCOL)
+					if (pd != nullptr && pd->type != PROTOTYPE_PROTOCOL)
 						continue;
 
 					int iItem = m_accList.AddString(p->tszAccountName);
@@ -722,7 +722,7 @@ public:
 						m_accList.SetCurSel(iItem);
 
 						SelectItem(iItem);
-						RedrawWindow(m_accList.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
+						RedrawWindow(m_accList.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 					}
 					else mir_free((wchar_t*)lParam);
 				}
@@ -761,7 +761,7 @@ BOOL CAccountListCtrl::OnDrawItem(DRAWITEMSTRUCT *lps)
 	int cyIcon = g_iIconSY;
 
 	PROTOACCOUNT *acc = (PROTOACCOUNT *)lps->itemData;
-	if (lps->itemID == -1 || acc == NULL)
+	if (lps->itemID == -1 || acc == nullptr)
 		return FALSE;
 
 	SetBkMode(lps->hDC, TRANSPARENT);
@@ -823,8 +823,8 @@ BOOL CAccountListCtrl::OnDrawItem(DRAWITEMSTRUCT *lps)
 		if (acc->ppro && Proto_IsProtocolLoaded(acc->szProtoName)) {
 			char *szIdName = (char *)acc->ppro->GetCaps(PFLAG_UNIQUEIDTEXT, 0);
 			ptrW tszIdName(szIdName ? mir_a2u(szIdName) : mir_wstrdup(TranslateT("Account ID")));
-			ptrW tszUniqueID(Contact_GetInfo(CNF_UNIQUEID, NULL, acc->szModuleName));
-			if (tszUniqueID != NULL)
+			ptrW tszUniqueID(Contact_GetInfo(CNF_UNIQUEID, 0, acc->szModuleName));
+			if (tszUniqueID != nullptr)
 				text.Format(L"%s: %s", tszIdName, tszUniqueID);
 			else
 				text.Format(L"%s: %s", tszIdName, TranslateT("<unknown>"));
@@ -842,7 +842,7 @@ BOOL CAccountListCtrl::OnDrawItem(DRAWITEMSTRUCT *lps)
 BOOL CAccountListCtrl::OnMeasureItem(MEASUREITEMSTRUCT *lps)
 {
 	PROTOACCOUNT *acc = (PROTOACCOUNT*)lps->itemData;
-	if (acc == NULL)
+	if (acc == nullptr)
 		return FALSE;
 
 	lps->itemWidth = 10;
@@ -968,7 +968,7 @@ void CAccountListCtrl::InitRename()
 	rc.bottom = rc.top + max(g_iIconSX, PARENT()->m_titleHeight) + 4 - 1;
 	++rc.top; --rc.right;
 
-	m_hwndEdit = ::CreateWindow(L"EDIT", pa->tszAccountName, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, m_hwnd, NULL, g_hInst, NULL);
+	m_hwndEdit = ::CreateWindow(L"EDIT", pa->tszAccountName, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, m_hwnd, nullptr, g_hInst, nullptr);
 	mir_subclassWindow(m_hwndEdit, sttEditSubclassProc);
 	SendMessage(m_hwndEdit, WM_SETFONT, (WPARAM)PARENT()->m_hfntTitle, 0);
 	SendMessage(m_hwndEdit, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN | EC_USEFONTINFO, 0);
@@ -1024,7 +1024,7 @@ static int OnAccListChanged(WPARAM eventCode, LPARAM lParam)
 
 static int ShutdownAccMgr(WPARAM, LPARAM)
 {
-	delete pAccMgr; pAccMgr = NULL;
+	delete pAccMgr; pAccMgr = nullptr;
 	return 0;
 }
 

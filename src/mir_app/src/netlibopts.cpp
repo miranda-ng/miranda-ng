@@ -105,7 +105,7 @@ static void CopySettingsStruct(NETLIBUSERSETTINGS *dest, const NETLIBUSERSETTING
 
 static void CombineSettingsStrings(char **dest, char **source)
 {
-	if (*dest != NULL && (*source == NULL || mir_strcmpi(*dest, *source))) { mir_free(*dest); *dest = NULL; }
+	if (*dest != nullptr && (*source == nullptr || mir_strcmpi(*dest, *source))) { mir_free(*dest); *dest = nullptr; }
 }
 
 static void CombineSettingsStructs(NETLIBUSERSETTINGS *dest, DWORD *destFlags, NETLIBUSERSETTINGS *source, DWORD sourceFlags)
@@ -201,22 +201,22 @@ static void ChangeSettingStringByEdit(HWND hwndDlg, UINT ctrlId, int iUser, int 
 static void WriteSettingsStructToDb(const char *szSettingsModule, NETLIBUSERSETTINGS *settings, DWORD flags)
 {
 	if (flags & NUF_OUTGOING) {
-		db_set_b(NULL, szSettingsModule, "NLValidateSSL", (BYTE)settings->validateSSL);
-		db_set_b(NULL, szSettingsModule, "NLUseProxy", (BYTE)settings->useProxy);
-		db_set_b(NULL, szSettingsModule, "NLProxyType", (BYTE)settings->proxyType);
-		db_set_s(NULL, szSettingsModule, "NLProxyServer", settings->szProxyServer ? settings->szProxyServer : "");
-		db_set_w(NULL, szSettingsModule, "NLProxyPort", (WORD)settings->wProxyPort);
-		db_set_b(NULL, szSettingsModule, "NLUseProxyAuth", (BYTE)settings->useProxyAuth);
-		db_set_s(NULL, szSettingsModule, "NLProxyAuthUser", settings->szProxyAuthUser ? settings->szProxyAuthUser : "");
-		db_set_s(NULL, szSettingsModule, "NLProxyAuthPassword", settings->szProxyAuthPassword ? settings->szProxyAuthPassword : "");
-		db_set_b(NULL, szSettingsModule, "NLDnsThroughProxy", (BYTE)settings->dnsThroughProxy);
-		db_set_b(NULL, szSettingsModule, "NLSpecifyOutgoingPorts", (BYTE)settings->specifyOutgoingPorts);
-		db_set_s(NULL, szSettingsModule, "NLOutgoingPorts", settings->szOutgoingPorts ? settings->szOutgoingPorts : "");
+		db_set_b(0, szSettingsModule, "NLValidateSSL", (BYTE)settings->validateSSL);
+		db_set_b(0, szSettingsModule, "NLUseProxy", (BYTE)settings->useProxy);
+		db_set_b(0, szSettingsModule, "NLProxyType", (BYTE)settings->proxyType);
+		db_set_s(0, szSettingsModule, "NLProxyServer", settings->szProxyServer ? settings->szProxyServer : "");
+		db_set_w(0, szSettingsModule, "NLProxyPort", (WORD)settings->wProxyPort);
+		db_set_b(0, szSettingsModule, "NLUseProxyAuth", (BYTE)settings->useProxyAuth);
+		db_set_s(0, szSettingsModule, "NLProxyAuthUser", settings->szProxyAuthUser ? settings->szProxyAuthUser : "");
+		db_set_s(0, szSettingsModule, "NLProxyAuthPassword", settings->szProxyAuthPassword ? settings->szProxyAuthPassword : "");
+		db_set_b(0, szSettingsModule, "NLDnsThroughProxy", (BYTE)settings->dnsThroughProxy);
+		db_set_b(0, szSettingsModule, "NLSpecifyOutgoingPorts", (BYTE)settings->specifyOutgoingPorts);
+		db_set_s(0, szSettingsModule, "NLOutgoingPorts", settings->szOutgoingPorts ? settings->szOutgoingPorts : "");
 	}
 	if (flags & NUF_INCOMING) {
-		db_set_b(NULL, szSettingsModule, "NLEnableUPnP", (BYTE)settings->enableUPnP);
-		db_set_b(NULL, szSettingsModule, "NLSpecifyIncomingPorts", (BYTE)settings->specifyIncomingPorts);
-		db_set_s(NULL, szSettingsModule, "NLIncomingPorts", settings->szIncomingPorts ? settings->szIncomingPorts : "");
+		db_set_b(0, szSettingsModule, "NLEnableUPnP", (BYTE)settings->enableUPnP);
+		db_set_b(0, szSettingsModule, "NLSpecifyIncomingPorts", (BYTE)settings->specifyIncomingPorts);
+		db_set_s(0, szSettingsModule, "NLIncomingPorts", settings->szIncomingPorts ? settings->szIncomingPorts : "");
 	}
 }
 
@@ -227,7 +227,7 @@ void NetlibSaveUserSettingsStruct(const char *szSettingsModule, const NETLIBUSER
 	NetlibUser tUser;
 	tUser.user.szSettingsModule = (char*)szSettingsModule;
 	NetlibUser *thisUser = netlibUser.find(&tUser);
-	if (thisUser == NULL)
+	if (thisUser == nullptr)
 		return;
 
 	NetlibFreeUserSettingsStruct(&thisUser->settings);
@@ -448,7 +448,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_PROXYPORT:
 			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0;
 			{
-				int newValue = GetDlgItemInt(hwndDlg, LOWORD(wParam), NULL, FALSE);
+				int newValue = GetDlgItemInt(hwndDlg, LOWORD(wParam), nullptr, FALSE);
 				if (iUser == -1) {
 					for (int i = 0; i < tempSettings.getCount(); i++) {
 						NetlibTempSettings *p = tempSettings[i];

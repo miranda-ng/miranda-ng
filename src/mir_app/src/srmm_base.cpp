@@ -34,9 +34,9 @@ CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si
 	m_pEntry(nullptr),
 	m_hContact(0)
 {
-	m_bFilterEnabled = db_get_b(NULL, CHAT_MODULE, "FilterEnabled", 0) != 0;
-	m_bNicklistEnabled = db_get_b(NULL, CHAT_MODULE, "ShowNicklist", 1) != 0;
-	m_iLogFilterFlags = db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
+	m_bFilterEnabled = db_get_b(0, CHAT_MODULE, "FilterEnabled", 0) != 0;
+	m_bNicklistEnabled = db_get_b(0, CHAT_MODULE, "ShowNicklist", 1) != 0;
+	m_iLogFilterFlags = db_get_dw(0, CHAT_MODULE, "FilterFlags", 0x03E0);
 
 	if (si) {
 		m_hContact = si->hContact;
@@ -83,7 +83,7 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					tr.chrg = pLink->chrg;
 					tr.lpstrText = wszText.GetBuffer();
 					m_pLog->SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-					if (wcschr(tr.lpstrText, '@') != NULL && wcschr(tr.lpstrText, ':') == NULL && wcschr(tr.lpstrText, '/') == NULL)
+					if (wcschr(tr.lpstrText, '@') != nullptr && wcschr(tr.lpstrText, ':') == nullptr && wcschr(tr.lpstrText, '/') == nullptr)
 						wszText.Insert(0, L"mailto:");
 
 					if (pLink->msg == WM_RBUTTONDOWN) {
@@ -94,7 +94,7 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 						POINT pt = { GET_X_LPARAM(pLink->lParam), GET_Y_LPARAM(pLink->lParam) };
 						ClientToScreen(((NMHDR *)lParam)->hwndFrom, &pt);
 
-						switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, NULL)) {
+						switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr)) {
 						case IDM_OPENLINK:
 							Utils_OpenUrlW(wszText);
 							break;

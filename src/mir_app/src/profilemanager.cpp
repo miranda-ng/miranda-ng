@@ -258,7 +258,7 @@ class CChooseProfileDlg : public CDlgBase
 
 		wchar_t *p = wcsrchr(profile, '.');
 		mir_wstrcpy(sizeBuf, L"0 KB");
-		if (p != NULL) *p = 0;
+		if (p != nullptr) *p = 0;
 
 		LVITEM item = { 0 };
 		item.mask = LVIF_TEXT | LVIF_IMAGE;
@@ -298,7 +298,7 @@ class CChooseProfileDlg : public CDlgBase
 
 		list.SetItemText(iItem, 2, sizeBuf);
 
-		if (dblink != NULL) {
+		if (dblink != nullptr) {
 			if (bFileLocked) // file locked
 				list.SetItemText(iItem, 1, TranslateT("<In use>"));
 			else
@@ -343,7 +343,7 @@ class CChooseProfileDlg : public CDlgBase
 			return;
 
 		mir_snwprintf(profilef, TranslateT("Are you sure you want to remove profile \"%s\"?"), profile);
-		if (IDYES != MessageBox(NULL, profilef, L"Miranda NG", MB_YESNO | MB_TASKMODAL | MB_ICONWARNING))
+		if (IDYES != MessageBox(nullptr, profilef, L"Miranda NG", MB_YESNO | MB_TASKMODAL | MB_ICONWARNING))
 			return;
 
 		mir_snwprintf(profilef, L"%s\\%s%c", m_pd->ptszProfileDir, profile, 0);
@@ -421,17 +421,17 @@ class CChooseProfileDlg : public CDlgBase
 		HMENU hMenu = CreatePopupMenu();
 		if (tvi.iImage < 2) {
 			AppendMenu(hMenu, MF_STRING, 1, TranslateT("Run"));
-			AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
+			AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
 		}
 		if (tvi.iImage != 3 && ServiceExists(MS_DB_CHECKPROFILE)) {
 			if (bConvert)
 				AppendMenu(hMenu, MF_STRING, 2, TranslateT("Convert database"));
 			else
 				AppendMenu(hMenu, MF_STRING, 2, TranslateT("Check database"));
-			AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
+			AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
 		}
 		AppendMenu(hMenu, MF_STRING, 3, TranslateT("Delete"));
-		int index = TrackPopupMenu(hMenu, TPM_RETURNCMD, lvht.pt.x, lvht.pt.y, 0, m_hwnd, NULL);
+		int index = TrackPopupMenu(hMenu, TPM_RETURNCMD, lvht.pt.x, lvht.pt.y, 0, m_hwnd, nullptr);
 		switch (index) {
 		case 1:
 			SendMessage(GetParent(m_hwndParent), WM_COMMAND, IDOK, 0);
@@ -498,7 +498,7 @@ public:
 
 		m_hFileNotify = FindFirstChangeNotification(m_pd->ptszProfileDir, TRUE, FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE);
 		if (m_hFileNotify != INVALID_HANDLE_VALUE)
-			SetTimer(m_hwnd, 0, 1200, NULL);
+			SetTimer(m_hwnd, 0, 1200, nullptr);
 	}
 
 	virtual void OnDestroy()
@@ -591,8 +591,8 @@ public:
 	{
 		m_btnOk.OnClick = Callback(this, &CProfileManager::onOk);
 
-		m_tab.AddPage(LPGENW("My profiles"), NULL, new CChooseProfileDlg(m_btnOk, m_pd));
-		m_tab.AddPage(LPGENW("New profile"), NULL, new CCreateProfileDlg(m_btnOk, m_pd));
+		m_tab.AddPage(LPGENW("My profiles"), nullptr, new CChooseProfileDlg(m_btnOk, m_pd));
+		m_tab.AddPage(LPGENW("New profile"), nullptr, new CCreateProfileDlg(m_btnOk, m_pd));
 	}
 	
 	virtual void OnInitDialog()

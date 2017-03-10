@@ -46,7 +46,7 @@ static int FillList(HWND list, BOOL sort)
 	for (MCONTACT hMetaUser = db_find_first(); hMetaUser; hMetaUser = db_find_next(hMetaUser)) {
 		// if it's not a MetaContact, go to the next
 		DBCachedContact *cc = CheckMeta(hMetaUser);
-		if (cc == NULL)
+		if (cc == nullptr)
 			continue;
 
 		// get contact display name from clist
@@ -134,7 +134,7 @@ CMetaSelectDlg::CMetaSelectDlg(MCONTACT hContact)
 void CMetaSelectDlg::OnInitDialog()
 {
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(m_hContact);
-	if (cc == NULL)
+	if (cc == nullptr)
 	{
 		Close();
 		return;

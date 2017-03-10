@@ -28,20 +28,20 @@ char** __fastcall Proto_FilesMatrixA(wchar_t **files);
 
 void FreeFilesMatrix(wchar_t ***files)
 {
-	if (*files == NULL)
+	if (*files == nullptr)
 		return;
 
 	// Free each filename in the pointer array
 	wchar_t **pFile = *files;
-	while (*pFile != NULL) {
+	while (*pFile != nullptr) {
 		mir_free(*pFile);
-		*pFile = NULL;
+		*pFile = nullptr;
 		pFile++;
 	}
 
 	// Free the array itself
 	mir_free(*files);
-	*files = NULL;
+	*files = nullptr;
 }
 
 struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE

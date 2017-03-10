@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static INT_PTR MetaAPI_GetMostOnline(WPARAM hMetaContact, LPARAM)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
-	return (cc == NULL) ? NULL : Meta_GetMostOnline(cc);
+	return (cc == nullptr) ? 0 : Meta_GetMostOnline(cc);
 }
 
 // wParam=(HANDLE)hContact

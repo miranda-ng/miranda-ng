@@ -42,7 +42,7 @@ struct CDropTarget : IDropTarget
 }
 static dropTarget;
 
-static HWND hwndCurrentDrag = NULL;
+static HWND hwndCurrentDrag = nullptr;
 static int originalSelection;
 
 HRESULT CDropTarget::QueryInterface(REFIID riid, LPVOID * ppvObj)
@@ -52,7 +52,7 @@ HRESULT CDropTarget::QueryInterface(REFIID riid, LPVOID * ppvObj)
 		AddRef();
 		return S_OK;
 	}
-	*ppvObj = NULL;
+	*ppvObj = nullptr;
 	return E_NOINTERFACE;
 }
 
@@ -74,19 +74,19 @@ static MCONTACT HContactFromPoint(HWND hwnd, ClcData *dat, int x, int y, int *hi
 {
 	DWORD hitFlags;
 	ClcContact *contact;
-	int hit = cli.pfnHitTest(hwnd, dat, x, y, &contact, NULL, &hitFlags);
+	int hit = cli.pfnHitTest(hwnd, dat, x, y, &contact, nullptr, &hitFlags);
 	if (hit == -1 || !(hitFlags & (CLCHT_ONITEMLABEL | CLCHT_ONITEMICON)) || contact->type != CLCIT_CONTACT)
-		return NULL;
+		return 0;
 
 	char *szProto = GetContactProto(contact->hContact);
-	if (szProto == NULL)
-		return NULL;
+	if (szProto == nullptr)
+		return 0;
 
-	DWORD protoCaps = CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+	DWORD protoCaps = CallProtoServiceInt(0,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 	if (!(protoCaps & PF1_FILESEND))
-		return NULL;
+		return 0;
 	if (ID_STATUS_OFFLINE == db_get_w(contact->hContact, szProto, "Status", ID_STATUS_OFFLINE))
-		return NULL;
+		return 0;
 	if (hitLine)
 		*hitLine = hit;
 	return contact->hContact;
@@ -103,7 +103,7 @@ HRESULT CDropTarget::DragOver(DWORD /*grfKeyState*/, POINTL pt, DWORD * pdwEffec
 		pDropTargetHelper->DragOver((POINT*)&pt, *pdwEffect);
 
 	*pdwEffect = 0;
-	if (hwndCurrentDrag == NULL) {
+	if (hwndCurrentDrag == nullptr) {
 		*pdwEffect = DROPEFFECT_NONE;
 		return S_OK;
 	}
@@ -119,7 +119,7 @@ HRESULT CDropTarget::DragOver(DWORD /*grfKeyState*/, POINTL pt, DWORD * pdwEffec
 		cli.pfnScrollTo(hwndCurrentDrag, dat, dat->yScroll + (shortPt.y < dat->dragAutoScrollHeight ? -1 : 1) * dat->rowHeight * 2, 0);
 	}
 	hContact = HContactFromPoint(hwndCurrentDrag, dat, shortPt.x, shortPt.y, &hit);
-	if (hContact == NULL) {
+	if (hContact == 0) {
 		hit = -1;
 		*pdwEffect |= DROPEFFECT_NONE;
 	}
@@ -128,7 +128,7 @@ HRESULT CDropTarget::DragOver(DWORD /*grfKeyState*/, POINTL pt, DWORD * pdwEffec
 
 	if (dat->selection != hit) {
 		dat->selection = hit;
-		cli.pfnInvalidateRect(hwndCurrentDrag, NULL, FALSE);
+		cli.pfnInvalidateRect(hwndCurrentDrag, nullptr, FALSE);
 		if (pDropTargetHelper) pDropTargetHelper->Show(FALSE);
 		UpdateWindow(hwndCurrentDrag);
 		if (pDropTargetHelper) pDropTargetHelper->Show(TRUE);
@@ -166,16 +166,16 @@ HRESULT CDropTarget::DragLeave(void)
 		ClcData *dat = (ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
 		dat->bShowSelAlways = false;
 		dat->selection = originalSelection;
-		cli.pfnInvalidateRect(hwndCurrentDrag, NULL, FALSE);
+		cli.pfnInvalidateRect(hwndCurrentDrag, nullptr, FALSE);
 	}
-	hwndCurrentDrag = NULL;
+	hwndCurrentDrag = nullptr;
 	return S_OK;
 }
 
 static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t *szFilename)
 {
 	*pppFiles = (wchar_t **) mir_realloc(*pppFiles, (++*totalCount + 1) * sizeof(wchar_t *));
-	(*pppFiles)[*totalCount] = NULL;
+	(*pppFiles)[*totalCount] = nullptr;
 	(*pppFiles)[*totalCount - 1] = mir_wstrdup(szFilename);
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
@@ -199,7 +199,7 @@ static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t *s
 
 HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt, DWORD * pdwEffect)
 {
-	FORMATETC fe = { CF_HDROP, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
+	FORMATETC fe = { CF_HDROP, nullptr, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
 	STGMEDIUM stg;
 	HDROP hDrop;
 	POINT shortPt;
@@ -208,7 +208,7 @@ HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt
 		pDropTargetHelper->Drop(pDataObj, (POINT*)&pt, *pdwEffect);
 
 	*pdwEffect = DROPEFFECT_NONE;
-	if (hwndCurrentDrag == NULL || S_OK != pDataObj->GetData(&fe, &stg))
+	if (hwndCurrentDrag == nullptr || S_OK != pDataObj->GetData(&fe, &stg))
 		return S_OK;
 	hDrop = (HDROP) stg.hGlobal;
 	ClcData *dat = (ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
@@ -216,14 +216,14 @@ HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt
 	shortPt.x = pt.x;
 	shortPt.y = pt.y;
 	ScreenToClient(hwndCurrentDrag, &shortPt);
-	MCONTACT hContact = HContactFromPoint(hwndCurrentDrag, dat, shortPt.x, shortPt.y, NULL);
-	if (hContact != NULL) {
-		wchar_t **ppFiles = NULL;
+	MCONTACT hContact = HContactFromPoint(hwndCurrentDrag, dat, shortPt.x, shortPt.y, nullptr);
+	if (hContact != 0) {
+		wchar_t **ppFiles = nullptr;
 		wchar_t szFilename[MAX_PATH];
 		int fileCount, totalCount = 0, i;
 
-		fileCount = DragQueryFile(hDrop, -1, NULL, 0);
-		ppFiles = NULL;
+		fileCount = DragQueryFile(hDrop, -1, nullptr, 0);
+		ppFiles = nullptr;
 		for (i=0; i < fileCount; i++) {
 			DragQueryFile(hDrop, i, szFilename, _countof(szFilename));
 			AddToFileList(&ppFiles, &totalCount, szFilename);
@@ -250,16 +250,16 @@ static VOID CALLBACK CreateDropTargetHelperTimerProc(HWND hwnd, UINT, UINT_PTR i
 {
 	KillTimer(hwnd, idEvent);
 	//This is a ludicrously slow function (~200ms) so we delay load it a bit.
-	if (S_OK != CoCreateInstance(CLSID_DragDropHelper, NULL, CLSCTX_INPROC_SERVER,
+	if (S_OK != CoCreateInstance(CLSID_DragDropHelper, nullptr, CLSCTX_INPROC_SERVER,
 		IID_IDropTargetHelper, (LPVOID*)&dropTarget.pDropTargetHelper))
-		dropTarget.pDropTargetHelper = NULL;
+		dropTarget.pDropTargetHelper = nullptr;
 }
 
 void InitFileDropping(void)
 {
 	// Disabled as this function loads tons of dlls for no apparenet reason
 	// we will se what the reaction will be
-//	SetTimer(NULL, 1, 1000, CreateDropTargetHelperTimerProc);
+//	SetTimer(nullptr, 1, 1000, CreateDropTargetHelperTimerProc);
 }
 
 void fnRegisterFileDropping(HWND hwnd)

@@ -56,7 +56,7 @@ void ExtraIconGroup::rebuildIcons()
 
 void ExtraIconGroup::applyIcon(MCONTACT hContact)
 {
-	if (!isEnabled() || hContact == NULL)
+	if (!isEnabled() || hContact == 0)
 		return;
 
 	m_setValidExtraIcon = false;
@@ -94,19 +94,19 @@ ExtraIcon * ExtraIconGroup::getCurrentItem(MCONTACT hContact) const
 {
 	int id = (int)db_get_dw(hContact, MODULE_NAME, m_szName, 0);
 	if (id < 1)
-		return NULL;
+		return nullptr;
 
 	for (int i = 0; i < m_items.getCount(); i++)
 		if (id == m_items[i]->getID())
 			return m_items[i];
 
-	return NULL;
+	return nullptr;
 }
 
 void ExtraIconGroup::onClick(MCONTACT hContact)
 {
 	ExtraIcon *extra = getCurrentItem(hContact);
-	if (extra != NULL)
+	if (extra != nullptr)
 		extra->onClick(hContact);
 }
 

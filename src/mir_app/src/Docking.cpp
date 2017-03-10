@@ -139,14 +139,14 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 
 	if (msg->message == WM_DESTROY) {
 		if (docked) {
-			db_set_b(NULL, "CList", "Docked", (BYTE)docked);
-			db_set_dw(NULL, "CList", "DockX", (DWORD)dockPos.x);
-			db_set_dw(NULL, "CList", "DockY", (DWORD)dockPos.y);
+			db_set_b(0, "CList", "Docked", (BYTE)docked);
+			db_set_dw(0, "CList", "DockX", (DWORD)dockPos.x);
+			db_set_dw(0, "CList", "DockY", (DWORD)dockPos.y);
 		}
 		else {
-			db_unset(NULL, "CList", "Docked");
-			db_unset(NULL, "CList", "DockX");
-			db_unset(NULL, "CList", "DockY");
+			db_unset(0, "CList", "Docked");
+			db_unset(0, "CList", "DockX");
+			db_unset(0, "CList", "DockY");
 		}
 	}
 
@@ -156,10 +156,10 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 	switch (msg->message) {
 	case WM_CREATE:
 		draggingTitle = 0;
-		docked = db_get_b(NULL, "CLUI", "DockToSides", 1) ?
-			(char)db_get_b(NULL, "CList", "Docked", 0) : 0;
-		dockPos.x = (int)db_get_dw(NULL, "CList", "DockX", 0);
-		dockPos.y = (int)db_get_dw(NULL, "CList", "DockY", 0);
+		docked = db_get_b(0, "CLUI", "DockToSides", 1) ?
+			(char)db_get_b(0, "CList", "Docked", 0) : 0;
+		dockPos.x = (int)db_get_dw(0, "CList", "DockX", 0);
+		dockPos.y = (int)db_get_dw(0, "CList", "DockY", 0);
 		break;
 
 	case WM_ACTIVATE:
@@ -265,7 +265,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 
 			if (((ptCursor.x < rcMonitor.left + EDGESENSITIVITY) ||
 				(ptCursor.x >= rcMonitor.right - EDGESENSITIVITY)) &&
-				db_get_b(NULL, "CLUI", "DockToSides", 1)) {
+				db_get_b(0, "CLUI", "DockToSides", 1)) {
 				docked = (ptCursor.x < rcMonitor.left + EDGESENSITIVITY) ? DOCKED_LEFT : DOCKED_RIGHT;
 				PostMessage(msg->hwnd, WM_LBUTTONUP, 0, MAKELPARAM(ptCursor.x, ptCursor.y));
 
@@ -325,8 +325,8 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 				PostMessage(msg->hwnd, WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(pt.x, pt.y));
 				SetWindowPos(msg->hwnd, 0, pt.x - rc.right / 2,
 					pt.y - GetSystemMetrics(SM_CYFRAME) - GetSystemMetrics(SM_CYSMCAPTION) / 2,
-					db_get_dw(NULL, "CList", "Width", 0),
-					db_get_dw(NULL, "CList", "Height", 0),
+					db_get_dw(0, "CList", "Width", 0),
+					db_get_dw(0, "CList", "Height", 0),
 					SWP_NOZORDER);
 				Docking_Command(msg->hwnd, ABM_REMOVE);
 			}

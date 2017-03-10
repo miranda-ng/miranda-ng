@@ -50,7 +50,7 @@ static int HttpGatewayReadSetResult(NetlibConnection *nlc, char *buf, int num, i
 void HttpGatewayRemovePacket(NetlibConnection *nlc, int pck)
 {
 	mir_cslock lck(nlc->csHttpSequenceNums);
-	while (pck-- && nlc->pHttpProxyPacketQueue != NULL) {
+	while (pck-- && nlc->pHttpProxyPacketQueue != nullptr) {
 		NetlibHTTPProxyPacketQueue *p = nlc->pHttpProxyPacketQueue;
 		nlc->pHttpProxyPacketQueue = nlc->pHttpProxyPacketQueue->next;
 
@@ -82,7 +82,7 @@ static bool NetlibHttpGatewaySend(NetlibConnection *nlc, RequestType reqType, co
 	case reqOldGet:
 		nlhrSend.requestType = REQUEST_GET;
 		nlhrSend.timeout = -1;
-		if ((nlc->nlhpi.flags & NLHPIF_USEGETSEQUENCE) && (nlc->nlhpi.szHttpGetUrl != NULL)) {
+		if ((nlc->nlhpi.flags & NLHPIF_USEGETSEQUENCE) && (nlc->nlhpi.szHttpGetUrl != nullptr)) {
 			mir_cslock lck(nlc->csHttpSequenceNums);
 			mir_snprintf(szUrl, "%s%u", nlc->nlhpi.szHttpGetUrl, nlc->nlhpi.firstGetSequence++);
 			if (nlc->nlhpi.flags & NLHPIF_GETPOSTSAMESEQUENCE)
@@ -94,7 +94,7 @@ static bool NetlibHttpGatewaySend(NetlibConnection *nlc, RequestType reqType, co
 
 	case reqOldPost:
 		nlhrSend.requestType = REQUEST_POST;
-		if ((nlc->nlhpi.flags & NLHPIF_USEPOSTSEQUENCE) && (nlc->nlhpi.szHttpPostUrl != NULL)) {
+		if ((nlc->nlhpi.flags & NLHPIF_USEPOSTSEQUENCE) && (nlc->nlhpi.szHttpPostUrl != nullptr)) {
 			mir_snprintf(szUrl, "%s%u", nlc->nlhpi.szHttpPostUrl, nlc->nlhpi.firstPostSequence);
 			nlhrSend.szUrl = szUrl;
 		}
@@ -142,7 +142,7 @@ static bool NetlibHttpGatewayStdPost(NetlibConnection *nlc, int &numPackets)
 	{
 		mir_cslock lck(nlc->csHttpSequenceNums);
 
-		for (p = nlc->pHttpProxyPacketQueue; p != NULL && np < nlc->nlhpi.combinePackets; p = p->next) {
+		for (p = nlc->pHttpProxyPacketQueue; p != nullptr && np < nlc->nlhpi.combinePackets; p = p->next) {
 			np++;
 			len += p->dataBufferLen;
 		}
@@ -180,7 +180,7 @@ static bool NetlibHttpGatewayOscarPost(NetlibConnection *nlc, const char *buf, i
 	bool res = NetlibHttpGatewaySend(nlcSend, reqOldPost, buf, len);
 	if (res) {
 		NETLIBHTTPREQUEST *nlhrReply = NetlibHttpRecv(nlcSend, flags | MSG_RAW | MSG_DUMPPROXY, MSG_RAW | MSG_DUMPPROXY);
-		if (nlhrReply != NULL) {
+		if (nlhrReply != nullptr) {
 			if (nlhrReply->resultCode != 200) {
 				NetlibHttpSetLastErrorUsingHttpResult(nlhrReply->resultCode);
 				res = false;
@@ -203,17 +203,17 @@ static bool NetlibHttpGatewayOscarPost(NetlibConnection *nlc, const char *buf, i
 
 int NetlibHttpGatewayPost(NetlibConnection *nlc, const char *buf, int len, int flags)
 {
-	if (nlc->nlhpi.szHttpGetUrl != NULL)
+	if (nlc->nlhpi.szHttpGetUrl != nullptr)
 		return NetlibHttpGatewayOscarPost(nlc, buf, len, flags) ? len : SOCKET_ERROR;
 
 	/*
 	 * Gena01 - many changes here, do compare against the other version.
 	 *
 	 * Change #1: simplify to use similar code to GET
-	 * Change #2: we need to allow to parse POST reply if szHttpGetUrl is NULL
+	 * Change #2: we need to allow to parse POST reply if szHttpGetUrl is nullptr
 	 * Change #3: Keep connection open if we need to.
 	 *
-	 * Impact: NONE! Since currently miranda doesn't allow szHttpGetUrl to be NULL, it will not connect
+	 * Impact: NONE! Since currently miranda doesn't allow szHttpGetUrl to be nullptr, it will not connect
 	 *         with the new plugins that use this code.
 	 */
 
@@ -221,15 +221,15 @@ int NetlibHttpGatewayPost(NetlibConnection *nlc, const char *buf, int len, int f
 	p->dataBuffer = (PBYTE)mir_alloc(len);
 	memcpy(p->dataBuffer, buf, len);
 	p->dataBufferLen = len;
-	p->next = NULL;
+	p->next = nullptr;
 
 	// Now check to see where to insert this in our queue
 	mir_cslock lck(nlc->csHttpSequenceNums);
-	if (nlc->pHttpProxyPacketQueue == NULL)
+	if (nlc->pHttpProxyPacketQueue == nullptr)
 		nlc->pHttpProxyPacketQueue = p;
 	else {
 		NetlibHTTPProxyPacketQueue *t = nlc->pHttpProxyPacketQueue;
-		while (t->next != NULL)
+		while (t->next != nullptr)
 			t = t->next;
 		t->next = p;
 	}
@@ -254,12 +254,12 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags)
 		return SOCKET_ERROR;
 
 	for (int retryCount = 0; retryCount < NETLIBHTTP_RETRYCOUNT;) {
-		if (nlc->nlhpi.szHttpGetUrl == NULL && retryCount == 0) {
+		if (nlc->nlhpi.szHttpGetUrl == nullptr && retryCount == 0) {
 			if (nlc->pollingTimeout == 0) nlc->pollingTimeout = 30;
 
 			/* We Need to sleep/wait for the data to send before we do receive */
 			for (int pollCount = nlc->pollingTimeout; pollCount--;) {
-				if (nlc->pHttpProxyPacketQueue != NULL && GetTickCount() - nlc->lastPost > 1000)
+				if (nlc->pHttpProxyPacketQueue != nullptr && GetTickCount() - nlc->lastPost > 1000)
 					break;
 
 				if (nlc->termRequested || (SleepEx(1000, TRUE) && Miranda_IsTerminated()))
@@ -267,14 +267,14 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags)
 			}
 
 			nlc->lastPost = GetTickCount();
-			if (nlc->pHttpProxyPacketQueue == NULL && nlu->user.pfnHttpGatewayWrapSend != NULL)
+			if (nlc->pHttpProxyPacketQueue == nullptr && nlu->user.pfnHttpGatewayWrapSend != nullptr)
 				if (nlu->user.pfnHttpGatewayWrapSend(nlc, (PBYTE)"", 0, MSG_NOHTTPGATEWAYWRAP) == SOCKET_ERROR)
 					return SOCKET_ERROR;
 		}
 
 		int numPackets = 0;
 		if (nlc->nlhpi.szHttpGetUrl) {
-			if (!NetlibHttpGatewaySend(nlc, reqOldGet, NULL, 0)) {
+			if (!NetlibHttpGatewaySend(nlc, reqOldGet, nullptr, 0)) {
 				if (GetLastError() == ERROR_ACCESS_DENIED || nlc->termRequested)
 					break;
 
@@ -292,7 +292,7 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags)
 			}
 		}
 		NETLIBHTTPREQUEST *nlhrReply = NetlibHttpRecv(nlc, flags | MSG_RAW | MSG_DUMPPROXY, MSG_RAW | MSG_DUMPPROXY);
-		if (nlhrReply == NULL)
+		if (nlhrReply == nullptr)
 			return SOCKET_ERROR;
 
 		if (nlu->user.pfnHttpGatewayUnwrapRecv && !(flags & MSG_NOHTTPGATEWAYWRAP))
@@ -353,19 +353,19 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags)
 
 int NetlibInitHttpConnection(HNETLIBCONN nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
 {
-	NETLIBHTTPREQUEST *nlhrReply = NULL;
+	NETLIBHTTPREQUEST *nlhrReply = nullptr;
 	{
 		mir_cslock lck(nlc->csHttpSequenceNums);
 		nlc->nlhpi.firstGetSequence = 1;
 		nlc->nlhpi.firstPostSequence = 1;
 	}
 
-	if (nlu->user.szHttpGatewayHello != NULL) {
+	if (nlu->user.szHttpGatewayHello != nullptr) {
 		nlc->usingHttpGateway = true;
-		if (NetlibHttpGatewaySend(nlc, reqHelloGet, NULL, 0))
+		if (NetlibHttpGatewaySend(nlc, reqHelloGet, nullptr, 0))
 			nlhrReply = NetlibHttpRecv(nlc, MSG_DUMPPROXY | MSG_RAW, MSG_DUMPPROXY | MSG_RAW);
 		nlc->usingHttpGateway = false;
-		if (nlhrReply == NULL) return 0;
+		if (nlhrReply == nullptr) return 0;
 
 		if (nlhrReply->resultCode != 200) {
 			NetlibHttpSetLastErrorUsingHttpResult(nlhrReply->resultCode);
@@ -379,7 +379,7 @@ int NetlibInitHttpConnection(HNETLIBCONN nlc, NetlibUser *nlu, NETLIBOPENCONNECT
 	}
 	Netlib_FreeHttpRequest(nlhrReply);
 
-	if (nlc->nlhpi.szHttpPostUrl == NULL) {
+	if (nlc->nlhpi.szHttpPostUrl == nullptr) {
 		SetLastError(ERROR_BAD_FORMAT);
 		return 0;
 	}
@@ -397,7 +397,7 @@ int NetlibInitHttpConnection(HNETLIBCONN nlc, NetlibUser *nlu, NETLIBOPENCONNECT
 
 MIR_APP_DLL(int) Netlib_SetHttpProxyInfo(HNETLIBCONN nlc, const NETLIBHTTPPROXYINFO *nlhpi)
 {
-	if (GetNetlibHandleType(nlc) != NLH_CONNECTION || nlhpi == NULL || nlhpi->szHttpPostUrl == NULL) {
+	if (GetNetlibHandleType(nlc) != NLH_CONNECTION || nlhpi == nullptr || nlhpi->szHttpPostUrl == nullptr) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}

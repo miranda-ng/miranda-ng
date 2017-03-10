@@ -31,20 +31,20 @@ static IMAGE_SECTION_HEADER *getSectionByRVA(IMAGE_SECTION_HEADER *pISH, int nSe
 		if (pIDD->VirtualAddress >= pISH->VirtualAddress && pIDD->VirtualAddress + pIDD->Size <= pISH->VirtualAddress + pISH->SizeOfRawData )
 			return pISH;
 
-	return NULL;
+	return nullptr;
 }
 
 MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin)
 {
 	bIsPlugin = false;
 
-	HANDLE hFile = CreateFile( ptszFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL );
+	HANDLE hFile = CreateFile( ptszFileName, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr );
 	if (hFile == INVALID_HANDLE_VALUE)
-		return NULL;
+		return nullptr;
 
-	MUUID* pResult = NULL;
-	BYTE* ptr = NULL;
-	HANDLE hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL );
+	MUUID* pResult = nullptr;
+	BYTE* ptr = nullptr;
+	HANDLE hMap = CreateFileMapping(hFile, nullptr, PAGE_READONLY, 0, 0, nullptr );
 
 	__try {
 		__try {
@@ -59,7 +59,7 @@ MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin)
 				__leave;
 
 			ptr = (BYTE*)MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0);
-			if (ptr == NULL)
+			if (ptr == nullptr)
 				__leave;
 
 			PIMAGE_NT_HEADERS pINTH = { 0 };
@@ -111,7 +111,7 @@ MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin)
 			WORD  *ptrOrdRVA = (WORD*)&pSecStart[pED->AddressOfNameOrdinals];
 			DWORD *ptrFuncList = (DWORD*)&pSecStart[pED->AddressOfFunctions];
 
-			MUUID* pIds = NULL;
+			MUUID* pIds = nullptr;
 			bool bHasLoad = false, bHasUnload = false, bHasInfo = false, bHasMuuids = false;
 			for (size_t i=0; i < pED->NumberOfNames; i++, ptrRVA++, ptrOrdRVA++) {
 				char *szName = (char*)&pSecStart[*ptrRVA];

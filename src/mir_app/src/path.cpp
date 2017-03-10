@@ -73,7 +73,7 @@ static __forceinline char *GetEnvironmentVariableX(const char *variable)
 	char result[512];
 	if (GetEnvironmentVariableA(variable, result, _countof(result)))
 		return mir_strdup(result);
-	return NULL;
+	return nullptr;
 }
 
 static __forceinline char *GetProfileDirX(const char*)
@@ -84,9 +84,9 @@ static __forceinline char *GetProfileDirX(const char*)
 static __forceinline char *SHGetSpecialFolderPathX(int iCSIDL, char*)
 {
 	char result[512];
-	if (SHGetSpecialFolderPathA(NULL, result, iCSIDL, FALSE))
+	if (SHGetSpecialFolderPathA(nullptr, result, iCSIDL, FALSE))
 		return mir_strdup(result);
-	return NULL;
+	return nullptr;
 }
 
 static __forceinline char *GetModulePathX(const char*, HMODULE hModule)
@@ -104,7 +104,7 @@ static __forceinline char *GetUserNameX(const char*)
 	DWORD size = _countof(result);
 	if (GetUserNameA(result, &size))
 		return mir_strdup(result);
-	return NULL;
+	return nullptr;
 }
 
 static __forceinline char *GetProfileNameX(const char*)
@@ -118,7 +118,7 @@ static __forceinline char* GetPathVarX(const char*, int code)
 
 	switch(code) {
 	case 1:
-		if (hAvatarFolder != NULL)
+		if (hAvatarFolder != nullptr)
 			wcsncpy_s(szFullPath, tszAvatarRoot, _TRUNCATE);
 		else
 			mir_snwprintf(szFullPath, L"%s\\%s\\AvatarCache", g_profileDir, g_shortProfileName);
@@ -157,15 +157,15 @@ static __forceinline wchar_t* GetEnvironmentVariableX(const wchar_t *variable)
 	wchar_t result[512];
 	if (GetEnvironmentVariable(variable, result, _countof(result)))
 		return mir_wstrdup(result);
-	return NULL;
+	return nullptr;
 }
 
 static __forceinline wchar_t* SHGetSpecialFolderPathX(int iCSIDL, wchar_t*)
 {
 	wchar_t result[512];
-	if (SHGetSpecialFolderPath(NULL, result, iCSIDL, FALSE))
+	if (SHGetSpecialFolderPath(nullptr, result, iCSIDL, FALSE))
 		return mir_wstrdup(result);
-	return NULL;
+	return nullptr;
 }
 
 static __forceinline wchar_t* GetProfileDirX(const wchar_t*)
@@ -188,7 +188,7 @@ static __forceinline wchar_t* GetUserNameX(const wchar_t*)
 	DWORD size = _countof(result);
 	if (GetUserName(result, &size))
 		return mir_wstrdup(result);
-	return NULL;
+	return nullptr;
 }
 
 static __forceinline wchar_t* GetProfileNameX(const wchar_t*)
@@ -202,7 +202,7 @@ static __forceinline wchar_t* GetPathVarX(const wchar_t*, int code)
 
 	switch(code) {
 	case 1:
-		if (hAvatarFolder != NULL)
+		if (hAvatarFolder != nullptr)
 			wcsncpy_s(szFullPath, tszAvatarRoot, _TRUNCATE);
 		else
 			mir_snwprintf(szFullPath, L"%s\\%s\\AvatarCache", g_profileDir, g_shortProfileName);
@@ -220,7 +220,7 @@ static __forceinline wchar_t* GetPathVarX(const wchar_t*, int code)
 template<typename XCHAR>
 XCHAR *GetInternalVariable(const XCHAR *key, size_t keyLength, MCONTACT hContact)
 {
-	XCHAR *theValue = NULL;
+	XCHAR *theValue = nullptr;
 	XCHAR *theKey = (XCHAR *)_alloca(sizeof(XCHAR) * (keyLength + 1));
 	_xcsncpy(theKey, key, keyLength);
 	theKey[keyLength] = 0;
@@ -232,7 +232,7 @@ XCHAR *GetInternalVariable(const XCHAR *key, size_t keyLength, MCONTACT hContact
 			theValue = mir_a2x(key, GetContactProto(hContact));
 		else if (!_xcscmp(theKey, XSTR(key, "accountname"))) {
 			PROTOACCOUNT *acc = Proto_GetAccount(GetContactProto(hContact));
-			if (acc != NULL)
+			if (acc != nullptr)
 				theValue = mir_a2x(key, _T2A(acc->tszAccountName));
 		}
 		else if (!_xcscmp(theKey, XSTR(key, "userid")))
@@ -241,7 +241,7 @@ XCHAR *GetInternalVariable(const XCHAR *key, size_t keyLength, MCONTACT hContact
 
 	if (!theValue) {
 		if (!_xcscmp(theKey, XSTR(key, "miranda_path")))
-			theValue = GetModulePathX(key, NULL);
+			theValue = GetModulePathX(key, nullptr);
 		else if (!_xcscmp(theKey, XSTR(key, "appdata")))
 			theValue = SHGetSpecialFolderPathX(CSIDL_APPDATA, theKey);
 		else if (!_xcscmp(theKey, XSTR(key, "mydocuments")))
@@ -284,7 +284,7 @@ template<typename XCHAR>
 XCHAR *ReplaceVariables(const XCHAR *str, MCONTACT hContact, REPLACEVARSARRAY *variables)
 {
 	if (!str)
-		return NULL;
+		return nullptr;
 
 	const XCHAR *varStart = 0, *p;
 	size_t length = 0;
@@ -314,7 +314,7 @@ XCHAR *ReplaceVariables(const XCHAR *str, MCONTACT hContact, REPLACEVARSARRAY *v
 
 	XCHAR *result = (XCHAR *)mir_alloc(sizeof(XCHAR) * (length + 1));
 	XCHAR *q = result;
-	varStart = NULL;
+	varStart = nullptr;
 
 	for (p = str; *p; ++p) {
 		if (*p == '%') {

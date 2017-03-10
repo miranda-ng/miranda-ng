@@ -86,7 +86,7 @@ INT_PTR Meta_GetName(WPARAM wParam, LPARAM lParam)
 {
 	char *name = (char *)Translate(META_PROTO);
 	size_t size = min(mir_strlen(name), wParam - 1);	// copy only the first size bytes.
-	if (strncpy((char *)lParam, name, size) == NULL)
+	if (strncpy((char *)lParam, name, size) == nullptr)
 		return 1;
 	((char *)lParam)[size] = '\0';
 	return 0;
@@ -142,7 +142,7 @@ void CALLBACK SetStatusThread(HWND, UINT, UINT_PTR, DWORD)
 	previousMode = mcStatus;
 
 	mcStatus = ID_STATUS_ONLINE;
-	ProtoBroadcastAck(META_PROTO, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)previousMode, mcStatus);
+	ProtoBroadcastAck(META_PROTO, 0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)previousMode, mcStatus);
 
 	KillTimer(0, setStatusTimerId);
 }
@@ -163,7 +163,7 @@ INT_PTR Meta_SetStatus(WPARAM wParam, LPARAM)
 	else {
 		previousMode = mcStatus;
 		mcStatus = (int)wParam;
-		ProtoBroadcastAck(META_PROTO, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)previousMode, mcStatus);
+		ProtoBroadcastAck(META_PROTO, 0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)previousMode, mcStatus);
 	}
 	return 0;
 }
@@ -202,7 +202,7 @@ static void __cdecl sttFakeAckFail(void *param)
 INT_PTR Meta_SendNudge(WPARAM wParam, LPARAM lParam)
 {
 	DBCachedContact *cc = CheckMeta(wParam);
-	if (cc == NULL)
+	if (cc == nullptr)
 		return 1;
 
 	MCONTACT hSubContact = Meta_GetMostOnline(cc);
@@ -225,7 +225,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam, LPARAM lParam)
 	CCSDATA *ccs = (CCSDATA*)lParam;
 
 	DBCachedContact *cc = CheckMeta(ccs->hContact);
-	if (cc == NULL || cc->nDefault == -1) {
+	if (cc == nullptr || cc->nDefault == -1) {
 		// This is a simple contact, let through the stack of protocols
 		// (this should normally not happen, since linked contacts do not appear on the list.)
 		return Proto_ChainSend(wParam, ccs);
@@ -234,7 +234,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam, LPARAM lParam)
 	MCONTACT hMostOnline = db_mc_getSrmmSub(cc->contactID);
 	if (!hMostOnline) {
 		// send failure to notify user of reason
-		HANDLE hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+		HANDLE hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 
 		TFakeAckParams *tfap = (TFakeAckParams *)mir_alloc(sizeof(TFakeAckParams));
 		tfap->hContact = ccs->hContact;
@@ -269,10 +269,10 @@ INT_PTR Meta_SendMessage(WPARAM wParam, LPARAM lParam)
 int Meta_HandleACK(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
-	if (ack == NULL)
+	if (ack == nullptr)
 		return 0;
 	DBCachedContact *cc = CheckMeta(ack->hContact);
-	if (cc == NULL)
+	if (cc == nullptr)
 		return 0;
 
 	if (!mir_strcmp(ack->szModule, META_PROTO))
@@ -329,11 +329,11 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
-	if (cc == NULL || !cc->IsSub())
+	if (cc == nullptr || !cc->IsSub())
 		return 0;
 
 	DBCachedContact *ccMeta = currDb->m_cache->GetCachedContact(cc->parentID);
-	if (ccMeta == NULL || !ccMeta->IsMeta())
+	if (ccMeta == nullptr || !ccMeta->IsMeta())
 		return 0;
 
 	// This contact is attached to a MetaContact.
@@ -375,7 +375,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
 
 		ptrW tszMyhandle(db_get_wsa(hContact, "CList", "MyHandle"));
-		if (tszMyhandle == NULL) {
+		if (tszMyhandle == nullptr) {
 			mir_snprintf(buffer, "CListName%d", contact_number);
 			db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
 		}
@@ -455,7 +455,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 int Meta_ContactDeleted(WPARAM hContact, LPARAM)
 {
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
-	if (cc == NULL)
+	if (cc == nullptr)
 		return 0;
 
 	// is a subcontact - update meta contact
@@ -499,7 +499,7 @@ int Meta_ContactDeleted(WPARAM hContact, LPARAM)
 static INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
 {
 	DBCachedContact *cc = CheckMeta(hMeta);
-	if (cc == NULL)
+	if (cc == nullptr)
 		return 0;
 
 	// forward to sending protocol, if supported
@@ -525,7 +525,7 @@ static INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
 static int Meta_UserInfo(WPARAM, LPARAM hMeta)
 {
 	DBCachedContact *cc = CheckMeta(hMeta);
-	if (cc == NULL || cc->nDefault == -1)
+	if (cc == nullptr || cc->nDefault == -1)
 		return 0;
 
 	CallService(MS_USERINFO_SHOWDIALOG, Meta_GetContactHandle(cc, cc->nDefault), 0);
@@ -540,7 +540,7 @@ static int Meta_MessageWindowEvent(WPARAM, LPARAM lParam)
 	MessageWindowEventData *mwed = (MessageWindowEventData*)lParam;
 	if (mwed->uType == MSG_WINDOW_EVT_OPEN) {
 		DBCachedContact *cc = currDb->m_cache->GetCachedContact(mwed->hContact);
-		if (cc != NULL) {
+		if (cc != nullptr) {
 			Meta_UpdateSrmmIcon(cc, db_get_w(cc->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE));
 			if (cc->IsMeta()) {
 				MetaSrmmData *p = new MetaSrmmData;
@@ -584,7 +584,7 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 		return 0;
 
 	DBCachedContact *cc = CheckMeta(hMeta);
-	if (cc == NULL)
+	if (cc == nullptr)
 		return 0;
 
 	HMENU hMenu = CreatePopupMenu();
@@ -595,10 +595,10 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 	mii.fMask = MIIM_ID | MIIM_STATE | MIIM_STRING;
 	for (int i = 0; i < cc->nSubs; i++)	{
 		char *szProto = GetContactProto(cc->pSubs[i]);
-		if (szProto == NULL) continue;
+		if (szProto == nullptr) continue;
 
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-		if (pa == NULL)
+		if (pa == nullptr)
 			continue;
 
 		CMStringW tszNick;
@@ -615,7 +615,7 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 		InsertMenuItem(hMenu, i, TRUE, &mii);
 	}
 
-	UINT res = TrackPopupMenu(hMenu, TPM_NONOTIFY | TPM_RETURNCMD | TPM_BOTTOMALIGN | TPM_LEFTALIGN, sicd->clickLocation.x, sicd->clickLocation.y, 0, cli.hwndContactTree, NULL);
+	UINT res = TrackPopupMenu(hMenu, TPM_NONOTIFY | TPM_RETURNCMD | TPM_BOTTOMALIGN | TPM_LEFTALIGN, sicd->clickLocation.x, sicd->clickLocation.y, 0, cli.hwndContactTree, nullptr);
 	if (res > 0) {
 		MCONTACT hChosen = Meta_GetContactHandle(cc, res - 1);
 
@@ -672,7 +672,7 @@ static VOID CALLBACK sttMenuThread(PVOID param)
 INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 {
 	DBCachedContact *cc = CheckMeta(hMeta);
-	if (cc == NULL)
+	if (cc == nullptr)
 		return 0;
 
 	MCONTACT hContact = Meta_GetContactHandle(cc, (int)lParam);
@@ -709,7 +709,7 @@ INT_PTR Meta_FileSend(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	DBCachedContact *cc = CheckMeta(ccs->hContact);
-	if (cc == NULL || cc->nDefault == -1)
+	if (cc == nullptr || cc->nDefault == -1)
 		return 0;
 
 	MCONTACT hMostOnline = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_1, PF1_FILESEND);
@@ -727,7 +727,7 @@ INT_PTR Meta_GetAwayMsg(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	DBCachedContact *cc = CheckMeta(ccs->hContact);
-	if (cc == NULL || cc->nDefault == -1)
+	if (cc == nullptr || cc->nDefault == -1)
 		return 0;
 
 	MCONTACT hMostOnline = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_1, PF1_MODEMSGRECV);
@@ -746,7 +746,7 @@ INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
 	DBCachedContact *cc = CheckMeta(pai->hContact);
-	if (cc == NULL)
+	if (cc == nullptr)
 		return GAIR_NOAVATAR;
 
 	if (cc->nDefault == -1)
@@ -776,7 +776,7 @@ INT_PTR Meta_GetInfo(WPARAM, LPARAM lParam)
 	// This is a simple contact
 	// (this should normally not happen, since linked contacts do not appear on the list.)
 	DBCachedContact *cc = CheckMeta(ccs->hContact);
-	if (cc == NULL || cc->nDefault == -1)
+	if (cc == nullptr || cc->nDefault == -1)
 		return 0;
 
 	MCONTACT hMostOnline = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_4, PF4_AVATARS);
@@ -810,7 +810,7 @@ INT_PTR Meta_GetInfo(WPARAM, LPARAM lParam)
 int Meta_CallMostOnline(WPARAM hContact, LPARAM)
 {
 	DBCachedContact *cc = CheckMeta(hContact);
-	if (cc == NULL)
+	if (cc == nullptr)
 		return 0;
 
 	Meta_CopyContactNick(cc, db_mc_getSrmmSub(cc->contactID));

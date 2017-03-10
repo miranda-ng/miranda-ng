@@ -74,7 +74,7 @@ static void CB_GetButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 {
 	DBVARIANT  dbv = { 0 };
 	char SettingName[1024];
-	char* token = NULL;
+	char* token = nullptr;
 
 	// modulename_buttonID, position_inIM_inCHAT_isLSide_isRSide_CanBeHidden
 
@@ -83,14 +83,14 @@ static void CB_GetButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 	if (!db_get_s(hContact, MODULENAME, SettingName, &dbv)) {
 		token = strtok(dbv.pszVal, "_");
 		cbd->m_dwPosition = (DWORD)atoi(token);
-		token = strtok(NULL, "_");
+		token = strtok(nullptr, "_");
 		cbd->m_bIMButton = atoi(token) != 0;
-		token = strtok(NULL, "_");
+		token = strtok(nullptr, "_");
 		cbd->m_bChatButton = atoi(token) != 0;
-		token = strtok(NULL, "_");
-		token = strtok(NULL, "_");
+		token = strtok(nullptr, "_");
+		token = strtok(nullptr, "_");
 		cbd->m_bRSided = atoi(token) != 0;
-		token = strtok(NULL, "_");
+		token = strtok(nullptr, "_");
 		cbd->m_bCanBeHidden = atoi(token) != 0;
 
 		db_free(&dbv);
@@ -109,7 +109,7 @@ MIR_APP_DLL(int) Srmm_GetButtonCount(void)
 
 MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 {
-	if (bbdi == NULL)
+	if (bbdi == nullptr)
 		return 1;
 
 	CustomButtonData *cbd = new CustomButtonData();
@@ -139,7 +139,7 @@ MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 	cbd->m_hLangpack = _hLang;
 
 	// download database settings
-	CB_GetButtonSettings(NULL, cbd);
+	CB_GetButtonSettings(0, cbd);
 
 	arButtonsList.insert(cbd);
 
@@ -154,7 +154,7 @@ MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 
 MIR_APP_DLL(int) Srmm_GetButtonState(HWND hwndDlg, BBButton *bbdi)
 {
-	if (hwndDlg == NULL || bbdi == NULL)
+	if (hwndDlg == nullptr || bbdi == nullptr)
 		return 1;
 
 	DWORD tempCID = 0;
@@ -176,7 +176,7 @@ MIR_APP_DLL(int) Srmm_GetButtonState(HWND hwndDlg, BBButton *bbdi)
 
 MIR_APP_DLL(int) Srmm_SetButtonState(MCONTACT hContact, BBButton *bbdi)
 {
-	if (hContact == NULL || bbdi == NULL)
+	if (hContact == 0 || bbdi == nullptr)
 		return 1;
 
 	DWORD tempCID = 0;
@@ -191,11 +191,11 @@ MIR_APP_DLL(int) Srmm_SetButtonState(MCONTACT hContact, BBButton *bbdi)
 		return 1;
 
 	HWND hwndDlg = WindowList_Find(chatApi.hWindowList, hContact);
-	if (hwndDlg == NULL)
+	if (hwndDlg == nullptr)
 		return 1;
 
 	HWND hwndBtn = GetDlgItem(hwndDlg, tempCID);
-	if (hwndBtn == NULL)
+	if (hwndBtn == nullptr)
 		return 1;
 
 	SetWindowTextA(hwndBtn, bbdi->pszModuleName);
@@ -217,7 +217,7 @@ MIR_APP_DLL(int) Srmm_RemoveButton(BBButton *bbdi)
 	if (!bbdi)
 		return 1;
 
-	CustomButtonData *pFound = NULL;
+	CustomButtonData *pFound = nullptr;
 	{
 		mir_cslock lck(csToolBar);
 
@@ -243,7 +243,7 @@ MIR_APP_DLL(int) Srmm_ModifyButton(BBButton *bbdi)
 		return 1;
 
 	bool bFound = false;
-	CustomButtonData *cbd = NULL;
+	CustomButtonData *cbd = nullptr;
 	{
 		mir_cslock lck(csToolBar);
 
@@ -329,9 +329,9 @@ MIR_APP_DLL(void) Srmm_CreateToolbarIcons(HWND hwndDlg, int flags)
 
 		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
 		if ((flags & BBBF_ISIMBUTTON) && cbd->m_bIMButton || (flags & BBBF_ISCHATBUTTON) && cbd->m_bChatButton) {
-			if (hwndButton == NULL) {
-				hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, cbd->m_iButtonWidth, DPISCALEX_S(22), hwndDlg, (HMENU)cbd->m_dwButtonCID, hInstance, NULL);
-				if (hwndButton == NULL) // smth went wrong
+			if (hwndButton == nullptr) {
+				hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, cbd->m_iButtonWidth, DPISCALEX_S(22), hwndDlg, (HMENU)cbd->m_dwButtonCID, hInstance, nullptr);
+				if (hwndButton == nullptr) // smth went wrong
 					continue;
 
 				// if there's a pre-created button control in a class, initialize it
@@ -368,7 +368,7 @@ MIR_APP_DLL(void) Srmm_UpdateToolbarIcons(HWND hwndDlg)
 {
 	for (int i = 0; i < arButtonsList.getCount(); i++) {
 		CustomButtonData *cbd = arButtonsList[i];
-		if (cbd->m_bSeparator || cbd->m_hIcon == NULL)
+		if (cbd->m_bSeparator || cbd->m_hIcon == nullptr)
 			continue;
 
 		HWND hwndBtn = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
@@ -456,7 +456,7 @@ class CSrmmToolbarOptions : public CDlgBase
 		{
 			mir_cslock lck(csToolBar);
 
-			while (tvi.hItem != NULL) {
+			while (tvi.hItem != nullptr) {
 				m_toolBar.GetItem(&tvi);
 
 				if (mir_wstrcmp(tvi.pszText, MIDDLE_SEPARATOR) == 0) {
@@ -500,7 +500,7 @@ class CSrmmToolbarOptions : public CDlgBase
 					}
 
 					cbd->m_dwPosition = (DWORD)count;
-					CB_WriteButtonSettings(NULL, cbd);
+					CB_WriteButtonSettings(0, cbd);
 
 					if (!(cbd->m_opFlags & BBSF_NTBDESTRUCT))
 						(RSide) ? (count -= 10) : (count += 10);
@@ -524,7 +524,7 @@ class CSrmmToolbarOptions : public CDlgBase
 		int iImage = 0;
 
 		TVINSERTSTRUCT tvis;
-		tvis.hParent = NULL;
+		tvis.hParent = nullptr;
 		tvis.hInsertAfter = TVI_LAST;
 		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_SELECTEDIMAGE | TVIF_IMAGE;
 
@@ -589,7 +589,7 @@ public:
 		m_btnReset(this, IDC_BBRESET),
 		m_btnHidden(this, IDC_CANBEHIDDEN),
 		m_btnSeparator(this, IDC_SEPARATOR),
-		m_hImgl(NULL)
+		m_hImgl(nullptr)
 	{
 		m_toolBar.SetFlags(MTREE_DND); // enable drag-n-drop
 		m_toolBar.OnSelChanged = Callback(this, &CSrmmToolbarOptions::OnTreeSelChanged);
@@ -609,7 +609,7 @@ public:
 		m_btnHidden.Disable();
 
 		m_gap.SetRange(10);
-		m_gap.SetPosition(db_get_b(NULL, MODULENAME, "ButtonsBarGap", 1));
+		m_gap.SetPosition(db_get_b(0, MODULENAME, "ButtonsBarGap", 1));
 	}
 
 	virtual void OnDestroy() override
@@ -620,12 +620,12 @@ public:
 
 	virtual void OnApply() override
 	{
-		OnTreeSelChanging(NULL);  // save latest changes
+		OnTreeSelChanging(nullptr);  // save latest changes
 		SaveTree();               // save the whole tree then
 		CB_ReInitCustomButtons();
 
 		WORD newGap = m_gap.GetPosition();
-		if (newGap != db_get_b(NULL, MODULENAME, "ButtonsBarGap", 1)) {
+		if (newGap != db_get_b(0, MODULENAME, "ButtonsBarGap", 1)) {
 			WindowList_BroadcastAsync(chatApi.hWindowList, WM_SIZE, 0, 0);
 			db_set_b(0, MODULENAME, "ButtonsBarGap", newGap);
 		}
@@ -640,12 +640,12 @@ public:
 	virtual void OnReset() override
 	{
 		CB_ReInitCustomButtons();
-		dwSepCount = db_get_dw(NULL, MODULENAME, "SeparatorsCount", 0);
+		dwSepCount = db_get_dw(0, MODULENAME, "SeparatorsCount", 0);
 	}
 
 	void btnResetClicked(void*)
 	{
-		db_delete_module(NULL, MODULENAME);
+		db_delete_module(0, MODULENAME);
 		CB_HardReInit();
 		BuildMenuObjectsTree();
 		NotifyChange();
@@ -666,7 +666,7 @@ public:
 		arButtonsList.insert(cbd);
 
 		TVINSERTSTRUCT tvis;
-		tvis.hParent = NULL;
+		tvis.hParent = nullptr;
 		tvis.hInsertAfter = hItem;
 		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 
@@ -682,7 +682,7 @@ public:
 	void OnTreeSelChanging(void*)
 	{
 		HTREEITEM hItem = m_toolBar.GetSelection();
-		if (hItem == NULL)
+		if (hItem == nullptr)
 			return;
 
 		wchar_t strbuf[128];
@@ -706,7 +706,7 @@ public:
 	void OnTreeSelChanged(void*)
 	{
 		HTREEITEM hItem = m_toolBar.GetSelection();
-		if (hItem == NULL)
+		if (hItem == nullptr)
 			return;
 
 		wchar_t strbuf[128];
@@ -784,8 +784,8 @@ static void CALLBACK SrmmLoadToolbar()
 static int ConvertToolbarData(const char *szSetting, LPARAM)
 {
 	DBVARIANT dbv;
-	if (!db_get(NULL, "Tab" MODULENAME, szSetting, &dbv)) {
-		db_set(NULL, MODULENAME, szSetting, &dbv);
+	if (!db_get(0, "Tab" MODULENAME, szSetting, &dbv)) {
+		db_set(0, MODULENAME, szSetting, &dbv);
 		db_free(&dbv);
 	}
 	return 0;
@@ -806,12 +806,12 @@ void LoadSrmmToolbarModule()
 	ReleaseDC(0, hScrnDC);
 
 	// old data? convert them
-	if (db_get_dw(NULL, "Tab" MODULENAME, "SeparatorsCount", -1) != -1) {
-		db_enum_settings(NULL, ConvertToolbarData, "Tab" MODULENAME, NULL);
-		db_delete_module(NULL, "Tab" MODULENAME);
+	if (db_get_dw(0, "Tab" MODULENAME, "SeparatorsCount", -1) != -1) {
+		db_enum_settings(0, ConvertToolbarData, "Tab" MODULENAME, nullptr);
+		db_delete_module(0, "Tab" MODULENAME);
 	}
 
-	dwSepCount = db_get_dw(NULL, MODULENAME, "SeparatorsCount", 0);
+	dwSepCount = db_get_dw(0, MODULENAME, "SeparatorsCount", 0);
 	CB_RegisterSeparators();
 }
 

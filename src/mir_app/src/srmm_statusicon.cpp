@@ -30,7 +30,7 @@ void UnloadSrmmToolbarModule();
 
 void SafeDestroyIcon(HICON hIcon)
 {
-	if (hIcon != NULL)
+	if (hIcon != nullptr)
 		if (!IcoLib_IsManaged(hIcon))
 			::DestroyIcon(hIcon);
 }
@@ -85,11 +85,11 @@ static HANDLE hHookIconsChanged;
 
 MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, int _hLangpack)
 {
-	if (sid == NULL || sid->cbSize != sizeof(StatusIconData))
+	if (sid == nullptr || sid->cbSize != sizeof(StatusIconData))
 		return 1;
 
 	StatusIconMain *p = arIcons.find((StatusIconMain*)sid);
-	if (p != NULL)
+	if (p != nullptr)
 		return Srmm_ModifyIcon(0, sid);
 
 	p = new StatusIconMain;
@@ -102,7 +102,7 @@ MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, int _hLangpack)
 		p->sid.tszTooltip = mir_a2u(sid->szTooltip);
 	arIcons.insert(p);
 
-	NotifyEventHooks(hHookIconsChanged, NULL, (LPARAM)p);
+	NotifyEventHooks(hHookIconsChanged, 0, (LPARAM)p);
 	return 0;
 }
 
@@ -110,26 +110,26 @@ MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, int _hLangpack)
 
 MIR_APP_DLL(int) Srmm_ModifyIcon(MCONTACT hContact, StatusIconData *sid)
 {
-	if (sid == NULL || sid->cbSize != sizeof(StatusIconData))
+	if (sid == nullptr || sid->cbSize != sizeof(StatusIconData))
 		return 1;
 
 	StatusIconMain *p = arIcons.find((StatusIconMain*)sid);
-	if (p == NULL)
+	if (p == nullptr)
 		return 1;
 
-	if (hContact == NULL) {
+	if (hContact == 0) {
 		mir_free(p->sid.szModule);
 		mir_free(p->sid.szTooltip);
 		memcpy(&p->sid, sid, sizeof(p->sid));
 		p->sid.szModule = mir_strdup(sid->szModule);
 		p->sid.tszTooltip = (sid->flags & MBF_UNICODE) ? mir_wstrdup(sid->wszTooltip) : mir_a2u(sid->szTooltip);
 
-		NotifyEventHooks(hHookIconsChanged, NULL, (LPARAM)p);
+		NotifyEventHooks(hHookIconsChanged, 0, (LPARAM)p);
 		return 0;
 	}
 
 	StatusIconChild *pc = p->arChildren.find((StatusIconChild*)&hContact);
-	if (pc == NULL) {
+	if (pc == nullptr) {
 		pc = new StatusIconChild();
 		pc->hContact = hContact;
 		p->arChildren.insert(pc);
@@ -153,7 +153,7 @@ MIR_APP_DLL(void) Srmm_RemoveIcon(const char *szProto, DWORD iconId)
 {
 	StatusIconData tmp = { sizeof(tmp), (char*)szProto, iconId };
 	StatusIconMain *p = arIcons.find((StatusIconMain*)&tmp);
-	if (p != NULL)
+	if (p != nullptr)
 		arIcons.remove(p);
 }
 
@@ -191,7 +191,7 @@ MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index)
 		nVis++;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -207,7 +207,7 @@ void KillModuleSrmmIcons(int _hLang)
 
 int LoadSrmmModule()
 {
-	g_hCurHyperlinkHand = LoadCursor(NULL, IDC_HAND);
+	g_hCurHyperlinkHand = LoadCursor(nullptr, IDC_HAND);
 
 	LoadSrmmToolbarModule();
 	
@@ -218,7 +218,7 @@ int LoadSrmmModule()
 void UnloadSrmmModule()
 {
 	arIcons.destroy();
-	NotifyEventHooks(hHookIconsChanged, NULL, NULL);
+	NotifyEventHooks(hHookIconsChanged, 0, 0);
 	DestroyHookableEvent(hHookIconsChanged);
 
 	DestroyCursor(g_hCurHyperlinkHand);

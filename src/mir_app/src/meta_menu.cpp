@@ -53,11 +53,11 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 
 	// Create a new metacontact
 	MCONTACT hMetaContact = db_add_contact();
-	if (hMetaContact == NULL)
-		return NULL;
+	if (hMetaContact == 0)
+		return 0;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMetaContact);
-	if (cc == NULL)
+	if (cc == nullptr)
 		return 0;
 
 	db_set_dw(hMetaContact, META_PROTO, "NumContacts", 0);
@@ -89,12 +89,12 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 
 void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateInfo)
 {
-	if (ccMeta == NULL)
+	if (ccMeta == nullptr)
 		return;
 
 	// make sure this contact thinks it's part of this metacontact
 	DBCachedContact *ccSub = currDb->m_cache->GetCachedContact(Meta_GetContactHandle(ccMeta, number));
-	if (ccSub != NULL) {
+	if (ccSub != nullptr) {
 		if (ccSub->parentID == ccMeta->contactID) {
 			db_unset(ccSub->contactID, "CList", "Hidden");
 
@@ -133,7 +133,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 	mir_snprintf(buffer, "CListName%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
-	if (ccSub != NULL) {
+	if (ccSub != nullptr) {
 		ccSub->parentID = 0;
 		currDb->MetaDetouchSub(ccMeta, ccMeta->nSubs - 1);
 
@@ -184,7 +184,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 {
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
-	if (cc == NULL)
+	if (cc == nullptr)
 		return 1;
 
 	// The wParam is a metacontact
@@ -203,7 +203,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 		db_delete_contact(hContact);
 	}
 	else if (cc->IsSub()) {
-		if ((cc = currDb->m_cache->GetCachedContact(cc->parentID)) == NULL)
+		if ((cc = currDb->m_cache->GetCachedContact(cc->parentID)) == nullptr)
 			return 2;
 
 		if (cc->nSubs == 1) {
@@ -247,7 +247,7 @@ INT_PTR Meta_Default(WPARAM hSub, LPARAM)
 int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 {
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMeta);
-	if (cc == NULL)
+	if (cc == nullptr)
 		return 0;
 		
 	Menu_ShowItem(hMenuRoot, false);

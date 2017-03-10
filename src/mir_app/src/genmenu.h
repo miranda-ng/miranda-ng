@@ -35,8 +35,8 @@ struct TMO_IntMenuItem;
 struct TMO_LinkedList
 {
 	TMO_IntMenuItem
-		*first, // first element of submenu, or NULL
-		*last;  // last element of submenu, or NULL
+		*first, // first element of submenu, or nullptr
+		*last;  // last element of submenu, or nullptr
 
 	void insert(TMO_IntMenuItem*);
 	void remove(TMO_IntMenuItem*);

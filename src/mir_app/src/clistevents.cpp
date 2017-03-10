@@ -57,13 +57,13 @@ int fnGetImlIconIndex(HICON hIcon)
 static char* GetEventProtocol(int idx)
 {
 	if (!g_cliEvents.getCount() || idx < 0 && idx >= g_cliEvents.getCount())
-		return NULL;
+		return nullptr;
 
 	CListEvent &ev = g_cliEvents[idx];
-	if (ev.hContact != NULL)
+	if (ev.hContact != 0)
 		return GetContactProto(ev.hContact);
 		
-	return (ev.flags & CLEF_PROTOCOLGLOBAL) ? ev.lpszProtocol : NULL;
+	return (ev.flags & CLEF_PROTOCOLGLOBAL) ? ev.lpszProtocol : nullptr;
 }
 
 static void ShowOneEventInTray(int idx)
@@ -100,7 +100,7 @@ static void ShowEventsInTray()
 			j = 0;
 		if (pTrayProtos[j])       // if not already set
 			ShowOneEventInTray(i); // show it
-		pTrayProtos[j] = NULL;    // and clear slot
+		pTrayProtos[j] = nullptr;    // and clear slot
 	}
 }
 
@@ -123,8 +123,8 @@ static VOID CALLBACK IconFlashTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 	}
 
 	if (g_cliEvents.getCount() == 0) {
-		KillTimer(NULL, idEvent);
-		cli.pfnTrayIconSetToBase(NULL);
+		KillTimer(nullptr, idEvent);
+		cli.pfnTrayIconSetToBase(nullptr);
 	}
 
 	iconsOn = !iconsOn;
@@ -132,8 +132,8 @@ static VOID CALLBACK IconFlashTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 CListEvent* fnAddEvent(CLISTEVENT *cle)
 {
-	if (cle == NULL)
-		return NULL;
+	if (cle == nullptr)
+		return nullptr;
 
 	int i;
 	if (cle->flags & CLEF_URGENT) {
@@ -155,16 +155,16 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 		p->ptszTooltip = mir_a2u(p->pszTooltip); //if no flag defined it handled as unicode
 	if (g_cliEvents.getCount() == 1) {
 		char *szProto;
-		if (cle->hContact == NULL) {
+		if (cle->hContact == 0) {
 			if (cle->flags & CLEF_PROTOCOLGLOBAL)
 				szProto = cle->lpszProtocol;
 			else
-				szProto = NULL;
+				szProto = nullptr;
 		}
 		else szProto = GetContactProto(cle->hContact);
 
 		iconsOn = 1;
-		flashTimerId = SetTimer(NULL, 0, db_get_w(NULL, "CList", "IconFlashTime", 550), IconFlashTimer);
+		flashTimerId = SetTimer(nullptr, 0, db_get_w(0, "CList", "IconFlashTime", 550), IconFlashTimer);
 		cli.pfnTrayIconUpdateWithImageList(p->imlIconIndex, p->ptszTooltip, szProto);
 	}
 	cli.pfnChangeContactIcon(cle->hContact, p->imlIconIndex);
@@ -203,19 +203,19 @@ int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 		else if (g_cliEvents[i].flags & CLEF_PROTOCOLGLOBAL)
 			szEventProto = (char*)g_cliEvents[i].lpszProtocol;
 		else
-			szEventProto = NULL;
+			szEventProto = nullptr;
 		if (szEventProto && szProto && !mir_strcmp(szEventProto, szProto))
 			nSameProto++;
 	}
 
 	if (g_cliEvents.getCount() == 0 || nSameProto == 0) {
 		if (g_cliEvents.getCount() == 0)
-			KillTimer(NULL, flashTimerId);
-		cli.pfnTrayIconSetToBase(hContact == NULL ? NULL : szProto);
+			KillTimer(nullptr, flashTimerId);
+		cli.pfnTrayIconSetToBase(hContact == 0 ? nullptr : szProto);
 	}
 	else {
-		if (g_cliEvents[0].hContact == NULL)
-			szProto = NULL;
+		if (g_cliEvents[0].hContact == 0)
+			szProto = nullptr;
 		else
 			szProto = GetContactProto(g_cliEvents[0].hContact);
 		cli.pfnTrayIconUpdateWithImageList(iconsOn ? g_cliEvents[0].imlIconIndex : 0, g_cliEvents[0].ptszTooltip, szProto);
@@ -228,7 +228,7 @@ CLISTEVENT* fnGetEvent(MCONTACT hContact, int idx)
 {
 	if (hContact == INVALID_CONTACT_ID) {
 		if (idx >= g_cliEvents.getCount())
-			return NULL;
+			return nullptr;
 		return &g_cliEvents[idx];
 	}
 
@@ -236,7 +236,7 @@ CLISTEVENT* fnGetEvent(MCONTACT hContact, int idx)
 		if (g_cliEvents[i].hContact == hContact)
 			if (idx-- == 0)
 				return &g_cliEvents[i];
-	return NULL;
+	return nullptr;
 }
 
 int fnEventsProcessContactDoubleClick(MCONTACT hContact)
@@ -244,7 +244,7 @@ int fnEventsProcessContactDoubleClick(MCONTACT hContact)
 	for (int i = 0; i < g_cliEvents.getCount(); i++) {
 		if (g_cliEvents[i].hContact == hContact) {
 			MEVENT hDbEvent = g_cliEvents[i].hDbEvent;
-			CallService(g_cliEvents[i].pszService, NULL, (LPARAM)&g_cliEvents[i]);
+			CallService(g_cliEvents[i].pszService, 0, (LPARAM)&g_cliEvents[i]);
 			cli.pfnRemoveEvent(hContact, hDbEvent);
 			return 0;
 		}
@@ -264,7 +264,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 	mir_cslockfull lck(trayLockCS);
 	if (cli.trayIconCount > 1 && index > 0) {
 		int i;
-		char *szProto = NULL;
+		char *szProto = nullptr;
 		for (i = 0; i < cli.trayIconCount; i++) {
 			if (cli.trayIcon[i].id == index) {
 				szProto = cli.trayIcon[i].szProto;
@@ -275,7 +275,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 		}
 		if (szProto) {
 			for (i = 0; i < g_cliEvents.getCount(); i++) {
-				char *eventProto = NULL;
+				char *eventProto = nullptr;
 				if (g_cliEvents[i].hContact)
 					eventProto = GetContactProto(g_cliEvents[i].hContact);
 				if (!eventProto)
@@ -291,7 +291,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 			if (i == g_cliEvents.getCount()) {
 				if (click_in_first_icon) {
 					for (i = 0; i < g_cliEvents.getCount(); i++) {
-						char *eventProto = NULL;
+						char *eventProto = nullptr;
 						if (g_cliEvents[i].hContact)
 							eventProto = GetContactProto(g_cliEvents[i].hContact);
 						if (!eventProto)
@@ -339,7 +339,7 @@ static int RemoveEventsForContact(WPARAM wParam, LPARAM)
 static int CListEventSettingsChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (hContact == NULL && cws && cws->szModule && cws->szSetting && strcmp(cws->szModule, "CList") == 0) {
+	if (hContact == 0 && cws && cws->szModule && cws->szSetting && strcmp(cws->szModule, "CList") == 0) {
 		if (strcmp(cws->szSetting, "DisableTrayFlash") == 0)
 			disableTrayFlash = (int)cws->value.bVal;
 		else if (strcmp(cws->szSetting, "NoIconBlink") == 0)
@@ -354,8 +354,8 @@ int InitCListEvents(void)
 {
 	cli.events = &g_cliEvents;
 
-	disableTrayFlash = db_get_b(NULL, "CList", "DisableTrayFlash", 0);
-	disableIconFlash = db_get_b(NULL, "CList", "NoIconBlink", 0);
+	disableTrayFlash = db_get_b(0, "CList", "DisableTrayFlash", 0);
+	disableIconFlash = db_get_b(0, "CList", "NoIconBlink", 0);
 	HookEvent(ME_DB_CONTACT_DELETED, RemoveEventsForContact);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, CListEventSettingsChanged);
 	return 0;
@@ -364,9 +364,9 @@ int InitCListEvents(void)
 void UninitCListEvents(void)
 {
 	if (g_cliEvents.getCount())
-		KillTimer(NULL, flashTimerId);
+		KillTimer(nullptr, flashTimerId);
 	g_cliEvents.destroy();
 
-	if (imlIcon != NULL)
+	if (imlIcon != nullptr)
 		mir_free(imlIcon);
 }

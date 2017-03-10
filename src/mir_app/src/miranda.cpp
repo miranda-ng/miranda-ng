@@ -62,8 +62,8 @@ struct MWaitableObject
 		m_hEvent(hEvent),
 		m_pFunc(pFunc)
 	{
-		if (hEvent == NULL) {
-			m_hEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
+		if (hEvent == nullptr) {
+			m_hEvent = CreateEvent(nullptr, TRUE, TRUE, nullptr);
 			m_bOwnsEvent = true;
 		}
 	}
@@ -123,11 +123,11 @@ static void __cdecl compactHeapsThread(void*)
 	} //while
 }
 
-void(*SetIdleCallback) (void) = NULL;
+void(*SetIdleCallback) (void) = nullptr;
 
 static INT_PTR SystemSetIdleCallback(WPARAM, LPARAM lParam)
 {
-	if (lParam && SetIdleCallback == NULL) {
+	if (lParam && SetIdleCallback == nullptr) {
 		SetIdleCallback = (void(*)(void))lParam;
 		return 1;
 	}
@@ -278,10 +278,10 @@ int WINAPI mir_main(LPTSTR cmdLine)
 	if (bufferedPaintInit)
 		bufferedPaintInit();
 
-	OleInitialize(NULL);
+	OleInitialize(nullptr);
 
 	if (IsWinVer7Plus())
-		CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
+		CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
 
 	int result = 0;
 	if (LoadDefaultModules()) {
@@ -317,18 +317,18 @@ int WINAPI mir_main(LPTSTR cmdLine)
 				arWaitableObjects.remove(rc);
 			}
 
-			while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+			while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
 				if (msg.message != WM_QUIT) {
 					HWND h = GetForegroundWindow();
 					DWORD pid = 0;
 					checkIdle(&msg);
-					if (h != NULL && GetWindowThreadProcessId(h, &pid) && pid == myPid && GetClassLongPtr(h, GCW_ATOM) == 32770)
-						if (h != NULL && IsDialogMessage(h, &msg)) /* Wine fix. */
+					if (h != nullptr && GetWindowThreadProcessId(h, &pid) && pid == myPid && GetClassLongPtr(h, GCW_ATOM) == 32770)
+						if (h != nullptr && IsDialogMessage(h, &msg)) /* Wine fix. */
 							continue;
 
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
-					if (SetIdleCallback != NULL)
+					if (SetIdleCallback != nullptr)
 						SetIdleCallback();
 				}
 				else if (!dying) {
@@ -437,7 +437,7 @@ MIR_APP_DLL(void) Miranda_GetVersionText(char *pDest, size_t cbSize)
 
 int LoadSystemModule(void)
 {
-	hMirandaShutdown = CreateEvent(NULL, TRUE, FALSE, NULL);
+	hMirandaShutdown = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 
 	hShutdownEvent = CreateHookableEvent(ME_SYSTEM_SHUTDOWN);
 	hPreShutdownEvent = CreateHookableEvent(ME_SYSTEM_PRESHUTDOWN);

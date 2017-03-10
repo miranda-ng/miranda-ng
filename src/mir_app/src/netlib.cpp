@@ -30,7 +30,7 @@ static BOOL bModuleInitialized = FALSE;
 HANDLE hConnectionHeaderMutex, hConnectionOpenMutex;
 DWORD g_LastConnectionTick;
 int connectionTimeout;
-HANDLE hSendEvent = NULL, hRecvEvent = NULL;
+HANDLE hSendEvent = nullptr, hRecvEvent = nullptr;
 
 typedef BOOL (WINAPI *tGetProductInfo)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
@@ -68,7 +68,7 @@ void NetlibInitializeNestedCS(NetlibNestedCriticalSection *nlncs)
 {
 	nlncs->dwOwningThreadId = 0;
 	nlncs->lockCount = 0;
-	nlncs->hMutex = CreateMutex(NULL, FALSE, NULL);
+	nlncs->hMutex = CreateMutex(nullptr, FALSE, nullptr);
 }
 
 void NetlibDeleteNestedCS(NetlibNestedCriticalSection *nlncs)
@@ -82,7 +82,7 @@ int NetlibEnterNestedCS(NetlibConnection *nlc, int which)
 	DWORD dwCurrentThreadId = GetCurrentThreadId();
 
 	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
-	if (nlc == NULL || nlc->handleType != NLH_CONNECTION) {
+	if (nlc == nullptr || nlc->handleType != NLH_CONNECTION) {
 		ReleaseMutex(hConnectionHeaderMutex);
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
@@ -115,7 +115,7 @@ void NetlibLeaveNestedCS(NetlibNestedCriticalSection *nlncs)
 static INT_PTR GetNetlibUserSettingInt(const char *szUserModule, const char *szSetting, int defValue)
 {
 	DBVARIANT dbv;
-	if (db_get(NULL, szUserModule, szSetting, &dbv) && db_get(NULL, "Netlib", szSetting, &dbv))
+	if (db_get(0, szUserModule, szSetting, &dbv) && db_get(0, "Netlib", szSetting, &dbv))
 		return defValue;
 
 	if (dbv.type == DBVT_BYTE) return dbv.bVal;
@@ -125,10 +125,10 @@ static INT_PTR GetNetlibUserSettingInt(const char *szUserModule, const char *szS
 
 static char* GetNetlibUserSettingString(const char *szUserModule, const char *szSetting)
 {
-	char *szRet = db_get_sa(NULL, szUserModule, szSetting);
-	if (szRet == NULL)
-		if ((szRet = db_get_sa(NULL, "Netlib", szSetting)) == NULL)
-			return NULL;
+	char *szRet = db_get_sa(0, szUserModule, szSetting);
+	if (szRet == nullptr)
+		if ((szRet = db_get_sa(0, "Netlib", szSetting)) == nullptr)
+			return nullptr;
 
 	return szRet;
 }
@@ -137,7 +137,7 @@ static char* GetNetlibUserSettingString(const char *szUserModule, const char *sz
 
 MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 {
-	if (nlu == NULL || nlu->szSettingsModule == NULL || (!(nlu->flags & NUF_NOOPTIONS) && nlu->szDescriptiveName.w == NULL)) {
+	if (nlu == nullptr || nlu->szSettingsModule == nullptr || (!(nlu->flags & NUF_NOOPTIONS) && nlu->szDescriptiveName.w == nullptr)) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
@@ -160,9 +160,9 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 	if (nlu->szDescriptiveName.w)
 		thisUser->user.szDescriptiveName.w = (thisUser->user.flags & NUF_UNICODE) ? mir_wstrdup(nlu->szDescriptiveName.w) : mir_a2u(nlu->szDescriptiveName.a);
 
-	if ((thisUser->user.szSettingsModule = mir_strdup(nlu->szSettingsModule)) == NULL
-		|| (nlu->szDescriptiveName.w && thisUser->user.szDescriptiveName.w == NULL)
-	   || (nlu->szHttpGatewayUserAgent && (thisUser->user.szHttpGatewayUserAgent = mir_strdup(nlu->szHttpGatewayUserAgent)) == NULL))
+	if ((thisUser->user.szSettingsModule = mir_strdup(nlu->szSettingsModule)) == nullptr
+		|| (nlu->szDescriptiveName.w && thisUser->user.szDescriptiveName.w == nullptr)
+	   || (nlu->szHttpGatewayUserAgent && (thisUser->user.szHttpGatewayUserAgent = mir_strdup(nlu->szHttpGatewayUserAgent)) == nullptr))
 	{
 		mir_free(thisUser);
 		SetLastError(ERROR_OUTOFMEMORY);
@@ -171,7 +171,7 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 	if (nlu->szHttpGatewayHello)
 		thisUser->user.szHttpGatewayHello = mir_strdup(nlu->szHttpGatewayHello);
 	else
-		thisUser->user.szHttpGatewayHello = NULL;
+		thisUser->user.szHttpGatewayHello = nullptr;
 
 	thisUser->settings.cbSize = sizeof(NETLIBUSERSETTINGS);
 	thisUser->settings.useProxy = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLUseProxy", 0);
@@ -206,7 +206,7 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 
 MIR_APP_DLL(int) Netlib_GetUserSettings(HNETLIBUSER nlu, NETLIBUSERSETTINGS *nlus)
 {
-	if (GetNetlibHandleType(nlu) != NLH_USER || nlus == NULL || nlus->cbSize != sizeof(NETLIBUSERSETTINGS)) {
+	if (GetNetlibHandleType(nlu) != NLH_USER || nlus == nullptr || nlus->cbSize != sizeof(NETLIBUSERSETTINGS)) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
@@ -216,7 +216,7 @@ MIR_APP_DLL(int) Netlib_GetUserSettings(HNETLIBUSER nlu, NETLIBUSERSETTINGS *nlu
 
 MIR_APP_DLL(int) Netlib_SetUserSettings(HNETLIBUSER nlu, const NETLIBUSERSETTINGS *nlus)
 {
-	if (GetNetlibHandleType(nlu) != NLH_USER || nlus == NULL || nlus->cbSize != sizeof(NETLIBUSERSETTINGS)) {
+	if (GetNetlibHandleType(nlu) != NLH_USER || nlus == nullptr || nlus->cbSize != sizeof(NETLIBUSERSETTINGS)) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
@@ -235,7 +235,7 @@ void NetlibDoCloseSocket(NetlibConnection *nlc, bool noShutdown)
 		if (!noShutdown)
 			sslApi.shutdown(nlc->hSsl);
 		sslApi.sfree(nlc->hSsl);
-		nlc->hSsl = NULL;
+		nlc->hSsl = nullptr;
 	}
 	closesocket(nlc->s);
 	nlc->s = INVALID_SOCKET;
@@ -243,7 +243,7 @@ void NetlibDoCloseSocket(NetlibConnection *nlc, bool noShutdown)
 
 MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 {
-	if (hNetlib == NULL)
+	if (hNetlib == nullptr)
 		return 0;
 
 	switch (GetNetlibHandleType(hNetlib)) {
@@ -348,7 +348,7 @@ MIR_APP_DLL(UINT_PTR) Netlib_GetSocket(HNETLIBCONN hConnection)
 MIR_APP_DLL(HNETLIBUSER) Netlib_GetConnNlu(HANDLE hConn)
 {
 	if (GetNetlibHandleType(hConn) != NLH_CONNECTION)
-		return NULL;
+		return nullptr;
 
 	return ((NetlibConnection*)hConn)->nlu;
 }
@@ -384,14 +384,14 @@ MIR_APP_DLL(void) Netlib_Shutdown(HNETLIBCONN h)
 
 void UnloadNetlibModule(void)
 {
-	if (!bModuleInitialized || hConnectionHeaderMutex == NULL) return;
+	if (!bModuleInitialized || hConnectionHeaderMutex == nullptr) return;
 
 	NetlibUnloadIeProxy();
 	NetlibUPnPDestroy();
 	NetlibLogShutdown();
 
-	DestroyHookableEvent(hRecvEvent); hRecvEvent = NULL;
-	DestroyHookableEvent(hSendEvent); hSendEvent = NULL;
+	DestroyHookableEvent(hRecvEvent); hRecvEvent = nullptr;
+	DestroyHookableEvent(hSendEvent); hSendEvent = nullptr;
 
 	for (int i = netlibUser.getCount(); i > 0; i--)
 		Netlib_CloseHandle(netlibUser[i-1]);
@@ -411,7 +411,7 @@ int LoadNetlibModule(void)
 
 	HookEvent(ME_OPT_INITIALISE, NetlibOptInitialise);
 
-	hConnectionHeaderMutex = CreateMutex(NULL, FALSE, NULL);
+	hConnectionHeaderMutex = CreateMutex(nullptr, FALSE, nullptr);
 	NetlibLogInit();
 
 	connectionTimeout = 0;
@@ -426,7 +426,7 @@ int LoadNetlibModule(void)
 		else if (osvi.dwMajorVersion == 6 && osvi.wServicePackMajor < 2) {
 			DWORD dwType = 0;
 			tGetProductInfo pGetProductInfo = (tGetProductInfo) GetProcAddress(GetModuleHandleA("kernel32"), "GetProductInfo");
-			if (pGetProductInfo != NULL) pGetProductInfo(6, 0, 0, 0, &dwType);
+			if (pGetProductInfo != nullptr) pGetProductInfo(6, 0, 0, 0, &dwType);
 			switch(dwType) {
 			case 0x01:  // Vista Ultimate edition have connection limit of 25 / sec - plenty for Miranda
 			case 0x1c:
@@ -451,14 +451,14 @@ int LoadNetlibModule(void)
 			if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, keyn, 0, KEY_QUERY_VALUE, &hSettings) == ERROR_SUCCESS) {
 				DWORD tValueLen, enabled;
 				tValueLen = sizeof(enabled);
-				if (RegQueryValueExA(hSettings, valn, NULL, NULL, (BYTE*)&enabled, &tValueLen) == ERROR_SUCCESS && enabled)
+				if (RegQueryValueExA(hSettings, valn, nullptr, nullptr, (BYTE*)&enabled, &tValueLen) == ERROR_SUCCESS && enabled)
 					connectionTimeout = 150;  // if enabled limit is set to 10 / sec
 				RegCloseKey(hSettings);
 			}
 		}
 	}
 
-	hConnectionOpenMutex = connectionTimeout ? CreateMutex(NULL, FALSE, NULL) : NULL;
+	hConnectionOpenMutex = connectionTimeout ? CreateMutex(nullptr, FALSE, nullptr) : nullptr;
 	g_LastConnectionTick = GetTickCount();
 
 	hRecvEvent = CreateHookableEvent(ME_NETLIB_FASTRECV);

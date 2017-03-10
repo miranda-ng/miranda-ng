@@ -37,7 +37,7 @@ struct TreeItem
 static HICON ExtractIconFromPath(const wchar_t *path, int cxIcon, int cyIcon)
 {
 	if (!path)
-		return (HICON)NULL;
+		return (HICON)nullptr;
 
 	int n;
 	wchar_t file[MAX_PATH], fileFull[MAX_PATH];
@@ -52,7 +52,7 @@ static HICON ExtractIconFromPath(const wchar_t *path, int cxIcon, int cyIcon)
 	PathToAbsoluteW(file, fileFull);
 
 	// SHOULD BE REPLACED WITH GOOD ENOUGH FUNCTION
-	HICON hIcon = NULL;
+	HICON hIcon = nullptr;
 	_ExtractIconEx(fileFull, n, cxIcon, cyIcon, &hIcon, LR_COLOR);
 	return hIcon;
 }
@@ -62,7 +62,7 @@ static HICON ExtractIconFromPath(const wchar_t *path, int cxIcon, int cyIcon)
 
 static HICON IconItem_GetIcon_Preview(IcolibItem *item)
 {
-	HICON hIcon = NULL;
+	HICON hIcon = nullptr;
 
 	if (!item->temp_reset) {
 		HICON hRefIcon = IcoLib_GetIconByHandle((HANDLE)item, false);
@@ -103,7 +103,7 @@ static HICON IconItem_GetIcon_Preview(IcolibItem *item)
 
 static void __fastcall MySetCursor(wchar_t *nCursor)
 {
-	SetCursor(LoadCursor(NULL, nCursor));
+	SetCursor(LoadCursor(nullptr, nCursor));
 }
 
 static wchar_t* OpenFileDlg(HWND hParent, const wchar_t *szFile, BOOL bAll)
@@ -142,7 +142,7 @@ static wchar_t* OpenFileDlg(HWND hParent, const wchar_t *szFile, BOOL bAll)
 	ofn.nMaxFile = MAX_PATH * 2;
 
 	if (!GetOpenFileName(&ofn))
-		return NULL;
+		return nullptr;
 
 	return mir_wstrdup(file);
 }
@@ -262,12 +262,12 @@ public:
 		lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 		lvi.iSubItem = 0;
 		lvi.iItem = 0;
-		int count = (int)_ExtractIconEx(filename, -1, 16, 16, NULL, LR_DEFAULTCOLOR);
+		int count = (int)_ExtractIconEx(filename, -1, 16, 16, nullptr, LR_DEFAULTCOLOR);
 		for (int i = 0; i < count; lvi.iItem++, i++) {
 			mir_snwprintf(caption, L"%d", i + 1);
 			lvi.pszText = caption;
 
-			HICON hIcon = NULL;
+			HICON hIcon = nullptr;
 			if (_ExtractIconEx(filename, i, 16, 16, &hIcon, LR_DEFAULTCOLOR) == 1) {
 				lvi.iImage = ImageList_AddIcon(hIml, hIcon);
 				DestroyIcon(hIcon);
@@ -311,7 +311,7 @@ static void LoadSectionIcons(wchar_t *filename, SectionItem* sectionActive)
 			if (!hIcon)
 				continue;
 
-			replaceStrW(item->temp_file, NULL);
+			replaceStrW(item->temp_file, nullptr);
 			SafeDestroyIcon(item->temp_icon);
 
 			item->temp_file = mir_wstrdup(path);
@@ -328,7 +328,7 @@ static void UndoChanges(int iconIndx, int cmd)
 	if (!item->temp_file && !item->temp_icon && item->temp_reset && cmd == ID_CANCELCHANGE)
 		item->temp_reset = FALSE;
 	else {
-		replaceStrW(item->temp_file, NULL);
+		replaceStrW(item->temp_file, nullptr);
 		SafeDestroyIcon(item->temp_icon);
 	}
 
@@ -373,7 +373,7 @@ class CIcoLibOptsDlg : public CDlgBase
 
 			tvi.hItem = m_categoryList.GetNextSibling(tvi.hItem);
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	void RebuildTree()
@@ -381,13 +381,13 @@ class CIcoLibOptsDlg : public CDlgBase
 		if (!m_categoryList.GetHwnd())
 			return;
 
-		m_categoryList.SelectItem(NULL);
+		m_categoryList.SelectItem(nullptr);
 		m_categoryList.DeleteAllItems();
 
 		for (int indx = 0; indx < sectionList.getCount(); indx++) {
 			int sectionLevel = 0;
 
-			HTREEITEM hSection = NULL;
+			HTREEITEM hSection = nullptr;
 			wchar_t itemName[1024];
 			mir_wstrcpy(itemName, sectionList[indx]->name);
 			wchar_t *sectionName = itemName;
@@ -416,7 +416,7 @@ class CIcoLibOptsDlg : public CDlgBase
 						tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
 						tvis.item.pszText = pItemName;
 						tvis.item.lParam = (LPARAM)treeItem;
-						tvis.item.state = tvis.item.stateMask = db_get_b(NULL, "SkinIconsUI", treeItem->paramName, TVIS_EXPANDED);
+						tvis.item.state = tvis.item.stateMask = db_get_b(0, "SkinIconsUI", treeItem->paramName, TVIS_EXPANDED);
 						hItem = m_categoryList.InsertItem(&tvis);
 					}
 					else {
@@ -441,7 +441,7 @@ class CIcoLibOptsDlg : public CDlgBase
 
 		ShowWindow(m_categoryList.GetHwnd(), SW_SHOW);
 
-		m_categoryList.SelectItem(FindNamedTreeItemAt(0, NULL));
+		m_categoryList.SelectItem(FindNamedTreeItemAt(0, nullptr));
 	}
 
 	int OpenPopupMenu()
@@ -451,7 +451,7 @@ class CIcoLibOptsDlg : public CDlgBase
 		HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_ICOLIB_CONTEXT));
 		HMENU hPopup = GetSubMenu(hMenu, 0);
 		TranslateMenu(hPopup);
-		int cmd = TrackPopupMenu(hPopup, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, NULL);
+		int cmd = TrackPopupMenu(hPopup, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr);
 		DestroyMenu(hMenu);
 		return cmd;
 	}
@@ -561,8 +561,8 @@ public:
 		m_btnGetMore(this, IDC_GETMORE),
 		m_btnLoadIcons(this, IDC_LOADICONS),
 		m_categoryList(this, IDC_CATEGORYLIST),
-		m_hPrevItem(NULL),
-		m_pDialog(NULL)
+		m_hPrevItem(nullptr),
+		m_pDialog(nullptr)
 	{
 		m_btnImport.OnClick = Callback(this, &CIcoLibOptsDlg::OnImport);
 		m_btnGetMore.OnClick = Callback(this, &CIcoLibOptsDlg::OnGetMore);
@@ -583,8 +583,8 @@ public:
 			mir_cslock lck(csIconList);
 
 			for (int indx = 0; indx < iconList.getCount(); indx++) {
-				iconList[indx]->temp_file = NULL;
-				iconList[indx]->temp_icon = NULL;
+				iconList[indx]->temp_file = nullptr;
+				iconList[indx]->temp_icon = nullptr;
 				iconList[indx]->temp_reset = false;
 			}
 			bNeedRebuild = false;
@@ -649,16 +649,16 @@ public:
 			for (int indx = 0; indx < iconList.getCount(); indx++) {
 				IcolibItem *item = iconList[indx];
 				if (item->temp_reset) {
-					db_unset(NULL, "SkinIcons", item->name);
+					db_unset(0, "SkinIcons", item->name);
 					if (item->source_small != item->default_icon) {
 						item->source_small->release();
-						item->source_small = NULL;
+						item->source_small = nullptr;
 					}
 				}
 				else if (item->temp_file) {
-					db_set_ws(NULL, "SkinIcons", item->name, item->temp_file);
+					db_set_ws(0, "SkinIcons", item->name, item->temp_file);
 					item->source_small->release();
-					item->source_small = NULL;
+					item->source_small = nullptr;
 					SafeDestroyIcon(item->temp_icon);
 				}
 			}
@@ -670,7 +670,7 @@ public:
 	virtual void OnDestroy() override
 	{
 		HTREEITEM hti = m_categoryList.GetRoot();
-		while (hti != NULL) {
+		while (hti != nullptr) {
 			TVITEMEX tvi;
 			tvi.mask = TVIF_STATE | TVIF_HANDLE | TVIF_CHILDREN | TVIF_PARAM;
 			tvi.hItem = hti;
@@ -680,17 +680,17 @@ public:
 			if (tvi.cChildren > 0) {
 				TreeItem *treeItem = (TreeItem *)tvi.lParam;
 				if (tvi.state & TVIS_EXPANDED)
-					db_set_b(NULL, "SkinIconsUI", treeItem->paramName, TVIS_EXPANDED);
+					db_set_b(0, "SkinIconsUI", treeItem->paramName, TVIS_EXPANDED);
 				else
-					db_set_b(NULL, "SkinIconsUI", treeItem->paramName, 0);
+					db_set_b(0, "SkinIconsUI", treeItem->paramName, 0);
 			}
 
 			HTREEITEM ht = m_categoryList.GetChild(hti);
-			if (ht == NULL) {
+			if (ht == nullptr) {
 				ht = m_categoryList.GetNextSibling(hti);
-				while (ht == NULL) {
+				while (ht == nullptr) {
 					hti = m_categoryList.GetParent(hti);
-					if (hti == NULL)
+					if (hti == nullptr)
 						break;
 					
 					ht = m_categoryList.GetNextSibling(hti);
@@ -706,7 +706,7 @@ public:
 		mir_cslock lck(csIconList);
 		for (int indx = 0; indx < iconList.getCount(); indx++) {
 			IcolibItem *item = iconList[indx];
-			replaceStrW(item->temp_file, NULL);
+			replaceStrW(item->temp_file, nullptr);
 			SafeDestroyIcon(item->temp_icon);
 		}
 	}
@@ -773,14 +773,14 @@ public:
 			if (SECTIONPARAM_FLAGS(treeItem->value) & SECTIONPARAM_HAVEPAGE)
 				sectionActive = sectionList[SECTIONPARAM_INDEX(treeItem->value)];
 			else
-				sectionActive = NULL;
+				sectionActive = nullptr;
 
-			m_preview.Enable(sectionActive != NULL);
+			m_preview.Enable(sectionActive != nullptr);
 			m_preview.DeleteAllItems();
 			HIMAGELIST hIml = m_preview.GetImageList(LVSIL_NORMAL);
 			ImageList_RemoveAll(hIml);
 
-			if (sectionActive == NULL)
+			if (sectionActive == nullptr)
 				return;
 
 			LVITEM lvi = { 0 };

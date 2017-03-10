@@ -91,7 +91,7 @@ void CLangpackDlg::OnInitDialog()
 
 void CLangpackDlg::LoadLangpacks()
 {
-	ptrW langpack(db_get_wsa(NULL, "Langpack", "Current"));
+	ptrW langpack(db_get_wsa(0, "Langpack", "Current"));
 
 	wchar_t tszFullPath[MAX_PATH];
 	PathToAbsoluteW(L"\\Languages\\langpack_*.txt", tszFullPath);
@@ -130,11 +130,11 @@ void CLangpackDlg::LoadLangpacks()
 		DWORD v = Miranda_GetVersion();
 		pack.szLastModifiedUsing.Format("%d.%d.%d", ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF));
 
-		if (GetModuleFileName(NULL, pack.tszFullPath, _countof(pack.tszFullPath))) {
+		if (GetModuleFileName(nullptr, pack.tszFullPath, _countof(pack.tszFullPath))) {
 			mir_wstrcpy(pack.tszFileName, L"default");
 			HANDLE hFile = CreateFile(pack.tszFileName, 0, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
 			if (hFile != INVALID_HANDLE_VALUE) {
-				GetFileTime(hFile, NULL, NULL, &pack.ftFileDate);
+				GetFileTime(hFile, nullptr, nullptr, &pack.ftFileDate);
 				CloseHandle(hFile);
 			}
 		}
@@ -193,7 +193,7 @@ void CLangpackDlg::DisplayPackInfo(const LANGPACK_INFO *pack)
 	SYSTEMTIME stFileDate;
 	wchar_t szDate[128]; szDate[0] = 0;
 	if (FileTimeToSystemTime(&pack->ftFileDate, &stFileDate))
-		GetDateFormat(Langpack_GetDefaultLocale(), DATE_SHORTDATE, &stFileDate, NULL, szDate, _countof(szDate));
+		GetDateFormat(Langpack_GetDefaultLocale(), DATE_SHORTDATE, &stFileDate, nullptr, szDate, _countof(szDate));
 	m_date.SetText(szDate);
 
 	m_lastModUsing.SetText(ptrW(mir_utf8decodeW(pack->szLastModifiedUsing)));
@@ -240,7 +240,7 @@ void CLangpackDlg::OnApply()
 	for (int i = 0; i < count; i++) {
 		LANGPACK_INFO *pack = (LANGPACK_INFO*)m_languages.GetItemData(i);
 		if (i == idx) {
-			db_set_ws(NULL, "Langpack", "Current", pack->tszFileName);
+			db_set_ws(0, "Langpack", "Current", pack->tszFileName);
 			mir_wstrcpy(tszPath, pack->tszFullPath);
 			pack->flags |= LPF_ENABLED;
 		}

@@ -62,14 +62,14 @@ void* _RelativeVirtualAddresstoPtr(IMAGE_DOS_HEADER *pDosHeader, DWORD rva)
 			return (LPBYTE)pDosHeader + cSection->PointerToRawData + (rva - cSection->VirtualAddress);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void* _GetResourceTable(IMAGE_DOS_HEADER* pDosHeader)
 {
 	IMAGE_NT_HEADERS *pPE = (IMAGE_NT_HEADERS*)((BYTE*)pDosHeader + pDosHeader->e_lfanew);
 	if (pPE->Signature != IMAGE_NT_SIGNATURE || pPE->FileHeader.SizeOfOptionalHeader < 2)
-		return NULL;
+		return nullptr;
 
 	// The DataDirectory is an array of 16 structures.
 	// Each array entry has a predefined meaning for what it refers to.
@@ -86,7 +86,7 @@ void* _GetResourceTable(IMAGE_DOS_HEADER* pDosHeader)
 		break;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 IMAGE_RESOURCE_DIRECTORY_ENTRY* _FindResourceBase(void *prt, DWORD resType, int *pCount)
@@ -104,7 +104,7 @@ IMAGE_RESOURCE_DIRECTORY_ENTRY* _FindResourceBase(void *prt, DWORD resType, int 
 			break;
 
 	if (i == count)
-		return NULL;
+		return nullptr;
 
 	pDir = (IMAGE_RESOURCE_DIRECTORY*)((LPBYTE)prt + (pRes[i].OffsetToData & ~IMAGE_RESOURCE_DATA_IS_DIRECTORY));
 	count = pDir->NumberOfIdEntries + pDir->NumberOfNamedEntries;
@@ -132,7 +132,7 @@ void* _FindResource(IMAGE_DOS_HEADER *pDosHeader, void *prt, int resIndex, DWORD
 	else index = resIndex;
 
 	if (index >= count)
-		return NULL;
+		return nullptr;
 
 	if (pRes[index].OffsetToData & IMAGE_RESOURCE_DATA_IS_DIRECTORY) {
 		IMAGE_RESOURCE_DIRECTORY* pDir;
@@ -142,7 +142,7 @@ void* _FindResource(IMAGE_DOS_HEADER *pDosHeader, void *prt, int resIndex, DWORD
 	}
 
 	if (pRes[index].OffsetToData & IMAGE_RESOURCE_DATA_IS_DIRECTORY)
-		return NULL;
+		return nullptr;
 
 	IMAGE_RESOURCE_DATA_ENTRY *pEntry = (IMAGE_RESOURCE_DATA_ENTRY*)((LPBYTE)prt + pRes[index].OffsetToData);
 	*pcbSize = pEntry->Size;
@@ -152,14 +152,14 @@ void* _FindResource(IMAGE_DOS_HEADER *pDosHeader, void *prt, int resIndex, DWORD
 UINT _ExtractFromExe(HANDLE hFile, int iconIndex, int cxIconSize, int cyIconSize, HICON *phicon, UINT flags)
 {
 	int retval = 0;
-	DWORD fileLen = GetFileSize(hFile, NULL);
+	DWORD fileLen = GetFileSize(hFile, nullptr);
 
-	HANDLE pFile = NULL, hFileMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL);
-	if (hFileMap == NULL)
+	HANDLE pFile = nullptr, hFileMap = CreateFileMapping(hFile, nullptr, PAGE_READONLY, 0, 0, nullptr);
+	if (hFileMap == nullptr)
 		goto cleanup;
 
 	pFile = MapViewOfFile(hFileMap, FILE_MAP_READ, 0, 0, 0);
-	if (pFile == NULL)
+	if (pFile == nullptr)
 		goto cleanup;
 
 	IMAGE_DOS_HEADER *pDosHeader = (IMAGE_DOS_HEADER*)(void*)pFile;
@@ -209,7 +209,7 @@ UINT _ExtractFromICO(LPCTSTR pFileName, int iconIndex, int cxIcon, int cyIcon, H
 		return 1;
 
 	flags |= LR_LOADFROMFILE;
-	HICON hicon = (HICON)LoadImage(NULL, pFileName, IMAGE_ICON, cxIcon, cyIcon, flags);
+	HICON hicon = (HICON)LoadImage(nullptr, pFileName, IMAGE_ICON, cxIcon, cyIcon, flags);
 	if (!hicon)
 		return 0;
 
@@ -221,23 +221,23 @@ UINT _ExtractIconEx(LPCTSTR lpszFile, int iconIndex, int cxIcon, int cyIcon, HIC
 {
 	UINT res = 0;
 	if (cxIcon == g_iIconX && cyIcon == g_iIconY)
-		res = ExtractIconEx(lpszFile, iconIndex, phicon, NULL, 1);
+		res = ExtractIconEx(lpszFile, iconIndex, phicon, nullptr, 1);
 	else if (cxIcon == g_iIconSX && cyIcon == g_iIconSY)
-		res = ExtractIconEx(lpszFile, iconIndex, NULL, phicon, 1);
+		res = ExtractIconEx(lpszFile, iconIndex, nullptr, phicon, 1);
 	else if (cxIcon == 0 || cyIcon == 0)
-		res = ExtractIconEx(lpszFile, iconIndex, NULL, phicon, 1);
+		res = ExtractIconEx(lpszFile, iconIndex, nullptr, phicon, 1);
 	// check if the api succeded, if not try our method too
 	if (res)
 		return res;
 
-	HANDLE hFile = CreateFile(lpszFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	HANDLE hFile = CreateFile(lpszFile, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return 0;
 
 	// failed to read file signature
 	DWORD read = 0;
 	WORD magic[6];
-	if (!ReadFile(hFile, &magic, sizeof(magic), &read, NULL) || (read != sizeof(magic))) {
+	if (!ReadFile(hFile, &magic, sizeof(magic), &read, nullptr) || (read != sizeof(magic))) {
 		CloseHandle(hFile);
 		return 0;
 	}

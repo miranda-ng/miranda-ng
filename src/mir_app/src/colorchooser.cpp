@@ -110,8 +110,8 @@ public:
 		m_yPosition -= height;
 
 		m_text.SetText(m_bForeground ? TranslateT("Text color") : TranslateT("Background color"));
-		SetWindowPos(m_text.GetHwnd(), NULL, 0, 0, width, 20, 0);
-		SetWindowPos(m_hwnd, NULL, m_xPosition, m_yPosition, width, height, SWP_SHOWWINDOW);
+		SetWindowPos(m_text.GetHwnd(), nullptr, 0, 0, width, 20, 0);
+		SetWindowPos(m_hwnd, nullptr, m_xPosition, m_yPosition, width, height, SWP_SHOWWINDOW);
 	}
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
@@ -130,7 +130,7 @@ public:
 			break;
 
 		case WM_LBUTTONUP:
-			if (iCurrentHotTrack >= 0 && iCurrentHotTrack < m_pModule->nColorCount && m_hwndTarget != NULL) {
+			if (iCurrentHotTrack >= 0 && iCurrentHotTrack < m_pModule->nColorCount && m_hwndTarget != nullptr) {
 				CHARFORMAT2 cf;
 				cf.cbSize = sizeof(CHARFORMAT2);
 				cf.dwMask = 0;

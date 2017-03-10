@@ -25,8 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "profilemanager.h"
 
-MIDatabase *currDb = NULL;
-DATABASELINK *currDblink = NULL;
+MIDatabase *currDb = nullptr;
+DATABASELINK *currDblink = nullptr;
 
 // contains the location of mirandaboot.ini
 bool g_bDbCreated;
@@ -40,7 +40,7 @@ bool fileExist(const wchar_t *fname)
 		return false;
 
 	FILE *fp = _wfopen(fname, L"r+");
-	bool res = (fp != NULL);
+	bool res = (fp != nullptr);
 	if (fp) fclose(fp);
 	return res;
 }
@@ -48,7 +48,7 @@ bool fileExist(const wchar_t *fname)
 static void fillProfileName(const wchar_t* ptszFileName)
 {
 	const wchar_t* p = wcsrchr(ptszFileName, '\\');
-	if (p == NULL)
+	if (p == nullptr)
 		p = ptszFileName;
 	else
 		p++;
@@ -168,13 +168,13 @@ static void loadProfileByShortName(const wchar_t* src, wchar_t *szProfile, size_
 void getProfileCmdLine(wchar_t *szProfile, size_t cch)
 {
 	LPCTSTR ptszProfileName = CmdLine_GetOption(L"profile");
-	if (ptszProfileName != NULL)
+	if (ptszProfileName != nullptr)
 		loadProfileByShortName(ptszProfileName, szProfile, cch);
 }
 
 void getProfileDefault(wchar_t *szProfile, size_t cch)
 {
-	if (g_defaultProfile != NULL) {
+	if (g_defaultProfile != nullptr) {
 		loadProfileByShortName(g_defaultProfile, szProfile, cch);
 		mir_free(g_defaultProfile);
 	}
@@ -206,14 +206,14 @@ static void moveProfileDirProfiles(wchar_t *profiledir, BOOL isRootDir = TRUE)
 				mir_snwprintf(buf,
 								  TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually."),
 								  path, path2);
-				MessageBox(NULL, buf, L"Miranda NG", MB_ICONERROR | MB_OK);
+				MessageBox(nullptr, buf, L"Miranda NG", MB_ICONERROR | MB_OK);
 			}
 			else if (MoveFile(path, path2) == 0) {
 				wchar_t buf[512];
 				mir_snwprintf(buf,
 								  TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually."),
 								  path, path2);
-				MessageBox(NULL, buf, L"Miranda NG", MB_ICONERROR | MB_OK);
+				MessageBox(nullptr, buf, L"Miranda NG", MB_ICONERROR | MB_OK);
 				mir_free(profile);
 				break;
 			}
@@ -256,7 +256,7 @@ static int getProfile1(wchar_t *szProfile, size_t cch, wchar_t *profiledir, BOOL
 				if (_waccess(newProfile, 0) != 0)
 					continue;
 
-				switch (touchDatabase(newProfile, NULL)) {
+				switch (touchDatabase(newProfile, nullptr)) {
 				case 0:
 				case EGROKPRF_OBSOLETE:
 					if (++found == 1 && bNoDefaultProfile)
@@ -306,7 +306,7 @@ static int getProfile(wchar_t *szProfile, size_t cch)
 	getProfileDefault(szProfile, cch);
 
 	if (IsInsideRootDir(g_profileDir, true)) {
-		MessageBox(NULL,
+		MessageBox(nullptr,
 					  TranslateT("Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location."),
 					  LPGENW("Miranda NG"), MB_ICONERROR | MB_OK);
 		return 0;
@@ -338,7 +338,7 @@ LBL_Show:
 // carefully converts a file name from wchar_t* to char*
 char* makeFileName(const wchar_t* tszOriginalName)
 {
-	char *szResult = NULL;
+	char *szResult = nullptr;
 	char *szFileName = mir_u2a(tszOriginalName);
 	wchar_t *tszFileName = mir_a2u(szFileName);
 	if (mir_wstrcmp(tszOriginalName, tszFileName)) {
@@ -374,7 +374,7 @@ int touchDatabase(const wchar_t *tszProfile, DATABASELINK **dblink)
 	}
 
 	if (dblink)
-		*dblink = NULL;
+		*dblink = nullptr;
 	return EGROKPRF_CANTREAD;
 }
 
@@ -405,7 +405,7 @@ int tryOpenDatabase(const wchar_t *tszProfile)
 
 		// try to load database
 		MIDatabase *pDb = p->Load(tszProfile, FALSE);
-		if (pDb == NULL)
+		if (pDb == nullptr)
 			return EGROKPRF_CANTREAD;
 
 		fillProfileName(tszProfile);
@@ -430,7 +430,7 @@ static int tryCreateDatabase(const wchar_t *ptszProfile)
 		if (err == ERROR_SUCCESS) {
 			g_bDbCreated = true;
 			MIDatabase *pDb = p->Load(tszProfile, FALSE);
-			if (pDb == NULL) // driver was found but smth went wrong
+			if (pDb == nullptr) // driver was found but smth went wrong
 				return EGROKPRF_CANTREAD;
 
 			fillProfileName(tszProfile);
@@ -495,7 +495,7 @@ int LoadDatabaseModule(void)
 	ptszFileName = (ptszFileName) ? ptszFileName + 1 : szProfile;
 
 	if (arDbPlugins.getCount() == 0) {
-		MessageBox(NULL,
+		MessageBox(nullptr,
 			CMStringW(FORMAT, TranslateW(tszNoDrivers), ptszFileName),
 			TranslateT("No profile support installed!"), MB_OK | MB_ICONERROR);
 		return 1;
@@ -513,7 +513,7 @@ int LoadDatabaseModule(void)
 
 		// there were no suitable driver installed
 		if (rc == -1) {
-			MessageBox(NULL,
+			MessageBox(nullptr,
 				CMStringW(FORMAT, TranslateW(tszNoSuitableDriver), ptszFileName),
 				TranslateT("Miranda can't open that profile"), MB_OK | MB_ICONERROR);
 		}
@@ -521,12 +521,12 @@ int LoadDatabaseModule(void)
 			// if there were drivers but they all failed cos the file is locked, try and find the miranda which locked it
 			if (fileExist(szProfile)) {
 				// file isn't locked, just no driver could open it.
-				MessageBox(NULL,
+				MessageBox(nullptr,
 					CMStringW(FORMAT, TranslateW(tszUnknownFormat), ptszFileName),
 					TranslateT("Miranda can't understand that profile"), MB_OK | MB_ICONERROR);
 			}
 			else if (!FindMirandaForProfile(szProfile)) {
-				retry = IDRETRY == MessageBox(NULL,
+				retry = IDRETRY == MessageBox(nullptr,
 					CMStringW(FORMAT, TranslateW(tszProfileLocked), ptszFileName),
 					TranslateT("Miranda can't open that profile"), MB_RETRYCANCEL | MB_ICONERROR);
 			}

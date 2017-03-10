@@ -105,7 +105,7 @@ wchar_t* fnGetStatusModeDescription(int mode, int flags)
 			mir_snwprintf(szMode, (flags & GSMDF_UNTRANSLATED) ? connFmt : TranslateW(connFmt), mode - ID_STATUS_CONNECTING + 1);
 			return szMode;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	return (flags & GSMDF_UNTRANSLATED) ? descr : TranslateW(descr);
@@ -120,7 +120,7 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 	cli.pfnCluiProtocolStatusChanged(lParam, ack->szModule);
 
 	if ((INT_PTR)ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
-		DWORD caps = (DWORD)CallProtoServiceInt(NULL, ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
+		DWORD caps = (DWORD)CallProtoServiceInt(0, ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (caps & PF1_SERVERCLIST) {
 			for (MCONTACT hContact = db_find_first(ack->szModule); hContact; ) {
 				MCONTACT hNext = db_find_next(hContact, ack->szModule);
@@ -150,7 +150,7 @@ int fnIconFromStatusMode(const char *szProto, int status, MCONTACT)
 
 	if (index == _countof(statusModeList))
 		index = 0;
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return index + 1;
 	for (i = 0; i < protoIconIndex.getCount(); i++) {
 		if (mir_strcmp(szProto, protoIconIndex[i].szProto) == 0)
@@ -163,7 +163,7 @@ int fnGetContactIcon(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	return cli.pfnIconFromStatusMode(szProto,
-		szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact);
+		szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact);
 }
 
 static void AddProtoIconIndex(PROTOACCOUNT *pa)
@@ -234,11 +234,11 @@ MIR_APP_DLL(void) Clist_ContactDoubleClicked(MCONTACT hContact)
 
 	// Otherwise try to execute the default action
 	TIntMenuObject *pmo = GetMenuObjbyId(hContactMenuObject);
-	if (pmo != NULL) {
+	if (pmo != nullptr) {
 		NotifyEventHooks(hPreBuildContactMenuEvent, hContact, 0);
 
 		TMO_IntMenuItem *pimi = Menu_GetDefaultItem(pmo->m_items.first);
-		if (pimi != NULL)
+		if (pimi != nullptr)
 			Menu_ProcessCommand(pimi, hContact);
 	}
 }
@@ -258,7 +258,7 @@ static int CListIconsChanged(WPARAM, LPARAM)
 		for (int j = 0; j < _countof(statusModeList); j++)
 			ImageList_ReplaceIcon_IconLibLoaded(hCListImages, protoIconIndex[i].iIconBase + j, Skin_LoadProtoIcon(protoIconIndex[i].szProto, statusModeList[j]));
 	cli.pfnTrayIconIconsChanged();
-	cli.pfnInvalidateRect(cli.hwndContactList, NULL, TRUE);
+	cli.pfnInvalidateRect(cli.hwndContactList, nullptr, TRUE);
 	return 0;
 }
 
@@ -278,7 +278,7 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	BOOL bPartiallyCovered = FALSE;
 	HWND hAux = 0;
 
-	if (hWnd == NULL) {
+	if (hWnd == nullptr) {
 		SetLastError(0x00000006);       //Wrong handle
 		return -1;
 	}
@@ -314,9 +314,9 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 		for (j = rc.left; j < rc.right; j += (width / iStepX)) {
 			pt.x = j;
 			hAux = WindowFromPoint(pt);
-			while (GetParent(hAux) != NULL)
+			while (GetParent(hAux) != nullptr)
 				hAux = GetParent(hAux);
-			if (hAux != hWnd && hAux != NULL)       //There's another window!
+			if (hAux != hWnd && hAux != nullptr)       //There's another window!
 				bPartiallyCovered = TRUE;
 			else
 				iNotCoveredDots++;  //Let's count the not covered dots.
@@ -344,7 +344,7 @@ int fnShowHide()
 	switch (iVisibleState) {
 	case GWVS_PARTIALLY_COVERED:
 		//If we don't want to bring it to top, we can use a simple break. This goes against readability ;-) but the comment explains it.
-		if (!db_get_b(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
+		if (!db_get_b(0, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
 			break;
 	case GWVS_COVERED:     //Fall through (and we're already falling)
 	case GWVS_HIDDEN:
@@ -359,13 +359,13 @@ int fnShowHide()
 
 	if (bShow == TRUE) {
 		ShowWindow(cli.hwndContactList, SW_RESTORE);
-		if (!db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
+		if (!db_get_b(0, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
 			SetWindowPos(cli.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 		else
 			SetWindowPos(cli.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 		SetForegroundWindow(cli.hwndContactList);
-		db_set_b(NULL, "CList", "State", SETTING_STATE_NORMAL);
+		db_set_b(0, "CList", "State", SETTING_STATE_NORMAL);
 
 		// this forces the window onto the visible screen
 		RECT rcWindow;
@@ -374,17 +374,17 @@ int fnShowHide()
 			MoveWindow(cli.hwndContactList, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 	}
 	else { // It needs to be hidden
-		if (db_get_b(NULL, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ||
-			db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
+		if (db_get_b(0, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ||
+			db_get_b(0, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
 			ShowWindow(cli.hwndContactList, SW_HIDE);
-			db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);
+			db_set_b(0, "CList", "State", SETTING_STATE_HIDDEN);
 		}
 		else {
 			ShowWindow(cli.hwndContactList, SW_MINIMIZE);
-			db_set_b(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
+			db_set_b(0, "CList", "State", SETTING_STATE_MINIMIZED);
 		}
 
-		if (db_get_b(NULL, "CList", "DisableWorkingSet", 1))
+		if (db_get_b(0, "CList", "DisableWorkingSet", 1))
 			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 	}
 	return 0;
@@ -402,9 +402,9 @@ void fnChangeContactIcon(MCONTACT hContact, int iIcon)
 MIR_APP_DLL(int) Clist_ContactCompare(MCONTACT hContact1, MCONTACT hContact2)
 {
 	ClcData *dat = (ClcData*)GetWindowLongPtr(cli.hwndContactTree, 0);
-	if (dat != NULL) {
+	if (dat != nullptr) {
 		ClcContact *p1, *p2;
-		if (Clist_FindItem(cli.hwndContactTree, dat, hContact1, &p1, NULL, NULL) && Clist_FindItem(cli.hwndContactTree, dat, hContact2, &p2, NULL, NULL))
+		if (Clist_FindItem(cli.hwndContactTree, dat, hContact1, &p1, nullptr, nullptr) && Clist_FindItem(cli.hwndContactTree, dat, hContact2, &p2, nullptr, nullptr))
 			return cli.pfnCompareContacts(p1, p2);
 	}
 
@@ -450,7 +450,7 @@ void UnloadContactListModule()
 		return;
 
 	// remove transitory contacts
-	for (MCONTACT hContact = db_find_first(); hContact != NULL; ) {
+	for (MCONTACT hContact = db_find_first(); hContact != 0; ) {
 		MCONTACT hNext = db_find_next(hContact);
 		if (db_get_b(hContact, "CList", "NotOnList", 0))
 			db_delete_contact(hContact);

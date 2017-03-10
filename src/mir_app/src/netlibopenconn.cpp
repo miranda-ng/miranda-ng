@@ -319,7 +319,7 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NE
 
 	NETLIBHTTPREQUEST *nlhrReply = NetlibHttpRecv(nlc, MSG_DUMPPROXY | MSG_RAW, MSG_DUMPPROXY | MSG_RAW, true);
 	nlc->usingHttpGateway = false;
-	if (nlhrReply == NULL)
+	if (nlhrReply == nullptr)
 		return false;
 
 	if (nlhrReply->resultCode < 200 || nlhrReply->resultCode >= 300) {
@@ -464,7 +464,7 @@ retry:
 				lasterr = ERROR_TIMEOUT;
 				break;
 			}
-			else if (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2 && nloc->waitcallback != NULL && nloc->waitcallback(&dwTimeout) == 0) {
+			else if (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2 && nloc->waitcallback != nullptr && nloc->waitcallback(&dwTimeout) == 0) {
 				rc = SOCKET_ERROR;
 				lasterr = ERROR_TIMEOUT;
 				break;
@@ -514,7 +514,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 	}
 
 	char szPort[6];
-	addrinfo *air = NULL, *ai, hints = { 0 };
+	addrinfo *air = nullptr, *ai, hints = { 0 };
 
 	hints.ai_family = AF_UNSPEC;
 
@@ -627,7 +627,7 @@ retry:
 				lasterr = ERROR_TIMEOUT;
 				break;
 			}
-			else if (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2 && nloc->waitcallback != NULL && nloc->waitcallback(&dwTimeout) == 0) {
+			else if (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2 && nloc->waitcallback != nullptr && nloc->waitcallback(&dwTimeout) == 0) {
 				rc = SOCKET_ERROR;
 				lasterr = ERROR_TIMEOUT;
 				break;
@@ -666,7 +666,7 @@ static int NetlibHttpFallbackToDirect(NetlibConnection *nlc, NetlibUser *nlu, NE
 
 	nlc->proxyAuthNeeded = false;
 	nlc->proxyType = 0;
-	replaceStr(nlc->szProxyServer, NULL);
+	replaceStr(nlc->szProxyServer, nullptr);
 	if (!my_connect(nlc, nloc)) {
 		Netlib_Logf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "connect", WSAGetLastError());
 		return false;
@@ -679,7 +679,7 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 	NETLIBOPENCONNECTION *nloc = &nlc->nloc;
 	NetlibUser *nlu = nlc->nlu;
 
-	replaceStr(nlc->szProxyServer, NULL);
+	replaceStr(nlc->szProxyServer, nullptr);
 
 	bool usingProxy = false, forceHttps = false;
 	if (nlu->settings.useProxy) {
@@ -819,14 +819,14 @@ bool NetlibReconnect(NetlibConnection *nlc)
 
 MIR_APP_DLL(HNETLIBCONN) Netlib_OpenConnection(NetlibUser *nlu, const NETLIBOPENCONNECTION *nloc)
 {
-	if (nloc == NULL || nloc->cbSize != sizeof(NETLIBOPENCONNECTION) || nloc->szHost == NULL || nloc->wPort == 0) {
+	if (nloc == nullptr || nloc->cbSize != sizeof(NETLIBOPENCONNECTION) || nloc->szHost == nullptr || nloc->wPort == 0) {
 
 		SetLastError(ERROR_INVALID_PARAMETER);
-		return NULL;
+		return nullptr;
 	}
 
 	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_OUTGOING))
-		return NULL;
+		return nullptr;
 
 	Netlib_Logf(nlu, "Connection request to %s:%d (Flags %x)....", nloc->szHost, nloc->wPort, nloc->flags);
 
@@ -855,28 +855,28 @@ MIR_APP_DLL(HNETLIBCONN) Netlib_OpenConnection(NetlibUser *nlu, const NETLIBOPEN
 MIR_APP_DLL(int) Netlib_StartSsl(HNETLIBCONN hConnection, const char *szHost)
 {
 	NetlibConnection *nlc = (NetlibConnection*)hConnection;
-	if (nlc == NULL)
+	if (nlc == nullptr)
 		return 0;
 
-	if (szHost == NULL)
+	if (szHost == nullptr)
 		szHost = nlc->nloc.szHost;
 
 	Netlib_Logf(nlc->nlu, "(%d %s) Starting SSL negotiation", nlc->s, szHost);
 	nlc->hSsl = sslApi.connect(nlc->s, szHost, nlc->nlu->settings.validateSSL);
 
-	if (nlc->hSsl == NULL)
+	if (nlc->hSsl == nullptr)
 		Netlib_Logf(nlc->nlu, "(%d %s) Failure to negotiate SSL connection", nlc->s, szHost);
 	else
 		Netlib_Logf(nlc->nlu, "(%d %s) SSL negotiation successful", nlc->s, szHost);
 
-	return nlc->hSsl != NULL;
+	return nlc->hSsl != nullptr;
 }
 
 NetlibConnection::NetlibConnection()
 {
 	handleType = NLH_CONNECTION;
 	s = s2 = INVALID_SOCKET;
-	hOkToCloseEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
+	hOkToCloseEvent = CreateEvent(nullptr, TRUE, TRUE, nullptr);
 	NetlibInitializeNestedCS(&ncsSend);
 	NetlibInitializeNestedCS(&ncsRecv);
 }

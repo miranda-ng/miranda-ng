@@ -141,7 +141,7 @@ class CExtraIconOptsDlg : public CDlgBase
 		LIST<_TREEITEM> toRemove(1);
 		intlist ids;
 		bool selected = false;
-		HTREEITEM hPlace = NULL;
+		HTREEITEM hPlace = nullptr;
 
 		// Find items
 		HTREEITEM hItem = m_tree.GetRoot();
@@ -149,7 +149,7 @@ class CExtraIconOptsDlg : public CDlgBase
 		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 		while (hItem) {
 			if (m_tree.IsSelected(hItem)) {
-				if (hPlace == NULL)
+				if (hPlace == nullptr)
 					hPlace = hItem;
 
 				tvi.hItem = hItem;
@@ -168,7 +168,7 @@ class CExtraIconOptsDlg : public CDlgBase
 			hItem = m_tree.GetNextSibling(hItem);
 		}
 
-		if (hPlace != NULL) {
+		if (hPlace != nullptr) {
 			// Add new
 			HTREEITEM hNew = Tree_AddExtraIconGroup(ids, selected, hPlace);
 
@@ -187,7 +187,7 @@ class CExtraIconOptsDlg : public CDlgBase
 	void UngroupSelectedItems()
 	{
 		HTREEITEM hItem = m_tree.GetSelection();
-		if (hItem == NULL)
+		if (hItem == nullptr)
 			return;
 
 		intlist *ids = Tree_GetIDs(hItem);
@@ -224,7 +224,7 @@ class CExtraIconOptsDlg : public CDlgBase
 		TranslateMenu(submenu);
 
 		DWORD pos = GetMessagePos();
-		int ret = TrackPopupMenu(submenu, TPM_TOPALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD | TPM_LEFTALIGN, LOWORD(pos), HIWORD(pos), 0, m_hwnd, NULL);
+		int ret = TrackPopupMenu(submenu, TPM_TOPALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD | TPM_LEFTALIGN, LOWORD(pos), HIWORD(pos), 0, m_hwnd, nullptr);
 
 		DestroyMenu(menu);
 
@@ -268,7 +268,7 @@ public:
 			ExtraIcon *extra = registeredExtraIcons[i];
 
 			HICON hIcon = IcoLib_GetIcon(extra->getDescIcon());
-			if (hIcon == NULL)
+			if (hIcon == nullptr)
 				ImageList_AddIcon(hImageList, hBlankIcon);
 			else {
 				ImageList_AddIcon(hImageList, hIcon);
@@ -292,7 +292,7 @@ public:
 		}
 
 		TVSORTCB sort = { 0 };
-		sort.hParent = NULL;
+		sort.hParent = nullptr;
 		sort.lParam = 0;
 		sort.lpfnCompare = CompareFunc;
 		m_tree.SortChildrenCB(&sort, 0);
@@ -327,7 +327,7 @@ public:
 			m_tree.GetItem(&tvi);
 
 			intlist*ids = (intlist*)tvi.lParam;
-			if (ids == NULL || ids->count < 1)
+			if (ids == nullptr || ids->count < 1)
 				continue; // ???
 
 			bool enabled = ((tvi.state & INDEXTOSTATEIMAGEMASK(3)) == INDEXTOSTATEIMAGEMASK(2));
@@ -366,26 +366,26 @@ public:
 
 			char setting[512];
 			mir_snprintf(setting, "Position_%s", extra->getName());
-			db_set_w(NULL, MODULE_NAME, setting, extra->getPosition());
+			db_set_w(0, MODULE_NAME, setting, extra->getPosition());
 
 			mir_snprintf(setting, "Slot_%s", extra->getName());
-			db_set_w(NULL, MODULE_NAME, setting, extra->getSlot());
+			db_set_w(0, MODULE_NAME, setting, extra->getSlot());
 		}
 
-		db_delete_module(NULL, MODULE_NAME "Groups");
-		db_set_w(NULL, MODULE_NAME "Groups", "Count", groups.getCount());
+		db_delete_module(0, MODULE_NAME "Groups");
+		db_set_w(0, MODULE_NAME "Groups", "Count", groups.getCount());
 		for (int k = 0; k < groups.getCount(); k++) {
 			ExtraIconGroup *group = groups[k];
 
 			char setting[512];
 			mir_snprintf(setting, "%d_count", k);
-			db_set_w(NULL, MODULE_NAME "Groups", setting, (WORD)group->m_items.getCount());
+			db_set_w(0, MODULE_NAME "Groups", setting, (WORD)group->m_items.getCount());
 
 			for (int j = 0; j < group->m_items.getCount(); j++) {
 				BaseExtraIcon *extra = group->m_items[j];
 
 				mir_snprintf(setting, "%d_%d", k, j);
-				db_set_s(NULL, MODULE_NAME "Groups", setting, extra->getName());
+				db_set_s(0, MODULE_NAME "Groups", setting, extra->getName());
 			}
 		}
 
@@ -425,7 +425,7 @@ public:
 			LPNMHDR lpnmhdr = (LPNMHDR)lParam;
 			if (lpnmhdr->idFrom == IDC_EXTRAORDER && lpnmhdr->code == NM_RCLICK) {
 				HTREEITEM hSelected = m_tree.GetDropHilight();
-				if (hSelected != NULL && !m_tree.IsSelected(hSelected)) {
+				if (hSelected != nullptr && !m_tree.IsSelected(hSelected)) {
 					m_tree.UnselectAll();
 					m_tree.SelectItem(hSelected);
 				}

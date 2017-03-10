@@ -319,9 +319,9 @@ LRESULT SM_SendMessage(const wchar_t *pszID, const char *pszModule, UINT msg, WP
 			continue;
 
 		if (si->pDlg) {
-			LRESULT i = SendMessage(si->pDlg->GetHwnd(), msg, wParam, lParam);
+			LRESULT res = SendMessage(si->pDlg->GetHwnd(), msg, wParam, lParam);
 			if (pszID)
-				return i;
+				return res;
 		}
 		if (pszID)
 			return 0;

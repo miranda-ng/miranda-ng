@@ -69,7 +69,7 @@ static wchar_t* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szPro
 	}
 
 	if (db_get(hContact, szProto, szSetting, &dbv))
-		return NULL;
+		return nullptr;
 
 	wchar_t buf[40];
 	switch (dbv.type) {
@@ -82,18 +82,18 @@ static wchar_t* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szPro
 	}
 
 	db_free(&dbv);
-	return NULL;
+	return nullptr;
 }
 
 MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *szProto)
 {
-	if (hContact == NULL && szProto == NULL)
-		return NULL;
+	if (hContact == 0 && szProto == nullptr)
+		return nullptr;
 
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		szProto = Proto_GetBaseAccountName(hContact);
-	if (szProto == NULL)
-		return NULL;
+	if (szProto == nullptr)
+		return nullptr;
 
 	char *uid;
 	wchar_t *res;
@@ -132,7 +132,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 	case CNF_CUSTOMNICK:
 		{
 			const char* saveProto = szProto; szProto = "CList";
-			if (hContact != NULL && !ProcessDatabaseValueDefault(hContact, szProto, "MyHandle")) {
+			if (hContact != 0 && !ProcessDatabaseValueDefault(hContact, szProto, "MyHandle")) {
 				szProto = saveProto;
 				return 0;
 			}
@@ -167,7 +167,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 			if (!GetDatabaseString(hContact, szProto, "LastName", &dbv2)) {
 				size_t len = mir_wstrlen(dbv.pwszVal) + mir_wstrlen(dbv2.pwszVal) + 2;
 				WCHAR* buf = (WCHAR*)mir_alloc(sizeof(WCHAR)*len);
-				if (buf != NULL)
+				if (buf != nullptr)
 					mir_wstrcat(mir_wstrcat(mir_wstrcpy(buf, dbv.pwszVal), L" "), dbv2.pwszVal);
 				db_free(&dbv);
 				db_free(&dbv2);
@@ -204,8 +204,8 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 			switch (nameOrder[i]) {
 			case 0: // custom name
 				// make sure we aren't in CNF_DISPLAYNC mode
-				// don't get custom name for NULL contact
-				if (hContact != NULL && type == CNF_DISPLAY && (res = ProcessDatabaseValueDefault(hContact, "CList", "MyHandle")) != NULL)
+				// don't get custom name for nullptr contact
+				if (hContact != 0 && type == CNF_DISPLAY && (res = ProcessDatabaseValueDefault(hContact, "CList", "MyHandle")) != nullptr)
 					return res;
 				break;
 
@@ -249,7 +249,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 					if (!GetDatabaseString(hContact, szProto, nameOrder[i] == 6 ? "LastName" : "FirstName", &dbv2)) {
 						size_t len = mir_wstrlen(dbv.pwszVal) + mir_wstrlen(dbv2.pwszVal) + 2;
 						WCHAR* buf = (WCHAR*)mir_alloc(sizeof(WCHAR)*len);
-						if (buf != NULL)
+						if (buf != nullptr)
 							mir_wstrcat(mir_wstrcat(mir_wstrcpy(buf, dbv.pwszVal), L" "), dbv2.pwszVal);
 
 						db_free(&dbv);
@@ -282,7 +282,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 		break;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -304,7 +304,7 @@ public:
 	virtual void OnInitDialog()
 	{
 		TVINSERTSTRUCT tvis;
-		tvis.hParent = NULL;
+		tvis.hParent = nullptr;
 		tvis.hInsertAfter = TVI_LAST;
 		tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
 		for (int i = 0; i < _countof(nameOrderDescr); i++) {
@@ -319,13 +319,13 @@ public:
 		TVITEMEX tvi;
 		tvi.hItem = m_nameOrder.GetRoot();
 		int i = 0;
-		while (tvi.hItem != NULL) {
+		while (tvi.hItem != nullptr) {
 			tvi.mask = TVIF_PARAM | TVIF_HANDLE;
 			m_nameOrder.GetItem(&tvi);
 			nameOrder[i++] = (BYTE)tvi.lParam;
 			tvi.hItem = m_nameOrder.GetNextSibling(tvi.hItem);
 		}
-		db_set_blob(NULL, "Contact", "NameOrder", nameOrder, _countof(nameOrderDescr));
+		db_set_blob(0, "Contact", "NameOrder", nameOrder, _countof(nameOrderDescr));
 		cli.pfnInvalidateDisplayNameCacheEntry(INVALID_CONTACT_ID);
 	}
 
@@ -355,7 +355,7 @@ int LoadContactsModule(void)
 		nameOrder[i] = i;
 
 	DBVARIANT dbv;
-	if (!db_get(NULL, "Contact", "NameOrder", &dbv)) {
+	if (!db_get(0, "Contact", "NameOrder", &dbv)) {
 		memcpy(nameOrder, dbv.pbVal, dbv.cpbVal);
 		db_free(&dbv);
 	}

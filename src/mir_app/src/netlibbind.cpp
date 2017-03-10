@@ -131,7 +131,7 @@ static void NetlibBindAcceptThread(void* param)
 			FD_SET(nlbp->s, &r);
 		if (nlbp->s6 != INVALID_SOCKET)
 			FD_SET(nlbp->s6, &r);
-		if (select(0, &r, NULL, NULL, NULL) == SOCKET_ERROR) {
+		if (select(0, &r, nullptr, nullptr, nullptr) == SOCKET_ERROR) {
 			Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread (%p): select failed (%d)", nlbp->s, GetLastError());
 			break;
 		}
@@ -155,7 +155,7 @@ static void NetlibBindAcceptThread(void* param)
 				break;
 			}
 		}
-		else s = NULL;
+		else s = 0;
 
 		Netlib_Logf(nlbp->nlu, "New incoming connection on port %u from %s (%p)", nlbp->wPort, ptrA(Netlib_AddressToString(&sin)), s);
 		
@@ -175,7 +175,7 @@ static void NetlibBindAcceptThread(void* param)
 
 MIR_APP_DLL(HNETLIBBIND) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *nlb)
 {
-	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_INCOMING) || nlb == NULL || nlb->pfnNewConnection == NULL) {
+	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_INCOMING) || nlb == nullptr || nlb->pfnNewConnection == nullptr) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return nullptr;
 	}
@@ -266,15 +266,15 @@ LBL_Error:
 
 	DWORD extIP;
 	if (nlu->settings.enableUPnP && NetlibUPnPAddPortMapping(nlb->wPort, "TCP", &nlbp->wExPort, &extIP, true)) {
-		Netlib_Logf(NULL, "UPnP port mapping succeeded. Internal Port: %u External Port: %u\n", nlb->wPort, nlbp->wExPort);
+		Netlib_Logf(nullptr, "UPnP port mapping succeeded. Internal Port: %u External Port: %u\n", nlb->wPort, nlbp->wExPort);
 		nlb->wExPort = nlbp->wExPort;
 		nlb->dwExternalIP = extIP;
 	}
 	else {
 		if (nlu->settings.enableUPnP)
-			Netlib_Logf(NULL, "UPnP port mapping failed. Internal Port: %u\n", nlb->wPort);
+			Netlib_Logf(nullptr, "UPnP port mapping failed. Internal Port: %u\n", nlb->wPort);
 		else
-			Netlib_Logf(NULL, "UPnP disabled. Internal Port: %u\n", nlb->wPort);
+			Netlib_Logf(nullptr, "UPnP disabled. Internal Port: %u\n", nlb->wPort);
 
 		nlbp->wExPort = 0;
 		nlb->wExPort = nlb->wPort;

@@ -28,11 +28,11 @@ extern LIST<PROTOCOLDESCRIPTOR> filters;
 
 static int GetProtocolP(MCONTACT hContact, char *szBuf, int cbLen)
 {
-	if (currDb == NULL)
+	if (currDb == nullptr)
 		return 1;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
-	if (cc && cc->szProto != NULL) {
+	if (cc && cc->szProto != nullptr) {
 		strncpy(szBuf, cc->szProto, cbLen);
 		szBuf[cbLen - 1] = 0;
 		return 0;
@@ -45,10 +45,10 @@ static int GetProtocolP(MCONTACT hContact, char *szBuf, int cbLen)
 
 	int res = currDb->GetContactSettingStatic(hContact, "Protocol", "p", &dbv);
 	if (res == 0) {
-		if (cc == NULL)
+		if (cc == nullptr)
 			cc = currDb->m_cache->AddContactToCache(hContact);
 
-		cc->szProto = currDb->m_cache->GetCachedSetting(NULL, szBuf, 0, (int)mir_strlen(szBuf));
+		cc->szProto = currDb->m_cache->GetCachedSetting(nullptr, szBuf, 0, (int)mir_strlen(szBuf));
 	}
 	return res;
 }
@@ -63,7 +63,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs)
 		return 1;
 
 	for (int i = iOrder; i < filters.getCount(); i++) {
-		if ((ret = CallProtoServiceInt(NULL, filters[i]->szName, ccs->szProtoService, i + 1, LPARAM(ccs))) != CALLSERVICE_NOTFOUND) {
+		if ((ret = CallProtoServiceInt(0, filters[i]->szName, ccs->szProtoService, i + 1, LPARAM(ccs))) != CALLSERVICE_NOTFOUND) {
 			//chain was started, exit
 			return ret;
 		}
@@ -74,7 +74,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs)
 		return 1;
 
 	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-	if (pa == NULL || pa->ppro == NULL)
+	if (pa == nullptr || pa->ppro == nullptr)
 		return 1;
 
 	if (pa->bOldProto)
@@ -113,7 +113,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs)
 	else iOrder--;
 
 	for (int i = iOrder - 1; i >= 0; i--)
-		if ((ret = CallProtoServiceInt(NULL, filters[i]->szName, ccs->szProtoService, i + 1, (LPARAM)ccs)) != CALLSERVICE_NOTFOUND)
+		if ((ret = CallProtoServiceInt(0, filters[i]->szName, ccs->szProtoService, i + 1, (LPARAM)ccs)) != CALLSERVICE_NOTFOUND)
 			//chain was started, exit
 			return ret;
 
@@ -123,7 +123,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs)
 		return 1;
 
 	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-	if (pa == NULL || pa->ppro == NULL)
+	if (pa == nullptr || pa->ppro == nullptr)
 		return 1;
 
 	if (pa->bOldProto)
@@ -138,12 +138,12 @@ MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs)
 
 PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact)
 {
-	if (hContact == NULL)
-		return NULL;
+	if (hContact == 0)
+		return nullptr;
 
 	char szProto[40];
 	if (GetProtocolP(hContact, szProto, sizeof(szProto)))
-		return NULL;
+		return nullptr;
 
 	return Proto_GetAccount(szProto);
 }
@@ -151,18 +151,18 @@ PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact)
 MIR_APP_DLL(char*) GetContactProto(MCONTACT hContact)
 {
 	PROTOACCOUNT *pa = Proto_GetAccount(hContact);
-	return Proto_IsAccountEnabled(pa) ? pa->szModuleName : NULL;
+	return Proto_IsAccountEnabled(pa) ? pa->szModuleName : nullptr;
 }
 
 MIR_APP_DLL(char*) Proto_GetBaseAccountName(MCONTACT hContact)
 {
 	PROTOACCOUNT *pa = Proto_GetAccount(hContact);
-	return pa ? pa->szModuleName : NULL;
+	return pa ? pa->szModuleName : nullptr;
 }
 
 MIR_APP_DLL(int) Proto_IsProtoOnContact(MCONTACT hContact, const char *szProto)
 {
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return 0;
 
 	char szContactProto[40];
@@ -180,7 +180,7 @@ MIR_APP_DLL(int) Proto_IsProtoOnContact(MCONTACT hContact, const char *szProto)
 MIR_APP_DLL(int) Proto_AddToContact(MCONTACT hContact, const char *szProto)
 {
 	PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(szProto);
-	if (pd == NULL) {
+	if (pd == nullptr) {
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa) {
 			db_set_s(hContact, "Protocol", "p", szProto);

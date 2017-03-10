@@ -35,7 +35,7 @@ static LIST<CRYPTO_PROVIDER> arProviders(5, CompareFunc);
 static INT_PTR srvRegister(WPARAM wParam, LPARAM lParam)
 {
 	CRYPTO_PROVIDER *p = (CRYPTO_PROVIDER*)lParam;
-	if (p == NULL || p->dwSize != sizeof(CRYPTO_PROVIDER))
+	if (p == nullptr || p->dwSize != sizeof(CRYPTO_PROVIDER))
 		return 1;
 
 	CRYPTO_PROVIDER *pNew = new CRYPTO_PROVIDER(*p);

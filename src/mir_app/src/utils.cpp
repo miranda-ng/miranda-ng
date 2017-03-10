@@ -296,7 +296,7 @@ static INT_PTR GetCountryByNumber(WPARAM wParam, LPARAM)
 		if ((int)wParam == countries[i].id)
 			return (INT_PTR)countries[i].szName;
 
-	return NULL;
+	return 0;
 }
 
 static INT_PTR GetCountryByISOCode(WPARAM wParam, LPARAM)
@@ -305,7 +305,7 @@ static INT_PTR GetCountryByISOCode(WPARAM wParam, LPARAM)
 		if ( mir_strcmpi((char*)wParam, countries[i].ISOcode) == 0)
 			return (INT_PTR)countries[i].szName;
 
-	return NULL;
+	return 0;
 }
 
 static INT_PTR GetCountryList(WPARAM wParam, LPARAM lParam)

@@ -46,15 +46,15 @@ void SaveColumnSizes(HWND hwndResults)
 	for (int i = 0; i < NUM_COLUMNID; i++) {
 		char szSetting[32];
 		mir_snprintf(szSetting, "ColOrder%d", i);
-		db_set_b(NULL, "FindAdd", szSetting, (BYTE)columnOrder[i]);
+		db_set_b(0, "FindAdd", szSetting, (BYTE)columnOrder[i]);
 		mir_snprintf(szSetting, "ColWidth%d", i);
-		db_set_w(NULL, "FindAdd", szSetting, (WORD)ListView_GetColumnWidth(hwndResults, i));
+		db_set_w(0, "FindAdd", szSetting, (WORD)ListView_GetColumnWidth(hwndResults, i));
 	}
-	db_set_b(NULL, "FindAdd", "SortColumn", (BYTE)dat->iLastColumnSortIndex);
-	db_set_b(NULL, "FindAdd", "SortAscending", (BYTE)dat->bSortAscending);
+	db_set_b(0, "FindAdd", "SortColumn", (BYTE)dat->iLastColumnSortIndex);
+	db_set_b(0, "FindAdd", "SortAscending", (BYTE)dat->bSortAscending);
 }
 
-static const wchar_t *szColumnNames[] = { NULL, NULL, L"Nick", L"First Name", L"Last Name", L"E-mail" };
+static const wchar_t *szColumnNames[] = { nullptr, nullptr, L"Nick", L"First Name", L"Last Name", L"E-mail" };
 static int defaultColumnSizes[] = { 0, 90, 100, 100, 100, 2000 };
 void LoadColumnSizes(HWND hwndResults, const char *szProto)
 {
@@ -70,13 +70,13 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 		if (i < columnCount) {
 			bool bNeedsFree = false;
 			lvc.mask = LVCF_TEXT | LVCF_WIDTH;
-			if (szColumnNames[i] != NULL)
+			if (szColumnNames[i] != nullptr)
 				lvc.pszText = TranslateW(szColumnNames[i]);
 			else {
 				if (i == COLUMNID_HANDLE) {
 					lvc.pszText = L"ID";
 					if (szProto) {
-						INT_PTR ret = CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
+						INT_PTR ret = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
 						if (ret != CALLSERVICE_NOTFOUND) {
 							bNeedsFree = true;
 							lvc.pszText = mir_a2u((char*)ret);
@@ -87,14 +87,14 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 			}
 			
 			mir_snprintf(szSetting, "ColWidth%d", i);
-			lvc.cx = db_get_w(NULL, "FindAdd", szSetting, defaultColumnSizes[i]);
+			lvc.cx = db_get_w(0, "FindAdd", szSetting, defaultColumnSizes[i]);
 			ListView_InsertColumn(hwndResults, i, (LPARAM)&lvc);
 
 			if (bNeedsFree)
 				mir_free(lvc.pszText);
 		}
 		mir_snprintf(szSetting, "ColOrder%d", i);
-		columnOrder[i] = db_get_b(NULL, "FindAdd", szSetting, -1);
+		columnOrder[i] = db_get_b(0, "FindAdd", szSetting, -1);
 		if (columnOrder[i] == -1 || columnOrder[i] >= NUM_COLUMNID)
 			colOrdersValid = false;
 	}
@@ -102,10 +102,10 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 	if (colOrdersValid)
 		ListView_SetColumnOrderArray(hwndResults, columnCount, columnOrder);
 
-	dat->iLastColumnSortIndex = db_get_b(NULL, "FindAdd", "SortColumn", COLUMNID_NICK);
+	dat->iLastColumnSortIndex = db_get_b(0, "FindAdd", "SortColumn", COLUMNID_NICK);
 	if (dat->iLastColumnSortIndex >= columnCount)
 		dat->iLastColumnSortIndex = COLUMNID_NICK;
-	dat->bSortAscending = db_get_b(NULL, "FindAdd", "SortAscending", TRUE);
+	dat->bSortAscending = db_get_b(0, "FindAdd", "SortAscending", TRUE);
 
 	HDITEM hdi;
 	hdi.mask = HDI_FORMAT;
@@ -132,7 +132,7 @@ int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 	if (!dat->bFlexSearchResult) {
 		ListSearchResult *lsr1 = (ListSearchResult*)ListView_GetItemLParam(hList, (int)lParam1);
 		ListSearchResult *lsr2 = (ListSearchResult*)ListView_GetItemLParam(hList, (int)lParam2);
-		if (lsr1 == NULL || lsr2 == NULL)
+		if (lsr1 == nullptr || lsr2 == nullptr)
 			return 0;
 		
 		switch (sortCol) {
@@ -166,7 +166,7 @@ void FreeSearchResults(HWND hwndResults)
 		lvi.mask = LVIF_PARAM;
 		ListView_GetItem(hwndResults, &lvi);
 		ListSearchResult *lsr = (ListSearchResult*)lvi.lParam;
-		if (lsr == NULL) continue;
+		if (lsr == nullptr) continue;
 		mir_free(lsr->psr.id.w);
 		mir_free(lsr->psr.email.w);
 		mir_free(lsr->psr.nick.w);
@@ -182,7 +182,7 @@ void FreeSearchResults(HWND hwndResults)
 static void BeginSearchFailed(void *arg)
 {
 	wchar_t buf[128];
-	if (arg != NULL) {
+	if (arg != nullptr) {
 		const wchar_t *protoName = (wchar_t*)arg;
 		mir_snwprintf(buf,
 			TranslateT("Could not start a search on '%s', there was a problem - is %s connected?"),
@@ -195,7 +195,7 @@ static void BeginSearchFailed(void *arg)
 
 int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const char *szSearchService, DWORD requiredCapability, void *pvSearchParams)
 {
-	if (szProto == NULL) {
+	if (szProto == nullptr) {
 		int failures = 0;
 		dat->searchCount = 0;
 		dat->search = (struct ProtoSearchInfo*)mir_calloc(sizeof(struct ProtoSearchInfo) * accounts.getCount());
@@ -204,13 +204,13 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 			if (!Proto_IsAccountEnabled(pa))
 				continue;
 			
-			DWORD caps = (DWORD)CallProtoServiceInt(NULL, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+			DWORD caps = (DWORD)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 			if (!(caps & requiredCapability))
 				continue;
 			
-			dat->search[dat->searchCount].hProcess = (HANDLE)CallProtoServiceInt(NULL, pa->szModuleName, szSearchService, 0, (LPARAM)pvSearchParams);
+			dat->search[dat->searchCount].hProcess = (HANDLE)CallProtoServiceInt(0, pa->szModuleName, szSearchService, 0, (LPARAM)pvSearchParams);
 			dat->search[dat->searchCount].szProto = pa->szModuleName;
-			if (dat->search[dat->searchCount].hProcess == NULL) failures++;
+			if (dat->search[dat->searchCount].hProcess == nullptr) failures++;
 			else dat->searchCount++;
 		}
 		if (failures) {
@@ -218,7 +218,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 			if (dat->searchCount == 0) {
 				mir_forkthread(BeginSearchFailed);
 				mir_free(dat->search);
-				dat->search = NULL;
+				dat->search = nullptr;
 				return 1;
 			}
 		}
@@ -226,14 +226,14 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 	else {
 		dat->search = (struct ProtoSearchInfo*)mir_alloc(sizeof(struct ProtoSearchInfo));
 		dat->searchCount = 1;
-		dat->search[0].hProcess = (HANDLE)CallProtoServiceInt(NULL, szProto, szSearchService, 0, (LPARAM)pvSearchParams);
+		dat->search[0].hProcess = (HANDLE)CallProtoServiceInt(0, szProto, szSearchService, 0, (LPARAM)pvSearchParams);
 		dat->search[0].szProto = szProto;
-		if (dat->search[0].hProcess == NULL) {
+		if (dat->search[0].hProcess == nullptr) {
 			// infuriatingly vague error message. fixme.
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 			mir_forkthread(BeginSearchFailed, mir_wstrdup(pa->tszAccountName));
 			mir_free(dat->search);
-			dat->search = NULL;
+			dat->search = nullptr;
 			dat->searchCount = 0;
 			return 1;
 		}
@@ -275,13 +275,13 @@ void SetStatusBarResultInfo(HWND hwndDlg)
 	int total = ListView_GetItemCount(hwndResults);
 	if (total != 0) {
 		LV_ITEM lvi;
-		struct ProtoResultsSummary *subtotal = NULL;
+		struct ProtoResultsSummary *subtotal = nullptr;
 		int subtotalCount = 0;
 		for (lvi.iItem = total - 1; lvi.iItem >= 0; lvi.iItem--) {
 			lvi.mask = LVIF_PARAM;
 			ListView_GetItem(hwndResults, &lvi);
 			ListSearchResult *lsr = (ListSearchResult*)lvi.lParam;
-			if (lsr == NULL)
+			if (lsr == nullptr)
 				continue;
 			
 			int i = 0;
@@ -300,7 +300,7 @@ void SetStatusBarResultInfo(HWND hwndDlg)
 		}
 		if (subtotalCount == 1) {
 			PROTOACCOUNT *pa = Proto_GetAccount(subtotal[0].szProto);
-			if (pa == NULL) {
+			if (pa == nullptr) {
 				mir_free(subtotal);
 				return;
 			}
@@ -313,7 +313,7 @@ void SetStatusBarResultInfo(HWND hwndDlg)
 			str.AppendFormat(TranslateT("%d users found ("), total);
 			for (int i = 0; i < subtotalCount; i++) {
 				PROTOACCOUNT *pa = Proto_GetAccount(subtotal[i].szProto);
-				if (pa == NULL)
+				if (pa == nullptr)
 					continue;
 
 				if (i)
@@ -350,7 +350,7 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 	HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 	HMENU hPopupMenu = GetSubMenu(hMenu, 4);
 	TranslateMenu(hPopupMenu);
-	int commandId = TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, x, y, 0, hwndDlg, NULL);
+	int commandId = TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, x, y, 0, hwndDlg, nullptr);
 	switch (commandId) {
 	case IDC_ADD:
 		{
@@ -363,13 +363,13 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 		break;
 	case IDC_DETAILS:
 		{
-			MCONTACT hContact = (MCONTACT)CallProtoServiceInt(NULL, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
+			MCONTACT hContact = (MCONTACT)CallProtoServiceInt(0, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
 			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 		}
 		break;
 	case IDC_SENDMESSAGE:
 		{
-			MCONTACT hContact = (MCONTACT)CallProtoServiceInt(NULL, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
+			MCONTACT hContact = (MCONTACT)CallProtoServiceInt(0, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 		}
 		break;

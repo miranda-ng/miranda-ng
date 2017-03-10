@@ -28,24 +28,24 @@ MetaOptions options;
 
 int Meta_WriteOptions()
 {
-	db_set_b(NULL, META_PROTO, "LockHandle", options.bLockHandle);
-	db_set_b(NULL, META_PROTO, "SuppressStatus", options.bSuppressStatus);
-	db_set_w(NULL, META_PROTO, "MenuContactLabel", (WORD)options.menu_contact_label);
-	db_set_w(NULL, META_PROTO, "MenuContactFunction", (WORD)options.menu_function);
-	db_set_w(NULL, META_PROTO, "CListContactName", (WORD)options.clist_contact_name);
-	db_set_dw(NULL, META_PROTO, "SetStatusFromOfflineDelay", (DWORD)(options.set_status_from_offline_delay));
+	db_set_b(0, META_PROTO, "LockHandle", options.bLockHandle);
+	db_set_b(0, META_PROTO, "SuppressStatus", options.bSuppressStatus);
+	db_set_w(0, META_PROTO, "MenuContactLabel", (WORD)options.menu_contact_label);
+	db_set_w(0, META_PROTO, "MenuContactFunction", (WORD)options.menu_function);
+	db_set_w(0, META_PROTO, "CListContactName", (WORD)options.clist_contact_name);
+	db_set_dw(0, META_PROTO, "SetStatusFromOfflineDelay", (DWORD)(options.set_status_from_offline_delay));
 	return 0;
 }
 
 int Meta_ReadOptions()
 {
-	db_mc_enable(db_get_b(NULL, META_PROTO, "Enabled", true) != 0);
-	options.bSuppressStatus = db_get_b(NULL, META_PROTO, "SuppressStatus", true) != 0;
-	options.menu_contact_label = (int)db_get_w(NULL, META_PROTO, "MenuContactLabel", DNT_UID);
-	options.menu_function = (int)db_get_w(NULL, META_PROTO, "MenuContactFunction", FT_MENU);
-	options.clist_contact_name = (int)db_get_w(NULL, META_PROTO, "CListContactName", CNNT_DISPLAYNAME);
-	options.set_status_from_offline_delay = (int)db_get_dw(NULL, META_PROTO, "SetStatusFromOfflineDelay", DEFAULT_SET_STATUS_SLEEP_TIME);
-	options.bLockHandle = db_get_b(NULL, META_PROTO, "LockHandle", false) != 0;
+	db_mc_enable(db_get_b(0, META_PROTO, "Enabled", true) != 0);
+	options.bSuppressStatus = db_get_b(0, META_PROTO, "SuppressStatus", true) != 0;
+	options.menu_contact_label = (int)db_get_w(0, META_PROTO, "MenuContactLabel", DNT_UID);
+	options.menu_function = (int)db_get_w(0, META_PROTO, "MenuContactFunction", FT_MENU);
+	options.clist_contact_name = (int)db_get_w(0, META_PROTO, "CListContactName", CNNT_DISPLAYNAME);
+	options.set_status_from_offline_delay = (int)db_get_dw(0, META_PROTO, "SetStatusFromOfflineDelay", DEFAULT_SET_STATUS_SLEEP_TIME);
+	options.bLockHandle = db_get_b(0, META_PROTO, "LockHandle", false) != 0;
 	return 0;
 }
 

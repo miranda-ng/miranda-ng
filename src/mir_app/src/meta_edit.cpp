@@ -53,7 +53,7 @@ static void FillContactList(HWND hList)
 		LvItem.iItem = i;
 
 		wchar_t *ptszCDN = cli.pfnGetContactDisplayName(g_data.hContact[i], 0);
-		if (ptszCDN == NULL)
+		if (ptszCDN == nullptr)
 			ptszCDN = TranslateT("(Unknown contact)");
 
 		LvItem.iSubItem = 0; // clist display name
@@ -96,7 +96,7 @@ static void FillContactList(HWND hList)
 			SendMessage(hList, LVM_SETITEM, 0, (LPARAM)&LvItem); // Enter text to SubItems
 
 			LvItem.iSubItem = 2; // protocol
-			wcsncpy_s(buff, (pa == NULL) ? _A2T(szProto) : pa->tszAccountName, _TRUNCATE);
+			wcsncpy_s(buff, (pa == nullptr) ? _A2T(szProto) : pa->tszAccountName, _TRUNCATE);
 			ListView_SetItem(hList, &LvItem);
 		}
 		else {
@@ -216,7 +216,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		Window_SetIcon_IcoLib(hwndDlg, Meta_GetIconHandle(I_EDIT));
 		{
 			DBCachedContact *cc = currDb->m_cache->GetCachedContact(lParam);
-			if (cc == NULL) {
+			if (cc == nullptr) {
 				DestroyWindow(hwndDlg);
 				return FALSE;
 			}
@@ -271,7 +271,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 	case WMU_SETTITLE:
 		{
 			wchar_t *ptszCDN = cli.pfnGetContactDisplayName(lParam, 0);
-			if (ptszCDN == NULL)
+			if (ptszCDN == nullptr)
 				ptszCDN = TranslateT("(Unknown contact)");
 
 			SetDlgItemText(hwndDlg, IDC_ED_NAME, ptszCDN);

@@ -52,7 +52,7 @@ void UnloadEventsModule()
 
 MIR_APP_DLL(int) DbEvent_RegisterType(DBEVENTTYPEDESCR *et)
 {
-	if (et == NULL || et->cbSize != sizeof(DBEVENTTYPEDESCR))
+	if (et == nullptr || et->cbSize != sizeof(DBEVENTTYPEDESCR))
 		return -1;
 
 	if (eventTypes.getIndex(et) != -1)
@@ -102,7 +102,7 @@ static wchar_t* getEventString(DBEVENTINFO *dbei, LPSTR &buf)
 
 static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatype)
 {
-	if (dbei == NULL || dbei->szModule == NULL)
+	if (dbei == nullptr || dbei->szModule == nullptr)
 		return 0;
 
 	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
@@ -140,11 +140,11 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 
 		if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
 			ptrW tszReason(dbei->getString(blob.get_reason()));
-			text.Format(TranslateT("Authorization request from %s%s: %s"),
-				(tszNick == NULL) ? cli.pfnGetContactDisplayName(blob.get_contact(), 0) : tszNick, nick, tszReason);
+			text.Format(TranslateT("Authorization request from %s%s: %s"), 
+				(tszNick == nullptr) ? cli.pfnGetContactDisplayName(blob.get_contact(), 0) : tszNick, nick.c_str(), tszReason);
 		}
 		else text.Format(TranslateT("You were added by %s%s"),
-			(tszNick == NULL) ? cli.pfnGetContactDisplayName(blob.get_contact(), 0) : tszNick, nick);
+			(tszNick == nullptr) ? cli.pfnGetContactDisplayName(blob.get_contact(), 0) : tszNick, nick.c_str());
 		return (datatype == DBVT_WCHAR) ? (INT_PTR)mir_wstrdup(text) : (INT_PTR)mir_u2a(text);
 	}
 
@@ -184,7 +184,7 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 		str[dbei->cbBlob] = 0;
 
 		if (dbei->flags & DBEF_UTF) {
-			WCHAR *msg = NULL;
+			WCHAR *msg = nullptr;
 			Utf8DecodeCP(str, codepage, &msg);
 			if (msg)
 				return (INT_PTR)msg;
@@ -196,7 +196,7 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 	if (datatype == DBVT_ASCIIZ) {
 		char *msg = mir_strdup((char*)dbei->pBlob);
 		if (dbei->flags & DBEF_UTF)
-			Utf8DecodeCP(msg, codepage, NULL);
+			Utf8DecodeCP(msg, codepage, nullptr);
 
 		return (INT_PTR)msg;
 	}
@@ -224,7 +224,7 @@ MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags)
 			return icon;
 	}
 
-	HICON icon = NULL;
+	HICON icon = nullptr;
 	if (et && et->eventIcon)
 		icon = IcoLib_GetIconByHandle(et->eventIcon);
 	if (!icon) {

@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 DWORD __stdcall ResolveHostName(LPSTR lpszHostName,
 	LPSTR lpszIPAddress, LPDWORD lpdwIPAddressSize)
 {
-	if (*lpdwIPAddressSize < 17 || lpszIPAddress == NULL)
+	if (*lpdwIPAddressSize < 17 || lpszIPAddress == nullptr)
 	{
 		*lpdwIPAddressSize = 17;
 		return ERROR_INSUFFICIENT_BUFFER;
@@ -45,7 +45,7 @@ DWORD __stdcall ResolveHostName(LPSTR lpszHostName,
 	if (ip.s_addr == INADDR_NONE)
 	{
 		PHOSTENT myhost = gethostbyname(lpszHostName);
-		if (myhost != NULL)
+		if (myhost != nullptr)
 			ip = *(PIN_ADDR)myhost->h_addr;
 		else
 			return SOCKET_ERROR;
@@ -107,10 +107,10 @@ static const AutoProxyHelperVtbl OurVtbl =
 	GetIPAddress,
 	ResolveHostName,
 	IsInNet,
-	NULL,
-	NULL,
-	NULL,
-	NULL
+	nullptr,
+	nullptr,
+	nullptr,
+	nullptr
 };
 
 static AutoProxyHelperFunctions HelperFunctions = { &OurVtbl };
@@ -134,7 +134,7 @@ static void GetFile(char* szUrl, AUTO_PROXY_SCRIPT_BUFFER &buf)
 
 	nlu.handleType = NLH_USER;
 	nlu.user.flags = NUF_OUTGOING | NUF_HTTPCONNS;
-	nlu.user.szSettingsModule = "(NULL)";
+	nlu.user.szSettingsModule = "(nullptr)";
 	nlu.toLog = 1;
 
 	// initialize the netlib request
@@ -151,7 +151,7 @@ static void GetFile(char* szUrl, AUTO_PROXY_SCRIPT_BUFFER &buf)
 			buf.dwScriptBufferSize = nlhrReply->dataLength + 1;
 
 			nlhrReply->dataLength = 0;
-			nlhrReply->pData = NULL;
+			nlhrReply->pData = nullptr;
 		}
 		Netlib_FreeHttpRequest(nlhrReply);
 	}
@@ -177,7 +177,7 @@ bool NetlibGetIeProxyConn(NetlibConnection *nlc, bool forceHttps)
 		noHttp = true;
 	}
 
-	mir_free(nlc->szProxyServer); nlc->szProxyServer = NULL;
+	mir_free(nlc->szProxyServer); nlc->szProxyServer = nullptr;
 	nlc->wProxyPort = 0;
 	nlc->proxyType = 0;
 
@@ -185,7 +185,7 @@ bool NetlibGetIeProxyConn(NetlibConnection *nlc, bool forceHttps)
 	char *m = NEWSTR_ALLOCA(mt);
 	mir_free(mt);
 
-	if (m == NULL) return false;
+	if (m == nullptr) return false;
 
 	// if multiple servers, use the first one
 	char *c = strchr(m, ';'); if (c) *c = 0;
@@ -250,7 +250,7 @@ static void NetlibInitAutoProxy(void)
 			GetProcAddress(hModJS, "InternetGetProxyInfo");
 	}
 
-	if (strstr(szAutoUrlStr, "file://") == NULL && strstr(szAutoUrlStr, "://") != NULL)
+	if (strstr(szAutoUrlStr, "file://") == nullptr && strstr(szAutoUrlStr, "://") != nullptr)
 	{
 		abuf.dwStructSize = sizeof(abuf);
 		GetFile(szAutoUrlStr, abuf);
@@ -268,7 +268,7 @@ struct IeProxyParam
 static void NetlibIeProxyThread(void *arg)
 {
 	IeProxyParam *param = (IeProxyParam*)arg;
-	param->szProxy = NULL;
+	param->szProxy = nullptr;
 
 	if (!bAutoProxyInit) {
 		WaitForSingleObject(hIeProxyMutex, INFINITE);
@@ -278,15 +278,15 @@ static void NetlibIeProxyThread(void *arg)
 
 	BOOL res;
 	char *loc = strstr(szAutoUrlStr, "file://");
-	if (loc || strstr(szAutoUrlStr, "://") == NULL) {
-		Netlib_Logf(NULL, "Autoproxy Init file: %s", loc);
+	if (loc || strstr(szAutoUrlStr, "://") == nullptr) {
+		Netlib_Logf(nullptr, "Autoproxy Init file: %s", loc);
 		loc = loc ? loc + 7 : szAutoUrlStr;
-		res = pInternetInitializeAutoProxyDll(0, loc, NULL, NULL /*&HelperFunctions*/, NULL);
+		res = pInternetInitializeAutoProxyDll(0, loc, nullptr, nullptr /*&HelperFunctions*/, nullptr);
 	}
 	else {
-		Netlib_Logf(NULL, "Autoproxy Init %d", abuf.dwScriptBufferSize);
+		Netlib_Logf(nullptr, "Autoproxy Init %d", abuf.dwScriptBufferSize);
 		if (abuf.dwScriptBufferSize)
-			res = pInternetInitializeAutoProxyDll(0, NULL, NULL, NULL /*&HelperFunctions*/, &abuf);
+			res = pInternetInitializeAutoProxyDll(0, nullptr, nullptr, nullptr /*&HelperFunctions*/, &abuf);
 		else
 			res = false;
 	}
@@ -300,15 +300,15 @@ static void NetlibIeProxyThread(void *arg)
 			param->szHost, (DWORD)mir_strlen(param->szHost), &proxy, &dwProxyLen))
 			param->szProxy = mir_strdup(lrtrim(proxy));
 
-		Netlib_Logf(NULL, "Autoproxy got response %s, Param: %s %s", param->szProxy, param->szUrl, param->szHost);
-		pInternetDeInitializeAutoProxyDll(NULL, 0);
+		Netlib_Logf(nullptr, "Autoproxy got response %s, Param: %s %s", param->szProxy, param->szUrl, param->szHost);
+		pInternetDeInitializeAutoProxyDll(nullptr, 0);
 	}
-	else Netlib_Logf(NULL, "Autoproxy init failed");
+	else Netlib_Logf(nullptr, "Autoproxy init failed");
 }
 
 char* NetlibGetIeProxy(char *szUrl)
 {
-	char *res = NULL;
+	char *res = nullptr;
 	char* p = strstr(szUrl, "://");
 	if (p) p += 3; else p = szUrl;
 
@@ -323,9 +323,9 @@ char* NetlibGetIeProxy(char *szUrl)
 		{
 			if (mir_strcmp(proxyBypass[i], "<local>") == 0)
 			{
-				if (strchr(szHost, '.') == NULL) return NULL;
+				if (strchr(szHost, '.') == nullptr) return nullptr;
 			}
-			else if (wildcmp(szHost, proxyBypass[i])) return NULL;
+			else if (wildcmp(szHost, proxyBypass[i])) return nullptr;
 		}
 
 		int ind = -1;
@@ -336,7 +336,7 @@ char* NetlibGetIeProxy(char *szUrl)
 		else
 			ind = szProxyHost[2] ? 2 : (bOneProxy ? 0 : (szProxyHost[1] ? 1 : 2));
 
-		if (ind < 0 || !szProxyHost[ind]) return NULL;
+		if (ind < 0 || !szProxyHost[ind]) return nullptr;
 
 		size_t len = mir_strlen(szHost) + 20;
 		res = (char*)mir_alloc(len);
@@ -345,7 +345,7 @@ char* NetlibGetIeProxy(char *szUrl)
 	}
 
 	if (szAutoUrlStr[0]) {
-		IeProxyParam param = { szUrl, szHost, NULL };
+		IeProxyParam param = { szUrl, szHost, nullptr };
 		HANDLE hThread = mir_forkthread(NetlibIeProxyThread, &param);
 		WaitForSingleObject(hThread, INFINITE);
 		res = param.szProxy;
@@ -364,18 +364,18 @@ void NetlibLoadIeProxy(void)
 	char szHostStr[256] = "", szProxyBypassStr[4096] = "";
 
 	tValueLen = sizeof(enabled);
-	int tResult = RegQueryValueExA(hSettings, "ProxyEnable", NULL, NULL, (BYTE*)&enabled, &tValueLen);
+	int tResult = RegQueryValueExA(hSettings, "ProxyEnable", nullptr, nullptr, (BYTE*)&enabled, &tValueLen);
 	bEnabled = enabled && tResult == ERROR_SUCCESS;
 
 	tValueLen = _countof(szHostStr);
-	tResult = RegQueryValueExA(hSettings, "ProxyServer", NULL, NULL, (BYTE*)szHostStr, &tValueLen);
+	tResult = RegQueryValueExA(hSettings, "ProxyServer", nullptr, nullptr, (BYTE*)szHostStr, &tValueLen);
 	bEnabled = bEnabled && tResult == ERROR_SUCCESS;
 
 	tValueLen = _countof(szAutoUrlStr);
-	RegQueryValueExA(hSettings, "AutoConfigUrl", NULL, NULL, (BYTE*)szAutoUrlStr, &tValueLen);
+	RegQueryValueExA(hSettings, "AutoConfigUrl", nullptr, nullptr, (BYTE*)szAutoUrlStr, &tValueLen);
 
 	tValueLen = _countof(szProxyBypassStr);
-	RegQueryValueExA(hSettings, "ProxyOverride", NULL, NULL, (BYTE*)szProxyBypassStr, &tValueLen);
+	RegQueryValueExA(hSettings, "ProxyOverride", nullptr, nullptr, (BYTE*)szProxyBypassStr, &tValueLen);
 
 	RegCloseKey(hSettings);
 
@@ -411,7 +411,7 @@ void NetlibLoadIeProxy(void)
 				}
 				if (bOneProxy) break;
 			}
-			if (szProxyEnd == NULL) break;
+			if (szProxyEnd == nullptr) break;
 			szProxy = szProxyEnd + 1;
 		}
 
@@ -424,14 +424,14 @@ void NetlibLoadIeProxy(void)
 			lrtrim(szProxyBypass);
 
 			proxyBypass.insert(_strlwr(mir_strdup(szProxyBypass)));
-			if (szProxyBypassEnd == NULL) break;
+			if (szProxyBypassEnd == nullptr) break;
 
 			szProxyBypass = szProxyBypassEnd + 1;
 		}
 	}
 
 	if (bEnabled || szAutoUrlStr[0])
-		hIeProxyMutex = CreateMutex(NULL, FALSE, NULL);
+		hIeProxyMutex = CreateMutex(nullptr, FALSE, nullptr);
 }
 
 void NetlibUnloadIeProxy(void)

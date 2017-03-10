@@ -47,7 +47,7 @@ void fnSetAllExtraIcons(MCONTACT hContact);
 
 static inline BOOL IsEmpty(const char *str)
 {
-	return str == NULL || str[0] == 0;
+	return str == nullptr || str[0] == 0;
 }
 
 #endif // __COMMONS_H__

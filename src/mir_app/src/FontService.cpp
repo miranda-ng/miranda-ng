@@ -142,22 +142,22 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORR
 		strncpy_s(idstr, prefix, _TRUNCATE);
 
 	int retval = 0;
-	ptrW tszGroup(db_get_wsa(NULL, settings_group, idstr));
-	if (tszGroup != NULL)
+	ptrW tszGroup(db_get_wsa(0, settings_group, idstr));
+	if (tszGroup != nullptr)
 		wcsncpy_s(lf->lfFaceName, tszGroup, _TRUNCATE);
 	else
 		retval = 1;
 
 	if (colour) {
 		mir_snprintf(idstr, "%sCol", prefix);
-		*colour = db_get_dw(NULL, settings_group, idstr, *colour);
+		*colour = db_get_dw(0, settings_group, idstr, *colour);
 	}
 
 	mir_snprintf(idstr, "%sSize", prefix);
-	lf->lfHeight = (char)db_get_b(NULL, settings_group, idstr, lf->lfHeight);
+	lf->lfHeight = (char)db_get_b(0, settings_group, idstr, lf->lfHeight);
 
 	mir_snprintf(idstr, "%sSty", prefix);
-	BYTE style = (BYTE)db_get_b(NULL, settings_group, idstr,
+	BYTE style = (BYTE)db_get_b(0, settings_group, idstr,
 		(lf->lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf->lfItalic ? DBFONTF_ITALIC : 0) | (lf->lfUnderline ? DBFONTF_UNDERLINE : 0) | lf->lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
 
 	lf->lfWidth = lf->lfEscapement = lf->lfOrientation = 0;
@@ -167,7 +167,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORR
 	lf->lfStrikeOut = (style & DBFONTF_STRIKEOUT) != 0;
 
 	mir_snprintf(idstr, "%sSet", prefix);
-	lf->lfCharSet = db_get_b(NULL, settings_group, idstr, lf->lfCharSet);
+	lf->lfCharSet = db_get_b(0, settings_group, idstr, lf->lfCharSet);
 
 	lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 	lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
@@ -339,7 +339,7 @@ MIR_APP_DLL(void) KillModuleFonts(int _hLang)
 
 void UpdateColourSettings(ColourIDW *colour_id, COLORREF *colour)
 {
-	*colour = (COLORREF)db_get_dw(NULL, colour_id->dbSettingsGroup, colour_id->setting, colour_id->defcolour);
+	*colour = (COLORREF)db_get_dw(0, colour_id->dbSettingsGroup, colour_id->setting, colour_id->defcolour);
 }
 
 static INT_PTR sttRegisterColourWorker(ColourIDW *colour_id, int _hLang)
@@ -382,7 +382,7 @@ static INT_PTR sttGetColourWorker(const wchar_t *wszGroup, const wchar_t *wszNam
 	for (int i = 0; i < colour_id_list.getCount(); i++) {
 		ColourInternal& C = colour_id_list[i];
 		if (!mir_wstrcmp(C.group, wszGroup) && !mir_wstrcmp(C.name, wszName))
-			return db_get_dw(NULL, C.dbSettingsGroup, C.setting, C.defcolour);
+			return db_get_dw(0, C.dbSettingsGroup, C.setting, C.defcolour);
 	}
 
 	return -1;
@@ -420,13 +420,13 @@ void UpdateEffectSettings(EffectIDW *effect_id, FONTEFFECT *effectsettings)
 {
 	char str[256];
 	mir_snprintf(str, "%sEffect", effect_id->setting);
-	effectsettings->effectIndex = db_get_b(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.effectIndex);
+	effectsettings->effectIndex = db_get_b(0, effect_id->dbSettingsGroup, str, effect_id->defeffect.effectIndex);
 
 	mir_snprintf(str, "%sEffectCol1", effect_id->setting);
-	effectsettings->baseColour = db_get_dw(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.baseColour);
+	effectsettings->baseColour = db_get_dw(0, effect_id->dbSettingsGroup, str, effect_id->defeffect.baseColour);
 
 	mir_snprintf(str, "%sEffectCol2", effect_id->setting);
-	effectsettings->secondaryColour = db_get_dw(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.secondaryColour);
+	effectsettings->secondaryColour = db_get_dw(0, effect_id->dbSettingsGroup, str, effect_id->defeffect.secondaryColour);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
