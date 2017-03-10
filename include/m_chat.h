@@ -415,8 +415,6 @@ EXTERN_C MIR_APP_DLL(int) Chat_SetStatusEx(const char *szModule, const wchar_t *
 
 #define WINDOW_VISIBLE			2   // make the room window visible
 #define WINDOW_HIDDEN			3   // close the room window. Session is not terminated.
-#define WINDOW_MAXIMIZE			4   // make the room window maximized
-#define WINDOW_MINIMIZE			5   // make the room window minimized
 #define WINDOW_CLEARLOG			6   // clear the log of the room window
 
 // if wszId == NULL, this message is broadcasted to all windows of specified szModule

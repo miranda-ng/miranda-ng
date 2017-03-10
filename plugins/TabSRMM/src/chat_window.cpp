@@ -183,12 +183,12 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 		m_pWnd->setOverlayIcon(0, true);
 	}
 
-	if (m_pContainer->hwndSaved == m_hwnd || m_bWasDeleted)
+	if (m_pContainer->hwndSaved == m_hwnd)
 		return;
 
 	m_pContainer->hwndSaved = m_hwnd;
 
-	pci->SetActiveSession(m_si->ptszID, m_si->pszModule);
+	pci->SetActiveSession(m_si);
 	m_hTabIcon = m_hTabStatusIcon;
 
 	if (m_iTabID >= 0) {
@@ -1552,16 +1552,16 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 	m_list.OnDblClick = Callback(this, &CChatRoomDlg::OnDblClick_List);
 }
 
-CThumbBase* CChatRoomDlg::CreateThumb(CProxyWindow *pProxy) const
+CThumbBase* CChatRoomDlg::tabCreateThumb(CProxyWindow *pProxy) const
 {
 	return new CThumbMUC(pProxy, m_si);
 }
 
-void CChatRoomDlg::ClearLog()
+void CChatRoomDlg::tabClearLog()
 {
 	SESSION_INFO *s = pci->SM_FindSession(m_si->ptszID, m_si->pszModule);
 	if (s) {
-		m_log.SetText(L"");
+		ClearLog();
 		pci->LM_RemoveAll(&s->pLog, &s->pLogEnd);
 		s->iEventCount = 0;
 		s->LastTime = 0;
@@ -1998,9 +1998,8 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case DM_UPDATETITLE:
 	case GC_UPDATETITLE:
-		if (!m_bWasDeleted) {
-			m_wStatus = m_si->wStatus;
-
+		m_wStatus = m_si->wStatus;
+		{
 			const wchar_t *szNick = m_cache->getNick();
 			if (mir_wstrlen(szNick) > 0) {
 				if (M.GetByte("cuttitle", 0))
@@ -2058,9 +2057,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case GC_UPDATESTATUSBAR:
-		if (m_bWasDeleted)
-			return 0;
-
 		if (m_pContainer->hwndActive != m_hwnd || m_pContainer->hwndStatus == 0 || CMimAPI::m_shutDown || m_wszStatusBar[0])
 			break;
 
@@ -2170,7 +2166,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			else StreamInEvents(m_si->pLogEnd, m_si, TRUE);
 		}
-		else SendMessage(m_hwnd, GC_CONTROL_MSG, WINDOW_CLEARLOG, 0);
+		else ClearLog();
 		break;
 
 	case GC_REDRAWLOG2:
@@ -2197,7 +2193,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (m_si->pLogEnd)
 			StreamInEvents(m_si->pLog, m_si, FALSE);
 		else
-			SendMessage(m_hwnd, GC_CONTROL_MSG, WINDOW_CLEARLOG, 0);
+			ClearLog();
 		break;
 
 	case DM_TYPING:
@@ -2350,107 +2346,49 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case GC_CONTROL_MSG:
-		switch (wParam) {
-		case SESSION_OFFLINE:
-			SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-			SendMessage(m_si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
-			return TRUE;
-
-		case SESSION_ONLINE:
-			SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-			return TRUE;
-
-		case WINDOW_HIDDEN:
-			SendMessage(m_hwnd, GC_CLOSEWINDOW, 0, 1);
-			return TRUE;
-
-		case WINDOW_CLEARLOG:
-			SetDlgItemText(m_hwnd, IDC_LOG, L"");
-			return TRUE;
-
-		case SESSION_TERMINATE:
-			if (pcli->pfnGetEvent(m_si->hContact, 0))
-				pcli->pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
-
-			m_si->wState &= ~STATE_TALK;
-			m_bWasDeleted = true;
-			db_set_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0);
-			SendMessage(m_hwnd, GC_CLOSEWINDOW, 0, lParam == 2 ? lParam : 1);
-			return TRUE;
-
-		case WINDOW_MINIMIZE:
-			ShowWindow(m_hwnd, SW_MINIMIZE);
-LABEL_SHOWWINDOW:
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
-			SendMessage(m_hwnd, GC_REDRAWLOG, 0, 0);
-			SendMessage(m_hwnd, GC_UPDATENICKLIST, 0, 0);
-			SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-			ShowWindow(m_hwnd, SW_SHOW);
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
-			SetForegroundWindow(m_hwnd);
-			return TRUE;
-
-		case WINDOW_MAXIMIZE:
-			ShowWindow(m_hwnd, SW_MAXIMIZE);
-			goto LABEL_SHOWWINDOW;
-
-		case SESSION_INITDONE:
-			if (M.GetByte(CHAT_MODULE, "PopupOnJoin", 0) != 0)
-				return TRUE;
-
-			// fall through
-		case WINDOW_VISIBLE:
-			if (IsIconic(m_hwnd))
-				ShowWindow(m_hwnd, SW_NORMAL);
-			goto LABEL_SHOWWINDOW;
-		}
-		break;
-
 	case DM_SPLITTERMOVED:
 		RECT rcLog;
-		{
-			GetWindowRect(m_log.GetHwnd(), &rcLog);
-			if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERX)) {
-				GetClientRect(m_hwnd, &rc);
-				pt.x = wParam, pt.y = 0;
-				ScreenToClient(m_hwnd, &pt);
+		GetWindowRect(m_log.GetHwnd(), &rcLog);
 
-				int iSplitterX = rc.right - pt.x + 1;
-				if (iSplitterX < 35)
-					iSplitterX = 35;
-				if (iSplitterX > rc.right - rc.left - 35)
-					iSplitterX = rc.right - rc.left - 35;
-				m_pContainer->settings->iSplitterX = iSplitterX;
-				SendMessage(m_hwnd, WM_SIZE, 0, 0);
-			}
-			else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERY) || lParam == -1) {
-				GetClientRect(m_hwnd, &rc);
-				rc.top += (m_pPanel.isActive() ? m_pPanel.getHeight() + 40 : 30);
-				pt.x = 0, pt.y = wParam;
-				ScreenToClient(m_hwnd, &pt);
+		if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERX)) {
+			GetClientRect(m_hwnd, &rc);
+			pt.x = wParam, pt.y = 0;
+			ScreenToClient(m_hwnd, &pt);
 
-				m_iSplitterY = rc.bottom - pt.y + DPISCALEY_S(1);
-				if (m_iSplitterY < DPISCALEY_S(23))
-					m_iSplitterY = DPISCALEY_S(23);
-				if (m_iSplitterY > rc.bottom - rc.top - DPISCALEY_S(40))
-					m_iSplitterY = rc.bottom - rc.top - DPISCALEY_S(40);
-				m_pContainer->settings->iSplitterY = m_iSplitterY;
-				UpdateToolbarBG();
-				SendMessage(m_hwnd, WM_SIZE, 0, 0);
-			}
-			else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_PANELSPLITTER)) {
-				pt.x = 0, pt.y = wParam;
-				ScreenToClient(m_hwnd, &pt);
-				GetClientRect(m_log.GetHwnd(), &rc);
-				if ((pt.y + 2 >= MIN_PANELHEIGHT + 2) && (pt.y + 2 < 100) && (pt.y + 2 < rc.bottom - 30))
-					m_pPanel.setHeight(pt.y + 2);
-				RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);
-				if (M.isAero())
-					InvalidateRect(m_hwndParent, nullptr, FALSE);
-				SendMessage(m_hwnd, WM_SIZE, DM_SPLITTERMOVED, 0);
-				break;
-			}
+			int iSplitterX = rc.right - pt.x + 1;
+			if (iSplitterX < 35)
+				iSplitterX = 35;
+			if (iSplitterX > rc.right - rc.left - 35)
+				iSplitterX = rc.right - rc.left - 35;
+			m_pContainer->settings->iSplitterX = iSplitterX;
+			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		}
+		else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERY) || lParam == -1) {
+			GetClientRect(m_hwnd, &rc);
+			rc.top += (m_pPanel.isActive() ? m_pPanel.getHeight() + 40 : 30);
+			pt.x = 0, pt.y = wParam;
+			ScreenToClient(m_hwnd, &pt);
+
+			m_iSplitterY = rc.bottom - pt.y + DPISCALEY_S(1);
+			if (m_iSplitterY < DPISCALEY_S(23))
+				m_iSplitterY = DPISCALEY_S(23);
+			if (m_iSplitterY > rc.bottom - rc.top - DPISCALEY_S(40))
+				m_iSplitterY = rc.bottom - rc.top - DPISCALEY_S(40);
+			m_pContainer->settings->iSplitterY = m_iSplitterY;
+			UpdateToolbarBG();
+			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		}
+		else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_PANELSPLITTER)) {
+			pt.x = 0, pt.y = wParam;
+			ScreenToClient(m_hwnd, &pt);
+			GetClientRect(m_log.GetHwnd(), &rc);
+			if ((pt.y + 2 >= MIN_PANELHEIGHT + 2) && (pt.y + 2 < 100) && (pt.y + 2 < rc.bottom - 30))
+				m_pPanel.setHeight(pt.y + 2);
+			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);
+			if (M.isAero())
+				InvalidateRect(m_hwndParent, nullptr, FALSE);
+			SendMessage(m_hwnd, WM_SIZE, DM_SPLITTERMOVED, 0);
+			break;
 		}
 		break;
 
@@ -2643,7 +2581,7 @@ LABEL_SHOWWINDOW:
 						break;
 
 					case ID_CLEARLOG:
-						ClearLog();
+						tabClearLog();
 						break;
 
 					case ID_SEARCH_GOOGLE:
@@ -2820,11 +2758,6 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case WM_COMMAND:
-		if (LOWORD(wParam) >= MIN_CBUTTONID && LOWORD(wParam) <= MAX_CBUTTONID){
-			Srmm_ClickToolbarIcon(m_hContact, LOWORD(wParam), GetDlgItem(m_hwnd, LOWORD(wParam)), 0);
-			break;
-		}
-
 		switch (LOWORD(wParam)) {
 		case IDC_TOGGLESIDEBAR:
 			SendMessage(m_pContainer->hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);

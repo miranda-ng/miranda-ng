@@ -1239,7 +1239,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		pf2.dwMask = PFM_OFFSET;
 		pf2.dxOffset = (g_dat.flags & SMF_INDENTTEXT) ? g_dat.indentSize * 1440 / g_dat.logPixelSX : 0;
 
-		SetDlgItemText(m_hwnd, IDC_LOG, L"");
+		ClearLog();
 		m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 		m_log.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~(IMF_AUTOKEYBOARD | IMF_AUTOFONTSIZEADJUST));
 
@@ -1523,7 +1523,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt);
 		}
 
-		SetDlgItemText(m_hwnd, IDC_LOG, L"");
+		ClearLog();
 		m_hDbEventFirst = 0;
 		m_lastEventType = -1;
 		break;

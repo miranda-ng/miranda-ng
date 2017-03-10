@@ -42,19 +42,12 @@ CHAT_MANAGER chatApi;
 
 MODULEINFO *m_ModList = 0;
 
-static void SetActiveSessionEx(SESSION_INFO *si)
+static void SetActiveSession(SESSION_INFO *si)
 {
 	if (si) {
 		replaceStrW(chatApi.szActiveWndID, si->ptszID);
 		replaceStr(chatApi.szActiveWndModule, si->pszModule);
 	}
-}
-
-static void SetActiveSession(const wchar_t *pszID, const char *pszModule)
-{
-	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
-	if (si)
-		SetActiveSessionEx(si);
 }
 
 static SESSION_INFO* GetActiveSession(void)
@@ -72,8 +65,21 @@ static SESSION_INFO* GetActiveSession(void)
 //		Keeps track of all sessions and its windows
 //---------------------------------------------------
 
-static void SM_FreeSession(SESSION_INFO *si)
+static void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact = false)
 {
+	if (cli.pfnGetEvent(si->hContact, 0))
+		cli.pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
+	si->wState &= ~STATE_TALK;
+	db_set_w(si->hContact, si->pszModule, "ApparentMode", 0);
+
+	if (si->pDlg)
+		SendMessage(si->pDlg->GetHwnd(), GC_CLOSEWINDOW, 0, 1);
+
+	DoEventHook(si, GC_SESSION_TERMINATE, nullptr, nullptr, (INT_PTR)si->pItemData);
+
+	if (si->hContact && bRemoveContact)
+		db_delete_contact(si->hContact);
+
 	// contact may have been deleted here already, since function may be called after deleting
 	// contact so the handle may be invalid, therefore db_get_b shall return 0
 	if (si->hContact && db_get_b(si->hContact, si->pszModule, "ChatRoom", 0) != 0) {
@@ -106,32 +112,28 @@ static void SM_FreeSession(SESSION_INFO *si)
 	mir_free(si);
 }
 
-int SM_RemoveSession(const wchar_t *pszID, const char *pszModule, BOOL removeContact)
+int SM_RemoveSession(const wchar_t *pszID, const char *pszModule, bool removeContact)
 {
-	if (!pszModule)
+	if (pszModule == nullptr)
 		return FALSE;
+
+	if (pszID != nullptr) {
+		SESSION_INFO *si = SM_FindSession(pszID, pszModule);
+		if (si == nullptr)
+			return FALSE;
+
+		SM_FreeSession(si, removeContact);
+		return TRUE;
+	}
 
 	for (int i = g_arSessions.getCount() - 1; i >= 0; i--) {
 		SESSION_INFO *si = g_arSessions[i];
-		// match
-		if ((!pszID && si->iType != GCW_SERVER || !mir_wstrcmpi(si->ptszID, pszID)) && !mir_strcmpi(si->pszModule, pszModule)) {
-			if (si->pDlg)
-				SendMessage(si->pDlg->GetHwnd(), GC_CONTROL_MSG, SESSION_TERMINATE, 0);
-			DoEventHook(si, GC_SESSION_TERMINATE, nullptr, nullptr, (INT_PTR)si->pItemData);
-
-			// contact may have been deleted here already, since function may be called after deleting
-			// contact so the handle may be invalid, therefore db_get_b shall return 0
-			if (si->hContact && removeContact)
-				db_delete_contact(si->hContact);
-
-			SM_FreeSession(si);
+		if (si->iType != GCW_SERVER && !mir_strcmpi(si->pszModule, pszModule)) {
+			SM_FreeSession(si, removeContact);
 			g_arSessions.remove(i);
-
-			if (pszID)
-				return 1;
 		}
 	}
-	return FALSE;
+	return TRUE;
 }
 
 SESSION_INFO* SM_FindSession(const wchar_t *pszID, const char *pszModule)
@@ -147,26 +149,18 @@ SESSION_INFO* SM_FindSession(const wchar_t *pszID, const char *pszModule)
 	return g_arSessions.find(&tmp);
 }
 
-BOOL SM_SetOffline(const wchar_t *pszID, const char *pszModule)
+BOOL SM_SetOffline(SESSION_INFO *si)
 {
-	if (!pszModule)
+	if (si == nullptr)
 		return FALSE;
 
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
-		if ((pszID && mir_wstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
-			continue;
-		
-		chatApi.UM_RemoveAll(&si->pUsers);
-		si->pMe = nullptr;
-		si->nUsersInNicklist = 0;
-		if (si->iType != GCW_SERVER)
-			si->bInitDone = false;
-		if (chatApi.OnOfflineSession)
-			chatApi.OnOfflineSession(si);
-		if (pszID)
-			return TRUE;
-	}
+	chatApi.UM_RemoveAll(&si->pUsers);
+	si->pMe = nullptr;
+	si->nUsersInNicklist = 0;
+	if (si->iType != GCW_SERVER)
+		si->bInitDone = false;
+	if (chatApi.OnOfflineSession)
+		chatApi.OnOfflineSession(si);
 	return TRUE;
 }
 
@@ -308,27 +302,6 @@ BOOL SM_TakeStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 	return TRUE;
 }
 
-LRESULT SM_SendMessage(const wchar_t *pszID, const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	if (pszModule == nullptr)
-		return 0;
-
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
-		if ((pszID && mir_wstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
-			continue;
-
-		if (si->pDlg) {
-			LRESULT res = SendMessage(si->pDlg->GetHwnd(), msg, wParam, lParam);
-			if (pszID)
-				return res;
-		}
-		if (pszID)
-			return 0;
-	}
-	return 0;
-}
-
 static BOOL SM_BroadcastMessage(const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam, BOOL bAsync)
 {
 	for (int i = 0; i < g_arSessions.getCount(); i++) {
@@ -346,30 +319,19 @@ static BOOL SM_BroadcastMessage(const char *pszModule, UINT msg, WPARAM wParam, 
 	return TRUE;
 }
 
-BOOL SM_SetStatus(const wchar_t *pszID, const char *pszModule, int wStatus)
+BOOL SM_SetStatus(SESSION_INFO *si, int wStatus)
 {
-	if (!pszModule)
-		return FALSE;
+	si->wStatus = wStatus;
+	if (si->hContact) {
+		if (si->iType != GCW_SERVER && wStatus != ID_STATUS_OFFLINE)
+			db_unset(si->hContact, "CList", "Hidden");
 
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
-		if ((pszID && mir_wstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
-			continue;
-
-		si->wStatus = wStatus;
-		if (si->hContact) {
-			if (si->iType != GCW_SERVER && wStatus != ID_STATUS_OFFLINE)
-				db_unset(si->hContact, "CList", "Hidden");
-
-			db_set_w(si->hContact, si->pszModule, "Status", (WORD)wStatus);
-		}
-
-		if (chatApi.OnSetStatus)
-			chatApi.OnSetStatus(si, wStatus);
-
-		if (pszID)
-			return TRUE;
+		db_set_w(si->hContact, si->pszModule, "Status", (WORD)wStatus);
 	}
+
+	if (chatApi.OnSetStatus)
+		chatApi.OnSetStatus(si, wStatus);
+
 	return TRUE;
 }
 
@@ -400,15 +362,9 @@ BOOL SM_ChangeNick(const wchar_t *pszID, const char *pszModule, GCEVENT *gce)
 
 void SM_RemoveAll(void)
 {
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
+	for (int i = 0; i < g_arSessions.getCount(); i++)
+		SM_FreeSession(g_arSessions[i], false);
 
-		if (si->pDlg)
-			SendMessage(si->pDlg->GetHwnd(), GC_CONTROL_MSG, SESSION_TERMINATE, 0);
-		DoEventHook(si, GC_SESSION_TERMINATE, nullptr, nullptr, (INT_PTR)si->pItemData);
-
-		SM_FreeSession(si);
-	}
 	g_arSessions.destroy();
 }
 
@@ -1088,7 +1044,6 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _
 	g_iChatLang = _hLangpack;
 
 	chatApi.SetActiveSession = SetActiveSession;
-	chatApi.SetActiveSessionEx = SetActiveSessionEx;
 	chatApi.GetActiveSession = GetActiveSession;
 	chatApi.SM_FindSession = SM_FindSession;
 	chatApi.SM_GetStatusIcon = SM_GetStatusIcon;

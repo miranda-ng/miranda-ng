@@ -613,7 +613,10 @@ void CVkProto::LeaveChat(int chat_id, bool close_window, bool delete_chat)
 	if (cc == NULL)
 		return;
 
-	Chat_Control(m_szModuleName, cc->m_wszId, close_window ? SESSION_TERMINATE : SESSION_OFFLINE);
+	if (close_window)
+		Chat_Terminate(m_szModuleName, cc->m_wszId);
+	else
+		Chat_Control(m_szModuleName, cc->m_wszId, SESSION_OFFLINE);
 	
 	if (delete_chat)
 		db_delete_contact(cc->m_hContact);

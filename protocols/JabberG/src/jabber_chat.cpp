@@ -327,7 +327,10 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 		GcLogUpdateMemberStatus(item, myNick, myNick, NULL, GC_EVENT_KICK, reason);
 	}
 
-	Chat_Control(m_szModuleName, item->jid, (code == 200) ? SESSION_TERMINATE : SESSION_OFFLINE);
+	if (code == 200)
+		Chat_Terminate(m_szModuleName, item->jid);
+	else
+		Chat_Control(m_szModuleName, item->jid, SESSION_OFFLINE);
 
 	db_unset(item->hContact, "CList", "Hidden");
 	item->bChatActive = false;

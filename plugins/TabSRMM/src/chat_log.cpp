@@ -633,8 +633,6 @@ static void AddEventToBuffer(CMStringA &str, LOGSTREAMDATA *streamData)
 
 char* Log_CreateRtfHeader(MODULEINFO *mi)
 {
-	int i = 0;
-
 	// get the number of pixels per logical inch
 	if (pci->logPixelSY == 0) {
 		HDC hdc = GetDC(nullptr);
@@ -647,19 +645,19 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 
 	// font table
 	CMStringA str("{\\rtf1\\ansi\\deff0{\\fonttbl");
-	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
+	for (int i = 0; i < OPTIONS_FONTCOUNT; i++)
 		str.AppendFormat("{\\f%u\\fnil\\fcharset%u%S;}", i, pci->aFonts[i].lf.lfCharSet, pci->aFonts[i].lf.lfFaceName);
 
 	// colour table
 	str.Append("}{\\colortbl ;");
 
-	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
+	for (int i = 0; i < OPTIONS_FONTCOUNT; i++)
 		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(pci->aFonts[i].color), GetGValue(pci->aFonts[i].color), GetBValue(pci->aFonts[i].color));
 
-	for (i = 0; i < mi->nColorCount; i++)
+	for (int i = 0; i < mi->nColorCount; i++)
 		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(mi->crColors[i]), GetGValue(mi->crColors[i]), GetBValue(mi->crColors[i]));
 
-	for (i = 0; i < STATUSICONCOUNT; i++)
+	for (int i = 0; i < STATUSICONCOUNT; i++)
 		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(g_Settings.nickColors[i]), GetGValue(g_Settings.nickColors[i]), GetBValue(g_Settings.nickColors[i]));
 
 	// new paragraph
@@ -839,11 +837,9 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 	if (m_hwnd == 0 || lin == 0 || si == 0)
 		return;
 
-	HWND hwndRich = GetDlgItem(m_hwnd, IDC_LOG);
-
 	LOGSTREAMDATA streamData;
 	memset(&streamData, 0, sizeof(streamData));
-	streamData.hwnd = hwndRich;
+	streamData.hwnd = m_log.GetHwnd();
 	streamData.si = si;
 	streamData.lin = lin;
 	streamData.bStripFormat = FALSE;
@@ -854,24 +850,24 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 
 	bool bFlag = false, fDoReplace;
 
-	EDITSTREAM stream = { 0 };
+	EDITSTREAM stream = {};
 	stream.pfnCallback = Srmm_LogStreamCallback;
 	stream.dwCookie = (DWORD_PTR)& streamData;
 
-	SCROLLINFO scroll = { 0 };
+	SCROLLINFO scroll = {};
 	scroll.cbSize = sizeof(SCROLLINFO);
 	scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
 	GetScrollInfo(GetDlgItem(m_hwnd, IDC_LOG), SB_VERT, &scroll);
-	SendMessage(hwndRich, EM_GETSCROLLPOS, 0, (LPARAM)&point);
+	m_log.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&point);
 
 	// do not scroll to bottom if there is a selection
-	SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM)&oldsel);
+	m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldsel);
 	if (oldsel.cpMax != oldsel.cpMin)
-		SendMessage(hwndRich, WM_SETREDRAW, FALSE, 0);
+		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
 
 	// set the insertion point at the bottom
-	sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich);
-	SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&sel);
+	sel.cpMin = sel.cpMax = GetRichTextLength(m_log.GetHwnd());
+	m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 
 	// fix for the indent... must be a M$ bug
 	if (sel.cpMax == 0)
@@ -886,14 +882,14 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 		pci->logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		pci->logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
 		ReleaseDC(nullptr, hdc);
-		SendMessage(hwndRich, WM_SETREDRAW, FALSE, 0);
+		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
 		bFlag = true;
 	}
 
 	// stream in the event(s)
 	streamData.lin = lin;
 	streamData.bRedraw = bRedraw;
-	SendMessage(hwndRich, EM_STREAMIN, wp, (LPARAM)&stream);
+	m_log.SendMsg(EM_STREAMIN, wp, (LPARAM)&stream);
 
 	// for new added events, only replace in message or action events.
 	// no need to replace smileys or math formulas elsewhere
@@ -912,29 +908,28 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 		fi.chrg.cpMax = -1;
 		fi.lpstrText = L"~~++#";
 
-		while (SendMessage(hwndRich, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
+		while (m_log.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
 			fi2.chrg.cpMin = fi.chrgText.cpMin;
 			fi2.chrg.cpMax = -1;
 
-			if (SendMessage(hwndRich, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi2) > -1) {
-
-				SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&fi.chrgText);
-				SendMessage(hwndRich, EM_REPLACESEL, TRUE, (LPARAM)L"");
+			if (m_log.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi2) > -1) {
+				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&fi.chrgText);
+				m_log.SendMsg(EM_REPLACESEL, TRUE, (LPARAM)L"");
 				fi2.chrgText.cpMin -= fi.chrgText.cpMax - fi.chrgText.cpMin;
 				fi2.chrgText.cpMax -= fi.chrgText.cpMax - fi.chrgText.cpMin;
-				SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&fi2.chrgText);
-				SendMessage(hwndRich, EM_REPLACESEL, TRUE, (LPARAM)L"");
+				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&fi2.chrgText);
+				m_log.SendMsg(EM_REPLACESEL, TRUE, (LPARAM)L"");
 				fi2.chrgText.cpMax = fi2.chrgText.cpMin;
 
 				fi2.chrgText.cpMin = fi.chrgText.cpMin;
-				SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&fi2.chrgText);
+				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&fi2.chrgText);
 				cf2.dwMask = CFM_PROTECTED;
 				cf2.dwEffects = CFE_PROTECTED;
-				SendMessage(hwndRich, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2);
+				m_log.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2);
 			}
 			fi.chrg.cpMin = fi.chrgText.cpMax;
 		}
-		SendMessage(hwndRich, EM_SETSEL, -1, -1);
+		m_log.SendMsg(EM_SETSEL, -1, -1);
 	}
 
 	// run smileyadd
@@ -945,7 +940,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 			newsel.cpMin = 0;
 
 		SMADD_RICHEDIT3 sm = { sizeof(sm) };
-		sm.hwndRichEditControl = hwndRich;
+		sm.hwndRichEditControl = m_log.GetHwnd();
 		sm.Protocolname = si->pszModule;
 		sm.rangeToReplace = bRedraw ? nullptr : &newsel;
 		sm.disableRedraw = TRUE;
@@ -963,34 +958,34 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 		fi.lpstrText = szPattern;
 		fi.chrg.cpMin = 0;
 		fi.chrg.cpMax = -1;
-		if (SendMessage(hwndRich, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) != 0) {
+		if (m_log.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) != 0) {
 			CHARRANGE rng;
 			rng.cpMin = 0;
 			rng.cpMax = 20;
-			SendMessage(hwndRich, EM_SETSEL, 0, fi.chrgText.cpMax + 1);
-			SendMessage(hwndRich, EM_REPLACESEL, TRUE, (LPARAM)L"");
+			m_log.SendMsg(EM_SETSEL, 0, fi.chrgText.cpMax + 1);
+			m_log.SendMsg(EM_REPLACESEL, TRUE, (LPARAM)L"");
 		}
 		si->bTrimmed = false;
 	}
 
 	// scroll log to bottom if the log was previously scrolled to bottom, else restore old position
 	if ((bRedraw || (UINT)scroll.nPos >= (UINT)scroll.nMax - scroll.nPage - 5 || scroll.nMax - scroll.nMin - scroll.nPage < 50))
-		SendMessage(GetParent(hwndRich), GC_SCROLLTOBOTTOM, 0, 0);
+		SendMessage(GetParent(m_log.GetHwnd()), GC_SCROLLTOBOTTOM, 0, 0);
 	else
-		SendMessage(hwndRich, EM_SETSCROLLPOS, 0, (LPARAM)&point);
+		m_log.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&point);
 
 	// do we need to restore the selection
 	if (oldsel.cpMax != oldsel.cpMin) {
-		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&oldsel);
-		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
-		InvalidateRect(hwndRich, nullptr, TRUE);
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldsel);
+		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
+		InvalidateRect(m_log.GetHwnd(), nullptr, TRUE);
 	}
 
 	// need to invalidate the window
 	if (bFlag) {
-		sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich);
-		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&sel);
-		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
-		InvalidateRect(hwndRich, nullptr, TRUE);
+		sel.cpMin = sel.cpMax = GetRichTextLength(m_log.GetHwnd());
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
+		InvalidateRect(m_log.GetHwnd(), nullptr, TRUE);
 	}
 }

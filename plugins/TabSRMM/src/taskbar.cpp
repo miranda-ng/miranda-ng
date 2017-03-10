@@ -293,7 +293,7 @@ void CProxyWindow::sendThumb(LONG width, LONG height)
 	if (0 == m_thumb) {
 		m_width = width;
 		m_height = height;
-		m_thumb = m_dat->CreateThumb(this);
+		m_thumb = m_dat->tabCreateThumb(this);
 	}
 	else if (width != m_width || height != m_height || !m_thumb->isValid()) {
 		m_width = width;

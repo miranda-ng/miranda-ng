@@ -58,6 +58,16 @@ CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si
 INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
+	case WM_COMMAND:
+		if (!lParam && Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, m_hContact))
+			return 0;
+
+		if (wParam >= MIN_CBUTTONID && wParam <= MAX_CBUTTONID) {
+			Srmm_ClickToolbarIcon(m_hContact, wParam, GetDlgItem(m_hwnd, wParam), 0);
+			return 0;
+		}
+		break;
+
 	case WM_NOTIFY:
 		if (m_pLog != nullptr) {
 			LPNMHDR hdr = (LPNMHDR)lParam;
@@ -126,6 +136,12 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 
 	return CDlgBase::DlgProc(msg, wParam, lParam);
+}
+
+void CSrmmBaseDialog::ClearLog()
+{
+	if (m_pLog != nullptr)
+		m_pLog->SetText(L"");
 }
 
 void CSrmmBaseDialog::DoEventHook(int iType, const USERINFO *pUser, const wchar_t *pszText, INT_PTR dwItem)

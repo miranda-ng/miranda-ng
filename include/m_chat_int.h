@@ -51,7 +51,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GC_FILTERFIX           (WM_USER+111)
 #define GC_CHANGEFILTERFLAG    (WM_USER+112)
 #define GC_SHOWFILTERMENU      (WM_USER+113)
-#define GC_CONTROL_MSG         (WM_USER+116)
 #define GC_REDRAWWINDOW        (WM_USER+118)
 #define GC_SHOWCOLORCHOOSER    (WM_USER+119)
 #define GC_ADDLOG              (WM_USER+120)
@@ -287,8 +286,7 @@ struct CHAT_MANAGER
 {
 	CHAT_MANAGER();
 
-	void          (*SetActiveSession)(const wchar_t *pszID, const char *pszModule);
-	void          (*SetActiveSessionEx)(SESSION_INFO *si);
+	void          (*SetActiveSession)(SESSION_INFO *si);
 	SESSION_INFO* (*GetActiveSession)(void);
 	SESSION_INFO* (*SM_FindSession)(const wchar_t *pszID, const char *pszModule);
 	HICON         (*SM_GetStatusIcon)(SESSION_INFO *si, USERINFO * ui);
@@ -430,6 +428,8 @@ public:
 	bool m_bFilterEnabled, m_bNicklistEnabled;
 	bool m_bFGSet, m_bBGSet;
 	COLORREF m_iFG, m_iBG;
+
+	void ClearLog();
 
 	__forceinline bool isChat() const { return m_si != nullptr; }
 

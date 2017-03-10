@@ -411,3 +411,4 @@ ProtoGetAvatarMimeType @401
 Srmm_LogStreamCallback @412
 Srmm_MessageStreamCallback @413
 ?DoEventHook@CSrmmBaseDialog@@IEAAXHPEBUUSERINFO@@PEB_W_J@Z @414 NONAME
+?ClearLog@CSrmmBaseDialog@@QEAAXXZ @415 NONAME

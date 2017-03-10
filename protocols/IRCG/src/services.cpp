@@ -1045,7 +1045,7 @@ void CIrcProto::DisconnectFromServer(void)
 	if (m_perform && IsConnected())
 		DoPerform("Event: Disconnect");
 
-	Chat_Terminate(m_szModuleName, NULL);
+	Chat_Terminate(m_szModuleName, nullptr);
 	ForkThread(&CIrcProto::DisconnectServerThread, 0);
 }
 

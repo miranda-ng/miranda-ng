@@ -58,12 +58,11 @@ char*    SM_GetUsers(SESSION_INFO *si);
 BOOL     SM_GiveStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, const wchar_t *pszStatus);
 BOOL     SM_MoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID);
 void     SM_RemoveAll(void);
-int      SM_RemoveSession(const wchar_t *pszID, const char *pszModule, BOOL removeContact);
+int      SM_RemoveSession(const wchar_t *pszID, const char *pszModule, bool removeContact);
 BOOL     SM_RemoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID);
-LRESULT  SM_SendMessage(const wchar_t *pszID, const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam);
 BOOL     SM_SetContactStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, WORD wStatus);
-BOOL     SM_SetOffline(const wchar_t *pszID, const char *pszModule);
-BOOL     SM_SetStatus(const wchar_t *pszID, const char *pszModule, int wStatus);
+BOOL     SM_SetOffline(SESSION_INFO *si);
+BOOL     SM_SetStatus(SESSION_INFO *si, int wStatus);
 BOOL     SM_TakeStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, const wchar_t *pszStatus);
 
 SESSION_INFO* SM_FindSession(const wchar_t *pszID, const char *pszModule);

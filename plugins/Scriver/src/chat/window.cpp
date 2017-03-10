@@ -1378,7 +1378,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			else Log_StreamInEvent(m_si->pLogEnd, TRUE);
 		}
-		else SendMessage(m_hwnd, GC_CONTROL_MSG, WINDOW_CLEARLOG, 0);
+		else ClearLog();
 		break;
 
 	case GC_REDRAWLOG2:
@@ -1391,7 +1391,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (m_si->pLogEnd)
 			Log_StreamInEvent(m_si->pLog, FALSE);
 		else
-			SendMessage(m_hwnd, GC_CONTROL_MSG, WINDOW_CLEARLOG, 0);
+			ClearLog();
 		break;
 
 	case DM_UPDATETABCONTROL:
@@ -1541,60 +1541,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SendMessage(m_hwnd, DM_UPDATETITLEBAR, 0, 0);
 		break;
 
-	case GC_CONTROL_MSG:
-		switch (wParam) {
-		case SESSION_OFFLINE:
-			SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-			SendMessage(m_hwnd, GC_UPDATENICKLIST, 0, 0);
-			return TRUE;
-
-		case SESSION_ONLINE:
-			SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-			return TRUE;
-
-		case WINDOW_HIDDEN:
-			SendMessage(m_hwnd, GC_CLOSEWINDOW, 0, 0);
-			return TRUE;
-
-		case WINDOW_CLEARLOG:
-			m_log.SetText(L"");
-			return TRUE;
-
-		case SESSION_TERMINATE:
-			if (pcli->pfnGetEvent(m_hContact, 0))
-				pcli->pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
-			m_si->wState &= ~STATE_TALK;
-			db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
-			SendMessage(m_hwnd, GC_CLOSEWINDOW, 0, 0);
-			return TRUE;
-
-		case WINDOW_MINIMIZE:
-			ShowWindow(m_hwnd, SW_MINIMIZE);
-			goto LABEL_SHOWWINDOW;
-
-		case WINDOW_MAXIMIZE:
-			ShowWindow(m_hwnd, SW_MAXIMIZE);
-			goto LABEL_SHOWWINDOW;
-
-		case SESSION_INITDONE:
-			if (db_get_b(0, CHAT_MODULE, "PopupOnJoin", 0) != 0)
-				return TRUE;
-			// fall through
-		case WINDOW_VISIBLE:
-			if (IsIconic(m_hwnd))
-				ShowWindow(m_hwnd, SW_NORMAL);
-		LABEL_SHOWWINDOW:
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
-			SendMessage(m_hwnd, GC_REDRAWLOG, 0, 0);
-			SendMessage(m_hwnd, GC_UPDATENICKLIST, 0, 0);
-			SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-			ShowWindow(m_hwnd, SW_SHOW);
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
-			SetForegroundWindow(m_hwnd);
-			return TRUE;
-		}
-		break;
-
 	case GC_CHANGEFILTERFLAG:
 		m_iLogFilterFlags = lParam;
 		break;
@@ -1634,12 +1580,12 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (LOWORD(wParam) != WA_ACTIVE)
 			break;
 
-		//fall through
+		// fall through
 	case WM_MOUSEACTIVATE:
 		if (uMsg != WM_ACTIVATE)
 			SetFocus(m_message.GetHwnd());
 
-		pci->SetActiveSession(m_si->ptszID, m_si->pszModule);
+		pci->SetActiveSession(m_si);
 
 		if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
 			db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);

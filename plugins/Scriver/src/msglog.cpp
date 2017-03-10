@@ -796,7 +796,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 	}
 	else {
 		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
-		m_log.SetText(L"");
+		ClearLog();
 		sel.cpMin = 0;
 		sel.cpMax = GetRichTextLength(m_log.GetHwnd(), 1200, FALSE);
 		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);

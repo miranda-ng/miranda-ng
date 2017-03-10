@@ -1381,7 +1381,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 							Chat_Control(m_szModuleName, sID, WINDOW_HIDDEN);
 							break;
 						case 'X':
-							Chat_Control(m_szModuleName, sID, WINDOW_MAXIMIZE);
+							Chat_Control(m_szModuleName, sID, WINDOW_VISIBLE);
 							break;
 						default:
 							Chat_Control(m_szModuleName, sID, SESSION_INITDONE);

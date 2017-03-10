@@ -154,7 +154,7 @@ static void ShowPopupMenu(CTabBaseDlg *dat, int idFrom, HWND hwndFrom, POINT pt)
 		SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
 		break;
 	case IDM_CLEAR:
-		dat->ClearLog();
+		dat->tabClearLog();
 		break;
 	case ID_LOG_FREEZELOG:
 		SendDlgItemMessage(hwndDlg, IDC_LOG, WM_KEYDOWN, VK_F12, 0);
@@ -921,7 +921,7 @@ CSrmmWindow::CSrmmWindow()
 {
 }
 
-void CSrmmWindow::ClearLog()
+void CSrmmWindow::tabClearLog()
 {
 	if (m_hwndIEView || m_hwndHPP) {
 		IEVIEWEVENT event;
@@ -942,7 +942,7 @@ void CSrmmWindow::ClearLog()
 	m_hDbEventFirst = 0;
 }
 
-CThumbBase* CSrmmWindow::CreateThumb(CProxyWindow *pProxy) const
+CThumbBase* CSrmmWindow::tabCreateThumb(CProxyWindow *pProxy) const
 {
 	return new CThumbIM(pProxy);
 }
@@ -2512,15 +2512,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_COMMAND:
-		if (!this)
-			break;
-
-		// custom button handling
-		if (LOWORD(wParam) >= MIN_CBUTTONID && LOWORD(wParam) <= MAX_CBUTTONID) {
-			Srmm_ClickToolbarIcon(m_hContact, LOWORD(wParam), GetDlgItem(m_hwnd, LOWORD(wParam)), 0);
-			break;
-		}
-
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			if (m_bEditNotesActive) {

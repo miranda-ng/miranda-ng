@@ -358,8 +358,8 @@ public:
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
-	virtual CThumbBase* CreateThumb(CProxyWindow*) const = 0;
-	virtual void ClearLog() = 0;
+	virtual CThumbBase* tabCreateThumb(CProxyWindow*) const = 0;
+	virtual void tabClearLog() = 0;
 
 	static LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -433,8 +433,8 @@ public:
 
 class CSrmmWindow : public CTabBaseDlg
 {
-	virtual CThumbBase* CreateThumb(CProxyWindow *pProxy) const override;
-	virtual void ClearLog() override;
+	virtual CThumbBase* tabCreateThumb(CProxyWindow *pProxy) const override;
+	virtual void tabClearLog() override;
 
 	void MsgWindowUpdateState(UINT msg);
 	void ReplayQueue();
@@ -461,7 +461,6 @@ public:
 class CChatRoomDlg : public CTabBaseDlg
 {
 	HWND m_hwndFilter;
-	bool m_bWasDeleted;
 	CCtrlButton m_btnFilter, m_btnHistory, m_btnChannelMgr, m_btnNickList, m_btnOk;
 	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline, m_btnColor, m_btnBkColor;
 	CCtrlListBox m_list;
@@ -470,8 +469,8 @@ class CChatRoomDlg : public CTabBaseDlg
 	static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	virtual CThumbBase* CreateThumb(CProxyWindow *pProxy) const override;
-	virtual void ClearLog() override;
+	virtual CThumbBase* tabCreateThumb(CProxyWindow *pProxy) const override;
+	virtual void tabClearLog() override;
 
 public:
 	int m_iSearchItem;

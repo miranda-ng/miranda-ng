@@ -90,8 +90,6 @@ class CScriverWindow : public CSrmmBaseDialog
 protected:
 	CScriverWindow(int iDialog, SESSION_INFO* = nullptr);
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-
 public:
 	ParentWindowData *m_pParent;
 	int m_minLogBoxHeight, m_minEditBoxHeight;

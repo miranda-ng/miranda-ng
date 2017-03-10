@@ -366,22 +366,6 @@ CScriverWindow::CScriverWindow(int iDialog, SESSION_INFO *si)
 	m_autoClose = CLOSE_ON_CANCEL;
 }
 
-INT_PTR CScriverWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	if (uMsg == WM_COMMAND) {
-		if (!lParam && Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, m_hContact))
-			return 0;
-
-		if (HIWORD(wParam) == BN_CLICKED)
-			if (LOWORD(wParam) >= MIN_CBUTTONID && LOWORD(wParam) <= MAX_CBUTTONID) {
-				Srmm_ClickToolbarIcon(m_hContact, LOWORD(wParam), GetDlgItem(m_hwnd, LOWORD(wParam)), 0);
-				return 0;
-			}
-	}
-
-	return CSrmmBaseDialog::DlgProc(uMsg, wParam, lParam);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // status icons processing
 

@@ -23,7 +23,7 @@ void CDiscordProto::SetAllContactStatuses(int status)
 		if (!getByte(hContact, "ChatRoom"))
 			setWord(hContact, "Status", (WORD)status);
 		else if (status == ID_STATUS_OFFLINE)
-			Chat_Control(m_szModuleName, ptrW(getWStringA(hContact, "ChatRoomID")), SESSION_TERMINATE);
+			Chat_Terminate(m_szModuleName, ptrW(getWStringA(hContact, "ChatRoomID")));
 	}
 }
 

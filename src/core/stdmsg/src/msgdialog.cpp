@@ -697,7 +697,7 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 
 	pf2.wEffects = PFE_RTLPARA;
 	pf2.dwMask = PFM_RTLPARA;
-	m_log.SetText(L"");
+	ClearLog();
 	m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 	pf2.wEffects = 0;
 	m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
@@ -1274,16 +1274,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_COMMAND:
-		if (!lParam && Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, m_hContact))
-			break;
-
-		// custom button handling
-		if (HIWORD(wParam) == BN_CLICKED)
-			if (LOWORD(wParam) >= MIN_CBUTTONID && LOWORD(wParam) <= MAX_CBUTTONID) {
-				Srmm_ClickToolbarIcon(m_hContact, LOWORD(wParam), GetDlgItem(m_hwnd, LOWORD(wParam)), 0);
-				break;
-			}
-
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			if (IsWindowEnabled(GetDlgItem(m_hwnd, IDOK))) {
@@ -1427,7 +1417,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						SendMessage(pLink->nmhdr.hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
 						break;
 					case IDM_CLEAR:
-						m_log.SetText(L"");
+						ClearLog();
 						m_hDbEventFirst = NULL;
 						break;
 					}

@@ -275,50 +275,52 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 	ChatConrolParam *p = (ChatConrolParam*)param;
 
 	mir_cslock lck(csChat);
+	SESSION_INFO *si = chatApi.SM_FindSession(p->wszId, p->szModule);
+	if (si == nullptr)
+		return GC_EVENT_ERROR;
+
 	switch (p->command) {
 	case WINDOW_HIDDEN:
-		if (SESSION_INFO *si = chatApi.SM_FindSession(p->wszId, p->szModule)) {
-			SetInitDone(si);
-			chatApi.SetActiveSession(si->ptszID, si->pszModule);
-		}
-		return 0;
+		SetInitDone(si);
+		chatApi.SetActiveSession(si);
+		if (si->pDlg)
+			::SendMessage(si->pDlg->GetHwnd(), GC_CLOSEWINDOW, 0, 0);
+		break;
 
-	case WINDOW_MINIMIZE:
-	case WINDOW_MAXIMIZE:
 	case WINDOW_VISIBLE:
 	case SESSION_INITDONE:
-		if (SESSION_INFO *si = chatApi.SM_FindSession(p->wszId, p->szModule)) {
-			SetInitDone(si);
-			if (p->command != SESSION_INITDONE || db_get_b(0, CHAT_MODULE, "PopupOnJoin", 0) == 0)
-				chatApi.ShowRoom(si);
-			return 0;
-		}
+		SetInitDone(si);
+		if (p->command != SESSION_INITDONE || db_get_b(0, CHAT_MODULE, "PopupOnJoin", 0) == 0)
+			chatApi.ShowRoom(si);
 		break;
 
 	case SESSION_OFFLINE:
-		SM_SetOffline(p->wszId, p->szModule);
-		// fall through
-
-	case SESSION_ONLINE:
-		SM_SetStatus(p->wszId, p->szModule, p->command == SESSION_ONLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
+		SM_SetOffline(si);
+		SM_SetStatus(si, ID_STATUS_OFFLINE);
+		if (si->pDlg) {
+			::SendMessage(si->pDlg->GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
+			::SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
+		}
 		break;
 
-	case SESSION_TERMINATE:
-		return SM_RemoveSession(p->wszId, p->szModule, false);
+	case SESSION_ONLINE:
+		SM_SetStatus(si, ID_STATUS_ONLINE);
+		if (si->pDlg)
+			::SendMessage(si->pDlg->GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
+		break;
 
 	case WINDOW_CLEARLOG:
-		if (SESSION_INFO *si = chatApi.SM_FindSession(p->wszId, p->szModule)) {
-			chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
-			si->iEventCount = 0;
-			si->LastTime = 0;
-		}
+		chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
+		si->iEventCount = 0;
+		si->LastTime = 0;
+		if (si->pDlg)
+			si->pDlg->ClearLog();
 		break;
 
 	default:
 		return GC_EVENT_ERROR;
 	}
 
-	SM_SendMessage(p->wszId, p->szModule, GC_CONTROL_MSG, p->command, 0);
 	return 0;
 }
 

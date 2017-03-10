@@ -151,7 +151,7 @@ bool CTabBaseDlg::DM_GenericHotkeysCheck(MSG *message)
 		return true;
 
 	case TABSRMM_HK_CLEARLOG:
-		ClearLog();
+		tabClearLog();
 		return true;
 
 	case TABSRMM_HK_TOGGLESIDEBAR:
@@ -479,7 +479,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 		break;
 
 	case IDM_CLEAR:
-		ClearLog();
+		tabClearLog();
 		break;
 
 	case IDC_PROTOCOL:
@@ -612,7 +612,7 @@ void CTabBaseDlg::DM_InitRichEdit()
 	pf2.dxOffset = m_pContainer->theme.left_indent + 30;
 
 	if (!fIsChat) {
-		m_log.SetText(L"");
+		ClearLog();
 		m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 		m_log.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)SendDlgItemMessage(m_hwnd, IDC_LOG, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 		// set the scrollbars etc to RTL/LTR (only for manual RTL mode)

@@ -931,7 +931,16 @@ void CChatRoomDlg::OnInitDialog()
 void CChatRoomDlg::OnDestroy()
 {
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING);
+
 	SaveWindowPosition(true);
+	if (!g_Settings.bTabsEnable) {
+		if (db_get_b(0, CHAT_MODULE, "SavePosition", 0)) {
+			db_set_dw(m_hContact, CHAT_MODULE, "roomx", m_si->iX);
+			db_set_dw(m_hContact, CHAT_MODULE, "roomy", m_si->iY);
+			db_set_dw(m_hContact, CHAT_MODULE, "roomwidth", m_si->iWidth);
+			db_set_dw(m_hContact, CHAT_MODULE, "roomheight", m_si->iHeight);
+		}
+	}
 
 	WindowList_Remove(pci->hWindowList, m_hwnd);
 
@@ -1388,7 +1397,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			else Log_StreamInEvent(m_si->pLogEnd, TRUE);
 		}
-		else SendMessage(m_hwnd, GC_CONTROL_MSG, WINDOW_CLEARLOG, 0);
+		else ClearLog();
 		break;
 
 	case GC_REDRAWLOG2:
@@ -1401,7 +1410,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (m_si->pLogEnd)
 			Log_StreamInEvent(m_si->pLog, FALSE);
 		else
-			SendMessage(m_hwnd, GC_CONTROL_MSG, WINDOW_CLEARLOG, 0);
+			ClearLog();
 		break;
 
 	case WM_CTLCOLORLISTBOX:
@@ -1484,71 +1493,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case GC_CONTROL_MSG:
-		switch (wParam) {
-		case SESSION_OFFLINE:
-			SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-			SendMessage(m_si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
-			return TRUE;
-
-		case SESSION_ONLINE:
-			SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-			return TRUE;
-
-		case WINDOW_HIDDEN:
-			SendMessage(m_hwnd, GC_CLOSEWINDOW, 0, 0);
-			return TRUE;
-
-		case WINDOW_CLEARLOG:
-			SetDlgItemText(m_hwnd, IDC_LOG, L"");
-			return TRUE;
-
-		case SESSION_TERMINATE:
-			if (!g_Settings.bTabsEnable) {
-				SaveWindowPosition(true);
-				if (db_get_b(0, CHAT_MODULE, "SavePosition", 0)) {
-					db_set_dw(m_hContact, CHAT_MODULE, "roomx", m_si->iX);
-					db_set_dw(m_hContact, CHAT_MODULE, "roomy", m_si->iY);
-					db_set_dw(m_hContact, CHAT_MODULE, "roomwidth", m_si->iWidth);
-					db_set_dw(m_hContact, CHAT_MODULE, "roomheight", m_si->iHeight);
-				}
-			}
-			
-			if (pcli->pfnGetEvent(m_hContact, 0))
-				pcli->pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
-			m_si->wState &= ~STATE_TALK;
-			db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
-			SendMessage(m_hwnd, GC_CLOSEWINDOW, 0, 0);
-			return TRUE;
-
-		case WINDOW_MINIMIZE:
-			ShowWindow(m_hwnd, SW_MINIMIZE);
-			goto LABEL_SHOWWINDOW;
-
-		case WINDOW_MAXIMIZE:
-			ShowWindow(m_hwnd, SW_MAXIMIZE);
-			goto LABEL_SHOWWINDOW;
-
-		case SESSION_INITDONE:
-			if (db_get_b(0, CHAT_MODULE, "PopupOnJoin", 0) != 0)
-				return TRUE;
-			// fall through
-		case WINDOW_VISIBLE:
-			if (IsIconic(m_hwnd))
-				ShowWindow(m_hwnd, SW_NORMAL);
-
-LABEL_SHOWWINDOW:
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
-			SendMessage(m_hwnd, GC_REDRAWLOG, 0, 0);
-			SendMessage(m_hwnd, GC_UPDATENICKLIST, 0, 0);
-			SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-			ShowWindow(m_hwnd, SW_SHOW);
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
-			SetForegroundWindow(m_hwnd);
-			return TRUE;
-		}
-		break;
-
 	case GC_CLOSEWINDOW:
 		if (g_Settings.bTabsEnable)
 			SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
@@ -1620,7 +1564,7 @@ LABEL_SHOWWINDOW:
 			if (uMsg != WM_ACTIVATE)
 				SetFocus(m_message.GetHwnd());
 
-			pci->SetActiveSession(m_si->ptszID, m_si->pszModule);
+			pci->SetActiveSession(m_si);
 
 			if (KillTimer(m_hwnd, TIMERID_FLASHWND))
 				FlashWindow(m_hwnd, FALSE);
@@ -1682,7 +1626,7 @@ LABEL_SHOWWINDOW:
 				case ID_CLEARLOG:
 					s = pci->SM_FindSession(m_si->ptszID, m_si->pszModule);
 					if (s) {
-						SetDlgItemText(m_hwnd, IDC_LOG, L"");
+						ClearLog();
 						pci->LM_RemoveAll(&s->pLog, &s->pLogEnd);
 						s->iEventCount = 0;
 						s->LastTime = 0;
@@ -1739,12 +1683,6 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case WM_COMMAND:
-		if (HIWORD(wParam) == BN_CLICKED)
-			if (LOWORD(wParam) >= MIN_CBUTTONID && LOWORD(wParam) <= MAX_CBUTTONID) {
-				Srmm_ClickToolbarIcon(m_hContact, LOWORD(wParam), GetDlgItem(m_hwnd, LOWORD(wParam)), 0);
-				break;
-			}
-
 		switch (LOWORD(wParam)) {
 		case IDC_MESSAGE:
 			EnableWindow(m_btnOk.GetHwnd(), GetRichTextLength(m_message.GetHwnd()) != 0);
