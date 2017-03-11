@@ -1064,7 +1064,8 @@ INT_PTR CALLBACK CChatRoomDlg::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 					db_set_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask", dwMask);
 				}
 				Chat_SetFilters(pDlg->m_si);
-				pDlg->m_iLogFilterFlags = iFlags;
+				if (pDlg->m_iLogFilterFlags == 0 && pDlg->m_bFilterEnabled)
+					pDlg->onClick_Filter(&pDlg->m_btnFilter);
 				if (pDlg->m_bFilterEnabled)
 					pDlg->RedrawLog();
 			}
