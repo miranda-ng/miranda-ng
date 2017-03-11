@@ -224,6 +224,11 @@ private:
 	// options
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
+	// oauth
+	void OnOAuthStart(const NETLIBHTTPREQUEST *response);
+	void OnOAuthAuthorize(const NETLIBHTTPREQUEST *response);
+	void OnOAuthEnd(const NETLIBHTTPREQUEST *response);
+
 	// login
 	void Login();
 	void OnMSLoginFirst(const NETLIBHTTPREQUEST *response);

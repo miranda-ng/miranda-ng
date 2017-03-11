@@ -37,13 +37,14 @@ void CSkypeProto::Login()
 	m_bHistorySynced = m_bThreadsTerminated = false;
 	if ((tokenExpires - 1800) > time(NULL))
 		OnLoginSuccess();
-	else
+	/*else
 	{
 		if (strchr(li.szSkypename, '@'))
 			SendRequest(new LoginMSRequest(), &CSkypeProto::OnMSLoginFirst);
 		else
 			SendRequest(new LoginOAuthRequest((char*)li.szSkypename, szPassword), &CSkypeProto::OnLoginOAuth);
-	}
+	}*/
+	PushRequest(new OAuthRequest(), &CSkypeProto::OnOAuthStart);
 }
 
 void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
