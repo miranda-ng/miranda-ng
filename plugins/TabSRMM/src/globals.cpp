@@ -405,7 +405,7 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 		CTabBaseDlg *dat = c->getDat();
 		if (!strcmp(setting, "MirVer"))
 			PostMessage(hwnd, DM_CLIENTCHANGED, 0, 0);
-		if (dat && fChanged || fExtendedStatusChange)
+		if (dat && (fChanged || fExtendedStatusChange))
 			dat->UpdateTitle();
 		if (fExtendedStatusChange)
 			PostMessage(hwnd, DM_UPDATESTATUSMSG, 0, 0);
