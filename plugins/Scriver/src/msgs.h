@@ -150,7 +150,8 @@ public:
 
 	virtual void OnInitDialog() override;
 	virtual void OnDestroy() override;
-	
+
+	virtual void UpdateStatusBar() override;
 	virtual void UpdateTitle() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
@@ -176,7 +177,6 @@ class CChatRoomDlg : public CScriverWindow
 	CSplitter m_splitterX, m_splitterY;
 
 	void MessageDialogResize(int w, int h);
-	void Log_StreamInEvent(LOGINFO* lin, BOOL bRedraw);
 
 	static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -194,6 +194,13 @@ public:
 
 	virtual INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
 	
+	virtual void RedrawLog() override;
+	virtual void ScrollToBottom() override;
+	virtual void ShowFilterMenu() override;
+	virtual void StreamInEvents(LOGINFO* lin, bool bRedraw) override;
+	virtual void UpdateNickList() override;
+	virtual void UpdateOptions() override;
+	virtual void UpdateStatusBar() override;
 	virtual void UpdateTitle() override;
 
 	void onChange_Message(CCtrlEdit*);
@@ -212,6 +219,8 @@ public:
 
 	void OnSplitterX(CSplitter*);
 	void OnSplitterY(CSplitter*);
+
+	void FixTabIcons();
 };
 
 #define HM_DBEVENTADDED        (WM_USER+10)

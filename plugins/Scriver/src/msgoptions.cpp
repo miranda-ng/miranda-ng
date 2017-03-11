@@ -239,7 +239,7 @@ static void ApplyChanges(int i)
 		ReloadGlobals();
 		WindowList_Broadcast(g_dat.hParentWindowList, DM_OPTIONSAPPLIED, 0, 0);
 		WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, 0, 0);
-		pci->SM_BroadcastMessage(nullptr, GC_SETWNDPROPS, 0, 0, TRUE);
+		Chat_UpdateOptions();
 	}
 }
 

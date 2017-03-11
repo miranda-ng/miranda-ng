@@ -441,7 +441,7 @@ void CTabBaseDlg::UpdateReadChars() const
 /////////////////////////////////////////////////////////////////////////////////////////
 // update all status bar fields and force a redraw of the status bar.
 
-void CTabBaseDlg::UpdateStatusBar() const
+void CTabBaseDlg::tabUpdateStatusBar() const
 {
 	if (m_pContainer->hwndStatus && m_pContainer->hwndActive == m_hwnd) {
 		if (!isChat()) {

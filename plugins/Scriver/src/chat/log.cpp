@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EM_GETSCROLLPOS	(WM_USER+221)
 #endif
 
-void CChatRoomDlg::Log_StreamInEvent(LOGINFO* lin, BOOL bRedraw)
+void CChatRoomDlg::StreamInEvents(LOGINFO* lin, bool bRedraw)
 {
 	if (m_hwnd == nullptr || lin == nullptr || m_si == nullptr)
 		return;
@@ -102,7 +102,7 @@ void CChatRoomDlg::Log_StreamInEvent(LOGINFO* lin, BOOL bRedraw)
 
 	// scroll log to bottom if the log was previously scrolled to bottom, else restore old position
 	if (bRedraw || (UINT)scroll.nPos >= (UINT)scroll.nMax - scroll.nPage - 5 || scroll.nMax - scroll.nMin - scroll.nPage < 50)
-		SendMessage(GetParent(m_log.GetHwnd()), GC_SCROLLTOBOTTOM, 0, 0);
+		ScrollToBottom();
 	else
 		m_log.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&point);
 

@@ -242,7 +242,7 @@ BOOL SM_RemoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 			chatApi.UM_RemoveUser(&si->pUsers, pszUID);
 
 			if (si->pDlg)
-				SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
+				si->pDlg->UpdateNickList();
 
 			if (pszID)
 				return TRUE;
@@ -268,7 +268,7 @@ BOOL SM_GiveStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 	if (ui) {
 		SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
 		if (si->pDlg)
-			SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
+			si->pDlg->UpdateNickList();
 	}
 	return TRUE;
 }
@@ -283,7 +283,7 @@ BOOL SM_SetContactStatus(const wchar_t *pszID, const char *pszModule, const wcha
 	if (ui) {
 		SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
 		if (si->pDlg)
-			SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
+			si->pDlg->UpdateNickList();
 	}
 	return TRUE;
 }
@@ -298,7 +298,7 @@ BOOL SM_TakeStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 	if (ui) {
 		SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
 		if (si->pDlg)
-			SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
+			si->pDlg->UpdateNickList();
 	}
 	return TRUE;
 }
@@ -349,7 +349,7 @@ BOOL SM_ChangeNick(const wchar_t *pszID, const char *pszModule, GCEVENT *gce)
 				replaceStrW(ui->pszNick, gce->ptszText);
 				SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
 				if (si->pDlg)
-					SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
+					si->pDlg->UpdateNickList();
 				if (chatApi.OnChangeNick)
 					chatApi.OnChangeNick(si);
 			}
@@ -1110,7 +1110,6 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _
 	chatApi.IsHighlighted = IsHighlighted;
 	chatApi.RemoveFormatting = RemoveFormatting;
 	chatApi.ReloadSettings = LoadGlobalSettings;
-	chatApi.ColorChooser = ColorChooser;
 
 	chatApi.pLogIconBmpBits = pLogIconBmpBits;
 

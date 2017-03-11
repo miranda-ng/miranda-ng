@@ -333,8 +333,6 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 		if (dat || !nen_options.iMUCDisable)
 			DoPopup(si, gce);
-		if (params->bInactive && si && si->pDlg)
-			SendMessage(si->pDlg->GetHwnd(), GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si);
 		if (g_Settings.bFlashWindowHighlight && params->bInactive)
 			params->bMustFlash = TRUE;
 		params->bMustAutoswitch = TRUE;

@@ -42,32 +42,6 @@ void TB_SaveSession(SESSION_INFO *si)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CTabbedWindow : public CDlgBase
-{
-	CCtrlPages m_tab;
-
-	CTabbedWindow() :
-		CDlgBase(g_hInst, IDD_CONTAINER),
-		m_tab(this, IDC_TAB)
-	{}
-
-	void AddPage(SESSION_INFO*, int insertAt = -1);
-	void TabClicked();
-
-	virtual void OnInitDialog() override;
-	virtual void OnDestroy() override;
-
-	virtual int Resizer(UTILRESIZECONTROL *urc)
-	{
-		if (urc->wId == IDC_TAB)
-			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
-
-		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
-	}
-
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-};
-
 static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CTabbedWindow *pOwner = (CTabbedWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
@@ -217,7 +191,7 @@ void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
 
 		CChatRoomDlg *pTab = new CChatRoomDlg(si);
 		m_tab.AddPage(szTemp, NULL, pTab);
-		SendMessage(m_hwnd, GC_FIXTABICONS, 0, (LPARAM)pTab);
+		FixTabIcons(pTab);
 
 		m_tab.ActivatePage(m_tab.GetCount() - 1);
 	}
@@ -225,13 +199,67 @@ void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
 		m_tab.ActivatePage(indexfound);
 }
 
+void CTabbedWindow::FixTabIcons(CChatRoomDlg *pDlg)
+{
+	if (pDlg != nullptr) {
+		int idx = m_tab.GetDlgIndex(pDlg);
+		if (idx == -1)
+			return;
+
+		SESSION_INFO *si = pDlg->m_si;
+		int image = 0;
+		if (!(si->wState & GC_EVENT_HIGHLIGHT)) {
+			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+			image = (si->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
+			if (si->wState & STATE_TALK)
+				image++;
+		}
+
+		TCITEM tci = {};
+		tci.mask = TCIF_IMAGE;
+		TabCtrl_GetItem(m_tab.GetHwnd(), idx, &tci);
+		if (tci.iImage != image) {
+			tci.iImage = image;
+			TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
+		}
+	}
+	else RedrawWindow(m_tab.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
+}
+
+void CTabbedWindow::SetMessageHighlight(CChatRoomDlg *pDlg)
+{
+	if (pDlg != nullptr) {
+		if (m_tab.GetDlgIndex(pDlg) == -1)
+			return;
+
+		pDlg->m_si->wState |= GC_EVENT_HIGHLIGHT;
+		FixTabIcons(pDlg);
+		if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
+			SetTimer(m_hwnd, TIMERID_FLASHWND, 900, NULL);
+	}
+	else RedrawWindow(m_tab.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
+}
+
+void CTabbedWindow::SetTabHighlight(CChatRoomDlg *pDlg)
+{
+	if (pDlg != nullptr) {
+		if (m_tab.GetDlgIndex(pDlg) == -1)
+			return;
+
+		FixTabIcons(pDlg);
+		if (g_Settings.bFlashWindow && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
+			SetTimer(m_hwnd, TIMERID_FLASHWND, 900, NULL);
+	}
+	else RedrawWindow(m_tab.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
+}
+
 void CTabbedWindow::TabClicked()
 {
-	CDlgBase *pDlg = m_tab.GetActivePage();
+	CChatRoomDlg *pDlg = (CChatRoomDlg*)m_tab.GetActivePage();
 	if (pDlg == NULL)
 		return;
 
-	SESSION_INFO *s = ((CChatRoomDlg*)pDlg)->m_si;
+	SESSION_INFO *s = pDlg->m_si;
 	if (s) {
 		if (s->wState & STATE_TALK) {
 			s->wState &= ~STATE_TALK;
@@ -245,7 +273,7 @@ void CTabbedWindow::TabClicked()
 				pcli->pfnRemoveEvent(s->hContact, GC_FAKE_EVENT);
 		}
 
-		SendMessage(m_hwnd, GC_FIXTABICONS, 0, (LPARAM)pDlg);
+		FixTabIcons(pDlg);
 		if (!s->pDlg) {
 			pci->ShowRoom(s);
 			SendMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
@@ -258,32 +286,6 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg) {
 	case GC_ADDTAB:
 		AddPage((SESSION_INFO*)lParam);
-		break;
-
-	case GC_FIXTABICONS:
-		if (CChatRoomDlg *pDlg = (CChatRoomDlg*)lParam) {
-			int idx = m_tab.GetDlgIndex(pDlg);
-			if (idx == -1)
-				break;
-
-			SESSION_INFO *si = pDlg->m_si;
-			int image = 0;
-			if (!(si->wState & GC_EVENT_HIGHLIGHT)) {
-				MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
-				image = (si->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
-				if (si->wState & STATE_TALK)
-					image++;
-			}
-
-			TCITEM tci = {};
-			tci.mask = TCIF_IMAGE;
-			TabCtrl_GetItem(m_tab.GetHwnd(), idx, &tci);
-			if (tci.iImage != image) {
-				tci.iImage = image;
-				TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
-			}
-		}
-		else RedrawWindow(m_tab.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
 		break;
 
 	case GC_SWITCHNEXTTAB:
@@ -344,35 +346,9 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case GC_SETMESSAGEHIGHLIGHT:
-		if (CChatRoomDlg *pDlg = (CChatRoomDlg*)lParam) {
-			if (m_tab.GetDlgIndex(pDlg) == -1)
-				break;
-
-			pDlg->m_si->wState |= GC_EVENT_HIGHLIGHT;
-			SendMessage(m_hwnd, GC_FIXTABICONS, 0, (LPARAM)pDlg);
-			if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
-				SetTimer(m_hwnd, TIMERID_FLASHWND, 900, NULL);
-		}
-		else RedrawWindow(m_tab.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
-		break;
-
-	case GC_SETTABHIGHLIGHT:
-		if (CChatRoomDlg *pDlg = (CChatRoomDlg*)lParam) {
-			if (m_tab.GetDlgIndex(pDlg) == -1)
-				break;
-
-			SendMessage(m_hwnd, GC_FIXTABICONS, 0, (LPARAM)pDlg);
-			if (g_Settings.bFlashWindow && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
-				SetTimer(m_hwnd, TIMERID_FLASHWND, 900, NULL);
-			break;
-		}
-		else RedrawWindow(m_tab.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
-		break;
-
 	case GC_TABCHANGE:
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)lParam);
-		PostMessage(m_hwnd, GC_SCROLLTOBOTTOM, 0, 0);
+		// ScrollToBottom();
 		break;
 
 	case GC_DROPPEDTAB:
@@ -486,7 +462,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static CTabbedWindow *pDialog = NULL;
+CTabbedWindow *pDialog = nullptr;
 
 void CTabbedWindow::OnDestroy()
 {
@@ -546,11 +522,11 @@ void ShowRoom(SESSION_INFO *si)
 
 		PostMessage(si->pDlg->GetHwnd(), WM_SIZE, 0, 0);
 		if (si->iType != GCW_SERVER)
-			SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
+			si->pDlg->UpdateNickList();
 		else
 			si->pDlg->UpdateTitle();
-		SendMessage(si->pDlg->GetHwnd(), GC_REDRAWLOG, 0, 0);
-		SendMessage(si->pDlg->GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
+		si->pDlg->RedrawLog();
+		si->pDlg->UpdateStatusBar();
 	}
 
 	SetWindowLongPtr(si->pDlg->GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(si->pDlg->GetHwnd(), GWL_EXSTYLE) | WS_EX_APPWINDOW);

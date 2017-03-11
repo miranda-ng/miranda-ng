@@ -57,13 +57,13 @@ static void OnReplaceSession(SESSION_INFO *si)
 static void OnNewUser(SESSION_INFO *si, USERINFO*)
 {
 	if (si->pDlg)
-		SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
+		si->pDlg->UpdateNickList();
 }
 
 static void OnSetStatus(SESSION_INFO *si, int)
 {
 	if (si->pDlg)
-		PostMessage(si->pDlg->GetHwnd(), GC_FIXTABICONS, 0, 0);
+		si->pDlg->FixTabIcons();
 }
 
 static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
@@ -73,7 +73,14 @@ static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
 
 	if (g_Settings.bFlashWindowHighlight)
 		SendMessage(GetParent(si->pDlg->GetHwnd()), CM_STARTFLASHING, 0, 0);
-	SendMessage(si->pDlg->GetHwnd(), GC_SETMESSAGEHIGHLIGHT, 0, 0);
+
+	si->wState |= GC_EVENT_HIGHLIGHT;
+	si->pDlg->FixTabIcons();
+	si->pDlg->UpdateTitle();
+
+	HWND hwndParent = GetParent(si->pDlg->GetHwnd());
+	if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != si->pDlg->GetHwnd() && GetForegroundWindow() != hwndParent)
+		SendMessage(hwndParent, CM_STARTFLASHING, 0, 0);
 }
 
 static void OnFlashWindow(SESSION_INFO *si, int bInactive)
@@ -83,7 +90,13 @@ static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 
 	if (g_Settings.bFlashWindow)
 		SendMessage(GetParent(si->pDlg->GetHwnd()), CM_STARTFLASHING, 0, 0);
-	SendMessage(si->pDlg->GetHwnd(), GC_SETTABHIGHLIGHT, 0, 0);
+
+	si->pDlg->FixTabIcons();
+	si->pDlg->UpdateTitle();
+
+	HWND hwndParent = GetParent(si->pDlg->GetHwnd());
+	if (g_Settings.bFlashWindow && GetActiveWindow() != hwndParent && GetForegroundWindow() != hwndParent)
+		SendMessage(hwndParent, CM_STARTFLASHING, 0, 0);
 }
 
 static void OnCreateModule(MODULEINFO *mi)

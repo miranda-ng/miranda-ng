@@ -1238,7 +1238,7 @@ panel_found:
 					dat->m_pPanel.Invalidate(TRUE);
 			}
 			else if (dat)
-				SendMessage(dat->GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
+				dat->UpdateStatusBar();
 		}
 		break;
 

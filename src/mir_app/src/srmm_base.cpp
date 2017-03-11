@@ -32,6 +32,9 @@ CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si
 	m_si(si),
 	m_pLog(nullptr),
 	m_pEntry(nullptr),
+	m_pFilter(nullptr),
+	m_pColor(nullptr),
+	m_pBkColor(nullptr),
 	m_hContact(0)
 {
 	m_bFilterEnabled = db_get_b(0, CHAT_MODULE, "FilterEnabled", 0) != 0;
@@ -138,6 +141,14 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CDlgBase::DlgProc(msg, wParam, lParam);
 }
 
+void CSrmmBaseDialog::AddLog()
+{
+	if (m_si->pLogEnd)
+		StreamInEvents(m_si->pLog, false);
+	else
+		ClearLog();
+}
+
 void CSrmmBaseDialog::ClearLog()
 {
 	if (m_pLog != nullptr)
@@ -161,4 +172,11 @@ void CSrmmBaseDialog::DoEventHook(int iType, const USERINFO *pUser, const wchar_
 	gch.dwData = dwItem;
 	gch.pDest = &gcd;
 	NotifyEventHooks(chatApi.hSendEvent, 0, (WPARAM)&gch);
+}
+
+void CSrmmBaseDialog::RedrawLog2()
+{
+	m_si->LastTime = 0;
+	if (m_si->pLog)
+		StreamInEvents(m_si->pLogEnd, TRUE);
 }

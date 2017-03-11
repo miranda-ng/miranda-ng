@@ -453,7 +453,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				pci->ReloadSettings();
 				pci->MM_IconsChanged();
 				pci->MM_FontsChanged();
-				pci->SM_BroadcastMessage(nullptr, GC_SETWNDPROPS, 0, 0, TRUE);
+				Chat_UpdateOptions();
 				SM_ReconfigureFilters();
 				return TRUE;
 			}
@@ -887,7 +887,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			pci->ReloadSettings();
 			pci->MM_FontsChanged();
 			pci->MM_FixColors();
-			pci->SM_BroadcastMessage(nullptr, GC_SETWNDPROPS, 0, 0, TRUE);
+			Chat_UpdateOptions();
 
 			PluginConfig.reloadSettings();
 			CacheMsgLogIcons();
@@ -995,7 +995,7 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lParam)
 
 				pci->ReloadSettings();
 				pci->MM_FontsChanged();
-				pci->SM_BroadcastMessage(nullptr, GC_SETWNDPROPS, 0, 0, TRUE);
+				Chat_UpdateOptions();
 				SM_ReconfigureFilters();
 				return TRUE;
 			}

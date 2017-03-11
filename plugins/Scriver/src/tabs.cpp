@@ -193,7 +193,7 @@ static void ActivateChild(ParentWindowData *dat, HWND child)
 		HWND prev = dat->hwndActive;
 		dat->hwndActive = child;
 		SetupStatusBar(dat);
-		SendMessage(dat->hwndActive, GC_UPDATESTATUSBAR, 0, 0);
+		pDlg->UpdateStatusBar();
 		pDlg->UpdateTitle();
 		SendMessage(dat->hwndActive, WM_SIZE, 0, 0);
 		ShowWindow(dat->hwndActive, SW_SHOWNOACTIVATE);

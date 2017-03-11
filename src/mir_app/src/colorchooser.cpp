@@ -265,8 +265,8 @@ public:
 	}
 };
 
-void ColorChooser(SESSION_INFO *si, BOOL bFG, HWND hwndDlg, HWND hwndTarget, HWND hwndChooser)
+void CSrmmBaseDialog::ShowColorChooser(int iCtrlId)
 {
-	CColorChooserDlg *pDialog = new CColorChooserDlg(si, bFG, hwndDlg, hwndTarget, hwndChooser);
+	CColorChooserDlg *pDialog = new CColorChooserDlg(m_si, iCtrlId == m_pColor->GetCtrlId(), m_hwnd, m_pEntry->GetHwnd(), GetDlgItem(m_hwnd, iCtrlId));
 	pDialog->Show();
 }

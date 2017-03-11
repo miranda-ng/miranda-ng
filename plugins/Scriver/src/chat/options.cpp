@@ -327,7 +327,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				SaveBranch(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), branch4, _countof(branch4));
 
 				pci->ReloadSettings();
-				pci->SM_BroadcastMessage(nullptr, GC_SETWNDPROPS, 0, 0, TRUE);
+				Chat_UpdateOptions();
 			}
 			return TRUE;
 		}
@@ -606,7 +606,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 			pci->MM_FontsChanged();
 			pci->ReloadSettings();
-			pci->SM_BroadcastMessage(nullptr, GC_SETWNDPROPS, 0, 0, TRUE);
+			Chat_UpdateOptions();
 			return TRUE;
 		}
 		break;

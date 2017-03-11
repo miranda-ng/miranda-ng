@@ -72,3 +72,25 @@ MIR_APP_DLL(DWORD) CALLBACK Srmm_MessageStreamCallback(DWORD_PTR dwCookie, LPBYT
 	}
 	return 0;
 }
+
+EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK Srmm_ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_RBUTTONUP:
+		if (db_get_b(0, CHAT_MODULE, "RightClickFilter", 0) != 0) {
+			CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
+			if (pDlg == nullptr)
+				break;
+
+			if (hwnd == pDlg->m_pFilter->GetHwnd())
+				pDlg->ShowFilterMenu();
+			else if (hwnd == pDlg->m_pColor->GetHwnd())
+				pDlg->ShowColorChooser(pDlg->m_pColor->GetCtrlId());
+			else if (hwnd == pDlg->m_pBkColor->GetHwnd())
+				pDlg->ShowColorChooser(pDlg->m_pBkColor->GetCtrlId());
+		}
+		break;
+	}
+
+	return mir_callNextSubclass(hwnd, Srmm_ButtonSubclassProc, msg, wParam, lParam);
+}

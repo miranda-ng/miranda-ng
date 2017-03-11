@@ -161,6 +161,38 @@ char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
 void  NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type);
 
 // tabs.cpp
+
+struct CTabbedWindow : public CDlgBase
+{
+	CCtrlPages m_tab;
+
+	CTabbedWindow() :
+		CDlgBase(g_hInst, IDD_CONTAINER),
+		m_tab(this, IDC_TAB)
+	{}
+
+	void AddPage(SESSION_INFO*, int insertAt = -1);
+	void FixTabIcons(CChatRoomDlg*);
+	void SetMessageHighlight(CChatRoomDlg*);
+	void SetTabHighlight(CChatRoomDlg*);
+	void TabClicked();
+
+	virtual void OnInitDialog() override;
+	virtual void OnDestroy() override;
+
+	virtual int Resizer(UTILRESIZECONTROL *urc)
+	{
+		if (urc->wId == IDC_TAB)
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
+	}
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+};
+
+extern CTabbedWindow *pDialog;
+
 void InitTabs(void);
 void UninitTabs(void);
 
@@ -195,7 +227,6 @@ class CChatRoomDlg : public CSrmmBaseDialog
 	{	return (g_Settings.bTabsEnable) ? GetParent(m_hwndParent) : m_hwnd;
 	}
 
-	void Log_StreamInEvent(LOGINFO *lin, BOOL bRedraw);
 	void SaveWindowPosition(bool bUpdateSession);
 	void SetWindowPosition();
 
@@ -211,6 +242,13 @@ public:
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
 	
 	virtual void CloseTab(bool bForced = false) override;
+	virtual void RedrawLog() override;
+	virtual void StreamInEvents(LOGINFO* lin, bool bRedraw) override;
+	virtual void ScrollToBottom() override;
+	virtual void ShowFilterMenu() override;
+	virtual void UpdateNickList() override;
+	virtual void UpdateOptions() override;
+	virtual void UpdateStatusBar() override;
 	virtual void UpdateTitle() override;
 
 	void OnClick_Bold(CCtrlButton*);

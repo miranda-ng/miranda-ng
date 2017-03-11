@@ -39,20 +39,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define GC_FAKE_EVENT MEVENT(0xBABABEDA)
 
-#define GC_UPDATESTATUSBAR     (WM_USER+106)
-#define GC_SETWNDPROPS         (WM_USER+108)
-#define GC_REDRAWLOG           (WM_USER+109)
-#define GC_SHOWFILTERMENU      (WM_USER+113)
-#define GC_REDRAWWINDOW        (WM_USER+118)
-#define GC_SHOWCOLORCHOOSER    (WM_USER+119)
-#define GC_ADDLOG              (WM_USER+120)
-#define GC_UPDATENICKLIST      (WM_USER+125)
-#define GC_SCROLLTOBOTTOM      (WM_USER+129)
-#define GC_FIXTABICONS         (WM_USER+132)
-#define GC_SETTABHIGHLIGHT     (WM_USER+138)
-#define GC_SETMESSAGEHIGHLIGHT (WM_USER+139)
-#define GC_REDRAWLOG2          (WM_USER+140)
-
 #define TIMERID_FLASHWND       1
 
 #define GCW_TABROOM            10
@@ -341,7 +327,6 @@ struct CHAT_MANAGER
 	wchar_t*      (*RemoveFormatting)(const wchar_t *pszText);
 	void          (*ReloadSettings)(void);
 
-	void          (*ColorChooser)(SESSION_INFO *si, BOOL bFG, HWND hwndDlg, HWND hwndTarget, HWND hwndChooser);
 	int           (*DoRtfToTags)(CMStringW &pszText, int iNumColors, COLORREF *pColors);
 
 	int logPixelSY, logPixelSX;
@@ -394,6 +379,12 @@ EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, 
 // receives char** as the first parameter
 EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_MessageStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb);
 
+// handles rclick on some buttons
+EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK Srmm_ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+// updates options for all windows
+EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions();
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
@@ -416,10 +407,21 @@ public:
 	bool m_bFilterEnabled, m_bNicklistEnabled;
 	bool m_bFGSet, m_bBGSet;
 	COLORREF m_iFG, m_iBG;
+	CCtrlButton *m_pFilter, *m_pColor, *m_pBkColor;
 
 	void ClearLog();
+	void RedrawLog2();
+	void ShowColorChooser(int iCtrlId);
 
-	virtual void CloseTab(bool bForced = false) PURE;
+	virtual void AddLog();
+	virtual void CloseTab(bool = false) {}
+	virtual void RedrawLog() {}
+	virtual void ScrollToBottom() {}
+	virtual void ShowFilterMenu() {}
+	virtual void StreamInEvents(LOGINFO*, bool) {}
+	virtual void UpdateNickList() {}
+	virtual void UpdateOptions() {}
+	virtual void UpdateStatusBar() {}
 	virtual void UpdateTitle() PURE;
 
 	__forceinline bool isChat() const { return m_si != nullptr; }

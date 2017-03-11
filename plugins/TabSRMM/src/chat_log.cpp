@@ -829,23 +829,20 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	return str.Detach();
 }
 
-void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
+void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 {
-	CHARRANGE oldsel, sel, newsel;
-	POINT point = { 0 };
-
-	if (m_hwnd == 0 || lin == 0 || si == 0)
+	if (m_hwnd == 0 || lin == 0 || m_si == 0)
 		return;
 
 	LOGSTREAMDATA streamData;
 	memset(&streamData, 0, sizeof(streamData));
 	streamData.hwnd = m_log.GetHwnd();
-	streamData.si = si;
+	streamData.si = m_si;
 	streamData.lin = lin;
 	streamData.bStripFormat = FALSE;
 	streamData.dat = this;
 
-	if (!bRedraw && (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) && m_bFilterEnabled && (m_iLogFilterFlags & lin->iType) == 0)
+	if (!bRedraw && (m_si->iType == GCW_CHATROOM || m_si->iType == GCW_PRIVMESS) && m_bFilterEnabled && (m_iLogFilterFlags & lin->iType) == 0)
 		return;
 
 	bool bFlag = false, fDoReplace;
@@ -858,9 +855,12 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 	scroll.cbSize = sizeof(SCROLLINFO);
 	scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
 	GetScrollInfo(GetDlgItem(m_hwnd, IDC_LOG), SB_VERT, &scroll);
+
+	POINT point = { 0 };
 	m_log.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&point);
 
 	// do not scroll to bottom if there is a selection
+	CHARRANGE oldsel, sel, newsel;
 	m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldsel);
 	if (oldsel.cpMax != oldsel.cpMin)
 		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
@@ -941,18 +941,18 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 
 		SMADD_RICHEDIT3 sm = { sizeof(sm) };
 		sm.hwndRichEditControl = m_log.GetHwnd();
-		sm.Protocolname = si->pszModule;
+		sm.Protocolname = m_si->pszModule;
 		sm.rangeToReplace = bRedraw ? nullptr : &newsel;
 		sm.disableRedraw = TRUE;
-		sm.hContact = si->hContact;
+		sm.hContact = m_si->hContact;
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
 	}
 
 	// trim the message log to the number of most recent events
 	// this uses hidden marks in the rich text to find the events which should be deleted
-	if (si->bTrimmed) {
+	if (m_si->bTrimmed) {
 		wchar_t szPattern[50];
-		mir_snwprintf(szPattern, L"~-+%d+-~", si->pLogEnd);
+		mir_snwprintf(szPattern, L"~-+%d+-~", m_si->pLogEnd);
 
 		FINDTEXTEX fi;
 		fi.lpstrText = szPattern;
@@ -965,12 +965,12 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, SESSION_INFO *si, bool bRedraw)
 			m_log.SendMsg(EM_SETSEL, 0, fi.chrgText.cpMax + 1);
 			m_log.SendMsg(EM_REPLACESEL, TRUE, (LPARAM)L"");
 		}
-		si->bTrimmed = false;
+		m_si->bTrimmed = false;
 	}
 
 	// scroll log to bottom if the log was previously scrolled to bottom, else restore old position
 	if ((bRedraw || (UINT)scroll.nPos >= (UINT)scroll.nMax - scroll.nPage - 5 || scroll.nMax - scroll.nMin - scroll.nPage < 50))
-		SendMessage(GetParent(m_log.GetHwnd()), GC_SCROLLTOBOTTOM, 0, 0);
+		ScrollToBottom();
 	else
 		m_log.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&point);
 

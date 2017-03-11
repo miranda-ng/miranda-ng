@@ -37,12 +37,13 @@ pfnDoTrayIcon oldDoTrayIcon;
 CHAT_MANAGER *pci;
 TMUCSettings g_Settings;
 
-static void OnCreateSession(SESSION_INFO*, MODULEINFO *mi)
+static void OnCreateSession(SESSION_INFO *si, MODULEINFO *mi)
 {
-	if (mi) {
+	if (si->pDlg)
+		si->pDlg->UpdateStatusBar();
+
+	if (mi)
 		mi->idleTimeStamp = time(0);
-		pci->SM_BroadcastMessage(mi->pszModule, GC_UPDATESTATUSBAR, 0, 1, TRUE);
-	}
 }
 
 static void OnReplaceSession(SESSION_INFO *si)
@@ -62,7 +63,7 @@ static void OnSetTopic(SESSION_INFO *si)
 static void OnNewUser(SESSION_INFO *si, USERINFO*)
 {
 	if (si->pDlg) {
-		SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
+		si->pDlg->UpdateNickList();
 		if (si->pDlg)
 			si->pDlg->GetMyNick();
 	}
@@ -73,7 +74,7 @@ static void OnChangeNick(SESSION_INFO *si)
 	if (si->pDlg) {
 		if (si->pDlg)
 			si->pDlg->GetMyNick();
-		SendMessage(si->pDlg->GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
+		si->pDlg->UpdateStatusBar();
 	}
 }
 

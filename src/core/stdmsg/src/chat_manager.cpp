@@ -88,7 +88,7 @@ static void OnReplaceSession(SESSION_INFO *si)
 static void OnNewUser(SESSION_INFO *si, USERINFO*)
 {
 	if (si->pDlg)
-		SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
+		si->pDlg->UpdateNickList();
 }
 
 static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
@@ -99,7 +99,7 @@ static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
 	if (!g_Settings.bTabsEnable && si->pDlg && g_Settings.bFlashWindowHighlight)
 		SetTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND, 900, NULL);
 	if (g_Settings.bTabsEnable && si->pDlg)
-		SendMessage(si->pDlg->GetHwnd(), GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si->pDlg);
+		pDialog->SetMessageHighlight(si->pDlg);
 }
 
 static void OnFlashWindow(SESSION_INFO *si, int bInactive)
@@ -110,7 +110,7 @@ static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 	if (!g_Settings.bTabsEnable && si->pDlg && g_Settings.bFlashWindow)
 		SetTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND, 900, NULL);
 	if (g_Settings.bTabsEnable && si->pDlg)
-		SendMessage(si->pDlg->GetHwnd(), GC_SETTABHIGHLIGHT, 0, (LPARAM)si->pDlg);
+		pDialog->SetTabHighlight(si->pDlg);
 }
 
 static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)

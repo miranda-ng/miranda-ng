@@ -85,7 +85,7 @@ static int FontsChanged(WPARAM, LPARAM)
 
 	chatApi.MM_FontsChanged();
 	chatApi.MM_FixColors();
-	chatApi.SM_BroadcastMessage(nullptr, GC_SETWNDPROPS, 0, 0, TRUE);
+	Chat_UpdateOptions();
 	return 0;
 }
 
@@ -95,7 +95,7 @@ static int IconsChanged(WPARAM, LPARAM)
 	LoadMsgLogBitmaps();
 
 	chatApi.MM_IconsChanged();
-	chatApi.SM_BroadcastMessage(nullptr, GC_SETWNDPROPS, 0, 0, FALSE);
+	Chat_UpdateOptions();
 	return 0;
 }
 
@@ -113,7 +113,11 @@ static int PreShutdown(WPARAM, LPARAM)
 
 static int SmileyOptionsChanged(WPARAM, LPARAM)
 {
-	chatApi.SM_BroadcastMessage(nullptr, GC_REDRAWLOG, 0, 1, FALSE);
+	for (int i = 0; i < g_arSessions.getCount(); i++) {
+		SESSION_INFO *si = g_arSessions[i];
+		if (si->pDlg)
+			si->pDlg->RedrawLog();
+	}
 	return 0;
 }
 
@@ -296,15 +300,15 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 		SM_SetOffline(si);
 		SM_SetStatus(si, ID_STATUS_OFFLINE);
 		if (si->pDlg) {
-			::SendMessage(si->pDlg->GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
-			::SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
+			si->pDlg->UpdateStatusBar();
+			si->pDlg->UpdateNickList();
 		}
 		break;
 
 	case SESSION_ONLINE:
 		SM_SetStatus(si, ID_STATUS_ONLINE);
 		if (si->pDlg)
-			::SendMessage(si->pDlg->GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
+			si->pDlg->UpdateStatusBar();
 		break;
 
 	case WINDOW_CLEARLOG:
@@ -409,9 +413,9 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 
 		if (p->pDlg && p->bInitDone) {
 			if (SM_AddEvent(p->ptszID, p->pszModule, gce, FALSE))
-				SendMessage(p->pDlg->GetHwnd(), GC_ADDLOG, 0, 0);
+				p->pDlg->AddLog();
 			else
-				SendMessage(p->pDlg->GetHwnd(), GC_REDRAWLOG2, 0, 0);
+				p->pDlg->RedrawLog2();
 		}
 
 		if (!(gce->dwFlags & GCEF_NOTNOTIFY)) {
@@ -555,9 +559,9 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 			int isOk = SM_AddEvent(pWnd, pMod, gce, bIsHighlighted);
 			if (si->pDlg) {
 				if (isOk)
-					SendMessage(si->pDlg->GetHwnd(), GC_ADDLOG, 0, 0);
+					si->pDlg->AddLog();
 				else
-					SendMessage(si->pDlg->GetHwnd(), GC_REDRAWLOG2, 0, 0);
+					si->pDlg->RedrawLog2();
 			}
 
 			if (!(gce->dwFlags & GCEF_NOTNOTIFY)) {
@@ -689,7 +693,7 @@ MIR_APP_DLL(int) Chat_SetStatusbarText(const char *szModule, const wchar_t *wszI
 			db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 
 		if (si->pDlg)
-			SendMessage(si->pDlg->GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
+			si->pDlg->UpdateStatusBar();
 	}
 	return 0;
 }
@@ -722,6 +726,15 @@ MIR_APP_DLL(int) Chat_SetUserInfo(const char *szModule, const wchar_t *wszId, vo
 		return 0;
 	}
 	return GC_EVENT_ERROR;
+}
+
+EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions()
+{
+	for (int i = 0; i < g_arSessions.getCount(); i++) {
+		SESSION_INFO *si = g_arSessions[i];
+		if (si->pDlg)
+			si->pDlg->UpdateOptions();
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

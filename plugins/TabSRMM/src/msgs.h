@@ -361,6 +361,7 @@ public:
 
 	virtual CThumbBase* tabCreateThumb(CProxyWindow*) const = 0;
 	virtual void tabClearLog() = 0;
+	void tabUpdateStatusBar() const;
 
 	static LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -422,7 +423,6 @@ public:
 	void  ShowPicture(bool showNewPic);
 	void  StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s);
 	void  UpdateReadChars() const;
-	void  UpdateStatusBar() const;
 
 	int   MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam);
 	int   MsgWindowUpdateMenu(HMENU submenu, int menuID);
@@ -456,7 +456,6 @@ public:
 
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
 	
-	virtual void CloseTab(bool) override {};
 	virtual void UpdateTitle() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
@@ -499,7 +498,15 @@ public:
 
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
 	
+	virtual void AddLog() override;
 	virtual void CloseTab(bool bForced = false) override;
+	virtual void RedrawLog() override;
+	virtual void ScrollToBottom() override;
+	virtual void ShowFilterMenu() override;
+	virtual void StreamInEvents(LOGINFO* lin, bool bRedraw) override;
+	virtual void UpdateNickList() override;
+	virtual void UpdateOptions() override;
+	virtual void UpdateStatusBar() override;
 	virtual void UpdateTitle() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
@@ -518,7 +525,6 @@ public:
 
 	void onDblClick_List(CCtrlListBox*);
 
-	void StreamInEvents(LOGINFO* lin, SESSION_INFO *si, bool bRedraw);
 	void UpdateWindowState(UINT msg);
 };
 

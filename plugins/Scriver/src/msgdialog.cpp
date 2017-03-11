@@ -1061,6 +1061,50 @@ void CSrmmWindow::onChanged_Splitter(CSplitter *pSplitter)
 	m_pParent->iSplitterY = rc.bottom - pSplitter->GetPos();
 }
 
+void CSrmmWindow::UpdateStatusBar()
+{
+	if (m_pParent->hwndActive == m_hwnd) {
+		wchar_t szText[256];
+		StatusBarData sbd = { 0 };
+		sbd.iFlags = SBDF_TEXT | SBDF_ICON;
+		if (m_iMessagesInProgress && (g_dat.flags & SMF_SHOWPROGRESS)) {
+			sbd.hIcon = GetCachedIcon("scriver_DELIVERING");
+			sbd.pszText = szText;
+			mir_snwprintf(szText, TranslateT("Sending in progress: %d message(s) left..."), m_iMessagesInProgress);
+		}
+		else if (m_nTypeSecs) {
+			sbd.hIcon = GetCachedIcon("scriver_TYPING");
+			sbd.pszText = szText;
+			mir_snwprintf(szText, TranslateT("%s is typing a message..."), pcli->pfnGetContactDisplayName(m_hContact, 0));
+			m_nTypeSecs--;
+		}
+		else if (m_lastMessage) {
+			wchar_t date[64], time[64];
+			TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"d", date, _countof(date), 0);
+			TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"t", time, _countof(time), 0);
+			mir_snwprintf(szText, TranslateT("Last message received on %s at %s."), date, time);
+			sbd.pszText = szText;
+		}
+		else sbd.pszText = L"";
+
+		SendMessage(m_hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)m_hwnd);
+		UpdateReadChars();
+
+		StatusIconData sid = { sizeof(sid) };
+		sid.szModule = SRMMMOD;
+		sid.flags = MBF_DISABLED;
+		Srmm_ModifyIcon(m_hContact, &sid);
+		sid.dwId = 1;
+		if (IsTypingNotificationSupported() && g_dat.flags2 & SMF2_SHOWTYPINGSWITCH)
+			sid.flags = (db_get_b(m_hContact, SRMMMOD, SRMSGSET_TYPING,
+			db_get_b(0, SRMMMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW))) ? 0 : MBF_DISABLED;
+		else
+			sid.flags = MBF_HIDDEN;
+
+		Srmm_ModifyIcon(m_hContact, &sid);
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static const wchar_t *titleTokenNames[] = { L"%name%", L"%status%", L"%statusmsg%", L"%account%" };
@@ -1168,7 +1212,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_CHANGEICONS:
-		SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
+		UpdateStatusBar();
 		SetStatusIcon();
 
 	case DM_UPDATEICON:
@@ -1275,7 +1319,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 		UpdateTitle();
 		SendMessage(m_hwnd, DM_UPDATETABCONTROL, 0, 0);
-		SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
+		UpdateStatusBar();
 		m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
 		SetupInfobar(m_pInfobarData);
 		break;
@@ -1473,7 +1517,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					if (!IsWindowVisible(m_hwndParent) && m_hDbUnreadEventFirst == 0)
 						m_hDbUnreadEventFirst = hDbEvent;
 					m_lastMessage = dbei.timestamp;
-					SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
+					UpdateStatusBar();
 					if (GetForegroundWindow() == m_hwndParent && m_pParent->hwndActive == m_hwnd)
 						SkinPlaySound("RecvMsgActive");
 					else SkinPlaySound("RecvMsgInactive");
@@ -1495,49 +1539,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					SendMessage(m_hwndParent, CM_STARTFLASHING, 0, 0);
 				}
 			}
-		}
-		break;
-
-	case GC_UPDATESTATUSBAR:
-		if (m_pParent->hwndActive == m_hwnd) {
-			wchar_t szText[256];
-			StatusBarData sbd = { 0 };
-			sbd.iFlags = SBDF_TEXT | SBDF_ICON;
-			if (m_iMessagesInProgress && (g_dat.flags & SMF_SHOWPROGRESS)) {
-				sbd.hIcon = GetCachedIcon("scriver_DELIVERING");
-				sbd.pszText = szText;
-				mir_snwprintf(szText, TranslateT("Sending in progress: %d message(s) left..."), m_iMessagesInProgress);
-			}
-			else if (m_nTypeSecs) {
-				sbd.hIcon = GetCachedIcon("scriver_TYPING");
-				sbd.pszText = szText;
-				mir_snwprintf(szText, TranslateT("%s is typing a message..."), pcli->pfnGetContactDisplayName(m_hContact, 0));
-				m_nTypeSecs--;
-			}
-			else if (m_lastMessage) {
-				wchar_t date[64], time[64];
-				TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"d", date, _countof(date), 0);
-				TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"t", time, _countof(time), 0);
-				mir_snwprintf(szText, TranslateT("Last message received on %s at %s."), date, time);
-				sbd.pszText = szText;
-			}
-			else sbd.pszText = L"";
-
-			SendMessage(m_hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)m_hwnd);
-			UpdateReadChars();
-
-			StatusIconData sid = { sizeof(sid) };
-			sid.szModule = SRMMMOD;
-			sid.flags = MBF_DISABLED;
-			Srmm_ModifyIcon(m_hContact, &sid);
-			sid.dwId = 1;
-			if (IsTypingNotificationSupported() && g_dat.flags2 & SMF2_SHOWTYPINGSWITCH)
-				sid.flags = (db_get_b(m_hContact, SRMMMOD, SRMSGSET_TYPING,
-				db_get_b(0, SRMMMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW))) ? 0 : MBF_DISABLED;
-			else
-				sid.flags = MBF_HIDDEN;
-
-			Srmm_ModifyIcon(m_hContact, &sid);
 		}
 		break;
 
@@ -1569,14 +1570,14 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					m_nTypeSecs--;
 				else {
 					m_bShowTyping = false;
-					SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
+					UpdateStatusBar();
 					SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
 				}
 			}
 			else {
 				if (m_nTypeSecs) {
 					m_bShowTyping = true;
-					SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
+					UpdateStatusBar();
 					SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
 				}
 			}
@@ -1612,14 +1613,14 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case DM_SHOWMESSAGESENDING:
 		SetTimer(m_hwnd, TIMERID_MSGSEND, 1000, nullptr);
 		if (g_dat.flags & SMF_SHOWPROGRESS)
-			SendMessage(GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
+			UpdateStatusBar();
 		break;
 
 	case DM_STOPMESSAGESENDING:
 		if (m_iMessagesInProgress > 0) {
 			m_iMessagesInProgress--;
 			if (g_dat.flags & SMF_SHOWPROGRESS)
-				SendMessage(GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
+				UpdateStatusBar();
 		}
 		if (m_iMessagesInProgress == 0)
 			KillTimer(m_hwnd, TIMERID_MSGSEND);

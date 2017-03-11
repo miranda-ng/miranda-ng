@@ -433,7 +433,7 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM 
 					pci->SM_BroadcastMessage(NULL, WM_CLOSE, 0, 1, FALSE);
 					g_Settings.bTabsEnable = db_get_b(NULL, CHAT_MODULE, "Tabs", 1) != 0;
 				}
-				else pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
+				else Chat_UpdateOptions();
 
 				return TRUE;
 			}
@@ -641,7 +641,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				db_unset(NULL, CHAT_MODULE, "NicklistRowDist");
 
 			pci->ReloadSettings();
-			pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
+			Chat_UpdateOptions();
 			return TRUE;
 		}
 		break;
