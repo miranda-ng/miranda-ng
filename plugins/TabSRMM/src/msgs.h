@@ -455,6 +455,8 @@ public:
 	virtual void OnDestroy() override;
 
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
+	
+	virtual void CloseTab(bool) override {};
 	virtual void UpdateTitle() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
@@ -496,6 +498,8 @@ public:
 	virtual void OnDestroy() override;
 
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
+	
+	virtual void CloseTab(bool bForced = false) override;
 	virtual void UpdateTitle() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;

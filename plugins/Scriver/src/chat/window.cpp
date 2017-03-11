@@ -1670,10 +1670,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			DestroyMenu(hMenu);
 		}
 		break;
-
-	case GC_CLOSEWINDOW:
-		Close();
-		break;
 	}
 	return CScriverWindow::DlgProc(uMsg, wParam, lParam);
 }

@@ -102,8 +102,6 @@ static int IconsChanged(WPARAM, LPARAM)
 static int PreShutdown(WPARAM, LPARAM)
 {
 	if (g_Settings != nullptr) {
-		chatApi.SM_BroadcastMessage(nullptr, GC_CLOSEWINDOW, 0, 1, FALSE);
-
 		SM_RemoveAll();
 		chatApi.MM_RemoveAll();
 
@@ -284,7 +282,7 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 		SetInitDone(si);
 		chatApi.SetActiveSession(si);
 		if (si->pDlg)
-			::SendMessage(si->pDlg->GetHwnd(), GC_CLOSEWINDOW, 0, 0);
+			si->pDlg->CloseTab();
 		break;
 
 	case WINDOW_VISIBLE:

@@ -270,12 +270,12 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			if (wParam == VK_F4 && isCtrl && !isAlt) { // ctrl-F4 (close tab)
-				SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
+				pDlg->CloseTab();
 				return TRUE;
 			}
 
 			if (wParam == VK_ESCAPE && !isCtrl && !isAlt) { // Esc (close tab)
-				SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
+				pDlg->CloseTab();
 				return TRUE;
 			}
 
@@ -352,7 +352,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			if (wParam == 0x57 && isCtrl && !isAlt) { // ctrl-w (close window)
-				SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
+				pDlg->CloseTab();
 				return TRUE;
 			}
 
@@ -652,6 +652,9 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 {
 	CHARRANGE sel;
 
+	HWND hwndDlg = GetParent(hwnd);
+	CChatRoomDlg *pDlg = (CChatRoomDlg*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
 	switch (msg) {
 	case WM_LBUTTONUP:
 		SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
@@ -665,7 +668,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 	case WM_KEYDOWN:
 		if (wParam == 0x57 && GetKeyState(VK_CONTROL) & 0x8000) { // ctrl-w (close window)
-			PostMessage(GetParent(hwnd), GC_CLOSEWINDOW, 0, 0);
+			pDlg->CloseTab();
 			return TRUE;
 		}
 		break;
@@ -721,7 +724,7 @@ LRESULT CALLBACK CChatRoomDlg::NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM 
 
 	case WM_KEYDOWN:
 		if (wParam == 0x57 && GetKeyState(VK_CONTROL) & 0x8000) { // ctrl-w (close window)
-			PostMessage(GetParent(hwnd), GC_CLOSEWINDOW, 0, 0);
+			si->pDlg->CloseTab();
 			return TRUE;
 		}
 		break;
@@ -881,6 +884,7 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 void CChatRoomDlg::OnInitDialog()
 {
 	m_si->pDlg = this;
+	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, LPARAM(this));
 
 	if (g_Settings.bTabsEnable)
 		SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_APPWINDOW);
@@ -892,11 +896,13 @@ void CChatRoomDlg::OnInitDialog()
 
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
 
-	mir_subclassWindow(m_log.GetHwnd(), LogSubclassProc);
 	mir_subclassWindow(m_btnFilter.GetHwnd(), ButtonSubclassProc);
 	mir_subclassWindow(m_btnColor.GetHwnd(), ButtonSubclassProc);
 	mir_subclassWindow(m_btnBkColor.GetHwnd(), ButtonSubclassProc);
 	mir_subclassWindow(m_message.GetHwnd(), MessageSubclassProc);
+
+	SetWindowLongPtr(m_log.GetHwnd(), GWLP_USERDATA, LPARAM(this));
+	mir_subclassWindow(m_log.GetHwnd(), LogSubclassProc);
 
 	SetWindowLongPtr(m_nickList.GetHwnd(), GWLP_USERDATA, LPARAM(m_si));
 	mir_subclassWindow(m_nickList.GetHwnd(), NicklistSubclassProc);
@@ -1207,6 +1213,13 @@ void CChatRoomDlg::SaveWindowPosition(bool bUpdateSession)
 	}
 }
 
+void CChatRoomDlg::CloseTab(bool)
+{
+	if (g_Settings.bTabsEnable)
+		SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
+	Close();
+}
+
 void CChatRoomDlg::UpdateTitle()
 {
 	wchar_t szTemp[100];
@@ -1493,12 +1506,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		UpdateTitle();
 		break;
-
-	case GC_CLOSEWINDOW:
-		if (g_Settings.bTabsEnable)
-			SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
-		Close();
-		return 0;
 
 	case GC_CHANGEFILTERFLAG:
 		m_iLogFilterFlags = lParam;

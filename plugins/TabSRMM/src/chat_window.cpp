@@ -595,7 +595,7 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 		bool isShift, isAlt, isCtrl;
 		mwdat->KbdState(isShift, isCtrl, isAlt);
 
-		if (PluginConfig.m_bSoundOnTyping && !isAlt &&!isCtrl&&!(mwdat->m_pContainer->dwFlags & CNT_NOSOUND) && wParam != VK_ESCAPE&&!(wParam == VK_TAB && PluginConfig.m_bAllowTab))
+		if (PluginConfig.m_bSoundOnTyping && !isAlt && !isCtrl && !(mwdat->m_pContainer->dwFlags & CNT_NOSOUND) && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_bAllowTab))
 			SkinPlaySound("SoundOnTyping");
 
 		if (isCtrl && !isAlt && !isShift) {
@@ -1950,6 +1950,50 @@ void CChatRoomDlg::onDblClick_List(CCtrlListBox*)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CChatRoomDlg::CloseTab(bool bForced)
+{
+	int iTabs = TabCtrl_GetItemCount(m_hwndParent);
+	if (iTabs == 1 && CMimAPI::m_shutDown == 0) {
+		SendMessage(m_pContainer->hwnd, WM_CLOSE, 0, 1);
+		return;
+	}
+
+	m_pContainer->iChilds--;
+	int i = GetTabIndexFromHWND(m_hwndParent, m_hwnd);
+
+	// after closing a tab, we need to activate the tab to the left side of
+	// the previously open tab.
+	// normally, this tab has the same index after the deletion of the formerly active tab
+	// unless, of course, we closed the last (rightmost) tab.
+	if (!m_pContainer->bDontSmartClose && iTabs > 1 && !bForced) {
+		if (i == iTabs - 1)
+			i--;
+		else
+			i++;
+		TabCtrl_SetCurSel(m_hwndParent, i);
+
+		TCITEM item = {};
+		item.mask = TCIF_PARAM;
+		TabCtrl_GetItem(m_hwndParent, i, &item); // retrieve dialog hwnd for the now active tab...
+		m_pContainer->hwndActive = (HWND)item.lParam;
+
+		RECT rc;
+		SendMessage(m_pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
+		SetWindowPos(m_pContainer->hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);
+		ShowWindow((HWND)item.lParam, SW_SHOW);
+		SetForegroundWindow(m_pContainer->hwndActive);
+		SetFocus(m_pContainer->hwndActive);
+		SendMessage(m_pContainer->hwnd, WM_SIZE, 0, 0);
+	}
+
+	if (iTabs == 1)
+		SendMessage(m_pContainer->hwnd, WM_CLOSE, 0, 1);
+	else {
+		PostMessage(m_pContainer->hwnd, WM_SIZE, 0, 0);
+		DestroyWindow(m_hwnd);
+	}
+}
+
 void CChatRoomDlg::UpdateTitle()
 {
 	m_wStatus = m_si->wStatus;
@@ -2915,53 +2959,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			_dlgReturn(m_hwnd, TRUE);
 		}
-		SendMessage(m_hwnd, GC_CLOSEWINDOW, 0, 1);
-		return 0;
-
-	case GC_CLOSEWINDOW:
-		{
-			bool bForced = (lParam == 2);
-
-			int iTabs = TabCtrl_GetItemCount(m_hwndParent);
-			if (iTabs == 1 && CMimAPI::m_shutDown == 0) {
-				SendMessage(m_pContainer->hwnd, WM_CLOSE, 0, 1);
-				return 1;
-			}
-
-			m_pContainer->iChilds--;
-			int i = GetTabIndexFromHWND(m_hwndParent, m_hwnd);
-
-			// after closing a tab, we need to activate the tab to the left side of
-			// the previously open tab.
-			// normally, this tab has the same index after the deletion of the formerly active tab
-			// unless, of course, we closed the last (rightmost) tab.
-			if (!m_pContainer->bDontSmartClose && iTabs > 1 && !bForced) {
-				if (i == iTabs - 1)
-					i--;
-				else
-					i++;
-				TabCtrl_SetCurSel(m_hwndParent, i);
-
-				TCITEM item = {};
-				item.mask = TCIF_PARAM;
-				TabCtrl_GetItem(m_hwndParent, i, &item); // retrieve dialog hwnd for the now active tab...
-				m_pContainer->hwndActive = (HWND)item.lParam;
-
-				SendMessage(m_pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
-				SetWindowPos(m_pContainer->hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);
-				ShowWindow((HWND)item.lParam, SW_SHOW);
-				SetForegroundWindow(m_pContainer->hwndActive);
-				SetFocus(m_pContainer->hwndActive);
-				SendMessage(m_pContainer->hwnd, WM_SIZE, 0, 0);
-			}
-
-			if (iTabs == 1)
-				SendMessage(m_pContainer->hwnd, WM_CLOSE, 0, 1);
-			else {
-				PostMessage(m_pContainer->hwnd, WM_SIZE, 0, 0);
-				DestroyWindow(m_hwnd);
-			}
-		}
+		CloseTab(true);
 		return 0;
 
 	case DM_SAVESIZE:

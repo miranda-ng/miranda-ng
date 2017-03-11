@@ -73,7 +73,7 @@ static void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact = false)
 	db_set_w(si->hContact, si->pszModule, "ApparentMode", 0);
 
 	if (si->pDlg)
-		SendMessage(si->pDlg->GetHwnd(), GC_CLOSEWINDOW, 0, 1);
+		si->pDlg->CloseTab(true);
 
 	DoEventHook(si, GC_SESSION_TERMINATE, nullptr, nullptr, (INT_PTR)si->pItemData);
 

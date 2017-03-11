@@ -147,8 +147,11 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 			ScreenToClient(hwnd, &tci.pt);
 			int i = TabCtrl_HitTest(hwnd, &tci);
-			if (i != -1 && g_Settings.bTabCloseOnDblClick)
-				PostMessage(GetParent(hwnd), GC_CLOSEWINDOW, 0, 0);
+			if (i != -1 && g_Settings.bTabCloseOnDblClick) {
+				CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)pOwner->m_tab.GetActivePage();
+				if (pDlg)
+					pDlg->CloseTab();
+			}
 		}
 		break;
 

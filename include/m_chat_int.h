@@ -39,7 +39,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define GC_FAKE_EVENT MEVENT(0xBABABEDA)
 
-#define GC_CLOSEWINDOW         (WM_USER+103)
 #define GC_GETITEMDATA         (WM_USER+104)
 #define GC_SETITEMDATA         (WM_USER+105)
 #define GC_UPDATESTATUSBAR     (WM_USER+106)
@@ -429,6 +428,7 @@ public:
 
 	void ClearLog();
 
+	virtual void CloseTab(bool bForced = false) PURE;
 	virtual void UpdateTitle() PURE;
 
 	__forceinline bool isChat() const { return m_si != nullptr; }

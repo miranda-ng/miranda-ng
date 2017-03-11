@@ -366,6 +366,11 @@ CScriverWindow::CScriverWindow(int iDialog, SESSION_INFO *si)
 	m_autoClose = CLOSE_ON_CANCEL;
 }
 
+void CScriverWindow::CloseTab(bool)
+{
+	Close();
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // status icons processing
 

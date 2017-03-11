@@ -430,7 +430,7 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM 
 				g_Settings.bLogIndentEnabled = db_get_b(NULL, CHAT_MODULE, "LogIndentEnabled", 1) != 0;
 
 				if (b != db_get_b(NULL, CHAT_MODULE, "Tabs", 1)) {
-					pci->SM_BroadcastMessage(NULL, GC_CLOSEWINDOW, 0, 1, FALSE);
+					pci->SM_BroadcastMessage(NULL, WM_CLOSE, 0, 1, FALSE);
 					g_Settings.bTabsEnable = db_get_b(NULL, CHAT_MODULE, "Tabs", 1) != 0;
 				}
 				else pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);

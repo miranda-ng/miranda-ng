@@ -118,7 +118,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 	if (si) {
 		// is the "toggle visibility option set, so we need to close the window?
 		if (si->pDlg != nullptr && db_get_b(0, CHAT_MODULE, "ToggleVisibility", 0) == 1 && !cli.pfnGetEvent(hContact, 0) && IsWindowVisible(si->pDlg->GetHwnd()) && !IsIconic(si->pDlg->GetHwnd())) {
-			PostMessage(si->pDlg->GetHwnd(), GC_CLOSEWINDOW, 0, 0);
+			si->pDlg->CloseTab();
 			return 1;
 		}
 		chatApi.ShowRoom(si);
