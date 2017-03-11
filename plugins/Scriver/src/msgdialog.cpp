@@ -1061,6 +1061,49 @@ void CSrmmWindow::onChanged_Splitter(CSplitter *pSplitter)
 	m_pParent->iSplitterY = rc.bottom - pSplitter->GetPos();
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static const wchar_t *titleTokenNames[] = { L"%name%", L"%status%", L"%statusmsg%", L"%account%" };
+
+void CSrmmWindow::UpdateTitle()
+{
+	CMStringW wszTitle;
+	ptrW tmplt(db_get_wsa(0, SRMMMOD, SRMSGSET_WINDOWTITLE));
+	if (tmplt != nullptr)
+		wszTitle = tmplt;
+	else if (g_dat.flags & SMF_STATUSICON)
+		wszTitle = L"%name% - ";
+	else
+		wszTitle = L"%name% (%status%) : ";
+
+	if (m_hContact && m_szProto) {
+		wszTitle.Replace(L"%name%", pcli->pfnGetContactDisplayName(m_hContact, 0));
+		wszTitle.Replace(L"%status%", pcli->pfnGetStatusModeDescription(db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0));
+
+		CMStringW tszStatus = ptrW(db_get_wsa(m_hContact, "CList", "StatusMsg"));
+		tszStatus.Replace(L"\r\n", L" ");
+		wszTitle.Replace(L"%statusmsg%", tszStatus);
+
+		char *accModule = Proto_GetBaseAccountName(m_hContact);
+		if (accModule != nullptr) {
+			PROTOACCOUNT *proto = Proto_GetAccount(accModule);
+			if (proto != nullptr)
+				wszTitle.Replace(L"%account%", proto->tszAccountName);
+		}
+	}
+
+	if (tmplt == nullptr)
+		wszTitle.Append(TranslateT("Message session"));
+
+	TitleBarData tbd = {};
+	tbd.iFlags = TBDF_TEXT | TBDF_ICON;
+	GetTitlebarIcon(&tbd);
+	tbd.pszText = wszTitle.GetBuffer();
+	SendMessage(m_hwndParent, CM_UPDATETITLEBAR, (WPARAM)&tbd, (LPARAM)m_hwnd);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	PARAFORMAT2 pf2;
@@ -1142,44 +1185,30 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case DM_UPDATETABCONTROL: {
+	case DM_UPDATETABCONTROL:
 		TabControlData tcd;
 		tcd.iFlags = TCDF_TEXT | TCDF_ICON;
 		tcd.hIcon = GetTabIcon();
 		tcd.pszText = pcli->pfnGetContactDisplayName(m_hContact, 0);
 		SendMessage(m_hwndParent, CM_UPDATETABCONTROL, (WPARAM)&tcd, (LPARAM)m_hwnd);
 		break;
-	}
-
-	case DM_UPDATETITLEBAR:
-		{
-			TitleBarData tbd = { 0 };
-			tbd.iFlags = TBDF_TEXT | TBDF_ICON;
-			GetTitlebarIcon(&tbd);
-			tbd.pszText = GetWindowTitle(m_hContact, m_szProto);
-			SendMessage(m_hwndParent, CM_UPDATETITLEBAR, (WPARAM)&tbd, (LPARAM)m_hwnd);
-			mir_free(tbd.pszText);
-		}
-		break;
 
 	case DM_CLISTSETTINGSCHANGED:
-		if (wParam == m_hContact) {
-			if (m_hContact && m_szProto) {
-				DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
-				char idbuf[128], buf[128];
-				GetContactUniqueId(idbuf, sizeof(idbuf));
-				mir_snprintf(buf, Translate("User menu - %s"), idbuf);
-				SendDlgItemMessage(m_hwnd, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)buf, 0);
+		if (wParam == m_hContact && m_hContact && m_szProto) {
+			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
+			char idbuf[128], buf[128];
+			GetContactUniqueId(idbuf, sizeof(idbuf));
+			mir_snprintf(buf, Translate("User menu - %s"), idbuf);
+			SendDlgItemMessage(m_hwnd, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)buf, 0);
 
-				if (cws && !mir_strcmp(cws->szModule, m_szProto) && !mir_strcmp(cws->szSetting, "Status"))
-					m_wStatus = cws->value.wVal;
+			if (cws && !mir_strcmp(cws->szModule, m_szProto) && !mir_strcmp(cws->szSetting, "Status"))
+				m_wStatus = cws->value.wVal;
 
-				SetStatusIcon();
-				SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
-				SendMessage(m_hwnd, DM_UPDATETITLEBAR, 0, 0);
-				SendMessage(m_hwnd, DM_UPDATETABCONTROL, 0, 0);
-				ShowAvatar();
-			}
+			SetStatusIcon();
+			SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
+			UpdateTitle();
+			SendMessage(m_hwnd, DM_UPDATETABCONTROL, 0, 0);
+			ShowAvatar();
 		}
 		break;
 
@@ -1244,7 +1273,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		m_log.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~(IMF_AUTOKEYBOARD | IMF_AUTOFONTSIZEADJUST));
 
 		SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
-		SendMessage(m_hwnd, DM_UPDATETITLEBAR, 0, 0);
+		UpdateTitle();
 		SendMessage(m_hwnd, DM_UPDATETABCONTROL, 0, 0);
 		SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
 		m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);

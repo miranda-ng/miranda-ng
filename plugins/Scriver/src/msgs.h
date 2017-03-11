@@ -148,6 +148,7 @@ public:
 
 	virtual void OnInitDialog() override;
 	virtual void OnDestroy() override;
+	virtual void UpdateTitle() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
@@ -189,6 +190,7 @@ public:
 	virtual void OnDestroy() override;
 
 	virtual INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
+	virtual void UpdateTitle() override;
 
 	void onChange_Message(CCtrlEdit*);
 

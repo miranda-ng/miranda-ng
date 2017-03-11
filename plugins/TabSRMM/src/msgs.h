@@ -224,6 +224,8 @@ struct TContainerData
 	CTaskbarInteract*	TaskBar;
 	CMenuBar *MenuBar;
 	CSideBar *SideBar;
+
+	void UpdateTitle(MCONTACT, class CTabBaseDlg* = nullptr);
 };
 
 struct SESSION_INFO;
@@ -241,7 +243,6 @@ protected:
 	bool DM_GenericHotkeysCheck(MSG *message);
 	int  DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam);
 	void DM_UpdateLastMessage() const;
-	void DM_UpdateTitle(WPARAM wParam, LPARAM lParam);
 
 	void DetermineMinHeight();
 	void FindFirstEvent();
@@ -454,6 +455,7 @@ public:
 	virtual void OnDestroy() override;
 
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
+	virtual void UpdateTitle() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
@@ -494,6 +496,7 @@ public:
 	virtual void OnDestroy() override;
 
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
+	virtual void UpdateTitle() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
@@ -662,7 +665,6 @@ struct TIconDescW
 #define DM_SETINFOPANEL          (TM_USER+13)
 #define DM_OPTIONSAPPLIED        (TM_USER+14)
 #define DM_SPLITTERMOVED         (TM_USER+15)
-#define DM_UPDATETITLE           (TM_USER+16)
 #define DM_SPLITSENDACK          (TM_USER+19)
 #define DM_TYPING                (TM_USER+20)
 #define DM_UPDATEWINICON         (TM_USER+21)

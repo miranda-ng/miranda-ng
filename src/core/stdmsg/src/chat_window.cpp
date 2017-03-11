@@ -920,7 +920,7 @@ void CChatRoomDlg::OnInitDialog()
 
 	SendMessage(m_hwnd, GC_SETWNDPROPS, 0, 0);
 	SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-	SendMessage(m_hwnd, GC_UPDATETITLE, 0, 0);
+	UpdateTitle();
 	SetWindowPosition();
 
 	SendMessage(m_hwnd, WM_SIZE, 0, 0);
@@ -1207,6 +1207,28 @@ void CChatRoomDlg::SaveWindowPosition(bool bUpdateSession)
 	}
 }
 
+void CChatRoomDlg::UpdateTitle()
+{
+	wchar_t szTemp[100];
+	switch (m_si->iType) {
+	case GCW_CHATROOM:
+		mir_snwprintf(szTemp,
+			(m_si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"),
+			m_si->ptszName, m_si->nUsersInNicklist);
+		break;
+	case GCW_PRIVMESS:
+		mir_snwprintf(szTemp,
+			(m_si->nUsersInNicklist == 1) ? TranslateT("%s: message session") : TranslateT("%s: message session (%u users)"),
+			m_si->ptszName, m_si->nUsersInNicklist);
+		break;
+	case GCW_SERVER:
+		mir_snwprintf(szTemp, L"%s: Server", m_si->ptszName);
+		break;
+	}
+
+	SetWindowText(getCaptionWindow(), szTemp);
+}
+
 INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	SESSION_INFO *s;
@@ -1265,27 +1287,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		SendMessage(m_hwnd, WM_SIZE, 0, 0);
 		SendMessage(m_hwnd, GC_REDRAWLOG2, 0, 0);
-		break;
-
-	case GC_UPDATETITLE:
-		wchar_t szTemp[100];
-		switch (m_si->iType) {
-		case GCW_CHATROOM:
-			mir_snwprintf(szTemp,
-				(m_si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"),
-				m_si->ptszName, m_si->nUsersInNicklist);
-			break;
-		case GCW_PRIVMESS:
-			mir_snwprintf(szTemp,
-				(m_si->nUsersInNicklist == 1) ? TranslateT("%s: message session") : TranslateT("%s: message session (%u users)"),
-				m_si->ptszName, m_si->nUsersInNicklist);
-			break;
-		case GCW_SERVER:
-			mir_snwprintf(szTemp, L"%s: Server", m_si->ptszName);
-			break;
-		}
-
-		SetWindowText(getCaptionWindow(), szTemp);
 		break;
 
 	case WM_CBD_LOADICONS:
@@ -1489,8 +1490,8 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			int i = SendDlgItemMessage(m_hwnd, IDC_LIST, LB_GETTOPINDEX, 0, 0);
 			SendDlgItemMessage(m_hwnd, IDC_LIST, LB_SETCOUNT, m_si->nUsersInNicklist, 0);
 			SendDlgItemMessage(m_hwnd, IDC_LIST, LB_SETTOPINDEX, i, 0);
-			SendMessage(m_hwnd, GC_UPDATETITLE, 0, 0);
 		}
+		UpdateTitle();
 		break;
 
 	case GC_CLOSEWINDOW:

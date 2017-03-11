@@ -602,7 +602,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 		SendMessage(pContainer->hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
 	}
 	if (!dat->isChat())
-		SendMessage(pContainer->hwnd, DM_UPDATETITLE, dat->m_hContact, 0);
+		pContainer->UpdateTitle(dat->m_hContact);
 	if (IsIconic(pContainer->hwnd)) {
 		SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
 		SetForegroundWindow(pContainer->hwnd);

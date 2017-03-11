@@ -98,6 +98,7 @@ public:
 	virtual void OnDestroy() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual void UpdateTitle() override {}
 
 	void OnSplitterMoved(CSplitter*);
 

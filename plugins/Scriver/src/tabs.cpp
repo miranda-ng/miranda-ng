@@ -33,65 +33,6 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static const wchar_t *titleTokenNames[] = { L"%name%", L"%status%", L"%statusmsg%", L"%account%" };
-
-wchar_t* GetWindowTitle(MCONTACT hContact, const char *szProto)
-{
-	ptrW tmplt;
-	const wchar_t* tokens[4] = { 0 };
-
-	CMStringW tszTemplate, tszStatus, tszTitle;
-	if (hContact && szProto) {
-		tokens[0] = pcli->pfnGetContactDisplayName(hContact, 0);
-		tokens[1] = pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
-		
-		tszStatus = ptrW(db_get_wsa(hContact, "CList", "StatusMsg"));
-		tszStatus.Replace(L"\r\n", L" ");
-		tokens[2] = tszStatus;
-
-		char *accModule = Proto_GetBaseAccountName(hContact);
-		if (accModule != nullptr) {
-			PROTOACCOUNT* proto = Proto_GetAccount(accModule);
-			if (proto != nullptr)
-				tokens[3] = mir_wstrdup(proto->tszAccountName);
-		}
-		
-		tmplt = db_get_wsa(0, SRMMMOD, SRMSGSET_WINDOWTITLE);
-		if (tmplt != nullptr)
-			tszTemplate = tmplt;
-		else {
-			if (g_dat.flags & SMF_STATUSICON)
-				tszTemplate = L"%name% - ";
-			else
-				tszTemplate = L"%name% (%status%) : ";
-		}
-	}
-
-	for (const wchar_t *p = tszTemplate; *p; p++) {
-		if (*p == '%') {
-			int i;
-			for (i = 0; i < _countof(titleTokenNames); i++) {
-				size_t tnlen = mir_wstrlen(titleTokenNames[i]);
-				if (!wcsncmp(p, titleTokenNames[i], tnlen)) {
-					if (tokens[i] != nullptr)
-						tszTitle.Append(tokens[i]);
-
-					p += tnlen - 1;
-					break;
-				}
-			}
-			if (i < _countof(titleTokenNames))
-				continue;
-		}
-		tszTitle.AppendChar(*p);
-	}
-	
-	if (tmplt == nullptr)
-		tszTitle.Append(TranslateT("Message session"));
-
-	return tszTitle.Detach();
-}
-
 static int GetChildCount(ParentWindowData *dat)
 {
 	return TabCtrl_GetItemCount(dat->hwndTabs);
@@ -253,7 +194,7 @@ static void ActivateChild(ParentWindowData *dat, HWND child)
 		dat->hwndActive = child;
 		SetupStatusBar(dat);
 		SendMessage(dat->hwndActive, GC_UPDATESTATUSBAR, 0, 0);
-		SendMessage(dat->hwndActive, DM_UPDATETITLEBAR, 0, 0);
+		pDlg->UpdateTitle();
 		SendMessage(dat->hwndActive, WM_SIZE, 0, 0);
 		ShowWindow(dat->hwndActive, SW_SHOWNOACTIVATE);
 		SendMessage(dat->hwndActive, DM_SCROLLLOGTOBOTTOM, 0, 0);

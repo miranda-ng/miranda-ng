@@ -624,7 +624,7 @@ MIR_APP_DLL(int) Chat_ChangeSessionName(const char *szModule, const wchar_t *wsz
 		replaceStrW(si->ptszName, wszNewName);
 		db_set_ws(si->hContact, szModule, "Nick", wszNewName);
 		if (si->pDlg)
-			SendMessage(si->pDlg->GetHwnd(), GC_UPDATETITLE, 0, 0);
+			si->pDlg->UpdateTitle();
 	}
 	return 0;
 }

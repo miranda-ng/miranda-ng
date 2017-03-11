@@ -204,6 +204,7 @@ public:
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
+	virtual void UpdateTitle() override;
 
 	void OnClick_Bold(CCtrlButton*);
 	void OnClick_Color(CCtrlButton*);

@@ -41,6 +41,45 @@ static TContainerData* TSAPI RemoveContainerFromList(TContainerData*);
 
 static bool fForceOverlayIcons = false;
 
+void TContainerData::UpdateTitle(MCONTACT hContact, CTabBaseDlg *pDlg)
+{
+	if (pDlg) {               // lParam != 0 means sent by a chat window
+		wchar_t szText[512];
+		GetWindowText(pDlg->GetHwnd(), szText, _countof(szText));
+		szText[_countof(szText) - 1] = 0;
+		SetWindowText(hwnd, szText);
+		SendMessage(hwnd, DM_SETICON, (WPARAM)pDlg, (LPARAM)(pDlg->m_hTabIcon != pDlg->m_hTabStatusIcon ? pDlg->m_hTabIcon : pDlg->m_hTabStatusIcon));
+		return;
+	}
+
+	CTabBaseDlg *dat = nullptr;
+	if (hContact == 0) {           // no hContact given - obtain the hContact for the active tab
+		if (hwndActive && IsWindow(hwndActive))
+			SendMessage(hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
+		else
+			return;
+		dat = (CTabBaseDlg*)GetWindowLongPtr(hwndActive, GWLP_USERDATA);
+	}
+	else {
+		HWND hwnd = M.FindWindow(hContact);
+		if (hwnd == nullptr) {
+			SESSION_INFO *si = SM_FindSessionByHCONTACT(hContact);
+			if (si) {
+				si->pDlg->UpdateTitle();
+				return;
+			}
+		}
+		if (hwnd && hContact)
+			dat = (CTabBaseDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	}
+	if (dat) {
+		SendMessage(hwnd, DM_SETICON, (WPARAM)dat, (LPARAM)(dat->m_hXStatusIcon ? dat->m_hXStatusIcon : dat->m_hTabStatusIcon));
+		CMStringW szTitle;
+		if (Utils::FormatTitleBar(dat, settings->szTitleFormat, szTitle))
+			SetWindowText(hwnd, szTitle);
+	}
+}
+
 // Windows Vista+
 // extend the glassy area to get aero look for the status bar, tab bar, info panel
 // and outer margins.
@@ -1183,48 +1222,6 @@ panel_found:
 		}
 		return 0;
 
-	case DM_UPDATETITLE:
-		hContact = 0;
-		dat = nullptr;
-
-		if (lParam) {               // lParam != 0 means sent by a chat window
-			wchar_t szText[512];
-			dat = (CTabBaseDlg*)GetWindowLongPtr((HWND)wParam, GWLP_USERDATA);
-			GetWindowText((HWND)wParam, szText, _countof(szText));
-			szText[_countof(szText) - 1] = 0;
-			SetWindowText(hwndDlg, szText);
-			if (dat)
-				SendMessage(hwndDlg, DM_SETICON, (WPARAM)dat, (LPARAM)(dat->m_hTabIcon != dat->m_hTabStatusIcon ? dat->m_hTabIcon : dat->m_hTabStatusIcon));
-			return 0;
-		}
-		if (wParam == 0) {           // no hContact given - obtain the hContact for the active tab
-			if (pContainer->hwndActive && IsWindow(pContainer->hwndActive))
-				SendMessage(pContainer->hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
-			else
-				break;
-			dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-		}
-		else {
-			HWND hwnd = M.FindWindow(wParam);
-			if (hwnd == 0) {
-				SESSION_INFO *si = SM_FindSessionByHCONTACT(wParam);
-				if (si) {
-					SendMessage(si->pDlg->GetHwnd(), GC_UPDATETITLE, 0, 0);
-					return 0;
-				}
-			}
-			hContact = wParam;
-			if (hwnd && hContact)
-				dat = (CTabBaseDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		}
-		if (dat) {
-			SendMessage(hwndDlg, DM_SETICON, (WPARAM)dat, (LPARAM)(dat->m_hXStatusIcon ? dat->m_hXStatusIcon : dat->m_hTabStatusIcon));
-			CMStringW szTitle;
-			if (Utils::FormatTitleBar(dat, pContainer->settings->szTitleFormat, szTitle))
-				SetWindowText(hwndDlg, szTitle);
-		}
-		return 0;
-
 	case WM_TIMER:
 		if (wParam == TIMERID_HEARTBEAT) {
 			if (GetForegroundWindow() != hwndDlg && (pContainer->settings->autoCloseSeconds > 0) && !pContainer->fHidden) {
@@ -1392,7 +1389,7 @@ panel_found:
 					hContact = 0;
 					SendMessage(pContainer->hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
 					if (hContact)
-						SendMessage(hwndDlg, DM_UPDATETITLE, hContact, 0);
+						pContainer->UpdateTitle(hContact);
 				}
 			}
 			memset(&item, 0, sizeof(item));
@@ -1619,7 +1616,7 @@ panel_found:
 				hContact = 0;
 				SendMessage(pContainer->hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
 				if (hContact)
-					SendMessage(hwndDlg, DM_UPDATETITLE, hContact, 0);
+					pContainer->UpdateTitle(hContact);
 			}
 			SendMessage(hwndDlg, WM_SIZE, 0, 1);
 			BroadCastContainer(pContainer, DM_CONFIGURETOOLBAR, 0, 1);

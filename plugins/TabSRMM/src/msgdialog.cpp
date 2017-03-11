@@ -310,7 +310,7 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 	}
 
 	m_pContainer->hIconTaskbarOverlay = 0;
-	SendMessage(m_pContainer->hwnd, DM_UPDATETITLE, m_hContact, 0);
+	m_pContainer->UpdateTitle(m_hContact);
 
 	UpdateStatusBar();
 	m_dwLastActivity = GetTickCount();
@@ -420,7 +420,7 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 	Utils::showDlgControl(hwndDlg, IDC_MULTISPLITTER, (dat->m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
 
 	dat->EnableSendButton(GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE)) != 0);
-	SendMessage(hwndDlg, DM_UPDATETITLE, 0, 1);
+	dat->UpdateTitle();
 	SendMessage(hwndDlg, WM_SIZE, 0, 0);
 
 	Utils::enableDlgControl(hwndDlg, IDC_CONTACTPIC, false);
@@ -1207,7 +1207,7 @@ void CSrmmWindow::OnInitDialog()
 		m_pContainer->hwndActive = m_hwnd;
 		m_pContainer->dwFlags |= CNT_DEFERREDCONFIGURE;
 	}
-	PostMessage(m_pContainer->hwnd, DM_UPDATETITLE, m_hContact, 0);
+	m_pContainer->UpdateTitle(m_hContact);
 
 	DM_RecalcPictureSize();
 	m_dwLastActivity = GetTickCount() - 1000;
@@ -1333,6 +1333,106 @@ void CSrmmWindow::ReplayQueue()
 	m_iNextQueuedEvent = 0;
 	SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, m_bNotOnList ? TranslateT("Contact not on list. You may add it...") :
 		TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
+}
+
+void CSrmmWindow::UpdateTitle()
+{
+	DWORD dwOldIdle = m_idle;
+	const char *szActProto = 0;
+
+	m_wszStatus[0] = 0;
+
+	if (m_iTabID == -1)
+		return;
+
+	TCITEM item = {};
+
+	bool bChanged = false;
+	wchar_t newtitle[128];
+	if (m_hContact) {
+		if (m_szProto) {
+			szActProto = m_cache->getProto();
+
+			bool bHasName = (m_cache->getUIN()[0] != 0);
+			m_idle = m_cache->getIdleTS();
+			m_dwFlagsEx = m_idle ? m_dwFlagsEx | MWF_SHOW_ISIDLE : m_dwFlagsEx & ~MWF_SHOW_ISIDLE;
+
+			m_wStatus = m_cache->getStatus();
+			wcsncpy_s(m_wszStatus, pcli->pfnGetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : m_wStatus, 0), _TRUNCATE);
+
+			wchar_t newcontactname[128]; newcontactname[0] = 0;
+			if (PluginConfig.m_bCutContactNameOnTabs)
+				CutContactName(m_cache->getNick(), newcontactname, _countof(newcontactname));
+			else
+				wcsncpy_s(newcontactname, m_cache->getNick(), _TRUNCATE);
+
+			Utils::DoubleAmpersands(newcontactname, _countof(newcontactname));
+
+			if (newcontactname[0] != 0) {
+				if (PluginConfig.m_bStatusOnTabs)
+					mir_snwprintf(newtitle, L"%s (%s)", newcontactname, m_wszStatus);
+				else
+					wcsncpy_s(newtitle, newcontactname, _TRUNCATE);
+			}
+			else wcsncpy_s(newtitle, L"Forward", _TRUNCATE);
+
+			if (mir_wstrcmp(newtitle, m_wszTitle)) {
+				bChanged = true;
+				item.mask |= TCIF_TEXT;
+			}
+
+			SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+
+			wchar_t fulluin[256];
+			if (m_bIsMeta)
+				mir_snwprintf(fulluin,
+					TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites."),
+					bHasName ? m_cache->getUIN() : TranslateT("No UID"));
+			else
+				mir_snwprintf(fulluin,
+					TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status."),
+					bHasName ? m_cache->getUIN() : TranslateT("No UID"));
+
+			SendDlgItemMessage(m_hwnd, IDC_NAME, BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_UNICODE);
+		}
+	}
+	else wcsncpy_s(newtitle, L"Message Session", _TRUNCATE);
+
+	if (m_idle != dwOldIdle || bChanged) {
+		if (bChanged) {
+			item.pszText = m_wszTitle;
+			wcsncpy_s(m_wszTitle, newtitle, _TRUNCATE);
+			if (m_pWnd)
+				m_pWnd->updateTitle(m_cache->getNick());
+		}
+		if (m_iTabID >= 0) {
+			TabCtrl_SetItem(m_hwndParent, m_iTabID, &item);
+			if (m_pContainer->dwFlags & CNT_SIDEBAR)
+				m_pContainer->SideBar->updateSession(this);
+		}
+		if (m_pContainer->hwndActive == m_hwnd && bChanged)
+			m_pContainer->UpdateTitle(m_hContact);
+
+		UpdateTrayMenuState(this, TRUE);
+		if (m_cache->isFavorite())
+			AddContactToFavorites(m_hContact, m_cache->getNick(), szActProto, m_wszStatus, m_wStatus,
+			Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 0, PluginConfig.g_hMenuFavorites);
+
+		if (m_cache->isRecent())
+			AddContactToFavorites(m_hContact, m_cache->getNick(), szActProto, m_wszStatus, m_wStatus,
+			Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 0, PluginConfig.g_hMenuRecent);
+
+		m_pPanel.Invalidate();
+		if (m_pWnd)
+			m_pWnd->Invalidate();
+	}
+
+	// care about MetaContacts and update the statusbar icon with the currently "most online" contact...
+	if (m_bIsMeta) {
+		PostMessage(m_hwnd, DM_OWNNICKCHANGED, 0, 0);
+		if (m_pContainer->dwFlags & CNT_UINSTATUSBAR)
+			DM_UpdateLastMessage();
+	}
 }
 
 void CSrmmWindow::onClick_Ok(CCtrlButton*)
@@ -2410,10 +2510,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case DM_OPTIONSAPPLIED:
 		DM_OptionsApplied(wParam, lParam);
-		return 0;
-
-	case DM_UPDATETITLE:
-		DM_UpdateTitle(wParam, lParam);
 		return 0;
 
 	case DM_UPDATESTATUSMSG:

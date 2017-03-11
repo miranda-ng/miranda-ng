@@ -257,7 +257,7 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 					TabCtrl_SetCurSel(hwndTab, iItem);
 					ShowWindow(dat->m_pContainer->hwndActive, SW_HIDE);
 					dat->m_pContainer->hwndActive = si->pDlg->GetHwnd();
-					SendMessage(dat->m_pContainer->hwnd, DM_UPDATETITLE, dat->m_hContact, 0);
+					dat->m_pContainer->UpdateTitle(dat->m_hContact);
 					dat->m_pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
 				}
 			}

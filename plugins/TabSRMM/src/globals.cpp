@@ -405,7 +405,7 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 		if (!strcmp(setting, "MirVer"))
 			PostMessage(hwnd, DM_CLIENTCHANGED, 0, 0);
 		if (fChanged || fExtendedStatusChange)
-			PostMessage(hwnd, DM_UPDATETITLE, 0, 1);
+			c->getDat()->UpdateTitle();
 		if (fExtendedStatusChange)
 			PostMessage(hwnd, DM_UPDATESTATUSMSG, 0, 0);
 		if (fChanged) {
@@ -449,7 +449,7 @@ int CGlobals::MetaContactEvent(WPARAM hContact, LPARAM)
 		c->updateMeta();
 		CTabBaseDlg *pDlg = c->getDat();
 		if (pDlg) {
-			::PostMessage(pDlg->GetHwnd(), DM_UPDATETITLE, 0, 1);
+			pDlg->UpdateTitle();
 			::PostMessage(pDlg->GetHwnd(), DM_UPDATEPICLAYOUT, 0, 0);
 			InvalidateRect(pDlg->GetHwnd(), 0, TRUE); // force redraw
 		}

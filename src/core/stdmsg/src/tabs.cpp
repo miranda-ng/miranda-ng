@@ -545,7 +545,7 @@ void ShowRoom(SESSION_INFO *si)
 		if (si->iType != GCW_SERVER)
 			SendMessage(si->pDlg->GetHwnd(), GC_UPDATENICKLIST, 0, 0);
 		else
-			SendMessage(si->pDlg->GetHwnd(), GC_UPDATETITLE, 0, 0);
+			si->pDlg->UpdateTitle();
 		SendMessage(si->pDlg->GetHwnd(), GC_REDRAWLOG, 0, 0);
 		SendMessage(si->pDlg->GetHwnd(), GC_UPDATESTATUSBAR, 0, 0);
 	}

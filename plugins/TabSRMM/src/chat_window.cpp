@@ -197,7 +197,8 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 		if (pcli->pfnGetEvent(m_si->hContact, 0))
 			pcli->pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
 
-		SendMessage(m_hwnd, GC_UPDATETITLE, 0, 1);
+		UpdateTitle();
+		m_hTabIcon = m_hTabStatusIcon;
 		m_dwTickLastEvent = 0;
 		m_dwFlags &= ~MWF_DIVIDERSET;
 		if (KillTimer(m_hwnd, TIMERID_FLASHWND) || m_iFlashIcon) {
@@ -1651,7 +1652,8 @@ void CChatRoomDlg::OnInitDialog()
 
 	SendMessage(m_hwnd, GC_SETWNDPROPS, 0, 0);
 	SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-	SendMessage(m_hwnd, GC_UPDATETITLE, 0, 1);
+	UpdateTitle();
+	m_hTabIcon = m_hTabStatusIcon;
 
 	RECT rc;
 	SendMessage(m_pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
@@ -1781,7 +1783,7 @@ void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
 		return;
 	}
 	SendMessage(m_hwnd, GC_REDRAWLOG, 0, 0);
-	SendMessage(m_hwnd, GC_UPDATETITLE, 0, 0);
+	UpdateTitle();
 	db_set_b(m_si->hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled);
 }
 
@@ -1946,6 +1948,66 @@ void CChatRoomDlg::onDblClick_List(CCtrlListBox*)
 	else DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CChatRoomDlg::UpdateTitle()
+{
+	m_wStatus = m_si->wStatus;
+
+	const wchar_t *szNick = m_cache->getNick();
+	if (mir_wstrlen(szNick) > 0) {
+		if (M.GetByte("cuttitle", 0))
+			CutContactName(szNick, m_wszTitle, _countof(m_wszTitle));
+		else
+			wcsncpy_s(m_wszTitle, szNick, _TRUNCATE);
+	}
+
+	wchar_t szTemp[100];
+	HICON hIcon = 0;
+
+	switch (m_si->iType) {
+	case GCW_CHATROOM:
+		hIcon = Skin_LoadProtoIcon(m_si->pszModule, (m_wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : m_wStatus);
+		mir_snwprintf(szTemp,
+			(m_si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user%s)") : TranslateT("%s: chat room (%u users%s)"),
+			szNick, m_si->nUsersInNicklist, m_bFilterEnabled ? TranslateT(", event filter active") : L"");
+		break;
+	case GCW_PRIVMESS:
+		hIcon = Skin_LoadProtoIcon(m_si->pszModule, (m_wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : m_wStatus);
+		if (m_si->nUsersInNicklist == 1)
+			mir_snwprintf(szTemp, TranslateT("%s: message session"), szNick);
+		else
+			mir_snwprintf(szTemp, TranslateT("%s: message session (%u users)"), szNick, m_si->nUsersInNicklist);
+		break;
+	case GCW_SERVER:
+		mir_snwprintf(szTemp, L"%s: Server", szNick);
+		hIcon = LoadIconEx("window");
+		break;
+	}
+
+	if (m_pWnd) {
+		m_pWnd->updateTitle(m_wszTitle);
+		m_pWnd->updateIcon(hIcon);
+	}
+	m_hTabStatusIcon = hIcon;
+
+	if (m_cache->getStatus() != m_cache->getOldStatus()) {
+		wcsncpy_s(m_wszStatus, pcli->pfnGetStatusModeDescription(m_wStatus, 0), _TRUNCATE);
+
+		TCITEM item = {};
+		item.mask = TCIF_TEXT;
+		item.pszText = m_wszTitle;
+		TabCtrl_SetItem(m_hwndParent, m_iTabID, &item);
+	}
+	SetWindowText(m_hwnd, szTemp);
+	if (m_pContainer->hwndActive == m_hwnd) {
+		m_pContainer->UpdateTitle(0, this);
+		SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (m_si == nullptr && (uMsg == WM_ACTIVATE || uMsg == WM_SETFOCUS))
@@ -1994,66 +2056,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
 		SendMessage(m_hwnd, WM_SIZE, 0, 0);
 		SendMessage(m_hwnd, GC_REDRAWLOG2, 0, 0);
-		break;
-
-	case DM_UPDATETITLE:
-	case GC_UPDATETITLE:
-		m_wStatus = m_si->wStatus;
-		{
-			const wchar_t *szNick = m_cache->getNick();
-			if (mir_wstrlen(szNick) > 0) {
-				if (M.GetByte("cuttitle", 0))
-					CutContactName(szNick, m_wszTitle, _countof(m_wszTitle));
-				else
-					wcsncpy_s(m_wszTitle, szNick, _TRUNCATE);
-			}
-
-			wchar_t szTemp[100];
-			HICON hIcon = 0;
-
-			switch (m_si->iType) {
-			case GCW_CHATROOM:
-				hIcon = Skin_LoadProtoIcon(m_si->pszModule, (m_wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : m_wStatus);
-				mir_snwprintf(szTemp,
-					(m_si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user%s)") : TranslateT("%s: chat room (%u users%s)"),
-					szNick, m_si->nUsersInNicklist, m_bFilterEnabled ? TranslateT(", event filter active") : L"");
-				break;
-			case GCW_PRIVMESS:
-				hIcon = Skin_LoadProtoIcon(m_si->pszModule, (m_wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : m_wStatus);
-				if (m_si->nUsersInNicklist == 1)
-					mir_snwprintf(szTemp, TranslateT("%s: message session"), szNick);
-				else
-					mir_snwprintf(szTemp, TranslateT("%s: message session (%u users)"), szNick, m_si->nUsersInNicklist);
-				break;
-			case GCW_SERVER:
-				mir_snwprintf(szTemp, L"%s: Server", szNick);
-				hIcon = LoadIconEx("window");
-				break;
-			}
-
-			if (m_pWnd) {
-				m_pWnd->updateTitle(m_wszTitle);
-				m_pWnd->updateIcon(hIcon);
-			}
-			m_hTabStatusIcon = hIcon;
-
-			if (lParam)
-				m_hTabIcon = m_hTabStatusIcon;
-
-			if (m_cache->getStatus() != m_cache->getOldStatus()) {
-				wcsncpy_s(m_wszStatus, pcli->pfnGetStatusModeDescription(m_wStatus, 0), _TRUNCATE);
-
-				TCITEM item = {};
-				item.mask = TCIF_TEXT;
-				item.pszText = m_wszTitle;
-				TabCtrl_SetItem(m_hwndParent, m_iTabID, &item);
-			}
-			SetWindowText(m_hwnd, szTemp);
-			if (m_pContainer->hwndActive == m_hwnd) {
-				SendMessage(m_pContainer->hwnd, DM_UPDATETITLE, (WPARAM)m_hwnd, 1);
-				SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-			}
-		}
 		break;
 
 	case GC_UPDATESTATUSBAR:
@@ -2342,7 +2344,8 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			int i = m_list.SendMsg(LB_GETTOPINDEX, 0, 0);
 			m_list.SendMsg(LB_SETCOUNT, m_si->nUsersInNicklist, 0);
 			m_list.SendMsg(LB_SETTOPINDEX, i, 0);
-			SendMessage(m_hwnd, GC_UPDATETITLE, 0, 0);
+			UpdateTitle();
+			m_hTabIcon = m_hTabStatusIcon;
 		}
 		break;
 

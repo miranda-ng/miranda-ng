@@ -971,7 +971,7 @@ void CChatRoomDlg::OnInitDialog()
 
 	SendMessage(m_hwnd, GC_SETWNDPROPS, 0, 0);
 	SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-	SendMessage(m_hwnd, DM_UPDATETITLEBAR, 0, 0);
+	UpdateTitle();
 
 	SendMessage(m_hwndParent, CM_ADDCHILD, (WPARAM)this, 0);
 	PostMessage(m_hwnd, GC_UPDATENICKLIST, 0, 0);
@@ -1217,6 +1217,44 @@ void CChatRoomDlg::onChange_Message(CCtrlEdit *pEdit)
 	m_btnOk.Enable(GetRichTextLength(pEdit->GetHwnd(), 1200, FALSE) != 0);
 }
 
+void CChatRoomDlg::UpdateTitle()
+{
+	TitleBarData tbd = {};
+	if (g_dat.flags & SMF_STATUSICON) {
+		MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
+		tbd.hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIcon : mi->hOfflineIcon;
+		tbd.hIconBig = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIconBig : mi->hOfflineIconBig;
+	}
+	else {
+		tbd.hIcon = GetCachedIcon("chat_window");
+		tbd.hIconBig = g_dat.hIconChatBig;
+	}
+	tbd.hIconNot = (m_si->wState & (GC_EVENT_HIGHLIGHT | STATE_TALK)) ? GetCachedIcon("chat_overlay") : nullptr;
+
+	wchar_t szTemp[512];
+	switch (m_si->iType) {
+	case GCW_CHATROOM:
+		mir_snwprintf(szTemp,
+			(m_si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"),
+			m_si->ptszName, m_si->nUsersInNicklist);
+		break;
+	case GCW_PRIVMESS:
+		mir_snwprintf(szTemp,
+			(m_si->nUsersInNicklist == 1) ? TranslateT("%s: message session") : TranslateT("%s: message session (%u users)"),
+			m_si->ptszName, m_si->nUsersInNicklist);
+		break;
+	case GCW_SERVER:
+		mir_snwprintf(szTemp, L"%s: Server", m_si->ptszName);
+		break;
+	}
+	tbd.iFlags = TBDF_TEXT | TBDF_ICON;
+	tbd.pszText = szTemp;
+	SendMessage(m_hwndParent, CM_UPDATETITLEBAR, (WPARAM)&tbd, (LPARAM)m_hwnd);
+	SendMessage(m_hwnd, DM_UPDATETABCONTROL, 0, 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static HMENU hToolbarMenu;
@@ -1224,7 +1262,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	POINT pt;
 	HICON hIcon;
 	TabControlData tcd;
-	TitleBarData tbd;
 	wchar_t szTemp[512];
 
 	switch (uMsg) {
@@ -1245,7 +1282,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 
 		SendMessage(m_hwnd, GC_UPDATESTATUSBAR, 0, 0);
-		SendMessage(m_hwnd, DM_UPDATETITLEBAR, 0, 0);
+		UpdateTitle();
 		SendMessage(m_hwnd, GC_FIXTABICONS, 0, 0);
 
 		m_log.SendMsg(EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
@@ -1279,39 +1316,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
 		SendMessage(m_hwnd, WM_SIZE, 0, 0);
 		SendMessage(m_hwnd, GC_REDRAWLOG2, 0, 0);
-		break;
-
-	case DM_UPDATETITLEBAR:
-		if (g_dat.flags & SMF_STATUSICON) {
-			MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
-			tbd.hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIcon : mi->hOfflineIcon;
-			tbd.hIconBig = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIconBig : mi->hOfflineIconBig;
-		}
-		else {
-			tbd.hIcon = GetCachedIcon("chat_window");
-			tbd.hIconBig = g_dat.hIconChatBig;
-		}
-		tbd.hIconNot = (m_si->wState & (GC_EVENT_HIGHLIGHT | STATE_TALK)) ? GetCachedIcon("chat_overlay") : nullptr;
-
-		switch (m_si->iType) {
-		case GCW_CHATROOM:
-			mir_snwprintf(szTemp,
-				(m_si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"),
-				m_si->ptszName, m_si->nUsersInNicklist);
-			break;
-		case GCW_PRIVMESS:
-			mir_snwprintf(szTemp,
-				(m_si->nUsersInNicklist == 1) ? TranslateT("%s: message session") : TranslateT("%s: message session (%u users)"),
-				m_si->ptszName, m_si->nUsersInNicklist);
-			break;
-		case GCW_SERVER:
-			mir_snwprintf(szTemp, L"%s: Server", m_si->ptszName);
-			break;
-		}
-		tbd.iFlags = TBDF_TEXT | TBDF_ICON;
-		tbd.pszText = szTemp;
-		SendMessage(m_hwndParent, CM_UPDATETITLEBAR, (WPARAM)&tbd, (LPARAM)m_hwnd);
-		SendMessage(m_hwnd, DM_UPDATETABCONTROL, 0, 0);
 		break;
 
 	case GC_UPDATESTATUSBAR:
@@ -1417,14 +1421,14 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case GC_SETMESSAGEHIGHLIGHT:
 		m_si->wState |= GC_EVENT_HIGHLIGHT;
 		SendMessage(m_hwnd, GC_FIXTABICONS, 0, 0);
-		SendMessage(m_hwnd, DM_UPDATETITLEBAR, 0, 0);
+		UpdateTitle();
 		if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwndParent)
 			SendMessage(m_hwndParent, CM_STARTFLASHING, 0, 0);
 		break;
 
 	case GC_SETTABHIGHLIGHT:
 		SendMessage(m_hwnd, GC_FIXTABICONS, 0, 0);
-		SendMessage(m_hwnd, DM_UPDATETITLEBAR, 0, 0);
+		UpdateTitle();
 		if (g_Settings.bFlashWindow && GetActiveWindow() != m_hwndParent && GetForegroundWindow() != m_hwndParent)
 			SendMessage(m_hwndParent, CM_STARTFLASHING, 0, 0);
 		break;
@@ -1538,7 +1542,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		m_nickList.SendMsg(WM_SETREDRAW, TRUE, 0);
 		InvalidateRect(m_nickList.GetHwnd(), nullptr, FALSE);
 		UpdateWindow(m_nickList.GetHwnd());
-		SendMessage(m_hwnd, DM_UPDATETITLEBAR, 0, 0);
+		UpdateTitle();
 		break;
 
 	case GC_CHANGEFILTERFLAG:
