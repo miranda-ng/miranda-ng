@@ -227,6 +227,12 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CVkProto::TrackVisitor()
+{
+	debugLogA("CVkProto::TrackVisitor");
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/stats.trackVisitor.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow));
+}
+
 void CVkProto::RetrieveMyInfo()
 {
 	debugLogA("CVkProto::RetrieveMyInfo");
@@ -253,6 +259,7 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 	OnLoggedIn();
 	RetrieveUserInfo(m_myUserId);
+	TrackVisitor();
 	RetrieveUnreadMessages();
 	RetrieveFriends();
 	RetrievePollingInfo();

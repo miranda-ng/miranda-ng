@@ -292,6 +292,7 @@ private:
 	void OnReceiveStatus(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveStatusMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	MCONTACT SetContactInfo(const JSONNode &jnItem, bool flag = false, bool self = false);
+	void TrackVisitor();
 	void RetrieveMyInfo(void);
 	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void RetrieveUserInfo(LONG userId);
