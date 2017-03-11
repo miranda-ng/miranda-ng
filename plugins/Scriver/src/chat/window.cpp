@@ -426,7 +426,7 @@ INT_PTR CALLBACK CChatRoomDlg::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 			if (iFlags & GC_EVENT_ADDSTATUS)
 				iFlags |= GC_EVENT_REMOVESTATUS;
 
-			SendMessage(pDlg->GetHwnd(), GC_CHANGEFILTERFLAG, 0, iFlags);
+			pDlg->m_iLogFilterFlags = iFlags;
 			if (pDlg->m_bFilterEnabled)
 				SendMessage(pDlg->GetHwnd(), GC_REDRAWLOG, 0, 0);
 			PostMessage(hwndDlg, WM_CLOSE, 0, 0);
@@ -1543,10 +1543,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		InvalidateRect(m_nickList.GetHwnd(), nullptr, FALSE);
 		UpdateWindow(m_nickList.GetHwnd());
 		UpdateTitle();
-		break;
-
-	case GC_CHANGEFILTERFLAG:
-		m_iLogFilterFlags = lParam;
 		break;
 
 	case GC_SHOWFILTERMENU:

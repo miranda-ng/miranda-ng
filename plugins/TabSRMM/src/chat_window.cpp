@@ -1064,7 +1064,7 @@ INT_PTR CALLBACK CChatRoomDlg::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 					db_set_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask", dwMask);
 				}
 				Chat_SetFilters(pDlg->m_si);
-				SendMessage(pDlg->GetHwnd(), GC_CHANGEFILTERFLAG, 0, iFlags);
+				pDlg->m_iLogFilterFlags = iFlags;
 				if (pDlg->m_bFilterEnabled)
 					SendMessage(pDlg->GetHwnd(), GC_REDRAWLOG, 0, 0);
 			}
@@ -2439,11 +2439,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case GC_CHANGEFILTERFLAG:
-		if (m_iLogFilterFlags == 0 && m_bFilterEnabled)
-			SendMessage(m_hwnd, WM_COMMAND, IDC_FILTER, 0);
-		break;
-
 	case GC_SHOWFILTERMENU:
 		m_hwndFilter = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_FILTER), m_pContainer->hwnd, FilterWndProc, (LPARAM)this);
 		TranslateDialogDefault(m_hwndFilter);
@@ -3068,14 +3063,10 @@ void ShowRoom(SESSION_INFO *si)
 	if (M.FindWindow(hContact) != 0)
 		return;
 
-	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6)) {
-		if ((pContainer = FindMatchingContainer(L"default")) == nullptr) {
-			wchar_t szName[CONTAINER_NAMELEN + 1];
-			mir_snwprintf(szName, L"default");
-			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact)) == nullptr)
+	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6))
+		if ((pContainer = FindMatchingContainer(L"default")) == nullptr)
+			if ((pContainer = CreateContainer(L"default", CNT_CREATEFLAG_CLONED, hContact)) == nullptr)
 				return;
-		}
-	}
 
 	wchar_t *contactName = pcli->pfnGetContactDisplayName(hContact, 0);
 

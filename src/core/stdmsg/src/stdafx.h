@@ -77,6 +77,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EM_SUBCLASSED (WM_USER+0x101)
 #define EM_ACTIVATE   (WM_USER+0x102)
 
+#define GC_SWITCHNEXTTAB (WM_USER+0x103)
+#define GC_SWITCHPREVTAB (WM_USER+0x104)
+#define GC_TABCHANGE     (WM_USER+0x105)
+#define GC_SWITCHTAB     (WM_USER+0x106)
+
 extern HINSTANCE g_hInst;
 extern HANDLE hHookWinEvt, hHookWinPopup, hHookWinWrite;
 extern CREOleCallback reOleCallback;
