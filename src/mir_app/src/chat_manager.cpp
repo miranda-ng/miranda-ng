@@ -122,6 +122,7 @@ int SM_RemoveSession(const wchar_t *pszID, const char *pszModule, bool removeCon
 		if (si == nullptr)
 			return FALSE;
 
+		g_arSessions.remove(si);
 		SM_FreeSession(si, removeContact);
 		return TRUE;
 	}
