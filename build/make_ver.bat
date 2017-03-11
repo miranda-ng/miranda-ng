@@ -3,7 +3,7 @@ cd /d %~dp0
 
 for /F "tokens=2,3" %%i in (..\include\m_version.h) do if "%%i"=="MIRANDA_VERSION_FILEVERSION" (set OldVer=%%j)
 for /F %%i in ('git rev-list --count HEAD') do set Revision=%%i
-for /F %%i in ('git rev-parse --short HEAD') do set Hash=%%i
+for /F %%i in ('git rev-parse --short=7 HEAD') do set Hash=%%i
 rem for /F %%i in ('svnversion build.no') do set Revision=%%i
 
 REM Fix building not-svn repository (e.g., Git mirror)
