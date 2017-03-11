@@ -196,9 +196,9 @@ extern "C" int __declspec(dllexport) Load()
 		return 1;
 	}
 
-	MFileVersion v;
-	Miranda_GetFileVersion(&v);
-	mir_snwprintf(szCoreVersion, L"%d.%d.%d.%d", v[0], v[1], v[2], v[3]);
+	char mirVer[100];
+	Miranda_GetVersionText(mirVer, _countof(mirVer));
+	mir_wstrcpy(szCoreVersion, _A2T(mirVer));
 
 	CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&g_cbCountries, (LPARAM)&g_countries);
 
