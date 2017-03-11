@@ -1154,7 +1154,8 @@ panel_found:
 		GetClientRect(hwndTab, &rc);
 		if (!((rc.right - rc.left) == pContainer->oldSize.cx && (rc.bottom - rc.top) == pContainer->oldSize.cy)) {
 			dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-			dat->DM_ScrollToBottom(0, 0);
+			if (dat)
+				dat->DM_ScrollToBottom(0, 0);
 			SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);
 		}
 		pContainer->bSizingLoop = FALSE;
