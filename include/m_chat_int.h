@@ -39,7 +39,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define GC_FAKE_EVENT MEVENT(0xBABABEDA)
 
-#define GC_SPLITTERMOVED       (WM_USER+101)
 #define GC_CLOSEWINDOW         (WM_USER+103)
 #define GC_GETITEMDATA         (WM_USER+104)
 #define GC_SETITEMDATA         (WM_USER+105)
