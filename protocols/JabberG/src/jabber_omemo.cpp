@@ -584,6 +584,17 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 	}
 }
 
+void pubsub_createnode(wchar_t *node_name, wchar_t *pubsub_addr, CJabberProto *proto)
+{
+	//xep-0060 8.1.1 required by xep-0163 3
+	XmlNodeIq iq(L"set", proto->SerialNext());
+	iq << XATTR(L"from", proto->m_ThreadInfo->fullJID); //full unstripped jid used here
+	iq << XATTR(L"to", pubsub_addr);
+	HXML create_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"create");
+	create_node << XATTR(L"node", node_name);
+	proto->m_ThreadInfo->send(iq);
+}
+
 void CJabberProto::OmemoAnnounceDevice()
 {
 	// check "OmemoDeviceId%d" for own id and send  updated list if not exist
@@ -602,8 +613,11 @@ void CJabberProto::OmemoAnnounceDevice()
 	// add own device id
 	// construct node
 	wchar_t szBareJid[JABBER_MAX_JID_LEN];
-	XmlNodeIq iq(L"set", SerialNext()); iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid)));
+	XmlNodeIq iq(L"set", SerialNext()); 
+	iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, sizeof(szBareJid))); //_countof is not portable
 	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish") << XATTR(L"node", JABBER_FEAT_OMEMO L":devicelist");
+	//pubsub_createnode(JABBER_FEAT_OMEMO L":devicelist", L"TODO_pubsub_address", this); //TODO: get pubsub address somehow
+														  //TODO: handle reply of createnode
 	HXML list_node = publish_node << XCHILDNS(L"list", JABBER_FEAT_OMEMO);
 
 	for (int i = 0; ; ++i) {
@@ -627,14 +641,16 @@ void CJabberProto::OmemoSendBundle()
 
 	// construct bundle node
 	wchar_t szBareJid[JABBER_MAX_JID_LEN];
-	XmlNodeIq iq(L"set", SerialNext()); iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid)));
+	XmlNodeIq iq(L"set", SerialNext());
+	iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, sizeof(szBareJid))); //_countof is not portable
 
-	// TODO: add "from"
 	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish");
 	{
 		wchar_t attr_val[128];
 		mir_snwprintf(attr_val, L"%s:bundles:%d", JABBER_FEAT_OMEMO, own_id);
 		publish_node << XATTR(L"node", attr_val);
+		//pubsub_createnode(attr_val, L"TODO_pubsub_address", this); //TODO: get pubsub address somehow
+		//TODO: handle reply of createnode
 	}
 	HXML bundle_node = publish_node << XCHILD(L"item") << XCHILDNS(L"bundle", JABBER_FEAT_OMEMO);
 
