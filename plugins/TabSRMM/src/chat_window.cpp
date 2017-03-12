@@ -2951,7 +2951,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		else {
 			SendMessage(m_hwnd, WM_SIZE, 0, 0);
 			if (lParam == 0)
-				ScrollToBottom();
+				DM_ScrollToBottom(1, 1);
 		}
 		return 0;
 
