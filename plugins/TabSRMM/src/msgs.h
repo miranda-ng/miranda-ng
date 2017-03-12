@@ -499,7 +499,7 @@ public:
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
 	
 	virtual void AddLog() override;
-	virtual void CloseTab(bool bForced = false) override;
+	virtual void CloseTab() override;
 	virtual void RedrawLog() override;
 	virtual void ScrollToBottom() override;
 	virtual void ShowFilterMenu() override;

@@ -414,7 +414,7 @@ public:
 	void ShowColorChooser(int iCtrlId);
 
 	virtual void AddLog();
-	virtual void CloseTab(bool = false) {}
+	virtual void CloseTab() {}
 	virtual void RedrawLog() {}
 	virtual void ScrollToBottom() {}
 	virtual void ShowFilterMenu() {}

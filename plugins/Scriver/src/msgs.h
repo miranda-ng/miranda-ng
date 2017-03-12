@@ -91,7 +91,7 @@ protected:
 	CScriverWindow(int iDialog, SESSION_INFO* = nullptr);
 
 public:
-	virtual void CloseTab(bool bForced = false) override;
+	virtual void CloseTab() override;
 
 	ParentWindowData *m_pParent;
 	int m_minLogBoxHeight, m_minEditBoxHeight;

@@ -412,7 +412,7 @@ Srmm_LogStreamCallback @412
 Srmm_MessageStreamCallback @413
 ?DoEventHook@CSrmmBaseDialog@@IEAAXHPEBUUSERINFO@@PEB_W_J@Z @414 NONAME
 ?ClearLog@CSrmmBaseDialog@@QEAAXXZ @415 NONAME
-?CloseTab@CSrmmBaseDialog@@UEAAX_N@Z @416 NONAME
+?CloseTab@CSrmmBaseDialog@@UEAAXXZ @416 NONAME
 ?UpdateStatusBar@CSrmmBaseDialog@@UEAAXXZ @417 NONAME
 Chat_UpdateOptions @418 NONAME
 ?RedrawLog@CSrmmBaseDialog@@UEAAXXZ @419 NONAME

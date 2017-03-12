@@ -1201,7 +1201,7 @@ void CChatRoomDlg::SaveWindowPosition(bool bUpdateSession)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CChatRoomDlg::CloseTab(bool)
+void CChatRoomDlg::CloseTab()
 {
 	if (g_Settings.bTabsEnable)
 		SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);

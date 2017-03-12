@@ -1948,7 +1948,7 @@ void CChatRoomDlg::AddLog()
 	CSrmmBaseDialog::AddLog();
 }
 
-void CChatRoomDlg::CloseTab(bool bForced)
+void CChatRoomDlg::CloseTab()
 {
 	int iTabs = TabCtrl_GetItemCount(m_hwndParent);
 	if (iTabs == 1 && CMimAPI::m_shutDown == 0) {
@@ -1963,7 +1963,7 @@ void CChatRoomDlg::CloseTab(bool bForced)
 	// the previously open tab.
 	// normally, this tab has the same index after the deletion of the formerly active tab
 	// unless, of course, we closed the last (rightmost) tab.
-	if (!m_pContainer->bDontSmartClose && iTabs > 1 && !bForced) {
+	if (!m_pContainer->bDontSmartClose && iTabs > 1) {
 		if (i == iTabs - 1)
 			i--;
 		else
@@ -2921,7 +2921,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			_dlgReturn(m_hwnd, TRUE);
 		}
-		CloseTab(true);
+		CloseTab();
 		return 0;
 
 	case DM_SAVESIZE:
