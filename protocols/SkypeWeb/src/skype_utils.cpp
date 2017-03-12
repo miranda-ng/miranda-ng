@@ -374,7 +374,7 @@ char *CSkypeProto::RemoveHtml(const char *text)
 				{
 					// Numeric replacement
 					bool hex = false;
-					if (data.at(1) == 'x')
+					if (entity.at(1) == 'x')
 					{
 						hex = true;
 						entity = entity.substr(2);
@@ -385,9 +385,14 @@ char *CSkypeProto::RemoveHtml(const char *text)
 					}
 					if (!entity.empty())
 					{
+						found = true;
+						errno = 0;
 						unsigned long value = strtoul(entity.c_str(), NULL, hex ? 16 : 10);
-
-						if (value <= 127)
+						if (errno != 0)
+						{ // error with conversion in strtoul, ignore the result
+							found = false;
+						}
+						else if (value <= 127)
 						{ // U+0000 .. U+007F
 							new_string += (char)value;
 						}
@@ -409,7 +414,6 @@ char *CSkypeProto::RemoveHtml(const char *text)
 							new_string += (char)((value >> 8) & 0xFF);
 							new_string += (char)((value)& 0xFF);
 						}
-						found = true;
 					}
 				}
 				else
