@@ -1092,7 +1092,7 @@ void CSkin::UnloadAeroTabs()
 
 	if (m_tabGlowBottom) {
 		delete m_tabGlowBottom;
-		m_tabGlowTop = nullptr;
+		m_tabGlowBottom = nullptr;
 	}
 
 	if (m_switchBarItem) {
