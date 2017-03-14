@@ -90,7 +90,7 @@ void TSAPI RearrangeTab(HWND hwndDlg, const CTabBaseDlg *dat, int iMode, BOOL fS
 		TabCtrl_DeleteItem(hwndTab, dat->m_iTabID);
 		item.lParam = (LPARAM)hwndDlg;
 		TabCtrl_InsertItem(hwndTab, newIndex, &item);
-		BroadCastContainer(dat->m_pContainer, DM_REFRESHTABINDEX, 0, 0);
+		dat->m_pContainer->UpdateTabs();
 		ActivateTabFromHWND(hwndTab, hwndDlg);
 		if (fSavePos)
 			db_set_dw(dat->m_hContact, SRMSGMOD_T, "tabindex", newIndex * 100);

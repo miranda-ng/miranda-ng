@@ -225,6 +225,7 @@ struct TContainerData
 	CMenuBar *MenuBar;
 	CSideBar *SideBar;
 
+	void UpdateTabs();
 	void UpdateTitle(MCONTACT, class CTabBaseDlg* = nullptr);
 
 	void ClearMargins()
@@ -362,6 +363,7 @@ public:
 	CTabBaseDlg(int iDialogId, SESSION_INFO* = nullptr);
 	virtual ~CTabBaseDlg();
 
+	virtual void OnInitDialog() override;
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	virtual CThumbBase* tabCreateThumb(CProxyWindow*) const = 0;
@@ -724,7 +726,6 @@ struct TIconDescW
 #define DM_REMOVECLISTEVENT      (TM_USER+75)
 #define DM_GETWINDOWSTATE        (TM_USER+76)
 #define DM_DOCREATETAB           (TM_USER+77)
-#define DM_REFRESHTABINDEX       (TM_USER+83)
 #define DM_SMILEYOPTIONSCHANGED  (TM_USER+85)
 #define DM_MYAVATARCHANGED	      (TM_USER+86)
 #define DM_IEVIEWOPTIONSCHANGED  (TM_USER+88)

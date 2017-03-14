@@ -1556,7 +1556,7 @@ void CChatRoomDlg::tabClearLog()
 
 void CChatRoomDlg::OnInitDialog()
 {
-	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
+	CTabBaseDlg::OnInitDialog();
 
 	m_cache = CContactCache::getContactCache(m_hContact);
 	m_cache->updateNick();
@@ -1579,10 +1579,8 @@ void CChatRoomDlg::OnInitDialog()
 		SetTimer(m_hwnd, TIMERID_TYPE, 1000, nullptr);
 	}
 
-	m_pPanel.setActive(false);
+	m_pPanel.getVisibility();
 	m_pPanel.Configure();
-	M.AddWindow(m_hwnd, m_hContact);
-	BroadCastContainer(m_pContainer, DM_REFRESHTABINDEX, 0, 0);
 
 	m_log.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 	m_log.SendMsg(EM_AUTOURLDETECT, 1, 0);
@@ -1601,7 +1599,6 @@ void CChatRoomDlg::OnInitDialog()
 	if (PluginConfig.g_hMenuTrayUnread != 0 && m_hContact != 0 && m_szProto != nullptr)
 		UpdateTrayMenu(0, m_wStatus, m_szProto, m_wszStatus, m_hContact, FALSE);
 
-	DM_ThemeChanged();
 	m_log.SendMsg(EM_HIDESELECTION, TRUE, 0);
 
 	GetMYUIN();
@@ -1673,7 +1670,7 @@ void CChatRoomDlg::OnDestroy()
 	if (i >= 0) {
 		SendMessage(m_hwndParent, WM_USER + 100, 0, 0);              // clean up tooltip
 		TabCtrl_DeleteItem(m_hwndParent, i);
-		BroadCastContainer(m_pContainer, DM_REFRESHTABINDEX, 0, 0);
+		m_pContainer->UpdateTabs();
 		m_iTabID = -1;
 	}
 	if (m_pWnd) {
@@ -2954,10 +2951,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		return 0;
 
-	case DM_REFRESHTABINDEX:
-		m_iTabID = GetTabIndexFromHWND(m_hwndParent, m_hwnd);
-		return 0;
-
 	case WM_CBD_UPDATED:
 		if (lParam)
 			CB_ChangeButton((CustomButtonData*)lParam);
@@ -3073,7 +3066,7 @@ void ShowRoom(SESSION_INFO *si)
 
 	TCITEM item = {};
 	item.pszText = newcontactname;
-	item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
+	item.mask = TCIF_TEXT | TCIF_IMAGE;
 	int iTabId = TabCtrl_InsertItem(hwndTab, pContainer->iTabIndex, &item);
 
 	SendMessage(hwndTab, EM_REFRESHWITHOUTCLIP, 0, 0);

@@ -147,6 +147,27 @@ CTabBaseDlg::~CTabBaseDlg()
 	if (m_hTaskbarIcon) DestroyIcon(m_hTaskbarIcon);
 }
 
+void CTabBaseDlg::OnInitDialog()
+{
+	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
+
+	// m_hwnd is valid, pass it to the tab control
+	TCITEM tci;
+	tci.mask = TCIF_PARAM;
+	tci.lParam = (LPARAM)m_hwnd;
+	TabCtrl_SetItem(m_hwndParent, m_iTabID, &tci);
+
+	// update another tab ids
+	m_pContainer->UpdateTabs();
+	
+	// add this window to window list & proxy
+	M.AddWindow(m_hwnd, m_hContact);
+	CProxyWindow::add(this);
+
+	// set up Windows themes
+	DM_ThemeChanged();
+}
+
 INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -701,7 +722,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 
 	TCITEM item = {};
 	item.pszText = tabtitle;
-	item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
+	item.mask = TCIF_TEXT | TCIF_IMAGE;
 	item.iImage = 0;
 	item.cchTextMax = _countof(tabtitle);
 	int iTabId = TabCtrl_InsertItem(hwndTab, pContainer->iTabIndex, &item);
@@ -725,8 +746,6 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	pWindow->Create();
 
 	HWND hwndNew = pWindow->GetHwnd();
-	item.lParam = (LPARAM)hwndNew;
-	TabCtrl_SetItem(hwndTab, iTabId, &item);
 
 	// switchbar support
 	if (pContainer->dwFlags & CNT_SIDEBAR)

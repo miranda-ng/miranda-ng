@@ -958,19 +958,16 @@ CThumbBase* CSrmmWindow::tabCreateThumb(CProxyWindow *pProxy) const
 
 void CSrmmWindow::OnInitDialog()
 {
-	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
+	CTabBaseDlg::OnInitDialog();
 
 	if (Utils::rtf_ctable == 0)
 		Utils::RTF_CTableInit();
 
-	DM_ThemeChanged();
-
 	m_cache = CContactCache::getContactCache(m_hContact);
 	m_cache->updateNick();
 	m_cache->setWindowData(this);
-	M.AddWindow(m_hwnd, m_hContact);
-	BroadCastContainer(m_pContainer, DM_REFRESHTABINDEX, 0, 0);
-	CProxyWindow::add(this);
+
+	//////////////////////////////////////////////////////////////////////////////////////
 	m_szProto = const_cast<char *>(m_cache->getProto());
 	m_bIsMeta = m_cache->isMeta();
 	if (m_bIsMeta)
@@ -1301,7 +1298,7 @@ void CSrmmWindow::OnDestroy()
 	if (i >= 0) {
 		SendMessage(m_hwndParent, WM_USER + 100, 0, 0);                      // remove tooltip
 		TabCtrl_DeleteItem(m_hwndParent, i);
-		BroadCastContainer(m_pContainer, DM_REFRESHTABINDEX, 0, 0);
+		m_pContainer->UpdateTabs();
 		m_iTabID = -1;
 	}
 
@@ -2931,10 +2928,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case EM_THEMECHANGED:
 		DM_FreeTheme();
 		DM_ThemeChanged();
-		return 0;
-
-	case DM_REFRESHTABINDEX:
-		m_iTabID = GetTabIndexFromHWND(GetParent(m_hwnd), m_hwnd);
 		return 0;
 
 	case DM_STATUSICONCHANGE:
