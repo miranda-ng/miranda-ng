@@ -64,7 +64,7 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 {
 	Tox_Options *options = NULL;
 	tox_options_default(options);
-	CToxThread toxThread(options);
+	Tox *tox = tox_new(options, NULL);
 	tox_options_free(options);
 
 	ptrW profilePath(m_proto->GetToxProfilePath());
@@ -79,27 +79,27 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 		CloseHandle(hProfile);
 	}
 
-	if (m_proto->InitToxCore(&toxThread))
-	{
-		ptrW group(m_group.GetText());
-		if (mir_wstrlen(group) > 0 && Clist_GroupExists(group))
-			Clist_GroupCreate(0, group);
+	m_proto->InitToxCore(tox);
 
-		m_proto->UninitToxCore(&toxThread);
+	ptrW group(m_group.GetText());
+	if (mir_wstrlen(group) > 0 && Clist_GroupExists(group))
+		Clist_GroupCreate(0, group);
 
-		m_toxAddress.Enable();
-		m_toxAddress.SetTextA(ptrA(m_proto->getStringA(TOX_SETTINGS_ID)));
+	m_proto->UninitToxCore(tox);
+	tox_kill(tox);
 
-		m_nickname.SetText(ptrW(m_proto->getWStringA("Nick")));
-		m_password.SetText(ptrW(m_proto->getWStringA("Password")));
-		m_group.SetText(ptrW(m_proto->getWStringA(TOX_SETTINGS_GROUP)));
+	m_toxAddress.Enable();
+	m_toxAddress.SetTextA(ptrA(m_proto->getStringA(TOX_SETTINGS_ID)));
 
-		ShowWindow(m_profileCreate.GetHwnd(), FALSE);
-		ShowWindow(m_profileImport.GetHwnd(), FALSE);
+	m_nickname.SetText(ptrW(m_proto->getWStringA("Nick")));
+	m_password.SetText(ptrW(m_proto->getWStringA("Password")));
+	m_group.SetText(ptrW(m_proto->getWStringA(TOX_SETTINGS_GROUP)));
 
-		ShowWindow(m_toxAddressCopy.GetHwnd(), TRUE);
-		ShowWindow(m_profileExport.GetHwnd(), TRUE);
-	}
+	ShowWindow(m_profileCreate.GetHwnd(), FALSE);
+	ShowWindow(m_profileImport.GetHwnd(), FALSE);
+
+	ShowWindow(m_toxAddressCopy.GetHwnd(), TRUE);
+	ShowWindow(m_profileExport.GetHwnd(), TRUE);
 }
 
 void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
@@ -199,7 +199,7 @@ void CToxOptionsMain::OnApply()
 		// todo: add checkbox
 		m_proto->setWString("Password", pass_ptrT(m_password.GetText()));
 
-		m_proto->SaveToxProfile(m_proto->toxThread);
+		m_proto->SaveToxProfile(m_proto->toxThread->Tox());
 	}
 }
 

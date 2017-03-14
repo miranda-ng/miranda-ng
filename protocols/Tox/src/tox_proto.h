@@ -72,9 +72,15 @@ private:
 	CToxThread *toxThread;
 	mir_cs profileLock;
 	wchar_t *accountName;
-	HANDLE hPollingThread;
+	
 	CTransferList transfers;
 	ULONG hMessageProcess;
+
+	bool isTerminated;
+	HANDLE hConnectingThread;
+	HANDLE hCheckingThread;
+	HANDLE hPollingThread;
+	HANDLE hTerminateEvent;
 
 	static HANDLE hProfileFolderPath;
 
@@ -83,30 +89,32 @@ private:
 	static wchar_t* GetToxProfilePath(const wchar_t *accountName);
 
 	bool LoadToxProfile(Tox_Options *options);
-	void SaveToxProfile(CToxThread *toxThread);
+	void SaveToxProfile(Tox *tox);
 
 	INT_PTR __cdecl OnCopyToxID(WPARAM, LPARAM);
 
 	// tox core
 	Tox_Options* GetToxOptions();
-	bool InitToxCore(CToxThread *toxThread);
-	void UninitToxCore(CToxThread *toxThread);
+	void InitToxCore(Tox *tox);
+	void UninitToxCore(Tox *tox);
 
-	// tox network
-	bool IsOnline();
+	// tox bootstrap
+	void BootstrapUdpNode(Tox *tox, const char *address, int port, const char *pubKey);
+	void BootstrapTcpRelay(Tox *tox, const char *address, int port, const char *pubKey);
 
-	void BootstrapUdpNode(CToxThread *toxThread, const char *address, int port, const char *pubKey);
-	void BootstrapTcpRelay(CToxThread *toxThread, const char *address, int port, const char *pubKey);
-
-	void BootstrapNodesFromDb(CToxThread *toxThread, bool isIPv6);
-	void BootstrapNodesFromJson(CToxThread *toxThread, bool isIPv6);
-	void BootstrapNodes(CToxThread *toxThread);
+	void BootstrapNodesFromDb(Tox *tox, bool isIPv6);
+	void BootstrapNodesFromJson(Tox *tox, bool isIPv6);
+	void BootstrapNodes(Tox *tox);
 
 	void UpdateNodes();
 
-	void TryConnect();
-	void CheckConnection(int &retriesCount);
+	// tox connection
+	bool IsOnline();
 
+	void TryConnect(Tox *tox);
+	void CheckConnection(Tox *tox, int &retriesCount);
+
+	void __cdecl CheckingThread(void*);
 	void __cdecl PollingThread(void*);
 
 	// accounts
@@ -152,10 +160,10 @@ private:
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);
 
-	MCONTACT GetContact(const int friendNumber);
+	MCONTACT GetContact(const Tox *tox, const int friendNumber);
 	MCONTACT GetContact(const char *pubKey);
 
-	ToxHexAddress GetContactPublicKey(const int friendNumber);
+	ToxHexAddress GetContactPublicKey(const Tox *tox, const int friendNumber);
 
 	MCONTACT AddContact(const char *address, const char *nick = NULL, const char *dnsId = NULL, bool isTemporary = false);
 
@@ -163,7 +171,7 @@ private:
 
 	uint32_t GetToxFriendNumber(MCONTACT hContact);
 
-	void __cdecl LoadFriendList(void*);
+	void LoadFriendList(Tox *tox);
 
 	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl OnGrantAuth(WPARAM hContact, LPARAM);
@@ -244,7 +252,7 @@ private:
 
 	void PauseOutgoingTransfers(uint32_t friendNumber);
 	void ResumeIncomingTransfers(uint32_t friendNumber);
-	void CancelAllTransfers(CToxThread *toxThread);
+	void CancelAllTransfers(Tox *tox);
 
 	// avatars
 	wchar_t* GetAvatarFilePath(MCONTACT hContact = NULL);

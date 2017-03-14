@@ -3,11 +3,11 @@
 /* MESSAGE RECEIVING */
 
 // incoming message flow
-void CToxProto::OnFriendMessage(Tox*, uint32_t friendNumber, TOX_MESSAGE_TYPE type, const uint8_t *message, size_t length, void *arg)
+void CToxProto::OnFriendMessage(Tox *tox, uint32_t friendNumber, TOX_MESSAGE_TYPE type, const uint8_t *message, size_t length, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	MCONTACT hContact = proto->GetContact(friendNumber);
+	MCONTACT hContact = proto->GetContact(tox, friendNumber);
 	if (hContact == NULL)
 		return;
 
@@ -94,11 +94,11 @@ int CToxProto::OnSendMessage(MCONTACT hContact, const char *szMessage)
 }
 
 // message is received by the other side
-void CToxProto::OnReadReceipt(Tox*, uint32_t friendNumber, uint32_t messageNumber, void *arg)
+void CToxProto::OnReadReceipt(Tox *tox, uint32_t friendNumber, uint32_t messageNumber, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	MCONTACT hContact = proto->GetContact(friendNumber);
+	MCONTACT hContact = proto->GetContact(tox, friendNumber);
 	if (hContact == NULL)
 		return;
 
@@ -177,11 +177,11 @@ int CToxProto::OnUserIsTyping(MCONTACT hContact, int type)
 	return 0;
 }
 
-void CToxProto::OnTypingChanged(Tox*, uint32_t friendNumber, bool isTyping, void *arg)
+void CToxProto::OnTypingChanged(Tox *tox, uint32_t friendNumber, bool isTyping, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	if (MCONTACT hContact = proto->GetContact(friendNumber))
+	if (MCONTACT hContact = proto->GetContact(tox, friendNumber))
 	{
 		int typingStatus = (isTyping ? PROTOTYPE_CONTACTTYPING_INFINITE : PROTOTYPE_CONTACTTYPING_OFF);
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)typingStatus);

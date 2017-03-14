@@ -97,16 +97,16 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	return false;
 }
 
-void CToxProto::SaveToxProfile(CToxThread *toxThread)
+void CToxProto::SaveToxProfile(Tox *tox)
 {
 	mir_cslock locker(profileLock);
 
 	if (!toxThread)
 		return;
 
-	size_t size = tox_get_savedata_size(toxThread->Tox());
+	size_t size = tox_get_savedata_size(tox);
 	uint8_t *data = (uint8_t*)mir_calloc(size + TOX_PASS_ENCRYPTION_EXTRA_LENGTH);
-	tox_get_savedata(toxThread->Tox(), data);
+	tox_get_savedata(tox, data);
 
 	pass_ptrA password(mir_utf8encodeW(pass_ptrT(getWStringA("Password"))));
 	if (password && mir_strlen(password))

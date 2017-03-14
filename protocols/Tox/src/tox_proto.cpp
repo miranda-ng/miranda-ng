@@ -2,8 +2,9 @@
 
 CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	: PROTO<CToxProto>(protoName, userName),
-	hPollingThread(NULL), toxThread(NULL),
-	hOutDevice(NULL), hMessageProcess(1)
+	toxThread(NULL), isTerminated(false),
+	hCheckingThread(NULL), hPollingThread(NULL),
+	hMessageProcess(1)
 {
 	InitNetlib();
 
@@ -26,7 +27,9 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	// nick
 	CreateProtoService(PS_SETMYNICKNAME, &CToxProto::SetMyNickname);
 
-	hAudioDialogs = WindowList_Create();
+	//hAudioDialogs = WindowList_Create();
+
+	hTerminateEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 }
 
 CToxProto::~CToxProto()
@@ -151,11 +154,8 @@ int CToxProto::SetStatus(int iNewStatus)
 	if (iNewStatus == ID_STATUS_OFFLINE)
 	{
 		// logout
-		if (toxThread)
-		{
-			toxThread->Stop();
-			toxThread = NULL;
-		}
+		isTerminated = true;
+		SetEvent(hTerminateEvent);
 
 		if (!Miranda_IsTerminated())
 		{
