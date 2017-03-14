@@ -30,7 +30,7 @@
 
 #define MS_HTTPSERVER_ADDFILENAME "HTTPServer/AddFileName"
 
-bool IsStringValidLink(wchar_t* pszText);
+bool IsStringValidLink(wchar_t *pszText);
 
 static const UINT sendControls[] = { IDC_MESSAGE, IDC_LOG };
 static const UINT formatControls[] = { IDC_FONTBOLD, IDC_FONTITALIC, IDC_FONTUNDERLINE, IDC_FONTSTRIKEOUT };
@@ -963,17 +963,12 @@ void CSrmmWindow::OnInitDialog()
 	if (Utils::rtf_ctable == 0)
 		Utils::RTF_CTableInit();
 
-	m_cache = CContactCache::getContactCache(m_hContact);
-	m_cache->updateNick();
 	m_cache->setWindowData(this);
 
-	//////////////////////////////////////////////////////////////////////////////////////
 	m_szProto = const_cast<char *>(m_cache->getProto());
 	m_bIsMeta = m_cache->isMeta();
 	if (m_bIsMeta)
 		m_cache->updateMeta();
-
-	m_cache->updateUIN();
 
 	// show a popup if wanted...
 	if (m_bWantPopup) {
@@ -1039,8 +1034,6 @@ void CSrmmWindow::OnInitDialog()
 	m_pPanel.getVisibility();
 
 	m_dwFlagsEx |= M.GetByte(m_hContact, "splitoverride", 0) ? MWF_SHOW_SPLITTEROVERRIDE : 0;
-	m_bIsAutosizingInput = IsAutoSplitEnabled();
-	m_iInputAreaHeight = -1;
 	SetMessageLog();
 	if (m_hContact)
 		m_pPanel.loadHeight();

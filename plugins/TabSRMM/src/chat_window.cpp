@@ -1558,20 +1558,11 @@ void CChatRoomDlg::OnInitDialog()
 {
 	CTabBaseDlg::OnInitDialog();
 
-	m_cache = CContactCache::getContactCache(m_hContact);
-	m_cache->updateNick();
-	m_cache->updateUIN();
-
 	m_si->pDlg = this;
-	m_bIsAutosizingInput = IsAutoSplitEnabled();
-	m_fLimitedUpdate = false;
-	m_iInputAreaHeight = -1;
 	
 	m_iSplitterY = m_pContainer->settings->iSplitterY;
 	if (m_bIsAutosizingInput)
 		m_iSplitterY = GetDefaultMinimumInputHeight();
-
-	CProxyWindow::add(this);
 
 	// Typing support for GCW_PRIVMESS sessions
 	if (m_si->iType == GCW_PRIVMESS) {

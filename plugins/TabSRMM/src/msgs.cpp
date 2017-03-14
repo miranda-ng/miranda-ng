@@ -123,7 +123,8 @@ CTabBaseDlg::CTabBaseDlg(int iResource, SESSION_INFO *si)
 	m_log(this, IDC_LOG),
 	m_message(this, IDC_MESSAGE),
 	m_pPanel(this),
-	m_dwFlags(MWF_INITMODE)
+	m_dwFlags(MWF_INITMODE),
+	m_iInputAreaHeight(-1)
 {
 	m_pLog = &m_log;
 	m_pEntry = &m_message;
@@ -166,6 +167,13 @@ void CTabBaseDlg::OnInitDialog()
 
 	// set up Windows themes
 	DM_ThemeChanged();
+
+	// refresh cache data for this contact
+	m_cache = CContactCache::getContactCache(m_hContact);
+	m_cache->updateNick();
+	m_cache->updateUIN();
+
+	m_bIsAutosizingInput = IsAutoSplitEnabled();
 }
 
 INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)

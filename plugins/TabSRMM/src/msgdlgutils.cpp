@@ -1267,7 +1267,7 @@ void CTabBaseDlg::GetLocaleID(const wchar_t *szKLName)
 	}
 }
 
-void CTabBaseDlg::LoadContactAvatar()
+void CSrmmWindow::LoadContactAvatar()
 {
 	m_ace = Utils::loadAvatarFromAVS(m_bIsMeta ? db_mc_getSrmmSub(m_hContact) : m_hContact);
 
@@ -1290,7 +1290,7 @@ void CTabBaseDlg::LoadContactAvatar()
 		GetAvatarVisibility();
 }
 
-void CTabBaseDlg::LoadOwnAvatar()
+void CSrmmWindow::LoadOwnAvatar()
 {
 	if (ServiceExists(MS_AV_GETMYAVATAR))
 		m_ownAce = (AVATARCACHEENTRY *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)(m_cache->getActiveProto()));

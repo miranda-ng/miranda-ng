@@ -254,8 +254,6 @@ protected:
 	int  FireEvent(unsigned int type, unsigned int subType = 0);
 	void GetSendFormat();
 	bool IsAutoSplitEnabled() const;
-	void LoadContactAvatar();
-	void LoadOwnAvatar();
 	void ResizeIeView();
 
 public:
@@ -300,7 +298,7 @@ public:
 	BYTE     m_bShowTyping;
 	bool     m_bShowAvatar, m_bShowInfoAvatar, m_bShowUIElements;
 	bool     m_bUseOffset;
-	bool     m_bIsHistory, m_bIsMeta, m_bNotOnList;
+	bool     m_bIsHistory, m_bNotOnList;
 	bool     m_bkeyProcessed;
 	bool     m_bEditNotesActive;
 	bool     m_bActualHistory;
@@ -446,6 +444,8 @@ class CSrmmWindow : public CTabBaseDlg
 
 	CCtrlButton m_btnOk, m_btnAdd, m_btnQuote, m_btnCancelAdd;
 
+	void LoadContactAvatar();
+	void LoadOwnAvatar();
 	void MsgWindowUpdateState(UINT msg);
 	void ReplayQueue();
 
@@ -453,7 +453,7 @@ public:
 	int m_iMultiSplit;
 	int msgTop, rcLogBottom;
 	wchar_t *wszInitialText;
-	bool m_bActivate, m_bWantPopup;
+	bool m_bActivate, m_bWantPopup, m_bIsMeta;
 
 public:
 	CSrmmWindow();
