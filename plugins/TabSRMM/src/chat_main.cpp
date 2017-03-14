@@ -64,16 +64,14 @@ static void OnNewUser(SESSION_INFO *si, USERINFO*)
 {
 	if (si->pDlg) {
 		si->pDlg->UpdateNickList();
-		if (si->pDlg)
-			si->pDlg->GetMyNick();
+		si->pDlg->GetMyNick();
 	}
 }
 
 static void OnChangeNick(SESSION_INFO *si)
 {
 	if (si->pDlg) {
-		if (si->pDlg)
-			si->pDlg->GetMyNick();
+		si->pDlg->GetMyNick();
 		si->pDlg->UpdateStatusBar();
 	}
 }

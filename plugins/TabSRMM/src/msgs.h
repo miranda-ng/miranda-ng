@@ -246,6 +246,7 @@ protected:
 
 	void DetermineMinHeight();
 	void FindFirstEvent();
+	int  FireEvent(unsigned int type, unsigned int subType = 0);
 	void GetSendFormat();
 	bool IsAutoSplitEnabled() const;
 	void LoadContactAvatar();

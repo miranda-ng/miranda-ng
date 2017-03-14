@@ -479,13 +479,13 @@ void CMenuBar::configureMenu() const
 {
 	CSrmmWindow *dat = (CSrmmWindow*)::GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
 	if (dat) {
-		bool fChat = (dat->isChat());
+		bool fChat = dat->isChat();
 
 		::SendMessage(m_hwndToolbar, TB_SETSTATE, 103, fChat ? TBSTATE_HIDDEN : TBSTATE_ENABLED);
 		::SendMessage(m_hwndToolbar, TB_SETSTATE, 104, fChat ? TBSTATE_ENABLED : TBSTATE_HIDDEN);
 		::SendMessage(m_hwndToolbar, TB_SETSTATE, 105, fChat ? TBSTATE_HIDDEN : TBSTATE_ENABLED);
 
-		if (!dat->isChat())
+		if (!fChat)
 			::EnableWindow(GetDlgItem(dat->GetHwnd(), IDC_TIME), TRUE);
 	}
 }

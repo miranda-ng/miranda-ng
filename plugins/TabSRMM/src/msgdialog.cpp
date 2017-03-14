@@ -335,7 +335,7 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 		RECT rcRTF;
 		POINT pt;
 
-		GetWindowRect(GetDlgItem(m_hwnd, IDC_LOG), &rcRTF);
+		GetWindowRect(m_log.GetHwnd(), &rcRTF);
 		rcRTF.left += 20;
 		rcRTF.top += 20;
 		pt.x = rcRTF.left;
@@ -1078,7 +1078,7 @@ void CSrmmWindow::OnInitDialog()
 	SendDlgItemMessage(m_hwnd, IDC_TOGGLESIDEBAR, BUTTONSETCONTAINER, (LPARAM)m_pContainer, 0);
 	SendDlgItemMessage(m_hwnd, IDC_TOGGLESIDEBAR, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
 
-	TABSRMM_FireEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING, 0);
+	FireEvent(MSG_WINDOW_EVT_OPENING);
 
 	for (int i = 0; i < _countof(tooltips); i++)
 		SendDlgItemMessage(m_hwnd, tooltips[i].id, BUTTONADDTOOLTIP, (WPARAM)TranslateW(tooltips[i].text), BATF_UNICODE);
@@ -1217,7 +1217,7 @@ void CSrmmWindow::OnInitDialog()
 		mir_subclassWindow(m_hwndHPP, HPPKFSubclassProc);
 
 	m_dwFlags &= ~MWF_INITMODE;
-	TABSRMM_FireEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPEN, 0);
+	FireEvent(MSG_WINDOW_EVT_OPEN);
 
 	if (m_pContainer->dwFlags & CNT_CREATE_MINIMIZED) {
 		m_pContainer->dwFlags &= ~CNT_CREATE_MINIMIZED;
@@ -1246,7 +1246,7 @@ void CSrmmWindow::OnDestroy()
 		DestroyWindow(m_hwndPanelPicParent);
 
 	if (m_cache->isValid()) { // not valid means the contact was deleted
-		TABSRMM_FireEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING, 0);
+		FireEvent(MSG_WINDOW_EVT_CLOSING);
 		AddContactToFavorites(m_hContact, m_cache->getNick(), m_cache->getActiveProto(), m_wszStatus, m_wStatus,
 			Skin_LoadProtoIcon(m_cache->getActiveProto(), m_cache->getActiveStatus()), 1, PluginConfig.g_hMenuRecent);
 		if (m_hContact) {
@@ -1305,7 +1305,7 @@ void CSrmmWindow::OnDestroy()
 		m_iTabID = -1;
 	}
 
-	TABSRMM_FireEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE, 0);
+	FireEvent(MSG_WINDOW_EVT_CLOSE);
 
 	// clean up IEView and H++ log windows
 	if (m_hwndIEView != 0) {
@@ -1527,7 +1527,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton*)
 
 	DeletePopupsForContact(m_hContact, PU_REMOVE_ON_SEND);
 	if (M.GetByte("allow_sendhook", 0)) {
-		int result = TABSRMM_FireEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CUSTOM, MAKELONG(flags, tabMSG_WINDOW_EVT_CUSTOM_BEFORESEND));
+		int result = FireEvent(MSG_WINDOW_EVT_CUSTOM, MAKELONG(flags, tabMSG_WINDOW_EVT_CUSTOM_BEFORESEND));
 		if (result)
 			return;
 	}

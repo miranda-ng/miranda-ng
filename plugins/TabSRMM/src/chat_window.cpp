@@ -1585,7 +1585,7 @@ void CChatRoomDlg::OnInitDialog()
 	m_log.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 	m_log.SendMsg(EM_AUTOURLDETECT, 1, 0);
 	SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_PANELSPLITTER), GWLP_WNDPROC, (LONG_PTR)SplitterSubclassProc);
-	TABSRMM_FireEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING, 0);
+	FireEvent(MSG_WINDOW_EVT_OPENING, 0);
 
 	m_log.SendMsg(EM_SETEVENTMASK, 0, m_log.SendMsg(EM_GETEVENTMASK, 0, 0) | ENM_LINK | ENM_MOUSEEVENTS | ENM_KEYEVENTS);
 	m_log.SendMsg(EM_LIMITTEXT, 0x7FFFFFFF, 0);
@@ -1640,7 +1640,7 @@ void CChatRoomDlg::OnInitDialog()
 	ShowWindow(m_hwnd, SW_SHOW);
 	UpdateNickList();
 	m_pContainer->hwndActive = m_hwnd;
-	TABSRMM_FireEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPEN, 0);
+	FireEvent(MSG_WINDOW_EVT_OPEN, 0);
 }
 
 void CChatRoomDlg::OnDestroy()
@@ -1656,7 +1656,7 @@ void CChatRoomDlg::OnDestroy()
 	m_si->pDlg = nullptr;
 	m_si = nullptr;
 
-	TABSRMM_FireEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING, 0);
+	FireEvent(MSG_WINDOW_EVT_CLOSING, 0);
 
 	DM_FreeTheme();
 
@@ -1685,7 +1685,7 @@ void CChatRoomDlg::OnDestroy()
 
 	M.RemoveWindow(m_hwnd);
 
-	TABSRMM_FireEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE, 0);
+	FireEvent(MSG_WINDOW_EVT_CLOSE, 0);
 
 	memset((void*)&m_pContainer->mOld, -1000, sizeof(MARGINS));
 	PostMessage(m_pContainer->hwnd, WM_SIZE, 0, 1);

@@ -835,33 +835,27 @@ void TSAPI CreateImageList(BOOL bInitial)
 	PluginConfig.g_IconTypingEvent = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 }
 
-int TABSRMM_FireEvent(MCONTACT hContact, HWND hwnd, unsigned int type, unsigned int subType)
+int CTabBaseDlg::FireEvent(unsigned int type, unsigned int subType)
 {
-	if (hContact == 0 || hwnd == nullptr)
+	if (m_hContact == 0 || m_hwnd == nullptr)
 		return 0;
 
-	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(m_hwnd, GWLP_USERDATA);
 	if (dat == nullptr)
 		return 0;
 
 	MessageWindowEventData mwe = { sizeof(mwe) };
-	mwe.hContact = hContact;
-	mwe.hwndWindow = hwnd;
+	mwe.hContact = m_hContact;
+	mwe.hwndWindow = m_hwnd;
 	mwe.szModule = "tabSRMsgW";
 	mwe.uType = type;
-	if (!dat->isChat()) {
-		mwe.hwndInput = GetDlgItem(hwnd, IDC_MESSAGE);
-		mwe.hwndLog = GetDlgItem(hwnd, IDC_LOG);
-	}
-	else {
-		mwe.hwndInput = GetDlgItem(hwnd, IDC_MESSAGE);
-		mwe.hwndLog = GetDlgItem(hwnd, IDC_LOG);
-	}
+	mwe.hwndInput = m_message.GetHwnd();
+	mwe.hwndLog = m_log.GetHwnd();
 
 	if (type == MSG_WINDOW_EVT_CUSTOM) {
 		TABSRMM_SessionInfo se = { sizeof(se) };
 		se.evtCode = HIWORD(subType);
-		se.hwnd = hwnd;
+		se.hwnd = m_hwnd;
 		se.extraFlags = (unsigned int)(LOWORD(subType));
 		se.local = dat->m_sendBuffer;
 		mwe.local = &se;

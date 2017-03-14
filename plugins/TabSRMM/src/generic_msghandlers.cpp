@@ -941,20 +941,15 @@ void CTabBaseDlg::DM_ThemeChanged()
 
 	m_hTheme = OpenThemeData(m_hwnd, L"EDIT");
 
-	if (!isChat()) {
-		if (m_hTheme != 0 || (CSkin::m_skinEnabled && !item_log->IGNORED))
-			SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
-		if (m_hTheme != 0 || (CSkin::m_skinEnabled && !item_msg->IGNORED))
-			SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
-	}
-	else {
-		if (m_hTheme != 0 || (CSkin::m_skinEnabled && !item_log->IGNORED)) {
-			SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LOG), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
+	if (m_hTheme != 0 || (CSkin::m_skinEnabled && !item_log->IGNORED)) {
+		SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
+		if (isChat())
 			SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LIST), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LIST), GWL_EXSTYLE) & ~(WS_EX_CLIENTEDGE | WS_EX_STATICEDGE));
-		}
-		if (m_hTheme != 0 || (CSkin::m_skinEnabled && !item_msg->IGNORED))
-			SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 	}
+	
+	if (m_hTheme != 0 || (CSkin::m_skinEnabled && !item_msg->IGNORED))
+		SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
+
 	m_hThemeIP = M.isAero() ? OpenThemeData(m_hwnd, L"ButtonStyle") : 0;
 	m_hThemeToolbar = (M.isAero() || (!CSkin::m_skinEnabled && M.isVSThemed())) ? OpenThemeData(m_hwnd, L"REBAR") : 0;
 }

@@ -97,7 +97,6 @@ void  TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT 
 void  TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WPARAM wParam, LPARAM lParam);
 void  TSAPI GetDefaultContainerTitleFormat();
 void  TSAPI SetAeroMargins(TContainerData *pContainer);
-int   TABSRMM_FireEvent(MCONTACT hContact, HWND hwnd, unsigned int type, unsigned int subType);
 
 INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam);
 

@@ -98,19 +98,11 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
 	if (!dat)
 		return;
 
-	RECT	rcWnd;
-	if (!dat->isChat()) {
-		if (dat->m_pPanel.isActive())
-			GetWindowRect(GetDlgItem(dat->GetHwnd(), IDC_LOG), &rcWnd);
-		else
-			GetWindowRect(dat->GetHwnd(), &rcWnd);
-	}
-	else {
-		if (dat->m_pPanel.isActive())
-			GetWindowRect(GetDlgItem(dat->GetHwnd(), IDC_LOG), &rcWnd);
-		else
-			GetWindowRect(dat->GetHwnd(), &rcWnd);
-	}
+	RECT rcWnd;
+	if (dat->m_pPanel.isActive())
+		GetWindowRect(GetDlgItem(dat->GetHwnd(), IDC_LOG), &rcWnd);
+	else
+		GetWindowRect(dat->GetHwnd(), &rcWnd);
 
 	POINT	pt = { rcWnd.left, rcWnd.top };
 	ScreenToClient(pContainer->hwnd, &pt);

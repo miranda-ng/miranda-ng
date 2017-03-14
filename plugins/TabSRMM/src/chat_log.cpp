@@ -854,7 +854,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 	SCROLLINFO scroll = {};
 	scroll.cbSize = sizeof(SCROLLINFO);
 	scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
-	GetScrollInfo(GetDlgItem(m_hwnd, IDC_LOG), SB_VERT, &scroll);
+	GetScrollInfo(m_log.GetHwnd(), SB_VERT, &scroll);
 
 	POINT point = { 0 };
 	m_log.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&point);
