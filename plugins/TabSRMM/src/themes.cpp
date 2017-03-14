@@ -1377,7 +1377,6 @@ void CSkin::Load(void)
 
 	i = 0;
 	while (_tagSettings[i].szIniKey != nullptr) {
-		data = 0;
 		data = GetPrivateProfileInt(_tagSettings[i].szIniKey, _tagSettings[i].szIniName,
 			_tagSettings[i].defaultval, m_tszFileName);
 		switch (_tagSettings[i].size) {
