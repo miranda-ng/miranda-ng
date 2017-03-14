@@ -593,7 +593,8 @@ LRESULT CALLBACK CProxyWindow::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
  * @param _p			 owner proxy window object
  * @return
  */
-CThumbBase::CThumbBase(const CProxyWindow* _p)
+CThumbBase::CThumbBase(const CProxyWindow* _p) :
+	m_isValid(false)
 {
 	m_pWnd = _p;
 	m_hbmThumb = 0;

@@ -96,14 +96,13 @@ void TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT m
 	BroadCastContainer(pContainer, WM_CBD_UPDATED, 0, 0);
 }
 
-#define NR_O_PAGES 10
-#define NR_O_OPTIONSPERPAGE 10
-
-static struct _tagPages
+struct
 {
 	const wchar_t *szTitle, *szDesc;
 	UINT uIds[10];
-} o_pages[] = {
+}
+static o_pages[] =
+{
 	{ LPGENW("General options"), nullptr, IDC_O_NOTABS, IDC_O_STICKY, IDC_VERTICALMAX, IDC_AUTOSPLITTER, IDC_O_AUTOHIDE, IDC_AUTOCLOSETABTIME, IDC_AUTOCLOSETABSPIN, IDC_O_AUTOHIDESECONDS, 0, 0 },
 	{ LPGENW("Window layout"), nullptr, IDC_CNTNOSTATUSBAR, IDC_HIDEMENUBAR, IDC_UIDSTATUSBAR, IDC_HIDETOOLBAR, IDC_INFOPANEL, IDC_BOTTOMTOOLBAR, 0, 0, 0, 0 },
 	{ LPGENW("Tabs and switch bar"), LPGENW("Choose your options for the tabbed user interface. Not all options can be applied to open windows. You may need to close and re-open them."), IDC_TABMODE, IDC_O_TABMODE, IDC_O_SBARLAYOUT, IDC_SBARLAYOUT, IDC_FLASHICON, IDC_FLASHLABEL, IDC_SINGLEROWTAB, IDC_BUTTONTABS, IDC_CLOSEBUTTONONTABS, 0 },
@@ -118,10 +117,12 @@ static struct _tagPages
 
 static void ShowPage(HWND hwndDlg, int iPage, BOOL fShow)
 {
-	if (iPage >= 0 && iPage < NR_O_PAGES) {
-		for (int i = 0; i < NR_O_OPTIONSPERPAGE && o_pages[iPage].uIds[i] != 0; i++)
-			Utils::showDlgControl(hwndDlg, o_pages[iPage].uIds[i], fShow ? SW_SHOW : SW_HIDE);
-	}
+	if (iPage < 0 || iPage >= _countof(o_pages))
+		return;
+
+	for (int i = 0; i < _countof(o_pages[0].uIds) && o_pages[iPage].uIds[i] != 0; i++)
+		Utils::showDlgControl(hwndDlg, o_pages[iPage].uIds[i], fShow ? SW_SHOW : SW_HIDE);
+	
 	if (fShow) {
 		SetDlgItemText(hwndDlg, IDC_TITLEBOX, TranslateW(o_pages[iPage].szTitle));
 		if (o_pages[iPage].szDesc != nullptr)
@@ -183,7 +184,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendDlgItemMessage(hwndDlg, IDC_TITLEFORMAT, EM_LIMITTEXT, TITLE_FORMATLEN - 1, 0);
 			SetDlgItemText(hwndDlg, IDC_TITLEFORMAT, pContainer->settings->szTitleFormat);
 			SetDlgItemText(hwndDlg, IDC_THEME, pContainer->szRelThemeFile);
-			for (int i = 0; i < NR_O_PAGES; i++) {
+			for (int i = 0; i < _countof(o_pages); i++) {
 				tvis.hParent = nullptr;
 				tvis.hInsertAfter = TVI_LAST;
 				tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
@@ -192,7 +193,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				HTREEITEM hItem = TreeView_InsertItem(hwndTree, &tvis);
 				if (i == 0)
 					SendMessage(hwndTree, TVM_SELECTITEM, TVGN_CARET, (LPARAM)hItem);
-				for (int j = 0; j < NR_O_OPTIONSPERPAGE && o_pages[i].uIds[j] != 0; j++)
+				for (int j = 0; j < _countof(o_pages[0].uIds) && o_pages[i].uIds[j] != 0; j++)
 					Utils::showDlgControl(hwndDlg, o_pages[i].uIds[j], SW_HIDE);
 				ShowPage(hwndDlg, i, FALSE);
 			}

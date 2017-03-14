@@ -553,7 +553,7 @@ void CTabBaseDlg::DM_InitRichEdit()
 
 	if (fIsChat) {
 		LOGFONTA lf;
-		LoadLogfont(MSGFONTID_MESSAGEAREA, &lf, &inputcharcolor, FONTMODULE);
+		LoadLogfont(FONTSECTION_IM, MSGFONTID_MESSAGEAREA, &lf, &inputcharcolor, FONTMODULE);
 
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_ITALIC | CFM_BACKCOLOR;
 		cf2.crTextColor = inputcharcolor;

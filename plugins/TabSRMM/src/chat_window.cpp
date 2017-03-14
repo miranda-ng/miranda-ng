@@ -473,15 +473,17 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 {
 	HWND hwndParent = GetParent(hwnd);
 	CChatRoomDlg *mwdat = (CChatRoomDlg*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
+	if (mwdat == nullptr)
+		return 0;
+
 	MESSAGESUBDATA *dat = (MESSAGESUBDATA*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
-	if (mwdat != nullptr)
-		if (mwdat->m_bkeyProcessed && (msg == WM_KEYUP)) {
-			GetKeyboardState(mwdat->kstate);
-			if (!(mwdat->kstate[VK_CONTROL] & 0x80) && !(mwdat->kstate[VK_SHIFT] & 0x80))
-				mwdat->m_bkeyProcessed = false;
-			return 0;
-		}
+	if (mwdat->m_bkeyProcessed && (msg == WM_KEYUP)) {
+		GetKeyboardState(mwdat->kstate);
+		if (!(mwdat->kstate[VK_CONTROL] & 0x80) && !(mwdat->kstate[VK_SHIFT] & 0x80))
+			mwdat->m_bkeyProcessed = false;
+		return 0;
+	}
 
 	switch (msg) {
 	case WM_NCCALCSIZE:
@@ -789,7 +791,7 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 			SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
 
 			LOGFONTA lf;
-			LoadLogfont(MSGFONTID_MESSAGEAREA, &lf, nullptr, FONTMODULE);
+			LoadLogfont(FONTSECTION_IM, MSGFONTID_MESSAGEAREA, &lf, nullptr, FONTMODULE);
 
 			SETTEXTEX ste;
 			ste.flags = ST_DEFAULT;
@@ -852,7 +854,7 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 	case WM_RBUTTONUP:
 	case WM_MBUTTONUP:
 		COLORREF cr;
-		LoadLogfont(MSGFONTID_MESSAGEAREA, nullptr, &cr, FONTMODULE);
+		LoadLogfont(FONTSECTION_IM, MSGFONTID_MESSAGEAREA, nullptr, &cr, FONTMODULE);
 
 		CHARFORMAT2 cf;
 		cf.cbSize = sizeof(CHARFORMAT2);
@@ -1687,7 +1689,7 @@ void CChatRoomDlg::OnDestroy()
 
 	FireEvent(MSG_WINDOW_EVT_CLOSE, 0);
 
-	memset((void*)&m_pContainer->mOld, -1000, sizeof(MARGINS));
+	m_pContainer->ClearMargins();
 	PostMessage(m_pContainer->hwnd, WM_SIZE, 0, 1);
 
 	if (m_pContainer->dwFlags & CNT_SIDEBAR)
@@ -1843,7 +1845,7 @@ void CChatRoomDlg::onClick_Color(CCtrlButton *pButton)
 	}
 	else {
 		COLORREF cr;
-		LoadLogfont(MSGFONTID_MESSAGEAREA, nullptr, &cr, FONTMODULE);
+		LoadLogfont(FONTSECTION_IM, MSGFONTID_MESSAGEAREA, nullptr, &cr, FONTMODULE);
 		cf.dwMask = CFM_COLOR;
 		cf.crTextColor = cr;
 		m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
@@ -1996,7 +1998,7 @@ void CChatRoomDlg::RedrawLog()
 {
 	m_si->LastTime = 0;
 	if (m_si->pLog) {
-		LOGINFO * pLog = m_si->pLog;
+		LOGINFO *pLog = m_si->pLog;
 		if (m_si->iEventCount > 60) {
 			int index = 0;
 			while (index < 59) {
@@ -2183,9 +2185,6 @@ void CChatRoomDlg::UpdateTitle()
 
 INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	if (m_si == nullptr && (uMsg == WM_ACTIVATE || uMsg == WM_SETFOCUS))
-		return 0;
-
 	POINT pt, tmp, cur;
 	RECT rc;
 
@@ -2990,7 +2989,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_DWMCOMPOSITIONCHANGED:
 		BB_RefreshTheme();
-		memset(&m_pContainer->mOld, -1000, sizeof(MARGINS));
+		m_pContainer->ClearMargins();
 		CProxyWindow::verify(this);
 		break;
 	}

@@ -29,7 +29,7 @@
 #ifndef __CONTROLS_H
 #define __CONTROLS_H
 
-class CMenuBar
+class CMenuBar : public MZeroedObject
 {
 public:
 	enum {

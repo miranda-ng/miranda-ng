@@ -127,7 +127,7 @@ void TSAPI CacheLogFonts()
 
 	memset(logfonts, 0, (sizeof(LOGFONTA) * (MSGDLGFONTCOUNT + 2)));
 	for (int i = 0; i < MSGDLGFONTCOUNT; i++) {
-		LoadLogfont(i, &logfonts[i], &fontcolors[i], FONTMODULE);
+		LoadLogfont(FONTSECTION_IM, i, &logfonts[i], &fontcolors[i], FONTMODULE);
 		mir_snprintf(rtfFontsGlobal[i], "\\f%u\\cf%u\\b%d\\i%d\\ul%d\\fs%u", i, i, logfonts[i].lfWeight >= FW_BOLD ? 1 : 0, logfonts[i].lfItalic, logfonts[i].lfUnderline, 2 * abs(logfonts[i].lfHeight) * 74 / logPixelSY);
 	}
 	mir_snprintf(rtfFontsGlobal[MSGDLGFONTCOUNT], "\\f%u\\cf%u\\b%d\\i%d\\fs%u", MSGDLGFONTCOUNT, MSGDLGFONTCOUNT, 0, 0, 0);
@@ -143,7 +143,7 @@ void TSAPI CacheLogFonts()
 
 		COLORREF clr;
 		LOGFONTA lf;
-		LoadLogfont(i + 100, &lf, &clr, FONTMODULE);
+		LoadLogfont(FONTSECTION_IP, i, &lf, &clr, FONTMODULE);
 		lf.lfUnderline = 0;
 		CInfoPanel::m_ipConfig.hFonts[i] = CreateFontIndirectA(&lf);
 		CInfoPanel::m_ipConfig.clrs[i] = clr;

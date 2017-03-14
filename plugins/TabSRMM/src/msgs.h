@@ -226,6 +226,10 @@ struct TContainerData
 	CSideBar *SideBar;
 
 	void UpdateTitle(MCONTACT, class CTabBaseDlg* = nullptr);
+
+	void ClearMargins()
+	{	memset(&mOld, 0xfe, sizeof(mOld));
+	}
 };
 
 struct SESSION_INFO;

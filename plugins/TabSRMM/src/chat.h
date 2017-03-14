@@ -106,7 +106,9 @@ int GetTextPixelSize(wchar_t* pszText, HFONT hFont, bool bWidth);
 
 // options.c
 enum { FONTSECTION_AUTO, FONTSECTION_IM, FONTSECTION_IP };
-void  LoadMsgDlgFont(int section, int i, LOGFONT * lf, COLORREF * colour, char* szMod);
+void  LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF *colour, char *szModule);
+void  LoadLogfont(int section, int i, LOGFONTA *lf, COLORREF *colour, char *szModule);
+
 void  AddIcons(void);
 HICON LoadIconEx(char *pszIcoLibName);
 

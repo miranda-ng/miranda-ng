@@ -177,8 +177,7 @@ static HWND hPathTip = 0;
 void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szMod)
 {
 	char str[32];
-	int style;
-	int j = (i >= 100 ? i - 100 : i);
+	int db_idx = (section == FONTSECTION_IM) ? i : i + 100;
 
 	FontOptionsList *fol = fontOptionsList;
 	switch (section) {
@@ -187,18 +186,18 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 	}
 
 	if (colour) {
-		mir_snprintf(str, "Font%dCol", i);
-		*colour = M.GetDword(szMod, str, fol[j].defColour);
+		mir_snprintf(str, "Font%dCol", db_idx);
+		*colour = M.GetDword(szMod, str, fol[i].defColour);
 	}
 
 	if (lf) {
-		mir_snprintf(str, "Font%dSize", i);
-		lf->lfHeight = (char)M.GetByte(szMod, str, fol[j].defSize);
+		mir_snprintf(str, "Font%dSize", db_idx);
+		lf->lfHeight = (char)M.GetByte(szMod, str, fol[i].defSize);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
-		mir_snprintf(str, "Font%dSty", i);
-		style = M.GetByte(szMod, str, fol[j].defStyle);
+		mir_snprintf(str, "Font%dSty", db_idx);
+		int style = M.GetByte(szMod, str, fol[i].defStyle);
 		if (i == MSGFONTID_MESSAGEAREA && section == FONTSECTION_IM && M.GetByte("inputFontFix", 1) == 1) {
 			lf->lfWeight = FW_NORMAL;
 			lf->lfItalic = 0;
@@ -211,13 +210,13 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 			lf->lfUnderline = style & FONTF_UNDERLINE ? 1 : 0;
 			lf->lfStrikeOut = style & FONTF_STRIKEOUT ? 1 : 0;
 		}
-		mir_snprintf(str, "Font%dSet", i);
-		lf->lfCharSet = M.GetByte(szMod, str, fol[j].defCharset);
+		mir_snprintf(str, "Font%dSet", db_idx);
+		lf->lfCharSet = M.GetByte(szMod, str, fol[i].defCharset);
 		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-		mir_snprintf(str, "Font%d", i);
+		mir_snprintf(str, "Font%d", db_idx);
 		if ((i == 17 && !mir_strcmp(szMod, CHATFONT_MODULE)) || ((i == 20 || i == 21) && !mir_strcmp(szMod, FONTMODULE))) {
 			lf->lfCharSet = SYMBOL_CHARSET;
 			wcsncpy_s(lf->lfFaceName, L"Webdings", _TRUNCATE);
@@ -225,7 +224,7 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 		else {
 			ptrW tszDefFace(db_get_wsa(0, szMod, str));
 			if (tszDefFace == nullptr)
-				wcsncpy_s(lf->lfFaceName, fol[j].szDefFace, _TRUNCATE);
+				wcsncpy_s(lf->lfFaceName, fol[i].szDefFace, _TRUNCATE);
 			else
 				wcsncpy_s(lf->lfFaceName, tszDefFace, _TRUNCATE);
 		}
@@ -484,7 +483,6 @@ static wchar_t* chatcolorsnames[] =
 
 void RegisterFontServiceFonts()
 {
-	char szTemp[100];
 	LOGFONT lf;
 	FontIDW fid = { 0 };
 	ColourIDW cid = { 0 };
@@ -497,8 +495,7 @@ void RegisterFontServiceFonts()
 	for (int i = 0; i < _countof(IM_fontOptionsList); i++) {
 		fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
 		LoadMsgDlgFont(FONTSECTION_IM, i, &lf, &fontOptionsList[i].colour, FONTMODULE);
-		mir_snprintf(szTemp, "Font%d", i);
-		strncpy(fid.prefix, szTemp, _countof(fid.prefix));
+		mir_snprintf(fid.prefix, "Font%d", i);
 		fid.order = i;
 		wcsncpy(fid.name, fontOptionsList[i].szDescr, _countof(fid.name));
 		fid.deffontsettings.colour = fontOptionsList[i].colour;
@@ -559,9 +556,8 @@ void RegisterFontServiceFonts()
 	wcsncpy(fid.backgroundGroup, LPGENW("Message Sessions") L"/" LPGENW("Info Panel"), _countof(fid.backgroundGroup));
 	wcsncpy(fid.backgroundName, LPGENW("Fields background"), _countof(fid.backgroundName));
 	for (int i = 0; i < IPFONTCOUNT; i++) {
-		LoadMsgDlgFont(FONTSECTION_IP, i + 100, &lf, &fontOptionsList[i].colour, FONTMODULE);
-		mir_snprintf(szTemp, "Font%d", i + 100);
-		strncpy(fid.prefix, szTemp, _countof(fid.prefix));
+		LoadMsgDlgFont(FONTSECTION_IP, i, &lf, &fontOptionsList[i].colour, FONTMODULE);
+		mir_snprintf(fid.prefix, "Font%d", i + 100);
 		fid.order = i + 100;
 		wcsncpy(fid.name, fontOptionsList[i].szDescr, _countof(fid.name));
 		fid.deffontsettings.colour = fontOptionsList[i].colour;
@@ -582,10 +578,9 @@ void RegisterFontServiceFonts()
 	wcsncpy(cid.group, LPGENW("Message Sessions") L"/" LPGENW("Group chats"), _countof(cid.group));
 	strncpy(cid.dbSettingsGroup, CHAT_MODULE, _countof(cid.dbSettingsGroup));
 	for (int i = 0; i <= 7; i++) {
-		mir_snprintf(szTemp, "NickColor%d", i);
+		mir_snprintf(cid.setting, "NickColor%d", i);
 		wcsncpy(cid.name, chatcolorsnames[i], _countof(cid.name));
 		cid.order = i + 1;
-		strncpy(cid.setting, szTemp, _countof(cid.setting));
 		switch (i) {
 		case 5:
 			cid.defcolour = GetSysColor(COLOR_HIGHLIGHT);

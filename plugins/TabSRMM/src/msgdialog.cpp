@@ -1227,7 +1227,7 @@ void CSrmmWindow::OnInitDialog()
 
 void CSrmmWindow::OnDestroy()
 {
-	memset((void*)&m_pContainer->mOld, -1000, sizeof(MARGINS));
+	m_pContainer->ClearMargins();
 	PostMessage(m_pContainer->hwnd, WM_SIZE, 0, 1);
 	if (m_pContainer->dwFlags & CNT_SIDEBAR)
 		m_pContainer->SideBar->removeSession(this);
@@ -3094,7 +3094,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_DWMCOMPOSITIONCHANGED:
 		BB_RefreshTheme();
-		memset((void*)&m_pContainer->mOld, -1000, sizeof(MARGINS));
+		m_pContainer->ClearMargins();
 		CProxyWindow::verify(this);
 		break;
 

@@ -119,7 +119,6 @@ int DbEventIsForMsgWindow(DBEVENTINFO *dbei);
 
 int   TSAPI InitOptions(void);
 int   TSAPI DbEventIsShown(DBEVENTINFO *dbei);
-void  TSAPI LoadLogfont(int i, LOGFONTA *lf, COLORREF *colour, char *szModule);
 
 // custom tab control
 

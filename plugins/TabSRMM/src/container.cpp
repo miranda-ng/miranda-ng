@@ -552,7 +552,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (pContainer->dwFlagsEx & TCF_FLAT)
 				ws |= TCS_BUTTONS;
 
-			memset((void*)&pContainer->mOld, -1000, sizeof(MARGINS));
+			pContainer->ClearMargins();
 
 			if (pContainer->dwFlagsEx & TCF_SINGLEROWTABCONTROL) {
 				ws &= ~TCS_MULTILINE;
@@ -888,19 +888,22 @@ panel_found:
 			}
 			switch (iSelection) {
 			case ID_TABMENU_CLOSETAB:
-				if (fFromSidebar)
+				if (fFromSidebar && dat)
 					SendMessage(dat->GetHwnd(), WM_CLOSE, 1, 0);
 				else
 					SendMessage(hwndDlg, DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
 				break;
 			case ID_TABMENU_CLOSEOTHERTABS:
-				CloseOtherTabs(hwndTab, *dat);
+				if (dat)
+					CloseOtherTabs(hwndTab, *dat);
 				break;
 			case ID_TABMENU_SAVETABPOSITION:
-				db_set_dw(dat->m_hContact, SRMSGMOD_T, "tabindex", dat->m_iTabID * 100);
+				if (dat)
+					db_set_dw(dat->m_hContact, SRMSGMOD_T, "tabindex", dat->m_iTabID * 100);
 				break;
 			case ID_TABMENU_CLEARSAVEDTABPOSITION:
-				db_unset(dat->m_hContact, SRMSGMOD_T, "tabindex");
+				if (dat)
+					db_unset(dat->m_hContact, SRMSGMOD_T, "tabindex");
 				break;
 			case ID_TABMENU_LEAVECHATROOM:
 				if (dat && dat->isChat() && dat->m_hContact) {
@@ -910,12 +913,12 @@ panel_found:
 				}
 				break;
 			case ID_TABMENU_ATTACHTOCONTAINER:
-				if ((iItem = GetTabItemFromMouse(hwndTab, &pt)) == -1)
-					break;
-				memset(&tci, 0, sizeof(tci));
-				tci.mask = TCIF_PARAM;
-				TabCtrl_GetItem(hwndTab, iItem, &tci);
-				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SELECTCONTAINER), hwndDlg, SelectContainerDlgProc, (LPARAM)tci.lParam);
+				if ((iItem = GetTabItemFromMouse(hwndTab, &pt)) != -1) {
+					memset(&tci, 0, sizeof(tci));
+					tci.mask = TCIF_PARAM;
+					TabCtrl_GetItem(hwndTab, iItem, &tci);
+					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SELECTCONTAINER), hwndDlg, SelectContainerDlgProc, (LPARAM)tci.lParam);
+				}
 				break;
 			case ID_TABMENU_CONTAINEROPTIONS:
 				if (pContainer->hWndOptions == 0)
@@ -1260,7 +1263,7 @@ panel_found:
 			break;
 		case SC_RESTORE:
 			pContainer->oldSize.cx = pContainer->oldSize.cy = 0;
-			memset((void*)&pContainer->mOld, -1000, sizeof(MARGINS));
+			pContainer->ClearMargins();
 			break;
 		case SC_MINIMIZE:
 			dat = (CTabBaseDlg*)(GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA));

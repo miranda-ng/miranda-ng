@@ -57,10 +57,10 @@ HIMAGELIST CreateStateImageList()
 	return himlStates;
 }
 
-void TSAPI LoadLogfont(int i, LOGFONTA * lf, COLORREF * colour, char *szModule)
+void LoadLogfont(int section, int i, LOGFONTA * lf, COLORREF * colour, char *szModule)
 {
 	LOGFONT lfResult;
-	LoadMsgDlgFont((i < 100) ? FONTSECTION_IM : FONTSECTION_IP, i, &lfResult, colour, szModule);
+	LoadMsgDlgFont(section, i, &lfResult, colour, szModule);
 	if (lf) {
 		lf->lfHeight = lfResult.lfHeight;
 		lf->lfWidth = lfResult.lfWidth;
