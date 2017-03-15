@@ -23,9 +23,9 @@ DWORD_PTR CSlackProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_1:
 		return PF1_IMSEND;
 	case PFLAGNUM_2:
-		return PF2_ONLINE;
+		return PF2_ONLINE | PF2_SHORTAWAY;
 	case PFLAGNUM_3:
-		return PF2_ONLINE;
+		return PF2_ONLINE | PF2_SHORTAWAY;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)"User Id";
 	case PFLAG_UNIQUEIDSETTING:
@@ -153,6 +153,9 @@ int CSlackProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam
 	{
 	case EV_PROTO_ONLOAD:
 		return OnAccountLoaded(wParam, lParam);
+
+	case EV_PROTO_ONERASE:
+		return OnAccountDeleted(wParam, lParam);
 
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);

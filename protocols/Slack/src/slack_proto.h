@@ -89,6 +89,7 @@ private:
 	static CSlackProto* GetContactAccount(MCONTACT hContact);
 
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
+	int __cdecl OnAccountDeleted(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
 
@@ -143,6 +144,8 @@ private:
 	int __cdecl OnPreCreateMessage(WPARAM wParam, LPARAM lParam);
 
 	// utils
+	static int SlackToMirandaStatus(const char *presence);
+
 	static void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 

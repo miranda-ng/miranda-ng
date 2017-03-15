@@ -51,6 +51,7 @@ struct CSlackProto;
 #include "slack_options.h"
 #include "slack_proto.h"
 
+#include "api\api_oauth.h"
 #include "api\api_users.h"
 #include "api\api_chat.h"
 #include "api\api_im.h"

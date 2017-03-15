@@ -22,16 +22,7 @@ void CSlackProto::Login()
 		return;
 	}
 
-	HttpRequest *request = new HttpRequest(HttpMethod::HttpPost, SLACK_API_URL "/oauth.access");
-	request->Headers
-		<< CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-	request->Content
-		<< CHAR_VALUE("client_id", SLACK_CLIENT_ID)
-		<< CHAR_VALUE("client_secret", SLACK_CLIENT_SECRET)
-		<< ENCODED_VALUE("code", oauth.GetAuthCode())
-		<< ENCODED_VALUE("redirect_uri", SLACK_REDIRECT_URL);
-
-	PushRequest(request, &CSlackProto::OnAuthorize);
+	PushRequest(new OAuhtAccessRequest(oauth.GetAuthCode()), &CSlackProto::OnAuthorize);
 }
 
 void CSlackProto::OnAuthorize(JSONNode &root, void*)

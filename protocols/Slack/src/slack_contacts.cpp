@@ -127,6 +127,9 @@ void CSlackProto::OnGotUserList(JSONNode &root, void*)
 			if (!status.IsEmpty())
 				setWString(hContact, "StatusMsg", status);
 
+			json_string presence = user["presence"].as_string();
+			SetContactStatus(hContact, SlackToMirandaStatus(presence.c_str()));
+
 			JSONNode profile = root["profile"].as_node();
 			OnGotUserProfile(hContact, profile);
 		}

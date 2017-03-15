@@ -37,6 +37,14 @@ int CSlackProto::OnAccountLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
+int CSlackProto::OnAccountDeleted(WPARAM, LPARAM)
+{
+	ptrA token(getStringA("TokenSecret"));
+	SendRequest(new AuthRevokeRequest(token));
+	
+	return 0;
+};
+
 INT_PTR CSlackProto::OnAccountManagerInit(WPARAM, LPARAM)
 {
 	return NULL;// (INT_PTR)(CSlackOptionsMain::CreateAccountManagerPage(this, (HWND)lParam))->GetHwnd();

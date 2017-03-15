@@ -1,5 +1,15 @@
 #include "stdafx.h"
 
+int CSlackProto::SlackToMirandaStatus(const char *presence)
+{
+	if (!mir_strcmpi(presence, "active"))
+		return ID_STATUS_ONLINE;
+	else if (!mir_strcmpi(presence, "away"))
+		return ID_STATUS_AWAY;
+	else
+		return ID_STATUS_OFFLINE;
+}
+
 void CSlackProto::ShowNotification(const TCHAR *caption, const TCHAR *message, int flags, MCONTACT hContact)
 {
 	if (Miranda_IsTerminated())

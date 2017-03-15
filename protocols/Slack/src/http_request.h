@@ -332,6 +332,7 @@ public:
 	{
 		cbSize = sizeof(NETLIBHTTPREQUEST);
 		requestType = method;
+		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPHEADERS;
 	}
 
 	~HttpRequest()
