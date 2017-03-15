@@ -285,8 +285,6 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 	case WINDOW_HIDDEN:
 		SetInitDone(si);
 		chatApi.SetActiveSession(si);
-		if (si->pDlg)
-			si->pDlg->CloseTab();
 		break;
 
 	case WINDOW_VISIBLE:
