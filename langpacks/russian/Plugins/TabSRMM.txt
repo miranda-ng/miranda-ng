@@ -698,7 +698,7 @@ Esc закрывает сессию (иначе - сворачивает)
 [Save tab position]
 Сохранить положение
 [Clear saved tab position]
-Очистить сохранённую
+Очистить сохранённое
 [Attach to container...]
 Присоединить к контейнеру...
 [Container options...]
