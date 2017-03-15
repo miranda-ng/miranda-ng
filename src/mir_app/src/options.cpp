@@ -226,9 +226,7 @@ struct OptionsPageData : public MZeroedObject
 	
 	~OptionsPageData()
 	{
-		// if a dialog has window, it will be killed by WM_CLOSE event
-		if (pDialog && !pDialog->GetHwnd())
-			delete pDialog;
+		delete pDialog;
 	}
 
 	CDlgBase *pDialog;

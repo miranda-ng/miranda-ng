@@ -67,6 +67,7 @@ CDlgBase::CDlgBase(HINSTANCE hInst, int idDialog)
 
 CDlgBase::~CDlgBase()
 {
+	m_initialized = false; // prevent double call of destructor 
 	if (m_hwnd)
 		DestroyWindow(m_hwnd);
 }
@@ -259,10 +260,12 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				arDialogs.remove(idx);
 		}
 		m_hwnd = NULL;
-		if (m_isModal)
-			m_isModal = false;
-		else // modeless dialogs MUST be allocated with 'new'
-			delete this;
+		if (m_initialized) {
+			if (m_isModal)
+				m_isModal = false;
+			else // modeless dialogs MUST be allocated with 'new'
+				delete this;
+		}
 
 		return TRUE;
 	}
