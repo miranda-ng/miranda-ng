@@ -1111,11 +1111,9 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				int i = GetTabItemFromMouse(hwnd, &pt);
 				if (i != -1) {
 					TCITEM tc;
-					CSrmmWindow *dat = nullptr;
-
 					tc.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwnd, i, &tc);
-					dat = (CSrmmWindow*)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
+					CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
 					if (dat) {
 						tabdat->bDragging = TRUE;
 						tabdat->iBeginIndex = i;

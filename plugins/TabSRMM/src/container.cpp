@@ -43,11 +43,12 @@ static bool fForceOverlayIcons = false;
 
 void TContainerData::UpdateTabs()
 {
-	int nTabs = TabCtrl_GetItemCount(hwnd);
+	HWND hwndTab = GetDlgItem(hwnd, IDC_MSGTABS);
+	int nTabs = TabCtrl_GetItemCount(hwndTab);
 	for (int i = 0; i < nTabs; i++) {
 		TCITEM tci;
 		tci.mask = TCIF_PARAM;
-		if (!TabCtrl_GetItem(hwnd, i, &tci))
+		if (!TabCtrl_GetItem(hwndTab, i, &tci))
 			continue;
 
 		CTabBaseDlg *dat = (CTabBaseDlg*)GetWindowLongPtr((HWND)tci.lParam, GWLP_USERDATA);
