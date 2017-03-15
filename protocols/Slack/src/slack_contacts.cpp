@@ -94,7 +94,7 @@ void CSlackProto::OnGotUserProfile(MCONTACT hContact, JSONNode &root)
 	setWString(hContact, "LastName", lastName);
 }
 
-void CSlackProto::OnGotUserList(JSONNode &root)
+void CSlackProto::OnGotUserList(JSONNode &root, void*)
 {
 	if (!root)
 	{

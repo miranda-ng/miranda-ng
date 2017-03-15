@@ -37,7 +37,7 @@ int CSlackProto::OnAccountLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR CSlackProto::OnAccountManagerInit(WPARAM, LPARAM lParam)
+INT_PTR CSlackProto::OnAccountManagerInit(WPARAM, LPARAM)
 {
-	return (INT_PTR)(CSlackOptionsMain::CreateAccountManagerPage(this, (HWND)lParam))->GetHwnd();
+	return NULL;// (INT_PTR)(CSlackOptionsMain::CreateAccountManagerPage(this, (HWND)lParam))->GetHwnd();
 }

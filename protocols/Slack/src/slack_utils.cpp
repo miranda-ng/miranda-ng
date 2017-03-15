@@ -1,10 +1,5 @@
 #include "stdafx.h"
 
-bool CSlackProto::IsOnline()
-{
-	return false;
-}
-
 void CSlackProto::ShowNotification(const TCHAR *caption, const TCHAR *message, int flags, MCONTACT hContact)
 {
 	if (Miranda_IsTerminated())

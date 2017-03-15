@@ -1,7 +1,8 @@
 #include "stdafx.h"
 
 CSlackProto::CSlackProto(const char* protoName, const TCHAR* userName) :
-	PROTO<CSlackProto>(protoName, userName), requestQueue(1)
+	PROTO<CSlackProto>(protoName, userName), requestQueue(1),
+	hMessageProcess(1)
 {
 	InitNetlib();
 
@@ -20,11 +21,11 @@ DWORD_PTR CSlackProto::GetCaps(int type, MCONTACT)
 	switch (type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM;
+		return PF1_IMSEND;
 	case PFLAGNUM_2:
-		return PF2_ONLINE | PF2_LONGAWAY;
+		return PF2_ONLINE;
 	case PFLAGNUM_3:
-		return PF2_ONLINE | PF2_LONGAWAY;
+		return PF2_ONLINE;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)"User Id";
 	case PFLAG_UNIQUEIDSETTING:
@@ -57,7 +58,21 @@ int CSlackProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 
 int CSlackProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 {
-	return OnSendMessage(hContact, flags, msg);
+	if (!IsOnline())
+	{
+		ForkThread(&CSlackProto::SendMessageAckThread, (void*)hContact);
+		return 1;
+	}
+
+	UINT hMessage = InterlockedIncrement(&hMessageProcess);
+
+	SendMessageParam *param = (SendMessageParam*)mir_calloc(sizeof(SendMessageParam));
+	param->hContact = hContact;
+	param->hMessage = hMessage;
+	param->message = mir_strdup(msg);
+	ForkThread(&CSlackProto::SendMessageThread, param);
+
+	return hMessage;
 }
 
 int CSlackProto::SetStatus(int iNewStatus)

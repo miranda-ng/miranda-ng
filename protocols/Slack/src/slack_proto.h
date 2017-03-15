@@ -6,13 +6,21 @@ struct CSlackProto : public PROTO<CSlackProto>
 	friend class CSlackOptionsMain;
 	friend class CSlackOAuth;
 
-	typedef void(CSlackProto::*HttpCallback)(HttpResponse&);
-	typedef void(CSlackProto::*JsonCallback)(JSONNode&);
+	typedef void(CSlackProto::*HttpCallback)(HttpResponse&, void*);
+	typedef void(CSlackProto::*JsonCallback)(JSONNode&, void*);
 	struct RequestQueueItem
 	{
 		HttpRequest *request;
 		HttpCallback httpCallback;
 		JsonCallback jsonCallback;
+		void *param;
+	};
+
+	struct SendMessageParam
+	{
+		MCONTACT hContact;
+		UINT hMessage;
+		char *message;
 	};
 
 public:
@@ -60,14 +68,15 @@ private:
 	HANDLE hRequestsQueueEvent;
 	HANDLE hRequestQueueThread;
 	LIST<RequestQueueItem> requestQueue;
+	ULONG hMessageProcess;
 
 	// requests
 	void SendRequest(HttpRequest *request);
-	void SendRequest(HttpRequest *request, HttpCallback callback);
-	void SendRequest(HttpRequest *request, JsonCallback callback);
+	void SendRequest(HttpRequest *request, HttpCallback callback, void *param = NULL);
+	void SendRequest(HttpRequest *request, JsonCallback callback, void *param = NULL);
 	void PushRequest(HttpRequest *request);
-	void PushRequest(HttpRequest *request, HttpCallback callback);
-	void PushRequest(HttpRequest *request, JsonCallback callback);
+	void PushRequest(HttpRequest *request, HttpCallback callback, void *param = NULL);
+	void PushRequest(HttpRequest *request, JsonCallback callback, void *param = NULL);
 	void __cdecl RequestQueueThread(void*);
 	
 	// network
@@ -90,7 +99,7 @@ private:
 	// login
 	void Login();
 	void LogOut();
-	void OnAuthorize(JSONNode &root);
+	void OnAuthorize(JSONNode &root, void*);
 
 	// icons
 	static IconItemT Icons[];
@@ -114,7 +123,7 @@ private:
 
 	void OnGotUserProfile(JSONNode &root);
 	void OnGotUserProfile(MCONTACT hContact, JSONNode &root);
-	void OnGotUserList(JSONNode &root);
+	void OnGotUserList(JSONNode &root, void*);
 
 	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl OnGrantAuth(WPARAM hContact, LPARAM);
@@ -123,7 +132,11 @@ private:
 
 	// messages
 	int OnReceiveMessage(MCONTACT hContact, PROTORECVEVENT *pre);
-	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
+
+	void OnMessageSent(JSONNode &root, void *arg);
+	void OnImChannelOppened(JSONNode &root, void *arg);
+	void __cdecl SendMessageThread(void*);
+	void __cdecl SendMessageAckThread(void*);
 
 	int OnUserIsTyping(MCONTACT hContact, int type);
 

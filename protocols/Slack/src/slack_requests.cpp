@@ -7,23 +7,23 @@ void CSlackProto::SendRequest(HttpRequest *request)
 	delete request;
 }
 
-void CSlackProto::SendRequest(HttpRequest *request, HttpCallback callback)
+void CSlackProto::SendRequest(HttpRequest *request, HttpCallback callback, void *param)
 {
 	NETLIBHTTPREQUEST *pResp = Netlib_HttpTransaction(m_hNetlibUser, (NETLIBHTTPREQUEST*)request);
 	HttpResponse response(request, pResp);
 	if (callback)
-		(this->*callback)(response);
+		(this->*callback)(response, param);
 	delete request;
 }
 
-void CSlackProto::SendRequest(HttpRequest *request, JsonCallback callback)
+void CSlackProto::SendRequest(HttpRequest *request, JsonCallback callback, void *param)
 {
 	NETLIBHTTPREQUEST *pResp = Netlib_HttpTransaction(m_hNetlibUser, (NETLIBHTTPREQUEST*)request);
 	HttpResponse response(request, pResp);
 	if (callback)
 	{
 		JSONNode root = JSONNode::parse(response.Content);
-		(this->*callback)(root);
+		(this->*callback)(root, param);
 	}
 	delete request;
 }
@@ -39,11 +39,12 @@ void CSlackProto::PushRequest(HttpRequest *request)
 	SetEvent(hRequestsQueueEvent);
 }
 
-void CSlackProto::PushRequest(HttpRequest *request, HttpCallback callback)
+void CSlackProto::PushRequest(HttpRequest *request, HttpCallback callback, void *param)
 {
 	RequestQueueItem *item = new RequestQueueItem();
 	item->request = request;
 	item->httpCallback = callback;
+	item->param = param;
 	{
 		mir_cslock lock(requestQueueLock);
 		requestQueue.insert(item);
@@ -51,11 +52,12 @@ void CSlackProto::PushRequest(HttpRequest *request, HttpCallback callback)
 	SetEvent(hRequestsQueueEvent);
 }
 
-void CSlackProto::PushRequest(HttpRequest *request, JsonCallback callback)
+void CSlackProto::PushRequest(HttpRequest *request, JsonCallback callback, void *param)
 {
 	RequestQueueItem *item = new RequestQueueItem();
 	item->request = request;
 	item->jsonCallback = callback;
+	item->param = param;
 	{
 		mir_cslock lock(requestQueueLock);
 		requestQueue.insert(item);
@@ -81,9 +83,9 @@ void CSlackProto::RequestQueueThread(void*)
 				requestQueue.remove(0);
 			}
 			if (item->httpCallback)
-				SendRequest(item->request, item->httpCallback);
+				SendRequest(item->request, item->httpCallback, item->param);
 			else if (item->jsonCallback)
-				SendRequest(item->request, item->jsonCallback);
+				SendRequest(item->request, item->jsonCallback, item->param);
 			else
 				SendRequest(item->request);
 			delete item;

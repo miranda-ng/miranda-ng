@@ -1,5 +1,10 @@
 #include "stdafx.h"
 
+bool CSlackProto::IsOnline()
+{
+	return !isTerminated && m_iStatus > ID_STATUS_OFFLINE;
+}
+
 void CSlackProto::Login()
 {
 	ptrA token(getStringA("TokenSecret"));
@@ -29,7 +34,7 @@ void CSlackProto::Login()
 	PushRequest(request, &CSlackProto::OnAuthorize);
 }
 
-void CSlackProto::OnAuthorize(JSONNode &root)
+void CSlackProto::OnAuthorize(JSONNode &root, void*)
 {
 	if (!root)
 	{
@@ -56,7 +61,7 @@ void CSlackProto::OnAuthorize(JSONNode &root)
 
 	CMStringW teamName = root["team_name"].as_mstring();
 	setWString("TeamName", teamName);
-	if (!teamName.IsEmpty() > 0 && !Clist_GroupExists(teamName))
+	if (!teamName.IsEmpty() && !Clist_GroupExists(teamName))
 		Clist_GroupCreate(0, teamName);
 
 	json_string teamId = root["team_id"].as_string();

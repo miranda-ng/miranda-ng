@@ -52,6 +52,8 @@ struct CSlackProto;
 #include "slack_proto.h"
 
 #include "api\api_users.h"
+#include "api\api_chat.h"
+#include "api\api_im.h"
 
 extern HINSTANCE g_hInstance;
 
