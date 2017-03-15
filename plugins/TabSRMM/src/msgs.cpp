@@ -270,7 +270,7 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case DM_STATUSBARCHANGED:
-		UpdateStatusBar();
+		tabUpdateStatusBar();
 		break;
 
 	case DM_CHECKAUTOHIDE:
@@ -335,7 +335,7 @@ static void SetStatusTextWorker(CTabBaseDlg *dat, StatusTextData *st)
 	if (st != nullptr && st->cbSize == sizeof(StatusTextData))
 		dat->m_sbCustom = new StatusTextData(*st);
 
-	dat->UpdateStatusBar();
+	dat->tabUpdateStatusBar();
 }
 
 static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)

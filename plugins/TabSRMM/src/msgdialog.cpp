@@ -312,7 +312,7 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 	m_pContainer->hIconTaskbarOverlay = 0;
 	m_pContainer->UpdateTitle(m_hContact);
 
-	UpdateStatusBar();
+	tabUpdateStatusBar();
 	m_dwLastActivity = GetTickCount();
 	m_pContainer->dwLastActivity = m_dwLastActivity;
 
@@ -2915,7 +2915,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (m_pPanel.isActive())
 			m_pPanel.Invalidate();
 		if (m_pContainer->dwFlags & CNT_UINSTATUSBAR)
-			UpdateStatusBar();
+			tabUpdateStatusBar();
 		return 0;
 
 	case EM_THEMECHANGED:

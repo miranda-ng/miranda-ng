@@ -1089,7 +1089,7 @@ void CTabBaseDlg::DM_Typing(bool fForceOff)
 			m_wszStatusBar[0] = 0;
 			m_bShowTyping = 0;
 		}
-		UpdateStatusBar();
+		tabUpdateStatusBar();
 	}
 	else if (m_nTypeSecs > 0) {
 		mir_snwprintf(m_wszStatusBar, TranslateT("%s is typing a message"), m_cache->getNick());
