@@ -174,8 +174,8 @@ int CToxProto::SetStatus(int iNewStatus)
 	if (old_status == ID_STATUS_OFFLINE && !IsOnline())
 	{
 		// login
+		isTerminated = false;
 		m_iStatus = ID_STATUS_CONNECTING;
-
 		hPollingThread = ForkThreadEx(&CToxProto::PollingThread, NULL, NULL);
 	}
 	else

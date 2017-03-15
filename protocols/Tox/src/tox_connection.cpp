@@ -123,6 +123,7 @@ void CToxProto::PollingThread(void*)
 
 	UninitToxCore(toxThread.Tox());
 	this->toxThread = NULL;
+	hPollingThread = NULL;
 
 	debugLogA(__FUNCTION__": leaving");
 }
