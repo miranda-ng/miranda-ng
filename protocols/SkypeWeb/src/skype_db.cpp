@@ -128,7 +128,11 @@ MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *
 
 
 	}
-	db_event_delete(hContact, hEvent);	
+	// First force old event to be read, so it won't be stuck forever because of theoretical bug in DB driver
+	db_event_markRead(hContact, hEvent);
+	// Only then delete the original event
+	db_event_delete(hContact, hEvent);
+	// Finally add new edited event, but with original event's properties (including flags)
 	return AddDbEvent(SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE, hContact, dbei.timestamp, dbei.flags, jMsg.write().c_str(), szUid);
 }
 
