@@ -701,7 +701,7 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 	m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 	pf2.wEffects = 0;
 	m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-	m_log.SendMsg(EM_SETLANGOPTIONS, 0, SendDlgItemMessage(m_hwnd, IDC_LOG, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
+	m_log.SendMsg(EM_SETLANGOPTIONS, 0, m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 
 	SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 	SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);

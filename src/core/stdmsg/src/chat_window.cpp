@@ -894,12 +894,12 @@ void CChatRoomDlg::OnInitDialog()
 	mir_subclassWindow(m_nickList.GetHwnd(), NicklistSubclassProc);
 
 	m_message.SendMsg(EM_SUBCLASSED, 0, LPARAM(m_si));
-	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_AUTOURLDETECT, 1, 0);
+	m_log.SendMsg(EM_AUTOURLDETECT, 1, 0);
 
-	int mask = (int)SendDlgItemMessage(m_hwnd, IDC_LOG, EM_GETEVENTMASK, 0, 0);
-	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_SETEVENTMASK, 0, mask | ENM_LINK | ENM_MOUSEEVENTS);
-	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
-	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
+	int mask = (int)m_log.SendMsg(EM_GETEVENTMASK, 0, 0);
+	m_log.SendMsg(EM_SETEVENTMASK, 0, mask | ENM_LINK | ENM_MOUSEEVENTS);
+	m_log.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
+	m_log.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 
 	DWORD dwFlags = WS_CHILD | WS_VISIBLE | SBT_TOOLTIPS;
 	if (!g_Settings.bTabsEnable)
@@ -908,7 +908,7 @@ void CChatRoomDlg::OnInitDialog()
 	m_hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, nullptr, dwFlags, 0, 0, 0, 0, m_hwnd, nullptr, g_hInst, nullptr);
 	SendMessage(m_hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
 
-	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_HIDESELECTION, TRUE, 0);
+	m_log.SendMsg(EM_HIDESELECTION, TRUE, 0);
 
 	UpdateOptions();
 	UpdateStatusBar();
@@ -1016,7 +1016,7 @@ void CChatRoomDlg::OnClick_Filter(CCtrlButton *pButton)
 		return;
 
 	m_bFilterEnabled = !m_bFilterEnabled;
-	SendDlgItemMessage(m_hwnd, IDC_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(m_bFilterEnabled ? "filter" : "filter2", FALSE));
+	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(m_bFilterEnabled ? "filter" : "filter2", FALSE));
 	if (m_bFilterEnabled && db_get_b(0, CHAT_MODULE, "RightClickFilter", 0) == 0)
 		ShowFilterMenu();
 	else
@@ -1091,7 +1091,7 @@ void CChatRoomDlg::OnListDblclick(CCtrlListBox*)
 	hti.pt.y = (short)HIWORD(GetMessagePos());
 	ScreenToClient(m_nickList.GetHwnd(), &hti.pt);
 
-	int item = LOWORD(SendDlgItemMessage(m_hwnd, IDC_LIST, LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
+	int item = LOWORD(m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
 	USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, item);
 	if (ui == nullptr)
 		return;
@@ -1247,7 +1247,7 @@ void CChatRoomDlg::ScrollToBottom()
 	SetScrollInfo(m_log.GetHwnd(), SB_VERT, &scroll, TRUE);
 
 	sel.cpMin = sel.cpMax = GetRichTextLength(m_log.GetHwnd());
-	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);
+	m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 	PostMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
 }
 
@@ -1263,9 +1263,9 @@ void CChatRoomDlg::ShowFilterMenu()
 
 void CChatRoomDlg::UpdateNickList()
 {
-	int i = SendDlgItemMessage(m_hwnd, IDC_LIST, LB_GETTOPINDEX, 0, 0);
-	SendDlgItemMessage(m_hwnd, IDC_LIST, LB_SETCOUNT, m_si->nUsersInNicklist, 0);
-	SendDlgItemMessage(m_hwnd, IDC_LIST, LB_SETTOPINDEX, i, 0);
+	int i = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
+	m_nickList.SendMsg(LB_SETCOUNT, m_si->nUsersInNicklist, 0);
+	m_nickList.SendMsg(LB_SETTOPINDEX, i, 0);
 
 	UpdateTitle();
 }
@@ -1297,7 +1297,7 @@ void CChatRoomDlg::UpdateOptions()
 
 	Window_SetIcon_IcoLib(getCaptionWindow(), GetIconHandle("window"));
 
-	SendDlgItemMessage(m_hwnd, IDC_LOG, EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
+	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
 
 	CHARFORMAT2 cf;
 	cf.cbSize = sizeof(CHARFORMAT2);
@@ -1320,7 +1320,7 @@ void CChatRoomDlg::UpdateOptions()
 	if (g_Settings.bShowContactStatus)
 		font = font > 16 ? font : 16;
 
-	SendDlgItemMessage(m_hwnd, IDC_LIST, LB_SETITEMHEIGHT, 0, height > font ? height : font);
+	m_nickList.SendMsg(LB_SETITEMHEIGHT, 0, height > font ? height : font);
 	InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
 
 	SendMessage(m_hwnd, WM_SIZE, 0, 0);
@@ -1567,12 +1567,12 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				// fixing stuff for searches
 				POINTL ptl = { (LONG)pt.x, (LONG)pt.y };
 				ScreenToClient(m_log.GetHwnd(), (LPPOINT)&ptl);
-				long iCharIndex = SendDlgItemMessage(m_hwnd, IDC_LOG, EM_CHARFROMPOS, 0, (LPARAM)&ptl);
+				long iCharIndex = m_log.SendMsg(EM_CHARFROMPOS, 0, (LPARAM)&ptl);
 				if (iCharIndex < 0)
 					break;
 
-				long start = SendDlgItemMessage(m_hwnd, IDC_LOG, EM_FINDWORDBREAK, WB_LEFT, iCharIndex);//-iChars;
-				long end = SendDlgItemMessage(m_hwnd, IDC_LOG, EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);//-iChars;
+				long start = m_log.SendMsg(EM_FINDWORDBREAK, WB_LEFT, iCharIndex);//-iChars;
+				long end = m_log.SendMsg(EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);//-iChars;
 
 				wchar_t pszWord[4096]; pszWord[0] = '\0';
 				if (end - start > 0) {
@@ -1580,7 +1580,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					tr.lpstrText = pszWord;
 					tr.chrg.cpMin = start;
 					tr.chrg.cpMax = end;
-					long iRes = SendDlgItemMessage(m_hwnd, IDC_LOG, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+					long iRes = m_log.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 					if (pszWord[0] == 0)
 						break;
 					if (iRes > 0)
@@ -1649,7 +1649,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				POINT p;
 				GetCursorPos(&p);
 				ScreenToClient(m_nickList.GetHwnd(), &p);
-				int item = LOWORD(SendDlgItemMessage(m_hwnd, IDC_LIST, LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y)));
+				int item = LOWORD(m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y)));
 				USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
 				if (ui != nullptr) {
 					static wchar_t ptszBuf[1024];
