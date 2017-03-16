@@ -68,7 +68,7 @@ MEVENT CSkypeProto::AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DW
 		return hDbEvent;
 	size_t messageLength = mir_strlen(content) + 1;
 	size_t messageIdLength = mir_strlen(uid);
-	size_t cbBlob = messageLength + messageIdLength;
+	size_t cbBlob = messageLength + messageIdLength + 1;
 	PBYTE pBlob = (PBYTE)mir_alloc(cbBlob);
 	memcpy(pBlob, content, messageLength);
 	memcpy(pBlob + messageLength, uid, messageIdLength);
