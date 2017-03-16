@@ -119,8 +119,6 @@ class CSrmmWindow : public CScriverWindow
 	int    m_iSendAllConfirm;
 	HICON  m_hStatusIcon, m_hStatusIconBig, m_hStatusIconOverlay;
 
-	InfobarWindowData *m_pInfobarData;
-
 	void   GetContactUniqueId(char *buf, int maxlen);
 	HICON  GetTabIcon();
 	void   GetTitlebarIcon(struct TitleBarData *tbd);
@@ -134,6 +132,14 @@ class CSrmmWindow : public CScriverWindow
 	bool   IsTypingNotificationEnabled();
 	bool   IsTypingNotificationSupported();
 	void   NotifyTyping(int mode);
+
+public:  // info bar support
+	HWND   m_hwndInfo;
+	HWND   m_hXStatusTip;
+
+	void   CreateInfobar();
+	void   SetupInfobar();
+	void   RefreshInfobar();
 
 public:
 	char *m_szProto;

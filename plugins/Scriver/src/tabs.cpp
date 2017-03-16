@@ -688,7 +688,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			dat->hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, nullptr, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, hwndDlg, nullptr, g_hInst, nullptr);
 			dat->isChat = newData->isChat;
 			SendMessage(dat->hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
-			//SetupStatusBar(dat);
+			SetupStatusBar(dat);
 			dat->hwndTabs = GetDlgItem(hwndDlg, IDC_TABS);
 			dat->hwndActive = nullptr;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
@@ -719,6 +719,8 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 
 			if (!savePerContact && db_get_b(0, SRMMMOD, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE))
 				WindowList_Broadcast(g_dat.hParentWindowList, DM_CASCADENEWWINDOW, (WPARAM)hwndDlg, (LPARAM)&dat->windowWasCascaded);
+
+			PostMessage(hwndDlg, WM_SIZE, 0, 0);
 
 			HMENU hMenu = GetSystemMenu(hwndDlg, FALSE);
 			InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr);

@@ -111,7 +111,6 @@ int OptInitialise(WPARAM wParam, LPARAM lParam);
 int FontServiceFontsChanged(WPARAM wParam, LPARAM lParam);
 int StatusIconPressed(WPARAM wParam, LPARAM lParam);
 
-#include "infobar.h"
 #include "cmdlist.h"
 #include "sendqueue.h"
 #include "msgs.h"

@@ -156,9 +156,9 @@ void CSrmmWindow::SetDialogToType()
 
 	ParentWindowData *pdat = m_pParent;
 	if (pdat->flags2 & SMF2_SHOWINFOBAR)
-		ShowWindow(m_pInfobarData->hWnd, SW_SHOW);
+		ShowWindow(m_hwndInfo, SW_SHOW);
 	else
-		ShowWindow(m_pInfobarData->hWnd, SW_HIDE);
+		ShowWindow(m_hwndInfo, SW_HIDE);
 
 	ShowWindow(m_message.GetHwnd(), SW_SHOW);
 	if (m_hwndIeview != nullptr)
@@ -416,9 +416,6 @@ static void SubclassLogEdit(HWND hwnd)
 
 void CSrmmWindow::MessageDialogResize(int w, int h)
 {
-	if (!m_pInfobarData)
-		return;
-
 	ParentWindowData *pdat = m_pParent;
 	bool bToolbar = (pdat->flags2 & SMF2_SHOWTOOLBAR) != 0;
 	int hSplitterPos = pdat->iSplitterY, toolbarHeight = (bToolbar) ? m_toolbarSize.cy : 0;
@@ -477,7 +474,7 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 	int logH = h - hSplitterPos - toolbarHeight - infobarInnerHeight;
 
 	HDWP hdwp = BeginDeferWindowPos(5);
-	hdwp = DeferWindowPos(hdwp, m_pInfobarData->hWnd, 0, 1, 0, w - 2, infobarInnerHeight - 2, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_hwndInfo, 0, 1, 0, w - 2, infobarInnerHeight - 2, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, m_log.GetHwnd(), 0, 1, logY, w - 2, logH, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), 0, 1, h - hSplitterPos + SPLITTER_HEIGHT, messageEditWidth, hSplitterPos - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_AVATAR), 0, w - avatarWidth - 1, h - (avatarHeight + avatarWidth) / 2 - 1, avatarWidth, avatarWidth, SWP_NOZORDER);
@@ -501,7 +498,7 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 
 	RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 
-	RefreshInfobar(m_pInfobarData);
+	RefreshInfobar();
 
 	RedrawWindow(GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, nullptr, RDW_INVALIDATE);
 }
@@ -529,7 +526,7 @@ void CSrmmWindow::ShowAvatar()
 	m_hbmpAvatarPic = (m_ace != nullptr && (m_ace->dwFlags & AVS_HIDEONCLIST) == 0) ? m_ace->hbmPic : nullptr;
 	SendMessage(m_hwnd, WM_SIZE, 0, 0);
 
-	RefreshInfobar(m_pInfobarData);
+	RefreshInfobar();
 
 	RedrawWindow(GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, nullptr, RDW_INVALIDATE);
 }
@@ -755,7 +752,8 @@ void CSrmmWindow::OnInitDialog()
 	m_log.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
 	SubclassLogEdit(m_log.GetHwnd());
 	SubclassMessageEdit(m_message.GetHwnd());
-	m_pInfobarData = CreateInfobar(m_hwnd, this);
+	CreateInfobar();
+	
 	if (m_bUseIEView) {
 		IEVIEWWINDOW ieWindow = { sizeof(IEVIEWWINDOW) };
 		ieWindow.iType = IEW_CREATE;
@@ -1321,7 +1319,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		SendMessage(m_hwnd, DM_UPDATETABCONTROL, 0, 0);
 		UpdateStatusBar();
 		m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
-		SetupInfobar(m_pInfobarData);
+		SetupInfobar();
 		break;
 
 	case DM_USERNAMETOCLIP:
