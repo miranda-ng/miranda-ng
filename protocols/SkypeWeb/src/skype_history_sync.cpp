@@ -60,7 +60,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		if (timestamp > db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0))
 			db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
 
-		int iFlags = DBEF_UTF;
+		DWORD iFlags = DBEF_UTF;
 
 		if (!markAllAsUnread)
 			iFlags |= DBEF_READ;
