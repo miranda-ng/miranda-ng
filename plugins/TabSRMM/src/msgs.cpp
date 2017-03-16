@@ -699,10 +699,10 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 
 	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
-	if (M.GetByte("tabstatus", 1))
-		mir_snwprintf(tabtitle, L"%s (%s)  ", newcontactname, szStatus);
+	if (PluginConfig.m_bStatusOnTabs)
+		mir_snwprintf(tabtitle, L"%s (%s)", newcontactname, szStatus);
 	else
-		mir_snwprintf(tabtitle, L"%s   ", newcontactname);
+		mir_snwprintf(tabtitle, L"%s", newcontactname);
 
 	HWND hwndTab = GetDlgItem(pContainer->hwnd, IDC_MSGTABS);
 	// hide the active tab

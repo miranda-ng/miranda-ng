@@ -511,13 +511,11 @@ struct TOldContainerSettings
 
 int Utils::ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey)
 {
-	memcpy(cs, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
-
 	CMStringA szSetting(szKey ? szKey : CNT_KEYNAME);
-	cs->iSplitterX = db_get_dw(0, SRMSGMOD_T, szSetting + "_SplitterX", -1);
-	if (cs->iSplitterX == -1) { // nothing? try the old format
+	int iSplitterX = db_get_dw(0, SRMSGMOD_T, szSetting + "_SplitterX", -1);
+	if (iSplitterX == -1) { // nothing? try the old format
 		DBVARIANT dbv = { 0 };
-		if (0 == db_get(hContact, SRMSGMOD_T, szSetting, &dbv)) {
+		if (0 == db_get(hContact, SRMSGMOD_T, szSetting + "_Blob", &dbv)) {
 			TOldContainerSettings oldBin = {};
 			if (dbv.type == DBVT_BLOB && dbv.cpbVal > 0 && dbv.cpbVal <= sizeof(oldBin)) {
 				::memcpy(&oldBin, (void*)dbv.pbVal, dbv.cpbVal);
@@ -528,10 +526,12 @@ int Utils::ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettin
 				if (szKey == nullptr)
 					cs->iSplitterX = db_get_dw(0, CHAT_MODULE, "SplitterX", 150);
 				cs->iSplitterY = oldBin.iSplitterY;
+				cs->iSplitterX = 35;
 				wcsncpy_s(cs->szTitleFormat, oldBin.szTitleFormat, _TRUNCATE);
 				cs->avatarMode = oldBin.avatarMode;
 				cs->ownAvatarMode = oldBin.ownAvatarMode;
 				cs->autoCloseSeconds = oldBin.autoCloseSeconds;
+				cs->fPrivate = oldBin.fPrivate != 0;
 				WriteContainerSettingsToDB(hContact, cs, szKey);
 				db_unset(hContact, SRMSGMOD_T, szSetting);
 				::db_free(&dbv);
@@ -547,10 +547,12 @@ int Utils::ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettin
 	cs->dwFlagsEx = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_FlagsEx", 0);
 	cs->dwTransparency = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_Transparency", 0);
 	cs->panelheight = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_PanelY", 0);
+	cs->iSplitterX = iSplitterX;
 	cs->iSplitterY = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_SplitterY", 0);
 	cs->avatarMode = db_get_w(hContact, SRMSGMOD_T, szSetting + "_AvatarMode", 0);
 	cs->ownAvatarMode = db_get_w(hContact, SRMSGMOD_T, szSetting + "_OwnAvatarMode", 0);
 	cs->autoCloseSeconds = db_get_w(hContact, SRMSGMOD_T, szSetting + "_AutoCloseSecs", 0);
+	cs->fPrivate = db_get_b(hContact, SRMSGMOD_T, szSetting + "_Private", 0) != 0;
 	db_get_wstatic(hContact, SRMSGMOD_T, szSetting + "_Format", cs->szTitleFormat, _countof(cs->szTitleFormat));
 	return 0;
 }
@@ -568,6 +570,7 @@ int Utils::WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSetting
 	db_set_w(hContact, SRMSGMOD_T, szSetting + "_AvatarMode", cs->avatarMode);
 	db_set_w(hContact, SRMSGMOD_T, szSetting + "_OwnAvatarMode", cs->ownAvatarMode);
 	db_set_w(hContact, SRMSGMOD_T, szSetting + "_AutoCloseSecs", cs->autoCloseSeconds);
+	db_set_b(hContact, SRMSGMOD_T, szSetting + "_Private", cs->fPrivate);
 	return 0;
 }
 
@@ -596,14 +599,15 @@ void Utils::ContainerToSettings(TContainerData *pContainer)
 void Utils::ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce)
 {
 	char szCname[50];
-	TContainerSettings csTemp = { 0 };
+	TContainerSettings csTemp;
+	memcpy(&csTemp, &PluginConfig.globalContainerSettings, sizeof(csTemp));
 
-	mir_snprintf(szCname, "%s%d_Blob", CNT_BASEKEYNAME, pContainer->iContainerIndex);
+	mir_snprintf(szCname, "%s%d", CNT_BASEKEYNAME, pContainer->iContainerIndex);
 	Utils::ReadContainerSettingsFromDB(0, &csTemp, szCname);
 	if (csTemp.fPrivate || fForce) {
-		if (pContainer->settings == 0 || pContainer->settings == &PluginConfig.globalContainerSettings)
-			pContainer->settings = (TContainerSettings *)mir_alloc(sizeof(TContainerSettings));
-		memcpy((void*)pContainer->settings, (void*)&csTemp, sizeof(TContainerSettings));
+		if (pContainer->settings == nullptr || pContainer->settings == &PluginConfig.globalContainerSettings)
+			pContainer->settings = (TContainerSettings *)mir_alloc(sizeof(csTemp));
+		memcpy(pContainer->settings, &csTemp, sizeof(csTemp));
 		pContainer->settings->fPrivate = true;
 	}
 	else pContainer->settings = &PluginConfig.globalContainerSettings;
@@ -615,7 +619,7 @@ void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSett
 
 	pContainer->dwFlags &= ~(CNT_DEFERREDCONFIGURE | CNT_CREATE_MINIMIZED | CNT_DEFERREDSIZEREQUEST | CNT_CREATE_CLONED);
 	if (pContainer->settings->fPrivate) {
-		mir_snprintf(szCName, "%s%d_Blob", szSetting, pContainer->iContainerIndex);
+		mir_snprintf(szCName, "%s%d", szSetting, pContainer->iContainerIndex);
 		WriteContainerSettingsToDB(0, pContainer->settings, szCName);
 	}
 	mir_snprintf(szCName, "%s%d_theme", szSetting, pContainer->iContainerIndex);

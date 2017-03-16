@@ -252,35 +252,35 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_CNTPRIVATE:
-			{
-
-				if (IsDlgButtonChecked(hwndDlg, IDC_CNTPRIVATE)) {
-					Utils::ReadPrivateContainerSettings(pContainer, true);
-					pContainer->settings->fPrivate = true;
-				}
-				else {
-					if (pContainer->settings != &PluginConfig.globalContainerSettings) {
-						char szCname[40];
-						mir_snprintf(szCname, "%s%d_Blob", CNT_BASEKEYNAME, pContainer->iContainerIndex);
-						Utils::WriteContainerSettingsToDB(0, pContainer->settings, szCname);
-						mir_free(pContainer->settings);
-					}
-					pContainer->settings = &PluginConfig.globalContainerSettings;
-					pContainer->settings->fPrivate = false;
-				}
-				SendMessage(hwndDlg, DM_SC_INITDIALOG, 0, (LPARAM)pContainer->settings);
-				goto do_apply;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CNTPRIVATE)) {
+				Utils::ReadPrivateContainerSettings(pContainer, true);
+				pContainer->settings->fPrivate = true;
 			}
+			else {
+				if (pContainer->settings != &PluginConfig.globalContainerSettings) {
+					char szCname[40];
+					mir_snprintf(szCname, "%s%d", CNT_BASEKEYNAME, pContainer->iContainerIndex);
+					Utils::WriteContainerSettingsToDB(0, pContainer->settings, szCname);
+					mir_free(pContainer->settings);
+				}
+				pContainer->settings = &PluginConfig.globalContainerSettings;
+				pContainer->settings->fPrivate = false;
+			}
+			SendMessage(hwndDlg, DM_SC_INITDIALOG, 0, (LPARAM)pContainer->settings);
+			goto do_apply;
+
 		case IDC_TRANSPARENCY:
 			{
 				bool isTrans = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY) != 0;
 				Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_ACTIVE, isTrans);
 				Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_INACTIVE, isTrans);
-				goto do_apply;
 			}
+			goto do_apply;
+
 		case IDC_SECTIONTREE:
 		case IDC_DESC:
 			return 0;
+
 		case IDC_SAVESIZEASGLOBAL:
 			{
 				WINDOWPLACEMENT wp = { 0 };
@@ -297,14 +297,15 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		case IDC_O_ENABLESOUNDS:
 			SendMessage(hwndDlg, DM_SC_CONFIG, 0, 0);
 			break;
+
 		case IDC_TITLEFORMAT:
 			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
 				return TRUE;
 			goto do_apply;
+
 		case IDC_SELECTTHEME:
 			{
 				const wchar_t *szFileName = GetThemeFileName(0);
-
 				if (PathFileExists(szFileName)) {
 					SetDlgItemText(hwndDlg, IDC_THEME, szFileName);
 					goto do_apply;

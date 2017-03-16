@@ -1366,10 +1366,8 @@ void CSrmmWindow::UpdateTitle()
 			}
 			else wcsncpy_s(newtitle, L"Forward", _TRUNCATE);
 
-			if (mir_wstrcmp(newtitle, m_wszTitle)) {
+			if (mir_wstrcmp(newtitle, m_wszTitle))
 				bChanged = true;
-				item.mask |= TCIF_TEXT;
-			}
 
 			SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 
@@ -1390,6 +1388,7 @@ void CSrmmWindow::UpdateTitle()
 
 	if (m_idle != dwOldIdle || bChanged) {
 		if (bChanged) {
+			item.mask |= TCIF_TEXT;
 			item.pszText = m_wszTitle;
 			wcsncpy_s(m_wszTitle, newtitle, _TRUNCATE);
 			if (m_pWnd)
