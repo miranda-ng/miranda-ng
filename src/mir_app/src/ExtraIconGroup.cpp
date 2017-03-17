@@ -123,7 +123,7 @@ int ExtraIconGroup::setIconByName(int id, MCONTACT hContact, const char *value)
 int ExtraIconGroup::internalSetIcon(int id, MCONTACT hContact, void *value, bool bByName)
 {
 	if (m_insideApply) {
-		for (int i=0; i < m_items.getCount(); i++)
+		for (int i = 0; i < m_items.getCount(); i++)
 			if (m_items[i]->getID() == id) {
 				if (bByName)
 					return m_items[i]->setIconByName(id, hContact, (const char*)value);
@@ -136,7 +136,7 @@ int ExtraIconGroup::internalSetIcon(int id, MCONTACT hContact, void *value, bool
 	ExtraIcon *current = getCurrentItem(hContact);
 	int currentPos = m_items.getCount();
 	int storePos = m_items.getCount();
-	for (int i=0; i < m_items.getCount(); i++) {
+	for (int i = 0; i < m_items.getCount(); i++) {
 		if (m_items[i]->getID() == id)
 			storePos = i;
 

@@ -31,7 +31,7 @@ void AddFilterString(const PageHash key, wchar_t *data)
 {
 	if (ContainsFilterString(key, data)) return;
 
-	CPageKeywords * values = filterStrings[key];
+	CPageKeywords *values = filterStrings[key];
 	if (values == nullptr) {
 		values = new CPageKeywords(key);
 		filterStrings.insert(values);
@@ -46,16 +46,16 @@ void ClearFilterStrings()
 
 BOOL ContainsFilterString(const PageHash key, wchar_t *data)
 {
-	CPageKeywords* values = filterStrings[key];
+	CPageKeywords *values = filterStrings[key];
 	return (values) ? values->ContainsString(data) : FALSE;
 }
 
 void AddTreeViewNodes(HWND hWndDlg, PageHash key, HTREEITEM root)
 {
 	if (root) {
-		wchar_t title[2048] = {0};
+		wchar_t title[2048] = { 0 };
 
-		TVITEM item = {0};
+		TVITEM item = { 0 };
 		item.mask = TVIF_TEXT;
 		item.hItem = root;
 		item.pszText = title;
@@ -94,7 +94,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 	if (mir_wstrcmpi(szClass, L"listbox") == 0) {
 		if (GetWindowStyle(hWndDlg) & LBS_HASSTRINGS) {
 			int count = ListBox_GetCount(hWndDlg);
-			for (int i=0; i < count; i++) {
+			for (int i = 0; i < count; i++) {
 				title[0] = 0; //safety
 				int res = ListBox_GetText(hWndDlg, i, title);
 				if (res != LB_ERR) {
@@ -109,7 +109,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 
 	if (mir_wstrcmpi(szClass, L"SysListView32") == 0) {
 		int count = ListView_GetItemCount(hWndDlg);
-		for (int i=0; i < count; i++) {
+		for (int i = 0; i < count; i++) {
 			title[0] = 0; //safety
 			ListView_GetItemText(hWndDlg, i, 0, title, _countof(title));
 
@@ -122,7 +122,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 	if (mir_wstrcmpi(szClass, L"combobox") == 0) {
 		if (GetWindowStyle(hWndDlg) & CBS_HASSTRINGS) {
 			int count = ComboBox_GetCount(hWndDlg);
-			for (int i=0; i < count; i++) {
+			for (int i = 0; i < count; i++) {
 				title[0] = 0; //safety
 				int res = ComboBox_GetLBText(hWndDlg, i, title);
 				if (res != CB_ERR) {
@@ -154,6 +154,6 @@ void GetDialogStrings(int enableKeywordFiltering, const PageHash key, wchar_t *p
 	if ((enableKeywordFiltering) && (hWnd != 0)) {
 		AddDialogString(hWnd, key);
 
-		EnumChildWindows(hWnd, GetDialogStringsCallback, (LPARAM) key);
+		EnumChildWindows(hWnd, GetDialogStringsCallback, (LPARAM)key);
 	}
 }

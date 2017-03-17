@@ -35,8 +35,8 @@ int SortFunc(const ExtraIcon *p1, const ExtraIcon *p2)
 	if (ret != 0)
 		return ret;
 
-	int id1 = (p1->getType() != EXTRAICON_TYPE_GROUP) ? ((BaseExtraIcon*) p1)->getID() : 0;
-	int id2 = (p2->getType() != EXTRAICON_TYPE_GROUP) ? ((BaseExtraIcon*) p2)->getID() : 0;
+	int id1 = (p1->getType() != EXTRAICON_TYPE_GROUP) ? ((BaseExtraIcon*)p1)->getID() : 0;
+	int id2 = (p2->getType() != EXTRAICON_TYPE_GROUP) ? ((BaseExtraIcon*)p2)->getID() : 0;
 	return id1 - id2;
 }
 
@@ -67,12 +67,12 @@ int ConvertToClistSlot(int slot)
 	if (slot < 0)
 		return slot;
 
-	return slot+1;
+	return slot + 1;
 }
 
 int ExtraImage_ExtraIDToColumnNum(int extra)
 {
-	return (extra < 1 || extra > EXTRA_ICON_COUNT) ? -1 : extra-1;
+	return (extra < 1 || extra > EXTRA_ICON_COUNT) ? -1 : extra - 1;
 }
 
 int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage)
@@ -80,7 +80,7 @@ int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage)
 	if (cli.hwndContactTree == 0)
 		return -1;
 
-	int icol = ExtraImage_ExtraIDToColumnNum( ConvertToClistSlot(slot));
+	int icol = ExtraImage_ExtraIDToColumnNum(ConvertToClistSlot(slot));
 	if (icol == -1)
 		return -1;
 
@@ -88,7 +88,7 @@ int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage)
 	if (hItem == 0)
 		return -1;
 
-	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(icol,hImage));
+	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(icol, hImage));
 	return 0;
 }
 
@@ -98,7 +98,7 @@ ExtraIcon* GetExtraIcon(HANDLE id)
 	if (i < 1 || i > extraIconsByHandle.getCount())
 		return nullptr;
 
-	return extraIconsByHandle[i-1];
+	return extraIconsByHandle[i - 1];
 }
 
 ExtraIcon* GetExtraIconBySlot(int slot)
@@ -113,7 +113,7 @@ ExtraIcon* GetExtraIconBySlot(int slot)
 
 BaseExtraIcon* GetExtraIconByName(const char *name)
 {
-	for (int i=0; i < registeredExtraIcons.getCount(); i++) {
+	for (int i = 0; i < registeredExtraIcons.getCount(); i++) {
 		BaseExtraIcon *extra = registeredExtraIcons[i];
 		if (mir_strcmp(name, extra->getName()) == 0)
 			return extra;
@@ -124,7 +124,7 @@ BaseExtraIcon* GetExtraIconByName(const char *name)
 static void LoadGroups(LIST<ExtraIconGroup> &groups)
 {
 	int count = db_get_w(0, MODULE_NAME "Groups", "Count", 0);
-	for (int i=0; i < count; i++) {
+	for (int i = 0; i < count; i++) {
 		char setting[512];
 		mir_snprintf(setting, "%d_count", i);
 		unsigned int items = db_get_w(0, MODULE_NAME "Groups", setting, 0);
@@ -174,26 +174,26 @@ void RebuildListsBasedOnGroups(LIST<ExtraIconGroup> &groups)
 {
 	extraIconsByHandle.destroy();
 
-	for (int i=0; i < registeredExtraIcons.getCount(); i++)
+	for (int i = 0; i < registeredExtraIcons.getCount(); i++)
 		extraIconsByHandle.insert(registeredExtraIcons[i]);
 
-	for (int k=0; k < extraIconsBySlot.getCount(); k++) {
+	for (int k = 0; k < extraIconsBySlot.getCount(); k++) {
 		ExtraIcon *extra = extraIconsBySlot[k];
 		if (extra->getType() == EXTRAICON_TYPE_GROUP)
 			delete extra;
 	}
 	extraIconsBySlot.destroy();
 
-	for (int i=0; i < groups.getCount(); i++) {
+	for (int i = 0; i < groups.getCount(); i++) {
 		ExtraIconGroup *group = groups[i];
 
 		for (int j = 0; j < group->m_items.getCount(); j++)
-			extraIconsByHandle.put(group->m_items[j]->getID()-1, group);
+			extraIconsByHandle.put(group->m_items[j]->getID() - 1, group);
 
 		extraIconsBySlot.insert(group);
 	}
 
-	for (int k=0; k < extraIconsByHandle.getCount(); k++) {
+	for (int k = 0; k < extraIconsByHandle.getCount(); k++) {
 		ExtraIcon *extra = extraIconsByHandle[k];
 		if (extra->getType() != EXTRAICON_TYPE_GROUP)
 			extraIconsBySlot.insert(extra);
@@ -206,7 +206,7 @@ MIR_APP_DLL(void) KillModuleExtraIcons(int _hLang)
 {
 	LIST<ExtraIcon> arDeleted(1);
 
-	for (int i=registeredExtraIcons.getCount()-1; i >= 0; i--) {
+	for (int i = registeredExtraIcons.getCount() - 1; i >= 0; i--) {
 		BaseExtraIcon *p = registeredExtraIcons[i];
 		if (p->m_hLangpack == _hLang) {
 			registeredExtraIcons.remove(i);
@@ -221,7 +221,7 @@ MIR_APP_DLL(void) KillModuleExtraIcons(int _hLang)
 	LoadGroups(groups);
 	RebuildListsBasedOnGroups(groups);
 
-	for (int k=0; k < arDeleted.getCount(); k++)
+	for (int k = 0; k < arDeleted.getCount(); k++)
 		delete arDeleted[k];
 }
 
@@ -233,7 +233,7 @@ int ClistExtraListRebuild(WPARAM, LPARAM)
 
 	ResetIcons();
 
-	for (int i=0; i < extraIconsBySlot.getCount(); i++)
+	for (int i = 0; i < extraIconsBySlot.getCount(); i++)
 		extraIconsBySlot[i]->rebuildIcons();
 
 	return 0;
@@ -246,7 +246,7 @@ int ClistExtraImageApply(WPARAM hContact, LPARAM)
 
 	clistApplyAlreadyCalled = TRUE;
 
-	for (int i=0; i < extraIconsBySlot.getCount(); i++)
+	for (int i = 0; i < extraIconsBySlot.getCount(); i++)
 		extraIconsBySlot[i]->applyIcon(hContact);
 
 	return 0;
@@ -259,7 +259,7 @@ int ClistExtraClick(WPARAM hContact, LPARAM lParam)
 
 	int clistSlot = (int)lParam;
 
-	for (int i=0; i < extraIconsBySlot.getCount(); i++) {
+	for (int i = 0; i < extraIconsBySlot.getCount(); i++) {
 		ExtraIcon *extra = extraIconsBySlot[i];
 		if (ConvertToClistSlot(extra->getSlot()) == clistSlot) {
 			extra->onClick(hContact);
@@ -289,7 +289,7 @@ MIR_APP_DLL(HANDLE) ExtraIcon_AddIcon(HICON hIcon)
 
 void fnReloadExtraIcons()
 {
-	SendMessage(cli.hwndContactTree, CLM_SETEXTRASPACE, db_get_b(0,"CLUI","ExtraColumnSpace",18), 0);
+	SendMessage(cli.hwndContactTree, CLM_SETEXTRASPACE, db_get_b(0, "CLUI", "ExtraColumnSpace", 18), 0);
 	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGELIST, 0, 0);
 
 	if (hExtraImageList)
@@ -299,7 +299,7 @@ void fnReloadExtraIcons()
 
 	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hExtraImageList);
 	SendMessage(cli.hwndContactTree, CLM_SETEXTRACOLUMNS, EXTRA_ICON_COUNT, 0);
-	NotifyEventHooks(hEventExtraImageListRebuilding,0,0);
+	NotifyEventHooks(hEventExtraImageListRebuilding, 0, 0);
 	bImageCreated = true;
 }
 
@@ -386,7 +386,7 @@ static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int flags, int
 	}
 }
 
-EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const char *description, const char *descIcon, 
+EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const char *description, const char *descIcon,
 	MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon,
 	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int flags, int _hLang)
 {

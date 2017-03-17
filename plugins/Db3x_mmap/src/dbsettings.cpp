@@ -441,6 +441,8 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 		return 1;
 
 	DBCONTACTWRITESETTING dbcwWork = dbcwNotif;
+	char *szCachedSettingName = m_cache->GetCachedSetting(dbcwWork.szModule, dbcwWork.szSetting, moduleNameLen, settingNameLen);
+	bool bIsResident = szCachedSettingName[-1] != 0;
 
 	mir_ptr<BYTE> pEncoded(NULL);
 	bool bIsEncrypted = false;
@@ -449,7 +451,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 		break;
 
 	case DBVT_ASCIIZ: case DBVT_UTF8:
-		bIsEncrypted = m_bEncrypted || IsSettingEncrypted(dbcws->szModule, dbcws->szSetting);
+		bIsEncrypted = !bIsResident && (m_bEncrypted || IsSettingEncrypted(dbcws->szModule, dbcws->szSetting));
 	LBL_WriteString:
 		if (dbcwWork.value.pszVal == NULL)
 			return 1;
@@ -485,7 +487,6 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 		return 2;
 	}
 
-	char *szCachedSettingName = m_cache->GetCachedSetting(dbcwWork.szModule, dbcwWork.szSetting, moduleNameLen, settingNameLen);
 	log3("set [%08p] %s (%p)", hContact, szCachedSettingName, szCachedSettingName);
 
 	// we don't cache blobs and passwords
@@ -506,7 +507,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 			}
 			m_cache->SetCachedVariant(&dbcwWork.value, pCachedValue);
 		}
-		if (szCachedSettingName[-1] != 0) {
+		if (bIsResident) {
 			lck.unlock();
 			log2(" set resident as %s (%p)", printVariant(&dbcwWork.value), pCachedValue);
 			NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcwWork);
