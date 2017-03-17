@@ -614,7 +614,7 @@ void CJabberProto::OmemoAnnounceDevice()
 	// construct node
 	wchar_t szBareJid[JABBER_MAX_JID_LEN];
 	XmlNodeIq iq(L"set", SerialNext()); 
-	iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, sizeof(szBareJid))); //_countof is not portable
+	iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid)));
 	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish") << XATTR(L"node", JABBER_FEAT_OMEMO L":devicelist");
 	//pubsub_createnode(JABBER_FEAT_OMEMO L":devicelist", L"TODO_pubsub_address", this); //TODO: get pubsub address somehow
 														  //TODO: handle reply of createnode
@@ -642,7 +642,7 @@ void CJabberProto::OmemoSendBundle()
 	// construct bundle node
 	wchar_t szBareJid[JABBER_MAX_JID_LEN];
 	XmlNodeIq iq(L"set", SerialNext());
-	iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, sizeof(szBareJid))); //_countof is not portable
+	iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid)));
 
 	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish");
 	{
