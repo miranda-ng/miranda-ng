@@ -425,3 +425,4 @@ Srmm_ButtonSubclassProc @423 NONAME
 ?RedrawLog2@CSrmmBaseDialog@@QEAAXXZ @426 NONAME
 ?ScrollToBottom@CSrmmBaseDialog@@UEAAXXZ @427 NONAME
 ?UpdateNickList@CSrmmBaseDialog@@UEAAXXZ @428 NONAME
+Clist_ClearSearch @429 NONAME
