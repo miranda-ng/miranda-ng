@@ -2064,53 +2064,50 @@ void CChatRoomDlg::UpdateStatusBar()
 	if (m_pContainer->hwndActive != m_hwnd || m_pContainer->hwndStatus == 0 || CMimAPI::m_shutDown || m_wszStatusBar[0])
 		return;
 
-	if (m_si->pszModule != nullptr) {
-		wchar_t szFinalStatusBarText[512];
-
-		//Mad: strange rare crash here...
-		MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
-		if (!mi)
-			return;
-
-		if (!mi->ptszModDispName)
-			return;
-
-		int x = 12;
-		x += GetTextPixelSize(mi->ptszModDispName, (HFONT)SendMessage(m_pContainer->hwndStatus, WM_GETFONT, 0, 0), TRUE);
-		x += GetSystemMetrics(SM_CXSMICON);
-
-		if (m_pPanel.isActive()) {
-			time_t now = time(0);
-			DWORD diff = (now - mi->idleTimeStamp) / 60;
-
-			if ((diff >= 1 && diff != mi->lastIdleCheck)) {
-				mi->lastIdleCheck = diff;
-				if (diff == 0)
-					mi->tszIdleMsg[0] = 0;
-				else if (diff > 59) {
-					DWORD hours = diff / 60;
-					DWORD minutes = diff % 60;
-					mir_snwprintf(mi->tszIdleMsg, TranslateT(", %d %s, %d %s idle"), hours, hours > 1 ?
-						TranslateT("hours") : TranslateT("hour"),
-						minutes, minutes > 1 ? TranslateT("minutes") : TranslateT("minute"));
-				}
-				else mir_snwprintf(mi->tszIdleMsg, TranslateT(", %d %s idle"), diff, diff > 1 ? TranslateT("minutes") : TranslateT("minute"));
-			}
-			mir_snwprintf(szFinalStatusBarText, TranslateT("%s on %s%s"), m_wszMyNickname, mi->ptszModDispName, mi->tszIdleMsg);
-		}
-		else {
-			if (m_si->ptszStatusbarText)
-				mir_snwprintf(szFinalStatusBarText, L"%s %s", mi->ptszModDispName, m_si->ptszStatusbarText);
-			else
-				wcsncpy_s(szFinalStatusBarText, mi->ptszModDispName, _TRUNCATE);
-		}
-		SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)szFinalStatusBarText);
-		tabUpdateStatusBar();
-		m_pPanel.Invalidate();
-		if (m_pWnd)
-			m_pWnd->Invalidate();
+	if (m_si->pszModule == nullptr)
 		return;
+
+	//Mad: strange rare crash here...
+	MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
+	if (!mi)
+		return;
+
+	if (!mi->ptszModDispName)
+		return;
+
+	int x = 12;
+	x += GetTextPixelSize(mi->ptszModDispName, (HFONT)SendMessage(m_pContainer->hwndStatus, WM_GETFONT, 0, 0), TRUE);
+	x += GetSystemMetrics(SM_CXSMICON);
+
+	wchar_t szFinalStatusBarText[512];
+	if (m_pPanel.isActive()) {
+		time_t now = time(0);
+		DWORD diff = (now - mi->idleTimeStamp) / 60;
+
+		if ((diff >= 1 && diff != mi->lastIdleCheck)) {
+			mi->lastIdleCheck = diff;
+			if (diff > 59) {
+				DWORD hours = diff / 60;
+				DWORD minutes = diff % 60;
+				mir_snwprintf(mi->tszIdleMsg, TranslateT(", %d %s, %d %s idle"), 
+					hours, hours > 1 ? TranslateT("hours") : TranslateT("hour"),
+					minutes, minutes > 1 ? TranslateT("minutes") : TranslateT("minute"));
+			}
+			else mir_snwprintf(mi->tszIdleMsg, TranslateT(", %d %s idle"), diff, diff > 1 ? TranslateT("minutes") : TranslateT("minute"));
+		}
+		mir_snwprintf(szFinalStatusBarText, TranslateT("%s on %s%s"), m_wszMyNickname, mi->ptszModDispName, mi->tszIdleMsg);
 	}
+	else {
+		if (m_si->ptszStatusbarText)
+			mir_snwprintf(szFinalStatusBarText, L"%s %s", mi->ptszModDispName, m_si->ptszStatusbarText);
+		else
+			wcsncpy_s(szFinalStatusBarText, mi->ptszModDispName, _TRUNCATE);
+	}
+	SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)szFinalStatusBarText);
+	tabUpdateStatusBar();
+	m_pPanel.Invalidate();
+	if (m_pWnd)
+		m_pWnd->Invalidate();
 }
 
 void CChatRoomDlg::UpdateTitle()
