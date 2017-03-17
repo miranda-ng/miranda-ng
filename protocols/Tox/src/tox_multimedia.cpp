@@ -344,7 +344,7 @@ INT_PTR CToxProto::OnRecvAudioCall(WPARAM hContact, LPARAM lParam)
 	MEVENT hEvent = AddEventToDb(hContact, DB_EVENT_CALL, pre->timestamp, DBEF_UTF, (PBYTE)pre->szMessage, mir_strlen(pre->szMessage));
 
 	CLISTEVENT cle = {};
-	cle.flags = CLEF_TCHAR;
+	cle.flags = CLEF_UNICODE;
 	cle.hContact = hContact;
 	cle.hDbEvent = hEvent;
 	cle.lParam = DB_EVENT_CALL;
@@ -352,7 +352,7 @@ INT_PTR CToxProto::OnRecvAudioCall(WPARAM hContact, LPARAM lParam)
 
 	wchar_t szTooltip[MAX_PATH];
 	mir_snwprintf(szTooltip, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
-	cle.ptszTooltip = szTooltip;
+	cle.szTooltip.w = szTooltip;
 
 	char szService[MAX_PATH];
 	mir_snprintf(szService, "%s/Audio/Ring", GetContactProto(hContact));

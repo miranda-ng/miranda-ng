@@ -226,22 +226,20 @@ typedef struct {
 // clist/removeevent if, for example, your module implements a 'read next' that
 // bypasses the double-click.
 
-typedef struct {
+struct CLISTEVENT
+{
 	MCONTACT hContact;      // handle to the contact to put the icon by
 	DWORD flags;            // ...of course
 	HICON hIcon;            // icon to flash
-	union
-	{
+	union {
 		MEVENT hDbEvent;     // caller defined but should be unique for hContact
-		char * lpszProtocol;
+		char *lpszProtocol;
 	};
 	LPARAM lParam;	         // caller defined
 	char *pszService;       // name of the service to call on activation
-	union {
-		char *pszTooltip;    // short description of the event to display as a
-		wchar_t *ptszTooltip;  // tooltip on the system tray
-	};
-} CLISTEVENT;
+	MAllStrings szTooltip;  // short description of the event to display as a tooltip on the system tray
+};
+
 #define CLEF_URGENT    1   // flashes the icon even if the user is occupied,
 							      // and puts the event at the top of the queue
 #define CLEF_ONLYAFEW  2   // the icon will not flash for ever, only a few
@@ -250,11 +248,6 @@ typedef struct {
 
 #define CLEF_PROTOCOLGLOBAL   8 // set event globally for protocol, hContact has to be NULL,
 									     // lpszProtocol the protocol ID name to be set
-#if defined(_UNICODE)
-	#define CLEF_TCHAR       CLEF_UNICODE      //will use wchar_t* instead of char*
-#else
-	#define CLEF_TCHAR       0      //will return char*, as usual
-#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // gets the image list with all the useful icons in it

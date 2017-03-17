@@ -781,11 +781,11 @@ bool CJabberProto::OnIncomingNote(const wchar_t *szFrom, HXML hXml)
 
 	CLISTEVENT cle = {};
 	cle.hIcon = (HICON)LoadIconEx("notes");
-	cle.flags = CLEF_PROTOCOLGLOBAL | CLEF_TCHAR;
+	cle.flags = CLEF_PROTOCOLGLOBAL | CLEF_UNICODE;
 	cle.hDbEvent = -99;
 	cle.lParam = (LPARAM)pItem;
 	cle.pszService = szService;
-	cle.ptszTooltip = TranslateT("Incoming note");
+	cle.szTooltip.w = TranslateT("Incoming note");
 	pcli->pfnAddEvent(&cle);
 	return true;
 }

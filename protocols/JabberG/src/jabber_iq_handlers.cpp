@@ -448,11 +448,11 @@ BOOL CJabberProto::AddClistHttpAuthEvent(CJabberHttpAuthParams *pParams)
 
 	CLISTEVENT cle = {};
 	cle.hIcon = (HICON)LoadIconEx("openid");
-	cle.flags = CLEF_PROTOCOLGLOBAL | CLEF_TCHAR;
+	cle.flags = CLEF_PROTOCOLGLOBAL | CLEF_UNICODE;
 	cle.hDbEvent = -99;
 	cle.lParam = (LPARAM)pParams;
 	cle.pszService = szService;
-	cle.ptszTooltip = TranslateT("Http authentication request received");
+	cle.szTooltip.w = TranslateT("Http authentication request received");
 	pcli->pfnAddEvent(&cle);
 	return TRUE;
 }

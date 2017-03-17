@@ -1015,7 +1015,7 @@ retry:
 						cle.hDbEvent = -98;
 						cle.lParam = (LPARAM)img;
 						cle.pszService = service;
-						cle.pszTooltip = Translate("Incoming image");
+						cle.szTooltip.a = Translate("Incoming image");
 						pcli->pfnAddEvent(&cle);
 						ReleaseIconEx("image", FALSE);
 					}

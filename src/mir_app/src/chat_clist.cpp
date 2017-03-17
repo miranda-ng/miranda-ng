@@ -203,10 +203,10 @@ BOOL AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, wchar_t* 
 	CLISTEVENT cle = {};
 	cle.hContact = hContact;
 	cle.hDbEvent = hEvent;
-	cle.flags = type | CLEF_TCHAR;
+	cle.flags = type | CLEF_UNICODE;
 	cle.hIcon = hIcon;
 	cle.pszService = "GChat/DblClickEvent";
-	cle.ptszTooltip = TranslateW(szBuf);
+	cle.szTooltip.w = TranslateW(szBuf);
 
 	if (!ServiceExists(cle.pszService))
 		CreateServiceFunction(cle.pszService, &EventDoubleclicked);

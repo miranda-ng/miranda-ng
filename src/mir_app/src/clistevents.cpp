@@ -68,7 +68,7 @@ static char* GetEventProtocol(int idx)
 
 static void ShowOneEventInTray(int idx)
 {
-	cli.pfnTrayIconUpdateWithImageList((iconsOn || disableTrayFlash) ? g_cliEvents[idx].imlIconIndex : 0, g_cliEvents[idx].ptszTooltip, GetEventProtocol(idx));
+	cli.pfnTrayIconUpdateWithImageList((iconsOn || disableTrayFlash) ? g_cliEvents[idx].imlIconIndex : 0, g_cliEvents[idx].szTooltip.w, GetEventProtocol(idx));
 }
 
 static void ShowEventsInTray()
@@ -150,9 +150,9 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 	p->flashesDone = 12;
 	p->pszService = mir_strdup(g_cliEvents[i].pszService);
 	if (p->flags & CLEF_UNICODE)
-		p->ptszTooltip = mir_wstrdup(p->ptszTooltip);
+		p->szTooltip.w = mir_wstrdup(p->szTooltip.w);
 	else
-		p->ptszTooltip = mir_a2u(p->pszTooltip); //if no flag defined it handled as unicode
+		p->szTooltip.w = mir_a2u(p->szTooltip.a); //if no flag defined it handled as unicode
 	if (g_cliEvents.getCount() == 1) {
 		char *szProto;
 		if (cle->hContact == 0) {
@@ -165,7 +165,7 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 
 		iconsOn = 1;
 		flashTimerId = SetTimer(nullptr, 0, db_get_w(0, "CList", "IconFlashTime", 550), IconFlashTimer);
-		cli.pfnTrayIconUpdateWithImageList(p->imlIconIndex, p->ptszTooltip, szProto);
+		cli.pfnTrayIconUpdateWithImageList(p->imlIconIndex, p->szTooltip.w, szProto);
 	}
 	cli.pfnChangeContactIcon(cle->hContact, p->imlIconIndex);
 	return p;
@@ -218,7 +218,7 @@ int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 			szProto = nullptr;
 		else
 			szProto = GetContactProto(g_cliEvents[0].hContact);
-		cli.pfnTrayIconUpdateWithImageList(iconsOn ? g_cliEvents[0].imlIconIndex : 0, g_cliEvents[0].ptszTooltip, szProto);
+		cli.pfnTrayIconUpdateWithImageList(iconsOn ? g_cliEvents[0].imlIconIndex : 0, g_cliEvents[0].szTooltip.w, szProto);
 	}
 
 	return 0;

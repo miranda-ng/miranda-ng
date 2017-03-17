@@ -292,9 +292,9 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 			CLISTEVENT cle = {};
 			cle.hContact = hContact;
 			cle.hDbEvent = 1;
-			cle.flags = CLEF_URGENT | CLEF_TCHAR;
+			cle.flags = CLEF_URGENT | CLEF_UNICODE;
 			cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_SENDEMAIL);
-			cle.ptszTooltip = tBuffer2;
+			cle.szTooltip.w = tBuffer2;
 			cle.pszService = buf;
 			pcli->pfnAddEvent(&cle);
 		}

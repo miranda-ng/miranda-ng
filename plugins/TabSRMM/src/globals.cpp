@@ -536,8 +536,8 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 	CLISTEVENT cle = {};
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
-	cle.flags = CLEF_TCHAR;
-	cle.ptszTooltip = toolTip;
+	cle.flags = CLEF_UNICODE;
+	cle.szTooltip.w = toolTip;
 
 	for (int i = 0; i < arEvents.getCount(); i++) {
 		MSavedEvent &e = arEvents[i];

@@ -93,10 +93,10 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	CLISTEVENT cle = {};
 	cle.hContact = hContact;
 	cle.hDbEvent = lParam;
-	cle.flags = CLEF_TCHAR;
+	cle.flags = CLEF_UNICODE;
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
-	cle.ptszTooltip = toolTip;
+	cle.szTooltip.w = toolTip;
 	pcli->pfnAddEvent(&cle);
 	return 0;
 }
@@ -171,10 +171,10 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 			CLISTEVENT cle = {};
 			cle.hContact = hContact;
 			cle.hDbEvent = 1;
-			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
+			cle.flags = CLEF_ONLYAFEW | CLEF_UNICODE;
 			cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 			cle.pszService = "SRMsg/ReadMessage";
-			cle.ptszTooltip = szTip;
+			cle.szTooltip.w = szTip;
 			pcli->pfnAddEvent(&cle);
 
 			IcoLib_ReleaseIcon(cle.hIcon);
@@ -262,8 +262,8 @@ static void RestoreUnreadMessageAlerts(void)
 	CLISTEVENT cle = {};
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
-	cle.flags = CLEF_TCHAR;
-	cle.ptszTooltip = toolTip;
+	cle.flags = CLEF_UNICODE;
+	cle.szTooltip.w = toolTip;
 
 	for (int i = 0; i < arEvents.getCount(); i++) {
 		MSavedEvent &e = arEvents[i];

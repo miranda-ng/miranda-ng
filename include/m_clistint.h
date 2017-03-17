@@ -166,7 +166,7 @@ struct CListEvent : public CLISTEVENT, public MZeroedObject
 	~CListEvent()
 	{
 		mir_free(pszService);
-		mir_free(pszTooltip);
+		mir_free(szTooltip.a);
 	}
 
 	int imlIconIndex;

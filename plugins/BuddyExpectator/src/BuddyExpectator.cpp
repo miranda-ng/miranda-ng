@@ -282,12 +282,12 @@ void ReturnNotify(MCONTACT hContact, wchar_t *message)
 		cle.hContact = hContact;
 		cle.hIcon = hIcon;
 		cle.pszService = "BuddyExpectator/actionReturned";
-		cle.flags = CLEF_TCHAR;
+		cle.flags = CLEF_UNICODE;
 
 		wchar_t* nick = (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0);
 		wchar_t tmpMsg[512];
 		mir_snwprintf(tmpMsg, L"%s %s", nick, message);
-		cle.ptszTooltip = tmpMsg;
+		cle.szTooltip.w = tmpMsg;
 		pcli->pfnAddEvent(&cle);
 	}
 }
@@ -324,8 +324,8 @@ void GoneNotify(MCONTACT hContact, wchar_t *message)
 		wchar_t* nick = (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0);
 		wchar_t tmpMsg[512];
 		mir_snwprintf(tmpMsg, L"%s %s", nick, message);
-		cle.ptszTooltip = tmpMsg;
-		cle.flags = CLEF_TCHAR;
+		cle.szTooltip.w = tmpMsg;
+		cle.flags = CLEF_UNICODE;
 		pcli->pfnAddEvent(&cle);
 	}
 }

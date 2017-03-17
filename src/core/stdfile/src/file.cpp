@@ -109,9 +109,9 @@ void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 
 		wchar_t szTooltip[256];
 		mir_snwprintf(szTooltip, TranslateT("File from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
-		cle.ptszTooltip = szTooltip;
+		cle.szTooltip.w = szTooltip;
 
-		cle.flags |= CLEF_TCHAR;
+		cle.flags |= CLEF_UNICODE;
 		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
 		cle.pszService = "SRFile/RecvFile";
 		pcli->pfnAddEvent(&cle);

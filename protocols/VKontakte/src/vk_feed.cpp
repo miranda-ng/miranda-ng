@@ -81,12 +81,12 @@ void CVkProto::AddCListEvent(bool bNews)
 	CLISTEVENT cle = {};
 	cle.hIcon = IcoLib_GetIconByHandle(GetIconHandle(IDI_NOTIFICATION));
 	cle.pszService = "SRMsg/ReadMessage";
-	cle.flags = CLEF_URGENT | CLEF_TCHAR;
+	cle.flags = CLEF_URGENT | CLEF_UNICODE;
 	cle.hContact = hContact;
 	cle.hDbEvent = NULL;
 	wchar_t toolTip[255];
 	mir_snwprintf(toolTip, bNews ? TranslateT("New news") : TranslateT("New notifications"));
-	cle.ptszTooltip = toolTip;
+	cle.szTooltip.w = toolTip;
 	pcli->pfnAddEvent(&cle);
 }
 

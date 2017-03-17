@@ -95,7 +95,7 @@ void NotifyUser(Account *curAcc)
 			cle.flags = CLEF_URGENT;
 			cle.hIcon = Skin_LoadProtoIcon(MODULE_NAME, ID_STATUS_OCCUPIED);
 			cle.pszService = "GmailMNotifier/Notifying";
-			cle.pszTooltip = curAcc->results.next->content;
+			cle.szTooltip.a = curAcc->results.next->content;
 			pcli->pfnAddEvent(&cle);
 		}
 

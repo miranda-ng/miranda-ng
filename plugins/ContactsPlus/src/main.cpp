@@ -81,7 +81,7 @@ static int HookDBEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		cle.hDbEvent = hDbEvent;
 		cle.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));
 		cle.pszService = MS_CONTACTS_RECEIVE;
-		cle.ptszTooltip = caToolTip;
+		cle.szTooltip.w = caToolTip;
 		cle.flags |= CLEF_UNICODE;
 		pcli->pfnAddEvent(&cle);
 	}

@@ -311,12 +311,12 @@ void GetStatusText(MCONTACT hContact, WORD newStatus, WORD oldStatus, wchar_t *s
 void BlinkIcon(MCONTACT hContact, HICON hIcon, wchar_t *stzText)
 {
 	CLISTEVENT cle = {};
-	cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
+	cle.flags = CLEF_ONLYAFEW | CLEF_UNICODE;
 	cle.hContact = hContact;
 	cle.hDbEvent = hContact;
 	cle.hIcon = hIcon;
 	cle.pszService = "UserOnline/Description";
-	cle.ptszTooltip = stzText;
+	cle.szTooltip.w = stzText;
 	pcli->pfnAddEvent(&cle);
 }
 

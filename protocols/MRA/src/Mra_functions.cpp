@@ -654,7 +654,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 			cle.hIcon = IconLibGetIcon(gdiMenuItems[0].hIcolib);
 			cle.flags = (CLEF_UNICODE | CLEF_PROTOCOLGLOBAL);
 			cle.pszService = "";
-			cle.ptszTooltip = szStatusText;
+			cle.szTooltip.w = szStatusText;
 
 			if (getByte("TrayIconNewMailClkToInbox", MRA_DEFAULT_TRAYICON_NEW_MAIL_CLK_TO_INBOX)) {
 				strncpy(szServiceFunction, m_szModuleName, MAX_PATH - 1);

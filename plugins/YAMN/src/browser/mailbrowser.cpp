@@ -638,13 +638,13 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 
 		if (!(nflags & YAMN_ACC_CONTNOEVENT)) {
 			CLISTEVENT evt = {};
-			evt.flags = CLEF_TCHAR;
+			evt.flags = CLEF_UNICODE;
 			evt.hContact = ActualAccount->hContact;
 			evt.hIcon = g_LoadIconEx(2);
 			evt.hDbEvent = ActualAccount->hContact;
 			evt.lParam = ActualAccount->hContact;
 			evt.pszService = MS_YAMN_CLISTDBLCLICK;
-			evt.ptszTooltip = tszMsg;
+			evt.szTooltip.w = tszMsg;
 			pcli->pfnAddEvent(&evt);
 		}
 		db_set_ws(ActualAccount->hContact, "CList", "StatusMsg", tszMsg);

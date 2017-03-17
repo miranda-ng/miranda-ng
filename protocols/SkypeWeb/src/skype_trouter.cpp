@@ -202,7 +202,7 @@ void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 				SkinPlaySound("skype_inc_call");
 
 				CLISTEVENT cle = {};
-				cle.flags = CLEF_TCHAR;
+				cle.flags = CLEF_UNICODE;
 				cle.hContact = hContact;
 				cle.hDbEvent = hEvent;
 				cle.lParam = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
@@ -212,7 +212,7 @@ void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 				cle.pszService = service.GetBuffer();
 
 				CMStringW tooltip(FORMAT, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
-				cle.ptszTooltip = tooltip.GetBuffer();
+				cle.szTooltip.w = tooltip.GetBuffer();
 				pcli->pfnAddEvent(&cle);
 
 				ShowNotification(pcli->pfnGetContactDisplayName(hContact, 0), TranslateT("Incoming call"), hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL);

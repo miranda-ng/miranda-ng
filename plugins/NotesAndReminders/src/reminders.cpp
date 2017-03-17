@@ -528,7 +528,7 @@ static void FireReminder(REMINDERDATA *pReminder, BOOL *pHasPlayedSound)
 		ev.flags = CLEF_URGENT;
 		ev.lParam = (LPARAM)pReminder->uid;
 		ev.pszService = MODULENAME"/OpenTriggeredReminder";
-		ev.pszTooltip = Translate("Reminder");
+		ev.szTooltip.a = Translate("Reminder");
 		pcli->pfnAddEvent(&ev);
 	}
 

@@ -60,8 +60,8 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 
 	CLISTEVENT cli = {};
 	cli.hContact = hContact;
-	cli.ptszTooltip = szTooltip;
-	cli.flags = CLEF_TCHAR;
+	cli.szTooltip.w = szTooltip;
+	cli.flags = CLEF_UNICODE;
 	cli.lParam = lParam;
 	cli.hDbEvent = hDbEvent;
 

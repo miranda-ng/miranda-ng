@@ -312,7 +312,7 @@ static void NotifyFlashCListIcon(MCONTACT hContact, const CEvent &evt)
 
 	CLISTEVENT cle = {};
 	cle.hContact = hContact;
-	cle.flags = CLEF_URGENT|CLEF_TCHAR;
+	cle.flags = CLEF_URGENT|CLEF_UNICODE;
 	cle.hDbEvent = NULL;
 
 	switch (evt._eType) {
@@ -329,7 +329,7 @@ static void NotifyFlashCListIcon(MCONTACT hContact, const CEvent &evt)
 	default:
 		return;
 	}
-	cle.ptszTooltip = szMsg;
+	cle.szTooltip.w = szMsg;
 
 	// pszService = NULL get error (crash),
 	// pszService = "dummy" get 'service not fount' and continue;

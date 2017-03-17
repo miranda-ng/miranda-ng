@@ -309,10 +309,10 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 			CLISTEVENT cle = {};
 			cle.hContact = hContact;
 			cle.hDbEvent = 1;
-			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
+			cle.flags = CLEF_ONLYAFEW | CLEF_UNICODE;
 			cle.hIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 			cle.pszService = "SRMsg/TypingMessage";
-			cle.ptszTooltip = szTip;
+			cle.szTooltip.w = szTip;
 			pcli->pfnAddEvent(&cle);
 		}
 	}
@@ -540,12 +540,12 @@ nowindowcreate:
 			CLISTEVENT cle = {};
 			cle.hContact = hContact;
 			cle.hDbEvent = hDbEvent;
-			cle.flags = CLEF_TCHAR;
+			cle.flags = CLEF_UNICODE;
 			cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 			cle.pszService = "SRMsg/ReadMessage";
 			contactName = pcli->pfnGetContactDisplayName(hContact, 0);
 			mir_snwprintf(toolTip, TranslateT("Message from %s"), contactName);
-			cle.ptszTooltip = toolTip;
+			cle.szTooltip.w = toolTip;
 			pcli->pfnAddEvent(&cle);
 		}
 		tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, 0, 0, dbei.szModule);

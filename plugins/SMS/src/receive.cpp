@@ -234,12 +234,12 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 				mir_snwprintf(szToolTip, TranslateT("SMS Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 				CLISTEVENT cle = {};
-				cle.flags = CLEF_TCHAR;
+				cle.flags = CLEF_UNICODE;
 				cle.hContact = hContact;
 				cle.hDbEvent = hDbEvent;
 				cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_SMS);
 				cle.pszService = szServiceFunction;
-				cle.ptszTooltip = szToolTip;
+				cle.szTooltip.w = szToolTip;
 				pcli->pfnAddEvent(&cle);
 			}
 		}
@@ -257,12 +257,12 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 				mir_snwprintf(szToolTip, TranslateT("SMS Confirmation from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 				CLISTEVENT cle = {};
-				cle.flags = CLEF_TCHAR;
+				cle.flags = CLEF_UNICODE;
 				cle.hContact = hContact;
 				cle.hDbEvent = hDbEvent;
 				cle.hIcon = (HICON)LoadImage(ssSMSSettings.hInstance, MAKEINTRESOURCE(iIcon), IMAGE_ICON, 0, 0, LR_SHARED);
 				cle.pszService = szServiceFunction;
-				cle.ptszTooltip = szToolTip;
+				cle.szTooltip.w = szToolTip;
 				pcli->pfnAddEvent(&cle);
 			}
 		}
