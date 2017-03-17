@@ -2463,6 +2463,28 @@ void CCtrlPages::ShowPage(CDlgBase *pDlg)
 	ShowWindow(pDlg->GetHwnd(), SW_SHOW);
 }
 
+void CCtrlPages::SwapPages(int idx1, int idx2)
+{
+	TPageInfo *p1 = GetItemPage(idx1), *p2 = GetItemPage(idx2);
+	if (p1 == nullptr || p2 == nullptr)
+		return;
+
+	TabCtrl_DeleteItem(m_hwnd, idx1);
+
+	TCITEM tci = { 0 };
+	tci.mask = TCIF_PARAM | TCIF_TEXT;
+	tci.lParam = (LPARAM)p1;
+	tci.pszText = TranslateW(p1->m_ptszHeader);
+	TabCtrl_InsertItem(m_hwnd, idx2, &tci);
+
+	int tabCount = GetCount();
+	for (int i = 0; i < tabCount; i++) {
+		TPageInfo *pInfo = GetItemPage(i);
+		if (pInfo)
+			pInfo->m_pageId = i;
+	}
+}
+
 BOOL CCtrlPages::OnNotify(int /*idCtrl*/, NMHDR *pnmh)
 {
 	TPageInfo *info;

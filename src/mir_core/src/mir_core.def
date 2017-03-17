@@ -1064,3 +1064,4 @@ CallFunctionSync @1170
 ?CustomWndProc@CSplitter@@MAEJIIJ@Z @1221 NONAME
 ?GetPos@CSplitter@@QBEHXZ @1222 NONAME
 ?OnInit@CSplitter@@MAEXXZ @1223 NONAME
+?SwapPages@CCtrlPages@@QAEXHH@Z @1224 NONAME

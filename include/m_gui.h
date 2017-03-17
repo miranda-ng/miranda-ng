@@ -1232,6 +1232,7 @@ public:
 	int  GetDlgIndex(CDlgBase*);
 	CDlgBase* GetNthPage(int iPage);
 	void RemovePage(int iPage);
+	void SwapPages(int idx1, int idx2);
 
 	__forceinline CDlgBase* GetActivePage() const
 	{	return m_pActivePage;
