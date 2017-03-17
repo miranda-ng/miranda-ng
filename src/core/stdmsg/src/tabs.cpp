@@ -42,7 +42,7 @@ void TB_SaveSession(SESSION_INFO *si)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK CSrmmWindow::TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CTabbedWindow *pOwner = (CTabbedWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
@@ -59,18 +59,18 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				ScreenToClient(hwnd, &tci.pt);
 				int i = TabCtrl_HitTest(hwnd, &tci);
 				if (i != -1) {
-					TCITEM tc;
-					tc.mask = TCIF_PARAM;
-					TabCtrl_GetItem(hwnd, i, &tc);
-					SESSION_INFO *s = (SESSION_INFO*)tc.lParam;
-					if (s) {
-						BOOL bOnline = db_get_w(s->hContact, s->pszModule, "Status", ID_STATUS_OFFLINE) == ID_STATUS_ONLINE ? TRUE : FALSE;
-						MODULEINFO *mi = pci->MM_FindModule(s->pszModule);
-						bDragging = TRUE;
-						iBeginIndex = i;
-						ImageList_BeginDrag(hIconsList, bOnline ? mi->OnlineIconIndex : mi->OfflineIconIndex, 8, 8);
-						ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
-						SetCapture(hwnd);
+					CSrmmWindow *pDlg = (CSrmmWindow*)pOwner->m_tab.GetNthPage(i);
+					if (pDlg) {
+						SESSION_INFO *si = pDlg->m_si;
+						if (si != nullptr) {
+							bool bOnline = db_get_w(si->hContact, si->pszModule, "Status", ID_STATUS_OFFLINE) == ID_STATUS_ONLINE;
+							MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+							bDragging = TRUE;
+							iBeginIndex = i;
+							ImageList_BeginDrag(hIconsList, bOnline ? mi->OnlineIconIndex : mi->OfflineIconIndex, 8, 8);
+							ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
+							SetCapture(hwnd);
+						}
 					}
 					return TRUE;
 				}
@@ -122,7 +122,7 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			ScreenToClient(hwnd, &tci.pt);
 			int i = TabCtrl_HitTest(hwnd, &tci);
 			if (i != -1 && g_Settings.bTabCloseOnDblClick) {
-				CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)pOwner->m_tab.GetActivePage();
+				CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)pOwner->m_tab.GetNthPage(i);
 				if (pDlg)
 					pDlg->CloseTab();
 			}
@@ -148,7 +148,7 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 void CTabbedWindow::OnInitDialog()
 {
 	SetWindowLongPtr(m_tab.GetHwnd(), GWLP_USERDATA, LPARAM(this));
-	mir_subclassWindow(m_tab.GetHwnd(), TabSubclassProc);
+	mir_subclassWindow(m_tab.GetHwnd(), &CSrmmWindow::TabSubclassProc);
 
 	if (db_get_b(NULL, CHAT_MODULE, "SavePosition", 0))
 		RestoreWindowPosition(m_hwnd, NULL, false);
@@ -358,22 +358,24 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (begin == end)
 				break;
 
-			TCITEM tci;
-			tci.mask = TCIF_PARAM;
-			TabCtrl_GetItem(m_tab.GetHwnd(), begin, &tci);
-			SESSION_INFO *s = (SESSION_INFO*)tci.lParam;
-			if (s) {
-				m_tab.RemovePage(begin);
-				AddPage(s);
+			m_tab.SwapPages(begin, end);
 
-				// fix the "fixed" positions
-				int tabCount = m_tab.GetCount();
-				for (int i = 0; i < tabCount; i++) {
-					TabCtrl_GetItem(m_tab.GetHwnd(), i, &tci);
-					s = (SESSION_INFO*)tci.lParam;
-					if (s && s->hContact && db_get_w(s->hContact, s->pszModule, "TabPosition", 0) != 0)
-						db_set_w(s->hContact, s->pszModule, "TabPosition", (WORD)(i + 1));
-				}
+			CChatRoomDlg *pDlg = (CChatRoomDlg*)m_tab.GetNthPage(end);
+			if (pDlg) {
+				FixTabIcons(pDlg);
+				m_tab.ActivatePage(end);
+			}
+
+			// fix the "fixed" positions
+			int tabCount = m_tab.GetCount();
+			for (int i = 0; i < tabCount; i++) {
+				CChatRoomDlg *pDlg = (CChatRoomDlg*)m_tab.GetNthPage(i);
+				if (pDlg == nullptr)
+					continue;
+
+				SESSION_INFO *si = pDlg->m_si;
+				if (si && si->hContact && db_get_w(si->hContact, si->pszModule, "TabPosition", 0) != 0)
+					db_set_w(si->hContact, si->pszModule, "TabPosition", i + 1);
 			}
 		}
 		break;

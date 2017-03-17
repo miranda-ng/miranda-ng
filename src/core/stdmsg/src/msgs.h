@@ -49,6 +49,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class CSrmmWindow : public CSrmmBaseDialog
 {
+	friend struct CTabbedWindow;
+	static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 	CCtrlEdit m_log, m_message;
 	CSplitter m_splitter;
 
