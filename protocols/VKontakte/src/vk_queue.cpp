@@ -166,7 +166,7 @@ void CVkProto::WorkerThread(void*)
 				break;
 			ExecuteRequest(pReq);
 			if (need_sleep) { // There can be maximum 3 requests to API methods per second from a client
-				Sleep(330);	// (c) https://vk.com/dev/api_requests
+				Sleep(800);	// (c) https://vk.com/dev/api_requests
 				debugLogA("CVkProto::WorkerThread: need sleep");
 			}
 		}

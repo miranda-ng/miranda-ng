@@ -116,7 +116,7 @@ void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
 void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int iTime, int iLastMsgId, bool once)
 {
 	debugLogA("CVkProto::GetServerHistory %d %d %d %d %d", iOffset, iCount, iTime, iLastMsgId, (int)once);
-	if (!IsOnline())
+	if (!IsOnline() || iCount == 0)
 		return;
 
 	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
