@@ -68,7 +68,7 @@ MEVENT CSkypeProto::AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DW
 		return hDbEvent;
 	size_t messageLength = mir_strlen(content) + 1;
 	size_t messageIdLength = mir_strlen(uid);
-	size_t cbBlob = messageLength + messageIdLength + 1;
+	size_t cbBlob = messageLength + messageIdLength;
 	PBYTE pBlob = (PBYTE)mir_alloc(cbBlob);
 	memcpy(pBlob, content, messageLength);
 	memcpy(pBlob + messageLength, uid, messageIdLength);
@@ -128,11 +128,7 @@ MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *
 
 
 	}
-	// First force old event to be read, so it won't be stuck forever because of theoretical bug in DB driver
-	db_event_markRead(hContact, hEvent);
-	// Only then delete the original event
-	db_event_delete(hContact, hEvent);
-	// Finally add new edited event, but with original event's properties (including flags)
+	db_event_delete(hContact, hEvent);	
 	return AddDbEvent(SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE, hContact, dbei.timestamp, dbei.flags, jMsg.write().c_str(), szUid);
 }
 
