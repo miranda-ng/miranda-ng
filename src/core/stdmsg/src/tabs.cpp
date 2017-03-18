@@ -399,61 +399,68 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->idFrom == IDC_TAB && ((LPNMHDR)lParam)->code == NM_RCLICK) {
-			int i = TabCtrl_GetCurSel(((LPNMHDR)lParam)->hwndFrom);
-			if (i == -1)
+		if (((LPNMHDR)lParam)->idFrom == IDC_TAB) {
+			switch (((LPNMHDR)lParam)->code) {
+			case TCN_SELCHANGE:
+				m_tab.ActivatePage(TabCtrl_GetCurSel(m_tab.GetHwnd()));
 				break;
 
-			TCHITTESTINFO tci = {};
-			tci.pt.x = (short)LOWORD(GetMessagePos());
-			tci.pt.y = (short)HIWORD(GetMessagePos());
-			tci.flags = TCHT_ONITEM;
-			ScreenToClient(GetDlgItem(m_hwnd, IDC_TAB), &tci.pt);
-			if ((i = TabCtrl_HitTest(((LPNMHDR)lParam)->hwndFrom, &tci)) == -1)
-				break;
+			case NM_RCLICK:
+				int i = TabCtrl_GetCurSel(((LPNMHDR)lParam)->hwndFrom);
+				if (i == -1)
+					break;
 
-			SESSION_INFO *si = ((CChatRoomDlg*)m_tab.GetNthPage(i))->m_si;
+				TCHITTESTINFO tci = {};
+				tci.pt.x = (short)LOWORD(GetMessagePos());
+				tci.pt.y = (short)HIWORD(GetMessagePos());
+				tci.flags = TCHT_ONITEM;
+				ScreenToClient(GetDlgItem(m_hwnd, IDC_TAB), &tci.pt);
+				if ((i = TabCtrl_HitTest(((LPNMHDR)lParam)->hwndFrom, &tci)) == -1)
+					break;
 
-			ClientToScreen(GetDlgItem(m_hwnd, IDC_TAB), &tci.pt);
-			HMENU hSubMenu = GetSubMenu(g_hMenu, 3);
-			TranslateMenu(hSubMenu);
+				SESSION_INFO *si = ((CChatRoomDlg*)m_tab.GetNthPage(i))->m_si;
 
-			if (si) {
-				WORD w = db_get_w(si->hContact, si->pszModule, "TabPosition", 0);
-				if (w == 0)
-					CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND | MF_UNCHECKED);
-				else
-					CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND | MF_CHECKED);
-			}
-			else CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND | MF_UNCHECKED);
+				ClientToScreen(GetDlgItem(m_hwnd, IDC_TAB), &tci.pt);
+				HMENU hSubMenu = GetSubMenu(g_hMenu, 3);
+				TranslateMenu(hSubMenu);
 
-			switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, tci.pt.x, tci.pt.y, 0, m_hwnd, NULL)) {
-			case ID_CLOSE:
-				SendMessage(m_hwnd, GC_REMOVETAB, 0, (LPARAM)m_tab.GetNthPage(i));
-				break;
-
-			case ID_LOCKPOSITION:
-				if (si != 0) {
-					if (!(GetMenuState(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND)&MF_CHECKED)) {
-						if (si->hContact)
-							db_set_w(si->hContact, si->pszModule, "TabPosition", (WORD)(i + 1));
-					}
-					else db_unset(si->hContact, si->pszModule, "TabPosition");
+				if (si) {
+					WORD w = db_get_w(si->hContact, si->pszModule, "TabPosition", 0);
+					if (w == 0)
+						CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND | MF_UNCHECKED);
+					else
+						CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND | MF_CHECKED);
 				}
-				break;
+				else CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND | MF_UNCHECKED);
 
-			case ID_CLOSEOTHER:
-				int tabCount = m_tab.GetCount() - 1;
-				if (tabCount > 0) {
-					for (tabCount; tabCount >= 0; tabCount--) {
-						if (tabCount == i)
-							continue;
+				switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, tci.pt.x, tci.pt.y, 0, m_hwnd, NULL)) {
+				case ID_CLOSE:
+					SendMessage(m_hwnd, GC_REMOVETAB, 0, (LPARAM)m_tab.GetNthPage(i));
+					break;
 
-						m_tab.RemovePage(tabCount);
+				case ID_LOCKPOSITION:
+					if (si != 0) {
+						if (!(GetMenuState(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND)&MF_CHECKED)) {
+							if (si->hContact)
+								db_set_w(si->hContact, si->pszModule, "TabPosition", (WORD)(i + 1));
+						}
+						else db_unset(si->hContact, si->pszModule, "TabPosition");
 					}
-					m_tab.ActivatePage(0);
+					break;
+
+				case ID_CLOSEOTHER:
+					int tabCount = m_tab.GetCount() - 1;
+					if (tabCount > 0) {
+						for (tabCount; tabCount >= 0; tabCount--) {
+							if (tabCount == i)
+								continue;
+
+							m_tab.RemovePage(tabCount);
+						}
+						m_tab.ActivatePage(0);
+					}
+					break;
 				}
-				break;
 			}
 		}
 		break;
@@ -537,7 +544,4 @@ void ShowRoom(SESSION_INFO *si)
 		ShowWindow(si->pDlg->GetHwnd(), SW_NORMAL);
 	ShowWindow(si->pDlg->GetHwnd(), SW_SHOW);
 	SetForegroundWindow(si->pDlg->GetHwnd());
-
-	SendMessage(si->pDlg->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
-	SetFocus(GetDlgItem(si->pDlg->GetHwnd(), IDC_MESSAGE));
 }

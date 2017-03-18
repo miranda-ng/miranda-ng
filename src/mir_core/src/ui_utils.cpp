@@ -59,7 +59,7 @@ CDlgBase::CDlgBase(HINSTANCE hInst, int idDialog)
 {
 	m_hInst = hInst;
 	m_idDialog = idDialog;
-	m_hwnd = m_hwndParent = NULL;
+	m_hwnd = m_hwndParent = nullptr;
 	m_isModal = m_initialized = m_bExiting = false;
 	m_autoClose = CLOSE_ON_OK | CLOSE_ON_CANCEL;
 	m_forceResizable = false;
@@ -259,7 +259,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (idx != -1)
 				arDialogs.remove(idx);
 		}
-		m_hwnd = NULL;
+		m_hwnd = nullptr;
 		if (m_initialized) {
 			if (m_isModal)
 				m_isModal = false;
@@ -285,13 +285,13 @@ INT_PTR CALLBACK CDlgBase::GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 	}
 	else wnd = CDlgBase::Find(hwnd);
 
-	return (wnd == NULL) ? FALSE : wnd->DlgProc(msg, wParam, lParam);
+	return (wnd == nullptr) ? FALSE : wnd->DlgProc(msg, wParam, lParam);
 }
 
 int CDlgBase::GlobalDlgResizer(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
 {
 	CDlgBase *wnd = CDlgBase::Find(hwnd);
-	return (wnd == NULL) ? 0 : wnd->Resizer(urc);
+	return (wnd == nullptr) ? 0 : wnd->Resizer(urc);
 }
 
 void CDlgBase::ThemeDialogBackground(BOOL tabbed)
@@ -312,7 +312,7 @@ void CDlgBase::NotifyControls(void (CCtrlBase::*fn)())
 
 CCtrlBase* CDlgBase::FindControl(int idCtrl)
 {
-	CCtrlBase search(NULL, idCtrl);
+	CCtrlBase search(nullptr, idCtrl);
 	return m_controls.find(&search);
 }
 
@@ -322,7 +322,7 @@ CCtrlBase* CDlgBase::FindControl(HWND hwnd)
 		if (m_controls[i]->GetHwnd() == hwnd)
 			return m_controls[i];
 	
-	return NULL;
+	return nullptr;
 }
 
 void CDlgBase::AddTimer(CTimer *timer)
@@ -332,7 +332,7 @@ void CDlgBase::AddTimer(CTimer *timer)
 
 CTimer* CDlgBase::FindTimer(int idEvent)
 {
-	CTimer search(NULL, idEvent);
+	CTimer search(nullptr, idEvent);
 	return m_timers.find(&search);
 }
 
@@ -710,7 +710,7 @@ void CCtrlSpin::SetRange(WORD wMax, WORD wMin)
 
 CCtrlData::CCtrlData(CDlgBase *wnd, int idCtrl)
 	: CCtrlBase(wnd, idCtrl),
-	m_dbLink(NULL)
+	m_dbLink(nullptr)
 {}
 
 CCtrlData::~CCtrlData()
@@ -820,7 +820,7 @@ BOOL CTimer::OnTimer()
 
 void CTimer::Start(int elapse)
 {
-	SetTimer(m_wnd->GetHwnd(), m_idEvent, elapse, NULL);
+	SetTimer(m_wnd->GetHwnd(), m_idEvent, elapse, nullptr);
 }
 
 void CTimer::Stop()
@@ -1540,7 +1540,7 @@ void CCtrlTreeView::SetFlags(uint32_t dwFlags)
 	if (dwFlags & MTREE_DND) {
 		m_bDndEnabled = true;
 		m_bDragging = false;
-		m_hDragItem = NULL;
+		m_hDragItem = nullptr;
 	}
 }
 
@@ -1554,8 +1554,8 @@ void CCtrlTreeView::OnInit()
 
 HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter, HTREEITEM hParent)
 {
-	if (hItem == NULL || hInsertAfter == NULL)
-		return NULL;
+	if (hItem == nullptr || hInsertAfter == nullptr)
+		return nullptr;
 
 	if (hItem == hInsertAfter)
 		return hItem;
@@ -1567,7 +1567,7 @@ HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter, 
 	tvis.itemex.cchTextMax = _countof(name);
 	tvis.itemex.hItem = hItem;
 	if (!GetItem(&tvis.itemex))
-		return NULL;
+		return nullptr;
 
 	// the pointed lParam will be freed inside TVN_DELETEITEM
 	// so lets substitute it with 0
@@ -1607,14 +1607,14 @@ LRESULT CCtrlTreeView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			else {
 				if (hti.flags & TVHT_ABOVE) SendMsg(WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
 				if (hti.flags & TVHT_BELOW) SendMsg(WM_VSCROLL, MAKEWPARAM(SB_LINEDOWN, 0), 0);
-				SetInsertMark(NULL, 0);
+				SetInsertMark(nullptr, 0);
 			}
 		}
 		break;
 
 	case WM_LBUTTONUP:
 		if (m_bDragging) {
-			SetInsertMark(NULL, 0);
+			SetInsertMark(nullptr, 0);
 			m_bDragging = false;
 			ReleaseCapture();
 
@@ -1632,14 +1632,14 @@ LRESULT CCtrlTreeView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			HTREEITEM insertAfter = hti.hItem, hParent;
 			if (insertAfter != TVI_FIRST) {
 				hParent = GetParent(insertAfter);
-				if (GetChild(insertAfter) != NULL) {
+				if (GetChild(insertAfter) != nullptr) {
 					hParent = insertAfter;
 					insertAfter = TVI_FIRST;
 				}
 			}
-			else hParent = NULL;
+			else hParent = nullptr;
 
-			HTREEITEM FirstItem = NULL;
+			HTREEITEM FirstItem = nullptr;
 			if (m_bMultiSelect) {
 				LIST<_TREEITEM> arItems(10);
 				GetSelected(arItems);
@@ -1698,7 +1698,7 @@ LRESULT CCtrlTreeView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					else if (i < selected.getCount())
 						hti.hItem = selected[i];
 					else
-						hti.hItem = NULL;
+						hti.hItem = nullptr;
 					break;
 				}
 			}
@@ -1708,7 +1708,7 @@ LRESULT CCtrlTreeView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		else if (wParam & MK_SHIFT) {
 			HTREEITEM hItem = TreeView_GetSelection(m_hwnd);
-			if (hItem == NULL)
+			if (hItem == nullptr)
 				break;
 
 			LIST<_TREEITEM> selected(1);
@@ -1861,7 +1861,7 @@ HTREEITEM CCtrlTreeView::FindNamedItem(HTREEITEM hItem, const wchar_t *name)
 
 		tvi.hItem = GetNextSibling(tvi.hItem);
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CCtrlTreeView::GetItem(HTREEITEM hItem, TVITEMEX *tvi)
@@ -1909,7 +1909,7 @@ void CCtrlTreeView::DropUnhilite(HTREEITEM hItem)
 
 void CCtrlTreeView::SelectAll()
 {
-	TreeView_SelectItem(m_hwnd, NULL);
+	TreeView_SelectItem(m_hwnd, nullptr);
 
 	HTREEITEM hItem = TreeView_GetRoot(m_hwnd);
 	while (hItem) {
@@ -1920,7 +1920,7 @@ void CCtrlTreeView::SelectAll()
 
 void CCtrlTreeView::UnselectAll()
 {
-	TreeView_SelectItem(m_hwnd, NULL);
+	TreeView_SelectItem(m_hwnd, nullptr);
 
 	HTREEITEM hItem = TreeView_GetRoot(m_hwnd);
 	while (hItem) {
@@ -1985,7 +1985,7 @@ void CCtrlTreeView::GetSelected(LIST<_TREEITEM> &selected)
 void CCtrlTreeView::Select(LIST<_TREEITEM> &selected)
 {
 	for (int i = 0; i < selected.getCount(); i++)
-		if (selected[i] != NULL)
+		if (selected[i] != nullptr)
 			Select(selected[i]);
 }
 
@@ -2234,7 +2234,6 @@ struct CCtrlPages::TPageInfo : public MZeroedObject
 			DestroyIcon(m_hIcon);
 	}
 
-	int m_pageId;
 	ptrW m_ptszHeader;
 	HICON m_hIcon;
 	bool m_bChanged, m_bScheduledResize;
@@ -2243,8 +2242,8 @@ struct CCtrlPages::TPageInfo : public MZeroedObject
 
 CCtrlPages::CCtrlPages(CDlgBase *dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId),
-	m_hIml(NULL),
-	m_pActivePage(NULL),
+	m_hIml(nullptr),
+	m_pActivePage(nullptr),
 	m_pages(4)
 {}
 
@@ -2289,7 +2288,7 @@ LRESULT CCtrlPages::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					RECT rc;
 					GetClientRect(m_hwnd, &rc);
 					TabCtrl_AdjustRect(m_hwnd, FALSE, &rc);
-					SetWindowPos(p->m_pDlg->GetHwnd(), NULL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_NOZORDER);
+					SetWindowPos(p->m_pDlg->GetHwnd(), nullptr, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_NOZORDER);
 				}
 				else p->m_bScheduledResize = true;
 			}
@@ -2312,7 +2311,7 @@ LRESULT CCtrlPages::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			TPageInfo *p = GetItemPage(i);
 			if (p) {
 				pshn.hdr.hwndFrom = p->m_pDlg->GetHwnd();
-				if (pshn.hdr.hwndFrom != NULL)
+				if (pshn.hdr.hwndFrom != nullptr)
 					SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
 			}
 		}
@@ -2329,7 +2328,7 @@ void CCtrlPages::AddPage(wchar_t *ptszName, HICON hIcon, CDlgBase *pDlg)
 	info->m_hIcon = hIcon;
 	info->m_ptszHeader = mir_wstrdup(ptszName);
 
-	if (m_hwnd != NULL) {
+	if (m_hwnd != nullptr) {
 		InsertPage(info);
 
 		if (GetCount() == 1) {
@@ -2343,10 +2342,10 @@ void CCtrlPages::AddPage(wchar_t *ptszName, HICON hIcon, CDlgBase *pDlg)
 void CCtrlPages::ActivatePage(int iPage)
 {
 	TPageInfo *info = GetItemPage(iPage);
-	if (info == NULL)
+	if (info == nullptr)
 		return;
 
-	if (m_pActivePage != NULL)
+	if (m_pActivePage != nullptr)
 		ShowWindow(m_pActivePage->GetHwnd(), SW_HIDE);
 
 	m_pActivePage = info->m_pDlg;
@@ -2354,11 +2353,12 @@ void CCtrlPages::ActivatePage(int iPage)
 		RECT rc;
 		GetClientRect(m_hwnd, &rc);
 		TabCtrl_AdjustRect(m_hwnd, FALSE, &rc);
-		SetWindowPos(m_pActivePage->GetHwnd(), NULL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_NOZORDER);
+		SetWindowPos(m_pActivePage->GetHwnd(), nullptr, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_NOZORDER);
 	}
-	ShowPage(m_pActivePage);
 
-	TabCtrl_SetCurSel(m_hwnd, info->m_pageId);
+	TabCtrl_SetCurSel(m_hwnd, iPage);
+	ShowPage(m_pActivePage);
+	::SendMessage(m_pActivePage->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
 }
 
 int CCtrlPages::GetCount()
@@ -2369,7 +2369,7 @@ int CCtrlPages::GetCount()
 CDlgBase* CCtrlPages::GetNthPage(int iPage)
 {
 	TPageInfo *info = GetItemPage(iPage);
-	return (info == NULL) ? NULL : info->m_pDlg;
+	return (info == nullptr) ? nullptr : info->m_pDlg;
 }
 
 CCtrlPages::TPageInfo* CCtrlPages::GetCurrPage()
@@ -2377,7 +2377,7 @@ CCtrlPages::TPageInfo* CCtrlPages::GetCurrPage()
 	TCITEM tci = { 0 };
 	tci.mask = TCIF_PARAM;
 	if (!TabCtrl_GetItem(m_hwnd, TabCtrl_GetCurSel(m_hwnd), &tci))
-		return NULL;
+		return nullptr;
 
 	return (TPageInfo*)tci.lParam;
 }
@@ -2387,7 +2387,7 @@ CCtrlPages::TPageInfo* CCtrlPages::GetItemPage(int iPage)
 	TCITEM tci = { 0 };
 	tci.mask = TCIF_PARAM;
 	if (!TabCtrl_GetItem(m_hwnd, iPage, &tci))
-		return NULL;
+		return nullptr;
 
 	return (TPageInfo*)tci.lParam;
 }
@@ -2400,7 +2400,7 @@ int CCtrlPages::GetDlgIndex(CDlgBase *pDlg)
 		tci.mask = TCIF_PARAM | TCIF_IMAGE;
 		TabCtrl_GetItem(m_hwnd, i, &tci);
 		TPageInfo *pPage = (TPageInfo *)tci.lParam;
-		if (pPage == NULL)
+		if (pPage == nullptr)
 			continue;
 
 		if (pPage->m_pDlg == pDlg)
@@ -2409,7 +2409,6 @@ int CCtrlPages::GetDlgIndex(CDlgBase *pDlg)
 
 	return -1;
 }
-
 
 void CCtrlPages::InsertPage(TPageInfo *pPage)
 {
@@ -2427,13 +2426,13 @@ void CCtrlPages::InsertPage(TPageInfo *pPage)
 		tci.iImage = ImageList_AddIcon(m_hIml, pPage->m_hIcon);
 	}
 
-	pPage->m_pageId = TabCtrl_InsertItem(m_hwnd, TabCtrl_GetItemCount(m_hwnd), &tci);
+	TabCtrl_InsertItem(m_hwnd, TabCtrl_GetItemCount(m_hwnd), &tci);
 }
 
 void CCtrlPages::RemovePage(int iPage)
 {
 	TPageInfo *p = GetItemPage(iPage);
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	TabCtrl_DeleteItem(m_hwnd, iPage);
@@ -2442,7 +2441,7 @@ void CCtrlPages::RemovePage(int iPage)
 
 void CCtrlPages::ShowPage(CDlgBase *pDlg)
 {
-	if (pDlg->GetHwnd() == NULL) {
+	if (pDlg->GetHwnd() == nullptr) {
 		pDlg->SetParent(m_hwnd);
 		pDlg->Create();
 
@@ -2476,13 +2475,6 @@ void CCtrlPages::SwapPages(int idx1, int idx2)
 	tci.lParam = (LPARAM)p1;
 	tci.pszText = TranslateW(p1->m_ptszHeader);
 	TabCtrl_InsertItem(m_hwnd, idx2, &tci);
-
-	int tabCount = GetCount();
-	for (int i = 0; i < tabCount; i++) {
-		TPageInfo *pInfo = GetItemPage(i);
-		if (pInfo)
-			pInfo->m_pageId = i;
-	}
 }
 
 BOOL CCtrlPages::OnNotify(int /*idCtrl*/, NMHDR *pnmh)
@@ -2505,14 +2497,14 @@ BOOL CCtrlPages::OnNotify(int /*idCtrl*/, NMHDR *pnmh)
 		return TRUE;
 
 	case TCN_SELCHANGE:
-		if (m_pActivePage != NULL)
+		if (m_pActivePage != nullptr)
 			ShowWindow(m_pActivePage->GetHwnd(), SW_HIDE);
 
 		if (info = GetCurrPage()) {
 			m_pActivePage = info->m_pDlg;
 			ShowPage(m_pActivePage);
 		}
-		else m_pActivePage = NULL;
+		else m_pActivePage = nullptr;
 		return TRUE;
 	}
 
@@ -2531,7 +2523,7 @@ void CCtrlPages::OnReset()
 	int tabCount = GetCount();
 	for (int i = 0; i < tabCount; i++) {
 		TPageInfo *p = GetItemPage(i);
-		if (p->m_pDlg->GetHwnd() == NULL || !p->m_bChanged)
+		if (p->m_pDlg->GetHwnd() == nullptr || !p->m_bChanged)
 			continue;
 
 		pshn.hdr.hwndFrom = p->m_pDlg->GetHwnd();
@@ -2545,7 +2537,7 @@ void CCtrlPages::OnApply()
 	pshn.hdr.idFrom = 0;
 	pshn.lParam = 0;
 
-	if (m_pActivePage != NULL) {
+	if (m_pActivePage != nullptr) {
 		pshn.hdr.code = PSN_KILLACTIVE;
 		pshn.hdr.hwndFrom = m_pActivePage->GetHwnd();
 		if (SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn)) {
@@ -2558,14 +2550,14 @@ void CCtrlPages::OnApply()
 	int tabCount = GetCount();
 	for (int i = 0; i < tabCount; i++) {
 		TPageInfo *p = GetItemPage(i);
-		if (p->m_pDlg->GetHwnd() == NULL || !p->m_bChanged)
+		if (p->m_pDlg->GetHwnd() == nullptr || !p->m_bChanged)
 			continue;
 
 		pshn.hdr.hwndFrom = p->m_pDlg->GetHwnd();
 		SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
 		if (GetWindowLongPtr(pshn.hdr.hwndFrom, DWLP_MSGRESULT) == PSNRET_INVALID_NOCHANGEPAGE) {
-			TabCtrl_SetCurSel(m_hwnd, p->m_pageId);
-			if (m_pActivePage != NULL)
+			TabCtrl_SetCurSel(m_hwnd, i);
+			if (m_pActivePage != nullptr)
 				ShowWindow(m_pActivePage->GetHwnd(), SW_HIDE);
 			m_pActivePage = p->m_pDlg;
 			ShowWindow(m_pActivePage->GetHwnd(), SW_SHOW);
@@ -2590,7 +2582,7 @@ void CCtrlPages::OnDestroy()
 	TabCtrl_DeleteAllItems(m_hwnd);
 
 	if (m_hIml) {
-		TabCtrl_SetImageList(m_hwnd, NULL);
+		TabCtrl_SetImageList(m_hwnd, nullptr);
 		ImageList_Destroy(m_hIml);
 	}
 }
@@ -2667,7 +2659,7 @@ LRESULT CSplitter::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 CCtrlBase::CCtrlBase(CDlgBase *wnd, int idCtrl)
 	: m_parentWnd(wnd),
 	m_idCtrl(idCtrl),
-	m_hwnd(NULL),
+	m_hwnd(nullptr),
 	m_bChanged(false),
 	m_bSilent(false)
 {
@@ -2677,12 +2669,12 @@ CCtrlBase::CCtrlBase(CDlgBase *wnd, int idCtrl)
 
 void CCtrlBase::OnInit()
 {
-	m_hwnd = (m_idCtrl && m_parentWnd && m_parentWnd->GetHwnd()) ? GetDlgItem(m_parentWnd->GetHwnd(), m_idCtrl) : NULL;
+	m_hwnd = (m_idCtrl && m_parentWnd && m_parentWnd->GetHwnd()) ? GetDlgItem(m_parentWnd->GetHwnd(), m_idCtrl) : nullptr;
 }
 
 void CCtrlBase::OnDestroy()
 {
-	m_hwnd = NULL;
+	m_hwnd = nullptr;
 }
 
 void CCtrlBase::OnApply()
@@ -2848,9 +2840,9 @@ CDbLink::~CDbLink()
 DWORD CDbLink::LoadInt()
 {
 	switch (m_type) {
-		case DBVT_BYTE:  return db_get_b(NULL, m_szModule, m_szSetting, m_iDefault);
-		case DBVT_WORD:  return db_get_w(NULL, m_szModule, m_szSetting, m_iDefault);
-		case DBVT_DWORD: return db_get_dw(NULL, m_szModule, m_szSetting, m_iDefault);
+		case DBVT_BYTE:  return db_get_b(0, m_szModule, m_szSetting, m_iDefault);
+		case DBVT_WORD:  return db_get_w(0, m_szModule, m_szSetting, m_iDefault);
+		case DBVT_DWORD: return db_get_dw(0, m_szModule, m_szSetting, m_iDefault);
 		default:         return m_iDefault;
 	}
 }
@@ -2858,16 +2850,16 @@ DWORD CDbLink::LoadInt()
 void CDbLink::SaveInt(DWORD value)
 {
 	switch (m_type) {
-		case DBVT_BYTE:  db_set_b(NULL, m_szModule, m_szSetting, (BYTE)value); break;
-		case DBVT_WORD:  db_set_w(NULL, m_szModule, m_szSetting, (WORD)value); break;
-		case DBVT_DWORD: db_set_dw(NULL, m_szModule, m_szSetting, value); break;
+		case DBVT_BYTE:  db_set_b(0, m_szModule, m_szSetting, (BYTE)value); break;
+		case DBVT_WORD:  db_set_w(0, m_szModule, m_szSetting, (WORD)value); break;
+		case DBVT_DWORD: db_set_dw(0, m_szModule, m_szSetting, value); break;
 	}
 }
 
 wchar_t* CDbLink::LoadText()
 {
 	if (dbv.type != DBVT_DELETED) db_free(&dbv);
-	if (!db_get_ws(NULL, m_szModule, m_szSetting, &dbv)) {
+	if (!db_get_ws(0, m_szModule, m_szSetting, &dbv)) {
 		if (dbv.type == DBVT_WCHAR)
 			return dbv.ptszVal;
 		return m_szDefault;
@@ -2879,5 +2871,5 @@ wchar_t* CDbLink::LoadText()
 
 void CDbLink::SaveText(wchar_t *value)
 {
-	db_set_ws(NULL, m_szModule, m_szSetting, value);
+	db_set_ws(0, m_szModule, m_szSetting, value);
 }
