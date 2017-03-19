@@ -274,7 +274,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 	int once = jnResponse["once"].as_int();
 	int iRCount = jnResponse["rcount"].as_int();
-	if (count == iRCount && once == 0)
+	if (count == iRCount && once == 0 && iRCount > 0)
 		GetServerHistory(param->hContact, param->iCount + count, iRCount, iTime, param->iMsgID);
 	else {
 		mir_cslock lck(m_csLoadHistoryTask);
