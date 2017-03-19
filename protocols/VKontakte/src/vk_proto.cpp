@@ -596,7 +596,7 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 					wszNick(ptrW(db_get_wsa(param->hContact, m_szModuleName, "Nick")));
 				if (wszNick.IsEmpty())
 					wszNick = TranslateT("(Unknown contact)");
-				msg.AppendFormat(TranslateT("User %s added as friend"), wszNick);
+				msg.AppendFormat(TranslateT("User %s added as friend"), wszNick.c_str());
 				MsgPopup(param->hContact, msg, wszNick);
 			}
 		} 

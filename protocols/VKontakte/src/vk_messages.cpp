@@ -67,7 +67,7 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 		if (m_vkOptions.bSendVKLinksAsAttachments) {
 			CMStringA szAttachments = GetAttachmentsFromMessage(szMsg);
 			if (!szAttachments.IsEmpty()) {
-				debugLogA("CVkProto::SendMsg Attachments = %s", szAttachments);
+				debugLogA("CVkProto::SendMsg Attachments = %s", szAttachments.c_str());
 				pReq << CHAR_PARAM("attachment", szAttachments);
 			}
 		}

@@ -188,7 +188,7 @@ void CVkProto::RetrieveStatusMusic(const CMStringW &StatusMsg)
 			code = "API.audio.setBroadcast();return null;";
 		else {
 			CMStringW codeformat("API.status.set({text:\"%s\"});return null;");
-			code.AppendFormat(codeformat, wszOldStatusMsg);
+			code.AppendFormat(codeformat, wszOldStatusMsg.c_str());
 		}
 		m_bSetBroadcast = false;
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveStatus)

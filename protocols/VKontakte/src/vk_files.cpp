@@ -113,7 +113,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 		wszError = TranslateT("Unknown error occurred");
 	}
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ErrorCode== VKERR_AUDIO_DEL_COPYRIGHT ? ACKRESULT_DENIED : ACKRESULT_FAILED, (HANDLE)fup);
-	debugLogW(L"CVkProto::SendFileFiled error code = %d (%s)", ErrorCode, wszError);
+	debugLogW(L"CVkProto::SendFileFiled error code = %d (%s)", ErrorCode, wszError.c_str());
 	MsgPopup(NULL, wszError, TranslateT("File upload error"), true);
 	delete fup;
 }
@@ -174,7 +174,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	Utils_GetRandom(&iboundary, sizeof(iboundary));
 	boundary.AppendFormat("Miranda%dNG%d", iboundary, time(NULL));
 	// Header
-	header.AppendFormat("multipart/form-data; boundary=%s", boundary);
+	header.AppendFormat("multipart/form-data; boundary=%s", boundary.c_str());
 	pUploadReq->AddHeader("Content-Type", header);
 	// Content-Disposition {
 	CMStringA DataBegin = "--";

@@ -308,7 +308,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 				if (wszUid == wszActionMid) {
 					if (cc->m_bHistoryRead)
 						return;
-					wszBody.AppendFormat(L" (https://vk.com/id%s) %s", wszUid, TranslateT("left chat"));
+					wszBody.AppendFormat(L" (https://vk.com/id%s) %s", wszUid.c_str(), TranslateT("left chat"));
 				}
 				else {
 					int a_uid = 0;
@@ -332,7 +332,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 			else {
 				CMStringW wszUid(FORMAT, L"%d", uid);
 				if (wszUid == wszActionMid)
-					wszBody.AppendFormat(L" (https://vk.com/id%s) %s", wszUid, TranslateT("returned to chat"));
+					wszBody.AppendFormat(L" (https://vk.com/id%s) %s", wszUid.c_str(), TranslateT("returned to chat"));
 				else {
 					int a_uid = 0;
 					int iReadCount = swscanf(wszActionMid, L"%d", &a_uid);
@@ -360,7 +360,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 		else if (wszAction == L"chat_photo_remove")
 			wszBody = TranslateT("deleted chat cover");
 		else
-			wszBody.AppendFormat(L": %s (%s)", TranslateT("chat action not supported"), wszAction);
+			wszBody.AppendFormat(L": %s (%s)", TranslateT("chat action not supported"), wszAction.c_str());
 	}
 
 	wszBody.Replace(L"%", L"%%");

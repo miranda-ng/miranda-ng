@@ -192,7 +192,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		if (p1 && p2 && (p1 + 1 < p2)) {
 			CMStringA szMsg(p1 + 1, (int)(p2 - p1 - 1));
 			MsgPopup(NULL, ptrW(mir_utf8decodeW(szMsg)), TranslateT("Service message"), true);
-			debugLogA("CVkProto::OnOAuthAuthorize %s", szMsg);
+			debugLogA("CVkProto::OnOAuthAuthorize %s", szMsg.c_str());
 		}
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return;
@@ -390,7 +390,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	CMStringW wszOldListeningTo(ptrW(db_get_wsa(hContact, m_szModuleName, "ListeningTo")));
 	const JSONNode &jnAudio = jnItem["status_audio"];
 	if (jnAudio) {
-		CMStringW wszListeningTo(FORMAT, L"%s - %s", jnAudio["artist"].as_mstring(), jnAudio["title"].as_mstring());
+		CMStringW wszListeningTo(FORMAT, L"%s - %s", jnAudio["artist"].as_mstring().c_str(), jnAudio["title"].as_mstring().c_str());
 		if (wszListeningTo != wszOldListeningTo) {
 			setWString(hContact, "ListeningTo", wszListeningTo);
 			setWString(hContact, "AudioUrl", jnAudio["url"].as_mstring());
@@ -514,7 +514,7 @@ void CVkProto::RetrieveGroupInfo(LONG groupID)
 
 void CVkProto::RetrieveGroupInfo(CMStringA& groupIDs)
 {
-	debugLogA("CVkProto::RetrieveGroupInfo (%s)", groupIDs);
+	debugLogA("CVkProto::RetrieveGroupInfo (%s)", groupIDs.c_str());
 	if (groupIDs.IsEmpty() || !IsOnline())
 		return;
 
@@ -694,7 +694,7 @@ void CVkProto::OnReceiveGroupInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		CMStringW wszOldListeningTo(ptrW(db_get_wsa(hContact, m_szModuleName, "ListeningTo")));
 		const JSONNode &jnAudio = jnItem["status_audio"];
 		if (jnAudio) {
-			CMStringW wszListeningTo(FORMAT, L"%s - %s", jnAudio["artist"].as_mstring(), jnAudio["title"].as_mstring());
+			CMStringW wszListeningTo(FORMAT, L"%s - %s", jnAudio["artist"].as_mstring().c_str(), jnAudio["title"].as_mstring().c_str());
 			if (wszListeningTo != wszOldListeningTo) {
 				setWString(hContact, "ListeningTo", wszListeningTo);
 				setWString(hContact, "AudioUrl", jnAudio["url"].as_mstring());
@@ -839,7 +839,7 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST *reply, AsyncHttpRequest 
 				else if (jnResponse["suggestion_deleted"].as_bool())
 					msgformat = TranslateT("Friend request suggestion for the user %s deleted");
 
-				msg.AppendFormat(msgformat, wszNick);
+				msg.AppendFormat(msgformat, wszNick.c_str());
 				MsgPopup(param->hContact, msg, wszNick);
 				setByte(param->hContact, "Auth", 1);
 			}
