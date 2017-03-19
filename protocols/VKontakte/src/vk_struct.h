@@ -54,8 +54,8 @@ struct PARAM
 
 struct INT_PARAM : public PARAM
 {
-	int iValue;
-	__forceinline INT_PARAM(LPCSTR _name, int _value) :
+	long iValue;
+	__forceinline INT_PARAM(LPCSTR _name, long _value) :
 		PARAM(_name), iValue(_value)
 	{}
 };

@@ -151,7 +151,9 @@ void CVkProto::WorkerThread(void*)
 			break;
 
 		AsyncHttpRequest *pReq;
-		bool need_sleep = false;
+		ULONG uTime[3] = { 0, 0, 0 };
+		long lWaitingTime = 0;
+
 		while (true) {
 			{
 				mir_cslock lck(m_csRequestsQueue);
@@ -160,15 +162,30 @@ void CVkProto::WorkerThread(void*)
 
 				pReq = m_arRequestsQueue[0];
 				m_arRequestsQueue.remove(0);
-				need_sleep = (m_arRequestsQueue.getCount() > 1) && (pReq->m_bApiReq); // more than two to not gather
+
+				ULONG utime = GetTickCount();
+				lWaitingTime = (utime - uTime[0]) > 1000 ? 0 : 1100 - (utime - uTime[0]);
+
+				if (!(pReq->m_bApiReq) || lWaitingTime < 0)
+					lWaitingTime = 0;	
 			}
+
 			if (m_bTerminated)
 				break;
-			ExecuteRequest(pReq);
-			if (need_sleep) { // There can be maximum 3 requests to API methods per second from a client
-				Sleep(800);	// (c) https://vk.com/dev/api_requests
-				debugLogA("CVkProto::WorkerThread: need sleep");
+			
+			if (lWaitingTime) {
+				debugLogA("CVkProto::WorkerThread: need sleep %d msec", lWaitingTime);
+				Sleep(lWaitingTime);
 			}
+
+			if (pReq->m_bApiReq) {
+				uTime[0] = uTime[1];
+				uTime[1] = uTime[2];
+				uTime[2] = GetTickCount();
+				// There can be maximum 3 requests to API methods per second from a client
+				// see https://vk.com/dev/api_requests
+			}
+			ExecuteRequest(pReq);
 		}
 	}
 
@@ -190,7 +207,7 @@ AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const INT_PARAM &param)
 	CMStringA &s = pReq->m_szParam;
 	if (!s.IsEmpty())
 		s.AppendChar('&');
-	s.AppendFormat("%s=%i", param.szName, param.iValue);
+	s.AppendFormat("%s=%ld", param.szName, param.iValue);
 	return pReq;
 }
 
