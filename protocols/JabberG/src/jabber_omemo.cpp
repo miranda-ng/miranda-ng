@@ -32,6 +32,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <signal_protocol_types.h>
 #include <key_helper.h>
 
+//c++
+#include <cstddef>
+
+namespace utils {
+	// code from http://stackoverflow.com/questions/3368883/how-does-this-size-of-array-template-function-work
+	template <std::size_t N>
+	struct type_of_size
+	{
+		typedef char type[N];
+	};
+
+	template <typename T, std::size_t Size>
+	typename type_of_size<Size>::type& sizeof_array_helper(T(&)[Size]);
+
+#define _countof_portable(pArray) sizeof(sizeof_array_helper(pArray))
+}
+
+using namespace utils;
+
 namespace omemo {
 
 	int random_func(uint8_t *data, size_t len, void * /*user_data*/)
@@ -518,7 +537,138 @@ namespace omemo {
 		return own_id;
 	}
 
+	struct IqHandlerUserData {
+		wchar_t* node_name;
+	};
+
+	void pubsub_createnode_impl(wchar_t *node_name, CJabberProto *proto)
+	{
+		//xep-0060 8.1.1 required by xep-0163 3
+		IqHandlerUserData *data = (IqHandlerUserData*)mir_alloc(sizeof(IqHandlerUserData)); //this may cause memory leak
+		data->node_name = mir_wstrdup(node_name);
+		XmlNodeIq iq(proto->AddIQ(&CJabberProto::OmemoOnIqResultPubsubCreateNode, JABBER_IQ_TYPE_SET, proto->m_PubsubServiceName, 0UL, -1, data)); //TODO: check is it correct
+		iq << XATTR(L"from", proto->m_ThreadInfo->fullJID); //full unstripped jid used here
+		HXML create_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"create");
+		create_node << XATTR(L"node", node_name);
+		proto->m_ThreadInfo->send(iq);
+	}
+
+	void pubsub_createnode(wchar_t *node_name, CJabberProto *proto)
+	{
+		if (!proto->m_PubsubServiceName)
+		{
+			IqHandlerUserData *data = (IqHandlerUserData*)mir_alloc(sizeof(IqHandlerUserData)); //this may cause memory leak
+			data->node_name = mir_wstrdup(node_name);
+			proto->m_ThreadInfo->send(
+				XmlNodeIq(proto->AddIQ(&CJabberProto::OmemoOnIqResultServerDiscoItems, JABBER_IQ_TYPE_GET, _A2T(proto->m_ThreadInfo->conn.server), 0UL, -1, data))
+				<< XQUERY(JABBER_FEAT_DISCO_ITEMS));
+		}
+		else
+			pubsub_createnode_impl(node_name, proto);
+	}
+
 };
+
+void CJabberProto::OmemoOnIqResultServerDiscoInfoJid(HXML iqNode, CJabberIqInfo *pInfo)
+{
+	if (m_PubsubServiceName) //one pubsub address is enough
+		return;
+	if (iqNode == NULL)
+		return;
+
+	const wchar_t *type = XmlGetAttrValue(iqNode, L"type");
+	if (mir_wstrcmp(type, L"result"))
+		return;
+
+	LPCTSTR jid = XmlGetAttrValue(iqNode, L"from");
+
+	HXML query = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_DISCO_INFO);
+	if (query == NULL)
+		return;
+
+	HXML identity;
+	for (int i = 1; (identity = XmlGetNthChild(query, L"identity", i)) != NULL; i++)
+	{
+		JABBER_DISCO_FIELD tmp = {
+			XmlGetAttrValue(identity, L"category"),
+			XmlGetAttrValue(identity, L"type") 
+		};
+
+		if (!mir_wstrcmp(tmp.category, L"pubsub") && !mir_wstrcmp(tmp.type, L"service"))
+		{
+			omemo::IqHandlerUserData *data = (omemo::IqHandlerUserData*)pInfo->GetUserData();
+			m_PubsubServiceName = mir_wstrdup(jid);
+			omemo::pubsub_createnode(data->node_name, this);
+			mir_free(data->node_name);
+			mir_free(data);
+			break;
+		}
+	}
+
+}
+
+void CJabberProto::OmemoOnIqResultServerDiscoItems(HXML iqNode, CJabberIqInfo* pInfo)
+{
+	if (iqNode == NULL)
+		return;
+
+	const wchar_t *type = XmlGetAttrValue(iqNode, L"type");
+	if (mir_wstrcmp(type, L"result"))
+		return;
+
+	HXML query = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_DISCO_ITEMS);
+	if (query == NULL)
+		return;
+
+	HXML item;
+	for (int i = 1; (item = XmlGetNthChild(query, L"item", i)) != NULL; i++)
+	{
+		LPCTSTR jid = XmlGetAttrValue(item, L"jid");
+		if(jid)
+		m_ThreadInfo->send(
+			XmlNodeIq(AddIQ(&CJabberProto::OmemoOnIqResultServerDiscoInfoJid, JABBER_IQ_TYPE_GET, jid, 0UL, -1, pInfo->GetUserData()))
+			<< XQUERY(JABBER_FEAT_DISCO_INFO));
+	}
+}
+
+void CJabberProto::OmemoOnIqResultPubsubCreateNode(HXML iqNode, CJabberIqInfo *pInfo)
+{
+
+	if (iqNode == NULL)
+		return;
+
+	LPCTSTR type = XmlGetAttrValue(iqNode, L"type");
+	if (mir_wstrcmp(type, L"result"))
+	{
+		HXML error_node = XmlGetChild(iqNode, L"error");
+		if (!error_node) //not error and not success...
+			return;
+		HXML error_type_node = XmlGetChild(error_node, L"conflict"); //conflict is ok
+		if (!error_type_node)
+			return;
+	}
+
+
+	omemo::IqHandlerUserData *data = (omemo::IqHandlerUserData*)pInfo->GetUserData();
+	if (!mir_wstrcmp(data->node_name, JABBER_FEAT_OMEMO L":devicelist"))
+	{ //device list node created
+		OmemoAnnounceDevice();
+	}
+	else
+	{
+		DWORD own_id = omemo::GetOwnDeviceId(this);
+		wchar_t attr_val[128];
+		mir_snwprintf(attr_val, L"%s:bundles:%d", JABBER_FEAT_OMEMO, own_id);
+		if (!mir_wstrcmp(data->node_name, attr_val))
+		{ //device bundle node created
+			OmemoSendBundle();
+		}
+	}
+
+	mir_free(data->node_name);
+	mir_free(data);
+}
+
 
 void CJabberProto::OmemoInitDevice()
 {
@@ -584,16 +734,7 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 	}
 }
 
-void pubsub_createnode(wchar_t *node_name, wchar_t *pubsub_addr, CJabberProto *proto)
-{
-	//xep-0060 8.1.1 required by xep-0163 3
-	XmlNodeIq iq(L"set", proto->SerialNext());
-	iq << XATTR(L"from", proto->m_ThreadInfo->fullJID); //full unstripped jid used here
-	iq << XATTR(L"to", pubsub_addr);
-	HXML create_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"create");
-	create_node << XATTR(L"node", node_name);
-	proto->m_ThreadInfo->send(iq);
-}
+
 
 void CJabberProto::OmemoAnnounceDevice()
 {
@@ -614,11 +755,9 @@ void CJabberProto::OmemoAnnounceDevice()
 	// construct node
 	wchar_t szBareJid[JABBER_MAX_JID_LEN];
 	XmlNodeIq iq(L"set", SerialNext()); 
-	iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid)));
+	iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof_portable(szBareJid)));
 	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish") << XATTR(L"node", JABBER_FEAT_OMEMO L":devicelist");
-	//pubsub_createnode(JABBER_FEAT_OMEMO L":devicelist", L"TODO_pubsub_address", this); //TODO: get pubsub address somehow
-														  //TODO: handle reply of createnode
-	HXML list_node = publish_node << XCHILDNS(L"list", JABBER_FEAT_OMEMO);
+	HXML list_node = publish_node << XCHILDNS(L"item") << XCHILDNS(L"list", JABBER_FEAT_OMEMO);
 
 	for (int i = 0; ; ++i) {
 		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
@@ -631,6 +770,7 @@ void CJabberProto::OmemoAnnounceDevice()
 	list_node << XCHILD(L"device") << XATTRI(L"id", own_id);
 
 	// send device list back
+	//TODOL handle response
 	m_ThreadInfo->send(iq);
 }
 
@@ -642,15 +782,13 @@ void CJabberProto::OmemoSendBundle()
 	// construct bundle node
 	wchar_t szBareJid[JABBER_MAX_JID_LEN];
 	XmlNodeIq iq(L"set", SerialNext());
-	iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid)));
+	iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof_portable(szBareJid)));
 
 	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish");
 	{
 		wchar_t attr_val[128];
 		mir_snwprintf(attr_val, L"%s:bundles:%d", JABBER_FEAT_OMEMO, own_id);
 		publish_node << XATTR(L"node", attr_val);
-		//pubsub_createnode(attr_val, L"TODO_pubsub_address", this); //TODO: get pubsub address somehow
-		//TODO: handle reply of createnode
 	}
 	HXML bundle_node = publish_node << XCHILD(L"item") << XCHILDNS(L"bundle", JABBER_FEAT_OMEMO);
 
@@ -678,5 +816,15 @@ void CJabberProto::OmemoSendBundle()
 	}
 
 	// send bundle
+	//TODOL handle response
 	m_ThreadInfo->send(iq);
+}
+
+void CJabberProto::OmemoCreateNodes()
+{
+	omemo::pubsub_createnode(JABBER_FEAT_OMEMO L":devicelist", this);
+	DWORD own_id = omemo::GetOwnDeviceId(this);
+	wchar_t attr_val[128];
+	mir_snwprintf(attr_val, L"%s:bundles:%d", JABBER_FEAT_OMEMO, own_id);
+	omemo::pubsub_createnode(attr_val, this);
 }

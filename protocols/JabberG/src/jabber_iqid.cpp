@@ -209,10 +209,7 @@ void CJabberProto::OnLoggedIn()
 
 	//is it correct place ?
 	if (m_options.UseOMEMO)
-	{
-		OmemoAnnounceDevice();
-		OmemoSendBundle();
-	}
+		OmemoCreateNodes();
 }
 
 void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo*)
