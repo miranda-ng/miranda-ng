@@ -181,9 +181,6 @@
 #define IDC_DELAY_ERR                   1102
 #define IDC_RTL                         1103
 #define IDC_PIC                         1104
-#define IDC_FONTBOLD                    1106
-#define IDC_FONTITALIC                  1107
-#define IDC_FONTUNDERLINE               1108
 #define IDC_HISTORY                     1111
 #define IDC_CANCELADD                   1112
 #define IDC_FONTSTRIKEOUT               1113

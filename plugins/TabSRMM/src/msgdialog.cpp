@@ -33,7 +33,7 @@
 bool IsStringValidLink(wchar_t *pszText);
 
 static const UINT sendControls[] = { IDC_MESSAGE, IDC_LOG };
-static const UINT formatControls[] = { IDC_FONTBOLD, IDC_FONTITALIC, IDC_FONTUNDERLINE, IDC_FONTSTRIKEOUT };
+static const UINT formatControls[] = { IDC_SRMM_BOLD, IDC_SRMM_ITALICS, IDC_SRMM_UNDERLINE, IDC_FONTSTRIKEOUT };
 static const UINT addControls[] = { IDC_ADD, IDC_CANCELADD };
 static const UINT btnControls[] = { IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER, IDC_ADD, IDC_CANCELADD };
 static const UINT errorControls[] = { IDC_STATICERRORICON, IDC_STATICTEXT, IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER };
@@ -552,15 +552,15 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			switch (wParam) {
 			case 0x02:               // bold
 				if (mwdat->m_SendFormat)
-					SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTBOLD, IDC_MESSAGE), 0);
+					SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_SRMM_BOLD, IDC_MESSAGE), 0);
 				return 0;
 			case 0x09:
 				if (mwdat->m_SendFormat)
-					SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTITALIC, IDC_MESSAGE), 0);
+					SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_SRMM_ITALICS, IDC_MESSAGE), 0);
 				return 0;
 			case 21:
 				if (mwdat->m_SendFormat)
-					SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTUNDERLINE, IDC_MESSAGE), 0);
+					SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_SRMM_UNDERLINE, IDC_MESSAGE), 0);
 				return 0;
 			case 0x0b:
 				SetWindowText(hwnd, L"");
@@ -2102,9 +2102,9 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 	}
 
 	if ((msg == WM_LBUTTONDOWN || msg == WM_KEYUP || msg == WM_LBUTTONUP) && pFilter->nmhdr.idFrom == IDC_MESSAGE) {
-		int bBold = IsDlgButtonChecked(m_hwnd, IDC_FONTBOLD);
-		int bItalic = IsDlgButtonChecked(m_hwnd, IDC_FONTITALIC);
-		int bUnder = IsDlgButtonChecked(m_hwnd, IDC_FONTUNDERLINE);
+		int bBold = IsDlgButtonChecked(m_hwnd, IDC_SRMM_BOLD);
+		int bItalic = IsDlgButtonChecked(m_hwnd, IDC_SRMM_ITALICS);
+		int bUnder = IsDlgButtonChecked(m_hwnd, IDC_SRMM_UNDERLINE);
 		int bStrikeout = IsDlgButtonChecked(m_hwnd, IDC_FONTSTRIKEOUT);
 
 		CHARFORMAT2 cf2;
@@ -2114,24 +2114,24 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 		m_message.SendMsg(EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2);
 		if (cf2.dwEffects & CFE_BOLD) {
 			if (bBold == BST_UNCHECKED)
-				CheckDlgButton(m_hwnd, IDC_FONTBOLD, BST_CHECKED);
+				CheckDlgButton(m_hwnd, IDC_SRMM_BOLD, BST_CHECKED);
 		}
 		else if (bBold == BST_CHECKED)
-			CheckDlgButton(m_hwnd, IDC_FONTBOLD, BST_UNCHECKED);
+			CheckDlgButton(m_hwnd, IDC_SRMM_BOLD, BST_UNCHECKED);
 
 		if (cf2.dwEffects & CFE_ITALIC) {
 			if (bItalic == BST_UNCHECKED)
-				CheckDlgButton(m_hwnd, IDC_FONTITALIC, BST_CHECKED);
+				CheckDlgButton(m_hwnd, IDC_SRMM_ITALICS, BST_CHECKED);
 		}
 		else if (bItalic == BST_CHECKED)
-			CheckDlgButton(m_hwnd, IDC_FONTITALIC, BST_UNCHECKED);
+			CheckDlgButton(m_hwnd, IDC_SRMM_ITALICS, BST_UNCHECKED);
 
 		if (cf2.dwEffects & CFE_UNDERLINE && (cf2.bUnderlineType & CFU_UNDERLINE || cf2.bUnderlineType & CFU_UNDERLINEWORD)) {
 			if (bUnder == BST_UNCHECKED)
-				CheckDlgButton(m_hwnd, IDC_FONTUNDERLINE, BST_CHECKED);
+				CheckDlgButton(m_hwnd, IDC_SRMM_UNDERLINE, BST_CHECKED);
 		}
 		else if (bUnder == BST_CHECKED)
-			CheckDlgButton(m_hwnd, IDC_FONTUNDERLINE, BST_UNCHECKED);
+			CheckDlgButton(m_hwnd, IDC_SRMM_UNDERLINE, BST_UNCHECKED);
 
 		if (cf2.dwEffects & CFE_STRIKEOUT) {
 			if (bStrikeout == BST_UNCHECKED)

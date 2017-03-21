@@ -311,11 +311,8 @@ void CSrmmBaseDialog::onClick_BIU(CCtrlButton *pButton)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CSrmmBaseDialog::ProcessHotkeys(int key)
+bool CSrmmBaseDialog::ProcessHotkeys(int key, bool /*isShift*/, bool isCtrl, bool isAlt)
 {
-	BOOL isCtrl = GetKeyState(VK_CONTROL) & 0x8000;
-	BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
-	
 	if (key == VK_F4 && isCtrl && !isAlt) { // ctrl-F4 (close tab)
 		CloseTab();
 		return true;

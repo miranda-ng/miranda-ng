@@ -1181,7 +1181,7 @@ void CTabBaseDlg::PlayIncomingSound() const
 // reads send format and configures the toolbar buttons
 // if mode == 0, int only configures the buttons and does not change send format
 
-static UINT controls[] = { IDC_FONTBOLD, IDC_FONTITALIC, IDC_FONTUNDERLINE, IDC_FONTSTRIKEOUT };
+static UINT controls[] = { IDC_SRMM_BOLD, IDC_SRMM_ITALICS, IDC_SRMM_UNDERLINE, IDC_FONTSTRIKEOUT };
 
 void CTabBaseDlg::GetSendFormat()
 {

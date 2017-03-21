@@ -607,8 +607,6 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 			return 0;
 		}
 
-		if (pDlg->ProcessHotkeys(wParam))
-			return true;
 		break;
 
 	case WM_KEYDOWN:
@@ -617,6 +615,9 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 		// sound on typing..
 		if (PluginConfig.m_bSoundOnTyping && !isAlt && wParam == VK_DELETE)
 			SkinPlaySound("SoundOnTyping");
+
+		if (pDlg->ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
+			return true;
 
 		if (wParam == VK_INSERT && !isShift && !isCtrl && !isAlt) {
 			pDlg->m_bInsertMode = !pDlg->m_bInsertMode;

@@ -173,9 +173,9 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 	HMENU submenu;
 
 	switch (cmd) {
-	case IDC_FONTBOLD:
-	case IDC_FONTITALIC:
-	case IDC_FONTUNDERLINE:
+	case IDC_SRMM_BOLD:
+	case IDC_SRMM_ITALICS:
+	case IDC_SRMM_UNDERLINE:
 	case IDC_FONTSTRIKEOUT:
 		if (m_SendFormat != 0) { // dont use formatting if disabled
 			CHARFORMAT2 cf, cfOld;
@@ -190,28 +190,28 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 			BOOL isStrikeout = (cfOld.dwEffects & CFM_STRIKEOUT) && (cfOld.dwMask & CFM_STRIKEOUT);
 
 			int ctrlId = LOWORD(wParam);
-			if (ctrlId == IDC_FONTBOLD && !IsWindowEnabled(GetDlgItem(m_hwnd, IDC_FONTBOLD)))
+			if (ctrlId == IDC_SRMM_BOLD && !IsWindowEnabled(GetDlgItem(m_hwnd, IDC_SRMM_BOLD)))
 				break;
-			if (ctrlId == IDC_FONTITALIC && !IsWindowEnabled(GetDlgItem(m_hwnd, IDC_FONTITALIC)))
+			if (ctrlId == IDC_SRMM_ITALICS && !IsWindowEnabled(GetDlgItem(m_hwnd, IDC_SRMM_ITALICS)))
 				break;
-			if (ctrlId == IDC_FONTUNDERLINE && !IsWindowEnabled(GetDlgItem(m_hwnd, IDC_FONTUNDERLINE)))
+			if (ctrlId == IDC_SRMM_UNDERLINE && !IsWindowEnabled(GetDlgItem(m_hwnd, IDC_SRMM_UNDERLINE)))
 				break;
 			if (ctrlId == IDC_FONTSTRIKEOUT && !IsWindowEnabled(GetDlgItem(m_hwnd, IDC_FONTSTRIKEOUT)))
 				break;
-			if (ctrlId == IDC_FONTBOLD) {
+			if (ctrlId == IDC_SRMM_BOLD) {
 				cf.dwEffects = isBold ? 0 : CFE_BOLD;
 				cf.dwMask = CFM_BOLD;
-				CheckDlgButton(m_hwnd, IDC_FONTBOLD, !isBold ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(m_hwnd, IDC_SRMM_BOLD, !isBold ? BST_CHECKED : BST_UNCHECKED);
 			}
-			else if (ctrlId == IDC_FONTITALIC) {
+			else if (ctrlId == IDC_SRMM_ITALICS) {
 				cf.dwEffects = isItalic ? 0 : CFE_ITALIC;
 				cf.dwMask = CFM_ITALIC;
-				CheckDlgButton(m_hwnd, IDC_FONTITALIC, !isItalic ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(m_hwnd, IDC_SRMM_ITALICS, !isItalic ? BST_CHECKED : BST_UNCHECKED);
 			}
-			else if (ctrlId == IDC_FONTUNDERLINE) {
+			else if (ctrlId == IDC_SRMM_UNDERLINE) {
 				cf.dwEffects = isUnderline ? 0 : CFE_UNDERLINE;
 				cf.dwMask = CFM_UNDERLINE;
-				CheckDlgButton(m_hwnd, IDC_FONTUNDERLINE, !isUnderline ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(m_hwnd, IDC_SRMM_UNDERLINE, !isUnderline ? BST_CHECKED : BST_UNCHECKED);
 			}
 			else if (ctrlId == IDC_FONTSTRIKEOUT) {
 				cf.dwEffects = isStrikeout ? 0 : CFM_STRIKEOUT;

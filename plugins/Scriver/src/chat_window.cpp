@@ -194,7 +194,7 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 			dat->szSearchResult = nullptr;
 		}
 
-		if (pDlg->ProcessHotkeys(wParam))
+		if (pDlg->ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
 			return TRUE;
 
 		if (wParam == 0x4e && isCtrl && !isAlt) { // ctrl-n (nicklist)

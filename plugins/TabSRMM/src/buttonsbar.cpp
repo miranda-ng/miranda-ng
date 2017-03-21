@@ -21,19 +21,19 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	Srmm_AddButton(&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
-	bbd.dwButtonID = IDC_FONTBOLD;
+	bbd.dwButtonID = IDC_SRMM_BOLD;
 	bbd.dwDefPos = 40;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[10];
 	bbd.pwszTooltip = LPGENW("Bold text");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_FONTITALIC;
+	bbd.dwButtonID = IDC_SRMM_ITALICS;
 	bbd.dwDefPos = 50;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[11];
 	bbd.pwszTooltip = LPGENW("Italic text");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_FONTUNDERLINE;
+	bbd.dwButtonID = IDC_SRMM_UNDERLINE;
 	bbd.dwDefPos = 60;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[12];
 	bbd.pwszTooltip = LPGENW("Underlined text");

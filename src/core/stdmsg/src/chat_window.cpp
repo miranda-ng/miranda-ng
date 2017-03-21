@@ -269,7 +269,7 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 				dat->szTabSave[0] = '\0';
 			}
 
-			if (pDlg->ProcessHotkeys(wParam))
+			if (pDlg->ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
 				return TRUE;
 
 			if (wParam == 0x46 && isCtrl && !isAlt) { // ctrl-f (paste clean text)
