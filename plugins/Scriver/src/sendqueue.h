@@ -29,7 +29,7 @@ struct MessageSendQueueItem
 	HWND	hwndSender;
 	MCONTACT hContact;
 	char  *proto;
-	HANDLE hSendId;
+	int    hSendId;
 	int    timeout;
 	char  *sendBuffer;
 	int    sendBufferSize;

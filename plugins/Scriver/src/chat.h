@@ -66,9 +66,6 @@ struct GlobalLogSettings : public GlobalLogSettingsBase
 };
 extern GlobalLogSettings g_Settings;
 
-// main.c
-void UpgradeCheck(void);
-
 // log.c
 void LoadMsgLogBitmaps(void);
 void FreeMsgLogBitmaps(void);

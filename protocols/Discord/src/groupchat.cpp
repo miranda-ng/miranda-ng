@@ -106,7 +106,7 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 	switch (gch->dwData) {
 	case IDM_DESTROY:
 		if (IDYES == MessageBox(nullptr, TranslateT("Do you really want to destroy this channel? This action is non-revertable."), m_tszUserName, MB_YESNO | MB_ICONQUESTION)) {
-			CMStringA szUrl(FORMAT, "/channels/%S", pUser->wszUsername);
+			CMStringA szUrl(FORMAT, "/channels/%S", pUser->wszUsername.c_str());
 			Push(new AsyncHttpRequest(this, REQUEST_DELETE, szUrl, nullptr));
 		}
 		break;
@@ -117,7 +117,7 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 		es.szDataPrefix = "chat_rename";
 		if (EnterString(&es)) {
 			JSONNode root; root << WCHAR_PARAM("name", es.ptszResult);
-			CMStringA szUrl(FORMAT, "/channels/%S", pUser->wszUsername);
+			CMStringA szUrl(FORMAT, "/channels/%S", pUser->wszUsername.c_str());
 			Push(new AsyncHttpRequest(this, REQUEST_PATCH, szUrl, nullptr, &root));
 			mir_free(es.ptszResult);
 		}
@@ -129,7 +129,7 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 		es.szDataPrefix = "chat_topic";
 		if (EnterString(&es)) {
 			JSONNode root; root << WCHAR_PARAM("topic", es.ptszResult);
-			CMStringA szUrl(FORMAT, "/channels/%S", pUser->wszUsername);
+			CMStringA szUrl(FORMAT, "/channels/%S", pUser->wszUsername.c_str());
 			Push(new AsyncHttpRequest(this, REQUEST_PATCH, szUrl, nullptr, &root));
 			mir_free(es.ptszResult);
 		}

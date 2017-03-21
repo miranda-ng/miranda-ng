@@ -59,7 +59,7 @@ MessageSendQueueItem* FindSendQueueItem(MCONTACT hContact, HANDLE hSendId)
 {
 	mir_cslock lock(queueMutex);
 	for (MessageSendQueueItem *item = global_sendQueue; item != nullptr; item = item->next)
-		if (item->hContact == hContact && item->hSendId == hSendId)
+		if (item->hContact == hContact && HANDLE(item->hSendId) == hSendId)
 			return item;
 
 	return nullptr;
@@ -181,5 +181,5 @@ void SendSendQueueItem(MessageSendQueueItem* item)
 	}
 	lock.unlock();
 
-	item->hSendId = (HANDLE)ProtoChainSend(item->hContact, PSS_MESSAGE, item->flags, (LPARAM)item->sendBuffer);
+	item->hSendId = ProtoChainSend(item->hContact, PSS_MESSAGE, item->flags, (LPARAM)item->sendBuffer);
 }

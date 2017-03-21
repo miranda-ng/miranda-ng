@@ -24,7 +24,7 @@ void CDiscordProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	pReq->szUrl = pReq->m_szUrl.GetBuffer();
 	if (!pReq->m_szParam.IsEmpty()) {
 		if (pReq->requestType == REQUEST_GET) {
-			str.Format("%s?%s", pReq->m_szUrl, pReq->m_szParam);
+			str.Format("%s?%s", pReq->m_szUrl.c_str(), pReq->m_szParam.c_str());
 			pReq->szUrl = str.GetBuffer();
 		}
 		else {

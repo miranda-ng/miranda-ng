@@ -55,7 +55,8 @@ void CDropbox::CommandList(void *arg)
 		for (size_t i = 0; i < entries.size(); i++) {
 			JSONNode entry = entries[i];
 			CMStringA subName(entry.at("path_lower").as_string().c_str());
-			message.AppendFormat("%s\n", (subName[0] == '/') ? subName.Mid(1) : subName);
+			message.Append((subName[0] == '/') ? subName.Mid(1) : subName);
+			message.AppendChar('\n');
 		}
 	}
 

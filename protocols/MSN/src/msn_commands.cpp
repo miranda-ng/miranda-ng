@@ -177,7 +177,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 			szBody.AppendFormat("Ack-Id: %s\r\n", tHeader["Ack-Id"]);
 			if (msnRegistration) szBody.AppendFormat("Registration: %s\r\n", msnRegistration);
 			szBody.AppendFormat("\r\n");
-			msnNsThread->sendPacket("ACK", "MSGR %d\r\n%s", mir_strlen(szBody), szBody);
+			msnNsThread->sendPacket("ACK", "MSGR %d\r\n%s", szBody.GetLength(), szBody.c_str());
 		}
 		msgBody = tHeader.readFromBuffer(msgBody);
 		if (!(email = NEWSTR_ALLOCA(tHeader["From"]))) return;

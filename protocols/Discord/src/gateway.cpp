@@ -248,7 +248,7 @@ void CDiscordProto::GatewayThreadWorker()
 				if (hdr.bIsFinal) {
 					// process a packet here
 					CMStringA szJson(netbuf.data() + hdr.headerSize, (int)hdr.payloadSize);
-					debugLogA("JSON received:\n%s", szJson);
+					debugLogA("JSON received:\n%s", szJson.c_str());
 					JSONNode root = JSONNode::parse(szJson);
 					if (root)
 						GatewayProcess(root);

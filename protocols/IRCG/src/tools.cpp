@@ -619,7 +619,7 @@ void CIrcProto::DoUserhostWithReason(int type, CMStringW reason, bool bSendComma
 	}
 
 	va_list ap;
-	va_start(ap, &userhostparams);
+	va_start(ap, userhostparams);
 	mir_vsnwprintf(temp, _countof(temp), (S + L" " + userhostparams).c_str(), ap);
 	va_end(ap);
 

@@ -113,9 +113,9 @@ static int ackevent(WPARAM, LPARAM lParam)
 		return 0;
 
 	MCONTACT hContact = pAck->hContact;
-	MessageSendQueueItem *item = FindSendQueueItem(hContact, (HANDLE)pAck->hProcess);
+	MessageSendQueueItem *item = FindSendQueueItem(hContact, pAck->hProcess);
 	if (item == nullptr)
-		item = FindSendQueueItem(hContact = db_mc_getMeta(pAck->hContact), (HANDLE)pAck->hProcess);
+		item = FindSendQueueItem(hContact = db_mc_getMeta(pAck->hContact), pAck->hProcess);
 	if (item == nullptr)
 		return 0;
 
@@ -151,7 +151,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 	dbei.cbBlob = (int)mir_strlen(item->sendBuffer) + 1;
 	dbei.pBlob = (PBYTE)item->sendBuffer;
 
-	MessageWindowEvent evt = { sizeof(evt), (INT_PTR)item->hSendId, hContact, &dbei };
+	MessageWindowEvent evt = { sizeof(evt), item->hSendId, hContact, &dbei };
 	NotifyEventHooks(hHookWinWrite, 0, (LPARAM)&evt);
 
 	item->sendBuffer = (char *)dbei.pBlob;

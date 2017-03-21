@@ -408,7 +408,6 @@
 #define IDC_GROUP_1                     1880
 #define IDC_GROUP_2                     1881
 #define IDC_GROUP_3                     1883
-#define IDC_COLOR                       1884
 #define IDC_COPY                        1885
 #define IDC_ST_COLOUR                   1886
 #define IDC_ST_ALPHA                    1887

@@ -57,7 +57,7 @@ http::response mir_twitter::slurp(const std::string &url, http::method meth, OAu
 	std::wstring auth;
 
 	if (meth == http::get) {
-		if (url_WSTR.size() > 0) { ppro_->debugLogW(L"**SLURP::GET - we have a URL: %s", url_WSTR); }
+		if (url_WSTR.size() > 0) { ppro_->debugLogW(L"**SLURP::GET - we have a URL: %s", url_WSTR.c_str()); }
 		if (consumerKey_.size() > 0) { ppro_->debugLogA("**SLURP::GET - we have a consumerKey"); }
 		if (consumerSecret_.size() > 0) { ppro_->debugLogA("**SLURP::GET - we have a consumerSecret"); }
 		if (oauthAccessToken_.size() > 0) { ppro_->debugLogA("**SLURP::GET - we have a oauthAccessToken"); }
@@ -69,7 +69,7 @@ http::response mir_twitter::slurp(const std::string &url, http::method meth, OAu
 	}
 	else if (meth == http::post) {
 		// OAuthParameters postParams;
-		if (url_WSTR.size() > 0) { ppro_->debugLogW(L"**SLURP::POST - we have a URL: %s", url_WSTR); }
+		if (url_WSTR.size() > 0) { ppro_->debugLogW(L"**SLURP::POST - we have a URL: %s", url_WSTR.c_str()); }
 		if (consumerKey_.size() > 0) { ppro_->debugLogA("**SLURP::POST - we have a consumerKey"); }
 		if (consumerSecret_.size() > 0) { ppro_->debugLogA("**SLURP::POST - we have a consumerSecret"); }
 		if (oauthAccessToken_.size() > 0) { ppro_->debugLogA("**SLURP::POST - we have a oauthAccessToken"); }
@@ -78,7 +78,7 @@ http::response mir_twitter::slurp(const std::string &url, http::method meth, OAu
 
 		pdata_WSTR = BuildQueryString(postParams);
 
-		ppro_->debugLogW(L"**SLURP::POST - post data is: %s", pdata_WSTR);
+		ppro_->debugLogW(L"**SLURP::POST - post data is: %s", pdata_WSTR.c_str());
 
 		auth = OAuthWebRequestSubmit(url_WSTR, L"POST", &postParams, consumerKey_, consumerSecret_, oauthAccessToken_, oauthAccessTokenSecret_);
 	}
