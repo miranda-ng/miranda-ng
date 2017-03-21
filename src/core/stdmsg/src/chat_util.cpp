@@ -142,45 +142,6 @@ char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool LoadMessageFont(LOGFONT *lf, COLORREF *colour)
-{
-	char str[32];
-	int i = 8; // MSGFONTID_MESSAGEAREA
-
-	if (colour) {
-		mir_snprintf(str, "SRMFont%dCol", i);
-		*colour = db_get_dw(NULL, "SRMM", str, 0);
-	}
-	if (lf) {
-		mir_snprintf(str, "SRMFont%dSize", i);
-		lf->lfHeight = (char)db_get_b(NULL, "SRMM", str, -12);
-		lf->lfWidth = 0;
-		lf->lfEscapement = 0;
-		lf->lfOrientation = 0;
-		mir_snprintf(str, "SRMFont%dSty", i);
-		int style = db_get_b(NULL, "SRMM", str, 0);
-		lf->lfWeight = style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
-		lf->lfItalic = style & DBFONTF_ITALIC ? 1 : 0;
-		lf->lfUnderline = 0;
-		lf->lfStrikeOut = 0;
-		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
-		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
-		lf->lfQuality = DEFAULT_QUALITY;
-		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-		mir_snprintf(str, "SRMFont%d", i);
-
-		ptrW wszFontFace(db_get_wsa(NULL, "SRMM", str));
-		if (wszFontFace == nullptr)
-			mir_wstrcpy(lf->lfFaceName, L"Arial");
-		else
-			mir_wstrncpy(lf->lfFaceName, wszFontFace, _countof(lf->lfFaceName));
-
-		mir_snprintf(str, "SRMFont%dSet", i);
-		lf->lfCharSet = db_get_b(NULL, "SRMM", str, DEFAULT_CHARSET);
-	}
-	return true;
-}
-
 int GetRichTextLength(HWND hwnd)
 {
 	GETTEXTLENGTHEX gtl;
@@ -212,13 +173,11 @@ int GetColorIndex(const char* pszModule, COLORREF cr)
 void CheckColorsInModule(const char* pszModule)
 {
 	MODULEINFO *pMod = pci->MM_FindModule(pszModule);
-	int i = 0;
-	COLORREF crBG = (COLORREF)db_get_dw(NULL, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
-
 	if (!pMod)
 		return;
 
-	for (i = 0; i < pMod->nColorCount; i++) {
+	COLORREF crBG = (COLORREF)db_get_dw(NULL, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
+	for (int i = 0; i < pMod->nColorCount; i++) {
 		if (pMod->crColors[i] == g_Settings.MessageAreaColor || pMod->crColors[i] == crBG) {
 			if (pMod->crColors[i] == RGB(255, 255, 255))
 				pMod->crColors[i]--;

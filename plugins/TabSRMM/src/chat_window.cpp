@@ -600,61 +600,8 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 		if (PluginConfig.m_bSoundOnTyping && !isAlt && !isCtrl && !(pDlg->m_pContainer->dwFlags & CNT_NOSOUND) && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_bAllowTab))
 			SkinPlaySound("SoundOnTyping");
 
-		if (isCtrl && !isAlt && !isShift) {
-			MODULEINFO *mi = pci->MM_FindModule(pDlg->m_si->pszModule);
-			if (mi == nullptr)
-				return 0;
-
-			switch (wParam) {
-			case 0x09: 		// ctrl-i (italics)
-				if (mi->bItalics) {
-					CheckDlgButton(hwndParent, IDC_SRMM_ITALICS, IsDlgButtonChecked(hwndParent, IDC_SRMM_ITALICS) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
-					SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(IDC_SRMM_ITALICS, 0), 0);
-				}
-				return 0;
-			case 0x02:		// ctrl-b (bold)
-				if (mi->bBold) {
-					CheckDlgButton(hwndParent, IDC_SRMM_BOLD, IsDlgButtonChecked(hwndParent, IDC_SRMM_BOLD) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
-					SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(IDC_SRMM_BOLD, 0), 0);
-				}
-				return 0;
-			case 0x20:		// ctrl-space clear formatting
-				if (mi->bBold && mi->bItalics && mi->bUnderline) {
-					CheckDlgButton(hwndParent, IDC_SRMM_BKGCOLOR, BST_UNCHECKED);
-					CheckDlgButton(hwndParent, IDC_SRMM_COLOR, BST_UNCHECKED);
-					CheckDlgButton(hwndParent, IDC_SRMM_BOLD, BST_UNCHECKED);
-					CheckDlgButton(hwndParent, IDC_SRMM_UNDERLINE, BST_UNCHECKED);
-					CheckDlgButton(hwndParent, IDC_SRMM_ITALICS, BST_UNCHECKED);
-					SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(IDC_SRMM_BKGCOLOR, 0), 0);
-					SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(IDC_SRMM_COLOR, 0), 0);
-					SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(IDC_SRMM_BOLD, 0), 0);
-					SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(IDC_SRMM_UNDERLINE, 0), 0);
-					SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(IDC_SRMM_ITALICS, 0), 0);
-				}
-				return 0;
-			case 0x0c:		// ctrl-l background color
-				if (mi->bBkgColor) {
-					CheckDlgButton(hwndParent, IDC_SRMM_BKGCOLOR, IsDlgButtonChecked(hwndParent, IDC_SRMM_BKGCOLOR) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
-					SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(IDC_SRMM_BKGCOLOR, 0), 0);
-				}
-				return 0;
-			case 0x15:		// ctrl-u underlined
-				if (mi->bUnderline) {
-					CheckDlgButton(hwndParent, IDC_SRMM_UNDERLINE, IsDlgButtonChecked(hwndParent, IDC_SRMM_UNDERLINE) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
-					SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(IDC_SRMM_UNDERLINE, 0), 0);
-				}
-				return 0;	// ctrl-k color
-			case 0x0b:
-				if (mi->bColor) {
-					CheckDlgButton(hwndParent, IDC_SRMM_COLOR, IsDlgButtonChecked(hwndParent, IDC_SRMM_COLOR) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
-					SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(IDC_SRMM_COLOR, 0), 0);
-				}
-				return 0;
-			case 0x17:
-				PostMessage(hwndParent, WM_CLOSE, 0, 1);
-				return 0;
-			}
-		}
+		if (pDlg->ProcessHotkeys(wParam))
+			return true;
 		break;
 
 	case WM_KEYDOWN:
@@ -853,81 +800,7 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 	case WM_LBUTTONUP:
 	case WM_RBUTTONUP:
 	case WM_MBUTTONUP:
-		COLORREF cr;
-		LoadLogfont(FONTSECTION_IM, MSGFONTID_MESSAGEAREA, nullptr, &cr, FONTMODULE);
-
-		CHARFORMAT2 cf;
-		cf.cbSize = sizeof(CHARFORMAT2);
-		cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_BACKCOLOR | CFM_COLOR | CFM_UNDERLINETYPE;
-		cf.dwEffects = 0;
-		SendMessage(hwnd, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-		{
-			MODULEINFO *mi = pci->MM_FindModule(pDlg->m_si->pszModule);
-			if (mi == nullptr)
-				break;
-
-			if (mi->bColor) {
-				int index = Chat_GetColorIndex(pDlg->m_si->pszModule, cf.crTextColor);
-				UINT u = IsDlgButtonChecked(GetParent(hwnd), IDC_SRMM_COLOR);
-
-				if (index >= 0) {
-					pDlg->m_bFGSet = true;
-					pDlg->m_iFG = index;
-				}
-
-				if (u == BST_UNCHECKED && cf.crTextColor != cr)
-					CheckDlgButton(hwndParent, IDC_SRMM_COLOR, BST_CHECKED);
-				else if (u == BST_CHECKED && cf.crTextColor == cr)
-					CheckDlgButton(hwndParent, IDC_SRMM_COLOR, BST_UNCHECKED);
-			}
-
-			if (mi->bBkgColor) {
-				int index = Chat_GetColorIndex(pDlg->m_si->pszModule, cf.crBackColor);
-				UINT u = IsDlgButtonChecked(hwndParent, IDC_SRMM_BKGCOLOR);
-
-				if (index >= 0) {
-					pDlg->m_bBGSet = true;
-					pDlg->m_iBG = index;
-				}
-
-				if (u == BST_UNCHECKED && cf.crBackColor != pDlg->m_clrInputBG)
-					CheckDlgButton(hwndParent, IDC_SRMM_BKGCOLOR, BST_CHECKED);
-				else if (u == BST_CHECKED && cf.crBackColor == pDlg->m_clrInputBG)
-					CheckDlgButton(hwndParent, IDC_SRMM_BKGCOLOR, BST_UNCHECKED);
-			}
-
-			if (mi->bBold) {
-				UINT u = IsDlgButtonChecked(hwndParent, IDC_SRMM_BOLD);
-				UINT u2 = cf.dwEffects;
-				u2 &= CFE_BOLD;
-				if (u == BST_UNCHECKED && u2)
-					CheckDlgButton(hwndParent, IDC_SRMM_BOLD, BST_CHECKED);
-				else if (u == BST_CHECKED && u2 == 0)
-					CheckDlgButton(hwndParent, IDC_SRMM_BOLD, BST_UNCHECKED);
-			}
-
-			if (mi->bItalics) {
-				UINT u = IsDlgButtonChecked(hwndParent, IDC_SRMM_ITALICS);
-				UINT u2 = cf.dwEffects;
-				u2 &= CFE_ITALIC;
-				if (u == BST_UNCHECKED && u2)
-					CheckDlgButton(hwndParent, IDC_SRMM_ITALICS, BST_CHECKED);
-				else if (u == BST_CHECKED && u2 == 0)
-					CheckDlgButton(hwndParent, IDC_SRMM_ITALICS, BST_UNCHECKED);
-			}
-
-			if (mi->bUnderline) {
-				UINT u = IsDlgButtonChecked(hwndParent, IDC_SRMM_UNDERLINE);
-				if (cf.dwEffects & CFE_UNDERLINE && (cf.bUnderlineType & CFU_UNDERLINE || cf.bUnderlineType & CFU_UNDERLINEWORD)) {
-					if (u == BST_UNCHECKED)
-						CheckDlgButton(hwndParent, IDC_SRMM_UNDERLINE, BST_CHECKED);
-				}
-				else {
-					if (u == BST_CHECKED)
-						CheckDlgButton(hwndParent, IDC_SRMM_UNDERLINE, BST_UNCHECKED);
-				}
-			}
-		}
+		pDlg->RefreshButtonStatus();
 		break;
 
 	case WM_INPUTLANGCHANGE:

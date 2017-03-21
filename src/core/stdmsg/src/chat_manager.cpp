@@ -133,7 +133,7 @@ static void OnLoadSettings()
 		DeleteObject(g_Settings.MessageAreaFont);
 
 	LOGFONT lf;
-	LoadMessageFont(&lf, &g_Settings.MessageAreaColor);
+	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &g_Settings.MessageAreaColor);
 	g_Settings.MessageAreaFont = CreateFontIndirect(&lf);
 
 	g_Settings.iX = db_get_dw(NULL, CHAT_MODULE, "roomx", -1);

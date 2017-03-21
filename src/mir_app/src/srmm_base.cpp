@@ -115,6 +115,8 @@ void CSrmmBaseDialog::OnInitDialog()
 	mir_subclassWindow(m_btnFilter.GetHwnd(), Srmm_ButtonSubclassProc);
 	mir_subclassWindow(m_btnColor.GetHwnd(), Srmm_ButtonSubclassProc);
 	mir_subclassWindow(m_btnBkColor.GetHwnd(), Srmm_ButtonSubclassProc);
+
+	LoadSettings();
 }
 
 INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -305,4 +307,133 @@ void CSrmmBaseDialog::onClick_BIU(CCtrlButton *pButton)
 	if (IsDlgButtonChecked(m_hwnd, IDC_SRMM_UNDERLINE))
 		cf.dwEffects |= CFE_UNDERLINE;
 	m_pEntry->SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool CSrmmBaseDialog::ProcessHotkeys(int key)
+{
+	BOOL isCtrl = GetKeyState(VK_CONTROL) & 0x8000;
+	BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
+	
+	if (key == VK_F4 && isCtrl && !isAlt) { // ctrl-F4 (close tab)
+		CloseTab();
+		return true;
+	}
+
+	if (key == VK_ESCAPE && !isCtrl && !isAlt) { // Esc (close tab)
+		CloseTab();
+		return true;
+	}
+
+	if (key == 0x42 && isCtrl && !isAlt) { // ctrl-b (bold)
+		m_btnBold.Push(!m_btnBold.IsPushed());
+		onClick_BIU(&m_btnBold);
+		return true;
+	}
+
+	if (key == 0x49 && isCtrl && !isAlt) { // ctrl-i (italics)
+		m_btnItalic.Push(!m_btnItalic.IsPushed());
+		onClick_BIU(&m_btnItalic);
+		return true;
+	}
+
+	if (key == 0x55 && isCtrl && !isAlt) { // ctrl-u (paste clean text)
+		m_btnUnderline.Push(!m_btnUnderline.IsPushed());
+		onClick_BIU(&m_btnUnderline);
+		return true;
+	}
+
+	if (key == 0x4b && isCtrl && !isAlt) { // ctrl-k (paste clean text)
+		m_btnColor.Push(!m_btnColor.IsPushed());
+		onClick_Color(&m_btnColor);
+		return true;
+	}
+
+	if (key == 0x4c && isCtrl && !isAlt) { // ctrl-l (paste clean text)
+		m_btnBkColor.Push(!m_btnBkColor.IsPushed());
+		onClick_BkColor(&m_btnBkColor);
+		return true;
+	}
+
+	if (key == VK_SPACE && isCtrl && !isAlt) { // ctrl-space (paste clean text)
+		m_btnBold.Push(false); onClick_BIU(&m_btnBold);
+		m_btnItalic.Push(false); onClick_BIU(&m_btnItalic);
+		m_btnUnderline.Push(false); onClick_BIU(&m_btnUnderline);
+
+		m_btnColor.Push(false); onClick_Color(&m_btnColor);
+		m_btnBkColor.Push(false); onClick_BkColor(&m_btnBkColor);
+		return true;
+	}
+
+	return false;
+}
+
+void CSrmmBaseDialog::RefreshButtonStatus(void)
+{
+	CHARFORMAT2 cf;
+	cf.cbSize = sizeof(CHARFORMAT2);
+	cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_BACKCOLOR | CFM_COLOR;
+	SendMessage(m_pEntry->GetHwnd(), EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+
+	MODULEINFO *mi = chatApi.MM_FindModule(m_si->pszModule);
+	if (mi == nullptr)
+		return;
+
+	if (mi->bColor) {
+		int index = GetColorIndex(m_si->pszModule, cf.crTextColor);
+		bool bState = m_btnColor.IsPushed();
+
+		if (index >= 0) {
+			m_bFGSet = true;
+			m_iFG = index;
+		}
+
+		if (!bState && cf.crTextColor != m_clrInputFG)
+			m_btnColor.Push(true);
+		else if (bState && cf.crTextColor == m_clrInputFG)
+			m_btnColor.Push(false);
+	}
+
+	if (mi->bBkgColor) {
+		int index = GetColorIndex(m_si->pszModule, cf.crBackColor);
+		bool bState = m_btnBkColor.IsPushed();
+
+		if (index >= 0) {
+			m_bBGSet = true;
+			m_iBG = index;
+		}
+
+		if (!bState && cf.crBackColor != m_clrInputBG)
+			m_btnBkColor.Push(true);
+		else if (bState && cf.crBackColor == m_clrInputBG)
+			m_btnBkColor.Push(false);
+	}
+
+	if (mi->bBold) {
+		bool bState = m_btnBold.IsPushed();
+		UINT u2 = cf.dwEffects & CFE_BOLD;
+		if (!bState && u2 != 0)
+			m_btnBold.Push(true);
+		else if (bState && u2 == 0)
+			m_btnBold.Push(false);
+	}
+
+	if (mi->bItalics) {
+		bool bState = m_btnItalic.IsPushed();
+		UINT u2 = cf.dwEffects & CFE_ITALIC;
+		if (!bState && u2 != 0)
+			m_btnItalic.Push(true);
+		else if (bState && u2 == 0)
+			m_btnItalic.Push(false);
+	}
+
+	if (mi->bUnderline) {
+		bool bState = m_btnUnderline.IsPushed();
+		UINT u2 = cf.dwEffects & CFE_UNDERLINE;
+		if (!bState && u2 != 0)
+			m_btnUnderline.Push(true);
+		else if (bState && u2 == 0)
+			m_btnUnderline.Push(false);
+	}
 }

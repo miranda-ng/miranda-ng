@@ -402,6 +402,8 @@ protected:
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	void DoEventHook(int iType, const USERINFO *pUser, const wchar_t *pszText, INT_PTR dwItem);
+	bool ProcessHotkeys(int key);
+	void RefreshButtonStatus(void);
 
 protected:
 	CCtrlEdit *m_pLog, *m_pEntry;

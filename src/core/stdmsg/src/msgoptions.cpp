@@ -82,13 +82,12 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "SRMFont%d", i);
 
-		DBVARIANT dbv;
-		if (db_get_ws(NULL, SRMMMOD, str, &dbv))
-			wcsncpy(lf->lfFaceName, fontOptionsList[i].szDefFace, _countof(lf->lfFaceName)-1);
-		else {
-			mir_wstrncpy(lf->lfFaceName, dbv.ptszVal, _countof(lf->lfFaceName));
-			db_free(&dbv);
-		}
+		ptrW wszFontFace(db_get_wsa(NULL, SRMMMOD, str));
+		if (wszFontFace == nullptr)
+			wcsncpy_s(lf->lfFaceName, fontOptionsList[i].szDefFace, _TRUNCATE);
+		else
+			mir_wstrncpy(lf->lfFaceName, wszFontFace, _countof(lf->lfFaceName));
+
 		mir_snprintf(str, "SRMFont%dSet", i);
 		lf->lfCharSet = db_get_b(NULL, SRMMMOD, str, MsgDlgGetFontDefaultCharset(lf->lfFaceName));
 	}
