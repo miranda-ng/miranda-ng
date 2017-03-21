@@ -136,7 +136,7 @@ void CToxProto::UpdateNodes()
 {
 	HttpRequest request(REQUEST_GET, "https://nodes.tox.chat/json");
 	NLHR_PTR response(request.Send(m_hNetlibUser));
-	if (response->resultCode != HTTP_CODE_OK || !response->pData)
+	if (!response || response->resultCode != HTTP_CODE_OK || !response->pData)
 	{
 		debugLogA(__FUNCTION__": failed to dowload tox.json");
 		return;
