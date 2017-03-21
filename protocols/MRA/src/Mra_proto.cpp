@@ -367,7 +367,7 @@ bool CMraProto::CmdHelloAck(BinBuffer &buf)
 	if (!mraGetStringA(NULL, "MirVerCustom", szUserAgentFormatted))
 		szUserAgentFormatted.Format(
 		"client=\"magent\" name=\"Miranda NG\" title=\"%s\" version=\"777.%lu.%lu.%lu\" build=\"%lu\" protocol=\"%lu.%lu\"",
-		szSelfVersionString, __FILEVERSION_STRING, PROTO_VERSION_MAJOR, PROTO_VERSION_MINOR);
+		szSelfVersionString.c_str(), __FILEVERSION_STRING, PROTO_VERSION_MAJOR, PROTO_VERSION_MINOR);
 
 	DWORD dwFutureFlags = (getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE) ? FEATURE_FLAG_RTF_MESSAGE : 0) | MRA_FEATURE_FLAGS;
 
@@ -699,7 +699,7 @@ bool CMraProto::CmdUserStatus(BinBuffer &buf)
 			if (dwTemp == ID_STATUS_OFFLINE) { // was/now invisible
 				CMStringW wszEmail, wszBuff;
 				mraGetStringW(hContact, "e-mail", wszEmail);
-				wszBuff.Format(L"%s <%s> - %s", pcli->pfnGetContactDisplayName(hContact, 0), wszEmail, TranslateT("invisible status changed"));
+				wszBuff.Format(L"%s <%s> - %s", pcli->pfnGetContactDisplayName(hContact, 0), wszEmail.c_str(), TranslateT("invisible status changed"));
 				MraPopupShowFromContactW(hContact, MRA_POPUP_TYPE_INFORMATION, 0, wszBuff);
 
 				MraSetContactStatus(hContact, ID_STATUS_INVISIBLE);
@@ -799,7 +799,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 		// read headers name
 		for (DWORD i = 0; i < dwFieldsNum; i++) {
 			buf >> pmralpsFields[i];
-			debugLogA("%s ", pmralpsFields[i]);
+			debugLogA(pmralpsFields[i] + " ");
 		}
 
 		while (!buf.eof()) {
@@ -923,7 +923,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 					}
 					else {// for DEBUG ONLY
 						buf >> val;
-						debugLogA("%s = %s\n", fld, val);
+						debugLogA("%s = %s\n", fld.c_str(), val.c_str());
 					}
 				} /* for */
 				// для авторизованного нам и так присылают правильный статус
@@ -1065,7 +1065,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 
 		int iGroupMode = getByte("GroupMode", 100);
 
-		debugLogA("Groups: %s\n", szGroupMask);
+		debugLogA("Groups: %s\n", szGroupMask.c_str());
 		DWORD dwID = 0;
 		for (DWORD i = 0; i < dwGroupsCount; i++) { //groups handle
 			DWORD dwControlParam = 0, dwGroupFlags = 0;
@@ -1096,7 +1096,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 					Clist_GroupCreate(0, wszGroupName);
 				}
 
-				debugLogW(L"'%s', flags: %lu (", wszGroupName, dwGroupFlags);
+				debugLogW(L"'%s', flags: %lu (", wszGroupName.c_str(), dwGroupFlags);
 				if (dwGroupFlags & CONTACT_FLAG_REMOVED)      debugLogA("CONTACT_FLAG_REMOVED, ");
 				if (dwGroupFlags & CONTACT_FLAG_GROUP)        debugLogA("CONTACT_FLAG_GROUP, ");
 				if (dwGroupFlags & CONTACT_FLAG_INVISIBLE)    debugLogA("CONTACT_FLAG_INVISIBLE, ");
@@ -1112,7 +1112,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			dwID++;
 		}
 
-		debugLogA("Contacts: %s\n", szContactMask);
+		debugLogA("Contacts: %s\n", szContactMask.c_str());
 		dwID = 20;
 		while (!buf.eof()) {
 			DWORD dwControlParam = 0;
@@ -1206,7 +1206,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 					if (fieldType == 's') {
 						buf >> szString;
 						if (szString.GetLength()) {
-							debugLogA("%s ", szString);
+							debugLogA(szString + " ");
 						}
 					}
 					else if (fieldType == 'u') {
@@ -1218,7 +1218,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 				}
 			}
 
-			debugLogA("ID: %lu, Group id: %lu, %s: flags: %lu (", dwID, dwGroupID, szEmail, dwContactFlag);
+			debugLogA("ID: %lu, Group id: %lu, %s: flags: %lu (", dwID, dwGroupID, szEmail.c_str(), dwContactFlag);
 			if (dwContactFlag & CONTACT_FLAG_REMOVED)      debugLogA("CONTACT_FLAG_REMOVED, ");
 			if (dwContactFlag & CONTACT_FLAG_GROUP)        debugLogA("CONTACT_FLAG_GROUP, ");
 			if (dwContactFlag & CONTACT_FLAG_INVISIBLE)    debugLogA("CONTACT_FLAG_INVISIBLE, ");
@@ -1661,12 +1661,12 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 		CMStringA szText;
 		if (dwFlags & MESSAGE_SMS_DELIVERY_REPORT) {
 			szText.Format("<sms_delivery_receipt><message_id>%s-1-1955988055-%s</message_id><destination>%s</destination><delivered>No</delivered><submition_time>%s</submition_time><error_code>0</error_code><error><id>15</id><params><param>%s</param></params></error></sms_delivery_receipt>",
-				szEmail, szPhone, szPhone, szTime, lpszMessageUTF);
+				szEmail.c_str(), szPhone.c_str(), szPhone.c_str(), szTime.c_str(), lpszMessageUTF);
 			ProtoBroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_FAILED, 0, (LPARAM)szText.GetString());
 		}
 		else { // new sms
 			szText.Format("<sms_message><source>Mail.ru</source><destination_UIN>%s</destination_UIN><sender>%s</sender><senders_network>Mail.ru</senders_network><text>%s</text><time>%s</time></sms_message>",
-				szEmail, szPhone, lpszMessageUTF, szTime);
+				szEmail.c_str(), szPhone.c_str(), lpszMessageUTF, szTime.c_str());
 			ProtoBroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_SUCCESS, 0, (LPARAM)szText.GetString());
 		}
 	}

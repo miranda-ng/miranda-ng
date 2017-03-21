@@ -235,7 +235,7 @@ DWORD CMraProto::MraConvertToRTFW(const CMStringW &wszMessage, CMStringA &szMess
 			memcpy(lpszMessageRTFCur, PAR, sizeof(PAR)); lpszMessageRTFCur += (sizeof(PAR) - 1);
 			memcpy(lpszMessageRTFCur, CRLF, sizeof(CRLF)); lpszMessageRTFCur += (sizeof(CRLF) - 1);
 			memcpy(lpszMessageRTFCur, "}", 2); lpszMessageRTFCur += 2;
-			debugLogA("%s\n", szMessageRTF);
+			debugLogA("%s\n", szMessageRTF.c_str());
 			return NO_ERROR;
 		}
 

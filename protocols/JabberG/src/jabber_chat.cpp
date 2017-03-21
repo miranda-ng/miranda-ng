@@ -1263,7 +1263,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		if (ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_")) {
 			if (ppro->ListGetItemPtr(LIST_CHATROOM, gch->pDest->ptszID) != NULL) {
 				wchar_t text[1024];
-				mir_snwprintf(text, L"%s/%s", gch->pDest->ptszID, szBuffer);
+				mir_snwprintf(text, L"%s/%s", gch->pDest->ptszID, szBuffer.c_str());
 				ppro->SendPresenceTo(ppro->m_iStatus == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : ppro->m_iStatus, text, NULL);
 			}
 		}

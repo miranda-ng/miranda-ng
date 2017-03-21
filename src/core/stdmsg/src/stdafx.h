@@ -251,19 +251,19 @@ public:
 	virtual void UpdateStatusBar() override;
 	virtual void UpdateTitle() override;
 
-	void OnClick_Bold(CCtrlButton*);
-	void OnClick_Color(CCtrlButton*);
-	void OnClick_BkColor(CCtrlButton*);
+	void onClick_Bold(CCtrlButton*);
+	void onClick_Color(CCtrlButton*);
+	void onClick_BkColor(CCtrlButton*);
 
-	void OnClick_Ok(CCtrlButton*);
+	void onClick_Ok(CCtrlButton*);
 
-	void OnClick_Filter(CCtrlButton*);
-	void OnClick_History(CCtrlButton*);
-	void OnClick_Options(CCtrlButton*);
-	void OnClick_NickList(CCtrlButton*);
+	void onClick_Filter(CCtrlButton*);
+	void onClick_History(CCtrlButton*);
+	void onClick_Options(CCtrlButton*);
+	void onClick_NickList(CCtrlButton*);
 
-	void OnListDblclick(CCtrlListBox*);
+	void onListDblclick(CCtrlListBox*);
 
-	void OnSplitterX(CSplitter*);
-	void OnSplitterY(CSplitter*);
+	void onSplitterX(CSplitter*);
+	void onSplitterY(CSplitter*);
 };

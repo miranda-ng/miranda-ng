@@ -209,7 +209,7 @@ protected:
 		HttpRequestBody & operator<<(const FORMAT_VALUE &param)
 		{
 			AppendSeparator();
-			content.AppendFormat("%s=%s", param.szName, param.szValue);
+			content.AppendFormat("%s=%s", param.szName, param.szValue.c_str());
 			return *this;
 		}
 

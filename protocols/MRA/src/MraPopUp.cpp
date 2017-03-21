@@ -202,9 +202,9 @@ void CMraProto::MraPopupShowFromContactW(MCONTACT hContact, DWORD dwType, DWORD 
 	mraGetStringW(hContact, "Nick", szNick);
 	mraGetStringW(hContact, "e-mail", szEmail);
 	if (hContact)
-		mir_snwprintf(szTitle, _countof(szTitle), L"%s <%s>", szNick, szEmail);
+		mir_snwprintf(szTitle, L"%s <%s>", szNick.c_str(), szEmail.c_str());
 	else
-		mir_snwprintf(szTitle, _countof(szTitle), L"%s:  %s <%s>", m_tszUserName, szNick, szEmail);
+		mir_snwprintf(szTitle, L"%s:  %s <%s>", m_tszUserName, szNick.c_str(), szEmail.c_str());
 
 	MraPopupShowW(hContact, dwType, dwFlags, szTitle, lpszMessage);
 }

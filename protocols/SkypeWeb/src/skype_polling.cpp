@@ -157,31 +157,31 @@ void CSkypeProto::ProcessEndpointPresence(const JSONNode &node)
 		{
 		case 0:
 		case 1:
-			MirVer.AppendFormat("Skype (Web) %s", ParseUrl(version.c_str(), "/"));
+			MirVer.Append("Skype (Web) " + ParseUrl(version.c_str(), "/"));
 			break;
 		case 10:
-			MirVer.AppendFormat("Skype (XBOX) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
+			MirVer.Append("Skype (XBOX) " + ParseUrl(skypeNameVersion.c_str(), "/"));
 			break;
 		case 17:
-			MirVer.AppendFormat("Skype (Android) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
+			MirVer.Append("Skype (Android) " + ParseUrl(skypeNameVersion.c_str(), "/"));
 			break;
 		case 16:
-			MirVer.AppendFormat("Skype (iOS) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
+			MirVer.Append("Skype (iOS) " + ParseUrl(skypeNameVersion.c_str(), "/"));
 			break;
 		case 12:
-			MirVer.AppendFormat("Skype (WinRT) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
+			MirVer.Append("Skype (WinRT) " + ParseUrl(skypeNameVersion.c_str(), "/"));
 			break;
 		case 15:
-			MirVer.AppendFormat("Skype (WP) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
+			MirVer.Append("Skype (WP) " + ParseUrl(skypeNameVersion.c_str(), "/"));
 			break;
 		case 13:
-			MirVer.AppendFormat("Skype (OSX) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
+			MirVer.Append("Skype (OSX) " + ParseUrl(skypeNameVersion.c_str(), "/"));
 			break;
 		case 11:
-			MirVer.AppendFormat("Skype (Windows) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
+			MirVer.Append("Skype (Windows) " + ParseUrl(skypeNameVersion.c_str(), "/"));
 			break;
 		case 14:
-			MirVer.AppendFormat("Skype (Linux) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
+			MirVer.Append("Skype (Linux) " + ParseUrl(skypeNameVersion.c_str(), "/"));
 			break;
 		case 125:
 			MirVer.AppendFormat("Miranda NG Skype %s", version.c_str());

@@ -746,7 +746,7 @@ int CIrcProto::SetStatusInternal(int iNewStatus, bool bIsInternal)
 	}
 	else if (iNewStatus == ID_STATUS_AWAY && IsConnected()) //go to away while connected
 	{
-		PostIrcMessage(L"/AWAY %s", m_statusMessage.Mid(0, 450));
+		PostIrcMessage(L"/AWAY %s", m_statusMessage.Mid(0, 450).c_str());
 		return 0;
 	}
 	else if (iNewStatus == ID_STATUS_ONLINE && IsConnected()) //already online
@@ -804,7 +804,7 @@ int __cdecl CIrcProto::SetAwayMsg(int status, const wchar_t* msg)
 				m_statusMessage = newStatus;
 
 			if (m_iStatus == ID_STATUS_AWAY)
-				PostIrcMessage(L"/AWAY %s", m_statusMessage.Mid(0, 450));
+				PostIrcMessage(L"/AWAY %s", m_statusMessage.Mid(0, 450).c_str());
 		}
 	}
 

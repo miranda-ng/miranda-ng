@@ -237,7 +237,7 @@ CMStringW PrepareMessageText(const JSONNode &pRoot)
 				bDelimiterAdded = true;
 				wszText.Append(L"\n-----------------");
 			}
-			wszText.AppendFormat(L"\n%s: %s", TranslateT("Attachment"), wszUrl);
+			wszText.AppendFormat(L"\n%s: %s", TranslateT("Attachment"), wszUrl.c_str());
 		}
 	}
 
@@ -248,19 +248,19 @@ CMStringW PrepareMessageText(const JSONNode &pRoot)
 		wszText.Append(L"\n-----------------");
 
 		CMStringW str = p["url"].as_mstring();
-		wszText.AppendFormat(L"\n%s: %s", TranslateT("Embed"), str);
+		wszText.AppendFormat(L"\n%s: %s", TranslateT("Embed"), str.c_str());
 
 		str = p["provider"]["name"].as_mstring() + L" " + p["type"].as_mstring();
 		if (str.GetLength() > 1)
-			wszText.AppendFormat(L"\n\t%s", str);
+			wszText.AppendFormat(L"\n\t%s", str.c_str());
 
 		str = p["description"].as_mstring();
 		if (!str.IsEmpty())
-			wszText.AppendFormat(L"\n\t%s", str);
+			wszText.AppendFormat(L"\n\t%s", str.c_str());
 
 		str = p["thumbnail"]["url"].as_mstring();
 		if (!str.IsEmpty())
-			wszText.AppendFormat(L"\n%s: %s", TranslateT("Preview"), str);
+			wszText.AppendFormat(L"\n%s: %s", TranslateT("Preview"), str.c_str());
 	}
 
 	return wszText;

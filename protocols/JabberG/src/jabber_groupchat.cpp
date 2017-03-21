@@ -754,7 +754,7 @@ static VOID CALLBACK JabberGroupchatChangeNickname(void* arg)
 
 		if (param->ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_")) {
 			replaceStrW(item->nick, szBuffer);
-			param->ppro->SendPresenceTo(param->ppro->m_iStatus, CMStringW(FORMAT, L"%s/%s", item->jid, szBuffer), NULL);
+			param->ppro->SendPresenceTo(param->ppro->m_iStatus, CMStringW(FORMAT, L"%s/%s", item->jid, szBuffer.c_str()), NULL);
 		}
 	}
 
@@ -1151,7 +1151,7 @@ public:
 		CSuper::OnInitDialog();
 
 		wchar_t buf[256];
-		mir_snwprintf(buf, TranslateT("Group chat invitation to\n%s"), m_roomJid);
+		mir_snwprintf(buf, TranslateT("Group chat invitation to\n%s"), m_roomJid.c_str());
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, buf);
 
 		SetDlgItemText(m_hwnd, IDC_FROM, m_from);

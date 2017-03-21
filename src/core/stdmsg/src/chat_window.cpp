@@ -787,7 +787,7 @@ LRESULT CALLBACK CChatRoomDlg::NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM 
 	return mir_callNextSubclass(hwnd, NicklistSubclassProc, msg, wParam, lParam);
 }
 
-int GetTextPixelSize(wchar_t* pszText, HFONT hFont, BOOL bWidth)
+int GetTextPixelSize(wchar_t *pszText, HFONT hFont, BOOL bWidth)
 {
 	if (!pszText || !hFont)
 		return 0;
@@ -801,7 +801,7 @@ int GetTextPixelSize(wchar_t* pszText, HFONT hFont, BOOL bWidth)
 	return bWidth ? rc.right - rc.left : rc.bottom - rc.top;
 }
 
-static void __cdecl phase2(void * lParam)
+static void __cdecl phase2(void *lParam)
 {
 	SESSION_INFO *si = (SESSION_INFO*)lParam;
 	Sleep(30);
@@ -843,24 +843,24 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	m_autoClose = 0;
 	m_forceResizable = true;
 
-	m_btnBold.OnClick = Callback(this, &CChatRoomDlg::OnClick_Bold);
-	m_btnItalic.OnClick = Callback(this, &CChatRoomDlg::OnClick_Bold);
-	m_btnUnderline.OnClick = Callback(this, &CChatRoomDlg::OnClick_Bold);
+	m_btnBold.OnClick = Callback(this, &CChatRoomDlg::onClick_Bold);
+	m_btnItalic.OnClick = Callback(this, &CChatRoomDlg::onClick_Bold);
+	m_btnUnderline.OnClick = Callback(this, &CChatRoomDlg::onClick_Bold);
 
-	m_btnColor.OnClick = Callback(this, &CChatRoomDlg::OnClick_Color);
-	m_btnBkColor.OnClick = Callback(this, &CChatRoomDlg::OnClick_BkColor);
+	m_btnColor.OnClick = Callback(this, &CChatRoomDlg::onClick_Color);
+	m_btnBkColor.OnClick = Callback(this, &CChatRoomDlg::onClick_BkColor);
 
-	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::OnClick_Ok);
+	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_Ok);
 
-	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::OnClick_Filter);
-	m_btnHistory.OnClick = Callback(this, &CChatRoomDlg::OnClick_History);
-	m_btnChannelMgr.OnClick = Callback(this, &CChatRoomDlg::OnClick_Options);
-	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::OnClick_NickList);
+	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
+	m_btnHistory.OnClick = Callback(this, &CChatRoomDlg::onClick_History);
+	m_btnChannelMgr.OnClick = Callback(this, &CChatRoomDlg::onClick_Options);
+	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::onClick_NickList);
 
-	m_nickList.OnDblClick = Callback(this, &CChatRoomDlg::OnListDblclick);
+	m_nickList.OnDblClick = Callback(this, &CChatRoomDlg::onListDblclick);
 
-	m_splitterX.OnChange = Callback(this, &CChatRoomDlg::OnSplitterX);
-	m_splitterY.OnChange = Callback(this, &CChatRoomDlg::OnSplitterY);
+	m_splitterX.OnChange = Callback(this, &CChatRoomDlg::onSplitterX);
+	m_splitterY.OnChange = Callback(this, &CChatRoomDlg::onSplitterY);
 
 	m_iSplitterX = g_Settings.iSplitterX;
 	m_iSplitterY = g_Settings.iSplitterY;
@@ -943,7 +943,7 @@ void CChatRoomDlg::OnDestroy()
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE);
 }
 
-void CChatRoomDlg::OnClick_Bold(CCtrlButton *pButton)
+void CChatRoomDlg::onClick_Bold(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
 		return;
@@ -960,7 +960,7 @@ void CChatRoomDlg::OnClick_Bold(CCtrlButton *pButton)
 	m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 }
 
-void CChatRoomDlg::OnClick_Color(CCtrlButton *pButton)
+void CChatRoomDlg::onClick_Color(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
 		return;
@@ -985,7 +985,7 @@ void CChatRoomDlg::OnClick_Color(CCtrlButton *pButton)
 	}
 }
 
-void CChatRoomDlg::OnClick_BkColor(CCtrlButton *pButton)
+void CChatRoomDlg::onClick_BkColor(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
 		return;
@@ -1010,7 +1010,7 @@ void CChatRoomDlg::OnClick_BkColor(CCtrlButton *pButton)
 	}
 }
 
-void CChatRoomDlg::OnClick_Filter(CCtrlButton *pButton)
+void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
 		return;
@@ -1023,7 +1023,7 @@ void CChatRoomDlg::OnClick_Filter(CCtrlButton *pButton)
 		RedrawLog();
 }
 
-void CChatRoomDlg::OnClick_History(CCtrlButton *pButton)
+void CChatRoomDlg::onClick_History(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
 		return;
@@ -1033,7 +1033,7 @@ void CChatRoomDlg::OnClick_History(CCtrlButton *pButton)
 		ShellExecute(m_hwnd, nullptr, pci->GetChatLogsFilename(m_si, 0), nullptr, nullptr, SW_SHOW);
 }
 
-void CChatRoomDlg::OnClick_NickList(CCtrlButton *pButton)
+void CChatRoomDlg::onClick_NickList(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled() || m_si->iType == GCW_SERVER)
 		return;
@@ -1045,13 +1045,13 @@ void CChatRoomDlg::OnClick_NickList(CCtrlButton *pButton)
 	SendMessage(m_hwnd, WM_SIZE, 0, 0);
 }
 
-void CChatRoomDlg::OnClick_Options(CCtrlButton *pButton)
+void CChatRoomDlg::onClick_Options(CCtrlButton *pButton)
 {
 	if (pButton->Enabled())
 		DoEventHook(GC_USER_CHANMGR, nullptr, nullptr, 0);
 }
 
-void CChatRoomDlg::OnClick_Ok(CCtrlButton *pButton)
+void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
 		return;
@@ -1084,7 +1084,7 @@ void CChatRoomDlg::OnClick_Ok(CCtrlButton *pButton)
 	SetFocus(m_message.GetHwnd());
 }
 
-void CChatRoomDlg::OnListDblclick(CCtrlListBox*)
+void CChatRoomDlg::onListDblclick(CCtrlListBox*)
 {
 	TVHITTESTINFO hti;
 	hti.pt.x = (short)LOWORD(GetMessagePos());
@@ -1105,7 +1105,7 @@ void CChatRoomDlg::OnListDblclick(CCtrlListBox*)
 	else DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
 }
 
-void CChatRoomDlg::OnSplitterX(CSplitter *pSplitter)
+void CChatRoomDlg::onSplitterX(CSplitter *pSplitter)
 {
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
@@ -1118,7 +1118,7 @@ void CChatRoomDlg::OnSplitterX(CSplitter *pSplitter)
 	g_Settings.iSplitterX = m_iSplitterX;
 }
 
-void CChatRoomDlg::OnSplitterY(CSplitter *pSplitter)
+void CChatRoomDlg::onSplitterY(CSplitter *pSplitter)
 {
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);

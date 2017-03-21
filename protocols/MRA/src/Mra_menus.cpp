@@ -111,11 +111,10 @@ INT_PTR CMraProto::MraSendEmail(WPARAM wParam, LPARAM)
 	DWORD dwContactEMailCount = GetContactEMailCount(wParam, FALSE);
 	if (dwContactEMailCount) {
 		if (dwContactEMailCount == 1) {
-			CMStringA szUrl, szEmail;
+			CMStringA szEmail;
 			if (GetContactFirstEMail(wParam, FALSE, szEmail)) {
 				szEmail.MakeLower();
-				szUrl.Format("https://e.mail.ru/cgi-bin/sentmsg?To=%s", szEmail);
-				MraMPopSessionQueueAddUrl(hMPopSessionQueue, szUrl);
+				MraMPopSessionQueueAddUrl(hMPopSessionQueue, "https://e.mail.ru/cgi-bin/sentmsg?To=" + szEmail);
 			}
 		}
 		else MraSelectEMailDlgShow(wParam, MRA_SELECT_EMAIL_TYPE_SEND_POSTCARD);
@@ -131,7 +130,7 @@ INT_PTR CMraProto::MraSendPostcard(WPARAM wParam, LPARAM)
 			CMStringA szUrl, szEmail;
 			if (GetContactFirstEMail(wParam, FALSE, szEmail)) {
 				szEmail.MakeLower();
-				szUrl.Format("http://cards.mail.ru/event.html?rcptname=%S&rcptemail=%s", _T2A(pcli->pfnGetContactDisplayName(wParam, 0)), szEmail);
+				szUrl.Format("http://cards.mail.ru/event.html?rcptname=%S&rcptemail=%s", _T2A(pcli->pfnGetContactDisplayName(wParam, 0)), szEmail.c_str());
 				MraMPopSessionQueueAddUrl(hMPopSessionQueue, szUrl);
 			}
 		}

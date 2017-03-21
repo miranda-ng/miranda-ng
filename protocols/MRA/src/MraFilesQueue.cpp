@@ -400,7 +400,7 @@ bool CMraProto::MraFilesQueueHandCheck(HNETLIBCONN hConnection, MRA_FILES_QUEUE_
 				dwBuffSize = Netlib_Recv(hConnection, (LPSTR)btBuff, sizeof(btBuff), 0);
 				if ((szEmail.GetLength() + sizeof(MRA_FT_HELLO)+1) == dwBuffSize) {
 					// email received
-					mir_snprintf(((LPSTR)btBuff + dwBuffSize), (_countof(btBuff) - dwBuffSize), "%s %s", MRA_FT_HELLO, szEmail);
+					mir_snprintf(((LPSTR)btBuff + dwBuffSize), (_countof(btBuff) - dwBuffSize), "%s %s", MRA_FT_HELLO, szEmail.c_str());
 					if (!_memicmp(btBuff, btBuff + dwBuffSize, dwBuffSize))
 						return true;
 				}
@@ -411,7 +411,7 @@ bool CMraProto::MraFilesQueueHandCheck(HNETLIBCONN hConnection, MRA_FILES_QUEUE_
 			if ((szEmail.GetLength() + sizeof(MRA_FT_HELLO)+1) == dwBuffSize) {
 				// email received
 				ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)dat->dwIDRequest, 0);
-				mir_snprintf(((LPSTR)btBuff + dwBuffSize), (_countof(btBuff) - dwBuffSize), "%s %s", MRA_FT_HELLO, szEmail);
+				mir_snprintf(((LPSTR)btBuff + dwBuffSize), (_countof(btBuff) - dwBuffSize), "%s %s", MRA_FT_HELLO, szEmail.c_str());
 				if (!_memicmp(btBuff, btBuff + dwBuffSize, dwBuffSize)) {
 					// email verified
 					dwBuffSize = (mir_snprintf((LPSTR)btBuff, _countof(btBuff), "%s %s", MRA_FT_HELLO, szEmailMy.c_str()) + 1);

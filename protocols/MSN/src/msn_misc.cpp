@@ -474,7 +474,7 @@ int ThreadData::sendMessage(int, const char *email, int netId, const char *parMs
 
 		if (*tFontName) buf.AppendFormat("X-MMS-IM-Format: FN=%s; EF=%s; CO=%x; CS=0; PF=31%s\r\n",
 			tFontName, tFontStyle, tFontColor, (parFlags & MSG_RTL) ? ";RL=1" : "");
-		buf.AppendFormat("\r\n%s", msgClean);
+		buf.AppendFormat("\r\n%s", msgClean.c_str());
 
 		if (pszNick!=proto->MyOptions.szEmail) db_free(&dbv);
 		parMsg = buf;
@@ -887,7 +887,7 @@ void CMsnProto::MsnInvokeMyURL(bool ismail, const char* url)
 		CMStringA hippy(passport);
 		hippy.AppendFormat("/ppsecure/sha1auth.srf?lc=%d&token=%s", itoa(langpref, passport, 10), ptrA(mir_urlEncode(post)));
 
-		debugLogA("Starting URL: '%s'", hippy);
+		debugLogA("Starting URL: '%s'", hippy.c_str());
 		Utils_OpenUrl(hippy.GetString());
 	}
 }

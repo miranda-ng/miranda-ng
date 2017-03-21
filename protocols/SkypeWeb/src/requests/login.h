@@ -25,7 +25,7 @@ public:
 		HttpRequest(REQUEST_POST, "api.skype.com/login/skypetoken")
 	{
 		username.MakeLower();
-		CMStringA hashStr(::FORMAT, "%s\nskyper\n%s", username, password);
+		CMStringA hashStr(::FORMAT, "%s\nskyper\n%s", username.c_str(), password);
 
 		BYTE digest[16];
 		mir_md5_hash((const BYTE*)hashStr.GetString(), hashStr.GetLength(), digest);

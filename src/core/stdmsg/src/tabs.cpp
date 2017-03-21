@@ -369,7 +369,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			// fix the "fixed" positions
 			int tabCount = m_tab.GetCount();
 			for (int i = 0; i < tabCount; i++) {
-				CChatRoomDlg *pDlg = (CChatRoomDlg*)m_tab.GetNthPage(i);
+				pDlg = (CChatRoomDlg*)m_tab.GetNthPage(i);
 				if (pDlg == nullptr)
 					continue;
 

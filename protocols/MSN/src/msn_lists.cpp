@@ -336,7 +336,7 @@ void CMsnProto::MSN_CreateContList(void)
 	}
 
 	cxml.Append("</ml>");
-	msnNsThread->sendPacketPayload("PUT", "MSGR\\CONTACTS", "%s", cxml);
+	msnNsThread->sendPacketPayload("PUT", "MSGR\\CONTACTS", "%s", cxml.c_str());
 
 	if (msnP24Ver > 1)
 		msnNsThread->sendPacketPayload("PUT", "MSGR\\SUBSCRIPTIONS", "<subscribe><presence><buddies><all /></buddies></presence><messaging><im /><conversations /></messaging><notifications><partners>%s<partner>ABCH</partner></partners></notifications></subscribe>",

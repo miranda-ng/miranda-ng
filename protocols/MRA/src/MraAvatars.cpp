@@ -275,7 +275,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 								}
 								else {
 									dwErrorCode = GetLastError();
-									mir_snwprintf(szErrorText, TranslateT("Avatars: can't open file %s, error"), wszFileName);
+									mir_snwprintf(szErrorText, TranslateT("Avatars: can't open file %s, error"), wszFileName.c_str());
 									ShowFormattedErrorMessage(szErrorText, dwErrorCode);
 								}
 							}

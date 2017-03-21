@@ -125,9 +125,9 @@ void CMraProto::MraMPopSessionQueueStart(HANDLE hQueue)
 			if (mraGetStringA(NULL, "e-mail", szEmail)) {
 				pmpsqMPopSessionQueue->bKeyValid = false;
 				szEmail.MakeLower();
-				szUrl.Format(MRA_MPOP_AUTH_URL, szEmail, pmpsqMPopSessionQueue->lpszMPOPKey, pmpsqi->lpszUrl);
+				szUrl.Format(MRA_MPOP_AUTH_URL, szEmail.c_str(), pmpsqMPopSessionQueue->lpszMPOPKey, pmpsqi->lpszUrl);
 				Utils_OpenUrl(szUrl);
-				debugLogA("Opening URL: %s\n", szUrl);
+				debugLogA("Opening URL: %s\n", szUrl.c_str());
 			}
 			mir_free(pmpsqi);
 		}

@@ -52,9 +52,9 @@ public:
 			CMStringA begin(::FORMAT, "messages[%s][%s]", type, idEncoded);
 
 			Body
-				<< CMStringA(::FORMAT, "%s[offset]=%i", begin, offset).c_str()
-				<< CMStringA(::FORMAT, "%s[timestamp]=%s", begin, timestamp).c_str()
-				<< CMStringA(::FORMAT, "%s[limit]=%i", begin, limit).c_str();
+				<< CMStringA(::FORMAT, "%s[offset]=%i", begin.c_str(), offset).c_str()
+				<< CMStringA(::FORMAT, "%s[timestamp]=%s", begin.c_str(), timestamp).c_str()
+				<< CMStringA(::FORMAT, "%s[limit]=%i", begin.c_str(), limit).c_str();
 		//}
 
 		/*if (loadThreadInfo) {
@@ -106,9 +106,9 @@ public:
 		CMStringA begin(::FORMAT, "messages[%s][%s]", type, idEncoded);
 
 		Body
-			<< CMStringA(::FORMAT, "%s[offset]=%i", begin, 0).c_str()
-			<< CMStringA(::FORMAT, "%s[timestamp]=%s", begin, "").c_str()
-			<< CMStringA(::FORMAT, "%s[limit]=%i", begin, limit).c_str();
+			<< CMStringA(::FORMAT, "%s[offset]=%i", begin.c_str(), 0).c_str()
+			<< CMStringA(::FORMAT, "%s[timestamp]=%s", begin.c_str(), "").c_str()
+			<< CMStringA(::FORMAT, "%s[limit]=%i", begin.c_str(), limit).c_str();
 
 		// Load thread info
 		Body << CMStringA(::FORMAT, "threads[%s][0]=%s", type, idEncoded).c_str();
@@ -133,9 +133,9 @@ public:
 			// Load messages
 			CMStringA begin(::FORMAT, "messages[%s][%s]", "thread_fbids", idEncoded);
 			Body
-				<< CMStringA(::FORMAT, "%s[offset]=%i", begin, offset).c_str()
-				//<< CMStringA(::FORMAT, "%s[timestamp]=%s", begin, "").c_str()
-				<< CMStringA(::FORMAT, "%s[limit]=%i", begin, limit).c_str();
+				<< CMStringA(::FORMAT, "%s[offset]=%i", begin.c_str(), offset).c_str()
+				//<< CMStringA(::FORMAT, "%s[timestamp]=%s", begin.c_str(), "").c_str()
+				<< CMStringA(::FORMAT, "%s[limit]=%i", begin.c_str(), limit).c_str();
 
 			// Load thread info
 			Body << CMStringA(::FORMAT, "threads[%s][%i]=%s", "thread_fbids", i, idEncoded).c_str();

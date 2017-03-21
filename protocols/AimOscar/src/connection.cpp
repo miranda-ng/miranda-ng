@@ -197,7 +197,7 @@ void fill_session_url(CMStringA &buf, CMStringA &token, CMStringA &secret, time_
 		*/
 
 	CMStringA query_string;
-	query_string.Format("a=%s&distId=%s&f=xml&k=%s&ts=%llu&useTLS=%d", token, AIM_DEFAULT_DISTID, AIM_DEFAULT_CLIENT_KEY, hosttime, (int)encryption);
+	query_string.Format("a=%s&distId=%s&f=xml&k=%s&ts=%llu&useTLS=%d", token.c_str(), AIM_DEFAULT_DISTID, AIM_DEFAULT_CLIENT_KEY, hosttime, (int)encryption);
 
 	BYTE session_key[MIR_SHA256_HASH_SIZE], signature[MIR_SHA256_HASH_SIZE];
 	mir_hmac_sha256(session_key, (BYTE*)password, mir_strlen(password), (BYTE*)secret.GetString(), secret.GetLength());
@@ -207,7 +207,7 @@ void fill_session_url(CMStringA &buf, CMStringA &token, CMStringA &secret, time_
 	generate_signature(signature, "GET", AIM_SESSION_URL, query_string, szKey);
 
 	ptrA szEncoded(mir_base64_encode(signature, sizeof(signature)));
-	buf.Format("%s?%s&sig_sha256=%s", AIM_SESSION_URL, query_string, (char*)szEncoded);
+	buf.Format("%s?%s&sig_sha256=%s", AIM_SESSION_URL, query_string.c_str(), (char*)szEncoded);
 }
 
 bool parse_start_socar_session_response(const char *response, CMStringA &bos_host, unsigned short &bos_port, CMStringA &cookie, CMStringA &tls_cert_name, bool encryption = true)
