@@ -600,6 +600,13 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 		if (PluginConfig.m_bSoundOnTyping && !isAlt && !isCtrl && !(pDlg->m_pContainer->dwFlags & CNT_NOSOUND) && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_bAllowTab))
 			SkinPlaySound("SoundOnTyping");
 
+		if (isCtrl && !isAlt && !isShift)
+		switch(wParam) {
+			case 0x17:
+			PostMessage(hwndParent, WM_CLOSE, 0, 1);
+			return 0;
+		}
+
 		if (pDlg->ProcessHotkeys(wParam))
 			return true;
 		break;
