@@ -359,7 +359,7 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 		if (!noerr) {
 			static const wchar_t errmsg[] = LPGENW("Smiley pack %s for category \"%s\" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.");
 			wchar_t msgtxt[1024];
-			mir_snwprintf(msgtxt, TranslateW(errmsg), modpath.c_str(), packname);
+			mir_snwprintf(msgtxt, TranslateW(errmsg), modpath.c_str(), packname.c_str());
 			ReportError(msgtxt);
 		}
 

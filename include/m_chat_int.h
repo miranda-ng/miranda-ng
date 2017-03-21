@@ -386,8 +386,17 @@ EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions();
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+#define IDC_SRMM_COLOR     3001
+#define IDC_SRMM_BKGCOLOR  3002
+#define IDC_SRMM_BOLD      3003
+#define IDC_SRMM_ITALICS   3004
+#define IDC_SRMM_UNDERLINE 3005
+#define IDC_SRMM_FILTER    3006
+
 class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 {
+	CSrmmBaseDialog(const CSrmmBaseDialog&);
+	CSrmmBaseDialog& operator=(const CSrmmBaseDialog&);
 
 protected:
 	CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si = nullptr);
@@ -399,6 +408,14 @@ protected:
 protected:
 	CCtrlEdit *m_pLog, *m_pEntry;
 	SESSION_INFO *m_si;
+	COLORREF m_clrInputBG, m_clrInputFG;
+	
+	CCtrlButton m_btnColor, m_btnBkColor, m_btnFilter;
+	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline;
+
+	void onClick_BIU(CCtrlButton *pButton);
+	void onClick_Color(CCtrlButton *pButton);
+	void onClick_BkColor(CCtrlButton *pButton);
 
 public:
 	MCONTACT m_hContact;
@@ -406,7 +423,6 @@ public:
 	bool m_bFilterEnabled, m_bNicklistEnabled;
 	bool m_bFGSet, m_bBGSet;
 	COLORREF m_iFG, m_iBG;
-	CCtrlButton *m_pFilter, *m_pColor, *m_pBkColor;
 
 	void ClearLog();
 	void RedrawLog2();
@@ -414,6 +430,7 @@ public:
 
 	virtual void AddLog();
 	virtual void CloseTab() {}
+	virtual void LoadSettings() PURE;
 	virtual void RedrawLog() {}
 	virtual void ScrollToBottom() {}
 	virtual void ShowFilterMenu() {}

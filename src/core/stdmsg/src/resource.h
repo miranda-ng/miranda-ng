@@ -70,15 +70,9 @@
 #define IDC_AUTOMIN                     1005
 #define IDC_DONOTSTEALFOCUS             1006
 #define IDC_SPLITTERY                   1008
-#define IDC_BOLD                        1010
-#define IDC_ITALICS                     1011
-#define IDC_UNDERLINE                   1012
-#define IDC_FILTER                      1013
 #define IDC_CHANMGR                     1014
 #define IDC_SHOWNICKLIST                1016
-#define IDC_COLOR                       1017
 #define IDC_CHECKBOXES                  1018
-#define IDC_BKGCOLOR                    1019
 #define IDC_NICKLISTBKG                 1021
 #define IDC_HISTORY                     1022
 #define IDC_NICKROW                     1024

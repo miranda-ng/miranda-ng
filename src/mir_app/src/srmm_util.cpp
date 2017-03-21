@@ -82,12 +82,19 @@ EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK Srmm_ButtonSubclassProc(HWND hwnd, UINT m
 			if (pDlg == nullptr)
 				break;
 
-			if (hwnd == pDlg->m_pFilter->GetHwnd())
+			switch (GetDlgCtrlID(hwnd)) {
+			case IDC_SRMM_FILTER:
 				pDlg->ShowFilterMenu();
-			else if (hwnd == pDlg->m_pColor->GetHwnd())
-				pDlg->ShowColorChooser(pDlg->m_pColor->GetCtrlId());
-			else if (hwnd == pDlg->m_pBkColor->GetHwnd())
-				pDlg->ShowColorChooser(pDlg->m_pBkColor->GetCtrlId());
+				break;
+
+			case IDC_SRMM_COLOR:
+				pDlg->ShowColorChooser(IDC_SRMM_COLOR);
+				break;
+
+			case IDC_SRMM_BKGCOLOR:
+				pDlg->ShowColorChooser(IDC_SRMM_BKGCOLOR);
+				break;
+			}
 		}
 		break;
 	}

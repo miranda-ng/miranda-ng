@@ -148,6 +148,12 @@ CTabBaseDlg::~CTabBaseDlg()
 	if (m_hTaskbarIcon) DestroyIcon(m_hTaskbarIcon);
 }
 
+void CTabBaseDlg::LoadSettings()
+{
+	m_clrInputBG = m_pContainer->theme.inputbg;
+	LoadLogfont(FONTSECTION_IM, MSGFONTID_MESSAGEAREA, nullptr, &m_clrInputFG, FONTMODULE);
+}
+
 void CTabBaseDlg::OnInitDialog()
 {
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);

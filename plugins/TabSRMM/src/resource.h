@@ -99,7 +99,6 @@
 #define IDC_CLOSE                       1024
 #define IDC_SAVE                        1025
 #define IDC_CHKACTR_DISMISS             1026
-#define IDC_BKGCOLOR                    1027
 #define IDC_CHKACTR_OPEN                1028
 #define IDC_CONTACTPIC                  1029
 #define IDC_SHOWNICKLIST                1030
@@ -110,7 +109,6 @@
 #define IDC_CHKPREVIEW                  1034
 #define IDC_CHKINFINITE                 1035
 #define IDC_PANELSTATUS                 1036
-#define IDC_FILTER                      1037
 #define IDC_CHKDEFAULTCOL_MESSAGE       1038
 #define IDC_CHKDEFAULTCOL_MUC           1039
 #define IDC_CHKDEFAULTCOL_ERR           1040

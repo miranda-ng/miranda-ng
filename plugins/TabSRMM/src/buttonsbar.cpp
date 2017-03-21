@@ -105,14 +105,14 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	Srmm_AddButton(&bbd);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CREATEBYID;
-	bbd.dwButtonID = IDC_COLOR;
+	bbd.dwButtonID = IDC_SRMM_COLOR;
 	bbd.pszModuleName = "Tabsrmm";
 	bbd.dwDefPos = 80;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[14];
 	bbd.pwszTooltip = LPGENW("Select font color");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_BKGCOLOR;
+	bbd.dwButtonID = IDC_SRMM_BKGCOLOR;
 	bbd.dwDefPos = 81;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[16];
 	bbd.pwszTooltip = LPGENW("Change background color");
@@ -125,7 +125,7 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("Toggle nick list");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_FILTER;
+	bbd.dwButtonID = IDC_SRMM_FILTER;
 	bbd.dwDefPos = 24;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[18];
 	bbd.pwszTooltip = LPGENW("Event filter - right click to setup, left click to activate/deactivate");

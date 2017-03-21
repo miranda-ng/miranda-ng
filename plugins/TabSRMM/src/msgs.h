@@ -242,6 +242,8 @@ class CTabBaseDlg : public CSrmmBaseDialog
 protected:
 	CCtrlEdit m_log, m_message;
 
+	virtual void LoadSettings() override;
+
 	void DM_AddDivider();
 	void DM_DismissTip(const POINT& pt);
 	void DM_ErrorDetected(int type, int flag);
@@ -481,8 +483,7 @@ public:
 class CChatRoomDlg : public CTabBaseDlg
 {
 	HWND m_hwndFilter;
-	CCtrlButton m_btnFilter, m_btnHistory, m_btnChannelMgr, m_btnNickList, m_btnOk;
-	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline, m_btnColor, m_btnBkColor;
+	CCtrlButton m_btnHistory, m_btnChannelMgr, m_btnNickList, m_btnOk;
 	CCtrlListBox m_list;
 
 	static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -523,10 +524,6 @@ public:
 	void onClick_ChanMgr(CCtrlButton*);
 	void onClick_ShowNickList(CCtrlButton*);
 
-	void onClick_BIU(CCtrlButton*);
-	void onClick_Color(CCtrlButton*);
-	void onClick_BkColor(CCtrlButton*);
-	
 	void onChange_Message(CCtrlEdit*);
 
 	void onDblClick_List(CCtrlListBox*);

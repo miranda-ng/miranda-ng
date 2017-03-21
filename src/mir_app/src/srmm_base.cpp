@@ -29,17 +29,26 @@ extern HCURSOR g_hCurHyperlinkHand;
 
 CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si)
 	: CDlgBase(hInst, idDialog),
+	m_btnFilter(this, IDC_SRMM_FILTER),
+	m_btnColor(this, IDC_SRMM_COLOR),
+	m_btnBkColor(this, IDC_SRMM_BKGCOLOR),
+	m_btnBold(this, IDC_SRMM_BOLD),
+	m_btnItalic(this, IDC_SRMM_ITALICS),
+	m_btnUnderline(this, IDC_SRMM_UNDERLINE),
+
 	m_si(si),
 	m_pLog(nullptr),
 	m_pEntry(nullptr),
-	m_pFilter(nullptr),
-	m_pColor(nullptr),
-	m_pBkColor(nullptr),
-	m_hContact(0)
+	m_hContact(0),
+	m_clrInputBG(GetSysColor(COLOR_WINDOW))
 {
 	m_bFilterEnabled = db_get_b(0, CHAT_MODULE, "FilterEnabled", 0) != 0;
 	m_bNicklistEnabled = db_get_b(0, CHAT_MODULE, "ShowNicklist", 1) != 0;
 	m_iLogFilterFlags = db_get_dw(0, CHAT_MODULE, "FilterFlags", 0x03E0);
+
+	m_btnColor.OnClick = Callback(this, &CSrmmBaseDialog::onClick_Color);
+	m_btnBkColor.OnClick = Callback(this, &CSrmmBaseDialog::onClick_BkColor);
+	m_btnBold.OnClick = m_btnItalic.OnClick = m_btnUnderline.OnClick = Callback(this, &CSrmmBaseDialog::onClick_BIU);
 
 	if (si) {
 		m_hContact = si->hContact;
@@ -56,6 +65,18 @@ CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si
 			}
 		}
 	}
+}
+
+CSrmmBaseDialog::CSrmmBaseDialog(const CSrmmBaseDialog&) :
+	CDlgBase(0, 0),
+	m_btnColor(0, 0), m_btnBkColor(0, 0), m_btnFilter(0, 0),
+	m_btnBold(0, 0), m_btnItalic(0, 0), m_btnUnderline(0, 0)
+{
+}
+
+CSrmmBaseDialog& CSrmmBaseDialog::operator=(const CSrmmBaseDialog&)
+{
+	return *this;
 }
 
 INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -179,4 +200,71 @@ void CSrmmBaseDialog::RedrawLog2()
 	m_si->LastTime = 0;
 	if (m_si->pLog)
 		StreamInEvents(m_si->pLogEnd, TRUE);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CSrmmBaseDialog::onClick_Color(CCtrlButton *pButton)
+{
+	if (!pButton->Enabled())
+		return;
+
+	CHARFORMAT2 cf;
+	cf.cbSize = sizeof(CHARFORMAT2);
+	cf.dwEffects = 0;
+	cf.dwMask = CFM_COLOR;
+
+	if (IsDlgButtonChecked(m_hwnd, pButton->GetCtrlId())) {
+		if (db_get_b(0, CHAT_MODULE, "RightClickFilter", 0) == 0) {
+			ShowColorChooser(pButton->GetCtrlId());
+			return;
+		}
+		if (m_bFGSet)
+			cf.crTextColor = chatApi.MM_FindModule(m_si->pszModule)->crColors[m_iFG];
+	}
+	else cf.crTextColor = m_clrInputFG;
+
+	m_pEntry->SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+}
+
+void CSrmmBaseDialog::onClick_BkColor(CCtrlButton *pButton)
+{
+	if (!pButton->Enabled())
+		return;
+
+	CHARFORMAT2 cf;
+	cf.cbSize = sizeof(CHARFORMAT2);
+	cf.dwEffects = 0;
+	cf.dwMask = CFM_BACKCOLOR;
+
+	if (IsDlgButtonChecked(m_hwnd, pButton->GetCtrlId())) {
+		if (!db_get_b(0, CHAT_MODULE, "RightClickFilter", 0)) {
+			ShowColorChooser(pButton->GetCtrlId());
+			return;
+		}
+		if (m_bBGSet)
+			cf.crBackColor = chatApi.MM_FindModule(m_si->pszModule)->crColors[m_iBG];
+	}
+	else cf.crBackColor = m_clrInputBG;
+
+	m_pEntry->SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+}
+
+void CSrmmBaseDialog::onClick_BIU(CCtrlButton *pButton)
+{
+	if (!pButton->Enabled())
+		return;
+
+	CHARFORMAT2 cf;
+	cf.cbSize = sizeof(CHARFORMAT2);
+	cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE;
+	cf.dwEffects = 0;
+
+	if (IsDlgButtonChecked(m_hwnd, IDC_SRMM_BOLD))
+		cf.dwEffects |= CFE_BOLD;
+	if (IsDlgButtonChecked(m_hwnd, IDC_SRMM_ITALICS))
+		cf.dwEffects |= CFE_ITALIC;
+	if (IsDlgButtonChecked(m_hwnd, IDC_SRMM_UNDERLINE))
+		cf.dwEffects |= CFE_UNDERLINE;
+	m_pEntry->SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 }

@@ -219,8 +219,7 @@ class CChatRoomDlg : public CSrmmBaseDialog
 	CCtrlEdit m_message, m_log;
 	CCtrlListBox m_nickList;
 	CCtrlButton m_btnOk;
-	CCtrlButton m_btnFilter, m_btnChannelMgr, m_btnNickList, m_btnHistory;
-	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline, m_btnColor, m_btnBkColor;
+	CCtrlButton m_btnChannelMgr, m_btnNickList, m_btnHistory;
 	CSplitter m_splitterX, m_splitterY;
 
 	HWND getCaptionWindow() const
@@ -242,6 +241,7 @@ public:
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
 	
 	virtual void CloseTab() override;
+	virtual void LoadSettings() override;
 	virtual void RedrawLog() override;
 	virtual void StreamInEvents(LOGINFO* lin, bool bRedraw) override;
 	virtual void ScrollToBottom() override;
@@ -252,8 +252,6 @@ public:
 	virtual void UpdateTitle() override;
 
 	void onClick_Bold(CCtrlButton*);
-	void onClick_Color(CCtrlButton*);
-	void onClick_BkColor(CCtrlButton*);
 
 	void onClick_Ok(CCtrlButton*);
 

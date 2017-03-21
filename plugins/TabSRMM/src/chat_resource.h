@@ -59,10 +59,6 @@
 #define IDC_HIGHLIGHTME                 1094
 #define IDC_ADDHIGHLIGHTEDITLIST        1095
 #define IDC_MUC_OPENLOGBASEDIR          1096
-#define IDC_BOLD                        1106
-#define IDC_ITALICS                     1107
-#define IDC_UNDERLINE                   1108
-#define IDC_COLOR                       1110
 #define IDC_1                           1200
 #define IDC_2                           1201
 #define IDC_3                           1202

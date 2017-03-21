@@ -383,6 +383,12 @@ void CScriverWindow::CloseTab()
 	Close();
 }
 
+void CScriverWindow::LoadSettings()
+{
+	m_clrInputBG = db_get_dw(0, SRMM_MODULE, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
+	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, nullptr, &m_clrInputFG);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // status icons processing
 
@@ -478,35 +484,35 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 
 	// chat buttons
 	bbd.bbbFlags = BBBF_ISPUSHBUTTON | BBBF_ISCHATBUTTON | BBBF_CREATEBYID;
-	bbd.dwButtonID = IDC_BOLD;
+	bbd.dwButtonID = IDC_SRMM_BOLD;
 	bbd.dwDefPos = 10;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_bold");
 	bbd.pwszText = LPGENW("&Bold");
 	bbd.pwszTooltip = LPGENW("Make the text bold (CTRL+B)");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_ITALICS;
+	bbd.dwButtonID = IDC_SRMM_ITALICS;
 	bbd.dwDefPos = 15;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_italics");
 	bbd.pwszText = LPGENW("&Italic");
 	bbd.pwszTooltip = LPGENW("Make the text italicized (CTRL+I)");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_UNDERLINE;
+	bbd.dwButtonID = IDC_SRMM_UNDERLINE;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_underline");
 	bbd.pwszText = LPGENW("&Underline");
 	bbd.pwszTooltip = LPGENW("Make the text underlined (CTRL+U)");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_COLOR;
+	bbd.dwButtonID = IDC_SRMM_COLOR;
 	bbd.dwDefPos = 25;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_fgcol");
 	bbd.pwszText = LPGENW("&Color");
 	bbd.pwszTooltip = LPGENW("Select a foreground color for the text (CTRL+K)");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_BKGCOLOR;
+	bbd.dwButtonID = IDC_SRMM_BKGCOLOR;
 	bbd.dwDefPos = 30;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_bkgcol");
 	bbd.pwszText = LPGENW("&Background color");
@@ -528,7 +534,7 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("Show/hide the nick list (CTRL+N)");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_FILTER;
+	bbd.dwButtonID = IDC_SRMM_FILTER;
 	bbd.dwDefPos = 10;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_filter");
 	bbd.pwszText = LPGENW("&Filter");

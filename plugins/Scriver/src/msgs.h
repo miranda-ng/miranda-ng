@@ -92,6 +92,7 @@ protected:
 
 public:
 	virtual void CloseTab() override;
+	virtual void LoadSettings() override;
 
 	ParentWindowData *m_pParent;
 	int m_minLogBoxHeight, m_minEditBoxHeight;
@@ -177,8 +178,7 @@ public:
 class CChatRoomDlg : public CScriverWindow
 {
 	CCtrlEdit m_message, m_log;
-	CCtrlButton m_btnOk, m_btnHistory, m_btnShowList, m_btnFilter, m_btnChanMgr;
-	CCtrlButton m_btnColor, m_btnBkColor, m_btnBold, m_btnItalic, m_btnUnderline;
+	CCtrlButton m_btnOk, m_btnHistory, m_btnShowList, m_btnChanMgr;
 	CCtrlListBox m_nickList;
 	CSplitter m_splitterX, m_splitterY;
 
@@ -216,10 +216,6 @@ public:
 	void onClick_History(CCtrlButton*);
 	void onClick_ChanMgr(CCtrlButton*);
 	void onClick_ShowList(CCtrlButton*);
-
-	void onClick_BIU(CCtrlButton*);
-	void onClick_Color(CCtrlButton*);
-	void onClick_BkColor(CCtrlButton*);
 
 	void onDblClick_List(CCtrlListBox*);
 

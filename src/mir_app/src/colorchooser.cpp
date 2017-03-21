@@ -267,6 +267,6 @@ public:
 
 void CSrmmBaseDialog::ShowColorChooser(int iCtrlId)
 {
-	CColorChooserDlg *pDialog = new CColorChooserDlg(m_si, iCtrlId == m_pColor->GetCtrlId(), m_hwnd, m_pEntry->GetHwnd(), GetDlgItem(m_hwnd, iCtrlId));
+	CColorChooserDlg *pDialog = new CColorChooserDlg(m_si, iCtrlId == IDC_SRMM_COLOR, m_hwnd, m_pEntry->GetHwnd(), GetDlgItem(m_hwnd, iCtrlId));
 	pDialog->Show();
 }

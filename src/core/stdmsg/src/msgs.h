@@ -102,6 +102,7 @@ public:
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	
+	virtual void LoadSettings() override {}
 	virtual void UpdateTitle() override {}
 
 	void OnSplitterMoved(CSplitter*);
@@ -119,7 +120,6 @@ public:
 INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 int  DbEventIsForMsgWindow(DBEVENTINFO *dbei);
 int  DbEventIsShown(DBEVENTINFO *dbei);
-void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend);
 int  SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact);
 INT_PTR SendMessageCmd(MCONTACT hContact, char *msg, int isWchar);
 
