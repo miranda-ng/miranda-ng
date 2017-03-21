@@ -207,9 +207,15 @@ void CJabberProto::OnLoggedIn()
 	setString("LastLoggedServer", m_ThreadInfo->conn.server);
 	m_pepServices.ResetPublishAll();
 
-	//is it correct place ?
 	if (m_options.UseOMEMO)
+	{
+		if (m_PubsubServiceName) // this is required if login server is changed only
+		{
+			mir_free(m_PubsubServiceName);
+			m_PubsubServiceName = nullptr;
+		}
 		OmemoCreateNodes();
+	}
 }
 
 void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo*)

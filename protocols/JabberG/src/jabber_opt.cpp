@@ -859,9 +859,9 @@ public:
 			for (int i = 0; i < m_proto->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
 				jcb |= m_proto->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
 			if(m_proto->m_options.UseOMEMO)
-				jcb |= JABBER_CAPS_OMEMO_NOTIFY;
+				jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
 			else
-				jcb &= ~JABBER_CAPS_OMEMO_NOTIFY;
+				jcb &= ~JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
 
 			m_proto->m_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, szCoreVersion, jcb);
 		}

@@ -471,8 +471,6 @@ namespace omemo {
 		mir_free(key);
 		signal_buffer_free(key_buf);
 
-
-		//TODO: generate and store "bundle"
 		//TODO: is it required to resend bundle everytime with device ?
 
 		//generate and save signed pre key
@@ -550,6 +548,13 @@ namespace omemo {
 		iq << XATTR(L"from", proto->m_ThreadInfo->fullJID); //full unstripped jid used here
 		HXML create_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"create");
 		create_node << XATTR(L"node", node_name);
+		if(!mir_wstrcmp(node_name, JABBER_FEAT_OMEMO L":devicelist"))
+		{
+			DWORD own_id = omemo::GetOwnDeviceId(proto);
+			wchar_t attr_val[128];
+			mir_snwprintf(attr_val, L"%s:bundles:%d", JABBER_FEAT_OMEMO, own_id);
+			pubsub_createnode_impl(attr_val, proto);
+		}
 		proto->m_ThreadInfo->send(iq);
 	}
 
@@ -696,7 +701,9 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 	node = XmlGetChildByTag(node, L"list", L"xmlns", JABBER_FEAT_OMEMO); //<list xmlns = 'urn:xmpp:omemo:0'>
 	if (!node)
 		return;
-	bool own_jid = false; //TODO: detect own jid (not working due to jabber_thread.cpp:947+)
+	bool own_jid = false;
+	if (wcsstr(m_ThreadInfo->fullJID, jid))
+		own_jid = true;
 	DWORD current_id;
 	LPCTSTR current_id_str;
 	if (own_jid)
@@ -823,8 +830,4 @@ void CJabberProto::OmemoSendBundle()
 void CJabberProto::OmemoCreateNodes()
 {
 	omemo::pubsub_createnode(JABBER_FEAT_OMEMO L":devicelist", this);
-	DWORD own_id = omemo::GetOwnDeviceId(this);
-	wchar_t attr_val[128];
-	mir_snwprintf(attr_val, L"%s:bundles:%d", JABBER_FEAT_OMEMO, own_id);
-	omemo::pubsub_createnode(attr_val, this);
 }

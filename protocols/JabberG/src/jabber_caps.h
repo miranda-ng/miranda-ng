@@ -112,8 +112,8 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_CAPS_NEWGPG                      ((JabberCapsBits)1<<43)
 #define JABBER_FEAT_OMEMO						L"eu.siacs.conversations.axolotl" //will become "urn:xmpp:omemo:0" once standard get accepted
 #define JABBER_CAPS_OMEMO						((JabberCapsBits)1<<46)
-#define JABBER_FEAT_OMEMO_NOTIFY				JABBER_FEAT_OMEMO L"+notify"
-#define JABBER_CAPS_OMEMO_NOTIFY				((JabberCapsBits)1<<47)
+#define JABBER_FEAT_OMEMO_DEVICELIST_NOTIFY				JABBER_FEAT_OMEMO L":devicelist+notify"
+#define JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY				((JabberCapsBits)1<<47)
 #define JABBER_CAPS_PLATFORMX86                 ((JabberCapsBits)1<<44)
 #define JABBER_CAPS_PLATFORMX64                 ((JabberCapsBits)1<<45)
 #define JABBER_FEAT_PRIVACY_LISTS               L"jabber:iq:privacy"
@@ -167,7 +167,7 @@ typedef unsigned __int64 JabberCapsBits;
 												 JABBER_CAPS_ROSTER_EXCHANGE | JABBER_CAPS_DIRECT_MUC_INVITE)
 
 #define JABBER_CAPS_MIRANDA_ALL     (JABBER_CAPS_MIRANDA_PARTIAL | JABBER_CAPS_COMMANDS | \
-                                     JABBER_CAPS_USER_MOOD_NOTIFY | JABBER_CAPS_USER_TUNE_NOTIFY | JABBER_CAPS_USER_ACTIVITY_NOTIFY | JABBER_CAPS_OMEMO_NOTIFY \
+                                     JABBER_CAPS_USER_MOOD_NOTIFY | JABBER_CAPS_USER_TUNE_NOTIFY | JABBER_CAPS_USER_ACTIVITY_NOTIFY | JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY \
 									 | JABBER_CAPS_PLATFORMX86 | JABBER_CAPS_PLATFORMX64)
 
 
