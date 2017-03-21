@@ -1130,7 +1130,6 @@ void CChatRoomDlg::onClick_BIU(CCtrlButton *pButton)
 	if (!pButton->Enabled())
 		return;
 
-	MODULEINFO *pInfo = pci->MM_FindModule(m_si->pszModule);
 	CHARFORMAT2 cf;
 	cf.cbSize = sizeof(CHARFORMAT2);
 	cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE;
@@ -1142,10 +1141,7 @@ void CChatRoomDlg::onClick_BIU(CCtrlButton *pButton)
 		cf.dwEffects |= CFE_ITALIC;
 	if (IsDlgButtonChecked(m_hwnd, IDC_UNDERLINE))
 		cf.dwEffects |= CFE_UNDERLINE;
-	if (pInfo->bSingleFormat)
-		m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
-	else
-		m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+	m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 }
 
 void CChatRoomDlg::onClick_Color(CCtrlButton *pButton)
@@ -1164,10 +1160,7 @@ void CChatRoomDlg::onClick_Color(CCtrlButton *pButton)
 		else if (m_bFGSet) {
 			cf.dwMask = CFM_COLOR;
 			cf.crTextColor = pInfo->crColors[m_iFG];
-			if (pInfo->bSingleFormat)
-				m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
-			else
-				m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+			m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 		}
 	}
 	else {
@@ -1175,10 +1168,7 @@ void CChatRoomDlg::onClick_Color(CCtrlButton *pButton)
 		LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, nullptr, &cr);
 		cf.dwMask = CFM_COLOR;
 		cf.crTextColor = cr;
-		if (pInfo->bSingleFormat)
-			m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
-		else
-			m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+		m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 	}
 }
 
@@ -1198,19 +1188,13 @@ void CChatRoomDlg::onClick_BkColor(CCtrlButton *pButton)
 		else if (m_bBGSet) {
 			cf.dwMask = CFM_BACKCOLOR;
 			cf.crBackColor = pInfo->crColors[m_iBG];
-			if (pInfo->bSingleFormat)
-				m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
-			else
-				m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+			m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 		}
 	}
 	else {
 		cf.dwMask = CFM_BACKCOLOR;
 		cf.crBackColor = (COLORREF)db_get_dw(0, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
-		if (pInfo->bSingleFormat)
-			m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
-		else
-			m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+		m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 	}
 }
 

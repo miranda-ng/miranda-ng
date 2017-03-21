@@ -89,7 +89,6 @@ struct GCModuleInfoBase
 	bool      bBkgColor;
 	bool      bChanMgr;
 	bool      bAckMsg;
-	bool      bSingleFormat;
 	bool      bFontSize;
 	int       nColorCount;
 	COLORREF* crColors;
