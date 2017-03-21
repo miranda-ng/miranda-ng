@@ -475,7 +475,9 @@ mir_wstrcmpi                  @280
 ?c_str@?$CMSimpleStringT@D@@QBEPBDXZ @539 NONAME
 ?c_str@?$CMSimpleStringT@_W@@QBEPB_WXZ @540 NONAME
 ?EndModal@CDlgBase@@QAEXH@Z @541 NONAME
+??0CCtrlBase@@AAE@ABV0@@Z @609 NONAME
 ??0CCtrlBase@@QAE@PAVCDlgBase@@H@Z @610 NONAME
+??4CCtrlBase@@AAEAAV0@ABV0@@Z @611 NONAME
 ??0CCtrlButton@@QAE@PAVCDlgBase@@H@Z @612 NONAME
 ??0CCtrlCheck@@QAE@PAVCDlgBase@@H@Z @614 NONAME
 ??0CCtrlClc@@QAE@PAVCDlgBase@@H@Z @616 NONAME
@@ -512,6 +514,9 @@ mir_wstrcmpi                  @280
 ??1CDataLink@@UAE@XZ @658 NONAME
 ??1CDbLink@@UAE@XZ @659 NONAME
 ??1CDlgBase@@UAE@XZ @660 NONAME
+??4CDataLink@@QAEAAV0@ABV0@@Z @675 NONAME
+??4CDbLink@@QAEAAV0@ABV0@@Z @676 NONAME
+??4CDlgBase@@QAEAAV0@ABV0@@Z @677 NONAME
 ??_7CCtrlBase@@6B@ @679 NONAME
 ??_7CCtrlButton@@6B@ @680 NONAME
 ??_7CCtrlCheck@@6B@ @681 NONAME
