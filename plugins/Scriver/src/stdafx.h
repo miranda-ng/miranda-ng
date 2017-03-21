@@ -120,7 +120,7 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam);
 #include "input.h"
 #include "richutil.h"
 #include "statusicon.h"
-#include "chat/chat.h"
+#include "chat.h"
 
 extern GlobalMessageData g_dat;
 

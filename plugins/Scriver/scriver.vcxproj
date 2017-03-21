@@ -25,12 +25,4 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
-  <ItemGroup>
-    <ClCompile Include="src\chat\*.cpp">
-      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\chat\chat.h" />
-  </ItemGroup>
 </Project>
