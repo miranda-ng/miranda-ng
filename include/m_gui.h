@@ -484,6 +484,9 @@ class MIR_CORE_EXPORT CCtrlBase
 {
 	friend class CDlgBase;
 
+	__forceinline CCtrlBase(const CCtrlBase&) {}
+	__forceinline CCtrlBase& operator=(const CCtrlBase&) { return *this; }
+
 	__forceinline CCtrlBase(HWND hwnd) : m_hwnd(hwnd) {}
 
 public:
