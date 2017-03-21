@@ -127,9 +127,9 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						RenameContainer(iIndex, szNewName);
 						SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_RESETCONTENT, 0, 0);
 						for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
-							if (!wcsncmp(p->szName, szName, CONTAINER_NAMELEN) && mir_wstrlen(p->szName) == mir_wstrlen(szName)) {
-								wcsncpy(p->szName, szNewName, CONTAINER_NAMELEN);
-								SendMessage(p->hwnd, DM_CONFIGURECONTAINER, 0, 0);
+							if (!wcsncmp(p->m_wszName, szName, CONTAINER_NAMELEN) && mir_wstrlen(p->m_wszName) == mir_wstrlen(szName)) {
+								wcsncpy(p->m_wszName, szNewName, CONTAINER_NAMELEN);
+								SendMessage(p->m_hwnd, DM_CONFIGURECONTAINER, 0, 0);
 							}
 						}
 						SendMessage(hwndDlg, DM_SC_BUILDLIST, 0, 0);
@@ -168,45 +168,32 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 		}
 		break;
-		/*
-		 * fill the list box...
-		 */
-	case DM_SC_BUILDLIST: {
-		DBVARIANT dbv;
-		int iCounter = 0, iItemNew;
-		char *szKey = "TAB_ContainersW";
-		char szValue[10];
-		TContainerData *pContainer = 0;
-		do {
-			mir_snprintf(szValue, "%d", iCounter);
-			if (db_get_ws(0, szKey, szValue, &dbv))
-				break;          // end of list
-			if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
-				if (wcsncmp(dbv.ptszVal, L"**mir_free**", CONTAINER_NAMELEN)) {
-					iItemNew = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_ADDSTRING, 0, (LPARAM)(!mir_wstrcmp(dbv.ptszVal, L"default") ?
-						TranslateT("Default container") : dbv.ptszVal));
-					if (iItemNew != LB_ERR)
-						SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_SETITEMDATA, (WPARAM)iItemNew, (LPARAM)iCounter);
-				}
-				db_free(&dbv);
+		
+	case DM_SC_BUILDLIST: // fill the list box...
+		for (int i = 0;; i++) {
+			char szValue[10];
+			mir_snprintf(szValue, "%d", i);
+			ptrW wszName(db_get_wsa(0, "TAB_ContainersW", szValue));
+			if (wszName == nullptr) // end of list
+				break;
+
+			if (wcsncmp(wszName, L"**free**", CONTAINER_NAMELEN)) {
+				int iItemNew = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_ADDSTRING, 0, (LPARAM)(!mir_wstrcmp(wszName, L"default") ? TranslateT("Default container") : wszName));
+				if (iItemNew != LB_ERR)
+					SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_SETITEMDATA, iItemNew, i);
 			}
-		} while (++iCounter);
+		}
 
-		/*
-		 * highlight the name of the container to which the message window currently is assigned
-		 */
-
+		// highlight the name of the container to which the message window currently is assigned
+		TContainerData *pContainer = nullptr;
 		SendMessage(hwndMsgDlg, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 		if (pContainer) {
-			LRESULT iItem;
-
-			iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM)-1, (LPARAM)(!mir_wstrcmp(pContainer->szName, L"default") ?
-				TranslateT("Default container") : pContainer->szName));
+			LRESULT iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, -1, 
+				(LPARAM)(!mir_wstrcmp(pContainer->m_wszName, L"default") ? TranslateT("Default container") : pContainer->m_wszName));
 			if (iItem != LB_ERR)
 				SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_SETCURSEL, (WPARAM)iItem, 0);
 		}
-	}
-						  break;
+		break;
 	}
 	return FALSE;
 }

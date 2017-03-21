@@ -213,7 +213,7 @@ void CTabBaseDlg::FlashTab(bool bInvertMode)
 
 void CTabBaseDlg::CalcDynamicAvatarSize(BITMAP *bminfo)
 {
-	if (m_dwFlags & MWF_WASBACKGROUNDCREATE || m_pContainer->dwFlags & CNT_DEFERREDCONFIGURE || m_pContainer->dwFlags & CNT_CREATE_MINIMIZED || IsIconic(m_pContainer->hwnd))
+	if (m_dwFlags & MWF_WASBACKGROUNDCREATE || m_pContainer->dwFlags & CNT_DEFERREDCONFIGURE || m_pContainer->dwFlags & CNT_CREATE_MINIMIZED || IsIconic(m_pContainer->m_hwnd))
 		return;  // at this stage, the layout is not yet ready...
 
 	RECT rc;
@@ -313,7 +313,7 @@ int CTabBaseDlg::MsgWindowMenuHandler(int selection, int menuId)
 				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), m_hwnd, DlgProcContainerOptions, (LPARAM)m_pContainer);
 			return 1;
 		case ID_TABMENU_CLOSECONTAINER:
-			SendMessage(m_pContainer->hwnd, WM_CLOSE, 0, 0);
+			SendMessage(m_pContainer->m_hwnd, WM_CLOSE, 0, 0);
 			return 1;
 		case ID_TABMENU_CLOSETAB:
 			SendMessage(m_hwnd, WM_CLOSE, 1, 0);
@@ -403,7 +403,7 @@ int CTabBaseDlg::MsgWindowMenuHandler(int selection, int menuId)
 
 void CTabBaseDlg::UpdateReadChars() const
 {
-	if (!m_pContainer->hwndStatus || m_pContainer->hwndActive != m_hwnd)
+	if (!m_pContainer->hwndStatus || m_pContainer->m_hwndActive != m_hwnd)
 		return;
 
 	int len;
@@ -443,7 +443,7 @@ void CTabBaseDlg::UpdateReadChars() const
 
 void CTabBaseDlg::tabUpdateStatusBar() const
 {
-	if (m_pContainer->hwndStatus && m_pContainer->hwndActive == m_hwnd) {
+	if (m_pContainer->hwndStatus && m_pContainer->m_hwndActive == m_hwnd) {
 		if (!isChat()) {
 			if (m_wszStatusBar[0]) {
 				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
@@ -495,7 +495,7 @@ void TSAPI HandleIconFeedback(CTabBaseDlg *dat, HICON iIcon)
 	if (dat->m_pContainer->dwFlags & CNT_SIDEBAR)
 		dat->m_pContainer->SideBar->updateSession(dat);
 	else
-		TabCtrl_SetItem(GetDlgItem(dat->m_pContainer->hwnd, IDC_MSGTABS), dat->m_iTabID, &item);
+		TabCtrl_SetItem(GetDlgItem(dat->m_pContainer->m_hwnd, IDC_MSGTABS), dat->m_iTabID, &item);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -733,7 +733,7 @@ void CTabBaseDlg::FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei)
 {
 	m_dwTickLastEvent = GetTickCount();
 
-	if ((GetForegroundWindow() != m_pContainer->hwnd || m_pContainer->hwndActive != m_hwnd) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE) {
+	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE) {
 		m_dwUnread++;
 		UpdateTrayMenu(this, (WORD)(m_cache->getActiveStatus()), m_cache->getActiveProto(), m_wszStatus, m_hContact, 0);
 		if (nen_options.bTraySupport)
@@ -745,7 +745,7 @@ void CTabBaseDlg::FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei)
 	if (!PluginConfig.m_bFlashOnClist)
 		return;
 
-	if ((GetForegroundWindow() != m_pContainer->hwnd || m_pContainer->hwndActive != m_hwnd) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE && !(m_dwFlagsEx & MWF_SHOW_FLASHCLIST)) {
+	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE && !(m_dwFlagsEx & MWF_SHOW_FLASHCLIST)) {
 		CLISTEVENT cle = {};
 		cle.hContact = m_hContact;
 		cle.hDbEvent = hEvent;
@@ -1170,7 +1170,7 @@ void CTabBaseDlg::PlayIncomingSound() const
 	int iPlay = Utils::mustPlaySound(this);
 
 	if (iPlay) {
-		if (GetForegroundWindow() == m_pContainer->hwnd && m_pContainer->hwndActive == m_hwnd)
+		if (GetForegroundWindow() == m_pContainer->m_hwnd && m_pContainer->m_hwndActive == m_hwnd)
 			SkinPlaySound("RecvMsgActive");
 		else
 			SkinPlaySound("RecvMsgInactive");
@@ -1423,7 +1423,7 @@ int CTabBaseDlg::MsgWindowDrawHandler(WPARAM, LPARAM lParam)
 			top = (cy - m_pic.cy) / 2;
 			RECT rcEdge = { 0, top, m_pic.cx, top + m_pic.cy };
 			if (CSkin::m_skinEnabled)
-				CSkin::SkinDrawBG(dis->hwndItem, m_pContainer->hwnd, m_pContainer, &dis->rcItem, hdcDraw);
+				CSkin::SkinDrawBG(dis->hwndItem, m_pContainer->m_hwnd, m_pContainer, &dis->rcItem, hdcDraw);
 			else if (PluginConfig.m_fillColor) {
 				HBRUSH br = CreateSolidBrush(PluginConfig.m_fillColor);
 				FillRect(hdcDraw, &rcFrame, br);
@@ -1495,7 +1495,7 @@ int CTabBaseDlg::MsgWindowDrawHandler(WPARAM, LPARAM lParam)
 		wchar_t szWindowText[256];
 		if (CSkin::m_skinEnabled) {
 			SetTextColor(dis->hDC, CSkin::m_DefaultFontColor);
-			CSkin::SkinDrawBG(dis->hwndItem, m_pContainer->hwnd, m_pContainer, &dis->rcItem, dis->hDC);
+			CSkin::SkinDrawBG(dis->hwndItem, m_pContainer->m_hwnd, m_pContainer, &dis->rcItem, dis->hDC);
 		}
 		else {
 			SetTextColor(dis->hDC, GetSysColor(COLOR_BTNTEXT));
@@ -1510,7 +1510,7 @@ int CTabBaseDlg::MsgWindowDrawHandler(WPARAM, LPARAM lParam)
 
 	if (dis->hwndItem == GetDlgItem(m_hwnd, IDC_STATICERRORICON)) {
 		if (CSkin::m_skinEnabled)
-			CSkin::SkinDrawBG(dis->hwndItem, m_pContainer->hwnd, m_pContainer, &dis->rcItem, dis->hDC);
+			CSkin::SkinDrawBG(dis->hwndItem, m_pContainer->m_hwnd, m_pContainer, &dis->rcItem, dis->hDC);
 		else
 			CSkin::FillBack(dis->hDC, &dis->rcItem);
 		DrawIconEx(dis->hDC, (dis->rcItem.right - dis->rcItem.left) / 2 - 8, (dis->rcItem.bottom - dis->rcItem.top) / 2 - 8,

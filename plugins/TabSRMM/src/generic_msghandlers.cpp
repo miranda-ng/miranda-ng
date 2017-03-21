@@ -131,7 +131,7 @@ bool CTabBaseDlg::DM_GenericHotkeysCheck(MSG *message)
 
 	case TABSRMM_HK_CONTAINEROPTIONS:
 		if (m_pContainer->hWndOptions == 0)
-			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), m_pContainer->hwnd, DlgProcContainerOptions, (LPARAM)m_pContainer);
+			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), m_pContainer->m_hwnd, DlgProcContainerOptions, (LPARAM)m_pContainer);
 		return true;
 
 	case TABSRMM_HK_SEND:
@@ -160,7 +160,7 @@ bool CTabBaseDlg::DM_GenericHotkeysCheck(MSG *message)
 		return true;
 
 	case TABSRMM_HK_CLOSE_OTHER:
-		CloseOtherTabs(GetDlgItem(m_pContainer->hwnd, IDC_MSGTABS), *this);
+		CloseOtherTabs(GetDlgItem(m_pContainer->m_hwnd, IDC_MSGTABS), *this);
 		return true;
 	}
 	return false;
@@ -223,7 +223,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 		break;
 
 	case IDCANCEL:
-		ShowWindow(m_pContainer->hwnd, SW_MINIMIZE);
+		ShowWindow(m_pContainer->m_hwnd, SW_MINIMIZE);
 		return FALSE;
 
 	case IDC_SAVE:
@@ -420,7 +420,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 				SWP_NOMOVE | SWP_NOSIZE | SWP_NOCOPYBITS);
 			RedrawWindow(m_hwnd, 0, 0, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 		}
-		SendMessage(m_pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
+		SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 		SendMessage(m_hwnd, WM_SIZE, 0, 0);
 		DM_ScrollToBottom(1, 1);
 		Utils::showDlgControl(m_hwnd, IDC_MULTISPLITTER, (m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
@@ -428,7 +428,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 		break;
 
 	case IDC_TOGGLESIDEBAR:
-		SendMessage(m_pContainer->hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
+		SendMessage(m_pContainer->m_hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
 		break;
 
 	case IDC_PIC:
@@ -535,7 +535,6 @@ void CTabBaseDlg::DM_InitRichEdit()
 {
 	bool fIsChat = isChat();
 
-	m_inputbg = fIsChat ? M.GetDword(FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR) : m_pContainer->theme.inputbg;
 	COLORREF colour = fIsChat ? g_Settings.crLogBackground : m_pContainer->theme.bg;
 	COLORREF inputcharcolor;
 
@@ -545,7 +544,7 @@ void CTabBaseDlg::DM_InitRichEdit()
 	SetWindowText(m_message.GetHwnd(), L"");
 
 	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
-	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, m_inputbg);
+	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, m_pContainer->theme.inputbg);
 
 	CHARFORMAT2A cf2;
 	memset(&cf2, 0, sizeof(CHARFORMAT2A));
@@ -558,7 +557,7 @@ void CTabBaseDlg::DM_InitRichEdit()
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_ITALIC | CFM_BACKCOLOR;
 		cf2.crTextColor = inputcharcolor;
 		cf2.bCharSet = lf.lfCharSet;
-		cf2.crBackColor = m_inputbg;
+		cf2.crBackColor = m_pContainer->theme.inputbg;
 		strncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
 		cf2.dwEffects = 0;
 		cf2.wWeight = (WORD)lf.lfWeight;
@@ -639,7 +638,7 @@ void CTabBaseDlg::DM_SetDBButtonStates()
 {
 	ButtonItem *buttonItem = m_pContainer->buttonItems;
 	MCONTACT hFinalContact = 0;
-	HWND hwndContainer = m_pContainer->hwnd;
+	HWND hwndContainer = m_pContainer->m_hwnd;
 
 	while (buttonItem) {
 		HWND hWnd = GetDlgItem(hwndContainer, buttonItem->uId);
@@ -693,7 +692,7 @@ void CTabBaseDlg::DM_ScrollToBottom(WPARAM wParam, LPARAM lParam)
 	if (m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED)
 		return;
 
-	if (IsIconic(m_pContainer->hwnd))
+	if (IsIconic(m_pContainer->m_hwnd))
 		m_dwFlags |= MWF_DEFERREDSCROLL;
 
 	if (m_hwndIEView) {
@@ -776,7 +775,7 @@ void CTabBaseDlg::DM_RecalcPictureSize()
 
 void CTabBaseDlg::DM_UpdateLastMessage() const
 {
-	if (m_pContainer->hwndStatus == 0 || m_pContainer->hwndActive != m_hwnd)
+	if (m_pContainer->hwndStatus == 0 || m_pContainer->m_hwndActive != m_hwnd)
 		return;
 
 	wchar_t szBuf[100];
@@ -813,7 +812,7 @@ void CTabBaseDlg::DM_UpdateLastMessage() const
 
 void CTabBaseDlg::DM_SaveLocale(WPARAM, LPARAM lParam)
 {
-	if (PluginConfig.m_bAutoLocaleSupport && m_hContact && m_pContainer->hwndActive == m_hwnd) {
+	if (PluginConfig.m_bAutoLocaleSupport && m_hContact && m_pContainer->m_hwndActive == m_hwnd) {
 		wchar_t szKLName[KL_NAMELENGTH + 1];
 		if ((HKL)lParam != m_hkl) {
 			m_hkl = (HKL)lParam;
@@ -870,12 +869,12 @@ LRESULT CTabBaseDlg::DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam)
 		return 1;
 
 	if (m_pContainer->dwFlags & CNT_SIDEBAR) {
-		GetWindowRect(GetDlgItem(m_pContainer->hwnd, IDC_SIDEBARUP), &rc);
-		GetWindowRect(GetDlgItem(m_pContainer->hwnd, IDC_SIDEBARDOWN), &rc1);
+		GetWindowRect(GetDlgItem(m_pContainer->m_hwnd, IDC_SIDEBARUP), &rc);
+		GetWindowRect(GetDlgItem(m_pContainer->m_hwnd, IDC_SIDEBARDOWN), &rc1);
 		rc.bottom = rc1.bottom;
 		if (PtInRect(&rc, pt)) {
 			short amount = (short)(HIWORD(wParam));
-			SendMessage(m_pContainer->hwnd, WM_COMMAND, MAKELONG(amount > 0 ? IDC_SIDEBARUP : IDC_SIDEBARDOWN, 0), IDC_MESSAGE);
+			SendMessage(m_pContainer->m_hwnd, WM_COMMAND, MAKELONG(amount > 0 ? IDC_SIDEBARUP : IDC_SIDEBARDOWN, 0), IDC_MESSAGE);
 			return 0;
 		}
 	}
@@ -910,7 +909,7 @@ LRESULT CTabBaseDlg::DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	HWND hwndTab = GetDlgItem(m_pContainer->hwnd, IDC_MSGTABS);
+	HWND hwndTab = GetDlgItem(m_pContainer->m_hwnd, IDC_MSGTABS);
 	if (GetTabItemFromMouse(hwndTab, &pt) != -1) {
 		SendMessage(hwndTab, WM_MOUSEWHEEL, wParam, -1);
 		return 0;
@@ -1032,11 +1031,11 @@ void CSrmmWindow::DM_OptionsApplied(WPARAM, LPARAM lParam)
 	SendMessage(m_hwnd, DM_CONFIGURETOOLBAR, 0, 0);
 
 	DM_InitRichEdit();
-	if (m_hwnd == m_pContainer->hwndActive)
-		SendMessage(m_pContainer->hwnd, WM_SIZE, 0, 0);
+	if (m_hwnd == m_pContainer->m_hwndActive)
+		SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
 	InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
 	if (!lParam) {
-		if (IsIconic(m_pContainer->hwnd))
+		if (IsIconic(m_pContainer->m_hwnd))
 			m_dwFlags |= MWF_DEFERREDREMAKELOG;
 		else
 			SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
@@ -1050,7 +1049,7 @@ void CSrmmWindow::DM_OptionsApplied(WPARAM, LPARAM lParam)
 	
 void CTabBaseDlg::DM_Typing(bool fForceOff)
 {
-	HWND hwndContainer = m_pContainer->hwnd;
+	HWND hwndContainer = m_pContainer->m_hwnd;
 	HWND hwndStatus = m_pContainer->hwndStatus;
 
 	if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && GetTickCount() - m_nLastTyping > TIMEOUT_TYPEOFF)
@@ -1068,12 +1067,12 @@ void CTabBaseDlg::DM_Typing(bool fForceOff)
 				m_nTypeSecs = 86400;
 
 				mir_snwprintf(m_wszStatusBar, TranslateT("%s has entered text."), m_cache->getNick());
-				if (hwndStatus && m_pContainer->hwndActive == m_hwnd)
+				if (hwndStatus && m_pContainer->m_hwndActive == m_hwnd)
 					SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)m_wszStatusBar);
 			}
 			SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 			HandleIconFeedback(this, (HICON)-1);
-			CTabBaseDlg *dat_active = (CTabBaseDlg*)GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
+			CTabBaseDlg *dat_active = (CTabBaseDlg*)GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
 			if (dat_active && !dat_active->isChat())
 				m_pContainer->UpdateTitle(0);
 			else
@@ -1095,7 +1094,7 @@ void CTabBaseDlg::DM_Typing(bool fForceOff)
 		mir_snwprintf(m_wszStatusBar, TranslateT("%s is typing a message"), m_cache->getNick());
 
 		m_nTypeSecs--;
-		if (hwndStatus && m_pContainer->hwndActive == m_hwnd) {
+		if (hwndStatus && m_pContainer->m_hwndActive == m_hwnd) {
 			SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)m_wszStatusBar);
 			SendMessage(hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 		}
@@ -1106,7 +1105,7 @@ void CTabBaseDlg::DM_Typing(bool fForceOff)
 				ReflashContainer(m_pContainer);
 		}
 
-		if (m_pContainer->hwndActive != m_hwnd) {
+		if (m_pContainer->m_hwndActive != m_hwnd) {
 			if (m_bCanFlashTab)
 				m_iFlashIcon = PluginConfig.g_IconTypingEvent;
 			HandleIconFeedback(this, PluginConfig.g_IconTypingEvent);
@@ -1117,7 +1116,7 @@ void CTabBaseDlg::DM_Typing(bool fForceOff)
 					HandleIconFeedback(this, PluginConfig.g_IconTypingEvent);
 			}
 		}
-		if ((GetForegroundWindow() != hwndContainer) || (m_pContainer->hwndStatus == 0) || (m_pContainer->hwndActive != m_hwnd))
+		if ((GetForegroundWindow() != hwndContainer) || (m_pContainer->hwndStatus == 0) || (m_pContainer->m_hwndActive != m_hwnd))
 			SendMessage(hwndContainer, DM_SETICON, (WPARAM)this, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 
 		m_bShowTyping = 1;
@@ -1169,7 +1168,7 @@ int CTabBaseDlg::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 
 		// for inactive sessions, delay the splitter repositioning until they become
 		// active (faster, avoid redraw/resize problems for minimized windows)
-		if (IsIconic(m_pContainer->hwnd) || m_pContainer->hwndActive != m_hwnd) {
+		if (IsIconic(m_pContainer->m_hwnd) || m_pContainer->m_hwndActive != m_hwnd) {
 			m_dwFlagsEx |= MWF_EX_DELAYEDSPLITTER;
 			m_wParam = newPos;
 			m_lParam = PluginConfig.lastSPlitterPos.lParam;
@@ -1235,14 +1234,14 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 				DM_AddDivider();
 		}
 		else if (PluginConfig.m_bUseDividers) {
-			if ((GetForegroundWindow() != m_pContainer->hwnd || GetActiveWindow() != m_pContainer->hwnd))
+			if ((GetForegroundWindow() != m_pContainer->m_hwnd || GetActiveWindow() != m_pContainer->m_hwnd))
 				DM_AddDivider();
-			else if (m_pContainer->hwndActive != m_hwnd)
+			else if (m_pContainer->m_hwndActive != m_hwnd)
 				DM_AddDivider();
 		}
 		if (!bDisableNotify)
 			tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, m_hwnd, m_cache->getActiveProto());
-		if (IsWindowVisible(m_pContainer->hwnd))
+		if (IsWindowVisible(m_pContainer->m_hwnd))
 			m_pContainer->fHidden = false;
 	}
 	m_cache->updateStats(TSessionStats::UPDATE_WITH_LAST_RCV, 0);
@@ -1290,13 +1289,13 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 	// autoswitch tab if option is set AND container is minimized (otherwise, we never autoswitch)
 	// never switch for status changes...
 	if (!(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
-		if (PluginConfig.haveAutoSwitch() && m_pContainer->hwndActive != m_hwnd) {
-			if ((IsIconic(m_pContainer->hwnd) && !IsZoomed(m_pContainer->hwnd)) || (PluginConfig.m_bHideOnClose && !IsWindowVisible(m_pContainer->hwnd))) {
+		if (PluginConfig.haveAutoSwitch() && m_pContainer->m_hwndActive != m_hwnd) {
+			if ((IsIconic(m_pContainer->m_hwnd) && !IsZoomed(m_pContainer->m_hwnd)) || (PluginConfig.m_bHideOnClose && !IsWindowVisible(m_pContainer->m_hwnd))) {
 				int iItem = GetTabIndexFromHWND(GetParent(m_hwnd), m_hwnd);
 				if (iItem >= 0) {
 					TabCtrl_SetCurSel(m_hwndParent, iItem);
-					ShowWindow(m_pContainer->hwndActive, SW_HIDE);
-					m_pContainer->hwndActive = m_hwnd;
+					ShowWindow(m_pContainer->m_hwndActive, SW_HIDE);
+					m_pContainer->m_hwndActive = m_hwnd;
 					m_pContainer->UpdateTitle(m_hContact);
 					m_pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
 				}
@@ -1306,10 +1305,10 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 
 	// flash window if it is not focused
 	if (!bDisableNotify && !bIsStatusChangeEvent)
-		if ((GetActiveWindow() != m_pContainer->hwnd || GetForegroundWindow() != m_pContainer->hwnd || m_pContainer->hwndActive != m_hwnd) && !(dbei.flags & DBEF_SENT)) {
-			if (!(m_pContainer->dwFlags & CNT_NOFLASH) && (GetActiveWindow() != m_pContainer->hwnd || GetForegroundWindow() != m_pContainer->hwnd))
+		if ((GetActiveWindow() != m_pContainer->m_hwnd || GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei.flags & DBEF_SENT)) {
+			if (!(m_pContainer->dwFlags & CNT_NOFLASH) && (GetActiveWindow() != m_pContainer->m_hwnd || GetForegroundWindow() != m_pContainer->m_hwnd))
 				FlashContainer(m_pContainer, 1, 0);
-			SendMessage(m_pContainer->hwnd, DM_SETICON, (WPARAM)this, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
+			SendMessage(m_pContainer->m_hwnd, DM_SETICON, (WPARAM)this, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 			m_pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
 		}
 
@@ -1323,7 +1322,7 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 
 void CTabBaseDlg::DM_HandleAutoSizeRequest(REQRESIZE* rr)
 {
-	if (rr == nullptr || GetForegroundWindow() != m_pContainer->hwnd)
+	if (rr == nullptr || GetForegroundWindow() != m_pContainer->m_hwnd)
 		return;
 
 	if (!m_bIsAutosizingInput || m_iInputAreaHeight == -1)
@@ -1455,7 +1454,7 @@ void CTabBaseDlg::CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int co
 			}
 		}
 		else if (sid->dwId == MSG_ICON_UTN && code != NM_RCLICK && (!isChat() || m_si->iType == GCW_PRIVMESS)) {
-			SendMessage(m_pContainer->hwndActive, WM_COMMAND, IDC_SELFTYPING, 0);
+			SendMessage(m_pContainer->m_hwndActive, WM_COMMAND, IDC_SELFTYPING, 0);
 			InvalidateRect(m_pContainer->hwndStatus, nullptr, TRUE);
 		}
 		else if (sid->dwId == MSG_ICON_SESSION) {
@@ -1507,10 +1506,10 @@ void CTabBaseDlg::DM_ErrorDetected(int type, int flag)
 			m_cache->saveHistory(0, 0);
 			if (m_iCurrentQueueError >= 0 && m_iCurrentQueueError < SendQueue::NR_SENDJOBS) {
 				SendJob *job = sendQueue->getJobByIndex(m_iCurrentQueueError);
-				if (job->hSendId == 0 && job->hContact == 0)
+				if (job->iSendId == 0 && job->hContact == 0)
 					break;
 
-				job->hSendId = (HANDLE)ProtoChainSend(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)job->szSendBuffer);
+				job->iSendId = ProtoChainSend(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)job->szSendBuffer);
 				resent++;
 			}
 

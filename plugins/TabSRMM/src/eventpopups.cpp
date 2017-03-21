@@ -776,18 +776,18 @@ int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, WORD eventType, int wi
 	if (windowOpen && pContainer != 0) {               // message window is open, need to check the container config if we want to see a popup nonetheless
 		if (nen_options.bWindowCheck && windowOpen)                  // no popups at all for open windows... no exceptions
 			return 0;
-		if (pContainer->dwFlags & CNT_DONTREPORT && (IsIconic(pContainer->hwnd)))        // in tray counts as "minimised"
+		if (pContainer->dwFlags & CNT_DONTREPORT && (IsIconic(pContainer->m_hwnd)))        // in tray counts as "minimised"
 			goto passed;
 
 		if (pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED)
-			if (!IsIconic(pContainer->hwnd) && GetForegroundWindow() != pContainer->hwnd && GetActiveWindow() != pContainer->hwnd)
+			if (!IsIconic(pContainer->m_hwnd) && GetForegroundWindow() != pContainer->m_hwnd && GetActiveWindow() != pContainer->m_hwnd)
 				goto passed;
 
 		if (pContainer->dwFlags & CNT_ALWAYSREPORTINACTIVE) {
 			if (pContainer->dwFlags & CNT_DONTREPORTFOCUSED)
 				goto passed;
 
-			if (pContainer->hwndActive != hwndChild)
+			if (pContainer->m_hwndActive != hwndChild)
 				goto passed;
 		}
 		return 0;
@@ -798,9 +798,9 @@ passed:
 
 	if (PU_GetByContact(hContact) && nen_options.bMergePopup && eventType == EVENTTYPE_MESSAGE) {
 		if (PopupUpdateT(hContact, hDbEvent) != 0)
-			PopupShowT(&nen_options, hContact, hDbEvent, eventType, pContainer ? pContainer->hwnd : 0);
+			PopupShowT(&nen_options, hContact, hDbEvent, eventType, pContainer ? pContainer->m_hwnd : 0);
 	}
-	else PopupShowT(&nen_options, hContact, hDbEvent, eventType, pContainer ? pContainer->hwnd : 0);
+	else PopupShowT(&nen_options, hContact, hDbEvent, eventType, pContainer ? pContainer->m_hwnd : 0);
 
 	return 0;
 }

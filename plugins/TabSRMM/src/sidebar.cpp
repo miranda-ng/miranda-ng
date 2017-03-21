@@ -104,7 +104,7 @@ void CSideBarButton::_create()
 		::SendMessage(m_hwnd, BUTTONSETCONTAINER, (LPARAM)m_sideBar->getContainer(), 0);
 		m_buttonControl = (TSButtonCtrl *)::GetWindowLongPtr(m_hwnd, 0);
 		if (m_id == IDC_SIDEBARUP || m_id == IDC_SIDEBARDOWN)
-			::SetParent(m_hwnd, m_sideBar->getContainer()->hwnd);
+			::SetParent(m_hwnd, m_sideBar->getContainer()->m_hwnd);
 	}
 	else
 		delete this;
@@ -345,9 +345,9 @@ void CSideBarButton::invokeContextMenu()
 		TSideBarNotify tsn = { 0 };
 		tsn.nmHdr.code = NM_RCLICK;
 		tsn.nmHdr.idFrom = 5000;
-		tsn.nmHdr.hwndFrom = ::GetDlgItem(pContainer->hwnd, 5000);
+		tsn.nmHdr.hwndFrom = ::GetDlgItem(pContainer->m_hwnd, 5000);
 		tsn.dat = m_dat;
-		::SendMessage(pContainer->hwnd, WM_NOTIFY, 0, LPARAM(&tsn));
+		::SendMessage(pContainer->m_hwnd, WM_NOTIFY, 0, LPARAM(&tsn));
 	}
 }
 
@@ -391,7 +391,7 @@ void CSideBar::Init()
 	if (m_pContainer->dwFlags & CNT_SIDEBAR) {
 		if (m_hwndScrollWnd == 0)
 			m_hwndScrollWnd = ::CreateWindowEx(0, L"TS_SideBarClass", L"", WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE | WS_CHILD,
-				0, 0, m_width, 40, m_pContainer->hwnd, reinterpret_cast<HMENU>(5000), g_hInst, this);
+				0, 0, m_width, 40, m_pContainer->m_hwnd, reinterpret_cast<HMENU>(5000), g_hInst, this);
 
 		m_isActive = true;
 		m_isVisible = m_isActive ? m_isVisible : true;
@@ -489,7 +489,7 @@ void CSideBar::removeAll()
  */
 void CSideBar::populateAll()
 {
-	HWND	hwndTab = ::GetDlgItem(m_pContainer->hwnd, IDC_MSGTABS);
+	HWND	hwndTab = ::GetDlgItem(m_pContainer->m_hwnd, IDC_MSGTABS);
 	if (hwndTab == nullptr)
 		return;
 
@@ -766,7 +766,7 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 
 	if (!fOnlyCalc) {
 		RECT	rcContainer;
-		::GetClientRect(m_pContainer->hwnd, &rcContainer);
+		::GetClientRect(m_pContainer->m_hwnd, &rcContainer);
 
 		LONG dx = m_dwFlags & SIDEBARORIENTATION_LEFT ? m_pContainer->tBorder_outer_left :
 			rcContainer.right - m_pContainer->tBorder_outer_right - (m_elementWidth + 4);
@@ -893,7 +893,7 @@ LRESULT CALLBACK CSideBar::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			CSkinItem *item = &SkinItems[ID_EXTBKSIDEBARBG];
 
 			if (item->IGNORED)
-				CSkin::SkinDrawBG(hwnd, m_pContainer->hwnd, m_pContainer, &rc, hdc);
+				CSkin::SkinDrawBG(hwnd, m_pContainer->m_hwnd, m_pContainer, &rc, hdc);
 			else
 				CSkin::DrawItem(hdc, &rc, item);
 		}
@@ -967,7 +967,7 @@ void __fastcall CSideBar::m_DefaultBackgroundRenderer(const HDC hdc, const RECT 
 		CSkinItem *skinItem = &SkinItems[ctrlId];
 		HWND hwnd = item->m_buttonControl->hwnd;
 
-		CSkin::SkinDrawBG(hwnd, pContainer->hwnd, pContainer, const_cast<RECT *>(rc), hdc);
+		CSkin::SkinDrawBG(hwnd, pContainer->m_hwnd, pContainer, const_cast<RECT *>(rc), hdc);
 		CSkin::DrawItem(hdc, rc, skinItem);
 	}
 	else if (M.isAero() || PluginConfig.m_fillColor) {

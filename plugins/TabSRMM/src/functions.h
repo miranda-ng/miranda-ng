@@ -37,7 +37,6 @@ int  IcoLibIconsChanged(WPARAM wParam, LPARAM lParam);
 int  FontServiceFontsChanged(WPARAM wParam, LPARAM lParam);
 int  SmileyAddOptionsChanged(WPARAM wParam, LPARAM lParam);
 int  IEViewOptionsChanged(WPARAM wParam, LPARAM lParam);
-int  ModPlus_PreShutdown(WPARAM wparam, LPARAM lparam);
 int  ModPlus_Init();
 
 void RegisterFontServiceFonts();
@@ -92,10 +91,8 @@ void  TSAPI DeleteContainer(int iIndex);
 void  TSAPI RenameContainer(int iIndex, const wchar_t *newName);
 int   TSAPI GetContainerNameForContact(MCONTACT hContact, wchar_t *szName, int iNameLen);
 HMENU TSAPI BuildContainerMenu();
-void  TSAPI PreTranslateDates();
 void  TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT mode, bool fForceResize);
 void  TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WPARAM wParam, LPARAM lParam);
-void  TSAPI GetDefaultContainerTitleFormat();
 void  TSAPI SetAeroMargins(TContainerData *pContainer);
 
 INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam);
@@ -113,7 +110,6 @@ void  TSAPI DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD ba
 void  TSAPI CacheMsgLogIcons();
 void  TSAPI CacheLogFonts();
 void  TSAPI LoadIconTheme();
-void  TSAPI RTF_CTableInit();
 
 int DbEventIsForMsgWindow(DBEVENTINFO *dbei);
 
@@ -137,7 +133,6 @@ int   TSAPI UnloadTSButtonModule();
 int _DebugTraceW(const wchar_t *fmt, ...);
 #endif
 int   _DebugPopup(MCONTACT hContact, const wchar_t *fmt, ...);
-int   _DebugMessage(HWND hwndDlg, CSrmmWindow *dat, const char *fmt, ...);
 
 // themes
 

@@ -39,9 +39,9 @@ static void ReloadGlobalContainerSettings(bool fForceReconfig)
 		if (!p->settings->fPrivate) {
 			Utils::SettingsToContainer(p);
 			if (fForceReconfig)
-				SendMessage(p->hwnd, DM_CONFIGURECONTAINER, 0, 0);
+				SendMessage(p->m_hwnd, DM_CONFIGURECONTAINER, 0, 0);
 			else
-				SendMessage(p->hwnd, WM_SIZE, 0, 1);
+				SendMessage(p->m_hwnd, WM_SIZE, 0, 1);
 			BroadCastContainer(p, DM_SETINFOPANEL, 0, 0);
 		}
 	}
@@ -72,7 +72,7 @@ void TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT m
 		if (flags & CNT_SIDEBAR) {
 			for (TContainerData *p = pFirstContainer; p; p = p->pNext)
 				if (!p->settings->fPrivate)
-					SendMessage(p->hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
+					SendMessage(p->m_hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
 		}
 		else ReloadGlobalContainerSettings(fForceResize);
 	}
@@ -83,15 +83,15 @@ void TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT m
 			pContainer->dwFlagsEx = (set ? pContainer->dwFlagsEx | flags : pContainer->dwFlagsEx & ~flags);
 		Utils::ContainerToSettings(pContainer);
 		if (flags & CNT_SIDEBAR)
-			SendMessage(pContainer->hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
+			SendMessage(pContainer->m_hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
 		else
-			SendMessage(pContainer->hwnd, DM_CONFIGURECONTAINER, 0, 0);
+			SendMessage(pContainer->m_hwnd, DM_CONFIGURECONTAINER, 0, 0);
 		if (flags & CNT_INFOPANEL)
 			BroadCastContainer(pContainer, DM_SETINFOPANEL, 0, 0);
 	}
 
 	if (fForceResize)
-		SendMessage(pContainer->hwnd, WM_SIZE, 0, 1);
+		SendMessage(pContainer->m_hwnd, WM_SIZE, 0, 1);
 
 	BroadCastContainer(pContainer, WM_CBD_UPDATED, 0, 0);
 }
@@ -145,7 +145,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			TVINSERTSTRUCT 	tvis = { 0 };
+			TVINSERTSTRUCT tvis = { 0 };
 			int nr_layouts = 0;
 			const TSideBarLayout *sblayouts = CSideBar::getLayouts(nr_layouts);
 
@@ -154,8 +154,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			pContainer->hWndOptions = hwndDlg;
 			SetWindowText(hwndDlg, TranslateT("Container options"));
 			wchar_t szNewTitle[128];
-			mir_snwprintf(szNewTitle, L"%s", !mir_wstrcmp(pContainer->szName, L"default") ?
-				TranslateT("Default container") : pContainer->szName);
+			mir_snwprintf(szNewTitle, L"%s", !mir_wstrcmp(pContainer->m_wszName, L"default") ? TranslateT("Default container") : pContainer->m_wszName);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, szNewTitle);
 			Utils::enableDlgControl(hwndDlg, IDC_O_HIDETITLE, !CSkin::m_frameSkins);
 			CheckDlgButton(hwndDlg, IDC_CNTPRIVATE, pContainer->settings->fPrivate ? BST_CHECKED : BST_UNCHECKED);
@@ -286,7 +285,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				WINDOWPLACEMENT wp = { 0 };
 
 				wp.length = sizeof(wp);
-				if (GetWindowPlacement(pContainer->hwnd, &wp)) {
+				if (GetWindowPlacement(pContainer->m_hwnd, &wp)) {
 					db_set_dw(0, SRMSGMOD_T, "splitx", wp.rcNormalPosition.left);
 					db_set_dw(0, SRMSGMOD_T, "splity", wp.rcNormalPosition.top);
 					db_set_dw(0, SRMSGMOD_T, "splitwidth", wp.rcNormalPosition.right - wp.rcNormalPosition.left);
@@ -363,15 +362,15 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				Utils::SaveContainerSettings(pContainer, szSetting);
 			}
 
-			SendMessage(pContainer->hwnd, DM_CONFIGURECONTAINER, 0, 0);
+			SendMessage(pContainer->m_hwnd, DM_CONFIGURECONTAINER, 0, 0);
 			BroadCastContainer(pContainer, DM_SETINFOPANEL, 0, 0);
 
-			ShowWindow(pContainer->hwnd, SW_HIDE);
+			ShowWindow(pContainer->m_hwnd, SW_HIDE);
 			{
 				RECT	rc;
-				GetWindowRect(pContainer->hwnd, &rc);
-				SetWindowPos(pContainer->hwnd, 0, rc.left, rc.top, (rc.right - rc.left) - 1, (rc.bottom - rc.top) - 1, SWP_NOZORDER | SWP_DRAWFRAME | SWP_FRAMECHANGED);
-				SetWindowPos(pContainer->hwnd, 0, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_NOZORDER | SWP_DRAWFRAME | SWP_SHOWWINDOW);
+				GetWindowRect(pContainer->m_hwnd, &rc);
+				SetWindowPos(pContainer->m_hwnd, 0, rc.left, rc.top, (rc.right - rc.left) - 1, (rc.bottom - rc.top) - 1, SWP_NOZORDER | SWP_DRAWFRAME | SWP_FRAMECHANGED);
+				SetWindowPos(pContainer->m_hwnd, 0, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_NOZORDER | SWP_DRAWFRAME | SWP_SHOWWINDOW);
 			}
 
 			if (LOWORD(wParam) == IDOK)

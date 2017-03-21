@@ -271,7 +271,7 @@ bool Utils::FormatTitleBar(const CTabBaseDlg *dat, const wchar_t *szFormat, CMSt
 			break;
 
 		case 'c':
-			dest.Append(!mir_wstrcmp(dat->m_pContainer->szName, L"default") ? TranslateT("Default container") : dat->m_pContainer->szName);
+			dest.Append(!mir_wstrcmp(dat->m_pContainer->m_wszName, L"default") ? TranslateT("Default container") : dat->m_pContainer->m_wszName);
 			break;
 
 		case 'o':
@@ -695,11 +695,11 @@ HICON Utils::iconFromAvatar(const CTabBaseDlg *dat)
 
 	RECT rc = { 0, 0, lIconSize, lIconSize };
 
-	HDC hdc = ::GetDC(dat->m_pContainer->hwnd);
+	HDC hdc = ::GetDC(dat->m_pContainer->m_hwnd);
 	HDC dc = ::CreateCompatibleDC(hdc);
 	HDC dcResized = ::CreateCompatibleDC(hdc);
 
-	ReleaseDC(dat->m_pContainer->hwnd, hdc);
+	ReleaseDC(dat->m_pContainer->m_hwnd, hdc);
 
 	HBITMAP hbmNew = CSkin::CreateAeroCompatibleBitmap(rc, dc);
 	HBITMAP hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(dc, hbmNew));
@@ -788,9 +788,9 @@ int Utils::mustPlaySound(const CTabBaseDlg *dat)
 	if (dat->m_pContainer->dwFlags & CNT_NOSOUND || nen_options.iNoSounds)
 		return 0;
 
-	bool fActiveWindow = (dat->m_pContainer->hwnd == ::GetForegroundWindow() ? true : false);
-	bool fActiveTab = (dat->m_pContainer->hwndActive == dat->GetHwnd() ? true : false);
-	bool fIconic = (::IsIconic(dat->m_pContainer->hwnd) ? true : false);
+	bool fActiveWindow = (dat->m_pContainer->m_hwnd == ::GetForegroundWindow() ? true : false);
+	bool fActiveTab = (dat->m_pContainer->m_hwndActive == dat->GetHwnd() ? true : false);
+	bool fIconic = (::IsIconic(dat->m_pContainer->m_hwnd) ? true : false);
 
 	// window minimized, check if sound has to be played
 	if (fIconic)

@@ -211,7 +211,7 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case DM_SETLOCALE:
 		if (m_dwFlags & MWF_WASBACKGROUNDCREATE)
 			break;
-		if (m_pContainer->hwndActive == m_hwnd && PluginConfig.m_bAutoLocaleSupport && m_pContainer->hwnd == GetForegroundWindow() && m_pContainer->hwnd == GetActiveWindow()) {
+		if (m_pContainer->m_hwndActive == m_hwnd && PluginConfig.m_bAutoLocaleSupport && m_pContainer->m_hwnd == GetForegroundWindow() && m_pContainer->m_hwnd == GetActiveWindow()) {
 			if (lParam)
 				m_hkl = (HKL)lParam;
 
@@ -243,7 +243,7 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				szNewName = CGlobals::m_default_container_name;
 
 			int iOldItems = TabCtrl_GetItemCount(m_hwndParent);
-			if (!wcsncmp(m_pContainer->szName, szNewName, CONTAINER_NAMELEN))
+			if (!wcsncmp(m_pContainer->m_wszName, szNewName, CONTAINER_NAMELEN))
 				break;
 
 			TContainerData *pNewContainer = FindContainerByName(szNewName);
@@ -255,9 +255,9 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			m_bIsReattach = true;
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_DOCREATETAB, (WPARAM)pNewContainer, m_hContact);
 			if (iOldItems > 1)                // there were more than 1 tab, container is still valid
-				SendMessage(m_pContainer->hwndActive, WM_SIZE, 0, 0);
-			SetForegroundWindow(pNewContainer->hwnd);
-			SetActiveWindow(pNewContainer->hwnd);
+				SendMessage(m_pContainer->m_hwndActive, WM_SIZE, 0, 0);
+			SetForegroundWindow(pNewContainer->m_hwnd);
+			SetActiveWindow(pNewContainer->m_hwnd);
 		}
 		return 0;
 
@@ -265,7 +265,7 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		// show the balloon tooltip control.
 		// wParam == id of the "anchor" element, defaults to the panel status field (for away msg retrieval)
 		// lParam == new text to show
-		if (!IsIconic(m_pContainer->hwnd) && m_pContainer->hwndActive == m_hwnd)
+		if (!IsIconic(m_pContainer->m_hwnd) && m_pContainer->m_hwndActive == m_hwnd)
 			m_pPanel.showTip(wParam, lParam);
 		return 0;
 
@@ -302,9 +302,9 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			UINT state = MSG_WINDOW_STATE_EXISTS;
 			if (IsWindowVisible(m_hwnd))
 				state |= MSG_WINDOW_STATE_VISIBLE;
-			if (GetForegroundWindow() == m_pContainer->hwnd)
+			if (GetForegroundWindow() == m_pContainer->m_hwnd)
 				state |= MSG_WINDOW_STATE_FOCUS;
-			if (IsIconic(m_pContainer->hwnd))
+			if (IsIconic(m_pContainer->m_hwnd))
 				state |= MSG_WINDOW_STATE_ICONIC;
 			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, state);
 		}
@@ -455,18 +455,18 @@ INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
 	SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 	if (pContainer) {
 		if (pContainer->dwFlags & CNT_DONTREPORT) {
-			if (IsIconic(pContainer->hwnd))
+			if (IsIconic(pContainer->m_hwnd))
 				return 0;
 		}
 		if (pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED) {
-			if (!IsIconic(pContainer->hwnd) && GetForegroundWindow() != pContainer->hwnd && GetActiveWindow() != pContainer->hwnd)
+			if (!IsIconic(pContainer->m_hwnd) && GetForegroundWindow() != pContainer->m_hwnd && GetActiveWindow() != pContainer->m_hwnd)
 				return 0;
 		}
 		if (pContainer->dwFlags & CNT_ALWAYSREPORTINACTIVE) {
 			if (pContainer->dwFlags & CNT_DONTREPORTFOCUSED)
 				return 0;
 
-			return pContainer->hwndActive == hwnd;
+			return pContainer->m_hwndActive == hwnd;
 		}
 	}
 	return 1;
@@ -626,36 +626,36 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 
 	NMHDR nmhdr = { 0 };
 	nmhdr.code = TCN_SELCHANGE;
-	if (TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, IDC_MSGTABS)) > 1 && !(pContainer->dwFlags & CNT_DEFERREDTABSELECT)) {
-		TabCtrl_SetCurSel(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), GetTabIndexFromHWND(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), hwndChild));
-		SendMessage(pContainer->hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
+	if (TabCtrl_GetItemCount(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS)) > 1 && !(pContainer->dwFlags & CNT_DEFERREDTABSELECT)) {
+		TabCtrl_SetCurSel(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS), GetTabIndexFromHWND(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS), hwndChild));
+		SendMessage(pContainer->m_hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
 	}
 	if (!dat->isChat())
 		pContainer->UpdateTitle(dat->m_hContact);
-	if (IsIconic(pContainer->hwnd)) {
-		SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-		SetForegroundWindow(pContainer->hwnd);
+	if (IsIconic(pContainer->m_hwnd)) {
+		SendMessage(pContainer->m_hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+		SetForegroundWindow(pContainer->m_hwnd);
 	}
 
 	// hide on close feature
-	if (!IsWindowVisible(pContainer->hwnd)) {
+	if (!IsWindowVisible(pContainer->m_hwnd)) {
 		WINDOWPLACEMENT wp = { 0 };
 		wp.length = sizeof(wp);
-		GetWindowPlacement(pContainer->hwnd, &wp);
+		GetWindowPlacement(pContainer->m_hwnd, &wp);
 
 		// all tabs must re-check the layout on activation because adding a tab while
 		// the container was hidden can make this necessary
 		BroadCastContainer(pContainer, DM_CHECKSIZE, 0, 0);
 		if (wp.showCmd == SW_SHOWMAXIMIZED)
-			ShowWindow(pContainer->hwnd, SW_SHOWMAXIMIZED);
+			ShowWindow(pContainer->m_hwnd, SW_SHOWMAXIMIZED);
 		else {
-			ShowWindow(pContainer->hwnd, SW_SHOWNA);
-			SetForegroundWindow(pContainer->hwnd);
+			ShowWindow(pContainer->m_hwnd, SW_SHOWNA);
+			SetForegroundWindow(pContainer->m_hwnd);
 		}
-		SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);			// make sure the active tab resizes its layout properly
+		SendMessage(pContainer->m_hwndActive, WM_SIZE, 0, 0);			// make sure the active tab resizes its layout properly
 	}
-	else if (GetForegroundWindow() != pContainer->hwnd)
-		SetForegroundWindow(pContainer->hwnd);
+	else if (GetForegroundWindow() != pContainer->m_hwnd)
+		SetForegroundWindow(pContainer->m_hwnd);
 
 	if (!dat->isChat())
 		SetFocus(GetDlgItem(hwndChild, IDC_MESSAGE));
@@ -675,7 +675,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	}
 
 	// if we have a max # of tabs/container set and want to open something in the default container...
-	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6))
+	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6))
 		if ((pContainer = FindMatchingContainer(L"default")) == nullptr)
 			if ((pContainer = CreateContainer(L"default", CNT_CREATEFLAG_CLONED, hContact)) == nullptr)
 				return 0;
@@ -704,10 +704,10 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	else
 		mir_snwprintf(tabtitle, L"%s", newcontactname);
 
-	HWND hwndTab = GetDlgItem(pContainer->hwnd, IDC_MSGTABS);
+	HWND hwndTab = GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS);
 	// hide the active tab
-	if (pContainer->hwndActive && bActivateTab)
-		ShowWindow(pContainer->hwndActive, SW_HIDE);
+	if (pContainer->m_hwndActive && bActivateTab)
+		ShowWindow(pContainer->m_hwndActive, SW_HIDE);
 
 	int iTabIndex_wanted = M.GetDword(hContact, "tabindex", pContainer->iChilds * 100);
 	int iCount = TabCtrl_GetItemCount(hwndTab);
@@ -759,17 +759,17 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	if (pContainer->dwFlags & CNT_SIDEBAR)
 		pContainer->SideBar->addSession(pWindow, pContainer->iTabIndex);
 
-	SendMessage(pContainer->hwnd, WM_SIZE, 0, 0);
+	SendMessage(pContainer->m_hwnd, WM_SIZE, 0, 0);
 
 	// if the container is minimized, then pop it up...
-	if (IsIconic(pContainer->hwnd)) {
+	if (IsIconic(pContainer->m_hwnd)) {
 		if (bPopupContainer) {
-			SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-			SetFocus(pContainer->hwndActive);
+			SendMessage(pContainer->m_hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+			SetFocus(pContainer->m_hwndActive);
 		}
 		else {
 			if (pContainer->dwFlags & CNT_NOFLASH)
-				SendMessage(pContainer->hwnd, DM_SETICON, 0, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
+				SendMessage(pContainer->m_hwnd, DM_SETICON, 0, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 			else
 				FlashContainer(pContainer, 1, 0);
 		}
@@ -778,32 +778,32 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	if (bActivateTab) {
 		ActivateExistingTab(pContainer, hwndNew);
 		SetFocus(hwndNew);
-		RedrawWindow(pContainer->hwnd, nullptr, nullptr, RDW_ERASENOW);
-		UpdateWindow(pContainer->hwnd);
-		if (GetForegroundWindow() != pContainer->hwnd && bPopupContainer == TRUE)
-			SetForegroundWindow(pContainer->hwnd);
+		RedrawWindow(pContainer->m_hwnd, nullptr, nullptr, RDW_ERASENOW);
+		UpdateWindow(pContainer->m_hwnd);
+		if (GetForegroundWindow() != pContainer->m_hwnd && bPopupContainer == TRUE)
+			SetForegroundWindow(pContainer->m_hwnd);
 	}
-	else if (!IsIconic(pContainer->hwnd) && IsWindowVisible(pContainer->hwnd)) {
-		SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);
-		RedrawWindow(pContainer->hwndActive, nullptr, nullptr, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
-		RedrawWindow(pContainer->hwndActive, nullptr, nullptr, RDW_ERASENOW | RDW_UPDATENOW);
+	else if (!IsIconic(pContainer->m_hwnd) && IsWindowVisible(pContainer->m_hwnd)) {
+		SendMessage(pContainer->m_hwndActive, WM_SIZE, 0, 0);
+		RedrawWindow(pContainer->m_hwndActive, nullptr, nullptr, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
+		RedrawWindow(pContainer->m_hwndActive, nullptr, nullptr, RDW_ERASENOW | RDW_UPDATENOW);
 	}
 
-	if (PluginConfig.m_bHideOnClose&&!IsWindowVisible(pContainer->hwnd)) {
+	if (PluginConfig.m_bHideOnClose&&!IsWindowVisible(pContainer->m_hwnd)) {
 		WINDOWPLACEMENT wp = { 0 };
 		wp.length = sizeof(wp);
-		GetWindowPlacement(pContainer->hwnd, &wp);
+		GetWindowPlacement(pContainer->m_hwnd, &wp);
 
 		BroadCastContainer(pContainer, DM_CHECKSIZE, 0, 0); // make sure all tabs will re-check layout on activation
 		if (wp.showCmd == SW_SHOWMAXIMIZED)
-			ShowWindow(pContainer->hwnd, SW_SHOWMAXIMIZED);
+			ShowWindow(pContainer->m_hwnd, SW_SHOWMAXIMIZED);
 		else {
 			if (bPopupContainer)
-				ShowWindow(pContainer->hwnd, SW_SHOWNORMAL);
+				ShowWindow(pContainer->m_hwnd, SW_SHOWNORMAL);
 			else
-				ShowWindow(pContainer->hwnd, SW_SHOWMINNOACTIVE);
+				ShowWindow(pContainer->m_hwnd, SW_SHOWMINNOACTIVE);
 		}
-		SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);
+		SendMessage(pContainer->m_hwndActive, WM_SIZE, 0, 0);
 	}
 
 	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled)
@@ -827,7 +827,7 @@ TContainerData* TSAPI FindMatchingContainer(const wchar_t *szName)
 	if (iMaxTabs > 0 && M.GetByte("limittabs", 0) && !wcsncmp(szName, L"default", 6)) {
 		// search a "default" with less than iMaxTabs opened...
 		for (TContainerData *p = pFirstContainer; p; p = p->pNext)
-			if (!wcsncmp(p->szName, L"default", 6) && p->iChilds < iMaxTabs)
+			if (!wcsncmp(p->m_wszName, L"default", 6) && p->iChilds < iMaxTabs)
 				return p;
 
 		return nullptr;

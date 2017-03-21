@@ -277,7 +277,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 			fShow = true;
 			break;
 		case 1:
-			if (!foundWin || !(pContainer && pContainer->hwndActive == hwnd && GetForegroundWindow() == pContainer->hwnd))
+			if (!foundWin || !(pContainer && pContainer->m_hwndActive == hwnd && GetForegroundWindow() == pContainer->m_hwnd))
 				fShow = true;
 			break;
 		case 2:
@@ -336,7 +336,7 @@ int CMimAPI::ProtoAck(WPARAM, LPARAM lParam)
 		MCONTACT hMeta = db_mc_getMeta(pAck->hContact);
 		for (int j = 0; j < SendQueue::NR_SENDJOBS; j++) {
 			SendJob &p = jobs[j];
-			if (pAck->hProcess == p.hSendId && pAck->hContact == p.hContact) {
+			if (pAck->hProcess == (HANDLE)p.iSendId && pAck->hContact == p.hContact) {
 				CSrmmWindow *dat = p.hOwnerWnd ? (CSrmmWindow*)GetWindowLongPtr(p.hOwnerWnd, GWLP_USERDATA) : nullptr;
 				if (dat == nullptr) {
 					sendQueue->ackMessage(nullptr, (WPARAM)MAKELONG(j, i), lParam);
@@ -429,33 +429,33 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (hwnd) {
 		TContainerData *pTargetContainer = 0;
 		SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pTargetContainer);
-		if (pTargetContainer == nullptr || !PluginConfig.m_bHideOnClose || IsWindowVisible(pTargetContainer->hwnd))
+		if (pTargetContainer == nullptr || !PluginConfig.m_bHideOnClose || IsWindowVisible(pTargetContainer->m_hwnd))
 			return 0;
 
 		WINDOWPLACEMENT wp = { 0 };
 		wp.length = sizeof(wp);
-		GetWindowPlacement(pTargetContainer->hwnd, &wp);
+		GetWindowPlacement(pTargetContainer->m_hwnd, &wp);
 		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
 
 		if (bAutoPopup || bAutoCreate) {
 			if (bAutoPopup) {
 				if (wp.showCmd == SW_SHOWMAXIMIZED)
-					ShowWindow(pTargetContainer->hwnd, SW_SHOWMAXIMIZED);
+					ShowWindow(pTargetContainer->m_hwnd, SW_SHOWMAXIMIZED);
 				else
-					ShowWindow(pTargetContainer->hwnd, SW_SHOWNOACTIVATE);
+					ShowWindow(pTargetContainer->m_hwnd, SW_SHOWNOACTIVATE);
 				return 0;
 			}
 
 			TContainerData *pContainer = FindContainerByName(szName);
 			if (pContainer != nullptr) {
 				if (bAutoContainer) {
-					ShowWindow(pTargetContainer->hwnd, SW_SHOWMINNOACTIVE);
+					ShowWindow(pTargetContainer->m_hwnd, SW_SHOWMINNOACTIVE);
 					return 0;
 				}
 				goto nowindowcreate;
 			}
 			else if (bAutoContainer) {
-				ShowWindow(pTargetContainer->hwnd, SW_SHOWMINNOACTIVE);
+				ShowWindow(pTargetContainer->m_hwnd, SW_SHOWMINNOACTIVE);
 				return 0;
 			}
 		}
@@ -509,7 +509,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		bool bActivate = false, bPopup = M.GetByte("cpopup", 0) != 0;
 		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer != nullptr) {
-			if (M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6)) {
+			if (M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6)) {
 				if ((pContainer = FindMatchingContainer(L"default")) != nullptr) {
 					CreateNewTabForContact(pContainer, hContact, bActivate, bPopup, true, hDbEvent);
 					return 0;
@@ -523,7 +523,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		if (bAutoContainer) {
 			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, hContact)) != nullptr) { // 2 means create minimized, don't popup...
 				CreateNewTabForContact(pContainer, hContact, bActivate, bPopup, true, hDbEvent);
-				SendMessageW(pContainer->hwnd, WM_SIZE, 0, 0);
+				SendMessageW(pContainer->m_hwnd, WM_SIZE, 0, 0);
 			}
 			return 0;
 		}

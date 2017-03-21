@@ -53,7 +53,7 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 	m_pContainer = const_cast<TContainerData *>(pContainer);
 
 	if (m_MimIcon == 0) {
-		HDC		hdc = ::GetDC(m_pContainer->hwnd);
+		HDC		hdc = ::GetDC(m_pContainer->m_hwnd);
 		HANDLE 	hIcon = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 
 		HDC hdcTemp = ::CreateCompatibleDC(hdc);
@@ -65,7 +65,7 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 		::SelectObject(hdcTemp, hbmOld);
 
 		::DeleteDC(hdcTemp);
-		::ReleaseDC(m_pContainer->hwnd, hdc);
+		::ReleaseDC(m_pContainer->m_hwnd, hdc);
 	}
 
 	m_MimIconRefCount++;
@@ -189,7 +189,7 @@ LONG_PTR CMenuBar::processMsg(const UINT msg, const WPARAM, const LPARAM lParam)
 		if (m_pContainer->dwFlags & CNT_NOTITLE) {
 			POINT	pt;
 			::GetCursorPos(&pt);
-			return ::SendMessage(m_pContainer->hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
+			return ::SendMessage(m_pContainer->m_hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 		}
 	}
 	return -1;
@@ -384,7 +384,7 @@ void CMenuBar::invoke(const int id)
 
 	m_isContactMenu = m_isMainMenu = false;
 
-	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
+	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
 
 	MCONTACT hContact = dat ? dat->m_hContact : 0;
 
@@ -415,7 +415,7 @@ void CMenuBar::invoke(const int id)
 	obtainHook();
 	m_fTracking = true;
 	::SendMessage(m_hwndToolbar, TB_SETSTATE, (WPARAM)id, TBSTATE_CHECKED | TBSTATE_ENABLED);
-	::TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, m_pContainer->hwnd, 0);
+	::TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, m_pContainer->m_hwnd, 0);
 }
 
 void CMenuBar::cancel()
@@ -438,7 +438,7 @@ void CMenuBar::Cancel(void)
 
 void CMenuBar::updateState(const HMENU hMenu) const
 {
-	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
+	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
 	if (dat) {
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWMENUBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOMENUBAR ? MF_UNCHECKED : MF_CHECKED);
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWSTATUSBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOSTATUSBAR ? MF_UNCHECKED : MF_CHECKED);
@@ -477,7 +477,7 @@ void CMenuBar::updateState(const HMENU hMenu) const
 
 void CMenuBar::configureMenu() const
 {
-	CSrmmWindow *dat = (CSrmmWindow*)::GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
+	CSrmmWindow *dat = (CSrmmWindow*)::GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
 	if (dat) {
 		bool fChat = dat->isChat();
 
@@ -499,19 +499,19 @@ void CMenuBar::autoShow(const int showcmd)
 	if (m_mustAutoHide && !(m_pContainer->dwFlags & CNT_NOMENUBAR)) {
 		m_pContainer->dwFlags |= CNT_NOMENUBAR;
 		m_mustAutoHide = false;
-		::SendMessage(m_pContainer->hwnd, WM_SIZE, 0, 1);
+		::SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 1);
 		releaseHook();
 	}
 
 	if (showcmd == 0) {
-		::SetFocus(m_pContainer->hwndActive);
+		::SetFocus(m_pContainer->m_hwndActive);
 		return;
 	}
 
 	if (m_pContainer->dwFlags & CNT_NOMENUBAR) {
 		m_mustAutoHide = true;
 		m_pContainer->dwFlags &= ~CNT_NOMENUBAR;
-		::SendMessage(m_pContainer->hwnd, WM_SIZE, 0, 1);
+		::SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 1);
 	}
 	else // do nothing, already visible
 		m_mustAutoHide = false;
@@ -732,7 +732,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 			HANDLE hTheme = bAero ? OpenThemeData(hWnd, L"ButtonStyle") : 0;
 
 			if (pContainer)
-				dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+				dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 
 			RECT rcClient;
 			GetClientRect(hWnd, &rcClient);
@@ -837,7 +837,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 				wchar_t szText[1024]; szText[0] = 0;
 				LRESULT result = SendMessage(hWnd, SB_GETTEXT, i, (LPARAM)szText);
 				if (i == 2 && pContainer) {
-					CSrmmWindow *pDat = (CSrmmWindow*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+					CSrmmWindow *pDat = (CSrmmWindow*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 					if (pDat)
 						pDat->DrawStatusIcons(hdcMem, itemRect, 2);
 				}
@@ -937,7 +937,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 			RECT rcIconpart;
 			SendMessage(hWnd, SB_GETRECT, 2, (LPARAM)&rcIconpart);
 			if (!PtInRect(&rcIconpart, pt1))
-				return SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
+				return SendMessage(pContainer->m_hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 		}
 		break;
 
@@ -948,7 +948,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 		GetCursorPos(&pt);
 		if (pt.x != ptMouse.x || pt.y != ptMouse.y)
 			break;
-		dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+		dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 		if (dat != nullptr) {
 			RECT rc;
 			SIZE size;

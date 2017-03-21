@@ -155,7 +155,7 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 	if (msg == WM_ACTIVATE) {
 		if (m_pContainer->dwFlags & CNT_TRANSPARENCY) {
 			DWORD trans = LOWORD(m_pContainer->settings->dwTransparency);
-			SetLayeredWindowAttributes(m_pContainer->hwnd, CSkin::m_ContainerColorKey, (BYTE)trans, (m_pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
+			SetLayeredWindowAttributes(m_pContainer->m_hwnd, CSkin::m_ContainerColorKey, (BYTE)trans, (m_pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
 		}
 	}
 
@@ -230,7 +230,7 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 
 		if (m_dwFlagsEx & MWF_EX_DELAYEDSPLITTER) {
 			m_dwFlagsEx &= ~MWF_EX_DELAYEDSPLITTER;
-			ShowWindow(m_pContainer->hwnd, SW_RESTORE);
+			ShowWindow(m_pContainer->m_hwnd, SW_RESTORE);
 			PostMessage(m_hwnd, DM_SPLITTERGLOBALEVENT, m_wParam, m_lParam);
 			PostMessage(m_hwnd, WM_SIZE, 0, 0);
 			m_wParam = m_lParam = 0;
@@ -588,7 +588,7 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 		if ((wParam >= '0' && wParam <= '9') && (GetKeyState(VK_MENU) & 0x8000)) {       // ALT-1 -> ALT-0 direct tab selection
 			BYTE bChar = (BYTE)wParam;
 			int iIndex = (bChar == '0') ? 10 : bChar - (BYTE)'0';
-			SendMessage(mwdat->m_pContainer->hwnd, DM_SELECTTAB, DM_SELECT_BY_INDEX, (LPARAM)iIndex);
+			SendMessage(mwdat->m_pContainer->m_hwnd, DM_SELECTTAB, DM_SELECT_BY_INDEX, (LPARAM)iIndex);
 			return 0;
 		}
 		break;
@@ -735,12 +735,12 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 		else dat->lastEnterTime = 0;
 
 		if ((wParam == VK_NEXT && isCtrl && !isShift) || (wParam == VK_TAB && isCtrl && !isShift)) { // CTRL-TAB (switch tab/window)
-			SendMessage(mwdat->m_pContainer->hwnd, DM_SELECTTAB, DM_SELECT_NEXT, 0);
+			SendMessage(mwdat->m_pContainer->m_hwnd, DM_SELECTTAB, DM_SELECT_NEXT, 0);
 			return TRUE;
 		}
 
 		if ((wParam == VK_PRIOR && isCtrl && !isShift) || (wParam == VK_TAB && isCtrl && isShift)) { // CTRL_SHIFT-TAB (switch tab/window)
-			SendMessage(mwdat->m_pContainer->hwnd, DM_SELECTTAB, DM_SELECT_PREV, 0);
+			SendMessage(mwdat->m_pContainer->m_hwnd, DM_SELECTTAB, DM_SELECT_PREV, 0);
 			return TRUE;
 		}
 		if (wParam == VK_TAB && !isCtrl && !isShift) { // tab-autocomplete
@@ -932,7 +932,7 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 		break;
 
 	case WM_INPUTLANGCHANGE:
-		if (PluginConfig.m_bAutoLocaleSupport && GetFocus() == hwnd && mwdat->m_pContainer->hwndActive == hwndParent && GetForegroundWindow() == mwdat->m_pContainer->hwnd && GetActiveWindow() == mwdat->m_pContainer->hwnd) {
+		if (PluginConfig.m_bAutoLocaleSupport && GetFocus() == hwnd && mwdat->m_pContainer->m_hwndActive == hwndParent && GetForegroundWindow() == mwdat->m_pContainer->m_hwnd && GetActiveWindow() == mwdat->m_pContainer->m_hwnd) {
 			mwdat->DM_SaveLocale(wParam, lParam);
 			SendMessage(hwnd, EM_SETLANGOPTIONS, 0, (LPARAM)SendMessage(hwnd, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 			return 1;
@@ -1415,11 +1415,11 @@ LRESULT CALLBACK CChatRoomDlg::NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM 
 				case 20020: // add to highlight...
 					{
 						THighLightEdit the = { THighLightEdit::CMD_ADD, si, ui };
-						HWND hwndDlg = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDHIGHLIGHT), dat->m_pContainer->hwnd, CMUCHighlight::dlgProcAdd, (LPARAM)&the);
+						HWND hwndDlg = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDHIGHLIGHT), dat->m_pContainer->m_hwnd, CMUCHighlight::dlgProcAdd, (LPARAM)&the);
 						TranslateDialogDefault(hwndDlg);
 
 						RECT rc, rcWnd;
-						GetClientRect(dat->m_pContainer->hwnd, &rcWnd);
+						GetClientRect(dat->m_pContainer->m_hwnd, &rcWnd);
 						GetWindowRect(hwndDlg, &rc);
 						SetWindowPos(hwndDlg, HWND_TOP, (rcWnd.right - (rc.right - rc.left)) / 2, (rcWnd.bottom - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 					}
@@ -1625,11 +1625,11 @@ void CChatRoomDlg::OnInitDialog()
 	m_hTabIcon = m_hTabStatusIcon;
 
 	RECT rc;
-	SendMessage(m_pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
+	SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 	SetWindowPos(m_hwnd, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), 0);
 	ShowWindow(m_hwnd, SW_SHOW);
 	UpdateNickList();
-	m_pContainer->hwndActive = m_hwnd;
+	m_pContainer->m_hwndActive = m_hwnd;
 	FireEvent(MSG_WINDOW_EVT_OPEN, 0);
 }
 
@@ -1678,7 +1678,7 @@ void CChatRoomDlg::OnDestroy()
 	FireEvent(MSG_WINDOW_EVT_CLOSE, 0);
 
 	m_pContainer->ClearMargins();
-	PostMessage(m_pContainer->hwnd, WM_SIZE, 0, 1);
+	PostMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 1);
 
 	if (m_pContainer->dwFlags & CNT_SIDEBAR)
 		m_pContainer->SideBar->removeSession(this);
@@ -1860,14 +1860,14 @@ void CChatRoomDlg::onClick_BkColor(CCtrlButton *pButton)
 	}
 	else {
 		cf.dwMask = CFM_BACKCOLOR;
-		cf.crBackColor = (COLORREF)M.GetDword(FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR);
+		cf.crBackColor = M.GetDword(FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR);
 		m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 	}
 }
 
 void CChatRoomDlg::onChange_Message(CCtrlEdit*)
 {
-	if (m_pContainer->hwndActive == m_hwnd)
+	if (m_pContainer->m_hwndActive == m_hwnd)
 		UpdateReadChars();
 	m_dwLastActivity = GetTickCount();
 	m_pContainer->dwLastActivity = m_dwLastActivity;
@@ -1927,10 +1927,10 @@ void CChatRoomDlg::AddLog()
 				DM_AddDivider();
 		}
 		else {
-			bool bInactive = (GetForegroundWindow() != m_pContainer->hwnd || GetActiveWindow() != m_pContainer->hwnd);
+			bool bInactive = (GetForegroundWindow() != m_pContainer->m_hwnd || GetActiveWindow() != m_pContainer->m_hwnd);
 			if (bInactive)
 				DM_AddDivider();
-			else if (m_pContainer->hwndActive != m_hwnd)
+			else if (m_pContainer->m_hwndActive != m_hwnd)
 				DM_AddDivider();
 		}
 	}
@@ -1942,7 +1942,7 @@ void CChatRoomDlg::CloseTab()
 {
 	int iTabs = TabCtrl_GetItemCount(m_hwndParent);
 	if (iTabs == 1 && CMimAPI::m_shutDown == 0) {
-		SendMessage(m_pContainer->hwnd, WM_CLOSE, 0, 1);
+		SendMessage(m_pContainer->m_hwnd, WM_CLOSE, 0, 1);
 		return;
 	}
 
@@ -1963,21 +1963,21 @@ void CChatRoomDlg::CloseTab()
 		TCITEM item = {};
 		item.mask = TCIF_PARAM;
 		TabCtrl_GetItem(m_hwndParent, i, &item); // retrieve dialog hwnd for the now active tab...
-		m_pContainer->hwndActive = (HWND)item.lParam;
+		m_pContainer->m_hwndActive = (HWND)item.lParam;
 
 		RECT rc;
-		SendMessage(m_pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
-		SetWindowPos(m_pContainer->hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);
+		SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
+		SetWindowPos(m_pContainer->m_hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);
 		ShowWindow((HWND)item.lParam, SW_SHOW);
-		SetForegroundWindow(m_pContainer->hwndActive);
-		SetFocus(m_pContainer->hwndActive);
-		SendMessage(m_pContainer->hwnd, WM_SIZE, 0, 0);
+		SetForegroundWindow(m_pContainer->m_hwndActive);
+		SetFocus(m_pContainer->m_hwndActive);
+		SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
 	}
 
 	if (iTabs == 1)
-		SendMessage(m_pContainer->hwnd, WM_CLOSE, 0, 1);
+		SendMessage(m_pContainer->m_hwnd, WM_CLOSE, 0, 1);
 	else {
-		PostMessage(m_pContainer->hwnd, WM_SIZE, 0, 0);
+		PostMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
 		DestroyWindow(m_hwnd);
 	}
 }
@@ -2011,7 +2011,7 @@ void CChatRoomDlg::ScrollToBottom()
 
 void CChatRoomDlg::ShowFilterMenu()
 {
-	m_hwndFilter = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_FILTER), m_pContainer->hwnd, FilterWndProc, (LPARAM)this);
+	m_hwndFilter = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_FILTER), m_pContainer->m_hwnd, FilterWndProc, (LPARAM)this);
 	TranslateDialogDefault(m_hwndFilter);
 
 	RECT rcFilter, rcLog;
@@ -2020,7 +2020,7 @@ void CChatRoomDlg::ShowFilterMenu()
 
 	POINT pt;
 	pt.x = rcLog.right; pt.y = rcLog.bottom;
-	ScreenToClient(m_pContainer->hwnd, &pt);
+	ScreenToClient(m_pContainer->m_hwnd, &pt);
 
 	SetWindowPos(m_hwndFilter, HWND_TOP, pt.x - rcFilter.right, pt.y - rcFilter.bottom, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 }
@@ -2061,7 +2061,7 @@ void CChatRoomDlg::UpdateOptions()
 
 void CChatRoomDlg::UpdateStatusBar()
 {
-	if (m_pContainer->hwndActive != m_hwnd || m_pContainer->hwndStatus == 0 || CMimAPI::m_shutDown || m_wszStatusBar[0])
+	if (m_pContainer->m_hwndActive != m_hwnd || m_pContainer->hwndStatus == 0 || CMimAPI::m_shutDown || m_wszStatusBar[0])
 		return;
 
 	if (m_si->pszModule == nullptr)
@@ -2160,7 +2160,7 @@ void CChatRoomDlg::UpdateTitle()
 		TabCtrl_SetItem(m_hwndParent, m_iTabID, &item);
 	}
 	SetWindowText(m_hwnd, szTemp);
-	if (m_pContainer->hwndActive == m_hwnd) {
+	if (m_pContainer->m_hwndActive == m_hwnd) {
 		m_pContainer->UpdateTitle(0, this);
 		UpdateStatusBar();
 	}
@@ -2507,9 +2507,9 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				if (msg == WM_KEYDOWN && ((NMHDR*)lParam)->idFrom != IDC_MESSAGE) {
 					if ((wp == VK_NEXT && isCtrl && !isShift) || (wp == VK_TAB && isCtrl && !isShift)) // CTRL-TAB (switch tab/window)
-						SendMessage(m_pContainer->hwnd, DM_SELECTTAB, DM_SELECT_NEXT, 0);
+						SendMessage(m_pContainer->m_hwnd, DM_SELECTTAB, DM_SELECT_NEXT, 0);
 					else if ((wp == VK_PRIOR && isCtrl && !isShift) || (wp == VK_TAB && isCtrl && isShift)) // CTRL_SHIFT-TAB (switch tab/window)
-						SendMessage(m_pContainer->hwnd, DM_SELECTTAB, DM_SELECT_PREV, 0);
+						SendMessage(m_pContainer->m_hwnd, DM_SELECTTAB, DM_SELECT_PREV, 0);
 				}					
 
 				if (msg == WM_KEYDOWN && wp == VK_TAB) {
@@ -2719,7 +2719,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (!m_pPanel.isHovered()) {
 			cur.x = (SHORT)tmp.x;
 			cur.y = (SHORT)tmp.y;
-			SendMessage(m_pContainer->hwnd, WM_NCLBUTTONDOWN, HTCAPTION, *((LPARAM*)(&cur)));
+			SendMessage(m_pContainer->m_hwnd, WM_NCLBUTTONDOWN, HTCAPTION, *((LPARAM*)(&cur)));
 		}
 		break;
 
@@ -2730,7 +2730,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		else {
 			cur.x = (SHORT)tmp.x;
 			cur.y = (SHORT)tmp.y;
-			SendMessage(m_pContainer->hwnd, WM_NCLBUTTONUP, HTCAPTION, *((LPARAM*)(&cur)));
+			SendMessage(m_pContainer->m_hwnd, WM_NCLBUTTONUP, HTCAPTION, *((LPARAM*)(&cur)));
 		}
 		break;
 
@@ -2744,7 +2744,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			DWORD cmd = GET_APPCOMMAND_LPARAM(lParam);
 			if (cmd == APPCOMMAND_BROWSER_BACKWARD || cmd == APPCOMMAND_BROWSER_FORWARD) {
-				SendMessage(m_pContainer->hwnd, DM_SELECTTAB, cmd == APPCOMMAND_BROWSER_BACKWARD ? DM_SELECT_PREV : DM_SELECT_NEXT, 0);
+				SendMessage(m_pContainer->m_hwnd, DM_SELECTTAB, cmd == APPCOMMAND_BROWSER_BACKWARD ? DM_SELECT_PREV : DM_SELECT_NEXT, 0);
 				return 1;
 			}
 		}
@@ -2753,11 +2753,11 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_TOGGLESIDEBAR:
-			SendMessage(m_pContainer->hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
+			SendMessage(m_pContainer->m_hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
 			break;
 
 		case IDCANCEL:
-			ShowWindow(m_pContainer->hwnd, SW_MINIMIZE);
+			ShowWindow(m_pContainer->m_hwnd, SW_MINIMIZE);
 			return FALSE;
 
 		case IDC_CLOSE:
@@ -2810,7 +2810,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 
 			if (CSkin::m_skinEnabled && !M.isAero()) {
-				CSkin::SkinDrawBG(m_hwnd, m_pContainer->hwnd, m_pContainer, &rcClient, hdcMem);
+				CSkin::SkinDrawBG(m_hwnd, m_pContainer->m_hwnd, m_pContainer, &rcClient, hdcMem);
 				for (int i = 0; i < 3; i++) {
 					CSkinItem *item = &SkinItems[item_ids[i]];
 					if (!item->IGNORED) {
@@ -2896,11 +2896,11 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_CLOSE:
 		if (wParam == 0 && lParam == 0) {
 			if (PluginConfig.m_EscapeCloses == 1) {
-				SendMessage(m_pContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+				SendMessage(m_pContainer->m_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 				return TRUE;
 			}
 			if (PluginConfig.m_bHideOnClose && PluginConfig.m_EscapeCloses == 2) {
-				ShowWindow(m_pContainer->hwnd, SW_HIDE);
+				ShowWindow(m_pContainer->m_hwnd, SW_HIDE);
 				return TRUE;
 			}
 			_dlgReturn(m_hwnd, TRUE);
@@ -2916,7 +2916,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (m_dwFlags & MWF_WASBACKGROUNDCREATE)
 			m_dwFlags &= ~MWF_INITMODE;
 
-		SendMessage(m_pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
+		SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
 		MoveWindow(m_hwnd, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), TRUE);
 		
 		if (m_dwFlags & MWF_WASBACKGROUNDCREATE) {
@@ -3010,7 +3010,7 @@ void ShowRoom(SESSION_INFO *si)
 	if (M.FindWindow(hContact) != 0)
 		return;
 
-	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6))
+	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6))
 		if ((pContainer = FindMatchingContainer(L"default")) == nullptr)
 			if ((pContainer = CreateContainer(L"default", CNT_CREATEFLAG_CLONED, hContact)) == nullptr)
 				return;
@@ -3027,11 +3027,11 @@ void ShowRoom(SESSION_INFO *si)
 	}
 	else wcsncpy_s(newcontactname, L"_U_", _TRUNCATE);
 
-	HWND hwndTab = GetDlgItem(pContainer->hwnd, IDC_MSGTABS);
+	HWND hwndTab = GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS);
 
 	// hide the active tab
-	if (pContainer->hwndActive)
-		ShowWindow(pContainer->hwndActive, SW_HIDE);
+	if (pContainer->m_hwndActive)
+		ShowWindow(pContainer->m_hwndActive, SW_HIDE);
 
 	int iTabIndex_wanted = M.GetDword(hContact, "tabindex", pContainer->iChilds * 100);
 	int iCount = TabCtrl_GetItemCount(hwndTab);
@@ -3074,33 +3074,33 @@ void ShowRoom(SESSION_INFO *si)
 	if (pContainer->dwFlags & CNT_SIDEBAR)
 		pContainer->SideBar->addSession(pDlg, pContainer->iTabIndex);
 
-	SendMessage(pContainer->hwnd, WM_SIZE, 0, 0);
+	SendMessage(pContainer->m_hwnd, WM_SIZE, 0, 0);
 	// if the container is minimized, then pop it up...
-	if (IsIconic(pContainer->hwnd)) {
-		SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-		SetFocus(pContainer->hwndActive);
+	if (IsIconic(pContainer->m_hwnd)) {
+		SendMessage(pContainer->m_hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+		SetFocus(pContainer->m_hwndActive);
 	}
 
-	if (PluginConfig.m_bHideOnClose && !IsWindowVisible(pContainer->hwnd)) {
+	if (PluginConfig.m_bHideOnClose && !IsWindowVisible(pContainer->m_hwnd)) {
 		WINDOWPLACEMENT wp = { 0 };
 		wp.length = sizeof(wp);
-		GetWindowPlacement(pContainer->hwnd, &wp);
+		GetWindowPlacement(pContainer->m_hwnd, &wp);
 
 		BroadCastContainer(pContainer, DM_CHECKSIZE, 0, 0);			// make sure all tabs will re-check layout on activation
 		if (wp.showCmd == SW_SHOWMAXIMIZED)
-			ShowWindow(pContainer->hwnd, SW_SHOWMAXIMIZED);
+			ShowWindow(pContainer->m_hwnd, SW_SHOWMAXIMIZED);
 		else {
-			ShowWindow(pContainer->hwnd, SW_SHOWNORMAL);
+			ShowWindow(pContainer->m_hwnd, SW_SHOWNORMAL);
 		}
-		SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);
+		SendMessage(pContainer->m_hwndActive, WM_SIZE, 0, 0);
 		SetFocus(hwndNew);
 	}
 	else {
 		SetFocus(hwndNew);
-		RedrawWindow(pContainer->hwnd, nullptr, nullptr, RDW_INVALIDATE);
-		UpdateWindow(pContainer->hwnd);
-		if (GetForegroundWindow() != pContainer->hwnd)
-			SetForegroundWindow(pContainer->hwnd);
+		RedrawWindow(pContainer->m_hwnd, nullptr, nullptr, RDW_INVALIDATE);
+		UpdateWindow(pContainer->m_hwnd);
+		if (GetForegroundWindow() != pContainer->m_hwnd)
+			SetForegroundWindow(pContainer->m_hwnd);
 	}
 
 	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled && !M.GetByte("forceAeroPeek", 0))

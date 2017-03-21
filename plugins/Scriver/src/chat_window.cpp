@@ -158,11 +158,11 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 			dat->szSearchQuery = nullptr;
 			mir_free(dat->szSearchResult);
 			dat->szSearchResult = nullptr;
-			if ((isCtrl != 0) ^ (0 != db_get_b(0, SRMMMOD, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER))) {
+			if ((isCtrl != 0) ^ (0 != db_get_b(0, SRMM_MODULE, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER))) {
 				PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
 				return 0;
 			}
-			if (db_get_b(0, SRMMMOD, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER)) {
+			if (db_get_b(0, SRMM_MODULE, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER)) {
 				if (dat->lastEnterTime + 2 < time(nullptr))
 					dat->lastEnterTime = time(nullptr);
 				else {
@@ -316,7 +316,7 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 
 			if (pci->MM_FindModule(si->pszModule) && pci->MM_FindModule(si->pszModule)->bBkgColor) {
 				int index = pci->GetColorIndex(si->pszModule, cf.crBackColor);
-				COLORREF crB = db_get_dw(0, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
+				COLORREF crB = db_get_dw(0, SRMM_MODULE, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
 				u = IsDlgButtonChecked(GetParent(hwnd), IDC_BKGCOLOR);
 
 				if (index >= 0) {
@@ -1193,7 +1193,7 @@ void CChatRoomDlg::onClick_BkColor(CCtrlButton *pButton)
 	}
 	else {
 		cf.dwMask = CFM_BACKCOLOR;
-		cf.crBackColor = (COLORREF)db_get_dw(0, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
+		cf.crBackColor = db_get_dw(0, SRMM_MODULE, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
 		m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 	}
 }
@@ -1313,8 +1313,8 @@ void CChatRoomDlg::UpdateOptions()
 	cf.dwMask = CFM_COLOR | CFM_BOLD | CFM_UNDERLINE | CFM_BACKCOLOR;
 	cf.dwEffects = 0;
 	cf.crTextColor = crFore;
-	cf.crBackColor = db_get_dw(0, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
-	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, db_get_dw(0, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR));
+	cf.crBackColor = db_get_dw(0, SRMM_MODULE, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
+	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, db_get_dw(0, SRMM_MODULE, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR));
 	m_message.SendMsg(WM_SETFONT, (WPARAM)g_Settings.MessageBoxFont, MAKELPARAM(TRUE, 0));
 	m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 	{
@@ -1354,7 +1354,7 @@ void CChatRoomDlg::UpdateStatusBar()
 	SendMessage(m_hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)m_hwnd);
 
 	StatusIconData sid = { sizeof(sid) };
-	sid.szModule = SRMMMOD;
+	sid.szModule = SRMM_MODULE;
 	Srmm_ModifyIcon(m_hContact, &sid);
 }
 

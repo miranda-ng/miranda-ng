@@ -173,9 +173,9 @@ struct TContainerData
 {
 	TContainerData *pNext;
 
-	wchar_t  szName[CONTAINER_NAMELEN + 4];		// container name
-	HWND     hwndActive;		// active message window
-	HWND     hwnd;				// the container handle
+	wchar_t  m_wszName[CONTAINER_NAMELEN + 4];		// container name
+	HWND     m_hwndActive;		// active message window
+	HWND     m_hwnd;				// the container handle
 	int      iTabIndex;			// next tab id
 	int	   iChilds;
 	int      iContainerIndex;
@@ -331,7 +331,6 @@ public:
 	TOOLINFO ti;
 	HANDLE   m_hTimeZone;
 	DWORD    m_panelStatusCX;
-	COLORREF m_inputbg;
 	MEVENT  *m_hHistoryEvents;
 	int      m_maxHistory, m_curHistory;
 	HANDLE   m_hTheme, m_hThemeIP, m_hThemeToolbar;

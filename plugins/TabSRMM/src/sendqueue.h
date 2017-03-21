@@ -43,7 +43,7 @@
 
 struct SendJob
 {
-	HANDLE   hSendId;
+	int      iSendId;
 	char    *szSendBuffer;
 	size_t   iSendLength;	// length of message in utf-8 octets (used to check maxlen)
 	int      sendCount;

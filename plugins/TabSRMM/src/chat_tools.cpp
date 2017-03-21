@@ -174,17 +174,17 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 				goto passed;
 			return 0;
 		}
-		if (pContainer->dwFlags & CNT_DONTREPORT && IsIconic(pContainer->hwnd))        // in tray counts as "minimised"
+		if (pContainer->dwFlags & CNT_DONTREPORT && IsIconic(pContainer->m_hwnd))        // in tray counts as "minimised"
 			goto passed;
 		if (pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED) {
-			if (!IsIconic(pContainer->hwnd) && GetForegroundWindow() != pContainer->hwnd && GetActiveWindow() != pContainer->hwnd)
+			if (!IsIconic(pContainer->m_hwnd) && GetForegroundWindow() != pContainer->m_hwnd && GetActiveWindow() != pContainer->m_hwnd)
 				goto passed;
 		}
 		if (pContainer->dwFlags & CNT_ALWAYSREPORTINACTIVE) {
 			if (pContainer->dwFlags & CNT_DONTREPORTFOCUSED)
 				goto passed;
 
-			if (pContainer->hwndActive == si->pDlg->GetHwnd())
+			if (pContainer->m_hwndActive == si->pDlg->GetHwnd())
 				return 0;
 
 			goto passed;
@@ -219,8 +219,8 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 	if (si->pDlg) {
 		dat = si->pDlg;
 		if (dat) {
-			p->bInactive = dat->m_pContainer->hwnd != GetForegroundWindow();
-			p->bActiveTab = (dat->m_pContainer->hwndActive == si->pDlg->GetHwnd());
+			p->bInactive = dat->m_pContainer->m_hwnd != GetForegroundWindow();
+			p->bActiveTab = (dat->m_pContainer->m_hwndActive == si->pDlg->GetHwnd());
 		}
 		if (p->sound && Utils::mustPlaySound(si->pDlg))
 			SkinPlaySound(p->sound);
@@ -251,12 +251,12 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 
 		// autoswitch tab..
 		if (p->bMustAutoswitch) {
-			if ((IsIconic(dat->m_pContainer->hwnd)) && !IsZoomed(dat->m_pContainer->hwnd) && PluginConfig.haveAutoSwitch() && dat->m_pContainer->hwndActive != si->pDlg->GetHwnd()) {
+			if ((IsIconic(dat->m_pContainer->m_hwnd)) && !IsZoomed(dat->m_pContainer->m_hwnd) && PluginConfig.haveAutoSwitch() && dat->m_pContainer->m_hwndActive != si->pDlg->GetHwnd()) {
 				int iItem = GetTabIndexFromHWND(hwndTab, si->pDlg->GetHwnd());
 				if (iItem >= 0) {
 					TabCtrl_SetCurSel(hwndTab, iItem);
-					ShowWindow(dat->m_pContainer->hwndActive, SW_HIDE);
-					dat->m_pContainer->hwndActive = si->pDlg->GetHwnd();
+					ShowWindow(dat->m_pContainer->m_hwndActive, SW_HIDE);
+					dat->m_pContainer->m_hwndActive = si->pDlg->GetHwnd();
 					dat->m_pContainer->UpdateTitle(dat->m_hContact);
 					dat->m_pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
 				}
@@ -280,9 +280,9 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 				TabCtrl_SetItem(GetParent(si->pDlg->GetHwnd()), dat->m_iTabID, &item);
 			}
 
-			HICON hIcon = (HICON)SendMessage(dat->m_pContainer->hwnd, WM_GETICON, ICON_BIG, 0);
+			HICON hIcon = (HICON)SendMessage(dat->m_pContainer->m_hwnd, WM_GETICON, ICON_BIG, 0);
 			if (p->hNotifyIcon == pci->hIcons[ICON_HIGHLIGHT] || (hIcon != pci->hIcons[ICON_MESSAGE] && hIcon != pci->hIcons[ICON_HIGHLIGHT])) {
-				SendMessage(dat->m_pContainer->hwnd, DM_SETICON, (WPARAM)dat, (LPARAM)p->hNotifyIcon);
+				SendMessage(dat->m_pContainer->m_hwnd, DM_SETICON, (WPARAM)dat, (LPARAM)p->hNotifyIcon);
 				dat->m_pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
 			}
 		}
@@ -305,7 +305,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	params->bInactive = TRUE;
 	if (si->pDlg) {
 		dat = si->pDlg;
-		if ((si->pDlg->GetHwnd() == si->pDlg->m_pContainer->hwndActive) && GetForegroundWindow() == si->pDlg->m_pContainer->hwnd)
+		if ((si->pDlg->GetHwnd() == si->pDlg->m_pContainer->m_hwndActive) && GetForegroundWindow() == si->pDlg->m_pContainer->m_hwnd)
 			params->bInactive = FALSE;
 	}
 	params->bActiveTab = params->bMustFlash = params->bMustAutoswitch = FALSE;
@@ -326,7 +326,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		if (g_Settings.bCreateWindowOnHighlight && dat == nullptr)
 			wParamForHighLight = 1;
 
-		if (dat && g_Settings.bAnnoyingHighlight && params->bInactive && dat->m_pContainer->hwnd != GetForegroundWindow()) {
+		if (dat && g_Settings.bAnnoyingHighlight && params->bInactive && dat->m_pContainer->m_hwnd != GetForegroundWindow()) {
 			wParamForHighLight = 2;
 			params->hWnd = dat->GetHwnd();
 		}

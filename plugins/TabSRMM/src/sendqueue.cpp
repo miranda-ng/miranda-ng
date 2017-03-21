@@ -156,7 +156,7 @@ static void DoSplitSendA(LPVOID param)
 			*szSaved = 0;
 			int id = ProtoChainSend(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)szTemp);
 			if (!fFirstSend) {
-				job->hSendId = (HANDLE)id;
+				job->iSendId = id;
 				fFirstSend = TRUE;
 				PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SPLITSENDACK, (WPARAM)param, 0);
 			}
@@ -170,7 +170,7 @@ static void DoSplitSendA(LPVOID param)
 		else {
 			int id = ProtoChainSend(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)szTemp);
 			if (!fFirstSend) {
-				job->hSendId = (HANDLE)id;
+				job->iSendId = id;
 				fFirstSend = TRUE;
 				PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SPLITSENDACK, (WPARAM)param, 0);
 			}
@@ -279,12 +279,12 @@ int SendQueue::sendQueued(CTabBaseDlg *dat, const int iEntry)
 			clearJob(iEntry);
 			return 0;
 		}
-		m_jobs[iEntry].hSendId = (HANDLE)ProtoChainSend(dat->m_hContact, PSS_MESSAGE, m_jobs[iEntry].dwFlags, (LPARAM)m_jobs[iEntry].szSendBuffer);
+		m_jobs[iEntry].iSendId = ProtoChainSend(dat->m_hContact, PSS_MESSAGE, m_jobs[iEntry].dwFlags, (LPARAM)m_jobs[iEntry].szSendBuffer);
 
 		if (dat->m_sendMode & SMODE_NOACK) {              // fake the ack if we are not interested in receiving real acks
 			ACKDATA ack = { 0 };
 			ack.hContact = dat->m_hContact;
-			ack.hProcess = m_jobs[iEntry].hSendId;
+			ack.hProcess = (HANDLE)m_jobs[iEntry].iSendId;
 			ack.type = ACKTYPE_MESSAGE;
 			ack.result = ACKRESULT_SUCCESS;
 			SendMessage(hwndDlg, HM_EVENTSENT, (WPARAM)MAKELONG(iEntry, 0), (LPARAM)&ack);
@@ -296,14 +296,14 @@ int SendQueue::sendQueued(CTabBaseDlg *dat, const int iEntry)
 	m_currentIndex++;
 
 	// give icon feedback...
-	if (dat->m_pContainer->hwndActive == hwndDlg)
+	if (dat->m_pContainer->m_hwndActive == hwndDlg)
 		dat->UpdateReadChars();
 
 	if (!(dat->m_sendMode & SMODE_NOACK))
 		::HandleIconFeedback(dat, PluginConfig.g_IconSend);
 
 	if (M.GetByte(SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
-		::SendMessage(dat->m_pContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+		::SendMessage(dat->m_pContainer->m_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 	return 0;
 }
 
@@ -331,7 +331,7 @@ void SendQueue::checkQueue(const CTabBaseDlg *dat) const
 		else if (!(dat->m_sendMode & SMODE_NOACK))
 			::HandleIconFeedback(const_cast<CTabBaseDlg*>(dat), PluginConfig.g_IconSend);
 
-		if (dat->m_pContainer->hwndActive == hwndDlg)
+		if (dat->m_pContainer->m_hwndActive == hwndDlg)
 			dat->UpdateReadChars();
 	}
 }
@@ -393,7 +393,7 @@ void SendQueue::showErrorControls(CTabBaseDlg *dat, const int showCmd) const
 		dat->m_hTabIcon = PluginConfig.g_iconErr;
 		item.mask = TCIF_IMAGE;
 		item.iImage = 0;
-		TabCtrl_SetItem(GetDlgItem(dat->m_pContainer->hwnd, IDC_MSGTABS), dat->m_iTabID, &item);
+		TabCtrl_SetItem(GetDlgItem(dat->m_pContainer->m_hwnd, IDC_MSGTABS), dat->m_iTabID, &item);
 		dat->m_dwFlags |= MWF_ERRORSTATE;
 	}
 	else {
@@ -572,7 +572,7 @@ int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 	dbei.flags |= DBEF_UTF;
 	dbei.pBlob = (PBYTE)job.szSendBuffer;
 
-	MessageWindowEvent evt = { sizeof(evt), (INT_PTR)job.hSendId, job.hContact, &dbei };
+	MessageWindowEvent evt = { sizeof(evt), job.iSendId, job.hContact, &dbei };
 	NotifyEventHooks(PluginConfig.m_event_WriteEvent, 0, (LPARAM)&evt);
 
 	job.szSendBuffer = (char*)dbei.pBlob;
@@ -584,7 +584,7 @@ int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 
 	M.BroadcastMessage(DM_APPENDMCEVENT, job.hContact, LPARAM(hNewEvent));
 
-	job.hSendId = nullptr;
+	job.iSendId = 0;
 	job.iAcksNeeded--;
 
 	if (job.iAcksNeeded == 0) {              // everything sent
@@ -606,7 +606,7 @@ int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 				if (M.GetByte("adv_AutoClose_2", 0))
 					SendMessage(dat->GetHwnd(), WM_CLOSE, 0, 1);
 				else
-					SendMessage(dat->m_pContainer->hwnd, WM_CLOSE, 0, 0);
+					SendMessage(dat->m_pContainer->m_hwnd, WM_CLOSE, 0, 0);
 			}
 		}
 	}
@@ -656,7 +656,7 @@ int SendQueue::doSendLater(int iJobIndex, CTabBaseDlg *dat, MCONTACT hContact, b
 			SendMessage(dat->GetHwnd(), DM_REMAKELOG, 0, 0);
 		dat->m_cache->saveHistory(0, 0);
 		dat->EnableSendButton(false);
-		if (dat->m_pContainer->hwndActive == dat->GetHwnd())
+		if (dat->m_pContainer->m_hwndActive == dat->GetHwnd())
 			dat->UpdateReadChars();
 		SendDlgItemMessage(dat->GetHwnd(), IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
 		SendDlgItemMessage(dat->GetHwnd(), IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close session"), BATF_UNICODE);

@@ -389,7 +389,7 @@ void CScriverWindow::CloseTab()
 static void RegisterStatusIcons()
 {
 	StatusIconData sid = { sizeof(sid) };
-	sid.szModule = SRMMMOD;
+	sid.szModule = SRMM_MODULE;
 	sid.dwId = 1;
 	sid.hIcon = GetCachedIcon("scriver_TYPING");
 	sid.hIconDisabled = GetCachedIcon("scriver_TYPINGOFF");
@@ -400,7 +400,7 @@ static void RegisterStatusIcons()
 void ChangeStatusIcons()
 {
 	StatusIconData sid = { sizeof(sid) };
-	sid.szModule = SRMMMOD;
+	sid.szModule = SRMM_MODULE;
 	sid.dwId = 1;
 	sid.hIcon = GetCachedIcon("scriver_TYPING");
 	sid.hIconDisabled = GetCachedIcon("scriver_TYPINGOFF");
@@ -411,7 +411,7 @@ void ChangeStatusIcons()
 int StatusIconPressed(WPARAM wParam, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *) lParam;
-	if (mir_strcmp(SRMMMOD, sicd->szModule))
+	if (mir_strcmp(SRMM_MODULE, sicd->szModule))
 		return 0;
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, wParam);

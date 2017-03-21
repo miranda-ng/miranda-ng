@@ -381,14 +381,14 @@ int GetColorIndex(const char *pszModule, COLORREF cr)
 void CheckColorsInModule(const char *pszModule)
 {
 	MODULEINFO *pMod = chatApi.MM_FindModule(pszModule);
+	if (!pMod)
+		return;
+
 	int i = 0;
 	COLORREF crFG;
 	COLORREF crBG = (COLORREF)db_get_dw(0, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
 
 	LoadMsgDlgFont(17, nullptr, &crFG);
-
-	if (!pMod)
-		return;
 
 	for (i = 0; i < pMod->nColorCount; i++) {
 		if (pMod->crColors[i] == crFG || pMod->crColors[i] == crBG) {

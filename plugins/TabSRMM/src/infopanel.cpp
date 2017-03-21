@@ -294,7 +294,7 @@ void CInfoPanel::renderBG(const HDC hdc, RECT& rc, CSkinItem *item, bool bAero, 
 
 	if (CSkin::m_skinEnabled) {
 		rc.bottom -= 2;
-		CSkin::SkinDrawBG(m_dat->GetHwnd(), m_dat->m_pContainer->hwnd, m_dat->m_pContainer, &rc, hdc);
+		CSkin::SkinDrawBG(m_dat->GetHwnd(), m_dat->m_pContainer->m_hwnd, m_dat->m_pContainer, &rc, hdc);
 		item = &SkinItems[ID_EXTBKINFOPANELBG];
 
 		// if new (= tabsrmm 3.x) skin item is not defined, use the old info panel
@@ -1253,7 +1253,7 @@ int CInfoPanel::invokeConfigDialog(const POINT &pt)
 
 	if (m_hwndConfig == 0) {
 		m_configDlgBoldFont = m_configDlgFont = 0;
-		m_hwndConfig = ::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_INFOPANEL), 0 /*m_dat->m_pContainer->hwnd */,
+		m_hwndConfig = ::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_INFOPANEL), 0 /*m_dat->m_pContainer->m_hwnd */,
 			ConfigDlgProcStub, (LPARAM)this);
 		if (m_hwndConfig) {
 			TranslateDialogDefault(m_hwndConfig);

@@ -134,7 +134,7 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 				item = &SkinItems[(ctl->stateId == PBS_NORMAL || ctl->stateId == PBS_DISABLED) ? ID_EXTBKBUTTONSNPRESSED : (ctl->stateId == PBS_HOT ? ID_EXTBKBUTTONSMOUSEOVER : ID_EXTBKBUTTONSPRESSED)];
 				realItem = item;
 			}
-			CSkin::SkinDrawBG(ctl->hwnd, ctl->pContainer->hwnd, ctl->pContainer, &rcContent, hdcMem);
+			CSkin::SkinDrawBG(ctl->hwnd, ctl->pContainer->m_hwnd, ctl->pContainer, &rcContent, hdcMem);
 			if (!item->IGNORED) {
 				RECT rc1 = rcClient;
 				rc1.left += item->MARGIN_LEFT;
@@ -187,7 +187,7 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 			else
 				item = &SkinItems[(ctl->stateId == PBS_NORMAL || ctl->stateId == PBS_DISABLED) ? ID_EXTBKBUTTONSNPRESSED : (ctl->stateId == PBS_HOT ? ID_EXTBKBUTTONSMOUSEOVER : ID_EXTBKBUTTONSPRESSED)];
 
-			CSkin::SkinDrawBG(ctl->hwnd, ctl->pContainer->hwnd, ctl->pContainer, &rcClient, hdcMem);
+			CSkin::SkinDrawBG(ctl->hwnd, ctl->pContainer->m_hwnd, ctl->pContainer, &rcClient, hdcMem);
 			if (!item->IGNORED) {
 				RECT rc1 = rcClient;
 				rc1.left += item->MARGIN_LEFT;

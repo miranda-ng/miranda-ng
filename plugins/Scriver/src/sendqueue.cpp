@@ -92,7 +92,7 @@ BOOL RemoveSendQueueItem(MessageSendQueueItem* item)
 void ReportSendQueueTimeouts(HWND hwndSender)
 {
 	MessageSendQueueItem *item, *item2;
-	int timeout = db_get_dw(0, SRMMMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
+	int timeout = db_get_dw(0, SRMM_MODULE, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
 
 	mir_cslock lock(queueMutex);
 

@@ -258,7 +258,7 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 	if (msg == WM_ACTIVATE) {
 		if (m_pContainer->dwFlags & CNT_TRANSPARENCY) {
 			DWORD trans = LOWORD(m_pContainer->settings->dwTransparency);
-			SetLayeredWindowAttributes(m_pContainer->hwnd, 0, (BYTE)trans, (m_pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
+			SetLayeredWindowAttributes(m_pContainer->m_hwnd, 0, (BYTE)trans, (m_pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
 		}
 	}
 
@@ -294,7 +294,7 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 	}
 	m_pContainer->dwFlags &= ~CNT_NEED_UPDATETITLE;
 
-	if ((m_dwFlags & MWF_DEFERREDREMAKELOG) && !IsIconic(m_pContainer->hwnd)) {
+	if ((m_dwFlags & MWF_DEFERREDREMAKELOG) && !IsIconic(m_pContainer->m_hwnd)) {
 		SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 		m_dwFlags &= ~MWF_DEFERREDREMAKELOG;
 	}
@@ -319,7 +319,7 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 	m_pContainer->MenuBar->configureMenu();
 	UpdateTrayMenuState(this, FALSE);
 
-	if (m_pContainer->hwndActive == m_hwnd)
+	if (m_pContainer->m_hwndActive == m_hwnd)
 		DeletePopupsForContact(m_hContact, PU_REMOVE_ON_FOCUS);
 
 	m_pPanel.Invalidate();
@@ -352,7 +352,7 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 
 	if (m_dwFlagsEx & MWF_EX_DELAYEDSPLITTER) {
 		m_dwFlagsEx &= ~MWF_EX_DELAYEDSPLITTER;
-		ShowWindow(m_pContainer->hwnd, SW_RESTORE);
+		ShowWindow(m_pContainer->m_hwnd, SW_RESTORE);
 		PostMessage(m_hwnd, DM_SPLITTERGLOBALEVENT, m_wParam, m_lParam);
 		m_wParam = m_lParam = 0;
 	}
@@ -407,7 +407,7 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 	if (!dat->m_SendFormat)
 		ShowMultipleControls(hwndDlg, formatControls, _countof(formatControls), SW_HIDE);
 
-	if (dat->m_pContainer->hwndActive == hwndDlg)
+	if (dat->m_pContainer->m_hwndActive == hwndDlg)
 		dat->UpdateReadChars();
 
 	SetDlgItemText(hwndDlg, IDC_STATICTEXT, TranslateT("A message failed to send successfully."));
@@ -720,13 +720,13 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 				iIndex = 10;
 			else
 				iIndex = bChar - (BYTE)'0';
-			SendMessage(mwdat->m_pContainer->hwnd, DM_SELECTTAB, DM_SELECT_BY_INDEX, (LPARAM)iIndex);
+			SendMessage(mwdat->m_pContainer->m_hwnd, DM_SELECTTAB, DM_SELECT_BY_INDEX, (LPARAM)iIndex);
 			return 0;
 		}
 		break;
 
 	case WM_INPUTLANGCHANGE:
-		if (PluginConfig.m_bAutoLocaleSupport && GetFocus() == hwnd && mwdat->m_pContainer->hwndActive == hwndParent && GetForegroundWindow() == mwdat->m_pContainer->hwnd && GetActiveWindow() == mwdat->m_pContainer->hwnd) {
+		if (PluginConfig.m_bAutoLocaleSupport && GetFocus() == hwnd && mwdat->m_pContainer->m_hwndActive == hwndParent && GetForegroundWindow() == mwdat->m_pContainer->m_hwnd && GetActiveWindow() == mwdat->m_pContainer->m_hwnd) {
 			mwdat->DM_SaveLocale(wParam, lParam);
 			SendMessage(hwnd, EM_SETLANGOPTIONS, 0, (LPARAM)SendMessage(hwnd, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 			return 1;
@@ -822,7 +822,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			HDC dc = BeginPaint(hwnd, &ps);
 
 			if (dat && CSkin::m_skinEnabled)
-				CSkin::SkinDrawBG(hwnd, dat->m_pContainer->hwnd, dat->m_pContainer, &rc, dc);
+				CSkin::SkinDrawBG(hwnd, dat->m_pContainer->m_hwnd, dat->m_pContainer, &rc, dc);
 			else if (M.isAero() || M.isVSThemed()) {
 				if (GetDlgCtrlID(hwnd) == IDC_PANELSPLITTER) {
 					EndPaint(hwnd, &ps);
@@ -1137,7 +1137,7 @@ void CSrmmWindow::OnInitDialog()
 			SETTEXTEX stx = { ST_DEFAULT, 1200 };
 			m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, tszSavedMsg);
 			SendQueue::UpdateSaveAndSendButton(this);
-			if (m_pContainer->hwndActive == m_hwnd)
+			if (m_pContainer->m_hwndActive == m_hwnd)
 				UpdateReadChars();
 		}
 	}
@@ -1160,7 +1160,7 @@ void CSrmmWindow::OnInitDialog()
 		}
 	}
 
-	SendMessage(m_pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
+	SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 	{
 		WNDCLASS wndClass = { 0 };
 		GetClassInfo(g_hInst, L"RICHEDIT50W", &wndClass);
@@ -1180,13 +1180,13 @@ void CSrmmWindow::OnInitDialog()
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		FlashOnClist(m_hDbEventFirst, &dbei);
 
-		SendMessage(m_pContainer->hwnd, DM_SETICON, (WPARAM)this, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
+		SendMessage(m_pContainer->m_hwnd, DM_SETICON, (WPARAM)this, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 		m_pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
 		m_dwFlags |= MWF_NEEDCHECKSIZE | MWF_WASBACKGROUNDCREATE | MWF_DEFERREDSCROLL;
 	}
 
 	if (m_bActivate) {
-		m_pContainer->hwndActive = m_hwnd;
+		m_pContainer->m_hwndActive = m_hwnd;
 		ShowWindow(m_hwnd, SW_SHOW);
 		SetActiveWindow(m_hwnd);
 		SetForegroundWindow(m_hwnd);
@@ -1194,7 +1194,7 @@ void CSrmmWindow::OnInitDialog()
 	else if (m_pContainer->dwFlags & CNT_CREATE_MINIMIZED) {
 		m_dwFlags |= MWF_DEFERREDSCROLL;
 		ShowWindow(m_hwnd, SW_SHOWNOACTIVATE);
-		m_pContainer->hwndActive = m_hwnd;
+		m_pContainer->m_hwndActive = m_hwnd;
 		m_pContainer->dwFlags |= CNT_DEFERREDCONFIGURE;
 	}
 	m_pContainer->UpdateTitle(m_hContact);
@@ -1211,14 +1211,14 @@ void CSrmmWindow::OnInitDialog()
 
 	if (m_pContainer->dwFlags & CNT_CREATE_MINIMIZED) {
 		m_pContainer->dwFlags &= ~CNT_CREATE_MINIMIZED;
-		m_pContainer->hwndActive = m_hwnd;
+		m_pContainer->m_hwndActive = m_hwnd;
 	}
 }
 
 void CSrmmWindow::OnDestroy()
 {
 	m_pContainer->ClearMargins();
-	PostMessage(m_pContainer->hwnd, WM_SIZE, 0, 1);
+	PostMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 1);
 	if (m_pContainer->dwFlags & CNT_SIDEBAR)
 		m_pContainer->SideBar->removeSession(this);
 	m_cache->setWindowData();
@@ -1399,7 +1399,7 @@ void CSrmmWindow::UpdateTitle()
 			if (m_pContainer->dwFlags & CNT_SIDEBAR)
 				m_pContainer->SideBar->updateSession(this);
 		}
-		if (m_pContainer->hwndActive == m_hwnd && bChanged)
+		if (m_pContainer->m_hwndActive == m_hwnd && bChanged)
 			m_pContainer->UpdateTitle(m_hContact);
 
 		UpdateTrayMenuState(this, TRUE);
@@ -1489,7 +1489,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton*)
 	if (memRequired == 0 || m_sendBuffer[0] == 0)
 		return;
 
-	if (m_sendMode & SMODE_CONTAINER && m_pContainer->hwndActive == m_hwnd && GetForegroundWindow() == m_pContainer->hwnd) {
+	if (m_sendMode & SMODE_CONTAINER && m_pContainer->m_hwndActive == m_hwnd && GetForegroundWindow() == m_pContainer->m_hwnd) {
 		int tabCount = TabCtrl_GetItemCount(m_hwndParent);
 		ptrA szFromStream(Message_GetFromStream(m_message.GetHwnd(), m_SendFormat ? 0 : SF_TEXT));
 
@@ -1639,7 +1639,7 @@ void CSrmmWindow::onClick_CancelAdd(CCtrlButton*)
 
 void CSrmmWindow::onChange_Message(CCtrlEdit*)
 {
-	if (m_pContainer->hwndActive == m_hwnd)
+	if (m_pContainer->m_hwndActive == m_hwnd)
 		UpdateReadChars();
 	m_dwFlags |= MWF_NEEDHISTORYSAVE;
 	m_dwLastActivity = GetTickCount();
@@ -2025,11 +2025,11 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 			return _dlgReturn(m_hwnd, 1);
 		}
 		if (wp == VK_ADD) {
-			SendMessage(m_pContainer->hwnd, DM_SELECTTAB, DM_SELECT_NEXT, 0);
+			SendMessage(m_pContainer->m_hwnd, DM_SELECTTAB, DM_SELECT_NEXT, 0);
 			return _dlgReturn(m_hwnd, 1);
 		}
 		if (wp == VK_SUBTRACT) {
-			SendMessage(m_pContainer->hwnd, DM_SELECTTAB, DM_SELECT_PREV, 0);
+			SendMessage(m_pContainer->m_hwnd, DM_SELECTTAB, DM_SELECT_PREV, 0);
 			return _dlgReturn(m_hwnd, 1);
 		}
 	}
@@ -2244,7 +2244,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				BOOL isSendLaterReason = (m_sendMode & SMODE_SENDLATER);
 				BOOL isMultipleReason = (m_sendMode & SMODE_MULTIPLE || m_sendMode & SMODE_CONTAINER);
 
-				CSkin::SkinDrawBG(m_hwnd, m_pContainer->hwnd, m_pContainer, &rcClient, hdcMem);
+				CSkin::SkinDrawBG(m_hwnd, m_pContainer->m_hwnd, m_pContainer, &rcClient, hdcMem);
 
 				for (int i = 0; i < 2; i++) {
 					CSkinItem *item = &SkinItems[item_ids[i]];
@@ -2460,8 +2460,8 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SendDlgItemMessage(m_hwnd, IDC_PROTOCOL, BUTTONSETASDIMMED, (m_dwFlagsEx & MWF_SHOW_ISIDLE) != 0, 0);
 			SendDlgItemMessage(m_hwnd, IDC_PROTOCOL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(m_hXStatusIcon ? m_hXStatusIcon : GetMyContactIcon("MetaiconBar")));
 
-			if (m_pContainer->hwndActive == m_hwnd)
-				SendMessage(m_pContainer->hwnd, DM_SETICON, (WPARAM)this, (LPARAM)(m_hXStatusIcon ? m_hXStatusIcon : m_hTabIcon));
+			if (m_pContainer->m_hwndActive == m_hwnd)
+				SendMessage(m_pContainer->m_hwnd, DM_SETICON, (WPARAM)this, (LPARAM)(m_hXStatusIcon ? m_hXStatusIcon : m_hTabIcon));
 
 			if (m_pWnd)
 				m_pWnd->updateIcon(m_hXStatusIcon ? m_hXStatusIcon : m_hTabIcon);
@@ -2697,7 +2697,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_SELECTTAB:
-		SendMessage(m_pContainer->hwnd, DM_SELECTTAB, wParam, lParam);       // pass the msg to our container
+		SendMessage(m_pContainer->m_hwnd, DM_SELECTTAB, wParam, lParam);       // pass the msg to our container
 		return 0;
 
 		// return timestamp (in ticks) of last recent message which has not been read yet.
@@ -2726,7 +2726,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				DM_UpdateLastMessage();
 		}
 
-		SendMessage(m_pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
+		SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
 		MoveWindow(m_hwnd, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), TRUE);
 		if (m_dwFlags & MWF_WASBACKGROUNDCREATE) {
 			m_dwFlags &= ~MWF_WASBACKGROUNDCREATE;
@@ -2751,7 +2751,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case DM_QUERYPENDING: // sent by the message input area hotkeys. just pass it to our container
-		SendMessage(m_pContainer->hwnd, DM_QUERYPENDING, wParam, lParam);
+		SendMessage(m_pContainer->m_hwnd, DM_QUERYPENDING, wParam, lParam);
 		return 0;
 
 	case WM_LBUTTONDOWN:
@@ -2759,7 +2759,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		cur.x = (SHORT)tmp.x;
 		cur.y = (SHORT)tmp.y;
 		if (!m_pPanel.isHovered())
-			SendMessage(m_pContainer->hwnd, WM_NCLBUTTONDOWN, HTCAPTION, *((LPARAM*)(&cur)));
+			SendMessage(m_pContainer->m_hwnd, WM_NCLBUTTONDOWN, HTCAPTION, *((LPARAM*)(&cur)));
 		break;
 
 	case WM_LBUTTONUP:
@@ -2769,7 +2769,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		else {
 			cur.x = (SHORT)tmp.x;
 			cur.y = (SHORT)tmp.y;
-			SendMessage(m_pContainer->hwnd, WM_NCLBUTTONUP, HTCAPTION, *((LPARAM*)(&cur)));
+			SendMessage(m_pContainer->m_hwnd, WM_NCLBUTTONUP, HTCAPTION, *((LPARAM*)(&cur)));
 		}
 		break;
 
@@ -2836,7 +2836,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return Menu_MeasureItem(lParam);
 
 	case WM_NCHITTEST:
-		SendMessage(m_pContainer->hwnd, WM_NCHITTEST, wParam, lParam);
+		SendMessage(m_pContainer->m_hwnd, WM_NCHITTEST, wParam, lParam);
 		break;
 
 	case WM_DRAWITEM:
@@ -2846,7 +2846,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			DWORD cmd = GET_APPCOMMAND_LPARAM(lParam);
 			if (cmd == APPCOMMAND_BROWSER_BACKWARD || cmd == APPCOMMAND_BROWSER_FORWARD) {
-				SendMessage(m_pContainer->hwnd, DM_SELECTTAB, cmd == APPCOMMAND_BROWSER_BACKWARD ? DM_SELECT_PREV : DM_SELECT_NEXT, 0);
+				SendMessage(m_pContainer->m_hwnd, DM_SELECTTAB, cmd == APPCOMMAND_BROWSER_BACKWARD ? DM_SELECT_PREV : DM_SELECT_NEXT, 0);
 				return 1;
 			}
 		}
@@ -2870,7 +2870,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// this is now *only* called from the global ME_PROTO_ACK handler (static int ProtoAck() in msgs.c)
 		// it receives:
 		// wParam = index of the sendjob in the queue in the low word, index of the found sendID in the high word
-		// (normally 0, but if its a multisend job, then the sendjob may contain more than one hContact/hSendId pairs.)
+		// (normally 0, but if its a multisend job, then the sendjob may contain more than one hContact/iSendId pairs.)
 		// lParam = the original ackdata
 		//
 		// the "per message window" ACK hook is gone, the global ack handler cares about all types of ack's (currently
@@ -2924,7 +2924,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case DM_STATUSICONCHANGE:
 		if (m_pContainer->hwndStatus) {
-			SendMessage(m_pContainer->hwnd, WM_SIZE, 0, 0);
+			SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
 			SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_OWNERDRAW) | 2, 0);
 			InvalidateRect(m_pContainer->hwndStatus, nullptr, TRUE);
 		}
@@ -3014,11 +3014,11 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		if (wParam == 0 && lParam == 0) {
 			if (PluginConfig.m_EscapeCloses == 1) {
-				SendMessage(m_pContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+				SendMessage(m_pContainer->m_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 				return TRUE;
 			}
 			else if (PluginConfig.m_bHideOnClose && PluginConfig.m_EscapeCloses == 2) {
-				ShowWindow(m_pContainer->hwnd, SW_HIDE);
+				ShowWindow(m_pContainer->m_hwnd, SW_HIDE);
 				return TRUE;
 			}
 			_dlgReturn(m_hwnd, TRUE);
@@ -3042,7 +3042,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			int iTabs = TabCtrl_GetItemCount(m_hwndParent);
 			if (iTabs == 1) {
-				PostMessage(m_pContainer->hwnd, WM_CLOSE, 0, 1);
+				PostMessage(m_pContainer->m_hwnd, WM_CLOSE, 0, 1);
 				return 1;
 			}
 
@@ -3064,17 +3064,17 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				item.mask = TCIF_PARAM;
 				TabCtrl_GetItem(m_hwndParent, i, &item);         // retrieve dialog hwnd for the now active tab...
 
-				m_pContainer->hwndActive = (HWND)item.lParam;
+				m_pContainer->m_hwndActive = (HWND)item.lParam;
 
-				SendMessage(m_pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
-				SetWindowPos(m_pContainer->hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);
+				SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
+				SetWindowPos(m_pContainer->m_hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);
 				ShowWindow((HWND)item.lParam, SW_SHOW);
-				SetForegroundWindow(m_pContainer->hwndActive);
-				SetFocus(m_pContainer->hwndActive);
+				SetForegroundWindow(m_pContainer->m_hwndActive);
+				SetFocus(m_pContainer->m_hwndActive);
 			}
 		}
 
-		SendMessage(m_pContainer->hwnd, WM_SIZE, 0, 0);
+		SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
 		break;
 
 	case WM_DWMCOMPOSITIONCHANGED:

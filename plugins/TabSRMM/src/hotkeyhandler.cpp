@@ -101,7 +101,7 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 		if (pContainer) {
 			ActivateExistingTab(pContainer, hWnd);
 			pContainer->hwndSaved = 0;
-			SetForegroundWindow(pContainer->hwnd);
+			SetForegroundWindow(pContainer->m_hwnd);
 		}
 		else CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 		return;
@@ -115,9 +115,9 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 			SendMessage(si->pDlg->GetHwnd(), DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 			if (pContainer) {
 				ActivateExistingTab(pContainer, si->pDlg->GetHwnd());
-				if (GetForegroundWindow() != pContainer->hwnd)
-					SetForegroundWindow(pContainer->hwnd);
-				SetFocus(GetDlgItem(pContainer->hwndActive, IDC_MESSAGE));
+				if (GetForegroundWindow() != pContainer->m_hwnd)
+					SetForegroundWindow(pContainer->m_hwnd);
+				SetFocus(GetDlgItem(pContainer->m_hwndActive, IDC_MESSAGE));
 				return;
 			}
 		}
@@ -265,20 +265,20 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						} while (--i >= 0);
 
 						if (uid == 0 && pLastActiveContainer != nullptr) {                // no session found, restore last active container
-							if (IsIconic(pLastActiveContainer->hwnd) || !IsWindowVisible(pLastActiveContainer->hwnd)) {
-								SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-								SetForegroundWindow(pLastActiveContainer->hwnd);
-								SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
+							if (IsIconic(pLastActiveContainer->m_hwnd) || !IsWindowVisible(pLastActiveContainer->m_hwnd)) {
+								SendMessage(pLastActiveContainer->m_hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+								SetForegroundWindow(pLastActiveContainer->m_hwnd);
+								SetFocus(GetDlgItem(pLastActiveContainer->m_hwndActive, IDC_MESSAGE));
 							}
-							else if (GetForegroundWindow() != pLastActiveContainer->hwnd) {
-								SetForegroundWindow(pLastActiveContainer->hwnd);
-								SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
+							else if (GetForegroundWindow() != pLastActiveContainer->m_hwnd) {
+								SetForegroundWindow(pLastActiveContainer->m_hwnd);
+								SetFocus(GetDlgItem(pLastActiveContainer->m_hwndActive, IDC_MESSAGE));
 							}
 							else {
 								if (PluginConfig.m_bHideOnClose)
-									ShowWindow(pLastActiveContainer->hwnd, SW_HIDE);
+									ShowWindow(pLastActiveContainer->m_hwnd, SW_HIDE);
 								else
-									SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+									SendMessage(pLastActiveContainer->m_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 							}
 						}
 					}
@@ -323,11 +323,11 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							break;
 						case ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS:
 							for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext)
-								ShowWindow(pCont->hwnd, SW_HIDE);
+								ShowWindow(pCont->m_hwnd, SW_HIDE);
 							break;
 						case ID_TRAYCONTEXT_RESTOREALLMESSAGECONTAINERS:
 							for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext)
-								ShowWindow(pCont->hwnd, SW_SHOW);
+								ShowWindow(pCont->m_hwnd, SW_SHOW);
 							break;
 						case ID_TRAYCONTEXT_BE:
 							nen_options.iDisable = 1;
@@ -335,7 +335,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							nen_options.iNoAutoPopup = 1;
 
 							for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext)
-								SendMessage(pCont->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 1);
+								SendMessage(pCont->m_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 1);
 							break;
 						}
 					}
@@ -375,9 +375,9 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				TContainerData *pContainer = 0;
 				SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 				if (pContainer) {
-					int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, IDC_MSGTABS));
+					int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS));
 					if (iTabs == 1)
-						SendMessage(pContainer->hwnd, WM_CLOSE, 0, 1);
+						SendMessage(pContainer->m_hwnd, WM_CLOSE, 0, 1);
 					else
 						SendMessage(hWnd, WM_CLOSE, 0, 1);
 
@@ -438,12 +438,12 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else {
 					MARGINS m = { 0 };
 					if (M.m_pfnDwmExtendFrameIntoClientArea)
-						M.m_pfnDwmExtendFrameIntoClientArea(pCont->hwnd, &m);
+						M.m_pfnDwmExtendFrameIntoClientArea(pCont->m_hwnd, &m);
 				}
 				if (pCont->SideBar)
 					if (pCont->SideBar->isActive()) // the container for the sidebar buttons
-						RedrawWindow(GetDlgItem(pCont->hwnd, 5000), nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW); 
-				RedrawWindow(pCont->hwnd, nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+						RedrawWindow(GetDlgItem(pCont->m_hwnd, 5000), nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW);
+				RedrawWindow(pCont->m_hwnd, nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 			}
 		}
 		M.BroadcastMessage(WM_DWMCOMPOSITIONCHANGED, 0, 0);
@@ -471,7 +471,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		ReloadTabConfig();
 
 		for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext) {
-			SendDlgItemMessage(pCont->hwnd, IDC_MSGTABS, EM_THEMECHANGED, 0, 0);
+			SendDlgItemMessage(pCont->m_hwnd, IDC_MSGTABS, EM_THEMECHANGED, 0, 0);
 			BroadCastContainer(pCont, EM_THEMECHANGED, 0, 0);
 		}
 		break;
@@ -482,7 +482,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			ACKDATA ack = { 0 };
 			ack.hContact = job->hContact;
-			ack.hProcess = job->hSendId;
+			ack.hProcess = (HANDLE)job->iSendId;
 			ack.type = ACKTYPE_MESSAGE;
 			ack.result = ACKRESULT_SUCCESS;
 
@@ -528,7 +528,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				DeleteObject(pCont->cachedHBM);
 				DeleteDC(pCont->cachedDC);
 				pCont->cachedDC = 0;
-				RedrawWindow(pCont->hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
+				RedrawWindow(pCont->m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
 			}
 		break;
 
@@ -545,7 +545,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			// send heartbeat to each container, they use this to update
 			// dynamic content (i.e. local time in the info panel).
 			for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext)
-				SendMessage(pCont->hwnd, WM_TIMER, TIMERID_HEARTBEAT, 0);
+				SendMessage(pCont->m_hwnd, WM_TIMER, TIMERID_HEARTBEAT, 0);
 
 			// process send later contacts and jobs, if enough time has elapsed
 			if (sendLater->isAvail() && !sendLater->isInteractive() && (time(0) - sendLater->lastProcessed()) > CSendLater::SENDLATER_PROCESS_INTERVAL) {

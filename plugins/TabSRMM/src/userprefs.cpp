@@ -483,14 +483,14 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					dat->LoadLocalFlags();
 					if ((dat->m_dwFlags & MWF_LOG_ALL) != dwOldFlags) {
 						bool	fShouldHide = true;
-						if (IsIconic(dat->m_pContainer->hwnd))
+						if (IsIconic(dat->m_pContainer->m_hwnd))
 							fShouldHide = false;
 						else
-							ShowWindow(dat->m_pContainer->hwnd, SW_HIDE);
+							ShowWindow(dat->m_pContainer->m_hwnd, SW_HIDE);
 						dat->DM_OptionsApplied(0, 0);
 						SendMessage(hwnd, DM_DEFERREDREMAKELOG, (WPARAM)hwnd, 0);
 						if (fShouldHide)
-							ShowWindow(dat->m_pContainer->hwnd, SW_SHOWNORMAL);
+							ShowWindow(dat->m_pContainer->m_hwnd, SW_SHOWNORMAL);
 					}
 				}
 			}

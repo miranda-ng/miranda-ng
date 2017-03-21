@@ -288,7 +288,7 @@ static void DrawItemRect(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint
 				CSkinItem *item = nHint & HINT_ACTIVE_ITEM ? &SkinItems[ID_EXTBKBUTTONSPRESSED] : (nHint & HINT_HOTTRACK ? &SkinItems[ID_EXTBKBUTTONSMOUSEOVER] : &SkinItems[ID_EXTBKBUTTONSNPRESSED]);
 
 				if (!item->IGNORED) {
-					CSkin::SkinDrawBG(tabdat->hwnd, tabdat->pContainer->hwnd, tabdat->pContainer, rcItem, dc);
+					CSkin::SkinDrawBG(tabdat->hwnd, tabdat->pContainer->m_hwnd, tabdat->pContainer, rcItem, dc);
 					CSkin::DrawItem(dc, rcItem, item);
 				}
 				else
@@ -619,7 +619,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	tabdat->helperDat = 0;
 
 	if (tabdat->fAeroTabs) {
-		CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(tabdat->pContainer->hwndActive, GWLP_USERDATA);
+		CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(tabdat->pContainer->m_hwndActive, GWLP_USERDATA);
 		if (dat)
 			tabdat->helperDat = dat;
 		else
@@ -669,7 +669,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 		rctClip = rctPage;
 
 	if (CSkin::m_skinEnabled)
-		CSkin::SkinDrawBG(hwnd, tabdat->pContainer->hwnd, tabdat->pContainer, &rctPage, hdc);
+		CSkin::SkinDrawBG(hwnd, tabdat->pContainer->m_hwnd, tabdat->pContainer, &rctPage, hdc);
 	else
 		CSkin::FillBack(hdc, &rctPage);
 
@@ -1424,7 +1424,7 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				ReloadTabConfig();
 
 				for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
-					HWND hwndTab = GetDlgItem(p->hwnd, IDC_MSGTABS);
+					HWND hwndTab = GetDlgItem(p->m_hwnd, IDC_MSGTABS);
 					TabCtrl_SetPadding(hwndTab, GetDlgItemInt(hwndDlg, IDC_HTABPADDING, nullptr, FALSE), GetDlgItemInt(hwndDlg, IDC_TABPADDING, nullptr, FALSE));
 					RedrawWindow(hwndTab, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE);
 				}

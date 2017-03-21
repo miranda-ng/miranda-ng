@@ -670,20 +670,20 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-			int savePerContact = db_get_b(0, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
+			int savePerContact = db_get_b(0, SRMM_MODULE, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
 			NewMessageWindowLParam *newData = (NewMessageWindowLParam *)lParam;
 			dat = (ParentWindowData *)mir_alloc(sizeof(ParentWindowData));
 			dat->hContact = newData->hContact;
 			dat->nFlash = 0;
-			dat->nFlashMax = db_get_b(0, SRMMMOD, SRMSGSET_FLASHCOUNT, SRMSGDEFSET_FLASHCOUNT);
+			dat->nFlashMax = db_get_b(0, SRMM_MODULE, SRMSGSET_FLASHCOUNT, SRMSGDEFSET_FLASHCOUNT);
 			dat->childrenCount = 0;
 			dat->hwnd = hwndDlg;
 			dat->mouseLBDown = 0;
 			dat->windowWasCascaded = 0;
 			dat->bMinimized = 0;
 			dat->bVMaximized = 0;
-			dat->iSplitterX = db_get_dw(0, SRMMMOD, "splitterx", -1);
-			dat->iSplitterY = db_get_dw(0, SRMMMOD, "splittery", -1);
+			dat->iSplitterX = db_get_dw(0, SRMM_MODULE, "splitterx", -1);
+			dat->iSplitterY = db_get_dw(0, SRMM_MODULE, "splittery", -1);
 			dat->flags2 = g_dat.flags2;
 			dat->hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, nullptr, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, hwndDlg, nullptr, g_hInst, nullptr);
 			dat->isChat = newData->isChat;
@@ -713,11 +713,11 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			SetContainerWindowStyle(dat);
 
 			MCONTACT hSContact = savePerContact ? dat->hContact : 0;
-			dat->bTopmost = db_get_b(hSContact, SRMMMOD, SRMSGSET_TOPMOST, SRMSGDEFSET_TOPMOST);
-			if (ScriverRestoreWindowPosition(hwndDlg, hSContact, SRMMMOD, (newData->isChat && !savePerContact) ? "chat" : "", 0, SW_HIDE))
+			dat->bTopmost = db_get_b(hSContact, SRMM_MODULE, SRMSGSET_TOPMOST, SRMSGDEFSET_TOPMOST);
+			if (ScriverRestoreWindowPosition(hwndDlg, hSContact, SRMM_MODULE, (newData->isChat && !savePerContact) ? "chat" : "", 0, SW_HIDE))
 				SetWindowPos(hwndDlg, 0, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_HIDEWINDOW);
 
-			if (!savePerContact && db_get_b(0, SRMMMOD, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE))
+			if (!savePerContact && db_get_b(0, SRMM_MODULE, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE))
 				WindowList_Broadcast(g_dat.hParentWindowList, DM_CASCADENEWWINDOW, (WPARAM)hwndDlg, (LPARAM)&dat->windowWasCascaded);
 
 			PostMessage(hwndDlg, WM_SIZE, 0, 0);
@@ -1056,13 +1056,13 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			}
 		}
 
-		db_set_dw(0, SRMMMOD, "splitterx", dat->iSplitterX);
-		db_set_dw(0, SRMMMOD, "splittery", dat->iSplitterY);
+		db_set_dw(0, SRMM_MODULE, "splitterx", dat->iSplitterX);
+		db_set_dw(0, SRMM_MODULE, "splittery", dat->iSplitterY);
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		WindowList_Remove(g_dat.hParentWindowList, hwndDlg);
 		{
-			int savePerContact = db_get_b(0, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
+			int savePerContact = db_get_b(0, SRMM_MODULE, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
 			MCONTACT hContact = (savePerContact) ? dat->hContact : 0;
 
 			WINDOWPLACEMENT wp = { sizeof(wp) };
@@ -1071,15 +1071,15 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			char *szNamePrefix = (!savePerContact && dat->isChat) ? "chat" : "";
 			if (!dat->windowWasCascaded) {
 				mir_snprintf(szSettingName, "%sx", szNamePrefix);
-				db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.left);
+				db_set_dw(hContact, SRMM_MODULE, szSettingName, wp.rcNormalPosition.left);
 				mir_snprintf(szSettingName, "%sy", szNamePrefix);
-				db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.top);
+				db_set_dw(hContact, SRMM_MODULE, szSettingName, wp.rcNormalPosition.top);
 			}
 			mir_snprintf(szSettingName, "%swidth", szNamePrefix);
-			db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.right - wp.rcNormalPosition.left);
+			db_set_dw(hContact, SRMM_MODULE, szSettingName, wp.rcNormalPosition.right - wp.rcNormalPosition.left);
 			mir_snprintf(szSettingName, "%sheight", szNamePrefix);
-			db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
-			db_set_b(hContact, SRMMMOD, SRMSGSET_TOPMOST, (BYTE)dat->bTopmost);
+			db_set_dw(hContact, SRMM_MODULE, szSettingName, wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
+			db_set_b(hContact, SRMM_MODULE, SRMSGSET_TOPMOST, (BYTE)dat->bTopmost);
 			if (g_dat.lastParent == dat)
 				g_dat.lastParent = dat->prev;
 

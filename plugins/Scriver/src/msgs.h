@@ -329,7 +329,7 @@ extern int fontOptionsListSize;
 #define LOADHISTORY_COUNT		1
 #define LOADHISTORY_TIME		2
 
-#define SRMMMOD						"SRMM"
+#define SRMM_MODULE						"SRMM"
 
 #define SRMSGSET_USETABS			"UseTabs"
 #define SRMSGDEFSET_USETABS			1

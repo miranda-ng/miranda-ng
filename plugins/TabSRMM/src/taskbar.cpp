@@ -236,7 +236,7 @@ CProxyWindow::CProxyWindow(CTabBaseDlg *dat)
 #if defined(__LOGDEBUG_)
 	_DebugTraceW(L"create proxy object for: %s", m_dat->cache->getNick());
 #endif
-	Win7Taskbar->registerTab(m_hwndProxy, m_dat->m_pContainer->hwnd);
+	Win7Taskbar->registerTab(m_hwndProxy, m_dat->m_pContainer->m_hwnd);
 	if (CMimAPI::m_pfnDwmSetWindowAttribute) {
 		BOOL	fIconic = TRUE;
 		BOOL	fHasIconicBitmap = TRUE;
@@ -317,7 +317,7 @@ void CProxyWindow::sendPreview()
 	if (m_dat->m_pContainer == nullptr)
 		return;
 
-	CSrmmWindow *dat_active = reinterpret_cast<CSrmmWindow *>(::GetWindowLongPtr(m_dat->m_pContainer->hwndActive, GWLP_USERDATA));
+	CSrmmWindow *dat_active = reinterpret_cast<CSrmmWindow *>(::GetWindowLongPtr(m_dat->m_pContainer->m_hwndActive, GWLP_USERDATA));
 	if (!m_thumb || !dat_active)
 		return;
 
@@ -334,7 +334,7 @@ void CProxyWindow::sendPreview()
 	if (m_dat->m_dwFlags & MWF_NEEDCHECKSIZE) {
 		RECT	rcClient;
 
-		::SendMessage(m_dat->m_pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
+		::SendMessage(m_dat->m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
 		::MoveWindow(m_dat->GetHwnd(), rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), FALSE);
 		::SendMessage(m_dat->GetHwnd(), WM_SIZE, 0, 0);
 		m_dat->DM_ScrollToBottom(0, 1);
@@ -344,12 +344,12 @@ void CProxyWindow::sendPreview()
 		* use the last known client area size instead.
 		*/
 
-	if (!::IsIconic(m_dat->m_pContainer->hwnd)) {
-		::GetWindowRect(m_dat->m_pContainer->hwndActive, &rcLog);
-		::GetClientRect(m_dat->m_pContainer->hwnd, &rcContainer);
+	if (!::IsIconic(m_dat->m_pContainer->m_hwnd)) {
+		::GetWindowRect(m_dat->m_pContainer->m_hwndActive, &rcLog);
+		::GetClientRect(m_dat->m_pContainer->m_hwnd, &rcContainer);
 		pt.x = rcLog.left;
 		pt.y = rcLog.top;
-		::ScreenToClient(m_dat->m_pContainer->hwnd, &pt);
+		::ScreenToClient(m_dat->m_pContainer->m_hwnd, &pt);
 	}
 	else {
 		rcLog = m_dat->m_pContainer->rcLogSaved;
@@ -357,10 +357,10 @@ void CProxyWindow::sendPreview()
 		pt = m_dat->m_pContainer->ptLogSaved;
 	}
 
-	::GetWindowRect(::GetDlgItem(m_dat->m_pContainer->hwndActive, IDC_LOG), &rcTemp);
+	::GetWindowRect(::GetDlgItem(m_dat->m_pContainer->m_hwndActive, IDC_LOG), &rcTemp);
 	ptBottom.x = rcTemp.left;
 	ptBottom.y = rcTemp.bottom;
-	::ScreenToClient(m_dat->m_pContainer->hwnd, &ptBottom);
+	::ScreenToClient(m_dat->m_pContainer->m_hwnd, &ptBottom);
 
 	cx = rcLog.right - rcLog.left;
 	cy = rcLog.bottom - rcLog.top;
@@ -485,7 +485,7 @@ void CProxyWindow::updateIcon(const HICON hIcon) const
  */
 void CProxyWindow::activateTab() const
 {
-	Win7Taskbar->SetTabActive(m_hwndProxy, m_dat->m_pContainer->hwnd);
+	Win7Taskbar->SetTabActive(m_hwndProxy, m_dat->m_pContainer->m_hwnd);
 }
 /**
  * invalidate the thumbnail, it will be recreated at the next request
@@ -550,12 +550,12 @@ LRESULT CALLBACK CProxyWindow::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 		{
 			TContainerData* pC = m_dat->m_pContainer;
 
-			if (m_dat->GetHwnd() != pC->hwndActive)
+			if (m_dat->GetHwnd() != pC->m_hwndActive)
 				SendMessage(m_dat->GetHwnd(), WM_CLOSE, 1, 3);
 			else
 				SendMessage(m_dat->GetHwnd(), WM_CLOSE, 1, 2);
-			if (!IsIconic(pC->hwnd))
-				SetForegroundWindow(pC->hwnd);
+			if (!IsIconic(pC->m_hwnd))
+				SetForegroundWindow(pC->m_hwnd);
 		}
 		return 0;
 
