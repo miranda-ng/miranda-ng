@@ -788,6 +788,17 @@ BOOL CCtrlButton::OnCommand(HWND, WORD, WORD idCode)
 	return FALSE;
 }
 
+bool CCtrlButton::IsPushed() const
+{
+	return ::SendMessage(m_hwnd, BM_GETCHECK, 0, 0) == BST_CHECKED;
+}
+
+void CCtrlButton::Push(bool bPushed)
+{
+	::SendMessage(m_hwnd, BM_SETCHECK, (bPushed) ? BST_CHECKED : BST_UNCHECKED, 0);
+}
+
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlHyperlink
 

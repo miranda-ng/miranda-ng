@@ -565,6 +565,9 @@ public:
 	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
 
 	CCallback<CCtrlButton> OnClick;
+
+	bool IsPushed() const;
+	void Push(bool bPushed);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

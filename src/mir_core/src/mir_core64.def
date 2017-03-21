@@ -1035,3 +1035,5 @@ CallFunctionSync @1170
 ?GetPos@CSplitter@@QEBAHXZ @1222 NONAME
 ?OnInit@CSplitter@@MEAAXXZ @1223 NONAME
 ?SwapPages@CCtrlPages@@QEAAXHH@Z @1224 NONAME
+?IsPushed@CCtrlButton@@QEBA_NXZ @1225 NONAME
+?Push@CCtrlButton@@QEAAX_N@Z @1226 NONAME
