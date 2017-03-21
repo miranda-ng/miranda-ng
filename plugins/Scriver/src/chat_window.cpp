@@ -894,6 +894,7 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 
 void CChatRoomDlg::OnInitDialog()
 {
+	CScriverWindow::OnInitDialog();
 	m_si->pDlg = this;
 
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
@@ -908,10 +909,6 @@ void CChatRoomDlg::OnInitDialog()
 	mir_subclassWindow(m_log.GetHwnd(), LogSubclassProc);
 	mir_subclassWindow(m_message.GetHwnd(), MessageSubclassProc);
 	mir_subclassWindow(m_nickList.GetHwnd(), NicklistSubclassProc);
-
-	mir_subclassWindow(m_btnFilter.GetHwnd(), Srmm_ButtonSubclassProc);
-	mir_subclassWindow(m_btnColor.GetHwnd(), Srmm_ButtonSubclassProc);
-	mir_subclassWindow(m_btnBkColor.GetHwnd(), Srmm_ButtonSubclassProc);
 
 	Srmm_CreateToolbarIcons(m_hwnd, BBBF_ISCHATBUTTON);
 

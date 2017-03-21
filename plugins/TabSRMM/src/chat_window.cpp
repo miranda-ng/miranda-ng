@@ -1597,10 +1597,6 @@ void CChatRoomDlg::OnInitDialog()
 	mir_subclassWindow(m_list.GetHwnd(), NicklistSubclassProc);
 	mir_subclassWindow(m_log.GetHwnd(), LogSubclassProc);
 
-	mir_subclassWindow(m_btnFilter.GetHwnd(), Srmm_ButtonSubclassProc);
-	mir_subclassWindow(m_btnColor.GetHwnd(), Srmm_ButtonSubclassProc);
-	mir_subclassWindow(m_btnBkColor.GetHwnd(), Srmm_ButtonSubclassProc);
-
 	mir_subclassWindow(m_message.GetHwnd(), MessageSubclassProc);
 	m_message.SendMsg(EM_SUBCLASSED, 0, 0);
 

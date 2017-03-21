@@ -400,6 +400,7 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool noActivate, const char *szIniti
 
 void CSrmmWindow::OnInitDialog()
 {
+	CSrmmBaseDialog::OnInitDialog();
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LPARAM)this);
 
 	m_bIsMeta = db_mc_isMeta(m_hContact) != 0;

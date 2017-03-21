@@ -854,6 +854,7 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 
 void CChatRoomDlg::OnInitDialog()
 {
+	CSrmmBaseDialog::OnInitDialog();
 	m_si->pDlg = this;
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, LPARAM(this));
 
@@ -866,10 +867,6 @@ void CChatRoomDlg::OnInitDialog()
 	WindowList_Add(pci->hWindowList, m_hwnd, m_hContact);
 
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
-
-	mir_subclassWindow(m_btnFilter.GetHwnd(), Srmm_ButtonSubclassProc);
-	mir_subclassWindow(m_btnColor.GetHwnd(), Srmm_ButtonSubclassProc);
-	mir_subclassWindow(m_btnBkColor.GetHwnd(), Srmm_ButtonSubclassProc);
 
 	mir_subclassWindow(m_message.GetHwnd(), MessageSubclassProc);
 

@@ -378,9 +378,6 @@ EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, 
 // receives char** as the first parameter
 EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_MessageStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb);
 
-// handles rclick on some buttons
-EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK Srmm_ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
 // updates options for all windows
 EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions();
 
@@ -401,6 +398,7 @@ class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 protected:
 	CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si = nullptr);
 
+	virtual void OnInitDialog() override;
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	void DoEventHook(int iType, const USERINFO *pUser, const wchar_t *pszText, INT_PTR dwItem);

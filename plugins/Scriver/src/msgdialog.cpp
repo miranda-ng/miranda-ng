@@ -653,6 +653,8 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming, const char *szInitia
 
 void CSrmmWindow::OnInitDialog()
 {
+	CScriverWindow::OnInitDialog();
+
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 	WindowList_Add(pci->hWindowList, m_hwnd, m_hContact);
 

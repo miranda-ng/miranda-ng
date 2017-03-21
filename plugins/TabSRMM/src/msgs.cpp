@@ -156,6 +156,7 @@ void CTabBaseDlg::LoadSettings()
 
 void CTabBaseDlg::OnInitDialog()
 {
+	CSrmmBaseDialog::OnInitDialog();
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 
 	// m_hwnd is valid, pass it to the tab control
