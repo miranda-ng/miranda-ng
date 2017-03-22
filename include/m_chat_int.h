@@ -424,6 +424,7 @@ protected:
 	void onClick_Color(CCtrlButton*);
 	void onClick_BkColor(CCtrlButton*);
 
+	void onClick_ChanMgr(CCtrlButton*);
 	void onClick_History(CCtrlButton*);
 
 public:

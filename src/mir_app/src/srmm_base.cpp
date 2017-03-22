@@ -57,6 +57,7 @@ CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si
 	m_btnBold.OnClick = m_btnItalic.OnClick = m_btnUnderline.OnClick = Callback(this, &CSrmmBaseDialog::onClick_BIU);
 
 	m_btnHistory.OnClick = Callback(this, &CSrmmBaseDialog::onClick_History);
+	m_btnChannelMgr.OnClick = Callback(this, &CSrmmBaseDialog::onClick_ChanMgr);
 
 	if (si) {
 		m_hContact = si->hContact;
@@ -329,6 +330,12 @@ void CSrmmBaseDialog::onClick_History(CCtrlButton *pButton)
 			ShellExecute(m_hwnd, nullptr, chatApi.GetChatLogsFilename(m_si, 0), nullptr, nullptr, SW_SHOW);
 	}
 	else CallService(MS_HISTORY_SHOWCONTACTHISTORY, m_hContact, 0);
+}
+
+void CSrmmBaseDialog::onClick_ChanMgr(CCtrlButton *pButton)
+{
+	if (pButton->Enabled())
+		DoEventHook(GC_USER_CHANMGR, nullptr, nullptr, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

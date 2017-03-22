@@ -520,7 +520,6 @@ public:
 
 	void onClick_OK(CCtrlButton*);
 	void onClick_Filter(CCtrlButton*);
-	void onClick_ChanMgr(CCtrlButton*);
 	void onClick_ShowNickList(CCtrlButton*);
 
 	void onChange_Message(CCtrlEdit*);

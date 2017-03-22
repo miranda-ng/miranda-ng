@@ -1388,7 +1388,6 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_OK);
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
 	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::onClick_ShowNickList);
-	m_btnChannelMgr.OnClick = Callback(this, &CChatRoomDlg::onClick_ChanMgr);
 	
 	m_message.OnChange = Callback(this, &CChatRoomDlg::onChange_Message);
 
@@ -1602,8 +1601,7 @@ void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
 	}
 	else m_bFilterEnabled = !m_bFilterEnabled;
 
-	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON,
-		(LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
+	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
 
 	if (m_bFilterEnabled && M.GetByte(CHAT_MODULE, "RightClickFilter", 0) == 0) {
 		ShowFilterMenu();
@@ -1616,9 +1614,7 @@ void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
 
 void CChatRoomDlg::onClick_ShowNickList(CCtrlButton *pButton)
 {
-	if (!pButton->Enabled())
-		return;
-	if (m_si->iType == GCW_SERVER)
+	if (!pButton->Enabled() || m_si->iType == GCW_SERVER)
 		return;
 
 	m_bNicklistEnabled = !m_bNicklistEnabled;
@@ -1627,12 +1623,6 @@ void CChatRoomDlg::onClick_ShowNickList(CCtrlButton *pButton)
 	if (CSkin::m_skinEnabled)
 		InvalidateRect(m_hwnd, nullptr, TRUE);
 	ScrollToBottom();
-}
-
-void CChatRoomDlg::onClick_ChanMgr(CCtrlButton *pButton)
-{
-	if (pButton->Enabled())
-		DoEventHook(GC_USER_CHANMGR, nullptr, nullptr, 0);
 }
 
 void CChatRoomDlg::onChange_Message(CCtrlEdit*)

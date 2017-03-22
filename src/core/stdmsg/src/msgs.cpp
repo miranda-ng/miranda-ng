@@ -352,14 +352,14 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	Srmm_AddButton(&bbd);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
-	bbd.dwButtonID = IDC_CHANMGR;
+	bbd.dwButtonID = IDC_SRMM_CHANMGR;
 	bbd.dwDefPos = 30;
 	bbd.hIcon = GetIconHandle("settings");
 	bbd.pwszText = LPGENW("&Room settings");
 	bbd.pwszTooltip = LPGENW("Control this room (CTRL+O)");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_SHOWNICKLIST;
+	bbd.dwButtonID = IDC_SRMM_NICKLIST;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = GetIconHandle("nicklist");
 	bbd.pwszText = LPGENW("&Show/hide nick list");

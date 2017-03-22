@@ -431,3 +431,4 @@ Chat_UpdateOptions @418 NONAME
 ?RefreshButtonStatus@CSrmmBaseDialog@@IEAAXXZ @433 NONAME
 ?ProcessHotkeys@CSrmmBaseDialog@@IEAA_NH_N00@Z @434 NONAME
 ?onClick_History@CSrmmBaseDialog@@IEAAXPEAVCCtrlButton@@@Z @435 NONAME
+?onClick_ChanMgr@CSrmmBaseDialog@@IEAAXPEAVCCtrlButton@@@Z @436 NONAME

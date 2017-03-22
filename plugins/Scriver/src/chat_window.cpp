@@ -759,7 +759,6 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 
 	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_Ok);
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
-	m_btnChannelMgr.OnClick = Callback(this, &CChatRoomDlg::onClick_ChanMgr);
 	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::onClick_ShowList);
 
 	m_nickList.OnDblClick = Callback(this, &CChatRoomDlg::onDblClick_List);
@@ -942,12 +941,6 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 
 	DoEventHook(GC_USER_MESSAGE, nullptr, ptszText, 0);
 	SetFocus(m_message.GetHwnd());
-}
-
-void CChatRoomDlg::onClick_ChanMgr(CCtrlButton *pButton)
-{
-	if (pButton->Enabled())
-		DoEventHook(GC_USER_CHANMGR, nullptr, nullptr, 0);
 }
 
 void CChatRoomDlg::onClick_ShowList(CCtrlButton *pButton)

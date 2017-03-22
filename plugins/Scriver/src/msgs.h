@@ -213,7 +213,6 @@ public:
 
 	void onClick_Ok(CCtrlButton*);
 	void onClick_Filter(CCtrlButton*);
-	void onClick_ChanMgr(CCtrlButton*);
 	void onClick_ShowList(CCtrlButton*);
 
 	void onDblClick_List(CCtrlListBox*);
