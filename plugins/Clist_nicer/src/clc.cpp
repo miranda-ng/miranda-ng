@@ -641,7 +641,6 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		dat->iHotTrack = -1;
 		dat->szQuickSearch[0] = 0;
 		{
-			DWORD hitFlags;
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			if (pt.x == -1 && pt.y == -1) {
 				dat->selection = pcli->pfnGetRowByIndex(dat, dat->selection, &contact, NULL);
