@@ -1,6 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include "..\src\resource.h"
+#include "..\..\include\chat_resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -229,7 +230,7 @@ BEGIN
     CONTROL         "",IDC_LOG,"RichEdit50W",WS_VSCROLL | WS_TABSTOP | 0x844,8,23,164,73,WS_EX_STATICEDGE
     CONTROL         "",IDC_SPLITTERX,"Static",SS_ENHMETAFILE,172,23,10,73
     CONTROL         "",IDC_SPLITTERY,"Static",SS_ENHMETAFILE,0,102,251,6
-    LISTBOX         IDC_CHAT_LIST,182,23,69,73,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | NOT WS_BORDER | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
+    LISTBOX         IDC_SRMM_NICKLIST,182,23,69,73,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | NOT WS_BORDER | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
 END
 
 IDD_FILTER DIALOGEX 0, 0, 83, 125

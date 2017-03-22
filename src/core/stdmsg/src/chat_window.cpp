@@ -62,7 +62,7 @@ LBL_CalcBottom:
 			urc->rcItem.bottom += 20;
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
-	case IDC_LIST:
+	case IDC_SRMM_NICKLIST:
 		urc->rcItem.top = 2;
 		urc->rcItem.right = urc->dlgNewSize.cx;
 		urc->rcItem.left = urc->dlgNewSize.cx - m_iSplitterX + 2;
@@ -179,7 +179,7 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 			}
 
 			if (wParam == VK_TAB && isShift && !isCtrl) { // SHIFT-TAB (go to nick list)
-				SetFocus(GetDlgItem(hwndDlg, IDC_LIST));
+				SetFocus(pDlg->m_nickList.GetHwnd());
 				return TRUE;
 			}
 
@@ -501,7 +501,7 @@ INT_PTR CALLBACK CChatRoomDlg::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 	return(FALSE);
 }
 
-static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK CChatRoomDlg::LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CHARRANGE sel;
 
@@ -621,7 +621,7 @@ LRESULT CALLBACK CChatRoomDlg::NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM 
 			}
 			else ScreenToClient(hwnd, &hti.pt);
 
-			int item = LOWORD(SendDlgItemMessage(GetParent(hwnd), IDC_LIST, LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
+			int item = LOWORD(si->pDlg->m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
 			USERINFO *ui = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, item);
 			if (ui) {
 				USERINFO uinew;
@@ -684,7 +684,6 @@ static void __cdecl phase2(void *lParam)
 
 CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	CSrmmBaseDialog(g_hInst, g_Settings.bTabsEnable ? IDD_CHANNEL_TAB : IDD_CHANNEL, si),
-	m_nickList(this, IDC_LIST),
 	m_message(this, IDC_MESSAGE),
 	m_log(this, IDC_LOG),
 
@@ -704,8 +703,6 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
 	m_btnChannelMgr.OnClick = Callback(this, &CChatRoomDlg::onClick_Options);
 	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::onClick_NickList);
-
-	m_nickList.OnDblClick = Callback(this, &CChatRoomDlg::onListDblclick);
 
 	m_splitterX.OnChange = Callback(this, &CChatRoomDlg::onSplitterX);
 	m_splitterY.OnChange = Callback(this, &CChatRoomDlg::onSplitterY);
@@ -850,27 +847,6 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 	DoEventHook(GC_USER_MESSAGE, nullptr, ptszText, 0);
 
 	SetFocus(m_message.GetHwnd());
-}
-
-void CChatRoomDlg::onListDblclick(CCtrlListBox*)
-{
-	TVHITTESTINFO hti;
-	hti.pt.x = (short)LOWORD(GetMessagePos());
-	hti.pt.y = (short)HIWORD(GetMessagePos());
-	ScreenToClient(m_nickList.GetHwnd(), &hti.pt);
-
-	int item = LOWORD(m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
-	USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, item);
-	if (ui == nullptr)
-		return;
-
-	if (GetKeyState(VK_SHIFT) & 0x8000) {
-		int start = LOWORD(m_message.SendMsg(EM_GETSEL, 0, 0));
-		CMStringW buf(FORMAT, (start == 0) ? L"%s: " : L"%s ", ui->pszUID);
-		m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)buf.c_str());
-		PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-	}
-	else DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
 }
 
 void CChatRoomDlg::onSplitterX(CSplitter *pSplitter)
@@ -1246,7 +1222,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (dis->CtlType == ODT_MENU)
 				return Menu_DrawItem(lParam);
 
-			if (dis->CtlID == IDC_LIST) {
+			if (dis->CtlID == IDC_SRMM_NICKLIST) {
 				int index = dis->itemID;
 				USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, index);
 				if (ui) {

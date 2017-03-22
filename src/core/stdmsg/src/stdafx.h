@@ -210,13 +210,13 @@ class CChatRoomDlg : public CSrmmBaseDialog
 	friend struct CTabbedWindow;
 
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	HWND m_hwndStatus;
 
 	CCtrlEdit m_message, m_log;
-	CCtrlListBox m_nickList;
 	CCtrlButton m_btnOk;
 	CSplitter m_splitterX, m_splitterY;
 
@@ -254,8 +254,6 @@ public:
 	void onClick_Filter(CCtrlButton*);
 	void onClick_Options(CCtrlButton*);
 	void onClick_NickList(CCtrlButton*);
-
-	void onListDblclick(CCtrlListBox*);
 
 	void onSplitterX(CSplitter*);
 	void onSplitterY(CSplitter*);

@@ -196,7 +196,6 @@
 #define IDC_CHAT_TEXTO                  5069
 #define IDC_CHAT_LOGGING                5069
 #define IDC_CHAT_COLORTEXT              5070
-#define IDC_CHAT_LIST                   5072
 #define IDC_CHAT_1                      5075
 #define IDC_CHAT_2                      5076
 #define IDC_CHAT_3                      5077

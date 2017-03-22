@@ -266,7 +266,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		Utils::showDlgControl(m_hwnd, IDC_SPLITTERY, SW_HIDE);
 
 	if (m_si->iType != GCW_SERVER) {
-		Utils::showDlgControl(m_hwnd, IDC_LIST, m_bNicklistEnabled ? SW_SHOW : SW_HIDE);
+		Utils::showDlgControl(m_hwnd, IDC_SRMM_NICKLIST, m_bNicklistEnabled ? SW_SHOW : SW_HIDE);
 		Utils::showDlgControl(m_hwnd, IDC_SPLITTERX, m_bNicklistEnabled ? SW_SHOW : SW_HIDE);
 
 		m_btnNickList.Enable(true);
@@ -278,7 +278,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		}
 	}
 	else {
-		Utils::showDlgControl(m_hwnd, IDC_LIST, SW_HIDE);
+		Utils::showDlgControl(m_hwnd, IDC_SRMM_NICKLIST, SW_HIDE);
 		Utils::showDlgControl(m_hwnd, IDC_SPLITTERX, SW_HIDE);
 	}
 
@@ -314,7 +314,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		}
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
-	case IDC_LIST:
+	case IDC_SRMM_NICKLIST:
 		urc->rcItem.top = 0;
 		urc->rcItem.right = urc->dlgNewSize.cx;
 		urc->rcItem.left = urc->dlgNewSize.cx - iSplitterX + 2;
@@ -1378,8 +1378,7 @@ static void __cdecl phase2(void * lParam)
 
 CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 	: CTabBaseDlg(IDD_CHANNEL, si),
-	m_btnOk(this, IDOK),
-	m_list(this, IDC_LIST)
+	m_btnOk(this, IDOK)
 {
 	m_szProto = GetContactProto(m_hContact);
 	m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled) != 0;
@@ -1390,8 +1389,6 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::onClick_ShowNickList);
 	
 	m_message.OnChange = Callback(this, &CChatRoomDlg::onChange_Message);
-
-	m_list.OnDblClick = Callback(this, &CChatRoomDlg::onDblClick_List);
 }
 
 CThumbBase* CChatRoomDlg::tabCreateThumb(CProxyWindow *pProxy) const
@@ -1470,7 +1467,7 @@ void CChatRoomDlg::OnInitDialog()
 
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTERX), SplitterSubclassProc);
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTERY), SplitterSubclassProc);
-	mir_subclassWindow(m_list.GetHwnd(), NicklistSubclassProc);
+	mir_subclassWindow(m_nickList.GetHwnd(), NicklistSubclassProc);
 	mir_subclassWindow(m_log.GetHwnd(), LogSubclassProc);
 
 	mir_subclassWindow(m_message.GetHwnd(), MessageSubclassProc);
@@ -1650,33 +1647,6 @@ void CChatRoomDlg::onChange_Message(CCtrlEdit*)
 	}
 }
 
-void CChatRoomDlg::onDblClick_List(CCtrlListBox*)
-{
-	TVHITTESTINFO hti;
-	hti.pt.x = (short)LOWORD(GetMessagePos());
-	hti.pt.y = (short)HIWORD(GetMessagePos());
-	ScreenToClient(m_list.GetHwnd(), &hti.pt);
-
-	int item = LOWORD(m_list.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
-	USERINFO *ui = pci->UM_FindUserFromIndex(m_si->pUsers, item);
-	if (ui == nullptr)
-		return;
-
-	bool bShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-	if (g_Settings.bDoubleClick4Privat ? bShift : !bShift) {
-		int selStart = LOWORD(m_message.SendMsg(EM_GETSEL, 0, 0));
-		CMStringW tszName(ui->pszNick);
-		if (selStart == 0)
-			tszName.AppendChar(':');
-		tszName.AppendChar(' ');
-
-		m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)tszName.GetString());
-		PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-		SetFocus(m_message.GetHwnd());
-	}
-	else DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CChatRoomDlg::AddLog()
@@ -1787,9 +1757,9 @@ void CChatRoomDlg::ShowFilterMenu()
 
 void CChatRoomDlg::UpdateNickList()
 {
-	int i = m_list.SendMsg(LB_GETTOPINDEX, 0, 0);
-	m_list.SendMsg(LB_SETCOUNT, m_si->nUsersInNicklist, 0);
-	m_list.SendMsg(LB_SETTOPINDEX, i, 0);
+	int i = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
+	m_nickList.SendMsg(LB_SETCOUNT, m_si->nUsersInNicklist, 0);
+	m_nickList.SendMsg(LB_SETTOPINDEX, i, 0);
 	UpdateTitle();
 	m_hTabIcon = m_hTabStatusIcon;
 }
@@ -1811,8 +1781,8 @@ void CChatRoomDlg::UpdateOptions()
 	DM_InitRichEdit();
 	m_btnOk.SendMsg(BUTTONSETASNORMAL, TRUE, 0);
 
-	m_list.SetItemHeight(0, g_Settings.iNickListFontHeight);
-	InvalidateRect(m_list.GetHwnd(), nullptr, TRUE);
+	m_nickList.SetItemHeight(0, g_Settings.iNickListFontHeight);
+	InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
 
 	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
 	SendMessage(m_hwnd, WM_SIZE, 0, 0);
@@ -2028,7 +1998,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				return Menu_DrawItem(lParam);
 			}
 
-			if (dis->CtlID == IDC_LIST) {
+			if (dis->CtlID == IDC_SRMM_NICKLIST) {
 				int x_offset = 0;
 				int index = dis->itemID;
 
@@ -2550,7 +2520,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			HDC  hdc = (HDC)wParam;
 			UINT item_ids[3] = { ID_EXTBKUSERLIST, ID_EXTBKHISTORY, ID_EXTBKINPUTAREA };
-			UINT ctl_ids[3] = { IDC_LIST, IDC_LOG, IDC_MESSAGE };
+			UINT ctl_ids[3] = { IDC_SRMM_NICKLIST, IDC_LOG, IDC_MESSAGE };
 			HANDLE hbp = 0;
 			HDC hdcMem = 0;
 			HBITMAP hbm, hbmOld;

@@ -51,7 +51,7 @@ void LoadModuleIcons(MODULEINFO *mi)
 static void OnReplaceSession(SESSION_INFO *si)
 {
 	if (si->pDlg)
-		RedrawWindow(GetDlgItem(si->pDlg->GetHwnd(), IDC_CHAT_LIST), nullptr, nullptr, RDW_INVALIDATE);
+		RedrawWindow(GetDlgItem(si->pDlg->GetHwnd(), IDC_SRMM_NICKLIST), nullptr, nullptr, RDW_INVALIDATE);
 }
 
 static void OnNewUser(SESSION_INFO *si, USERINFO*)

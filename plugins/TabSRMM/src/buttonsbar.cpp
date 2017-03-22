@@ -119,7 +119,7 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	Srmm_AddButton(&bbd);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
-	bbd.dwButtonID = IDC_SRMM_NICKLIST;
+	bbd.dwButtonID = IDC_SRMM_SHOWNICKLIST;
 	bbd.dwDefPos = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[19];
 	bbd.pwszTooltip = LPGENW("Toggle nick list");

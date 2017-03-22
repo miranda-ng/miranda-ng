@@ -209,6 +209,7 @@ struct GlobalLogSettingsBase
 	bool     bTimeStampEventColour;
 	bool		bShowContactStatus;
 	bool		bContactStatusFirst;
+	bool     bDoubleClick4Privat;    // send a private message on dblclick in a nick list
 	DWORD    dwIconFlags;
 	DWORD    dwTrayIconFlags;
 	DWORD    dwPopupFlags;
@@ -386,15 +387,7 @@ EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions();
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#define IDC_SRMM_COLOR     3001
-#define IDC_SRMM_BKGCOLOR  3002
-#define IDC_SRMM_BOLD      3003
-#define IDC_SRMM_ITALICS   3004
-#define IDC_SRMM_UNDERLINE 3005
-#define IDC_SRMM_FILTER    3006
-#define IDC_SRMM_CHANMGR   3007
-#define IDC_SRMM_NICKLIST  3008
-#define IDC_SRMM_HISTORY   3009
+#include <chat_resource.h>
 
 class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 {
@@ -416,6 +409,7 @@ protected:
 	SESSION_INFO *m_si;
 	COLORREF m_clrInputBG, m_clrInputFG;
 	
+	CCtrlListBox m_nickList;
 	CCtrlButton m_btnColor, m_btnBkColor;
 	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline;
 	CCtrlButton m_btnHistory, m_btnChannelMgr, m_btnNickList, m_btnFilter;
@@ -426,6 +420,8 @@ protected:
 
 	void onClick_ChanMgr(CCtrlButton*);
 	void onClick_History(CCtrlButton*);
+
+	void onDblClick_List(CCtrlListBox*);
 
 public:
 	MCONTACT m_hContact;

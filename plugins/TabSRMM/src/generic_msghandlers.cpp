@@ -880,9 +880,9 @@ LRESULT CTabBaseDlg::DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam)
 	}
 	if (isChat()) {					// scroll nick list by just hovering it
 		RECT rcNicklist;
-		GetWindowRect(GetDlgItem(m_hwnd, IDC_LIST), &rcNicklist);
+		GetWindowRect(m_nickList.GetHwnd(), &rcNicklist);
 		if (PtInRect(&rcNicklist, pt)) {
-			SendDlgItemMessage(m_hwnd, IDC_LIST, WM_MOUSEWHEEL, wParam, lParam);
+			m_nickList.SendMsg(WM_MOUSEWHEEL, wParam, lParam);
 			return 0;
 		}
 	}
@@ -943,7 +943,7 @@ void CTabBaseDlg::DM_ThemeChanged()
 	if (m_hTheme != 0 || (CSkin::m_skinEnabled && !item_log->IGNORED)) {
 		SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 		if (isChat())
-			SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LIST), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LIST), GWL_EXSTYLE) & ~(WS_EX_CLIENTEDGE | WS_EX_STATICEDGE));
+			SetWindowLongPtr(m_nickList.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_nickList.GetHwnd(), GWL_EXSTYLE) & ~(WS_EX_CLIENTEDGE | WS_EX_STATICEDGE));
 	}
 	
 	if (m_hTheme != 0 || (CSkin::m_skinEnabled && !item_msg->IGNORED))

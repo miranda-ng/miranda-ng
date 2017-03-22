@@ -51,7 +51,7 @@ static void OnReplaceSession(SESSION_INFO *si)
 	if (si->hContact)
 		Chat_SetFilters(si);
 	if (si->pDlg)
-		RedrawWindow(GetDlgItem(si->pDlg->GetHwnd(), IDC_LIST), nullptr, nullptr, RDW_INVALIDATE);
+		RedrawWindow(GetDlgItem(si->pDlg->GetHwnd(), IDC_SRMM_NICKLIST), nullptr, nullptr, RDW_INVALIDATE);
 }
 
 static void OnSetTopic(SESSION_INFO *si)

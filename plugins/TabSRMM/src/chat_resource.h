@@ -37,7 +37,6 @@
 #define IDC_LOGGING                     1069
 #define IDC_TEXTO2                      1070
 #define IDC_TEXTO3                      1071
-#define IDC_LIST                        1072
 #define IDC_TEXTO4                      1072
 #define IDC_STATIC_ADD                  1077
 #define IDC_STATIC_ULIST                1078

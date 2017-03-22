@@ -484,7 +484,6 @@ class CChatRoomDlg : public CTabBaseDlg
 {
 	HWND m_hwndFilter;
 	CCtrlButton m_btnOk;
-	CCtrlListBox m_list;
 
 	static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -523,8 +522,6 @@ public:
 	void onClick_ShowNickList(CCtrlButton*);
 
 	void onChange_Message(CCtrlEdit*);
-
-	void onDblClick_List(CCtrlListBox*);
 
 	void UpdateWindowState(UINT msg);
 };

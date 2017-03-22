@@ -176,7 +176,7 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 		else dat->lastEnterTime = 0;
 
 		if (wParam == VK_TAB && isShift && !isCtrl) { // SHIFT-TAB (go to nick list)
-			SetFocus(GetDlgItem(GetParent(hwnd), IDC_CHAT_LIST));
+			SetFocus(pDlg->m_nickList.GetHwnd());
 			return TRUE;
 		}
 
@@ -747,7 +747,6 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 
 	m_log(this, IDC_LOG),
 	m_message(this, IDC_MESSAGE),
-	m_nickList(this, IDC_CHAT_LIST),
 
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY),
@@ -760,8 +759,6 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_Ok);
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
 	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::onClick_ShowList);
-
-	m_nickList.OnDblClick = Callback(this, &CChatRoomDlg::onDblClick_List);
 
 	m_message.OnChange = Callback(this, &CChatRoomDlg::onChange_Message);
 	
@@ -875,33 +872,6 @@ void CChatRoomDlg::OnSplitterY(CSplitter *pSplitter)
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 	m_pParent->iSplitterY = rc.bottom - pSplitter->GetPos();
-}
-
-void CChatRoomDlg::onDblClick_List(CCtrlListBox*)
-{
-	TVHITTESTINFO hti;
-	hti.pt.x = (short)LOWORD(GetMessagePos());
-	hti.pt.y = (short)HIWORD(GetMessagePos());
-	ScreenToClient(m_nickList.GetHwnd(), &hti.pt);
-
-	int item = LOWORD(m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
-	USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, item);
-	if (ui) {
-		if (GetKeyState(VK_SHIFT) & 0x8000) {
-			LRESULT lResult = (LRESULT)m_message.SendMsg(EM_GETSEL, 0, 0);
-			int start = LOWORD(lResult);
-			size_t dwNameLenMax = (mir_wstrlen(ui->pszUID) + 4);
-			wchar_t* pszName = (wchar_t*)alloca(sizeof(wchar_t) * dwNameLenMax);
-			if (start == 0)
-				mir_snwprintf(pszName, dwNameLenMax, L"%s: ", ui->pszUID);
-			else
-				mir_snwprintf(pszName, dwNameLenMax, L"%s ", ui->pszUID);
-
-			m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)pszName);
-			PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-		}
-		else DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
-	}
 }
 
 void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
@@ -1244,7 +1214,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (dis->CtlType == ODT_MENU)
 				return Menu_DrawItem(lParam);
 
-			if (dis->CtlID == IDC_CHAT_LIST) {
+			if (dis->CtlID == IDC_SRMM_NICKLIST) {
 				int index = dis->itemID;
 				USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, index);
 				if (ui) {

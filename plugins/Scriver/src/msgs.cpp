@@ -527,7 +527,7 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("Control this room (CTRL+O)");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_SRMM_NICKLIST;
+	bbd.dwButtonID = IDC_SRMM_SHOWNICKLIST;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_nicklist");
 	bbd.pwszText = LPGENW("&Show/hide nick list");

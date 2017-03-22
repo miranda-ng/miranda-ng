@@ -30,9 +30,11 @@ extern HCURSOR g_hCurHyperlinkHand;
 
 CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si)
 	: CDlgBase(hInst, idDialog),
+	m_nickList(this, IDC_SRMM_NICKLIST),
+
 	m_btnFilter(this, IDC_SRMM_FILTER),
 	m_btnHistory(this, IDC_SRMM_HISTORY),
-	m_btnNickList(this, IDC_SRMM_NICKLIST),
+	m_btnNickList(this, IDC_SRMM_SHOWNICKLIST),
 	m_btnChannelMgr(this, IDC_SRMM_CHANMGR),
 
 	m_btnColor(this, IDC_SRMM_COLOR),
@@ -59,6 +61,8 @@ CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si
 	m_btnHistory.OnClick = Callback(this, &CSrmmBaseDialog::onClick_History);
 	m_btnChannelMgr.OnClick = Callback(this, &CSrmmBaseDialog::onClick_ChanMgr);
 
+	m_nickList.OnDblClick = Callback(this, &CChatRoomDlg::onDblClick_List);
+
 	if (si) {
 		m_hContact = si->hContact;
 
@@ -78,7 +82,7 @@ CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si
 
 CSrmmBaseDialog::CSrmmBaseDialog(const CSrmmBaseDialog&) :
 	CDlgBase(0, 0),
-	m_btnColor(0, 0), m_btnBkColor(0, 0),
+	m_btnColor(0, 0), m_btnBkColor(0, 0), m_nickList(0, 0),
 	m_btnBold(0, 0), m_btnItalic(0, 0), m_btnUnderline(0, 0),
 	m_btnFilter(0, 0), m_btnChannelMgr(0, 0), m_btnHistory(0, 0), m_btnNickList(0, 0)
 {
@@ -336,6 +340,33 @@ void CSrmmBaseDialog::onClick_ChanMgr(CCtrlButton *pButton)
 {
 	if (pButton->Enabled())
 		DoEventHook(GC_USER_CHANMGR, nullptr, nullptr, 0);
+}
+
+void CSrmmBaseDialog::onDblClick_List(CCtrlListBox *pList)
+{
+	TVHITTESTINFO hti;
+	hti.pt.x = (short)LOWORD(GetMessagePos());
+	hti.pt.y = (short)HIWORD(GetMessagePos());
+	ScreenToClient(pList->GetHwnd(), &hti.pt);
+
+	int item = LOWORD(pList->SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
+	USERINFO *ui = chatApi.UM_FindUserFromIndex(m_si->pUsers, item);
+	if (ui == nullptr)
+		return;
+
+	bool bShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+	if (g_Settings->bDoubleClick4Privat ? bShift : !bShift) {
+		int selStart = LOWORD(m_pEntry->SendMsg(EM_GETSEL, 0, 0));
+		CMStringW tszName(ui->pszNick);
+		if (selStart == 0)
+			tszName.AppendChar(':');
+		tszName.AppendChar(' ');
+
+		m_pEntry->SendMsg(EM_REPLACESEL, FALSE, (LPARAM)tszName.GetString());
+		PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
+		SetFocus(m_pEntry->GetHwnd());
+	}
+	else DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
