@@ -1320,7 +1320,7 @@ LRESULT CALLBACK CChatRoomDlg::NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM 
 		break;
 
 	case WM_MOUSEMOVE:
-		Chat_HoverMouse(dat->m_si, hwnd, lParam, M.GetByte("adv_TipperTooltip", 1) && ServiceExists("mToolTip/HideTip"));
+		Chat_HoverMouse(dat->m_si, hwnd, lParam, ServiceExists("mToolTip/HideTip"));
 		break;
 	}
 	return mir_callNextSubclass(hwnd, NicklistSubclassProc, msg, wParam, lParam);

@@ -38,7 +38,6 @@ TOptionListGroup m_lvGroupsModPlus[] =
 
 TOptionListItem m_lvItemsModPlus[] =
 {
-	{ 0, LPGENW("Show skinnable tooltip in chat (Tipper plugin required)"), 1, LOI_TYPE_SETTING, (UINT_PTR)"adv_TipperTooltip", 0 },
 	{ 0, LPGENW("Enable typing sounds"), 0, LOI_TYPE_SETTING, (UINT_PTR)"adv_soundontyping", 0 },
 	{ 0, LPGENW("Close current tab on send"), 0, LOI_TYPE_SETTING, (UINT_PTR)"adv_AutoClose_2", 0 },
 	{ 0, LPGENW("Automatic keyboard layout: Do not load the system default for new contacts"), 1, LOI_TYPE_SETTING, (UINT_PTR)"adv_leaveKeyboardAlone", 0 },

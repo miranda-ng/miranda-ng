@@ -359,7 +359,7 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 	// Role:		Moderator
 	// Affiliation:  Affiliation
 
-	bool bIsTipper = db_get_b(NULL, "Tab_SRMsg", "adv_TipperTooltip", 0) && ServiceExists("mToolTip/HideTip");
+	bool bIsTipper = ServiceExists("mToolTip/HideTip");
 
 	//JID:
 	CMStringW outBuf;
