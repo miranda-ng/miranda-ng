@@ -528,14 +528,13 @@ LRESULT CALLBACK CChatRoomDlg::NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM 
 			USERINFO *ui = pci->SM_GetUserFromIndex(pDlg->m_si->ptszID, pDlg->m_si->pszModule, (int)item);
 			if (ui) {
 				HMENU hMenu = 0;
-				UINT uID;
 				USERINFO uinew;
 
 				memcpy(&uinew, ui, sizeof(USERINFO));
 				if (hti.pt.x == -1 && hti.pt.y == -1)
 					hti.pt.y += height - 4;
 				ClientToScreen(hwnd, &hti.pt);
-				uID = CreateGCMenu(hwnd, &hMenu, 0, hti.pt, pDlg->m_si, uinew.pszUID, uinew.pszNick);
+				UINT uID = CreateGCMenu(hwnd, &hMenu, 0, hti.pt, pDlg->m_si, uinew.pszUID, uinew.pszNick);
 
 				switch (uID) {
 				case 0:

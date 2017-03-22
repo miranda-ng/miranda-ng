@@ -1310,23 +1310,7 @@ LRESULT CALLBACK CChatRoomDlg::NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM 
 					break;
 
 				default:
-					int iCount = SendMessage(hwnd, LB_GETCOUNT, 0, 0);
-					if (iCount != LB_ERR) {
-						int iSelectedItems = SendMessage(hwnd, LB_GETSELCOUNT, 0, 0);
-						if (iSelectedItems != LB_ERR) {
-							int *pItems = (int *)mir_alloc(sizeof(int) * (iSelectedItems + 1));
-							if (pItems) {
-								if (SendMessage(hwnd, LB_GETSELITEMS, iSelectedItems, (LPARAM)pItems) != LB_ERR) {
-									for (int i = 0; i < iSelectedItems; i++) {
-										USERINFO *ui1 = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, pItems[i]);
-										if (ui1)
-											dat->DoEventHook(GC_USER_NICKLISTMENU, ui1, nullptr, uID);
-									}
-								}
-								mir_free(pItems);
-							}
-						}
-					}
+					dat->DoEventHook(GC_USER_NICKLISTMENU, ui, nullptr, uID);
 					break;
 				}
 				DestroyGCMenu(&hMenu, 1);
