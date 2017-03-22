@@ -198,19 +198,19 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 			return TRUE;
 
 		if (wParam == 0x4e && isCtrl && !isAlt) { // ctrl-n (nicklist)
-			if (IsWindowEnabled(GetDlgItem(GetParent(hwnd), IDC_SHOWNICKLIST)))
-				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_SHOWNICKLIST, 0), 0);
+			if (pDlg->m_btnNickList.Enabled())
+				pDlg->m_btnNickList.OnClick(&pDlg->m_btnNickList);
 			return TRUE;
 		}
 
 		if (wParam == 0x48 && isCtrl && !isAlt) { // ctrl-h (history)
-			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_HISTORY, 0), 0);
+			pDlg->m_btnHistory.OnClick(&pDlg->m_btnHistory);
 			return TRUE;
 		}
 
 		if (wParam == 0x4f && isCtrl && !isAlt) { // ctrl-o (options)
-			if (IsWindowEnabled(GetDlgItem(GetParent(hwnd), IDC_CHANMGR)))
-				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHANMGR, 0), 0);
+			if (pDlg->m_btnChannelMgr.Enabled())
+				pDlg->m_btnChannelMgr.OnClick(&pDlg->m_btnChannelMgr);
 			return TRUE;
 		}
 
@@ -700,15 +700,15 @@ void CChatRoomDlg::MessageDialogResize(int w, int h)
 		ShowWindow(m_nickList.GetHwnd(), SW_HIDE);
 
 	if (m_si->iType == GCW_SERVER) {
-		m_btnShowList.Enable(false);
+		m_btnNickList.Enable(false);
 		m_btnFilter.Enable(false);
-		m_btnChanMgr.Enable(false);
+		m_btnChannelMgr.Enable(false);
 	}
 	else {
-		m_btnShowList.Enable(true);
+		m_btnNickList.Enable(true);
 		m_btnFilter.Enable(true);
 		if (m_si->iType == GCW_CHATROOM)
-			m_btnChanMgr.Enable(pci->MM_FindModule(m_si->pszModule)->bChanMgr);
+			m_btnChannelMgr.Enable(pci->MM_FindModule(m_si->pszModule)->bChanMgr);
 	}
 
 	int toolbarTopY = bToolbar ? h - m_pParent->iSplitterY - toolbarHeight : h - m_pParent->iSplitterY;
@@ -752,19 +752,15 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY),
 
-	m_btnOk(this, IDOK),
-	m_btnHistory(this, IDC_HISTORY),
-	m_btnChanMgr(this, IDC_CHANMGR),
-	m_btnShowList(this, IDC_SHOWNICKLIST)
+	m_btnOk(this, IDOK)
 {
 	m_pLog = &m_log;
 	m_pEntry = &m_message;
 
 	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_Ok);
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
-	m_btnHistory.OnClick = Callback(this, &CChatRoomDlg::onClick_History);
-	m_btnChanMgr.OnClick = Callback(this, &CChatRoomDlg::onClick_ChanMgr);
-	m_btnShowList.OnClick = Callback(this, &CChatRoomDlg::onClick_ShowList);
+	m_btnChannelMgr.OnClick = Callback(this, &CChatRoomDlg::onClick_ChanMgr);
+	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::onClick_ShowList);
 
 	m_nickList.OnDblClick = Callback(this, &CChatRoomDlg::onDblClick_List);
 
@@ -948,16 +944,6 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 	SetFocus(m_message.GetHwnd());
 }
 
-void CChatRoomDlg::onClick_History(CCtrlButton *pButton)
-{
-	if (!pButton->Enabled())
-		return;
-	
-	MODULEINFO *pInfo = pci->MM_FindModule(m_si->pszModule);
-	if (pInfo)
-		ShellExecute(m_hwnd, nullptr, pci->GetChatLogsFilename(m_si, 0), nullptr, nullptr, SW_SHOW);
-}
-
 void CChatRoomDlg::onClick_ChanMgr(CCtrlButton *pButton)
 {
 	if (pButton->Enabled())
@@ -1073,7 +1059,7 @@ void CChatRoomDlg::UpdateNickList()
 
 void CChatRoomDlg::UpdateOptions()
 {
-	m_btnShowList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon(m_bNicklistEnabled ? "chat_nicklist" : "chat_nicklist2"));
+	m_btnNickList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon(m_bNicklistEnabled ? "chat_nicklist" : "chat_nicklist2"));
 	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon(m_bFilterEnabled ? "chat_filter" : "chat_filter2"));
 	{
 		MODULEINFO *pInfo = pci->MM_FindModule(m_si->pszModule);
@@ -1084,7 +1070,7 @@ void CChatRoomDlg::UpdateOptions()
 			m_btnColor.Enable(pInfo->bColor);
 			m_btnBkColor.Enable(pInfo->bBkgColor);
 			if (m_si->iType == GCW_CHATROOM)
-				m_btnChanMgr.Enable(pInfo->bChanMgr);
+				m_btnChannelMgr.Enable(pInfo->bChanMgr);
 		}
 	}
 

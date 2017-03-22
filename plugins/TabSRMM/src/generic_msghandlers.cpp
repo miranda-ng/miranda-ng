@@ -126,7 +126,7 @@ bool CTabBaseDlg::DM_GenericHotkeysCheck(MSG *message)
 		return true;
 
 	case TABSRMM_HK_HISTORY:
-		SendMessage(m_hwnd, WM_COMMAND, IDC_HISTORY, 0);
+		m_btnHistory.OnClick(&m_btnHistory);
 		return true;
 
 	case TABSRMM_HK_CONTAINEROPTIONS:
@@ -237,7 +237,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)(m_cache->getActiveContact()), 0);
 		break;
 
-	case IDC_HISTORY:
+	case IDC_SRMM_HISTORY:
 		CallService(MS_HISTORY_SHOWCONTACTHISTORY, m_hContact, 0);
 		break;
 

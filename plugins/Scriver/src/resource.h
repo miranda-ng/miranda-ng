@@ -96,7 +96,6 @@
 #define IDC_USERELATIVEDATE             1025
 #define IDC_USEIEVIEW                   1026
 #define IDC_FONTSCOLORS                 1027
-#define IDC_CHANMGR                     1030
 #define IDC_SHOWLOGICONS                1032
 #define IDC_SHOWTIMES                   1033
 #define IDC_SHOWDATES                   1034
@@ -122,7 +121,6 @@
 #define IDC_ADD                         1070
 #define IDC_USERMENU                    1071
 #define IDC_QUOTE                       1072
-#define IDC_HISTORY                     1080
 #define IDC_REMEMBER                    1082
 #define IDC_INFOBAR_NAME                1090
 #define IDC_INFOBAR_STATUS              1091
@@ -173,7 +171,6 @@
 #define IDC_INPUTLINESSPIN              1648
 #define IDC_SPLITTERX                   5006
 #define IDC_SPLITTERY                   5008
-#define IDC_SHOWNICKLIST                5016
 #define IDC_CHAT_CHECKBOXES             5021
 #define IDC_CHAT_NICKROW                5024
 #define IDC_CHAT_LOGLIMIT               5024

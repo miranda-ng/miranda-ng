@@ -430,3 +430,4 @@ Chat_UpdateOptions @418 NONAME
 ?onClick_Color@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @432 NONAME
 ?RefreshButtonStatus@CSrmmBaseDialog@@IAEXXZ @433 NONAME
 ?ProcessHotkeys@CSrmmBaseDialog@@IAE_NH_N00@Z @434 NONAME
+?onClick_History@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @435 NONAME

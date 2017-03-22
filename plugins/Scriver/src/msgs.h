@@ -103,7 +103,7 @@ public:
 class CSrmmWindow : public CScriverWindow
 {
 	CCtrlEdit m_log, m_message;
-	CCtrlButton m_btnOk, m_btnAdd, m_btnUserMenu, m_btnQuote, m_btnHistory, m_btnDetails;
+	CCtrlButton m_btnOk, m_btnAdd, m_btnUserMenu, m_btnQuote, m_btnDetails;
 	CSplitter m_splitter;
 	
 	wchar_t *m_wszInitialText;
@@ -178,7 +178,7 @@ public:
 class CChatRoomDlg : public CScriverWindow
 {
 	CCtrlEdit m_message, m_log;
-	CCtrlButton m_btnOk, m_btnHistory, m_btnShowList, m_btnChanMgr;
+	CCtrlButton m_btnOk;
 	CCtrlListBox m_nickList;
 	CSplitter m_splitterX, m_splitterY;
 
@@ -213,7 +213,6 @@ public:
 
 	void onClick_Ok(CCtrlButton*);
 	void onClick_Filter(CCtrlButton*);
-	void onClick_History(CCtrlButton*);
 	void onClick_ChanMgr(CCtrlButton*);
 	void onClick_ShowList(CCtrlButton*);
 

@@ -81,7 +81,6 @@
 #define IDC_FASTGRADIENT                1008
 #define IDC_SPLITTERY                   1008
 #define IDC_CHKNOTIFY_URL               1009
-#define IDC_CHANMGR                     1010
 #define IDC_USESKIN                     1011
 #define IDC_AUTOCLOSE                   1012
 #define IDC_CHKNOTIFY_OTHER             1013
@@ -101,7 +100,6 @@
 #define IDC_CHKACTR_DISMISS             1026
 #define IDC_CHKACTR_OPEN                1028
 #define IDC_CONTACTPIC                  1029
-#define IDC_SHOWNICKLIST                1030
 #define IDC_ST_ENTERMSG                 1031
 #define IDC_PANELNICK                   1032
 #define IDC_CHKWINDOWCHECK              1032
@@ -181,7 +179,6 @@
 #define IDC_DELAY_ERR                   1102
 #define IDC_RTL                         1103
 #define IDC_PIC                         1104
-#define IDC_HISTORY                     1111
 #define IDC_CANCELADD                   1112
 #define IDC_FONTSTRIKEOUT               1113
 #define IDC_MATH_BKGCOLOUR              1124

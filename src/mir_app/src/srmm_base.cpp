@@ -24,15 +24,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 #include "chat.h"
+#include <m_history.h>
 
 extern HCURSOR g_hCurHyperlinkHand;
 
 CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si)
 	: CDlgBase(hInst, idDialog),
 	m_btnFilter(this, IDC_SRMM_FILTER),
+	m_btnHistory(this, IDC_SRMM_HISTORY),
+	m_btnNickList(this, IDC_SRMM_NICKLIST),
+	m_btnChannelMgr(this, IDC_SRMM_CHANMGR),
+
 	m_btnColor(this, IDC_SRMM_COLOR),
 	m_btnBkColor(this, IDC_SRMM_BKGCOLOR),
 	m_btnBold(this, IDC_SRMM_BOLD),
+
 	m_btnItalic(this, IDC_SRMM_ITALICS),
 	m_btnUnderline(this, IDC_SRMM_UNDERLINE),
 
@@ -49,6 +55,8 @@ CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si
 	m_btnColor.OnClick = Callback(this, &CSrmmBaseDialog::onClick_Color);
 	m_btnBkColor.OnClick = Callback(this, &CSrmmBaseDialog::onClick_BkColor);
 	m_btnBold.OnClick = m_btnItalic.OnClick = m_btnUnderline.OnClick = Callback(this, &CSrmmBaseDialog::onClick_BIU);
+
+	m_btnHistory.OnClick = Callback(this, &CSrmmBaseDialog::onClick_History);
 
 	if (si) {
 		m_hContact = si->hContact;
@@ -69,8 +77,9 @@ CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si
 
 CSrmmBaseDialog::CSrmmBaseDialog(const CSrmmBaseDialog&) :
 	CDlgBase(0, 0),
-	m_btnColor(0, 0), m_btnBkColor(0, 0), m_btnFilter(0, 0),
-	m_btnBold(0, 0), m_btnItalic(0, 0), m_btnUnderline(0, 0)
+	m_btnColor(0, 0), m_btnBkColor(0, 0),
+	m_btnBold(0, 0), m_btnItalic(0, 0), m_btnUnderline(0, 0),
+	m_btnFilter(0, 0), m_btnChannelMgr(0, 0), m_btnHistory(0, 0), m_btnNickList(0, 0)
 {
 }
 
@@ -309,58 +318,73 @@ void CSrmmBaseDialog::onClick_BIU(CCtrlButton *pButton)
 	m_pEntry->SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 }
 
+void CSrmmBaseDialog::onClick_History(CCtrlButton *pButton)
+{
+	if (!pButton->Enabled())
+		return;
+
+	if (m_si != nullptr) {
+		MODULEINFO *pInfo = chatApi.MM_FindModule(m_si->pszModule);
+		if (pInfo)
+			ShellExecute(m_hwnd, nullptr, chatApi.GetChatLogsFilename(m_si, 0), nullptr, nullptr, SW_SHOW);
+	}
+	else CallService(MS_HISTORY_SHOWCONTACTHISTORY, m_hContact, 0);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CSrmmBaseDialog::ProcessHotkeys(int key, bool /*isShift*/, bool isCtrl, bool isAlt)
+bool CSrmmBaseDialog::ProcessHotkeys(int key, bool isShift, bool isCtrl, bool isAlt)
 {
-	if (key == VK_F4 && isCtrl && !isAlt) { // ctrl-F4 (close tab)
+	// Esc (close tab)
+	if (key == VK_ESCAPE && !isShift && !isCtrl && !isAlt) {
 		CloseTab();
 		return true;
 	}
 
-	if (key == VK_ESCAPE && !isCtrl && !isAlt) { // Esc (close tab)
-		CloseTab();
-		return true;
-	}
+	if (isCtrl && !isAlt) {
+		switch (key) {
+		case VK_SPACE: // ctrl-space (paste clean text)
+			m_btnBold.Push(false); onClick_BIU(&m_btnBold);
+			m_btnItalic.Push(false); onClick_BIU(&m_btnItalic);
+			m_btnUnderline.Push(false); onClick_BIU(&m_btnUnderline);
 
-	if (key == 0x42 && isCtrl && !isAlt) { // ctrl-b (bold)
-		m_btnBold.Push(!m_btnBold.IsPushed());
-		onClick_BIU(&m_btnBold);
-		return true;
-	}
+			m_btnColor.Push(false); onClick_Color(&m_btnColor);
+			m_btnBkColor.Push(false); onClick_BkColor(&m_btnBkColor);
+			return true;
 
-	if (key == 0x49 && isCtrl && !isAlt) { // ctrl-i (italics)
-		m_btnItalic.Push(!m_btnItalic.IsPushed());
-		onClick_BIU(&m_btnItalic);
-		return true;
-	}
+		case 0x42: // ctrl-b (bold)
+			m_btnBold.Push(!m_btnBold.IsPushed());
+			onClick_BIU(&m_btnBold);
+			return true;
 
-	if (key == 0x55 && isCtrl && !isAlt) { // ctrl-u (paste clean text)
-		m_btnUnderline.Push(!m_btnUnderline.IsPushed());
-		onClick_BIU(&m_btnUnderline);
-		return true;
-	}
+		case 0x48: // ctrl-h (history)
+			onClick_History(&m_btnHistory);
+			return true;
 
-	if (key == 0x4b && isCtrl && !isAlt) { // ctrl-k (paste clean text)
-		m_btnColor.Push(!m_btnColor.IsPushed());
-		onClick_Color(&m_btnColor);
-		return true;
-	}
+		case 0x49: // ctrl-i (italics)
+			m_btnItalic.Push(!m_btnItalic.IsPushed());
+			onClick_BIU(&m_btnItalic);
+			return true;
 
-	if (key == 0x4c && isCtrl && !isAlt) { // ctrl-l (paste clean text)
-		m_btnBkColor.Push(!m_btnBkColor.IsPushed());
-		onClick_BkColor(&m_btnBkColor);
-		return true;
-	}
+		case 0x4b: // ctrl-k (paste clean text)
+			m_btnColor.Push(!m_btnColor.IsPushed());
+			onClick_Color(&m_btnColor);
+			return true;
 
-	if (key == VK_SPACE && isCtrl && !isAlt) { // ctrl-space (paste clean text)
-		m_btnBold.Push(false); onClick_BIU(&m_btnBold);
-		m_btnItalic.Push(false); onClick_BIU(&m_btnItalic);
-		m_btnUnderline.Push(false); onClick_BIU(&m_btnUnderline);
+		case 0x4c: // ctrl-l (back color)
+			m_btnBkColor.Push(!m_btnBkColor.IsPushed());
+			onClick_BkColor(&m_btnBkColor);
+			return true;
 
-		m_btnColor.Push(false); onClick_Color(&m_btnColor);
-		m_btnBkColor.Push(false); onClick_BkColor(&m_btnBkColor);
-		return true;
+		case 0x55: // ctrl-u (underlining)
+			m_btnUnderline.Push(!m_btnUnderline.IsPushed());
+			onClick_BIU(&m_btnUnderline);
+			return true;
+
+		case VK_F4: // ctrl-F4 (close tab)
+			CloseTab();
+			return true;
+		}
 	}
 
 	return false;

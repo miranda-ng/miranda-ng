@@ -365,7 +365,10 @@ struct CHAT_MANAGER
 	void (*OnFlashHighlight)(SESSION_INFO*, int bInactive);
 };
 
+#ifndef MIR_APP_EXPORTS
 extern CHAT_MANAGER *pci;
+#endif
+
 extern int hLangpack;
 
 EXTERN_C MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pData = NULL, int = hLangpack);
@@ -389,6 +392,9 @@ EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions();
 #define IDC_SRMM_ITALICS   3004
 #define IDC_SRMM_UNDERLINE 3005
 #define IDC_SRMM_FILTER    3006
+#define IDC_SRMM_CHANMGR   3007
+#define IDC_SRMM_NICKLIST  3008
+#define IDC_SRMM_HISTORY   3009
 
 class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 {
@@ -410,12 +416,15 @@ protected:
 	SESSION_INFO *m_si;
 	COLORREF m_clrInputBG, m_clrInputFG;
 	
-	CCtrlButton m_btnColor, m_btnBkColor, m_btnFilter;
+	CCtrlButton m_btnColor, m_btnBkColor;
 	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline;
+	CCtrlButton m_btnHistory, m_btnChannelMgr, m_btnNickList, m_btnFilter;
 
-	void onClick_BIU(CCtrlButton *pButton);
-	void onClick_Color(CCtrlButton *pButton);
-	void onClick_BkColor(CCtrlButton *pButton);
+	void onClick_BIU(CCtrlButton*);
+	void onClick_Color(CCtrlButton*);
+	void onClick_BkColor(CCtrlButton*);
+
+	void onClick_History(CCtrlButton*);
 
 public:
 	MCONTACT m_hContact;

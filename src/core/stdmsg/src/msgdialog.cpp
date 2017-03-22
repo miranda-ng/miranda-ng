@@ -1320,10 +1320,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 
-		case IDC_HISTORY:
-			CallService(MS_HISTORY_SHOWCONTACTHISTORY, m_hContact, 0);
-			break;
-
 		case IDC_DETAILS:
 			CallService(MS_USERINFO_SHOWDIALOG, m_hContact, 0);
 			break;

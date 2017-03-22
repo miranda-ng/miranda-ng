@@ -218,7 +218,6 @@ class CChatRoomDlg : public CSrmmBaseDialog
 	CCtrlEdit m_message, m_log;
 	CCtrlListBox m_nickList;
 	CCtrlButton m_btnOk;
-	CCtrlButton m_btnChannelMgr, m_btnNickList, m_btnHistory;
 	CSplitter m_splitterX, m_splitterY;
 
 	HWND getCaptionWindow() const
@@ -253,7 +252,6 @@ public:
 	void onClick_Ok(CCtrlButton*);
 
 	void onClick_Filter(CCtrlButton*);
-	void onClick_History(CCtrlButton*);
 	void onClick_Options(CCtrlButton*);
 	void onClick_NickList(CCtrlButton*);
 

@@ -307,7 +307,7 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	Srmm_AddButton(&bbd);
 
 	bbd.bbbFlags |= BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
-	bbd.dwButtonID = IDC_HISTORY;
+	bbd.dwButtonID = IDC_SRMM_HISTORY;
 	bbd.dwDefPos = 40;
 	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 	bbd.pwszText = LPGENW("&History");

@@ -208,7 +208,6 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 					SendMessage(hwndDlg, GC_SWITCHTAB, 0, (int)wParam - (int)VK_NUMPAD1);
 
 			if (wParam == VK_TAB && !isCtrl && !isShift) { // tab-autocomplete
-				wchar_t *pszText = nullptr;
 				LRESULT lResult = (LRESULT)SendMessage(hwnd, EM_GETSEL, 0, 0);
 
 				SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
@@ -221,14 +220,14 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 				gtl.codepage = CP_ACP;
 				int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 				if (iLen > 0) {
-					pszText = (wchar_t *)mir_alloc(sizeof(wchar_t)*(iLen + 100));
+					wchar_t *pszText = (wchar_t *)mir_alloc(sizeof(wchar_t)*(iLen + 100));
 
 					GETTEXTEX gt = {};
 					gt.cb = iLen + 99;
 					gt.flags = GT_DEFAULT;
 					gt.codepage = 1200;
-
 					SendMessage(hwnd, EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)pszText);
+
 					while (start > 0 && pszText[start - 1] != ' ' && pszText[start - 1] != 13 && pszText[start - 1] != VK_TAB)
 						start--;
 					while (end < iLen && pszText[end] != ' ' && pszText[end] != 13 && pszText[end - 1] != VK_TAB)
@@ -279,11 +278,6 @@ LRESULT CALLBACK CChatRoomDlg::MessageSubclassProc(HWND hwnd, UINT msg, WPARAM w
 
 			if (wParam == 0x4e && isCtrl && !isAlt) { // ctrl-n (nicklist)
 				pDlg->onClick_NickList(&pDlg->m_btnNickList);
-				return TRUE;
-			}
-
-			if (wParam == 0x48 && isCtrl && !isAlt) { // ctrl-h (history)
-				pDlg->onClick_History(&pDlg->m_btnHistory);
 				return TRUE;
 			}
 
@@ -695,10 +689,6 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	m_log(this, IDC_LOG),
 
 	m_btnOk(this, IDOK),
-
-	m_btnHistory(this, IDC_HISTORY),
-	m_btnNickList(this, IDC_SHOWNICKLIST),
-	m_btnChannelMgr(this, IDC_CHANMGR),
 	
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY)
@@ -712,7 +702,6 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_Ok);
 
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
-	m_btnHistory.OnClick = Callback(this, &CChatRoomDlg::onClick_History);
 	m_btnChannelMgr.OnClick = Callback(this, &CChatRoomDlg::onClick_Options);
 	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::onClick_NickList);
 
@@ -810,16 +799,6 @@ void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
 		ShowFilterMenu();
 	else
 		RedrawLog();
-}
-
-void CChatRoomDlg::onClick_History(CCtrlButton *pButton)
-{
-	if (!pButton->Enabled())
-		return;
-
-	MODULEINFO *pInfo = pci->MM_FindModule(m_si->pszModule);
-	if (pInfo)
-		ShellExecute(m_hwnd, nullptr, pci->GetChatLogsFilename(m_si, 0), nullptr, nullptr, SW_SHOW);
 }
 
 void CChatRoomDlg::onClick_NickList(CCtrlButton *pButton)

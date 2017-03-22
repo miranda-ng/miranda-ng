@@ -629,7 +629,6 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming, const char *szInitia
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
 	m_btnDetails(this, IDC_DETAILS),
-	m_btnHistory(this, IDC_HISTORY),
 	m_btnUserMenu(this, IDC_USERMENU)
 {
 	m_pLog = &m_log;
@@ -643,7 +642,6 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming, const char *szInitia
 	m_btnAdd.OnClick = Callback(this, &CSrmmWindow::onClick_Add);
 	m_btnQuote.OnClick = Callback(this, &CSrmmWindow::onClick_Quote);
 	m_btnDetails.OnClick = Callback(this, &CSrmmWindow::onClick_Details);
-	m_btnHistory.OnClick = Callback(this, &CSrmmWindow::onClick_History);
 	m_btnUserMenu.OnClick = Callback(this, &CSrmmWindow::onClick_UserMenu);
 	
 	m_message.OnChange = Callback(this, &CSrmmWindow::onChange_Message);

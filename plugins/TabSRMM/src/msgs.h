@@ -483,7 +483,7 @@ public:
 class CChatRoomDlg : public CTabBaseDlg
 {
 	HWND m_hwndFilter;
-	CCtrlButton m_btnHistory, m_btnChannelMgr, m_btnNickList, m_btnOk;
+	CCtrlButton m_btnOk;
 	CCtrlListBox m_list;
 
 	static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -520,7 +520,6 @@ public:
 
 	void onClick_OK(CCtrlButton*);
 	void onClick_Filter(CCtrlButton*);
-	void onClick_History(CCtrlButton*);
 	void onClick_ChanMgr(CCtrlButton*);
 	void onClick_ShowNickList(CCtrlButton*);
 

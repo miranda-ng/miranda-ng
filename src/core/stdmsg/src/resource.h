@@ -70,11 +70,8 @@
 #define IDC_AUTOMIN                     1005
 #define IDC_DONOTSTEALFOCUS             1006
 #define IDC_SPLITTERY                   1008
-#define IDC_CHANMGR                     1014
-#define IDC_SHOWNICKLIST                1016
 #define IDC_CHECKBOXES                  1018
 #define IDC_NICKLISTBKG                 1021
-#define IDC_HISTORY                     1022
 #define IDC_NICKROW                     1024
 #define IDC_LOGLIMIT                    1024
 #define IDC_NICKROW2                    1025

@@ -74,7 +74,7 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	Srmm_AddButton(&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
-	bbd.dwButtonID = IDC_HISTORY;
+	bbd.dwButtonID = IDC_SRMM_HISTORY;
 	bbd.dwDefPos = 50;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[0];
 	bbd.pwszTooltip = LPGENW("View user's history");
@@ -119,7 +119,7 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	Srmm_AddButton(&bbd);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
-	bbd.dwButtonID = IDC_SHOWNICKLIST;
+	bbd.dwButtonID = IDC_SRMM_NICKLIST;
 	bbd.dwDefPos = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[19];
 	bbd.pwszTooltip = LPGENW("Toggle nick list");
@@ -131,12 +131,11 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("Event filter - right click to setup, left click to activate/deactivate");
 	Srmm_AddButton(&bbd);
 
-	bbd.dwButtonID = IDC_CHANMGR;
+	bbd.dwButtonID = IDC_SRMM_CHANMGR;
 	bbd.dwDefPos = 33;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[17];
 	bbd.pwszTooltip = LPGENW("Channel manager");
 	Srmm_AddButton(&bbd);
-	
 	return 0;
 }
 

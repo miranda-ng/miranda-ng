@@ -1379,10 +1379,7 @@ static void __cdecl phase2(void * lParam)
 CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 	: CTabBaseDlg(IDD_CHANNEL, si),
 	m_btnOk(this, IDOK),
-	m_list(this, IDC_LIST),
-	m_btnHistory(this, IDC_HISTORY),
-	m_btnChannelMgr(this, IDC_CHANMGR),
-	m_btnNickList(this, IDC_SHOWNICKLIST)
+	m_list(this, IDC_LIST)
 {
 	m_szProto = GetContactProto(m_hContact);
 	m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled) != 0;
@@ -1390,7 +1387,6 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 
 	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_OK);
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
-	m_btnHistory.OnClick = Callback(this, &CChatRoomDlg::onClick_History);
 	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::onClick_ShowNickList);
 	m_btnChannelMgr.OnClick = Callback(this, &CChatRoomDlg::onClick_ChanMgr);
 	
@@ -1616,22 +1612,6 @@ void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
 	RedrawLog();
 	UpdateTitle();
 	db_set_b(m_si->hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled);
-}
-
-void CChatRoomDlg::onClick_History(CCtrlButton *pButton)
-{
-	if (!pButton->Enabled())
-		return;
-
-	MODULEINFO *pInfo = pci->MM_FindModule(m_si->pszModule);
-	if (ServiceExists("MSP/HTMLlog/ViewLog") && strstr(m_si->pszModule, "IRC")) {
-		char szName[MAX_PATH];
-		WideCharToMultiByte(CP_ACP, 0, m_si->ptszName, -1, szName, MAX_PATH, 0, 0);
-		szName[MAX_PATH - 1] = 0;
-		CallService("MSP/HTMLlog/ViewLog", (WPARAM)m_si->pszModule, (LPARAM)szName);
-	}
-	else if (pInfo)
-		ShellExecute(m_hwnd, nullptr, pci->GetChatLogsFilename(m_si, 0), nullptr, nullptr, SW_SHOW);
 }
 
 void CChatRoomDlg::onClick_ShowNickList(CCtrlButton *pButton)

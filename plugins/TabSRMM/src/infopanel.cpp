@@ -713,13 +713,13 @@ HMENU CInfoPanel::constructContextualMenu() const
 
 	if (m_hoverFlags & HOVER_NICK) {
 		Utils::addMenuItem(m, mii, ::Skin_LoadIcon(SKINICON_OTHER_USERDETAILS), TranslateT("Open user details..."), IDC_NAME, 0);
-		Utils::addMenuItem(m, mii, ::Skin_LoadIcon(SKINICON_OTHER_HISTORY), TranslateT("Open history..."), m_isChat ? IDC_HISTORY : IDC_HISTORY, 0);
+		Utils::addMenuItem(m, mii, ::Skin_LoadIcon(SKINICON_OTHER_HISTORY), TranslateT("Open history..."), IDC_SRMM_HISTORY, 0);
 		if (!m_isChat)
 			Utils::addMenuItem(m, mii, PluginConfig.g_iconContainer, TranslateT("Messaging settings..."), ID_MESSAGELOGSETTINGS_FORTHISCONTACT, 1);
 		else {
-			::AppendMenu(m, MF_STRING, IDC_CHANMGR, TranslateT("Room settings..."));
+			::AppendMenu(m, MF_STRING, IDC_SRMM_CHANMGR, TranslateT("Room settings..."));
 			if (GCW_SERVER & m_dat->m_si->iType)
-				::EnableMenuItem(m, IDC_CHANMGR, MF_BYCOMMAND | MF_GRAYED);
+				::EnableMenuItem(m, IDC_SRMM_CHANMGR, MF_BYCOMMAND | MF_GRAYED);
 		}
 		::AppendMenu(m, MF_SEPARATOR, 1000, 0);
 		Utils::addMenuItem(m, mii, PluginConfig.g_buttonBarIcons[6], TranslateT("Close session"), IDC_SAVE, 4);
@@ -752,8 +752,8 @@ LRESULT CInfoPanel::cmdHandler(UINT cmd)
 		}
 		break;
 
-	case IDC_HISTORY:
-	case IDC_CHANMGR:
+	case IDC_SRMM_HISTORY:
+	case IDC_SRMM_CHANMGR:
 		if (m_isChat) {
 			SendMessage(m_dat->GetHwnd(), WM_COMMAND, cmd, 0);
 			return(S_OK);
