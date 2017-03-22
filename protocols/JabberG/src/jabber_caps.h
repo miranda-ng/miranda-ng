@@ -112,7 +112,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_CAPS_NEWGPG                      ((JabberCapsBits)1<<43)
 #define JABBER_FEAT_OMEMO						L"eu.siacs.conversations.axolotl" //will become "urn:xmpp:omemo:0" once standard get accepted
 #define JABBER_CAPS_OMEMO						((JabberCapsBits)1<<46)
-#define JABBER_FEAT_OMEMO_DEVICELIST_NOTIFY				JABBER_FEAT_OMEMO L":devicelist+notify"
+#define JABBER_FEAT_OMEMO_DEVICELIST_NOTIFY				JABBER_FEAT_OMEMO L".devicelist+notify"
 #define JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY				((JabberCapsBits)1<<47)
 #define JABBER_CAPS_PLATFORMX86                 ((JabberCapsBits)1<<44)
 #define JABBER_CAPS_PLATFORMX64                 ((JabberCapsBits)1<<45)

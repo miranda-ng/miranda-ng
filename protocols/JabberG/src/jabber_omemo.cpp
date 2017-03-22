@@ -548,11 +548,11 @@ namespace omemo {
 		iq << XATTR(L"from", proto->m_ThreadInfo->fullJID); //full unstripped jid used here
 		HXML create_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"create");
 		create_node << XATTR(L"node", node_name);
-		if(!mir_wstrcmp(node_name, JABBER_FEAT_OMEMO L":devicelist"))
+		if(!mir_wstrcmp(node_name, JABBER_FEAT_OMEMO L".devicelist"))
 		{
 			DWORD own_id = omemo::GetOwnDeviceId(proto);
 			wchar_t attr_val[128];
-			mir_snwprintf(attr_val, L"%s:bundles:%d", JABBER_FEAT_OMEMO, own_id);
+			mir_snwprintf(attr_val, L"%s.bundles:%d", JABBER_FEAT_OMEMO, own_id);
 			pubsub_createnode_impl(attr_val, proto);
 		}
 		proto->m_ThreadInfo->send(iq);
@@ -655,7 +655,7 @@ void CJabberProto::OmemoOnIqResultPubsubCreateNode(HXML iqNode, CJabberIqInfo *p
 
 
 	omemo::IqHandlerUserData *data = (omemo::IqHandlerUserData*)pInfo->GetUserData();
-	if (!mir_wstrcmp(data->node_name, JABBER_FEAT_OMEMO L":devicelist"))
+	if (!mir_wstrcmp(data->node_name, JABBER_FEAT_OMEMO L".devicelist"))
 	{ //device list node created
 		OmemoAnnounceDevice();
 	}
@@ -663,7 +663,7 @@ void CJabberProto::OmemoOnIqResultPubsubCreateNode(HXML iqNode, CJabberIqInfo *p
 	{
 		DWORD own_id = omemo::GetOwnDeviceId(this);
 		wchar_t attr_val[128];
-		mir_snwprintf(attr_val, L"%s:bundles:%d", JABBER_FEAT_OMEMO, own_id);
+		mir_snwprintf(attr_val, L"%s.bundles:%d", JABBER_FEAT_OMEMO, own_id);
 		if (!mir_wstrcmp(data->node_name, attr_val))
 		{ //device bundle node created
 			OmemoSendBundle();
@@ -763,7 +763,7 @@ void CJabberProto::OmemoAnnounceDevice()
 	wchar_t szBareJid[JABBER_MAX_JID_LEN];
 	XmlNodeIq iq(L"set", SerialNext()); 
 	iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof_portable(szBareJid)));
-	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish") << XATTR(L"node", JABBER_FEAT_OMEMO L":devicelist");
+	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish") << XATTR(L"node", JABBER_FEAT_OMEMO L".devicelist");
 	HXML list_node = publish_node << XCHILDNS(L"item") << XCHILDNS(L"list", JABBER_FEAT_OMEMO);
 
 	for (int i = 0; ; ++i) {
@@ -794,7 +794,7 @@ void CJabberProto::OmemoSendBundle()
 	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish");
 	{
 		wchar_t attr_val[128];
-		mir_snwprintf(attr_val, L"%s:bundles:%d", JABBER_FEAT_OMEMO, own_id);
+		mir_snwprintf(attr_val, L"%s.bundles:%d", JABBER_FEAT_OMEMO, own_id);
 		publish_node << XATTR(L"node", attr_val);
 	}
 	HXML bundle_node = publish_node << XCHILD(L"item") << XCHILDNS(L"bundle", JABBER_FEAT_OMEMO);
@@ -829,5 +829,5 @@ void CJabberProto::OmemoSendBundle()
 
 void CJabberProto::OmemoCreateNodes()
 {
-	omemo::pubsub_createnode(JABBER_FEAT_OMEMO L":devicelist", this);
+	omemo::pubsub_createnode(JABBER_FEAT_OMEMO L".devicelist", this);
 }
