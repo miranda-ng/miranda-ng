@@ -347,17 +347,23 @@ void fnSetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState)
 
 void fnDoSelectionDefaultAction(HWND hwnd, ClcData *dat)
 {
-	ClcContact *contact;
-
 	if (dat->selection == -1)
 		return;
+
+	bool bSearchExisted = dat->szQuickSearch[0] != 0;
 	dat->szQuickSearch[0] = 0;
+
+	ClcContact *contact;
 	if (cli.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr) == -1)
 		return;
+
 	if (contact->type == CLCIT_GROUP)
 		cli.pfnSetGroupExpand(hwnd, dat, contact->group, -1);
 	if (contact->type == CLCIT_CONTACT)
 		Clist_ContactDoubleClicked(contact->hContact);
+
+	if (dat->bFilterSearch && bSearchExisted)
+		cli.pfnSaveStateAndRebuildList(hwnd, dat);
 }
 
 int fnFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)

@@ -612,24 +612,22 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		pcli->pfnHideInfoTip(hwnd, dat);
 		KillTimer(hwnd, TIMERID_RENAME);
 		KillTimer(hwnd, TIMERID_INFOTIP);
-		dat->szQuickSearch[0] = 0;
-		{
-			DWORD hitFlags;
-			dat->selection = HitTest(hwnd, dat, (short)LOWORD(lParam), (short)HIWORD(lParam), &contact, NULL, &hitFlags);
-			if (hitFlags & CLCHT_ONITEMEXTRA)
-				break;
 
-			InvalidateRect(hwnd, NULL, FALSE);
-			if (dat->selection != -1)
-				pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
-			if (hitFlags & CLCHT_ONAVATAR && cfg::dat.bDblClkAvatars) {
-				CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)contact->hContact, 0);
-				return TRUE;
-			}
-			if (hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL | CLCHT_ONITEMSPACE)) {
-				UpdateWindow(hwnd);
-				pcli->pfnDoSelectionDefaultAction(hwnd, dat);
-			}
+		DWORD hitFlags;
+		dat->selection = HitTest(hwnd, dat, (short)LOWORD(lParam), (short)HIWORD(lParam), &contact, NULL, &hitFlags);
+		if (hitFlags & CLCHT_ONITEMEXTRA)
+			break;
+
+		InvalidateRect(hwnd, NULL, FALSE);
+		if (dat->selection != -1)
+			pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+		if (hitFlags & CLCHT_ONAVATAR && cfg::dat.bDblClkAvatars) {
+			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)contact->hContact, 0);
+			return TRUE;
+		}
+		if (hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL | CLCHT_ONITEMSPACE)) {
+			UpdateWindow(hwnd);
+			pcli->pfnDoSelectionDefaultAction(hwnd, dat);
 		}
 		return TRUE;
 
@@ -680,7 +678,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				PostMessage(GetParent(hwnd), WM_CONTEXTMENU, wParam, lParam);
 				return 0;
 			}
-			if (hMenu != NULL) {
+			if (hMenu != nullptr) {
 				ClientToScreen(hwnd, &pt);
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
 				DestroyMenu(hMenu);

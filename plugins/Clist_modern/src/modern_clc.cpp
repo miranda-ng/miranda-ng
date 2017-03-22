@@ -449,7 +449,6 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 	case VK_RETURN:
 		pcli->pfnDoSelectionDefaultAction(hwnd, dat);
 		SetCapture(hwnd);
-		Clist_ClearSearch(hwnd, dat);
 		return 0;
 
 	case VK_F2: cliBeginRenameSelection(hwnd, dat); /*SetCapture(hwnd);*/ return 0;

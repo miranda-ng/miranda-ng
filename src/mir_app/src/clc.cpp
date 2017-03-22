@@ -48,14 +48,6 @@ void fnInitAutoRebuild(HWND hWnd)
 	}
 }
 
-MIR_APP_DLL(void) Clist_ClearSearch(HWND hwnd, ClcData *dat)
-{
-	bool bSearchExisted = dat->szQuickSearch[0] != 0;
-	dat->szQuickSearch[0] = 0;
-	if (dat->bFilterSearch && bSearchExisted)
-		cli.pfnSaveStateAndRebuildList(hwnd, dat);
-}
-
 MIR_APP_DLL(void) Clist_Broadcast(int msg, WPARAM wParam, LPARAM lParam)
 {
 	WindowList_Broadcast(hClcWindowList, msg, wParam, lParam);
@@ -705,12 +697,14 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			case VK_END:    dat->selection = cli.pfnGetGroupContentsCount(&dat->list, 1) - 1; selMoved = 1; break;
 			case VK_LEFT:   changeGroupExpand = 1; break;
 			case VK_RIGHT:  changeGroupExpand = 2; break;
+
 			case VK_RETURN:
 				cli.pfnDoSelectionDefaultAction(hwnd, dat);
-				Clist_ClearSearch(hwnd, dat);
 				return 0;
+
 			case VK_F2:     cli.pfnBeginRenameSelection(hwnd, dat); return 0;
 			case VK_DELETE: cli.pfnDeleteFromContactList(hwnd, dat); return 0;
+
 			default:
 				NMKEY nmkey;
 				nmkey.hdr.hwndFrom = hwnd;
@@ -1177,12 +1171,11 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		cli.pfnInvalidateRect(hwnd, nullptr, FALSE);
 		if (dat->selection != -1)
 			cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
-		if (!(hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL)))
-			break;
-
-		UpdateWindow(hwnd);
-		cli.pfnDoSelectionDefaultAction(hwnd, dat);
-		Clist_ClearSearch(hwnd, dat);
+		
+		if (hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL)) {
+			UpdateWindow(hwnd);
+			cli.pfnDoSelectionDefaultAction(hwnd, dat);
+		}
 		break;
 
 	case WM_CONTEXTMENU:
