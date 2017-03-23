@@ -192,6 +192,13 @@ void CSrmmBaseDialog::OnInitDialog()
 	LoadSettings();
 }
 
+void CSrmmBaseDialog::OnClose()
+{
+	mir_unsubclassWindow(m_pLog->GetHwnd(), stubLogProc);
+	mir_unsubclassWindow(m_pEntry->GetHwnd(), stubMessageProc);
+	mir_unsubclassWindow(m_nickList.GetHwnd(), stubNicklistProc);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)

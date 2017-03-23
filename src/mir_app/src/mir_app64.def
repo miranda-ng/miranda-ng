@@ -436,3 +436,4 @@ Chat_UpdateOptions @418 NONAME
 ?WndProc_Message@CSrmmBaseDialog@@UEAA_JI_K_J@Z @438 NONAME
 ?WndProc_Nicklist@CSrmmBaseDialog@@UEAA_JI_K_J@Z @439 NONAME
 ?onDblClick_List@CSrmmBaseDialog@@IEAAXPEAVCCtrlListBox@@@Z @440 NONAME
+?OnClose@CSrmmBaseDialog@@MEAAXXZ @441 NONAME
