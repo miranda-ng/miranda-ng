@@ -133,7 +133,7 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*l
 
 static LRESULT CALLBACK stubLogProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 	if (pDlg != nullptr)
 		pDlg->WndProc_Log(msg, wParam, lParam);
 
@@ -149,7 +149,7 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT /*msg*/, WPARAM /*wParam*/, LPARAM
 
 static LRESULT CALLBACK stubMessageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 	if (pDlg != nullptr)
 		pDlg->WndProc_Message(msg, wParam, lParam);
 
@@ -165,7 +165,7 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT /*msg*/, WPARAM /*wParam*/, LPARA
 
 static LRESULT CALLBACK stubNicklistProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 	if (pDlg != nullptr)
 		pDlg->WndProc_Nicklist(msg, wParam, lParam);
 
@@ -192,8 +192,9 @@ void CSrmmBaseDialog::OnInitDialog()
 	LoadSettings();
 }
 
-void CSrmmBaseDialog::OnClose()
+void CSrmmBaseDialog::OnDestroy()
 {
+	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
 	mir_unsubclassWindow(m_pLog->GetHwnd(), stubLogProc);
 	mir_unsubclassWindow(m_pEntry->GetHwnd(), stubMessageProc);
 	mir_unsubclassWindow(m_nickList.GetHwnd(), stubNicklistProc);

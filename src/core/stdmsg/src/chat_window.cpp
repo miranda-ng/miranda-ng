@@ -142,6 +142,8 @@ void CChatRoomDlg::OnDestroy()
 	DestroyWindow(m_hwndStatus); m_hwndStatus = nullptr;
 
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE);
+
+	CSuper::OnDestroy();
 }
 
 void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)

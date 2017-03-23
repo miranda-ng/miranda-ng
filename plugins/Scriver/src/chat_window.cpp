@@ -322,6 +322,8 @@ void CChatRoomDlg::OnDestroy()
 	}
 
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE);
+
+	CSuper::OnDestroy();
 }
 
 void CChatRoomDlg::OnSplitterX(CSplitter *pSplitter)

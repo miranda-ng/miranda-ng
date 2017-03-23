@@ -400,7 +400,8 @@ protected:
 	CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si = nullptr);
 
 	virtual void OnInitDialog() override;
-	virtual void OnClose() override;
+	virtual void OnDestroy() override;
+
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	void DoEventHook(int iType, const USERINFO *pUser, const wchar_t *pszText, INT_PTR dwItem);

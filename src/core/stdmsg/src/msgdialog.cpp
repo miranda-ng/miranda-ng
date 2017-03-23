@@ -357,6 +357,8 @@ void CSrmmWindow::OnDestroy()
 			db_delete_contact(m_hContact);
 
 	Window_FreeIcon_IcoLib(m_hwnd);
+
+	CSuper::OnDestroy();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

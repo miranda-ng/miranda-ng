@@ -206,6 +206,7 @@ void TB_SaveSession(SESSION_INFO *si);
 
 class CChatRoomDlg : public CSrmmBaseDialog
 {
+	typedef CSrmmBaseDialog CSuper;
 	friend struct CTabbedWindow;
 
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);

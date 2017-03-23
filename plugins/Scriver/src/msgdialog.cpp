@@ -466,6 +466,8 @@ void CSrmmWindow::OnDestroy()
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 	}
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE);
+
+	CSuper::OnDestroy();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
