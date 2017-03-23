@@ -446,6 +446,10 @@ public:
 	virtual void UpdateStatusBar() {}
 	virtual void UpdateTitle() PURE;
 
+	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam);
+	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam);
+	virtual LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam);
+
 	__forceinline bool isChat() const { return m_si != nullptr; }
 
 	__inline void* operator new(size_t size){ return calloc(1, size); }

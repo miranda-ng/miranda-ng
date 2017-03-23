@@ -432,3 +432,7 @@ Chat_UpdateOptions @418 NONAME
 ?ProcessHotkeys@CSrmmBaseDialog@@IAE_NH_N00@Z @434 NONAME
 ?onClick_History@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @435 NONAME
 ?onClick_ChanMgr@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @436 NONAME
+?WndProc_Log@CSrmmBaseDialog@@UAEJIIJ@Z @437 NONAME
+?WndProc_Message@CSrmmBaseDialog@@UAEJIIJ@Z @438 NONAME
+?WndProc_Nicklist@CSrmmBaseDialog@@UAEJIIJ@Z @439 NONAME
+?onDblClick_List@CSrmmBaseDialog@@IAEXPAVCCtrlListBox@@@Z @440 NONAME

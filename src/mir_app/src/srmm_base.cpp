@@ -124,14 +124,75 @@ static LRESULT CALLBACK Srmm_ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 	return mir_callNextSubclass(hwnd, Srmm_ButtonSubclassProc, msg, wParam, lParam);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+LRESULT CSrmmBaseDialog::WndProc_Log(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+{
+	return 0;
+}
+
+static LRESULT CALLBACK stubLogProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	if (pDlg != nullptr)
+		pDlg->WndProc_Log(msg, wParam, lParam);
+
+	return mir_callNextSubclass(hwnd, stubLogProc, msg, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+LRESULT CSrmmBaseDialog::WndProc_Message(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+{
+	return 0;
+}
+
+static LRESULT CALLBACK stubMessageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	if (pDlg != nullptr)
+		pDlg->WndProc_Message(msg, wParam, lParam);
+
+	return mir_callNextSubclass(hwnd, stubMessageProc, msg, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+{
+	return 0;
+}
+
+static LRESULT CALLBACK stubNicklistProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	if (pDlg != nullptr)
+		pDlg->WndProc_Nicklist(msg, wParam, lParam);
+
+	return mir_callNextSubclass(hwnd, stubNicklistProc, msg, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CSrmmBaseDialog::OnInitDialog()
 {
+	SetWindowLongPtr(m_pLog->GetHwnd(), GWLP_USERDATA, LPARAM(this));
+	mir_subclassWindow(m_pLog->GetHwnd(), stubLogProc);
+
+	SetWindowLongPtr(m_pEntry->GetHwnd(), GWLP_USERDATA, LPARAM(this));
+	mir_subclassWindow(m_pEntry->GetHwnd(), stubMessageProc);
+
+	SetWindowLongPtr(m_nickList.GetHwnd(), GWLP_USERDATA, LPARAM(this));
+	mir_subclassWindow(m_nickList.GetHwnd(), stubNicklistProc);
+
 	mir_subclassWindow(m_btnFilter.GetHwnd(), Srmm_ButtonSubclassProc);
 	mir_subclassWindow(m_btnColor.GetHwnd(), Srmm_ButtonSubclassProc);
 	mir_subclassWindow(m_btnBkColor.GetHwnd(), Srmm_ButtonSubclassProc);
 
 	LoadSettings();
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -433,7 +494,7 @@ void CSrmmBaseDialog::RefreshButtonStatus(void)
 	CHARFORMAT2 cf;
 	cf.cbSize = sizeof(CHARFORMAT2);
 	cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_BACKCOLOR | CFM_COLOR;
-	SendMessage(m_pEntry->GetHwnd(), EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+	m_pEntry->SendMsg(EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 
 	MODULEINFO *mi = chatApi.MM_FindModule(m_si->pszModule);
 	if (mi == nullptr)
