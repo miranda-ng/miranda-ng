@@ -87,8 +87,11 @@ struct ParentWindowData
 
 class CScriverWindow : public CSrmmBaseDialog
 {
+
 protected:
 	CScriverWindow(int iDialog, SESSION_INFO* = nullptr);
+
+	int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 public:
 	virtual void CloseTab() override;
@@ -105,7 +108,10 @@ class CSrmmWindow : public CScriverWindow
 	CCtrlEdit m_log, m_message;
 	CCtrlButton m_btnOk, m_btnAdd, m_btnUserMenu, m_btnQuote, m_btnDetails;
 	CSplitter m_splitter;
-	
+
+	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam);
+	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam);
+
 	wchar_t *m_wszInitialText;
 	bool   m_bIncoming, m_bShowTyping;
 	
@@ -182,14 +188,17 @@ class CChatRoomDlg : public CScriverWindow
 	CSplitter m_splitterX, m_splitterY;
 
 	void MessageDialogResize(int w, int h);
+	void TabAutoComplete(void);
 
-	static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-public:
 	wchar_t m_wszSearch[255];
+	wchar_t *m_wszSearchQuery, *m_wszSearchResult;
+	SESSION_INFO *m_pLastSession;
 
 public:
 	CChatRoomDlg(SESSION_INFO *si);

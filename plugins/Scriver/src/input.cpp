@@ -115,7 +115,7 @@ void InputAreaContextMenu(HWND hwnd, WPARAM, LPARAM lParam, MCONTACT hContact)
 	DestroyMenu(hMenu);
 }
 
-int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CScriverWindow *windowData)
+int CScriverWindow::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL isShift = GetKeyState(VK_SHIFT) & 0x8000;
 	BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
@@ -130,31 +130,31 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CScriv
 
 	switch (action) {
 	case KB_PREV_TAB:
-		SendMessage(GetParent(windowData->GetHwnd()), CM_ACTIVATEPREV, 0, (LPARAM)windowData->GetHwnd());
+		SendMessage(m_pParent->hwnd, CM_ACTIVATEPREV, 0, (LPARAM)m_hwnd);
 		return FALSE;
 	case KB_NEXT_TAB:
-		SendMessage(GetParent(windowData->GetHwnd()), CM_ACTIVATENEXT, 0, (LPARAM)windowData->GetHwnd());
+		SendMessage(m_pParent->hwnd, CM_ACTIVATENEXT, 0, (LPARAM)m_hwnd);
 		return FALSE;
 	case KB_SWITCHSTATUSBAR:
-		SendMessage(GetParent(windowData->GetHwnd()), DM_SWITCHSTATUSBAR, 0, 0);
+		SendMessage(m_pParent->hwnd, DM_SWITCHSTATUSBAR, 0, 0);
 		return FALSE;
 	case KB_SWITCHTITLEBAR:
-		SendMessage(GetParent(windowData->GetHwnd()), DM_SWITCHTITLEBAR, 0, 0);
+		SendMessage(m_pParent->hwnd, DM_SWITCHTITLEBAR, 0, 0);
 		return FALSE;
 	case KB_SWITCHINFOBAR:
-		SendMessage(GetParent(windowData->GetHwnd()), DM_SWITCHINFOBAR, 0, 0);
+		SendMessage(m_pParent->hwnd, DM_SWITCHINFOBAR, 0, 0);
 		return FALSE;
 	case KB_SWITCHTOOLBAR:
-		SendMessage(GetParent(windowData->GetHwnd()), DM_SWITCHTOOLBAR, 0, 0);
+		SendMessage(m_pParent->hwnd, DM_SWITCHTOOLBAR, 0, 0);
 		return FALSE;
 	case KB_MINIMIZE:
-		ShowWindow(GetParent(windowData->GetHwnd()), SW_MINIMIZE);
+		ShowWindow(m_pParent->hwnd, SW_MINIMIZE);
 		return FALSE;
 	case KB_CLOSE:
-		SendMessage(windowData->GetHwnd(), WM_CLOSE, 0, 0);
+		SendMessage(m_hwnd, WM_CLOSE, 0, 0);
 		return FALSE;
 	case KB_CLEAR_LOG:
-		SendMessage(windowData->GetHwnd(), DM_CLEARLOG, 0, 0);
+		SendMessage(m_hwnd, DM_CLEARLOG, 0, 0);
 		return FALSE;
 	case KB_TAB1:
 	case KB_TAB2:
@@ -165,18 +165,18 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CScriv
 	case KB_TAB7:
 	case KB_TAB8:
 	case KB_TAB9:
-		SendMessage(GetParent(windowData->GetHwnd()), CM_ACTIVATEBYINDEX, 0, action - KB_TAB1);
+		SendMessage(m_pParent->hwnd, CM_ACTIVATEBYINDEX, 0, action - KB_TAB1);
 		return FALSE;
 	case KB_SEND_ALL:
-		PostMessage(windowData->GetHwnd(), WM_COMMAND, IDC_SENDALL, 0);
+		PostMessage(m_hwnd, WM_COMMAND, IDC_SENDALL, 0);
 		return FALSE;
 	case KB_QUOTE:
-		PostMessage(windowData->GetHwnd(), WM_COMMAND, IDC_QUOTE, 0);
+		PostMessage(m_hwnd, WM_COMMAND, IDC_QUOTE, 0);
 		return FALSE;
 	case KB_PASTESEND:
 		if (SendMessage(hwnd, EM_CANPASTE, 0, 0)) {
 			SendMessage(hwnd, EM_PASTESPECIAL, CF_UNICODETEXT, 0);
-			PostMessage(windowData->GetHwnd(), WM_COMMAND, IDOK, 0);
+			PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
 		}
 		return FALSE;
 	}
@@ -184,7 +184,7 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CScriv
 	switch (msg) {
 	case WM_KEYDOWN:
 		if (wParam >= '1' && wParam <= '9' && isCtrl) {
-			SendMessage(GetParent(windowData->GetHwnd()), CM_ACTIVATEBYINDEX, 0, wParam - '1');
+			SendMessage(m_pParent->hwnd, CM_ACTIVATEBYINDEX, 0, wParam - '1');
 			return 0;
 		}
 
@@ -195,35 +195,35 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CScriv
 			return FALSE;
 
 		if (wParam == 'R' && isCtrl && isShift) {     // ctrl-shift-r
-			SendMessage(windowData->GetHwnd(), DM_SWITCHRTL, 0, 0);
+			SendMessage(m_hwnd, DM_SWITCHRTL, 0, 0);
 			return FALSE;
 		}
 
 		if ((wParam == VK_UP || wParam == VK_DOWN) && isCtrl && !db_get_b(0, SRMM_MODULE, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
-			if (windowData->cmdList) {
+			if (cmdList) {
 				TCmdList *cmdListNew = nullptr;
 				if (wParam == VK_UP) {
-					if (windowData->cmdListCurrent == nullptr) {
-						cmdListNew = tcmdlist_last(windowData->cmdList);
+					if (cmdListCurrent == nullptr) {
+						cmdListNew = tcmdlist_last(cmdList);
 						while (cmdListNew != nullptr && cmdListNew->temporary) {
-							windowData->cmdList = tcmdlist_remove(windowData->cmdList, cmdListNew);
-							cmdListNew = tcmdlist_last(windowData->cmdList);
+							cmdList = tcmdlist_remove(cmdList, cmdListNew);
+							cmdListNew = tcmdlist_last(cmdList);
 						}
 						if (cmdListNew != nullptr) {
 							char *textBuffer = GetRichTextUtf(hwnd);
 							if (textBuffer != nullptr)
 								// takes textBuffer to a queue, no leak here
-								windowData->cmdList = tcmdlist_append(windowData->cmdList, textBuffer, 20, TRUE);
+								cmdList = tcmdlist_append(cmdList, textBuffer, 20, TRUE);
 						}
 					}
-					else if (windowData->cmdListCurrent->prev != nullptr)
-						cmdListNew = windowData->cmdListCurrent->prev;
+					else if (cmdListCurrent->prev != nullptr)
+						cmdListNew = cmdListCurrent->prev;
 				}
 				else {
-					if (windowData->cmdListCurrent != nullptr) {
-						if (windowData->cmdListCurrent->next != nullptr)
-							cmdListNew = windowData->cmdListCurrent->next;
-						else if (!windowData->cmdListCurrent->temporary)
+					if (cmdListCurrent != nullptr) {
+						if (cmdListCurrent->next != nullptr)
+							cmdListNew = cmdListCurrent->next;
+						else if (!cmdListCurrent->temporary)
 							SetWindowText(hwnd, L"");
 					}
 				}
@@ -236,7 +236,7 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CScriv
 					SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
 					RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE);
 					SendMessage(hwnd, EM_SETSEL, iLen, iLen);
-					windowData->cmdListCurrent = cmdListNew;
+					cmdListCurrent = cmdListNew;
 				}
 			}
 			return FALSE;
@@ -245,11 +245,11 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CScriv
 
 	case WM_SYSKEYDOWN:
 		if ((wParam == VK_LEFT) && isAlt) {
-			SendMessage(GetParent(windowData->GetHwnd()), CM_ACTIVATEPREV, 0, (LPARAM)windowData->GetHwnd());
+			SendMessage(m_pParent->hwnd, CM_ACTIVATEPREV, 0, (LPARAM)m_hwnd);
 			return 0;
 		}
 		if ((wParam == VK_RIGHT) && isAlt) {
-			SendMessage(GetParent(windowData->GetHwnd()), CM_ACTIVATENEXT, 0, (LPARAM)windowData->GetHwnd());
+			SendMessage(m_pParent->hwnd, CM_ACTIVATENEXT, 0, (LPARAM)m_hwnd);
 			return 0;
 		}
 		break;

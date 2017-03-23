@@ -25,6 +25,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, MCONTACT hContact);
 void RegisterKeyBindings();
-int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CScriverWindow *windowData);
 
 #endif
