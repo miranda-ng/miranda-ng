@@ -26,6 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma warning(disable:4512)
 
+#include <time.h>
+
 #include <m_string.h>
 #include <m_chat.h>
 #include <m_gui.h>
@@ -408,7 +410,8 @@ protected:
 	CCtrlEdit *m_pLog, *m_pEntry;
 	SESSION_INFO *m_si;
 	COLORREF m_clrInputBG, m_clrInputFG;
-	
+	time_t m_iLastEnterTime;
+
 	CCtrlListBox m_nickList;
 	CCtrlButton m_btnColor, m_btnBkColor;
 	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline;

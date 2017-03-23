@@ -74,7 +74,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "richutil.h"
 #include "version.h"
 
-#define EM_SUBCLASSED (WM_USER+0x101)
 #define EM_ACTIVATE   (WM_USER+0x102)
 
 #define GC_SWITCHNEXTTAB (WM_USER+0x103)
@@ -210,11 +209,13 @@ class CChatRoomDlg : public CSrmmBaseDialog
 	friend struct CTabbedWindow;
 
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-	static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	HWND m_hwndStatus;
+	wchar_t szTabSave[20];
 
 	CCtrlEdit m_message, m_log;
 	CCtrlButton m_btnOk;

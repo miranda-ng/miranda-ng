@@ -50,8 +50,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 class CSrmmWindow : public CSrmmBaseDialog
 {
 	friend struct CTabbedWindow;
+	
 	static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	CCtrlButton m_btnOk;
 	CCtrlEdit m_log, m_message;
 	CSplitter m_splitter;
 
@@ -101,11 +105,14 @@ public:
 	virtual void OnDestroy() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual int Resizer(UTILRESIZECONTROL *urc) override;
 	
 	virtual void LoadSettings() override {}
 	virtual void UpdateTitle() override {}
 
 	void OnSplitterMoved(CSplitter*);
+
+	void onClick_Ok(CCtrlButton*);
 
 	void OnOptionsApplied(bool bUpdateAvatar);
 
