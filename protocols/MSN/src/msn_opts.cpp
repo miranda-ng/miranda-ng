@@ -89,12 +89,12 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			SetDlgItemTextA(hwndDlg, IDC_HANDLE, proto->MyOptions.szEmail);
 
-			char tBuffer[MAX_PATH];
-			if (!db_get_static(NULL, proto->m_szModuleName, "Password", tBuffer, sizeof(tBuffer))) {
-				tBuffer[16] = 0;
-				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, tBuffer);
+			char szPassword[100];
+			if (!db_get_static(NULL, proto->m_szModuleName, "Password", szPassword, sizeof(szPassword))) {
+				tBuffer[99] = 0;
+				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, szPassword);
 			}
-			SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_SETLIMITTEXT, 16, 0);
+			SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_SETLIMITTEXT, 99, 0);
 
 			HWND wnd = GetDlgItem(hwndDlg, IDC_HANDLE2);
 			DBVARIANT dbv;
@@ -115,6 +115,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MAILER_APP), tValue);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ENTER_MAILER_APP), tValue);
 
+			char tBuffer[MAX_PATH];
 			if (!db_get_static(NULL, proto->m_szModuleName, "MailerPath", tBuffer, sizeof(tBuffer)))
 				SetDlgItemTextA(hwndDlg, IDC_MAILER_APP, tBuffer);
 
@@ -514,12 +515,12 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			CMsnProto* proto = (CMsnProto*)lParam;
 			SetDlgItemTextA(hwndDlg, IDC_HANDLE, proto->MyOptions.szEmail);
 
-			char tBuffer[MAX_PATH];
-			if (!db_get_static(NULL, proto->m_szModuleName, "Password", tBuffer, sizeof(tBuffer))) {
-				tBuffer[16] = 0;
-				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, tBuffer);
+			char szPassword[100];
+			if (!db_get_static(NULL, proto->m_szModuleName, "Password", szPassword, sizeof(szPassword))) {
+				tBuffer[99] = 0;
+				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, szPassword);
 			}
-			SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_SETLIMITTEXT, 16, 0);
+			SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_SETLIMITTEXT, 99, 0);
 
 			DBVARIANT dbv;
 			if (!proto->getWString("Place", &dbv)) {

@@ -354,7 +354,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 	if (db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword)))
 		return 0;
 
-	szPassword[16] = 0;
+	szPassword[99] = 0;
 
 	time_t ts = time(NULL);
 
@@ -1009,7 +1009,7 @@ bool CMsnProto::parseLoginPage(char *pszHTML, NETLIBHTTPREQUEST *nlhr, CMStringA
 		char szPassword[100];
 		if (db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword)))
 			return false;
-		szPassword[16] = 0;
+		szPassword[99] = 0;
 		post->Format("PPFT=%s&login=%s&passwd=%s", ptrA(mir_urlEncode(pPPFT)), 
 			ptrA(mir_urlEncode(MyOptions.szEmail)), ptrA(mir_urlEncode(szPassword)));
 
