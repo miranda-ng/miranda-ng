@@ -237,6 +237,7 @@ struct SESSION_INFO;
 
 class CTabBaseDlg : public CSrmmBaseDialog
 {
+	typedef CSrmmBaseDialog CSuper;
 	friend class CInfoPanel;
 
 protected:
@@ -440,10 +441,15 @@ public:
 
 class CSrmmWindow : public CTabBaseDlg
 {
+	typedef CTabBaseDlg CSuper;
+
 	virtual CThumbBase* tabCreateThumb(CProxyWindow *pProxy) const override;
 	virtual void tabClearLog() override;
 
 	CCtrlButton m_btnOk, m_btnAdd, m_btnQuote, m_btnCancelAdd;
+
+	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	void LoadContactAvatar();
 	void LoadOwnAvatar();
@@ -482,19 +488,27 @@ public:
 
 class CChatRoomDlg : public CTabBaseDlg
 {
+	typedef CTabBaseDlg CSuper;
+
 	HWND m_hwndFilter;
 	CCtrlButton m_btnOk;
 
-	static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	virtual CThumbBase* tabCreateThumb(CProxyWindow *pProxy) const override;
 	virtual void tabClearLog() override;
 
-public:
+	bool TabAutoComplete();
+
 	int m_iSearchItem;
+	BOOL m_iSavedSpaces;
 	wchar_t m_wszSearch[255];
+	wchar_t *m_wszSearchQuery, *m_wszSearchResult;
+	SESSION_INFO *m_pLastSession;
 
 public:
 	CChatRoomDlg(SESSION_INFO*);
@@ -661,7 +675,6 @@ struct TIconDescW
 
 #define TM_USER                  (WM_USER+300)
 
-#define EM_SUBCLASSED            (TM_USER+0x101)
 #define EM_SEARCHSCROLLER        (TM_USER+0x103)
 #define EM_VALIDATEBOTTOM        (TM_USER+0x104)
 #define EM_THEMECHANGED          (TM_USER+0x105)

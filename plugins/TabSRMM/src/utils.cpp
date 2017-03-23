@@ -982,7 +982,7 @@ size_t Utils::CopyToClipBoard(const wchar_t *str, const HWND hwndOwner)
 
 LRESULT Utils::WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	LRESULT result = mir_callNextSubclass(hwnd, oldWndProc, msg, wParam, lParam);
+	LRESULT result = (oldWndProc == nullptr) ? 0 : mir_callNextSubclass(hwnd, oldWndProc, msg, wParam, lParam);
 
 	ptrA szFromStream(Message_GetFromStream(hwnd, SF_TEXT | SFF_SELECTION));
 	if (szFromStream != nullptr) {

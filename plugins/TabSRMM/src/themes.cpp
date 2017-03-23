@@ -1930,8 +1930,8 @@ UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID
 		ShowScrollBar(hwnd, SB_VERT, FALSE);
 	}
 
-	LRESULT orig = mir_callNextSubclass(hwnd, MyWndProc, msg, wParam, lParam);
-	if (0 == mwdat)
+	LRESULT orig = (MyWndProc == nullptr) ? WVR_REDRAW : mir_callNextSubclass(hwnd, MyWndProc, msg, wParam, lParam);
+	if (mwdat == nullptr)
 		return orig;
 
 	if (CSkin::m_skinEnabled) {
@@ -1970,8 +1970,8 @@ UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID
 UINT CSkin::DrawRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc)
 {
 	// do default processing (otherwise, NO scrollbar as it is painted in NC_PAINT)
-	LRESULT result = mir_callNextSubclass(hwnd, OldWndProc, msg, wParam, lParam);
-	if (0 == mwdat)
+	LRESULT result = (OldWndProc == nullptr) ? 0 : mir_callNextSubclass(hwnd, OldWndProc, msg, wParam, lParam);
+	if (mwdat == nullptr)
 		return result;
 
 	BOOL isEditNotesReason = ((mwdat->m_bEditNotesActive) && (skinID == ID_EXTBKINPUTAREA));
@@ -2023,8 +2023,7 @@ UINT CSkin::DrawRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID, 
 			FillRect(hdc, &rcWindow, br);
 			DeleteObject(br);
 		}
-		else
-			DrawThemeBackground(mwdat->m_hTheme, hdc, 1, 1, &rcWindow, &rcWindow);
+		else DrawThemeBackground(mwdat->m_hTheme, hdc, 1, 1, &rcWindow, &rcWindow);
 	}
 	ReleaseDC(hwnd, hdc);
 	return result;
