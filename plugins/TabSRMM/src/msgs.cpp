@@ -60,17 +60,6 @@ int SmileyAddOptionsChanged(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Message API 0.0.0.3 services
-
-static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
-{
-	char *szBuf = (char*)wParam;
-	size_t size = (size_t)lParam;
-	mir_snprintf(szBuf, size, "tabSRMM");
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // wparam = (MessageWindowInputData*)
 // lparam = (MessageWindowData*)
 // returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
@@ -1129,7 +1118,6 @@ static void TSAPI InitAPI()
 {
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
-	CreateServiceFunction(MS_MSG_GETWINDOWCLASS, GetWindowClass);
 	CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);
 	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
 

@@ -77,11 +77,6 @@ typedef struct {
 // Sets a statusbar line text for the appropriate contact
 #define MS_MSG_SETSTATUSTEXT "MessageAPI/SetStatusText"
 
-// wparam = (char*)szBuf
-// lparam = (int)cbSize size of buffer
-// Sets the window class name in wParam (ex. "SRMM" for srmm.dll)
-#define MS_MSG_GETWINDOWCLASS "MessageAPI/WindowClass"
-
 typedef struct {
 	int cbSize;
 	MCONTACT hContact;

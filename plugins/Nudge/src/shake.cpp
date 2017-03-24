@@ -50,10 +50,7 @@ INT_PTR ShakeChat(WPARAM wParam, LPARAM)
 	mwid.cbSize = sizeof(MessageWindowInputData);
 	mwid.hContact = mwd.hContact;
 	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-
-
 	CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd);
-	//CallService(MS_MSG_GETWINDOWCLASS,(WPARAM)srmmName,(LPARAM)100 );
 
 	HWND parent;
 	HWND hWnd = mwd.hwndWindow;

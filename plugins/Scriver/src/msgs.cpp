@@ -283,14 +283,6 @@ static void RestoreUnreadMessageAlerts(void)
 	}
 }
 
-static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
-{
-	char *szBuf = (char*)wParam;
-	size_t size = (size_t)lParam;
-	mir_snprintf(szBuf, size, "Scriver");
-	return 0;
-}
-
 static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
@@ -646,7 +638,6 @@ int OnLoadModule(void)
 
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommandW);
-	CreateServiceFunction(MS_MSG_GETWINDOWCLASS, GetWindowClass);
 	CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);
 	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
 	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);

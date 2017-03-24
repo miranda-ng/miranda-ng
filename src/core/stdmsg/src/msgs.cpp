@@ -477,14 +477,6 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
-{
-	char *szBuf = (char*)wParam;
-	int size = (int)lParam;
-	mir_snprintf(szBuf, size, SRMMMOD);
-	return 0;
-}
-
 static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd = WindowList_Find(pci->hWindowList, wParam);
@@ -552,7 +544,6 @@ int LoadSendRecvMessageModule(void)
 
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
-	CreateServiceFunction(MS_MSG_GETWINDOWCLASS, GetWindowClass);
 	CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);
 	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
 	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
