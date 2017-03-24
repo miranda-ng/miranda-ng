@@ -495,7 +495,7 @@ public:
 
 	__forceinline HWND GetHwnd() const { return m_hwnd; }
 	__forceinline int GetCtrlId() const { return m_idCtrl; }
-	__forceinline CDlgBase *GetParent() { return m_parentWnd; }
+	__forceinline CDlgBase *GetParent() const { return m_parentWnd; }
 	__forceinline bool IsChanged() const { return m_bChanged; }
 	__forceinline void SetSilent() { m_bSilent = true; }
 	__forceinline void UseSystemColors() { m_bUseSystemColors = true; }

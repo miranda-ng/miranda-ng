@@ -678,7 +678,7 @@ mir_wstrcmpi                  @280
 ?GetNumberOfWorkAreas@CCtrlListView@@QEAAHPEAI@Z @843 NONAME
 ?GetOrigin@CCtrlListView@@QEAAHPEAUtagPOINT@@@Z @844 NONAME
 ?GetOutlineColor@CCtrlListView@@QEAAKXZ @845 NONAME
-?GetParent@CCtrlBase@@QEAAPEAVCDlgBase@@XZ @846 NONAME
+?GetParent@CCtrlBase@@QEBAPEAVCDlgBase@@XZ @846 NONAME
 ?GetParent@CCtrlTreeView@@QEAAPEAU_TREEITEM@@PEAU2@@Z @847 NONAME
 ?GetPrevSibling@CCtrlTreeView@@QEAAPEAU_TREEITEM@@PEAU2@@Z @848 NONAME
 ?GetPrevVisible@CCtrlTreeView@@QEAAPEAU_TREEITEM@@PEAU2@@Z @849 NONAME
