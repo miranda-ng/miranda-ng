@@ -819,28 +819,23 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 	if (gcmi) {
 		if (!mir_strcmpi(gcmi->pszModule, m_szModuleName)) {
 			if (gcmi->Type == MENU_ON_LOG) {
-				if (mir_wstrcmpi(gcmi->pszID, SERVERWINDOW)) {
-					gcmi->nItems = _countof(logItems);
-					gcmi->Item = logItems;
-				}
-				else gcmi->nItems = 0;
+				if (mir_wstrcmpi(gcmi->pszID, SERVERWINDOW))
+					Chat_AddMenuItems(gcmi->hMenu, _countof(logItems), logItems);
 			}
 
 			if (gcmi->Type == MENU_ON_NICKLIST) {
 				CONTACT user = { (wchar_t*)gcmi->pszUID, NULL, NULL, false, false, false };
 				MCONTACT hContact = CList_FindContact(&user);
 
-				gcmi->nItems = _countof(nickItems);
-				gcmi->Item = nickItems;
 				BOOL bIsInList = (hContact && db_get_b(hContact, "CList", "NotOnList", 0) == 0);
-				gcmi->Item[gcmi->nItems - 1].bDisabled = bIsInList;
+				nickItems[_countof(nickItems)-1].bDisabled = bIsInList;
 
 				unsigned long ulAdr = 0;
 				if (m_manualHost)
 					ulAdr = ConvertIPToInteger(m_mySpecifiedHostIP);
 				else
 					ulAdr = ConvertIPToInteger(m_IPFromServer ? m_myHost : m_myLocalHost);
-				gcmi->Item[23].bDisabled = ulAdr == 0 ? TRUE : FALSE;	// DCC submenu
+				nickItems[23].bDisabled = ulAdr == 0 ? TRUE : FALSE;	// DCC submenu
 
 				CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, gcmi->pszID);
 				BOOL bServOwner = strchr(sUserModes.c_str(), 'q') == NULL ? FALSE : TRUE;
@@ -852,13 +847,13 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 
 				BOOL bForceEnable = GetAsyncKeyState(VK_CONTROL);
 
-				gcmi->Item[6].bDisabled /* "Control" submenu */ = !(bForceEnable || bHalfop || bOp || bAdmin || bOwner);
-				gcmi->Item[7].uType = gcmi->Item[8].uType = /* +/- Owner */ bServOwner ? MENU_POPUPITEM : 0;
-				gcmi->Item[9].uType = gcmi->Item[10].uType = /* +/- Admin */ bServAdmin ? MENU_POPUPITEM : 0;
-				gcmi->Item[7].bDisabled = gcmi->Item[8].bDisabled = gcmi->Item[9].bDisabled = gcmi->Item[10].bDisabled = /* +/- Owner/Admin */
-					!(bForceEnable || bOwner);
-				gcmi->Item[11].bDisabled = gcmi->Item[12].bDisabled = gcmi->Item[13].bDisabled = gcmi->Item[14].bDisabled = /* +/- Op/hop */
-					!(bForceEnable || bOp || bAdmin || bOwner);
+				nickItems[6].bDisabled = !(bForceEnable || bHalfop || bOp || bAdmin || bOwner);
+				nickItems[7].uType = nickItems[8].uType = bServOwner ? MENU_POPUPITEM : 0;
+				nickItems[9].uType = nickItems[10].uType = bServAdmin ? MENU_POPUPITEM : 0;
+				nickItems[7].bDisabled = nickItems[8].bDisabled = nickItems[9].bDisabled = nickItems[10].bDisabled = !(bForceEnable || bOwner);
+				nickItems[11].bDisabled = nickItems[12].bDisabled = nickItems[13].bDisabled = nickItems[14].bDisabled = !(bForceEnable || bOp || bAdmin || bOwner);
+
+				Chat_AddMenuItems(gcmi->hMenu, _countof(nickItems), nickItems);
 			}
 		}
 	}

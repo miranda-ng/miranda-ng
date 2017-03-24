@@ -11,7 +11,6 @@
 #define IDD_PREFS_OTHER                 113
 #define IDD_ADDSERVER                   120
 #define IDD_LIST                        123
-#define IDR_MENU                        129
 #define IDD_QUICKCONN                   133
 #define IDI_MAIN                        136
 #define IDD_USERINFO                    154

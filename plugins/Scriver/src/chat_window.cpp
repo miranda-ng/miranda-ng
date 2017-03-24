@@ -861,8 +861,8 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			SESSION_INFO *si = m_si;
 			CHARRANGE all = { 0, -1 };
-			HMENU hMenu = nullptr;
-			UINT uID = CreateGCMenu(m_log.GetHwnd(), &hMenu, 1, pt, si, nullptr, pszWord);
+			HMENU hMenu = GetSubMenu(g_hMenu, 1);
+			UINT uID = Chat_CreateGCMenu(m_log.GetHwnd(), hMenu, pt, si, nullptr, pszWord);
 			inMenu = FALSE;
 			switch (uID) {
 			case 0:
@@ -904,7 +904,7 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 				DoEventHook(GC_USER_LOGMENU, nullptr, nullptr, uID);
 				break;
 			}
-			DestroyGCMenu(&hMenu, 5);
+			Chat_DestroyGCMenu(hMenu, 5);
 		}
 		break;
 
@@ -950,14 +950,13 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, (int)item);
 			if (ui) {
-				HMENU hMenu = 0;
+				HMENU hMenu = GetSubMenu(g_hMenu, 0);
 				USERINFO uinew;
-
 				memcpy(&uinew, ui, sizeof(USERINFO));
 				if (hti.pt.x == -1 && hti.pt.y == -1)
 					hti.pt.y += height - 4;
 				ClientToScreen(m_nickList.GetHwnd(), &hti.pt);
-				UINT uID = CreateGCMenu(m_nickList.GetHwnd(), &hMenu, 0, hti.pt, m_si, uinew.pszUID, uinew.pszNick);
+				UINT uID = Chat_CreateGCMenu(m_nickList.GetHwnd(), hMenu, hti.pt, m_si, uinew.pszUID, uinew.pszNick);
 
 				switch (uID) {
 				case 0:
@@ -971,7 +970,7 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 					DoEventHook(GC_USER_NICKLISTMENU, ui, nullptr, uID);
 					break;
 				}
-				DestroyGCMenu(&hMenu, 1);
+				Chat_DestroyGCMenu(hMenu, 1);
 				return TRUE;
 			}
 		}

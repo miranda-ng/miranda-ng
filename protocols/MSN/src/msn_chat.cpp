@@ -574,8 +574,7 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 			{ LPGENW("&Invite user..."), 10, MENU_ITEM, FALSE },
 			{ LPGENW("&Leave chat session"), 20, MENU_ITEM, FALSE }
 		};
-		gcmi->nItems = _countof(Items);
-		gcmi->Item = (gc_item*)Items;
+		Chat_AddMenuItems(gcmi->hMenu, _countof(Items), Items);
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
 		char *email = mir_u2a(gcmi->pszUID);
@@ -587,8 +586,7 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 				{ L"", 100, MENU_SEPARATOR, FALSE },
 				{ LPGENW("&Leave chat session"), 110, MENU_ITEM, FALSE }
 			};
-			gcmi->nItems = _countof(Items);
-			gcmi->Item = (gc_item*)Items;
+			Chat_AddMenuItems(gcmi->hMenu, _countof(Items), Items);
 		}
 		else {
 			static struct gc_item Items[] =
@@ -608,8 +606,7 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 				if (pszRole && !mir_wstrcmpi(pszRole, L"admin"))
 					Items[3].pszDesc = LPGENW("&Deop user");
 			}
-			gcmi->nItems = _countof(Items);
-			gcmi->Item = (gc_item*)Items;
+			Chat_AddMenuItems(gcmi->hMenu, _countof(Items), Items);
 		}
 		mir_free(email);
 	}

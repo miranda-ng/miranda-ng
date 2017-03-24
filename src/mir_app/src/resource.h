@@ -585,7 +585,7 @@
 #define POPUP_GROUPHIDEOFFLINE          40006
 #define POPUP_HIDEOFFLINEROOT           40007
 #define POPUP_DISABLEGROUPS             40008
-#define IDC_SENDMESSAGE                 40009
+#define IDM_SENDMESSAGE                 40009
 #define IDM_COPYALL                     40011
 #define IDM_SELECTALL                   40012
 #define IDM_CLEAR                       40013

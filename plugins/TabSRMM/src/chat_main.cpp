@@ -206,6 +206,22 @@ static void CheckUpdate()
 	db_set_b(0, "Compatibility", "TabChatFonts", 3);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static gc_item tabItems[] =
+{
+	{ TranslateT("Highlight user..."), 20020, MENU_ITEM }
+};
+
+static int OnCreateGCMenu(WPARAM, LPARAM lParam)
+{
+	GCMENUITEMS *gcitems = (GCMENUITEMS*)lParam;
+	if (gcitems->Type == MENU_ON_NICKLIST)
+		Chat_AddMenuItems(gcitems->hMenu, _countof(tabItems), tabItems);
+	
+	return 0;
+}
+
 // load the module
 int Chat_Load()
 {
@@ -239,6 +255,7 @@ int Chat_Load()
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
 
+	HookEvent(ME_GC_BUILDMENU, OnCreateGCMenu);
 	g_Settings.Highlight = new CMUCHighlight();
 	return 0;
 }

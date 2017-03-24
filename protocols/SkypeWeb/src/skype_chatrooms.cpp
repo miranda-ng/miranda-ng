@@ -635,32 +635,21 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 			{ LPGENW("&Leave chat session"), 20, MENU_ITEM, FALSE },
 			{ LPGENW("&Change topic..."),    30, MENU_ITEM, FALSE }
 		};
-		gcmi->nItems = _countof(Items);
-		gcmi->Item = (gc_item*)Items;
+		Chat_AddMenuItems(gcmi->hMenu, _countof(Items), Items);
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST)
 	{
-/*		if (IsMe(_T2A(gcmi->pszUID)))
+		static const struct gc_item Items[] =
 		{
-			gcmi->nItems = 0;
-			gcmi->Item = NULL;
-		}
-		else
-		{*/
-			static const struct gc_item Items[] =
-			{
-				{ LPGENW("Kick &user"),     10, MENU_ITEM      },
-				{ NULL,                     0,  MENU_SEPARATOR },
-				{ LPGENW("Set &role"),      20, MENU_NEWPOPUP  },
-				{ LPGENW("&Admin"),         30, MENU_POPUPITEM },
-				{ LPGENW("&User"),          40, MENU_POPUPITEM },
-				{ LPGENW("Change nick..."), 50, MENU_ITEM },
-			};
-			gcmi->nItems = _countof(Items);
-			gcmi->Item = (gc_item*)Items;
-//		}
+			{ LPGENW("Kick &user"),     10, MENU_ITEM      },
+			{ NULL,                     0,  MENU_SEPARATOR },
+			{ LPGENW("Set &role"),      20, MENU_NEWPOPUP  },
+			{ LPGENW("&Admin"),         30, MENU_POPUPITEM },
+			{ LPGENW("&User"),          40, MENU_POPUPITEM },
+			{ LPGENW("Change nick..."), 50, MENU_ITEM },
+		};
+		Chat_AddMenuItems(gcmi->hMenu, _countof(Items), Items);
 	}
-
 
 	return 0;
 }

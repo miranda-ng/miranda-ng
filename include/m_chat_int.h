@@ -387,6 +387,10 @@ EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_MessageStreamCallback(DWORD_PTR dwCook
 // updates options for all windows
 EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions();
 
+// chat menu creation / destruction
+EXTERN_C MIR_APP_DLL(UINT) Chat_CreateGCMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszWordText);
+EXTERN_C MIR_APP_DLL(void) Chat_DestroyGCMenu(HMENU hMenu, int iIndex);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include <chat_resource.h>

@@ -348,8 +348,7 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 			{ LPGENW("&Invite user..."), 10, MENU_ITEM, FALSE },
 			{ LPGENW("&Leave chat session"), 20, MENU_ITEM, FALSE }
 		};
-		gcmi->nItems = _countof(Items);
-		gcmi->Item = (gc_item*)Items;
+		Chat_AddMenuItems(gcmi->hMenu, _countof(Items), Items);
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST)
 	{
@@ -364,8 +363,6 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 			};
 			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;*/
-			gcmi->nItems = 0;
-			gcmi->Item = NULL;
 		}
 		else
 		{
@@ -374,8 +371,7 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 				{ LPGENW("User &details"), 10, MENU_ITEM, FALSE },
 				{ LPGENW("User &history"), 20, MENU_ITEM, FALSE }
 			};
-			gcmi->nItems = _countof(Items);
-			gcmi->Item = (gc_item*)Items;
+			Chat_AddMenuItems(gcmi->hMenu, _countof(Items), Items);
 		}
 	}
 

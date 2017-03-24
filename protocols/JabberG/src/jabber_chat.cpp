@@ -350,38 +350,39 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Context menu hooks
 
-static gc_item *sttFindGcMenuItem(GCMENUITEMS *items, DWORD id)
+static gc_item *sttFindGcMenuItem(int nItems, gc_item *items, DWORD id)
 {
-	for (int i = 0; i < items->nItems; i++)
-		if (items->Item[i].dwID == id)
-			return items->Item + i;
-	return NULL;
+	for (int i = 0; i < nItems; i++)
+		if (items[i].dwID == id)
+			return items + i;
+	
+	return nullptr;
 }
 
-static void sttSetupGcMenuItem(GCMENUITEMS *items, DWORD id, bool disabled)
+static void sttSetupGcMenuItem(int nItems, gc_item *items, DWORD id, bool disabled)
 {
-	for (int i = 0; i < items->nItems; i++)
-		if (!id || (items->Item[i].dwID == id))
-			items->Item[i].bDisabled = disabled;
+	for (int i = 0; i < nItems; i++)
+		if (!id || (items[i].dwID == id))
+			items[i].bDisabled = disabled;
 }
 
-static void sttShowGcMenuItem(GCMENUITEMS *items, DWORD id, int type)
+static void sttShowGcMenuItem(int nItems, gc_item *items, DWORD id, int type)
 {
-	for (int i = 0; i < items->nItems; i++)
-		if (!id || (items->Item[i].dwID == id))
-			items->Item[i].uType = type;
+	for (int i = 0; i < nItems; i++)
+		if (!id || (items[i].dwID == id))
+			items[i].uType = type;
 }
 
-static void sttSetupGcMenuItems(GCMENUITEMS *items, DWORD *ids, bool disabled)
+static void sttSetupGcMenuItems(int nItems, gc_item *items, DWORD *ids, bool disabled)
 {
 	for (; *ids; ++ids)
-		sttSetupGcMenuItem(items, *ids, disabled);
+		sttSetupGcMenuItem(nItems, items, *ids, disabled);
 }
 
-static void sttShowGcMenuItems(GCMENUITEMS *items, DWORD *ids, int type)
+static void sttShowGcMenuItems(int nItems, gc_item *items, DWORD *ids, int type)
 {
 	for (; *ids; ++ids)
-		sttShowGcMenuItem(items, *ids, type);
+		sttShowGcMenuItem(nItems, items, *ids, type);
 }
 
 static gc_item sttLogListItems[] =
@@ -506,14 +507,11 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 	if (gcmi->Type == MENU_ON_LOG) {
 		static wchar_t url_buf[1024] = { 0 };
 
-		gcmi->nItems = _countof(sttLogListItems);
-		gcmi->Item = sttLogListItems;
-
 		static DWORD sttModeratorItems[] = { IDM_LST_PARTICIPANT, 0 };
 		static DWORD sttAdminItems[] = { IDM_LST_MODERATOR, IDM_LST_MEMBER, IDM_LST_ADMIN, IDM_LST_OWNER, IDM_LST_BAN, 0 };
 		static DWORD sttOwnerItems[] = { IDM_CONFIG, IDM_DESTROY, 0 };
 
-		sttSetupGcMenuItem(gcmi, 0, FALSE);
+		sttSetupGcMenuItem(_countof(sttLogListItems), sttLogListItems, 0, FALSE);
 
 		int idx = IDM_LINK0;
 		wchar_t *ptszStatusMsg = item->getTemp()->m_tszStatusMessage;
@@ -522,7 +520,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 			for (wchar_t *p = wcsstr(ptszStatusMsg, L"http"); p && *p; p = wcsstr(p + 1, L"http")) {
 				if (!wcsncmp(p, L"http://", 7) || !wcsncmp(p, L"https://", 8)) {
 					mir_wstrncpy(bufPtr, p, _countof(url_buf) - (bufPtr - url_buf));
-					gc_item *pItem = sttFindGcMenuItem(gcmi, idx);
+					gc_item *pItem = sttFindGcMenuItem(_countof(sttLogListItems), sttLogListItems, idx);
 					pItem->pszDesc = bufPtr;
 					pItem->uType = MENU_POPUPITEM;
 					for (; *bufPtr && !iswspace(*bufPtr); ++bufPtr);
@@ -534,28 +532,26 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 			}
 		}
 		for (; idx <= IDM_LINK9; ++idx)
-			sttFindGcMenuItem(gcmi, idx)->uType = 0;
+			sttFindGcMenuItem(_countof(sttLogListItems), sttLogListItems, idx)->uType = 0;
 
 		if (!GetAsyncKeyState(VK_CONTROL)) {
 			if (me) {
-				sttSetupGcMenuItems(gcmi, sttModeratorItems, (me->m_role < ROLE_MODERATOR));
-				sttSetupGcMenuItems(gcmi, sttAdminItems, (me->m_affiliation < AFFILIATION_ADMIN));
-				sttSetupGcMenuItems(gcmi, sttOwnerItems, (me->m_affiliation < AFFILIATION_OWNER));
+				sttSetupGcMenuItems(_countof(sttLogListItems), sttLogListItems, sttModeratorItems, (me->m_role < ROLE_MODERATOR));
+				sttSetupGcMenuItems(_countof(sttLogListItems), sttLogListItems, sttAdminItems, (me->m_affiliation < AFFILIATION_ADMIN));
+				sttSetupGcMenuItems(_countof(sttLogListItems), sttLogListItems, sttOwnerItems, (me->m_affiliation < AFFILIATION_OWNER));
 			}
 			if (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVATE_STORAGE)
-				sttSetupGcMenuItem(gcmi, IDM_BOOKMARKS, FALSE);
+				sttSetupGcMenuItem(_countof(sttLogListItems), sttLogListItems, IDM_BOOKMARKS, FALSE);
 		}
+		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems);
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
-		gcmi->nItems = _countof(sttListItems);
-		gcmi->Item = sttListItems;
-
 		static DWORD sttRJidItems[] = { IDM_RJID_VCARD, IDM_RJID_ADD, IDM_RJID_COPY, 0 };
 
 		if (me && him) {
 			int i, idx;
 			BOOL force = GetAsyncKeyState(VK_CONTROL);
-			sttSetupGcMenuItem(gcmi, 0, FALSE);
+			sttSetupGcMenuItem(_countof(sttListItems), sttListItems, 0, FALSE);
 
 			idx = IDM_LINK0;
 			LISTFOREACH_NODEF(i, this, LIST_CHATROOM)
@@ -563,7 +559,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 					if (!item->bChatActive)
 						continue;
 
-					gc_item *pItem = sttFindGcMenuItem(gcmi, idx);
+					gc_item *pItem = sttFindGcMenuItem(_countof(sttListItems), sttListItems, idx);
 					pItem->pszDesc = item->jid;
 					pItem->uType = MENU_POPUPITEM;
 					if (++idx > IDM_LINK9)
@@ -571,16 +567,16 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 				}
 
 			for (; idx <= IDM_LINK9; ++idx)
-				sttFindGcMenuItem(gcmi, idx)->uType = 0;
+				sttFindGcMenuItem(_countof(sttListItems), sttListItems, idx)->uType = 0;
 
 			for (i = 0; i < _countof(sttAffiliationItems); i++) {
-				gc_item *pItem = sttFindGcMenuItem(gcmi, sttAffiliationItems[i].id);
+				gc_item *pItem = sttFindGcMenuItem(_countof(sttListItems), sttListItems, sttAffiliationItems[i].id);
 				pItem->uType = (him->m_affiliation == sttAffiliationItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
 				pItem->bDisabled = !(force || sttAffiliationItems[i].check(me, him));
 			}
 
 			for (i = 0; i < _countof(sttRoleItems); i++) {
-				gc_item *pItem = sttFindGcMenuItem(gcmi, sttRoleItems[i].id);
+				gc_item *pItem = sttFindGcMenuItem(_countof(sttListItems), sttListItems, sttRoleItems[i].id);
 				pItem->uType = (him->m_role == sttRoleItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
 				pItem->bDisabled = !(force || sttRoleItems[i].check(me, him));
 			}
@@ -590,38 +586,39 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 				if (wchar_t *tmp = wcschr(sttRJidBuf, '/')) *tmp = 0;
 
 				if (MCONTACT hContact = HContactFromJID(him->m_tszRealJid)) {
-					gcmi->Item[3].uType = MENU_HMENU;
-					gcmi->Item[3].dwID = (INT_PTR)Menu_BuildContactMenu(hContact);
-					sttShowGcMenuItems(gcmi, sttRJidItems, 0);
+					sttListItems[3].uType = MENU_HMENU;
+					sttListItems[3].dwID = (INT_PTR)Menu_BuildContactMenu(hContact);
+					sttShowGcMenuItems(_countof(sttListItems), sttListItems, sttRJidItems, 0);
 				}
 				else {
-					gcmi->Item[3].uType = MENU_NEWPOPUP;
-					sttShowGcMenuItems(gcmi, sttRJidItems, MENU_POPUPITEM);
+					sttListItems[3].uType = MENU_NEWPOPUP;
+					sttShowGcMenuItems(_countof(sttListItems), sttListItems, sttRJidItems, MENU_POPUPITEM);
 				}
 
-				sttSetupGcMenuItem(gcmi, IDM_CPY_RJID, FALSE);
+				sttSetupGcMenuItem(_countof(sttListItems), sttListItems, IDM_CPY_RJID, FALSE);
 			}
 			else {
-				gcmi->Item[3].uType = 0;
-				sttShowGcMenuItems(gcmi, sttRJidItems, 0);
+				sttListItems[3].uType = 0;
+				sttShowGcMenuItems(_countof(sttListItems), sttListItems, sttRJidItems, 0);
 
-				sttSetupGcMenuItem(gcmi, IDM_CPY_RJID, TRUE);
+				sttSetupGcMenuItem(_countof(sttListItems), sttListItems, IDM_CPY_RJID, TRUE);
 			}
 
 			if (!force) {
 				if (me->m_role < ROLE_MODERATOR || (me->m_affiliation <= him->m_affiliation))
-					sttSetupGcMenuItem(gcmi, IDM_KICK, TRUE);
+					sttSetupGcMenuItem(_countof(sttListItems), sttListItems, IDM_KICK, TRUE);
 
 				if ((me->m_affiliation < AFFILIATION_ADMIN) ||
 					(me->m_affiliation == AFFILIATION_ADMIN) && (me->m_affiliation <= him->m_affiliation))
-					sttSetupGcMenuItem(gcmi, IDM_SET_BAN, TRUE);
+					sttSetupGcMenuItem(_countof(sttListItems), sttListItems, IDM_SET_BAN, TRUE);
 			}
 		}
 		else {
-			sttSetupGcMenuItem(gcmi, 0, TRUE);
-			gcmi->Item[2].uType = 0;
-			sttShowGcMenuItems(gcmi, sttRJidItems, 0);
+			sttSetupGcMenuItem(_countof(sttListItems), sttListItems, 0, TRUE);
+			sttListItems[2].uType = 0;
+			sttShowGcMenuItems(_countof(sttListItems), sttListItems, sttRJidItems, 0);
 		}
+		Chat_AddMenuItems(gcmi->hMenu, _countof(sttListItems), sttListItems);
 	}
 
 	return 0;

@@ -367,7 +367,7 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 		}
 		break;
-	case IDC_SENDMESSAGE:
+	case IDM_SENDMESSAGE:
 		{
 			MCONTACT hContact = (MCONTACT)CallProtoServiceInt(0, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);

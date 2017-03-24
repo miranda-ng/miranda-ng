@@ -147,8 +147,6 @@ void ShowRoom(SESSION_INFO *si);
 int  GetColorIndex(const char* pszModule, COLORREF cr);
 void CheckColorsInModule(const char* pszModule);
 int  GetRichTextLength(HWND hwnd);
-UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText);
-void DestroyGCMenu(HMENU *hMenu, int iIndex);
 void SetButtonsPos(HWND hwndDlg, bool bIsChat);
 int  RestoreWindowPosition(HWND hwnd, MCONTACT hContact, bool bHide);
 

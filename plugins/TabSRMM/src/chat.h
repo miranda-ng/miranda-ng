@@ -131,8 +131,6 @@ wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2);
 int      GetRichTextLength(HWND hwnd);
 bool     IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
 char     GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex);
-UINT     CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText);
-void     DestroyGCMenu(HMENU *hMenu, int iIndex);
 void     Chat_SetFilters(SESSION_INFO *si);
 void     DoFlashAndSoundWorker(FLASH_PARAMS* p);
 BOOL     DoPopup(SESSION_INFO *si, GCEVENT* gce);

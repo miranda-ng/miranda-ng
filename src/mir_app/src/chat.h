@@ -38,6 +38,7 @@ extern int g_cbSession, g_cbModuleInfo, g_iFontMode, g_iChatLang;
 extern wchar_t *g_szFontGroup;
 extern mir_cs csChat;
 
+extern HCURSOR g_hCurHyperlinkHand;
 extern char* pLogIconBmpBits[14];
 extern LIST<SESSION_INFO> g_arSessions;
 
@@ -79,9 +80,6 @@ INT_PTR  JoinChat(WPARAM wParam, LPARAM lParam);
 INT_PTR  LeaveChat(WPARAM wParam, LPARAM lParam);
 int      PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 
-// colorchooser.c
-void     ColorChooser(SESSION_INFO *si, BOOL bFG, HWND hwndDlg, HWND hwndTarget, HWND hwndChooser);
-
 // options.c
 int      OptionsInit(void);
 int      OptionsUnInit(void);
@@ -106,8 +104,6 @@ int      GetColorIndex(const char *pszModule, COLORREF cr);
 void     CheckColorsInModule(const char *pszModule);
 int      GetRichTextLength(HWND hwnd);
 bool     IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
-UINT     CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText);
-void     DestroyGCMenu(HMENU *hMenu, int iIndex);
 BOOL     DoEventHook(SESSION_INFO *si, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem);
 BOOL     IsEventSupported(int eventType);
 BOOL     LogToFile(SESSION_INFO *si, GCEVENT *gce);

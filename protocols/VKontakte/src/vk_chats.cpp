@@ -797,14 +797,11 @@ int CVkProto::OnGcMenuHook(WPARAM, LPARAM lParam)
 	if (mir_strcmpi(gcmi->pszModule, m_szModuleName))
 		return 0;
 
-	if (gcmi->Type == MENU_ON_LOG) {
-		gcmi->nItems = _countof(sttLogListItems);
-		gcmi->Item = sttLogListItems;
-	}
-	else if (gcmi->Type == MENU_ON_NICKLIST) {
-		gcmi->nItems = _countof(sttListItems);
-		gcmi->Item = sttListItems;
-	}
+	if (gcmi->Type == MENU_ON_LOG)
+		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems);
+	else if (gcmi->Type == MENU_ON_NICKLIST)
+		Chat_AddMenuItems(gcmi->hMenu, _countof(sttListItems), sttListItems);
+
 	return 0;
 }
 

@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "chat.h"
 #include <m_history.h>
 
-extern HCURSOR g_hCurHyperlinkHand;
-
 CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si)
 	: CDlgBase(hInst, idDialog),
 	m_log(this, IDC_SRMM_LOG),
@@ -156,8 +154,6 @@ static LRESULT CALLBACK stubMessageProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 	return mir_callNextSubclass(hwnd, stubMessageProc, msg, wParam, lParam);
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // process mouse - hovering for the nickname list.fires events so the protocol can

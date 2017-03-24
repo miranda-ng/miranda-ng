@@ -749,3 +749,96 @@ MIR_APP_DLL(wchar_t*) Chat_UnescapeTags(wchar_t *str_in)
 	*d = 0;
 	return str_in;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(void) Chat_AddMenuItems(HMENU hMenu, int nItems, const gc_item *Item)
+{
+	if (nItems > 0)
+		AppendMenu(hMenu, MF_SEPARATOR, 0, 0);
+
+	HMENU hSubMenu = nullptr;
+	for (int i = 0; i < nItems; i++) {
+		wchar_t *ptszText = TranslateW(Item[i].pszDesc);
+		DWORD dwState = Item[i].bDisabled ? MF_GRAYED : 0;
+
+		if (Item[i].uType == MENU_NEWPOPUP) {
+			hSubMenu = CreateMenu();
+			AppendMenu(hMenu, dwState | MF_POPUP, (UINT_PTR)hSubMenu, ptszText);
+		}
+		else if (Item[i].uType == MENU_POPUPHMENU)
+			AppendMenu(hSubMenu == 0 ? hMenu : hSubMenu, dwState | MF_POPUP, Item[i].dwID, ptszText);
+		else if (Item[i].uType == MENU_POPUPITEM)
+			AppendMenu(hSubMenu == 0 ? hMenu : hSubMenu, dwState | MF_STRING, Item[i].dwID, ptszText);
+		else if (Item[i].uType == MENU_POPUPCHECK)
+			AppendMenu(hSubMenu == 0 ? hMenu : hSubMenu, dwState | MF_CHECKED | MF_STRING, Item[i].dwID, ptszText);
+		else if (Item[i].uType == MENU_POPUPSEPARATOR)
+			AppendMenu(hSubMenu == 0 ? hMenu : hSubMenu, MF_SEPARATOR, 0, ptszText);
+		else if (Item[i].uType == MENU_SEPARATOR)
+			AppendMenu(hMenu, MF_SEPARATOR, 0, ptszText);
+		else if (Item[i].uType == MENU_HMENU)
+			AppendMenu(hMenu, dwState | MF_POPUP, Item[i].dwID, ptszText);
+		else if (Item[i].uType == MENU_ITEM)
+			AppendMenu(hMenu, dwState | MF_STRING, Item[i].dwID, ptszText);
+		else if (Item[i].uType == MENU_CHECK)
+			AppendMenu(hMenu, dwState | MF_CHECKED | MF_STRING, Item[i].dwID, ptszText);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(UINT) Chat_CreateGCMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszWordText)
+{
+	GCMENUITEMS gcmi = {};
+	gcmi.pszID = si->ptszID;
+	gcmi.pszModule = si->pszModule;
+	gcmi.pszUID = (wchar_t*)pszUID;
+	gcmi.hMenu = hMenu;
+
+	if (pszUID == nullptr) {
+		int iLen = GetRichTextLength(hwnd);
+
+		EnableMenuItem(hMenu, IDM_CLEAR, MF_ENABLED);
+		EnableMenuItem(hMenu, IDM_COPYALL, MF_ENABLED);
+		if (!iLen) {
+			EnableMenuItem(hMenu, IDM_COPYALL, MF_BYCOMMAND | MF_GRAYED);
+			EnableMenuItem(hMenu, IDM_CLEAR, MF_BYCOMMAND | MF_GRAYED);
+		}
+
+		if (pszWordText && pszWordText[0]) {
+			wchar_t szMenuText[4096];
+			mir_snwprintf(szMenuText, TranslateT("Look up '%s':"), pszWordText);
+			ModifyMenu(hMenu, 4, MF_STRING | MF_BYPOSITION, 4, szMenuText);
+		}
+		else ModifyMenu(hMenu, 4, MF_STRING | MF_GRAYED | MF_BYPOSITION, 4, TranslateT("No word to look up"));
+		gcmi.Type = MENU_ON_LOG;
+	}
+	else {
+		wchar_t szTemp[50];
+		if (pszWordText)
+			mir_snwprintf(szTemp, TranslateT("&Message %s"), pszWordText);
+		else
+			mir_wstrncpy(szTemp, TranslateT("&Message"), _countof(szTemp) - 1);
+
+		if (mir_wstrlen(szTemp) > 40)
+			mir_wstrncpy(szTemp + 40, L"...", 4);
+		ModifyMenu(hMenu, IDM_SENDMESSAGE, MF_STRING | MF_BYCOMMAND, IDM_SENDMESSAGE, szTemp);
+		gcmi.Type = MENU_ON_NICKLIST;
+	}
+
+	NotifyEventHooks(chatApi.hBuildMenuEvent, 0, (WPARAM)&gcmi);
+
+	return TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
+}
+
+MIR_APP_DLL(void) Chat_DestroyGCMenu(HMENU hMenu, int iIndex)
+{
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = sizeof(mii);
+	mii.fMask = MIIM_SUBMENU;
+	while (GetMenuItemInfo(hMenu, iIndex, TRUE, &mii)) {
+		if (mii.hSubMenu != nullptr)
+			DestroyMenu(mii.hSubMenu);
+		RemoveMenu(hMenu, iIndex, MF_BYPOSITION);
+	}
+}

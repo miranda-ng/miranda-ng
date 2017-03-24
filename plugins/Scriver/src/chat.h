@@ -84,8 +84,6 @@ char          SM_GetStatusIndicator(SESSION_INFO *si, USERINFO *ui);
 // tools.c
 BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
 wchar_t*      my_strstri(const wchar_t* s1, const wchar_t* s2) ;
-UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText);
-void          DestroyGCMenu(HMENU *hMenu, int iIndex);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

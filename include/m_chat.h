@@ -538,12 +538,13 @@ typedef struct {
 	LPWSTR   pszID;     // The unique identifier of the session that triggered the hook, do NOT change.
 	LPWSTR   pszUID;    // Contains the unique identifier if Type = MENU_ON_NICKLIST. do NOT change.
    int      Type;      // Type of menu. MENU_ON_* flags used. do NOT change.
-   int      nItems;    // Set this to the number of menu items you want to add
-   gc_item *Item;      // pointer to the first in the array of gc_item's
+	HMENU    hMenu;     // pass this handle to a call of Srmm_AddMenuItems
 }
 	GCMENUITEMS;
 
 #define ME_GC_BUILDMENU  "GChat/BuildMenu"
+
+EXTERN_C MIR_APP_DLL(void) Chat_AddMenuItems(HMENU hMenu, int nItems, const gc_item *Item);
 
 //////////////////////////////////////////////////////////////////////////
 // Get Chat ToolTip Text for buddy

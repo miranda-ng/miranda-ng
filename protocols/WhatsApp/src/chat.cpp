@@ -273,14 +273,10 @@ int WhatsAppProto::OnChatMenu(WPARAM, LPARAM lParam)
 	if (mir_strcmpi(gcmi->pszModule, m_szModuleName))
 		return 0;
 
-	if (gcmi->Type == MENU_ON_LOG) {
-		gcmi->nItems = _countof(sttLogListItems);
-		gcmi->Item = sttLogListItems;
-	}
-	else if (gcmi->Type == MENU_ON_NICKLIST) {
-		gcmi->nItems = _countof(sttNickListItems);
-		gcmi->Item = sttNickListItems;
-	}
+	if (gcmi->Type == MENU_ON_LOG)
+		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems);
+	else if (gcmi->Type == MENU_ON_NICKLIST)
+		Chat_AddMenuItems(gcmi->hMenu, _countof(sttNickListItems), sttNickListItems);
 
 	return 0;
 }
