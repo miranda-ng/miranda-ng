@@ -398,59 +398,57 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 	BOOL bottomScroll = TRUE;
 	POINT scrollPos;
 
-	HWND hwndLog = GetDlgItem(m_hwnd, IDC_LOG);
-
-	SendMessage(hwndLog, WM_SETREDRAW, FALSE, 0);
-	SendMessage(hwndLog, EM_EXGETSEL, 0, (LPARAM)&oldSel);
+	m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
+	m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
 	LogStreamData streamData = {};
 	streamData.hContact = m_hContact;
 	streamData.hDbEvent = hDbEventFirst;
 	streamData.dlgDat = this;
 	streamData.eventsToInsert = count;
-	streamData.isEmpty = !bAppend || GetWindowTextLength(hwndLog) == 0;
+	streamData.isEmpty = !bAppend || GetWindowTextLength(m_log.GetHwnd()) == 0;
 
 	EDITSTREAM stream = {};
 	stream.pfnCallback = LogStreamInEvents;
 	stream.dwCookie = (DWORD_PTR)&streamData;
 
 	if (!streamData.isEmpty) {
-		bottomScroll = (GetFocus() != hwndLog);
-		if (bottomScroll && (GetWindowLongPtr(hwndLog, GWL_STYLE) & WS_VSCROLL)) {
+		bottomScroll = (GetFocus() != m_log.GetHwnd());
+		if (bottomScroll && (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL)) {
 			SCROLLINFO si = {};
 			si.cbSize = sizeof(si);
 			si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
-			GetScrollInfo(hwndLog, SB_VERT, &si);
+			GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si);
 			bottomScroll = (si.nPos + (int)si.nPage) >= si.nMax;
 		}
 		if (!bottomScroll)
-			SendMessage(hwndLog, EM_GETSCROLLPOS, 0, (LPARAM)&scrollPos);
+			m_log.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&scrollPos);
 	}
 	if (bAppend) {
 		sel.cpMin = sel.cpMax = -1;
-		SendMessage(hwndLog, EM_EXSETSEL, 0, (LPARAM)&sel);
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 	}
 
 	mir_strcpy(szSep2, bAppend ? "\\par\\sl0" : "\\sl1000");
 	mir_strcpy(szSep2_RTL, bAppend ? "\\rtlpar\\rtlmark\\par\\sl1000" : "\\sl1000");
 
-	SendMessage(hwndLog, EM_STREAMIN, bAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)&stream);
+	m_log.SendMsg(EM_STREAMIN, bAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)&stream);
 	if (bottomScroll) {
 		sel.cpMin = sel.cpMax = -1;
-		SendMessage(hwndLog, EM_EXSETSEL, 0, (LPARAM)&sel);
-		if (GetWindowLongPtr(hwndLog, GWL_STYLE) & WS_VSCROLL) {
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+		if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
 			SendMessage(m_hwnd, DM_SCROLLLOGTOBOTTOM, 0, 0);
 			PostMessage(m_hwnd, DM_SCROLLLOGTOBOTTOM, 0, 0);
 		}
 	}
 	else {
-		SendMessage(hwndLog, EM_EXSETSEL, 0, (LPARAM)&oldSel);
-		SendMessage(hwndLog, EM_SETSCROLLPOS, 0, (LPARAM)&scrollPos);
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldSel);
+		m_log.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&scrollPos);
 	}
 
-	SendMessage(hwndLog, WM_SETREDRAW, TRUE, 0);
+	m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
 	if (bottomScroll)
-		RedrawWindow(hwndLog, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+		RedrawWindow(m_log.GetHwnd(), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 
 	m_hDbEventLast = streamData.hDbEventLast;
 }

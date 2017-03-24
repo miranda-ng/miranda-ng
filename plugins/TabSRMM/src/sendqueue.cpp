@@ -104,8 +104,8 @@ entry_found:
 	HWND	hwndDlg = dat->GetHwnd();
 
 	dat->m_cache->saveHistory(0, 0);
-	::SetDlgItemText(hwndDlg, IDC_MESSAGE, L"");
-	::SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
+	::SetDlgItemText(hwndDlg, IDC_SRMM_MESSAGE, L"");
+	::SetFocus(GetDlgItem(hwndDlg, IDC_SRMM_MESSAGE));
 
 	UpdateSaveAndSendButton(dat);
 	sendQueued(dat, iFound);
@@ -216,7 +216,7 @@ int SendQueue::sendQueued(CTabBaseDlg *dat, const int iEntry)
 		if (iSendLength >= iMinLength) {
 			wchar_t	tszError[256];
 			mir_snwprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), iMinLength);
-			::SendMessage(dat->GetHwnd(), DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
+			::SendMessage(dat->GetHwnd(), DM_ACTIVATETOOLTIP, IDC_SRMM_MESSAGE, LPARAM(tszError));
 			sendQueue->clearJob(iEntry);
 			return 0;
 		}
@@ -271,7 +271,7 @@ int SendQueue::sendQueued(CTabBaseDlg *dat, const int iEntry)
 			size_t iSendLength = getSendLength(iEntry);
 			if ((int)iSendLength >= dat->m_nMax) {
 				mir_snwprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->m_nMax);
-				SendMessage(dat->GetHwnd(), DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
+				SendMessage(dat->GetHwnd(), DM_ACTIVATETOOLTIP, IDC_SRMM_MESSAGE, LPARAM(tszError));
 				clearJob(iEntry);
 				return 0;
 			}
@@ -374,7 +374,7 @@ void SendQueue::EnableSending(const CTabBaseDlg *dat, bool bMode)
 {
 	if (dat) {
 		HWND hwndDlg = dat->GetHwnd();
-		::SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETREADONLY, !bMode, 0);
+		::SendDlgItemMessage(hwndDlg, IDC_SRMM_MESSAGE, EM_SETREADONLY, !bMode, 0);
 		Utils::enableDlgControl(hwndDlg, IDC_CLIST, bMode);
 		dat->EnableSendButton(bMode);
 	}
@@ -416,16 +416,16 @@ void SendQueue::recallFailed(const CTabBaseDlg *dat, int iEntry) const
 	if (dat == nullptr)
 		return;
 
-	int iLen = GetWindowTextLength(GetDlgItem(dat->GetHwnd(), IDC_MESSAGE));
+	int iLen = GetWindowTextLength(GetDlgItem(dat->GetHwnd(), IDC_SRMM_MESSAGE));
 	NotifyDeliveryFailure(dat);
 	if (iLen != 0)
 		return;
 
 	// message area is empty, so we can recall the failed message...
 	SETTEXTEX stx = { ST_DEFAULT, CP_UTF8 };
-	SendDlgItemMessage(dat->GetHwnd(), IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_jobs[iEntry].szSendBuffer);
+	SendDlgItemMessage(dat->GetHwnd(), IDC_SRMM_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_jobs[iEntry].szSendBuffer);
 	UpdateSaveAndSendButton(const_cast<CTabBaseDlg *>(dat));
-	SendDlgItemMessage(dat->GetHwnd(), IDC_MESSAGE, EM_SETSEL, (WPARAM)-1, (LPARAM)-1);
+	SendDlgItemMessage(dat->GetHwnd(), IDC_SRMM_MESSAGE, EM_SETSEL, (WPARAM)-1, (LPARAM)-1);
 }
 
 void SendQueue::UpdateSaveAndSendButton(CTabBaseDlg *dat)
@@ -437,7 +437,7 @@ void SendQueue::UpdateSaveAndSendButton(CTabBaseDlg *dat)
 		gtxl.codepage = CP_UTF8;
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
 
-		int len = SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
+		int len = SendDlgItemMessage(hwndDlg, IDC_SRMM_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 		if (len && GetSendButtonState(hwndDlg) == PBS_DISABLED)
 			dat->EnableSendButton(TRUE);
 		else if (len == 0 && GetSendButtonState(hwndDlg) != PBS_DISABLED)

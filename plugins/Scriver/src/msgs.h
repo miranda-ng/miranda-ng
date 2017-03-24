@@ -108,7 +108,6 @@ class CSrmmWindow : public CScriverWindow
 {
 	typedef CScriverWindow CSuper;
 
-	CCtrlEdit m_log, m_message;
 	CCtrlButton m_btnOk, m_btnAdd, m_btnUserMenu, m_btnQuote, m_btnDetails;
 	CSplitter m_splitter;
 
@@ -188,7 +187,6 @@ class CChatRoomDlg : public CScriverWindow
 {
 	typedef CScriverWindow CSuper;
 
-	CCtrlEdit m_message, m_log;
 	CCtrlButton m_btnOk;
 	CSplitter m_splitterX, m_splitterY;
 

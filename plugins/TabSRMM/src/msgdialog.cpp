@@ -32,7 +32,7 @@
 
 bool IsStringValidLink(wchar_t *pszText);
 
-static const UINT sendControls[] = { IDC_MESSAGE, IDC_LOG };
+static const UINT sendControls[] = { IDC_SRMM_MESSAGE, IDC_SRMM_LOG };
 static const UINT formatControls[] = { IDC_SRMM_BOLD, IDC_SRMM_ITALICS, IDC_SRMM_UNDERLINE, IDC_FONTSTRIKEOUT };
 static const UINT addControls[] = { IDC_ADD, IDC_CANCELADD };
 static const UINT btnControls[] = { IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER, IDC_ADD, IDC_CANCELADD };
@@ -40,24 +40,24 @@ static const UINT errorControls[] = { IDC_STATICERRORICON, IDC_STATICTEXT, IDC_R
 
 static COLORREF rtfDefColors[] = { RGB(255, 0, 0), RGB(0, 0, 255), RGB(0, 255, 0), RGB(255, 0, 255), RGB(255, 255, 0), RGB(0, 255, 255), 0, RGB(255, 255, 255) };
 
-static struct
+struct
 {
 	int id;
 	const wchar_t* text;
 }
-tooltips[] =
+static tooltips[] =
 {
 	{ IDC_ADD, LPGENW("Add this contact permanently to your contact list") },
 	{ IDC_CANCELADD, LPGENW("Do not add this contact permanently") },
 	{ IDC_TOGGLESIDEBAR, LPGENW("Expand or collapse the side bar") }
 };
 
-static struct
+struct
 {
 	int id;
 	HICON *pIcon;
 }
-buttonicons[] =
+static buttonicons[] =
 {
 	{ IDC_ADD, &PluginConfig.g_buttonBarIcons[ICON_BUTTON_ADD] },
 	{ IDC_CANCELADD, &PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL] }
@@ -72,106 +72,97 @@ static void _clrMsgFilter(MSGFILTER *m)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // show a modified context menu for the richedit control(s)
-// @param dat			message window data
-// @param idFrom		dlg ctrl id
-// @param hwndFrom		src window handle
-// @param pt			mouse pointer position
 
-static void ShowPopupMenu(CTabBaseDlg *dat, int idFrom, HWND hwndFrom, POINT pt)
+void CTabBaseDlg::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 {
 	CHARRANGE sel, all = { 0, -1 };
-	HWND hwndDlg = dat->GetHwnd();
 
 	HMENU hSubMenu, hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
-	if (idFrom == IDC_LOG)
+	if (pCtrl.GetCtrlId() == IDC_SRMM_LOG)
 		hSubMenu = GetSubMenu(hMenu, 0);
 	else {
 		hSubMenu = GetSubMenu(hMenu, 2);
-		EnableMenuItem(hSubMenu, IDM_PASTEFORMATTED, MF_BYCOMMAND | (dat->m_SendFormat != 0 ? MF_ENABLED : MF_GRAYED));
+		EnableMenuItem(hSubMenu, IDM_PASTEFORMATTED, MF_BYCOMMAND | (m_SendFormat != 0 ? MF_ENABLED : MF_GRAYED));
 		EnableMenuItem(hSubMenu, ID_EDITOR_PASTEANDSENDIMMEDIATELY, MF_BYCOMMAND | (PluginConfig.m_PasteAndSend ? MF_ENABLED : MF_GRAYED));
 		CheckMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, MF_BYCOMMAND | (PluginConfig.m_visualMessageSizeIndicator ? MF_CHECKED : MF_UNCHECKED));
-		EnableMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, MF_BYCOMMAND | (dat->m_pContainer->hwndStatus ? MF_ENABLED : MF_GRAYED));
+		EnableMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, MF_BYCOMMAND | (m_pContainer->hwndStatus ? MF_ENABLED : MF_GRAYED));
 	}
 	TranslateMenu(hSubMenu);
-	SendMessage(hwndFrom, EM_EXGETSEL, 0, (LPARAM)&sel);
+	pCtrl.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
 	if (sel.cpMin == sel.cpMax) {
 		EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
 		EnableMenuItem(hSubMenu, IDM_QUOTE, MF_BYCOMMAND | MF_GRAYED);
-		if (idFrom == IDC_MESSAGE)
+		if (pCtrl.GetCtrlId() == IDC_SRMM_MESSAGE)
 			EnableMenuItem(hSubMenu, IDM_CUT, MF_BYCOMMAND | MF_GRAYED);
 	}
 
-	if (idFrom == IDC_LOG) {
+	if (pCtrl.GetCtrlId() == IDC_SRMM_LOG) {
 		InsertMenuA(hSubMenu, 6, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
-		CheckMenuItem(hSubMenu, ID_LOG_FREEZELOG, MF_BYCOMMAND | (dat->m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(hSubMenu, ID_LOG_FREEZELOG, MF_BYCOMMAND | (m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED ? MF_CHECKED : MF_UNCHECKED));
 	}
 
 	MessageWindowPopupData mwpd;
-	if (idFrom == IDC_LOG || idFrom == IDC_MESSAGE) {
-		// First notification
-		mwpd.cbSize = sizeof(mwpd);
-		mwpd.uType = MSG_WINDOWPOPUP_SHOWING;
-		mwpd.uFlags = (idFrom == IDC_LOG ? MSG_WINDOWPOPUP_LOG : MSG_WINDOWPOPUP_INPUT);
-		mwpd.hContact = dat->m_hContact;
-		mwpd.hwnd = hwndFrom;
-		mwpd.hMenu = hSubMenu;
-		mwpd.selection = 0;
-		mwpd.pt = pt;
-		NotifyEventHooks(PluginConfig.m_event_MsgPopup, 0, (LPARAM)&mwpd);
-	}
+	// First notification
+	mwpd.cbSize = sizeof(mwpd);
+	mwpd.uType = MSG_WINDOWPOPUP_SHOWING;
+	mwpd.uFlags = (pCtrl.GetCtrlId() == IDC_SRMM_LOG ? MSG_WINDOWPOPUP_LOG : MSG_WINDOWPOPUP_INPUT);
+	mwpd.hContact = m_hContact;
+	mwpd.hwnd = pCtrl.GetHwnd();
+	mwpd.hMenu = hSubMenu;
+	mwpd.selection = 0;
+	mwpd.pt = pt;
+	NotifyEventHooks(PluginConfig.m_event_MsgPopup, 0, (LPARAM)&mwpd);
 
-	int iSelection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
+	int iSelection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr);
 
-	if (idFrom == IDC_LOG || idFrom == IDC_MESSAGE) {
-		// Second notification
-		mwpd.selection = iSelection;
-		mwpd.uType = MSG_WINDOWPOPUP_SELECTED;
-		NotifyEventHooks(PluginConfig.m_event_MsgPopup, 0, (LPARAM)&mwpd);
-	}
+	// Second notification
+	mwpd.selection = iSelection;
+	mwpd.uType = MSG_WINDOWPOPUP_SELECTED;
+	NotifyEventHooks(PluginConfig.m_event_MsgPopup, 0, (LPARAM)&mwpd);
 
 	switch (iSelection) {
 	case IDM_COPY:
-		SendMessage(hwndFrom, WM_COPY, 0, 0);
+		pCtrl.SendMsg(WM_COPY, 0, 0);
 		break;
 	case IDM_CUT:
-		SendMessage(hwndFrom, WM_CUT, 0, 0);
+		pCtrl.SendMsg(WM_CUT, 0, 0);
 		break;
 	case IDM_PASTE:
 	case IDM_PASTEFORMATTED:
-		if (idFrom == IDC_MESSAGE)
-			SendMessage(hwndFrom, EM_PASTESPECIAL, (iSelection == IDM_PASTE) ? CF_UNICODETEXT : 0, 0);
+		if (pCtrl.GetCtrlId() == IDC_SRMM_MESSAGE)
+			pCtrl.SendMsg(EM_PASTESPECIAL, (iSelection == IDM_PASTE) ? CF_UNICODETEXT : 0, 0);
 		break;
 	case IDM_COPYALL:
-		SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
-		SendMessage(hwndFrom, WM_COPY, 0, 0);
-		SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&sel);
+		pCtrl.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
+		pCtrl.SendMsg(WM_COPY, 0, 0);
+		pCtrl.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 		break;
 	case IDM_QUOTE:
-		SendMessage(hwndDlg, WM_COMMAND, IDC_QUOTE, 0);
+		SendMessage(m_hwnd, WM_COMMAND, IDC_QUOTE, 0);
 		break;
 	case IDM_SELECTALL:
-		SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
+		pCtrl.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
 		break;
 	case IDM_CLEAR:
-		dat->tabClearLog();
+		tabClearLog();
 		break;
 	case ID_LOG_FREEZELOG:
-		SendDlgItemMessage(hwndDlg, IDC_LOG, WM_KEYDOWN, VK_F12, 0);
+		SendDlgItemMessage(m_hwnd, IDC_SRMM_LOG, WM_KEYDOWN, VK_F12, 0);
 		break;
 	case ID_EDITOR_SHOWMESSAGELENGTHINDICATOR:
 		PluginConfig.m_visualMessageSizeIndicator = !PluginConfig.m_visualMessageSizeIndicator;
 		db_set_b(0, SRMSGMOD_T, "msgsizebar", (BYTE)PluginConfig.m_visualMessageSizeIndicator);
 		M.BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 0);
-		SendMessage(hwndDlg, WM_SIZE, 0, 0);
-		if (dat->m_pContainer->hwndStatus)
-			RedrawWindow(dat->m_pContainer->hwndStatus, 0, 0, RDW_INVALIDATE | RDW_UPDATENOW);
+		SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		if (m_pContainer->hwndStatus)
+			RedrawWindow(m_pContainer->hwndStatus, 0, 0, RDW_INVALIDATE | RDW_UPDATENOW);
 		break;
 	case ID_EDITOR_PASTEANDSENDIMMEDIATELY:
-		dat->HandlePasteAndSend();
+		HandlePasteAndSend();
 		break;
 	}
 
-	if (idFrom == IDC_LOG)
+	if (pCtrl.GetCtrlId() == IDC_SRMM_LOG)
 		RemoveMenu(hSubMenu, 7, MF_BYPOSITION);
 	DestroyMenu(hMenu);
 }
@@ -231,7 +222,7 @@ LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 					wParam != VK_MENU  && wParam != VK_END  && wParam != VK_HOME &&
 					wParam != VK_UP    && wParam != VK_DOWN && wParam != VK_LEFT &&
 					wParam != VK_RIGHT && wParam != VK_TAB  && wParam != VK_SPACE) {
-					SetFocus(GetDlgItem(mwdat->GetHwnd(), IDC_MESSAGE));
+					SetFocus(GetDlgItem(mwdat->GetHwnd(), IDC_SRMM_MESSAGE));
 					keybd_event((BYTE)wParam, (BYTE)MapVirtualKey(wParam, 0), KEYEVENTF_EXTENDEDKEY | 0, 0);
 					return 0;
 				}
@@ -376,56 +367,55 @@ void TSAPI ShowMultipleControls(HWND hwndDlg, const UINT *controls, int cControl
 		Utils::showDlgControl(hwndDlg, controls[i], state);
 }
 
-void TSAPI SetDialogToType(HWND hwndDlg)
+void CTabBaseDlg::SetDialogToType()
 {
-	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	if (dat->m_hContact) {
-		if (db_get_b(dat->m_hContact, "CList", "NotOnList", 0)) {
-			dat->m_bNotOnList = true;
-			ShowMultipleControls(hwndDlg, addControls, _countof(addControls), SW_SHOW);
-			Utils::showDlgControl(hwndDlg, IDC_LOGFROZENTEXT, SW_SHOW);
-			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, TranslateT("Contact not on list. You may add it..."));
+	if (m_hContact) {
+		if (db_get_b(m_hContact, "CList", "NotOnList", 0)) {
+			m_bNotOnList = true;
+			ShowMultipleControls(m_hwnd, addControls, _countof(addControls), SW_SHOW);
+			Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, SW_SHOW);
+			SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, TranslateT("Contact not on list. You may add it..."));
 		}
 		else {
-			ShowMultipleControls(hwndDlg, addControls, _countof(addControls), SW_HIDE);
-			dat->m_bNotOnList = false;
-			Utils::showDlgControl(hwndDlg, IDC_LOGFROZENTEXT, SW_HIDE);
+			ShowMultipleControls(m_hwnd, addControls, _countof(addControls), SW_HIDE);
+			m_bNotOnList = false;
+			Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, SW_HIDE);
 		}
 	}
 
-	Utils::enableDlgControl(hwndDlg, IDC_TIME, true);
+	Utils::enableDlgControl(m_hwnd, IDC_TIME, true);
 
-	if (dat->m_hwndIEView || dat->m_hwndHPP) {
-		Utils::showDlgControl(hwndDlg, IDC_LOG, SW_HIDE);
-		Utils::enableDlgControl(hwndDlg, IDC_LOG, false);
-		Utils::showDlgControl(hwndDlg, IDC_MESSAGE, SW_SHOW);
+	if (m_hwndIEView || m_hwndHPP) {
+		Utils::showDlgControl(m_hwnd, IDC_SRMM_LOG, SW_HIDE);
+		m_log.Enable(false);
+		Utils::showDlgControl(m_hwnd, IDC_SRMM_MESSAGE, SW_SHOW);
 	}
-	else ShowMultipleControls(hwndDlg, sendControls, _countof(sendControls), SW_SHOW);
+	else ShowMultipleControls(m_hwnd, sendControls, _countof(sendControls), SW_SHOW);
 
-	ShowMultipleControls(hwndDlg, errorControls, _countof(errorControls), dat->m_dwFlags & MWF_ERRORSTATE ? SW_SHOW : SW_HIDE);
+	ShowMultipleControls(m_hwnd, errorControls, _countof(errorControls), m_dwFlags & MWF_ERRORSTATE ? SW_SHOW : SW_HIDE);
 
-	if (!dat->m_SendFormat)
-		ShowMultipleControls(hwndDlg, formatControls, _countof(formatControls), SW_HIDE);
+	if (!m_SendFormat)
+		ShowMultipleControls(m_hwnd, formatControls, _countof(formatControls), SW_HIDE);
 
-	if (dat->m_pContainer->m_hwndActive == hwndDlg)
-		dat->UpdateReadChars();
+	if (m_pContainer->m_hwndActive == m_hwnd)
+		UpdateReadChars();
 
-	SetDlgItemText(hwndDlg, IDC_STATICTEXT, TranslateT("A message failed to send successfully."));
+	SetDlgItemText(m_hwnd, IDC_STATICTEXT, TranslateT("A message failed to send successfully."));
 
-	dat->DM_RecalcPictureSize();
-	dat->GetAvatarVisibility();
+	DM_RecalcPictureSize();
+	GetAvatarVisibility();
 
-	Utils::showDlgControl(hwndDlg, IDC_CONTACTPIC, dat->m_bShowAvatar ? SW_SHOW : SW_HIDE);
-	Utils::showDlgControl(hwndDlg, IDC_SPLITTERY, dat->m_bIsAutosizingInput ? SW_HIDE : SW_SHOW);
-	Utils::showDlgControl(hwndDlg, IDC_MULTISPLITTER, (dat->m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
+	Utils::showDlgControl(m_hwnd, IDC_CONTACTPIC, m_bShowAvatar ? SW_SHOW : SW_HIDE);
+	Utils::showDlgControl(m_hwnd, IDC_SPLITTERY, m_bIsAutosizingInput ? SW_HIDE : SW_SHOW);
+	Utils::showDlgControl(m_hwnd, IDC_MULTISPLITTER, (m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
 
-	dat->EnableSendButton(GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE)) != 0);
-	dat->UpdateTitle();
-	SendMessage(hwndDlg, WM_SIZE, 0, 0);
+	EnableSendButton(GetWindowTextLength(m_message.GetHwnd()) != 0);
+	UpdateTitle();
+	SendMessage(m_hwnd, WM_SIZE, 0, 0);
 
-	Utils::enableDlgControl(hwndDlg, IDC_CONTACTPIC, false);
+	Utils::enableDlgControl(m_hwnd, IDC_CONTACTPIC, false);
 
-	dat->m_pPanel.Configure();
+	m_pPanel.Configure();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -538,7 +528,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			case ID_SPLITTERCONTEXT_SETPOSITIONFORTHISSESSION:
 				if (dat->m_bIsAutosizingInput) {
-					GetWindowRect(GetDlgItem(dat->GetHwnd(), IDC_MESSAGE), &rc);
+					GetWindowRect(GetDlgItem(dat->GetHwnd(), IDC_SRMM_MESSAGE), &rc);
 					dat->m_iInputAreaHeight = 0;
 				}
 				break;
@@ -808,7 +798,7 @@ void CSrmmWindow::OnInitDialog()
 		}
 	}
 	if (wszInitialText) {
-		SetDlgItemTextW(m_hwnd, IDC_MESSAGE, wszInitialText);
+		m_message.SetText(wszInitialText);
 		int len = GetWindowTextLength(m_message.GetHwnd());
 		PostMessage(m_message.GetHwnd(), EM_SETSEL, len, len);
 		if (len)
@@ -1096,13 +1086,13 @@ void CSrmmWindow::onClick_Ok(CCtrlButton*)
 
 	// don't parse text formatting when the message contains curly braces - these are used by the rtf syntax
 	// and the parser currently cannot handle them properly in the text - XXX needs to be fixed later.
-	FINDTEXTEXA fi = { 0 };
+	FINDTEXTEX fi = { 0 };
 	fi.chrg.cpMin = 0;
 	fi.chrg.cpMax = -1;
-	fi.lpstrText = "{";
-	int final_sendformat = SendDlgItemMessageA(m_hwnd, IDC_MESSAGE, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) == -1 ? m_SendFormat : 0;
-	fi.lpstrText = "}";
-	final_sendformat = SendDlgItemMessageA(m_hwnd, IDC_MESSAGE, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) == -1 ? final_sendformat : 0;
+	fi.lpstrText = L"{";
+	int final_sendformat = m_message.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) == -1 ? m_SendFormat : 0;
+	fi.lpstrText = L"}";
+	final_sendformat = m_message.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) == -1 ? final_sendformat : 0;
 
 	if (GetSendButtonState(m_hwnd) == PBS_DISABLED)
 		return;
@@ -1167,7 +1157,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton*)
 				if (contacthwnd != m_hwnd) {
 					SETTEXTEX stx = { ST_DEFAULT, CP_UTF8 };
 					// send the buffer to the contacts msg typing area
-					SendDlgItemMessage(contacthwnd, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szFromStream);
+					SendDlgItemMessage(contacthwnd, IDC_SRMM_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szFromStream);
 					SendMessage(contacthwnd, WM_COMMAND, IDOK, 0);
 				}
 			}
@@ -1346,7 +1336,7 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.top = panelHeight - 2;
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
 
-	case IDC_LOG:
+	case IDC_SRMM_LOG:
 		if (m_dwFlags & MWF_ERRORSTATE)
 			urc->rcItem.bottom -= ERRORPANEL_HEIGHT;
 		if (m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED || m_bNotOnList)
@@ -1406,7 +1396,7 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 			urc->rcItem.right -= (m_pic.cx); // + DPISCALEX(2));
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_BOTTOM;
 
-	case IDC_MESSAGE:
+	case IDC_SRMM_MESSAGE:
 		urc->rcItem.right = urc->dlgNewSize.cx;
 		if (m_bShowAvatar)
 			urc->rcItem.right -= m_pic.cx + 2;
@@ -1716,15 +1706,15 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 	// tabulation mod
 	if (msg == WM_KEYDOWN && wp == VK_TAB) {
 		if (PluginConfig.m_bAllowTab) {
-			if (pFilter->nmhdr.idFrom == IDC_MESSAGE)
+			if (pFilter->nmhdr.idFrom == IDC_SRMM_MESSAGE)
 				m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)"\t");
 			_clrMsgFilter(pFilter);
-			if (pFilter->nmhdr.idFrom != IDC_MESSAGE)
+			if (pFilter->nmhdr.idFrom != IDC_SRMM_MESSAGE)
 				SetFocus(m_message.GetHwnd());
 			return _dlgReturn(m_hwnd, 1);
 		}
 
-		if (pFilter->nmhdr.idFrom == IDC_MESSAGE) {
+		if (pFilter->nmhdr.idFrom == IDC_SRMM_MESSAGE) {
 			if (GetSendButtonState(m_hwnd) != PBS_DISABLED && !(m_pContainer->dwFlags & CNT_HIDETOOLBAR))
 				SetFocus(GetDlgItem(m_hwnd, IDOK));
 			else
@@ -1732,7 +1722,7 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 			return _dlgReturn(m_hwnd, 1);
 		}
 
-		if (pFilter->nmhdr.idFrom == IDC_LOG) {
+		if (pFilter->nmhdr.idFrom == IDC_SRMM_LOG) {
 			SetFocus(m_message.GetHwnd());
 			return _dlgReturn(m_hwnd, 1);
 		}
@@ -1740,7 +1730,7 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 		return _dlgReturn(m_hwnd, 0);
 	}
 
-	if (msg == WM_MOUSEWHEEL && (pFilter->nmhdr.idFrom == IDC_LOG || pFilter->nmhdr.idFrom == IDC_MESSAGE)) {
+	if (msg == WM_MOUSEWHEEL && (pFilter->nmhdr.idFrom == IDC_SRMM_LOG || pFilter->nmhdr.idFrom == IDC_SRMM_MESSAGE)) {
 		GetCursorPos(&pt);
 		GetWindowRect(m_log.GetHwnd(), &rc);
 		if (PtInRect(&rc, pt)) {
@@ -1764,7 +1754,7 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 		}
 	}
 
-	if ((msg == WM_LBUTTONDOWN || msg == WM_KEYUP || msg == WM_LBUTTONUP) && pFilter->nmhdr.idFrom == IDC_MESSAGE) {
+	if ((msg == WM_LBUTTONDOWN || msg == WM_KEYUP || msg == WM_LBUTTONUP) && pFilter->nmhdr.idFrom == IDC_SRMM_MESSAGE) {
 		int bBold = IsDlgButtonChecked(m_hwnd, IDC_SRMM_BOLD);
 		int bItalic = IsDlgButtonChecked(m_hwnd, IDC_SRMM_ITALICS);
 		int bUnder = IsDlgButtonChecked(m_hwnd, IDC_SRMM_UNDERLINE);
@@ -1822,7 +1812,7 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 		// to the clipboard.
 		// holding ctrl while releasing the button pastes the selection to the input area, using plain text
 		// holding ctrl-alt does the same, but pastes formatted text
-		if (pFilter->nmhdr.idFrom == IDC_LOG && M.GetByte("autocopy", 1)) {
+		if (pFilter->nmhdr.idFrom == IDC_SRMM_LOG && M.GetByte("autocopy", 1)) {
 			CHARRANGE cr;
 			m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&cr);
 			if (cr.cpMax == cr.cpMin)
@@ -1889,20 +1879,20 @@ LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		KbdState(isShift, isCtrl, isAlt);
 		if (wParam == 0x03 && isCtrl) // Ctrl+C
 			return Utils::WMCopyHandler(m_log.GetHwnd(), nullptr, msg, wParam, lParam);
-		if (wParam == 0x11 && isCtrl)
-			SendMessage(GetHwnd(), WM_COMMAND, IDC_QUOTE, 0);
+		if (wParam == 0x11 && isCtrl) // Ctrl+Q
+			m_btnQuote.OnClick(&m_btnQuote);
 		break;
 
 	case WM_SYSKEYUP:
 		if (wParam == VK_MENU) {
-			ProcessHotkeysByMsgFilter(m_log.GetHwnd(), msg, wParam, lParam, IDC_LOG);
+			ProcessHotkeysByMsgFilter(m_log, msg, wParam, lParam);
 			return 0;
 		}
 		break;
 
 	case WM_SYSKEYDOWN:
 		m_bkeyProcessed = false;
-		if (ProcessHotkeysByMsgFilter(m_log.GetHwnd(), msg, wParam, lParam, IDC_LOG)) {
+		if (ProcessHotkeysByMsgFilter(m_log, msg, wParam, lParam)) {
 			m_bkeyProcessed = true;
 			return 0;
 		}
@@ -1944,7 +1934,7 @@ LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			pt.y = GET_Y_LPARAM(lParam);
 		}
 
-		ShowPopupMenu(this, IDC_LOG, m_log.GetHwnd(), pt);
+		ShowPopupMenu(m_log, pt);
 		return TRUE;
 	}
 
@@ -1989,15 +1979,15 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			switch (wParam) {
 			case 0x02:               // bold
 				if (m_SendFormat)
-					SendMessage(m_hwnd, WM_COMMAND, MAKELONG(IDC_SRMM_BOLD, IDC_MESSAGE), 0);
+					m_btnBold.OnClick(&m_btnBold);
 				return 0;
 			case 0x09:
 				if (m_SendFormat)
-					SendMessage(m_hwnd, WM_COMMAND, MAKELONG(IDC_SRMM_ITALICS, IDC_MESSAGE), 0);
+					m_btnItalic.OnClick(&m_btnItalic);
 				return 0;
 			case 21:
 				if (m_SendFormat)
-					SendMessage(m_hwnd, WM_COMMAND, MAKELONG(IDC_SRMM_UNDERLINE, IDC_MESSAGE), 0);
+					m_btnUnderline.OnClick(&m_btnUnderline);
 				return 0;
 			case 0x0b:
 				m_message.SetText(L"");
@@ -2022,7 +2012,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 						mir_snwprintf(szBuffer, TranslateT("WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters"), m_nMax - 10);
 					else
 						mir_snwprintf(szBuffer, TranslateT("The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent."), m_nMax);
-					SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)szBuffer);
+					SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_SRMM_MESSAGE, (LPARAM)szBuffer);
 				}
 			}
 			else if (hClip = GetClipboardData(CF_BITMAP))
@@ -2117,7 +2107,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 					wp = MAKEWPARAM(SB_LINEDOWN, 0);
 
 				if (m_hwndIEView == 0 && m_hwndHPP == 0)
-					SendDlgItemMessage(m_hwnd, IDC_LOG, WM_VSCROLL, wp, 0);
+					m_log.SendMsg(WM_VSCROLL, wp, 0);
 				else
 					SendMessage(m_hwndIWebBrowserControl, WM_VSCROLL, wp, 0);
 				return 0;
@@ -2126,7 +2116,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SYSKEYDOWN:
 		m_bkeyProcessed = false;
-		if (ProcessHotkeysByMsgFilter(m_message.GetHwnd(), msg, wParam, lParam, IDC_MESSAGE)) {
+		if (ProcessHotkeysByMsgFilter(m_message, msg, wParam, lParam)) {
 			m_bkeyProcessed = true;
 			return 0;
 		}
@@ -2134,7 +2124,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SYSKEYUP:
 		if (wParam == VK_MENU) {
-			ProcessHotkeysByMsgFilter(m_message.GetHwnd(), msg, wParam, lParam, IDC_MESSAGE);
+			ProcessHotkeysByMsgFilter(m_message, msg, wParam, lParam);
 			return 0;
 		}
 		break;
@@ -2189,7 +2179,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			pt.y = GET_Y_LPARAM(lParam);
 		}
 
-		ShowPopupMenu(this, IDC_MESSAGE, m_message.GetHwnd(), pt);
+		ShowPopupMenu(m_message, pt);
 		return TRUE;
 	}
 	return 0;
@@ -2230,7 +2220,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			if (CSkin::m_skinEnabled) {
 				UINT item_ids[2] = { ID_EXTBKHISTORY, ID_EXTBKINPUTAREA };
-				UINT ctl_ids[2] = { IDC_LOG, IDC_MESSAGE };
+				UINT ctl_ids[2] = { IDC_SRMM_LOG, IDC_SRMM_MESSAGE };
 				BOOL isEditNotesReason = m_bEditNotesActive;
 				BOOL isSendLaterReason = (m_sendMode & SMODE_SENDLATER);
 				BOOL isMultipleReason = (m_sendMode & SMODE_MULTIPLE || m_sendMode & SMODE_CONTAINER);
@@ -2410,8 +2400,8 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 
 		switch (((NMHDR*)lParam)->idFrom) {
-		case IDC_LOG:
-		case IDC_MESSAGE:
+		case IDC_SRMM_LOG:
+		case IDC_SRMM_MESSAGE:
 			switch (((NMHDR*)lParam)->code) {
 			case EN_MSGFILTER:
 				if (OnFilter((MSGFILTER*)lParam))
@@ -2468,7 +2458,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		if (lParam == 1) {
 			GetSendFormat();
-			SetDialogToType(m_hwnd);
+			SetDialogToType();
 		}
 
 		if (lParam == 1) {
@@ -2951,7 +2941,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				if (m_wStatus == ID_STATUS_OFFLINE) {
 					pcaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 					if (!(pcaps & PF4_OFFLINEFILES)) {
-						SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)TranslateT("Contact is offline and this protocol does not support sending files to offline users."));
+						SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_SRMM_MESSAGE, (LPARAM)TranslateT("Contact is offline and this protocol does not support sending files to offline users."));
 						break;
 					}
 				}
@@ -2977,7 +2967,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							mir_free(szFileName);
 						}
 						char *szHTTPText = "DEBUG";
-						SendDlgItemMessageA(m_hwnd, IDC_MESSAGE, EM_REPLACESEL, TRUE, (LPARAM)szHTTPText);
+						SendDlgItemMessageA(m_hwnd, IDC_SRMM_MESSAGE, EM_REPLACESEL, TRUE, (LPARAM)szHTTPText);
 						SetFocus(m_message.GetHwnd());
 					}
 				}

@@ -1088,7 +1088,7 @@ static void ReplaceIcons(HWND hwndDlg, CTabBaseDlg *dat, LONG startAt, int fAppe
 	TEXTRANGE tr;
 	tr.lpstrText = trbuffer;
 
-	HWND hwndrtf = GetDlgItem(hwndDlg, IDC_LOG);
+	HWND hwndrtf = GetDlgItem(hwndDlg, IDC_SRMM_LOG);
 
 	FINDTEXTEX fi;
 	fi.chrg.cpMin = startAt;

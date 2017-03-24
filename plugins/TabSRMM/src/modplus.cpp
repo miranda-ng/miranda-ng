@@ -73,12 +73,12 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 	ptrW pszText;
 	CHARRANGE cr;
 	cr.cpMin = cr.cpMax = 0;
-	SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&cr);
+	SendDlgItemMessage(cbcd->hwndFrom, IDC_SRMM_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&cr);
 	UINT textlenght = cr.cpMax - cr.cpMin;
 	if (textlenght) {
 		pszText = (wchar_t*)mir_alloc((textlenght + 1)*sizeof(wchar_t));
 		memset(pszText, 0, ((textlenght + 1) * sizeof(wchar_t)));
-		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_GETSELTEXT, 0, (LPARAM)pszText);
+		SendDlgItemMessage(cbcd->hwndFrom, IDC_SRMM_MESSAGE, EM_GETSELTEXT, 0, (LPARAM)pszText);
 	}
 
 	size_t bufSize;
@@ -107,7 +107,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	else if (textlenght) {
-		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_GETSELTEXT, 0, (LPARAM)pszText);
+		SendDlgItemMessage(cbcd->hwndFrom, IDC_SRMM_MESSAGE, EM_GETSELTEXT, 0, (LPARAM)pszText);
 
 		pwszFormatedText.Format(L"[img]%s[/img]", pszText);
 
@@ -130,7 +130,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (!pwszFormatedText.IsEmpty())
-		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_REPLACESEL, TRUE, (LPARAM)pwszFormatedText.c_str());
+		SendDlgItemMessage(cbcd->hwndFrom, IDC_SRMM_MESSAGE, EM_REPLACESEL, TRUE, (LPARAM)pwszFormatedText.c_str());
 	return 1;
 }
 

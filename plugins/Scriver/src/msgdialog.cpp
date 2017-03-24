@@ -102,8 +102,8 @@ void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 	mwe.szModule = SRMM_MODULE;
 	mwe.uType = type;
 	mwe.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-	mwe.hwndInput = GetDlgItem(hwnd, IDC_MESSAGE);
-	mwe.hwndLog = GetDlgItem(hwnd, IDC_LOG);
+	mwe.hwndInput = GetDlgItem(hwnd, IDC_SRMM_MESSAGE);
+	mwe.hwndLog = GetDlgItem(hwnd, IDC_SRMM_LOG);
 	NotifyEventHooks(hHookWinEvt, 0, (LPARAM)&mwe);
 }
 
@@ -189,8 +189,6 @@ static INT_PTR CALLBACK ConfirmSendAllDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming, const char *szInitialText, bool bIsUnicode)
 	: CScriverWindow(IDD_MSG),
 	m_bIncoming(bIncoming),
-	m_log(this, IDC_LOG),
-	m_message(this, IDC_MESSAGE),
 	m_splitter(this, IDC_SPLITTERY),
 
 	m_btnOk(this, IDOK),
@@ -199,8 +197,6 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming, const char *szInitia
 	m_btnDetails(this, IDC_DETAILS),
 	m_btnUserMenu(this, IDC_USERMENU)
 {
-	m_pLog = &m_log;
-	m_pEntry = &m_message;
 	m_hContact = hContact;
 
 	m_hwndParent = GetParentWindow(hContact, FALSE);
@@ -517,7 +513,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 	if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 		NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
-	SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
+	m_message.SetText(L"");
 	EnableWindow(GetDlgItem(m_hwnd, IDOK), FALSE);
 	if (db_get_b(0, SRMM_MODULE, SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
 		ShowWindow(m_hwndParent, SW_MINIMIZE);
@@ -1085,7 +1081,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_MOUSEWHEEL:
 		if ((GetWindowLongPtr(m_message.GetHwnd(), GWL_STYLE) & WS_VSCROLL) == 0)
-			SendDlgItemMessage(m_hwnd, IDC_LOG, WM_MOUSEWHEEL, wParam, lParam);
+			m_log.SendMsg(WM_MOUSEWHEEL, wParam, lParam);
 		break;
 
 	case WM_LBUTTONDOWN:
@@ -1703,7 +1699,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_NOTIFY:
 		pNmhdr = (LPNMHDR)lParam;
 		switch (pNmhdr->idFrom) {
-		case IDC_LOG:
+		case IDC_SRMM_LOG:
 			switch (pNmhdr->code) {
 			case EN_MSGFILTER:
 				{
@@ -1731,7 +1727,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 		
-		case IDC_MESSAGE:
+		case IDC_SRMM_MESSAGE:
 			if (pNmhdr->code == EN_MSGFILTER && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
 				SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
 				return TRUE;

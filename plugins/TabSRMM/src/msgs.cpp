@@ -120,15 +120,10 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 
 CTabBaseDlg::CTabBaseDlg(int iResource, SESSION_INFO *si)
 	: CSrmmBaseDialog(g_hInst, iResource, si),
-	m_log(this, IDC_LOG),
-	m_message(this, IDC_MESSAGE),
 	m_pPanel(this),
 	m_dwFlags(MWF_INITMODE),
 	m_iInputAreaHeight(-1)
 {
-	m_pLog = &m_log;
-	m_pEntry = &m_message;
-	
 	m_autoClose = CLOSE_ON_CANCEL;
 	m_forceResizable = true;
 }
@@ -531,7 +526,7 @@ INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar
 	HWND hwnd = M.FindWindow(hContact);
 	if (hwnd) {
 		if (pszMsg) {
-			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
+			HWND hEdit = GetDlgItem(hwnd, IDC_SRMM_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, GetWindowTextLength(hEdit));
 			if (isWchar)
 				SendMessageW(hEdit, EM_REPLACESEL, FALSE, (LPARAM)pszMsg);
@@ -665,7 +660,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 		SetForegroundWindow(pContainer->m_hwnd);
 
 	if (!dat->isChat())
-		SetFocus(GetDlgItem(hwndChild, IDC_MESSAGE));
+		SetFocus(GetDlgItem(hwndChild, IDC_SRMM_MESSAGE));
 	return TRUE;
 }
 

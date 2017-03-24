@@ -97,7 +97,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	switch (msg) {
 	case WM_CHAR:
 		{
-			HWND hwndMsg = GetDlgItem(GetParent(hwnd), IDC_MESSAGE);
+			HWND hwndMsg = GetDlgItem(GetParent(hwnd), IDC_SRMM_MESSAGE);
 			if (hwndMsg != hwnd) {
 				SetFocus(hwndMsg);
 				if (wParam != '\t') SendMessage(hwndMsg, WM_CHAR, wParam, lParam);

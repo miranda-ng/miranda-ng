@@ -116,7 +116,7 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
 
 	RECT rcWnd;
 	if (dat->m_pPanel.isActive())
-		GetWindowRect(GetDlgItem(dat->GetHwnd(), IDC_LOG), &rcWnd);
+		GetWindowRect(GetDlgItem(dat->GetHwnd(), IDC_SRMM_LOG), &rcWnd);
 	else
 		GetWindowRect(dat->GetHwnd(), &rcWnd);
 

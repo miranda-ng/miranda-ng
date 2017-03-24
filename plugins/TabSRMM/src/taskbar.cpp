@@ -327,7 +327,7 @@ void CProxyWindow::sendPreview()
 	HDC hdc, dc;
 	int twips = (int)(15.0f / PluginConfig.m_DPIscaleY);
 	bool fIsChat = m_dat->isChat();
-	HWND 	hwndRich = ::GetDlgItem(m_dat->GetHwnd(), IDC_LOG);
+	HWND 	hwndRich = ::GetDlgItem(m_dat->GetHwnd(), IDC_SRMM_LOG);
 	LONG 	cx, cy;
 	POINT	ptOrigin = { 0 }, ptBottom;
 
@@ -357,7 +357,7 @@ void CProxyWindow::sendPreview()
 		pt = m_dat->m_pContainer->ptLogSaved;
 	}
 
-	::GetWindowRect(::GetDlgItem(m_dat->m_pContainer->m_hwndActive, IDC_LOG), &rcTemp);
+	::GetWindowRect(::GetDlgItem(m_dat->m_pContainer->m_hwndActive, IDC_SRMM_LOG), &rcTemp);
 	ptBottom.x = rcTemp.left;
 	ptBottom.y = rcTemp.bottom;
 	::ScreenToClient(m_dat->m_pContainer->m_hwnd, &ptBottom);

@@ -108,14 +108,14 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT *ptClient, UINT uMsg, WPARAM wPa
 	if (bIsCustomLink) {
 		ENLINK enlink = { 0 };
 		enlink.nmhdr.hwndFrom = hwndDlg;
-		enlink.nmhdr.idFrom = IDC_LOG;
+		enlink.nmhdr.idFrom = IDC_SRMM_LOG;
 		enlink.nmhdr.code = EN_LINK;
 		enlink.msg = uMsg;
 		enlink.wParam = wParam;
 		enlink.lParam = lParam;
 		enlink.chrg.cpMin = cpMin;
 		enlink.chrg.cpMax = cpMax;
-		SendMessage(GetParent(hwndDlg), WM_NOTIFY, IDC_LOG, (LPARAM)&enlink);
+		SendMessage(GetParent(hwndDlg), WM_NOTIFY, IDC_SRMM_LOG, (LPARAM)&enlink);
 	}
 	return bIsCustomLink;
 }
@@ -212,7 +212,7 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 			else
 				SendMessage(m_hwnd, DM_SETLOCALE, 0, 0);
 		}
-		SetFocus(GetDlgItem(m_hwnd, IDC_MESSAGE));
+		SetFocus(m_message.GetHwnd());
 		m_dwLastActivity = GetTickCount();
 		m_pContainer->dwLastActivity = m_dwLastActivity;
 		m_pContainer->MenuBar->configureMenu();
@@ -285,7 +285,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.top = panelHeight - 2;
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
 
-	case IDC_LOG:
+	case IDC_SRMM_LOG:
 		urc->rcItem.top = 0;
 		urc->rcItem.left = 0;
 		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - iSplitterX : urc->dlgNewSize.cx;
@@ -345,7 +345,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.top++;
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
-	case IDC_MESSAGE:
+	case IDC_SRMM_MESSAGE:
 		urc->rcItem.right = urc->dlgNewSize.cx;
 		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3 + DPISCALEY_S(23);
 		urc->rcItem.bottom = urc->dlgNewSize.cy;
@@ -672,10 +672,10 @@ void CChatRoomDlg::onClick_OK(CCtrlButton*)
 	ptszText.Replace(L"%", L"%%");
 
 	if (mi->bAckMsg) {
-		Utils::enableDlgControl(m_hwnd, IDC_MESSAGE, false);
+		m_message.Enable(false);
 		m_message.SendMsg(EM_SETREADONLY, TRUE, 0);
 	}
-	else SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
+	else m_message.SetText(L"");
 
 	Utils::enableDlgControl(m_hwnd, IDOK, false);
 
@@ -1070,14 +1070,14 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SYSKEYUP:
 		if (wParam == VK_MENU) {
-			ProcessHotkeysByMsgFilter(m_log.GetHwnd(), msg, wParam, lParam, IDC_LOG);
+			ProcessHotkeysByMsgFilter(m_log, msg, wParam, lParam);
 			return 0;
 		}
 		break;
 
 	case WM_SYSKEYDOWN:
 		m_bkeyProcessed = false;
-		if (ProcessHotkeysByMsgFilter(m_log.GetHwnd(), msg, wParam, lParam, IDC_LOG)) {
+		if (ProcessHotkeysByMsgFilter(m_log, msg, wParam, lParam)) {
 			m_bkeyProcessed = true;
 			return 0;
 		}
@@ -1203,14 +1203,14 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SYSKEYUP:
 		if (wParam == VK_MENU) {
-			ProcessHotkeysByMsgFilter(m_message.GetHwnd(), msg, wParam, lParam, IDC_MESSAGE);
+			ProcessHotkeysByMsgFilter(m_message, msg, wParam, lParam);
 			return 0;
 		}
 		break;
 
 	case WM_SYSKEYDOWN:
 		m_bkeyProcessed = false;
-		if (ProcessHotkeysByMsgFilter(m_message.GetHwnd(), msg, wParam, lParam, IDC_MESSAGE)) {
+		if (ProcessHotkeysByMsgFilter(m_message, msg, wParam, lParam)) {
 			m_bkeyProcessed = true;
 			return 0;
 		}
@@ -1288,7 +1288,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				else if (wParam == VK_DOWN)
 					wp = MAKEWPARAM(SB_LINEDOWN, 0);
 
-				SendDlgItemMessage(m_hwnd, IDC_LOG, WM_VSCROLL, wp, 0);
+				m_log.SendMsg(WM_VSCROLL, wp, 0);
 				return 0;
 			}
 		}
@@ -1342,9 +1342,9 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 			if (!fCompleted && !PluginConfig.m_bAllowTab) {
 				if ((GetSendButtonState(GetHwnd()) != PBS_DISABLED))
-					SetFocus(GetDlgItem(GetHwnd(), IDOK));
+					SetFocus(m_btnOk.GetHwnd());
 				else
-					SetFocus(GetDlgItem(GetHwnd(), IDC_LOG));
+					SetFocus(m_log.GetHwnd());
 			}
 			return 0;
 		}
@@ -1361,8 +1361,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 
 		if (wParam == VK_NEXT || wParam == VK_PRIOR) {
-			HWND htemp = m_hwnd;
-			SendDlgItemMessage(htemp, IDC_LOG, msg, wParam, lParam);
+			m_log.SendMsg(msg, wParam, lParam);
 			m_iLastEnterTime = 0;
 			return 0;
 		}
@@ -2178,7 +2177,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					}
 				}
 
-				if (msg == WM_KEYDOWN && ((NMHDR*)lParam)->idFrom != IDC_MESSAGE) {
+				if (msg == WM_KEYDOWN && ((NMHDR*)lParam)->idFrom != IDC_SRMM_MESSAGE) {
 					if ((wp == VK_NEXT && isCtrl && !isShift) || (wp == VK_TAB && isCtrl && !isShift)) // CTRL-TAB (switch tab/window)
 						SendMessage(m_pContainer->m_hwnd, DM_SELECTTAB, DM_SELECT_NEXT, 0);
 					else if ((wp == VK_PRIOR && isCtrl && !isShift) || (wp == VK_TAB && isCtrl && isShift)) // CTRL_SHIFT-TAB (switch tab/window)
@@ -2186,13 +2185,13 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}					
 
 				if (msg == WM_KEYDOWN && wp == VK_TAB) {
-					if (((NMHDR*)lParam)->idFrom == IDC_LOG) {
+					if (((NMHDR*)lParam)->idFrom == IDC_SRMM_LOG) {
 						SetFocus(m_message.GetHwnd());
 						return _dlgReturn(m_hwnd, 1);
 					}
 				}
 
-				if (((LPNMHDR)lParam)->idFrom == IDC_LOG && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
+				if (((LPNMHDR)lParam)->idFrom == IDC_SRMM_LOG && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
 					CHARRANGE sel, all = { 0, -1 };
 
 					pt.x = LOWORD(((ENLINK*)lParam)->lParam), pt.y = HIWORD(((ENLINK*)lParam)->lParam);
@@ -2276,12 +2275,12 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case EN_REQUESTRESIZE:
-			if (((LPNMHDR)lParam)->idFrom == IDC_MESSAGE)
+			if (((LPNMHDR)lParam)->idFrom == IDC_SRMM_MESSAGE)
 				DM_HandleAutoSizeRequest((REQRESIZE *)lParam);
 			break;
 
 		case EN_LINK:
-			if (((LPNMHDR)lParam)->idFrom == IDC_LOG) {
+			if (((LPNMHDR)lParam)->idFrom == IDC_SRMM_LOG) {
 				switch (((ENLINK*)lParam)->msg) {
 				case WM_RBUTTONDOWN:
 				case WM_LBUTTONUP:
@@ -2461,11 +2460,11 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_ERASEBKGND:
 		RECT rcClient, rcWindow;
 		{
-			HDC  hdc = (HDC)wParam;
+			HDC hdc = (HDC)wParam;
 			UINT item_ids[3] = { ID_EXTBKUSERLIST, ID_EXTBKHISTORY, ID_EXTBKINPUTAREA };
-			UINT ctl_ids[3] = { IDC_SRMM_NICKLIST, IDC_LOG, IDC_MESSAGE };
-			HANDLE hbp = 0;
-			HDC hdcMem = 0;
+			UINT ctl_ids[3] = { IDC_SRMM_NICKLIST, IDC_SRMM_LOG, IDC_SRMM_MESSAGE };
+			HANDLE hbp = nullptr;
+			HDC hdcMem = nullptr;
 			HBITMAP hbm, hbmOld;
 
 			GetClientRect(m_hwnd, &rcClient);

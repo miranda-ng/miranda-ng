@@ -69,16 +69,16 @@ static HOTKEYDESC _hotkeydescs[] = {
 	{ 0, "tabsrmm_close_other", LPGEN("Close other tabs"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_CONTROL, 'W'), TABSRMM_HK_CLOSE_OTHER },
 };
 
-LRESULT ProcessHotkeysByMsgFilter(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, UINT_PTR ctrlId)
+LRESULT ProcessHotkeysByMsgFilter(const CCtrlBase &pCtrl, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	MSGFILTER mf;
 	mf.nmhdr.code = EN_MSGFILTER;
-	mf.nmhdr.hwndFrom = hwnd;
-	mf.nmhdr.idFrom = ctrlId;
+	mf.nmhdr.hwndFrom = pCtrl.GetHwnd();
+	mf.nmhdr.idFrom = pCtrl.GetCtrlId();
 	mf.lParam = lParam;
 	mf.wParam = wParam;
 	mf.msg = msg;
-	return SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&mf);
+	return SendMessage(pCtrl.GetParent()->GetHwnd(), WM_NOTIFY, 0, (LPARAM)&mf);
 }
 
 static INT_PTR HotkeyProcessor(WPARAM, LPARAM lParam)
@@ -117,7 +117,7 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 				ActivateExistingTab(pContainer, si->pDlg->GetHwnd());
 				if (GetForegroundWindow() != pContainer->m_hwnd)
 					SetForegroundWindow(pContainer->m_hwnd);
-				SetFocus(GetDlgItem(pContainer->m_hwndActive, IDC_MESSAGE));
+				SetFocus(GetDlgItem(pContainer->m_hwndActive, IDC_SRMM_MESSAGE));
 				return;
 			}
 		}
@@ -268,11 +268,11 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							if (IsIconic(pLastActiveContainer->m_hwnd) || !IsWindowVisible(pLastActiveContainer->m_hwnd)) {
 								SendMessage(pLastActiveContainer->m_hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
 								SetForegroundWindow(pLastActiveContainer->m_hwnd);
-								SetFocus(GetDlgItem(pLastActiveContainer->m_hwndActive, IDC_MESSAGE));
+								SetFocus(GetDlgItem(pLastActiveContainer->m_hwndActive, IDC_SRMM_MESSAGE));
 							}
 							else if (GetForegroundWindow() != pLastActiveContainer->m_hwnd) {
 								SetForegroundWindow(pLastActiveContainer->m_hwnd);
-								SetFocus(GetDlgItem(pLastActiveContainer->m_hwndActive, IDC_MESSAGE));
+								SetFocus(GetDlgItem(pLastActiveContainer->m_hwndActive, IDC_SRMM_MESSAGE));
 							}
 							else {
 								if (PluginConfig.m_bHideOnClose)

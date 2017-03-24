@@ -146,7 +146,7 @@ static INT_PTR SendMessageCommandWorker(MCONTACT hContact, LPCSTR pszMsg, bool i
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 	if (hwnd != nullptr) {
 		if (pszMsg) {
-			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
+			HWND hEdit = GetDlgItem(hwnd, IDC_SRMM_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, GetWindowTextLength(hEdit));
 			if (isWchar)
 				SendMessageW(hEdit, EM_REPLACESEL, FALSE, (LPARAM)pszMsg);

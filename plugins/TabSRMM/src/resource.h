@@ -68,7 +68,6 @@
 #define IDC_APPLY                       1001
 #define IDC_MAXIMIZE                    1001
 #define IDC_SKINFILE                    1002
-#define IDC_MESSAGE                     1002
 #define IDC_THEMEEXPORT                 1002
 #define IDC_THEMEEXPORT2                1003
 #define IDC_THEMEIMPORT                 1003
@@ -76,7 +75,6 @@
 #define IDC_EXPORT                      1005
 #define IDC_IMPORT                      1006
 #define IDC_PREVIEW                     1006
-#define IDC_LOG                         1006
 #define IDC_CHKNOTIFY_MESSAGE           1007
 #define IDC_FASTGRADIENT                1008
 #define IDC_SPLITTERY                   1008

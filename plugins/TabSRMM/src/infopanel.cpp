@@ -1261,7 +1261,7 @@ int CInfoPanel::invokeConfigDialog(const POINT &pt)
 			::GetClientRect(m_hwndConfig, &rc);
 
 			RECT rcLog;
-			::GetWindowRect(GetDlgItem(m_dat->GetHwnd(), m_isChat ? IDC_LOG : IDC_LOG), &rcLog);
+			::GetWindowRect(GetDlgItem(m_dat->GetHwnd(), IDC_SRMM_LOG), &rcLog);
 
 			m_fDialogCreated = true;
 			::SetWindowPos(m_hwndConfig, HWND_TOP, rcLog.left + 10, rcLog.top - (m_active ? 10 : 0), 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);

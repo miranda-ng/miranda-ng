@@ -113,11 +113,11 @@ INT_PTR SendMessageCmd(MCONTACT hContact, char *msg, int isWchar)
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 	if (hwnd) {
 		if (msg) {
-			SendDlgItemMessage(hwnd, IDC_MESSAGE, EM_SETSEL, -1, SendDlgItemMessage(hwnd, IDC_MESSAGE, WM_GETTEXTLENGTH, 0, 0));
+			SendDlgItemMessage(hwnd, IDC_SRMM_MESSAGE, EM_SETSEL, -1, SendDlgItemMessage(hwnd, IDC_SRMM_MESSAGE, WM_GETTEXTLENGTH, 0, 0));
 			if (isWchar)
-				SendDlgItemMessageW(hwnd, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)msg);
+				SendDlgItemMessageW(hwnd, IDC_SRMM_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)msg);
 			else
-				SendDlgItemMessageA(hwnd, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)msg);
+				SendDlgItemMessageA(hwnd, IDC_SRMM_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)msg);
 		}
 		ShowWindow(hwnd, SW_RESTORE);
 		SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);

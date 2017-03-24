@@ -241,8 +241,6 @@ class CTabBaseDlg : public CSrmmBaseDialog
 	friend class CInfoPanel;
 
 protected:
-	CCtrlEdit m_log, m_message;
-
 	virtual void LoadSettings() override;
 
 	void DM_AddDivider();
@@ -258,6 +256,7 @@ protected:
 	void GetSendFormat();
 	bool IsAutoSplitEnabled() const;
 	void ResizeIeView();
+	void ShowPopupMenu(const CCtrlBase&, POINT pt);
 
 public:
 	DWORD    m_dwFlags;
@@ -426,6 +425,7 @@ public:
 	void 	SendHBitmapAsFile(HBITMAP hbmp) const;
 	void  SaveSplitter();
 	void  SendNudge() const;
+	void  SetDialogToType();
 	void  SetMessageLog();
 	void  ShowPicture(bool showNewPic);
 	void  StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s);

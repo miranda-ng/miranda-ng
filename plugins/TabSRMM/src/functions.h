@@ -149,7 +149,7 @@ void  TN_TypingMessage(MCONTACT hContact, int iMode);
 
 // hotkeys
 
-LRESULT ProcessHotkeysByMsgFilter(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, UINT_PTR ctrlId);
+LRESULT ProcessHotkeysByMsgFilter(const CCtrlBase&, UINT msg, WPARAM wParam, LPARAM lParam);
 
 void TSAPI DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, DWORD dwIdle);
 

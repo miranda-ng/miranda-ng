@@ -63,8 +63,6 @@
 #define IDD_MODERNOPT_MSGDLG            288
 #define IDD_MODERNOPT_MSGLOG            289
 
-#define IDC_LOG                         1001
-#define IDC_MESSAGE                     1002
 #define IDC_SPLITTERX                   1003
 #define IDC_AUTOCLOSE                   1004
 #define IDC_AUTOMIN                     1005

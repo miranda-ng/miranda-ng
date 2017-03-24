@@ -136,7 +136,7 @@ char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si)
 	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
 
 	DWORD dwFlags = SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16);
-	SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_STREAMOUT, dwFlags, (LPARAM)&stream);
+	SendDlgItemMessage(hwndDlg, IDC_SRMM_MESSAGE, EM_STREAMOUT, dwFlags, (LPARAM)&stream);
 	return pszText; // pszText contains the text
 }
 
@@ -199,7 +199,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 	gcmi.pszUID = pszUID;
 
 	if (iIndex == 1) {
-		int i = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG));
+		int i = GetRichTextLength(GetDlgItem(hwndDlg, IDC_SRMM_LOG));
 
 		EnableMenuItem(*hMenu, ID_CLEARLOG, MF_ENABLED);
 		EnableMenuItem(*hMenu, ID_COPYALL, MF_ENABLED);

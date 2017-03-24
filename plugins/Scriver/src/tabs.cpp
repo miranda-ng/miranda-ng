@@ -792,7 +792,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			GetChildWindowRect(dat, &rcChild);
 			dat->childRect = rcChild;
 			MoveWindow(dat->hwndActive, rcChild.left, rcChild.top, rcChild.right - rcChild.left, rcChild.bottom - rcChild.top, TRUE);
-			RedrawWindow(GetDlgItem(dat->hwndActive, IDC_LOG), nullptr, nullptr, RDW_INVALIDATE);
+			RedrawWindow(GetDlgItem(dat->hwndActive, IDC_SRMM_LOG), nullptr, nullptr, RDW_INVALIDATE);
 			if (dat->flags2 & SMF2_SHOWSTATUSBAR) {
 				SendMessage(dat->hwndStatus, WM_SIZE, 0, 0);
 				RedrawWindow(dat->hwndStatus, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);

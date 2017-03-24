@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define ENTERCLICKTIME   1000   //max time in ms during which a double-tap on enter will cause a send
 
-static const UINT sendControls[] = { IDC_MESSAGE };
+static const UINT sendControls[] = { IDC_SRMM_MESSAGE };
 
 void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 {
@@ -45,8 +45,8 @@ void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 		mwe.szModule = SRMMMOD;
 		mwe.uType = type;
 		mwe.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-		mwe.hwndInput = GetDlgItem(hwnd, IDC_MESSAGE);
-		mwe.hwndLog = GetDlgItem(hwnd, IDC_LOG);
+		mwe.hwndInput = GetDlgItem(hwnd, IDC_SRMM_MESSAGE);
+		mwe.hwndLog = GetDlgItem(hwnd, IDC_SRMM_LOG);
 		NotifyEventHooks(hHookWinEvt, 0, (LPARAM)&mwe);
 	}
 }
@@ -117,15 +117,11 @@ static void SetEditorText(HWND hwnd, const wchar_t* txt)
 
 CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool noActivate, const char *szInitialText, bool bIsUnicode) :
 	CSrmmBaseDialog(g_hInst, IDD_MSG),
-	m_log(this, IDC_LOG),
-	m_message(this, IDC_MESSAGE),
 	m_splitter(this, IDC_SPLITTERY),
 	m_btnOk(this, IDOK),
 	m_cmdList(20),
 	m_bNoActivate(noActivate)
 {
-	m_pLog = &m_log;
-	m_pEntry = &m_message;
 	m_hContact = hContact;
 
 	m_btnOk.OnClick = Callback(this, &CSrmmWindow::onClick_Ok);
@@ -611,7 +607,7 @@ void CSrmmWindow::UpdateReadChars()
 int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
-	case IDC_LOG:
+	case IDC_SRMM_LOG:
 		if (!g_dat.bShowButtons)
 			urc->rcItem.top -= m_lineHeight;
 		urc->rcItem.bottom -= m_splitterPos - m_originalSplitterPos;
@@ -622,7 +618,7 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.bottom -= m_splitterPos - m_originalSplitterPos;
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
 
-	case IDC_MESSAGE:
+	case IDC_SRMM_MESSAGE:
 		if (!g_dat.bSendButton)
 			urc->rcItem.right = urc->dlgNewSize.cx - urc->rcItem.left;
 		if (g_dat.bShowAvatar && m_avatarPic)
@@ -1321,7 +1317,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), FALSE);
 			break;
 
-		case IDC_MESSAGE:
+		case IDC_SRMM_MESSAGE:
 			if (HIWORD(wParam) == EN_CHANGE) {
 				int len = GetWindowTextLength(m_message.GetHwnd());
 				UpdateReadChars();
@@ -1353,7 +1349,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		HCURSOR hCur;
 		switch (((LPNMHDR)lParam)->idFrom) {
-		case IDC_LOG:
+		case IDC_SRMM_LOG:
 			switch (((LPNMHDR)lParam)->code) {
 			case EN_MSGFILTER:
 				switch (((MSGFILTER *)lParam)->msg) {
@@ -1409,7 +1405,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				break;
 
 			case EN_VSCROLL:
-				if (LOWORD(wParam) == IDC_LOG && GetWindowLongPtr((HWND)lParam, GWL_STYLE) & WS_VSCROLL) {
+				if (LOWORD(wParam) == IDC_SRMM_LOG && GetWindowLongPtr((HWND)lParam, GWL_STYLE) & WS_VSCROLL) {
 					SCROLLINFO si = {};
 					si.cbSize = sizeof(si);
 					si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;

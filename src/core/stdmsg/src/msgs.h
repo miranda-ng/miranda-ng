@@ -57,7 +57,6 @@ class CSrmmWindow : public CSrmmBaseDialog
 	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	CCtrlButton m_btnOk;
-	CCtrlEdit m_log, m_message;
 	CSplitter m_splitter;
 
 	void NotifyTyping(int mode);

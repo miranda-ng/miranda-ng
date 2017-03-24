@@ -240,7 +240,7 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM)
 		m_iHistoryTop = (int)wParam;
 	}
 
-	char *szFromStream = ::Message_GetFromStream(GetDlgItem(m_dat->GetHwnd(), IDC_MESSAGE), SF_RTFNOOBJS | SFF_PLAINRTF | SF_NCRFORNONASCII);
+	char *szFromStream = ::Message_GetFromStream(GetDlgItem(m_dat->GetHwnd(), IDC_SRMM_MESSAGE), SF_RTFNOOBJS | SFF_PLAINRTF | SF_NCRFORNONASCII);
 	if (szFromStream != nullptr) {
 		size_t 	iLength = 0, iStreamLength = 0;
 		iLength = iStreamLength = (mir_strlen(szFromStream) + 1);
@@ -290,7 +290,7 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 		return;
 
 	if (m_history != nullptr && m_history[0].szText != nullptr) {     // at least one entry needs to be alloced, otherwise we get a nice infinite loop ;)
-		HWND hwndEdit = ::GetDlgItem(m_dat->GetHwnd(), IDC_MESSAGE);
+		HWND hwndEdit = ::GetDlgItem(m_dat->GetHwnd(), IDC_SRMM_MESSAGE);
 		SETTEXTEX stx = { ST_DEFAULT, CP_UTF8 };
 
 		if (m_dat->m_dwFlags & MWF_NEEDHISTORYSAVE) {
@@ -547,16 +547,16 @@ size_t CContactCache::getMaxMessageLength()
 		if (m_nMax) {
 			if (M.GetByte("autosplit", 0)) {
 				if (m_dat)
-					::SendDlgItemMessage(m_dat->GetHwnd(), IDC_MESSAGE, EM_EXLIMITTEXT, 0, 20000);
+					::SendDlgItemMessage(m_dat->GetHwnd(), IDC_SRMM_MESSAGE, EM_EXLIMITTEXT, 0, 20000);
 			}
 			else {
 				if (m_dat)
-					::SendDlgItemMessage(m_dat->GetHwnd(), IDC_MESSAGE, EM_EXLIMITTEXT, 0, (LPARAM)m_nMax);
+					::SendDlgItemMessage(m_dat->GetHwnd(), IDC_SRMM_MESSAGE, EM_EXLIMITTEXT, 0, (LPARAM)m_nMax);
 			}
 		}
 		else {
 			if (m_dat)
-				::SendDlgItemMessage(m_dat->GetHwnd(), IDC_MESSAGE, EM_EXLIMITTEXT, 0, 20000);
+				::SendDlgItemMessage(m_dat->GetHwnd(), IDC_SRMM_MESSAGE, EM_EXLIMITTEXT, 0, 20000);
 			m_nMax = 20000;
 		}
 	}

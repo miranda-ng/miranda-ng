@@ -67,7 +67,7 @@ void CTabBaseDlg::DM_SaveLogAsRTF() const
 			stream.dwCookie = (DWORD_PTR)szFilename;
 			stream.dwError = 0;
 			stream.pfnCallback = Utils::StreamOut;
-			SendDlgItemMessage(m_hwnd, IDC_LOG, EM_STREAMOUT, SF_RTF | SF_USECODEPAGE, (LPARAM)&stream);
+			m_log.SendMsg(EM_STREAMOUT, SF_RTF | SF_USECODEPAGE, (LPARAM)&stream);
 		}
 	}
 }
@@ -438,7 +438,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 		if (m_bEditNotesActive) {
 			int iLen = GetWindowTextLength(m_message.GetHwnd());
 			if (iLen != 0) {
-				SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)TranslateT("You cannot edit user notes when there are unsent messages"));
+				SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_SRMM_MESSAGE, (LPARAM)TranslateT("You cannot edit user notes when there are unsent messages"));
 				m_bEditNotesActive = false;
 				break;
 			}
@@ -449,20 +449,14 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 				SendMessage(m_hwnd, WM_SIZE, 1, 1);
 			}
 
-			DBVARIANT dbv = { 0 };
-
-			if (0 == db_get_ws(m_hContact, "UserInfo", "MyNotes", &dbv)) {
-				SetDlgItemText(m_hwnd, IDC_MESSAGE, dbv.ptszVal);
-				mir_free(dbv.ptszVal);
-			}
+			ptrW wszText(db_get_wsa(m_hContact, "UserInfo", "MyNotes"));
+			if (wszText != nullptr)
+				m_message.SetText(wszText);
 		}
 		else {
-			int iLen = GetWindowTextLength(m_message.GetHwnd());
-
-			wchar_t *buf = (wchar_t*)mir_alloc((iLen + 2) * sizeof(wchar_t));
-			GetDlgItemText(m_hwnd, IDC_MESSAGE, buf, iLen + 1);
+			ptrW buf(m_message.GetText());
 			db_set_ws(m_hContact, "UserInfo", "MyNotes", buf);
-			SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
+			m_message.SetText(L"");
 
 			if (!m_bIsAutosizingInput) {
 				m_iSplitterY = m_iSplitterSaved;
@@ -613,7 +607,7 @@ void CTabBaseDlg::DM_InitRichEdit()
 	if (!fIsChat) {
 		ClearLog();
 		m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-		m_log.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)SendDlgItemMessage(m_hwnd, IDC_LOG, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
+		m_log.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 		// set the scrollbars etc to RTL/LTR (only for manual RTL mode)
 		if (m_dwFlags & MWF_LOG_RTL) {
 			SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
@@ -874,7 +868,7 @@ LRESULT CTabBaseDlg::DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam)
 		rc.bottom = rc1.bottom;
 		if (PtInRect(&rc, pt)) {
 			short amount = (short)(HIWORD(wParam));
-			SendMessage(m_pContainer->m_hwnd, WM_COMMAND, MAKELONG(amount > 0 ? IDC_SIDEBARUP : IDC_SIDEBARDOWN, 0), IDC_MESSAGE);
+			SendMessage(m_pContainer->m_hwnd, WM_COMMAND, MAKELONG(amount > 0 ? IDC_SIDEBARUP : IDC_SIDEBARDOWN, 0), IDC_SRMM_MESSAGE);
 			return 0;
 		}
 	}
@@ -1027,7 +1021,7 @@ void CSrmmWindow::DM_OptionsApplied(WPARAM, LPARAM lParam)
 	m_message.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 
 	GetSendFormat();
-	SetDialogToType(m_hwnd);
+	SetDialogToType();
 	SendMessage(m_hwnd, DM_CONFIGURETOOLBAR, 0, 0);
 
 	DM_InitRichEdit();
@@ -1491,7 +1485,7 @@ void CTabBaseDlg::DM_ErrorDetected(int type, int flag)
 			m_iCurrentQueueError = -1;
 			sendQueue->showErrorControls(this, FALSE);
 			if (type != MSGERROR_CANCEL || (type == MSGERROR_CANCEL && flag == 0))
-				SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
+				m_message.SetText(L"");
 			sendQueue->checkQueue(this);
 			int iNextFailed = sendQueue->findNextFailed(this);
 			if (iNextFailed >= 0)
@@ -1520,7 +1514,7 @@ void CTabBaseDlg::DM_ErrorDetected(int type, int flag)
 				job->iStatus = SendQueue::SQ_INPROGRESS;
 				m_iCurrentQueueError = -1;
 				sendQueue->showErrorControls(this, FALSE);
-				SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
+				m_message.SetText(L"");
 				sendQueue->checkQueue(this);
 
 				int iNextFailed = sendQueue->findNextFailed(this);

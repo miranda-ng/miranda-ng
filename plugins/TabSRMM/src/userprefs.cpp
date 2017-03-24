@@ -479,7 +479,7 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				if (dat) {
 					DWORD dwOldFlags = (dat->m_dwFlags & MWF_LOG_ALL);
-					SetDialogToType(hwnd);
+					dat->SetDialogToType();
 					dat->LoadLocalFlags();
 					if ((dat->m_dwFlags & MWF_LOG_ALL) != dwOldFlags) {
 						bool	fShouldHide = true;

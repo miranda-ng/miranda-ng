@@ -724,7 +724,7 @@ void CTabBaseDlg::ShowPicture(bool showNewPic)
 	if (m_minEditBoxSize.cy + DPISCALEY_S(3) > m_iSplitterY)
 		SendMessage(m_hwnd, DM_SPLITTERMOVED, (WPARAM)rc.bottom - m_minEditBoxSize.cy, (LPARAM)GetDlgItem(m_hwnd, IDC_SPLITTERY));
 	if (!showNewPic)
-		SetDialogToType(m_hwnd);
+		SetDialogToType();
 	else
 		SendMessage(m_hwnd, WM_SIZE, 0, 0);
 }
@@ -1028,39 +1028,31 @@ void CTabBaseDlg::SetMessageLog()
 {
 	unsigned int iLogMode = GetIEViewMode(m_hContact);
 
-	if (iLogMode == WANT_IEVIEW_LOG && m_hwndIEView == 0) {
-		IEVIEWWINDOW ieWindow;
-
-		memset(&ieWindow, 0, sizeof(ieWindow));
+	if (iLogMode == WANT_IEVIEW_LOG && m_hwndIEView == nullptr) {
+		IEVIEWWINDOW ieWindow = {};
 		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
 		ieWindow.iType = IEW_CREATE;
-		ieWindow.dwFlags = 0;
 		ieWindow.dwMode = IEWM_TABSRMM;
 		ieWindow.parent = m_hwnd;
-		ieWindow.x = 0;
-		ieWindow.y = 0;
 		ieWindow.cx = 200;
 		ieWindow.cy = 200;
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 		m_hwndIEView = ieWindow.hwnd;
-		Utils::showDlgControl(m_hwnd, IDC_LOG, SW_HIDE);
-		Utils::enableDlgControl(m_hwnd, IDC_LOG, false);
+		Utils::showDlgControl(m_hwnd, IDC_SRMM_LOG, SW_HIDE);
+		m_log.Enable(false);
 	}
-	else if (iLogMode == WANT_HPP_LOG && m_hwndHPP == 0) {
-		IEVIEWWINDOW ieWindow;
+	else if (iLogMode == WANT_HPP_LOG && m_hwndHPP == nullptr) {
+		IEVIEWWINDOW ieWindow = {};
 		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
 		ieWindow.iType = IEW_CREATE;
-		ieWindow.dwFlags = 0;
 		ieWindow.dwMode = IEWM_TABSRMM;
 		ieWindow.parent = m_hwnd;
-		ieWindow.x = 0;
-		ieWindow.y = 0;
 		ieWindow.cx = 10;
 		ieWindow.cy = 10;
 		CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
 		m_hwndHPP = ieWindow.hwnd;
-		Utils::showDlgControl(m_hwnd, IDC_LOG, SW_HIDE);
-		Utils::enableDlgControl(m_hwnd, IDC_LOG, false);
+		Utils::showDlgControl(m_hwnd, IDC_SRMM_LOG, SW_HIDE);
+		m_log.Enable(false);
 	}
 }
 
@@ -1318,7 +1310,7 @@ void CTabBaseDlg::HandlePasteAndSend()
 {
 	// is feature disabled?
 	if (!PluginConfig.m_PasteAndSend) {
-		SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)TranslateT("The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section"));
+		SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_SRMM_MESSAGE, (LPARAM)TranslateT("The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section"));
 		return;
 	}
 
@@ -1630,7 +1622,7 @@ void CTabBaseDlg::SendNudge() const
 	if (ProtoServiceExists(m_cache->getActiveProto(), PS_SEND_NUDGE) && ServiceExists(MS_NUDGE_SEND))
 		CallService(MS_NUDGE_SEND, m_cache->getActiveContact(), 0);
 	else
-		SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE,
+		SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_SRMM_MESSAGE,
 			(LPARAM)TranslateT("Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event."));
 }
 

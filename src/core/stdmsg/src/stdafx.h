@@ -218,7 +218,6 @@ class CChatRoomDlg : public CSrmmBaseDialog
 	HWND m_hwndStatus;
 	wchar_t szTabSave[20];
 
-	CCtrlEdit m_message, m_log;
 	CCtrlButton m_btnOk;
 	CSplitter m_splitterX, m_splitterY;
 

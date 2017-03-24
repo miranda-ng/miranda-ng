@@ -52,17 +52,11 @@ static void __cdecl phase2(void *lParam)
 
 CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	CSrmmBaseDialog(g_hInst, g_Settings.bTabsEnable ? IDD_CHANNEL_TAB : IDD_CHANNEL, si),
-	m_message(this, IDC_MESSAGE),
-	m_log(this, IDC_LOG),
-
 	m_btnOk(this, IDOK),
 	
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY)
 {
-	m_pLog = &m_log;
-	m_pEntry = &m_message;
-
 	m_autoClose = 0;
 	m_forceResizable = true;
 
@@ -201,7 +195,7 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 		EnableWindow(m_message.GetHwnd(), FALSE);
 		m_message.SendMsg(EM_SETREADONLY, TRUE, 0);
 	}
-	else SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
+	else m_message.SetText(L"");
 
 	EnableWindow(m_btnOk.GetHwnd(), FALSE);
 
@@ -508,7 +502,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom - rc.top) - 1;
 		return RD_ANCHORX_RIGHT | RD_ANCHORY_CUSTOM;
 
-	case IDC_LOG:
+	case IDC_SRMM_LOG:
 		urc->rcItem.top = 2;
 		urc->rcItem.left = 0;
 		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - m_iSplitterX : urc->dlgNewSize.cx;
@@ -537,7 +531,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.bottom = urc->rcItem.top + 2;
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_CUSTOM;
 
-	case IDC_MESSAGE:
+	case IDC_SRMM_MESSAGE:
 		GetWindowRect(m_hwndStatus, &rc);
 		urc->rcItem.right = bSend ? urc->dlgNewSize.cx - 64 : urc->dlgNewSize.cx;
 		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 22;
@@ -627,7 +621,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	switch (msg) {
 	case WM_MOUSEWHEEL:
-		SendDlgItemMessage(m_hwnd, IDC_LOG, WM_MOUSEWHEEL, wParam, lParam);
+		m_log.SendMsg(WM_MOUSEWHEEL, wParam, lParam);
 		m_iLastEnterTime = 0;
 		return TRUE;
 
@@ -815,8 +809,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			if (wParam == VK_NEXT || wParam == VK_PRIOR) {
-				HWND htemp = m_hwnd;
-				SendDlgItemMessage(htemp, IDC_LOG, msg, wParam, lParam);
+				m_log.SendMsg(msg, wParam, lParam);
 				m_iLastEnterTime = 0;
 				return TRUE;
 			}
@@ -1284,7 +1277,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case EN_MSGFILTER:
-			if (((LPNMHDR)lParam)->idFrom == IDC_LOG && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
+			if (((LPNMHDR)lParam)->idFrom == IDC_SRMM_LOG && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
 				ENLINK *pLink = (ENLINK*)lParam;
 				POINT pt = { GET_X_LPARAM(pLink->lParam), GET_Y_LPARAM(pLink->lParam) };
 				ClientToScreen(((LPNMHDR)lParam)->hwndFrom, &pt);
@@ -1390,7 +1383,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case IDC_MESSAGE:
+		case IDC_SRMM_MESSAGE:
 			EnableWindow(m_btnOk.GetHwnd(), GetRichTextLength(m_message.GetHwnd()) != 0);
 			break;
 		}

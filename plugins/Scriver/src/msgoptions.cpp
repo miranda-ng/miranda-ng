@@ -602,9 +602,9 @@ static void ShowPreview(HWND hwndDlg)
 	pf2.cbSize = sizeof(pf2);
 	pf2.dwMask = PFM_OFFSET;
 	pf2.dxOffset = (gdat.flags & SMF_INDENTTEXT) ? gdat.indentSize * 1440 / g_dat.logPixelSX : 0;
-	SetDlgItemText(hwndDlg, IDC_LOG, L"");
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-	StreamInTestEvents(GetDlgItem(hwndDlg, IDC_LOG), &gdat);
+	SetDlgItemText(hwndDlg, IDC_SRMM_LOG, L"");
+	SendDlgItemMessage(hwndDlg, IDC_SRMM_LOG, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+	StreamInTestEvents(GetDlgItem(hwndDlg, IDC_SRMM_LOG), &gdat);
 }
 
 static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -614,7 +614,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_LOG));
+		RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_SRMM_LOG));
 		switch (db_get_b(0, SRMM_MODULE, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY)) {
 		case LOADHISTORY_UNREAD:
 			CheckDlgButton(hwndDlg, IDC_LOADUNREAD, BST_CHECKED);
@@ -677,11 +677,11 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			pf2.dwMask = PFM_OFFSETINDENT | PFM_RIGHTINDENT;
 			pf2.dxStartIndent = 30;
 			pf2.dxRightIndent = 30;
-			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
-			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
-			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_AUTOURLDETECT, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
+			SendDlgItemMessage(hwndDlg, IDC_SRMM_LOG, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+			SendDlgItemMessage(hwndDlg, IDC_SRMM_LOG, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
+			SendDlgItemMessage(hwndDlg, IDC_SRMM_LOG, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
+			SendDlgItemMessage(hwndDlg, IDC_SRMM_LOG, EM_AUTOURLDETECT, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_SRMM_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 		}
 		ShowPreview(hwndDlg);
 		return TRUE;
@@ -749,7 +749,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				return TRUE;
 			break;
 		
-		case IDC_LOG:
+		case IDC_SRMM_LOG:
 			return 0;
 		}
 		MarkChanges(4, hwndDlg);

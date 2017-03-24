@@ -74,8 +74,6 @@
 #define IDC_HYPERLINKHAND               600
 #define IDC_DRAGCURSOR                  601
 #define IDC_TABS                        1000
-#define IDC_LOG                         1001
-#define IDC_MESSAGE                     1002
 #define IDC_AUTOPOPUP                   1003
 #define IDC_AUTOMIN                     1005
 #define IDC_STAYMINIMIZED               1006

@@ -217,18 +217,10 @@ void CChatRoomDlg::MessageDialogResize(int w, int h)
 
 CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 	: CScriverWindow(IDD_CHANNEL, si),
-
-	m_log(this, IDC_LOG),
-	m_message(this, IDC_MESSAGE),
-
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY),
-
 	m_btnOk(this, IDOK)
 {
-	m_pLog = &m_log;
-	m_pEntry = &m_message;
-
 	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_Ok);
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
 	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::onClick_ShowList);
@@ -376,7 +368,7 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 		EnableWindow(m_message.GetHwnd(), FALSE);
 		m_message.SendMsg(EM_SETREADONLY, TRUE, 0);
 	}
-	else SetDlgItemText(m_hwnd, IDC_MESSAGE, L"");
+	else m_message.SetText(L"");
 
 	EnableWindow(m_btnOk.GetHwnd(), FALSE);
 
@@ -691,7 +683,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg) {
 	case WM_MOUSEWHEEL:
 		if ((GetWindowLongPtr(m_message.GetHwnd(), GWL_STYLE) & WS_VSCROLL) == 0)
-			SendDlgItemMessage(m_hwnd, IDC_LOG, WM_MOUSEWHEEL, wParam, lParam);
+			m_log.SendMsg(WM_MOUSEWHEEL, wParam, lParam);
 
 		m_iLastEnterTime = 0;
 		return TRUE;
@@ -770,7 +762,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 
 		if (wParam == VK_NEXT || wParam == VK_PRIOR) {
-			SendDlgItemMessage(m_hwnd, IDC_LOG, msg, wParam, lParam);
+			m_log.SendMsg(msg, wParam, lParam);
 			return TRUE;
 		}
 		break;
@@ -835,7 +827,7 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			sel.cpMin = sel.cpMax;
 			SendMessage(m_log.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&sel);
 		}
-		SetFocus(GetDlgItem(m_hwnd, IDC_MESSAGE));
+		SetFocus(m_message.GetHwnd());
 		break;
 
 	case WM_ACTIVATE:
@@ -917,8 +909,8 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_CHAR:
-		SetFocus(GetDlgItem(m_hwnd, IDC_MESSAGE));
-		SendDlgItemMessage(m_hwnd, IDC_MESSAGE, WM_CHAR, wParam, lParam);
+		SetFocus(m_message.GetHwnd());
+		m_message.SendMsg(WM_CHAR, wParam, lParam);
 		break;
 	}
 
@@ -1261,7 +1253,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			LPNMHDR pNmhdr = (LPNMHDR)lParam;
 			switch (pNmhdr->code) {
 			case EN_MSGFILTER:
-				if (pNmhdr->idFrom == IDC_LOG && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
+				if (pNmhdr->idFrom == IDC_SRMM_LOG && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
 					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
 					return TRUE;
 				}
@@ -1353,5 +1345,5 @@ void ShowRoom(SESSION_INFO *si)
 	SendMessage(GetParent(si->pDlg->GetHwnd()), CM_ACTIVATECHILD, 0, (LPARAM)si->pDlg->GetHwnd());
 	SendMessage(GetParent(si->pDlg->GetHwnd()), CM_POPUPWINDOW, 0, (LPARAM)si->pDlg->GetHwnd());
 	SendMessage(si->pDlg->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
-	SetFocus(GetDlgItem(si->pDlg->GetHwnd(), IDC_MESSAGE));
+	SetFocus(GetDlgItem(si->pDlg->GetHwnd(), IDC_SRMM_MESSAGE));
 }

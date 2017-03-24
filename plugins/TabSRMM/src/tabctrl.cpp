@@ -829,7 +829,7 @@ page_done:
 			FillRect(hdc, &rcPage, CSkin::m_BrushBack);
 			rcPage.top = 0;
 		}
-		GetWindowRect(GetDlgItem(tabdat->helperDat->GetHwnd(), IDC_LOG), &rcLog);
+		GetWindowRect(GetDlgItem(tabdat->helperDat->GetHwnd(), IDC_SRMM_LOG), &rcLog);
 
 		pt.y = rcLog.top;
 		pt.x = rcLog.left;

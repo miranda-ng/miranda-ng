@@ -409,7 +409,7 @@ protected:
 	void RefreshButtonStatus(void);
 
 protected:
-	CCtrlEdit *m_pLog, *m_pEntry;
+	CCtrlEdit m_message, m_log;
 	SESSION_INFO *m_si;
 	COLORREF m_clrInputBG, m_clrInputFG;
 	time_t m_iLastEnterTime;

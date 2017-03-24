@@ -30,6 +30,8 @@ extern HCURSOR g_hCurHyperlinkHand;
 
 CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si)
 	: CDlgBase(hInst, idDialog),
+	m_log(this, IDC_SRMM_LOG),
+	m_message(this, IDC_SRMM_MESSAGE),
 	m_nickList(this, IDC_SRMM_NICKLIST),
 
 	m_btnFilter(this, IDC_SRMM_FILTER),
@@ -45,8 +47,6 @@ CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si
 	m_btnUnderline(this, IDC_SRMM_UNDERLINE),
 
 	m_si(si),
-	m_pLog(nullptr),
-	m_pEntry(nullptr),
 	m_hContact(0),
 	m_clrInputBG(GetSysColor(COLOR_WINDOW))
 {
@@ -82,9 +82,10 @@ CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si
 
 CSrmmBaseDialog::CSrmmBaseDialog(const CSrmmBaseDialog&) :
 	CDlgBase(0, 0),
-	m_btnColor(0, 0), m_btnBkColor(0, 0), m_nickList(0, 0),
+	m_btnColor(0, 0), m_btnBkColor(0, 0),
 	m_btnBold(0, 0), m_btnItalic(0, 0), m_btnUnderline(0, 0),
-	m_btnFilter(0, 0), m_btnChannelMgr(0, 0), m_btnHistory(0, 0), m_btnNickList(0, 0)
+	m_btnFilter(0, 0), m_btnChannelMgr(0, 0), m_btnHistory(0, 0), m_btnNickList(0, 0),
+	m_nickList(0, 0), m_log(0, 0), m_message(0, 0)
 {
 }
 
@@ -176,11 +177,11 @@ static LRESULT CALLBACK stubNicklistProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 
 void CSrmmBaseDialog::OnInitDialog()
 {
-	SetWindowLongPtr(m_pLog->GetHwnd(), GWLP_USERDATA, LPARAM(this));
-	mir_subclassWindow(m_pLog->GetHwnd(), stubLogProc);
+	SetWindowLongPtr(m_log.GetHwnd(), GWLP_USERDATA, LPARAM(this));
+	mir_subclassWindow(m_log.GetHwnd(), stubLogProc);
 
-	SetWindowLongPtr(m_pEntry->GetHwnd(), GWLP_USERDATA, LPARAM(this));
-	mir_subclassWindow(m_pEntry->GetHwnd(), stubMessageProc);
+	SetWindowLongPtr(m_message.GetHwnd(), GWLP_USERDATA, LPARAM(this));
+	mir_subclassWindow(m_message.GetHwnd(), stubMessageProc);
 
 	SetWindowLongPtr(m_nickList.GetHwnd(), GWLP_USERDATA, LPARAM(this));
 	mir_subclassWindow(m_nickList.GetHwnd(), stubNicklistProc);
@@ -195,8 +196,8 @@ void CSrmmBaseDialog::OnInitDialog()
 void CSrmmBaseDialog::OnDestroy()
 {
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
-	mir_unsubclassWindow(m_pLog->GetHwnd(), stubLogProc);
-	mir_unsubclassWindow(m_pEntry->GetHwnd(), stubMessageProc);
+	mir_unsubclassWindow(m_log.GetHwnd(), stubLogProc);
+	mir_unsubclassWindow(m_message.GetHwnd(), stubMessageProc);
 	mir_unsubclassWindow(m_nickList.GetHwnd(), stubNicklistProc);
 }
 
@@ -216,67 +217,64 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_NOTIFY:
-		if (m_pLog != nullptr) {
-			LPNMHDR hdr = (LPNMHDR)lParam;
-			if (hdr->hwndFrom == m_pLog->GetHwnd() && hdr->code == EN_LINK) {
-				ENLINK *pLink = (ENLINK*)lParam;
-				switch (pLink->msg) {
-				case WM_SETCURSOR:
-					SetCursor(g_hCurHyperlinkHand);
-					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
-					return TRUE;
+		LPNMHDR hdr = (LPNMHDR)lParam;
+		if (hdr->hwndFrom == m_log.GetHwnd() && hdr->code == EN_LINK) {
+			ENLINK *pLink = (ENLINK*)lParam;
+			switch (pLink->msg) {
+			case WM_SETCURSOR:
+				SetCursor(g_hCurHyperlinkHand);
+				SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
+				return TRUE;
 
-				case WM_RBUTTONDOWN:
-				case WM_LBUTTONUP:
-				case WM_LBUTTONDBLCLK:
-					CHARRANGE sel;
-					m_pLog->SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-					if (sel.cpMin != sel.cpMax)
+			case WM_RBUTTONDOWN:
+			case WM_LBUTTONUP:
+			case WM_LBUTTONDBLCLK:
+				CHARRANGE sel;
+				m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
+				if (sel.cpMin != sel.cpMax)
+					break;
+
+				CMStringW wszText(' ', pLink->chrg.cpMax - pLink->chrg.cpMin + 1);
+
+				TEXTRANGE tr;
+				tr.chrg = pLink->chrg;
+				tr.lpstrText = wszText.GetBuffer();
+				m_log.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+				if (wcschr(tr.lpstrText, '@') != nullptr && wcschr(tr.lpstrText, ':') == nullptr && wcschr(tr.lpstrText, '/') == nullptr)
+					wszText.Insert(0, L"mailto:");
+
+				if (pLink->msg == WM_RBUTTONDOWN) {
+					HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+					HMENU hSubMenu = GetSubMenu(hMenu, 6);
+					TranslateMenu(hSubMenu);
+
+					POINT pt = { GET_X_LPARAM(pLink->lParam), GET_Y_LPARAM(pLink->lParam) };
+					ClientToScreen(((NMHDR *)lParam)->hwndFrom, &pt);
+
+					switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr)) {
+					case IDM_OPENLINK:
+						Utils_OpenUrlW(wszText);
 						break;
 
-					CMStringW wszText(' ', pLink->chrg.cpMax - pLink->chrg.cpMin + 1);
-
-					TEXTRANGE tr;
-					tr.chrg = pLink->chrg;
-					tr.lpstrText = wszText.GetBuffer();
-					m_pLog->SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-					if (wcschr(tr.lpstrText, '@') != nullptr && wcschr(tr.lpstrText, ':') == nullptr && wcschr(tr.lpstrText, '/') == nullptr)
-						wszText.Insert(0, L"mailto:");
-
-					if (pLink->msg == WM_RBUTTONDOWN) {
-						HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
-						HMENU hSubMenu = GetSubMenu(hMenu, 6);
-						TranslateMenu(hSubMenu);
-
-						POINT pt = { GET_X_LPARAM(pLink->lParam), GET_Y_LPARAM(pLink->lParam) };
-						ClientToScreen(((NMHDR *)lParam)->hwndFrom, &pt);
-
-						switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr)) {
-						case IDM_OPENLINK:
-							Utils_OpenUrlW(wszText);
-							break;
-
-						case IDM_COPYLINK:
-							if (OpenClipboard(m_hwnd)) {
-								EmptyClipboard();
-								HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (wszText.GetLength() + 1) * sizeof(wchar_t));
-								mir_wstrcpy((wchar_t*)GlobalLock(hData), wszText);
-								GlobalUnlock(hData);
-								SetClipboardData(CF_UNICODETEXT, hData);
-								CloseClipboard();
-							}
-							break;
+					case IDM_COPYLINK:
+						if (OpenClipboard(m_hwnd)) {
+							EmptyClipboard();
+							HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (wszText.GetLength() + 1) * sizeof(wchar_t));
+							mir_wstrcpy((wchar_t*)GlobalLock(hData), wszText);
+							GlobalUnlock(hData);
+							SetClipboardData(CF_UNICODETEXT, hData);
+							CloseClipboard();
 						}
-
-						DestroyMenu(hMenu);
-						SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
-						return TRUE;
+						break;
 					}
 
-					Utils_OpenUrlW(wszText);
-					if (m_pEntry != nullptr)
-						SetFocus(m_pEntry->GetHwnd());
+					DestroyMenu(hMenu);
+					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
+					return TRUE;
 				}
+
+				Utils_OpenUrlW(wszText);
+				SetFocus(m_message.GetHwnd());
 			}
 		}
 		break;
@@ -295,8 +293,7 @@ void CSrmmBaseDialog::AddLog()
 
 void CSrmmBaseDialog::ClearLog()
 {
-	if (m_pLog != nullptr)
-		m_pLog->SetText(L"");
+	m_log.SetText(L"");
 }
 
 void CSrmmBaseDialog::DoEventHook(int iType, const USERINFO *pUser, const wchar_t *pszText, INT_PTR dwItem)
@@ -347,7 +344,7 @@ void CSrmmBaseDialog::onClick_Color(CCtrlButton *pButton)
 	}
 	else cf.crTextColor = m_clrInputFG;
 
-	m_pEntry->SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+	m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 }
 
 void CSrmmBaseDialog::onClick_BkColor(CCtrlButton *pButton)
@@ -370,7 +367,7 @@ void CSrmmBaseDialog::onClick_BkColor(CCtrlButton *pButton)
 	}
 	else cf.crBackColor = m_clrInputBG;
 
-	m_pEntry->SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+	m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 }
 
 void CSrmmBaseDialog::onClick_BIU(CCtrlButton *pButton)
@@ -389,7 +386,7 @@ void CSrmmBaseDialog::onClick_BIU(CCtrlButton *pButton)
 		cf.dwEffects |= CFE_ITALIC;
 	if (IsDlgButtonChecked(m_hwnd, IDC_SRMM_UNDERLINE))
 		cf.dwEffects |= CFE_UNDERLINE;
-	m_pEntry->SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+	m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 }
 
 void CSrmmBaseDialog::onClick_History(CCtrlButton *pButton)
@@ -425,15 +422,15 @@ void CSrmmBaseDialog::onDblClick_List(CCtrlListBox *pList)
 
 	bool bShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
 	if (g_Settings->bDoubleClick4Privat ? bShift : !bShift) {
-		int selStart = LOWORD(m_pEntry->SendMsg(EM_GETSEL, 0, 0));
+		int selStart = LOWORD(m_message.SendMsg(EM_GETSEL, 0, 0));
 		CMStringW tszName(ui->pszNick);
 		if (selStart == 0)
 			tszName.AppendChar(':');
 		tszName.AppendChar(' ');
 
-		m_pEntry->SendMsg(EM_REPLACESEL, FALSE, (LPARAM)tszName.GetString());
+		m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)tszName.GetString());
 		PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-		SetFocus(m_pEntry->GetHwnd());
+		SetFocus(m_message.GetHwnd());
 	}
 	else DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
 }
@@ -502,7 +499,7 @@ void CSrmmBaseDialog::RefreshButtonStatus(void)
 	CHARFORMAT2 cf;
 	cf.cbSize = sizeof(CHARFORMAT2);
 	cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_BACKCOLOR | CFM_COLOR;
-	m_pEntry->SendMsg(EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+	m_message.SendMsg(EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 
 	MODULEINFO *mi = chatApi.MM_FindModule(m_si->pszModule);
 	if (mi == nullptr)
