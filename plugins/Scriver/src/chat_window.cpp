@@ -672,9 +672,9 @@ INT_PTR CALLBACK CChatRoomDlg::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 
 LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	BOOL isShift = GetKeyState(VK_SHIFT) & 0x8000;
-	BOOL isCtrl = GetKeyState(VK_CONTROL) & 0x8000;
-	BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
+	bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+	bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+	bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
 
 	int result = InputAreaShortcuts(m_message.GetHwnd(), msg, wParam, lParam);
 	if (result != -1)
