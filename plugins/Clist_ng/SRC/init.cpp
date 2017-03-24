@@ -178,7 +178,6 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 	cfg::dat.bAvatarServiceAvail = ServiceExists(MS_AV_GETAVATARBITMAP) ? TRUE : FALSE;
 	if (cfg::dat.bAvatarServiceAvail)
 		HookEvent(ME_AV_AVATARCHANGED, AvatarChanged);
-	cfg::dat.tabSRMM_Avail = ServiceExists("SRMsg_MOD/GetWindowFlags") ? TRUE : FALSE;
 
 	ZeroMemory((void *)overlayicons, sizeof(HICON) * 10);
 

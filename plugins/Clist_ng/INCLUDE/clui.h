@@ -43,7 +43,7 @@ struct TCluiData {
 	DWORD 			dwFlags;
 	int 			soundsOff;
 	BYTE 			bMetaAvail;
-	BYTE			bAvatarServiceAvail, tabSRMM_Avail;
+	BYTE			bAvatarServiceAvail;
 	HICON 			hIconVisible, hIconInvisible, hIconChatactive, hIconConnecting;
 	int 			notifyActive;
 	int 			hIconNotify;

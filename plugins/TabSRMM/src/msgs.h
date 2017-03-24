@@ -1041,12 +1041,6 @@ struct TABSRMM_SessionInfo {
 //from the hContact.
 #define MS_MSG_MOD_MESSAGEDIALOGOPENED "SRMsg_MOD/MessageDialogOpened"
 
-//obtain the message window flags
-//wParam = hContact - ignored if lParam is given.
-//lParam = hwnd
-//returns MessageWindowData *dat, 0 if no window is found
-#define MS_MSG_MOD_GETWINDOWFLAGS "SRMsg_MOD/GetWindowFlags"
-
 // custom tabSRMM events
 
 #define tabMSG_WINDOW_EVT_CUSTOM_BEFORESEND 1

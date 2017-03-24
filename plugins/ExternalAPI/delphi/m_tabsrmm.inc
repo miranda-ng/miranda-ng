@@ -24,12 +24,4 @@ const
 }
   MS_MSG_MOD_MESSAGEDIALOGOPENED:PAnsiChar = 'SRMsg_MOD/MessageDialogOpened';
 
-{
-  obtain the message window flags
-  wParam = hContact - ignored if lParam is given.
-  lParam = hwnd
-  returns struct MessageWindowData *dat, 0 if no window is found
-}
-  MS_MSG_MOD_GETWINDOWFLAGS:PAnsiChar = 'SRMsg_MOD/GetWindowFlags';
-
 {$ENDIF}

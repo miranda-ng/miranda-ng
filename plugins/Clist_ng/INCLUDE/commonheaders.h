@@ -72,7 +72,6 @@ int _DebugTraceA(const char *fmt, ...);
 #include <m_addcontact.h>
 #include <m_timezones.h>
 #include <m_cluiframes.h>
-#include <m_clui.h>
 #include <m_icolib.h>
 #include <m_fontservice.h>
 #include <m_xstatus.h>
@@ -124,7 +123,6 @@ int _DebugTraceA(const char *fmt, ...);
 #include  <m_contacts.h>
 #include  <m_icolib.h>
 #include  <m_clc.h>
-#include  <m_clui.h>
 #include  <m_userinfo.h>
 #include  <m_history.h>
 #include  <m_addcontact.h>

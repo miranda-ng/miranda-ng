@@ -370,25 +370,6 @@ static INT_PTR Service_OpenTrayMenu(WPARAM, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// service function. retrieves the message window flags for a given hcontact or window
-// wParam == hContact of the window to find
-// lParam == window handle (set it to 0 if you want search for hcontact, otherwise it
-// is directly used as the handle for the target window
-
-static INT_PTR GetMessageWindowFlags(WPARAM wParam, LPARAM lParam)
-{
-	HWND hwndTarget = (HWND)lParam;
-	if (hwndTarget == 0)
-		hwndTarget = M.FindWindow(wParam);
-
-	if (hwndTarget == 0)
-		return 0;
-
-	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwndTarget, GWLP_USERDATA);
-	return (dat) ? dat->m_dwFlags : 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // return the version of the window api supported
 
 static INT_PTR BroadcastMessage(WPARAM, LPARAM lParam)
@@ -1127,7 +1108,6 @@ static void TSAPI InitAPI()
 	CreateServiceFunction(MS_TABMSG_TRAYSUPPORT, Service_OpenTrayMenu);
 	CreateServiceFunction(MS_TABMSG_SLQMGR, CSendLater::svcQMgr);
 
-	CreateServiceFunction(MS_MSG_MOD_GETWINDOWFLAGS, GetMessageWindowFlags);
 	CreateServiceFunction(MS_MSG_MOD_MESSAGEDIALOGOPENED, MessageWindowOpened);
 
 	CreateServiceFunction("SRMsg/BroadcastMessage", BroadcastMessage);
