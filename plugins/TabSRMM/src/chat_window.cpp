@@ -1480,30 +1480,6 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_NCPAINT:
 		return CSkin::DrawRichEditFrame(m_nickList.GetHwnd(), this, ID_EXTBKUSERLIST, msg, wParam, lParam, nullptr);
 
-	case WM_ERASEBKGND:
-		{
-			HDC dc = (HDC)wParam;
-			if (dc) {
-				int index = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
-				if (index == LB_ERR || m_si->nUsersInNicklist <= 0)
-					return 0;
-
-				int items = m_si->nUsersInNicklist - index;
-				int height = m_nickList.SendMsg(LB_GETITEMHEIGHT, 0, 0);
-
-				if (height != LB_ERR) {
-					RECT rc = { 0 };
-					GetClientRect(m_nickList.GetHwnd(), &rc);
-
-					if (rc.bottom - rc.top > items * height) {
-						rc.top = items * height;
-						FillRect(dc, &rc, pci->hListBkgBrush);
-					}
-				}
-			}
-		}
-		return 1;
-
 	case WM_MOUSEWHEEL:
 		if (CSkin::m_DisableScrollbars) {
 			UINT uScroll;
@@ -1603,35 +1579,6 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case WM_RBUTTONDOWN:
-		{
-			int iCounts = m_nickList.SendMsg(LB_GETSELCOUNT, 0, 0);
-			if (iCounts != LB_ERR && iCounts > 1)
-				return 0;
-			m_nickList.SendMsg(WM_LBUTTONDOWN, wParam, lParam);
-		}
-		break;
-
-	case WM_RBUTTONUP:
-		m_nickList.SendMsg(WM_LBUTTONUP, wParam, lParam);
-		break;
-
-	case WM_MEASUREITEM:
-		{
-			MEASUREITEMSTRUCT *mis = (MEASUREITEMSTRUCT *)lParam;
-			if (mis->CtlType == ODT_MENU)
-				return Menu_MeasureItem(lParam);
-		}
-		return FALSE;
-
-	case WM_DRAWITEM:
-		{
-			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
-			if (dis->CtlType == ODT_MENU)
-				return Menu_DrawItem(lParam);
-		}
-		return FALSE;
-
 	case WM_CONTEXTMENU:
 		{
 			SESSION_INFO *si = m_si;
@@ -1697,12 +1644,9 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		break;
-
-	case WM_MOUSEMOVE:
-		Chat_HoverMouse(m_si, m_nickList.GetHwnd(), lParam, ServiceExists("mToolTip/HideTip"));
-		break;
 	}
-	return 0;
+
+	return CSuper::WndProc_Nicklist(msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

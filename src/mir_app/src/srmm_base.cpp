@@ -159,8 +159,215 @@ static LRESULT CALLBACK stubMessageProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+/////////////////////////////////////////////////////////////////////////////////////////
+// process mouse - hovering for the nickname list.fires events so the protocol can
+// show the userinfo - tooltip.
+
+static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *parentdat)
 {
+	static int currentHovered = -1;
+	static HWND hwndToolTip = nullptr;
+	static HWND oldParent = nullptr;
+
+	if (hoveredItem == currentHovered)
+		return;
+
+	currentHovered = hoveredItem;
+
+	if (oldParent != hwnd && hwndToolTip) {
+		SendMessage(hwndToolTip, TTM_DELTOOL, 0, 0);
+		DestroyWindow(hwndToolTip);
+		hwndToolTip = nullptr;
+	}
+
+	if (hoveredItem == -1) {
+		SendMessage(hwndToolTip, TTM_ACTIVATE, 0, 0);
+		return;
+	}
+
+	bool bNewTip = false;
+	if (!hwndToolTip) {
+		bNewTip = true;
+		hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, nullptr,
+			WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
+			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+			hwnd, nullptr, g_hInst, nullptr);
+	}
+
+	RECT clientRect;
+	GetClientRect(hwnd, &clientRect);
+
+	TOOLINFO ti = { sizeof(ti) };
+	ti.uFlags = TTF_SUBCLASS;
+	ti.hinst = g_hInst;
+	ti.hwnd = hwnd;
+	ti.uId = 1;
+	ti.rect = clientRect;
+
+	wchar_t tszBuf[1024]; tszBuf[0] = 0;
+
+	USERINFO *ui1 = chatApi.SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
+	if (ui1) {
+		if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
+			wchar_t *p = (wchar_t*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
+			if (p != nullptr) {
+				wcsncpy_s(tszBuf, p, _TRUNCATE);
+				mir_free(p);
+			}
+		}
+
+		if (tszBuf[0] == 0)
+			mir_snwprintf(tszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
+				TranslateT("Nickname"), ui1->pszNick,
+				TranslateT("Unique ID"), ui1->pszUID,
+				TranslateT("Status"), chatApi.TM_WordToString(parentdat->pStatuses, ui1->Status));
+		ti.lpszText = tszBuf;
+	}
+
+	SendMessage(hwndToolTip, bNewTip ? TTM_ADDTOOL : TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
+	SendMessage(hwndToolTip, TTM_ACTIVATE, (ti.lpszText != nullptr), 0);
+	SendMessage(hwndToolTip, TTM_SETMAXTIPWIDTH, 0, 400);
+}
+
+static void CALLBACK ChatTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
+{
+	SESSION_INFO *si = (SESSION_INFO*)idEvent;
+
+	POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(hwnd, &pt);
+
+	DWORD nItemUnderMouse = (DWORD)SendMessage(hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
+	if (HIWORD(nItemUnderMouse) == 1)
+		nItemUnderMouse = (DWORD)(-1);
+	else
+		nItemUnderMouse &= 0xFFFF;
+	if (((int)nItemUnderMouse != si->currentHovered) || (nItemUnderMouse == -1)) {
+		KillTimer(hwnd, idEvent);
+		return;
+	}
+
+	USERINFO *ui1 = chatApi.SM_GetUserFromIndex(si->ptszID, si->pszModule, si->currentHovered);
+	if (ui1) {
+		CMStringW wszBuf;
+		if (ProtoServiceExists(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
+			wchar_t *p = (wchar_t*)CallProtoService(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)si->ptszID, (LPARAM)ui1->pszUID);
+			if (p) {
+				wszBuf = p;
+				mir_free(p);
+			}
+		}
+		if (wszBuf.IsEmpty())
+			wszBuf.Format(L"<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s",
+				TranslateT("Nick"), ui1->pszNick,
+				TranslateT("Unique ID"), ui1->pszUID,
+				TranslateT("Status"), chatApi.TM_WordToString(si->pStatuses, ui1->Status));
+
+		CLCINFOTIP ti = { sizeof(ti) };
+		if (CallService("mToolTip/ShowTipW", (WPARAM)wszBuf.c_str(), (LPARAM)&ti))
+			si->bHasToolTip = true;
+	}
+	KillTimer(hwnd, idEvent);
+}
+
+LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	RECT rc;
+
+	switch (msg) {
+	case WM_RBUTTONDOWN:
+		m_nickList.SendMsg(WM_LBUTTONDOWN, wParam, lParam);
+		break;
+
+	case WM_RBUTTONUP:
+		m_nickList.SendMsg(WM_LBUTTONUP, wParam, lParam);
+		break;
+
+	case WM_MEASUREITEM:
+		{
+			MEASUREITEMSTRUCT *mis = (MEASUREITEMSTRUCT *)lParam;
+			if (mis->CtlType == ODT_MENU)
+				return Menu_MeasureItem(lParam);
+		}
+		return FALSE;
+
+	case WM_DRAWITEM:
+		{
+			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
+			if (dis->CtlType == ODT_MENU)
+				return Menu_DrawItem(lParam);
+		}
+		return FALSE;
+
+	case WM_MOUSEMOVE:
+		RECT clientRect;
+		{
+			bool bTooltipExists = ServiceExists("mToolTip/HideTip");
+
+			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
+			GetClientRect(m_nickList.GetHwnd(), &clientRect);
+			if (PtInRect(&clientRect, pt)) {
+				// hit test item under mouse
+				DWORD nItemUnderMouse = m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, lParam);
+				if (HIWORD(nItemUnderMouse) == 1)
+					nItemUnderMouse = (DWORD)(-1);
+				else
+					nItemUnderMouse &= 0xFFFF;
+
+				if (bTooltipExists) {
+					if ((int)nItemUnderMouse == m_si->currentHovered)
+						break;
+					m_si->currentHovered = (int)nItemUnderMouse;
+
+					KillTimer(m_nickList.GetHwnd(), 1);
+
+					if (m_si->bHasToolTip) {
+						CallService("mToolTip/HideTip", 0, 0);
+						m_si->bHasToolTip = false;
+					}
+
+					if (nItemUnderMouse != -1)
+						SetTimer(m_nickList.GetHwnd(), (UINT_PTR)m_si, 450, ChatTimerProc);
+				}
+				else ProcessNickListHovering(m_nickList.GetHwnd(), (int)nItemUnderMouse, m_si);
+			}
+			else {
+				if (bTooltipExists) {
+					KillTimer(m_nickList.GetHwnd(), 1);
+					if (m_si->bHasToolTip) {
+						CallService("mToolTip/HideTip", 0, 0);
+						m_si->bHasToolTip = false;
+					}
+				}
+				else ProcessNickListHovering(m_nickList.GetHwnd(), -1, nullptr);
+			}
+		}
+		break;
+
+	case WM_ERASEBKGND:
+		{
+			HDC dc = (HDC)wParam;
+			if (dc == nullptr)
+				break;
+
+			int index = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
+			if (index == LB_ERR || m_si->nUsersInNicklist <= 0)
+				break;
+
+			int height = m_nickList.SendMsg(LB_GETITEMHEIGHT, 0, 0);
+			if (height == LB_ERR)
+				break;
+
+			GetClientRect(m_nickList.GetHwnd(), &rc);
+
+			int items = m_si->nUsersInNicklist - index;
+			if (rc.bottom - rc.top > items * height) {
+				rc.top = items * height;
+				FillRect(dc, &rc, chatApi.hListBkgBrush);
+			}
+		}
+		return 1;
+	}
 	return 0;
 }
 

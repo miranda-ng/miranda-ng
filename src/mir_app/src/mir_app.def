@@ -326,7 +326,6 @@ Font_RegisterW @326
 Options_AddPage @327
 Options_Open @328
 Options_OpenPage @329
-Chat_HoverMouse @330
 Srmm_ModifyButton @331
 Srmm_AddButton @332
 Srmm_GetButtonState @333

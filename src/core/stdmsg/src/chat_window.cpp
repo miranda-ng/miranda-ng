@@ -986,61 +986,12 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
-	case WM_ERASEBKGND:
-		{
-			HDC dc = (HDC)wParam;
-			if (dc == nullptr)
-				return 0;
-
-			int index = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
-			if (index == LB_ERR || m_si->nUsersInNicklist <= 0)
-				return 0;
-
-			int height = m_nickList.SendMsg(LB_GETITEMHEIGHT, 0, 0);
-			if (height == LB_ERR)
-				return 0;
-
-			RECT rc = {};
-			GetClientRect(m_nickList.GetHwnd(), &rc);
-
-			int items = m_si->nUsersInNicklist - index;
-			if (rc.bottom - rc.top > items * height) {
-				rc.top = items * height;
-				FillRect(dc, &rc, pci->hListBkgBrush);
-			}
-		}
-		return 1;
-
 	case WM_KEYDOWN:
 		if (wParam == 0x57 && GetKeyState(VK_CONTROL) & 0x8000) { // ctrl-w (close window)
 			CloseTab();
 			return TRUE;
 		}
 		break;
-
-	case WM_RBUTTONDOWN:
-		m_nickList.SendMsg(WM_LBUTTONDOWN, wParam, lParam);
-		break;
-
-	case WM_RBUTTONUP:
-		m_nickList.SendMsg(WM_LBUTTONUP, wParam, lParam);
-		break;
-
-	case WM_MEASUREITEM:
-		{
-			MEASUREITEMSTRUCT *mis = (MEASUREITEMSTRUCT *)lParam;
-			if (mis->CtlType == ODT_MENU)
-				return Menu_MeasureItem(lParam);
-		}
-		return FALSE;
-
-	case WM_DRAWITEM:
-		{
-			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
-			if (dis->CtlType == ODT_MENU)
-				return Menu_DrawItem(lParam);
-		}
-		return FALSE;
 
 	case WM_CONTEXTMENU:
 		TVHITTESTINFO hti;
@@ -1085,13 +1036,9 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		break;
-
-	case WM_MOUSEMOVE:
-		Chat_HoverMouse(m_si, m_nickList.GetHwnd(), lParam, ServiceExists("mToolTip/HideTip"));
-		break;
 	}
 
-	return 0;
+	return CSuper::WndProc_Nicklist(msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
