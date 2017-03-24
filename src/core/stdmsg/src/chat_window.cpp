@@ -675,9 +675,9 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 		{
 			static int start, end;
-			BOOL isShift = GetKeyState(VK_SHIFT) & 0x8000;
-			BOOL isCtrl = GetKeyState(VK_CONTROL) & 0x8000;
-			BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
+			bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+			bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+			bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
 			if (wParam == VK_RETURN) {
 				szTabSave[0] = '\0';
 				if ((isCtrl != 0) ^ (0 != db_get_b(0, CHAT_MODULE, "SendOnEnter", 1)))
