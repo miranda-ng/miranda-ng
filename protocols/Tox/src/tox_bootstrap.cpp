@@ -107,9 +107,9 @@ void CToxProto::BootstrapNodesFromJson(Tox *tox, bool isIPv6)
 				if (node.at("status_tcp").as_bool())
 				{
 					JSONNode tcpPorts = node.at("tcp_ports").as_array();
-					for (size_t i = 0; i < tcpPorts.size(); i++)
+					for (size_t k = 0; k < tcpPorts.size(); k++)
 					{
-						int port = tcpPorts[i].as_int();
+						int port = tcpPorts[k].as_int();
 						BootstrapTcpRelay(tox, address.as_string().c_str(), port, pubKey.as_string().c_str());
 						if (isIPv6)
 						{
