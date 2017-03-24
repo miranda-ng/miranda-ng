@@ -246,7 +246,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 		preTyping = SendMessage(hwnd, DM_TYPING, 0, mode);
 
 	if (hwnd && IsWindowVisible(hwnd))
-		foundWin = MessageWindowOpened(0, (LPARAM)hwnd);
+		foundWin = MessageWindowOpened(0, hwnd);
 	else
 		foundWin = 0;
 

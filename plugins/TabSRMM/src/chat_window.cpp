@@ -764,7 +764,7 @@ void CChatRoomDlg::AddLog()
 {
 	if (PluginConfig.m_bUseDividers) {
 		if (PluginConfig.m_bDividersUsePopupConfig) {
-			if (!MessageWindowOpened(0, (LPARAM)m_hwnd))
+			if (!MessageWindowOpened(0, m_hwnd))
 				DM_AddDivider();
 		}
 		else {

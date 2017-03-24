@@ -15,13 +15,4 @@ const
 }
   MS_TABMSG_HOTKEYPROCESS:PAnsiChar = 'SRMsg_MOD/ProcessHotkey';
 
-{
- Checks if there is a message window opened
-  wParam=(LPARAM)(HANDLE)hContact  - handle of the contact for which the window is searched.
-         ignored if lParam is not zero.
-  lParam=(LPARAM)(HWND)hwnd - a window handle - SET THIS TO 0 if you want to obtain the window
-          handle from the hContact.
-}
-  MS_MSG_MOD_MESSAGEDIALOGOPENED:PAnsiChar = 'SRMsg_MOD/MessageDialogOpened';
-
 {$ENDIF}

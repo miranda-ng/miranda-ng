@@ -403,15 +403,15 @@ static INT_PTR ReloadSettings(WPARAM, LPARAM lParam)
 // 0 if there is none (or the popup mode of the target container was configured to "hide"
 // the window..
 
-INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
+int TSAPI MessageWindowOpened(MCONTACT hContact, HWND _hwnd)
 {
 	HWND hwnd = 0;
 	TContainerData *pContainer = nullptr;
 
-	if (wParam)
-		hwnd = M.FindWindow(wParam);
-	else if (lParam)
-		hwnd = (HWND)lParam;
+	if (hContact)
+		hwnd = M.FindWindow(hContact);
+	else if (_hwnd)
+		hwnd = _hwnd;
 	else
 		return 0;
 
@@ -1107,8 +1107,6 @@ static void TSAPI InitAPI()
 	CreateServiceFunction(MS_TABMSG_SETUSERPREFS, SetUserPrefs);
 	CreateServiceFunction(MS_TABMSG_TRAYSUPPORT, Service_OpenTrayMenu);
 	CreateServiceFunction(MS_TABMSG_SLQMGR, CSendLater::svcQMgr);
-
-	CreateServiceFunction(MS_MSG_MOD_MESSAGEDIALOGOPENED, MessageWindowOpened);
 
 	CreateServiceFunction("SRMsg/BroadcastMessage", BroadcastMessage);
 	CreateServiceFunction("TabSRMsg/ReloadSkin", ReloadSkin);

@@ -1224,7 +1224,7 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 	// been minimized or in the background.
 	if (!(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
 		if (PluginConfig.m_bDividersUsePopupConfig && PluginConfig.m_bUseDividers) {
-			if (!MessageWindowOpened(m_hContact, 0))
+			if (!MessageWindowOpened(m_hContact, nullptr))
 				DM_AddDivider();
 		}
 		else if (PluginConfig.m_bUseDividers) {

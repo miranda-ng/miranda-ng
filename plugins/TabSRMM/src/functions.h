@@ -95,7 +95,7 @@ void  TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT 
 void  TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WPARAM wParam, LPARAM lParam);
 void  TSAPI SetAeroMargins(TContainerData *pContainer);
 
-INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam);
+int TSAPI MessageWindowOpened(MCONTACT hContact, HWND hwnd);
 
 LRESULT CALLBACK IEViewSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

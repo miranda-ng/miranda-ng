@@ -611,45 +611,42 @@ struct TIconDescW
 #define MIN_PANELHEIGHT 20
 
 // flags for the container dwFlags
-#define CNT_MOUSEDOWN 1
-#define CNT_NOTITLE 2
-#define CNT_HIDETABS 4
-#define CNT_SIDEBAR 8
-#define CNT_NOFLASH 0x10
-#define CNT_STICKY 0x20
-#define CNT_DONTREPORT 0x40
-#define CNT_FLASHALWAYS 0x80
-#define CNT_TRANSPARENCY 0x100
-#define CNT_AUTOHIDE 0x200
-#define CNT_DONTREPORTFOCUSED 0x400
-//#define CNT_GLOBALSETTINGS 0x400
-#define CNT_GLOBALSIZE 0x800
-#define CNT_INFOPANEL 0x1000
-#define CNT_NOSOUND 0x2000
-#define CNT_AUTOSPLITTER 0x4000
-#define CNT_DEFERREDCONFIGURE 0x8000
-#define CNT_CREATE_MINIMIZED 0x10000
-#define CNT_NEED_UPDATETITLE 0x20000
-#define CNT_DEFERREDSIZEREQUEST 0x40000
-#define CNT_DONTREPORTUNFOCUSED 0x80000
-#define CNT_DONTREPORTFOCUSED 0x400
+#define CNT_MOUSEDOWN                   1
+#define CNT_NOTITLE                     2
+#define CNT_HIDETABS                    4
+#define CNT_SIDEBAR                     8
+#define CNT_NOFLASH                  0x10
+#define CNT_STICKY                   0x20
+#define CNT_DONTREPORT               0x40
+#define CNT_FLASHALWAYS              0x80
+#define CNT_TRANSPARENCY            0x100
+#define CNT_AVATARSONTASKBAR        0x200
+#define CNT_DONTREPORTFOCUSED       0x400
+#define CNT_GLOBALSIZE              0x800
+#define CNT_INFOPANEL              0x1000
+#define CNT_NOSOUND                0x2000
+#define CNT_AUTOSPLITTER           0x4000
+#define CNT_DEFERREDCONFIGURE      0x8000
+#define CNT_CREATE_MINIMIZED      0x10000
+#define CNT_NEED_UPDATETITLE      0x20000
+#define CNT_DEFERREDSIZEREQUEST   0x40000
+#define CNT_DONTREPORTUNFOCUSED   0x80000
 #define CNT_ALWAYSREPORTINACTIVE 0x100000
-#define CNT_NEWCONTAINERFLAGS 0x200000
-#define CNT_DEFERREDTABSELECT 0x400000
-#define CNT_CREATE_CLONED 0x800000
-#define CNT_NOSTATUSBAR 0x1000000
-#define CNT_NOMENUBAR 0x2000000
-#define CNT_TABSBOTTOM 0x4000000
-#define CNT_AVATARSONTASKBAR 0x200
-#define CNT_BOTTOMTOOLBAR 0x10000000
-#define CNT_HIDETOOLBAR 0x20000000
-#define CNT_UINSTATUSBAR 0x40000000
-#define CNT_VERTICALMAX 0x80000000
+#define CNT_NEWCONTAINERFLAGS    0x200000
+#define CNT_DEFERREDTABSELECT    0x400000
+#define CNT_CREATE_CLONED        0x800000
+#define CNT_NOSTATUSBAR         0x1000000
+#define CNT_NOMENUBAR           0x2000000
+#define CNT_TABSBOTTOM          0x4000000
+#define CNT_BOTTOMTOOLBAR      0x10000000
+#define CNT_HIDETOOLBAR        0x20000000
+#define CNT_UINSTATUSBAR       0x40000000
+#define CNT_VERTICALMAX        0x80000000
 
-#define CNT_EX_SOUNDS_MINIMIZED 1024
-#define CNT_EX_SOUNDS_UNFOCUSED 2048
-#define CNT_EX_SOUNDS_INACTIVETABS 4096
-#define CNT_EX_SOUNDS_FOCUSED	8192
+#define CNT_EX_SOUNDS_MINIMIZED      1024
+#define CNT_EX_SOUNDS_UNFOCUSED      2048
+#define CNT_EX_SOUNDS_INACTIVETABS   4096
+#define CNT_EX_SOUNDS_FOCUSED	       8192
 
 #define CNT_FLAGS_DEFAULT (CNT_DONTREPORT | CNT_DONTREPORTUNFOCUSED | CNT_ALWAYSREPORTINACTIVE | CNT_HIDETABS | CNT_NEWCONTAINERFLAGS | CNT_NOMENUBAR | CNT_INFOPANEL)
 #define CNT_TRANS_DEFAULT 0x00ff00ff
@@ -750,20 +747,18 @@ struct TIconDescW
 
 // wParam values for DM_SELECTTAB
 
-#define DM_SELECT_NEXT		 1
-#define DM_SELECT_PREV		 2
+#define DM_SELECT_NEXT		   1
+#define DM_SELECT_PREV		   2
+									   
+#define DM_SELECT_BY_HWND	   3 // lParam specifies hwnd
+#define DM_SELECT_BY_INDEX    4 // lParam specifies tab index
+									   
+#define DM_QUERY_NEXT         1
+#define DM_QUERY_MOSTRECENT   2
 
-#define DM_SELECT_BY_HWND	 3		// lParam specifies hwnd
-#define DM_SELECT_BY_INDEX   4		// lParam specifies tab index
-
-#define DM_QUERY_NEXT 1
-#define DM_QUERY_MOSTRECENT 2
-
-/*
- * implement a callback for the rich edit. Without it, no bitmaps
- * can be added to the richedit control.
- * this class has to implement the GetNewStorage() method
- */
+// implement a callback for the rich edit. Without it, no bitmaps
+// can be added to the richedit control.
+// this class has to implement the GetNewStorage() method
 
 struct CREOleCallback : public IRichEditOleCallback
 {
@@ -915,12 +910,14 @@ struct TCpTable {
 #define LOI_TYPE_FLAG 1
 #define LOI_TYPE_SETTING 2
 
-struct TOptionListGroup {
+struct TOptionListGroup
+{
 	LRESULT handle;
 	wchar_t *szName;
 };
 
-struct TOptionListItem {
+struct TOptionListItem
+{
 	LRESULT handle;
 	wchar_t *szName;
 	UINT id;
@@ -940,13 +937,13 @@ struct TOptionListItem {
 
 // fixed stock button identifiers
 
-#define IDC_SBAR_SLIST                  1111
-#define IDC_SBAR_FAVORITES              1112
-#define IDC_SBAR_RECENT                 1113
-#define IDC_SBAR_SETUP                  1114
-#define IDC_SBAR_USERPREFS              1115
-#define IDC_SBAR_TOGGLEFORMAT           1117
-#define IDC_SBAR_CANCEL                 1118
+#define IDC_SBAR_SLIST             1111
+#define IDC_SBAR_FAVORITES         1112
+#define IDC_SBAR_RECENT            1113
+#define IDC_SBAR_SETUP             1114
+#define IDC_SBAR_USERPREFS         1115
+#define IDC_SBAR_TOGGLEFORMAT      1117
+#define IDC_SBAR_CANCEL            1118
 
 struct SIDEBARITEM {
 	UINT    uId;
@@ -958,41 +955,41 @@ struct SIDEBARITEM {
 	wchar_t   *tszTip;
 };
 
-#define FONTF_BOLD   1
-#define FONTF_ITALIC 2
-#define FONTF_UNDERLINE 4
+#define FONTF_BOLD       1
+#define FONTF_ITALIC     2
+#define FONTF_UNDERLINE  4
 #define FONTF_STRIKEOUT  8
 
 #define RTFCACHELINESIZE 128
 
-#define ID_EXTBKCONTAINER 0
-#define ID_EXTBKBUTTONBAR 1
-#define ID_EXTBKBUTTONSPRESSED 2
-#define ID_EXTBKBUTTONSNPRESSED 3
-#define ID_EXTBKBUTTONSMOUSEOVER 4
-#define ID_EXTBKINFOPANEL 5
-#define ID_EXTBKTITLEBUTTON 6
-#define ID_EXTBKTITLEBUTTONMOUSEOVER 7
-#define ID_EXTBKTITLEBUTTONPRESSED 8
-#define ID_EXTBKTABPAGE 9
-#define ID_EXTBKTABITEM 10
-#define ID_EXTBKTABITEMACTIVE 11
-#define ID_EXTBKTABITEMBOTTOM 12
-#define ID_EXTBKTABITEMACTIVEBOTTOM 13
-#define ID_EXTBKFRAME 14
-#define ID_EXTBKHISTORY 15
-#define ID_EXTBKINPUTAREA 16
-#define ID_EXTBKFRAMEINACTIVE 17
-#define ID_EXTBKTABITEMHOTTRACK 18
+#define ID_EXTBKCONTAINER              0
+#define ID_EXTBKBUTTONBAR              1
+#define ID_EXTBKBUTTONSPRESSED         2
+#define ID_EXTBKBUTTONSNPRESSED        3
+#define ID_EXTBKBUTTONSMOUSEOVER       4
+#define ID_EXTBKINFOPANEL              5
+#define ID_EXTBKTITLEBUTTON            6
+#define ID_EXTBKTITLEBUTTONMOUSEOVER   7
+#define ID_EXTBKTITLEBUTTONPRESSED     8
+#define ID_EXTBKTABPAGE                9
+#define ID_EXTBKTABITEM               10
+#define ID_EXTBKTABITEMACTIVE         11
+#define ID_EXTBKTABITEMBOTTOM         12
+#define ID_EXTBKTABITEMACTIVEBOTTOM   13
+#define ID_EXTBKFRAME                 14
+#define ID_EXTBKHISTORY               15
+#define ID_EXTBKINPUTAREA             16
+#define ID_EXTBKFRAMEINACTIVE         17
+#define ID_EXTBKTABITEMHOTTRACK       18
 #define ID_EXTBKTABITEMHOTTRACKBOTTOM 19
-#define ID_EXTBKSTATUSBARPANEL 20
-#define ID_EXTBKSTATUSBAR      21
-#define ID_EXTBKUSERLIST       22
-#define ID_EXTBKINFOPANELBG	   23
-#define ID_EXTBKSIDEBARBG	   24
-#define ID_EXTBK_LAST 24
+#define ID_EXTBKSTATUSBARPANEL        20
+#define ID_EXTBKSTATUSBAR             21
+#define ID_EXTBKUSERLIST              22
+#define ID_EXTBKINFOPANELBG           23
+#define ID_EXTBKSIDEBARBG             24
+#define ID_EXTBK_LAST                 24
 
-#define DEFAULT_SIDEBARWIDTH         30
+#define DEFAULT_SIDEBARWIDTH          30
 
 #define THEME_READ_FONTS 1
 #define THEME_READ_TEMPLATES 2
@@ -1024,9 +1021,7 @@ struct TABSRMM_SessionInfo {
 // lParam must be 0
 #define MS_TABMSG_TRAYSUPPORT "SRMsg_MOD/Show_TrayMenu"
 
-/*
- * the service which processes globally registered hotkeys
- */
+// the service which processes globally registered hotkeys
 #define MS_TABMSG_HOTKEYPROCESS "SRMsg_MOD/ProcessHotkey"
 
 #define MBF_DISABLED		0x01
@@ -1034,20 +1029,10 @@ struct TABSRMM_SessionInfo {
 #define TEMPLATES_MODULE "tabSRMM_Templates"
 #define RTLTEMPLATES_MODULE "tabSRMM_RTLTemplates"
 
-//Checks if there is a message window opened
-//wParam=(LPARAM)(HANDLE)hContact  - handle of the contact for which the window is searched. ignored if lParam
-//is not zero.
-//lParam=(LPARAM)(HWND)hwnd - a window handle - SET THIS TO 0 if you want to obtain the window handle
-//from the hContact.
-#define MS_MSG_MOD_MESSAGEDIALOGOPENED "SRMsg_MOD/MessageDialogOpened"
-
 // custom tabSRMM events
-
 #define tabMSG_WINDOW_EVT_CUSTOM_BEFORESEND 1
 
-
-/* temporary HPP API for emulating message log */
-
+// temporary HPP API for emulating message log 
 #define MS_HPP_EG_WINDOW "History++/ExtGrid/NewWindow"
 #define MS_HPP_EG_EVENT  "History++/ExtGrid/Event"
 #define MS_HPP_EG_UTILS  "History++/ExtGrid/Utils"
@@ -1058,10 +1043,7 @@ struct TABSRMM_SessionInfo {
 #define DEFAULT_CONTAINER_POS 	0x00400040			// default container position and size
 #define DEFAULT_CONTAINER_SIZE 	0x019001f4
 
-/*
- * core hotkey service ids
- */
-
+// core hotkey service ids
 #define TABSRMM_HK_LASTUNREAD        2
 #define TABSRMM_HK_LASTRECENT        4
 #define TABSRMM_HK_PASTEANDSEND      8
@@ -1095,10 +1077,7 @@ struct TABSRMM_SessionInfo {
 #define TABSRMM_HK_SECTION_GENERIC LPGEN("Message windows - all")
 #define TABSRMM_HK_SECTION_GC LPGEN("Message windows - group chats")
 
-/*
- * encryption status bar indicator
- */
-
+// encryption status bar indicator
 #define MSG_ICON_MODULE " TabSrmm"
 
 #define MSG_ICON_SESSION 0
@@ -1108,21 +1087,16 @@ struct TABSRMM_SessionInfo {
 int SI_InitStatusIcons();
 int SI_DeinitStatusIcons();
 
-int  GetStatusIconsCount();
-
 struct SKINDESC
 {
-	ULONG	ulID;				// resource id
-	wchar_t	tszName[30];
+	ULONG   ulID;
+	wchar_t tszName[30];
 };
 
 #define SKIN_NR_ELEMENTS 6
 #define SKIN_VERSION	 2
 
-/*
- * icon defintions (index into g_buttonBarIcons)
- */
-
+// icon defintions (index into g_buttonBarIcons)
 #define ICON_DEFAULT_SOUNDS 			22
 #define ICON_DEFAULT_PULLDOWN			16
 #define ICON_DEFAULT_LEFT				25
