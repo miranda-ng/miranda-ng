@@ -91,7 +91,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			char szPassword[100];
 			if (!db_get_static(NULL, proto->m_szModuleName, "Password", szPassword, sizeof(szPassword))) {
-				tBuffer[99] = 0;
+				szPassword[99] = 0;
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, szPassword);
 			}
 			SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_SETLIMITTEXT, 99, 0);
@@ -517,7 +517,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			char szPassword[100];
 			if (!db_get_static(NULL, proto->m_szModuleName, "Password", szPassword, sizeof(szPassword))) {
-				tBuffer[99] = 0;
+				szPassword[99] = 0;
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, szPassword);
 			}
 			SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_SETLIMITTEXT, 99, 0);
