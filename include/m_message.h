@@ -77,12 +77,6 @@ typedef struct {
 // Sets a statusbar line text for the appropriate contact
 #define MS_MSG_SETSTATUSTEXT "MessageAPI/SetStatusText"
 
-// wparam = 0
-// lparam = 0
-// Returns a dword with the current message api version
-// Current version is 0, 0, 0, 4
-#define MS_MSG_GETWINDOWAPI "MessageAPI/WindowAPI"
-
 // wparam = (char*)szBuf
 // lparam = (int)cbSize size of buffer
 // Sets the window class name in wParam (ex. "SRMM" for srmm.dll)

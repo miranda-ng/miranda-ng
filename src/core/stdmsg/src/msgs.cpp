@@ -477,11 +477,6 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-static INT_PTR GetWindowAPI(WPARAM, LPARAM)
-{
-	return PLUGIN_MAKE_VERSION(0, 0, 0, 4);
-}
-
 static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 {
 	char *szBuf = (char*)wParam;
@@ -557,7 +552,6 @@ int LoadSendRecvMessageModule(void)
 
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
-	CreateServiceFunction(MS_MSG_GETWINDOWAPI, GetWindowAPI);
 	CreateServiceFunction(MS_MSG_GETWINDOWCLASS, GetWindowClass);
 	CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);
 	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);

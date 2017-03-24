@@ -402,12 +402,6 @@ static INT_PTR GetMessageWindowFlags(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // return the version of the window api supported
 
-static INT_PTR GetWindowAPI(WPARAM, LPARAM)
-{
-	return PLUGIN_MAKE_VERSION(0, 0, 0, 2);
-}
-
-
 static INT_PTR BroadcastMessage(WPARAM, LPARAM lParam)
 {
 	M.BroadcastMessage((UINT)lParam, 0, 0);
@@ -1135,7 +1129,6 @@ static void TSAPI InitAPI()
 {
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
-	CreateServiceFunction(MS_MSG_GETWINDOWAPI, GetWindowAPI);
 	CreateServiceFunction(MS_MSG_GETWINDOWCLASS, GetWindowClass);
 	CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);
 	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);

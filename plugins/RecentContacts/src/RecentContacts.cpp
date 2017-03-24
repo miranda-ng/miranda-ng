@@ -18,8 +18,6 @@ HGENMENU hMenuItemRemove;
 
 const INT_PTR boo = 0;
 
-BOOL IsMessageAPI = FALSE;
-
 LastUCOptions LastUCOpt = {0};
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -513,7 +511,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_TTB_MODULELOADED, Create_TopToolbarShowList);
 
 	Create_MenuitemShowList();
-	IsMessageAPI = (CallService(MS_MSG_GETWINDOWAPI, 0, 0) != CALLSERVICE_NOTFOUND);
 	LoadDBSettings();
 
 	// hotkeys
