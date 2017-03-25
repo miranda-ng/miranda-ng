@@ -1046,7 +1046,8 @@ LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		DestroyMenu(hMenu);
 		return TRUE;
 	}
-	return 0;
+
+	return CSuper::WndProc_Log(msg, wParam, lParam);
 }
 
 LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -1120,7 +1121,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		InputAreaContextMenu(m_message.GetHwnd(), wParam, lParam, m_hContact);
 		return TRUE;
 	}
-	return 0;
+	return CSuper::WndProc_Message(msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

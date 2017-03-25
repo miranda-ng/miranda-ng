@@ -125,34 +125,34 @@ static LRESULT CALLBACK Srmm_ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LRESULT CSrmmBaseDialog::WndProc_Log(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
-{
-	return 0;
-}
-
 static LRESULT CALLBACK stubLogProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 	if (pDlg != nullptr)
-		pDlg->WndProc_Log(msg, wParam, lParam);
+		return pDlg->WndProc_Log(msg, wParam, lParam);
 
 	return mir_callNextSubclass(hwnd, stubLogProc, msg, wParam, lParam);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-LRESULT CSrmmBaseDialog::WndProc_Message(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	return 0;
+	return mir_callNextSubclass(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static LRESULT CALLBACK stubMessageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 	if (pDlg != nullptr)
-		pDlg->WndProc_Message(msg, wParam, lParam);
+		return pDlg->WndProc_Message(msg, wParam, lParam);
 
 	return mir_callNextSubclass(hwnd, stubMessageProc, msg, wParam, lParam);
+}
+
+LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	return mir_callNextSubclass(m_message.GetHwnd(), stubMessageProc, msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -266,6 +266,15 @@ static void CALLBACK ChatTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 	KillTimer(hwnd, idEvent);
 }
 
+static LRESULT CALLBACK stubNicklistProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
+	if (pDlg != nullptr)
+		return pDlg->WndProc_Nicklist(msg, wParam, lParam);
+
+	return mir_callNextSubclass(hwnd, stubNicklistProc, msg, wParam, lParam);
+}
+
 LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	RECT rc;
@@ -364,16 +373,8 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 		}
 		return 1;
 	}
-	return 0;
-}
 
-static LRESULT CALLBACK stubNicklistProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
-	if (pDlg != nullptr)
-		pDlg->WndProc_Nicklist(msg, wParam, lParam);
-
-	return mir_callNextSubclass(hwnd, stubNicklistProc, msg, wParam, lParam);
+	return mir_callNextSubclass(m_nickList.GetHwnd(), stubNicklistProc, msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -849,7 +849,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	return 0;
+	return CSuper::WndProc_Message(msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

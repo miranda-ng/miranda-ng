@@ -1112,7 +1112,7 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	return 0;
+	return CSuper::WndProc_Log(msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1459,7 +1459,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		return !CSkin::m_skinEnabled;
 	}
 
-	return 0;
+	return CSuper::WndProc_Message(msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

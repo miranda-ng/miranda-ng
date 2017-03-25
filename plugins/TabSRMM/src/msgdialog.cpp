@@ -1938,7 +1938,7 @@ LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 	}
 
-	return 0;
+	return CSuper::WndProc_Log(msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -2182,7 +2182,8 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		ShowPopupMenu(m_message, pt);
 		return TRUE;
 	}
-	return 0;
+
+	return CSuper::WndProc_Message(msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
