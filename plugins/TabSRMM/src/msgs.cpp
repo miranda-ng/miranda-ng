@@ -309,6 +309,32 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CSrmmBaseDialog::DlgProc(msg, wParam, lParam);
 }
 
+void CTabBaseDlg::NotifyDeliveryFailure() const
+{
+	if (M.GetByte("adv_noErrorPopups", 0))
+		return;
+
+	if (CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) != 1)
+		return;
+
+	POPUPDATAT ppd = { 0 };
+	ppd.lchContact = m_hContact;
+	wcsncpy_s(ppd.lptzContactName, m_cache->getNick(), _TRUNCATE);
+	wcsncpy_s(ppd.lptzText, TranslateT("A message delivery has failed.\nClick to open the message window."), _TRUNCATE);
+
+	if (!(BOOL)M.GetByte(MODULE, OPT_COLDEFAULT_ERR, TRUE)) {
+		ppd.colorText = (COLORREF)M.GetDword(MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
+		ppd.colorBack = (COLORREF)M.GetDword(MODULE, OPT_COLBACK_ERR, DEFAULT_COLBACK);
+	}
+	else ppd.colorText = ppd.colorBack = 0;
+
+	ppd.PluginWindowProc = Utils::PopupDlgProcError;
+	ppd.lchIcon = PluginConfig.g_iconErr;
+	ppd.PluginData = 0;
+	ppd.iSeconds = (int)M.GetDword(MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
+	PUAddPopupT(&ppd);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // service function. Sets a status bar text for a contact
 
@@ -473,7 +499,7 @@ INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar
 	// make sure that only the main UI thread will handle window creation
 	if (GetCurrentThreadId() != PluginConfig.dwThreadID) {
 		if (pszMsg) {
-			wchar_t *tszText = (isWchar) ? mir_wstrdup((WCHAR*)pszMsg) : mir_a2u(pszMsg);
+			wchar_t *tszText = (isWchar) ? mir_wstrdup((wchar_t*)pszMsg) : mir_a2u(pszMsg);
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMANDW, hContact, (LPARAM)tszText);
 		}
 		else PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMANDW, hContact, 0);

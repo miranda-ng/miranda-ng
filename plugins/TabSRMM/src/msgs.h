@@ -407,6 +407,7 @@ public:
 	BOOL  DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pColors) const;
 	void  DrawStatusIcons(HDC hDC, const RECT &rc, int gap);
 	void  EnableSendButton(bool bMode) const;
+	void  EnableSending(bool bMode) const;
 	void  FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei);
 	void  FlashTab(bool bInvertMode);
 	bool  GetAvatarVisibility();
@@ -421,6 +422,7 @@ public:
 	void  KbdState(bool &isShift, bool &isControl, bool &isAlt);
 	int   LoadLocalFlags();
 	void  LoadSplitter();
+	void  NotifyDeliveryFailure() const;
 	void  PlayIncomingSound() const;
 	void 	SendHBitmapAsFile(HBITMAP hbmp) const;
 	void  SaveSplitter();
@@ -430,6 +432,7 @@ public:
 	void  ShowPicture(bool showNewPic);
 	void  StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s);
 	void  UpdateReadChars() const;
+	void  UpdateSaveAndSendButton();
 
 	int   MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam);
 	int   MsgWindowUpdateMenu(HMENU submenu, int menuID);

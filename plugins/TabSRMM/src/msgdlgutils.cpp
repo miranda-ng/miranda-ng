@@ -438,6 +438,33 @@ void CTabBaseDlg::UpdateReadChars() const
 		InvalidateRect(m_pContainer->hwndStatus, nullptr, FALSE);
 }
 
+void CTabBaseDlg::UpdateSaveAndSendButton()
+{
+	GETTEXTLENGTHEX gtxl = { 0 };
+	gtxl.codepage = CP_UTF8;
+	gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
+
+	int len = SendDlgItemMessage(m_hwnd, IDC_SRMM_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
+	if (len && GetSendButtonState(m_hwnd) == PBS_DISABLED)
+		EnableSendButton(true);
+	else if (len == 0 && GetSendButtonState(m_hwnd) != PBS_DISABLED)
+		EnableSendButton(false);
+
+	if (len) {          // looks complex but avoids flickering on the button while typing.
+		if (!(m_dwFlags & MWF_SAVEBTN_SAV)) {
+			SendDlgItemMessage(m_hwnd, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_SAVE]);
+			SendDlgItemMessage(m_hwnd, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Save and close session"), BATF_UNICODE);
+			m_dwFlags |= MWF_SAVEBTN_SAV;
+		}
+	}
+	else {
+		SendDlgItemMessage(m_hwnd, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
+		SendDlgItemMessage(m_hwnd, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close session"), BATF_UNICODE);
+		m_dwFlags &= ~MWF_SAVEBTN_SAV;
+	}
+	m_textLen = len;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // update all status bar fields and force a redraw of the status bar.
 
@@ -1600,11 +1627,9 @@ HICON CTabBaseDlg::GetXStatusIcon() const
 LRESULT TSAPI GetSendButtonState(HWND hwnd)
 {
 	HWND hwndIDok = GetDlgItem(hwnd, IDOK);
-
 	if (hwndIDok)
-		return(SendMessage(hwndIDok, BUTTONGETSTATEID, TRUE, 0));
-	else
-		return 0;
+		return SendMessage(hwndIDok, BUTTONGETSTATEID, TRUE, 0);
+	return 0;
 }
 
 void CTabBaseDlg::EnableSendButton(bool bMode) const
@@ -1615,6 +1640,13 @@ void CTabBaseDlg::EnableSendButton(bool bMode) const
 	HWND hwndOK = GetDlgItem(GetParent(GetParent(m_hwnd)), IDOK);
 	if (IsWindow(hwndOK))
 		SendMessage(hwndOK, BUTTONSETASNORMAL, bMode, 0);
+}
+
+void CTabBaseDlg::EnableSending(bool bMode) const
+{
+	m_message.SendMsg(EM_SETREADONLY, !bMode, 0);
+	Utils::enableDlgControl(m_hwnd, IDC_CLIST, bMode);
+	EnableSendButton(bMode);
 }
 
 void CTabBaseDlg::SendNudge() const

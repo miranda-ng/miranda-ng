@@ -346,10 +346,10 @@ char* Utils::FilterEventMarkers(char *szText)
 	return szText;
 }
 
-WCHAR* Utils::FilterEventMarkers(WCHAR *wszText)
+wchar_t* Utils::FilterEventMarkers(wchar_t *wszText)
 {
-	for (WCHAR *p = wcsstr(wszText, L"~-+"); p != nullptr; p = wcsstr(p, L"~-+")) {
-		WCHAR *pEnd = wcsstr(p + 3, L"+-~");
+	for (wchar_t *p = wcsstr(wszText, L"~-+"); p != nullptr; p = wcsstr(p, L"~-+")) {
+		wchar_t *pEnd = wcsstr(p + 3, L"+-~");
 		if (pEnd == nullptr)
 			break;
 

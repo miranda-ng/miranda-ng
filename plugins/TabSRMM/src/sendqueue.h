@@ -92,19 +92,14 @@ public:
 	size_t getSendLength(const int iEntry);
 	void   checkQueue(const CTabBaseDlg *dat) const;
 	void   logError(CTabBaseDlg *dat, int iSendJobIndex, const wchar_t *szErrMsg) const;
-	void   recallFailed(const CTabBaseDlg *dat, int iEntry) const;
+	void   recallFailed(CTabBaseDlg *dat, int iEntry) const;
 	void   showErrorControls(CTabBaseDlg *dat, const int showCmd) const;
 	int    ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam);
 	int    doSendLater(int iIndex, CTabBaseDlg *dat, MCONTACT hContact = 0, bool fIsSendLater = true);
-	/*
-	 * static members
-	 */
+
+	// static members
 	static int     TSAPI RTL_Detect(const wchar_t *pszwText);
-	static int     TSAPI GetProtoIconFromList(const char *szProto, int iStatus);
 	static LRESULT TSAPI WarnPendingJobs(unsigned int uNrMessages);
-	static void    TSAPI NotifyDeliveryFailure(const CTabBaseDlg *dat);
-	static void    TSAPI UpdateSaveAndSendButton(CTabBaseDlg *dat);
-	static void    TSAPI EnableSending(const CTabBaseDlg *dat, bool bMode);
 
 private:
 	SendJob m_jobs[NR_SENDJOBS];

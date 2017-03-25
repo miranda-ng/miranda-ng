@@ -792,7 +792,7 @@ void CSrmmWindow::OnInitDialog()
 		if (tszSavedMsg != 0) {
 			SETTEXTEX stx = { ST_DEFAULT, 1200 };
 			m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, tszSavedMsg);
-			SendQueue::UpdateSaveAndSendButton(this);
+			UpdateSaveAndSendButton();
 			if (m_pContainer->m_hwndActive == m_hwnd)
 				UpdateReadChars();
 		}
@@ -1297,7 +1297,7 @@ void CSrmmWindow::onChange_Message(CCtrlEdit*)
 	m_dwFlags |= MWF_NEEDHISTORYSAVE;
 	m_dwLastActivity = GetTickCount();
 	m_pContainer->dwLastActivity = m_dwLastActivity;
-	SendQueue::UpdateSaveAndSendButton(this);
+	UpdateSaveAndSendButton();
 	if (!(GetKeyState(VK_CONTROL) & 0x8000)) {
 		m_nLastTyping = GetTickCount();
 		if (GetWindowTextLength(m_message.GetHwnd())) {

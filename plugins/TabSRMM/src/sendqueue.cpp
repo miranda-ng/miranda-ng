@@ -107,7 +107,7 @@ entry_found:
 	::SetDlgItemText(hwndDlg, IDC_SRMM_MESSAGE, L"");
 	::SetFocus(GetDlgItem(hwndDlg, IDC_SRMM_MESSAGE));
 
-	UpdateSaveAndSendButton(dat);
+	dat->UpdateSaveAndSendButton();
 	sendQueued(dat, iFound);
 	return 0;
 }
@@ -365,22 +365,6 @@ void SendQueue::logError(CTabBaseDlg *dat, int iSendJobIndex, const wchar_t *szE
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// enable or disable the sending controls in the given window
-// ) input area
-// ) multisend contact list instance
-// ) send button
-
-void SendQueue::EnableSending(const CTabBaseDlg *dat, bool bMode)
-{
-	if (dat) {
-		HWND hwndDlg = dat->GetHwnd();
-		::SendDlgItemMessage(hwndDlg, IDC_SRMM_MESSAGE, EM_SETREADONLY, !bMode, 0);
-		Utils::enableDlgControl(hwndDlg, IDC_CLIST, bMode);
-		dat->EnableSendButton(bMode);
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // show or hide the error control button bar on top of the window
 
 void SendQueue::showErrorControls(CTabBaseDlg *dat, const int showCmd) const
@@ -408,87 +392,30 @@ void SendQueue::showErrorControls(CTabBaseDlg *dat, const int showCmd) const
 	SendMessage(hwndDlg, WM_SIZE, 0, 0);
 	dat->DM_ScrollToBottom(0, 1);
 	if (m_jobs[0].hContact != 0)
-		EnableSending(dat, TRUE);
+		dat->EnableSending(TRUE);
 }
 
-void SendQueue::recallFailed(const CTabBaseDlg *dat, int iEntry) const
+void SendQueue::recallFailed(CTabBaseDlg *dat, int iEntry) const
 {
 	if (dat == nullptr)
 		return;
 
 	int iLen = GetWindowTextLength(GetDlgItem(dat->GetHwnd(), IDC_SRMM_MESSAGE));
-	NotifyDeliveryFailure(dat);
+	dat->NotifyDeliveryFailure();
 	if (iLen != 0)
 		return;
 
 	// message area is empty, so we can recall the failed message...
 	SETTEXTEX stx = { ST_DEFAULT, CP_UTF8 };
 	SendDlgItemMessage(dat->GetHwnd(), IDC_SRMM_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_jobs[iEntry].szSendBuffer);
-	UpdateSaveAndSendButton(const_cast<CTabBaseDlg *>(dat));
-	SendDlgItemMessage(dat->GetHwnd(), IDC_SRMM_MESSAGE, EM_SETSEL, (WPARAM)-1, (LPARAM)-1);
-}
-
-void SendQueue::UpdateSaveAndSendButton(CTabBaseDlg *dat)
-{
-	if (dat) {
-		HWND hwndDlg = dat->GetHwnd();
-
-		GETTEXTLENGTHEX gtxl = { 0 };
-		gtxl.codepage = CP_UTF8;
-		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
-
-		int len = SendDlgItemMessage(hwndDlg, IDC_SRMM_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
-		if (len && GetSendButtonState(hwndDlg) == PBS_DISABLED)
-			dat->EnableSendButton(TRUE);
-		else if (len == 0 && GetSendButtonState(hwndDlg) != PBS_DISABLED)
-			dat->EnableSendButton(FALSE);
-
-		if (len) {          // looks complex but avoids flickering on the button while typing.
-			if (!(dat->m_dwFlags & MWF_SAVEBTN_SAV)) {
-				SendDlgItemMessage(hwndDlg, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_SAVE]);
-				SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Save and close session"), BATF_UNICODE);
-				dat->m_dwFlags |= MWF_SAVEBTN_SAV;
-			}
-		}
-		else {
-			SendDlgItemMessage(hwndDlg, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
-			SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close session"), BATF_UNICODE);
-			dat->m_dwFlags &= ~MWF_SAVEBTN_SAV;
-		}
-		dat->m_textLen = len;
-	}
-}
-
-void SendQueue::NotifyDeliveryFailure(const CTabBaseDlg *dat)
-{
-	if (M.GetByte("adv_noErrorPopups", 0))
-		return;
-
-	if (CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) != 1)
-		return;
-
-	POPUPDATAT ppd = { 0 };
-	ppd.lchContact = dat->m_hContact;
-	wcsncpy_s(ppd.lptzContactName, dat->m_cache->getNick(), _TRUNCATE);
-	wcsncpy_s(ppd.lptzText, TranslateT("A message delivery has failed.\nClick to open the message window."), _TRUNCATE);
-
-	if (!(BOOL)M.GetByte(MODULE, OPT_COLDEFAULT_ERR, TRUE)) {
-		ppd.colorText = (COLORREF)M.GetDword(MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
-		ppd.colorBack = (COLORREF)M.GetDword(MODULE, OPT_COLBACK_ERR, DEFAULT_COLBACK);
-	}
-	else ppd.colorText = ppd.colorBack = 0;
-
-	ppd.PluginWindowProc = Utils::PopupDlgProcError;
-	ppd.lchIcon = PluginConfig.g_iconErr;
-	ppd.PluginData = 0;
-	ppd.iSeconds = (int)M.GetDword(MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
-	PUAddPopupT(&ppd);
+	dat->UpdateSaveAndSendButton();
+	SendDlgItemMessage(dat->GetHwnd(), IDC_SRMM_MESSAGE, EM_SETSEL, -1, -1);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // searches string for characters typical for RTL text(hebrew and other RTL languages
 
-int SendQueue::RTL_Detect(const WCHAR *pszwText)
+int SendQueue::RTL_Detect(const wchar_t *pszwText)
 {
 	size_t iLen = mir_wstrlen(pszwText);
 
@@ -666,41 +593,41 @@ int SendQueue::doSendLater(int iJobIndex, CTabBaseDlg *dat, MCONTACT hContact, b
 			return 0;
 	}
 
-	if (iJobIndex >= 0 && iJobIndex < NR_SENDJOBS) {
-		SendJob *job = &m_jobs[iJobIndex];
-		char szKeyName[20];
-		wchar_t tszHeader[150];
+	if (iJobIndex < 0 || iJobIndex >= NR_SENDJOBS)
+		return -1;
+	
+	SendJob *job = &m_jobs[iJobIndex];
+	char szKeyName[20];
+	wchar_t tszHeader[150];
 
-		if (fIsSendLater) {
-			time_t now = time(0);
-			wchar_t tszTimestamp[30];
-			wcsftime(tszTimestamp, _countof(tszTimestamp), L"%Y.%m.%d - %H:%M", _localtime32((__time32_t *)&now));
-			mir_snprintf(szKeyName, "S%d", now);
-			mir_snwprintf(tszHeader, TranslateT("\n(Sent delayed. Original timestamp %s)"), tszTimestamp);
-		}
-		else mir_snwprintf(tszHeader, L"M%d|", time(0));
-
-		T2Utf utf_header(tszHeader);
-		size_t required = mir_strlen(utf_header) + mir_strlen(job->szSendBuffer) + 10;
-		char *tszMsg = reinterpret_cast<char *>(mir_alloc(required));
-
-		if (fIsSendLater) {
-			mir_snprintf(tszMsg, required, "%s%s", job->szSendBuffer, utf_header);
-			db_set_s(hContact ? hContact : job->hContact, "SendLater", szKeyName, tszMsg);
-		}
-		else {
-			mir_snprintf(tszMsg, required, "%s%s", utf_header, job->szSendBuffer);
-			sendLater->addJob(tszMsg, hContact);
-		}
-		mir_free(tszMsg);
-
-		if (fIsSendLater) {
-			int iCount = db_get_dw(hContact ? hContact : job->hContact, "SendLater", "count", 0);
-			iCount++;
-			db_set_dw(hContact ? hContact : job->hContact, "SendLater", "count", iCount);
-			sendLater->addContact(hContact ? hContact : job->hContact);
-		}
-		return iJobIndex;
+	if (fIsSendLater) {
+		time_t now = time(0);
+		wchar_t tszTimestamp[30];
+		wcsftime(tszTimestamp, _countof(tszTimestamp), L"%Y.%m.%d - %H:%M", _localtime32((__time32_t *)&now));
+		mir_snprintf(szKeyName, "S%d", now);
+		mir_snwprintf(tszHeader, TranslateT("\n(Sent delayed. Original timestamp %s)"), tszTimestamp);
 	}
-	return -1;
+	else mir_snwprintf(tszHeader, L"M%d|", time(0));
+
+	T2Utf utf_header(tszHeader);
+	size_t required = mir_strlen(utf_header) + mir_strlen(job->szSendBuffer) + 10;
+	char *tszMsg = reinterpret_cast<char *>(mir_alloc(required));
+
+	if (fIsSendLater) {
+		mir_snprintf(tszMsg, required, "%s%s", job->szSendBuffer, utf_header);
+		db_set_s(hContact ? hContact : job->hContact, "SendLater", szKeyName, tszMsg);
+	}
+	else {
+		mir_snprintf(tszMsg, required, "%s%s", utf_header, job->szSendBuffer);
+		sendLater->addJob(tszMsg, hContact);
+	}
+	mir_free(tszMsg);
+
+	if (fIsSendLater) {
+		int iCount = db_get_dw(hContact ? hContact : job->hContact, "SendLater", "count", 0);
+		iCount++;
+		db_set_dw(hContact ? hContact : job->hContact, "SendLater", "count", iCount);
+		sendLater->addContact(hContact ? hContact : job->hContact);
+	}
+	return iJobIndex;
 }
