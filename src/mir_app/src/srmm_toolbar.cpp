@@ -389,14 +389,6 @@ MIR_APP_DLL(void) Srmm_RedrawToolbarIcons(HWND hwndDlg)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void CB_HardReInit()
-{
-	WindowList_Broadcast(chatApi.hWindowList, WM_CBD_REMOVED, 0, 0);
-
-	Srmm_ResetToolbar();
-	NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);
-}
-
 static void CB_ReInitCustomButtons()
 {
 	for (int i = arButtonsList.getCount() - 1; i >= 0; i--) {
@@ -646,7 +638,11 @@ public:
 	void btnResetClicked(void*)
 	{
 		db_delete_module(0, MODULENAME);
-		CB_HardReInit();
+		WindowList_Broadcast(chatApi.hWindowList, WM_CBD_REMOVED, 0, 0);
+
+		Srmm_ResetToolbar();
+		NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);
+		
 		BuildMenuObjectsTree();
 		NotifyChange();
 	}
