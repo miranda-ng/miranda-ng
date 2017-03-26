@@ -29,7 +29,6 @@
 #include "stdafx.h"
 
 HANDLE g_hWindowList;
-HMENU  g_hMenu = nullptr;
 
 pfnDoPopup oldDoPopup, oldLogToFile;
 pfnDoTrayIcon oldDoTrayIcon;
@@ -222,6 +221,28 @@ static int OnCreateGCMenu(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+static int OnHandleGCMenu(WPARAM, LPARAM lParam)
+{
+	GCHOOK *gch = (GCHOOK*)lParam;
+	if (!gch)
+		return 1;
+
+	if (gch->dwData == 20020) { // add to highlight...
+		SESSION_INFO *si = pci->SM_FindSession(gch->pDest->ptszID, gch->pDest->pszModule);
+		THighLightEdit the = { THighLightEdit::CMD_ADD, si, pci->UM_FindUser(si->pUsers, gch->ptszUID) };
+		HWND hwndParent = si->pDlg->m_pContainer->m_hwnd;
+		HWND hwndDlg = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDHIGHLIGHT), hwndParent, CMUCHighlight::dlgProcAdd, (LPARAM)&the);
+		TranslateDialogDefault(hwndDlg);
+
+		RECT rc, rcWnd;
+		GetClientRect(hwndParent, &rcWnd);
+		GetWindowRect(hwndDlg, &rc);
+		SetWindowPos(hwndDlg, HWND_TOP, (rcWnd.right - (rc.right - rc.left)) / 2, (rcWnd.bottom - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+	}
+
+	return 0;
+}
+
 // load the module
 int Chat_Load()
 {
@@ -253,8 +274,7 @@ int Chat_Load()
 	pci->UM_CompareItem = UM_CompareItem;
 	pci->ReloadSettings();
 
-	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
-
+	HookEvent(ME_GC_EVENT, OnHandleGCMenu);
 	HookEvent(ME_GC_BUILDMENU, OnCreateGCMenu);
 	g_Settings.Highlight = new CMUCHighlight();
 	return 0;
@@ -271,7 +291,5 @@ int Chat_Unload(void)
 			DeleteObject(g_Settings.UserListFonts[i]);
 
 	delete g_Settings.Highlight;
-
-	DestroyMenu(g_hMenu);
 	return 0;
 }

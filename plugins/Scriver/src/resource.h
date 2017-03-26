@@ -60,7 +60,6 @@
 #define IDI_ADDSTATUS                   441
 #define IDI_REMSTATUS                   442
 #define IDI_ACTION                      443
-#define IDR_MENU                        451
 #define IDI_STATUS3                     453
 #define IDI_STATUS2                     454
 #define IDI_STATUS4                     455

@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // globals
 CHAT_MANAGER *pci;
-HMENU g_hMenu = nullptr;
 
 pfnDoTrayIcon oldDoTrayIcon;
 pfnDoPopup    oldDoPopup;
@@ -151,13 +150,5 @@ int Chat_Load()
 	oldDoTrayIcon = pci->DoTrayIcon; pci->DoTrayIcon = DoTrayIcon;
 	pci->ReloadSettings();
 
-	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
-	TranslateMenu(g_hMenu);
-	return 0;
-}
-
-int Chat_Unload(void)
-{
-	DestroyMenu(g_hMenu);
 	return 0;
 }

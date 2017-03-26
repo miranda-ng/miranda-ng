@@ -25,7 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 INT_PTR SvcGetChatManager(WPARAM, LPARAM);
 
 #include "chat.h"
+#include "resource.h"
 
+HMENU g_hMenu = nullptr;
 HGENMENU hJoinMenuItem, hLeaveMenuItem;
 mir_cs csChat;
 
@@ -783,6 +785,9 @@ int LoadChatModule(void)
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
 
+	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_SRMM));
+	TranslateMenu(g_hMenu);
+
 	bInited = true;
 	return 0;
 }
@@ -803,4 +808,6 @@ void UnloadChatModule(void)
 	DestroyHookableEvent(chatApi.hSendEvent);
 	DestroyHookableEvent(chatApi.hBuildMenuEvent);
 	DestroyHookableEvent(hHookEvent);
+
+	DestroyMenu(g_hMenu);
 }

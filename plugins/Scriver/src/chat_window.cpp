@@ -233,7 +233,7 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 
 void CChatRoomDlg::OnInitDialog()
 {
-	CScriverWindow::OnInitDialog();
+	CSuper::OnInitDialog();
 	m_si->pDlg = this;
 
 	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
@@ -797,8 +797,6 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static BOOL inMenu = FALSE;
-
 	int result = InputAreaShortcuts(m_log.GetHwnd(), msg, wParam, lParam);
 	if (result != -1)
 		return result;
@@ -813,13 +811,6 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_DRAWITEM:
 		return DrawMenuItem(wParam, lParam);
 
-	case WM_SETCURSOR:
-		if (inMenu) {
-			SetCursor(LoadCursor(nullptr, IDC_ARROW));
-			return TRUE;
-		}
-		break;
-
 	case WM_LBUTTONUP:
 		SendMessage(m_log.GetHwnd(), EM_EXGETSEL, 0, (LPARAM)&sel);
 		if (sel.cpMin != sel.cpMax) {
@@ -828,71 +819,6 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			SendMessage(m_log.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&sel);
 		}
 		SetFocus(m_message.GetHwnd());
-		break;
-
-	case WM_CONTEXTMENU:
-		POINT pt;
-		POINTL ptl;
-		m_message.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-		if (lParam == 0xFFFFFFFF) {
-			m_message.SendMsg(EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)sel.cpMax);
-			ClientToScreen(m_log.GetHwnd(), &pt);
-		}
-		else {
-			pt.x = GET_X_LPARAM(lParam);
-			pt.y = GET_Y_LPARAM(lParam);
-		}
-		ptl.x = (LONG)pt.x;
-		ptl.y = (LONG)pt.y;
-		ScreenToClient(m_log.GetHwnd(), (LPPOINT)&ptl);
-		{
-			ptrW pszWord(GetRichTextWord(m_log.GetHwnd(), &ptl));
-			inMenu = TRUE;
-
-			CHARRANGE all = { 0, -1 };
-			HMENU hMenu = GetSubMenu(g_hMenu, 1);
-			UINT uID = Chat_CreateGCMenu(m_log.GetHwnd(), hMenu, pt, m_si, nullptr, pszWord);
-			inMenu = FALSE;
-			switch (uID) {
-			case 0:
-				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-				break;
-
-			case ID_COPYALL:
-				m_message.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-				m_message.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
-				m_message.SendMsg(WM_COPY, 0, 0);
-				m_message.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-				break;
-
-			case IDM_CLEAR:
-				m_log.SetText(L"");
-				pci->LM_RemoveAll(&m_si->pLog, &m_si->pLogEnd);
-				m_si->iEventCount = 0;
-				m_si->LastTime = 0;
-				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-				break;
-
-			case IDM_SEARCH_GOOGLE:
-			case IDM_SEARCH_BING:
-			case IDM_SEARCH_YANDEX:
-			case IDM_SEARCH_YAHOO:
-			case IDM_SEARCH_WIKIPEDIA:
-			case IDM_SEARCH_FOODNETWORK:
-			case IDM_SEARCH_GOOGLE_MAPS:
-			case IDM_SEARCH_GOOGLE_TRANSLATE:
-				SearchWord(pszWord, uID - IDM_SEARCH_GOOGLE + SEARCHENGINE_GOOGLE);
-				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-				break;
-
-			default:
-				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-				DoEventHook(GC_USER_LOGMENU, nullptr, nullptr, uID);
-				break;
-			}
-			Chat_DestroyGCMenu(hMenu, 5);
-		}
 		break;
 	}
 
@@ -908,56 +834,6 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 		return result;
 
 	switch (msg) {
-	case WM_CONTEXTMENU:
-		{
-			int height = 0;
-
-			TVHITTESTINFO hti;
-			hti.pt.x = GET_X_LPARAM(lParam);
-			hti.pt.y = GET_Y_LPARAM(lParam);
-			if (hti.pt.x == -1 && hti.pt.y == -1) {
-				int index = m_nickList.SendMsg(LB_GETCURSEL, 0, 0);
-				int top = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
-				height = m_nickList.SendMsg(LB_GETITEMHEIGHT, 0, 0);
-				hti.pt.x = 4;
-				hti.pt.y = (index - top)*height + 1;
-			}
-			else ScreenToClient(m_nickList.GetHwnd(), &hti.pt);
-
-			int item = m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y));
-			if (HIWORD(item) == 1)
-				item = -1;
-			else
-				item &= 0xFFFF;
-
-			USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, item);
-			if (ui) {
-				HMENU hMenu = GetSubMenu(g_hMenu, 0);
-				USERINFO uinew;
-				memcpy(&uinew, ui, sizeof(USERINFO));
-				if (hti.pt.x == -1 && hti.pt.y == -1)
-					hti.pt.y += height - 4;
-				ClientToScreen(m_nickList.GetHwnd(), &hti.pt);
-				UINT uID = Chat_CreateGCMenu(m_nickList.GetHwnd(), hMenu, hti.pt, m_si, uinew.pszUID, uinew.pszNick);
-
-				switch (uID) {
-				case 0:
-					break;
-
-				case ID_MESS:
-					DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
-					break;
-
-				default:
-					DoEventHook(GC_USER_NICKLISTMENU, ui, nullptr, uID);
-					break;
-				}
-				Chat_DestroyGCMenu(hMenu, 1);
-				return TRUE;
-			}
-		}
-		break;
-
 	case WM_GETDLGCODE:
 		{
 			BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
@@ -1251,7 +1127,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	}
-	return CScriverWindow::DlgProc(uMsg, wParam, lParam);
+	return CSuper::DlgProc(uMsg, wParam, lParam);
 }
 
 void ShowRoom(SESSION_INFO *si)

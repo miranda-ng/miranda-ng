@@ -527,22 +527,6 @@ IDC_DROPUSER            CURSOR                  "dropuser.cur"
 
 IDR_MENU MENU
 BEGIN
-    POPUP "List"
-    BEGIN
-        MENUITEM "&Message",                    ID_MESS
-    END
-    POPUP "Log"
-    BEGIN
-        MENUITEM "Clear lo&g",                  ID_CLEARLOG
-        MENUITEM SEPARATOR
-        MENUITEM "Co&py all",                   ID_COPYALL
-        MENUITEM SEPARATOR
-        POPUP "Word lookup", GRAYED
-        BEGIN
-            MENUITEM "Google",                      ID_SEARCH_GOOGLE
-            MENUITEM "Wikipedia",                   ID_SEARCH_WIKIPEDIA
-        END
-    END
     POPUP "Message"
     BEGIN
         MENUITEM "Undo",                        ID_MESSAGE_UNDO, GRAYED

@@ -873,7 +873,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_RBUTTONDOWN:
 		{
-			HMENU hSubMenu = GetSubMenu(g_hMenu, 2);
+			HMENU hSubMenu = GetSubMenu(g_hMenu, 0);
 			TranslateMenu(hSubMenu);
 			m_message.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
 
@@ -977,50 +977,6 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 			return TRUE;
 		}
 		break;
-
-	case WM_CONTEXTMENU:
-		TVHITTESTINFO hti;
-		{
-			int height = 0;
-			hti.pt.x = GET_X_LPARAM(lParam);
-			hti.pt.y = GET_Y_LPARAM(lParam);
-			if (hti.pt.x == -1 && hti.pt.y == -1) {
-				int index = m_nickList.SendMsg(LB_GETCURSEL, 0, 0);
-				int top = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
-				height = m_nickList.SendMsg(LB_GETITEMHEIGHT, 0, 0);
-				hti.pt.x = 4;
-				hti.pt.y = (index - top)*height + 1;
-			}
-			else ScreenToClient(m_nickList.GetHwnd(), &hti.pt);
-
-			int item = LOWORD(m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
-			USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, item);
-			if (ui) {
-				USERINFO uinew;
-				memcpy(&uinew, ui, sizeof(USERINFO));
-				if (hti.pt.x == -1 && hti.pt.y == -1)
-					hti.pt.y += height - 4;
-				ClientToScreen(m_nickList.GetHwnd(), &hti.pt);
-
-				HMENU hMenu = GetSubMenu(g_hMenu, 0);
-				UINT uID = Chat_CreateGCMenu(m_nickList.GetHwnd(), hMenu, hti.pt, m_si, uinew.pszUID, uinew.pszNick);
-				switch (uID) {
-				case 0:
-					break;
-
-				case ID_MESS:
-					DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
-					break;
-
-				default:
-					DoEventHook(GC_USER_NICKLISTMENU, ui, nullptr, uID);
-					break;
-				}
-				Chat_DestroyGCMenu(hMenu, 1);
-				return TRUE;
-			}
-		}
-		break;
 	}
 
 	return CSuper::WndProc_Nicklist(msg, wParam, lParam);
@@ -1030,9 +986,6 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 
 INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	SESSION_INFO *s;
-	CHARRANGE sel;
-
 	switch (uMsg) {
 	case WM_CBD_LOADICONS:
 		Srmm_UpdateToolbarIcons(m_hwnd);
@@ -1210,85 +1163,8 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		switch (((LPNMHDR)lParam)->code) {
 		case EN_MSGFILTER:
 			if (((LPNMHDR)lParam)->idFrom == IDC_SRMM_LOG && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
-				ENLINK *pLink = (ENLINK*)lParam;
-				POINT pt = { GET_X_LPARAM(pLink->lParam), GET_Y_LPARAM(pLink->lParam) };
-				ClientToScreen(((LPNMHDR)lParam)->hwndFrom, &pt);
-
-				// fixing stuff for searches
-				POINTL ptl = { (LONG)pt.x, (LONG)pt.y };
-				ScreenToClient(m_log.GetHwnd(), (LPPOINT)&ptl);
-				long iCharIndex = m_log.SendMsg(EM_CHARFROMPOS, 0, (LPARAM)&ptl);
-				if (iCharIndex < 0)
-					break;
-
-				long start = m_log.SendMsg(EM_FINDWORDBREAK, WB_LEFT, iCharIndex);//-iChars;
-				long end = m_log.SendMsg(EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);//-iChars;
-
-				wchar_t pszWord[4096]; pszWord[0] = '\0';
-				if (end - start > 0) {
-					TEXTRANGE tr;
-					tr.lpstrText = pszWord;
-					tr.chrg.cpMin = start;
-					tr.chrg.cpMax = end;
-					long iRes = m_log.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-					if (pszWord[0] == 0)
-						break;
-					if (iRes > 0)
-						for (size_t iLen = mir_wstrlen(pszWord) - 1; wcschr(szTrimString, pszWord[iLen]); iLen--)
-							pszWord[iLen] = 0;
-				}
-
-				CHARRANGE all = { 0, -1 };
-				HMENU hMenu = GetSubMenu(g_hMenu, 1);
-				UINT uID = Chat_CreateGCMenu(m_log.GetHwnd(), hMenu, pt, m_si, nullptr, pszWord);
-				switch (uID) {
-				case 0:
-					PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-					break;
-
-				case ID_COPYALL:
-					SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXGETSEL, 0, (LPARAM)&sel);
-					SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
-					SendMessage(((LPNMHDR)lParam)->hwndFrom, WM_COPY, 0, 0);
-					SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM)&sel);
-					PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-					break;
-
-				case ID_CLEARLOG:
-					s = pci->SM_FindSession(m_si->ptszID, m_si->pszModule);
-					if (s) {
-						ClearLog();
-						pci->LM_RemoveAll(&s->pLog, &s->pLogEnd);
-						s->iEventCount = 0;
-						s->LastTime = 0;
-						m_si->iEventCount = 0;
-						m_si->LastTime = 0;
-						m_si->pLog = s->pLog;
-						m_si->pLogEnd = s->pLogEnd;
-						PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-					}
-					break;
-
-				case ID_SEARCH_GOOGLE:
-					if (pszWord[0])
-						Utils_OpenUrlW(CMStringW(FORMAT, L"http://www.google.com/search?q=%s", pszWord));
-
-					PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-					break;
-
-				case ID_SEARCH_WIKIPEDIA:
-					if (pszWord[0])
-						Utils_OpenUrlW(CMStringW(FORMAT, L"http://en.wikipedia.org/wiki/%s", pszWord));
-
-					PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-					break;
-
-				default:
-					PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-					DoEventHook(GC_USER_LOGMENU, nullptr, nullptr, uID);
-					break;
-				}
-				Chat_DestroyGCMenu(hMenu, 5);
+				SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
+				return TRUE;
 			}
 			break;
 

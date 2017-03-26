@@ -1304,6 +1304,34 @@ BEGIN
     END
 END
 
+IDR_SRMM MENU
+BEGIN
+    POPUP "List"
+    BEGIN
+        MENUITEM "&Message",                    IDM_SENDMESSAGE
+    END
+    POPUP "Log"
+    BEGIN
+        MENUITEM "Clear lo&g",                  IDM_CLEAR
+        MENUITEM SEPARATOR
+        MENUITEM "Co&py all",                   IDM_COPYALL
+        MENUITEM SEPARATOR
+        POPUP "Word lookup", GRAYED
+        BEGIN
+            MENUITEM "Google",                      IDM_SEARCH_GOOGLE
+            MENUITEM "Bing",                        IDM_SEARCH_BING
+            MENUITEM "Yandex",                      IDM_SEARCH_YANDEX
+            MENUITEM "Wikipedia (en)",              IDM_SEARCH_WIKIPEDIA
+            MENUITEM SEPARATOR
+            MENUITEM "Google Maps",                 IDM_SEARCH_GOOGLE_MAPS
+            MENUITEM "Google Translate",            IDM_SEARCH_GOOGLE_TRANSLATE
+            MENUITEM SEPARATOR
+            MENUITEM "Yahoo",                       IDM_SEARCH_YAHOO
+            MENUITEM "Foodnetwork",                 IDM_SEARCH_FOODNETWORK
+        END
+    END
+END
+
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 

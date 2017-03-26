@@ -421,7 +421,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				SESSION_INFO *si = ((CChatRoomDlg*)m_tab.GetNthPage(i))->m_si;
 
 				ClientToScreen(GetDlgItem(m_hwnd, IDC_TAB), &tci.pt);
-				HMENU hSubMenu = GetSubMenu(g_hMenu, 3);
+				HMENU hSubMenu = GetSubMenu(g_hMenu, 1);
 				TranslateMenu(hSubMenu);
 
 				if (si) {

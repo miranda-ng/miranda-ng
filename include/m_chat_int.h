@@ -411,6 +411,7 @@ protected:
 	void DoEventHook(int iType, const USERINFO *pUser, const wchar_t *pszText, INT_PTR dwItem);
 	bool ProcessHotkeys(int key, bool bShift, bool bCtrl, bool bAlt);
 	void RefreshButtonStatus(void);
+	void RunUserMenu(HWND hwndOwner, USERINFO *ui, const POINT &pt);
 
 protected:
 	CCtrlEdit m_message, m_log;

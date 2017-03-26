@@ -38,6 +38,7 @@ extern int g_cbSession, g_cbModuleInfo, g_iFontMode, g_iChatLang;
 extern wchar_t *g_szFontGroup;
 extern mir_cs csChat;
 
+extern HMENU g_hMenu;
 extern HCURSOR g_hCurHyperlinkHand;
 extern char* pLogIconBmpBits[14];
 extern LIST<SESSION_INFO> g_arSessions;

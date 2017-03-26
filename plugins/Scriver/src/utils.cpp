@@ -136,7 +136,7 @@ wchar_t* limitText(wchar_t *text, int limit)
 	return text;
 }
 
-wchar_t* GetRichTextWord(HWND hwnd, POINTL *ptl)
+wchar_t* GetRichTextWord(HWND hwnd, POINT *ptl)
 {
 	long iCharIndex, start, end, iRes;
 	wchar_t *pszWord = GetRichEditSelection(hwnd);

@@ -91,7 +91,6 @@ extern HWND SM_FindWindowByContact(MCONTACT hContact);
 extern HINSTANCE g_hInst;
 extern HCURSOR hDragCursor;
 extern ITaskbarList3 *pTaskbarInterface;
-extern HMENU  g_hMenu;
 extern HANDLE hHookWinPopup, hHookWinWrite, hHookWinEvt;
 
 void ChangeStatusIcons();
@@ -106,7 +105,6 @@ void LoadInfobarFonts();
 #define INFO_BAR_COLOR COLOR_INACTIVEBORDER
 
 int Chat_Load();
-int Chat_Unload();
 int OptInitialise(WPARAM wParam, LPARAM lParam);
 int FontServiceFontsChanged(WPARAM wParam, LPARAM lParam);
 int StatusIconPressed(WPARAM wParam, LPARAM lParam);

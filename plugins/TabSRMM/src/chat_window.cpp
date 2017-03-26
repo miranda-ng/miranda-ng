@@ -35,8 +35,6 @@ extern HRESULT(WINAPI *MyCloseThemeData)(HANDLE);
 int g_cLinesPerPage = 0;
 int g_iWheelCarryover = 0;
 
-extern HMENU g_hMenu;
-
 static HKL hkl = nullptr;
 char szIndicators[] = { 0, '+', '%', '@', '!', '*' };
 
@@ -1564,68 +1562,6 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		break;
-
-	case WM_CONTEXTMENU:
-		{
-			int height = 0;
-			TVHITTESTINFO hti;
-			hti.pt.x = GET_X_LPARAM(lParam);
-			hti.pt.y = GET_Y_LPARAM(lParam);
-			if (hti.pt.x == -1 && hti.pt.y == -1) {
-				int index = m_nickList.SendMsg(LB_GETCURSEL, 0, 0);
-				int top = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
-				height = m_nickList.SendMsg(LB_GETITEMHEIGHT, 0, 0);
-				hti.pt.x = 4;
-				hti.pt.y = (index - top) * height + 1;
-			}
-			else ScreenToClient(m_nickList.GetHwnd(), &hti.pt);
-
-			int item = m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y));
-			if (HIWORD(item) == 1)
-				item = -1;
-			else
-				item &= 0xFFFF;
-
-			USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, item);
-			if (ui) {
-				HMENU hMenu = GetSubMenu(g_hMenu, 0);
-				USERINFO uinew;
-				memcpy(&uinew, ui, sizeof(USERINFO));
-				if (hti.pt.x == -1 && hti.pt.y == -1)
-					hti.pt.y += height - 4;
-				ClientToScreen(m_nickList.GetHwnd(), &hti.pt);
-
-				UINT uID = Chat_CreateGCMenu(m_nickList.GetHwnd(), hMenu, hti.pt, m_si, uinew.pszUID, uinew.pszNick);
-				switch (uID) {
-				case 0:
-					break;
-
-				case 20020: // add to highlight...
-					{
-						THighLightEdit the = { THighLightEdit::CMD_ADD, m_si, ui };
-						HWND hwndDlg = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDHIGHLIGHT), m_pContainer->m_hwnd, CMUCHighlight::dlgProcAdd, (LPARAM)&the);
-						TranslateDialogDefault(hwndDlg);
-
-						RECT rc, rcWnd;
-						GetClientRect(m_pContainer->m_hwnd, &rcWnd);
-						GetWindowRect(hwndDlg, &rc);
-						SetWindowPos(hwndDlg, HWND_TOP, (rcWnd.right - (rc.right - rc.left)) / 2, (rcWnd.bottom - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
-					}
-					break;
-
-				case ID_MESS:
-					DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
-					break;
-
-				default:
-					DoEventHook(GC_USER_NICKLISTMENU, ui, nullptr, uID);
-					break;
-				}
-				Chat_DestroyGCMenu(hMenu, 1);
-				return TRUE;
-			}
-		}
-		break;
 	}
 
 	return CSuper::WndProc_Nicklist(msg, wParam, lParam);
@@ -2117,86 +2053,8 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					}
 				}
 
-				if (((LPNMHDR)lParam)->idFrom == IDC_SRMM_LOG && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
-					CHARRANGE sel, all = { 0, -1 };
-
-					pt.x = LOWORD(((ENLINK*)lParam)->lParam), pt.y = HIWORD(((ENLINK*)lParam)->lParam);
-					ClientToScreen(((LPNMHDR)lParam)->hwndFrom, &pt);
-
-					// fixing stuff for searches
-					wchar_t *pszWord = (wchar_t*)_alloca(8192);
-					pszWord[0] = '\0';
-					POINTL ptl = { pt.x, pt.y };
-					ScreenToClient(m_log.GetHwnd(), (LPPOINT)&ptl);
-					int iCharIndex = m_log.SendMsg(EM_CHARFROMPOS, 0, (LPARAM)&ptl);
-					if (iCharIndex < 0)
-						break;
-
-					int start = m_log.SendMsg(EM_FINDWORDBREAK, WB_LEFT, iCharIndex);
-					int end = m_log.SendMsg(EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);
-
-					if (end - start > 0) {
-						static char szTrimString[] = ":;,.!?\'\"><()[]- \r\n";
-
-						CHARRANGE cr;
-						cr.cpMin = start;
-						cr.cpMax = end;
-
-						TEXTRANGE tr = { 0 };
-						tr.chrg = cr;
-						tr.lpstrText = (wchar_t*)pszWord;
-						int iRes = m_log.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-
-						if (iRes > 0) {
-							size_t iLen = mir_wstrlen(pszWord) - 1;
-							while (strchr(szTrimString, pszWord[iLen])) {
-								pszWord[iLen] = '\0';
-								iLen--;
-							}
-						}
-					}
-
-					HMENU hMenu = GetSubMenu(g_hMenu, 1);
-					UINT uID = Chat_CreateGCMenu(m_log.GetHwnd(), hMenu, pt, m_si, nullptr, pszWord);
-					switch (uID) {
-					case 0:
-						PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-						break;
-
-					case ID_COPYALL:
-						SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXGETSEL, 0, (LPARAM)&sel);
-						SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
-						SendMessage(((LPNMHDR)lParam)->hwndFrom, WM_COPY, 0, 0);
-						SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM)&sel);
-						PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-						break;
-
-					case ID_CLEARLOG:
-						tabClearLog();
-						break;
-
-					case ID_SEARCH_GOOGLE:
-						if (pszWord[0])
-							Utils_OpenUrlW(CMStringW(FORMAT, L"http://www.google.com/search?q=%s", pszWord));
-
-						PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-						break;
-
-					case ID_SEARCH_WIKIPEDIA:
-						if (pszWord[0])
-							Utils_OpenUrlW(CMStringW(FORMAT, L"http://en.wikipedia.org/wiki/%s", pszWord));
-
-						PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-						break;
-
-					default:
-						PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-						DoEventHook(GC_USER_LOGMENU, nullptr, nullptr, (LPARAM)uID);
-						break;
-					}
-
-					Chat_DestroyGCMenu(hMenu, 5);
-				}
+				if (((LPNMHDR)lParam)->idFrom == IDC_SRMM_LOG && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP)
+					return _dlgReturn(m_hwnd, 1);
 			}
 			break;
 
@@ -2230,8 +2088,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						// clicked a nick name
 						if (g_Settings.bClickableNicks) {
 							if (msg == WM_RBUTTONDOWN) {
-								HMENU hMenu = GetSubMenu(g_hMenu, 0);
-
 								for (USERINFO *ui = m_si->pUsers; ui; ui = ui->next) {
 									if (mir_wstrcmp(ui->pszNick, tr.lpstrText))
 										continue;
@@ -2239,23 +2095,8 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 									pt.x = (short)LOWORD(((ENLINK*)lParam)->lParam);
 									pt.y = (short)HIWORD(((ENLINK*)lParam)->lParam);
 									ClientToScreen(((NMHDR*)lParam)->hwndFrom, &pt);
-									USERINFO uiNew;
-									memcpy(&uiNew, ui, sizeof(USERINFO));
-									UINT uID = Chat_CreateGCMenu(m_hwnd, hMenu, pt, m_si, uiNew.pszUID, uiNew.pszNick);
-									switch (uID) {
-									case 0:
-										break;
-
-									case ID_MESS:
-										DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
-										break;
-
-									default:
-										DoEventHook(GC_USER_NICKLISTMENU, ui, nullptr, (LPARAM)uID);
-										break;
-									}
-									Chat_DestroyGCMenu(hMenu, 1);
-									return TRUE;
+									RunUserMenu(m_hwnd, ui, pt);
+									break;
 								}
 								return TRUE;
 							}

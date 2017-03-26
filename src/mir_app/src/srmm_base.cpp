@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 #include "chat.h"
+#include "resource.h"
 #include <m_history.h>
 
 CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si)
@@ -92,6 +93,27 @@ CSrmmBaseDialog& CSrmmBaseDialog::operator=(const CSrmmBaseDialog&)
 	return *this;
 }
 
+void CSrmmBaseDialog::RunUserMenu(HWND hwndOwner, USERINFO *ui, const POINT &pt)
+{
+	USERINFO uinew;
+	memcpy(&uinew, ui, sizeof(USERINFO));
+	HMENU hMenu = GetSubMenu(g_hMenu, 0);
+	UINT uID = Chat_CreateGCMenu(hwndOwner, hMenu, pt, m_si, uinew.pszUID, uinew.pszNick);
+	switch (uID) {
+	case 0:
+		break;
+
+	case IDM_SENDMESSAGE:
+		DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
+		break;
+
+	default:
+		DoEventHook(GC_USER_NICKLISTMENU, ui, nullptr, uID);
+		break;
+	}
+	Chat_DestroyGCMenu(hMenu, 1);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static LRESULT CALLBACK Srmm_ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -136,10 +158,11 @@ static LRESULT CALLBACK stubLogProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	CHARRANGE sel;
+
 	switch (msg) {
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) == WA_INACTIVE) {
-			CHARRANGE sel;
 			m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
 			if (sel.cpMin != sel.cpMax) {
 				sel.cpMin = sel.cpMax;
@@ -151,6 +174,127 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_CHAR:
 		SetFocus(m_message.GetHwnd());
 		m_message.SendMsg(WM_CHAR, wParam, lParam);
+		break;
+
+	case WM_CONTEXTMENU:
+		if (m_si == nullptr)
+			break;
+
+		POINT pt, ptl;
+		m_message.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
+		if (lParam == 0xFFFFFFFF) {
+			m_message.SendMsg(EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)sel.cpMax);
+			ClientToScreen(m_log.GetHwnd(), &pt);
+		}
+		else {
+			pt.x = GET_X_LPARAM(lParam);
+			pt.y = GET_Y_LPARAM(lParam);
+		}
+		ptl = pt;
+		ScreenToClient(m_log.GetHwnd(), (LPPOINT)&ptl);
+		{
+			wchar_t *pszWord = (wchar_t*)_alloca(8192);
+			pszWord[0] = '\0';
+
+			int iCharIndex = m_log.SendMsg(EM_CHARFROMPOS, 0, (LPARAM)&ptl);
+			if (iCharIndex < 0)
+				break;
+
+			int start = m_log.SendMsg(EM_FINDWORDBREAK, WB_LEFT, iCharIndex);
+			int end = m_log.SendMsg(EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);
+
+			if (end - start > 0) {
+				static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
+
+				CHARRANGE cr;
+				cr.cpMin = start;
+				cr.cpMax = end;
+
+				TEXTRANGE tr = { 0 };
+				tr.chrg = cr;
+				tr.lpstrText = (wchar_t*)pszWord;
+				int iRes = m_log.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+				if (iRes > 0) {
+					size_t iLen = mir_wstrlen(pszWord) - 1;
+					while (wcschr(szTrimString, pszWord[iLen])) {
+						pszWord[iLen] = '\0';
+						iLen--;
+					}
+				}
+			}
+
+			CHARRANGE all = { 0, -1 };
+			HMENU hMenu = GetSubMenu(g_hMenu, 1);
+			UINT uID = Chat_CreateGCMenu(m_log.GetHwnd(), hMenu, pt, m_si, nullptr, pszWord);
+			switch (uID) {
+			case 0:
+				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
+				break;
+
+			case IDM_COPYALL:
+				m_message.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
+				m_message.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
+				m_message.SendMsg(WM_COPY, 0, 0);
+				m_message.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
+				break;
+
+			case IDM_CLEAR:
+				m_log.SetText(L"");
+				chatApi.LM_RemoveAll(&m_si->pLog, &m_si->pLogEnd);
+				m_si->iEventCount = 0;
+				m_si->LastTime = 0;
+				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
+				break;
+
+			case IDM_SEARCH_GOOGLE:
+			case IDM_SEARCH_BING:
+			case IDM_SEARCH_YANDEX:
+			case IDM_SEARCH_YAHOO:
+			case IDM_SEARCH_WIKIPEDIA:
+			case IDM_SEARCH_FOODNETWORK:
+			case IDM_SEARCH_GOOGLE_MAPS:
+			case IDM_SEARCH_GOOGLE_TRANSLATE:
+				{
+					CMStringW szURL;
+					switch (uID) {
+					case IDM_SEARCH_WIKIPEDIA:
+						szURL.Format(L"http://en.wikipedia.org/wiki/%s", pszWord);
+						break;
+					case IDM_SEARCH_YAHOO:
+						szURL.Format(L"http://search.yahoo.com/search?p=%s&ei=UTF-8", pszWord);
+						break;
+					case IDM_SEARCH_FOODNETWORK:
+						szURL.Format(L"http://search.foodnetwork.com/search/delegate.do?fnSearchString=%s", pszWord);
+						break;
+					case IDM_SEARCH_BING:
+						szURL.Format(L"http://www.bing.com/search?q=%s&form=OSDSRC", pszWord);
+						break;
+					case IDM_SEARCH_GOOGLE_MAPS:
+						szURL.Format(L"http://maps.google.com/maps?q=%s&ie=utf-8&oe=utf-8", pszWord);
+						break;
+					case IDM_SEARCH_GOOGLE_TRANSLATE:
+						szURL.Format(L"http://translate.google.com/?q=%s&ie=utf-8&oe=utf-8", pszWord);
+						break;
+					case IDM_SEARCH_YANDEX:
+						szURL.Format(L"http://yandex.ru/yandsearch?text=%s", pszWord);
+						break;
+					case IDM_SEARCH_GOOGLE:
+						szURL.Format(L"http://www.google.com/search?q=%s&ie=utf-8&oe=utf-8", pszWord);
+						break;
+					}
+					Utils_OpenUrlW(szURL);
+				}
+				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
+				break;
+
+			default:
+				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
+				DoEventHook(GC_USER_LOGMENU, nullptr, nullptr, uID);
+				break;
+			}
+			Chat_DestroyGCMenu(hMenu, 5);
+		}
 		break;
 	}
 
@@ -390,6 +534,34 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 			}
 		}
 		return 1;
+
+	case WM_CONTEXTMENU:
+		POINT pt;
+		{
+			int height = 0;
+			pt.x = GET_X_LPARAM(lParam);
+			pt.y = GET_Y_LPARAM(lParam);
+			if (pt.x == -1 && pt.y == -1) {
+				int index = m_nickList.GetCurSel();
+				int top = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
+				height = m_nickList.SendMsg(LB_GETITEMHEIGHT, 0, 0);
+				pt.x = 4;
+				pt.y = (index - top)*height + 1;
+			}
+			else ScreenToClient(m_nickList.GetHwnd(), &pt);
+
+			int item = LOWORD(m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y)));
+			USERINFO *ui = chatApi.SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, item);
+			if (ui != nullptr) {
+				if (pt.x == -1 && pt.y == -1)
+					pt.y += height - 4;
+				ClientToScreen(m_nickList.GetHwnd(), &pt);
+
+				RunUserMenu(m_nickList.GetHwnd(), ui, pt);
+				return TRUE;
+			}
+		}
+		break;
 	}
 
 	return mir_callNextSubclass(m_nickList.GetHwnd(), stubNicklistProc, msg, wParam, lParam);

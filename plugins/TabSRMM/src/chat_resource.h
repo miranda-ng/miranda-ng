@@ -2,7 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by chat.rc
 //
-#define IDR_MENU                        151
 #define IDD_CHANNEL                     401
 #define IDD_OPTIONS1                    402
 #define IDD_OPTIONS2                    403

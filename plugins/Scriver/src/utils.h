@@ -40,7 +40,7 @@ int GetRichTextLength(HWND hwnd, int codepage, BOOL inBytes);
 wchar_t *GetRichEditSelection(HWND hwnd);
 char* GetRichTextRTF(HWND hwnd);
 char* GetRichTextUtf(HWND hwnd);
-wchar_t *GetRichTextWord(HWND hwnd, POINTL *pt);
+wchar_t *GetRichTextWord(HWND hwnd, POINT *pt);
 int SetRichText(HWND hwnd, const wchar_t *text);
 int SetRichTextRTF(HWND hwnd, const char *text);
 void SearchWord(wchar_t * word, int engine);

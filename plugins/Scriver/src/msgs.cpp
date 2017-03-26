@@ -590,8 +590,6 @@ int OnSystemPreshutdown(WPARAM, LPARAM)
 
 int OnUnloadModule(void)
 {
-	Chat_Unload();
-
 	DestroyCursor(hDragCursor);
 
 	DestroyHookableEvent(hHookWinEvt);

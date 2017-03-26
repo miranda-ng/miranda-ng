@@ -215,7 +215,7 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming, const char *szInitia
 
 void CSrmmWindow::OnInitDialog()
 {
-	CScriverWindow::OnInitDialog();
+	CSuper::OnInitDialog();
 
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 	WindowList_Add(pci->hWindowList, m_hwnd, m_hContact);
@@ -997,9 +997,9 @@ LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			pt.y = GET_Y_LPARAM(lParam);
 		}
 
-		POINTL ptl = { (LONG)pt.x, (LONG)pt.y };
-		ScreenToClient(m_message.GetHwnd(), (LPPOINT)&ptl);
-		ptrW pszWord(GetRichTextWord(m_message.GetHwnd(), &ptl));
+		POINT ptl = pt;
+		ScreenToClient(m_log.GetHwnd(), &ptl);
+		ptrW pszWord(GetRichTextWord(m_log.GetHwnd(), &ptl));
 		if (pszWord && pszWord[0]) {
 			wchar_t szMenuText[4096];
 			mir_snwprintf(szMenuText, TranslateT("Look up '%s':"), pszWord);
@@ -1009,7 +1009,7 @@ LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		else ModifyMenu(hSubMenu, 5, MF_STRING | MF_GRAYED | MF_BYPOSITION, 5, TranslateT("No word to look up"));
 
 		inMenu = TRUE;
-		int uID = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_message.GetHwnd(), nullptr);
+		int uID = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_log.GetHwnd(), nullptr);
 		inMenu = FALSE;
 
 		switch (uID) {
@@ -1743,5 +1743,5 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	return CScriverWindow::DlgProc(msg, wParam, lParam);
+	return CSuper::DlgProc(msg, wParam, lParam);
 }

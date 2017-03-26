@@ -34,6 +34,7 @@
 #define IDI_INVISIBLE                   130
 #define IDI_NA                          131
 #define IDI_LOAD                        132
+#define IDR_SRMM								 133
 #define IDD_OPT_SOUND                   134
 #define IDI_RECVMSG                     136
 #define IDI_URL                         138
@@ -601,6 +602,14 @@
 #define POPUP_DELETEGROUP               40053
 #define ID_GROUP                        40066
 #define ID_UNGROUP                      40067
+#define IDM_SEARCH_GOOGLE               40080
+#define IDM_SEARCH_BING                 40081
+#define IDM_SEARCH_YANDEX               40082
+#define IDM_SEARCH_WIKIPEDIA            40083
+#define IDM_SEARCH_GOOGLE_MAPS          40084
+#define IDM_SEARCH_GOOGLE_TRANSLATE     40085
+#define IDM_SEARCH_YAHOO                40086
+#define IDM_SEARCH_FOODNETWORK          40087
 
 // Next default values for new objects
 // 

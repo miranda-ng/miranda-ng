@@ -234,7 +234,6 @@ extern char *TemplateNames[];
 extern HANDLE hUserPrefsWindowList;
 extern TCpTable cpTable[];
 extern HMODULE g_hIconDLL;
-extern HMENU g_hMenu;
 extern bool g_bShutdown;
 
 extern pfnDoPopup oldDoPopup, oldLogToFile;
