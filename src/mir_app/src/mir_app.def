@@ -439,3 +439,4 @@ Chat_UpdateOptions @418 NONAME
 Chat_AddMenuItems @442 NONAME
 Chat_DestroyGCMenu @443 NONAME
 Chat_CreateGCMenu @444 NONAME
+?RunUserMenu@CSrmmBaseDialog@@IAEXPAUHWND__@@PAUUSERINFO@@ABUtagPOINT@@@Z @445 NONAME
