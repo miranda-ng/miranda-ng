@@ -830,16 +830,6 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		SetFocus(m_message.GetHwnd());
 		break;
 
-	case WM_ACTIVATE:
-		if (LOWORD(wParam) == WA_INACTIVE) {
-			m_message.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-			if (sel.cpMin != sel.cpMax) {
-				sel.cpMin = sel.cpMax;
-				m_message.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-			}
-		}
-		break;
-
 	case WM_CONTEXTMENU:
 		POINT pt;
 		POINTL ptl;
@@ -859,10 +849,9 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			ptrW pszWord(GetRichTextWord(m_log.GetHwnd(), &ptl));
 			inMenu = TRUE;
 
-			SESSION_INFO *si = m_si;
 			CHARRANGE all = { 0, -1 };
 			HMENU hMenu = GetSubMenu(g_hMenu, 1);
-			UINT uID = Chat_CreateGCMenu(m_log.GetHwnd(), hMenu, pt, si, nullptr, pszWord);
+			UINT uID = Chat_CreateGCMenu(m_log.GetHwnd(), hMenu, pt, m_si, nullptr, pszWord);
 			inMenu = FALSE;
 			switch (uID) {
 			case 0:
@@ -878,13 +867,11 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 				break;
 
 			case IDM_CLEAR:
-				if (si) {
-					m_log.SetText(L"");
-					pci->LM_RemoveAll(&si->pLog, &si->pLogEnd);
-					si->iEventCount = 0;
-					si->LastTime = 0;
-					PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-				}
+				m_log.SetText(L"");
+				pci->LM_RemoveAll(&m_si->pLog, &m_si->pLogEnd);
+				m_si->iEventCount = 0;
+				m_si->LastTime = 0;
+				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 				break;
 
 			case IDM_SEARCH_GOOGLE:
@@ -906,11 +893,6 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			Chat_DestroyGCMenu(hMenu, 5);
 		}
-		break;
-
-	case WM_CHAR:
-		SetFocus(m_message.GetHwnd());
-		m_message.SendMsg(WM_CHAR, wParam, lParam);
 		break;
 	}
 
@@ -942,13 +924,13 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			else ScreenToClient(m_nickList.GetHwnd(), &hti.pt);
 
-			DWORD item = (DWORD)(m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
+			int item = m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y));
 			if (HIWORD(item) == 1)
-				item = (DWORD)(-1);
+				item = -1;
 			else
 				item &= 0xFFFF;
 
-			USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, (int)item);
+			USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, item);
 			if (ui) {
 				HMENU hMenu = GetSubMenu(g_hMenu, 0);
 				USERINFO uinew;

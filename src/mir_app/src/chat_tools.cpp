@@ -796,14 +796,9 @@ MIR_APP_DLL(UINT) Chat_CreateGCMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_IN
 	gcmi.hMenu = hMenu;
 
 	if (pszUID == nullptr) {
-		int iLen = GetRichTextLength(hwnd);
-
-		EnableMenuItem(hMenu, IDM_CLEAR, MF_ENABLED);
-		EnableMenuItem(hMenu, IDM_COPYALL, MF_ENABLED);
-		if (!iLen) {
-			EnableMenuItem(hMenu, IDM_COPYALL, MF_BYCOMMAND | MF_GRAYED);
-			EnableMenuItem(hMenu, IDM_CLEAR, MF_BYCOMMAND | MF_GRAYED);
-		}
+		int flags = MF_BYPOSITION | (GetRichTextLength(hwnd) == 0 ? MF_GRAYED : MF_ENABLED);
+		EnableMenuItem(hMenu, 0, flags);
+		EnableMenuItem(hMenu, 2, flags);
 
 		if (pszWordText && pszWordText[0]) {
 			wchar_t szMenuText[4096];
@@ -822,7 +817,7 @@ MIR_APP_DLL(UINT) Chat_CreateGCMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_IN
 
 		if (mir_wstrlen(szTemp) > 40)
 			mir_wstrncpy(szTemp + 40, L"...", 4);
-		ModifyMenu(hMenu, IDM_SENDMESSAGE, MF_STRING | MF_BYCOMMAND, IDM_SENDMESSAGE, szTemp);
+		ModifyMenu(hMenu, 0, MF_STRING | MF_BYPOSITION, IDM_SENDMESSAGE, szTemp);
 		gcmi.Type = MENU_ON_NICKLIST;
 	}
 

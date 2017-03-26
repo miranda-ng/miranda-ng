@@ -136,6 +136,24 @@ static LRESULT CALLBACK stubLogProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	switch (msg) {
+	case WM_ACTIVATE:
+		if (LOWORD(wParam) == WA_INACTIVE) {
+			CHARRANGE sel;
+			m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
+			if (sel.cpMin != sel.cpMax) {
+				sel.cpMin = sel.cpMax;
+				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+			}
+		}
+		break;
+
+	case WM_CHAR:
+		SetFocus(m_message.GetHwnd());
+		m_message.SendMsg(WM_CHAR, wParam, lParam);
+		break;
+	}
+
 	return mir_callNextSubclass(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
 }
 

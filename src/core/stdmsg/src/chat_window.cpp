@@ -961,21 +961,6 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			return TRUE;
 		}
 		break;
-
-	case WM_ACTIVATE:
-		if (LOWORD(wParam) == WA_INACTIVE) {
-			m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-			if (sel.cpMin != sel.cpMax) {
-				sel.cpMin = sel.cpMax;
-				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-			}
-		}
-		break;
-
-	case WM_CHAR:
-		SetFocus(m_message.GetHwnd());
-		m_message.SendMsg(WM_CHAR, wParam, lParam);
-		break;
 	}
 
 	return CSuper::WndProc_Log(msg, wParam, lParam);
@@ -1255,7 +1240,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				CHARRANGE all = { 0, -1 };
 				HMENU hMenu = GetSubMenu(g_hMenu, 1);
-				UINT uID = Chat_CreateGCMenu(m_hwnd, hMenu, pt, m_si, nullptr, pszWord);
+				UINT uID = Chat_CreateGCMenu(m_log.GetHwnd(), hMenu, pt, m_si, nullptr, pszWord);
 				switch (uID) {
 				case 0:
 					PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);

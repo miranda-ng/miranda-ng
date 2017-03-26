@@ -1090,25 +1090,11 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case WM_ACTIVATE:
-		if (LOWORD(wParam) == WA_INACTIVE) {
-			CHARRANGE sel;
-			SendMessage(m_log.GetHwnd(), EM_EXGETSEL, 0, (LPARAM)&sel);
-			if (sel.cpMin != sel.cpMax) {
-				sel.cpMin = sel.cpMax;
-				SendMessage(m_log.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&sel);
-			}
-		}
-		break;
-
 	case WM_CHAR:
 		bool isCtrl, isShift, isAlt;
 		KbdState(isShift, isCtrl, isAlt);
 		if (wParam == 0x03 && isCtrl) // Ctrl+C
 			return Utils::WMCopyHandler(m_log.GetHwnd(), nullptr, msg, wParam, lParam);
-
-		SetFocus(m_message.GetHwnd());
-		m_message.SendMsg(WM_CHAR, wParam, lParam);
 		break;
 	}
 
@@ -1581,10 +1567,6 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CONTEXTMENU:
 		{
-			SESSION_INFO *si = m_si;
-			if (si == nullptr)
-				break;
-
 			int height = 0;
 			TVHITTESTINFO hti;
 			hti.pt.x = GET_X_LPARAM(lParam);
@@ -1598,13 +1580,13 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			else ScreenToClient(m_nickList.GetHwnd(), &hti.pt);
 
-			int item = (DWORD)(m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
+			int item = m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y));
 			if (HIWORD(item) == 1)
-				item = (DWORD)(-1);
+				item = -1;
 			else
 				item &= 0xFFFF;
 
-			USERINFO *ui = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, item);
+			USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, item);
 			if (ui) {
 				HMENU hMenu = GetSubMenu(g_hMenu, 0);
 				USERINFO uinew;
@@ -1613,14 +1595,14 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 					hti.pt.y += height - 4;
 				ClientToScreen(m_nickList.GetHwnd(), &hti.pt);
 
-				UINT uID = Chat_CreateGCMenu(m_nickList.GetHwnd(), hMenu, hti.pt, si, uinew.pszUID, uinew.pszNick);
+				UINT uID = Chat_CreateGCMenu(m_nickList.GetHwnd(), hMenu, hti.pt, m_si, uinew.pszUID, uinew.pszNick);
 				switch (uID) {
 				case 0:
 					break;
 
 				case 20020: // add to highlight...
 					{
-						THighLightEdit the = { THighLightEdit::CMD_ADD, si, ui };
+						THighLightEdit the = { THighLightEdit::CMD_ADD, m_si, ui };
 						HWND hwndDlg = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDHIGHLIGHT), m_pContainer->m_hwnd, CMUCHighlight::dlgProcAdd, (LPARAM)&the);
 						TranslateDialogDefault(hwndDlg);
 
@@ -2175,7 +2157,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					}
 
 					HMENU hMenu = GetSubMenu(g_hMenu, 1);
-					UINT uID = Chat_CreateGCMenu(m_hwnd, hMenu, pt, m_si, nullptr, pszWord);
+					UINT uID = Chat_CreateGCMenu(m_log.GetHwnd(), hMenu, pt, m_si, nullptr, pszWord);
 					switch (uID) {
 					case 0:
 						PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
