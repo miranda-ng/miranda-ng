@@ -1065,7 +1065,7 @@ void CTabBaseDlg::SetMessageLog()
 		ieWindow.cy = 200;
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 		m_hwndIEView = ieWindow.hwnd;
-		Utils::showDlgControl(m_hwnd, IDC_SRMM_LOG, SW_HIDE);
+		m_log.Hide();
 		m_log.Enable(false);
 	}
 	else if (iLogMode == WANT_HPP_LOG && m_hwndHPP == nullptr) {
@@ -1078,7 +1078,7 @@ void CTabBaseDlg::SetMessageLog()
 		ieWindow.cy = 10;
 		CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
 		m_hwndHPP = ieWindow.hwnd;
-		Utils::showDlgControl(m_hwnd, IDC_SRMM_LOG, SW_HIDE);
+		m_log.Hide();
 		m_log.Enable(false);
 	}
 }

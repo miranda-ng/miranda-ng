@@ -166,11 +166,11 @@ void CChatRoomDlg::MessageDialogResize(int w, int h)
 	if (m_pParent->iSplitterY < hSplitterMinBottom)
 		m_pParent->iSplitterY = hSplitterMinBottom;
 
-	ShowWindow(m_splitterX.GetHwnd(), bNick ? SW_SHOW : SW_HIDE);
+	m_splitterX.Show(bNick);
 	if (m_si->iType != GCW_SERVER)
-		ShowWindow(m_nickList.GetHwnd(), m_bNicklistEnabled ? SW_SHOW : SW_HIDE);
+		m_nickList.Show(m_bNicklistEnabled);
 	else
-		ShowWindow(m_nickList.GetHwnd(), SW_HIDE);
+		m_nickList.Hide();
 
 	if (m_si->iType == GCW_SERVER) {
 		m_btnNickList.Enable(false);

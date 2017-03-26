@@ -720,13 +720,10 @@ void CSrmmWindow::SetDialogToType()
 	else
 		ShowWindow(m_hwndInfo, SW_HIDE);
 
-	ShowWindow(m_message.GetHwnd(), SW_SHOW);
-	if (m_hwndIeview != nullptr)
-		ShowWindow(m_log.GetHwnd(), SW_HIDE);
-	else
-		ShowWindow(m_log.GetHwnd(), SW_SHOW);
+	m_message.Show();
+	m_log.Show(m_hwndIeview == nullptr);
 
-	ShowWindow(m_splitter.GetHwnd(), SW_SHOW);
+	m_splitter.Show();
 	UpdateReadChars();
 	EnableWindow(GetDlgItem(m_hwnd, IDOK), GetRichTextLength(m_message.GetHwnd(), 1200, FALSE) ? TRUE : FALSE);
 	SendMessage(m_hwnd, DM_CLISTSETTINGSCHANGED, 0, 0);

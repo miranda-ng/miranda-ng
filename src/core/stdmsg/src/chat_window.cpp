@@ -63,7 +63,6 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_Ok);
 
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
-	m_btnChannelMgr.OnClick = Callback(this, &CChatRoomDlg::onClick_Options);
 	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::onClick_NickList);
 
 	m_splitterX.OnChange = Callback(this, &CChatRoomDlg::onSplitterX);
@@ -165,12 +164,6 @@ void CChatRoomDlg::onClick_NickList(CCtrlButton *pButton)
 	SendMessage(m_hwnd, WM_SIZE, 0, 0);
 }
 
-void CChatRoomDlg::onClick_Options(CCtrlButton *pButton)
-{
-	if (pButton->Enabled())
-		Chat_DoEventHook(m_si, GC_USER_CHANMGR, nullptr, nullptr, 0);
-}
-
 void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
@@ -257,7 +250,7 @@ void CChatRoomDlg::SetWindowPosition()
 	
 	if (db_get_b(0, CHAT_MODULE, "SavePosition", 0)) {
 		if (RestoreWindowPosition(m_hwnd, m_hContact, true)) {
-			ShowWindow(m_hwnd, SW_HIDE);
+			Show(SW_HIDE);
 			return;
 		}
 		SetWindowPos(m_hwnd, 0, (screen.right - screen.left) / 2 - (550) / 2, (screen.bottom - screen.top) / 2 - (400) / 2, (550), (400), SWP_NOZORDER | SWP_HIDEWINDOW | SWP_NOACTIVATE);
@@ -794,7 +787,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			if (wParam == 0x4f && isCtrl && !isAlt) { // ctrl-o (options)
-				onClick_Options(&m_btnChannelMgr);
+				onClick_ChanMgr(&m_btnChannelMgr);
 				return TRUE;
 			}
 
@@ -1007,33 +1000,33 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			bool bControl = db_get_b(0, CHAT_MODULE, "ShowTopButtons", 1) != 0;
 			bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 
-			ShowWindow(m_btnBold.GetHwnd(), bFormat ? SW_SHOW : SW_HIDE);
-			ShowWindow(m_btnItalic.GetHwnd(), bFormat ? SW_SHOW : SW_HIDE);
-			ShowWindow(m_btnUnderline.GetHwnd(), bFormat ? SW_SHOW : SW_HIDE);
+			m_btnBold.Show(bFormat);
+			m_btnItalic.Show(bFormat);
+			m_btnUnderline.Show(bFormat);
 			
-			ShowWindow(m_btnColor.GetHwnd(), bFormat ? SW_SHOW : SW_HIDE);
-			ShowWindow(m_btnBkColor.GetHwnd(), bFormat ? SW_SHOW : SW_HIDE);
-			ShowWindow(m_btnHistory.GetHwnd(), bControl ? SW_SHOW : SW_HIDE);
-			ShowWindow(m_btnNickList.GetHwnd(), bControl ? SW_SHOW : SW_HIDE);
-			ShowWindow(m_btnFilter.GetHwnd(), bControl ? SW_SHOW : SW_HIDE);
-			ShowWindow(m_btnChannelMgr.GetHwnd(), bControl ? SW_SHOW : SW_HIDE);
-			ShowWindow(m_btnOk.GetHwnd(), bSend ? SW_SHOW : SW_HIDE);
-			ShowWindow(GetDlgItem(m_hwnd, IDC_SPLITTERX), bNick ? SW_SHOW : SW_HIDE);
+			m_btnColor.Show(bFormat);
+			m_btnBkColor.Show(bFormat);
+			m_btnHistory.Show(bControl);
+			m_btnNickList.Show(bControl);
+			m_btnFilter.Show(bControl);
+			m_btnChannelMgr.Show(bControl);
+			m_btnOk.Show(bSend);
+			m_splitterX.Show(bNick);
 			if (m_si->iType != GCW_SERVER)
-				ShowWindow(m_nickList.GetHwnd(), m_bNicklistEnabled ? SW_SHOW : SW_HIDE);
+				m_nickList.Show(m_bNicklistEnabled);
 			else
-				ShowWindow(m_nickList.GetHwnd(), SW_HIDE);
+				m_nickList.Hide();
 
 			if (m_si->iType == GCW_SERVER) {
-				EnableWindow(m_btnNickList.GetHwnd(), false);
-				EnableWindow(m_btnFilter.GetHwnd(), false);
-				EnableWindow(m_btnChannelMgr.GetHwnd(), false);
+				m_btnNickList.Enable(false);
+				m_btnFilter.Enable(false);
+				m_btnChannelMgr.Enable(false);
 			}
 			else {
-				EnableWindow(m_btnNickList.GetHwnd(), true);
-				EnableWindow(m_btnFilter.GetHwnd(), true);
+				m_btnNickList.Enable(true);
+				m_btnFilter.Enable(true);
 				if (m_si->iType == GCW_CHATROOM)
-					EnableWindow(m_btnChannelMgr.GetHwnd(), pci->MM_FindModule(m_si->pszModule)->bChanMgr);
+					m_btnChannelMgr.Enable(pci->MM_FindModule(m_si->pszModule)->bChanMgr);
 			}
 
 			CSrmmBaseDialog::DlgProc(uMsg, wParam, lParam); // call built-in resizer

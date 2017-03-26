@@ -385,7 +385,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 		if (g_dat.bAutoClose)
 			DestroyWindow(m_hwnd);
 		else if (g_dat.bAutoMin)
-			ShowWindow(m_hwnd, SW_MINIMIZE);
+			Show(SW_MINIMIZE);
 	}
 }
 
@@ -417,8 +417,8 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 	}
 
 	ShowWindow(GetDlgItem(m_hwnd, IDCANCEL), SW_HIDE);
-	ShowWindow(GetDlgItem(m_hwnd, IDC_SPLITTERY), SW_SHOW);
-	ShowWindow(GetDlgItem(m_hwnd, IDOK), g_dat.bSendButton ? SW_SHOW : SW_HIDE);
+	m_splitter.Show();
+	m_btnOk.Show(g_dat.bSendButton);
 	m_btnOk.Enable(GetWindowTextLength(m_message.GetHwnd()) != 0);
 	if (m_avatarPic == NULL || !g_dat.bShowAvatar)
 		ShowWindow(GetDlgItem(m_hwnd, IDC_AVATAR), SW_HIDE);

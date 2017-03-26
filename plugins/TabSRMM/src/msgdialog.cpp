@@ -386,9 +386,9 @@ void CTabBaseDlg::SetDialogToType()
 	Utils::enableDlgControl(m_hwnd, IDC_TIME, true);
 
 	if (m_hwndIEView || m_hwndHPP) {
-		Utils::showDlgControl(m_hwnd, IDC_SRMM_LOG, SW_HIDE);
+		m_log.Hide();
 		m_log.Enable(false);
-		Utils::showDlgControl(m_hwnd, IDC_SRMM_MESSAGE, SW_SHOW);
+		m_message.Show();
 	}
 	else ShowMultipleControls(m_hwnd, sendControls, _countof(sendControls), SW_SHOW);
 

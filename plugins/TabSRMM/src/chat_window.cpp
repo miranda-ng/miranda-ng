@@ -255,7 +255,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		Utils::showDlgControl(m_hwnd, IDC_SPLITTERY, SW_HIDE);
 
 	if (m_si->iType != GCW_SERVER) {
-		Utils::showDlgControl(m_hwnd, IDC_SRMM_NICKLIST, m_bNicklistEnabled ? SW_SHOW : SW_HIDE);
+		m_nickList.Show(m_bNicklistEnabled);
 		Utils::showDlgControl(m_hwnd, IDC_SPLITTERX, m_bNicklistEnabled ? SW_SHOW : SW_HIDE);
 
 		m_btnNickList.Enable(true);
@@ -267,7 +267,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		}
 	}
 	else {
-		Utils::showDlgControl(m_hwnd, IDC_SRMM_NICKLIST, SW_HIDE);
+		m_nickList.Hide();
 		Utils::showDlgControl(m_hwnd, IDC_SPLITTERX, SW_HIDE);
 	}
 

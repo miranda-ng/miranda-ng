@@ -251,7 +251,6 @@ public:
 	void onClick_Ok(CCtrlButton*);
 
 	void onClick_Filter(CCtrlButton*);
-	void onClick_Options(CCtrlButton*);
 	void onClick_NickList(CCtrlButton*);
 
 	void onSplitterX(CSplitter*);

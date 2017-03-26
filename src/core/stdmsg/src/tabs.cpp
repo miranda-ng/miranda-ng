@@ -187,7 +187,7 @@ void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
 			mir_wstrncpy(szTemp + 20, L"...", 4);
 
 		if (!IsWindowVisible(m_hwnd))
-			ShowWindow(m_hwnd, SW_SHOW);
+			Show(SW_SHOW);
 
 		CChatRoomDlg *pTab = new CChatRoomDlg(si);
 		m_tab.AddPage(szTemp, NULL, pTab);
@@ -541,7 +541,7 @@ void ShowRoom(SESSION_INFO *si)
 	SetWindowLongPtr(si->pDlg->GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(si->pDlg->GetHwnd(), GWL_EXSTYLE) | WS_EX_APPWINDOW);
 
 	if (IsIconic(si->pDlg->GetHwnd()))
-		ShowWindow(si->pDlg->GetHwnd(), SW_NORMAL);
-	ShowWindow(si->pDlg->GetHwnd(), SW_SHOW);
+		si->pDlg->Show(SW_NORMAL);
+	si->pDlg->Show(SW_SHOW);
 	SetForegroundWindow(si->pDlg->GetHwnd());
 }
