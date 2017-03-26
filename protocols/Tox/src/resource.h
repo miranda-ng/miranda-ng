@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Projects\MirandaNG\protocols\Tox\res\resource.rc
+// Used by C:\Users\unsane\Projects\c++\miranda-ng\protocols\Tox\res\resource.rc
 //
 #define IDI_TOX                         100
 #define IDD_USER_INFO                   101
@@ -42,7 +42,6 @@
 #define IDC_NODESLIST                   1015
 #define IDC_ADDNODE                     1016
 #define IDC_IPV4                        1017
-#define IDC_UPDATENODES                 1081
 #define IDC_IPV6                        1018
 #define IDC_PORT                        1019
 #define IDC_PKEY                        1020
@@ -52,18 +51,23 @@
 #define IDC_AUDIOOUTPUT                 1022
 #define IDC_AUDIOFILTER                 1023
 #define IDC_COMBO_VIDEOINPUT            1024
+#define IDC_MAXCONNECTRETRIES           1025
+#define IDC_MAXRECONNECTRETRIES         1026
+#define IDC_MAXCONNECTRETRIESSPIN       1027
+#define IDC_MAXRECONNECTRETRIESSPIN     1028
 #define IDC_DETAILS                     1069
 #define IDC_USERMENU                    1071
 #define IDC_HISTORY                     1080
+#define IDC_UPDATENODES                 1081
 #define IDC_PROTOCOL                    1580
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        116
+#define _APS_NEXT_RESOURCE_VALUE        117
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1025
+#define _APS_NEXT_CONTROL_VALUE         1029
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

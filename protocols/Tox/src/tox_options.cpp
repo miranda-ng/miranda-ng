@@ -6,15 +6,18 @@ CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog)
 	m_profileCreate(this, IDC_PROFILE_NEW), m_profileImport(this, IDC_PROFILE_IMPORT),
 	m_profileExport(this, IDC_PROFILE_EXPORT), m_nickname(this, IDC_NAME),
 	m_password(this, IDC_PASSWORD), m_group(this, IDC_GROUP),
-	m_enableUdp(this, IDC_ENABLE_UDP), m_enableIPv6(this, IDC_ENABLE_IPV6)
+	m_enableUdp(this, IDC_ENABLE_UDP), m_enableIPv6(this, IDC_ENABLE_IPV6),
+	m_maxConnectRetries(this, IDC_MAXCONNECTRETRIES), m_maxConnectRetriesSpin(this, IDC_MAXCONNECTRETRIESSPIN),
+	m_maxReconnectRetries(this, IDC_MAXRECONNECTRETRIES), m_maxReconnectRetriesSpin(this, IDC_MAXRECONNECTRETRIESSPIN)
 {
-
 	CreateLink(m_toxAddress, TOX_SETTINGS_ID, L"");
 	CreateLink(m_nickname, "Nick", L"");
 	CreateLink(m_password, "Password", L"");
 	CreateLink(m_group, TOX_SETTINGS_GROUP, L"Tox");
 	CreateLink(m_enableUdp, "EnableUDP", DBVT_BYTE, TRUE);
 	CreateLink(m_enableIPv6, "EnableIPv6", DBVT_BYTE, FALSE);
+	CreateLink(m_maxConnectRetries, "MaxConnectRetries", DBVT_BYTE, TOX_MAX_CONNECT_RETRIES);
+	CreateLink(m_maxReconnectRetries, "MaxReconnectRetries", DBVT_BYTE, TOX_MAX_RECONNECT_RETRIES);
 
 	m_toxAddressCopy.OnClick = Callback(this, &CToxOptionsMain::ToxAddressCopy_OnClick);
 	m_profileCreate.OnClick = Callback(this, &CToxOptionsMain::ProfileCreate_OnClick);
@@ -42,6 +45,11 @@ void CToxOptionsMain::OnInitDialog()
 	SendMessage(m_nickname.GetHwnd(), EM_LIMITTEXT, TOX_MAX_NAME_LENGTH, 0);
 	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 32, 0);
 	SendMessage(m_group.GetHwnd(), EM_LIMITTEXT, 64, 0);
+
+	m_maxConnectRetriesSpin.SetRange(255, 1);
+	m_maxConnectRetriesSpin.SetPosition(m_proto->getByte("MaxConnectRetries", TOX_MAX_CONNECT_RETRIES));
+	m_maxReconnectRetriesSpin.SetRange(255, 1);
+	m_maxReconnectRetriesSpin.SetPosition(m_proto->getByte("MaxReconnectRetries", TOX_MAX_RECONNECT_RETRIES));
 }
 
 void CToxOptionsMain::ToxAddressCopy_OnClick(CCtrlButton*)

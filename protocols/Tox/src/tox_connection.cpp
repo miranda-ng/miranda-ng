@@ -22,7 +22,8 @@ void CToxProto::TryConnect(Tox *tox)
 		return;
 	}
 
-	if (m_iStatus++ > TOX_MAX_CONNECT_RETRIES)
+	int maxConnectRetries = getByte("MaxConnectRetries", TOX_MAX_CONNECT_RETRIES);
+	if (m_iStatus++ > maxConnectRetries)
 	{
 		SetStatus(ID_STATUS_OFFLINE);
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
@@ -33,18 +34,19 @@ void CToxProto::TryConnect(Tox *tox)
 
 void CToxProto::CheckConnection(Tox *tox, int &retriesCount)
 {
+	int maxReconnectRetries = getByte("MaxReconnectRetries", TOX_MAX_RECONNECT_RETRIES);
 	TOX_CONNECTION connectionStatus = tox_self_get_connection_status(tox);
 	if (connectionStatus != TOX_CONNECTION_NONE)
 	{
-		if (retriesCount < TOX_MAX_DISCONNECT_RETRIES)
+		if (retriesCount < maxReconnectRetries)
 		{
 			debugLogA(__FUNCTION__": restored connection with DHT");
-			retriesCount = TOX_MAX_DISCONNECT_RETRIES;
+			retriesCount = maxReconnectRetries;
 		}
 	}
 	else
 	{
-		if (retriesCount == TOX_MAX_DISCONNECT_RETRIES)
+		if (retriesCount == maxReconnectRetries)
 		{
 			retriesCount--;
 			debugLogA(__FUNCTION__": lost connection with DHT");
@@ -65,7 +67,7 @@ void CToxProto::CheckingThread(void *arg)
 	debugLogA(__FUNCTION__": entering");
 
 	Tox *tox = (Tox*)arg;
-	int retriesCount = TOX_MAX_DISCONNECT_RETRIES;
+	int retriesCount = getByte("MaxReconnectRetries", TOX_MAX_RECONNECT_RETRIES);
 	while (!isTerminated)
 	{
 		if (m_iStatus < ID_STATUS_ONLINE)

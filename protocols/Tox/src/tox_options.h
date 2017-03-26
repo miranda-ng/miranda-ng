@@ -19,6 +19,11 @@ private:
 	CCtrlCheck m_enableUdp;
 	CCtrlCheck m_enableIPv6;
 
+	CCtrlEdit m_maxConnectRetries;
+	CCtrlSpin m_maxConnectRetriesSpin;
+	CCtrlEdit m_maxReconnectRetries;
+	CCtrlSpin m_maxReconnectRetriesSpin;
+
 protected:
 	void OnInitDialog();
 
