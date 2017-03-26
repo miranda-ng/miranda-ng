@@ -123,6 +123,7 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool noActivate, const char *szIniti
 	m_bNoActivate(noActivate)
 {
 	m_hContact = hContact;
+	m_autoClose = CLOSE_ON_CANCEL;
 
 	m_btnOk.OnClick = Callback(this, &CSrmmWindow::onClick_Ok);
 
