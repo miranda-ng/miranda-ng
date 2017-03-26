@@ -459,7 +459,7 @@ LBL_SkipEnd:
 // calculate the required rectangle for a string using the given font. This is more
 // precise than using GetTextExtentPoint...()
 
-int GetTextPixelSize(wchar_t* pszText, HFONT hFont, bool bWidth)
+int GetTextPixelSize(wchar_t *pszText, HFONT hFont, bool bWidth)
 {
 	if (!pszText || !hFont)
 		return 0;

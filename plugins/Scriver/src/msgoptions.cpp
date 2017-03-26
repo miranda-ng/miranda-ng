@@ -614,7 +614,6 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_SRMM_LOG));
 		switch (db_get_b(0, SRMM_MODULE, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY)) {
 		case LOADHISTORY_UNREAD:
 			CheckDlgButton(hwndDlg, IDC_LOADUNREAD, BST_CHECKED);

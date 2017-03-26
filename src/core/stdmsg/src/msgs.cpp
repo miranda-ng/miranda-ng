@@ -530,7 +530,6 @@ int LoadSendRecvMessageModule(void)
 	}
 
 	InitGlobals();
-	RichUtil_Load();
 	InitOptions();
 
 	HookEvent(ME_DB_EVENT_ADDED, MessageEventAdded);
@@ -572,7 +571,6 @@ void SplitmsgShutdown(void)
 
 	FreeMsgLogIcons();
 	FreeLibrary(hMsftEdit);
-	RichUtil_Unload();
 	msgQueue_destroy();
 }
 

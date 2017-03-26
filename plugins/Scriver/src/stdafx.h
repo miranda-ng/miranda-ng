@@ -116,7 +116,6 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam);
 #include "tabs.h"
 #include "utils.h"
 #include "input.h"
-#include "richutil.h"
 #include "statusicon.h"
 #include "chat.h"
 

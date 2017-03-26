@@ -272,6 +272,5 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 void CSrmmWindow::CreateInfobar()
 {
 	m_hwndInfo = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_INFOBAR), m_hwnd, InfobarWndProc, (LPARAM)this);
-	RichUtil_SubClass(m_hwndInfo);
 	SetWindowPos(m_hwndInfo, HWND_TOP, 0, 0, 0, 0, SWP_HIDEWINDOW | SWP_NOSIZE | SWP_NOREPOSITION);
 }

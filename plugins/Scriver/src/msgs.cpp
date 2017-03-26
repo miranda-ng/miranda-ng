@@ -598,7 +598,6 @@ int OnUnloadModule(void)
 
 	ReleaseIcons();
 	FreeMsgLogIcons();
-	RichUtil_Unload();
 	FreeGlobals();
 	FreeLibrary(hMsftEdit);
 	return 0;
@@ -616,7 +615,6 @@ int OnLoadModule(void)
 	}
 
 	InitGlobals();
-	RichUtil_Load();
 	InitStatusIcons();
 	RegisterIcons();
 	RegisterFontServiceFonts();

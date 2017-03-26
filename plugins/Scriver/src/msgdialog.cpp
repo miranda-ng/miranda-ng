@@ -314,8 +314,6 @@ void CSrmmWindow::OnInitDialog()
 
 	// get around a lame bug in the Windows template resource code where richedits are limited to 0x7FFF
 	m_log.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
-	::RichUtil_SubClass(m_log.GetHwnd());
-	::RichUtil_SubClass(m_message.GetHwnd());
 	::DragAcceptFiles(m_message.GetHwnd(), TRUE);
 	CreateInfobar();
 	

@@ -241,10 +241,6 @@ void CChatRoomDlg::OnInitDialog()
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 	m_pParent = (ParentWindowData *)GetWindowLongPtr(m_hwndParent, GWLP_USERDATA);
 
-	RichUtil_SubClass(m_message.GetHwnd());
-	RichUtil_SubClass(m_log.GetHwnd());
-	RichUtil_SubClass(m_nickList.GetHwnd());
-
 	Srmm_CreateToolbarIcons(m_hwnd, BBBF_ISCHATBUTTON);
 
 	RECT rc;

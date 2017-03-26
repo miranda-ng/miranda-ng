@@ -71,7 +71,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "cmdlist.h"
 #include "msgs.h"
 #include "globals.h"
-#include "richutil.h"
 #include "version.h"
 
 #define EM_ACTIVATE   (WM_USER+0x102)

@@ -151,8 +151,6 @@ void CSrmmWindow::OnInitDialog()
 	}
 
 	m_szProto = GetContactProto(m_hContact);
-	RichUtil_SubClass(m_log.GetHwnd());
-	RichUtil_SubClass(m_message.GetHwnd());
 
 	// avatar stuff
 	m_limitAvatarH = db_get_b(NULL, SRMMMOD, SRMSGSET_LIMITAVHEIGHT, SRMSGDEFSET_LIMITAVHEIGHT) ? db_get_dw(NULL, SRMMMOD, SRMSGSET_AVHEIGHT, SRMSGDEFSET_AVHEIGHT) : 0;
