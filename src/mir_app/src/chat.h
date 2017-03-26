@@ -105,7 +105,6 @@ int      GetColorIndex(const char *pszModule, COLORREF cr);
 void     CheckColorsInModule(const char *pszModule);
 int      GetRichTextLength(HWND hwnd);
 bool     IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
-BOOL     DoEventHook(SESSION_INFO *si, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem);
 BOOL     IsEventSupported(int eventType);
 BOOL     LogToFile(SESSION_INFO *si, GCEVENT *gce);
 BOOL     DoTrayIcon(SESSION_INFO *si, GCEVENT *gce);

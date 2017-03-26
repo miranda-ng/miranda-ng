@@ -685,7 +685,7 @@ void CChatRoomDlg::onClick_OK(CCtrlButton*)
 	bool fSound = true;
 	if (ptszText[0] == '/' || m_si->iType == GCW_SERVER)
 		fSound = false;
-	DoEventHook(GC_USER_MESSAGE, nullptr, ptszText, 0);
+	Chat_DoEventHook(m_si, GC_USER_MESSAGE, nullptr, ptszText, 0);
 	mi->idleTimeStamp = time(0);
 	mi->lastIdleCheck = 0;
 	UpdateStatusBar();
@@ -2034,7 +2034,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						return _dlgReturn(m_hwnd, 1);
 					case TABSRMM_HK_MUC_SHOWSERVER:
 						if (m_si->iType != GCW_SERVER)
-							DoEventHook(GC_USER_MESSAGE, nullptr, L"/servershow", 0);
+							Chat_DoEventHook(m_si, GC_USER_MESSAGE, nullptr, L"/servershow", 0);
 						return _dlgReturn(m_hwnd, 1);
 					}
 				}

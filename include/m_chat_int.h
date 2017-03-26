@@ -387,6 +387,9 @@ EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_MessageStreamCallback(DWORD_PTR dwCook
 // updates options for all windows
 EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions();
 
+// runs ME_GC_EVENT with the parameters passed
+EXTERN_C MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem);
+
 // chat menu creation / destruction
 EXTERN_C MIR_APP_DLL(UINT) Chat_CreateGCMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszWordText);
 EXTERN_C MIR_APP_DLL(void) Chat_DestroyGCMenu(HMENU hMenu, int iIndex);
@@ -408,7 +411,6 @@ protected:
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
-	void DoEventHook(int iType, const USERINFO *pUser, const wchar_t *pszText, INT_PTR dwItem);
 	bool ProcessHotkeys(int key, bool bShift, bool bCtrl, bool bAlt);
 	void RefreshButtonStatus(void);
 	void RunUserMenu(HWND hwndOwner, USERINFO *ui, const POINT &pt);

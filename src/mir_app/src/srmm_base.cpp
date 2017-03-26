@@ -104,11 +104,11 @@ void CSrmmBaseDialog::RunUserMenu(HWND hwndOwner, USERINFO *ui, const POINT &pt)
 		break;
 
 	case IDM_SENDMESSAGE:
-		DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
+		Chat_DoEventHook(m_si, GC_USER_PRIVMESS, ui, nullptr, 0);
 		break;
 
 	default:
-		DoEventHook(GC_USER_NICKLISTMENU, ui, nullptr, uID);
+		Chat_DoEventHook(m_si, GC_USER_NICKLISTMENU, ui, nullptr, uID);
 		break;
 	}
 	Chat_DestroyGCMenu(hMenu, 1);
@@ -290,7 +290,7 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			default:
 				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-				DoEventHook(GC_USER_LOGMENU, nullptr, nullptr, uID);
+				Chat_DoEventHook(m_si, GC_USER_LOGMENU, nullptr, nullptr, uID);
 				break;
 			}
 			Chat_DestroyGCMenu(hMenu, 5);
@@ -690,25 +690,6 @@ void CSrmmBaseDialog::ClearLog()
 	m_log.SetText(L"");
 }
 
-void CSrmmBaseDialog::DoEventHook(int iType, const USERINFO *pUser, const wchar_t *pszText, INT_PTR dwItem)
-{
-	GCDEST gcd = {};
-	gcd.pszModule = m_si->pszModule;
-	gcd.ptszID = m_si->ptszID;
-	gcd.iType = iType;
-
-	GCHOOK gch = {};
-	if (pUser != nullptr) {
-		gch.ptszUID = pUser->pszUID;
-		gch.ptszNick = pUser->pszNick;
-	}
-
-	gch.ptszText = (LPWSTR)pszText;
-	gch.dwData = dwItem;
-	gch.pDest = &gcd;
-	NotifyEventHooks(chatApi.hSendEvent, 0, (WPARAM)&gch);
-}
-
 void CSrmmBaseDialog::RedrawLog2()
 {
 	m_si->LastTime = 0;
@@ -799,7 +780,7 @@ void CSrmmBaseDialog::onClick_History(CCtrlButton *pButton)
 void CSrmmBaseDialog::onClick_ChanMgr(CCtrlButton *pButton)
 {
 	if (pButton->Enabled())
-		DoEventHook(GC_USER_CHANMGR, nullptr, nullptr, 0);
+		Chat_DoEventHook(m_si, GC_USER_CHANMGR, nullptr, nullptr, 0);
 }
 
 void CSrmmBaseDialog::onDblClick_List(CCtrlListBox *pList)
@@ -826,7 +807,7 @@ void CSrmmBaseDialog::onDblClick_List(CCtrlListBox *pList)
 		PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 		SetFocus(m_message.GetHwnd());
 	}
-	else DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
+	else Chat_DoEventHook(m_si, GC_USER_PRIVMESS, ui, nullptr, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

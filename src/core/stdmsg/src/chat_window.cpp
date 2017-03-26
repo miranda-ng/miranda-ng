@@ -168,7 +168,7 @@ void CChatRoomDlg::onClick_NickList(CCtrlButton *pButton)
 void CChatRoomDlg::onClick_Options(CCtrlButton *pButton)
 {
 	if (pButton->Enabled())
-		DoEventHook(GC_USER_CHANMGR, nullptr, nullptr, 0);
+		Chat_DoEventHook(m_si, GC_USER_CHANMGR, nullptr, nullptr, 0);
 }
 
 void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
@@ -199,7 +199,7 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 
 	EnableWindow(m_btnOk.GetHwnd(), FALSE);
 
-	DoEventHook(GC_USER_MESSAGE, nullptr, ptszText, 0);
+	Chat_DoEventHook(m_si, GC_USER_MESSAGE, nullptr, ptszText, 0);
 
 	SetFocus(m_message.GetHwnd());
 }

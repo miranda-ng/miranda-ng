@@ -75,7 +75,7 @@ static void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact = false)
 	if (si->pDlg)
 		si->pDlg->CloseTab();
 
-	DoEventHook(si, GC_SESSION_TERMINATE, nullptr, nullptr, (INT_PTR)si->pItemData);
+	Chat_DoEventHook(si, GC_SESSION_TERMINATE, nullptr, nullptr, (INT_PTR)si->pItemData);
 
 	if (si->hContact && bRemoveContact)
 		db_delete_contact(si->hContact);

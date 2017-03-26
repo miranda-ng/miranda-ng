@@ -606,7 +606,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	return TRUE;
 }
 
-BOOL DoEventHook(SESSION_INFO *si, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem)
+MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem)
 {
 	if (si == nullptr)
 		return FALSE;

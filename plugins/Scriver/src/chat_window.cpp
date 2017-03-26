@@ -372,7 +372,7 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 
 	EnableWindow(m_btnOk.GetHwnd(), FALSE);
 
-	DoEventHook(GC_USER_MESSAGE, nullptr, ptszText, 0);
+	Chat_DoEventHook(m_si, GC_USER_MESSAGE, nullptr, ptszText, 0);
 	SetFocus(m_message.GetHwnd());
 }
 
@@ -853,7 +853,7 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 			int index = m_nickList.SendMsg(LB_GETCURSEL, 0, 0);
 			if (index != LB_ERR) {
 				USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, index);
-				DoEventHook(GC_USER_PRIVMESS, ui, nullptr, 0);
+				Chat_DoEventHook(m_si, GC_USER_PRIVMESS, ui, nullptr, 0);
 			}
 			break;
 		}

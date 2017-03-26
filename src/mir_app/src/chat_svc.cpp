@@ -670,7 +670,7 @@ MIR_APP_DLL(int) Chat_SendUserMessage(const char *szModule, const wchar_t *wszId
 			continue;
 
 		if (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS)
-			DoEventHook(si, GC_USER_MESSAGE, nullptr, wszText, 0);
+			Chat_DoEventHook(si, GC_USER_MESSAGE, nullptr, wszText, 0);
 		if (wszId)
 			break;
 	}

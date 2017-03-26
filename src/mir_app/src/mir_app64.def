@@ -409,7 +409,7 @@ ProtoGetAvatarMimeType @401
 ?isChat@CSrmmBaseDialog@@QEBA_NXZ @411 NONAME
 Srmm_LogStreamCallback @412
 Srmm_MessageStreamCallback @413
-?DoEventHook@CSrmmBaseDialog@@IEAAXHPEBUUSERINFO@@PEB_W_J@Z @414 NONAME
+?RunUserMenu@CSrmmBaseDialog@@IEAAXPEAUHWND__@@PEAUUSERINFO@@AEBUtagPOINT@@@Z @414 NONAME
 ?ClearLog@CSrmmBaseDialog@@QEAAXXZ @415 NONAME
 ?CloseTab@CSrmmBaseDialog@@UEAAXXZ @416 NONAME
 ?UpdateStatusBar@CSrmmBaseDialog@@UEAAXXZ @417 NONAME
@@ -439,4 +439,4 @@ Chat_UpdateOptions @418 NONAME
 Chat_AddMenuItems @442 NONAME
 Chat_DestroyGCMenu @443 NONAME
 Chat_CreateGCMenu @444 NONAME
-?RunUserMenu@CSrmmBaseDialog@@IEAAXPEAUHWND__@@PEAUUSERINFO@@AEBUtagPOINT@@@Z @445 NONAME
+Chat_DoEventHook @445 NONAME
