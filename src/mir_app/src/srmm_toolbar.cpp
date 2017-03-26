@@ -731,7 +731,7 @@ public:
 
 	void OnTreeItemChanged(void*)
 	{
-		int iNewState = !m_toolBar.GetCheckState(m_toolBar.GetSelection());
+		bool iNewState = !m_toolBar.GetCheckState(m_toolBar.GetSelection());
 		m_btnIM.Enable(iNewState);
 		m_btnChat.Enable(iNewState);
 		m_btnHidden.Enable(iNewState);

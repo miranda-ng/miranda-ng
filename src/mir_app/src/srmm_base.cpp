@@ -147,7 +147,7 @@ static LRESULT CALLBACK Srmm_ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static LRESULT CALLBACK stubLogProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubLogProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 	if (pDlg != nullptr)
@@ -303,7 +303,7 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static LRESULT CALLBACK stubMessageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubMessageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 	if (pDlg != nullptr)
@@ -428,7 +428,7 @@ static void CALLBACK ChatTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 	KillTimer(hwnd, idEvent);
 }
 
-static LRESULT CALLBACK stubNicklistProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubNicklistProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 	if (pDlg != nullptr)

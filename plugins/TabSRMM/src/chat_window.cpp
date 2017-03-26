@@ -1012,13 +1012,13 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_NCCALCSIZE:
-		return CSkin::NcCalcRichEditFrame(m_log.GetHwnd(), this, ID_EXTBKHISTORY, msg, wParam, lParam, nullptr);
+		return CSkin::NcCalcRichEditFrame(m_log.GetHwnd(), this, ID_EXTBKHISTORY, msg, wParam, lParam, stubLogProc);
 
 	case WM_NCPAINT:
-		return CSkin::DrawRichEditFrame(m_log.GetHwnd(), this, ID_EXTBKHISTORY, msg, wParam, lParam, nullptr);
+		return CSkin::DrawRichEditFrame(m_log.GetHwnd(), this, ID_EXTBKHISTORY, msg, wParam, lParam, stubLogProc);
 
 	case WM_COPY:
-		return Utils::WMCopyHandler(m_log.GetHwnd(), nullptr, msg, wParam, lParam);
+		return Utils::WMCopyHandler(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
 
 	case WM_SETCURSOR:
 		if (g_Settings.bClickableNicks && (LOWORD(lParam) == HTCLIENT)) {
@@ -1063,7 +1063,7 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			return TRUE;
 		}
 		if (wParam == VK_INSERT && GetKeyState(VK_CONTROL) & 0x8000)
-			return Utils::WMCopyHandler(m_log.GetHwnd(), nullptr, msg, wParam, lParam);
+			return Utils::WMCopyHandler(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
 		break;
 
 	case WM_SYSKEYUP:
@@ -1092,7 +1092,7 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		bool isCtrl, isShift, isAlt;
 		KbdState(isShift, isCtrl, isAlt);
 		if (wParam == 0x03 && isCtrl) // Ctrl+C
-			return Utils::WMCopyHandler(m_log.GetHwnd(), nullptr, msg, wParam, lParam);
+			return Utils::WMCopyHandler(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
 		break;
 	}
 
@@ -1113,10 +1113,10 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	switch (msg) {
 	case WM_NCCALCSIZE:
-		return CSkin::NcCalcRichEditFrame(m_message.GetHwnd(), this, ID_EXTBKINPUTAREA, msg, wParam, lParam, nullptr);
+		return CSkin::NcCalcRichEditFrame(m_message.GetHwnd(), this, ID_EXTBKINPUTAREA, msg, wParam, lParam, stubMessageProc);
 
 	case WM_NCPAINT:
-		return CSkin::DrawRichEditFrame(m_message.GetHwnd(), this, ID_EXTBKINPUTAREA, msg, wParam, lParam, nullptr);
+		return CSkin::DrawRichEditFrame(m_message.GetHwnd(), this, ID_EXTBKINPUTAREA, msg, wParam, lParam, stubMessageProc);
 
 	case WM_CONTEXTMENU:
 		POINT pt;
@@ -1459,10 +1459,10 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 			LONG itemHeight = m_nickList.SendMsg(LB_GETITEMHEIGHT, 0, 0);
 			g_cLinesPerPage = (lpRect.bottom - lpRect.top) / itemHeight;
 		}
-		return CSkin::NcCalcRichEditFrame(m_nickList.GetHwnd(), this, ID_EXTBKUSERLIST, msg, wParam, lParam, nullptr);
+		return CSkin::NcCalcRichEditFrame(m_nickList.GetHwnd(), this, ID_EXTBKUSERLIST, msg, wParam, lParam, stubNicklistProc);
 
 	case WM_NCPAINT:
-		return CSkin::DrawRichEditFrame(m_nickList.GetHwnd(), this, ID_EXTBKUSERLIST, msg, wParam, lParam, nullptr);
+		return CSkin::DrawRichEditFrame(m_nickList.GetHwnd(), this, ID_EXTBKUSERLIST, msg, wParam, lParam, stubNicklistProc);
 
 	case WM_MOUSEWHEEL:
 		if (CSkin::m_DisableScrollbars) {

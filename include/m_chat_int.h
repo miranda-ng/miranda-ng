@@ -394,6 +394,11 @@ EXTERN_C MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const U
 EXTERN_C MIR_APP_DLL(UINT) Chat_CreateGCMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszWordText);
 EXTERN_C MIR_APP_DLL(void) Chat_DestroyGCMenu(HMENU hMenu, int iIndex);
 
+// message procedures' stubs
+EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubLogProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubMessageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubNicklistProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include <chat_resource.h>

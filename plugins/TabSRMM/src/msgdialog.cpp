@@ -1878,7 +1878,7 @@ LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_CHAR:
 		KbdState(isShift, isCtrl, isAlt);
 		if (wParam == 0x03 && isCtrl) // Ctrl+C
-			return Utils::WMCopyHandler(m_log.GetHwnd(), nullptr, msg, wParam, lParam);
+			return Utils::WMCopyHandler(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
 		if (wParam == 0x11 && isCtrl) // Ctrl+Q
 			m_btnQuote.OnClick(&m_btnQuote);
 		break;
@@ -1908,17 +1908,17 @@ LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 		KbdState(isShift, isCtrl, isAlt);
 		if (wParam == VK_INSERT && isCtrl)
-			return Utils::WMCopyHandler(m_log.GetHwnd(), nullptr, msg, wParam, lParam);
+			return Utils::WMCopyHandler(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
 		break;
 
 	case WM_COPY:
-		return Utils::WMCopyHandler(m_log.GetHwnd(), nullptr, msg, wParam, lParam);
+		return Utils::WMCopyHandler(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
 
 	case WM_NCCALCSIZE:
-		return CSkin::NcCalcRichEditFrame(m_log.GetHwnd(), this, ID_EXTBKHISTORY, msg, wParam, lParam, nullptr);
+		return CSkin::NcCalcRichEditFrame(m_log.GetHwnd(), this, ID_EXTBKHISTORY, msg, wParam, lParam, stubLogProc);
 
 	case WM_NCPAINT:
-		return CSkin::DrawRichEditFrame(m_log.GetHwnd(), this, ID_EXTBKHISTORY, msg, wParam, lParam, nullptr);
+		return CSkin::DrawRichEditFrame(m_log.GetHwnd(), this, ID_EXTBKHISTORY, msg, wParam, lParam, stubLogProc);
 
 	case WM_CONTEXTMENU:
 		POINT pt;
@@ -1960,10 +1960,10 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	switch (msg) {
 	case WM_NCCALCSIZE:
-		return CSkin::NcCalcRichEditFrame(m_message.GetHwnd(), this, ID_EXTBKINPUTAREA, msg, wParam, lParam, nullptr);
+		return CSkin::NcCalcRichEditFrame(m_message.GetHwnd(), this, ID_EXTBKINPUTAREA, msg, wParam, lParam, stubMessageProc);
 
 	case WM_NCPAINT:
-		return CSkin::DrawRichEditFrame(m_message.GetHwnd(), this, ID_EXTBKINPUTAREA, msg, wParam, lParam, nullptr);
+		return CSkin::DrawRichEditFrame(m_message.GetHwnd(), this, ID_EXTBKINPUTAREA, msg, wParam, lParam, stubMessageProc);
 
 	case WM_DROPFILES:
 		SendMessage(m_hwnd, WM_DROPFILES, (WPARAM)wParam, (LPARAM)lParam);

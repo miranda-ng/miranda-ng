@@ -1930,7 +1930,7 @@ UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID
 		ShowScrollBar(hwnd, SB_VERT, FALSE);
 	}
 
-	LRESULT orig = (MyWndProc == nullptr) ? WVR_REDRAW : mir_callNextSubclass(hwnd, MyWndProc, msg, wParam, lParam);
+	LRESULT orig = mir_callNextSubclass(hwnd, MyWndProc, msg, wParam, lParam);
 	if (mwdat == nullptr)
 		return orig;
 
@@ -1950,10 +1950,7 @@ UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID
 			bReturn = TRUE;
 		}
 		ReleaseDC(GetParent(hwnd), hdc);
-		if (bReturn)
-			return WVR_REDRAW;
-		else
-			return orig;
+		return (bReturn) ? WVR_REDRAW : orig;
 	}
 	if ((mwdat->m_sendMode & SMODE_MULTIPLE || mwdat->m_sendMode & SMODE_CONTAINER ||
 		mwdat->m_bEditNotesActive || mwdat->m_sendMode & SMODE_SENDLATER) && skinID == ID_EXTBKINPUTAREA) {
