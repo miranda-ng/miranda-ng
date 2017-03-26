@@ -79,7 +79,8 @@ void CDlgBase::Create()
 
 void CDlgBase::Show(int nCmdShow)
 {
-	Create();
+	if (m_hwnd == nullptr)
+		Create();
 	ShowWindow(m_hwnd, nCmdShow);
 }
 
@@ -2696,7 +2697,12 @@ void CCtrlBase::OnApply()
 void CCtrlBase::OnReset()
 {}
 
-void CCtrlBase::Enable(int bIsEnable)
+void CCtrlBase::Show(bool bShow)
+{
+	::ShowWindow(m_hwnd, bShow ? SW_SHOW : SW_HIDE);
+}
+
+void CCtrlBase::Enable(bool bIsEnable)
 {
 	::EnableWindow(m_hwnd, bIsEnable);
 }

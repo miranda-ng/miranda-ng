@@ -576,7 +576,7 @@ mir_wstrcmpi                  @280
 ?EditLabel@CCtrlClc@@QAEXPAX@Z @741 NONAME
 ?EditLabel@CCtrlListView@@QAEPAUHWND__@@H@Z @742 NONAME
 ?EditLabel@CCtrlTreeView@@QAEPAUHWND__@@PAU_TREEITEM@@@Z @743 NONAME
-?Enable@CCtrlBase@@QAEXH@Z @744 NONAME
+?Enable@CCtrlBase@@QAEX_N@Z @744 NONAME
 ?EnableGroupView@CCtrlListView@@QAEHH@Z @745 NONAME
 ?Enabled@CCtrlBase@@QBEHXZ @746 NONAME
 ?EndEditLabel@CCtrlClc@@QAEX_N@Z @747 NONAME
@@ -1037,3 +1037,5 @@ CallFunctionSync @1170
 ?SwapPages@CCtrlPages@@QAEXHH@Z @1224 NONAME
 ?IsPushed@CCtrlButton@@QBE_NXZ @1225 NONAME
 ?Push@CCtrlButton@@QAEX_N@Z @1226 NONAME
+?Hide@CCtrlBase@@QAEXXZ @1227 NONAME
+?Show@CCtrlBase@@QAEX_N@Z @1228 NONAME

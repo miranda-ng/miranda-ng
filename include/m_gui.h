@@ -500,7 +500,10 @@ public:
 	__forceinline void SetSilent() { m_bSilent = true; }
 	__forceinline void UseSystemColors() { m_bUseSystemColors = true; }
 
-	void Enable(int bIsEnable = true);
+	void Show(bool bShow = true);
+	__forceinline void Hide() { Show(false); }
+
+	void Enable(bool bIsEnable = true);
 	__forceinline void Disable() { Enable(false); }
 	BOOL Enabled(void) const;
 
