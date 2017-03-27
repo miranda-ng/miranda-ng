@@ -505,7 +505,7 @@ public:
 
 	void Enable(bool bIsEnable = true);
 	__forceinline void Disable() { Enable(false); }
-	BOOL Enabled(void) const;
+	bool Enabled(void) const;
 
 	void NotifyChange();
 

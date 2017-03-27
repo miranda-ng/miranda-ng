@@ -2707,9 +2707,9 @@ void CCtrlBase::Enable(bool bIsEnable)
 	::EnableWindow(m_hwnd, bIsEnable);
 }
 
-BOOL CCtrlBase::Enabled() const
+bool CCtrlBase::Enabled() const
 {
-	return (m_hwnd) ? IsWindowEnabled(m_hwnd) : FALSE;
+	return (m_hwnd) ? IsWindowEnabled(m_hwnd) != 0 : false;
 }
 
 void CCtrlBase::NotifyChange()

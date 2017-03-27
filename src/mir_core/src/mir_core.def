@@ -578,7 +578,7 @@ mir_wstrcmpi                  @280
 ?EditLabel@CCtrlTreeView@@QAEPAUHWND__@@PAU_TREEITEM@@@Z @743 NONAME
 ?Enable@CCtrlBase@@QAEX_N@Z @744 NONAME
 ?EnableGroupView@CCtrlListView@@QAEHH@Z @745 NONAME
-?Enabled@CCtrlBase@@QBEHXZ @746 NONAME
+?Enabled@CCtrlBase@@QBE_NXZ @746 NONAME
 ?EndEditLabel@CCtrlClc@@QAEX_N@Z @747 NONAME
 ?EndEditLabelNow@CCtrlTreeView@@QAEXH@Z @748 NONAME
 ?EnsureVisible@CCtrlClc@@QAEXPAX_N@Z @749 NONAME
