@@ -26,28 +26,6 @@ static HKL hkl = nullptr;
 
 static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
 
-int GetTextPixelSize(wchar_t *pszText, HFONT hFont, BOOL bWidth)
-{
-	if (!pszText || !hFont)
-		return 0;
-
-	HDC hdc = GetDC(nullptr);
-	HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
-	RECT rc = {};
-	DrawText(hdc, pszText, -1, &rc, DT_CALCRECT);
-	SelectObject(hdc, hOldFont);
-	ReleaseDC(nullptr, hdc);
-	return bWidth ? rc.right - rc.left : rc.bottom - rc.top;
-}
-
-static void __cdecl phase2(void *lParam)
-{
-	SESSION_INFO *si = (SESSION_INFO*)lParam;
-	Sleep(30);
-	if (si && si->pDlg)
-		si->pDlg->RedrawLog2();
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
@@ -306,6 +284,16 @@ void CChatRoomDlg::LoadSettings()
 	m_clrInputFG = g_Settings.MessageAreaColor;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void __cdecl phase2(void *lParam)
+{
+	SESSION_INFO *si = (SESSION_INFO*)lParam;
+	Sleep(30);
+	if (si && si->pDlg)
+		si->pDlg->RedrawLog2();
+}
+
 void CChatRoomDlg::RedrawLog()
 {
 	m_si->LastTime = 0;
@@ -328,6 +316,8 @@ void CChatRoomDlg::RedrawLog()
 	}
 	else ClearLog();
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CChatRoomDlg::ScrollToBottom()
 {
@@ -409,8 +399,8 @@ void CChatRoomDlg::UpdateOptions()
 	m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 
 	// nicklist
-	int ih = GetTextPixelSize(L"AQGglo", g_Settings.UserListFont, FALSE);
-	int ih2 = GetTextPixelSize(L"AQGglo", g_Settings.UserListHeadingsFont, FALSE);
+	int ih = Chat_GetTextPixelSize(L"AQGglo", g_Settings.UserListFont, FALSE);
+	int ih2 = Chat_GetTextPixelSize(L"AQGglo", g_Settings.UserListHeadingsFont, FALSE);
 	int height = db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12);
 	int font = ih > ih2 ? ih : ih2;
 
@@ -430,7 +420,7 @@ void CChatRoomDlg::UpdateStatusBar()
 	MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
 	wchar_t *ptszDispName = mi->ptszModDispName;
 	int x = 12;
-	x += GetTextPixelSize(ptszDispName, (HFONT)SendMessage(m_hwndStatus, WM_GETFONT, 0, 0), TRUE);
+	x += Chat_GetTextPixelSize(ptszDispName, (HFONT)SendMessage(m_hwndStatus, WM_GETFONT, 0, 0), TRUE);
 	x += GetSystemMetrics(SM_CXSMICON);
 	int iStatusbarParts[2] = { x, -1 };
 	SendMessage(m_hwndStatus, SB_SETPARTS, 2, (LPARAM)&iStatusbarParts);
@@ -478,14 +468,12 @@ void CChatRoomDlg::UpdateTitle()
 
 int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 {
-	SESSION_INFO *si = m_si;
-
 	RECT rc;
 	bool bControl = db_get_b(0, CHAT_MODULE, "ShowTopButtons", 1) != 0;
 	bool bFormat = db_get_b(0, CHAT_MODULE, "ShowFormatButtons", 1) != 0;
 	bool bToolbar = bFormat || bControl;
 	bool bSend = db_get_b(0, CHAT_MODULE, "ShowSend", 0) != 0;
-	bool bNick = si->iType != GCW_SERVER && m_bNicklistEnabled;
+	bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 
 	switch (urc->wId) {
 	case IDOK:
@@ -1049,8 +1037,8 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (mis->CtlType == ODT_MENU)
 				return Menu_MeasureItem(lParam);
 
-			int ih = GetTextPixelSize(L"AQGgl'", g_Settings.UserListFont, FALSE);
-			int ih2 = GetTextPixelSize(L"AQGg'", g_Settings.UserListHeadingsFont, FALSE);
+			int ih = Chat_GetTextPixelSize(L"AQGgl'", g_Settings.UserListFont, FALSE);
+			int ih2 = Chat_GetTextPixelSize(L"AQGg'", g_Settings.UserListHeadingsFont, FALSE);
 			int font = ih > ih2 ? ih : ih2;
 			int height = db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12);
 

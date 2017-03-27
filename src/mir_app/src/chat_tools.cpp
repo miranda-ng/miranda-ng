@@ -837,3 +837,23 @@ MIR_APP_DLL(void) Chat_DestroyGCMenu(HMENU hMenu, int iIndex)
 		RemoveMenu(hMenu, iIndex, MF_BYPOSITION);
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// calculates the required rectangle for a string using the given font. This is more
+// precise than using GetTextExtentPoint...()
+
+MIR_APP_DLL(int) Chat_GetTextPixelSize(const wchar_t *pszText, HFONT hFont, bool bWidth)
+{
+	if (!pszText || !hFont)
+		return 0;
+
+	HDC hdc = GetDC(nullptr);
+	HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
+
+	RECT rc = { 0 };
+	DrawText(hdc, pszText, -1, &rc, DT_CALCRECT);
+
+	SelectObject(hdc, hOldFont);
+	ReleaseDC(nullptr, hdc);
+	return bWidth ? rc.right - rc.left : rc.bottom - rc.top;
+}

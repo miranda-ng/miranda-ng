@@ -129,8 +129,6 @@ void  ValidateFilename(wchar_t *filename);
 char* Log_CreateRtfHeader(MODULEINFO *mi);
 
 // window.cpp
-int GetTextPixelSize(wchar_t* pszText, HFONT hFont, BOOL bWidth);
-
 SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si);
 SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si);
 

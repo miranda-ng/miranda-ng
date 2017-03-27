@@ -455,26 +455,6 @@ LBL_SkipEnd:
 	return false;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// calculate the required rectangle for a string using the given font. This is more
-// precise than using GetTextExtentPoint...()
-
-int GetTextPixelSize(wchar_t *pszText, HFONT hFont, bool bWidth)
-{
-	if (!pszText || !hFont)
-		return 0;
-
-	HDC hdc = GetDC(nullptr);
-	HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
-
-	RECT rc = { 0 };
-	DrawText(hdc, pszText, -1, &rc, DT_CALCRECT);
-
-	SelectObject(hdc, hOldFont);
-	ReleaseDC(nullptr, hdc);
-	return bWidth ? rc.right - rc.left : rc.bottom - rc.top;
-}
-
 static void __cdecl phase2(void * lParam)
 {
 	Thread_SetName("TabSRMM: phase2");
@@ -915,7 +895,7 @@ void CChatRoomDlg::UpdateStatusBar()
 		return;
 
 	int x = 12;
-	x += GetTextPixelSize(mi->ptszModDispName, (HFONT)SendMessage(m_pContainer->hwndStatus, WM_GETFONT, 0, 0), TRUE);
+	x += Chat_GetTextPixelSize(mi->ptszModDispName, (HFONT)SendMessage(m_pContainer->hwndStatus, WM_GETFONT, 0, 0), true);
 	x += GetSystemMetrics(SM_CXSMICON);
 
 	wchar_t szFinalStatusBarText[512];

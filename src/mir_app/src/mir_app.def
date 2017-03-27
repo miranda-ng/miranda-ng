@@ -443,3 +443,4 @@ Chat_DoEventHook @445 NONAME
 _stubLogProc@16 @446 NONAME
 _stubMessageProc@16 @447 NONAME
 _stubNicklistProc@16 @448 NONAME
+Chat_GetTextPixelSize @449 NONAME

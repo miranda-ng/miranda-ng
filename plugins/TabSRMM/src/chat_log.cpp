@@ -674,7 +674,7 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 		szString[0] = 0x28;
 		pci->LoadMsgDlgFont(17, &lf, nullptr);
 		HFONT hFont = CreateFontIndirect(&lf);
-		int iText = GetTextPixelSize(szString, hFont, true) + 3;
+		int iText = Chat_GetTextPixelSize(szString, hFont, true) + 3;
 		DeleteObject(hFont);
 		iIndent += (iText * 1440) / pci->logPixelSX;
 		str.AppendFormat("\\tx%u", iIndent);

@@ -44,14 +44,14 @@ extern char* pLogIconBmpBits[14];
 extern LIST<SESSION_INFO> g_arSessions;
 
 // log.c
-void   LoadMsgLogBitmaps(void);
-void   FreeMsgLogBitmaps(void);
-void   ValidateFilename (wchar_t *filename);
+void     LoadMsgLogBitmaps(void);
+void     FreeMsgLogBitmaps(void);
+void     ValidateFilename (wchar_t *filename);
 wchar_t* MakeTimeStamp(wchar_t *pszStamp, time_t time);
 wchar_t* GetChatLogsFilename(SESSION_INFO *si, time_t tTime);
-char*  Log_CreateRtfHeader(MODULEINFO *mi);
-char*  Log_CreateRTF(LOGSTREAMDATA *streamData);
-char*  Log_SetStyle(int style);
+char*    Log_CreateRtfHeader(MODULEINFO *mi);
+char*    Log_CreateRTF(LOGSTREAMDATA *streamData);
+char*    Log_SetStyle(int style);
 
 // chat_manager.cpp
 BOOL     SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool bIsHighlighted);
@@ -98,7 +98,6 @@ void     UnloadChatModule(void);
 
 // tools.c
 int      DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pColors);
-int      GetTextPixelSize(wchar_t* pszText, HFONT hFont, BOOL bWidth);
 wchar_t *RemoveFormatting(const wchar_t* pszText);
 BOOL     DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
 int      GetColorIndex(const char *pszModule, COLORREF cr);

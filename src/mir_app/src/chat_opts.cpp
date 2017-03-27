@@ -285,14 +285,14 @@ void SetIndentSize()
 		LOGFONT lf;
 		LoadMsgDlgFont(0, &lf, nullptr);
 		HFONT hFont = CreateFontIndirect(&lf);
-		int iText = GetTextPixelSize(MakeTimeStamp(g_Settings->pszTimeStamp, time(nullptr)), hFont, TRUE);
+		int iText = Chat_GetTextPixelSize(MakeTimeStamp(g_Settings->pszTimeStamp, time(nullptr)), hFont, TRUE);
 		DeleteObject(hFont);
 		g_Settings->LogTextIndent = iText * 12 / 10;
 	}
 	else g_Settings->LogTextIndent = 0;
 }
 
-int GetTextPixelSize(wchar_t* pszText, HFONT hFont, BOOL bWidth)
+int Chat_GetTextPixelSize(wchar_t* pszText, HFONT hFont, BOOL bWidth)
 {
 	if (!pszText || !hFont)
 		return 0;

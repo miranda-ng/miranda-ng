@@ -70,9 +70,6 @@ extern GlobalLogSettings g_Settings;
 void LoadMsgLogBitmaps(void);
 void FreeMsgLogBitmaps(void);
 
-// window.c
-int GetTextPixelSize( wchar_t* pszText, HFONT hFont, BOOL bWidth);
-
 // services.c
 void ShowRoom(SESSION_INFO *si);
 

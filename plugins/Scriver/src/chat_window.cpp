@@ -110,31 +110,6 @@ LBL_SkipEnd:
 	}
 }
 
-int GetTextPixelSize(wchar_t* pszText, HFONT hFont, BOOL bWidth)
-{
-	if (!pszText || !hFont)
-		return 0;
-
-	HDC hdc = GetDC(nullptr);
-	HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
-
-	RECT rc = { 0 };
-	DrawText(hdc, pszText, -1, &rc, DT_CALCRECT);
-	SelectObject(hdc, hOldFont);
-	ReleaseDC(nullptr, hdc);
-	return bWidth ? rc.right - rc.left : rc.bottom - rc.top;
-}
-
-static void __cdecl phase2(void *lParam)
-{
-	Thread_SetName("Scriver: phase2");
-
-	SESSION_INFO *si = (SESSION_INFO*)lParam;
-	Sleep(30);
-	if (si && si->pDlg)
-		si->pDlg->RedrawLog2();
-}
-
 void CChatRoomDlg::FixTabIcons()
 {
 	HICON hIcon;
@@ -404,6 +379,16 @@ void CChatRoomDlg::onChange_Message(CCtrlEdit *pEdit)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static void __cdecl phase2(void *lParam)
+{
+	Thread_SetName("Scriver: phase2");
+
+	SESSION_INFO *si = (SESSION_INFO*)lParam;
+	Sleep(30);
+	if (si && si->pDlg)
+		si->pDlg->RedrawLog2();
+}
+
 void CChatRoomDlg::RedrawLog()
 {
 	m_si->LastTime = 0;
@@ -517,8 +502,8 @@ void CChatRoomDlg::UpdateOptions()
 	m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 	{
 		// nicklist
-		int ih = GetTextPixelSize(L"AQG_glo'", g_Settings.UserListFont, FALSE);
-		int ih2 = GetTextPixelSize(L"AQG_glo'", g_Settings.UserListHeadingsFont, FALSE);
+		int ih = Chat_GetTextPixelSize(L"AQG_glo'", g_Settings.UserListFont, false);
+		int ih2 = Chat_GetTextPixelSize(L"AQG_glo'", g_Settings.UserListHeadingsFont, false);
 		int height = db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12);
 		int font = ih > ih2 ? ih : ih2;
 		// make sure we have space for icon!
@@ -971,8 +956,8 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (mis->CtlType == ODT_MENU)
 				return Menu_MeasureItem(lParam);
 
-			int ih = GetTextPixelSize(L"AQGgl'", g_Settings.UserListFont, FALSE);
-			int ih2 = GetTextPixelSize(L"AQGg'", g_Settings.UserListHeadingsFont, FALSE);
+			int ih = Chat_GetTextPixelSize(L"AQGgl'", g_Settings.UserListFont, false);
+			int ih2 = Chat_GetTextPixelSize(L"AQGg'", g_Settings.UserListHeadingsFont, false);
 			int font = ih > ih2 ? ih : ih2;
 			int height = db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12);
 			// make sure we have space for icon!

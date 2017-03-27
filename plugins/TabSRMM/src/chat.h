@@ -101,9 +101,6 @@ extern TMUCSettings g_Settings;
 char* Log_CreateRtfHeader(MODULEINFO *mi);
 char* Log_CreateRTF(LOGSTREAMDATA *streamData);
 
-// window.c
-int GetTextPixelSize(wchar_t* pszText, HFONT hFont, bool bWidth);
-
 // options.c
 enum { FONTSECTION_AUTO, FONTSECTION_IM, FONTSECTION_IP };
 void  LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF *colour, char *szModule);
