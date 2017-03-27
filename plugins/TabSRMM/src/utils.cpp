@@ -1117,8 +1117,6 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 {
 	wchar_t*	separator_pos = 0;
 	__int64 	mask = 0, val = 0;
-	LRESULT 	result = 0;
-	wchar_t*	_s = 0;
 
 	if (0 == hWindowList)
 		hWindowList = WindowList_Create();
@@ -1128,23 +1126,23 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 	if (CMimAPI::m_shutDown)
 		return -1;
 
+	wchar_t *_s = nullptr;
 	if (tszTxt)
 		_s = const_cast<wchar_t *>(tszTxt);
 	else {
-		if (uId != -1) {
-			if (dwFlags & CWF_UNTRANSLATED)
-				_s = TranslateW(warnings[uId]);
-			else {
-				// revert to untranslated warning when the translated message
-				// is not well-formatted.
-				_s = TranslateW(warnings[uId]);
-
-				if (mir_wstrlen(_s) < 3 || 0 == wcschr(_s, '|'))
-					_s = TranslateW(warnings[uId]);
-			}
-		}
-		else
+		if (uId == -1)
 			return -1;
+		
+		if (dwFlags & CWF_UNTRANSLATED)
+			_s = TranslateW(warnings[uId]);
+		else {
+			// revert to untranslated warning when the translated message
+			// is not well-formatted.
+			_s = TranslateW(warnings[uId]);
+
+			if (mir_wstrlen(_s) < 3 || 0 == wcschr(_s, '|'))
+				_s = TranslateW(warnings[uId]);
+		}
 	}
 
 	if ((mir_wstrlen(_s) > 3) && ((separator_pos = wcschr(_s, '|')) != 0)) {
@@ -1155,26 +1153,18 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 		else mask = val = 0;
 
 		if (0 == (mask & val) || dwFlags & CWF_NOALLOWHIDE) {
-			wchar_t *s = reinterpret_cast<wchar_t *>(mir_alloc((mir_wstrlen(_s) + 1) * 2));
-			mir_wstrcpy(s, _s);
+			ptrW s(mir_wstrdup(_s));
 			separator_pos = wcschr(s, '|');
 
 			if (separator_pos) {
-				separator_pos[0] = 0;
+				*separator_pos = 0;
 
-				CWarning *w = new CWarning(s, &separator_pos[1], uId, dwFlags);
-				if (!(dwFlags & MB_YESNO || dwFlags & MB_YESNOCANCEL)) {
-					w->ShowDialog();
-					mir_free(s);
-				}
-				else {
-					result = w->ShowDialog();
-					mir_free(s);
-					return(result);
-				}
+				CWarning *w = new CWarning(s, separator_pos+1, uId, dwFlags);
+				if (dwFlags & MB_YESNO || dwFlags & MB_YESNOCANCEL)
+					return w->ShowDialog();
+
+				w->ShowDialog();
 			}
-			else
-				mir_free(s);
 		}
 	}
 	return -1;
@@ -1197,12 +1187,6 @@ INT_PTR CALLBACK CWarning::stubDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			return(w->dlgProc(hwnd, msg, wParam, lParam));
 		}
 		break;
-
-	#if defined(__LOGDEBUG_)
-	case WM_NCDESTROY:
-		_DebugTraceW(L"window destroyed");
-		break;
-	#endif
 	}
 	return FALSE;
 }
@@ -1315,18 +1299,13 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		case IDCANCEL:
 		case IDYES:
 		case IDNO:
-			if (!m_fIsModal && (IDOK == LOWORD(wParam) || IDCANCEL == LOWORD(wParam))) {		// modeless dialogs can receive a IDCANCEL from destroyAll()
-				::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-				delete this;
-				WindowList_Remove(hWindowList, hwnd);
+			::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+			delete this;
+			WindowList_Remove(hWindowList, hwnd);
+			if (!m_fIsModal && (IDOK == LOWORD(wParam) || IDCANCEL == LOWORD(wParam))) // modeless dialogs can receive a IDCANCEL from destroyAll()
 				::DestroyWindow(hwnd);
-			}
-			else {
-				::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-				delete this;
-				WindowList_Remove(hWindowList, hwnd);
+			else
 				::EndDialog(hwnd, LOWORD(wParam));
-			}
 			break;
 
 		case IDC_DONTSHOWAGAIN:
