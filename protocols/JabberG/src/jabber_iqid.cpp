@@ -52,6 +52,12 @@ void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode, CJabberIqInfo*)
 		if (!mir_wstrcmp(tmp.category, L"pubsub") && !mir_wstrcmp(tmp.type, L"pep")) {
 			m_bPepSupported = true;
 
+			if (m_options.UseOMEMO)
+			{
+				//publish ndes, precreation is not required
+				OmemoPublishNodes();
+			}
+
 			EnableMenuItems(true);
 			RebuildInfoFrame();
 			continue;
@@ -207,15 +213,6 @@ void CJabberProto::OnLoggedIn()
 	setString("LastLoggedServer", m_ThreadInfo->conn.server);
 	m_pepServices.ResetPublishAll();
 
-	if (m_options.UseOMEMO)
-	{
-		if (m_PubsubServiceName) // this is required if login server is changed only
-		{
-			mir_free(m_PubsubServiceName);
-			m_PubsubServiceName = nullptr;
-		}
-		OmemoCreateNodes();
-	}
 }
 
 void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo*)

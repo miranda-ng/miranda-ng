@@ -70,8 +70,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_hPrivacyMenuRoot(0),
 	m_hPrivacyMenuItems(10),
 	m_lstJabberFeatCapPairsDynamic(2),
-	m_uEnabledFeatCapsDynamic(0),
-	m_PubsubServiceName(nullptr)
+	m_uEnabledFeatCapsDynamic(0)
 {
 	m_szXmlStreamToBeInitialized = NULL;
 
@@ -191,7 +190,6 @@ CJabberProto::~CJabberProto()
 		mir_free(m_lstJabberFeatCapPairsDynamic[i]->szDescription);
 		delete m_lstJabberFeatCapPairsDynamic[i];
 	}
-	mir_free(m_PubsubServiceName);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

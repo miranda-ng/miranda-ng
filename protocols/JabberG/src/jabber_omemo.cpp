@@ -539,140 +539,7 @@ namespace omemo {
 		wchar_t* node_name;
 	};
 
-	void pubsub_createnode_impl(wchar_t *node_name, CJabberProto *proto)
-	{
-		//xep-0060 8.1.1 required by xep-0163 3
-		IqHandlerUserData *data = (IqHandlerUserData*)mir_alloc(sizeof(IqHandlerUserData)); //this may cause memory leak
-		data->node_name = mir_wstrdup(node_name);
-		XmlNodeIq iq(proto->AddIQ(&CJabberProto::OmemoOnIqResultPubsubCreateNode, JABBER_IQ_TYPE_SET, proto->m_PubsubServiceName, 0UL, -1, data)); //TODO: check is it correct
-		iq << XATTR(L"from", proto->m_ThreadInfo->fullJID); //full unstripped jid used here
-		HXML create_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"create");
-		create_node << XATTR(L"node", node_name);
-		if(!mir_wstrcmp(node_name, JABBER_FEAT_OMEMO L".devicelist"))
-		{
-			DWORD own_id = omemo::GetOwnDeviceId(proto);
-			wchar_t attr_val[128];
-			mir_snwprintf(attr_val, L"%s.bundles:%d", JABBER_FEAT_OMEMO, own_id);
-			pubsub_createnode_impl(attr_val, proto);
-		}
-		proto->m_ThreadInfo->send(iq);
-	}
-
-	void pubsub_createnode(wchar_t *node_name, CJabberProto *proto)
-	{
-		if (!proto->m_PubsubServiceName)
-		{
-			IqHandlerUserData *data = (IqHandlerUserData*)mir_alloc(sizeof(IqHandlerUserData)); //this may cause memory leak
-			data->node_name = mir_wstrdup(node_name);
-			proto->m_ThreadInfo->send(
-				XmlNodeIq(proto->AddIQ(&CJabberProto::OmemoOnIqResultServerDiscoItems, JABBER_IQ_TYPE_GET, _A2T(proto->m_ThreadInfo->conn.server), 0UL, -1, data))
-				<< XQUERY(JABBER_FEAT_DISCO_ITEMS));
-		}
-		else
-			pubsub_createnode_impl(node_name, proto);
-	}
-
 };
-
-void CJabberProto::OmemoOnIqResultServerDiscoInfoJid(HXML iqNode, CJabberIqInfo *pInfo)
-{
-	if (m_PubsubServiceName) //one pubsub address is enough
-		return;
-	if (iqNode == NULL)
-		return;
-
-	const wchar_t *type = XmlGetAttrValue(iqNode, L"type");
-	if (mir_wstrcmp(type, L"result"))
-		return;
-
-	LPCTSTR jid = XmlGetAttrValue(iqNode, L"from");
-
-	HXML query = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_DISCO_INFO);
-	if (query == NULL)
-		return;
-
-	HXML identity;
-	for (int i = 1; (identity = XmlGetNthChild(query, L"identity", i)) != NULL; i++)
-	{
-		JABBER_DISCO_FIELD tmp = {
-			XmlGetAttrValue(identity, L"category"),
-			XmlGetAttrValue(identity, L"type") 
-		};
-
-		if (!mir_wstrcmp(tmp.category, L"pubsub") && !mir_wstrcmp(tmp.type, L"service"))
-		{
-			omemo::IqHandlerUserData *data = (omemo::IqHandlerUserData*)pInfo->GetUserData();
-			m_PubsubServiceName = mir_wstrdup(jid);
-			omemo::pubsub_createnode(data->node_name, this);
-			mir_free(data->node_name);
-			mir_free(data);
-			break;
-		}
-	}
-
-}
-
-void CJabberProto::OmemoOnIqResultServerDiscoItems(HXML iqNode, CJabberIqInfo* pInfo)
-{
-	if (iqNode == NULL)
-		return;
-
-	const wchar_t *type = XmlGetAttrValue(iqNode, L"type");
-	if (mir_wstrcmp(type, L"result"))
-		return;
-
-	HXML query = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_DISCO_ITEMS);
-	if (query == NULL)
-		return;
-
-	HXML item;
-	for (int i = 1; (item = XmlGetNthChild(query, L"item", i)) != NULL; i++)
-	{
-		LPCTSTR jid = XmlGetAttrValue(item, L"jid");
-		if(jid)
-		m_ThreadInfo->send(
-			XmlNodeIq(AddIQ(&CJabberProto::OmemoOnIqResultServerDiscoInfoJid, JABBER_IQ_TYPE_GET, jid, 0UL, -1, pInfo->GetUserData()))
-			<< XQUERY(JABBER_FEAT_DISCO_INFO));
-	}
-}
-
-void CJabberProto::OmemoOnIqResultPubsubCreateNode(HXML iqNode, CJabberIqInfo *pInfo)
-{
-
-	if (iqNode == NULL)
-		return;
-
-	LPCTSTR type = XmlGetAttrValue(iqNode, L"type");
-	if (mir_wstrcmp(type, L"result"))
-	{
-		HXML error_node = XmlGetChild(iqNode, L"error");
-		if (!error_node) //not error and not success...
-			return;
-		HXML error_type_node = XmlGetChild(error_node, L"conflict"); //conflict is ok
-		if (!error_type_node)
-			return;
-	}
-
-
-	omemo::IqHandlerUserData *data = (omemo::IqHandlerUserData*)pInfo->GetUserData();
-	if (!mir_wstrcmp(data->node_name, JABBER_FEAT_OMEMO L".devicelist"))
-	{ //device list node created
-		OmemoAnnounceDevice();
-	}
-	else
-	{
-		DWORD own_id = omemo::GetOwnDeviceId(this);
-		wchar_t attr_val[128];
-		mir_snwprintf(attr_val, L"%s.bundles:%d", JABBER_FEAT_OMEMO, own_id);
-		if (!mir_wstrcmp(data->node_name, attr_val))
-		{ //device bundle node created
-			OmemoSendBundle();
-		}
-	}
-
-	mir_free(data->node_name);
-	mir_free(data);
-}
 
 
 void CJabberProto::OmemoInitDevice()
@@ -827,7 +694,8 @@ void CJabberProto::OmemoSendBundle()
 	m_ThreadInfo->send(iq);
 }
 
-void CJabberProto::OmemoCreateNodes()
+void CJabberProto::OmemoPublishNodes()
 {
-	omemo::pubsub_createnode(JABBER_FEAT_OMEMO L".devicelist", this);
+	OmemoAnnounceDevice();
+	OmemoSendBundle();
 }

@@ -342,11 +342,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void OmemoInitDevice();
 	void OmemoAnnounceDevice();
 	void OmemoSendBundle();
-	void OmemoOnIqResultServerDiscoItems(HXML iqNode, CJabberIqInfo*);
-	void OmemoOnIqResultServerDiscoInfoJid(HXML iqNode, CJabberIqInfo*);
-	void OmemoOnIqResultPubsubCreateNode(HXML iqNode, CJabberIqInfo*);
-	void OmemoCreateNodes();
-	wchar_t *m_PubsubServiceName;
+	void OmemoPublishNodes();
 
 	//---- jabber_console.cpp ------------------------------------------------------------
 
