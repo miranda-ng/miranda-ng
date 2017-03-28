@@ -84,12 +84,8 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 
 int IsSRMsgWindowOpen(MCONTACT hContact, int DefaultRetVal)
 {
-	if (ServiceExists(MS_MSG_GETWINDOWDATA)) {
-		MessageWindowData mwd;
-		return !Srmm_GetWindowData(hContact, (LPARAM)&mwd) && mwd.hwndWindow;
-	}
-
-	return DefaultRetVal;
+	MessageWindowData mwd;
+	return !Srmm_GetWindowData(hContact, mwd) && mwd.hwndWindow;
 }
 
 

@@ -243,7 +243,7 @@ class CGenMenuOptionsPage : public CDlgBase
 
 		m_menuItems.SendMsg(WM_SETREDRAW, TRUE, 0);
 
-		ShowWindow(m_warning.GetHwnd(), (pmo->m_bUseUserDefinedItems) ? SW_HIDE : SW_SHOW);
+		m_warning.Show(!pmo->m_bUseUserDefinedItems);
 		m_menuItems.Enable(pmo->m_bUseUserDefinedItems);
 		m_btnInsSeparator.Enable(pmo->m_bUseUserDefinedItems);
 		m_btnInsMenu.Enable(pmo->m_bUseUserDefinedItems);

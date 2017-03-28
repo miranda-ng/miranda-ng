@@ -73,7 +73,7 @@ MIR_APP_DLL(DWORD) CALLBACK Srmm_MessageStreamCallback(DWORD_PTR dwCookie, LPBYT
 	return 0;
 }
 
-MIR_APP_DLL(int) Srmm_GetWindowData(WPARAM hContact, MessageWindowData &mwd)
+MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
 {
 	if (hContact == 0)
 		return 1;

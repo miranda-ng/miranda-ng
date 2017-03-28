@@ -532,7 +532,7 @@ MIR_APP_DLL(int) Menu_ConfigureObject(int hMenuObject, int setting, INT_PTR valu
 			return true;
 
 		case MCO_OPT_USERDEFINEDITEMS:
-			pmo->m_bUseUserDefinedItems = (BOOL)value;
+			pmo->m_bUseUserDefinedItems = value != 0;
 			return true;
 		}
 	}

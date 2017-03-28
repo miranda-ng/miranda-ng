@@ -95,7 +95,7 @@ struct TIntMenuObject : public MZeroedObject
 
 	TMO_LinkedList m_items;
 	HIMAGELIST m_hMenuIcons;
-	BOOL m_bUseUserDefinedItems;
+	bool m_bUseUserDefinedItems;
 
 	void freeItem(TMO_IntMenuItem*);
 };

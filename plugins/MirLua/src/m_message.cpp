@@ -6,7 +6,7 @@ static int message_Paste(lua_State *L)
 	ptrW text(mir_utf8decodeW(luaL_checkstring(L, 2)));
 
 	MessageWindowData mwd;
-	INT_PTR res = Srmm_GetWindowData(hContact, (LPARAM)&mwd);
+	INT_PTR res = Srmm_GetWindowData(hContact, mwd);
 	lua_pushinteger(L, res);
 	if (res)
 		return 1;
