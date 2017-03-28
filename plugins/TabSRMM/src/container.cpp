@@ -71,21 +71,11 @@ void TContainerData::UpdateTitle(MCONTACT hContact, CTabBaseDlg *pDlg)
 	CTabBaseDlg *dat = nullptr;
 	if (hContact == 0) {           // no hContact given - obtain the hContact for the active tab
 		if (m_hwndActive && IsWindow(m_hwndActive))
-			SendMessage(m_hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
-		else
-			return;
-		dat = (CTabBaseDlg*)GetWindowLongPtr(m_hwndActive, GWLP_USERDATA);
+			dat = (CTabBaseDlg*)GetWindowLongPtr(m_hwndActive, GWLP_USERDATA);
 	}
 	else {
 		HWND hwnd = M.FindWindow(hContact);
-		if (hwnd == nullptr) {
-			SESSION_INFO *si = SM_FindSessionByHCONTACT(hContact);
-			if (si) {
-				si->pDlg->UpdateTitle();
-				return;
-			}
-		}
-		if (hwnd && hContact)
+		if (hwnd != nullptr)
 			dat = (CTabBaseDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	}
 	if (dat) {

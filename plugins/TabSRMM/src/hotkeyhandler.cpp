@@ -107,22 +107,6 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 		return;
 	}
 
-	SESSION_INFO *si = SM_FindSessionByHCONTACT(hContact);
-	if (si != nullptr) {
-		// session does exist, but no window is open for it
-		if (si->pDlg) {
-			TContainerData *pContainer = 0;
-			SendMessage(si->pDlg->GetHwnd(), DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
-			if (pContainer) {
-				ActivateExistingTab(pContainer, si->pDlg->GetHwnd());
-				if (GetForegroundWindow() != pContainer->m_hwnd)
-					SetForegroundWindow(pContainer->m_hwnd);
-				SetFocus(GetDlgItem(pContainer->m_hwndActive, IDC_SRMM_MESSAGE));
-				return;
-			}
-		}
-	}
-
 	Clist_ContactDoubleClicked(hContact);
 }
 
