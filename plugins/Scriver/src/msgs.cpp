@@ -293,9 +293,6 @@ static INT_PTR GetWindowData(WPARAM hContact, LPARAM lParam)
 		return 1;
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
-	if (hwnd == nullptr)
-		hwnd = SM_FindWindowByContact(hContact);
-	mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 	mwd->hwndWindow = hwnd;
 	mwd->local = 0;
 	mwd->uState = SendMessage(hwnd, DM_GETWINDOWSTATE, 0, 0);

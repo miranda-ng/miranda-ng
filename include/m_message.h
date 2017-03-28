@@ -83,7 +83,6 @@ struct StatusTextData
 
 struct MessageWindowData
 {
-	int uFlags;  // should be same as input data unless 0, then it will be the actual type
 	HWND hwndWindow; //top level window for the contact or NULL if no window exists
 	int uState; // see window states
 	void *local; // used to store pointer to custom data

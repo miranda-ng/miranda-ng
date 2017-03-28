@@ -75,21 +75,10 @@ static INT_PTR GetWindowData(WPARAM hContact, LPARAM lParam)
 
 	HWND hwnd = M.FindWindow(hContact);
 	if (hwnd) {
-		mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 		mwd->hwndWindow = hwnd;
 		mwd->local = GetParent(GetParent(hwnd));
 		SendMessage(hwnd, DM_GETWINDOWSTATE, 0, 0);
 		mwd->uState = GetWindowLongPtr(hwnd, DWLP_MSGRESULT);
-		return 0;
-	}
-
-	SESSION_INFO *si = SM_FindSessionByHCONTACT(hContact);
-	if (si != nullptr && si->pDlg != nullptr) {
-		mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-		mwd->hwndWindow = si->pDlg->GetHwnd();
-		mwd->local = GetParent(GetParent(si->pDlg->GetHwnd()));
-		SendMessage(si->pDlg->GetHwnd(), DM_GETWINDOWSTATE, 0, 0);
-		mwd->uState = GetWindowLongPtr(si->pDlg->GetHwnd(), DWLP_MSGRESULT);
 		return 0;
 	}
 

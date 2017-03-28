@@ -47,11 +47,6 @@ const
   MSG_WINDOW_EVT_OPEN    = 2; // window has been opened
   MSG_WINDOW_EVT_CLOSING = 3; // window is about to be closed
   MSG_WINDOW_EVT_CLOSE   = 4; // window has been closed
-  MSG_WINDOW_EVT_CUSTOM  = 5; // custom event for message plugins to use
-                              // (custom uFlags may be used)
-  MSG_WINDOW_UFLAG_MSG_FROM = $00000001;
-  MSG_WINDOW_UFLAG_MSG_TO   = $00000002;
-  MSG_WINDOW_UFLAG_MSG_BOTH = $00000004;
 
 const
   { wparam=0
@@ -68,8 +63,7 @@ const
   MS_MSG_GETWINDOWCLASS:PAnsiChar = 'MessageAPI/WindowClass';
 
 const
-  MSG_WINDOW_STATE_EXISTS  = $00000001; // Window exists should always be true
-                                        // if hwndWindow exists
+  MSG_WINDOW_STATE_EXISTS  = $00000001; // Window exists should always be true if hwndWindow exists
   MSG_WINDOW_STATE_VISIBLE = $00000002;
   MSG_WINDOW_STATE_FOCUS   = $00000004;
   MSG_WINDOW_STATE_ICONIC  = $00000008;
@@ -77,9 +71,6 @@ const
 type
   PMessageWindowOutputData = ^TMessageWindowOutputData;
   TMessageWindowOutputData = record
-    hContact  : TMCONTACT;
-    uFlags    : int;     // should be same as input data unless 0, then it
-                         // will be the actual type
     hwndWindow: HWND;    // top level window for the contact or NULL if no window exists
     uState    : int;     // see window states
     local     : pointer; // used to store pointer to custom data

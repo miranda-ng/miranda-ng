@@ -396,7 +396,6 @@ INT_PTR CloseCurrentSession(WPARAM, LPARAM)
 {
 	while (session_list[0] != 0) {
 		MessageWindowData mwd;
-		mwd.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 		CallService(MS_MSG_GETWINDOWDATA, session_list[0], (LPARAM)&mwd);
 		SendMessage(mwd.hwndWindow, WM_CLOSE, 0, 0);
 	}

@@ -505,7 +505,6 @@ static INT_PTR GetWindowData(WPARAM hContact, LPARAM lParam)
 		return 1;
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
-	mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 	mwd->hwndWindow = hwnd;
 	mwd->local = 0;
 	mwd->uState = MSG_WINDOW_STATE_EXISTS;
