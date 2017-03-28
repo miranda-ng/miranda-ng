@@ -103,7 +103,6 @@ void CTabBaseDlg::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 
 	MessageWindowPopupData mwpd;
 	// First notification
-	mwpd.cbSize = sizeof(mwpd);
 	mwpd.uType = MSG_WINDOWPOPUP_SHOWING;
 	mwpd.uFlags = (pCtrl.GetCtrlId() == IDC_SRMM_LOG ? MSG_WINDOWPOPUP_LOG : MSG_WINDOWPOPUP_INPUT);
 	mwpd.hContact = m_hContact;

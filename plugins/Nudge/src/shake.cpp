@@ -41,13 +41,10 @@ INT_PTR ShakeChat(WPARAM wParam, LPARAM)
 
 	//char srmmName[100];
 	MessageWindowData mwd;
-	MessageWindowInputData mwid;
-
-	mwd.cbSize = sizeof(MessageWindowData);
 	mwd.hContact = db_mc_tryMeta(wParam);
 	mwd.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
-	mwid.cbSize = sizeof(MessageWindowInputData);
+	MessageWindowInputData mwid;
 	mwid.hContact = mwd.hContact;
 	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 	CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd);

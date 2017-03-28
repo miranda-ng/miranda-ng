@@ -165,7 +165,7 @@ INT_PTR ServiceToggle(WPARAM hContact, LPARAM)
 	remove = !remove;
 	db_set_b(hContact, MODULE, DBSETTING_REMOVE, remove != 0);
 
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODULE;
 
 	for (int i = 0; i < 2; ++i) {
@@ -191,7 +191,7 @@ int WindowEvent(WPARAM, LPARAM lParam)
 		bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
 		int remove = db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) != 0;
 
-		StatusIconData sid = { sizeof(sid) };
+		StatusIconData sid = {};
 		sid.szModule = MODULE;
 		for (int i=0; i < 2; ++i) {
 			sid.dwId = i;
@@ -206,7 +206,7 @@ int WindowEvent(WPARAM, LPARAM lParam)
 int IconPressed(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if (sicd->cbSize < sizeof(StatusIconClickData))
+	if (sicd == nullptr)
 		return 0;
 
 	if (sicd->flags & MBCF_RIGHTBUTTON) return 0; // ignore right-clicks
@@ -224,7 +224,7 @@ int IconPressed(WPARAM hContact, LPARAM lParam)
 // add icon to srmm status icons
 void SrmmMenu_Load()
 {
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODULE;
 
 	sid.dwId = 0;

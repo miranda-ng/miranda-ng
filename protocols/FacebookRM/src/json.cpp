@@ -836,10 +836,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 
 					if (st_.as_int() == 1) {
 						StatusTextData st = { 0 };
-						st.cbSize = sizeof(st);
-
 						mir_snwprintf(st.tszText, TranslateT("%s is typing a message..."), name);
-
 						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
 					}
 					else CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact);

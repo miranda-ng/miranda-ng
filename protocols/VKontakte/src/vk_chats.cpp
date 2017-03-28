@@ -842,9 +842,7 @@ void CVkProto::ChatContactTypingThread(void *p)
 		m_ChatsTyping.insert(param);
 		
 		StatusTextData st = { 0 };
-		st.cbSize = sizeof(st);
 		mir_snwprintf(st.tszText, TranslateT("%s is typing a message..."), cu->m_wszNick);
-
 		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
 	}
 
@@ -874,18 +872,10 @@ void CVkProto::StopChatContactTyping(int iChatId, int iUserId)
 		m_ChatsTyping.remove(cp);
 
 		StatusTextData st = { 0 };
-		st.cbSize = sizeof(st);
 		mir_snwprintf(st.tszText, L" ");
-		
-		// CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, NULL) clears statusbar very slowly. 
-		// (1-10 sec(!!!) for me on tabSRMM O_o)
-		// So I call MS_MSG_SETSTATUSTEXT with st.wszText = " " for cleaning of "... is typing a message..." string.
-		// It works instantly!
-		
 		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
 				
 		// After that I call standard cleaning procedure:
-
 		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact);
 	}
 }

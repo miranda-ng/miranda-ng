@@ -25,12 +25,10 @@
 bool CheckMsgWnd(MCONTACT hContact)
 {
 	MessageWindowInputData mwid;
-	mwid.cbSize = sizeof(MessageWindowInputData);
 	mwid.hContact = hContact;
 	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
 	MessageWindowData mwd;
-	mwd.cbSize = sizeof(MessageWindowData);
 	mwd.hContact = hContact;
 	if (CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd) != NULL)
 		return false;

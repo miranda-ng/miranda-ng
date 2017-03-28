@@ -85,12 +85,11 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 int IsSRMsgWindowOpen(MCONTACT hContact, int DefaultRetVal)
 {
 	if (ServiceExists(MS_MSG_GETWINDOWDATA)) {
-		MessageWindowData mwd = { 0 };
-		mwd.cbSize = sizeof(mwd);
-		MessageWindowInputData mwid = { 0 };
-		mwid.cbSize = sizeof(mwid);
+		MessageWindowInputData mwid = {};
 		mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 		mwid.hContact = hContact;
+
+		MessageWindowData mwd = {};
 		return !CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd) && mwd.hwndWindow;
 	}
 

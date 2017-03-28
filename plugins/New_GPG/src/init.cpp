@@ -124,7 +124,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	if(!db_get_b(NULL, szGPGModuleName, "FirstRun", 1))
 		InitCheck();
 
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = szGPGModuleName;
 	sid.flags = MBF_HIDDEN;
 	sid.dwId = 0x00000001;

@@ -53,22 +53,6 @@ const
   MSG_WINDOW_UFLAG_MSG_TO   = $00000002;
   MSG_WINDOW_UFLAG_MSG_BOTH = $00000004;
 
-type
-  PMessageWindowEventData = ^TMessageWindowEventData;
-  TMessageWindowEventData = record
-    cbSize    : int;
-    hContact  : TMCONTACT;
-    hwndWindow: HWND;      // top level window for the contact
-    szModule  : PAnsiChar; // used to get plugin type (which means you could use
-                           // local if needed)
-    uType     : uint;      // see event types above
-    uFlags    : uint;      // used to indicate message direction for all event
-                           // types except custom
-    local     : pointer;   // used to store pointer to custom data
-    hwndInput : HWND;      // input area window for the contact (or NULL if there is none)
-    hwndLog   : HWND;      // log area window for the contact (or NULL if there is none)
-  end;
-
 const
   { wparam=0
     lparam=0
@@ -86,7 +70,6 @@ const
 type
   PMessageWindowInputData = ^TMessageWindowInputData;
   TMessageWindowInputData = record
-    cbSize  : int;
     hContact: TMCONTACT;
     uFlags  : int; // see uflags above
   end;
@@ -101,7 +84,6 @@ const
 type
   PMessageWindowOutputData = ^TMessageWindowOutputData;
   TMessageWindowOutputData = record
-    cbSize    : int;
     hContact  : TMCONTACT;
     uFlags    : int;     // should be same as input data unless 0, then it
                          // will be the actual type
@@ -123,7 +105,6 @@ const
 type
   PStatusTextData = ^TStatusTextData;
   TStatusTextData = record
-    cbSize :int;
     hIcon  :HICON;
     tszText:array [0..99] of WideChar;
   end;
@@ -138,7 +119,6 @@ const
 type
   pMessageWindowEvent = ^tMessageWindowEvent;
   tMessageWindowEvent = record
-    cbSize   :int;
     seq      :int;          // number returned by PSS_MESSAGE
     hContact :TMCONTACT;
     dbei     :PDBEVENTINFO; // database event written on the basis of message sent
@@ -167,7 +147,6 @@ const
 
 type
   tMessageWindowPopupData = record
-    cbSize   :int;
     uType    :uint;     // see popup types above
     uFlags   :uint;     // used to indicate in which window the popup was requested
     hContact :TMCONTACT;
@@ -186,7 +165,6 @@ const
 type
   pStatusIconData = ^tStatusIconData;
   tStatusIconData = record
-    cbSize       :int;       // must be equal to sizeof(StatusIconData)
     szModule     :PAnsiChar; // used in combo with the dwId below to create a unique identifier
     dwId         :dword;     // uniquely defines a button inside a module
     hIcon,
@@ -202,7 +180,6 @@ const
 type
   pStatusIconClickData = ^tStatusIconClickData;
   tStatusIconClickData = record
-    cbSize       :int;
     clickLocation:TPOINT;    // click location, in screen coordinates
     szModule     :PAnsiChar;
     dwId         :dword;

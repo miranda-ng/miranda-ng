@@ -71,7 +71,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 static int IconsChanged(WPARAM, LPARAM)
 {
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODULE_NAME;
 	sid.hIconDisabled = IcoLib_GetIcon("spellchecker_disabled");
 	sid.flags = MBF_HIDDEN | MBF_UNICODE;
@@ -196,7 +196,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_MSG_WINDOWPOPUP, MsgWindowPopup);
 	HookEvent(ME_MSG_ICONPRESSED, IconPressed);
 
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODULE_NAME;
 	sid.hIconDisabled = IcoLib_GetIcon("spellchecker_disabled");
 	sid.flags = MBF_UNICODE | MBF_HIDDEN;

@@ -19,7 +19,7 @@ const wchar_t* Tooltips[] =
 
 void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time)
 {
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODULENAME;
 	sid.dwId = 1;
 	sid.flags = MBF_UNICODE;
@@ -101,7 +101,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	
 	Icon_Register(g_hInst, MODULENAME, Icons, _countof(Icons));
 
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODULENAME;
 	sid.flags = MBF_HIDDEN;
 	sid.dwId = 1;

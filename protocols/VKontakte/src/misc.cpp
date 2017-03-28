@@ -737,7 +737,6 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 	_free_locale(locale);
 
 	StatusTextData st = { 0 };
-	st.cbSize = sizeof(st);
 	st.hIcon = IcoLib_GetIconByHandle(GetIconHandle(IDI_READMSG));
 	mir_snwprintf(st.tszText, TranslateT("Message read: %s"), ttime);
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);

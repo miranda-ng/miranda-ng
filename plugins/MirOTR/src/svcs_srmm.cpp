@@ -6,16 +6,14 @@ BBButton OTRButton;
 int SVC_IconPressed(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if(sicd->cbSize < sizeof(StatusIconClickData))
-		return 0;
 
-	if(mir_strcmp(sicd->szModule, MODULENAME) == 0) {
+	if (mir_strcmp(sicd->szModule, MODULENAME) == 0) {
 		char *proto = GetContactProto(hContact);
-		if(proto && db_get_b(hContact, proto, "ChatRoom", 0))
+		if (proto && db_get_b(hContact, proto, "ChatRoom", 0))
 			return 0;
 		ShowOTRMenu(hContact, sicd->clickLocation);
 	}
-	
+
 	return 0;
 }
 
@@ -27,7 +25,7 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 
 	BBButton button = OTRButton;
 
-	StatusIconData sid = { sizeof(sid) }, sid2 = { sizeof(sid) };
+	StatusIconData sid = {}, sid2 = {};
 	sid.szModule = MODULENAME;
 	sid.dwId = 0;
 	sid.flags = MBF_HIDDEN;
@@ -117,7 +115,7 @@ void InitSRMM()
 	hIconPrivate = IcoLib_GetIcon(ICON_PRIVATE, 0);
 	hIconUnverified = IcoLib_GetIcon(ICON_UNVERIFIED, 0);
 
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODULENAME;
 	sid.hIcon = hIconFinished;
 	sid.hIconDisabled = hIconNotSecure;

@@ -238,7 +238,6 @@ void SetSrmmIcon(MCONTACT hContact)
 	int sweep = db_get_b(hContact, ModuleName, "SweepHistory", 0);
 
 	StatusIconData sid = { 0 };
-	sid.cbSize = sizeof(sid);
 	sid.szModule = ModuleName;
 
 	for (int i = 0; i < 4; i++) {

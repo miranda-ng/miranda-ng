@@ -67,11 +67,11 @@ int SmileyAddOptionsChanged(WPARAM, LPARAM)
 static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
-	if (mwid == nullptr || (mwid->cbSize != sizeof(MessageWindowInputData)) || (mwid->hContact == 0) || (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH))
+	if (mwid == nullptr || mwid->hContact == 0 || mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)
 		return 1;
 
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
-	if (mwd == nullptr || (mwd->cbSize != sizeof(MessageWindowData)))
+	if (mwd == nullptr)
 		return 1;
 
 	HWND hwnd = M.FindWindow(mwid->hContact);
@@ -349,7 +349,7 @@ static void SetStatusTextWorker(CTabBaseDlg *dat, StatusTextData *st)
 		dat->m_sbCustom = nullptr;
 	}
 
-	if (st != nullptr && st->cbSize == sizeof(StatusTextData))
+	if (st != nullptr)
 		dat->m_sbCustom = new StatusTextData(*st);
 
 	dat->tabUpdateStatusBar();

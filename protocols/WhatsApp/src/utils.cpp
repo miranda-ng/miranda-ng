@@ -49,7 +49,6 @@ void utils::setStatusMessage(MCONTACT hContact, const wchar_t *ptszMessage)
 {
 	if (ptszMessage != NULL) {
 		StatusTextData st = { 0 };
-		st.cbSize = sizeof(st);
 		st.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 		wcsncpy_s(st.tszText, ptszMessage, _TRUNCATE);
 		CallService(MS_MSG_SETSTATUSTEXT, hContact, (LPARAM)&st);

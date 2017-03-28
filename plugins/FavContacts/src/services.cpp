@@ -52,7 +52,7 @@ int ProcessSrmmEvent(WPARAM, LPARAM lParam)
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
 
 		BYTE fav = db_get_b(event->hContact, "FavContacts", "IsFavourite", 0);
-		StatusIconData sid = { sizeof(sid) };
+		StatusIconData sid = {};
 		sid.szModule = "FavContacts";
 		sid.flags = fav ? 0 : MBF_DISABLED;
 		Srmm_ModifyIcon(event->hContact, &sid);
@@ -92,7 +92,7 @@ int ProcessSrmmIconClick(WPARAM hContact, LPARAM lParam)
 		db_set_b(hContact, "FavContacts", "IsFavourite", fav);
 		if (fav) CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 
-		StatusIconData sid = { sizeof(sid) };
+		StatusIconData sid = {};
 		sid.szModule = "FavContacts";
 		sid.flags = fav ? 0 : MBF_DISABLED;
 		Srmm_ModifyIcon(hContact, &sid);
@@ -146,7 +146,7 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_TTB_MODULELOADED, ProcessTBLoaded);
 
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = "FavContacts";
 	sid.szTooltip = LPGEN("Favorite Contacts");
 	sid.hIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);

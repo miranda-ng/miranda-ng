@@ -286,11 +286,11 @@ static void RestoreUnreadMessageAlerts(void)
 static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
-	if (mwid == nullptr || mwid->cbSize != sizeof(MessageWindowInputData) || mwid->hContact == 0 || mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)
+	if (mwid == nullptr || mwid->hContact == 0 || mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)
 		return 1;
 
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
-	if (mwd == nullptr || mwd->cbSize != sizeof(MessageWindowData))
+	if (mwd == nullptr)
 		return 1;
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, mwid->hContact);
@@ -306,7 +306,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 {
 	StatusTextData *st = (StatusTextData*)lParam;
-	if (st != nullptr && st->cbSize != sizeof(StatusTextData))
+	if (st == nullptr)
 		return 1;
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
@@ -431,7 +431,7 @@ void CScriverWindow::Reattach(HWND hwndContainer)
 
 static void RegisterStatusIcons()
 {
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = SRMM_MODULE;
 	sid.dwId = 1;
 	sid.hIcon = GetCachedIcon("scriver_TYPING");
@@ -442,7 +442,7 @@ static void RegisterStatusIcons()
 
 void ChangeStatusIcons()
 {
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = SRMM_MODULE;
 	sid.dwId = 1;
 	sid.hIcon = GetCachedIcon("scriver_TYPING");

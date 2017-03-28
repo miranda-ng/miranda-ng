@@ -844,7 +844,7 @@ void GetContactLanguage(Dialog *dlg)
 
 void ModifyIcon(Dialog *dlg)
 {
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODULE_NAME;
 
 	for (int i = 0; i < languages.getCount(); i++) {
@@ -1280,7 +1280,7 @@ BOOL HandleMenuSelection(Dialog *dlg, unsigned selection)
 int MsgWindowPopup(WPARAM, LPARAM lParam)
 {
 	MessageWindowPopupData *mwpd = (MessageWindowPopupData *)lParam;
-	if (mwpd == NULL || mwpd->cbSize < sizeof(MessageWindowPopupData) || mwpd->uFlags != MSG_WINDOWPOPUP_INPUT)
+	if (mwpd == NULL || mwpd->uFlags != MSG_WINDOWPOPUP_INPUT)
 		return 0;
 
 	DialogMapType::iterator dlgit = dialogs.find(mwpd->hwnd);
@@ -1351,9 +1351,6 @@ int MsgWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
 	if (event == NULL)
-		return 0;
-
-	if (event->cbSize < sizeof(MessageWindowEventData))
 		return 0;
 
 	if (event->uType == MSG_WINDOW_EVT_OPEN)

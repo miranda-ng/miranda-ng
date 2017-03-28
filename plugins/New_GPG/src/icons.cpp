@@ -51,7 +51,7 @@ void setSrmmIcon(MCONTACT h)
 	bool enabled = isContactSecured(hContact);	
 	MCONTACT hMC = db_mc_tryMeta(hContact);
 
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = szGPGModuleName;
 	sid.hIcon = IcoLib_GetIcon("secured");
 	sid.dwId = 1;

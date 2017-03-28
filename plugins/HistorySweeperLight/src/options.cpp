@@ -169,7 +169,6 @@ void SaveSettings(HWND hwndDlg)
 	int st = db_get_b(NULL, ModuleName, "SweepHistory", 0);
 
 	StatusIconData sid = { 0 };
-	sid.cbSize = sizeof(sid);
 	sid.szModule = ModuleName;
 	sid.dwId = 0;
 	sid.hIcon = LoadIconEx("actG");

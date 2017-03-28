@@ -414,18 +414,14 @@ var
 begin
   wnd:=GetParent(wnd); //!!
   hContact:=db_find_first();
-  with mwid do
-  begin
-    cbSize:=SizeOf(mwid);
-    uFlags:=MSG_WINDOW_UFLAG_MSG_BOTH;
-  end;
-  mwod.cbSize:=SizeOf(mwod);
+  mwid.uFlags:=MSG_WINDOW_UFLAG_MSG_BOTH;
+
   while hContact<>0 do
   begin
     mwid.hContact:=hContact;
     if CallService(MS_MSG_GETWINDOWDATA,wparam(@mwid),lparam(@mwod))=0 then
     begin
-      if {((mwod.uState and MSG_WINDOW_STATE_FOCUS)<>0) and} (mwod.hwndWindow=wnd) then
+      if mwod.hwndWindow=wnd then
       begin
         result:=mwid.hContact;
         exit;
@@ -455,9 +451,6 @@ procedure ShowContactDialog(hContact:TMCONTACT;DblClk:boolean=true;anystatus:boo
 var
   pc:array [0..127] of AnsiChar;
 begin
-{
-CallService(MS_CLIST_CONTACTDOUBLECLICKED,hContact,0);
-}
   if (hContact<>0) and (db_is_contact(hContact)<>0) then
   begin
     if StrCopy(pc,GetContactProto(hContact))<>nil then

@@ -31,7 +31,7 @@ int __cdecl onIconPressed(WPARAM hContact, LPARAM lParam)
 void InitSRMMIcons()
 {
 	// add icon to srmm status icons
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODULENAME;
 	sid.flags = MBF_DISABLED | MBF_HIDDEN;
 

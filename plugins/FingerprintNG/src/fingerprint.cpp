@@ -141,7 +141,7 @@ void RegisterIcons()
 
 static void SetSrmmIcon(MCONTACT hContact, LPTSTR ptszMirver)
 {
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODULENAME;
 	sid.dwId = 1;
 	sid.flags = MBF_UNICODE;
@@ -889,7 +889,7 @@ static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 		return 0;
 
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
-	if (event == NULL || event->cbSize < sizeof(MessageWindowEventData))
+	if (event == NULL)
 		return 0;
 
 	if (event->uType == MSG_WINDOW_EVT_OPEN) {
@@ -928,7 +928,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	RegisterIcons();
 
 	if (db_get_b(NULL, MODULENAME, "StatusBarIcon", 1)) {
-		StatusIconData sid = { sizeof(sid) };
+		StatusIconData sid = {};
 		sid.szModule = MODULENAME;
 		sid.flags = MBF_HIDDEN;
 		sid.dwId = 1;

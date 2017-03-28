@@ -190,7 +190,7 @@ static int MsgDlgHook(WPARAM, LPARAM lParam)
 	const MessageWindowEventData *wndEvtData = (MessageWindowEventData*)lParam;
 	switch (wndEvtData->uType) {
 	case MSG_WINDOW_EVT_OPENING:
-		if (wndEvtData->cbSize >= sizeof(MessageWindowEventData)) {
+		{
 			MsgWndData *msgwnd = new MsgWndData();
 			msgwnd->hwnd = wndEvtData->hwndWindow;
 			msgwnd->hContact = wndEvtData->hContact;
@@ -204,34 +204,31 @@ static int MsgDlgHook(WPARAM, LPARAM lParam)
 
 			mir_subclassWindow(msgwnd->hwnd, MessageDlgSubclass);
 			msgwnd->CreateSmileyButton();
-			{
-				mir_cslock lck(csWndList);
-				g_MsgWndList.insert(msgwnd);
-			}
 
-			SetRichOwnerCallback(wndEvtData->hwndWindow, wndEvtData->hwndInput, wndEvtData->hwndLog);
-
-			if (wndEvtData->hwndLog)
-				SetRichCallback(wndEvtData->hwndLog, wndEvtData->hContact, false, false);
-			if (wndEvtData->hwndInput)
-				SetRichCallback(wndEvtData->hwndInput, wndEvtData->hContact, false, false);
+			mir_cslock lck(csWndList);
+			g_MsgWndList.insert(msgwnd);
 		}
+
+		SetRichOwnerCallback(wndEvtData->hwndWindow, wndEvtData->hwndInput, wndEvtData->hwndLog);
+
+		if (wndEvtData->hwndLog)
+			SetRichCallback(wndEvtData->hwndLog, wndEvtData->hContact, false, false);
+		if (wndEvtData->hwndInput)
+			SetRichCallback(wndEvtData->hwndInput, wndEvtData->hContact, false, false);
 		break;
 
 	case MSG_WINDOW_EVT_OPEN:
-		if (wndEvtData->cbSize >= sizeof(MessageWindowEventData)) {
-			SetRichOwnerCallback(wndEvtData->hwndWindow, wndEvtData->hwndInput, wndEvtData->hwndLog);
-			if (wndEvtData->hwndLog)
-				SetRichCallback(wndEvtData->hwndLog, wndEvtData->hContact, true, true);
-			if (wndEvtData->hwndInput) {
-				SetRichCallback(wndEvtData->hwndInput, wndEvtData->hContact, true, true);
-				SendMessage(wndEvtData->hwndInput, WM_REMAKERICH, 0, 0);
-			}
+		SetRichOwnerCallback(wndEvtData->hwndWindow, wndEvtData->hwndInput, wndEvtData->hwndLog);
+		if (wndEvtData->hwndLog)
+			SetRichCallback(wndEvtData->hwndLog, wndEvtData->hContact, true, true);
+		if (wndEvtData->hwndInput) {
+			SetRichCallback(wndEvtData->hwndInput, wndEvtData->hContact, true, true);
+			SendMessage(wndEvtData->hwndInput, WM_REMAKERICH, 0, 0);
 		}
 		break;
 
 	case MSG_WINDOW_EVT_CLOSE:
-		if (wndEvtData->cbSize >= sizeof(MessageWindowEventData) && wndEvtData->hwndLog) {
+		if (wndEvtData->hwndLog) {
 			CloseRichCallback(wndEvtData->hwndLog);
 			CloseRichOwnerCallback(wndEvtData->hwndWindow);
 		}

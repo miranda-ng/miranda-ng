@@ -38,7 +38,7 @@ static void SrmmMenu_UpdateIcon(MCONTACT hContact)
 
 	int mode = db_get_b(hContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO);
 
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODULNAME;
 
 	for (int i = 0; i < 4; i++) {
@@ -104,7 +104,7 @@ static int SrmmMenu_ProcessIconClick(WPARAM hContact, LPARAM lParam)
 
 void SrmmMenu_Load()
 {
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODULNAME;
 
 	sid.dwId = 0;

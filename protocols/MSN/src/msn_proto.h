@@ -88,8 +88,6 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	INT_PTR  __cdecl GetUnreadEmailCount(WPARAM wParam, LPARAM lParam);
 
-	INT_PTR  __cdecl ManageAccount(WPARAM wParam, LPARAM lParam);
-
 	INT_PTR  __cdecl OnLeaveChat(WPARAM wParam, LPARAM lParam);
 
 	//====| Events |======================================================================
@@ -102,10 +100,6 @@ struct CMsnProto : public PROTO<CMsnProto>
 	int  __cdecl OnPreShutdown(WPARAM wParam,LPARAM lParam);
 	int  __cdecl OnContactDoubleClicked(WPARAM wParam,LPARAM lParam);
 	int  __cdecl OnDbSettingChanged(WPARAM wParam,LPARAM lParam);
-	int  __cdecl OnUserInfoInit(WPARAM wParam,LPARAM lParam);
-#ifdef OBSOLETE
-	int  __cdecl OnWindowEvent(WPARAM wParam, LPARAM lParam);
-#endif
 	int  __cdecl OnWindowPopup(WPARAM wParam, LPARAM lParam);
 
 	//====| Data |========================================================================

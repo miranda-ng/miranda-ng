@@ -148,11 +148,10 @@ bool SpeakAnnounce::readMessage(MCONTACT contact)
 	if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen) || m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogFocused)) {
 		// Do not notify if window is already  open
 		MessageWindowInputData mwid;
-		mwid.cbSize = sizeof(MessageWindowInputData);
 		mwid.hContact = contact;
 		mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
+
 		MessageWindowData mwd;
-		mwd.cbSize = sizeof(MessageWindowData);
 		mwd.hContact = contact;
 		//returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
 		if (CallService(MS_MSG_GETWINDOWDATA, (WPARAM) &mwid, (LPARAM) &mwd) == 0) {

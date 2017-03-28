@@ -89,7 +89,7 @@ void UpdateExtraImages()
 // always call in context of main thread
 static void __fastcall SetStatusIcon(MCONTACT hContact,int countryNumber)
 {
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODULENAME;
 
 	if (countryNumber != 0xFFFF || bUseUnknown) {
@@ -108,7 +108,7 @@ static void __fastcall SetStatusIcon(MCONTACT hContact,int countryNumber)
 // always call in context of main thread
 static void __fastcall UnsetStatusIcon(MCONTACT hContact)
 {
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODULENAME;
 	sid.flags = MBF_HIDDEN;
 	Srmm_ModifyIcon(hContact, &sid);
@@ -141,7 +141,6 @@ void CALLBACK UpdateStatusIcons(LPARAM)
 	while (msgwi.hContact != NULL) {
 		/* is a message window opened for this contact? */
 		MessageWindowData msgw; /* output */
-		msgw.cbSize = sizeof(msgw);
 		if (!CallService(MS_MSG_GETWINDOWDATA,(WPARAM)&msgwi,(LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
 			if (bShowStatusIcon) {
 				int countryNumber = ServiceDetectContactOriginCountry((WPARAM)msgwi.hContact, 0);
@@ -180,7 +179,7 @@ static int ExtraImgSettingChanged(WPARAM hContact, LPARAM lParam)
 static int ExtraImgModulesLoaded(WPARAM, LPARAM)
 {
 	/* Status Icon */
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODULENAME; // dwID = 0
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid);

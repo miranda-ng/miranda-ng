@@ -773,7 +773,7 @@ void CSrmmWindow::UpdateStatusBar()
 		SendMessage(m_hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)m_hwnd);
 		UpdateReadChars();
 
-		StatusIconData sid = { sizeof(sid) };
+		StatusIconData sid = {};
 		sid.szModule = SRMM_MODULE;
 		sid.flags = MBF_DISABLED;
 		Srmm_ModifyIcon(m_hContact, &sid);
@@ -1304,7 +1304,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case DM_SWITCHTYPING:
 		if (IsTypingNotificationSupported()) {
-			StatusIconData sid = { sizeof(sid) };
+			StatusIconData sid = {};
 			sid.szModule = SRMM_MODULE;
 			sid.dwId = 1;
 

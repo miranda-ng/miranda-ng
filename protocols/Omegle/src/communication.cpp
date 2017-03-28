@@ -553,7 +553,6 @@ bool Omegle_client::events()
 				SkinPlaySound("StrangerTyp");
 
 				StatusTextData st = { 0 };
-				st.cbSize = sizeof(st);
 				st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_on"));
 
 				ptrW who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_wstrdup(L"Stranger"));
@@ -566,7 +565,6 @@ bool Omegle_client::events()
 				SkinPlaySound("StrangerTypStop");
 
 				StatusTextData st = { 0 };
-				st.cbSize = sizeof(st);
 				st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_off"));
 
 				ptrW who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_wstrdup(L"Stranger"));

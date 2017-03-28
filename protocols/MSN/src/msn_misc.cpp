@@ -1308,11 +1308,8 @@ bool CMsnProto::MSN_IsMeByContact(MCONTACT hContact, char* szEmail)
 
 bool MSN_MsgWndExist(MCONTACT hContact)
 {
-	MessageWindowInputData msgWinInData =
-	{ sizeof(MessageWindowInputData), hContact, MSG_WINDOW_UFLAG_MSG_BOTH };
-	MessageWindowData msgWinData = { 0 };
-	msgWinData.cbSize = sizeof(MessageWindowData);
-
+	MessageWindowData msgWinData = {};
+	MessageWindowInputData msgWinInData = { hContact, MSG_WINDOW_UFLAG_MSG_BOTH };
 	bool res = CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgWinInData, (LPARAM)&msgWinData) != 0;
 	res = res || msgWinData.hwndWindow;
 	if (res) {

@@ -41,7 +41,7 @@ bool g_bIncompletedSave;
 HWND g_hDlg;
 HWND g_hSDlg;
 bool DONT = false;
-bool StartUp, isLastTRUE = false, g_mode, bSC = false;
+bool StartUp, isLastTRUE = false, bSC = false;
 
 MCONTACT session_list[255] = { 0 };
 MCONTACT user_session_list[255] = { 0 };
@@ -394,25 +394,17 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 
 INT_PTR CloseCurrentSession(WPARAM, LPARAM)
 {
-	HWND hWnd;
 	MessageWindowInputData  mwid;
 	MessageWindowData  mwd;
 
 	while (session_list[0] != 0) {
-		mwid.cbSize = sizeof(MessageWindowInputData);
 		mwid.hContact = session_list[0];
 		mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
-		mwd.cbSize = sizeof(MessageWindowData);
 		mwd.hContact = mwid.hContact;
 		mwd.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 		CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd);
-
-		if (g_mode) {
-			hWnd = GetAncestor(mwd.hwndWindow, GA_ROOT);
-			SendMessage(hWnd, WM_CLOSE, 0, 1);
-		}
-		else SendMessage(mwd.hwndWindow, WM_CLOSE, 0, 0);
+		SendMessage(mwd.hwndWindow, WM_CLOSE, 0, 0);
 	}
 	memset(session_list, 0, sizeof(session_list));
 	return 0;
@@ -685,7 +677,6 @@ static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *MWeventdata = (MessageWindowEventData*)lParam;
 	if (MWeventdata->uType == MSG_WINDOW_EVT_OPEN) {
-		if (strstr(MWeventdata->szModule, "tabSRMsg")) g_mode = 1;
 		AddToCurSession(MWeventdata->hContact, 0);
 		if (g_bCrashRecovery)
 			db_set_b(MWeventdata->hContact, MODNAME, "wasInLastSession", 1);

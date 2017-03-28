@@ -72,7 +72,6 @@ LUAMOD_API int luaopen_m_message(lua_State *L)
 	luaL_newlib(L, messageApi);
 
 	MT<MessageWindowEventData>(L, "MessageWindowEventData")
-		.Field(&MessageWindowEventData::szModule, "Module", LUA_TSTRINGA)
 		.Field(&MessageWindowEventData::uType, "Type", LUA_TINTEGER)
 		.Field(&MessageWindowEventData::hContact, "hContact", LUA_TINTEGER)
 		.Field(&MessageWindowEventData::uFlags, "Flags", LUA_TINTEGER);

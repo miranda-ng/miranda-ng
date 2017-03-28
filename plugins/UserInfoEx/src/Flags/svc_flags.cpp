@@ -97,7 +97,7 @@ MsgWndData::~MsgWndData()
 
 void MsgWndData::FlagsIconSet()
 {
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODNAMEFLAGS;
 	if (!g_bShowStatusIconFlag)
 		sid.flags = MBF_HIDDEN;
@@ -112,7 +112,7 @@ void MsgWndData::FlagsIconSet()
 
 void UpdateStatusIcons()
 {
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODNAMEFLAGS;
 	if (!g_bShowStatusIconFlag)
 		sid.flags = MBF_HIDDEN;
@@ -234,7 +234,7 @@ void SvcFlagsLoadModule()
 void SvcFlagsOnModulesLoaded()
 {
 	/* Status Icon */
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MODNAMEFLAGS;
 	if (!g_bShowStatusIconFlag)
 		sid.flags = MBF_HIDDEN;

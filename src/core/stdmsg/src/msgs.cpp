@@ -30,7 +30,7 @@ const CLSID IID_IRichEditOleCallback = { 0x00020D03, 0x00, 0x00, { 0xC0, 0x00, 0
 
 int OnCheckPlugins(WPARAM, LPARAM);
 
-HANDLE   hHookWinEvt, hHookWinPopup, hHookWinWrite;
+HANDLE   hHookWinPopup, hHookWinWrite;
 HGENMENU hMsgMenuItem;
 HMODULE hMsftEdit;
 
@@ -479,16 +479,16 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 
 static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 {
+	StatusTextData *st = (StatusTextData*)lParam;
+	if (st == NULL)
+		return 1;
+
 	HWND hwnd = WindowList_Find(pci->hWindowList, wParam);
 	if (hwnd == NULL)
 		return 1;
 
 	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (dat == NULL)
-		return 1;
-
-	StatusTextData *st = (StatusTextData*)lParam;
-	if (st != NULL && st->cbSize != sizeof(StatusTextData))
 		return 1;
 
 	dat->SetStatusData(st);
@@ -498,11 +498,11 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
-	if (mwid == NULL || (mwid->cbSize != sizeof(MessageWindowInputData)) || (mwid->hContact == NULL) || (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH))
+	if (mwid == NULL || mwid->hContact == 0 || mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)
 		return 1;
 
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
-	if(mwd == NULL || (mwd->cbSize != sizeof(MessageWindowData)))
+	if(mwd == NULL)
 		return 1;
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, mwid->hContact);
@@ -547,7 +547,6 @@ int LoadSendRecvMessageModule(void)
 	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
 	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
 
-	hHookWinEvt = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	hHookWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
 	hHookWinWrite = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
 
@@ -565,7 +564,6 @@ int LoadSendRecvMessageModule(void)
 
 void SplitmsgShutdown(void)
 {
-	DestroyHookableEvent(hHookWinEvt);
 	DestroyHookableEvent(hHookWinPopup);
 	DestroyHookableEvent(hHookWinWrite);
 

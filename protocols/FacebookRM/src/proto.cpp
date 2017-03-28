@@ -1146,7 +1146,6 @@ void FacebookProto::MessageRead(MCONTACT hContact)
 	wcsftime(ttime, _countof(ttime), L"%X", localtime(&time));
 
 	StatusTextData st = { 0 };
-	st.cbSize = sizeof(st);
 	st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("read"));
 
 	if (isChatRoom(hContact)) {

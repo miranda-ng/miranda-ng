@@ -39,8 +39,7 @@ static void TrayAnimThread(LPVOID)
 {
 	Thread_SetName("TabSRMM: TrayAnimThread");
 
-	int     iAnimMode = (PluginConfig.m_AnimTrayIcons[0] && PluginConfig.m_AnimTrayIcons[1] && PluginConfig.m_AnimTrayIcons[2] &&
-		PluginConfig.m_AnimTrayIcons[3]);
+	int     iAnimMode = (PluginConfig.m_AnimTrayIcons[0] && PluginConfig.m_AnimTrayIcons[1] && PluginConfig.m_AnimTrayIcons[2] && PluginConfig.m_AnimTrayIcons[3]);
 	DWORD   dwElapsed = 0, dwAnimStep = 0;
 	HICON   hIconDefault = iAnimMode ? PluginConfig.m_AnimTrayIcons[0] : PluginConfig.g_iconContainer;
 	DWORD   idleTimer = 0;
@@ -101,10 +100,8 @@ void TSAPI CreateTrayMenus(int mode)
 		PluginConfig.g_hMenuFavorites = CreatePopupMenu();
 		PluginConfig.g_hMenuRecent = CreatePopupMenu();
 		PluginConfig.g_hMenuTrayContext = GetSubMenu(PluginConfig.g_hMenuContext, 6);
-		ModifyMenu(PluginConfig.g_hMenuTrayContext, 0, MF_BYPOSITION | MF_POPUP,
-			(UINT_PTR)PluginConfig.g_hMenuFavorites, TranslateT("Favorites"));
-		ModifyMenu(PluginConfig.g_hMenuTrayContext, 2, MF_BYPOSITION | MF_POPUP,
-			(UINT_PTR)PluginConfig.g_hMenuRecent, TranslateT("Recent sessions"));
+		ModifyMenu(PluginConfig.g_hMenuTrayContext, 0, MF_BYPOSITION | MF_POPUP, (UINT_PTR)PluginConfig.g_hMenuFavorites, TranslateT("Favorites"));
+		ModifyMenu(PluginConfig.g_hMenuTrayContext, 2, MF_BYPOSITION | MF_POPUP, (UINT_PTR)PluginConfig.g_hMenuRecent, TranslateT("Recent sessions"));
 		LoadFavoritesAndRecent();
 	}
 	else {
@@ -135,7 +132,6 @@ void TSAPI CreateTrayMenus(int mode)
 void TSAPI CreateSystrayIcon(int create)
 {
 	NOTIFYICONDATA nim;
-
 	nim.cbSize = sizeof(nim);
 	nim.hWnd = PluginConfig.g_hwndHotkeyHandler;
 	nim.uID = 100;
@@ -192,7 +188,7 @@ void TSAPI FlashTrayIcon(HICON hIcon)
 void TSAPI AddContactToFavorites(MCONTACT hContact, const wchar_t *szNickname, const char *szProto, wchar_t *szStatus, WORD wStatus, HICON hIcon, BOOL mode, HMENU hMenu)
 {
 	wchar_t szMenuEntry[80];
-	wchar_t	szFinalNick[100];
+	wchar_t szFinalNick[100];
 
 	if (szNickname == nullptr)
 		wcsncpy_s(szFinalNick, pcli->pfnGetContactDisplayName(hContact, 0), _TRUNCATE);
@@ -201,14 +197,14 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const wchar_t *szNickname, c
 
 	if (szProto == nullptr)
 		szProto = GetContactProto(hContact);
-	if (szProto) {
-		if (wStatus == 0)
-			wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-		if (szStatus == nullptr)
-			szStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
-	}
-	else
+	if (szProto == nullptr)
 		return;
+
+	if (wStatus == 0)
+		wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+
+	if (szStatus == nullptr)
+		szStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
 
 	if (hIcon == 0)
 		hIcon = Skin_LoadProtoIcon(szProto, wStatus);

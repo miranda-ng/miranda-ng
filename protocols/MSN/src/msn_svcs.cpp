@@ -523,38 +523,6 @@ int CMsnProto::OnIdleChanged(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-#ifdef OBSOLETE
-/////////////////////////////////////////////////////////////////////////////////////////
-// OnWindowEvent - creates session on window open
-
-int CMsnProto::OnWindowEvent(WPARAM, LPARAM lParam)
-{
-	MessageWindowEventData* msgEvData = (MessageWindowEventData*)lParam;
-
-	if (msgEvData->uType == MSG_WINDOW_EVT_OPENING) {
-		if (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_INVISIBLE)
-			return 0;
-
-		if (!MSN_IsMyContact(msgEvData->hContact)) return 0;
-
-		char tEmail[MSN_MAX_EMAIL_LEN];
-		if (MSN_IsMeByContact(msgEvData->hContact, tEmail)) return 0;
-
-		int netId = Lists_GetNetId(tEmail);
-		if (netId != NETID_MSN && netId != NETID_LCS) return 0;
-
-		if (Lists_IsInList(LIST_BL, tEmail)) return 0;
-
-		bool isOffline;
-		ThreadData* thread = MSN_StartSB(tEmail, isOffline);
-
-		if (thread == NULL && !isOffline)
-			MsgQueue_Add(tEmail, 'X', NULL, 0);
-	}
-	return 0;
-}
-#endif
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnWindowEvent - creates session on window open
 

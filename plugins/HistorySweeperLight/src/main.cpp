@@ -55,7 +55,7 @@ int OnIconPressed(WPARAM hContact, LPARAM lParam)
 	if (!(sicd->flags & MBCF_RIGHTBUTTON) && !mir_strcmp(sicd->szModule, ModuleName) && db_get_b(NULL, ModuleName, "ChangeInMW", 0)) {
 		int nh = sicd->dwId;
 
-		StatusIconData sid = { sizeof(sid) };
+		StatusIconData sid = {};
 		sid.szModule = ModuleName;
 		sid.dwId = nh;
 		sid.flags = MBF_HIDDEN;
@@ -75,7 +75,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 {
 	int sweep = db_get_b(NULL, ModuleName, "SweepHistory", 0);
 
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = ModuleName;
 
 	sid.hIcon = LoadIconEx("actG");

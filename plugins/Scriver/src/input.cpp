@@ -65,7 +65,6 @@ void InputAreaContextMenu(HWND hwnd, WPARAM, LPARAM lParam, MCONTACT hContact)
 
 	// First notification
 	MessageWindowPopupData mwpd;
-	mwpd.cbSize = sizeof(mwpd);
 	mwpd.uType = MSG_WINDOWPOPUP_SHOWING;
 	mwpd.uFlags = MSG_WINDOWPOPUP_INPUT;
 	mwpd.hContact = hContact;

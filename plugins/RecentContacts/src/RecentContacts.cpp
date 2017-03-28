@@ -483,17 +483,16 @@ BOOL SaveLastUsedTimeStamp(MCONTACT hContact)
 int OnMsgEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *ed = (MessageWindowEventData *)lParam;
-	if (ed->hContact == NULL)
-		return 0;
-
-	if (ed->uType == MSG_WINDOW_EVT_OPEN)
+	if (ed->hContact != 0 && ed->uType == MSG_WINDOW_EVT_OPEN)
 		SaveLastUsedTimeStamp(ed->hContact);
-	else if (ed->uType == MSG_WINDOW_EVT_CUSTOM) {
-		struct TABSRMM_SessionInfo *si = (struct TABSRMM_SessionInfo*) ed->local;
-		if (si != NULL)
-			if (si->evtCode == tabMSG_WINDOW_EVT_CUSTOM_BEFORESEND)
-				SaveLastUsedTimeStamp(ed->hContact);
-	}
+	return 0;
+}
+
+int OnProtoBroadcast(WPARAM, LPARAM lParam)
+{
+	ACKDATA *ack = (ACKDATA*)lParam;
+	if (ack->type == ACKTYPE_MESSAGE && ack->result == ACKRESULT_SUCCESS)
+		SaveLastUsedTimeStamp(ack->hContact);
 	return 0;
 }
 
@@ -555,6 +554,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_MSG_WINDOWEVENT, OnMsgEvent);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged );
 	HookEvent(ME_OPT_INITIALISE, onOptInitialise);
+	HookEvent(ME_PROTO_ACK, OnProtoBroadcast);
 	return 0;
 }
 

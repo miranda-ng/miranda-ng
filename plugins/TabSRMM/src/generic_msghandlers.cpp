@@ -1527,7 +1527,7 @@ void CTabBaseDlg::DM_ErrorDetected(int type, int flag)
 
 int SI_InitStatusIcons()
 {
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = MSG_ICON_MODULE;
 	sid.dwId = MSG_ICON_SOUND; // Sounds
 	Srmm_AddIcon(&sid);

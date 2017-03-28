@@ -645,7 +645,7 @@ int Meta_ModulesLoaded(WPARAM, LPARAM)
 	InitMenus();
 
 	// create srmm icon
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = META_PROTO;
 	sid.flags = MBF_UNICODE;
 	sid.tszTooltip = LPGENW("Select metacontact");

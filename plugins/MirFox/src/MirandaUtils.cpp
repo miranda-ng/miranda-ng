@@ -357,12 +357,10 @@ int MirandaUtils::on_hook_OpenMW(WPARAM wParam, LPARAM lParam)
 	}
 
 	MessageWindowData mwd;
-	mwd.cbSize = sizeof(MessageWindowData);
 	mwd.hContact = (UINT_PTR)param->targetHandle;
 	mwd.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
 	MessageWindowInputData mwid;
-	mwid.cbSize = sizeof(MessageWindowInputData);
 	mwid.hContact = (UINT_PTR)param->targetHandle;
 	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 

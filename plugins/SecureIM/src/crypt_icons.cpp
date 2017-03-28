@@ -79,7 +79,7 @@ void ShowStatusIcon(MCONTACT hContact, int mode)
 			ExtraIcon_Clear(g_hCLIcon, hMC);
 	}
 
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = (char*)MODULENAME;
 	for (int i = MODE_NATIVE; i < MODE_CNT; i++) {
 		sid.dwId = i;

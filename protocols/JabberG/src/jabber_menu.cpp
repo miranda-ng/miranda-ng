@@ -926,7 +926,7 @@ void CJabberProto::MenuUpdateSrmmIcon(JABBER_LIST_ITEM *item)
 	if (!hContact)
 		return;
 
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = m_szModuleName;
 	sid.flags = item->arResources.getCount() ? 0 : MBF_DISABLED;
 	Srmm_ModifyIcon(hContact, &sid);

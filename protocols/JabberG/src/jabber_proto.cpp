@@ -216,7 +216,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	HookProtoEvent(ME_GC_EVENT, &CJabberProto::JabberGcEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CJabberProto::JabberGcMenuHook);
 
-	StatusIconData sid = { sizeof(sid) };
+	StatusIconData sid = {};
 	sid.szModule = m_szModuleName;
 	sid.hIcon = LoadIconEx("main");
 	sid.flags = MBF_HIDDEN;

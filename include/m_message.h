@@ -43,59 +43,58 @@ extern int hLangpack;
 #define ME_MSG_WINDOWEVENT "MessageAPI/WindowEvent"
 // wparam = 0
 // lparam = (WPARAM)(MessageWindowEventData*)hWindowEvent;
+
 // Event types
 #define MSG_WINDOW_EVT_OPENING 1 //window is about to be opened
 #define MSG_WINDOW_EVT_OPEN    2 //window has been opened
 #define MSG_WINDOW_EVT_CLOSING 3 //window is about to be closed
 #define MSG_WINDOW_EVT_CLOSE   4 //window has been closed
-#define MSG_WINDOW_EVT_CUSTOM  5 //custom event for message plugins to use (custom uFlags may be used)
 
 #define MSG_WINDOW_UFLAG_MSG_FROM 0x00000001
 #define MSG_WINDOW_UFLAG_MSG_TO   0x00000002
 #define MSG_WINDOW_UFLAG_MSG_BOTH 0x00000004
 
-typedef struct {
-	int cbSize;
+struct MessageWindowEventData
+{
 	MCONTACT hContact;
 	HWND hwndWindow; // top level window for the contact
-	const char* szModule; // used to get plugin type (which means you could use local if needed)
 	unsigned int uType; // see event types above
 	unsigned int uFlags; // used to indicate message direction for all event types except custom
 	void *local; // used to store pointer to custom data
 	HWND hwndInput; // input area window for the contact (or NULL if there is none)
 	HWND hwndLog; // log area window for the contact (or NULL if there is none)
-} MessageWindowEventData;
+};
 
-typedef struct {
-	int cbSize;
+struct StatusTextData
+{
 	HICON hIcon; 
 	wchar_t tszText[100];
-} StatusTextData;
+};
 
 // wparam = (MCONTACT)hContact
 // lparam = (StatusTextData*) or NULL to clear statusbar
 // Sets a statusbar line text for the appropriate contact
 #define MS_MSG_SETSTATUSTEXT "MessageAPI/SetStatusText"
 
-typedef struct {
-	int cbSize;
+struct MessageWindowInputData
+{
 	MCONTACT hContact;
 	int uFlags; // see uflags above
-} MessageWindowInputData;
+};
 
 #define MSG_WINDOW_STATE_EXISTS  0x00000001 // Window exists should always be true if hwndWindow exists
 #define MSG_WINDOW_STATE_VISIBLE 0x00000002
 #define MSG_WINDOW_STATE_FOCUS   0x00000004
 #define MSG_WINDOW_STATE_ICONIC  0x00000008
 
-typedef struct {
-	int cbSize;
+struct MessageWindowData
+{
 	MCONTACT hContact;
 	int uFlags;  // should be same as input data unless 0, then it will be the actual type
 	HWND hwndWindow; //top level window for the contact or NULL if no window exists
 	int uState; // see window states
 	void *local; // used to store pointer to custom data
-} MessageWindowData;
+};
 
 // wparam = (MessageWindowInputData*)
 // lparam = (MessageWindowData*)
@@ -107,12 +106,12 @@ typedef struct {
 // fired before SRMM writes an entered message into the database
 #define ME_MSG_PRECREATEEVENT    "MessageAPI/PreCreateEvent"
 
-typedef struct {
-	int cbSize;
+struct MessageWindowEvent
+{
 	int seq;      // number returned by PSS_MESSAGE
 	MCONTACT hContact;
 	DBEVENTINFO *dbei; // database event written on the basis of message sent
-} MessageWindowEvent;
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // SRMM popup menu
@@ -131,8 +130,8 @@ typedef struct {
 #define MSG_WINDOWPOPUP_INPUT    1
 #define MSG_WINDOWPOPUP_LOG      2
 
-typedef struct {
-	int cbSize;
+struct MessageWindowPopupData
+{
 	unsigned int uType; // see popup types above
 	unsigned int uFlags; // used to indicate in which window the popup was requested
 	MCONTACT hContact;
@@ -140,7 +139,7 @@ typedef struct {
 	HMENU hMenu;	// The handle to the menu
 	POINT pt; // The point, in screen coords
 	int selection; // The menu control id or 0 if no one was selected
-} MessageWindowPopupData;
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // status icons
@@ -149,8 +148,8 @@ typedef struct {
 #define MBF_HIDDEN         0x02
 #define MBF_UNICODE        0x04
 
-typedef struct {
-	int   cbSize;                    // must be equal to sizeof(StatusIconData)
+struct StatusIconData
+{
 	char *szModule;                  // used in combo with the dwId below to create a unique identifier
 	DWORD dwId;                      // uniquely defines a button inside a module
 	HICON hIcon, hIconDisabled;      // hIconDisabled is optional - if null, will use hIcon in the disabled state
@@ -160,7 +159,7 @@ typedef struct {
 		wchar_t *tszTooltip;
 		wchar_t *wszTooltip;
 	};
-} StatusIconData;
+};
 
 #define MBCF_RIGHTBUTTON   0x01     // if this flag is specified, the click was a right button - otherwize it was a left click
 
@@ -186,7 +185,6 @@ EXTERN_C MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int ind
 
 struct StatusIconClickData
 {
-	int   cbSize;
 	POINT clickLocation;             // click location, in screen coordinates
 	char *szModule;
 	DWORD dwId;
