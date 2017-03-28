@@ -123,14 +123,9 @@ void CDropboxOptionsInterception::OnApply()
 			interceptedProtos.AppendFormat("%s\t", acc->szModuleName);
 
 		// hide tabsrmm button for intercepted accounts
-		MessageWindowInputData msgwi;
-		msgwi.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-
 		for (MCONTACT hContact = db_find_first(acc->szModuleName); hContact; hContact = db_find_next(hContact, acc->szModuleName)) {
-			msgwi.hContact = hContact;
-
 			MessageWindowData msgw;
-			if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgwi, (LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
+			if (!CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
 				BBButton bbd = {};
 				bbd.pszModuleName = MODULE;
 				bbd.dwButtonID = BBB_ID_FILE_SEND;

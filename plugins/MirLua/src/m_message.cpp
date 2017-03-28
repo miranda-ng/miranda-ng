@@ -5,13 +5,8 @@ static int message_Paste(lua_State *L)
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 	ptrW text(mir_utf8decodeW(luaL_checkstring(L, 2)));
 
-	MessageWindowInputData mwid = { sizeof(MessageWindowInputData) };
-	mwid.hContact = hContact;
-	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-
 	MessageWindowData mwd = { sizeof(MessageWindowData) };
-
-	INT_PTR res = CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd);
+	INT_PTR res = CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&mwd);
 	lua_pushinteger(L, res);
 	if (res)
 		return 1;

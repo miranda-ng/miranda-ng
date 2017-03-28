@@ -39,15 +39,8 @@ INT_PTR ShakeChat(WPARAM wParam, LPARAM)
 {
 	if (((HANDLE)wParam) == NULL) return -1;
 
-	//char srmmName[100];
 	MessageWindowData mwd;
-	mwd.hContact = db_mc_tryMeta(wParam);
-	mwd.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-
-	MessageWindowInputData mwid;
-	mwid.hContact = mwd.hContact;
-	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-	CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd);
+	CallService(MS_MSG_GETWINDOWDATA, db_mc_tryMeta(wParam), (LPARAM)&mwd);
 
 	HWND parent;
 	HWND hWnd = mwd.hwndWindow;

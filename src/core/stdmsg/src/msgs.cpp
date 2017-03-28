@@ -495,17 +495,16 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
+static INT_PTR GetWindowData(WPARAM hContact, LPARAM lParam)
 {
-	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
-	if (mwid == NULL || mwid->hContact == 0 || mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)
+	if (hContact == 0)
 		return 1;
 
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
 	if(mwd == NULL)
 		return 1;
 
-	HWND hwnd = WindowList_Find(pci->hWindowList, mwid->hContact);
+	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 	mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 	mwd->hwndWindow = hwnd;
 	mwd->local = 0;

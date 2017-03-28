@@ -135,20 +135,18 @@ static int MsgWndEvent(WPARAM, LPARAM lParam)
 
 void CALLBACK UpdateStatusIcons(LPARAM)
 {
-	MessageWindowInputData msgwi = { sizeof(msgwi) };
-	msgwi.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-	msgwi.hContact = db_find_first();
-	while (msgwi.hContact != NULL) {
+	MCONTACT hContact = db_find_first();
+	while (hContact != NULL) {
 		/* is a message window opened for this contact? */
 		MessageWindowData msgw; /* output */
-		if (!CallService(MS_MSG_GETWINDOWDATA,(WPARAM)&msgwi,(LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
+		if (!CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
 			if (bShowStatusIcon) {
-				int countryNumber = ServiceDetectContactOriginCountry((WPARAM)msgwi.hContact, 0);
-				SetStatusIcon(msgwi.hContact, countryNumber);
+				int countryNumber = ServiceDetectContactOriginCountry(hContact, 0);
+				SetStatusIcon(hContact, countryNumber);
 			}
-			else UnsetStatusIcon(msgwi.hContact);
+			else UnsetStatusIcon(hContact);
 		}
-		msgwi.hContact = db_find_next(msgw.hContact);
+		hContact = db_find_next(hContact);
 	}
 }
 

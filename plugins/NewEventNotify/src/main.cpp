@@ -170,13 +170,8 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 int CheckMsgWnd(MCONTACT hContact)
 {
 	if (g_IsSrmmWindowAPI) {
-		MessageWindowInputData mwid;
-		mwid.hContact = hContact;
-		mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-
 		MessageWindowData mwd;
-		mwd.hContact = hContact;
-		if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM) &mwid, (LPARAM) &mwd))
+		if (!CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&mwd))
 			if (mwd.hwndWindow != NULL && (mwd.uState & MSG_WINDOW_STATE_EXISTS))
 				return 1;
 	}

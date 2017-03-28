@@ -116,12 +116,8 @@ void CDropbox::SendToContact(MCONTACT hContact, const wchar_t *data)
 
 void CDropbox::PasteToInputArea(MCONTACT hContact, const wchar_t *data)
 {
-	MessageWindowInputData mwid = { sizeof(MessageWindowInputData) };
-	mwid.hContact = hContact;
-	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-
 	MessageWindowData mwd = { sizeof(MessageWindowData) };
-	if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd)) {
+	if (!CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&mwd)) {
 		HWND hEdit = GetDlgItem(mwd.hwndWindow, 1002 /*IDC_MESSAGE*/);
 		if (!hEdit) hEdit = GetDlgItem(mwd.hwndWindow, 1009 /*IDC_CHATMESSAGE*/);
 

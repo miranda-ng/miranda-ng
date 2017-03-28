@@ -64,17 +64,16 @@ int SmileyAddOptionsChanged(WPARAM, LPARAM)
 // lparam = (MessageWindowData*)
 // returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
 
-static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
+static INT_PTR GetWindowData(WPARAM hContact, LPARAM lParam)
 {
-	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
-	if (mwid == nullptr || mwid->hContact == 0 || mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)
+	if (hContact == 0)
 		return 1;
 
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
 	if (mwd == nullptr)
 		return 1;
 
-	HWND hwnd = M.FindWindow(mwid->hContact);
+	HWND hwnd = M.FindWindow(hContact);
 	if (hwnd) {
 		mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 		mwd->hwndWindow = hwnd;
@@ -83,24 +82,18 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 		mwd->uState = GetWindowLongPtr(hwnd, DWLP_MSGRESULT);
 		return 0;
 	}
-	else
-	{
-		SESSION_INFO *si = SM_FindSessionByHCONTACT(mwid->hContact);
-		if (si != nullptr && si->pDlg != nullptr) {
-			mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-			mwd->hwndWindow = si->pDlg->GetHwnd();
-			mwd->local = GetParent(GetParent(si->pDlg->GetHwnd()));
-			SendMessage(si->pDlg->GetHwnd(), DM_GETWINDOWSTATE, 0, 0);
-			mwd->uState = GetWindowLongPtr(si->pDlg->GetHwnd(), DWLP_MSGRESULT);
-			return 0;
-		}
-		else {
-			mwd->uState = 0;
-			mwd->hContact = 0;
-			mwd->hwndWindow = 0;
-			mwd->uFlags = 0;
-		}
+
+	SESSION_INFO *si = SM_FindSessionByHCONTACT(hContact);
+	if (si != nullptr && si->pDlg != nullptr) {
+		mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
+		mwd->hwndWindow = si->pDlg->GetHwnd();
+		mwd->local = GetParent(GetParent(si->pDlg->GetHwnd()));
+		SendMessage(si->pDlg->GetHwnd(), DM_GETWINDOWSTATE, 0, 0);
+		mwd->uState = GetWindowLongPtr(si->pDlg->GetHwnd(), DWLP_MSGRESULT);
+		return 0;
 	}
+
+	memset(mwd, 0, sizeof(*mwd));
 	return 1;
 }
 

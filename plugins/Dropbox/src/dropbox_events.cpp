@@ -109,14 +109,9 @@ int CDropbox::OnProtoAck(WPARAM, LPARAM lParam)
 		WORD status = ack->lParam;
 		bool canSendOffline = (CallProtoService(ack->szModule, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDOFFLINE) > 0;
 
-		MessageWindowInputData msgwi;
-		msgwi.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-
 		for (MCONTACT hContact = db_find_first(ack->szModule); hContact; hContact = db_find_next(hContact, ack->szModule)) {
-			msgwi.hContact = hContact;
-
 			MessageWindowData msgw;
-			if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgwi, (LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
+			if (!CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
 				BBButton bbd = {};
 				bbd.pszModuleName = MODULE;
 				bbd.dwButtonID = BBB_ID_FILE_SEND;

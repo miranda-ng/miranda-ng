@@ -76,12 +76,6 @@ struct StatusTextData
 // Sets a statusbar line text for the appropriate contact
 #define MS_MSG_SETSTATUSTEXT "MessageAPI/SetStatusText"
 
-struct MessageWindowInputData
-{
-	MCONTACT hContact;
-	int uFlags; // see uflags above
-};
-
 #define MSG_WINDOW_STATE_EXISTS  0x00000001 // Window exists should always be true if hwndWindow exists
 #define MSG_WINDOW_STATE_VISIBLE 0x00000002
 #define MSG_WINDOW_STATE_FOCUS   0x00000004
@@ -89,14 +83,13 @@ struct MessageWindowInputData
 
 struct MessageWindowData
 {
-	MCONTACT hContact;
 	int uFlags;  // should be same as input data unless 0, then it will be the actual type
 	HWND hwndWindow; //top level window for the contact or NULL if no window exists
 	int uState; // see window states
 	void *local; // used to store pointer to custom data
 };
 
-// wparam = (MessageWindowInputData*)
+// wparam = (MCONTACT)hContact
 // lparam = (MessageWindowData*)
 // returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
 #define MS_MSG_GETWINDOWDATA "MessageAPI/GetWindowData"

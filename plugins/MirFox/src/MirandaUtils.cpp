@@ -357,22 +357,15 @@ int MirandaUtils::on_hook_OpenMW(WPARAM wParam, LPARAM lParam)
 	}
 
 	MessageWindowData mwd;
-	mwd.hContact = (UINT_PTR)param->targetHandle;
-	mwd.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-
-	MessageWindowInputData mwid;
-	mwid.hContact = (UINT_PTR)param->targetHandle;
-	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-
-	delete param;
-
-	if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd) && mwd.hwndWindow){
+	if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)param->targetHandle, (LPARAM)&mwd) && mwd.hwndWindow){
 		HWND parent;
 		HWND hWnd = mwd.hwndWindow;
-		while((parent = GetParent(hWnd)) != 0) hWnd = parent; // ensure we have the top level window (need parent window for scriver & tabsrmm)
+		while((parent = GetParent(hWnd)) != 0)
+			hWnd = parent; // ensure we have the top level window (need parent window for scriver & tabsrmm)
 		ForceForegroundWindow(hWnd);
 	}
 
+	delete param;
 	return 0;
 }
 

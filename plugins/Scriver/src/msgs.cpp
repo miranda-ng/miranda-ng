@@ -283,19 +283,18 @@ static void RestoreUnreadMessageAlerts(void)
 	}
 }
 
-static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
+static INT_PTR GetWindowData(WPARAM hContact, LPARAM lParam)
 {
-	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
-	if (mwid == nullptr || mwid->hContact == 0 || mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)
+	if (hContact == 0)
 		return 1;
 
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
 	if (mwd == nullptr)
 		return 1;
 
-	HWND hwnd = WindowList_Find(pci->hWindowList, mwid->hContact);
+	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 	if (hwnd == nullptr)
-		hwnd = SM_FindWindowByContact(mwid->hContact);
+		hwnd = SM_FindWindowByContact(hContact);
 	mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 	mwd->hwndWindow = hwnd;
 	mwd->local = 0;

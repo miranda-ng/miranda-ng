@@ -67,13 +67,6 @@ const
   }
   MS_MSG_GETWINDOWCLASS:PAnsiChar = 'MessageAPI/WindowClass';
 
-type
-  PMessageWindowInputData = ^TMessageWindowInputData;
-  TMessageWindowInputData = record
-    hContact: TMCONTACT;
-    uFlags  : int; // see uflags above
-  end;
-
 const
   MSG_WINDOW_STATE_EXISTS  = $00000001; // Window exists should always be true
                                         // if hwndWindow exists

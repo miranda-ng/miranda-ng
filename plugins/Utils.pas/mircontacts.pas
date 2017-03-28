@@ -409,21 +409,18 @@ end;
 function WndToContact(wnd:HWND):TMCONTACT;
 var
   hContact:TMCONTACT;
-  mwid:TMessageWindowInputData;
   mwod:TMessageWindowOutputData;
 begin
   wnd:=GetParent(wnd); //!!
   hContact:=db_find_first();
-  mwid.uFlags:=MSG_WINDOW_UFLAG_MSG_BOTH;
 
   while hContact<>0 do
   begin
-    mwid.hContact:=hContact;
-    if CallService(MS_MSG_GETWINDOWDATA,wparam(@mwid),lparam(@mwod))=0 then
+    if CallService(MS_MSG_GETWINDOWDATA,hContact,lparam(@mwod))=0 then
     begin
       if mwod.hwndWindow=wnd then
       begin
-        result:=mwid.hContact;
+        result:=hContact;
         exit;
       end
     end;

@@ -394,16 +394,10 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 
 INT_PTR CloseCurrentSession(WPARAM, LPARAM)
 {
-	MessageWindowInputData  mwid;
-	MessageWindowData  mwd;
-
 	while (session_list[0] != 0) {
-		mwid.hContact = session_list[0];
-		mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-
-		mwd.hContact = mwid.hContact;
+		MessageWindowData mwd;
 		mwd.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-		CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd);
+		CallService(MS_MSG_GETWINDOWDATA, session_list[0], (LPARAM)&mwd);
 		SendMessage(mwd.hwndWindow, WM_CLOSE, 0, 0);
 	}
 	memset(session_list, 0, sizeof(session_list));

@@ -24,13 +24,8 @@
 // From NewEventNotify :-)
 bool CheckMsgWnd(MCONTACT hContact)
 {
-	MessageWindowInputData mwid;
-	mwid.hContact = hContact;
-	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-
 	MessageWindowData mwd;
-	mwd.hContact = hContact;
-	if (CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd) != NULL)
+	if (CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&mwd) != NULL)
 		return false;
 
 	if (mwd.hwndWindow != NULL && (mwd.uState & MSG_WINDOW_STATE_EXISTS))
