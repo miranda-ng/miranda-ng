@@ -81,7 +81,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GC_SWITCHTAB     (WM_USER+0x106)
 
 extern HINSTANCE g_hInst;
-extern HANDLE hHookWinEvt, hHookWinPopup, hHookWinWrite;
+extern HANDLE hHookWinPopup, hHookWinWrite;
 extern CREOleCallback reOleCallback;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -150,7 +150,6 @@ int  RestoreWindowPosition(HWND hwnd, MCONTACT hContact, bool bHide);
 
 // message.cpp
 char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
-void  NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type);
 
 // tabs.cpp
 

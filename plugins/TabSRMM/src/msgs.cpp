@@ -854,35 +854,6 @@ void TSAPI CreateImageList(BOOL bInitial)
 	PluginConfig.g_IconTypingEvent = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 }
 
-int CTabBaseDlg::FireEvent(unsigned int type, unsigned int subType)
-{
-	if (m_hContact == 0 || m_hwnd == nullptr)
-		return 0;
-
-	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(m_hwnd, GWLP_USERDATA);
-	if (dat == nullptr)
-		return 0;
-
-	MessageWindowEventData mwe = { sizeof(mwe) };
-	mwe.hContact = m_hContact;
-	mwe.hwndWindow = m_hwnd;
-	mwe.szModule = "tabSRMsgW";
-	mwe.uType = type;
-	mwe.hwndInput = m_message.GetHwnd();
-	mwe.hwndLog = m_log.GetHwnd();
-
-	if (type == MSG_WINDOW_EVT_CUSTOM) {
-		TABSRMM_SessionInfo se = { sizeof(se) };
-		se.evtCode = HIWORD(subType);
-		se.hwnd = m_hwnd;
-		se.extraFlags = (unsigned int)(LOWORD(subType));
-		se.local = dat->m_sendBuffer;
-		mwe.local = &se;
-	}
-
-	return NotifyEventHooks(PluginConfig.m_event_MsgWin, 0, (LPARAM)&mwe);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // standard icon definitions
 
@@ -1142,7 +1113,6 @@ static void TSAPI InitAPI()
 	CB_InitCustomButtons();
 
 	// the event API
-	PluginConfig.m_event_MsgWin = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	PluginConfig.m_event_MsgPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
 	PluginConfig.m_event_WriteEvent = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
 }

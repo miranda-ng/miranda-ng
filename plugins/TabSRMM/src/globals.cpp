@@ -297,15 +297,13 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	if (M.GetByte("avatarmode", -1) == -1)
 		db_set_b(0, SRMSGMOD_T, "avatarmode", 2);
 
-	PluginConfig.g_hwndHotkeyHandler = CreateWindowEx(0, L"TSHK", L"", WS_POPUP,
-		0, 0, 40, 40, 0, 0, g_hInst, nullptr);
+	PluginConfig.g_hwndHotkeyHandler = CreateWindowEx(0, L"TSHK", L"", WS_POPUP, 0, 0, 40, 40, 0, 0, g_hInst, nullptr);
 
 	::CreateTrayMenus(TRUE);
 	if (nen_options.bTraySupport)
 		::CreateSystrayIcon(TRUE);
 
 	CMenuItem mi;
-
 	SET_UID(mi, 0x9f68b822, 0xff97, 0x477d, 0xb7, 0x6d, 0xa5, 0x59, 0x33, 0x1c, 0x54, 0x40);
 	mi.position = -500050005;
 	mi.hIcolibItem = PluginConfig.g_iconContainer;
@@ -468,7 +466,6 @@ int CGlobals::PreshutdownSendRecv(WPARAM, LPARAM)
 	::SI_DeinitStatusIcons();
 
 	// the event API
-	DestroyHookableEvent(PluginConfig.m_event_MsgWin);
 	DestroyHookableEvent(PluginConfig.m_event_MsgPopup);
 	DestroyHookableEvent(PluginConfig.m_event_WriteEvent);
 

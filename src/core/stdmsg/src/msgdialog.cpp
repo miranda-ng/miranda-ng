@@ -35,22 +35,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static const UINT sendControls[] = { IDC_SRMM_MESSAGE };
 
-void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
-{
-	if (hContact != NULL && hwnd != NULL) {
-		MessageWindowEventData mwe = {};
-		mwe.cbSize = sizeof(mwe);
-		mwe.hContact = hContact;
-		mwe.hwndWindow = hwnd;
-		mwe.szModule = SRMMMOD;
-		mwe.uType = type;
-		mwe.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-		mwe.hwndInput = GetDlgItem(hwnd, IDC_SRMM_MESSAGE);
-		mwe.hwndLog = GetDlgItem(hwnd, IDC_SRMM_LOG);
-		NotifyEventHooks(hHookWinEvt, 0, (LPARAM)&mwe);
-	}
-}
-
 static int RTL_Detect(const wchar_t *ptszText)
 {
 	int iLen = (int)mir_wstrlen(ptszText);
@@ -141,7 +125,7 @@ void CSrmmWindow::OnInitDialog()
 	m_hTimeZone = TimeZone_CreateByContact(m_hContact, 0, TZF_KNOWNONLY);
 	m_wMinute = 61;
 
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
+	NotifyEvent(MSG_WINDOW_EVT_OPENING);
 	if (m_wszInitialText) {
 		m_message.SetText(m_wszInitialText);
 
@@ -298,13 +282,13 @@ void CSrmmWindow::OnInitDialog()
 	}
 
 	SendMessage(m_hwnd, DM_GETAVATAR, 0, 0);
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPEN);
+	NotifyEvent(MSG_WINDOW_EVT_OPEN);
 }
 
 void CSrmmWindow::OnDestroy()
 {
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING);
+	NotifyEvent(MSG_WINDOW_EVT_CLOSING);
 
 	// save string from the editor
 	if (m_hContact) {
@@ -346,7 +330,7 @@ void CSrmmWindow::OnDestroy()
 	db_set_dw(hContact, SRMMMOD, "width", wp.rcNormalPosition.right - wp.rcNormalPosition.left);
 	db_set_dw(hContact, SRMMMOD, "height", wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
 
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE);
+	NotifyEvent(MSG_WINDOW_EVT_CLOSE);
 	if (m_hContact && g_dat.bDeleteTempCont)
 		if (db_get_b(m_hContact, "CList", "NotOnList", 0))
 			db_delete_contact(m_hContact);
@@ -741,7 +725,6 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			static const CHARRANGE all = { 0, -1 };
 
 			MessageWindowPopupData mwpd = {};
-			mwpd.cbSize = sizeof(mwpd);
 			mwpd.uType = MSG_WINDOWPOPUP_SHOWING;
 			mwpd.uFlags = MSG_WINDOWPOPUP_INPUT;
 			mwpd.hContact = m_hContact;

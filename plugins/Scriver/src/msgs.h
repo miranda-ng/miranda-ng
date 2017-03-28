@@ -98,6 +98,8 @@ public:
 	virtual void CloseTab() override;
 	virtual void LoadSettings() override;
 
+	void Reattach(HWND hwndContainer);
+
 	ParentWindowData *m_pParent;
 	int m_minLogBoxHeight, m_minEditBoxHeight;
 	HWND m_hwndIeview;

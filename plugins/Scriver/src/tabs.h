@@ -84,7 +84,6 @@ struct TabControlData
 	HICON hIcon;
 };
 
-HWND   GetParentWindow(MCONTACT hContact, BOOL bChat);
-void   NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type);
+HWND GetParentWindow(MCONTACT hContact, BOOL bChat);
 
 #endif

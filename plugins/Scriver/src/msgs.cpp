@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 HCURSOR  hDragCursor;
-HANDLE   hHookWinEvt, hHookWinPopup, hHookWinWrite;
+HANDLE   hHookWinPopup, hHookWinWrite;
 HGENMENU hMsgMenuItem;
 HMODULE hMsftEdit;
 
@@ -376,6 +376,56 @@ void CScriverWindow::LoadSettings()
 	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, nullptr, &m_clrInputFG);
 }
 
+void CScriverWindow::Reattach(HWND hwndContainer)
+{
+	MCONTACT hContact = m_hContact;
+
+	POINT pt;
+	GetCursorPos(&pt);
+	HWND hParent = WindowFromPoint(pt);
+	while (GetParent(hParent) != nullptr)
+		hParent = GetParent(hParent);
+
+	hParent = WindowList_Find(g_dat.hParentWindowList, (UINT_PTR)hParent);
+	if ((hParent != nullptr && hParent != hwndContainer) || (hParent == nullptr && m_pParent->childrenCount > 1 && (GetKeyState(VK_CONTROL) & 0x8000))) {
+		if (hParent == nullptr) {
+			hParent = GetParentWindow(hContact, FALSE);
+
+			RECT rc;
+			GetWindowRect(hParent, &rc);
+
+			rc.right = (rc.right - rc.left);
+			rc.bottom = (rc.bottom - rc.top);
+			rc.left = pt.x - rc.right / 2;
+			rc.top = pt.y - rc.bottom / 2;
+			HMONITOR hMonitor = MonitorFromRect(&rc, MONITOR_DEFAULTTONEAREST);
+
+			MONITORINFO mi;
+			mi.cbSize = sizeof(mi);
+			GetMonitorInfo(hMonitor, &mi);
+
+			RECT rcDesktop = mi.rcWork;
+			if (rc.left < rcDesktop.left)
+				rc.left = rcDesktop.left;
+			if (rc.top < rcDesktop.top)
+				rc.top = rcDesktop.top;
+			MoveWindow(hParent, rc.left, rc.top, rc.right, rc.bottom, FALSE);
+		}
+		NotifyEvent(MSG_WINDOW_EVT_CLOSING);
+		NotifyEvent(MSG_WINDOW_EVT_CLOSE);
+		SetParent(hParent);
+		SendMessage(hwndContainer, CM_REMOVECHILD, 0, (LPARAM)m_hwnd);
+		SendMessage(m_hwnd, DM_SETPARENT, 0, (LPARAM)hParent);
+		SendMessage(hParent, CM_ADDCHILD, (WPARAM)this, 0);
+		SendMessage(m_hwnd, DM_UPDATETABCONTROL, 0, 0);
+		SendMessage(hParent, CM_ACTIVATECHILD, 0, (LPARAM)m_hwnd);
+		NotifyEvent(MSG_WINDOW_EVT_OPENING);
+		NotifyEvent(MSG_WINDOW_EVT_OPEN);
+		ShowWindow(hParent, SW_SHOWNA);
+		EnableWindow(hParent, TRUE);
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // status icons processing
 
@@ -592,7 +642,6 @@ int OnUnloadModule(void)
 {
 	DestroyCursor(hDragCursor);
 
-	DestroyHookableEvent(hHookWinEvt);
 	DestroyHookableEvent(hHookWinPopup);
 	DestroyHookableEvent(hHookWinWrite);
 
@@ -639,7 +688,6 @@ int OnLoadModule(void)
 	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
 	CreateServiceFunction("SRMsg/TypingMessage", TypingMessageCommand);
 
-	hHookWinEvt = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	hHookWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
 	hHookWinWrite = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
 

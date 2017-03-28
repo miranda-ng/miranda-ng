@@ -91,22 +91,6 @@ static wchar_t* GetQuotedTextW(wchar_t *text)
 	return out;
 }
 
-void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
-{
-	if (hContact == 0 || hwnd == nullptr)
-		return;
-
-	MessageWindowEventData mwe = { sizeof(mwe) };
-	mwe.hContact = hContact;
-	mwe.hwndWindow = hwnd;
-	mwe.szModule = SRMM_MODULE;
-	mwe.uType = type;
-	mwe.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-	mwe.hwndInput = GetDlgItem(hwnd, IDC_SRMM_MESSAGE);
-	mwe.hwndLog = GetDlgItem(hwnd, IDC_SRMM_LOG);
-	NotifyEventHooks(hHookWinEvt, 0, (LPARAM)&mwe);
-}
-
 int RTL_Detect(WCHAR *pszwText)
 {
 	size_t iLen = mir_wstrlen(pszwText);
@@ -220,7 +204,7 @@ void CSrmmWindow::OnInitDialog()
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 	WindowList_Add(pci->hWindowList, m_hwnd, m_hContact);
 
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
+	NotifyEvent(MSG_WINDOW_EVT_OPENING);
 
 	m_pParent = (ParentWindowData *)GetWindowLongPtr(m_hwndParent, GWLP_USERDATA);
 	m_szProto = GetContactProto(m_hContact);
@@ -413,12 +397,12 @@ void CSrmmWindow::OnInitDialog()
 	if (m_iMessagesInProgress > 0)
 		SendMessage(m_hwnd, DM_SHOWMESSAGESENDING, 0, 0);
 
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPEN);
+	NotifyEvent(MSG_WINDOW_EVT_OPEN);
 }
 
 void CSrmmWindow::OnDestroy()
 {
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING);
+	NotifyEvent(MSG_WINDOW_EVT_CLOSING);
 
 	if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 		NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
@@ -459,7 +443,7 @@ void CSrmmWindow::OnDestroy()
 		ieWindow.hwnd = m_hwndIeview;
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 	}
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE);
+	NotifyEvent(MSG_WINDOW_EVT_CLOSE);
 
 	CSuper::OnDestroy();
 }

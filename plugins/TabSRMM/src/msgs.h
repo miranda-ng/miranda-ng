@@ -252,7 +252,6 @@ protected:
 
 	void DetermineMinHeight();
 	void FindFirstEvent();
-	int  FireEvent(unsigned int type, unsigned int subType = 0);
 	void GetSendFormat();
 	bool IsAutoSplitEnabled() const;
 	void ResizeIeView();
@@ -1001,17 +1000,6 @@ struct SIDEBARITEM {
 #define IDC_TBFIRSTUID 10000            // first uId for custom buttons
 
 #include "templates.h"
-
-struct TABSRMM_SessionInfo {
-	unsigned int cbSize;
-	unsigned short evtCode;
-	HWND hwnd;              // handle of the message dialog (tab)
-	HWND hwndContainer;     // handle of the parent container
-	HWND hwndInput;         // handle of the input area (rich edit)
-	UINT extraFlags;
-	UINT extraFlagsEX;
-	void *local;
-};
 
 // callback for the user menu entry
 

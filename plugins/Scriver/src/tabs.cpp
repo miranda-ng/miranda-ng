@@ -429,55 +429,8 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					tci.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwnd, dat->srcTab, &tci);
 					CScriverWindow *pDlg = (CScriverWindow*)tci.lParam;
-					if (pDlg != nullptr) {
-						HWND hChild = pDlg->GetHwnd();
-						MCONTACT hContact = pDlg->m_hContact;
-
-						POINT pt;
-						GetCursorPos(&pt);
-						HWND hParent = WindowFromPoint(pt);
-						while (GetParent(hParent) != nullptr)
-							hParent = GetParent(hParent);
-
-						hParent = WindowList_Find(g_dat.hParentWindowList, (UINT_PTR)hParent);
-						if ((hParent != nullptr && hParent != GetParent(hwnd)) || (hParent == nullptr && pDlg->m_pParent->childrenCount > 1 && (GetKeyState(VK_CONTROL) & 0x8000))) {
-							if (hParent == nullptr) {
-								hParent = GetParentWindow(hContact, FALSE);
-
-								RECT rc;
-								GetWindowRect(hParent, &rc);
-								
-								rc.right = (rc.right - rc.left);
-								rc.bottom = (rc.bottom - rc.top);
-								rc.left = pt.x - rc.right / 2;
-								rc.top = pt.y - rc.bottom / 2;
-								HMONITOR hMonitor = MonitorFromRect(&rc, MONITOR_DEFAULTTONEAREST);
-								
-								MONITORINFO mi;
-								mi.cbSize = sizeof(mi);
-								GetMonitorInfo(hMonitor, &mi);
-								
-								RECT rcDesktop = mi.rcWork;
-								if (rc.left < rcDesktop.left)
-									rc.left = rcDesktop.left;
-								if (rc.top < rcDesktop.top)
-									rc.top = rcDesktop.top;
-								MoveWindow(hParent, rc.left, rc.top, rc.right, rc.bottom, FALSE);
-							}
-							NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_CLOSING);
-							NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_CLOSE);
-							SetParent(hChild, hParent);
-							SendMessage(GetParent(hwnd), CM_REMOVECHILD, 0, (LPARAM)hChild);
-							SendMessage(hChild, DM_SETPARENT, 0, (LPARAM)hParent);
-							SendMessage(hParent, CM_ADDCHILD, (WPARAM)pDlg, 0);
-							SendMessage(hChild, DM_UPDATETABCONTROL, 0, 0);
-							SendMessage(hParent, CM_ACTIVATECHILD, 0, (LPARAM)hChild);
-							NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_OPENING);
-							NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_OPEN);
-							ShowWindow(hParent, SW_SHOWNA);
-							EnableWindow(hParent, TRUE);
-						}
-					}
+					if (pDlg != nullptr)
+						pDlg->Reattach(GetParent(hwnd));
 				}
 				else {
 					dat->destTab = -1;
@@ -485,13 +438,13 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 			}
 			else if (dat->srcTab >= 0 && g_dat.flags2 & SMF2_TABCLOSEBUTTON) {
-				IMAGEINFO info;
-				POINT pt;
-				RECT rect;
 				int atTop = (GetWindowLongPtr(hwnd, GWL_STYLE) & TCS_BOTTOM) == 0;
+
+				RECT rect;
 				TabCtrl_GetItemRect(hwnd, dat->srcTab, &rect);
-				pt.x = LOWORD(lParam);
-				pt.y = HIWORD(lParam);
+				
+				POINT pt = { LOWORD(lParam), HIWORD(lParam) };
+				IMAGEINFO info;
 				ImageList_GetImageInfo(g_dat.hButtonIconList, 0, &info);
 				rect.left = rect.right - (info.rcImage.right - info.rcImage.left) - 6;
 				if (!atTop)

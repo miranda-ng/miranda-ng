@@ -211,7 +211,7 @@ void CChatRoomDlg::OnInitDialog()
 	CSuper::OnInitDialog();
 	m_si->pDlg = this;
 
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
+	NotifyEvent(MSG_WINDOW_EVT_OPENING);
 
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 	m_pParent = (ParentWindowData *)GetWindowLongPtr(m_hwndParent, GWLP_USERDATA);
@@ -265,12 +265,12 @@ void CChatRoomDlg::OnInitDialog()
 
 	SendMessage(m_hwndParent, CM_ADDCHILD, (WPARAM)this, 0);
 	UpdateNickList();
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPEN);
+	NotifyEvent(MSG_WINDOW_EVT_OPEN);
 }
 
 void CChatRoomDlg::OnDestroy()
 {
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING);
+	NotifyEvent(MSG_WINDOW_EVT_CLOSING);
 
 	m_si->pDlg = nullptr;
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
@@ -284,7 +284,7 @@ void CChatRoomDlg::OnDestroy()
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 	}
 
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE);
+	NotifyEvent(MSG_WINDOW_EVT_CLOSE);
 
 	CSuper::OnDestroy();
 }

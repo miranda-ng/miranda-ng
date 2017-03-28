@@ -527,7 +527,7 @@ void CChatRoomDlg::OnInitDialog()
 	m_log.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 	m_log.SendMsg(EM_AUTOURLDETECT, 1, 0);
 	SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_PANELSPLITTER), GWLP_WNDPROC, (LONG_PTR)SplitterSubclassProc);
-	FireEvent(MSG_WINDOW_EVT_OPENING, 0);
+	NotifyEvent(MSG_WINDOW_EVT_OPENING);
 
 	m_log.SendMsg(EM_SETEVENTMASK, 0, m_log.SendMsg(EM_GETEVENTMASK, 0, 0) | ENM_LINK | ENM_MOUSEEVENTS | ENM_KEYEVENTS);
 	m_log.SendMsg(EM_LIMITTEXT, 0x7FFFFFFF, 0);
@@ -572,7 +572,7 @@ void CChatRoomDlg::OnInitDialog()
 	ShowWindow(m_hwnd, SW_SHOW);
 	UpdateNickList();
 	m_pContainer->m_hwndActive = m_hwnd;
-	FireEvent(MSG_WINDOW_EVT_OPEN, 0);
+	NotifyEvent(MSG_WINDOW_EVT_OPEN);
 }
 
 void CChatRoomDlg::OnDestroy()
@@ -588,7 +588,7 @@ void CChatRoomDlg::OnDestroy()
 	m_si->pDlg = nullptr;
 	m_si = nullptr;
 
-	FireEvent(MSG_WINDOW_EVT_CLOSING, 0);
+	NotifyEvent(MSG_WINDOW_EVT_CLOSING);
 
 	DM_FreeTheme();
 
@@ -617,7 +617,7 @@ void CChatRoomDlg::OnDestroy()
 
 	M.RemoveWindow(m_hwnd);
 
-	FireEvent(MSG_WINDOW_EVT_CLOSE, 0);
+	NotifyEvent(MSG_WINDOW_EVT_CLOSE);
 
 	m_pContainer->ClearMargins();
 	PostMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 1);
@@ -1312,11 +1312,10 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			return 0;
 		}
+
 		if (wParam != VK_RIGHT && wParam != VK_LEFT) {
-			mir_free(m_wszSearchQuery);
-			m_wszSearchQuery = nullptr;
-			mir_free(m_wszSearchResult);
-			m_wszSearchResult = nullptr;
+			replaceStrW(m_wszSearchQuery, nullptr);
+			replaceStrW(m_wszSearchResult, nullptr);
 		}
 
 		if (wParam == VK_F4 && isCtrl && !isAlt) { // ctrl-F4 (close tab)

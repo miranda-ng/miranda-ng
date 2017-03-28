@@ -812,6 +812,23 @@ void CSrmmBaseDialog::onDblClick_List(CCtrlListBox *pList)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+extern HANDLE hHookSrmmEvent;
+
+int CSrmmBaseDialog::NotifyEvent(int code)
+{
+	if (m_hContact == 0 && m_hwnd == nullptr)
+		return -1;
+
+	MessageWindowEventData mwe = {};
+	mwe.hContact = m_hContact;
+	mwe.hwndWindow = m_hwnd;
+	mwe.uType = code;
+	mwe.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
+	mwe.hwndInput = m_message.GetHwnd();
+	mwe.hwndLog = m_log.GetHwnd();
+	return ::NotifyEventHooks(hHookSrmmEvent, 0, (LPARAM)&mwe);
+}
+
 bool CSrmmBaseDialog::ProcessHotkeys(int key, bool isShift, bool isCtrl, bool isAlt)
 {
 	// Esc (close tab)

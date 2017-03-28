@@ -91,7 +91,7 @@ extern HWND SM_FindWindowByContact(MCONTACT hContact);
 extern HINSTANCE g_hInst;
 extern HCURSOR hDragCursor;
 extern ITaskbarList3 *pTaskbarInterface;
-extern HANDLE hHookWinPopup, hHookWinWrite, hHookWinEvt;
+extern HANDLE hHookWinPopup, hHookWinWrite;
 
 void ChangeStatusIcons();
 void LoadInfobarFonts();

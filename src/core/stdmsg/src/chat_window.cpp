@@ -64,7 +64,7 @@ void CChatRoomDlg::OnInitDialog()
 
 	WindowList_Add(pci->hWindowList, m_hwnd, m_hContact);
 
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
+	NotifyEvent(MSG_WINDOW_EVT_OPENING);
 
 	m_log.SendMsg(EM_AUTOURLDETECT, 1, 0);
 
@@ -89,12 +89,12 @@ void CChatRoomDlg::OnInitDialog()
 
 	SendMessage(m_hwnd, WM_SIZE, 0, 0);
 
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_OPEN);
+	NotifyEvent(MSG_WINDOW_EVT_OPEN);
 }
 
 void CChatRoomDlg::OnDestroy()
 {
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING);
+	NotifyEvent(MSG_WINDOW_EVT_CLOSING);
 
 	SaveWindowPosition(true);
 	if (!g_Settings.bTabsEnable) {
@@ -112,7 +112,7 @@ void CChatRoomDlg::OnDestroy()
 	m_si->wState &= ~STATE_TALK;
 	DestroyWindow(m_hwndStatus); m_hwndStatus = nullptr;
 
-	NotifyLocalWinEvent(m_hContact, m_hwnd, MSG_WINDOW_EVT_CLOSE);
+	NotifyEvent(MSG_WINDOW_EVT_CLOSE);
 
 	CSuper::OnDestroy();
 }
@@ -764,7 +764,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
 				return TRUE;
 
-			if (wParam == 0x46 && isCtrl && !isAlt) { // ctrl-f (paste clean text)
+			if (wParam == 0x46 && isCtrl && !isAlt) { // ctrl-f (toggle filter)
 				onClick_Filter(&m_btnFilter);
 				return TRUE;
 			}
