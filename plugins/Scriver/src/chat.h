@@ -74,7 +74,6 @@ void FreeMsgLogBitmaps(void);
 void ShowRoom(SESSION_INFO *si);
 
 // manager.c
-HWND          SM_FindWindowByContact(MCONTACT hContact);
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const wchar_t* pszOriginal, const wchar_t* pszCurrent);
 char          SM_GetStatusIndicator(SESSION_INFO *si, USERINFO *ui);
 

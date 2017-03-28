@@ -290,11 +290,8 @@ static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 		return 1;
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
-	if (hwnd == nullptr) {
-		hwnd = SM_FindWindowByContact(hContact);
-		if (hwnd == nullptr)
-			return 1;
-	}
+	if (hwnd == nullptr)
+		return 1;
 
 	CScriverWindow *dat = (CScriverWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (dat == nullptr || dat->m_pParent == nullptr)
@@ -438,9 +435,6 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, wParam);
-	if (hwnd == nullptr)
-		hwnd = SM_FindWindowByContact(wParam);
-
 	if (hwnd != nullptr)
 		SendMessage(hwnd, DM_SWITCHTYPING, 0, 0);
 	return 0;

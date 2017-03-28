@@ -280,37 +280,28 @@ void CTabBaseDlg::NotifyDeliveryFailure() const
 /////////////////////////////////////////////////////////////////////////////////////////
 // service function. Sets a status bar text for a contact
 
-static void SetStatusTextWorker(CTabBaseDlg *dat, StatusTextData *st)
-{
-	if (!dat)
-		return;
-
-	// delete old custom data
-	if (dat->m_sbCustom) {
-		delete dat->m_sbCustom;
-		dat->m_sbCustom = nullptr;
-	}
-
-	if (st != nullptr)
-		dat->m_sbCustom = new StatusTextData(*st);
-
-	dat->tabUpdateStatusBar();
-}
-
 static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 {
-	SESSION_INFO *si = SM_FindSessionByHCONTACT(hContact);
-	if (si == nullptr) {
-		HWND hwnd = M.FindWindow(hContact);
-		if (hwnd != nullptr)
-			SetStatusTextWorker((CTabBaseDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA), (StatusTextData*)lParam);
+	HWND hwnd = M.FindWindow(hContact);
+	if (hwnd == nullptr)
+		hwnd = M.FindWindow(db_mc_getMeta(hContact));
+	if (hwnd == nullptr)
+		return 0;
 
-		if (hContact = db_mc_getMeta(hContact))
-			if (hwnd = M.FindWindow(hContact))
-				SetStatusTextWorker((CTabBaseDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA), (StatusTextData*)lParam);
+	CTabBaseDlg *pDlg = (CTabBaseDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	if (pDlg != nullptr) {
+		// delete old custom data
+		if (pDlg->m_sbCustom) {
+			delete pDlg->m_sbCustom;
+			pDlg->m_sbCustom = nullptr;
+		}
+
+		StatusTextData *st = (StatusTextData*)lParam;
+		if (st != nullptr)
+			pDlg->m_sbCustom = new StatusTextData(*st);
+
+		pDlg->tabUpdateStatusBar();
 	}
-	else SetStatusTextWorker(si->pDlg, (StatusTextData*)lParam);
-
 	return 0;
 }
 
@@ -334,28 +325,6 @@ static INT_PTR SetUserPrefs(WPARAM wParam, LPARAM)
 static INT_PTR Service_OpenTrayMenu(WPARAM, LPARAM lParam)
 {
 	SendMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, lParam == 0 ? WM_LBUTTONUP : WM_RBUTTONUP);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// return the version of the window api supported
-
-static INT_PTR BroadcastMessage(WPARAM, LPARAM lParam)
-{
-	M.BroadcastMessage((UINT)lParam, 0, 0);
-	return 0;
-}
-
-static INT_PTR ReloadSkin(WPARAM, LPARAM)
-{
-	Skin->setFileName();
-	Skin->Load();
-	return 0;
-}
-
-static INT_PTR ReloadSettings(WPARAM, LPARAM lParam)
-{
-	PluginConfig.reloadSettings(lParam != 0);
 	return 0;
 }
 
@@ -1045,10 +1014,6 @@ static void TSAPI InitAPI()
 	CreateServiceFunction(MS_TABMSG_SETUSERPREFS, SetUserPrefs);
 	CreateServiceFunction(MS_TABMSG_TRAYSUPPORT, Service_OpenTrayMenu);
 	CreateServiceFunction(MS_TABMSG_SLQMGR, CSendLater::svcQMgr);
-
-	CreateServiceFunction("SRMsg/BroadcastMessage", BroadcastMessage);
-	CreateServiceFunction("TabSRMsg/ReloadSkin", ReloadSkin);
-	CreateServiceFunction("TabSRMsg/ReloadSettings", ReloadSettings);
 
 	SI_InitStatusIcons();
 	CB_InitCustomButtons();

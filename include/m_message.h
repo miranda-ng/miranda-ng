@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern int hLangpack;
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // brings up the send message dialog for a contact
 // wParam = (MCONTACT)hContact
 // lParam = (LPARAM)(char*)szText
@@ -37,18 +38,19 @@ extern int hLangpack;
 // szText is the text to put in the edit box of the window (but not send)
 // szText = NULL will not use any text
 // szText != NULL is only supported on v0.1.2.0+
+
 #define MS_MSG_SENDMESSAGE   "SRMsg/SendCommand"
 #define MS_MSG_SENDMESSAGEW  "SRMsg/SendCommandW"
 
-#define ME_MSG_WINDOWEVENT "MessageAPI/WindowEvent"
+/////////////////////////////////////////////////////////////////////////////////////////
+// gets fired when a message window appears/disappears
 // wparam = 0
 // lparam = (WPARAM)(MessageWindowEventData*)hWindowEvent;
 
-// Event types
-#define MSG_WINDOW_EVT_OPENING 1 //window is about to be opened
-#define MSG_WINDOW_EVT_OPEN    2 //window has been opened
-#define MSG_WINDOW_EVT_CLOSING 3 //window is about to be closed
-#define MSG_WINDOW_EVT_CLOSE   4 //window has been closed
+#define MSG_WINDOW_EVT_OPENING 1 // window is about to be opened
+#define MSG_WINDOW_EVT_OPEN    2 // window has been opened
+#define MSG_WINDOW_EVT_CLOSING 3 // window is about to be closed
+#define MSG_WINDOW_EVT_CLOSE   4 // window has been closed
 
 #define MSG_WINDOW_UFLAG_MSG_FROM 0x00000001
 #define MSG_WINDOW_UFLAG_MSG_TO   0x00000002
@@ -56,25 +58,27 @@ extern int hLangpack;
 
 struct MessageWindowEventData
 {
-	MCONTACT hContact;
+	MCONTACT hContact; 
 	HWND hwndWindow; // top level window for the contact
-	unsigned int uType; // see event types above
-	unsigned int uFlags; // used to indicate message direction for all event types except custom
-	void *local; // used to store pointer to custom data
-	HWND hwndInput; // input area window for the contact (or NULL if there is none)
-	HWND hwndLog; // log area window for the contact (or NULL if there is none)
+	uint32_t uType;  // see event types above
+	uint32_t uFlags; // used to indicate message direction for all event types except custom
+	HWND hwndInput;  // input area window for the contact (or NULL if there is none)
+	HWND hwndLog;    // log area window for the contact (or NULL if there is none)
 };
 
-struct StatusTextData
-{
-	HICON hIcon; 
-	wchar_t tszText[100];
-};
+#define ME_MSG_WINDOWEVENT "MessageAPI/WindowEvent"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // wparam = (MCONTACT)hContact
 // lparam = (StatusTextData*) or NULL to clear statusbar
 // Sets a statusbar line text for the appropriate contact
+
+struct StatusTextData
+{
+	HICON hIcon;
+	wchar_t tszText[100];
+};
+
 #define MS_MSG_SETSTATUSTEXT "MessageAPI/SetStatusText"
 
 /////////////////////////////////////////////////////////////////////////////////////////

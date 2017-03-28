@@ -21,23 +21,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HWND SM_FindWindowByContact(MCONTACT hContact)
-{
-	for (int i = 0; i < pci->arSessions.getCount(); i++) {
-		SESSION_INFO *si = pci->arSessions[i];
-		if (si->hContact == hContact)
-			return (si->pDlg) ? si->pDlg->GetHwnd() : nullptr;
-	}
-	return nullptr;
-}
-
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO *currSession, SESSION_INFO *prevSession, const wchar_t *pszOriginal, const wchar_t *pszCurrent)
 {
-	SESSION_INFO* pResult = nullptr;
+	SESSION_INFO *pResult = nullptr;
 	if (prevSession == nullptr && my_strstri(currSession->ptszName, pszOriginal) == currSession->ptszName)
 		pResult = currSession;
 	else {
-		wchar_t* pszName = nullptr;
+		wchar_t *pszName = nullptr;
 		if (currSession == prevSession)
 			pszCurrent = pszOriginal;
 
@@ -58,11 +48,10 @@ SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO *cu
 
 char SM_GetStatusIndicator(SESSION_INFO *si, USERINFO *ui)
 {
-	STATUSINFO * ti;
 	if (!ui || !si)
 		return '\0';
 
-	ti = pci->TM_FindStatus(si->pStatuses, pci->TM_WordToString(si->pStatuses, ui->Status));
+	STATUSINFO *ti = pci->TM_FindStatus(si->pStatuses, pci->TM_WordToString(si->pStatuses, ui->Status));
 	if (ti) {
 		if ((INT_PTR)ti->hIcon < STATUSICONCOUNT) {
 			INT_PTR id = si->iStatusCount - (INT_PTR)ti->hIcon - 1;
