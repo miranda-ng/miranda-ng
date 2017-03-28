@@ -139,7 +139,7 @@ void CALLBACK UpdateStatusIcons(LPARAM)
 	while (hContact != NULL) {
 		/* is a message window opened for this contact? */
 		MessageWindowData msgw; /* output */
-		if (!CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
+		if (!Srmm_GetWindowData(hContact, msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
 			if (bShowStatusIcon) {
 				int countryNumber = ServiceDetectContactOriginCountry(hContact, 0);
 				SetStatusIcon(hContact, countryNumber);

@@ -60,33 +60,6 @@ int SmileyAddOptionsChanged(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// wparam = (MessageWindowInputData*)
-// lparam = (MessageWindowData*)
-// returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
-
-static INT_PTR GetWindowData(WPARAM hContact, LPARAM lParam)
-{
-	if (hContact == 0)
-		return 1;
-
-	MessageWindowData *mwd = (MessageWindowData*)lParam;
-	if (mwd == nullptr)
-		return 1;
-
-	HWND hwnd = M.FindWindow(hContact);
-	if (hwnd) {
-		mwd->hwndWindow = hwnd;
-		mwd->local = GetParent(GetParent(hwnd));
-		SendMessage(hwnd, DM_GETWINDOWSTATE, 0, 0);
-		mwd->uState = GetWindowLongPtr(hwnd, DWLP_MSGRESULT);
-		return 0;
-	}
-
-	memset(mwd, 0, sizeof(*mwd));
-	return 1;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // basic window class
 
 CTabBaseDlg::CTabBaseDlg(int iResource, SESSION_INFO *si)
@@ -269,19 +242,6 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				*fResult = FALSE;
 		}
 		return 0;
-
-	case DM_GETWINDOWSTATE:
-		{
-			UINT state = MSG_WINDOW_STATE_EXISTS;
-			if (IsWindowVisible(m_hwnd))
-				state |= MSG_WINDOW_STATE_VISIBLE;
-			if (GetForegroundWindow() == m_pContainer->m_hwnd)
-				state |= MSG_WINDOW_STATE_FOCUS;
-			if (IsIconic(m_pContainer->m_hwnd))
-				state |= MSG_WINDOW_STATE_ICONIC;
-			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, state);
-		}
-		return true;
 
 	case DM_SPLITTERGLOBALEVENT:
 		DM_SplitterGlobalEvent(wParam, lParam);
@@ -1078,7 +1038,6 @@ static void TSAPI InitAPI()
 {
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
-	CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);
 	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
 
 	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);

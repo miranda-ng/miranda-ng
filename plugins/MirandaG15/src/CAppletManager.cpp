@@ -789,7 +789,7 @@ MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact, tstring strMessag
 bool CAppletManager::IsMessageWindowOpen(MCONTACT hContact)
 {
 	MessageWindowData mwd;
-	CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&mwd);
+	Srmm_GetWindowData(hContact, (LPARAM)&mwd);
 	if (mwd.uState & MSG_WINDOW_STATE_EXISTS)
 		return true;
 	return false;

@@ -1308,13 +1308,13 @@ bool CMsnProto::MSN_IsMeByContact(MCONTACT hContact, char* szEmail)
 
 bool MSN_MsgWndExist(MCONTACT hContact)
 {
-	MessageWindowData msgWinData = {};
-	bool res = CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&msgWinData) != 0;
+	MessageWindowData msgWinData;
+	bool res = Srmm_GetWindowData(hContact, msgWinData) != 0;
 	res = res || msgWinData.hwndWindow;
 	if (res) {
 		hContact = db_mc_getMeta(hContact);
 		if (hContact != 0) {
-			res = CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&msgWinData) != 0;
+			res = Srmm_GetWindowData(hContact, msgWinData) != 0;
 			res |= (msgWinData.hwndWindow == NULL);
 		}
 	}

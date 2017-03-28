@@ -111,7 +111,7 @@ int CDropbox::OnProtoAck(WPARAM, LPARAM lParam)
 
 		for (MCONTACT hContact = db_find_first(ack->szModule); hContact; hContact = db_find_next(hContact, ack->szModule)) {
 			MessageWindowData msgw;
-			if (!CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
+			if (!Srmm_GetWindowData(hContact, msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
 				BBButton bbd = {};
 				bbd.pszModuleName = MODULE;
 				bbd.dwButtonID = BBB_ID_FILE_SEND;

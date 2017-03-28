@@ -125,7 +125,7 @@ void CDropboxOptionsInterception::OnApply()
 		// hide tabsrmm button for intercepted accounts
 		for (MCONTACT hContact = db_find_first(acc->szModuleName); hContact; hContact = db_find_next(hContact, acc->szModuleName)) {
 			MessageWindowData msgw;
-			if (!CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
+			if (!Srmm_GetWindowData(hContact, msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
 				BBButton bbd = {};
 				bbd.pszModuleName = MODULE;
 				bbd.dwButtonID = BBB_ID_FILE_SEND;

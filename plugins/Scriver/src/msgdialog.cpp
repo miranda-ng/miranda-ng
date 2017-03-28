@@ -1335,19 +1335,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 		break;
 
-	case DM_GETWINDOWSTATE:
-		{
-			UINT state = MSG_WINDOW_STATE_EXISTS;
-			if (IsWindowVisible(m_hwnd))
-				state |= MSG_WINDOW_STATE_VISIBLE;
-			if (GetForegroundWindow() == m_hwndParent)
-				state |= MSG_WINDOW_STATE_FOCUS;
-			if (IsIconic(m_hwndParent))
-				state |= MSG_WINDOW_STATE_ICONIC;
-			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, state);
-		}
-		return TRUE;
-
 	case DM_ACTIVATE:
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) != WA_ACTIVE)

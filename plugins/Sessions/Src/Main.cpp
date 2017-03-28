@@ -396,7 +396,7 @@ INT_PTR CloseCurrentSession(WPARAM, LPARAM)
 {
 	while (session_list[0] != 0) {
 		MessageWindowData mwd;
-		CallService(MS_MSG_GETWINDOWDATA, session_list[0], (LPARAM)&mwd);
+		Srmm_GetWindowData(session_list[0], mwd);
 		SendMessage(mwd.hwndWindow, WM_CLOSE, 0, 0);
 	}
 	memset(session_list, 0, sizeof(session_list));

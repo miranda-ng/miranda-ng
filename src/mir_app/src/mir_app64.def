@@ -445,3 +445,4 @@ stubMessageProc @447 NONAME
 stubNicklistProc @448 NONAME
 Chat_GetTextPixelSize @449 NONAME
 ?NotifyEvent@CSrmmBaseDialog@@IEAAHH@Z @450 NONAME
+Srmm_GetWindowData @451

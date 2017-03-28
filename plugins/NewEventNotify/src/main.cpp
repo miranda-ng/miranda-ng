@@ -24,7 +24,6 @@
 
 #include "stdafx.h"
 
-int g_IsSrmmWindowAPI = 0;
 extern PLUGIN_DATA* PopupList[20];
 
 //---------------------------
@@ -113,8 +112,6 @@ int HookedInit(WPARAM, LPARAM)
 
 	if (pluginOptions.bMenuitem)
 		MenuitemInit(!pluginOptions.bDisable);
-
-	g_IsSrmmWindowAPI = ServiceExists(MS_MSG_GETWINDOWDATA) != 0;
 	return 0;
 }
 
@@ -169,12 +166,10 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 
 int CheckMsgWnd(MCONTACT hContact)
 {
-	if (g_IsSrmmWindowAPI) {
-		MessageWindowData mwd;
-		if (!CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&mwd))
-			if (mwd.hwndWindow != NULL && (mwd.uState & MSG_WINDOW_STATE_EXISTS))
-				return 1;
-	}
+	MessageWindowData mwd;
+	if (!Srmm_GetWindowData(hContact, mwd))
+		if (mwd.hwndWindow != NULL && (mwd.uState & MSG_WINDOW_STATE_EXISTS))
+			return 1;
 
 	return 0;
 }

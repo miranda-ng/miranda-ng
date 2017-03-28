@@ -25,7 +25,7 @@
 bool CheckMsgWnd(MCONTACT hContact)
 {
 	MessageWindowData mwd;
-	if (CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&mwd) != NULL)
+	if (Srmm_GetWindowData(hContact, mwd) != NULL)
 		return false;
 
 	if (mwd.hwndWindow != NULL && (mwd.uState & MSG_WINDOW_STATE_EXISTS))

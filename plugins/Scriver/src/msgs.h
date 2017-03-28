@@ -263,7 +263,6 @@ public:
 #define DM_SWITCHRTL           (WM_USER+51)
 #define DM_SWITCHTYPING        (WM_USER+53)
 #define DM_MESSAGESENDING      (WM_USER+54)
-#define DM_GETWINDOWSTATE      (WM_USER+55)
 #define DM_STATUSICONCHANGE    (WM_USER+56)
 
 #define DM_MYAVATARCHANGED     (WM_USER+62)

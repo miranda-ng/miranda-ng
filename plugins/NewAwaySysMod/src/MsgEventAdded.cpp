@@ -86,7 +86,7 @@ int IsSRMsgWindowOpen(MCONTACT hContact, int DefaultRetVal)
 {
 	if (ServiceExists(MS_MSG_GETWINDOWDATA)) {
 		MessageWindowData mwd;
-		return !CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&mwd) && mwd.hwndWindow;
+		return !Srmm_GetWindowData(hContact, (LPARAM)&mwd) && mwd.hwndWindow;
 	}
 
 	return DefaultRetVal;

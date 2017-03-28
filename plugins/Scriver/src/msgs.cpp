@@ -283,22 +283,6 @@ static void RestoreUnreadMessageAlerts(void)
 	}
 }
 
-static INT_PTR GetWindowData(WPARAM hContact, LPARAM lParam)
-{
-	if (hContact == 0)
-		return 1;
-
-	MessageWindowData *mwd = (MessageWindowData*)lParam;
-	if (mwd == nullptr)
-		return 1;
-
-	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
-	mwd->hwndWindow = hwnd;
-	mwd->local = 0;
-	mwd->uState = SendMessage(hwnd, DM_GETWINDOWSTATE, 0, 0);
-	return 0;
-}
-
 static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 {
 	StatusTextData *st = (StatusTextData*)lParam;
@@ -679,7 +663,6 @@ int OnLoadModule(void)
 
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommandW);
-	CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);
 	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
 	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
 	CreateServiceFunction("SRMsg/TypingMessage", TypingMessageCommand);

@@ -85,14 +85,12 @@ struct MessageWindowData
 {
 	HWND hwndWindow; //top level window for the contact or NULL if no window exists
 	int uState; // see window states
-	void *local; // used to store pointer to custom data
+	class CSrmmBaseDialog *pDlg; // window class object
 };
 
-// wparam = (MCONTACT)hContact
-// lparam = (MessageWindowData*)
-// returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
-#define MS_MSG_GETWINDOWDATA "MessageAPI/GetWindowData"
+EXTERN_C MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd);
 
+///////////////////////////////////////////////////////////////////
 // wparam = 0 (unused)
 // lparam = (MessageWindowEvent*)
 // fired before SRMM writes an entered message into the database

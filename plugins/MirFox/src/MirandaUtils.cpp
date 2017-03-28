@@ -357,7 +357,7 @@ int MirandaUtils::on_hook_OpenMW(WPARAM wParam, LPARAM lParam)
 	}
 
 	MessageWindowData mwd;
-	if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)param->targetHandle, (LPARAM)&mwd) && mwd.hwndWindow){
+	if (!Srmm_GetWindowData((WPARAM)param->targetHandle, (LPARAM)&mwd) && mwd.hwndWindow){
 		HWND parent;
 		HWND hWnd = mwd.hwndWindow;
 		while((parent = GetParent(hWnd)) != 0)

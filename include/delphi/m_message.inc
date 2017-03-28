@@ -69,22 +69,14 @@ const
   MSG_WINDOW_STATE_ICONIC  = $00000008;
 
 type
-  PMessageWindowOutputData = ^TMessageWindowOutputData;
-  TMessageWindowOutputData = record
+  PMessageWindowData = ^TMessageWindowData;
+  TMessageWindowData = record
     hwndWindow: HWND;    // top level window for the contact or NULL if no window exists
     uState    : int;     // see window states
     local     : pointer; // used to store pointer to custom data
   end;
-  PMessageWindowData = PMessageWindowOutputData;
-  TMessageWindowData = TMessageWindowOutputData;
 
-const
-{ wparam=(MessageWindowInputData*)
-  lparam=(MessageWindowOutputData*)
-  returns 0 on success and returns non-zero (1) on error or if no window data
-  exists for that hcontact
-}
-  MS_MSG_GETWINDOWDATA:PAnsiChar = 'MessageAPI/GetWindowData';
+function Srmm_GetWindowData(hContact:TMCONTACT; pResult:PMessageWindowData) : int; stdcall; external AppDll;
 
 type
   PStatusTextData = ^TStatusTextData;

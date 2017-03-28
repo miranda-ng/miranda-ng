@@ -843,7 +843,7 @@ BOOL CheckMsgWnd(MCONTACT hContact, BOOL *focus)
 {
 	if (hContact) {
 		MessageWindowData mwd;
-		if (!CallService(MS_MSG_GETWINDOWDATA, hContact, (LPARAM)&mwd) && mwd.hwndWindow) {
+		if (!Srmm_GetWindowData(hContact, mwd) && mwd.hwndWindow) {
 			*focus = mwd.uState & MSG_WINDOW_STATE_FOCUS;
 			return TRUE;
 		}

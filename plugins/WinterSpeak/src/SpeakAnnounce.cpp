@@ -148,7 +148,7 @@ bool SpeakAnnounce::readMessage(MCONTACT contact)
 	if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen) || m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogFocused)) {
 		// Do not notify if window is already opened
 		MessageWindowData mwd;
-		if (CallService(MS_MSG_GETWINDOWDATA, contact, (LPARAM)&mwd) == 0) {
+		if (Srmm_GetWindowData(contact, (LPARAM)&mwd) == 0) {
 			if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen))
 				return ((mwd.uState & MSG_WINDOW_STATE_EXISTS) == 0);
 			else if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogFocused))

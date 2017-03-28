@@ -40,7 +40,7 @@ INT_PTR ShakeChat(WPARAM wParam, LPARAM)
 	if (((HANDLE)wParam) == NULL) return -1;
 
 	MessageWindowData mwd;
-	CallService(MS_MSG_GETWINDOWDATA, db_mc_tryMeta(wParam), (LPARAM)&mwd);
+	Srmm_GetWindowData(db_mc_tryMeta(wParam), mwd);
 
 	HWND parent;
 	HWND hWnd = mwd.hwndWindow;

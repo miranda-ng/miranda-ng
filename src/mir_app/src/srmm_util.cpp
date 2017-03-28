@@ -72,3 +72,25 @@ MIR_APP_DLL(DWORD) CALLBACK Srmm_MessageStreamCallback(DWORD_PTR dwCookie, LPBYT
 	}
 	return 0;
 }
+
+MIR_APP_DLL(int) Srmm_GetWindowData(WPARAM hContact, MessageWindowData &mwd)
+{
+	if (hContact == 0)
+		return 1;
+
+	HWND hwnd = WindowList_Find(chatApi.hWindowList, hContact);
+	if (hwnd == nullptr)
+		return 1;
+
+	mwd.hwndWindow = hwnd;
+	mwd.pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	mwd.uState = MSG_WINDOW_STATE_EXISTS;
+	if (IsWindowVisible(hwnd))
+		mwd.uState |= MSG_WINDOW_STATE_VISIBLE;
+	if (GetForegroundWindow() == hwnd)
+		mwd.uState |= MSG_WINDOW_STATE_FOCUS;
+	if (IsIconic(hwnd))
+		mwd.uState |= MSG_WINDOW_STATE_ICONIC;
+	return 0;
+}
+
