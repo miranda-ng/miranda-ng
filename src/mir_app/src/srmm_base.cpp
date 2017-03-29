@@ -298,7 +298,10 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	return mir_callNextSubclass(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
+	LRESULT res = mir_callNextSubclass(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
+	if (msg == WM_GETDLGCODE)
+		return res & ~DLGC_HASSETSEL;
+	return res;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -314,7 +317,10 @@ EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubMessageProc(HWND hwnd, UINT msg, WPAR
 
 LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	return mir_callNextSubclass(m_message.GetHwnd(), stubMessageProc, msg, wParam, lParam);
+	LRESULT res = mir_callNextSubclass(m_message.GetHwnd(), stubMessageProc, msg, wParam, lParam);
+	if (msg == WM_GETDLGCODE)
+		return res & ~DLGC_HASSETSEL;
+	return res;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
