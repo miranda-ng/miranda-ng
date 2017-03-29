@@ -22,7 +22,7 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 	debugLogA("CVkProto::SendFile");
 
 	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-	if (!IsOnline() || ((userID == VK_INVALID_USER || userID == VK_FEED_USER) && !isChatRoom(hContact)))
+	if (!IsOnline() || ((userID == VK_INVALID_USER || userID == VK_FEED_USER) && !isChatRoom(hContact)) || !files || !files[0])
 		return (HANDLE)0;
 
 	CVkFileUploadParam *fup = new CVkFileUploadParam(hContact, desc, files);
@@ -51,6 +51,10 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 	}
 	pReq->pUserInfo = fup;
 	Push(pReq);
+
+	if (files[1])
+		SendFile(hContact, L"", &files[1]);
+
 	return (HANDLE)fup;
 }
 
@@ -250,6 +254,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	AsyncHttpRequest *pUploadReq;
 
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)fup);
+	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)fup);
 
 	switch (fup->GetType()) {
 	case CVkFileUploadParam::typeImg:
