@@ -51,13 +51,13 @@ while (t > 0) {
     t = t - 1;
     if (res.length > 0) t = 0;
 };
-return { "freeoffline": 1, "norepeat": Args.norepeat, "usercount": res.length, "users": res, "requests": API.friends.getRequests({ "extended": 0, "need_mutual": 0, "out": 0 }) };
+return { "freeoffline": 1, "norepeat": parseInt(Args.norepeat), "usercount": res.length, "users": res, "requests": API.friends.getRequests({ "extended": 0, "need_mutual": 0, "out": 0 }) };
 
 // ver 2
 if (Args.setonline == 1)
     API.account.setOnline();
 var res = API.users.get({ "user_ids": Args.userids, "fields": Args.fields, "name_case": "nom" });
-return { "freeoffline": 0, "norepeat": Args.norepeat, "usercount": res.length, "users": res, "requests": API.friends.getRequests({ "extended": 0, "need_mutual": 0, "out": 0 }) };
+return { "freeoffline": 0, "norepeat": parseInt(Args.norepeat), "usercount": res.length, "users": res, "requests": API.friends.getRequests({ "extended": 0, "need_mutual": 0, "out": 0 }) };
 // Stored procedure name: RetrieveUsersInfo = End
 
 
@@ -97,7 +97,7 @@ while (Idx < FMsgs.length) {
     Idx = Idx + 1;
 };
 var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
-return { "count": index, "datetime": Args.time, "items": ret, "fwd_users": FUsers, "once": Args.once, "rcount": Args.reqcount };
+return { "count": index, "datetime": parseInt(Args.time), "items": ret, "fwd_users": FUsers, "once": parseInt(Args.once), "rcount": parseInt(Args.reqcount) };
 // Stored procedure name: GetServerHistory = End
 
 // Stored procedure name: RetrieveMessagesByIds = Begin
