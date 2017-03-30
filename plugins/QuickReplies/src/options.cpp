@@ -19,35 +19,32 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
+static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg)  {
+	switch (msg) {
 	case WM_CHAR:
-		if (wParam == 1 && GetKeyState(VK_CONTROL) & 0x8000) 
-		{	// ctrl-a
+		if (wParam == 1 && GetKeyState(VK_CONTROL) & 0x8000) {	// ctrl-a
 			SendMessage(hwnd, EM_SETSEL, 0, -1);
 			return 0;
 		}
 
-		if (wParam == 26 && GetKeyState(VK_CONTROL) & 0x8000) 
-		{	// ctrl-z
+		if (wParam == 26 && GetKeyState(VK_CONTROL) & 0x8000) {	// ctrl-z
 			SendMessage(hwnd, EM_UNDO, 0, 0);
 			return 0;
 		}
 
-		if (wParam == 127 && GetKeyState(VK_CONTROL) & 0x8000) 
-		{	// ctrl-backspace
+		if (wParam == 127 && GetKeyState(VK_CONTROL) & 0x8000) {	// ctrl-backspace
 			DWORD start, end;
 			WCHAR text[1024];
 
-			SendMessage(hwnd, EM_GETSEL, (WPARAM) & end, (LPARAM) (PDWORD) NULL);
+			SendMessage(hwnd, EM_GETSEL, (WPARAM)&end, 0);
 			SendMessage(hwnd, WM_KEYDOWN, VK_LEFT, 0);
-			SendMessage(hwnd, EM_GETSEL, (WPARAM) & start, (LPARAM) (PDWORD) NULL);
+			SendMessage(hwnd, EM_GETSEL, (WPARAM)&start, 0);
 			GetWindowText(hwnd, text, _countof(text));
-			memmove(text + start, text + end, sizeof(WCHAR) * (mir_wstrlen(text) + 1 - end));
+			memmove(text + start, text + end, sizeof(WCHAR)*(mir_wstrlen(text) + 1 - end));
 			SetWindowText(hwnd, text);
 			SendMessage(hwnd, EM_SETSEL, start, start);
-			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), EN_CHANGE), (LPARAM) hwnd);
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), EN_CHANGE), (LPARAM)hwnd);
 			return 0;
 		}
 		break;
@@ -58,7 +55,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam
 
 INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch(uMsg) {
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
 			char key[64];
@@ -77,12 +74,10 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			mir_snprintf(key, "RepliesCount_%x", iNumber);
 			count = db_get_w(NULL, MODULE, key, 0);
 
-			for (int i = 0; i < count; i++)
-			{
+			for (int i = 0; i < count; i++) {
 				mir_snprintf(key, "Reply_%x_%x", iNumber, i);
 				wchar_t *value = db_get_wsa(NULL, MODULE, key);
-				if (value)
-				{
+				if (value) {
 					replies.Append(value);
 					replies.Append(L"\r\n");
 				}
@@ -94,7 +89,7 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 
 	case WM_COMMAND:
 		if (HIWORD(wParam) == BN_CLICKED) {
-			switch(LOWORD(wParam)) {
+			switch (LOWORD(wParam)) {
 			case IDC_VARIABLES:
 				variables_showhelp(hwndDlg, IDC_REPLIES, VHF_SIMPLEDLG, NULL, NULL);
 				break;
@@ -120,8 +115,7 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					mir_snprintf(key, "RepliesCount_%x", iNumber);
 					count = db_get_b(NULL, MODULE, key, 0);
 
-					for (int i = 0; i < count; i++)
-					{
+					for (int i = 0; i < count; i++) {
 						mir_snprintf(key, "Reply_%x_%x", iNumber, i);
 						db_unset(NULL, MODULE, key);
 					}
@@ -137,8 +131,7 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 
 						count = 0;
 						int pos = -1, prev = 0;
-						while ((pos = replies.Find(L"\r\n", prev)) != -1)
-						{
+						while ((pos = replies.Find(L"\r\n", prev)) != -1) {
 							mir_snprintf(key, "Reply_%x_%x", iNumber, count++);
 							db_set_ws(NULL, MODULE, key, replies.Mid(prev, pos - prev).GetBuffer());
 							prev = pos + 2;
@@ -150,7 +143,7 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					db_set_w(NULL, MODULE, key, count);
 
 					mir_snprintf(key, "ImmediatelySend_%x", iNumber);
-					db_set_b(NULL, MODULE, key, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IMMEDIATELY));
+					db_set_b(NULL, MODULE, key, IsDlgButtonChecked(hwndDlg, IDC_IMMEDIATELY));
 
 					return TRUE;
 				}

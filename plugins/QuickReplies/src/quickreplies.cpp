@@ -52,12 +52,10 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	mir_getLP(&pluginInfoEx);
 
 	hOnModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	hOnPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
-
 	return 0;
 }
 

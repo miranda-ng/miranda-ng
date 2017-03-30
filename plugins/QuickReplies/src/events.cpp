@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2010 Unsane
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "stdafx.h"
@@ -38,7 +38,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 {
 	UnhookEvent(hOnModulesLoaded);
 
-	if ( !ServiceExists(MS_QUICKREPLIES_SERVICE)) {
+	if (!ServiceExists(MS_QUICKREPLIES_SERVICE)) {
 		iNumber = 0;
 		hQuickRepliesService = CreateServiceFunction(MS_QUICKREPLIES_SERVICE, QuickRepliesService);
 	}
@@ -61,7 +61,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	bbd.hIcon = icon.hIcolib;
 	bbd.dwButtonID = iNumber;
 	bbd.dwDefPos = 220;
-
 	Srmm_AddButton(&bbd);
 	return 0;
 }
@@ -82,8 +81,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 	mir_snprintf(key, "RepliesCount_%x", iNumber);
 	int count = db_get_w(NULL, MODULE, key, 0);
 
-	if (count == 0 || cbcd->flags & BBCF_RIGHTBUTTON)
-	{
+	if (count == 0 || cbcd->flags & BBCF_RIGHTBUTTON) {
 		mir_snprintf(buttonName, "%s %x", Translate("Button"), iNumber + 1);
 		Options_Open(L"Message Sessions", L"Quick Replies", _A2T(buttonName));
 		return 0;
@@ -92,12 +90,10 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 	HMENU hMenu = CreatePopupMenu();
 
 	LIST<wchar_t> replyList(1);
-	for (int i = 0; i < count; i++)
-	{
+	for (int i = 0; i < count; i++) {
 		mir_snprintf(key, "Reply_%x_%x", iNumber, i);
-		wchar_t *value = db_get_wsa(NULL, MODULE, key);
-
-		if (!value)
+		ptrW value(db_get_wsa(NULL, MODULE, key));
+		if (value == nullptr)
 			replyList.insert(mir_wstrdup(L""));
 		else
 			replyList.insert(variables_parsedup(value, 0, wParam));
@@ -106,26 +102,19 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 			AppendMenu((HMENU)hMenu, MF_SEPARATOR, i + 1, NULL);
 		else
 			AppendMenu((HMENU)hMenu, MF_STRING, i + 1, replyList[i]);
-
-		mir_free(value);
 	}
 
 	int index = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);
-	if (index > 0)
-	{
-		if (mir_wstrcmp(replyList[index - 1], L""))
-		{
-			HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_MESSAGE);
-			if (!hEdit) hEdit = GetDlgItem(cbcd->hwndFrom, IDC_CHATMESSAGE);
-
-			SendMessage(hEdit, EM_REPLACESEL, TRUE, (LPARAM)replyList[index - 1]);
+	if (index > 0) {
+		if (mir_wstrcmp(replyList[index - 1], L"")) {
+			CallService(MS_MSG_SENDMESSAGEW, cbcd->hContact, (LPARAM)replyList[index - 1]);
 
 			mir_snprintf(key, "ImmediatelySend_%x", iNumber);
-			if ((BYTE)db_get_b(NULL, MODULE, key, 1) || cbcd->flags & BBCF_CONTROLPRESSED)
+			if (db_get_b(NULL, MODULE, key, 1) || cbcd->flags & BBCF_CONTROLPRESSED)
 				SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
 		}
 	}
-	
+
 	for (int i = 0; i < replyList.getCount(); i++)
 		mir_free(replyList[i]);
 	replyList.destroy();
