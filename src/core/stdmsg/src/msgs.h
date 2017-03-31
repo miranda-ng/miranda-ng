@@ -99,7 +99,7 @@ public:
 	HBITMAP m_avatarPic;
 
 public:
-	CSrmmWindow(MCONTACT hContact, bool bNoActivate, const char *szInitialText = NULL, bool bIsUnicode = false);
+	CSrmmWindow(MCONTACT hContact, bool bNoActivate, const char *szInitialText = nullptr, bool bIsUnicode = false);
 
 	virtual void OnInitDialog() override;
 	virtual void OnDestroy() override;

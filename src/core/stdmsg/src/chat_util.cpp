@@ -69,10 +69,10 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 
 	//get the number of pixels per logical inch
 	if (bRedraw) {
-		HDC hdc = GetDC(NULL);
+		HDC hdc = GetDC(nullptr);
 		pci->logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		pci->logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
 		bFlag = TRUE;
 	}
@@ -94,7 +94,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 		sm.cbSize = sizeof(sm);
 		sm.hwndRichEditControl = m_log.GetHwnd();
 		sm.Protocolname = m_si->pszModule;
-		sm.rangeToReplace = bRedraw ? NULL : &newsel;
+		sm.rangeToReplace = bRedraw ? nullptr : &newsel;
 		sm.disableRedraw = TRUE;
 		sm.hContact = m_si->hContact;
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
@@ -110,7 +110,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 	if (oldsel.cpMax != oldsel.cpMin) {
 		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldsel);
 		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
-		InvalidateRect(m_log.GetHwnd(), NULL, TRUE);
+		InvalidateRect(m_log.GetHwnd(), nullptr, TRUE);
 	}
 
 	// need to invalidate the window
@@ -118,7 +118,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 		sel.cpMin = sel.cpMax = GetRichTextLength(m_log.GetHwnd());
 		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
-		InvalidateRect(m_log.GetHwnd(), NULL, TRUE);
+		InvalidateRect(m_log.GetHwnd(), nullptr, TRUE);
 	}
 }
 
@@ -127,9 +127,9 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si)
 {
 	if (hwndDlg == 0 || si == 0)
-		return NULL;
+		return nullptr;
 
-	char* pszText = NULL;
+	char* pszText = nullptr;
 	EDITSTREAM stream;
 	memset(&stream, 0, sizeof(stream));
 	stream.pfnCallback = Srmm_MessageStreamCallback;
@@ -176,7 +176,7 @@ void CheckColorsInModule(const char* pszModule)
 	if (!pMod)
 		return;
 
-	COLORREF crBG = (COLORREF)db_get_dw(NULL, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
+	COLORREF crBG = (COLORREF)db_get_dw(0, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
 	for (int i = 0; i < pMod->nColorCount; i++) {
 		if (pMod->crColors[i] == g_Settings.MessageAreaColor || pMod->crColors[i] == crBG) {
 			if (pMod->crColors[i] == RGB(255, 255, 255))
@@ -211,6 +211,6 @@ int RestoreWindowPosition(HWND hwnd, MCONTACT hContact, bool bHide)
 	DWORD dwFlags = SWP_NOACTIVATE | SWP_NOZORDER;
 	if (bHide)
 		dwFlags |= SWP_HIDEWINDOW;
-	SetWindowPos(hwnd, NULL, x, y, width, height, dwFlags);
+	SetWindowPos(hwnd, nullptr, x, y, width, height, dwFlags);
 	return 1;
 }

@@ -63,7 +63,7 @@ static void AppendPlainUnicode(CMStringA &buf, const wchar_t *str)
 
 static void AppendToBufferWithRTF(CMStringA &buf, const wchar_t *line)
 {
-	if (line == NULL)
+	if (line == nullptr)
 		return;
 
 	buf.Append("{\\uc1 ");
@@ -148,22 +148,22 @@ static void AppendToBufferWithRTF(CMStringA &buf, const wchar_t *line)
 
 static void CreateRTFHeader(CMStringA &buffer)
 {
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-	ReleaseDC(NULL, hdc);
+	ReleaseDC(nullptr, hdc);
 
 	buffer.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
 
 	LOGFONT lf;
-	for (int i = 0; LoadMsgDlgFont(i, &lf, NULL); i++)
+	for (int i = 0; LoadMsgDlgFont(i, &lf, nullptr); i++)
 		buffer.AppendFormat(FONT_FORMAT, i, lf.lfCharSet, lf.lfFaceName);
 
 	buffer.Append("}{\\colortbl ");
 	COLORREF colour;
-	for (int i = 0; LoadMsgDlgFont(i, NULL, &colour); i++)
+	for (int i = 0; LoadMsgDlgFont(i, nullptr, &colour); i++)
 		buffer.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 
-	if (GetSysColorBrush(COLOR_HOTLIGHT) == NULL)
+	if (GetSysColorBrush(COLOR_HOTLIGHT) == nullptr)
 		colour = RGB(0, 0, 255);
 	else
 		colour = GetSysColor(COLOR_HOTLIGHT);
@@ -181,7 +181,7 @@ static void CreateRTFTail(CMStringA &buffer)
 static void SetToStyle(int style, CMStringA &dest)
 {
 	LOGFONT lf;
-	LoadMsgDlgFont(style, &lf, NULL);
+	LoadMsgDlgFont(style, &lf, nullptr);
 	if (style != MSGFONTID_MYCOLON && style != MSGFONTID_YOURCOLON)
 		dest.AppendChar(' ');
 	dest.AppendFormat("\\f%u\\cf%u\\b%d\\i%d\\fs%u ", style, style, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / logPixelSY);
@@ -258,7 +258,7 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 		else
 			szFormat = g_dat.bShowDate ? L"d t" : L"t";
 
-		TimeZone_PrintTimeStamp(NULL, dbei.timestamp, szFormat, str, _countof(str), 0);
+		TimeZone_PrintTimeStamp(nullptr, dbei.timestamp, szFormat, str, _countof(str), 0);
 
 		SetToStyle((dbei.flags & DBEF_SENT) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME, buf);
 		AppendToBufferWithRTF(buf, str);
@@ -269,7 +269,7 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 		wchar_t *szName;
 
 		if (dbei.flags & DBEF_SENT) {
-			if (wchar_t *p = Contact_GetInfo(CNF_DISPLAY, NULL, dbei.szModule))
+			if (wchar_t *p = Contact_GetInfo(CNF_DISPLAY, 0, dbei.szModule))
 				szName = NEWWSTR_ALLOCA(p);
 			else
 				szName = TranslateT("Me");
@@ -289,7 +289,7 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 	case EVENTTYPE_JABBER_CHATSTATES:
 	case EVENTTYPE_JABBER_PRESENCE:
 		if (dbei.flags & DBEF_SENT) {
-			if (wchar_t *p = Contact_GetInfo(CNF_DISPLAY, NULL, dbei.szModule)) {
+			if (wchar_t *p = Contact_GetInfo(CNF_DISPLAY, 0, dbei.szModule)) {
 				szName = NEWWSTR_ALLOCA(p);
 				mir_free(p);
 			}
@@ -448,7 +448,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 
 	m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
 	if (bottomScroll)
-		RedrawWindow(m_log.GetHwnd(), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+		RedrawWindow(m_log.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 
 	m_hDbEventLast = streamData.hDbEventLast;
 }
@@ -456,7 +456,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 #define RTFPICTHEADERMAXSIZE   78
 void LoadMsgLogIcons(void)
 {
-	HBRUSH hBkgBrush = CreateSolidBrush(db_get_dw(NULL, SRMMMOD, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
+	HBRUSH hBkgBrush = CreateSolidBrush(db_get_dw(0, SRMMMOD, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
 
 	BITMAPINFOHEADER bih = { sizeof(bih) };
 	bih.biBitCount = 24;
@@ -471,7 +471,7 @@ void LoadMsgLogIcons(void)
 	rc.right = bih.biWidth;
 	rc.bottom = bih.biHeight;
 
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	HBITMAP hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	PBYTE pBmpBits = (PBYTE)mir_alloc(widthBytes * bih.biHeight);
@@ -483,7 +483,7 @@ void LoadMsgLogIcons(void)
 		size_t rtfHeaderSize = mir_snprintf(pLogIconBmpBits[i], size, "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, bih.biWidth, bih.biHeight);
 		HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
 		FillRect(hdcMem, &rc, hBkgBrush);
-		DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, NULL, DI_NORMAL);
+		DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, nullptr, DI_NORMAL);
 		IcoLib_ReleaseIcon(hIcon);
 
 		SelectObject(hdcMem, hoBmp);
@@ -497,7 +497,7 @@ void LoadMsgLogIcons(void)
 	mir_free(pBmpBits);
 	DeleteDC(hdcMem);
 	DeleteObject(hBmp);
-	ReleaseDC(NULL, hdc);
+	ReleaseDC(nullptr, hdc);
 	DeleteObject(hBkgBrush);
 }
 

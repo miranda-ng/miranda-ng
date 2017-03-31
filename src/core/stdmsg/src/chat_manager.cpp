@@ -59,7 +59,7 @@ SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si)
 
 CHAT_MANAGER *pci;
 
-HMENU g_hMenu = NULL;
+HMENU g_hMenu = nullptr;
 
 BOOL SmileyAddInstalled = FALSE, PopupInstalled = FALSE;
 HIMAGELIST hIconsList;
@@ -82,7 +82,7 @@ static void OnCreateModule(MODULEINFO *mi)
 static void OnReplaceSession(SESSION_INFO *si)
 {
 	if (si->pDlg)
-		RedrawWindow(GetDlgItem(si->pDlg->GetHwnd(), IDC_SRMM_NICKLIST), NULL, NULL, RDW_INVALIDATE);
+		RedrawWindow(GetDlgItem(si->pDlg->GetHwnd(), IDC_SRMM_NICKLIST), nullptr, nullptr, RDW_INVALIDATE);
 }
 
 static void OnNewUser(SESSION_INFO *si, USERINFO*)
@@ -97,7 +97,7 @@ static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
 		return;
 
 	if (!g_Settings.bTabsEnable && si->pDlg && g_Settings.bFlashWindowHighlight)
-		SetTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND, 900, NULL);
+		SetTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND, 900, nullptr);
 	if (g_Settings.bTabsEnable && si->pDlg)
 		pDialog->SetMessageHighlight(si->pDlg);
 }
@@ -108,7 +108,7 @@ static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 		return;
 
 	if (!g_Settings.bTabsEnable && si->pDlg && g_Settings.bFlashWindow)
-		SetTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND, 900, NULL);
+		SetTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND, 900, nullptr);
 	if (g_Settings.bTabsEnable && si->pDlg)
 		pDialog->SetTabHighlight(si->pDlg);
 }
@@ -136,18 +136,18 @@ static void OnLoadSettings()
 	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &g_Settings.MessageAreaColor);
 	g_Settings.MessageAreaFont = CreateFontIndirect(&lf);
 
-	g_Settings.iX = db_get_dw(NULL, CHAT_MODULE, "roomx", -1);
-	g_Settings.iY = db_get_dw(NULL, CHAT_MODULE, "roomy", -1);
+	g_Settings.iX = db_get_dw(0, CHAT_MODULE, "roomx", -1);
+	g_Settings.iY = db_get_dw(0, CHAT_MODULE, "roomy", -1);
 
-	g_Settings.bTabsEnable = db_get_b(NULL, CHAT_MODULE, "Tabs", 1) != 0;
-	g_Settings.bTabRestore = db_get_b(NULL, CHAT_MODULE, "TabRestore", 0) != 0;
-	g_Settings.bTabsAtBottom = db_get_b(NULL, CHAT_MODULE, "TabBottom", 0) != 0;
-	g_Settings.bTabCloseOnDblClick = db_get_b(NULL, CHAT_MODULE, "TabCloseOnDblClick", 0) != 0;
+	g_Settings.bTabsEnable = db_get_b(0, CHAT_MODULE, "Tabs", 1) != 0;
+	g_Settings.bTabRestore = db_get_b(0, CHAT_MODULE, "TabRestore", 0) != 0;
+	g_Settings.bTabsAtBottom = db_get_b(0, CHAT_MODULE, "TabBottom", 0) != 0;
+	g_Settings.bTabCloseOnDblClick = db_get_b(0, CHAT_MODULE, "TabCloseOnDblClick", 0) != 0;
 
-	g_Settings.iSplitterX = db_get_w(NULL, CHAT_MODULE, "SplitterX", 105);
+	g_Settings.iSplitterX = db_get_w(0, CHAT_MODULE, "SplitterX", 105);
 	if (g_Settings.iSplitterX <= 50)
 		g_Settings.iSplitterX = 105;
-	g_Settings.iSplitterY = db_get_w(NULL, CHAT_MODULE, "SplitterY", 90);
+	g_Settings.iSplitterY = db_get_w(0, CHAT_MODULE, "SplitterY", 90);
 	if (g_Settings.iSplitterY <= 65)
 		g_Settings.iSplitterY = 90;
 }
@@ -225,12 +225,12 @@ void Load_ChatModule()
 
 void Unload_ChatModule()
 {
-	db_set_w(NULL, CHAT_MODULE, "SplitterX", (WORD)g_Settings.iSplitterX);
-	db_set_w(NULL, CHAT_MODULE, "SplitterY", (WORD)g_Settings.iSplitterY);
-	db_set_dw(NULL, CHAT_MODULE, "roomx", g_Settings.iX);
-	db_set_dw(NULL, CHAT_MODULE, "roomy", g_Settings.iY);
-	db_set_dw(NULL, CHAT_MODULE, "roomwidth", g_Settings.iWidth);
-	db_set_dw(NULL, CHAT_MODULE, "roomheight", g_Settings.iHeight);
+	db_set_w(0, CHAT_MODULE, "SplitterX", (WORD)g_Settings.iSplitterX);
+	db_set_w(0, CHAT_MODULE, "SplitterY", (WORD)g_Settings.iSplitterY);
+	db_set_dw(0, CHAT_MODULE, "roomx", g_Settings.iX);
+	db_set_dw(0, CHAT_MODULE, "roomy", g_Settings.iY);
+	db_set_dw(0, CHAT_MODULE, "roomwidth", g_Settings.iWidth);
+	db_set_dw(0, CHAT_MODULE, "roomheight", g_Settings.iHeight);
 
 	if (g_Settings.MessageAreaFont)
 		DeleteObject(g_Settings.MessageAreaFont);

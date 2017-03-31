@@ -150,8 +150,8 @@ void CTabbedWindow::OnInitDialog()
 	SetWindowLongPtr(m_tab.GetHwnd(), GWLP_USERDATA, LPARAM(this));
 	mir_subclassWindow(m_tab.GetHwnd(), &CSrmmWindow::TabSubclassProc);
 
-	if (db_get_b(NULL, CHAT_MODULE, "SavePosition", 0))
-		RestoreWindowPosition(m_hwnd, NULL, false);
+	if (db_get_b(0, CHAT_MODULE, "SavePosition", 0))
+		RestoreWindowPosition(m_hwnd, 0, false);
 
 	LONG_PTR mask = GetWindowLongPtr(m_tab.GetHwnd(), GWL_STYLE);
 	if (g_Settings.bTabsAtBottom)
@@ -190,7 +190,7 @@ void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
 			Show(SW_SHOW);
 
 		CChatRoomDlg *pTab = new CChatRoomDlg(si);
-		m_tab.AddPage(szTemp, NULL, pTab);
+		m_tab.AddPage(szTemp, nullptr, pTab);
 		FixTabIcons(pTab);
 
 		m_tab.ActivatePage(m_tab.GetCount() - 1);
@@ -223,7 +223,7 @@ void CTabbedWindow::FixTabIcons(CChatRoomDlg *pDlg)
 			TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
 		}
 	}
-	else RedrawWindow(m_tab.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
+	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 }
 
 void CTabbedWindow::SetMessageHighlight(CChatRoomDlg *pDlg)
@@ -235,9 +235,9 @@ void CTabbedWindow::SetMessageHighlight(CChatRoomDlg *pDlg)
 		pDlg->m_si->wState |= GC_EVENT_HIGHLIGHT;
 		FixTabIcons(pDlg);
 		if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
-			SetTimer(m_hwnd, TIMERID_FLASHWND, 900, NULL);
+			SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);
 	}
-	else RedrawWindow(m_tab.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
+	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 }
 
 void CTabbedWindow::SetTabHighlight(CChatRoomDlg *pDlg)
@@ -248,15 +248,15 @@ void CTabbedWindow::SetTabHighlight(CChatRoomDlg *pDlg)
 
 		FixTabIcons(pDlg);
 		if (g_Settings.bFlashWindow && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
-			SetTimer(m_hwnd, TIMERID_FLASHWND, 900, NULL);
+			SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);
 	}
-	else RedrawWindow(m_tab.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
+	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 }
 
 void CTabbedWindow::TabClicked()
 {
 	CChatRoomDlg *pDlg = (CChatRoomDlg*)m_tab.GetActivePage();
-	if (pDlg == NULL)
+	if (pDlg == nullptr)
 		return;
 
 	SESSION_INFO *s = pDlg->m_si;
@@ -339,7 +339,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (m_tab.GetCount() == 0)
 				PostMessage(m_hwnd, WM_CLOSE, 0, 0);
 			else {
-				if (m_tab.GetNthPage(idx) == NULL)
+				if (m_tab.GetNthPage(idx) == nullptr)
 					idx--;
 				m_tab.ActivatePage(idx);
 			}
@@ -433,7 +433,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 				else CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND | MF_UNCHECKED);
 
-				switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, tci.pt.x, tci.pt.y, 0, m_hwnd, NULL)) {
+				switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, tci.pt.x, tci.pt.y, 0, m_hwnd, nullptr)) {
 				case ID_CLOSE:
 					SendMessage(m_hwnd, GC_REMOVETAB, 0, (LPARAM)m_tab.GetNthPage(i));
 					break;
@@ -475,21 +475,21 @@ CTabbedWindow *pDialog = nullptr;
 
 void CTabbedWindow::OnDestroy()
 {
-	if (db_get_b(NULL, CHAT_MODULE, "SavePosition", 0)) {
+	if (db_get_b(0, CHAT_MODULE, "SavePosition", 0)) {
 		RECT rc;
 		GetWindowRect(m_hwnd, &rc);
-		db_set_dw(NULL, CHAT_MODULE, "roomx", rc.left);
-		db_set_dw(NULL, CHAT_MODULE, "roomy", rc.top);
-		db_set_dw(NULL, CHAT_MODULE, "roomwidth", rc.right - rc.left);
-		db_set_dw(NULL, CHAT_MODULE, "roomheight", rc.bottom - rc.top);
+		db_set_dw(0, CHAT_MODULE, "roomx", rc.left);
+		db_set_dw(0, CHAT_MODULE, "roomy", rc.top);
+		db_set_dw(0, CHAT_MODULE, "roomwidth", rc.right - rc.left);
+		db_set_dw(0, CHAT_MODULE, "roomheight", rc.bottom - rc.top);
 	}
 
-	pDialog = NULL;
+	pDialog = nullptr;
 }
 
 void InitTabs()
 {
-	if (g_Settings.bTabsEnable && pDialog == NULL) {
+	if (g_Settings.bTabsEnable && pDialog == nullptr) {
 		pDialog = new CTabbedWindow();
 		pDialog->Create();
 	}
@@ -499,9 +499,9 @@ void InitTabs()
 
 void UninitTabs()
 {
-	if (pDialog != NULL) {
+	if (pDialog != nullptr) {
 		pDialog->Close();
-		pDialog = NULL;
+		pDialog = nullptr;
 	}
 
 	arSavedTabs.destroy();

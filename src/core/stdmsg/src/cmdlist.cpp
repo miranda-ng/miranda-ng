@@ -56,7 +56,7 @@ void msgQueue_add(MCONTACT hContact, int id, char *szMsg, int flags)
 
 	mir_cslock lck(csMsgQueue);
 	if (!msgQueue.getCount() && !timerId)
-		timerId = SetTimer(NULL, 0, 5000, MsgTimer);
+		timerId = SetTimer(nullptr, 0, 5000, MsgTimer);
 	msgQueue.insert(item);
 }
 
@@ -71,20 +71,20 @@ TMsgQueue* msgQueue_find(MCONTACT hContact, int id)
 			msgQueue.remove(i);
 
 			if (!msgQueue.getCount() && timerId) {
-				KillTimer(NULL, timerId);
+				KillTimer(nullptr, timerId);
 				timerId = 0;
 			}
 
 			return item;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char *szErr)
 {
 	TMsgQueue *p = msgQueue_find(hContact, id);
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	if (!success) {

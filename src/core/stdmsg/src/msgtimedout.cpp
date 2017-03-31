@@ -49,7 +49,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			SetDlgItemText(hwndDlg, IDC_MSGTEXT, ptrW(mir_utf8decodeW(item->szMsg)));
 
 			HWND hwndParent = GetParent(hwndDlg);
-			if (hwndParent != NULL) {
+			if (hwndParent != nullptr) {
 				RECT rc, rcParent;
 				if (GetWindowRect(hwndDlg, &rc))
 					if (GetWindowRect(hwndParent, &rcParent))
@@ -86,9 +86,9 @@ void MessageFailureProcess(TMsgQueue *item, const char* err)
 	MCONTACT hContact = db_mc_tryMeta(item->hContact);
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
-	if (hwnd == NULL) {
+	if (hwnd == nullptr) {
 		// If message window doesn't already exist, open a new one
-		SendMessageCmd(item->hContact, NULL, 0);
+		SendMessageCmd(item->hContact, nullptr, 0);
 		hwnd = WindowList_Find(pci->hWindowList, hContact);
 	}
 	else SendMessage(hwnd, DM_REMAKELOG, 0, 0);

@@ -147,10 +147,10 @@ int  GetRichTextLength(HWND hwnd);
 void SetButtonsPos(HWND hwndDlg, bool bIsChat);
 int  RestoreWindowPosition(HWND hwnd, MCONTACT hContact, bool bHide);
 
-
 // message.cpp
 char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // tabs.cpp
 
 struct CTabbedWindow : public CDlgBase

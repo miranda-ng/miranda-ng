@@ -144,7 +144,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT *)lParam;
 	if (cle)
-		SendMessageCmd(cle->hContact, NULL, 0);
+		SendMessageCmd(cle->hContact, nullptr, 0);
 
 	return 0;
 }
@@ -179,7 +179,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 
 			IcoLib_ReleaseIcon(cle.hIcon);
 		}
-		else Clist_TrayNotifyW(NULL, TranslateT("Typing notification"), szTip, NIIF_INFO, 1000 * 4);
+		else Clist_TrayNotifyW(nullptr, TranslateT("Typing notification"), szTip, NIIF_INFO, 1000 * 4);
 	}
 	return 0;
 }
@@ -187,7 +187,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (cws->szModule == NULL)
+	if (cws->szModule == nullptr)
 		return 0;
 
 	if (!strcmp(cws->szModule, "CList"))
@@ -240,7 +240,7 @@ static void RestoreUnreadMessageAlerts(void)
 			dbei.cbBlob = 0;
 			db_event_get(hDbEvent, &dbei);
 			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
-				int windowAlreadyExists = WindowList_Find(pci->hWindowList, hContact) != NULL;
+				int windowAlreadyExists = WindowList_Find(pci->hWindowList, hContact) != nullptr;
 				if (windowAlreadyExists)
 					continue;
 
@@ -395,15 +395,15 @@ void SetButtonsPos(HWND hwndDlg, bool bIsChat)
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
 		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
-		if (hwndButton == NULL || cbd->m_bHidden)
+		if (hwndButton == nullptr || cbd->m_bHidden)
 			continue;
 
 		if (cbd->m_bRSided) {
 			iRightX -= g_dat.iGap + cbd->m_iButtonWidth;
-			hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iRightX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, iRightX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		}
 		else {
-			hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iLeftX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, iLeftX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 			iLeftX += g_dat.iGap + cbd->m_iButtonWidth;
 		}
 	}
@@ -480,15 +480,15 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 {
 	StatusTextData *st = (StatusTextData*)lParam;
-	if (st == NULL)
+	if (st == nullptr)
 		return 1;
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, wParam);
-	if (hwnd == NULL)
+	if (hwnd == nullptr)
 		return 1;
 
 	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (dat == NULL)
+	if (dat == nullptr)
 		return 1;
 
 	dat->SetStatusData(st);
@@ -499,7 +499,7 @@ static wchar_t tszError[] = LPGENW("Miranda could not load the built-in message 
 
 int LoadSendRecvMessageModule(void)
 {
-	if ((hMsftEdit = LoadLibrary(L"Msftedit.dll")) == NULL) {
+	if ((hMsftEdit = LoadLibrary(L"Msftedit.dll")) == nullptr) {
 		if (IDYES != MessageBox(0, TranslateW(tszError), TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
 			return 1;
 		return 0;
@@ -558,14 +558,14 @@ STDMETHODIMP CREOleCallback::QueryInterface(REFIID riid, LPVOID * ppvObj)
 		AddRef();
 		return S_OK;
 	}
-	*ppvObj = NULL;
+	*ppvObj = nullptr;
 	return E_NOINTERFACE;
 }
 
 STDMETHODIMP_(ULONG) CREOleCallback::AddRef()
 {
 	if (refCount == 0)
-		StgCreateDocfile(NULL, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &pictStg);
+		StgCreateDocfile(nullptr, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &pictStg);
 
 	return ++refCount;
 }
@@ -575,7 +575,7 @@ STDMETHODIMP_(ULONG) CREOleCallback::Release()
 	if (--refCount == 0) {
 		if (pictStg) {
 			pictStg->Release();
-			pictStg = NULL;
+			pictStg = nullptr;
 		}
 	}
 	return refCount;
@@ -617,7 +617,7 @@ STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE * lplpstg)
 	char szName[64];
 	mir_snprintf(szName, "s%u", nextStgId++);
 	MultiByteToWideChar(CP_ACP, 0, szName, -1, szwName, _countof(szwName));
-	if (pictStg == NULL)
+	if (pictStg == nullptr)
 		return STG_E_MEDIUMFULL;
 	return pictStg->CreateStorage(szwName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);
 }

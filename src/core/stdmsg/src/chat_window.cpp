@@ -591,7 +591,7 @@ INT_PTR CALLBACK CChatRoomDlg::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 		break;
 	}
 
-	return(FALSE);
+	return FALSE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -615,13 +615,11 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_CHAR:
+		if (GetWindowLongPtr(m_message.GetHwnd(), GWL_STYLE) & ES_READONLY)
+			break;
 		{
 			BOOL isCtrl = GetKeyState(VK_CONTROL) & 0x8000;
 			BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
-
-			if (GetWindowLongPtr(m_message.GetHwnd(), GWL_STYLE) & ES_READONLY)
-				break;
-
 			if (wParam == 9 && isCtrl && !isAlt) // ctrl-i (italics)
 				return TRUE;
 
@@ -844,8 +842,8 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 			}
 		}
-
 		// fall through
+
 	case WM_LBUTTONDOWN:
 	case WM_MBUTTONDOWN:
 	case WM_KILLFOCUS:
@@ -923,10 +921,9 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CHARRANGE sel;
-
 	switch (msg) {
 	case WM_LBUTTONUP:
+		CHARRANGE sel;
 		m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
 		if (sel.cpMin != sel.cpMax) {
 			m_log.SendMsg(WM_COPY, 0, 0);
