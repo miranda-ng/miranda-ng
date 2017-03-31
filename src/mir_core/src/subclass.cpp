@@ -58,6 +58,9 @@ static LRESULT CALLBACK MSubclassWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 
 MIR_CORE_DLL(void) mir_subclassWindow(HWND hWnd, WNDPROC wndProc)
 {
+	if (hWnd == nullptr)
+		return;
+
 	MSubclassData *p = arSubclass.find((MSubclassData*)&hWnd);
 	if (p == NULL) {
 		p = new MSubclassData;

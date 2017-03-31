@@ -411,7 +411,6 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 
 	HICON hIcon = NULL;
 	int i = 0, iStatus;
-	char *szProto;
 
 	switch (Mode) {
 	case TRAY_ICON_MODE_GLOBAL:
@@ -421,17 +420,19 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 
 	case TRAY_ICON_MODE_ACC:
 		// В этом режиме показывается иконка совершенно определённого аккаунта, и не всегда это szChangedProto.
-		szProto = db_get_sa(NULL, "CList", bDiffers ? "tiAccV" : "tiAccS");
-		if (szProto == NULL)
-			break;
+		{
+			ptrA szProto(db_get_sa(0, "CList", bDiffers ? "tiAccV" : "tiAccS"));
+			if (szProto == nullptr)
+				break;
 
-		iStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-		if (g_StatusBarData.bConnectingIcon && IsStatusConnecting(iStatus))
-			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szProto, 0);
-		else
-			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szProto, CallProtoService(szProto, PS_GETSTATUS, 0, 0));
+			iStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+			if (g_StatusBarData.bConnectingIcon && IsStatusConnecting(iStatus))
+				hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szProto, 0);
+			else
+				hIcon = pcli->pfnGetIconFromStatusMode(NULL, szProto, CallProtoService(szProto, PS_GETSTATUS, 0, 0));
 
-		pcli->pfnTrayIconMakeTooltip(NULL, szProto);
+			pcli->pfnTrayIconMakeTooltip(NULL, szProto);
+		}
 		break;
 
 	case TRAY_ICON_MODE_CYCLE:
