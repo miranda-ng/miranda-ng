@@ -1117,19 +1117,22 @@ void ShowRoom(SESSION_INFO *si)
 		return;
 
 	// Do we need to create a window?
+	CChatRoomDlg *pDlg;
 	if (si->pDlg == nullptr) {
 		HWND hParent = GetParentWindow(si->hContact, TRUE);
 
-		CChatRoomDlg *pDlg = new CChatRoomDlg(si);
+		pDlg = new CChatRoomDlg(si);
 		pDlg->SetParent(hParent);
 		pDlg->Show();
 		
 		pDlg->m_pParent = (ParentWindowData*)GetWindowLongPtr(hParent, GWLP_USERDATA);
 		si->pDlg = pDlg;
 	}
-	SendMessage(si->pDlg->GetHwnd(), DM_UPDATETABCONTROL, -1, (LPARAM)si);
-	SendMessage(GetParent(si->pDlg->GetHwnd()), CM_ACTIVATECHILD, 0, (LPARAM)si->pDlg->GetHwnd());
-	SendMessage(GetParent(si->pDlg->GetHwnd()), CM_POPUPWINDOW, 0, (LPARAM)si->pDlg->GetHwnd());
-	SendMessage(si->pDlg->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
-	SetFocus(GetDlgItem(si->pDlg->GetHwnd(), IDC_SRMM_MESSAGE));
+	else pDlg = si->pDlg;
+	
+	SendMessage(pDlg->GetHwnd(), DM_UPDATETABCONTROL, -1, (LPARAM)si);
+	SendMessage(GetParent(pDlg->GetHwnd()), CM_ACTIVATECHILD, 0, (LPARAM)pDlg->GetHwnd());
+	SendMessage(GetParent(pDlg->GetHwnd()), CM_POPUPWINDOW, 0, (LPARAM)pDlg->GetHwnd());
+	SendMessage(pDlg->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
+	SetFocus(GetDlgItem(pDlg->GetHwnd(), IDC_SRMM_MESSAGE));
 }

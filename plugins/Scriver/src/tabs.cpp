@@ -1407,12 +1407,12 @@ HWND GetParentWindow(MCONTACT hContact, BOOL bChat)
 		else {
 			if (g_dat.lastChatParent != nullptr) {
 				int tabsNum = (int)SendMessage(g_dat.lastChatParent->hwnd, CM_GETCHILDCOUNT, 0, 0);
-				if (!(g_dat.flags2 & SMF2_LIMITCHATSTABS) || tabsNum < g_dat.limitChatsTabsNum) {
+				if (!(g_dat.flags2 & SMF2_LIMITCHATSTABS) || tabsNum < g_dat.limitChatsTabsNum)
 					return g_dat.lastChatParent->hwnd;
-				}
 			}
 		}
 	}
+
 	if (!(g_dat.flags2 & SMF2_SEPARATECHATSCONTAINERS))
 		newData.isChat = FALSE;
 
