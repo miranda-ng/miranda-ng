@@ -197,20 +197,3 @@ void ValidateFilename(wchar_t *filename)
 		p1 += 1;
 	}
 }
-
-int RestoreWindowPosition(HWND hwnd, MCONTACT hContact, bool bHide)
-{
-	int x = db_get_dw(hContact, CHAT_MODULE, "roomx", -1);
-	if (x == -1)
-		return 0;
-
-	int y = (int)db_get_dw(hContact, CHAT_MODULE, "roomy", -1);
-	int width = db_get_dw(hContact, CHAT_MODULE, "roomwidth", -1);
-	int height = db_get_dw(hContact, CHAT_MODULE, "roomheight", -1);
-
-	DWORD dwFlags = SWP_NOACTIVATE | SWP_NOZORDER;
-	if (bHide)
-		dwFlags |= SWP_HIDEWINDOW;
-	SetWindowPos(hwnd, nullptr, x, y, width, height, dwFlags);
-	return 1;
-}

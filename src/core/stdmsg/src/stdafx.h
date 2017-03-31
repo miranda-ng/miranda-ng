@@ -92,12 +92,7 @@ struct MODULEINFO : public GCModuleInfoBase
 	int OfflineIconIndex;
 };
 
-struct SESSION_INFO : public GCSessionInfoBase
-{
-	int iX, iY;
-	int iWidth, iHeight;
-};
-
+struct SESSION_INFO : public GCSessionInfoBase {};
 struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 
 struct GlobalLogSettings : public GlobalLogSettingsBase
@@ -145,7 +140,6 @@ int  GetColorIndex(const char* pszModule, COLORREF cr);
 void CheckColorsInModule(const char* pszModule);
 int  GetRichTextLength(HWND hwnd);
 void SetButtonsPos(HWND hwndDlg, bool bIsChat);
-int  RestoreWindowPosition(HWND hwnd, MCONTACT hContact, bool bHide);
 
 // message.cpp
 char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
@@ -153,14 +147,21 @@ char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
 /////////////////////////////////////////////////////////////////////////////////////////
 // tabs.cpp
 
-struct CTabbedWindow : public CDlgBase
+class CTabbedWindow : public CDlgBase
 {
-	CCtrlPages m_tab;
+	void SaveWindowPosition(bool bUpdateSession);
+	void SetWindowPosition();
 
-	CTabbedWindow() :
-		CDlgBase(g_hInst, IDD_CONTAINER),
-		m_tab(this, IDC_TAB)
-	{}
+	int iX, iY;
+	int iWidth, iHeight;
+	int m_windowWasCascaded;
+
+public:
+	CCtrlPages m_tab;
+	HWND m_hwndStatus;
+	CSrmmBaseDialog *m_pEmbed;
+
+	CTabbedWindow();
 
 	void AddPage(SESSION_INFO*, int insertAt = -1);
 	void FixTabIcons(CChatRoomDlg*);
@@ -171,15 +172,8 @@ struct CTabbedWindow : public CDlgBase
 	virtual void OnInitDialog() override;
 	virtual void OnDestroy() override;
 
-	virtual int Resizer(UTILRESIZECONTROL *urc)
-	{
-		if (urc->wId == IDC_TAB)
-			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
-
-		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
-	}
-
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual int Resizer(UTILRESIZECONTROL *urc) override;
 };
 
 extern CTabbedWindow *pDialog;
@@ -201,7 +195,7 @@ void TB_SaveSession(SESSION_INFO *si);
 class CChatRoomDlg : public CSrmmBaseDialog
 {
 	typedef CSrmmBaseDialog CSuper;
-	friend struct CTabbedWindow;
+	friend class CTabbedWindow;
 
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -209,23 +203,16 @@ class CChatRoomDlg : public CSrmmBaseDialog
 	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	virtual LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
-	HWND m_hwndStatus;
 	wchar_t szTabSave[20];
 
 	CCtrlButton m_btnOk;
 	CSplitter m_splitterX, m_splitterY;
-
-	HWND getCaptionWindow() const
-	{	return (g_Settings.bTabsEnable) ? GetParent(m_hwndParent) : m_hwnd;
-	}
-
-	void SaveWindowPosition(bool bUpdateSession);
-	void SetWindowPosition();
+	CTabbedWindow *m_pOwner;
 
 	int m_iSplitterX, m_iSplitterY;
 
 public:
-	CChatRoomDlg(SESSION_INFO*);
+	CChatRoomDlg(CTabbedWindow*, SESSION_INFO*);
 
 	virtual void OnInitDialog() override;
 	virtual void OnDestroy() override;

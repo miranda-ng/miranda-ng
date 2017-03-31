@@ -47,8 +47,6 @@ static branch_t branch1[] = {
 	{ LPGENW("Show buttons for controlling the chat room"), "ShowTopButtons", 0, true },
 	{ LPGENW("Show buttons for formatting the text you are typing"), "ShowFormatButtons", 0, true },
 	{ LPGENW("Show button menus when right clicking the buttons"), "RightClickFilter", 0, false },
-	{ LPGENW("Show new windows cascaded"), "CascadeWindows", 0, true },
-	{ LPGENW("Save the size and position of chat rooms"), "SavePosition", 0, false },
 	{ LPGENW("Show the topic of the room on your contact list (if supported)"), "TopicOnClist", 0, false },
 	{ LPGENW("Do not play sounds when the chat room is focused"), "SoundsFocus", 0, false },
 	{ LPGENW("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0, false },

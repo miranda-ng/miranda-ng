@@ -9,7 +9,6 @@
 #define IDD_FILTER                      105
 #define IDD_OPTIONSPOPUP                106
 #define IDD_CONTAINER                   107
-#define IDD_CHANNEL_TAB						 108
 #define IDI_BUNDERLINE                  120
 #define IDI_BBOLD                       121
 #define IDI_BITALICS                    122

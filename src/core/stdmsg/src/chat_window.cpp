@@ -28,8 +28,9 @@ static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
-	CSrmmBaseDialog(g_hInst, g_Settings.bTabsEnable ? IDD_CHANNEL_TAB : IDD_CHANNEL, si),
+CChatRoomDlg::CChatRoomDlg(CTabbedWindow *pContainer, SESSION_INFO *si) :
+	CSrmmBaseDialog(g_hInst, IDD_CHANNEL, si),
+	m_pOwner(pContainer),
 	m_btnOk(this, IDOK),
 	
 	m_splitterX(this, IDC_SPLITTERX),
@@ -72,22 +73,11 @@ void CChatRoomDlg::OnInitDialog()
 	m_log.SendMsg(EM_SETEVENTMASK, 0, mask | ENM_LINK | ENM_MOUSEEVENTS);
 	m_log.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
 	m_log.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
-
-	DWORD dwFlags = WS_CHILD | WS_VISIBLE | SBT_TOOLTIPS;
-	if (!g_Settings.bTabsEnable)
-		dwFlags |= SBARS_SIZEGRIP;
-
-	m_hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, nullptr, dwFlags, 0, 0, 0, 0, m_hwnd, nullptr, g_hInst, nullptr);
-	SendMessage(m_hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
-
 	m_log.SendMsg(EM_HIDESELECTION, TRUE, 0);
 
 	UpdateOptions();
 	UpdateStatusBar();
 	UpdateTitle();
-	SetWindowPosition();
-
-	SendMessage(m_hwnd, WM_SIZE, 0, 0);
 
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
 }
@@ -96,21 +86,10 @@ void CChatRoomDlg::OnDestroy()
 {
 	NotifyEvent(MSG_WINDOW_EVT_CLOSING);
 
-	SaveWindowPosition(true);
-	if (!g_Settings.bTabsEnable) {
-		if (db_get_b(0, CHAT_MODULE, "SavePosition", 0)) {
-			db_set_dw(m_hContact, CHAT_MODULE, "roomx", m_si->iX);
-			db_set_dw(m_hContact, CHAT_MODULE, "roomy", m_si->iY);
-			db_set_dw(m_hContact, CHAT_MODULE, "roomwidth", m_si->iWidth);
-			db_set_dw(m_hContact, CHAT_MODULE, "roomheight", m_si->iHeight);
-		}
-	}
-
 	WindowList_Remove(pci->hWindowList, m_hwnd);
 
 	m_si->pDlg = nullptr;
 	m_si->wState &= ~STATE_TALK;
-	DestroyWindow(m_hwndStatus); m_hwndStatus = nullptr;
 
 	NotifyEvent(MSG_WINDOW_EVT_CLOSE);
 
@@ -204,78 +183,15 @@ void CChatRoomDlg::onSplitterY(CSplitter *pSplitter)
 	g_Settings.iSplitterY = m_iSplitterY;
 }
 
-void CChatRoomDlg::SetWindowPosition()
-{
-	if (g_Settings.bTabsEnable)
-		return;
-
-	WINDOWPLACEMENT wp;
-	wp.length = sizeof(wp);
-	GetWindowPlacement(m_hwnd, &wp);
-
-	RECT screen;
-	SystemParametersInfo(SPI_GETWORKAREA, 0, &screen, 0);
-
-	if (m_si->iX) {
-		wp.rcNormalPosition.left = m_si->iX;
-		wp.rcNormalPosition.top = m_si->iY;
-		wp.rcNormalPosition.right = wp.rcNormalPosition.left + m_si->iWidth;
-		wp.rcNormalPosition.bottom = wp.rcNormalPosition.top + m_si->iHeight;
-		wp.showCmd = SW_HIDE;
-		SetWindowPlacement(m_hwnd, &wp);
-		return;
-	}
-	
-	if (db_get_b(0, CHAT_MODULE, "SavePosition", 0)) {
-		if (RestoreWindowPosition(m_hwnd, m_hContact, true)) {
-			Show(SW_HIDE);
-			return;
-		}
-		SetWindowPos(m_hwnd, 0, (screen.right - screen.left) / 2 - (550) / 2, (screen.bottom - screen.top) / 2 - (400) / 2, (550), (400), SWP_NOZORDER | SWP_HIDEWINDOW | SWP_NOACTIVATE);
-	}
-	else SetWindowPos(m_hwnd, 0, (screen.right - screen.left) / 2 - (550) / 2, (screen.bottom - screen.top) / 2 - (400) / 2, (550), (400), SWP_NOZORDER | SWP_HIDEWINDOW | SWP_NOACTIVATE);
-
-	SESSION_INFO *pActive = pci->GetActiveSession();
-	if (pActive && pActive->pDlg && db_get_b(0, CHAT_MODULE, "CascadeWindows", 1)) {
-		RECT rcThis, rcNew;
-		int dwFlag = SWP_NOZORDER | SWP_NOACTIVATE;
-		if (!IsWindowVisible(m_hwnd))
-			dwFlag |= SWP_HIDEWINDOW;
-
-		GetWindowRect(m_hwnd, &rcThis);
-		GetWindowRect(pActive->pDlg->GetHwnd(), &rcNew);
-
-		int offset = GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYFRAME);
-		SetWindowPos(m_hwnd, 0, rcNew.left + offset, rcNew.top + offset, rcNew.right - rcNew.left, rcNew.bottom - rcNew.top, dwFlag);
-	}
-}
-
-void CChatRoomDlg::SaveWindowPosition(bool bUpdateSession)
-{
-	WINDOWPLACEMENT wp = {};
-	wp.length = sizeof(wp);
-	GetWindowPlacement(getCaptionWindow(), &wp);
-
-	g_Settings.iX = wp.rcNormalPosition.left;
-	g_Settings.iY = wp.rcNormalPosition.top;
-	g_Settings.iWidth = wp.rcNormalPosition.right - wp.rcNormalPosition.left;
-	g_Settings.iHeight = wp.rcNormalPosition.bottom - wp.rcNormalPosition.top;
-
-	if (bUpdateSession) {
-		m_si->iX = g_Settings.iX;
-		m_si->iY = g_Settings.iY;
-		m_si->iWidth = g_Settings.iWidth;
-		m_si->iHeight = g_Settings.iHeight;
-	}
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CChatRoomDlg::CloseTab()
 {
-	if (g_Settings.bTabsEnable)
+	if (g_Settings.bTabsEnable) {
 		SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
-	Close();
+		Close();
+	}
+	else SendMessage(m_hwndParent, WM_CLOSE, 0, 0);
 }
 
 void CChatRoomDlg::LoadSettings()
@@ -381,9 +297,9 @@ void CChatRoomDlg::UpdateOptions()
 	if (g_Settings.bTabsEnable)
 		pDialog->FixTabIcons(nullptr);
 
-	SendMessage(m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
+	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
 
-	Window_SetIcon_IcoLib(getCaptionWindow(), GetIconHandle("window"));
+	Window_SetIcon_IcoLib(m_pOwner->GetHwnd(), GetIconHandle("window"));
 
 	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
 
@@ -420,10 +336,10 @@ void CChatRoomDlg::UpdateStatusBar()
 	MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
 	wchar_t *ptszDispName = mi->ptszModDispName;
 	int x = 12;
-	x += Chat_GetTextPixelSize(ptszDispName, (HFONT)SendMessage(m_hwndStatus, WM_GETFONT, 0, 0), TRUE);
+	x += Chat_GetTextPixelSize(ptszDispName, (HFONT)SendMessage(m_pOwner->m_hwndStatus, WM_GETFONT, 0, 0), TRUE);
 	x += GetSystemMetrics(SM_CXSMICON);
 	int iStatusbarParts[2] = { x, -1 };
-	SendMessage(m_hwndStatus, SB_SETPARTS, 2, (LPARAM)&iStatusbarParts);
+	SendMessage(m_pOwner->m_hwndStatus, SB_SETPARTS, 2, (LPARAM)&iStatusbarParts);
 
 	// stupid hack to make icons show. I dunno why this is needed currently
 	HICON hIcon = m_si->wStatus == ID_STATUS_ONLINE ? mi->hOnlineIcon : mi->hOfflineIcon;
@@ -432,14 +348,14 @@ void CChatRoomDlg::UpdateStatusBar()
 		hIcon = m_si->wStatus == ID_STATUS_ONLINE ? mi->hOnlineIcon : mi->hOfflineIcon;
 	}
 
-	SendMessage(m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
+	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
 
 	if (g_Settings.bTabsEnable)
 		pDialog->FixTabIcons(nullptr);
 
-	SendMessage(m_hwndStatus, SB_SETTEXT, 0, (LPARAM)ptszDispName);
-	SendMessage(m_hwndStatus, SB_SETTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
-	SendMessage(m_hwndStatus, SB_SETTIPTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
+	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)ptszDispName);
+	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
+	SendMessage(m_pOwner->m_hwndStatus, SB_SETTIPTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
 }
 
 void CChatRoomDlg::UpdateTitle()
@@ -461,14 +377,13 @@ void CChatRoomDlg::UpdateTitle()
 		break;
 	}
 
-	SetWindowText(getCaptionWindow(), szTemp);
+	SetWindowText(m_pOwner->GetHwnd(), szTemp);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 {
-	RECT rc;
 	bool bControl = db_get_b(0, CHAT_MODULE, "ShowTopButtons", 1) != 0;
 	bool bFormat = db_get_b(0, CHAT_MODULE, "ShowFormatButtons", 1) != 0;
 	bool bToolbar = bFormat || bControl;
@@ -477,10 +392,9 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 
 	switch (urc->wId) {
 	case IDOK:
-		GetWindowRect(m_hwndStatus, &rc);
 		urc->rcItem.left = bSend ? 315 : urc->dlgNewSize.cx;
 		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 23;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom - rc.top) - 1;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - 1;
 		return RD_ANCHORX_RIGHT | RD_ANCHORY_CUSTOM;
 
 	case IDC_SRMM_LOG:
@@ -513,10 +427,9 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_CUSTOM;
 
 	case IDC_SRMM_MESSAGE:
-		GetWindowRect(m_hwndStatus, &rc);
 		urc->rcItem.right = bSend ? urc->dlgNewSize.cx - 64 : urc->dlgNewSize.cx;
 		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 22;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom - rc.top) - 1;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - 1;
 		return RD_ANCHORX_LEFT | RD_ANCHORY_CUSTOM;
 	}
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
@@ -978,8 +891,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			ScrollToBottom();
 
 		if (!IsIconic(m_hwnd)) {
-			SendMessage(m_hwndStatus, WM_SIZE, 0, 0);
-
 			bool bSend = db_get_b(0, CHAT_MODULE, "ShowSend", 0) != 0;
 			bool bFormat = db_get_b(0, CHAT_MODULE, "ShowFormatButtons", 1) != 0;
 			bool bControl = db_get_b(0, CHAT_MODULE, "ShowTopButtons", 1) != 0;
@@ -1017,10 +928,9 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			CSrmmBaseDialog::DlgProc(uMsg, wParam, lParam); // call built-in resizer
 			SetButtonsPos(m_hwnd, true);
 
-			InvalidateRect(m_hwndStatus, nullptr, true);
+			InvalidateRect(m_pOwner->m_hwndStatus, nullptr, true);
 			RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 			RedrawWindow(m_btnOk.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
-			SaveWindowPosition(false);
 		}
 		return TRUE;
 
@@ -1127,6 +1037,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				SetFocus(m_message.GetHwnd());
 
 			pci->SetActiveSession(m_si);
+			UpdateStatusBar();
 
 			if (KillTimer(m_hwnd, TIMERID_FLASHWND))
 				FlashWindow(m_hwnd, FALSE);
@@ -1179,8 +1090,17 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SetFocus(m_message.GetHwnd());
 		break;
 
-	case WM_MOVE:
-		SaveWindowPosition(false);
+	case DM_CASCADENEWWINDOW:
+		if ((HWND)wParam != m_pOwner->GetHwnd()) {
+			RECT rcThis, rcNew;
+			GetWindowRect(m_pOwner->GetHwnd(), &rcThis);
+			GetWindowRect((HWND)wParam, &rcNew);
+			if (abs(rcThis.left - rcNew.left) < 3 && abs(rcThis.top - rcNew.top) < 3) {
+				int offset = GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYFRAME);
+				SetWindowPos((HWND)wParam, 0, rcNew.left + offset, rcNew.top + offset, 0, 0, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
+				*(int *)lParam = 1;
+			}
+		}
 		break;
 
 	case WM_GETMINMAXINFO:

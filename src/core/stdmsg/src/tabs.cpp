@@ -42,6 +42,240 @@ void TB_SaveSession(SESSION_INFO *si)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CTabbedWindow::CTabbedWindow() :
+	CDlgBase(g_hInst, IDD_CONTAINER),
+	m_tab(this, IDC_TAB),
+	m_pEmbed(nullptr)
+{
+	iX = iY = iWidth = iHeight = m_windowWasCascaded = 0;
+}
+
+void CTabbedWindow::OnInitDialog()
+{
+	SetWindowLongPtr(m_tab.GetHwnd(), GWLP_USERDATA, LPARAM(this));
+	mir_subclassWindow(m_tab.GetHwnd(), &CSrmmWindow::TabSubclassProc);
+
+	m_hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, nullptr, WS_CHILD | WS_VISIBLE | SBT_TOOLTIPS | SBARS_SIZEGRIP, 0, 0, 0, 0, m_hwnd, nullptr, g_hInst, nullptr);
+	SendMessage(m_hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
+
+	SetWindowPosition();
+
+	if (!g_Settings.bTabsEnable) {
+		m_tab.Hide();
+		return;
+	}
+
+	LONG_PTR mask = GetWindowLongPtr(m_tab.GetHwnd(), GWL_STYLE);
+	if (g_Settings.bTabsAtBottom)
+		mask |= TCS_BOTTOM;
+	else
+		mask &= ~TCS_BOTTOM;
+	SetWindowLongPtr(m_tab.GetHwnd(), GWL_STYLE, mask);
+
+	TabCtrl_SetMinTabWidth(m_tab.GetHwnd(), 80);
+	TabCtrl_SetImageList(m_tab.GetHwnd(), hIconsList);
+
+	// restore previous tabs
+	if (g_Settings.bTabRestore) {
+		for (int i = 0; i < arSavedTabs.getCount(); i++) {
+			CSavedTab &p = arSavedTabs[i];
+
+			SESSION_INFO *si = pci->SM_FindSession(p.m_id, p.m_szModule);
+			if (si)
+				AddPage(si);
+		}
+		arSavedTabs.destroy();
+	}
+}
+
+void CTabbedWindow::OnDestroy()
+{
+	DestroyWindow(m_hwndStatus); m_hwndStatus = nullptr;
+
+	SaveWindowPosition(true);
+
+	Utils_SaveWindowPosition(m_hwnd, g_dat.bSavePerContact ? ((m_pEmbed == nullptr) ? 0 : m_pEmbed->m_hContact) : 0, CHAT_MODULE, "room");
+
+	if (m_pEmbed == nullptr)
+		pDialog = nullptr;
+}
+
+int CTabbedWindow::Resizer(UTILRESIZECONTROL *urc)
+{
+	if (urc->wId == IDC_TAB) {
+		RECT rc;
+		GetWindowRect(m_hwndStatus, &rc);
+		urc->rcItem.top = 1;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom - rc.top) - 1;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_CUSTOM;
+	}
+	
+	return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM; // status bar
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
+{ 
+	// does the tab already exist?
+	int indexfound = (si->pDlg) ? m_tab.GetDlgIndex(si->pDlg) : -1;
+	if (indexfound == -1) { // create a new tab
+		wchar_t szTemp[30];
+		mir_wstrncpy(szTemp, si->ptszName, 21);
+		if (mir_wstrlen(si->ptszName) > 20)
+			mir_wstrncpy(szTemp + 20, L"...", 4);
+
+		if (!IsWindowVisible(m_hwnd))
+			Show(SW_SHOW);
+
+		CChatRoomDlg *pDlg = new CChatRoomDlg(this, si);
+		pDlg->SetParent(m_hwnd);
+		m_tab.AddPage(szTemp, nullptr, pDlg);
+		FixTabIcons(pDlg);
+
+		m_tab.ActivatePage(m_tab.GetCount() - 1);
+	}
+	else if (insertAt == -1)
+		m_tab.ActivatePage(indexfound);
+}
+
+void CTabbedWindow::FixTabIcons(CChatRoomDlg *pDlg)
+{
+	if (pDlg != nullptr) {
+		int idx = m_tab.GetDlgIndex(pDlg);
+		if (idx == -1)
+			return;
+
+		SESSION_INFO *si = pDlg->m_si;
+		int image = 0;
+		if (!(si->wState & GC_EVENT_HIGHLIGHT)) {
+			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+			image = (si->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
+			if (si->wState & STATE_TALK)
+				image++;
+		}
+
+		TCITEM tci = {};
+		tci.mask = TCIF_IMAGE;
+		TabCtrl_GetItem(m_tab.GetHwnd(), idx, &tci);
+		if (tci.iImage != image) {
+			tci.iImage = image;
+			TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
+		}
+	}
+	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
+}
+
+
+void CTabbedWindow::SaveWindowPosition(bool bUpdateSession)
+{
+	WINDOWPLACEMENT wp = {};
+	wp.length = sizeof(wp);
+	GetWindowPlacement(m_hwnd, &wp);
+
+	g_Settings.iX = wp.rcNormalPosition.left;
+	g_Settings.iY = wp.rcNormalPosition.top;
+	g_Settings.iWidth = wp.rcNormalPosition.right - wp.rcNormalPosition.left;
+	g_Settings.iHeight = wp.rcNormalPosition.bottom - wp.rcNormalPosition.top;
+
+	if (bUpdateSession) {
+		iX = g_Settings.iX;
+		iY = g_Settings.iY;
+		iWidth = g_Settings.iWidth;
+		iHeight = g_Settings.iHeight;
+	}
+}
+
+void CTabbedWindow::SetMessageHighlight(CChatRoomDlg *pDlg)
+{
+	if (pDlg != nullptr) {
+		if (m_tab.GetDlgIndex(pDlg) == -1)
+			return;
+
+		pDlg->m_si->wState |= GC_EVENT_HIGHLIGHT;
+		FixTabIcons(pDlg);
+		if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
+			SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);
+	}
+	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
+}
+
+void CTabbedWindow::SetTabHighlight(CChatRoomDlg *pDlg)
+{
+	if (pDlg != nullptr) {
+		if (m_tab.GetDlgIndex(pDlg) == -1)
+			return;
+
+		FixTabIcons(pDlg);
+		if (g_Settings.bFlashWindow && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
+			SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);
+	}
+	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
+}
+
+void CTabbedWindow::SetWindowPosition()
+{
+	if (m_pEmbed == nullptr) {
+		Utils_RestoreWindowPosition(m_hwnd, 0, CHAT_MODULE, "room");
+		return;
+	}
+
+	if (iX) {
+		WINDOWPLACEMENT wp;
+		wp.length = sizeof(wp);
+		GetWindowPlacement(m_hwnd, &wp);
+
+		wp.rcNormalPosition.left = iX;
+		wp.rcNormalPosition.top = iY;
+		wp.rcNormalPosition.right = wp.rcNormalPosition.left + iWidth;
+		wp.rcNormalPosition.bottom = wp.rcNormalPosition.top + iHeight;
+		wp.showCmd = SW_HIDE;
+		SetWindowPlacement(m_hwnd, &wp);
+		return;
+	}
+
+	if (Utils_RestoreWindowPosition(m_hwnd, g_dat.bSavePerContact ? m_pEmbed->m_hContact : 0, CHAT_MODULE, "room")) {
+		if (g_dat.bSavePerContact) {
+			if (Utils_RestoreWindowPosition(m_hwnd, 0, CHAT_MODULE, "room", RWPF_NOMOVE))
+				SetWindowPos(m_hwnd, 0, 0, 0, 550, 400, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
+		}
+		else SetWindowPos(m_hwnd, 0, 0, 0, 550, 400, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
+	}
+
+	if (!g_dat.bSavePerContact && g_dat.bCascade)
+		WindowList_Broadcast(pci->hWindowList, DM_CASCADENEWWINDOW, (WPARAM)m_hwnd, (LPARAM)&m_windowWasCascaded);
+}
+
+void CTabbedWindow::TabClicked()
+{
+	CChatRoomDlg *pDlg = (CChatRoomDlg*)m_tab.GetActivePage();
+	if (pDlg == nullptr)
+		return;
+
+	SESSION_INFO *s = pDlg->m_si;
+	if (s) {
+		if (s->wState & STATE_TALK) {
+			s->wState &= ~STATE_TALK;
+			db_set_w(s->hContact, s->pszModule, "ApparentMode", 0);
+		}
+
+		if (s->wState & GC_EVENT_HIGHLIGHT) {
+			s->wState &= ~GC_EVENT_HIGHLIGHT;
+
+			if (pcli->pfnGetEvent(s->hContact, 0))
+				pcli->pfnRemoveEvent(s->hContact, GC_FAKE_EVENT);
+		}
+
+		FixTabIcons(pDlg);
+		if (!s->pDlg) {
+			pci->ShowRoom(s);
+			SendMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 LRESULT CALLBACK CSrmmWindow::TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CTabbedWindow *pOwner = (CTabbedWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
@@ -143,142 +377,6 @@ LRESULT CALLBACK CSrmmWindow::TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam
 	}
 
 	return mir_callNextSubclass(hwnd, TabSubclassProc, msg, wParam, lParam);
-}
-
-void CTabbedWindow::OnInitDialog()
-{
-	SetWindowLongPtr(m_tab.GetHwnd(), GWLP_USERDATA, LPARAM(this));
-	mir_subclassWindow(m_tab.GetHwnd(), &CSrmmWindow::TabSubclassProc);
-
-	if (db_get_b(0, CHAT_MODULE, "SavePosition", 0))
-		RestoreWindowPosition(m_hwnd, 0, false);
-
-	LONG_PTR mask = GetWindowLongPtr(m_tab.GetHwnd(), GWL_STYLE);
-	if (g_Settings.bTabsAtBottom)
-		mask |= TCS_BOTTOM;
-	else
-		mask &= ~TCS_BOTTOM;
-	SetWindowLongPtr(m_tab.GetHwnd(), GWL_STYLE, mask);
-
-	TabCtrl_SetMinTabWidth(m_tab.GetHwnd(), 80);
-	TabCtrl_SetImageList(m_tab.GetHwnd(), hIconsList);
-
-	// restore previous tabs
-	if (g_Settings.bTabRestore) {
-		for (int i = 0; i < arSavedTabs.getCount(); i++) {
-			CSavedTab &p = arSavedTabs[i];
-
-			SESSION_INFO *si = pci->SM_FindSession(p.m_id, p.m_szModule);
-			if (si)
-				AddPage(si);
-		}
-		arSavedTabs.destroy();
-	}
-}
-
-void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
-{ 
-	// does the tab already exist?
-	int indexfound = (si->pDlg) ? m_tab.GetDlgIndex(si->pDlg) : -1;
-	if (indexfound == -1) { // create a new tab
-		wchar_t szTemp[30];
-		mir_wstrncpy(szTemp, si->ptszName, 21);
-		if (mir_wstrlen(si->ptszName) > 20)
-			mir_wstrncpy(szTemp + 20, L"...", 4);
-
-		if (!IsWindowVisible(m_hwnd))
-			Show(SW_SHOW);
-
-		CChatRoomDlg *pTab = new CChatRoomDlg(si);
-		m_tab.AddPage(szTemp, nullptr, pTab);
-		FixTabIcons(pTab);
-
-		m_tab.ActivatePage(m_tab.GetCount() - 1);
-	}
-	else if (insertAt == -1)
-		m_tab.ActivatePage(indexfound);
-}
-
-void CTabbedWindow::FixTabIcons(CChatRoomDlg *pDlg)
-{
-	if (pDlg != nullptr) {
-		int idx = m_tab.GetDlgIndex(pDlg);
-		if (idx == -1)
-			return;
-
-		SESSION_INFO *si = pDlg->m_si;
-		int image = 0;
-		if (!(si->wState & GC_EVENT_HIGHLIGHT)) {
-			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
-			image = (si->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
-			if (si->wState & STATE_TALK)
-				image++;
-		}
-
-		TCITEM tci = {};
-		tci.mask = TCIF_IMAGE;
-		TabCtrl_GetItem(m_tab.GetHwnd(), idx, &tci);
-		if (tci.iImage != image) {
-			tci.iImage = image;
-			TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
-		}
-	}
-	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
-}
-
-void CTabbedWindow::SetMessageHighlight(CChatRoomDlg *pDlg)
-{
-	if (pDlg != nullptr) {
-		if (m_tab.GetDlgIndex(pDlg) == -1)
-			return;
-
-		pDlg->m_si->wState |= GC_EVENT_HIGHLIGHT;
-		FixTabIcons(pDlg);
-		if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
-			SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);
-	}
-	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
-}
-
-void CTabbedWindow::SetTabHighlight(CChatRoomDlg *pDlg)
-{
-	if (pDlg != nullptr) {
-		if (m_tab.GetDlgIndex(pDlg) == -1)
-			return;
-
-		FixTabIcons(pDlg);
-		if (g_Settings.bFlashWindow && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
-			SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);
-	}
-	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
-}
-
-void CTabbedWindow::TabClicked()
-{
-	CChatRoomDlg *pDlg = (CChatRoomDlg*)m_tab.GetActivePage();
-	if (pDlg == nullptr)
-		return;
-
-	SESSION_INFO *s = pDlg->m_si;
-	if (s) {
-		if (s->wState & STATE_TALK) {
-			s->wState &= ~STATE_TALK;
-			db_set_w(s->hContact, s->pszModule, "ApparentMode", 0);
-		}
-
-		if (s->wState & GC_EVENT_HIGHLIGHT) {
-			s->wState &= ~GC_EVENT_HIGHLIGHT;
-
-			if (pcli->pfnGetEvent(s->hContact, 0))
-				pcli->pfnRemoveEvent(s->hContact, GC_FAKE_EVENT);
-		}
-
-		FixTabIcons(pDlg);
-		if (!s->pDlg) {
-			pci->ShowRoom(s);
-			SendMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-		}
-	}
 }
 
 INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -398,6 +496,10 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			FlashWindow(m_hwnd, TRUE);
 		break;
 
+	case WM_MOVE:
+		SaveWindowPosition(false);
+		break;
+
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->idFrom == IDC_TAB) {
 			switch (((LPNMHDR)lParam)->code) {
@@ -466,26 +568,23 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	return CDlgBase::DlgProc(msg, wParam, lParam);
+	LRESULT res = CDlgBase::DlgProc(msg, wParam, lParam);
+	if (msg == WM_SIZE) {
+		SendMessage(m_hwndStatus, WM_SIZE, 0, 0);
+		if (m_pEmbed) {
+			RECT rc;
+			GetClientRect(m_tab.GetHwnd(), &rc);
+			MoveWindow(m_pEmbed->GetHwnd(), 0, 0, rc.right - rc.left, rc.bottom - rc.top, FALSE);
+		}
+		SaveWindowPosition(false);
+	}
+
+	return res;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CTabbedWindow *pDialog = nullptr;
-
-void CTabbedWindow::OnDestroy()
-{
-	if (db_get_b(0, CHAT_MODULE, "SavePosition", 0)) {
-		RECT rc;
-		GetWindowRect(m_hwnd, &rc);
-		db_set_dw(0, CHAT_MODULE, "roomx", rc.left);
-		db_set_dw(0, CHAT_MODULE, "roomy", rc.top);
-		db_set_dw(0, CHAT_MODULE, "roomwidth", rc.right - rc.left);
-		db_set_dw(0, CHAT_MODULE, "roomheight", rc.bottom - rc.top);
-	}
-
-	pDialog = nullptr;
-}
 
 void InitTabs()
 {
@@ -525,11 +624,16 @@ void ShowRoom(SESSION_INFO *si)
 			PostMessage(pDialog->GetHwnd(), WM_SIZE, 0, 0);
 		}
 		else {
-			CChatRoomDlg *pRoom = new CChatRoomDlg(si);
-			pRoom->Show();
+			CTabbedWindow *pContainer = new CTabbedWindow();
+			pContainer->Create();
+
+			CDlgBase *pDlg = pContainer->m_pEmbed = new CChatRoomDlg(pContainer, si);
+			pDlg->SetParent(pContainer->GetHwnd());
+			pDlg->Create();
+			pContainer->Show();
+			PostMessage(pContainer->GetHwnd(), WM_SIZE, 0, 0);
 		}
 
-		PostMessage(si->pDlg->GetHwnd(), WM_SIZE, 0, 0);
 		if (si->iType != GCW_SERVER)
 			si->pDlg->UpdateNickList();
 		else
