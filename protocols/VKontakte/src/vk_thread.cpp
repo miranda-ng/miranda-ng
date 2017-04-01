@@ -102,8 +102,15 @@ void CVkProto::OnLoggedOut()
 	debugLogA("CVkProto::OnLoggedOut");
 	m_bOnline = false;
 
-	m_hPollingThread = NULL;
-	m_hWorkerThread = NULL;
+	if (m_hPollingThread) {
+		CloseHandle(m_hPollingThread);
+		m_hPollingThread = NULL;
+	}
+
+	if (m_hWorkerThread) {
+		CloseHandle(m_hWorkerThread);
+		m_hWorkerThread = NULL;
+	}
 
 	if (m_hAPIConnection)
 		Netlib_CloseHandle(m_hAPIConnection);

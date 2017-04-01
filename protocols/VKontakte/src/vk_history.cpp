@@ -60,6 +60,9 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM, LPARAM)
 		if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
 			continue;
 
+		if (getBool(hContact, "ActiveHistoryTask"))
+			break;
+		setByte(hContact, "ActiveHistoryTask", 1);
 
 		MEVENT hDBEvent = db_event_first(hContact);
 		while (hDBEvent) {
@@ -88,6 +91,10 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM, LPARAM)
 void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
 {
 	debugLogA("CVkProto::SvcGetServerHistoryLastNDay %d", NDay);
+
+	if (getBool(hContact, "ActiveHistoryTask"))
+		return;
+	setByte(hContact, "ActiveHistoryTask", 1);
 
 	time_t tTime = time(NULL) - 60 * 60 * 24 * NDay;
 
@@ -147,6 +154,9 @@ void CVkProto::GetHistoryDlg(MCONTACT hContact, int iLastMsg)
 			return;
 		}
 		m_bNotifyForEndLoadingHistory = false;
+		if (getBool(hContact, "ActiveHistoryTask"))
+			return;
+		setByte(hContact, "ActiveHistoryTask", 1);
 		GetServerHistory(hContact, 0, MAXHISTORYMIDSPERONE, 0, lastmsgid);
 		break;
 	case sync1Days:
@@ -172,7 +182,8 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed."), TranslateT("Loading history"));
 			m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;
 		}
-
+		if (pReq->pUserInfo)
+			setByte(((CVkSendMsgParam*)pReq->pUserInfo)->hContact, "ActiveHistoryTask", 0);
 		return;
 	}
 
@@ -180,6 +191,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 	if (!jnResponse) {
+		setByte(param->hContact, "ActiveHistoryTask", 0);
 		if (!pReq->bNeedsRestart || m_bTerminated) {
 			mir_cslock lck(m_csLoadHistoryTask);
 			if (m_iLoadHistoryTask > 0)
@@ -195,7 +207,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 				MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed."), TranslateT("Loading history"));
 				m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;
 			}
-
+			
 			delete param;
 			pReq->pUserInfo = NULL;
 		}
@@ -296,6 +308,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed."), TranslateT("Loading history"));
 			m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;
 		}
+		setByte(param->hContact, "ActiveHistoryTask", 0);
 	}
 
 	if (!pReq->bNeedsRestart || m_bTerminated) {

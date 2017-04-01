@@ -265,7 +265,11 @@ void CVkProto::PollingThread(void*)
 		if (PollServer() == -1 || !m_hPollingThread)
 			break;
 
-	m_hPollingThread = NULL;
 	m_pollingConn = NULL;
 	debugLogA("CVkProto::PollingThread: leaving");
+	
+	if (m_hPollingThread) {
+		CloseHandle(m_hPollingThread);
+		m_hPollingThread = NULL;
+	}
 }
