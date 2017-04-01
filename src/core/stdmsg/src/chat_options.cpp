@@ -419,13 +419,8 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM 
 				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch5, _countof(branch5));
 				if (PopupInstalled)
 					SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch6, _countof(branch6));
-				g_Settings.dwIconFlags = db_get_dw(0, CHAT_MODULE, "IconFlags", 0x0000);
-				g_Settings.dwTrayIconFlags = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", 0x1000);
-				g_Settings.dwPopupFlags = db_get_dw(0, CHAT_MODULE, "PopupFlags", 0x0000);
-				g_Settings.bStripFormat = db_get_b(0, CHAT_MODULE, "TrimFormatting", 0) != 0;
-				g_Settings.bTrayIconInactiveOnly = db_get_b(0, CHAT_MODULE, "TrayIconInactiveOnly", 1) != 0;
-				g_Settings.bPopupInactiveOnly = db_get_b(0, CHAT_MODULE, "PopupInactiveOnly", 1) != 0;
-				g_Settings.bLogIndentEnabled = db_get_b(0, CHAT_MODULE, "LogIndentEnabled", 1) != 0;
+
+				pci->ReloadSettings();
 
 				if (b != db_get_b(0, CHAT_MODULE, "Tabs", 1)) {
 					pci->SM_BroadcastMessage(nullptr, WM_CLOSE, 0, 1, FALSE);

@@ -132,9 +132,6 @@ void AddIcons(void);
 HICON LoadIconEx(const char *pszIcoLibName, bool big);
 HANDLE GetIconHandle(const char *pszIcolibName);
 
-// services.cpp
-void ShowRoom(SESSION_INFO *si);
-
 // tools.cpp
 int  GetColorIndex(const char* pszModule, COLORREF cr);
 void CheckColorsInModule(const char* pszModule);
@@ -178,7 +175,6 @@ public:
 
 extern CTabbedWindow *pDialog;
 
-void InitTabs(void);
 void UninitTabs(void);
 
 void TB_SaveSession(SESSION_INFO *si);

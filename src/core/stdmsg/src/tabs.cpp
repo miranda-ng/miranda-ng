@@ -40,6 +40,8 @@ void TB_SaveSession(SESSION_INFO *si)
 		arSavedTabs.insert(new CSavedTab(si->pszModule, si->ptszID));
 }
 
+CTabbedWindow *pDialog = nullptr;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CTabbedWindow::CTabbedWindow() :
@@ -584,18 +586,6 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CTabbedWindow *pDialog = nullptr;
-
-void InitTabs()
-{
-	if (g_Settings.bTabsEnable && pDialog == nullptr) {
-		pDialog = new CTabbedWindow();
-		pDialog->Create();
-	}
-	else if (g_Settings.bTabsEnable) 
-		UninitTabs();
-}
-
 void UninitTabs()
 {
 	if (pDialog != nullptr) {
@@ -604,48 +594,4 @@ void UninitTabs()
 	}
 
 	arSavedTabs.destroy();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void ShowRoom(SESSION_INFO *si)
-{
-	if (!si)
-		return;
-
-	// Do we need to create a window?
-	if (si->pDlg == nullptr) {
-		if (g_Settings.bTabsEnable) {
-			if (pDialog == nullptr) {
-				pDialog = new CTabbedWindow();
-				pDialog->Show();
-			}
-			pDialog->AddPage(si);
-			PostMessage(pDialog->GetHwnd(), WM_SIZE, 0, 0);
-		}
-		else {
-			CTabbedWindow *pContainer = new CTabbedWindow();
-			pContainer->Create();
-
-			CDlgBase *pDlg = pContainer->m_pEmbed = new CChatRoomDlg(pContainer, si);
-			pDlg->SetParent(pContainer->GetHwnd());
-			pDlg->Create();
-			pContainer->Show();
-			PostMessage(pContainer->GetHwnd(), WM_SIZE, 0, 0);
-		}
-
-		if (si->iType != GCW_SERVER)
-			si->pDlg->UpdateNickList();
-		else
-			si->pDlg->UpdateTitle();
-		si->pDlg->RedrawLog();
-		si->pDlg->UpdateStatusBar();
-	}
-
-	SetWindowLongPtr(si->pDlg->GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(si->pDlg->GetHwnd(), GWL_EXSTYLE) | WS_EX_APPWINDOW);
-
-	if (IsIconic(si->pDlg->GetHwnd()))
-		si->pDlg->Show(SW_NORMAL);
-	si->pDlg->Show(SW_SHOW);
-	SetForegroundWindow(si->pDlg->GetHwnd());
 }

@@ -184,6 +184,48 @@ static void RegisterFonts()
 	Colour_RegisterW(&colourid);
 }
 
+static void ShowRoom(SESSION_INFO *si)
+{
+	if (!si)
+		return;
+
+	// Do we need to create a window?
+	if (si->pDlg == nullptr) {
+		if (g_Settings.bTabsEnable) {
+			if (pDialog == nullptr) {
+				pDialog = new CTabbedWindow();
+				pDialog->Show();
+			}
+			pDialog->AddPage(si);
+			PostMessage(pDialog->GetHwnd(), WM_SIZE, 0, 0);
+		}
+		else {
+			CTabbedWindow *pContainer = new CTabbedWindow();
+			pContainer->Create();
+
+			CDlgBase *pDlg = pContainer->m_pEmbed = new CChatRoomDlg(pContainer, si);
+			pDlg->SetParent(pContainer->GetHwnd());
+			pDlg->Create();
+			pContainer->Show();
+			PostMessage(pContainer->GetHwnd(), WM_SIZE, 0, 0);
+		}
+
+		if (si->iType != GCW_SERVER)
+			si->pDlg->UpdateNickList();
+		else
+			si->pDlg->UpdateTitle();
+		si->pDlg->RedrawLog();
+		si->pDlg->UpdateStatusBar();
+	}
+
+	SetWindowLongPtr(si->pDlg->GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(si->pDlg->GetHwnd(), GWL_EXSTYLE) | WS_EX_APPWINDOW);
+
+	if (IsIconic(si->pDlg->GetHwnd()))
+		si->pDlg->Show(SW_NORMAL);
+	si->pDlg->Show(SW_SHOW);
+	SetForegroundWindow(si->pDlg->GetHwnd());
+}
+
 int OnCheckPlugins(WPARAM, LPARAM)
 {
 	SmileyAddInstalled = ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
@@ -220,7 +262,6 @@ void Load_ChatModule()
 	ImageList_SetOverlayImage(hIconsList, 1, 1);
 
 	HookEvent(ME_SYSTEM_MODULELOAD, OnCheckPlugins);
-	InitTabs();
 }
 
 void Unload_ChatModule()
