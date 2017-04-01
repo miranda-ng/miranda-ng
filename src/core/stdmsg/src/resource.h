@@ -9,6 +9,7 @@
 #define IDD_FILTER                      105
 #define IDD_OPTIONSPOPUP                106
 #define IDD_CONTAINER                   107
+#define IDD_OPT_TABS                    108
 #define IDI_BUNDERLINE                  120
 #define IDI_BBOLD                       121
 #define IDI_BITALICS                    122
@@ -158,6 +159,10 @@
 #define IDC_TXT_TITLE1                  1617
 #define IDC_TXT_TITLE2                  1618
 #define IDC_TXT_TITLE3                  1619
+#define IDC_USETABS                     1620
+#define IDC_CLOSETABS                   1621
+#define IDC_RESTORETABS                 1622
+#define IDC_TABSBOTTOM                  1623
 
 #define IDM_CUT                         40000
 #define IDM_COPY                        40001

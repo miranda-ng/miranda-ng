@@ -322,6 +322,8 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	return FALSE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static HBRUSH hBkgColourBrush;
@@ -545,6 +547,61 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 	return FALSE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class COptionsTabDlg : public CDlgBase
+{
+	CCtrlCheck m_chkTabs, m_chkTabsBottom, m_chkTabsClose, m_chkTabsRestore;
+
+public:
+	COptionsTabDlg() :
+		CDlgBase(g_hInst, IDD_OPT_TABS),
+		m_chkTabs(this, IDC_USETABS),
+		m_chkTabsBottom(this, IDC_TABSBOTTOM),
+		m_chkTabsClose(this, IDC_CLOSETABS),
+		m_chkTabsRestore(this, IDC_RESTORETABS)
+	{
+		m_chkTabs.OnChange = Callback(this, &COptionsTabDlg::onChange_Tabs);
+	}
+
+	virtual void OnInitDialog() override
+	{
+		m_chkTabs.SetState(db_get_b(0, CHAT_MODULE, "Tabs", 1));
+		m_chkTabsBottom.SetState(db_get_b(0, CHAT_MODULE, "TabBottom", 1));
+		m_chkTabsClose.SetState(db_get_b(0, CHAT_MODULE, "TabCloseOnDblClick", 1));
+		m_chkTabsRestore.SetState(db_get_b(0, CHAT_MODULE, "TabRestore", 1));
+		onChange_Tabs(&m_chkTabs);
+	}
+
+	virtual void OnApply() override
+	{
+		BYTE bOldValue = db_get_b(0, CHAT_MODULE, "Tabs", 1);
+
+		db_set_b(0, CHAT_MODULE, "Tabs", m_chkTabs.GetState());
+		db_set_b(0, CHAT_MODULE, "TabBottom", m_chkTabsBottom.GetState());
+		db_set_b(0, CHAT_MODULE, "TabCloseOnDblClick", m_chkTabsClose.GetState());
+		db_set_b(0, CHAT_MODULE, "TabRestore", m_chkTabsRestore.GetState());
+
+		pci->ReloadSettings();
+
+		if (bOldValue != db_get_b(0, CHAT_MODULE, "Tabs", 1)) {
+			pci->SM_BroadcastMessage(nullptr, WM_CLOSE, 0, 1, FALSE);
+			g_Settings.bTabsEnable = db_get_b(0, CHAT_MODULE, "Tabs", 1) != 0;
+		}
+		else Chat_UpdateOptions();
+	}
+
+	void onChange_Tabs(CCtrlCheck *pCheck)
+	{
+		bool bEnabled = pCheck->GetState() != 0;
+		m_chkTabsBottom.Enable(bEnabled);
+		m_chkTabsClose.Enable(bEnabled);
+		m_chkTabsRestore.Enable(bEnabled);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static int OptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
@@ -566,6 +623,12 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
 	odp.szTab.a = LPGEN("Typing notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTemplate = nullptr;
+	odp.pfnDlgProc = nullptr;
+	odp.szTab.a = LPGEN("Tabs");
+	odp.pDialog = new COptionsTabDlg();
 	Options_AddPage(wParam, &odp);
 
 	ChatOptionsInitialize(wParam);

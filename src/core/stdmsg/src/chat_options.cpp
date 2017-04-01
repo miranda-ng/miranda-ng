@@ -30,13 +30,6 @@ struct branch_t
 	HTREEITEM hItem;
 };
 
-static branch_t branch0[] = {
-	{ LPGENW("Use a tabbed interface"), "Tabs", 0, true },
-	{ LPGENW("Close tab on double click"), "TabCloseOnDblClick", 0, false },
-	{ LPGENW("Restore previously open tabs when showing the window"), "TabRestore", 0, false },
-	{ LPGENW("Show tabs at the bottom"), "TabBottom", 0, false },
-};
-
 static branch_t branch1[] = {
 	{ LPGENW("Send message by pressing the 'Enter' key"), "SendOnEnter", 0, true },
 	{ LPGENW("Send message by pressing the 'Enter' key twice"), "SendOnDblEnter", 0, false },
@@ -334,7 +327,6 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHECKBOXES), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHECKBOXES), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
-		hListHeading0 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Options for using a tabbed interface"), db_get_b(0, CHAT_MODULE, "Branch0Exp", 0) ? TRUE : FALSE);
 		hListHeading1 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Appearance and functionality of chat room windows"), db_get_b(0, CHAT_MODULE, "Branch1Exp", 0) ? TRUE : FALSE);
 		hListHeading2 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Appearance of the message log"), db_get_b(0, CHAT_MODULE, "Branch2Exp", 0) ? TRUE : FALSE);
 		hListHeading3 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Default events to show in new chat rooms if the 'event filter' is enabled"), db_get_b(0, CHAT_MODULE, "Branch3Exp", 0) ? TRUE : FALSE);
@@ -342,7 +334,7 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM 
 		hListHeading5 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Icons to display in the tray"), db_get_b(0, CHAT_MODULE, "Branch5Exp", 0) ? TRUE : FALSE);
 		if (PopupInstalled)
 			hListHeading6 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Popups to display"), db_get_b(0, CHAT_MODULE, "Branch6Exp", 0) ? TRUE : FALSE);
-		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading0, branch0, _countof(branch0), 0);
+
 		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading1, branch1, _countof(branch1), 0);
 		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading2, branch2, _countof(branch2), 0);
 		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading3, branch3, _countof(branch3), 0x03E0);
@@ -410,8 +402,6 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM 
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				BYTE b = db_get_b(0, CHAT_MODULE, "Tabs", 1);
-				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch0, _countof(branch0));
 				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch1, _countof(branch1));
 				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch2, _countof(branch2));
 				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch3, _countof(branch3));
@@ -421,13 +411,7 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM 
 					SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch6, _countof(branch6));
 
 				pci->ReloadSettings();
-
-				if (b != db_get_b(0, CHAT_MODULE, "Tabs", 1)) {
-					pci->SM_BroadcastMessage(nullptr, WM_CLOSE, 0, 1, FALSE);
-					g_Settings.bTabsEnable = db_get_b(0, CHAT_MODULE, "Tabs", 1) != 0;
-				}
-				else Chat_UpdateOptions();
-
+				Chat_UpdateOptions();
 				return TRUE;
 			}
 		}
@@ -444,8 +428,7 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM 
 		db_set_b(0, CHAT_MODULE, "Branch4Exp", b);
 		b = TreeView_GetItemState(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading5, TVIS_EXPANDED)&TVIS_EXPANDED ? 1 : 0;
 		db_set_b(0, CHAT_MODULE, "Branch5Exp", b);
-		b = TreeView_GetItemState(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading0, TVIS_EXPANDED)&TVIS_EXPANDED ? 1 : 0;
-		db_set_b(0, CHAT_MODULE, "Branch0Exp", b);
+
 		if (PopupInstalled) {
 			b = TreeView_GetItemState(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading6, TVIS_EXPANDED)&TVIS_EXPANDED ? 1 : 0;
 			db_set_b(0, CHAT_MODULE, "Branch6Exp", b);
