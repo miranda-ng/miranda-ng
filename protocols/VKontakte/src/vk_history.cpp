@@ -24,6 +24,10 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistoryForContact(WPARAM hContact, LPAR
 	debugLogA("CVkProto::SvcGetAllServerHistoryForContact");
 	if (!IsOnline())
 		return 0;
+
+	if (getBool(hContact, "ActiveHistoryTask"))
+		return 0;
+
 	LPCWSTR str = TranslateT("Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?");
 	if (IDNO == MessageBoxW(NULL, str, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 0;
@@ -31,6 +35,8 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistoryForContact(WPARAM hContact, LPAR
 	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
 	if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
 		return 0;
+
+	setByte(hContact, "ActiveHistoryTask", 1);
 
 	MEVENT hDBEvent = db_event_first(hContact);
 	while (hDBEvent) {

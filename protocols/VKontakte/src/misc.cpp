@@ -719,7 +719,10 @@ int CVkProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 	if (event->uType == MSG_WINDOW_EVT_OPENING 	&& m_vkOptions.bLoadLastMessageOnMsgWindowsOpen
 		&& !isChatRoom(event->hContact) && IsHystoryMessageExist(event->hContact) != 1) {
 		m_bNotifyForEndLoadingHistory = false;
-		GetServerHistory(event->hContact, 0, MAXHISTORYMIDSPERONE, 0, 0, true);
+		if (!getBool(event->hContact, "ActiveHistoryTask")) {
+			setByte(event->hContact, "ActiveHistoryTask", 1);
+			GetServerHistory(event->hContact, 0, MAXHISTORYMIDSPERONE, 0, 0, true);
+		}
 	}
 
 	return 0;
