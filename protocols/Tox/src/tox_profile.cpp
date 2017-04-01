@@ -108,7 +108,7 @@ void CToxProto::SaveToxProfile(Tox *tox)
 	uint8_t *data = (uint8_t*)mir_calloc(size + TOX_PASS_ENCRYPTION_EXTRA_LENGTH);
 	tox_get_savedata(tox, data);
 
-	pass_ptrA password(mir_utf8encodeW(pass_ptrT(getWStringA("Password"))));
+	/*pass_ptrA password(mir_utf8encodeW(pass_ptrT(getWStringA("Password"))));
 	if (password && mir_strlen(password))
 	{
 		TOX_ERR_ENCRYPTION coreEncryptError;
@@ -119,7 +119,7 @@ void CToxProto::SaveToxProfile(Tox *tox)
 			return;
 		}
 		size += TOX_PASS_ENCRYPTION_EXTRA_LENGTH;
-	}
+	}*/
 
 	ptrW profilePath(GetToxProfilePath());
 	FILE *profile = _wfopen(profilePath, L"wb");
