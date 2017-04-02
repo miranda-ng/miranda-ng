@@ -330,6 +330,9 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMStringW &res)
 	if (resource->m_tszCapsExt && wcsstr(resource->m_tszCapsExt, JABBER_EXT_NEWGPG) && !wcsstr(res, L"(New_GPG)"))
 		res.Append(L" (New_GPG)");
 
+	if (resource->m_tszCapsExt && wcsstr(resource->m_tszCapsExt, JABBER_EXT_OMEMO) && !wcsstr(res, L"(omemo)"))
+		res.Append(L" (omemo)");
+
 	if (resource->m_tszResourceName && !wcsstr(res, resource->m_tszResourceName))
 		if (wcsstr(res, L"Miranda IM") || wcsstr(res, L"Miranda NG") || m_options.ShowForeignResourceInMirVer)
 			res.AppendFormat(L" [%s]", resource->m_tszResourceName);

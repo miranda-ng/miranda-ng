@@ -559,7 +559,7 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 	if (!node)
 		return;
 	HXML message = xmlGetParent(node);
-	message = xmlGetParent(node);
+	message = xmlGetParent(message);
 	LPCTSTR jid = XmlGetAttrValue(message, L"from");
 	MCONTACT hContact = HContactFromJID(jid);
 	node = XmlGetChild(node, "item"); //get <item> node
@@ -578,9 +578,9 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 		//check if our device exist
 		bool own_device_listed = false;
 		DWORD own_id = omemo::GetOwnDeviceId(this);
-		int i = 0;
 		char setting_name[64];
-		for (HXML list_item = xmlGetFirstChild(node); list_item; xmlGetNextNode(list_item))
+		HXML list_item;
+		for (int p = 1, i = 0; (list_item = XmlGetNthChild(node, L"device", p)) != NULL; p++, i++)
 		{
 			current_id_str = xmlGetAttrValue(list_item, L"id");
 			current_id = _wtoi(current_id_str);
@@ -591,13 +591,14 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 		}
 		if (!own_device_listed)
 			OmemoAnnounceDevice();
+		//TODO: remove all settings higher than 'i' from db
 	}
 	else
 	{
 		//store device id's
-		int i = 0;
 		char setting_name[64];
-		for (HXML list_item = xmlGetFirstChild(node); list_item; xmlGetNextNode(list_item), i++)
+		HXML list_item;
+		for (int p = 1, i = 0; (list_item = XmlGetNthChild(node, L"device", p)) != NULL; p++, i++)
 		{
 			current_id_str = xmlGetAttrValue(list_item, L"id");
 			current_id = _wtoi(current_id_str);

@@ -83,6 +83,7 @@ const JabberFeatCapPairExt g_JabberFeatCapPairsExt[] = {
 	{ JABBER_EXT_SECUREIM,          JABBER_CAPS_SECUREIM,             "SecureIM/IsContactSecured" },
 	{ JABBER_EXT_MIROTR,            JABBER_CAPS_MIROTR,               "MirOTRMenuCheckService"    },
 	{ JABBER_EXT_NEWGPG,            JABBER_CAPS_NEWGPG,               "/ExportGPGKeys"            },
+	{ JABBER_EXT_OMEMO,            JABBER_CAPS_OMEMO,												},
 	{ JABBER_EXT_NUDGE,             JABBER_CAPS_ATTENTION,            "NUDGE/Send"                },
 	{ JABBER_EXT_JINGLE,            JABBER_CAPS_JINGLE,               "Jingle/StartSession"       },
 	{ JABBER_EXT_COMMANDS,          JABBER_CAPS_COMMANDS                                          },
@@ -518,16 +519,55 @@ BOOL CJabberClientCaps::SetPartialCaps(int nIqId, JabberCapsBits jcbCaps)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CJabberClientCapsManager class
 
-CJabberClientCapsManager::CJabberClientCapsManager(CJabberProto *proto)
+CJabberClientCapsManager::CJabberClientCapsManager(CJabberProto *proto) : m_szFeaturesCrc(nullptr)
 {
 	ppro = proto;
 	m_pClients = NULL;
+
+	UpdateFeatHash();
+
+}
+
+void CJabberClientCapsManager::UpdateFeatHash()
+{
+	if (m_szFeaturesCrc)
+		mir_free(m_szFeaturesCrc);
+	wchar_t feat_buf[2048];
+	mir_wstrcpy(feat_buf, L"");
+	JabberCapsBits jcb = JABBER_CAPS_MIRANDA_ALL;
+	for (int i = 0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
+		jcb |= ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
+	if (!ppro->m_options.AllowVersionRequests)
+		jcb &= ~JABBER_CAPS_VERSION;
+
+	if (ppro->m_options.UseOMEMO)
+		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
+
+
+	for (int i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
+		if (jcb & g_JabberFeatCapPairs[i].jcbCap)
+			mir_wstrcat(feat_buf, g_JabberFeatCapPairs[i].szFeature);
+
+	for (int i = 0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
+		if (jcb & ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap)
+			mir_wstrcat(feat_buf, ppro->m_lstJabberFeatCapPairsDynamic[i]->szFeature);
+	unsigned int hash = mir_hashstrW(feat_buf);
+	char *szHash = mir_base64_encode((BYTE*)&hash, sizeof(int));
+	m_szFeaturesCrc = mir_a2u(szHash);
+	mir_free(szHash);
+}
+
+const wchar_t* CJabberClientCapsManager::GetFeaturesCrc()
+{
+	return m_szFeaturesCrc;
 }
 
 CJabberClientCapsManager::~CJabberClientCapsManager()
 {
 	if (m_pClients)
 		delete m_pClients;
+	if(m_szFeaturesCrc)
+		mir_free(m_szFeaturesCrc);
 }
 
 CJabberClientCaps * CJabberClientCapsManager::FindClient(const wchar_t *szNode)
@@ -546,7 +586,10 @@ CJabberClientCaps * CJabberClientCapsManager::FindClient(const wchar_t *szNode)
 
 void CJabberClientCapsManager::AddDefaultCaps()
 {
-	SetClientCaps(JABBER_CAPS_MIRANDA_NODE, szCoreVersion, JABBER_CAPS_MIRANDA_ALL);
+	wchar_t szVerWHash[256];
+	mir_snwprintf(szVerWHash, 255, L"%s %s", szCoreVersion, m_szFeaturesCrc);
+
+	SetClientCaps(JABBER_CAPS_MIRANDA_NODE, szVerWHash, ppro->m_options.UseOMEMO ? (JABBER_CAPS_MIRANDA_ALL | JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY) : JABBER_CAPS_MIRANDA_ALL);
 
 	for (int i=0; g_JabberFeatCapPairsExt[i].szFeature; i++)
 		if (g_JabberFeatCapPairsExt[i].Valid())
@@ -614,10 +657,11 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 		for (i=0; g_JabberFeatCapPairsExt[i].szFeature; i++) {
 			if (!g_JabberFeatCapPairsExt[i].Valid())
 				continue;
-
-			wchar_t szExtCap[ 512 ];
+			//TODO: something better here
+			wchar_t szExtCap[ 512 ], szExtCapWHash [560];
 			mir_snwprintf(szExtCap, L"%s#%s", JABBER_CAPS_MIRANDA_NODE, g_JabberFeatCapPairsExt[i].szFeature);
-			if (!mir_wstrcmp(szNode, szExtCap)) {
+			mir_snwprintf(szExtCapWHash, L"%s %s", szExtCap, m_szFeaturesCrc);
+			if (!mir_wstrcmp(szNode, szExtCap) || !mir_wstrcmp(szNode, szExtCapWHash)) {
 				jcb = g_JabberFeatCapPairsExt[i].jcbCap;
 				break;
 			}
@@ -625,9 +669,11 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 
 		// check features registered through IJabberNetInterface::RegisterFeature() and IJabberNetInterface::AddFeatures()
 		for (i=0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++) {
-			wchar_t szExtCap[ 512 ];
+			//TODO: something better here
+			wchar_t szExtCap[ 512 ], szExtCapWHash[560];
 			mir_snwprintf(szExtCap, L"%s#%s", JABBER_CAPS_MIRANDA_NODE, ppro->m_lstJabberFeatCapPairsDynamic[i]->szExt);
-			if (!mir_wstrcmp(szNode, szExtCap)) {
+			mir_snwprintf(szExtCapWHash, L"%s %s", szExtCap, m_szFeaturesCrc);
+			if (!mir_wstrcmp(szNode, szExtCap) || !mir_wstrcmp(szNode, szExtCapWHash)) {
 				jcb = ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
 				break;
 			}
@@ -642,6 +688,9 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 		for (i=0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
 			jcb |= ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
 	}
+
+	if (ppro->m_options.UseOMEMO)
+		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
 
 	if (!ppro->m_options.AllowVersionRequests)
 		jcb &= ~JABBER_CAPS_VERSION;

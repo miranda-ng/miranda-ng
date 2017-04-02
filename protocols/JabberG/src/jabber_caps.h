@@ -167,7 +167,7 @@ typedef unsigned __int64 JabberCapsBits;
 												 JABBER_CAPS_ROSTER_EXCHANGE | JABBER_CAPS_DIRECT_MUC_INVITE)
 
 #define JABBER_CAPS_MIRANDA_ALL     (JABBER_CAPS_MIRANDA_PARTIAL | JABBER_CAPS_COMMANDS | \
-                                     JABBER_CAPS_USER_MOOD_NOTIFY | JABBER_CAPS_USER_TUNE_NOTIFY | JABBER_CAPS_USER_ACTIVITY_NOTIFY | JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY \
+                                     JABBER_CAPS_USER_MOOD_NOTIFY | JABBER_CAPS_USER_TUNE_NOTIFY | JABBER_CAPS_USER_ACTIVITY_NOTIFY  \
 									 | JABBER_CAPS_PLATFORMX86 | JABBER_CAPS_PLATFORMX64)
 
 
@@ -175,6 +175,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_EXT_MIROTR                       L"mirotr"
 #define JABBER_EXT_JINGLE                       L"jingle"
 #define JABBER_EXT_NEWGPG                       L"new_gpg"
+#define JABBER_EXT_OMEMO                       L"omemo"
 #define JABBER_EXT_NUDGE                        L"nudge"
 #define JABBER_EXT_COMMANDS                     L"cmds"
 #define JABBER_EXT_USER_MOOD                    L"mood"
@@ -276,6 +277,7 @@ protected:
 	mir_cs m_cs;
 	CJabberClientCaps *m_pClients;
 	CJabberProto *ppro;
+	wchar_t *m_szFeaturesCrc;
 
 protected:
 	CJabberClientCaps *FindClient(const wchar_t *szNode);
@@ -285,6 +287,8 @@ public:
 	~CJabberClientCapsManager();
 
 	void AddDefaultCaps();
+	const wchar_t* GetFeaturesCrc();
+	void UpdateFeatHash();
 
 	JabberCapsBits GetClientCaps(wchar_t *szNode, wchar_t *szVer);
 	BOOL SetClientCaps(const wchar_t *szNode, const wchar_t *szVer, JabberCapsBits jcbCaps, int nIqId = -1);

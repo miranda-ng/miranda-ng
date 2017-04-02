@@ -848,24 +848,7 @@ public:
 				}
 			}
 		}
-		//dynamic caps
-		{
-			JabberCapsBits jcb = 0;
-			// set all bits occupied by g_JabberFeatCapPairs
-			for (int i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
-				jcb |= g_JabberFeatCapPairs[i].jcbCap;
-
-			// set all bits already occupied by external plugins
-			for (int i = 0; i < m_proto->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
-				jcb |= m_proto->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
-			if(m_proto->m_options.UseOMEMO)
-				jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
-			else
-				jcb &= ~JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
-
-			m_proto->m_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, szCoreVersion, jcb);
-		}
-
+		m_proto->m_clientCapsManager.UpdateFeatHash();
 		m_proto->SendPresence(m_proto->m_iStatus, true);
 	}
 
