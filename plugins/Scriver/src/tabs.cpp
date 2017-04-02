@@ -178,7 +178,7 @@ static void ActivateChild(ParentWindowData *dat, HWND child)
 {
 	RECT rcChild;
 	GetChildWindowRect(dat, &rcChild);
-	SetWindowPos(child, HWND_TOP, rcChild.left, rcChild.top, rcChild.right - rcChild.left, rcChild.bottom - rcChild.top, SWP_NOSIZE);
+	SetWindowPos(child, HWND_TOP, rcChild.left, rcChild.top, rcChild.right - rcChild.left, rcChild.bottom - rcChild.top, 0);
 
 	int i = GetTabFromHWND(dat, child);
 	if (i == -1)
