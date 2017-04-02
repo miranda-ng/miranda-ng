@@ -88,7 +88,7 @@ void MessageFailureProcess(TMsgQueue *item, const char* err)
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 	if (hwnd == nullptr) {
 		// If message window doesn't already exist, open a new one
-		SendMessageCmd(item->hContact, nullptr, 0);
+		SendMessageCmd(item->hContact, nullptr);
 		hwnd = WindowList_Find(pci->hWindowList, hContact);
 	}
 	else SendMessage(hwnd, DM_REMAKELOG, 0, 0);

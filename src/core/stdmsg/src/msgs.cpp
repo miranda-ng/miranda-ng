@@ -82,7 +82,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 
 	char *szProto = GetContactProto(hContact);
 	if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0)))) {
-		CSrmmWindow *pDlg = new CSrmmWindow(hContact, g_dat.bDoNotStealFocus);
+		CSrmmWindow *pDlg = new CSrmmWindow(hContact);
 		pDlg->Show();
 		return 0;
 	}
@@ -101,7 +101,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR SendMessageCmd(MCONTACT hContact, char *msg, int isWchar)
+INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *pwszInitialText)
 {
 	/* does the MCONTACT's protocol support IM messages? */
 	char *szProto = GetContactProto(hContact);
@@ -112,19 +112,19 @@ INT_PTR SendMessageCmd(MCONTACT hContact, char *msg, int isWchar)
 
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 	if (hwnd) {
-		if (msg) {
+		if (pwszInitialText) {
 			SendDlgItemMessage(hwnd, IDC_SRMM_MESSAGE, EM_SETSEL, -1, SendDlgItemMessage(hwnd, IDC_SRMM_MESSAGE, WM_GETTEXTLENGTH, 0, 0));
-			if (isWchar)
-				SendDlgItemMessageW(hwnd, IDC_SRMM_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)msg);
-			else
-				SendDlgItemMessageA(hwnd, IDC_SRMM_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)msg);
+			SendDlgItemMessageW(hwnd, IDC_SRMM_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)pwszInitialText);
+			mir_free(pwszInitialText);
 		}
 		ShowWindow(hwnd, SW_RESTORE);
 		SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 		SetForegroundWindow(hwnd);
 	}
 	else {
-		CSrmmWindow *pDlg = new CSrmmWindow(hContact, false, msg, isWchar != 0);
+		CSrmmWindow *pDlg = new CSrmmWindow(hContact);
+		pDlg->m_wszInitialText = pwszInitialText;
+		pDlg->m_bNoActivate = false;
 		pDlg->Show();
 	}
 	return 0;
@@ -132,19 +132,19 @@ INT_PTR SendMessageCmd(MCONTACT hContact, char *msg, int isWchar)
 
 static INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 {
-	return SendMessageCmd(wParam, (char*)lParam, TRUE);
+	return SendMessageCmd(wParam, mir_wstrdup((wchar_t*)lParam));
 }
 
 static INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 {
-	return SendMessageCmd(wParam, (char*)lParam, FALSE);
+	return SendMessageCmd(wParam, mir_a2u((char*)lParam));
 }
 
 static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 {
-	CLISTEVENT *cle = (CLISTEVENT *)lParam;
+	CLISTEVENT *cle = (CLISTEVENT*)lParam;
 	if (cle)
-		SendMessageCmd(cle->hContact, nullptr, 0);
+		SendMessageCmd(cle->hContact, nullptr);
 
 	return 0;
 }
@@ -249,7 +249,7 @@ static void RestoreUnreadMessageAlerts(void)
 					autoPopup = true;
 
 				if (autoPopup && !windowAlreadyExists) {
-					CSrmmWindow *pDlg = new CSrmmWindow(hContact, g_dat.bDoNotStealFocus);
+					CSrmmWindow *pDlg = new CSrmmWindow(hContact);
 					pDlg->Show();
 				}
 				else arEvents.insert(new MSavedEvent(hContact, hDbEvent));

@@ -82,12 +82,11 @@ class CSrmmWindow : public CSrmmBaseDialog
 	HANDLE m_hTimeZone;
 	WORD m_wStatus, m_wOldStatus;
 	WORD m_wMinute;
-	wchar_t *m_wszInitialText;
-	bool m_bIsMeta, m_bShowTyping, m_bNoActivate;
+	bool m_bIsMeta, m_bShowTyping;
 
 public:
+	bool m_bIsAutoRTL, m_bNoActivate;
 	MEVENT m_hDbEventFirst, m_hDbEventLast;
-	bool m_bIsAutoRTL;
 
 	int m_avatarWidth, m_avatarHeight;
 	int m_splitterPos, m_originalSplitterPos;
@@ -97,9 +96,10 @@ public:
 	LIST<wchar_t> m_cmdList;
 
 	HBITMAP m_avatarPic;
+	wchar_t *m_wszInitialText;
 
 public:
-	CSrmmWindow(MCONTACT hContact, bool bNoActivate, const char *szInitialText = nullptr, bool bIsUnicode = false);
+	CSrmmWindow(MCONTACT hContact);
 
 	virtual void OnInitDialog() override;
 	virtual void OnDestroy() override;
@@ -128,7 +128,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 int  DbEventIsForMsgWindow(DBEVENTINFO *dbei);
 int  DbEventIsShown(DBEVENTINFO *dbei);
 int  SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact);
-INT_PTR SendMessageCmd(MCONTACT hContact, char *msg, int isWchar);
+INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *msg);
 
 void LoadMsgLogIcons(void);
 void FreeMsgLogIcons(void);

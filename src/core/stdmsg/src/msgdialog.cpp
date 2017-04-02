@@ -99,20 +99,17 @@ static void SetEditorText(HWND hwnd, const wchar_t* txt)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool noActivate, const char *szInitialText, bool bIsUnicode) :
+CSrmmWindow::CSrmmWindow(MCONTACT hContact) :
 	CSrmmBaseDialog(g_hInst, IDD_MSG),
 	m_splitter(this, IDC_SPLITTERY),
 	m_btnOk(this, IDOK),
 	m_cmdList(20),
-	m_bNoActivate(noActivate)
+	m_bNoActivate(g_dat.bDoNotStealFocus)
 {
 	m_hContact = hContact;
 	m_autoClose = CLOSE_ON_CANCEL;
 
 	m_btnOk.OnClick = Callback(this, &CSrmmWindow::onClick_Ok);
-
-	m_wszInitialText = (bIsUnicode) ? mir_wstrdup((wchar_t*)szInitialText) : mir_a2u(szInitialText);
-
 	m_splitter.OnChange = Callback(this, &CSrmmWindow::OnSplitterMoved);
 }
 
