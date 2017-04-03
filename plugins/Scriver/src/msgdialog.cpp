@@ -1406,7 +1406,8 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (wParam == SIZE_RESTORED || wParam == SIZE_MAXIMIZED) {
 			RECT rc;
 			GetClientRect(m_hwnd, &rc);
-			MessageDialogResize(rc.right - rc.left, rc.bottom - rc.top);
+			if (rc.right && rc.bottom)
+				MessageDialogResize(rc.right, rc.bottom);
 		}
 		return TRUE;
 

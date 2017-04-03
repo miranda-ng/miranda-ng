@@ -916,7 +916,8 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		if (wParam == SIZE_RESTORED || wParam == SIZE_MAXIMIZED) {
 			GetClientRect(m_hwnd, &rc);
-			MessageDialogResize(rc.right - rc.left, rc.bottom - rc.top);
+			if (rc.right && rc.bottom)
+				MessageDialogResize(rc.right, rc.bottom);
 		}
 		break;
 
