@@ -22,9 +22,6 @@ Boston, MA 02111-1307, USA.
 HINSTANCE hInstance = NULL;
 int hLangpack;
 
-HANDLE hOnModulesLoaded;
-HANDLE hOnPreShutdown;
-
 PLUGININFOEX pluginInfoEx = {
     sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -54,13 +51,11 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	hOnModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	hOnPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	DestroyServiceFunction(hQuickRepliesService);
 	return 0;
 }

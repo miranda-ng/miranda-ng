@@ -42,20 +42,10 @@ Boston, MA 02111-1307, USA.
 #define MS_QUICKREPLIES_SERVICE MODULE"/Service"
 
 extern HINSTANCE hInstance;
-
-extern BYTE iNumber;
-
-extern HANDLE hOnOptInitialized;
-extern HANDLE hOnButtonPressed;
-extern HANDLE hQuickRepliesService;
-extern HANDLE hOnModulesLoaded;
-extern HANDLE hOnPreShutdown;
-
-INT_PTR QuickRepliesService(WPARAM wParam, LPARAM lParam);
+extern int iNumber;
 
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam);
 int OnOptInitialized(WPARAM wParam, LPARAM lParam);
 int OnButtonPressed(WPARAM wParam, LPARAM lParam);
-int OnPreShutdown(WPARAM wParam, LPARAM lParam);
 
 #endif //__QUICK_REPLY_H__

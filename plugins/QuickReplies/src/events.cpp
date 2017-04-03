@@ -21,32 +21,14 @@ Boston, MA 02111-1307, USA.
 
 using namespace std;
 
-BYTE iNumber;
-
-HANDLE hOnOptInitialized;
-HANDLE hOnButtonPressed;
-HANDLE hQuickRepliesService;
-
-INT_PTR QuickRepliesService(WPARAM, LPARAM)
-{
-	return TRUE;
-}
-
 static IconItem icon = { LPGEN("Button"), "qr_button", IDI_QICON };
+
+int iNumber = 0;
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	UnhookEvent(hOnModulesLoaded);
-
-	if (!ServiceExists(MS_QUICKREPLIES_SERVICE)) {
-		iNumber = 0;
-		hQuickRepliesService = CreateServiceFunction(MS_QUICKREPLIES_SERVICE, QuickRepliesService);
-	}
-	else iNumber = db_get_b(NULL, MODULE, "InstancesCount", 0);
-	db_set_b(NULL, MODULE, "InstancesCount", iNumber + 1);
-
-	hOnOptInitialized = HookEvent(ME_OPT_INITIALISE, OnOptInitialized);
-	hOnButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed);
+	HookEvent(ME_OPT_INITIALISE, OnOptInitialized);
+	HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed);
 
 	Icon_Register(hInstance, "TabSRMM/Quick Replies", &icon, 1);
 
@@ -57,7 +39,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	BBButton bbd = {};
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
 	bbd.pszModuleName = buttonName;
-	bbd.pwszTooltip = LPGENW("Quick Replies\r\nLeft button - open menu\r\nRight button - options page");
+	bbd.pwszTooltip = LPGENW("Quick Replies");
 	bbd.hIcon = icon.hIcolib;
 	bbd.dwButtonID = iNumber;
 	bbd.dwDefPos = 220;
@@ -83,7 +65,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 
 	if (count == 0 || cbcd->flags & BBCF_RIGHTBUTTON) {
 		mir_snprintf(buttonName, "%s %x", Translate("Button"), iNumber + 1);
-		Options_Open(L"Message Sessions", L"Quick Replies", _A2T(buttonName));
+		Options_Open(L"Message sessions", L"Quick Replies", _A2T(buttonName));
 		return 0;
 	}
 
@@ -120,12 +102,4 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 	replyList.destroy();
 
 	return 1;
-}
-
-int OnPreShutdown(WPARAM, LPARAM)
-{
-	UnhookEvent(hOnButtonPressed);
-	UnhookEvent(hOnOptInitialized);
-	UnhookEvent(hOnPreShutdown);
-	return 0;
 }
