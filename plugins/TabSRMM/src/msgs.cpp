@@ -45,7 +45,7 @@ void CB_InitCustomButtons();
 
 int IEViewOptionsChanged(WPARAM, LPARAM)
 {
-	M.BroadcastMessage(DM_IEVIEWOPTIONSCHANGED, 0, 0);
+	Srmm_Broadcast(DM_IEVIEWOPTIONSCHANGED, 0, 0);
 	return 0;
 }
 
@@ -54,7 +54,7 @@ int IEViewOptionsChanged(WPARAM, LPARAM)
 
 int SmileyAddOptionsChanged(WPARAM, LPARAM)
 {
-	M.BroadcastMessage(DM_SMILEYOPTIONSCHANGED, 0, 0);
+	Srmm_Broadcast(DM_SMILEYOPTIONSCHANGED, 0, 0);
 	pci->SM_BroadcastMessage(nullptr, DM_SMILEYOPTIONSCHANGED, 0, 0, FALSE);
 	return 0;
 }
@@ -280,9 +280,9 @@ void CTabBaseDlg::NotifyDeliveryFailure() const
 
 static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 {
-	HWND hwnd = M.FindWindow(hContact);
+	HWND hwnd = Srmm_FindWindow(hContact);
 	if (hwnd == nullptr)
-		hwnd = M.FindWindow(db_mc_getMeta(hContact));
+		hwnd = Srmm_FindWindow(db_mc_getMeta(hContact));
 	if (hwnd == nullptr)
 		return 0;
 
@@ -344,7 +344,7 @@ int TSAPI MessageWindowOpened(MCONTACT hContact, HWND _hwnd)
 	TContainerData *pContainer = nullptr;
 
 	if (hContact)
-		hwnd = M.FindWindow(hContact);
+		hwnd = Srmm_FindWindow(hContact);
 	else if (_hwnd)
 		hwnd = _hwnd;
 	else
@@ -382,7 +382,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 {
 	MCONTACT hContact = ((CLISTEVENT *)lParam)->hContact;
 
-	HWND hwndExisting = M.FindWindow(hContact);
+	HWND hwndExisting = Srmm_FindWindow(hContact);
 	if (hwndExisting != 0)
 		SendMessage(hwndExisting, DM_ACTIVATEME, 0, 0);
 	else {
@@ -422,7 +422,7 @@ INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar
 	if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 		return 0;
 
-	HWND hwnd = M.FindWindow(hContact);
+	HWND hwnd = Srmm_FindWindow(hContact);
 	if (hwnd) {
 		if (pszMsg) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_SRMM_MESSAGE);
@@ -570,7 +570,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 
 HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, bool bActivateTab, bool bPopupContainer, bool bWantPopup, MEVENT hdbEvent, bool bIsUnicode, const char *pszInitialText)
 {
-	if (M.FindWindow(hContact) != 0) {
+	if (Srmm_FindWindow(hContact) != 0) {
 		_DebugPopup(hContact, L"Warning: trying to create duplicate window");
 		return 0;
 	}
@@ -946,7 +946,7 @@ static int TSAPI LoadFromIconLib()
 	PluginConfig.g_iconClock = IcoLib_GetIcon("tabSRMM_clock_symbol");
 
 	CacheMsgLogIcons();
-	M.BroadcastMessage(WM_CBD_LOADICONS, 0, 0);
+	Srmm_Broadcast(WM_CBD_LOADICONS, 0, 0);
 	return 0;
 }
 
@@ -993,8 +993,8 @@ int IconsChanged(WPARAM, LPARAM)
 {
 	CreateImageList(FALSE);
 	CacheMsgLogIcons();
-	M.BroadcastMessage(DM_OPTIONSAPPLIED, 0, 0);
-	M.BroadcastMessage(DM_UPDATEWINICON, 0, 0);
+	Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
+	Srmm_Broadcast(DM_UPDATEWINICON, 0, 0);
 	return 0;
 }
 

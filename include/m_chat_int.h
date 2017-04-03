@@ -340,7 +340,6 @@ struct CHAT_MANAGER
 	FONTINFO aFonts[OPTIONS_FONTCOUNT];
 	LIST<SESSION_INFO> &arSessions;
 	char **pLogIconBmpBits;
-	MWindowList hWindowList;
 
 	// user-defined custom callbacks
 	void (*OnCreateModule)(MODULEINFO*);
@@ -383,6 +382,12 @@ EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, 
 
 // receives char** as the first parameter
 EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_MessageStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb);
+
+// sends a message to all SRMM windows
+EXTERN_C MIR_APP_DLL(void) Srmm_Broadcast(UINT, WPARAM, LPARAM);
+
+// finds a SRMM window using hContact
+EXTERN_C MIR_APP_DLL(HWND) Srmm_FindWindow(MCONTACT hContact);
 
 // updates options for all windows
 EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions();

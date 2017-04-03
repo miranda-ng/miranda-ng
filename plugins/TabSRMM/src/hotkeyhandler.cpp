@@ -94,7 +94,7 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 	if (hContact == 0)
 		return;
 
-	HWND hWnd = M.FindWindow(hContact);
+	HWND hWnd = Srmm_FindWindow(hContact);
 	if (hWnd && IsWindow(hWnd)) {
 		TContainerData *pContainer = 0;
 		SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
@@ -178,7 +178,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				return TRUE;
 			}
 			else if (dis->CtlType == ODT_MENU) {
-				HWND hWnd = M.FindWindow((MCONTACT)dis->itemID);
+				HWND hWnd = Srmm_FindWindow((MCONTACT)dis->itemID);
 				DWORD idle = 0;
 
 				if (hWnd == nullptr) {
@@ -354,7 +354,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case DM_DOCREATETAB:
 		{
-			HWND hWnd = M.FindWindow(lParam);
+			HWND hWnd = Srmm_FindWindow(lParam);
 			if (hWnd && IsWindow(hWnd)) {
 				TContainerData *pContainer = 0;
 				SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
@@ -388,7 +388,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			HKL hkl = (HKL)lParam;
 			MCONTACT hContact = wParam;
 
-			HWND	hWnd = M.FindWindow(hContact);
+			HWND	hWnd = Srmm_FindWindow(hContact);
 			if (hWnd) {
 				CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 				if (dat) {
@@ -430,7 +430,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				RedrawWindow(pCont->m_hwnd, nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 			}
 		}
-		M.BroadcastMessage(WM_DWMCOMPOSITIONCHANGED, 0, 0);
+		Srmm_Broadcast(WM_DWMCOMPOSITIONCHANGED, 0, 0);
 		break;
 
 	// this message is fired when the user changes desktop color

@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "chat.h"
 
 #define MODULENAME "SRMM_Toolbar"
 
@@ -148,7 +149,7 @@ MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 	if (cbd->m_dwArrowCID == LastCID)
 		LastCID++;
 
-	WindowList_Broadcast(chatApi.hWindowList, WM_CBD_UPDATED, 0, 0);
+	WindowList_Broadcast(g_hWindowList, WM_CBD_UPDATED, 0, 0);
 	return 0;
 }
 
@@ -190,7 +191,7 @@ MIR_APP_DLL(int) Srmm_SetButtonState(MCONTACT hContact, BBButton *bbdi)
 	if (!tempCID)
 		return 1;
 
-	HWND hwndDlg = WindowList_Find(chatApi.hWindowList, hContact);
+	HWND hwndDlg = WindowList_Find(g_hWindowList, hContact);
 	if (hwndDlg == nullptr)
 		return 1;
 
@@ -231,7 +232,7 @@ MIR_APP_DLL(int) Srmm_RemoveButton(BBButton *bbdi)
 	}
 
 	if (pFound) {
-		WindowList_Broadcast(chatApi.hWindowList, WM_CBD_REMOVED, pFound->m_dwButtonCID, (LPARAM)pFound);
+		WindowList_Broadcast(g_hWindowList, WM_CBD_REMOVED, pFound->m_dwButtonCID, (LPARAM)pFound);
 		delete pFound;
 	}
 	return 0;
@@ -272,7 +273,7 @@ MIR_APP_DLL(int) Srmm_ModifyButton(BBButton *bbdi)
 	}
 
 	if (bFound)
-		WindowList_Broadcast(chatApi.hWindowList, WM_CBD_UPDATED, 0, (LPARAM)cbd);
+		WindowList_Broadcast(g_hWindowList, WM_CBD_UPDATED, 0, (LPARAM)cbd);
 	return 0;
 }
 
@@ -403,8 +404,8 @@ static void CB_ReInitCustomButtons()
 	}
 	qsort(arButtonsList.getArray(), arButtonsList.getCount(), sizeof(void*), sstSortButtons);
 
-	WindowList_Broadcast(chatApi.hWindowList, WM_CBD_UPDATED, 0, 0);
-	WindowList_Broadcast(chatApi.hWindowList, WM_CBD_LOADICONS, 0, 0);
+	WindowList_Broadcast(g_hWindowList, WM_CBD_UPDATED, 0, 0);
+	WindowList_Broadcast(g_hWindowList, WM_CBD_LOADICONS, 0, 0);
 }
 
 static void CB_WriteButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
@@ -618,7 +619,7 @@ public:
 
 		WORD newGap = m_gap.GetPosition();
 		if (newGap != db_get_b(0, MODULENAME, "ButtonsBarGap", 1)) {
-			WindowList_BroadcastAsync(chatApi.hWindowList, WM_SIZE, 0, 0);
+			WindowList_BroadcastAsync(g_hWindowList, WM_SIZE, 0, 0);
 			db_set_b(0, MODULENAME, "ButtonsBarGap", newGap);
 		}
 
@@ -638,7 +639,7 @@ public:
 	void btnResetClicked(void*)
 	{
 		db_delete_module(0, MODULENAME);
-		WindowList_Broadcast(chatApi.hWindowList, WM_CBD_REMOVED, 0, 0);
+		WindowList_Broadcast(g_hWindowList, WM_CBD_REMOVED, 0, 0);
 
 		Srmm_ResetToolbar();
 		NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);

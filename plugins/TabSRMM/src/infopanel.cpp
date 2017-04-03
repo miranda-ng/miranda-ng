@@ -148,7 +148,7 @@ void CInfoPanel::setHeight(LONG newHeight, bool fBroadcast)
 	if (fBroadcast) {
 		if (!m_fPrivateHeight) {
 			if (!m_dat->m_pContainer->settings->fPrivate)
-				M.BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)newHeight);
+				Srmm_Broadcast(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)newHeight);
 			else
 				::BroadCastContainer(m_dat->m_pContainer, DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)newHeight);
 		}
@@ -1194,13 +1194,13 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				if (BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_NOSYNC)) {
 					loadHeight();
 					if (!m_dat->m_pContainer->settings->fPrivate)
-						M.BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
+						Srmm_Broadcast(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
 					else
 						::BroadCastContainer(m_dat->m_pContainer, DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
 				}
 				else {
 					if (!m_dat->m_pContainer->settings->fPrivate)
-						M.BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, 0);
+						Srmm_Broadcast(DM_SETINFOPANEL, (WPARAM)m_dat, 0);
 					else
 						::BroadCastContainer(m_dat->m_pContainer, DM_SETINFOPANEL, (WPARAM)m_dat, 0);
 				}

@@ -354,7 +354,7 @@ int CTabBaseDlg::MsgWindowMenuHandler(int selection, int menuId)
 		case ID_PICMENU_ALWAYSKEEPTHEBUTTONBARATFULLWIDTH:
 			PluginConfig.m_bAlwaysFullToolbarWidth = !PluginConfig.m_bAlwaysFullToolbarWidth;
 			db_set_b(0, SRMSGMOD_T, "alwaysfulltoolbar", (BYTE)PluginConfig.m_bAlwaysFullToolbarWidth);
-			M.BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 1);
+			Srmm_Broadcast(DM_CONFIGURETOOLBAR, 0, 1);
 			break;
 
 		case ID_PICMENU_SAVETHISPICTUREAS:

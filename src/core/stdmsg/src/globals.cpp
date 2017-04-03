@@ -58,7 +58,7 @@ static int OnShutdown(WPARAM, LPARAM)
 static int OnMetaChanged(WPARAM hMeta, LPARAM)
 {
 	if (hMeta) {
-		HWND hwnd = WindowList_Find(pci->hWindowList, hMeta);
+		HWND hwnd = Srmm_FindWindow(hMeta);
 		if (hwnd != nullptr)
 			SendMessage(hwnd, DM_GETAVATAR, 0, 0);
 	}
@@ -68,13 +68,13 @@ static int OnMetaChanged(WPARAM hMeta, LPARAM)
 static int dbaddedevent(WPARAM hContact, LPARAM hDbEvent)
 {
 	if (hContact) {
-		HWND h = WindowList_Find(pci->hWindowList, hContact);
+		HWND h = Srmm_FindWindow(hContact);
 		if (h)
 			SendMessage(h, HM_DBEVENTADDED, hContact, hDbEvent);
 
 		MCONTACT hEventContact = db_event_getContact(hDbEvent);
 		if (hEventContact != hContact)
-			if ((h = WindowList_Find(pci->hWindowList, hEventContact)) != nullptr)
+			if ((h = Srmm_FindWindow(hEventContact)) != nullptr)
 				SendMessage(h, HM_DBEVENTADDED, hEventContact, hDbEvent);
 	}
 	return 0;
@@ -94,7 +94,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 
 static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 {
-	HWND h = WindowList_Find(pci->hWindowList, hContact);
+	HWND h = Srmm_FindWindow(hContact);
 	if (h)
 		SendMessage(h, HM_AVATARACK, hContact, lParam);
 	return 0;

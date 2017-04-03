@@ -322,7 +322,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 				m_SendFormat = M.GetDword(m_hContact, "sendformat", PluginConfig.m_SendFormat);
 				if (m_SendFormat == -1)          // per contact override to disable it..
 					m_SendFormat = 0;
-				M.BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 1);
+				Srmm_Broadcast(DM_CONFIGURETOOLBAR, 0, 1);
 			}
 		}
 		break;
@@ -1362,9 +1362,9 @@ static HANDLE hHookIconPressedEvt;
 static int OnSrmmIconChanged(WPARAM hContact, LPARAM)
 {
 	if (hContact == 0)
-		M.BroadcastMessage(DM_STATUSICONCHANGE, 0, 0);
+		Srmm_Broadcast(DM_STATUSICONCHANGE, 0, 0);
 	else {
-		HWND hwnd = M.FindWindow(hContact);
+		HWND hwnd = Srmm_FindWindow(hContact);
 		if (hwnd)
 			PostMessage(hwnd, DM_STATUSICONCHANGE, 0, 0);
 	}

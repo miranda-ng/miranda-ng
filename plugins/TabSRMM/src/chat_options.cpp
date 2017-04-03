@@ -647,7 +647,7 @@ int FontServiceFontsChanged(WPARAM, LPARAM)
 	FreeTabConfig();
 	ReloadTabConfig();
 	Skin->setupAeroSkins();
-	M.BroadcastMessage(DM_OPTIONSAPPLIED, 1, 0);
+	Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
 	return 0;
 }
 

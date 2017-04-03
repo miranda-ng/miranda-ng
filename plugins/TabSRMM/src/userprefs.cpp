@@ -135,7 +135,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			CSrmmWindow *dat = 0;
 			DWORD	*pdwActionToTake = (DWORD *)lParam;
 			unsigned int iOldIEView = 0;
-			HWND	hWnd = M.FindWindow(hContact);
+			HWND	hWnd = Srmm_FindWindow(hContact);
 			BYTE	bOldInfoPanel = M.GetByte(hContact, "infopanel", 0);
 
 			if (hWnd) {
@@ -340,7 +340,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 		case WM_USER + 100: {
 			int i = 0;
 			LRESULT state;
-			HWND	hwnd = M.FindWindow(hContact);
+			HWND	hwnd = Srmm_FindWindow(hContact);
 			DWORD	*dwActionToTake = (DWORD *)lParam, dwMask = 0, dwFlags = 0, maskval;
 
 			CSrmmWindow *dat = nullptr;
@@ -466,7 +466,7 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDOK:
 			DWORD	dwActionToTake = 0;			// child pages request which action to take
-			HWND	hwnd = M.FindWindow(hContact);
+			HWND	hwnd = Srmm_FindWindow(hContact);
 
 			tci.mask = TCIF_PARAM;
 

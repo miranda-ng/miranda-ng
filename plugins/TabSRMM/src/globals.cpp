@@ -352,7 +352,7 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	if (hContact == 0) {
 		if (!strcmp("Nick", setting))
-			M.BroadcastMessage(DM_OWNNICKCHANGED, 0, (LPARAM)cws->szModule);
+			Srmm_Broadcast(DM_OWNNICKCHANGED, 0, (LPARAM)cws->szModule);
 		return 0;
 	}
 
@@ -377,7 +377,7 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 		if (!strcmp(setting, "Nick"))      // filter out this setting to avoid infinite loops while trying to obtain the most online contact
 			return 0;
 
-	HWND hwnd = M.FindWindow(hContact);
+	HWND hwnd = Srmm_FindWindow(hContact);
 	bool fChanged = false, fExtendedStatusChange = false;
 	if (!strcmp(cws->szSetting, "Status"))
 		fChanged = c->updateStatus(cws->value.wVal);
@@ -520,7 +520,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 			DBEVENTINFO dbei = {};
 			db_event_get(hDbEvent, &dbei);
 			if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_MESSAGE) {
-				if (M.FindWindow(hContact) != nullptr)
+				if (Srmm_FindWindow(hContact) != nullptr)
 					continue;
 
 				arEvents.insert(new MSavedEvent(hContact, hDbEvent));

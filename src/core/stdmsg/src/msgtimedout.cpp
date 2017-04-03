@@ -85,11 +85,11 @@ void MessageFailureProcess(TMsgQueue *item, const char* err)
 {
 	MCONTACT hContact = db_mc_tryMeta(item->hContact);
 
-	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
+	HWND hwnd = Srmm_FindWindow(hContact);
 	if (hwnd == nullptr) {
 		// If message window doesn't already exist, open a new one
 		SendMessageCmd(item->hContact, nullptr);
-		hwnd = WindowList_Find(pci->hWindowList, hContact);
+		hwnd = Srmm_FindWindow(hContact);
 	}
 	else SendMessage(hwnd, DM_REMAKELOG, 0, 0);
 

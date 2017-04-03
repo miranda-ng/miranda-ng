@@ -2424,7 +2424,7 @@ void ShowRoom(SESSION_INFO *si)
 		return; // smth went wrong, nothing to do here
 
 	MCONTACT hContact = si->hContact;
-	if (M.FindWindow(hContact) != 0)
+	if (Srmm_FindWindow(hContact) != 0)
 		return;
 
 	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6))

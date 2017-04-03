@@ -61,7 +61,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 
 	pcli->pfnRemoveEvent(hContact, 1);
 	/* does a window for the contact exist? */
-	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
+	HWND hwnd = Srmm_FindWindow(hContact);
 	if (hwnd) {
 		if (!g_dat.bDoNotStealFocus) {
 			ShowWindow(hwnd, SW_RESTORE);
@@ -110,7 +110,7 @@ INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *pwszInitialText)
 
 	hContact = db_mc_tryMeta(hContact);
 
-	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
+	HWND hwnd = Srmm_FindWindow(hContact);
 	if (hwnd) {
 		if (pwszInitialText) {
 			SendDlgItemMessage(hwnd, IDC_SRMM_MESSAGE, EM_SETSEL, -1, SendDlgItemMessage(hwnd, IDC_SRMM_MESSAGE, WM_GETTEXTLENGTH, 0, 0));
@@ -158,7 +158,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 
 	SkinPlaySound((lParam) ? "TNStart" : "TNStop");
 
-	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
+	HWND hwnd = Srmm_FindWindow(hContact);
 	if (hwnd)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
 	else if (lParam && g_dat.bShowTypingTray) {
@@ -191,14 +191,14 @@ static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if (!strcmp(cws->szModule, "CList"))
-		WindowList_Broadcast(pci->hWindowList, DM_UPDATETITLE, (WPARAM)cws, 0);
+		Srmm_Broadcast(DM_UPDATETITLE, (WPARAM)cws, 0);
 	else if (hContact) {
 		if (cws->szSetting && !strcmp(cws->szSetting, "Timezone"))
-			WindowList_Broadcast(pci->hWindowList, DM_NEWTIMEZONE, (WPARAM)cws, 0);
+			Srmm_Broadcast(DM_NEWTIMEZONE, (WPARAM)cws, 0);
 		else {
 			char *szProto = GetContactProto(hContact);
 			if (szProto && !strcmp(cws->szModule, szProto))
-				WindowList_Broadcast(pci->hWindowList, DM_UPDATETITLE, (WPARAM)cws, 0);
+				Srmm_Broadcast(DM_UPDATETITLE, (WPARAM)cws, 0);
 		}
 	}
 	return 0;
@@ -207,7 +207,7 @@ static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 // If a contact gets deleted, close its message window if there is any
 static int ContactDeleted(WPARAM wParam, LPARAM)
 {
-	HWND hwnd = WindowList_Find(pci->hWindowList, wParam);
+	HWND hwnd = Srmm_FindWindow(wParam);
 	if (hwnd)
 		SendMessage(hwnd, WM_CLOSE, 0, 0);
 
@@ -240,7 +240,7 @@ static void RestoreUnreadMessageAlerts(void)
 			dbei.cbBlob = 0;
 			db_event_get(hDbEvent, &dbei);
 			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
-				int windowAlreadyExists = WindowList_Find(pci->hWindowList, hContact) != nullptr;
+				int windowAlreadyExists = Srmm_FindWindow(hContact) != nullptr;
 				if (windowAlreadyExists)
 					continue;
 
@@ -415,7 +415,7 @@ void SetButtonsPos(HWND hwndDlg, bool bIsChat)
 
 static int FontsChanged(WPARAM, LPARAM)
 {
-	WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, TRUE, 0);
+	Srmm_Broadcast(DM_OPTIONSAPPLIED, TRUE, 0);
 	return 0;
 }
 
@@ -443,7 +443,7 @@ static int SplitmsgModulesLoaded(WPARAM, LPARAM)
 
 int PreshutdownSendRecv(WPARAM, LPARAM)
 {
-	WindowList_Broadcast(pci->hWindowList, WM_CLOSE, 0, 0);
+	Srmm_Broadcast(WM_CLOSE, 0, 0);
 
 	DeinitStatusIcons();
 	return 0;
@@ -455,8 +455,8 @@ static int IconsChanged(WPARAM, LPARAM)
 	LoadMsgLogIcons();
 
 	// change all the icons
-	WindowList_Broadcast(pci->hWindowList, DM_REMAKELOG, 0, 0);
-	WindowList_Broadcast(pci->hWindowList, DM_UPDATEWINICON, 0, 0);
+	Srmm_Broadcast(DM_REMAKELOG, 0, 0);
+	Srmm_Broadcast(DM_UPDATEWINICON, 0, 0);
 	return 0;
 }
 
@@ -483,7 +483,7 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 	if (st == nullptr)
 		return 1;
 
-	HWND hwnd = WindowList_Find(pci->hWindowList, wParam);
+	HWND hwnd = Srmm_FindWindow(wParam);
 	if (hwnd == nullptr)
 		return 1;
 

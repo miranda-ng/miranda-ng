@@ -78,7 +78,7 @@ MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
 	if (hContact == 0)
 		return 1;
 
-	HWND hwnd = WindowList_Find(chatApi.hWindowList, hContact);
+	HWND hwnd = WindowList_Find(g_hWindowList, hContact);
 	if (hwnd == nullptr)
 		return 1;
 
@@ -94,3 +94,12 @@ MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
 	return 0;
 }
 
+MIR_APP_DLL(void) Srmm_Broadcast(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	WindowList_Broadcast(g_hWindowList, msg, wParam, lParam);
+}
+
+MIR_APP_DLL(HWND) Srmm_FindWindow(MCONTACT hContact)
+{
+	return WindowList_Find(g_hWindowList, hContact);
+}

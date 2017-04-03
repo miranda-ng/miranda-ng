@@ -446,3 +446,5 @@ _stubNicklistProc@16 @448 NONAME
 Chat_GetTextPixelSize @449 NONAME
 ?NotifyEvent@CSrmmBaseDialog@@IAEHH@Z @450 NONAME
 Srmm_GetWindowData @451
+Srmm_FindWindow @452
+Srmm_Broadcast @453

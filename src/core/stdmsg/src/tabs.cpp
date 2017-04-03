@@ -245,7 +245,7 @@ void CTabbedWindow::SetWindowPosition()
 	}
 
 	if (!g_dat.bSavePerContact && g_dat.bCascade)
-		WindowList_Broadcast(pci->hWindowList, DM_CASCADENEWWINDOW, (WPARAM)m_hwnd, (LPARAM)&m_windowWasCascaded);
+		Srmm_Broadcast(DM_CASCADENEWWINDOW, (WPARAM)m_hwnd, (LPARAM)&m_windowWasCascaded);
 }
 
 void CTabbedWindow::TabClicked()

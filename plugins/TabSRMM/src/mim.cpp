@@ -52,24 +52,6 @@ wchar_t  CMimAPI::m_userDir[] = L"\0";
 bool   CMimAPI::m_haveBufferedPaint = false;
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// window list functions
-
-void CMimAPI::BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	WindowList_Broadcast(pci->hWindowList, msg, wParam, lParam);
-}
-
-void CMimAPI::BroadcastMessageAsync(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	WindowList_BroadcastAsync(pci->hWindowList, msg, wParam, lParam);
-}
-
-HWND CMimAPI::FindWindow(MCONTACT h) const
-{
-	return WindowList_Find(pci->hWindowList, h);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 int CMimAPI::FoldersPathChanged(WPARAM, LPARAM)
 {
@@ -224,11 +206,11 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 	int foundWin = 0, preTyping = 0;
 	BOOL fShowOnClist = TRUE;
 
-	HWND hwnd = M.FindWindow(hContact);
+	HWND hwnd = Srmm_FindWindow(hContact);
 	MCONTACT hMeta = db_mc_getMeta(hContact);
 	if (hMeta) {
 		if (!hwnd)
-			hwnd = M.FindWindow(hMeta);
+			hwnd = Srmm_FindWindow(hMeta);
 		hContact = hMeta;
 	}
 
@@ -399,9 +381,9 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	DBEVENTINFO dbei = {};
 	db_event_get(hDbEvent, &dbei);
 
-	HWND hwnd = M.FindWindow(hContact);
+	HWND hwnd = Srmm_FindWindow(hContact);
 	if (hwnd == nullptr)
-		hwnd = M.FindWindow(db_event_getContact(hDbEvent));
+		hwnd = Srmm_FindWindow(db_event_getContact(hDbEvent));
 
 	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);
 	BOOL isShownCustomEvent = DbEventIsForMsgWindow(&dbei);

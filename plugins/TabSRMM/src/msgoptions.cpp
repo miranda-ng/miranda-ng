@@ -323,8 +323,8 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					CacheMsgLogIcons();
 					PluginConfig.reloadSettings();
 					CSkin::setAeroEffect(-1);
-					M.BroadcastMessage(DM_OPTIONSAPPLIED, 1, 0);
-					M.BroadcastMessage(DM_FORCEDREMAKELOG, 0, 0);
+					Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
+					Srmm_Broadcast(DM_FORCEDREMAKELOG, 0, 0);
 					SendMessage(GetParent(hwndDlg), WM_COMMAND, IDCANCEL, 0);
 				}
 			}
@@ -621,7 +621,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				// scan the tree view and obtain the options...
 				TreeViewToDB(GetDlgItem(hwndDlg, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, SRMSGMOD_T, nullptr);
 				PluginConfig.reloadSettings();
-				M.BroadcastMessage(DM_OPTIONSAPPLIED, 1, 0);
+				Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
 				return TRUE;
 			}
 			break;
@@ -826,7 +826,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				else
 					db_set_dw(0, SRMSGMOD_T, "maxhist", 0);
 				PluginConfig.reloadSettings();
-				M.BroadcastMessage(DM_OPTIONSAPPLIED, 1, 0);
+				Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
 				return TRUE;
 			}
 		}
@@ -1055,7 +1055,7 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 				PluginConfig.m_EscapeCloses = (int)SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_GETCURSEL, 0, 0);
 				db_set_b(0, SRMSGMOD_T, "escmode", (BYTE)PluginConfig.m_EscapeCloses);
 				PluginConfig.reloadSettings();
-				M.BroadcastMessage(DM_OPTIONSAPPLIED, 0, 0);
+				Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
 				return TRUE;
 			}
 		}
@@ -1592,7 +1592,7 @@ static INT_PTR CALLBACK DlgProcTabSrmmModernOptions(HWND hwndDlg, UINT msg, WPAR
 					break;
 				}
 				PluginConfig.reloadSettings();
-				M.BroadcastMessage(DM_OPTIONSAPPLIED, 1, 0);
+				Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
 				return TRUE;
 			}
 		}

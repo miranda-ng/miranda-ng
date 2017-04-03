@@ -42,6 +42,7 @@ extern HMENU g_hMenu;
 extern HCURSOR g_hCurHyperlinkHand;
 extern char* pLogIconBmpBits[14];
 extern LIST<SESSION_INFO> g_arSessions;
+extern MWindowList g_hWindowList;
 
 // log.c
 void     LoadMsgLogBitmaps(void);

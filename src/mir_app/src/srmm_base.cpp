@@ -577,7 +577,7 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 
 void CSrmmBaseDialog::OnInitDialog()
 {
-	WindowList_Add(chatApi.hWindowList, m_hwnd, m_hContact);
+	WindowList_Add(g_hWindowList, m_hwnd, m_hContact);
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 
 	SetWindowLongPtr(m_log.GetHwnd(), GWLP_USERDATA, LPARAM(this));
@@ -598,7 +598,7 @@ void CSrmmBaseDialog::OnInitDialog()
 
 void CSrmmBaseDialog::OnDestroy()
 {
-	WindowList_Remove(chatApi.hWindowList, m_hwnd);
+	WindowList_Remove(g_hWindowList, m_hwnd);
 
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
 	mir_unsubclassWindow(m_log.GetHwnd(), stubLogProc);

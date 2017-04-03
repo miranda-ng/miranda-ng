@@ -264,7 +264,7 @@ void CSrmmWindow::OnInitDialog()
 	}
 
 	if (!g_dat.bSavePerContact && g_dat.bCascade)
-		WindowList_Broadcast(pci->hWindowList, DM_CASCADENEWWINDOW, (WPARAM)m_hwnd, (LPARAM)&m_windowWasCascaded);
+		Srmm_Broadcast(DM_CASCADENEWWINDOW, (WPARAM)m_hwnd, (LPARAM)&m_windowWasCascaded);
 
 	if (m_bNoActivate) {
 		SetWindowPos(m_hwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW);

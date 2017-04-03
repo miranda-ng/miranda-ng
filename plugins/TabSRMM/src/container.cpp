@@ -74,7 +74,7 @@ void TContainerData::UpdateTitle(MCONTACT hContact, CTabBaseDlg *pDlg)
 			dat = (CTabBaseDlg*)GetWindowLongPtr(m_hwndActive, GWLP_USERDATA);
 	}
 	else {
-		HWND hwnd = M.FindWindow(hContact);
+		HWND hwnd = Srmm_FindWindow(hContact);
 		if (hwnd != nullptr)
 			dat = (CTabBaseDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	}
@@ -1030,12 +1030,12 @@ panel_found:
 			
 			case ID_VIEW_BOTTOMTOOLBAR:
 				ApplyContainerSetting(pContainer, CNT_BOTTOMTOOLBAR, pContainer->dwFlags & CNT_BOTTOMTOOLBAR ? 0 : 1, false);
-				M.BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 1);
+				Srmm_Broadcast(DM_CONFIGURETOOLBAR, 0, 1);
 				return 0;
 			
 			case ID_VIEW_SHOWTOOLBAR:
 				ApplyContainerSetting(pContainer, CNT_HIDETOOLBAR, pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1, false);
-				M.BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 1);
+				Srmm_Broadcast(DM_CONFIGURETOOLBAR, 0, 1);
 				return 0;
 			
 			case ID_VIEW_SHOWMENUBAR:

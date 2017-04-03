@@ -509,7 +509,7 @@ int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 		if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
 			SkinPlaySound("SendMsg");
 
-	M.BroadcastMessage(DM_APPENDMCEVENT, job.hContact, LPARAM(hNewEvent));
+	Srmm_Broadcast(DM_APPENDMCEVENT, job.hContact, hNewEvent);
 
 	job.iSendId = 0;
 	job.iAcksNeeded--;

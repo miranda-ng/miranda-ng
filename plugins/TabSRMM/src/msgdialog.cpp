@@ -151,7 +151,7 @@ void CTabBaseDlg::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 	case ID_EDITOR_SHOWMESSAGELENGTHINDICATOR:
 		PluginConfig.m_visualMessageSizeIndicator = !PluginConfig.m_visualMessageSizeIndicator;
 		db_set_b(0, SRMSGMOD_T, "msgsizebar", (BYTE)PluginConfig.m_visualMessageSizeIndicator);
-		M.BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 0);
+		Srmm_Broadcast(DM_CONFIGURETOOLBAR, 0, 0);
 		SendMessage(m_hwnd, WM_SIZE, 0, 0);
 		if (m_pContainer->hwndStatus)
 			RedrawWindow(m_pContainer->hwndStatus, 0, 0, RDW_INVALIDATE | RDW_UPDATENOW);
@@ -550,7 +550,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					PluginConfig.lastSPlitterPos.off_chat = dwOff_CHAT;
 					PluginConfig.lastSPlitterPos.off_im = dwOff_IM;
 					SendMessage(dat->GetHwnd(), DM_SPLITTERGLOBALEVENT, 0, 0);
-					M.BroadcastMessage(DM_SPLITTERGLOBALEVENT, 0, 0);
+					Srmm_Broadcast(DM_SPLITTERGLOBALEVENT, 0, 0);
 				}
 				break;
 

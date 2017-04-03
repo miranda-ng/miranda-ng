@@ -736,7 +736,7 @@ AVATARCACHEENTRY* Utils::loadAvatarFromAVS(const MCONTACT hContact)
 
 void Utils::sendContactMessage(MCONTACT hContact, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	HWND h = M.FindWindow(hContact);
+	HWND h = Srmm_FindWindow(hContact);
 	if (h != nullptr)
 		PostMessage(h, uMsg, wParam, lParam);
 }

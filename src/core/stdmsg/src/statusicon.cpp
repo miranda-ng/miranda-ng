@@ -27,9 +27,9 @@ HANDLE hHookIconPressedEvt;
 static int OnSrmmIconChanged(WPARAM hContact, LPARAM)
 {
 	if (hContact == 0)
-		WindowList_Broadcast(pci->hWindowList, DM_STATUSICONCHANGE, 0, 0);
+		Srmm_Broadcast(DM_STATUSICONCHANGE, 0, 0);
 	else {
-		HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
+		HWND hwnd = Srmm_FindWindow(hContact);
 		if (hwnd != nullptr)
 			PostMessage(hwnd, DM_STATUSICONCHANGE, 0, 0);
 	}
