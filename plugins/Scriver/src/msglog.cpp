@@ -719,7 +719,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 
 void StreamInTestEvents(HWND hEditWnd, GlobalMessageData *gdat)
 {
-	CSrmmWindow *dat = new CSrmmWindow(0);
+	CSrmmWindow *dat = new CSrmmWindow(0, false);
 
 	LogStreamData streamData = { 0 };
 	streamData.isFirst = TRUE;

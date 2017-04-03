@@ -213,7 +213,6 @@ void CChatRoomDlg::OnInitDialog()
 
 	NotifyEvent(MSG_WINDOW_EVT_OPENING);
 
-	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 	m_pParent = (ParentWindowData *)GetWindowLongPtr(m_hwndParent, GWLP_USERDATA);
 
 	Srmm_CreateToolbarIcons(m_hwnd, BBBF_ISCHATBUTTON);
@@ -273,7 +272,6 @@ void CChatRoomDlg::OnDestroy()
 	NotifyEvent(MSG_WINDOW_EVT_CLOSING);
 
 	m_si->pDlg = nullptr;
-	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
 
 	SendMessage(m_hwndParent, CM_REMOVECHILD, 0, (LPARAM)m_hwnd);
 	if (m_hwndIeview != nullptr) {

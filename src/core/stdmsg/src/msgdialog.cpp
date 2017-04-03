@@ -116,7 +116,6 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact) :
 void CSrmmWindow::OnInitDialog()
 {
 	CSrmmBaseDialog::OnInitDialog();
-	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LPARAM)this);
 
 	m_bIsMeta = db_mc_isMeta(m_hContact) != 0;
 	m_hTimeZone = TimeZone_CreateByContact(m_hContact, 0, TZF_KNOWNONLY);
@@ -156,7 +155,6 @@ void CSrmmWindow::OnInitDialog()
 
 	Srmm_CreateToolbarIcons(m_hwnd, BBBF_ISIMBUTTON);
 
-	WindowList_Add(pci->hWindowList, m_hwnd, m_hContact);
 	GetWindowRect(m_message.GetHwnd(), &m_minEditInit);
 	SendMessage(m_hwnd, DM_UPDATESIZEBAR, 0, 0);
 	m_hwndStatus = nullptr;
@@ -284,7 +282,6 @@ void CSrmmWindow::OnInitDialog()
 
 void CSrmmWindow::OnDestroy()
 {
-	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
 	NotifyEvent(MSG_WINDOW_EVT_CLOSING);
 
 	// save string from the editor
@@ -307,8 +304,6 @@ void CSrmmWindow::OnDestroy()
 	for (int i = 0; i < m_cmdList.getCount(); i++)
 		mir_free(m_cmdList[i]);
 	m_cmdList.destroy();
-
-	WindowList_Remove(pci->hWindowList, m_hwnd);
 
 	MCONTACT hContact = (g_dat.bSavePerContact) ? m_hContact : 0;
 	db_set_dw(hContact ? m_hContact : 0, SRMMMOD, "splitterPos", m_splitterPos);

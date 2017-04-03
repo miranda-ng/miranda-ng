@@ -80,7 +80,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 
 	HWND hwndExisting = WindowList_Find(pci->hWindowList, hContact);
 	if (hwndExisting == nullptr)
-		(new CSrmmWindow(hContact))->Show();
+		(new CSrmmWindow(hContact, false))->Show();
 	else
 		SendMessage(GetParent(hwndExisting), CM_POPUPWINDOW, 0, (LPARAM)hwndExisting);
 	return 0;
@@ -131,7 +131,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR SendMessageCommandWorker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar)
+static INT_PTR SendMessageCommandWorker(MCONTACT hContact, wchar_t *pszMsg)
 {
 	hContact = db_mc_tryMeta(hContact);
 
@@ -148,26 +148,28 @@ static INT_PTR SendMessageCommandWorker(MCONTACT hContact, LPCSTR pszMsg, bool i
 		if (pszMsg) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_SRMM_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, GetWindowTextLength(hEdit));
-			if (isWchar)
-				SendMessageW(hEdit, EM_REPLACESEL, FALSE, (LPARAM)pszMsg);
-			else
-				SendMessageA(hEdit, EM_REPLACESEL, FALSE, (LPARAM)pszMsg);
+			SendMessage(hEdit, EM_REPLACESEL, FALSE, (LPARAM)pszMsg);
+			mir_free(pszMsg);
 		}
 		SendMessage(GetParent(hwnd), CM_POPUPWINDOW, 0, (LPARAM)hwnd);
 	}
-	else (new CSrmmWindow(hContact, false, pszMsg, isWchar))->Show();
+	else {
+		CSrmmWindow *pDlg = new CSrmmWindow(hContact, false);
+		pDlg->m_wszInitialText = pszMsg;
+		pDlg->Show();
+	}
 
 	return 0;
 }
 
 static INT_PTR SendMessageCommandW(WPARAM hContact, LPARAM lParam)
 {
-	return SendMessageCommandWorker(hContact, LPCSTR(lParam), true);
+	return SendMessageCommandWorker(hContact, mir_a2u(LPCSTR(lParam)));
 }
 
 static INT_PTR SendMessageCommand(WPARAM hContact, LPARAM lParam)
 {
-	return SendMessageCommandWorker(hContact, LPCSTR(lParam), false);
+	return SendMessageCommandWorker(hContact, mir_wstrdup(LPCWSTR(lParam)));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

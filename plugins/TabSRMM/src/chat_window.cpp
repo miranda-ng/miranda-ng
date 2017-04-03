@@ -615,8 +615,6 @@ void CChatRoomDlg::OnDestroy()
 		m_sbCustom = 0;
 	}
 
-	M.RemoveWindow(m_hwnd);
-
 	NotifyEvent(MSG_WINDOW_EVT_CLOSE);
 
 	m_pContainer->ClearMargins();

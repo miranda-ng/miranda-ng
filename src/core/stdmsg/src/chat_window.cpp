@@ -55,15 +55,12 @@ void CChatRoomDlg::OnInitDialog()
 {
 	CSrmmBaseDialog::OnInitDialog();
 	m_si->pDlg = this;
-	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, LPARAM(this));
 
 	if (g_Settings.bTabsEnable)
 		SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_APPWINDOW);
 
 	// initialize toolbar icons
 	Srmm_CreateToolbarIcons(m_hwnd, BBBF_ISCHATBUTTON);
-
-	WindowList_Add(pci->hWindowList, m_hwnd, m_hContact);
 
 	NotifyEvent(MSG_WINDOW_EVT_OPENING);
 
@@ -85,8 +82,6 @@ void CChatRoomDlg::OnInitDialog()
 void CChatRoomDlg::OnDestroy()
 {
 	NotifyEvent(MSG_WINDOW_EVT_CLOSING);
-
-	WindowList_Remove(pci->hWindowList, m_hwnd);
 
 	m_si->pDlg = nullptr;
 	m_si->wState &= ~STATE_TALK;

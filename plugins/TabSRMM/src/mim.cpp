@@ -69,16 +69,6 @@ HWND CMimAPI::FindWindow(MCONTACT h) const
 	return WindowList_Find(pci->hWindowList, h);
 }
 
-INT_PTR CMimAPI::AddWindow(HWND hWnd, MCONTACT h)
-{
-	return WindowList_Add(pci->hWindowList, hWnd, h);
-}
-
-INT_PTR CMimAPI::RemoveWindow(HWND hWnd)
-{
-	return WindowList_Remove(pci->hWindowList, hWnd);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int CMimAPI::FoldersPathChanged(WPARAM, LPARAM)

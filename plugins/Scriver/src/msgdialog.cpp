@@ -170,7 +170,7 @@ static INT_PTR CALLBACK ConfirmSendAllDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming, const char *szInitialText, bool bIsUnicode)
+CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming)
 	: CScriverWindow(IDD_MSG),
 	m_bIncoming(bIncoming),
 	m_splitter(this, IDC_SPLITTERY),
@@ -184,7 +184,6 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming, const char *szInitia
 	m_hContact = hContact;
 
 	m_hwndParent = GetParentWindow(hContact, FALSE);
-	m_wszInitialText = (bIsUnicode) ? mir_wstrdup((wchar_t*)szInitialText) : mir_a2u(szInitialText);
 
 	m_btnOk.OnClick = Callback(this, &CSrmmWindow::onClick_Ok);
 	m_btnAdd.OnClick = Callback(this, &CSrmmWindow::onClick_Add);
@@ -200,9 +199,6 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming, const char *szInitia
 void CSrmmWindow::OnInitDialog()
 {
 	CSuper::OnInitDialog();
-
-	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
-	WindowList_Add(pci->hWindowList, m_hwnd, m_hContact);
 
 	NotifyEvent(MSG_WINDOW_EVT_OPENING);
 
@@ -424,7 +420,6 @@ void CSrmmWindow::OnDestroy()
 	}
 
 	tcmdlist_free(cmdList);
-	WindowList_Remove(pci->hWindowList, m_hwnd);
 
 	HFONT hFont = (HFONT)m_message.SendMsg(WM_GETFONT, 0, 0);
 	if (hFont != nullptr && hFont != (HFONT)m_btnOk.SendMsg(WM_GETFONT, 0, 0))
@@ -435,7 +430,6 @@ void CSrmmWindow::OnDestroy()
 		if (db_get_b(m_hContact, "CList", "NotOnList", 0))
 			db_delete_contact(m_hContact);
 
-	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
 	SendMessage(m_hwndParent, CM_REMOVECHILD, 0, (LPARAM)m_hwnd);
 	if (m_hwndIeview != nullptr) {
 		IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };

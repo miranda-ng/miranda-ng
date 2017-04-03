@@ -96,7 +96,6 @@ void CTabBaseDlg::LoadSettings()
 void CTabBaseDlg::OnInitDialog()
 {
 	CSrmmBaseDialog::OnInitDialog();
-	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 
 	// m_hwnd is valid, pass it to the tab control
 	TCITEM tci;
@@ -108,7 +107,6 @@ void CTabBaseDlg::OnInitDialog()
 	m_pContainer->UpdateTabs();
 	
 	// add this window to window list & proxy
-	M.AddWindow(m_hwnd, m_hContact);
 	CProxyWindow::add(this);
 
 	// set up Windows themes

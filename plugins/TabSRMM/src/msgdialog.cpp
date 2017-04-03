@@ -932,7 +932,6 @@ void CSrmmWindow::OnDestroy()
 	UpdateTrayMenuState(this, FALSE);               // remove me from the tray menu (if still there)
 	if (PluginConfig.g_hMenuTrayUnread)
 		DeleteMenu(PluginConfig.g_hMenuTrayUnread, m_hContact, MF_BYCOMMAND);
-	M.RemoveWindow(m_hwnd);
 
 	if (m_cache->isValid())
 		db_set_dw(0, SRMSGMOD, "multisplit", m_iMultiSplit);

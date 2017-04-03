@@ -116,7 +116,6 @@ class CSrmmWindow : public CScriverWindow
 	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam);
 	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam);
 
-	wchar_t *m_wszInitialText;
 	bool   m_bIncoming, m_bShowTyping;
 	
 	MEVENT m_hDbEventFirst, m_hDbEventLast, m_hDbUnreadEventFirst;
@@ -159,11 +158,12 @@ public:
 	int m_isMixed;
 	bool m_bUseRtl, m_bUseIEView;
 
+	wchar_t *m_wszInitialText;
 	HBITMAP m_hbmpAvatarPic;
 	AVATARCACHEENTRY *m_ace;
 
 public:
-	CSrmmWindow(MCONTACT hContact, bool bIncoming = false, const char *szInitialText = nullptr, bool bIsUnicode = false);
+	CSrmmWindow(MCONTACT hContact, bool bIncoming);
 
 	virtual void OnInitDialog() override;
 	virtual void OnDestroy() override;

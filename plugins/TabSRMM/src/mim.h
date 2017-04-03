@@ -181,8 +181,6 @@ public:
 	// window lists
 	void     BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam);
 	void     BroadcastMessageAsync(UINT msg, WPARAM wParam, LPARAM lParam);
-	INT_PTR  AddWindow(HWND hWnd, MCONTACT h);
-	INT_PTR  RemoveWindow(HWND hWnd);
 	HWND     FindWindow(MCONTACT h) const;
 
 	static	int FoldersPathChanged(WPARAM wParam, LPARAM lParam);		// hook subscriber for folders plugin
