@@ -544,15 +544,9 @@ static void MM_IconsChanged()
 {
 	LoadChatIcons();
 
-	for (MODULEINFO *mi = m_ModList; mi != nullptr; mi = mi->next) {
-		Safe_DestroyIcon(mi->hOnlineIcon);
-		Safe_DestroyIcon(mi->hOfflineIcon);
-		Safe_DestroyIcon(mi->hOnlineTalkIcon);
-		Safe_DestroyIcon(mi->hOfflineTalkIcon);
-
+	for (MODULEINFO *mi = m_ModList; mi != nullptr; mi = mi->next)
 		if (chatApi.OnCreateModule) // recreate icons
 			chatApi.OnCreateModule(mi);
-	}
 }
 
 static void MM_FontsChanged()
@@ -588,12 +582,6 @@ static BOOL MM_RemoveAll(void)
 		mir_free(m_ModList->ptszModDispName);
 		mir_free(m_ModList->pszHeader);
 		mir_free(m_ModList->crColors);
-
-		Safe_DestroyIcon(m_ModList->hOnlineIcon);
-		Safe_DestroyIcon(m_ModList->hOfflineIcon);
-		Safe_DestroyIcon(m_ModList->hOnlineTalkIcon);
-		Safe_DestroyIcon(m_ModList->hOfflineTalkIcon);
-
 		mir_free(m_ModList);
 		m_ModList = pLast;
 	}

@@ -37,11 +37,19 @@ void LoadModuleIcons(MODULEINFO *mi)
 	ImageList_SetOverlayImage(hList, overlayIcon, 1);
 
 	int index = ImageList_AddIcon(hList, Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_ONLINE));
+
+	if (mi->hOnlineIcon) DestroyIcon(mi->hOnlineIcon);
 	mi->hOnlineIcon = ImageList_GetIcon(hList, index, ILD_TRANSPARENT);
+
+	if (mi->hOnlineTalkIcon) DestroyIcon(mi->hOnlineTalkIcon);
 	mi->hOnlineTalkIcon = ImageList_GetIcon(hList, index, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
 
 	index = ImageList_AddIcon(hList, Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_OFFLINE));
+
+	if (mi->hOfflineIcon) DestroyIcon(mi->hOfflineIcon);
 	mi->hOfflineIcon = ImageList_GetIcon(hList, index, ILD_TRANSPARENT);
+
+	if (mi->hOfflineTalkIcon) DestroyIcon(mi->hOfflineTalkIcon);
 	mi->hOfflineTalkIcon = ImageList_GetIcon(hList, index, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
 
 	ImageList_Destroy(hList);
@@ -51,12 +59,6 @@ static void OnReplaceSession(SESSION_INFO *si)
 {
 	if (si->pDlg)
 		RedrawWindow(GetDlgItem(si->pDlg->GetHwnd(), IDC_SRMM_NICKLIST), nullptr, nullptr, RDW_INVALIDATE);
-}
-
-static void OnNewUser(SESSION_INFO *si, USERINFO*)
-{
-	if (si->pDlg)
-		si->pDlg->UpdateNickList();
 }
 
 static void OnSetStatus(SESSION_INFO *si, int)
@@ -135,7 +137,6 @@ int Chat_Load()
 	pci = Chat_GetInterface(&data);
 
 	pci->OnCreateModule = OnCreateModule;
-	pci->OnNewUser = OnNewUser;
 	pci->OnLoadSettings = OnLoadSettings;
 
 	pci->OnSetStatus = OnSetStatus;

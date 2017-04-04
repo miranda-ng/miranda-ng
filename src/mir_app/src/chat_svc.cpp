@@ -392,6 +392,9 @@ static void AddUser(GCEVENT *gce)
 	ui->Status = status;
 	ui->Status |= si->pStatuses->Status;
 
+	if (si->pDlg)
+		si->pDlg->UpdateNickList();
+
 	if (chatApi.OnNewUser)
 		chatApi.OnNewUser(si, ui);
 }

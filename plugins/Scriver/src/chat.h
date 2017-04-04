@@ -47,8 +47,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct MODULEINFO : public GCModuleInfoBase
 {
-	HICON	hOnlineIconBig;
-	HICON hOfflineIconBig;
+	HICON hOnlineIcon, hOnlineTalkIcon, hOnlineIconBig;
+	HICON hOfflineIcon, hOfflineTalkIcon, hOfflineIconBig;
 };
 
 struct LOGSTREAMDATA : public GCLogStreamDataBase

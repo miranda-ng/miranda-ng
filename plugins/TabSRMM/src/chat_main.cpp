@@ -61,10 +61,8 @@ static void OnSetTopic(SESSION_INFO *si)
 
 static void OnNewUser(SESSION_INFO *si, USERINFO*)
 {
-	if (si->pDlg) {
-		si->pDlg->UpdateNickList();
+	if (si->pDlg)
 		si->pDlg->GetMyNick();
-	}
 }
 
 static void OnChangeNick(SESSION_INFO *si)

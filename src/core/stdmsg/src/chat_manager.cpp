@@ -69,13 +69,21 @@ GlobalLogSettings g_Settings;
 static void OnCreateModule(MODULEINFO *mi)
 {
 	mi->OnlineIconIndex = ImageList_AddIcon(hIconsList, Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_ONLINE));
-	mi->hOnlineIcon = ImageList_GetIcon(hIconsList, mi->OnlineIconIndex, ILD_TRANSPARENT);
-	mi->hOnlineTalkIcon = ImageList_GetIcon(hIconsList, mi->OnlineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
-	ImageList_AddIcon(hIconsList, mi->hOnlineTalkIcon);
-
 	mi->OfflineIconIndex = ImageList_AddIcon(hIconsList, Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_OFFLINE));
+
+	if (mi->hOnlineIcon) DestroyIcon(mi->hOnlineIcon);
+	mi->hOnlineIcon = ImageList_GetIcon(hIconsList, mi->OnlineIconIndex, ILD_TRANSPARENT);
+
+	if (mi->hOnlineTalkIcon) DestroyIcon(mi->hOnlineTalkIcon);
+	mi->hOnlineTalkIcon = ImageList_GetIcon(hIconsList, mi->OnlineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
+
+	if (mi->hOfflineIcon) DestroyIcon(mi->hOfflineIcon);
 	mi->hOfflineIcon = ImageList_GetIcon(hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT);
+
+	if (mi->hOfflineTalkIcon) DestroyIcon(mi->hOfflineTalkIcon);
 	mi->hOfflineTalkIcon = ImageList_GetIcon(hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
+
+	ImageList_AddIcon(hIconsList, mi->hOnlineTalkIcon);
 	ImageList_AddIcon(hIconsList, mi->hOfflineTalkIcon);
 }
 
@@ -83,12 +91,6 @@ static void OnReplaceSession(SESSION_INFO *si)
 {
 	if (si->pDlg)
 		RedrawWindow(GetDlgItem(si->pDlg->GetHwnd(), IDC_SRMM_NICKLIST), nullptr, nullptr, RDW_INVALIDATE);
-}
-
-static void OnNewUser(SESSION_INFO *si, USERINFO*)
-{
-	if (si->pDlg)
-		si->pDlg->UpdateNickList();
 }
 
 static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
@@ -241,7 +243,6 @@ void Load_ChatModule()
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Chat module"), FONTMODE_SKIP };
 	pci = Chat_GetInterface(&data);
 
-	pci->OnNewUser = OnNewUser;
 	pci->OnCreateModule = OnCreateModule;
 	pci->OnReplaceSession = OnReplaceSession;
 

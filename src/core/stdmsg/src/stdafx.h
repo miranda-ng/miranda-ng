@@ -88,6 +88,9 @@ extern CREOleCallback reOleCallback;
 
 struct MODULEINFO : public GCModuleInfoBase
 {
+	HICON hOnlineIcon, hOnlineTalkIcon;
+	HICON hOfflineIcon, hOfflineTalkIcon;
+
 	int OnlineIconIndex;
 	int OfflineIconIndex;
 };

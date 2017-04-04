@@ -283,7 +283,7 @@ void CChatRoomDlg::UpdateOptions()
 	if (m_si->iType == GCW_CHATROOM)
 		EnableWindow(m_btnChannelMgr.GetHwnd(), mi->bChanMgr);
 
-	HICON hIcon = m_si->wStatus == ID_STATUS_ONLINE ? mi->hOnlineIcon : mi->hOfflineIcon;
+	HICON hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIcon : mi->hOfflineIcon;
 	if (!hIcon) {
 		pci->MM_IconsChanged();
 		hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIcon : mi->hOfflineIcon;

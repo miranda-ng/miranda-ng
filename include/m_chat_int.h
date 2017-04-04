@@ -94,10 +94,6 @@ struct GCModuleInfoBase
 	bool      bFontSize;
 	int       nColorCount;
 	COLORREF* crColors;
-	HICON     hOnlineIcon;
-	HICON     hOfflineIcon;
-	HICON     hOnlineTalkIcon;
-	HICON     hOfflineTalkIcon;
 	int       iMaxText;
 	MODULEINFO* next;
 };
