@@ -10,7 +10,7 @@
 //
 #include <winres.h>
 #include <richedit.h>
-#include "statusmodes.h"
+#include "..\..\include\statusmodes.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
