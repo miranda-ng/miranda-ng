@@ -66,24 +66,26 @@ HIMAGELIST hIconsList;
 
 GlobalLogSettings g_Settings;
 
+static void OnDestroyModule(MODULEINFO *mi)
+{
+	if (mi->hOnlineIcon) DestroyIcon(mi->hOnlineIcon);
+	if (mi->hOnlineTalkIcon) DestroyIcon(mi->hOnlineTalkIcon);
+	if (mi->hOfflineIcon) DestroyIcon(mi->hOfflineIcon);
+	if (mi->hOfflineTalkIcon) DestroyIcon(mi->hOfflineTalkIcon);
+}
+
 static void OnCreateModule(MODULEINFO *mi)
 {
+	OnDestroyModule(mi);
+
 	mi->OnlineIconIndex = ImageList_AddIcon(hIconsList, Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_ONLINE));
-	mi->OfflineIconIndex = ImageList_AddIcon(hIconsList, Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_OFFLINE));
-
-	if (mi->hOnlineIcon) DestroyIcon(mi->hOnlineIcon);
 	mi->hOnlineIcon = ImageList_GetIcon(hIconsList, mi->OnlineIconIndex, ILD_TRANSPARENT);
-
-	if (mi->hOnlineTalkIcon) DestroyIcon(mi->hOnlineTalkIcon);
 	mi->hOnlineTalkIcon = ImageList_GetIcon(hIconsList, mi->OnlineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
-
-	if (mi->hOfflineIcon) DestroyIcon(mi->hOfflineIcon);
-	mi->hOfflineIcon = ImageList_GetIcon(hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT);
-
-	if (mi->hOfflineTalkIcon) DestroyIcon(mi->hOfflineTalkIcon);
-	mi->hOfflineTalkIcon = ImageList_GetIcon(hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
-
 	ImageList_AddIcon(hIconsList, mi->hOnlineTalkIcon);
+
+	mi->OfflineIconIndex = ImageList_AddIcon(hIconsList, Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_OFFLINE));
+	mi->hOfflineIcon = ImageList_GetIcon(hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT);
+	mi->hOfflineTalkIcon = ImageList_GetIcon(hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
 	ImageList_AddIcon(hIconsList, mi->hOfflineTalkIcon);
 }
 
@@ -244,6 +246,7 @@ void Load_ChatModule()
 	pci = Chat_GetInterface(&data);
 
 	pci->OnCreateModule = OnCreateModule;
+	pci->OnDestroyModule = OnDestroyModule;
 	pci->OnReplaceSession = OnReplaceSession;
 
 	pci->OnLoadSettings = OnLoadSettings;

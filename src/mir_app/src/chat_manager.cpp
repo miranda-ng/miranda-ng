@@ -34,13 +34,24 @@ static int compareSessions(const SESSION_INFO *p1, const SESSION_INFO *p2)
 
 LIST<SESSION_INFO> g_arSessions(10, compareSessions);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int compareModules(const MODULEINFO *p1, const MODULEINFO *p2)
+{
+	return mir_strcmp(p1->pszModule, p2->pszModule);
+}
+
+LIST<MODULEINFO> g_arModules(5, compareModules);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 CHAT_MANAGER::CHAT_MANAGER() :
 	arSessions(g_arSessions)
 {}
 
 CHAT_MANAGER chatApi;
 
-MODULEINFO *m_ModList = 0;
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static void SetActiveSession(SESSION_INFO *si)
 {
@@ -59,11 +70,9 @@ static SESSION_INFO* GetActiveSession(void)
 	return g_arSessions[0];
 }
 
-//---------------------------------------------------
-//		Session Manager functions
-//
-//		Keeps track of all sessions and its windows
-//---------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+//	Session Manager functions
+//	Keeps track of all sessions and its windows
 
 static void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact = false)
 {
@@ -509,12 +518,9 @@ static void SM_InvalidateLogDirectories()
 	}
 }
 
-//---------------------------------------------------
-//		Module Manager functions
-//
-//		Necessary to keep track of all modules
-//		that has registered with the plugin
-//---------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+//	Module Manager functions
+//	Necessary to keep track of all modules that has registered with the plugin
 
 static MODULEINFO* MM_AddModule(const char *pszModule)
 {
@@ -529,14 +535,7 @@ static MODULEINFO* MM_AddModule(const char *pszModule)
 	if (chatApi.OnCreateModule)
 		chatApi.OnCreateModule(node);
 
-	if (m_ModList == nullptr) { // list is empty
-		m_ModList = node;
-		node->next = nullptr;
-	}
-	else {
-		node->next = m_ModList;
-		m_ModList = node;
-	}
+	g_arModules.insert(node);
 	return node;
 }
 
@@ -544,15 +543,19 @@ static void MM_IconsChanged()
 {
 	LoadChatIcons();
 
-	for (MODULEINFO *mi = m_ModList; mi != nullptr; mi = mi->next)
+	for (int i = 0; i < g_arModules.getCount(); i++) {
+		MODULEINFO *mi = g_arModules[i];
 		if (chatApi.OnCreateModule) // recreate icons
 			chatApi.OnCreateModule(mi);
+	}
 }
 
 static void MM_FontsChanged()
 {
-	for (MODULEINFO *mi = m_ModList; mi != nullptr; mi = mi->next)
+	for (int i = 0; i < g_arModules.getCount(); i++) {
+		MODULEINFO *mi = g_arModules[i];
 		mi->pszHeader = chatApi.Log_CreateRtfHeader(mi);
+	}
 }
 
 static MODULEINFO* MM_FindModule(const char *pszModule)
@@ -560,41 +563,37 @@ static MODULEINFO* MM_FindModule(const char *pszModule)
 	if (!pszModule)
 		return nullptr;
 
-	for (MODULEINFO *mi = m_ModList; mi != nullptr; mi = mi->next)
-		if (mir_strcmpi(mi->pszModule, pszModule) == 0)
-			return mi;
-
-	return nullptr;
+	return g_arModules.find((MODULEINFO*)&pszModule);
 }
 
 // stupid thing..
 static void MM_FixColors()
 {
-	for (MODULEINFO *mi = m_ModList; mi != nullptr; mi = mi->next)
+	for (int i = 0; i < g_arModules.getCount(); i++) {
+		MODULEINFO *mi = g_arModules[i];
 		CheckColorsInModule(mi->pszModule);
+	}
 }
 
 static BOOL MM_RemoveAll(void)
 {
-	while (m_ModList != nullptr) {
-		MODULEINFO *pLast = m_ModList->next;
-		mir_free(m_ModList->pszModule);
-		mir_free(m_ModList->ptszModDispName);
-		mir_free(m_ModList->pszHeader);
-		mir_free(m_ModList->crColors);
-		mir_free(m_ModList);
-		m_ModList = pLast;
+	for (int i = 0; i < g_arModules.getCount(); i++) {
+		MODULEINFO *mi = g_arModules[i];
+		if (chatApi.OnDestroyModule)
+			chatApi.OnDestroyModule(mi);
+
+		mir_free(mi->pszModule);
+		mir_free(mi->ptszModDispName);
+		mir_free(mi->pszHeader);
+		mir_free(mi->crColors);
+		mir_free(mi);
 	}
-	m_ModList = nullptr;
 	return TRUE;
 }
 
-//---------------------------------------------------
-//		Status manager functions
-//
-//		Necessary to keep track of what user statuses
-//		per window nicklist that is available
-//---------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+// Status manager functions
+// Necessary to keep track of what user statuses per window nicklist that is available
 
 static STATUSINFO* TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, int *iCount)
 {
@@ -684,12 +683,9 @@ static BOOL TM_RemoveAll(STATUSINFO **ppStatusList)
 	return TRUE;
 }
 
-//---------------------------------------------------
-//		User manager functions
-//
-//		Necessary to keep track of the users
-//		in a window nicklist
-//---------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+// User manager functions
+// Necessary to keep track of the users in a window nicklist
 
 static int UM_CompareItem(USERINFO *u1, const wchar_t *pszNick, WORD wStatus)
 {
@@ -922,12 +918,9 @@ static BOOL UM_RemoveAll(USERINFO **ppUserList)
 	return TRUE;
 }
 
-//---------------------------------------------------
-//		Log manager functions
-//
-//		Necessary to keep track of events
-//		in a window log
-//---------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+// Log manager functions
+//	Necessary to keep track of events in a window log
 
 static LOGINFO* LM_AddEvent(LOGINFO **ppLogListStart, LOGINFO** ppLogListEnd)
 {
@@ -1011,20 +1004,18 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _
 	}
 	if (g_cbModuleInfo) { // reallocate old modules
 		mir_cslock lck(csChat);
-		MODULEINFO *pPrev = nullptr;
-		for (MODULEINFO *p = m_ModList; p; p = p->next) {
-			MODULEINFO *p1 = (MODULEINFO*)mir_realloc(p, pInit->cbModuleInfo);
+
+		for (int i = 0; i < g_arModules.getCount(); i++) {
+			MODULEINFO *mi = g_arModules[i];
+			MODULEINFO *p1 = (MODULEINFO*)mir_realloc(mi, pInit->cbModuleInfo);
 			memset(PBYTE(p1) + sizeof(GCModuleInfoBase), 0, pInit->cbModuleInfo - sizeof(GCModuleInfoBase));
-			if (p1 != p) { // realloc could change a pointer, reinsert a structure
-				if (m_ModList == p)
-					m_ModList = p1;
-				if (pPrev != nullptr)
-					pPrev->next = p1;
-				p = p1;
+			if (p1 != mi) { // realloc could change a pointer, reinsert a structure
+				g_arModules.remove(i);
+				g_arModules.insert(p1, i);
 			}
-			pPrev = p;
 		}
 	}
+
 	g_Settings = pInit->pSettings;
 	g_szFontGroup = pInit->szFontGroup;
 	g_cbSession = pInit->cbSession;

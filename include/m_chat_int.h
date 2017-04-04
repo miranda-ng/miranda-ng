@@ -81,21 +81,17 @@ class CChatRoomDlg;
 
 struct GCModuleInfoBase
 {
-	char*     pszModule;
-	wchar_t*  ptszModDispName;
-	char*     pszHeader;
-	bool      bBold;
-	bool      bUnderline;
-	bool      bItalics;
-	bool      bColor;
-	bool      bBkgColor;
-	bool      bChanMgr;
-	bool      bAckMsg;
-	bool      bFontSize;
-	int       nColorCount;
-	COLORREF* crColors;
+	char     *pszModule;
+	wchar_t  *ptszModDispName;
+	char     *pszHeader;
+	
+	bool      bBold, bItalics, bUnderline;
+	bool      bColor, bBkgColor;
+	bool      bChanMgr, bAckMsg;
+	
 	int       iMaxText;
-	MODULEINFO* next;
+	int       nColorCount;
+	COLORREF *crColors;
 };
 
 struct COMMANDINFO
@@ -339,6 +335,7 @@ struct CHAT_MANAGER
 
 	// user-defined custom callbacks
 	void (*OnCreateModule)(MODULEINFO*);
+	void (*OnDestroyModule)(MODULEINFO*);
 
 	void (*OnCreateSession)(SESSION_INFO*, MODULEINFO*);
 	void (*OnOfflineSession)(SESSION_INFO*);
