@@ -50,29 +50,6 @@ MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, LPBYTE pb
 	return 0;
 }
 
-MIR_APP_DLL(DWORD) CALLBACK Srmm_MessageStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
-{
-	static DWORD dwRead;
-	char **ppText = (char **)dwCookie;
-
-	if (*ppText == nullptr) {
-		*ppText = (char *)mir_alloc(cb + 2);
-		memcpy(*ppText, pbBuff, cb);
-		*pcb = cb;
-		dwRead = cb;
-		*(*ppText + cb) = '\0';
-	}
-	else {
-		char *p = (char *)mir_realloc(*ppText, dwRead + cb + 2);
-		memcpy(p + dwRead, pbBuff, cb);
-		*ppText = p;
-		*pcb = cb;
-		dwRead += cb;
-		*(*ppText + dwRead) = '\0';
-	}
-	return 0;
-}
-
 MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
 {
 	if (hContact == 0)

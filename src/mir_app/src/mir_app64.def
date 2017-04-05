@@ -408,7 +408,6 @@ ProtoGetAvatarMimeType @401
 ??3CSrmmBaseDialog@@SAXPEAX@Z @410 NONAME
 ?isChat@CSrmmBaseDialog@@QEBA_NXZ @411 NONAME
 Srmm_LogStreamCallback @412
-Srmm_MessageStreamCallback @413
 ?RunUserMenu@CSrmmBaseDialog@@IEAAXPEAUHWND__@@PEAUUSERINFO@@AEBUtagPOINT@@@Z @414 NONAME
 ?ClearLog@CSrmmBaseDialog@@QEAAXXZ @415 NONAME
 ?CloseTab@CSrmmBaseDialog@@UEAAXXZ @416 NONAME
