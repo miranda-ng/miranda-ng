@@ -464,7 +464,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 
 	GETTEXTEX gt = { 0 };
 	gt.flags = GT_USECRLF;
-	gt.cb = bufSize;
+	gt.cb = bufSize * sizeof(wchar_t);
 	gt.codepage = 1200; // Unicode
 	m_message.SendMsg(EM_GETTEXTEX, (WPARAM)&gt, ptszUnicode);
 	if (RTL_Detect(ptszUnicode))
