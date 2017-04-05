@@ -420,7 +420,7 @@ protected:
 	void RunUserMenu(HWND hwndOwner, USERINFO *ui, const POINT &pt);
 
 protected:
-	CCtrlEdit m_message, m_log;
+	CCtrlRichEdit m_message, m_log;
 	SESSION_INFO *m_si;
 	COLORREF m_clrInputBG, m_clrInputFG;
 	time_t m_iLastEnterTime;
