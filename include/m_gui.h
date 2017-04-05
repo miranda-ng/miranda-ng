@@ -791,6 +791,19 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// CCtrlRichEdit
+
+class MIR_CORE_EXPORT CCtrlRichEdit : public CCtrlEdit
+{
+	typedef CCtrlEdit CSuper;
+
+public:
+	CCtrlRichEdit(CDlgBase *dlg, int ctrlId);
+
+	int GetRichTextLength() const;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlSpin
 
 class MIR_CORE_EXPORT CCtrlSpin : public CCtrlBase
