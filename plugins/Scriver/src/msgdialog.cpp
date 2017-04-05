@@ -269,7 +269,7 @@ void CSrmmWindow::OnInitDialog()
 		int len = 0;
 		ptrW ptszSavedMsg(db_get_wsa(m_hContact, "SRMM", "SavedMsg"));
 		if (ptszSavedMsg)
-			len = SetRichText(m_message.GetHwnd(), ptszSavedMsg);
+			len = m_message.SetRichText(ptszSavedMsg);
 		PostMessage(m_message.GetHwnd(), EM_SETSEL, len, len);
 	}
 
@@ -412,7 +412,7 @@ void CSrmmWindow::OnDestroy()
 
 	ReleaseSendQueueItems(m_hwnd);
 	if (g_dat.flags & SMF_SAVEDRAFTS) {
-		ptrA szText(GetRichTextUtf(m_message.GetHwnd()));
+		ptrA szText(m_message.GetRichTextUtf());
 		if (szText)
 			db_set_utf(m_hContact, "SRMM", "SavedMsg", szText);
 		else
@@ -455,7 +455,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 	pf2.dwMask = PFM_RTLPARA;
 	m_message.SendMsg(EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
 
-	int bufSize = GetRichTextLength(m_message.GetHwnd(), 1200, TRUE) + 2;
+	int bufSize = m_message.GetRichTextLength(1200) + 2;
 	ptrW ptszUnicode((wchar_t*)mir_alloc(bufSize * sizeof(wchar_t)));
 
 	MessageSendQueueItem msi = { 0 };
@@ -582,7 +582,7 @@ void CSrmmWindow::onClick_History(CCtrlButton*)
 
 void CSrmmWindow::onChange_Message(CCtrlEdit*)
 {
-	int len = GetRichTextLength(m_message.GetHwnd(), 1200, FALSE);
+	int len = m_message.GetRichTextLength();
 	cmdListCurrent = nullptr;
 	UpdateReadChars();
 	EnableWindow(GetDlgItem(m_hwnd, IDOK), len != 0);
@@ -701,7 +701,7 @@ void CSrmmWindow::SetDialogToType()
 
 	m_splitter.Show();
 	UpdateReadChars();
-	EnableWindow(GetDlgItem(m_hwnd, IDOK), GetRichTextLength(m_message.GetHwnd(), 1200, FALSE) ? TRUE : FALSE);
+	EnableWindow(GetDlgItem(m_hwnd, IDOK), m_message.GetRichTextLength() != 0);
 	SendMessage(m_hwnd, DM_CLISTSETTINGSCHANGED, 0, 0);
 	SendMessage(m_hwnd, WM_SIZE, 0, 0);
 }
@@ -786,7 +786,7 @@ void CSrmmWindow::UpdateReadChars()
 {
 	if (m_pParent->hwndActive == m_hwnd) {
 		wchar_t szText[256];
-		int len = GetRichTextLength(m_message.GetHwnd(), 1200, FALSE);
+		int len = m_message.GetRichTextLength(1200);
 
 		StatusBarData sbd;
 		sbd.iItem = 1;

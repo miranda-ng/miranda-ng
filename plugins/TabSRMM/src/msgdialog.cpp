@@ -891,7 +891,7 @@ void CSrmmWindow::OnDestroy()
 			Skin_LoadProtoIcon(m_cache->getActiveProto(), m_cache->getActiveStatus()), 1, PluginConfig.g_hMenuRecent);
 		if (m_hContact) {
 			if (!m_bEditNotesActive) {
-				char *msg = Message_GetFromStream(m_message.GetHwnd(), SF_TEXT);
+				char *msg = m_message.GetRichTextRtf(true);
 				if (msg) {
 					db_set_utf(m_hContact, SRMSGMOD, "SavedMsg", msg);
 					mir_free(msg);
@@ -1095,7 +1095,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton*)
 	if (GetSendButtonState(m_hwnd) == PBS_DISABLED)
 		return;
 
-	ptrA streamOut(Message_GetFromStream(m_message.GetHwnd(), final_sendformat ? 0 : SF_TEXT));
+	ptrA streamOut(m_message.GetRichTextRtf(!final_sendformat));
 	if (streamOut == nullptr)
 		return;
 
@@ -1142,7 +1142,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton*)
 
 	if (m_sendMode & SMODE_CONTAINER && m_pContainer->m_hwndActive == m_hwnd && GetForegroundWindow() == m_pContainer->m_hwnd) {
 		int tabCount = TabCtrl_GetItemCount(m_hwndParent);
-		ptrA szFromStream(Message_GetFromStream(m_message.GetHwnd(), m_SendFormat ? 0 : SF_TEXT));
+		ptrA szFromStream(m_message.GetRichTextRtf(!m_SendFormat));
 
 		TCITEM tci = {};
 		tci.mask = TCIF_PARAM;
@@ -1264,7 +1264,7 @@ void CSrmmWindow::onClick_Quote(CCtrlButton*)
 			mir_free(szConverted);
 	}
 	else {
-		ptrA szFromStream(Message_GetFromStream(m_log.GetHwnd(), SF_TEXT | SFF_SELECTION));
+		ptrA szFromStream(m_log.GetRichTextRtf(true, true));
 		ptrW converted(mir_utf8decodeW(szFromStream));
 		Utils::FilterEventMarkers(converted);
 		ptrW szQuoted(QuoteText(converted));
@@ -1812,15 +1812,10 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 			cr.cpMin = cr.cpMax;
 			if (isCtrl) {
 				SETTEXTEX stx = { ST_KEEPUNDO | ST_SELECTION, CP_UTF8 };
-				char *streamOut = nullptr;
-				if (isAlt)
-					streamOut = Message_GetFromStream(m_log.GetHwnd(), SF_RTFNOOBJS | SFF_PLAINRTF | SFF_SELECTION);
-				else
-					streamOut = Message_GetFromStream(m_log.GetHwnd(), SF_TEXT | SFF_SELECTION);
+				ptrA streamOut(m_log.GetRichTextRtf(!isAlt, true));
 				if (streamOut) {
 					Utils::FilterEventMarkers(streamOut);
 					m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)streamOut);
-					mir_free(streamOut);
 				}
 				SetFocus(m_message.GetHwnd());
 			}
@@ -1870,7 +1865,7 @@ LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_CHAR:
 		KbdState(isShift, isCtrl, isAlt);
 		if (wParam == 0x03 && isCtrl) // Ctrl+C
-			return Utils::WMCopyHandler(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
+			return WMCopyHandler(msg, wParam, lParam);
 		if (wParam == 0x11 && isCtrl) // Ctrl+Q
 			m_btnQuote.OnClick(&m_btnQuote);
 		break;
@@ -1900,11 +1895,11 @@ LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 		KbdState(isShift, isCtrl, isAlt);
 		if (wParam == VK_INSERT && isCtrl)
-			return Utils::WMCopyHandler(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
+			return WMCopyHandler(msg, wParam, lParam);
 		break;
 
 	case WM_COPY:
-		return Utils::WMCopyHandler(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
+		return WMCopyHandler(msg, wParam, lParam);
 
 	case WM_NCCALCSIZE:
 		return CSkin::NcCalcRichEditFrame(m_log.GetHwnd(), this, ID_EXTBKHISTORY, msg, wParam, lParam, stubLogProc);

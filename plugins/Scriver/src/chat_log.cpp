@@ -39,7 +39,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO* lin, bool bRedraw)
 	streamData.si = m_si;
 	streamData.lin = lin;
 	streamData.bStripFormat = FALSE;
-	streamData.isFirst = bRedraw ? 1 : (GetRichTextLength(m_log.GetHwnd(), CP_ACP, FALSE) == 0);
+	streamData.isFirst = bRedraw ? 1 : m_log.GetRichTextLength() == 0;
 
 	EDITSTREAM stream = { 0 };
 	stream.pfnCallback = Srmm_LogStreamCallback;
@@ -60,7 +60,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO* lin, bool bRedraw)
 		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
 
 	// set the insertion point at the bottom
-	sel.cpMin = sel.cpMax = GetRichTextLength(m_log.GetHwnd(), CP_ACP, FALSE);
+	sel.cpMin = sel.cpMax = m_log.GetRichTextLength();
 	m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 	m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
 
@@ -115,7 +115,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO* lin, bool bRedraw)
 
 	// need to invalidate the window
 	if (bFlag) {
-		sel.cpMin = sel.cpMax = GetRichTextLength(m_log.GetHwnd(), CP_ACP, FALSE);
+		sel.cpMin = sel.cpMax = m_log.GetRichTextLength();
 		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
 		InvalidateRect(m_log.GetHwnd(), nullptr, TRUE);

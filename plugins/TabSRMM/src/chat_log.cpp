@@ -866,7 +866,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
 
 	// set the insertion point at the bottom
-	sel.cpMin = sel.cpMax = GetRichTextLength(m_log.GetHwnd());
+	sel.cpMin = sel.cpMax = m_log.GetRichTextLength();
 	m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 
 	// fix for the indent... must be a M$ bug
@@ -983,7 +983,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 
 	// need to invalidate the window
 	if (bFlag) {
-		sel.cpMin = sel.cpMax = GetRichTextLength(m_log.GetHwnd());
+		sel.cpMin = sel.cpMax = m_log.GetRichTextLength();
 		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
 		InvalidateRect(m_log.GetHwnd(), nullptr, TRUE);

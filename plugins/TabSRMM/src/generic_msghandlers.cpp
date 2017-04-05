@@ -534,7 +534,7 @@ void CTabBaseDlg::DM_InitRichEdit()
 
 	char *szStreamOut = nullptr;
 	if (!fIsChat && GetWindowTextLength(m_message.GetHwnd()) > 0)
-		szStreamOut = Message_GetFromStream(m_message.GetHwnd());
+		szStreamOut = m_message.GetRichTextRtf();
 	SetWindowText(m_message.GetHwnd(), L"");
 
 	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
@@ -1475,7 +1475,7 @@ void CTabBaseDlg::DM_ErrorDetected(int type, int flag)
 	case MSGERROR_CANCEL:
 	case MSGERROR_SENDLATER:
 		if (m_dwFlags & MWF_ERRORSTATE) {
-			m_cache->saveHistory(0, 0);
+			m_cache->saveHistory();
 			if (type == MSGERROR_SENDLATER)
 				sendQueue->doSendLater(m_iCurrentQueueError, this); // to be implemented at a later time
 			m_iOpenJobs--;
@@ -1497,7 +1497,7 @@ void CTabBaseDlg::DM_ErrorDetected(int type, int flag)
 		if (m_dwFlags & MWF_ERRORSTATE) {
 			int resent = 0;
 
-			m_cache->saveHistory(0, 0);
+			m_cache->saveHistory();
 			if (m_iCurrentQueueError >= 0 && m_iCurrentQueueError < SendQueue::NR_SENDJOBS) {
 				SendJob *job = sendQueue->getJobByIndex(m_iCurrentQueueError);
 				if (job->iSendId == 0 && job->hContact == 0)

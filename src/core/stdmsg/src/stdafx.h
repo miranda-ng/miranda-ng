@@ -135,7 +135,6 @@ HICON LoadIconEx(const char *pszIcoLibName, bool big);
 HANDLE GetIconHandle(const char *pszIcolibName);
 
 // tools.cpp
-int  GetRichTextLength(HWND hwnd);
 void SetButtonsPos(HWND hwndDlg, bool bIsChat);
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -36,15 +36,9 @@ enum SEARCHENGINES {
 
 wchar_t *limitText(wchar_t *text, int limit);
 void logInfo(const char *fmt, ...);
-int GetRichTextLength(HWND hwnd, int codepage, BOOL inBytes);
 wchar_t *GetRichEditSelection(HWND hwnd);
-char* GetRichTextRTF(HWND hwnd);
-char* GetRichTextUtf(HWND hwnd);
 wchar_t *GetRichTextWord(HWND hwnd, POINT *pt);
-int SetRichText(HWND hwnd, const wchar_t *text);
-int SetRichTextRTF(HWND hwnd, const char *text);
 void SearchWord(wchar_t * word, int engine);
-void AppendToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const char *fmt, ...);
 int MeasureMenuItem(WPARAM wParam, LPARAM lParam);
 int DrawMenuItem(WPARAM wParam, LPARAM lParam);
 void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList);

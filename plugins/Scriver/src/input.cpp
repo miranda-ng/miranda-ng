@@ -199,7 +199,7 @@ int CScriverWindow::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		}
 
 		if ((wParam == VK_UP || wParam == VK_DOWN) && isCtrl && !db_get_b(0, SRMM_MODULE, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
-			if (cmdList) {
+			if (cmdList && hwnd == m_message.GetHwnd()) {
 				TCmdList *cmdListNew = nullptr;
 				if (wParam == VK_UP) {
 					if (cmdListCurrent == nullptr) {
@@ -209,7 +209,7 @@ int CScriverWindow::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 							cmdListNew = tcmdlist_last(cmdList);
 						}
 						if (cmdListNew != nullptr) {
-							char *textBuffer = GetRichTextUtf(hwnd);
+							char *textBuffer = m_message.GetRichTextUtf();
 							if (textBuffer != nullptr)
 								// takes textBuffer to a queue, no leak here
 								cmdList = tcmdlist_append(cmdList, textBuffer, 20, TRUE);
@@ -229,7 +229,7 @@ int CScriverWindow::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				if (cmdListNew != nullptr) {
 					SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
 
-					int iLen = SetRichTextRTF(hwnd, cmdListNew->szCmd);
+					int iLen = m_message.SetRichTextRtf(cmdListNew->szCmd);
 
 					SendMessage(hwnd, EM_SCROLLCARET, 0, 0);
 					SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);

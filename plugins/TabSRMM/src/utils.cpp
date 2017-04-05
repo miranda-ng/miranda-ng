@@ -976,27 +976,6 @@ size_t Utils::CopyToClipBoard(const wchar_t *str, const HWND hwndOwner)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// generic handler for the WM_COPY message in message log/chat history richedit control(s).
-// it filters out the invisible event boundary markers from the text copied to the clipboard.
-// WINE Fix: overwrite clippboad data from original control data
-
-LRESULT Utils::WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	LRESULT result = mir_callNextSubclass(hwnd, oldWndProc, msg, wParam, lParam);
-
-	ptrA szFromStream(Message_GetFromStream(hwnd, SF_TEXT | SFF_SELECTION));
-	if (szFromStream != nullptr) {
-		ptrW converted(mir_utf8decodeW(szFromStream));
-		if (converted != nullptr) {
-			Utils::FilterEventMarkers(converted);
-			Utils::CopyToClipBoard(converted, hwnd);
-		}
-	}
-
-	return result;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // file list handler
 
 void Utils::AddToFileList(wchar_t ***pppFiles, int *totalCount, LPCTSTR szFilename)

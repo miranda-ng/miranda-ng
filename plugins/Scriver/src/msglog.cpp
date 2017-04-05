@@ -777,7 +777,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 	streamData.hDbEventLast = m_hDbEventLast;
 	streamData.dlgDat = this;
 	streamData.eventsToInsert = count;
-	streamData.isFirst = fAppend ? GetRichTextLength(m_log.GetHwnd(), CP_ACP, FALSE) == 0 : 1;
+	streamData.isFirst = fAppend ? m_log.GetRichTextLength() == 0 : 1;
 	streamData.gdat = &g_dat;
 
 	EDITSTREAM stream = {};
@@ -791,14 +791,14 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
 		gtxl.codepage = 1200;
 		fi.chrg.cpMin = m_log.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
-		sel.cpMin = sel.cpMax = GetRichTextLength(m_log.GetHwnd(), 1200, FALSE);
+		sel.cpMin = sel.cpMax = m_log.GetRichTextLength();
 		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 	}
 	else {
 		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
 		ClearLog();
 		sel.cpMin = 0;
-		sel.cpMax = GetRichTextLength(m_log.GetHwnd(), 1200, FALSE);
+		sel.cpMax = m_log.GetRichTextLength();
 		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 		fi.chrg.cpMin = 0;
 		m_isMixed = 0;
@@ -829,7 +829,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&smre);
 	}
 
-	int len = GetRichTextLength(m_log.GetHwnd(), 1200, FALSE);
+	int len = m_log.GetRichTextLength();
 	m_log.SendMsg(EM_SETSEL, len - 1, len - 1);
 
 	if (!fAppend)

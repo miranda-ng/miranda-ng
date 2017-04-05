@@ -786,29 +786,6 @@ void CTabBaseDlg::FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// retrieve contents of the richedit control by streaming.Used to get the
-// typed message before sending it.
-// caller must mir_free the returned pointer.
-// UNICODE version returns UTF-8 encoded string.
-
-char* TSAPI Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags)
-{
-	if (hwndRtf == 0)
-		return nullptr;
-
-	DWORD dwFlags = (CP_UTF8 << 16) | SF_USECODEPAGE;
-	if (dwPassedFlags == 0)
-		dwFlags |= (SF_RTFNOOBJS | SFF_PLAINRTF);
-	else
-		dwFlags |= dwPassedFlags;
-
-	char *pszText = nullptr;
-	EDITSTREAM stream = { 0 };
-	stream.pfnCallback = Srmm_MessageStreamCallback;
-	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
-	SendMessage(hwndRtf, EM_STREAMOUT, dwFlags, (LPARAM)&stream);
-	return pszText; // pszText contains the text
-}
 
 static wchar_t tszRtfBreaks[] = L" \\\n\r";
 
@@ -1700,6 +1677,27 @@ void CTabBaseDlg::KbdState(bool &isShift, bool &isControl, bool &isAlt)
 	isShift = (kstate[VK_SHIFT] & 0x80) != 0;
 	isControl = (kstate[VK_CONTROL] & 0x80) != 0;
 	isAlt = (kstate[VK_MENU] & 0x80) != 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// generic handler for the WM_COPY message in message log/chat history richedit control(s).
+// it filters out the invisible event boundary markers from the text copied to the clipboard.
+// WINE Fix: overwrite clippboad data from original control data
+
+LRESULT CTabBaseDlg::WMCopyHandler(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	LRESULT result = mir_callNextSubclass(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
+
+	ptrA szFromStream(m_log.GetRichTextRtf(true, true));
+	if (szFromStream != nullptr) {
+		ptrW converted(mir_utf8decodeW(szFromStream));
+		if (converted != nullptr) {
+			Utils::FilterEventMarkers(converted);
+			Utils::CopyToClipBoard(converted, m_log.GetHwnd());
+		}
+	}
+
+	return result;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

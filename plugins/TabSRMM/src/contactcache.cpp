@@ -229,24 +229,25 @@ void CContactCache::setWindowData(CSrmmWindow *dat)
 // saves message to the input history.
 // it's using streamout in UTF8 format - no unicode "issues" and all RTF formatting is saved to the history.
 
-void CContactCache::saveHistory(WPARAM wParam, LPARAM)
+void CContactCache::saveHistory(int iHistorySize)
 {
 	if (m_dat == nullptr)
 		return;
 
 	int oldTop = 0;
-	if (wParam) {
+	if (iHistorySize) {
 		oldTop = m_iHistoryTop;
-		m_iHistoryTop = (int)wParam;
+		m_iHistoryTop = iHistorySize;
 	}
 
-	char *szFromStream = ::Message_GetFromStream(GetDlgItem(m_dat->GetHwnd(), IDC_SRMM_MESSAGE), SF_RTFNOOBJS | SFF_PLAINRTF | SF_NCRFORNONASCII);
+	CCtrlRichEdit &pEntry = m_dat->GetEntry();
+	ptrA szFromStream(pEntry.GetRichTextRtf());
 	if (szFromStream != nullptr) {
-		size_t 	iLength = 0, iStreamLength = 0;
-		iLength = iStreamLength = (mir_strlen(szFromStream) + 1);
+		size_t iLength, iStreamLength;
+		iLength = iStreamLength = mir_strlen(szFromStream) + 1;
 
 		if (iLength > 0 && m_history != nullptr) { // XXX: iLength > 1 ?
-			if ((m_iHistoryTop == m_iHistorySize) && oldTop == 0) {         // shift the stack down...
+			if (m_iHistoryTop == m_iHistorySize && oldTop == 0) {         // shift the stack down...
 				TInputHistory ihTemp = m_history[0];
 				m_iHistoryTop--;
 				::memmove((void*)&m_history[0], (void*)&m_history[1], (m_iHistorySize - 1) * sizeof(TInputHistory));
@@ -274,7 +275,6 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM)
 				}
 			}
 		}
-		mir_free(szFromStream);
 	}
 	if (oldTop)
 		m_iHistoryTop = oldTop;
@@ -290,13 +290,14 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 		return;
 
 	if (m_history != nullptr && m_history[0].szText != nullptr) {     // at least one entry needs to be alloced, otherwise we get a nice infinite loop ;)
-		HWND hwndEdit = ::GetDlgItem(m_dat->GetHwnd(), IDC_SRMM_MESSAGE);
+		CCtrlRichEdit &pEntry = m_dat->GetEntry();
+
 		SETTEXTEX stx = { ST_DEFAULT, CP_UTF8 };
 
 		if (m_dat->m_dwFlags & MWF_NEEDHISTORYSAVE) {
 			m_iHistoryCurrent = m_iHistoryTop;
-			if (::GetWindowTextLength(hwndEdit) > 0)
-				saveHistory(m_iHistorySize, 0);
+			if (::GetWindowTextLength(pEntry.GetHwnd()) > 0)
+				saveHistory(m_iHistorySize);
 			else
 				m_history[m_iHistorySize].szText[0] = (wchar_t)'\0';
 		}
@@ -312,20 +313,19 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 		}
 		if (m_iHistoryCurrent == m_iHistoryTop) {
 			if (m_history[m_iHistorySize].szText != nullptr) {           // replace the temp buffer
-				::SetWindowText(hwndEdit, L"");
-				::SendMessage(hwndEdit, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistorySize].szText);
-				::SendMessage(hwndEdit, EM_SETSEL, -1, -1);
+				pEntry.SetText(L"");
+				pEntry.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistorySize].szText);
+				pEntry.SendMsg(EM_SETSEL, -1, -1);
 			}
 		}
 		else {
+			pEntry.SetText(L"");
 			if (m_history[m_iHistoryCurrent].szText != nullptr) {
-				::SetWindowText(hwndEdit, L"");
-				::SendMessage(hwndEdit, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistoryCurrent].szText);
-				::SendMessage(hwndEdit, EM_SETSEL, -1, -1);
+				pEntry.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistoryCurrent].szText);
+				pEntry.SendMsg(EM_SETSEL, -1, -1);
 			}
-			else ::SetWindowText(hwndEdit, L"");
 		}
-		::SendMessage(m_dat->GetHwnd(), WM_COMMAND, MAKEWPARAM(::GetDlgCtrlID(hwndEdit), EN_CHANGE), (LPARAM)hwndEdit);
+		pEntry.OnChange(&pEntry);
 		m_dat->m_dwFlags &= ~MWF_NEEDHISTORYSAVE;
 	}
 }

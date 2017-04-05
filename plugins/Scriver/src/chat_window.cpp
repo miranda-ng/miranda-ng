@@ -27,19 +27,20 @@ void CChatRoomDlg::TabAutoComplete()
 	int start = LOWORD(lResult), end = HIWORD(lResult);
 	m_message.SendMsg(EM_SETSEL, end, end);
 
-	GETTEXTEX gt = { 0 };
-	gt.codepage = 1200;
-	int iLen = GetRichTextLength(m_message.GetHwnd(), gt.codepage, TRUE);
+	int iLen = m_message.GetRichTextLength(1200);
 	if (iLen <= 0)
 		return;
 
 	bool isTopic = false, isRoom = false;
 	wchar_t *pszName = nullptr;
 	wchar_t* pszText = (wchar_t*)mir_alloc(iLen + 100 * sizeof(wchar_t));
+
+	GETTEXTEX gt = {};
+	gt.codepage = 1200;
 	gt.cb = iLen + 99 * sizeof(wchar_t);
 	gt.flags = GT_DEFAULT;
-
 	m_message.SendMsg(EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)pszText);
+
 	if (start > 1 && pszText[start - 1] == ' ' && pszText[start - 2] == ':')
 		start -= 2;
 
@@ -311,12 +312,12 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 	if (!pButton->Enabled())
 		return;
 
-	char *pszRtf = GetRichTextRTF(m_message.GetHwnd());
-	if (pszRtf == nullptr)
-		return;
-
 	MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
 	if (mi == nullptr)
+		return;
+
+	char *pszRtf = m_message.GetRichTextRtf();
+	if (pszRtf == nullptr)
 		return;
 
 	TCmdList *cmdListNew = tcmdlist_last(cmdList);
@@ -369,10 +370,10 @@ void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
 		RedrawLog();
 }
 
-void CChatRoomDlg::onChange_Message(CCtrlEdit *pEdit)
+void CChatRoomDlg::onChange_Message(CCtrlEdit*)
 {
 	cmdListCurrent = nullptr;
-	m_btnOk.Enable(GetRichTextLength(pEdit->GetHwnd(), 1200, FALSE) != 0);
+	m_btnOk.Enable(m_message.GetRichTextLength() != 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -425,7 +426,7 @@ void CChatRoomDlg::ScrollToBottom()
 	SetScrollInfo(m_log.GetHwnd(), SB_VERT, &sci, TRUE);
 
 	CHARRANGE sel;
-	sel.cpMin = sel.cpMax = GetRichTextLength(m_log.GetHwnd(), CP_ACP, FALSE);
+	sel.cpMin = sel.cpMax = m_log.GetRichTextLength();
 	m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 	PostMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
 }

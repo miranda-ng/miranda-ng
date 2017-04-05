@@ -636,7 +636,7 @@ void CChatRoomDlg::onClick_OK(CCtrlButton*)
 	if (mi == nullptr)
 		return;
 
-	ptrA pszRtf(Message_GetFromStream(m_message.GetHwnd()));
+	ptrA pszRtf(m_message.GetRichTextRtf());
 	pci->SM_AddCommand(m_si->ptszID, m_si->pszModule, pszRtf);
 
 	CMStringW ptszText(ptrW(mir_utf8decodeW(pszRtf)));
@@ -715,8 +715,8 @@ void CChatRoomDlg::onChange_Message(CCtrlEdit*)
 		UpdateReadChars();
 	m_dwLastActivity = GetTickCount();
 	m_pContainer->dwLastActivity = m_dwLastActivity;
-	m_btnOk.SendMsg(BUTTONSETASNORMAL, GetRichTextLength(m_message.GetHwnd()) != 0, 0);
-	m_btnOk.Enable(GetRichTextLength(m_message.GetHwnd()) != 0);
+	m_btnOk.SendMsg(BUTTONSETASNORMAL, m_message.GetRichTextLength() != 0, 0);
+	m_btnOk.Enable(m_message.GetRichTextLength() != 0);
 
 	// Typing support for GCW_PRIVMESS sessions
 	if (m_si->iType == GCW_PRIVMESS) {
@@ -996,7 +996,7 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		return CSkin::DrawRichEditFrame(m_log.GetHwnd(), this, ID_EXTBKHISTORY, msg, wParam, lParam, stubLogProc);
 
 	case WM_COPY:
-		return Utils::WMCopyHandler(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
+		return WMCopyHandler(msg, wParam, lParam);
 
 	case WM_SETCURSOR:
 		if (g_Settings.bClickableNicks && (LOWORD(lParam) == HTCLIENT)) {
@@ -1041,7 +1041,7 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			return TRUE;
 		}
 		if (wParam == VK_INSERT && GetKeyState(VK_CONTROL) & 0x8000)
-			return Utils::WMCopyHandler(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
+			return WMCopyHandler(msg, wParam, lParam);
 		break;
 
 	case WM_SYSKEYUP:
@@ -1070,7 +1070,7 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		bool isCtrl, isShift, isAlt;
 		KbdState(isShift, isCtrl, isAlt);
 		if (wParam == 0x03 && isCtrl) // Ctrl+C
-			return Utils::WMCopyHandler(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
+			return WMCopyHandler(msg, wParam, lParam);
 		break;
 	}
 
@@ -1333,7 +1333,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (!m_si->lpCurrentCommand || !m_si->lpCurrentCommand->last) {
 				// Next command is not defined. It means currently entered text is not saved in the history and it
 				// need to be saved in the window context.
-				char *enteredText = Message_GetFromStream(m_hwnd);
+				char *enteredText = m_message.GetRichTextRtf();
 				if (m_enteredText)
 					mir_free(m_enteredText);
 

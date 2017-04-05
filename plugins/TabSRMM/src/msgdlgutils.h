@@ -33,7 +33,6 @@
 void     TSAPI ProcessAvatarChange(HWND hwnd, LPARAM lParam);
 int      TSAPI CheckValidSmileyPack(const char *szProto, MCONTACT hContact);
 wchar_t* TSAPI QuoteText(const wchar_t *text);
-char*    TSAPI Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags = 0);
 UINT     TSAPI GetIEViewMode(MCONTACT hContact);
 void     TSAPI LoadOverrideTheme(TContainerData *pContainer);
 void     TSAPI LoadThemeDefaults(TContainerData *pContainer);

@@ -88,7 +88,6 @@ public:
 	static LPTSTR   extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich);
 
 	static size_t   CopyToClipBoard(const wchar_t *str, const HWND hwndOwner);
-	static LRESULT  WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	static void     AddToFileList(wchar_t ***pppFiles, int *totalCount, LPCTSTR szFilename);
 

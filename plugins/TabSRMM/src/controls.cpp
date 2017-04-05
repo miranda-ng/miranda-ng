@@ -987,17 +987,12 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 			}
 			SendMessage(hWnd, SB_GETRECT, 1, (LPARAM)&rc);
 			if (PtInRect(&rc, pt)) {
-				int iLength = 0;
-				GETTEXTLENGTHEX gtxl = { 0 };
 				int iQueued = db_get_dw(dat->m_hContact, "SendLater", "count", 0);
-				gtxl.codepage = CP_UTF8;
-				gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
-				iLength = SendDlgItemMessage(dat->GetHwnd(), IDC_SRMM_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 				tooltip_active = TRUE;
 
-				const wchar_t *szFormat = TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery");
-
-				mir_snwprintf(wBuf, szFormat, dat->m_iOpenJobs, iLength, dat->m_nMax ? dat->m_nMax : 20000, iQueued);
+				mir_snwprintf(wBuf, 
+					TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery"),
+					dat->m_iOpenJobs, dat->m_message.GetRichTextLength(CP_UTF8), dat->m_nMax ? dat->m_nMax : 20000, iQueued);
 				CallService("mToolTip/ShowTipW", (WPARAM)wBuf, (LPARAM)&ti);
 			}
 

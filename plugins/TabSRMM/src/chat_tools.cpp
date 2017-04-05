@@ -28,14 +28,6 @@
 
 #include "stdafx.h"
 
-int GetRichTextLength(HWND hwnd)
-{
-	GETTEXTLENGTHEX gtl;
-	gtl.flags = GTL_PRECISE;
-	gtl.codepage = CP_ACP;
-	return (int)SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
-}
-
 static void __stdcall ShowRoomFromPopup(void *pi)
 {
 	SESSION_INFO *si = (SESSION_INFO*)pi;

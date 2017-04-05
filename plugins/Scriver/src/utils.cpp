@@ -50,70 +50,6 @@ void logInfo(const char *fmt, ...)
 	}
 }
 
-int GetRichTextLength(HWND hwnd, int codepage, BOOL inBytes)
-{
-	GETTEXTLENGTHEX gtl;
-	gtl.codepage = codepage;
-	if (inBytes) {
-		gtl.flags = GTL_NUMBYTES;
-	}
-	else {
-		gtl.flags = GTL_NUMCHARS;
-	}
-	gtl.flags |= GTL_PRECISE | GTL_USECRLF;
-	return (int)SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
-}
-
-char* GetRichTextUtf(HWND hwnd)
-{
-	int textBufferSize = GetRichTextLength(hwnd, CP_UTF8, TRUE);
-	if (textBufferSize == 0)
-		return nullptr;
-
-	textBufferSize++;
-	char *textBuffer = (char*)mir_alloc(textBufferSize);
-
-	GETTEXTEX  gt = { 0 };
-	gt.cb = textBufferSize;
-	gt.flags = GT_USECRLF;
-	gt.codepage = CP_UTF8;
-	SendMessage(hwnd, EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)textBuffer);
-	return textBuffer;
-}
-
-int SetRichText(HWND hwnd, const wchar_t *text)
-{
-	SETTEXTEX st;
-	st.flags = ST_DEFAULT;
-	st.codepage = 1200;
-	SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)text);
-
-	return GetRichTextLength(hwnd, 1200, FALSE);
-}
-
-int SetRichTextRTF(HWND hwnd, const char *text)
-{
-	SETTEXTEX st;
-	st.flags = ST_DEFAULT;
-	st.codepage = CP_UTF8;
-	SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)text);
-
-	return GetRichTextLength(hwnd, 1200, FALSE);
-}
-
-char* GetRichTextRTF(HWND hwnd)
-{
-	if (hwnd == 0)
-		return nullptr;
-
-	char *pszText = nullptr;
-	EDITSTREAM stream = { 0 };
-	stream.pfnCallback = Srmm_MessageStreamCallback;
-	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
-	SendMessage(hwnd, EM_STREAMOUT, SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16), (LPARAM)&stream);
-	return pszText; // pszText contains the text
-}
-
 void rtrimText(wchar_t *text)
 {
 	static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
@@ -197,24 +133,6 @@ wchar_t *GetRichEditSelection(HWND hwnd)
 	SendMessage(hwnd, EM_STREAMOUT, SF_TEXT | SF_UNICODE | SFF_SELECTION, (LPARAM)&stream);
 	return (wchar_t*)msi.sendBuffer;
 }
-
-void AppendToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const char *fmt, ...)
-{
-	va_list va;
-	int charsDone;
-
-	va_start(va, fmt);
-	for (;;) {
-		charsDone = mir_vsnprintf(buffer + cbBufferEnd, cbBufferAlloced - cbBufferEnd, fmt, va);
-		if (charsDone >= 0)
-			break;
-		cbBufferAlloced += 1024;
-		buffer = (char*)mir_realloc(buffer, cbBufferAlloced);
-	}
-	va_end(va);
-	cbBufferEnd += charsDone;
-}
-
 
 int MeasureMenuItem(WPARAM, LPARAM lParam)
 {

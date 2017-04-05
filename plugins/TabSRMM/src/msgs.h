@@ -256,6 +256,7 @@ protected:
 	bool IsAutoSplitEnabled() const;
 	void ResizeIeView();
 	void ShowPopupMenu(const CCtrlBase&, POINT pt);
+	LRESULT WMCopyHandler(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 public:
 	DWORD    m_dwFlags;
@@ -369,6 +370,8 @@ public:
 	void tabUpdateStatusBar() const;
 
 	static LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	__forceinline CCtrlRichEdit& GetEntry() { return m_message; }
 
 	HWND  DM_CreateClist();
 	void  DM_EventAdded(WPARAM wParam, LPARAM lParam);

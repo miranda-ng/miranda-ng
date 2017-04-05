@@ -116,7 +116,7 @@ struct CContactCache : public MZeroedObject
 	/*
 	 * input history
 	 */
-	void     saveHistory(WPARAM wParam, LPARAM lParam);
+	void     saveHistory(int iHistorySize = 0);
 	void     inputHistoryEvent(WPARAM wParam);
 
 	static CContactCache* getContactCache(MCONTACT hContact);

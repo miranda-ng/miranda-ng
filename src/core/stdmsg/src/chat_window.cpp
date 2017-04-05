@@ -121,12 +121,7 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 	if (!pButton->Enabled())
 		return;
 
-	ptrA pszRtf;
-	EDITSTREAM stream;
-	memset(&stream, 0, sizeof(stream));
-	stream.pfnCallback = Srmm_MessageStreamCallback;
-	stream.dwCookie = (DWORD_PTR)&pszRtf; // pass pointer to pointer
-	m_message.SendMsg(EM_STREAMOUT, SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16), (LPARAM)&stream);
+	ptrA pszRtf(m_message.GetRichTextRtf());
 	if (pszRtf == nullptr)
 		return;
 
@@ -250,7 +245,7 @@ void CChatRoomDlg::ScrollToBottom()
 	scroll.nPos = scroll.nMax - scroll.nPage + 1;
 	SetScrollInfo(m_log.GetHwnd(), SB_VERT, &scroll, TRUE);
 
-	sel.cpMin = sel.cpMax = GetRichTextLength(m_log.GetHwnd());
+	sel.cpMin = sel.cpMax = m_log.GetRichTextLength();
 	m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 	PostMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
 }
@@ -378,6 +373,109 @@ void CChatRoomDlg::UpdateTitle()
 	}
 
 	SetWindowText(m_pOwner->GetHwnd(), szTemp);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
+{
+	if (m_hwnd == nullptr || lin == nullptr || m_si == nullptr)
+		return;
+
+	if (!bRedraw && m_si->iType == GCW_CHATROOM && m_bFilterEnabled && (m_iLogFilterFlags & lin->iType) == 0)
+		return;
+
+	LOGSTREAMDATA streamData;
+	memset(&streamData, 0, sizeof(streamData));
+	streamData.hwnd = m_log.GetHwnd();
+	streamData.si = m_si;
+	streamData.lin = lin;
+	streamData.bStripFormat = FALSE;
+
+	bool bFlag = false;
+
+	EDITSTREAM stream = {};
+	stream.pfnCallback = Srmm_LogStreamCallback;
+	stream.dwCookie = (DWORD_PTR)& streamData;
+
+	SCROLLINFO scroll;
+	scroll.cbSize = sizeof(SCROLLINFO);
+	scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
+	GetScrollInfo(m_log.GetHwnd(), SB_VERT, &scroll);
+
+	POINT point = {};
+	m_log.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&point);
+
+	// do not scroll to bottom if there is a selection
+	CHARRANGE oldsel, sel;
+	m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldsel);
+	if (oldsel.cpMax != oldsel.cpMin)
+		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
+
+	//set the insertion point at the bottom
+	sel.cpMin = sel.cpMax = m_log.GetRichTextLength();
+	m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+
+	// fix for the indent... must be a M$ bug
+	if (sel.cpMax == 0)
+		bRedraw = TRUE;
+
+	// should the event(s) be appended to the current log
+	WPARAM wp = bRedraw ? SF_RTF : SFF_SELECTION | SF_RTF;
+
+	//get the number of pixels per logical inch
+	if (bRedraw) {
+		HDC hdc = GetDC(nullptr);
+		pci->logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
+		pci->logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
+		ReleaseDC(nullptr, hdc);
+		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
+		bFlag = true;
+	}
+
+	// stream in the event(s)
+	streamData.lin = lin;
+	streamData.bRedraw = bRedraw;
+	m_log.SendMsg(EM_STREAMIN, wp, (LPARAM)&stream);
+
+	// do smileys
+	if (SmileyAddInstalled && (bRedraw || (lin->ptszText && lin->iType != GC_EVENT_JOIN && lin->iType != GC_EVENT_NICK && lin->iType != GC_EVENT_ADDSTATUS && lin->iType != GC_EVENT_REMOVESTATUS))) {
+		CHARRANGE newsel;
+		newsel.cpMax = -1;
+		newsel.cpMin = sel.cpMin;
+		if (newsel.cpMin < 0)
+			newsel.cpMin = 0;
+
+		SMADD_RICHEDIT3 sm = {};
+		sm.cbSize = sizeof(sm);
+		sm.hwndRichEditControl = m_log.GetHwnd();
+		sm.Protocolname = m_si->pszModule;
+		sm.rangeToReplace = bRedraw ? nullptr : &newsel;
+		sm.disableRedraw = TRUE;
+		sm.hContact = m_si->hContact;
+		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
+	}
+
+	// scroll log to bottom if the log was previously scrolled to bottom, else restore old position
+	if (bRedraw || (UINT)scroll.nPos >= (UINT)scroll.nMax - scroll.nPage - 5 || scroll.nMax - scroll.nMin - scroll.nPage < 50)
+		ScrollToBottom();
+	else
+		m_log.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&point);
+
+	// do we need to restore the selection
+	if (oldsel.cpMax != oldsel.cpMin) {
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldsel);
+		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
+		InvalidateRect(m_log.GetHwnd(), nullptr, TRUE);
+	}
+
+	// need to invalidate the window
+	if (bFlag) {
+		sel.cpMin = sel.cpMax = m_log.GetRichTextLength();
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
+		InvalidateRect(m_log.GetHwnd(), nullptr, TRUE);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1081,7 +1179,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_SRMM_MESSAGE:
-			EnableWindow(m_btnOk.GetHwnd(), GetRichTextLength(m_message.GetHwnd()) != 0);
+			EnableWindow(m_btnOk.GetHwnd(), m_message.GetRichTextLength() != 0);
 			break;
 		}
 		break;
