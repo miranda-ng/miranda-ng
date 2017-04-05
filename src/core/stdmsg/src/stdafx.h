@@ -123,7 +123,6 @@ void Unload_ChatModule(void);
 void Load_ChatModule(void);
 
 // log.cpp
-void  ValidateFilename(wchar_t *filename);
 char* Log_CreateRtfHeader(MODULEINFO *mi);
 
 // window.cpp
@@ -136,13 +135,8 @@ HICON LoadIconEx(const char *pszIcoLibName, bool big);
 HANDLE GetIconHandle(const char *pszIcolibName);
 
 // tools.cpp
-int  GetColorIndex(const char* pszModule, COLORREF cr);
-void CheckColorsInModule(const char* pszModule);
 int  GetRichTextLength(HWND hwnd);
 void SetButtonsPos(HWND hwndDlg, bool bIsChat);
-
-// message.cpp
-char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // tabs.cpp
@@ -222,7 +216,7 @@ public:
 	virtual void CloseTab() override;
 	virtual void LoadSettings() override;
 	virtual void RedrawLog() override;
-	virtual void StreamInEvents(LOGINFO* lin, bool bRedraw) override;
+	virtual void StreamInEvents(LOGINFO *lin, bool bRedraw) override;
 	virtual void ScrollToBottom() override;
 	virtual void ShowFilterMenu() override;
 	virtual void UpdateNickList() override;

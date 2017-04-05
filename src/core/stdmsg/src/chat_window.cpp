@@ -121,7 +121,12 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 	if (!pButton->Enabled())
 		return;
 
-	ptrA pszRtf(Message_GetFromStream(m_hwnd, m_si));
+	ptrA pszRtf;
+	EDITSTREAM stream;
+	memset(&stream, 0, sizeof(stream));
+	stream.pfnCallback = Srmm_MessageStreamCallback;
+	stream.dwCookie = (DWORD_PTR)&pszRtf; // pass pointer to pointer
+	m_message.SendMsg(EM_STREAMOUT, SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16), (LPARAM)&stream);
 	if (pszRtf == nullptr)
 		return;
 

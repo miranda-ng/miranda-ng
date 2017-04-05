@@ -124,76 +124,10 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si)
-{
-	if (hwndDlg == 0 || si == 0)
-		return nullptr;
-
-	char* pszText = nullptr;
-	EDITSTREAM stream;
-	memset(&stream, 0, sizeof(stream));
-	stream.pfnCallback = Srmm_MessageStreamCallback;
-	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
-
-	DWORD dwFlags = SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16);
-	SendDlgItemMessage(hwndDlg, IDC_SRMM_MESSAGE, EM_STREAMOUT, dwFlags, (LPARAM)&stream);
-	return pszText; // pszText contains the text
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 int GetRichTextLength(HWND hwnd)
 {
 	GETTEXTLENGTHEX gtl;
 	gtl.flags = GTL_PRECISE;
 	gtl.codepage = CP_ACP;
 	return (int)SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
-}
-
-int GetColorIndex(const char* pszModule, COLORREF cr)
-{
-	MODULEINFO *pMod = pci->MM_FindModule(pszModule);
-	int i = 0;
-
-	if (!pMod || pMod->nColorCount == 0)
-		return -1;
-
-	for (i = 0; i < pMod->nColorCount; i++)
-		if (pMod->crColors[i] == cr)
-			return i;
-
-	return -1;
-}
-
-// obscure function that is used to make sure that any of the colors
-// passed by the protocol is used as fore- or background color
-// in the messagebox. THis is to vvercome limitations in the richedit
-// that I do not know currently how to fix
-
-void CheckColorsInModule(const char* pszModule)
-{
-	MODULEINFO *pMod = pci->MM_FindModule(pszModule);
-	if (!pMod)
-		return;
-
-	COLORREF crBG = (COLORREF)db_get_dw(0, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
-	for (int i = 0; i < pMod->nColorCount; i++) {
-		if (pMod->crColors[i] == g_Settings.MessageAreaColor || pMod->crColors[i] == crBG) {
-			if (pMod->crColors[i] == RGB(255, 255, 255))
-				pMod->crColors[i]--;
-			else
-				pMod->crColors[i]++;
-		}
-	}
-}
-
-void ValidateFilename(wchar_t *filename)
-{
-	wchar_t *p1 = filename;
-	wchar_t szForbidden[] = L"\\/:*?\"<>|";
-	while (*p1 != '\0') {
-		if (wcschr(szForbidden, *p1))
-			*p1 = '_';
-		p1 += 1;
-	}
 }
