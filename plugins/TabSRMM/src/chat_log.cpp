@@ -898,12 +898,6 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 	// replace marked nicknames with hyperlinks to make the nicks clickable
 	if (g_Settings.bClickableNicks) {
 		FINDTEXTEX fi, fi2;
-
-		CHARFORMAT2 cf2;
-		memset(&cf2, 0, sizeof(CHARFORMAT2));
-		cf2.cbSize = sizeof(cf2);
-
-		fi2.lpstrText = L"#++~~";
 		fi.chrg.cpMin = bRedraw ? 0 : sel.cpMin;
 		fi.chrg.cpMax = -1;
 		fi.lpstrText = L"~~++#";
@@ -911,18 +905,24 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 		while (m_log.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
 			fi2.chrg.cpMin = fi.chrgText.cpMin;
 			fi2.chrg.cpMax = -1;
+			fi2.lpstrText = L"#++~~";
 
 			if (m_log.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi2) > -1) {
 				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&fi.chrgText);
 				m_log.SendMsg(EM_REPLACESEL, TRUE, (LPARAM)L"");
+
 				fi2.chrgText.cpMin -= fi.chrgText.cpMax - fi.chrgText.cpMin;
 				fi2.chrgText.cpMax -= fi.chrgText.cpMax - fi.chrgText.cpMin;
 				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&fi2.chrgText);
 				m_log.SendMsg(EM_REPLACESEL, TRUE, (LPARAM)L"");
-				fi2.chrgText.cpMax = fi2.chrgText.cpMin;
 
+				fi2.chrgText.cpMax = fi2.chrgText.cpMin;
 				fi2.chrgText.cpMin = fi.chrgText.cpMin;
 				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&fi2.chrgText);
+
+				CHARFORMAT2 cf2;
+				memset(&cf2, 0, sizeof(CHARFORMAT2));
+				cf2.cbSize = sizeof(cf2);
 				cf2.dwMask = CFM_PROTECTED;
 				cf2.dwEffects = CFE_PROTECTED;
 				m_log.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2);

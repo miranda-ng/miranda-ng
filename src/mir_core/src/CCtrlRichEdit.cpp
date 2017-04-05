@@ -33,7 +33,7 @@ int CCtrlRichEdit::GetRichTextLength(int iCodePage) const
 {
 	GETTEXTLENGTHEX gtl;
 	gtl.codepage = iCodePage;
-	gtl.flags = GTL_PRECISE | GTL_USECRLF;
+	gtl.flags = GTL_PRECISE;
 	if (iCodePage == CP_ACP)
 		gtl.flags |= GTL_NUMBYTES;
 	else
