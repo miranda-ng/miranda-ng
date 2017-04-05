@@ -1195,8 +1195,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 	for (int i = 0; (xNode = XmlGetChild(node, i)) != NULL; i++) {
 		if (m_options.UseOMEMO)
 		{
-			//TODO: handle incomming omemo message/key
-			if ((xNode = XmlGetNthChild(node, L"encrypted", i + 1)) == NULL)
+			if ((xNode = XmlGetNthChild(node, L"encrypted", i + 1)) != NULL)
 			{
 				const wchar_t *ptszXmlns = XmlGetAttrValue(xNode, L"xmlns");
 				if (ptszXmlns == NULL)

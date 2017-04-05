@@ -552,6 +552,13 @@ void CJabberProto::OmemoInitDevice()
 void CJabberProto::OmemoHandleMessage(HXML /*node*/)
 {
 	//TODO: handle "encrypted" node here
+
+/*	PROTORECVEVENT recv = { 0 };
+	recv.timestamp = (DWORD)msgTime;
+	recv.szMessage = buf;
+	recv.lParam = (LPARAM)((pFromResource != NULL && m_options.EnableRemoteControl) ? pFromResource->m_tszResourceName : 0);
+	ProtoChainRecvMsg(hContact, &recv); */
+
 }
 
 void CJabberProto::OmemoHandleDeviceList(HXML node)
@@ -580,7 +587,8 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 		DWORD own_id = omemo::GetOwnDeviceId(this);
 		char setting_name[64];
 		HXML list_item;
-		for (int p = 1, i = 0; (list_item = XmlGetNthChild(node, L"device", p)) != NULL; p++, i++)
+		int i = 0;
+		for (int p = 1; (list_item = XmlGetNthChild(node, L"device", p)) != NULL; p++, i++)
 		{
 			current_id_str = xmlGetAttrValue(list_item, L"id");
 			current_id = _wtoi(current_id_str);
@@ -589,23 +597,45 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
 			setDword(setting_name, current_id);
 		}
+		i++;
+		DWORD val = 0;
+		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
+		val = getDword(setting_name, 0);
+		while (val)
+		{
+			delSetting(setting_name);
+			i++;
+			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
+			val = getDword(setting_name, 0);
+		}
 		if (!own_device_listed)
 			OmemoAnnounceDevice();
-		//TODO: remove all settings higher than 'i' from db
 	}
 	else
 	{
 		//store device id's
 		char setting_name[64];
 		HXML list_item;
-		for (int p = 1, i = 0; (list_item = XmlGetNthChild(node, L"device", p)) != NULL; p++, i++)
+		int i = 0;
+		for (int p = 1; (list_item = XmlGetNthChild(node, L"device", p)) != NULL; p++, i++)
 		{
 			current_id_str = xmlGetAttrValue(list_item, L"id");
 			current_id = _wtoi(current_id_str);
 			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
 			setDword(hContact, setting_name, current_id);
 		}
-		//TODO: remove all settings higher than 'i' from db
+		i++;
+		DWORD val = 0;
+		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
+		val = getDword(hContact, setting_name, 0);
+		while (val)
+		{
+			delSetting(hContact, setting_name);
+			i++;
+			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
+			val = getDword(hContact, setting_name, 0);
+		}
+
 	}
 }
 
@@ -699,4 +729,102 @@ void CJabberProto::OmemoPublishNodes()
 {
 	OmemoAnnounceDevice();
 	OmemoSendBundle();
+}
+
+bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
+{
+	if (getBool(hContact, "OmemoSessionChecked"))
+		return true;
+	bool pending_check = false;
+
+	char setting_name[64], setting_name2[64];
+	DWORD id = 0;
+	bool checked = false;
+	int i = 0;
+	
+	mir_snprintf(setting_name, "OmemoDeviceId%d", i);
+	mir_snprintf(setting_name2, "%sChecked", setting_name);
+	id = getDword(hContact, setting_name, 0);
+	checked = getBool(hContact, setting_name2);
+	while (id)
+	{
+		if (!checked)
+		{
+			pending_check = true;
+			wchar_t szBareJid[JABBER_MAX_JID_LEN];
+			XmlNodeIq iq(AddIQ(&CJabberProto::OmemoOnIqResultGetBundle, JABBER_IQ_TYPE_GET));
+			iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof_portable(szBareJid)));
+			wchar_t *jid = ContactToJID(hContact);
+			iq << XATTR(L"to", jid);
+			HXML items = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"items");
+			wchar_t bundle[64];
+			mir_snwprintf(bundle, 63, L"%s%s%d", JABBER_FEAT_OMEMO, L".bundles:", id);
+			XmlAddAttr(items, L"node", bundle);
+			m_ThreadInfo->send(iq);
+			mir_free(jid);
+		}
+		i++;
+		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
+		mir_snprintf(setting_name2, "%sChecked", setting_name);
+		id = getDword(hContact, setting_name, 0);
+		checked = getBool(hContact, setting_name2);
+	}
+
+	if (!pending_check)
+		return true;
+	return false;
+}
+
+void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo * /*pInfo*/)
+{
+	if (iqNode == NULL)
+		return;
+	
+	const wchar_t *type = XmlGetAttrValue(iqNode, L"type");
+	if (mir_wstrcmp(type, L"result"))
+		return;
+
+	LPCTSTR jid = XmlGetAttrValue(iqNode, L"from");
+
+	HXML pubsub = XmlGetChildByTag(iqNode, L"pubsub", L"xmlns", L"http://jabber.org/protocol/pubsub");
+	if (!pubsub)
+		return;
+	HXML items = XmlGetChild(pubsub, L"items");
+	LPCTSTR items_node_val = XmlGetAttrValue(items, L"node");
+	LPCTSTR device_id = items_node_val;
+	device_id += mir_wstrlen(JABBER_FEAT_OMEMO L".bundles:");
+	HXML bundle = XmlGetChild(XmlGetChild(items, L"item"), L"bundle");
+	if (!bundle)
+		return;
+	LPCTSTR signedPreKeyPublic = XmlGetText(XmlGetChild(bundle, L"signedPreKeyPublic"));
+	LPCTSTR signedPreKeySignature = XmlGetText(XmlGetChild(bundle, L"signedPreKeySignature"));
+	LPCTSTR identityKey = XmlGetText(XmlGetChild(bundle, L"identityKey"));
+	HXML prekeys = XmlGetChild(bundle, L"prekeys");
+	if (!prekeys)
+		return;
+
+	HXML list_item;
+	char key_num = 0;
+	while(key_num == 0)
+		Utils_GetRandom(&key_num, 1);
+	key_num = key_num % 101;
+
+	wchar_t key_num_str[4];
+	mir_snwprintf(key_num_str, 3, L"%d", key_num);
+
+	LPCTSTR preKeyPublic = XmlGetText(XmlGetChildByTag(prekeys, L"preKeyPublic", L"preKeyId", key_num_str));
+	if (!preKeyPublic)
+		return;
+	//TODO: we have all required data, we need to create session with device here
+
+}
+
+void CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_text)
+{
+	//TODO:
+}
+bool CJabberProto::OmemoIsEnabled(MCONTACT hContact)
+{
+	//TODO:
+	return false;
 }

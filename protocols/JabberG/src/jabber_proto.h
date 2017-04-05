@@ -343,6 +343,10 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void OmemoAnnounceDevice();
 	void OmemoSendBundle();
 	void OmemoPublishNodes();
+	bool OmemoCheckSession(MCONTACT hContact);
+	void OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_text);
+	bool OmemoIsEnabled(MCONTACT hContact);
+	void OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo);
 
 	//---- jabber_console.cpp ------------------------------------------------------------
 

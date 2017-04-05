@@ -919,6 +919,16 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 		return 1;
 	}
 
+	if (m_options.UseOMEMO)
+	{
+		if (!OmemoCheckSession(hContact)) //check omemo session state and build new session if necessary
+		{
+			TFakeAckParams *param = new TFakeAckParams(hContact, Translate("Protocol is offline or no JID"));
+			ForkThread(&CJabberProto::SendMessageAckThread, param);
+			return 1;
+		}
+	}
+
 	int  isEncrypted, id = SerialNext();
 	if (!strncmp(pszSrc, PGP_PROLOG, mir_strlen(PGP_PROLOG))) {
 		const char *szEnd = strstr(pszSrc, PGP_EPILOG);
@@ -941,15 +951,24 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 		msgType = L"groupchat";
 	else
 		msgType = L"chat";
+	XmlNode m(L"message");
 
-	XmlNode m(L"message"); XmlAddAttr(m, L"type", msgType);
-	if (!isEncrypted)
-		m << XCHILD(L"body", msg);
-	else {
-		m << XCHILD(L"body", L"[This message is encrypted.]");
-		m << XCHILD(L"x", msg) << XATTR(L"xmlns", L"jabber:x:encrypted");
+	if(m_options.UseOMEMO && OmemoIsEnabled(hContact) && !mir_wstrcmp(msgType, L"chat")) //omemo enabled in options, omemo enabled for contact
+	{
+		OmemoEncryptMessage(m, msg);
 	}
-	mir_free(msg);
+	else
+	{
+
+		XmlAddAttr(m, L"type", msgType);
+		if (!isEncrypted)
+			m << XCHILD(L"body", msg);
+		else {
+			m << XCHILD(L"body", L"[This message is encrypted.]");
+			m << XCHILD(L"x", msg) << XATTR(L"xmlns", L"jabber:x:encrypted");
+		}
+		mir_free(msg);
+	}
 
 	pResourceStatus r(ResourceInfoFromJID(szClientJid));
 	if (r)
