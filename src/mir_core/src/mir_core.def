@@ -1042,4 +1042,8 @@ CallFunctionSync @1170
 ??0CCtrlRichEdit@@QAE@PAVCDlgBase@@H@Z @1229 NONAME
 ??1CCtrlRichEdit@@UAE@XZ @1230 NONAME
 ??_7CCtrlRichEdit@@6B@ @1231 NONAME
-?GetRichTextLength@CCtrlRichEdit@@QBEHXZ @1232 NONAME
+?GetRichTextLength@CCtrlRichEdit@@QBEHH@Z @1232 NONAME
+?SetRichText@CCtrlRichEdit@@QAEHPB_W@Z @1233 NONAME
+?SetRichTextRtf@CCtrlRichEdit@@QAEHPBD@Z @1234 NONAME
+?GetRichTextUtf@CCtrlRichEdit@@QBEPADXZ @1235 NONAME
+?GetRichTextRtf@CCtrlRichEdit@@QBEPAD_N0@Z @1236 NONAME

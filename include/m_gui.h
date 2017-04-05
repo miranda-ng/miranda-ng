@@ -800,7 +800,17 @@ class MIR_CORE_EXPORT CCtrlRichEdit : public CCtrlEdit
 public:
 	CCtrlRichEdit(CDlgBase *dlg, int ctrlId);
 
-	int GetRichTextLength() const;
+	// returns text length in bytes if a parameter is omitted or in symbols, if not
+	int GetRichTextLength(int iCodePage = CP_ACP) const;
+
+	// returns a buffer that should be freed using mir_free() or ptrA/ptrW
+	char* GetRichTextRtf(bool bText = false, bool bSelection = false) const; // returns text with formatting
+	char* GetRichTextUtf() const;	// returns only text in utf8
+	wchar_t* GetRichText() const;	// returns only text in ucs2
+
+	// these methods return text length in Unicode chars
+	int SetRichText(const wchar_t *text);
+	int SetRichTextRtf(const char *text);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
