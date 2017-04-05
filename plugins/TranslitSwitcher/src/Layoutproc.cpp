@@ -652,9 +652,7 @@ int OnButtonPressed(WPARAM, LPARAM lParam)
 	else
 		return 0;
 
-	HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_MESSAGE);
-	if (!hEdit)
-		hEdit = GetDlgItem(cbcd->hwndFrom, IDC_CHATMESSAGE);
+	HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_SRMM_MESSAGE);
 
 	BYTE byKeybState[256];
 	GetKeyboardState(byKeybState);

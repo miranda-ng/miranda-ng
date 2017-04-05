@@ -36,8 +36,6 @@ Boston, MA 02111-1307, USA.
 #include "resource.h"
 
 #define MODULE "QuickReplies"
-#define IDC_MESSAGE 1002
-#define IDC_CHATMESSAGE 1009
 
 #define MS_QUICKREPLIES_SERVICE MODULE"/Service"
 

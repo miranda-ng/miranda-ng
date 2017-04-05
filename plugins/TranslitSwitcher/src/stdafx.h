@@ -31,6 +31,7 @@ Boston, MA 02111-1307, USA.
 #include <m_icolib.h>
 #include <m_popup.h>
 #include <m_string.h>
+#include <m_chat_int.h>
 
 #include <m_message.h>
 #include <m_smileyadd.h>
@@ -38,9 +39,6 @@ Boston, MA 02111-1307, USA.
 
 #include "version.h"
 #include "resource.h"
-
-#define IDC_MESSAGE				1002
-#define IDC_CHATMESSAGE			1009
 
 VOID SwitchLayout(bool);
 VOID TranslitLayout(bool);

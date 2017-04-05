@@ -116,13 +116,7 @@ void CDropbox::SendToContact(MCONTACT hContact, const wchar_t *data)
 
 void CDropbox::PasteToInputArea(MCONTACT hContact, const wchar_t *data)
 {
-	MessageWindowData mwd;
-	if (!Srmm_GetWindowData(hContact, mwd)) {
-		HWND hEdit = GetDlgItem(mwd.hwndWindow, 1002 /*IDC_MESSAGE*/);
-		if (!hEdit) hEdit = GetDlgItem(mwd.hwndWindow, 1009 /*IDC_CHATMESSAGE*/);
-
-		SendMessage(hEdit, EM_REPLACESEL, TRUE, (LPARAM)data);
-	}
+	CallService(MS_MSG_SENDMESSAGEW, hContact, (LPARAM)data);
 }
 
 void CDropbox::PasteToClipboard(const wchar_t *data)
