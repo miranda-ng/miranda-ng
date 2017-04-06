@@ -436,10 +436,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 	if (bottomScroll) {
 		sel.cpMin = sel.cpMax = -1;
 		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-		if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
-			SendMessage(m_hwnd, DM_SCROLLLOGTOBOTTOM, 0, 0);
-			PostMessage(m_hwnd, DM_SCROLLLOGTOBOTTOM, 0, 0);
-		}
+		ScrollToBottom();
 	}
 	else {
 		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldSel);

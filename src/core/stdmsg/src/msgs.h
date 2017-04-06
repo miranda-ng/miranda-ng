@@ -30,9 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DM_CASCADENEWWINDOW  (WM_USER+13)
 #define DM_OPTIONSAPPLIED    (WM_USER+14)
 #define DM_UPDATETITLE       (WM_USER+16)
-#define DM_APPENDTOLOG       (WM_USER+17)
 #define DM_NEWTIMEZONE       (WM_USER+18)
-#define DM_SCROLLLOGTOBOTTOM (WM_USER+19)
 #define DM_TYPING            (WM_USER+20)
 #define DM_UPDATEWINICON     (WM_USER+21)
 #define DM_UPDATELASTMESSAGE (WM_USER+22)
@@ -56,6 +54,7 @@ class CSrmmWindow : public CSrmmBaseDialog
 
 	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
+	CCtrlBase m_avatar;
 	CCtrlButton m_btnOk;
 	CSplitter m_splitter;
 
@@ -108,6 +107,7 @@ public:
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
 	
 	virtual void LoadSettings() override {}
+	virtual void ScrollToBottom() override;
 	virtual void UpdateTitle() override {}
 
 	void OnSplitterMoved(CSplitter*);

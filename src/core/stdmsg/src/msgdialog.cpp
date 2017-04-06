@@ -102,6 +102,7 @@ static void SetEditorText(HWND hwnd, const wchar_t* txt)
 CSrmmWindow::CSrmmWindow(MCONTACT hContact) :
 	CSrmmBaseDialog(g_hInst, IDD_MSG),
 	m_splitter(this, IDC_SPLITTERY),
+	m_avatar(this, IDC_AVATAR),
 	m_btnOk(this, IDOK),
 	m_cmdList(20),
 	m_bNoActivate(g_dat.bDoNotStealFocus)
@@ -159,7 +160,7 @@ void CSrmmWindow::OnInitDialog()
 	SendMessage(m_hwnd, DM_UPDATESIZEBAR, 0, 0);
 	m_hwndStatus = nullptr;
 
-	EnableWindow(GetDlgItem(m_hwnd, IDC_AVATAR), FALSE);
+	m_avatar.Enable(false);
 
 	m_log.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 	m_log.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK | ENM_SCROLL);
@@ -395,7 +396,7 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 	m_btnOk.Show(g_dat.bSendButton);
 	m_btnOk.Enable(GetWindowTextLength(m_message.GetHwnd()) != 0);
 	if (m_avatarPic == nullptr || !g_dat.bShowAvatar)
-		ShowWindow(GetDlgItem(m_hwnd, IDC_AVATAR), SW_HIDE);
+		m_avatar.Hide();
 	SendMessage(m_hwnd, DM_UPDATETITLE, 0, 0);
 	SendMessage(m_hwnd, WM_SIZE, 0, 0);
 
@@ -501,6 +502,21 @@ void CSrmmWindow::NotifyTyping(int mode)
 	// End user check
 	m_nTypeMode = mode;
 	CallService(MS_PROTO_SELFISTYPING, m_hContact, m_nTypeMode);
+}
+
+void CSrmmWindow::ScrollToBottom()
+{
+	if (!(GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL))
+		return;
+
+	SCROLLINFO si = {};
+	si.cbSize = sizeof(si);
+	si.fMask = SIF_PAGE | SIF_RANGE;
+	GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si);
+	si.fMask = SIF_POS;
+	si.nPos = si.nMax - si.nPage;
+	SetScrollInfo(m_log.GetHwnd(), SB_VERT, &si, TRUE);
+	m_log.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
 }
 
 void CSrmmWindow::ShowAvatar()
@@ -881,7 +897,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (m_avatarPic == nullptr || !g_dat.bShowAvatar) {
 			m_avatarWidth = 50;
 			m_avatarHeight = 50;
-			ShowWindow(GetDlgItem(m_hwnd, IDC_AVATAR), SW_HIDE);
+			m_avatar.Hide();
 			return 0;
 		}
 		else {
@@ -893,7 +909,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_avatarWidth = bminfo.bmWidth * m_limitAvatarH / bminfo.bmHeight + 2;
 				m_avatarHeight = m_limitAvatarH + 2;
 			}
-			ShowWindow(GetDlgItem(m_hwnd, IDC_AVATAR), SW_SHOW);
+			m_avatar.Show();
 		}
 		break;
 
@@ -1087,37 +1103,20 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			// The statusbar sometimes draws over these 2 controls so
 			// redraw them
 			if (m_hwndStatus) {
-				RedrawWindow(GetDlgItem(m_hwnd, IDOK), nullptr, nullptr, RDW_INVALIDATE);
+				RedrawWindow(m_btnOk.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 				RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 			}
 			
 			if (g_dat.bShowAvatar && m_avatarPic)
-				RedrawWindow(GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, nullptr, RDW_INVALIDATE);
+				RedrawWindow(m_avatar.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 
 			if (bottomScroll)
-				PostMessage(m_hwnd, DM_SCROLLLOGTOBOTTOM, 0, 0);
+				ScrollToBottom();
 		}
 		return TRUE;
 
 	case DM_REMAKELOG:
 		StreamInEvents(m_hDbEventFirst, -1, 0);
-		break;
-
-	case DM_APPENDTOLOG:   //takes wParam=hDbEvent
-		StreamInEvents(wParam, 1, 1);
-		break;
-
-	case DM_SCROLLLOGTOBOTTOM:
-		if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
-			SCROLLINFO si = {};
-			si.cbSize = sizeof(si);
-			si.fMask = SIF_PAGE | SIF_RANGE;
-			GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si);
-			si.fMask = SIF_POS;
-			si.nPos = si.nMax - si.nPage;
-			SetScrollInfo(m_log.GetHwnd(), SB_VERT, &si, TRUE);
-			m_log.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
-		}
 		break;
 
 	case HM_DBEVENTADDED:
@@ -1142,7 +1141,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					SendMessage(m_hwnd, DM_UPDATELASTMESSAGE, 0, 0);
 				}
 				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
-					SendMessage(m_hwnd, DM_APPENDTOLOG, lParam, 0);
+					StreamInEvents(hDbEvent, 1, 1);
 				else
 					SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 
