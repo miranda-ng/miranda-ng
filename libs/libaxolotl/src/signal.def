@@ -70,3 +70,5 @@ EXPORTS
    signal_protocol_key_helper_key_list_element
    signal_protocol_key_helper_key_list_next
    signal_protocol_key_helper_key_list_free
+	session_builder_create
+	session_cipher_create
