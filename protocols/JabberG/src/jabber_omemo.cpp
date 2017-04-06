@@ -31,9 +31,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <signal_protocol.h>
 #include <signal_protocol_types.h>
 #include <key_helper.h>
+#include <session_builder.h>
+#include <session_cipher.h>
 
 //c++
 #include <cstddef>
+#include <map>
 
 namespace utils {
 	// code from http://stackoverflow.com/questions/3368883/how-does-this-size-of-array-template-function-work
@@ -535,10 +538,230 @@ namespace omemo {
 		return own_id;
 	}
 
-	struct IqHandlerUserData {
-		wchar_t* node_name;
+	//session related libsignal api
+	struct omemo_session_jabber_internal_ptrs
+	{
+		session_builder *builder;
+		session_cipher *cipher;
+		signal_protocol_store_context *store_context;
 	};
+	std::map<MCONTACT, omemo_session_jabber_internal_ptrs> omemo_sessions;
 
+	//signal_protocol_session_store callbacks follow
+	/*
+	
+ghazan
+[20:35:26]
+db_set_blob
+
+db_get_blob
+*/
+
+	int load_session_func(signal_buffer **record, const signal_protocol_address *address, void *user_data)
+	{
+		//TODO:
+		return 0; //failure
+	}
+
+	int get_sub_device_sessions_func(signal_int_list **sessions, const char *name, size_t name_len, void *user_data)
+	{
+		//TODO:
+		return -1; //failure
+	}
+
+	int store_session_func(const signal_protocol_address *address, uint8_t *record, size_t record_len, void *user_data)
+	{
+		//TODO:
+		return -1; //failure
+	}
+
+	int contains_session_func(const signal_protocol_address *address, void *user_data)
+	{
+		//TODO:
+		return 0; //not exist
+	}
+
+	int delete_session_func(const signal_protocol_address *address, void *user_data)
+	{
+		//TODO:
+		return -1; //failure
+	}
+
+	int delete_all_sessions_func(const char *name, size_t name_len, void *user_data)
+	{
+		//TODO:
+		return -1; //failure
+	}
+
+	void destroy_func(void *user_data)
+	{
+
+	}
+
+	//signal_protocol_pre_key_store callback follow
+	int load_pre_key(signal_buffer **record, uint32_t pre_key_id, void *user_data)
+	{
+		//TODO:
+		return SG_ERR_INVALID_KEY_ID; //failure
+	}
+
+	int store_pre_key(uint32_t pre_key_id, uint8_t *record, size_t record_len, void *user_data)
+	{
+		//TODO:
+		return -1; //failure
+	}
+
+	int contains_pre_key(uint32_t pre_key_id, void *user_data)
+	{
+		//TODO:
+		return 0; //not found
+	}
+
+	int remove_pre_key(uint32_t pre_key_id, void *user_data)
+	{
+		//TODO:
+		return -1; //failure
+	}
+	//void(*destroy_func)(void *user_data); //use first one as we have nothing special to destroy
+
+	//signal_protocol_signed_pre_key_store callbacks follow
+
+	int load_signed_pre_key(signal_buffer **record, uint32_t signed_pre_key_id, void *user_data)
+	{
+		//TODO:
+		return SG_ERR_INVALID_KEY_ID; //failure
+	}
+
+	int store_signed_pre_key(uint32_t signed_pre_key_id, uint8_t *record, size_t record_len, void *user_data)
+	{
+		//TODO:
+		return -1; //failure
+	}
+
+	int contains_signed_pre_key(uint32_t signed_pre_key_id, void *user_data)
+	{
+		//TODO:
+		return 0; //not found
+	}
+
+	int remove_signed_pre_key(uint32_t signed_pre_key_id, void *user_data)
+	{
+		//TODO:
+		return -1; //failure
+	}
+
+	//void(*destroy_func)(void *user_data); //use first one as we have nothing special to destroy
+
+	//signal_protocol_identity_key_store callbacks follow
+
+	int get_identity_key_pair(signal_buffer **public_data, signal_buffer **private_data, void *user_data)
+	{
+		//TODO:
+		return -1; //failure
+	}
+
+	int get_local_registration_id(void *user_data, uint32_t *registration_id)
+	{
+		//TODO:
+		return -1; //failure
+	}
+
+	int save_identity(const signal_protocol_address *address, uint8_t *key_data, size_t key_len, void *user_data)
+	{
+		//TODO:
+		return -1; //failure
+	}
+
+	int is_trusted_identity(const signal_protocol_address *address, uint8_t *key_data, size_t key_len, void *user_data)
+	{
+		//TODO:
+		return -1; //failure
+	}
+	//void(*destroy_func)(void *user_data); //use first one as we have nothing special to destroy
+
+	bool create_session_store(MCONTACT hContact)
+	{
+		/* Create the data store context, and add all the callbacks to it */
+		//TODO: validation of functions return codes
+		signal_protocol_store_context *store_context;
+		signal_protocol_store_context_create(&store_context, global_context);
+		signal_protocol_session_store ss;
+		ss.contains_session_func = &contains_session_func;
+		ss.delete_all_sessions_func = &delete_all_sessions_func;
+		ss.delete_session_func = &delete_session_func;
+		ss.destroy_func = &destroy_func;
+		ss.get_sub_device_sessions_func = &get_sub_device_sessions_func;
+		ss.load_session_func = &load_session_func;
+		ss.store_session_func = &store_session_func;
+		ss.user_data = (void*)hContact;
+		signal_protocol_store_context_set_session_store(store_context, &ss);
+		signal_protocol_pre_key_store sp;
+		sp.contains_pre_key = &contains_pre_key;
+		sp.destroy_func = &destroy_func;
+		sp.load_pre_key = &load_pre_key;
+		sp.remove_pre_key = &remove_pre_key;
+		sp.store_pre_key = &store_pre_key;
+		sp.user_data = (void*)hContact;
+		signal_protocol_store_context_set_pre_key_store(store_context, &sp);
+		signal_protocol_signed_pre_key_store ssp;
+		ssp.contains_signed_pre_key = &contains_signed_pre_key;
+		ssp.destroy_func = &destroy_func;
+		ssp.load_signed_pre_key = &load_signed_pre_key;
+		ssp.remove_signed_pre_key = &remove_signed_pre_key;
+		ssp.store_signed_pre_key = &store_signed_pre_key;
+		ssp.user_data = (void*)hContact;
+		signal_protocol_store_context_set_signed_pre_key_store(store_context, &ssp);
+		signal_protocol_identity_key_store sip;
+		sip.destroy_func = &destroy_func;
+		sip.get_identity_key_pair = &get_identity_key_pair;
+		sip.get_local_registration_id = &get_local_registration_id;
+		sip.is_trusted_identity = &is_trusted_identity;
+		sip.save_identity = &save_identity;
+		sip.user_data = (void*)hContact;
+		signal_protocol_store_context_set_identity_key_store(store_context, &sip);
+
+		omemo_sessions[hContact].store_context = store_context;
+
+		return true; //success
+	}
+	bool build_session(MCONTACT hContact, LPCTSTR jid, LPCTSTR id)
+	{
+		/* Instantiate a session_builder for a recipient address. */
+		char *jid_str = mir_u2a(jid);
+		int dev_id = _wtoi(id);
+		signal_protocol_address address = {
+		jid_str, mir_strlen(jid_str), dev_id
+		};
+
+		session_builder *builder;
+		session_builder_create(&builder, omemo_sessions[hContact].store_context, &address, global_context);
+
+		omemo_sessions[hContact].builder = builder;
+
+		mir_free(jid_str);
+
+		return false; //not finished yet
+		
+		/*
+		int session_pre_key_bundle_create(session_pre_key_bundle **bundle,
+        uint32_t registration_id, int device_id, uint32_t pre_key_id,
+        ec_public_key *pre_key_public,
+        uint32_t signed_pre_key_id, ec_public_key *signed_pre_key_public,
+        const uint8_t *signed_pre_key_signature_data, size_t signed_pre_key_signature_len,
+        ec_public_key *identity_key);
+	*/
+
+		/* Build a session with a pre key retrieved from the server. */
+	//	session_builder_process_pre_key_bundle(builder, retrieved_pre_key);
+
+		/* Create the session cipher and encrypt the message */
+		session_cipher *cipher;
+		session_cipher_create(&cipher, omemo_sessions[hContact].store_context, &address, global_context);
+		omemo_sessions[hContact].cipher = cipher;
+
+		return true; //success
+
+	}
 };
 
 
@@ -804,18 +1027,50 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo * /*pInfo
 		return;
 
 	HXML list_item;
-	char key_num = 0;
+	unsigned char key_num = 0;
 	while(key_num == 0)
 		Utils_GetRandom(&key_num, 1);
 	key_num = key_num % 101;
 
 	wchar_t key_num_str[4];
 	mir_snwprintf(key_num_str, 3, L"%d", key_num);
+	HXML prekey_node;
+	for (int p = 1; (prekey_node = XmlGetNthChild(prekeys, L"preKeyPublic", p)) != NULL && p <= key_num; p++)
+		;
+	if (!prekey_node)
+		return;
 
-	LPCTSTR preKeyPublic = XmlGetText(XmlGetChildByTag(prekeys, L"preKeyPublic", L"preKeyId", key_num_str));
+	LPCTSTR preKeyPublic = XmlGetText(prekey_node);
 	if (!preKeyPublic)
 		return;
+
+	
 	//TODO: we have all required data, we need to create session with device here
+	if (!omemo::create_session_store(HContactFromJID(jid)))
+		return; //failed to create session store
+
+	if (!omemo::build_session(HContactFromJID(jid), jid, device_id))
+		return; //failed to build signal(omemo) session
+	
+/*
+	ciphertext_message *encrypted_message;
+	session_cipher_encrypt(cipher, message, message_len, &encrypted_message);
+	*/
+
+	/* Get the serialized content and deliver it */
+/*	signal_buffer *serialized = ciphertext_message_get_serialized(encrypted_message);
+
+	deliver(signal_buffer_data(serialized), signal_buffer_len(serialized));
+	*/
+
+	/* Cleanup */
+/*	SIGNAL_UNREF(encrypted_message);
+	session_cipher_free(cipher);
+	session_builder_free(builder);
+	signal_protocol_store_context_destroy(store_context);
+	*/
+
+
 
 }
 
