@@ -545,7 +545,16 @@ namespace omemo {
 		session_cipher *cipher;
 		signal_protocol_store_context *store_context;
 	};
-	std::map<MCONTACT, omemo_session_jabber_internal_ptrs> omemo_sessions;
+	std::map<MCONTACT, omemo_session_jabber_internal_ptrs> sessions_internal;
+	void clean_sessions()
+	{
+		for (std::map<MCONTACT, omemo_session_jabber_internal_ptrs>::iterator i = sessions_internal.begin(), end = sessions_internal.end(); i != end; ++i)
+		{
+			session_cipher_free(i->second.cipher);
+			session_builder_free(i->second.builder);
+			signal_protocol_store_context_destroy(i->second.store_context);
+		}
+	}
 
 	//signal_protocol_session_store callbacks follow
 	/*
@@ -720,7 +729,7 @@ db_get_blob
 		sip.user_data = (void*)hContact;
 		signal_protocol_store_context_set_identity_key_store(store_context, &sip);
 
-		omemo_sessions[hContact].store_context = store_context;
+		sessions_internal[hContact].store_context = store_context;
 
 		return true; //success
 	}
@@ -734,9 +743,9 @@ db_get_blob
 		};
 
 		session_builder *builder;
-		session_builder_create(&builder, omemo_sessions[hContact].store_context, &address, global_context);
+		session_builder_create(&builder, sessions_internal[hContact].store_context, &address, global_context);
 
-		omemo_sessions[hContact].builder = builder;
+		sessions_internal[hContact].builder = builder;
 
 		mir_free(jid_str);
 
@@ -756,8 +765,8 @@ db_get_blob
 
 		/* Create the session cipher and encrypt the message */
 		session_cipher *cipher;
-		session_cipher_create(&cipher, omemo_sessions[hContact].store_context, &address, global_context);
-		omemo_sessions[hContact].cipher = cipher;
+		session_cipher_create(&cipher, sessions_internal[hContact].store_context, &address, global_context);
+		sessions_internal[hContact].cipher = cipher;
 
 		return true; //success
 
