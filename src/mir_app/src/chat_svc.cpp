@@ -31,6 +31,7 @@ mir_cs csChat;
 HMENU g_hMenu = nullptr;
 HGENMENU hJoinMenuItem, hLeaveMenuItem;
 MWindowList g_hWindowList;
+HANDLE hevSendEvent, hevBuildMenuEvent;
 
 static HANDLE
    hServiceRegister = nullptr,
@@ -811,9 +812,12 @@ void UnloadChatModule(void)
 
 	WindowList_Destroy(g_hWindowList);
 
-	DestroyHookableEvent(chatApi.hSendEvent);
-	DestroyHookableEvent(chatApi.hBuildMenuEvent);
+	DestroyHookableEvent(hevSendEvent);
+	DestroyHookableEvent(hevBuildMenuEvent);
 	DestroyHookableEvent(hHookEvent);
+
+	DestroyHookableEvent(chatApi.hevPreCreate);
+	DestroyHookableEvent(chatApi.hevWinPopup);
 
 	DestroyMenu(g_hMenu);
 }
