@@ -750,10 +750,9 @@ void CSrmmWindow::OnInitDialog()
 
 	m_log.SendMsg(EM_SETUNDOLIMIT, 0, 0);
 	m_log.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_LINK);
-	m_log.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_REQUESTRESIZE | ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
-	m_message.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback2);
+	m_message.SetReadOnly(false);
 
 	m_bActualHistory = M.GetByte(m_hContact, "ActualHistory", 0) != 0;
 

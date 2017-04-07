@@ -680,7 +680,6 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SendDlgItemMessage(hwndDlg, IDC_SRMM_LOG, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
 			SendDlgItemMessage(hwndDlg, IDC_SRMM_LOG, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
 			SendDlgItemMessage(hwndDlg, IDC_SRMM_LOG, EM_AUTOURLDETECT, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_SRMM_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 		}
 		ShowPreview(hwndDlg);
 		return TRUE;

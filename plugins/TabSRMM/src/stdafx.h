@@ -239,12 +239,8 @@ extern bool g_bShutdown;
 extern pfnDoPopup oldDoPopup, oldLogToFile;
 extern pfnDoTrayIcon oldDoTrayIcon;
 
-extern CREOleCallback reOleCallback;
-extern CREOleCallback2 reOleCallback2;
-
 int  LoadSendRecvMessageModule(void);
 int  SplitmsgShutdown(void);
-void LogErrorMessage(HWND hwndDlg, CSrmmWindow *dat, int i, wchar_t *szMsg);
 int  Chat_Load(), Chat_Unload();
 void FreeLogFonts();
 

@@ -811,6 +811,9 @@ public:
 	// these methods return text length in Unicode chars
 	int SetRichText(const wchar_t *text);
 	int SetRichTextRtf(const char *text);
+
+	// enables or disables content editing
+	void SetReadOnly(bool bReadOnly);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

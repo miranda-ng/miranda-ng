@@ -120,7 +120,4 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam);
 
 extern GlobalMessageData g_dat;
 
-extern CREOleCallback reOleCallback;
-extern CREOleCallback2 reOleCallback2;
-
 #endif

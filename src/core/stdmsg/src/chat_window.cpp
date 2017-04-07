@@ -69,7 +69,6 @@ void CChatRoomDlg::OnInitDialog()
 	int mask = (int)m_log.SendMsg(EM_GETEVENTMASK, 0, 0);
 	m_log.SendMsg(EM_SETEVENTMASK, 0, mask | ENM_LINK | ENM_MOUSEEVENTS);
 	m_log.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
-	m_log.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 	m_log.SendMsg(EM_HIDESELECTION, TRUE, 0);
 
 	UpdateOptions();

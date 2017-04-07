@@ -22,6 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+#include <RichOle.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlRichEdit class
 
@@ -120,4 +122,88 @@ char* CCtrlRichEdit::GetRichTextRtf(bool bText, bool bSelection) const
 	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
 	SendMessage(m_hwnd, EM_STREAMOUT, dwFlags, (LPARAM)&stream);
 	return pszText; // pszText contains the text
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+struct CREOleCallback : public IRichEditOleCallback
+{
+	CREOleCallback() : refCount(0), nextStgId(0), pictStg(nullptr) {}
+	unsigned refCount;
+	IStorage *pictStg;
+	int nextStgId;
+
+	STDMETHOD(QueryInterface)(REFIID riid, LPVOID FAR *ppvObj)
+	{
+		if (IsEqualIID(riid, IID_IRichEditOleCallback)) {
+			*ppvObj = this;
+			AddRef();
+			return S_OK;
+		}
+		*ppvObj = nullptr;
+		return E_NOINTERFACE;
+	}
+
+	STDMETHOD_(ULONG, AddRef)(THIS)
+	{
+		if (refCount == 0)
+			StgCreateDocfile(nullptr, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &pictStg);
+
+		return ++refCount;
+	}
+
+	STDMETHOD_(ULONG, Release)(THIS)
+	{
+		if (--refCount == 0) {
+			if (pictStg) {
+				pictStg->Release();
+				pictStg = nullptr;
+			}
+		}
+		return refCount;
+	}
+
+	STDMETHOD(GetNewStorage)(LPSTORAGE *lplpstg)
+	{
+		wchar_t sztName[64];
+		mir_snwprintf(sztName, L"s%u", nextStgId++);
+		if (pictStg == nullptr)
+			return STG_E_MEDIUMFULL;
+		return pictStg->CreateStorage(sztName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);
+	}
+
+	STDMETHOD(ContextSensitiveHelp)(BOOL) 
+	{ return S_OK; }
+	STDMETHOD(GetInPlaceContext)(LPOLEINPLACEFRAME*, LPOLEINPLACEUIWINDOW*, LPOLEINPLACEFRAMEINFO)
+	{ return E_INVALIDARG; }
+	STDMETHOD(ShowContainerUI)(BOOL)
+	{ return S_OK; }
+	STDMETHOD(QueryInsertObject)(LPCLSID, LPSTORAGE, LONG)
+	{ return S_OK; }
+	STDMETHOD(DeleteObject)(LPOLEOBJECT)
+	{ return S_OK; }
+	STDMETHOD(QueryAcceptData)(LPDATAOBJECT, CLIPFORMAT*, DWORD, BOOL, HGLOBAL)
+	{ return S_OK; }
+	STDMETHOD(GetClipboardData)(CHARRANGE*, DWORD, LPDATAOBJECT*)
+	{ return E_NOTIMPL; }
+	STDMETHOD(GetDragDropEffect)(BOOL, DWORD, LPDWORD)
+	{ return S_OK; }
+	STDMETHOD(GetContextMenu)(WORD, LPOLEOBJECT, CHARRANGE*, HMENU*)
+	{ return E_INVALIDARG; }
+};
+
+struct CREOleCallback2 : public CREOleCallback
+{
+	STDMETHOD(QueryAcceptData)(LPDATAOBJECT, CLIPFORMAT *lpcfFormat, DWORD, BOOL, HGLOBAL)
+	{	*lpcfFormat = CF_UNICODETEXT;
+		return S_OK;
+	}
+};
+
+CREOleCallback reOleCallback;
+CREOleCallback2 reOleCallback2;
+
+void CCtrlRichEdit::SetReadOnly(bool bReadOnly)
+{
+	SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)(bReadOnly ? &reOleCallback : &reOleCallback2));
 }

@@ -582,6 +582,7 @@ void CSrmmBaseDialog::OnInitDialog()
 
 	SetWindowLongPtr(m_log.GetHwnd(), GWLP_USERDATA, LPARAM(this));
 	mir_subclassWindow(m_log.GetHwnd(), stubLogProc);
+	m_log.SetReadOnly(true);
 
 	SetWindowLongPtr(m_message.GetHwnd(), GWLP_USERDATA, LPARAM(this));
 	mir_subclassWindow(m_message.GetHwnd(), stubMessageProc);

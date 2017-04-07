@@ -764,34 +764,6 @@ struct TIconDescW
 // can be added to the richedit control.
 // this class has to implement the GetNewStorage() method
 
-struct CREOleCallback : public IRichEditOleCallback
-{
-	CREOleCallback() : refCount(0), nextStgId(0), pictStg(nullptr) {}
-	unsigned refCount;
-	IStorage *pictStg;
-	int nextStgId;
-
-	STDMETHOD(QueryInterface)(REFIID riid, LPVOID FAR *lplpObj);
-	STDMETHOD_(ULONG, AddRef)(THIS);
-	STDMETHOD_(ULONG, Release)(THIS);
-
-	STDMETHOD(ContextSensitiveHelp) (BOOL fEnterMode);
-	STDMETHOD(GetNewStorage) (LPSTORAGE FAR *lplpstg);
-	STDMETHOD(GetInPlaceContext) (LPOLEINPLACEFRAME FAR *lplpFrame, LPOLEINPLACEUIWINDOW FAR *lplpDoc, LPOLEINPLACEFRAMEINFO lpFrameInfo);
-	STDMETHOD(ShowContainerUI) (BOOL fShow);
-	STDMETHOD(QueryInsertObject) (LPCLSID lpclsid, LPSTORAGE lpstg, LONG cp);
-	STDMETHOD(DeleteObject) (LPOLEOBJECT lpoleobj);
-	STDMETHOD(QueryAcceptData) (LPDATAOBJECT lpdataobj, CLIPFORMAT FAR *lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict);
-	STDMETHOD(GetClipboardData) (CHARRANGE FAR *lpchrg, DWORD reco, LPDATAOBJECT FAR *lplpdataobj);
-	STDMETHOD(GetDragDropEffect) (BOOL fDrag, DWORD grfKeyState, LPDWORD pdwEffect);
-	STDMETHOD(GetContextMenu) (WORD seltype, LPOLEOBJECT lpoleobj, CHARRANGE FAR *lpchrg, HMENU FAR *lphmenu);
-};
-
-struct CREOleCallback2 : public CREOleCallback
-{
-	STDMETHOD(QueryAcceptData) (LPDATAOBJECT lpdataobj, CLIPFORMAT FAR *lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict);
-};
-
 #define MSGFONTID_MYMSG            0
 #define MSGFONTID_MYMISC           1
 #define MSGFONTID_YOURMSG          2

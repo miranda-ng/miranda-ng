@@ -524,11 +524,10 @@ void CChatRoomDlg::OnInitDialog()
 	m_pPanel.getVisibility();
 	m_pPanel.Configure();
 
-	m_log.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
-	m_log.SendMsg(EM_AUTOURLDETECT, 1, 0);
 	SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_PANELSPLITTER), GWLP_WNDPROC, (LONG_PTR)SplitterSubclassProc);
 	NotifyEvent(MSG_WINDOW_EVT_OPENING);
 
+	m_log.SendMsg(EM_AUTOURLDETECT, 1, 0);
 	m_log.SendMsg(EM_SETEVENTMASK, 0, m_log.SendMsg(EM_GETEVENTMASK, 0, 0) | ENM_LINK | ENM_MOUSEEVENTS | ENM_KEYEVENTS);
 	m_log.SendMsg(EM_LIMITTEXT, 0x7FFFFFFF, 0);
 	m_log.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));

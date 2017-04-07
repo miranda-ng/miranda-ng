@@ -276,15 +276,14 @@ void CSrmmWindow::OnInitDialog()
 	Srmm_CreateToolbarIcons(m_hwnd, BBBF_ISIMBUTTON);
 	SendMessage(m_hwnd, DM_CHANGEICONS, 0, 0);
 
-	m_log.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 	m_log.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK | ENM_KEYEVENTS);
 	m_log.SendMsg(EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
 	m_log.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~(IMF_AUTOKEYBOARD | IMF_AUTOFONTSIZEADJUST));
 	m_log.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
 	m_log.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
 
+	m_message.SetReadOnly(false);
 	m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
-	m_message.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback2);
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_CHANGE);
 	if (m_hContact && m_szProto) {
 		int nMax = CallProtoService(m_szProto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, m_hContact);

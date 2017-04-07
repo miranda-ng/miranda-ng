@@ -1047,3 +1047,4 @@ CallFunctionSync @1170
 ?SetRichTextRtf@CCtrlRichEdit@@QEAAHPEBD@Z @1234 NONAME
 ?GetRichTextUtf@CCtrlRichEdit@@QEBAPEADXZ @1235 NONAME
 ?GetRichTextRtf@CCtrlRichEdit@@QEBAPEAD_N0@Z @1236 NONAME
+?SetReadOnly@CCtrlRichEdit@@QEAAX_N@Z @1237 NONAME

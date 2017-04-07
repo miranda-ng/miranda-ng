@@ -162,7 +162,6 @@ void CSrmmWindow::OnInitDialog()
 
 	m_avatar.Enable(false);
 
-	m_log.SendMsg(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 	m_log.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK | ENM_SCROLL);
 	m_log.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
 
