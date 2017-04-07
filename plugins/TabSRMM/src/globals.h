@@ -136,7 +136,6 @@ public:
 	COLORREF    m_ipBackgroundGradient;
 	COLORREF    m_ipBackgroundGradientHigh;
 	COLORREF    m_tbBackgroundHigh, m_tbBackgroundLow, m_fillColor, m_cRichBorders, m_genericTxtColor;
-	HANDLE      m_event_MsgPopup, m_event_WriteEvent;
 	HGENMENU    m_hMenuItem;
 	BYTE        m_useAeroPeek;
 

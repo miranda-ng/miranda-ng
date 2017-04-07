@@ -622,7 +622,7 @@ MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const USERINFO *
 	gch.ptszText = (LPTSTR)pszText;
 	gch.dwData = dwItem;
 	gch.pDest = &gcd;
-	NotifyEventHooks(chatApi.hSendEvent, 0, (WPARAM)&gch);
+	NotifyEventHooks(hevSendEvent, 0, (WPARAM)&gch);
 	return TRUE;
 }
 
@@ -821,7 +821,7 @@ MIR_APP_DLL(UINT) Chat_CreateGCMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_IN
 		gcmi.Type = MENU_ON_NICKLIST;
 	}
 
-	NotifyEventHooks(chatApi.hBuildMenuEvent, 0, (WPARAM)&gcmi);
+	NotifyEventHooks(hevBuildMenuEvent, 0, (WPARAM)&gcmi);
 
 	return TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
 }

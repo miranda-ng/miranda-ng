@@ -81,7 +81,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GC_SWITCHTAB     (WM_USER+0x106)
 
 extern HINSTANCE g_hInst;
-extern HANDLE hHookWinPopup, hHookWinWrite;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

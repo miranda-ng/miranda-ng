@@ -30,7 +30,6 @@ const CLSID IID_IRichEditOleCallback = { 0x00020D03, 0x00, 0x00, { 0xC0, 0x00, 0
 
 int OnCheckPlugins(WPARAM, LPARAM);
 
-HANDLE   hHookWinPopup, hHookWinWrite;
 HGENMENU hMsgMenuItem;
 HMODULE hMsftEdit;
 
@@ -522,9 +521,6 @@ int LoadSendRecvMessageModule(void)
 	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
 	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
 
-	hHookWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
-	hHookWinWrite = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
-
 	SkinAddNewSoundEx("RecvMsgActive", LPGEN("Instant messages"), LPGEN("Incoming (focused window)"));
 	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (unfocused window)"));
 	SkinAddNewSoundEx("AlertMsg", LPGEN("Instant messages"), LPGEN("Incoming (new session)"));
@@ -539,9 +535,6 @@ int LoadSendRecvMessageModule(void)
 
 void SplitmsgShutdown(void)
 {
-	DestroyHookableEvent(hHookWinPopup);
-	DestroyHookableEvent(hHookWinWrite);
-
 	FreeMsgLogIcons();
 	FreeLibrary(hMsftEdit);
 	msgQueue_destroy();

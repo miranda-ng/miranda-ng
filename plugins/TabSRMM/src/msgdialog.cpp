@@ -110,14 +110,14 @@ void CTabBaseDlg::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 	mwpd.hMenu = hSubMenu;
 	mwpd.selection = 0;
 	mwpd.pt = pt;
-	NotifyEventHooks(PluginConfig.m_event_MsgPopup, 0, (LPARAM)&mwpd);
+	NotifyEventHooks(pci->hevWinPopup, 0, (LPARAM)&mwpd);
 
 	int iSelection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr);
 
 	// Second notification
 	mwpd.selection = iSelection;
 	mwpd.uType = MSG_WINDOWPOPUP_SELECTED;
-	NotifyEventHooks(PluginConfig.m_event_MsgPopup, 0, (LPARAM)&mwpd);
+	NotifyEventHooks(pci->hevWinPopup, 0, (LPARAM)&mwpd);
 
 	switch (iSelection) {
 	case IDM_COPY:

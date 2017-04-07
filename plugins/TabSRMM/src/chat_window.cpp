@@ -1123,13 +1123,13 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			mwpd.hwnd = m_message.GetHwnd();
 			mwpd.hMenu = hSubMenu;
 			mwpd.pt = pt;
-			NotifyEventHooks(PluginConfig.m_event_MsgPopup, 0, (LPARAM)&mwpd);
+			NotifyEventHooks(pci->hevWinPopup, 0, (LPARAM)&mwpd);
 
 			int iSelection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr);
 
 			mwpd.selection = iSelection;
 			mwpd.uType = MSG_WINDOWPOPUP_SELECTED;
-			NotifyEventHooks(PluginConfig.m_event_MsgPopup, 0, (LPARAM)&mwpd);
+			NotifyEventHooks(pci->hevWinPopup, 0, (LPARAM)&mwpd);
 
 			switch (iSelection) {
 			case IDM_COPY:

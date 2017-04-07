@@ -464,11 +464,6 @@ int CGlobals::PreshutdownSendRecv(WPARAM, LPARAM)
 		db_set_dw(hContact, SRMSGMOD_T, "messagecount", 0);
 
 	::SI_DeinitStatusIcons();
-
-	// the event API
-	DestroyHookableEvent(PluginConfig.m_event_MsgPopup);
-	DestroyHookableEvent(PluginConfig.m_event_WriteEvent);
-
 	::NEN_WriteOptions(&nen_options);
 	::DestroyWindow(PluginConfig.g_hwndHotkeyHandler);
 

@@ -328,7 +328,7 @@ struct CHAT_MANAGER
 	wchar_t *szActiveWndID;
 	HICON  hIcons[30];
 	HBRUSH hListBkgBrush, hListSelectedBkgBrush;
-	HANDLE hBuildMenuEvent, hSendEvent;
+	HANDLE hevWinPopup, hevPreCreate;
 	FONTINFO aFonts[OPTIONS_FONTCOUNT];
 	LIST<SESSION_INFO> &arSessions;
 	char **pLogIconBmpBits;

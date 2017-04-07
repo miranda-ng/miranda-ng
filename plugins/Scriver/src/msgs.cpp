@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 HCURSOR  hDragCursor;
-HANDLE   hHookWinPopup, hHookWinWrite;
 HGENMENU hMsgMenuItem;
 HMODULE hMsftEdit;
 
@@ -618,9 +617,6 @@ int OnUnloadModule(void)
 {
 	DestroyCursor(hDragCursor);
 
-	DestroyHookableEvent(hHookWinPopup);
-	DestroyHookableEvent(hHookWinWrite);
-
 	ReleaseIcons();
 	FreeMsgLogIcons();
 	FreeGlobals();
@@ -662,9 +658,6 @@ int OnLoadModule(void)
 	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
 	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
 	CreateServiceFunction("SRMsg/TypingMessage", TypingMessageCommand);
-
-	hHookWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
-	hHookWinWrite = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
 
 	SkinAddNewSoundEx("RecvMsgActive", LPGEN("Instant messages"), LPGEN("Incoming (focused window)"));
 	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (unfocused window)"));

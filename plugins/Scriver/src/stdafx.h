@@ -90,7 +90,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern HINSTANCE g_hInst;
 extern HCURSOR hDragCursor;
 extern ITaskbarList3 *pTaskbarInterface;
-extern HANDLE hHookWinPopup, hHookWinWrite;
 
 void ChangeStatusIcons();
 void LoadInfobarFonts();

@@ -1015,10 +1015,6 @@ static void TSAPI InitAPI()
 
 	SI_InitStatusIcons();
 	CB_InitCustomButtons();
-
-	// the event API
-	PluginConfig.m_event_MsgPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
-	PluginConfig.m_event_WriteEvent = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
 }
 
 int LoadSendRecvMessageModule(void)

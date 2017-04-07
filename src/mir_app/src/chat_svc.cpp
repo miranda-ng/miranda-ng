@@ -781,9 +781,12 @@ int LoadChatModule(void)
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 
 	g_hWindowList = WindowList_Create();
-	chatApi.hSendEvent = CreateHookableEvent(ME_GC_EVENT);
-	chatApi.hBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
 	hHookEvent = CreateHookableEvent(ME_GC_HOOK_EVENT);
+	hevSendEvent = CreateHookableEvent(ME_GC_EVENT);
+	hevBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
+	
+	chatApi.hevPreCreate = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
+	chatApi.hevWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
 
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);

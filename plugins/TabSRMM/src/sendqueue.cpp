@@ -500,7 +500,7 @@ int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 	dbei.pBlob = (PBYTE)job.szSendBuffer;
 
 	MessageWindowEvent evt = { job.iSendId, job.hContact, &dbei };
-	NotifyEventHooks(PluginConfig.m_event_WriteEvent, 0, (LPARAM)&evt);
+	NotifyEventHooks(pci->hevPreCreate, 0, (LPARAM)&evt);
 
 	job.szSendBuffer = (char*)dbei.pBlob;
 	MEVENT hNewEvent = db_event_add(job.hContact, &dbei);
