@@ -247,6 +247,8 @@ static void MarkChanges(int i, HWND hWnd) {
 	changed |= i;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static INT_PTR CALLBACK DlgProcTabsOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int bChecked;
@@ -369,6 +371,8 @@ static INT_PTR CALLBACK DlgProcTabsOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 	return FALSE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int bChecked;
@@ -469,6 +473,8 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 	}
 	return FALSE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -582,215 +588,234 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	return FALSE;
 }
 
-static void ShowPreview(HWND hwndDlg)
-{
-	struct GlobalMessageData gdat = { 0 };
-	PARAFORMAT2 pf2;
-	gdat.flags |= IsDlgButtonChecked(hwndDlg, IDC_SHOWLOGICONS) ? SMF_SHOWICONS : 0;
-	gdat.flags |= IsDlgButtonChecked(hwndDlg, IDC_SHOWNAMES) ? 0 : SMF_HIDENAMES;
-	gdat.flags |= IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES) ? SMF_SHOWTIME : 0;
-	gdat.flags |= IsDlgButtonChecked(hwndDlg, IDC_SHOWSECONDS) ? SMF_SHOWSECONDS : 0;
-	gdat.flags |= IsDlgButtonChecked(hwndDlg, IDC_SHOWDATES) ? SMF_SHOWDATE : 0;
-	gdat.flags |= IsDlgButtonChecked(hwndDlg, IDC_USELONGDATE) ? SMF_LONGDATE : 0;
-	gdat.flags |= IsDlgButtonChecked(hwndDlg, IDC_USERELATIVEDATE) ? SMF_RELATIVEDATE : 0;
-	gdat.flags |= IsDlgButtonChecked(hwndDlg, IDC_GROUPMESSAGES) ? SMF_GROUPMESSAGES : 0;
-	gdat.flags |= IsDlgButtonChecked(hwndDlg, IDC_MARKFOLLOWUPS) ? SMF_MARKFOLLOWUPS : 0;
-	gdat.flags |= IsDlgButtonChecked(hwndDlg, IDC_MESSAGEONNEWLINE) ? SMF_MSGONNEWLINE : 0;
-	gdat.flags |= IsDlgButtonChecked(hwndDlg, IDC_DRAWLINES) ? SMF_DRAWLINES : 0;
-	gdat.flags |= IsDlgButtonChecked(hwndDlg, IDC_INDENTTEXT) ? SMF_INDENTTEXT : 0;
-	gdat.indentSize = (int)SendDlgItemMessage(hwndDlg, IDC_INDENTSPIN, UDM_GETPOS, 0, 0);
-	pf2.cbSize = sizeof(pf2);
-	pf2.dwMask = PFM_OFFSET;
-	pf2.dxOffset = (gdat.flags & SMF_INDENTTEXT) ? gdat.indentSize * 1440 / g_dat.logPixelSX : 0;
-	SetDlgItemText(hwndDlg, IDC_SRMM_LOG, L"");
-	SendDlgItemMessage(hwndDlg, IDC_SRMM_LOG, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-	StreamInTestEvents(GetDlgItem(hwndDlg, IDC_SRMM_LOG), &gdat);
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class CLogOptionsDlg : public CDlgBase
 {
-	int bChecked;
+	CCtrlRichEdit m_log;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
+	void ShowPreview()
+	{
+		m_log.SetText(L"");
+
+		struct GlobalMessageData gdat = { 0 };
+		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_SHOWLOGICONS) ? SMF_SHOWICONS : 0;
+		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_SHOWNAMES) ? 0 : SMF_HIDENAMES;
+		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES) ? SMF_SHOWTIME : 0;
+		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_SHOWSECONDS) ? SMF_SHOWSECONDS : 0;
+		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_SHOWDATES) ? SMF_SHOWDATE : 0;
+		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_USELONGDATE) ? SMF_LONGDATE : 0;
+		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_USERELATIVEDATE) ? SMF_RELATIVEDATE : 0;
+		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_GROUPMESSAGES) ? SMF_GROUPMESSAGES : 0;
+		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_MARKFOLLOWUPS) ? SMF_MARKFOLLOWUPS : 0;
+		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_MESSAGEONNEWLINE) ? SMF_MSGONNEWLINE : 0;
+		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_DRAWLINES) ? SMF_DRAWLINES : 0;
+		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_INDENTTEXT) ? SMF_INDENTTEXT : 0;
+		gdat.indentSize = (int)SendDlgItemMessage(m_hwnd, IDC_INDENTSPIN, UDM_GETPOS, 0, 0);
+
+		PARAFORMAT2 pf2;
+		pf2.cbSize = sizeof(pf2);
+		pf2.dwMask = PFM_OFFSET;
+		pf2.dxOffset = (gdat.flags & SMF_INDENTTEXT) ? gdat.indentSize * 1440 / g_dat.logPixelSX : 0;
+		m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+
+		StreamInTestEvents(m_log.GetHwnd(), &gdat);
+	}
+
+public:
+	CLogOptionsDlg() :
+		CDlgBase(g_hInst, IDD_OPT_MSGLOG),
+		m_log(this, IDC_SRMM_LOG)
+	{
+	}
+
+	virtual void OnInitDialog() override
+	{
 		switch (db_get_b(0, SRMM_MODULE, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY)) {
 		case LOADHISTORY_UNREAD:
-			CheckDlgButton(hwndDlg, IDC_LOADUNREAD, BST_CHECKED);
+			CheckDlgButton(m_hwnd, IDC_LOADUNREAD, BST_CHECKED);
 			break;
 		case LOADHISTORY_COUNT:
-			CheckDlgButton(hwndDlg, IDC_LOADCOUNT, BST_CHECKED);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADCOUNTN), TRUE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADCOUNTSPIN), TRUE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADCOUNTTEXT2), TRUE);
+			CheckDlgButton(m_hwnd, IDC_LOADCOUNT, BST_CHECKED);
+			EnableWindow(GetDlgItem(m_hwnd, IDC_LOADCOUNTN), TRUE);
+			EnableWindow(GetDlgItem(m_hwnd, IDC_LOADCOUNTSPIN), TRUE);
+			EnableWindow(GetDlgItem(m_hwnd, IDC_LOADCOUNTTEXT2), TRUE);
 			break;
 		case LOADHISTORY_TIME:
-			CheckDlgButton(hwndDlg, IDC_LOADTIME, BST_CHECKED);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADTIMEN), TRUE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADTIMESPIN), TRUE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_STMINSOLD), TRUE);
+			CheckDlgButton(m_hwnd, IDC_LOADTIME, BST_CHECKED);
+			EnableWindow(GetDlgItem(m_hwnd, IDC_LOADTIMEN), TRUE);
+			EnableWindow(GetDlgItem(m_hwnd, IDC_LOADTIMESPIN), TRUE);
+			EnableWindow(GetDlgItem(m_hwnd, IDC_STMINSOLD), TRUE);
 			break;
 		}
-		SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
-		SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_SETPOS, 0, db_get_w(0, SRMM_MODULE, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
-		SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_SETRANGE, 0, MAKELONG(12 * 60, 0));
-		SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_SETPOS, 0, db_get_w(0, SRMM_MODULE, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
+		SendDlgItemMessage(m_hwnd, IDC_LOADCOUNTSPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
+		SendDlgItemMessage(m_hwnd, IDC_LOADCOUNTSPIN, UDM_SETPOS, 0, db_get_w(0, SRMM_MODULE, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
+		SendDlgItemMessage(m_hwnd, IDC_LOADTIMESPIN, UDM_SETRANGE, 0, MAKELONG(12 * 60, 0));
+		SendDlgItemMessage(m_hwnd, IDC_LOADTIMESPIN, UDM_SETPOS, 0, db_get_w(0, SRMM_MODULE, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
 
-		CheckDlgButton(hwndDlg, IDC_USEIEVIEW, db_get_b(0, SRMM_MODULE, SRMSGSET_USEIEVIEW, SRMSGDEFSET_USEIEVIEW) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_USEIEVIEW, db_get_b(0, SRMM_MODULE, SRMSGSET_USEIEVIEW, SRMSGDEFSET_USEIEVIEW) ? BST_CHECKED : BST_UNCHECKED);
 		if (!g_dat.ieviewInstalled)
-			EnableWindow(GetDlgItem(hwndDlg, IDC_USEIEVIEW), FALSE);
+			EnableWindow(GetDlgItem(m_hwnd, IDC_USEIEVIEW), FALSE);
 
-		CheckDlgButton(hwndDlg, IDC_SHOWLOGICONS, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWLOGICONS, SRMSGDEFSET_SHOWLOGICONS) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOWNAMES, !db_get_b(0, SRMM_MODULE, SRMSGSET_HIDENAMES, SRMSGDEFSET_HIDENAMES) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SHOWLOGICONS, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWLOGICONS, SRMSGDEFSET_SHOWLOGICONS) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SHOWNAMES, !db_get_b(0, SRMM_MODULE, SRMSGSET_HIDENAMES, SRMSGDEFSET_HIDENAMES) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_SHOWTIMES, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWTIME, SRMSGDEFSET_SHOWTIME) ? BST_CHECKED : BST_UNCHECKED);
-		bChecked = IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWSECONDS), bChecked);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWDATES), bChecked);
-		CheckDlgButton(hwndDlg, IDC_SHOWSECONDS, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWSECONDS, SRMSGDEFSET_SHOWSECONDS) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOWDATES, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWDATE, SRMSGDEFSET_SHOWDATE) ? BST_CHECKED : BST_UNCHECKED);
-		bChecked = IsDlgButtonChecked(hwndDlg, IDC_SHOWDATES) && IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_USELONGDATE), bChecked);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_USERELATIVEDATE), bChecked);
-		CheckDlgButton(hwndDlg, IDC_USELONGDATE, db_get_b(0, SRMM_MODULE, SRMSGSET_USELONGDATE, SRMSGDEFSET_USELONGDATE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_USERELATIVEDATE, db_get_b(0, SRMM_MODULE, SRMSGSET_USERELATIVEDATE, SRMSGDEFSET_USERELATIVEDATE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SHOWTIMES, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWTIME, SRMSGDEFSET_SHOWTIME) ? BST_CHECKED : BST_UNCHECKED);
+		BOOL bChecked = IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_SHOWSECONDS), bChecked);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_SHOWDATES), bChecked);
+		CheckDlgButton(m_hwnd, IDC_SHOWSECONDS, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWSECONDS, SRMSGDEFSET_SHOWSECONDS) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SHOWDATES, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWDATE, SRMSGDEFSET_SHOWDATE) ? BST_CHECKED : BST_UNCHECKED);
+		bChecked = IsDlgButtonChecked(m_hwnd, IDC_SHOWDATES) && IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_USELONGDATE), bChecked);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_USERELATIVEDATE), bChecked);
+		CheckDlgButton(m_hwnd, IDC_USELONGDATE, db_get_b(0, SRMM_MODULE, SRMSGSET_USELONGDATE, SRMSGDEFSET_USELONGDATE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_USERELATIVEDATE, db_get_b(0, SRMM_MODULE, SRMSGSET_USERELATIVEDATE, SRMSGDEFSET_USERELATIVEDATE) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_GROUPMESSAGES, db_get_b(0, SRMM_MODULE, SRMSGSET_GROUPMESSAGES, SRMSGDEFSET_GROUPMESSAGES) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MARKFOLLOWUPS, db_get_b(0, SRMM_MODULE, SRMSGSET_MARKFOLLOWUPS, SRMSGDEFSET_MARKFOLLOWUPS) ? BST_CHECKED : BST_UNCHECKED);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_MARKFOLLOWUPS), IsDlgButtonChecked(hwndDlg, IDC_GROUPMESSAGES));
+		CheckDlgButton(m_hwnd, IDC_GROUPMESSAGES, db_get_b(0, SRMM_MODULE, SRMSGSET_GROUPMESSAGES, SRMSGDEFSET_GROUPMESSAGES) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_MARKFOLLOWUPS, db_get_b(0, SRMM_MODULE, SRMSGSET_MARKFOLLOWUPS, SRMSGDEFSET_MARKFOLLOWUPS) ? BST_CHECKED : BST_UNCHECKED);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_MARKFOLLOWUPS), IsDlgButtonChecked(m_hwnd, IDC_GROUPMESSAGES));
 
-		CheckDlgButton(hwndDlg, IDC_MESSAGEONNEWLINE, db_get_b(0, SRMM_MODULE, SRMSGSET_MESSAGEONNEWLINE, SRMSGDEFSET_MESSAGEONNEWLINE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DRAWLINES, db_get_b(0, SRMM_MODULE, SRMSGSET_DRAWLINES, SRMSGDEFSET_DRAWLINES) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_MESSAGEONNEWLINE, db_get_b(0, SRMM_MODULE, SRMSGSET_MESSAGEONNEWLINE, SRMSGDEFSET_MESSAGEONNEWLINE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_DRAWLINES, db_get_b(0, SRMM_MODULE, SRMSGSET_DRAWLINES, SRMSGDEFSET_DRAWLINES) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_INDENTTEXT, db_get_b(0, SRMM_MODULE, SRMSGSET_INDENTTEXT, SRMSGDEFSET_INDENTTEXT) ? BST_CHECKED : BST_UNCHECKED);
-		bChecked = IsDlgButtonChecked(hwndDlg, IDC_INDENTTEXT);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_INDENTSIZE), bChecked);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_INDENTSPIN), bChecked);
-		SendDlgItemMessage(hwndDlg, IDC_INDENTSPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
-		SendDlgItemMessage(hwndDlg, IDC_INDENTSPIN, UDM_SETPOS, 0, db_get_w(0, SRMM_MODULE, SRMSGSET_INDENTSIZE, SRMSGDEFSET_INDENTSIZE));
+		CheckDlgButton(m_hwnd, IDC_INDENTTEXT, db_get_b(0, SRMM_MODULE, SRMSGSET_INDENTTEXT, SRMSGDEFSET_INDENTTEXT) ? BST_CHECKED : BST_UNCHECKED);
+		bChecked = IsDlgButtonChecked(m_hwnd, IDC_INDENTTEXT);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_INDENTSIZE), bChecked);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_INDENTSPIN), bChecked);
+		SendDlgItemMessage(m_hwnd, IDC_INDENTSPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
+		SendDlgItemMessage(m_hwnd, IDC_INDENTSPIN, UDM_SETPOS, 0, db_get_w(0, SRMM_MODULE, SRMSGSET_INDENTSIZE, SRMSGDEFSET_INDENTSIZE));
 
-		{
-			PARAFORMAT2 pf2;
-			memset(&pf2, 0, sizeof(pf2));
-			pf2.cbSize = sizeof(pf2);
-			pf2.dwMask = PFM_OFFSETINDENT | PFM_RIGHTINDENT;
-			pf2.dxStartIndent = 30;
-			pf2.dxRightIndent = 30;
-			SendDlgItemMessage(hwndDlg, IDC_SRMM_LOG, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-			SendDlgItemMessage(hwndDlg, IDC_SRMM_LOG, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
-			SendDlgItemMessage(hwndDlg, IDC_SRMM_LOG, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SRMM_LOG, EM_AUTOURLDETECT, TRUE, 0);
-		}
-		ShowPreview(hwndDlg);
-		return TRUE;
+		PARAFORMAT2 pf2;
+		memset(&pf2, 0, sizeof(pf2));
+		pf2.cbSize = sizeof(pf2);
+		pf2.dwMask = PFM_OFFSETINDENT | PFM_RIGHTINDENT;
+		pf2.dxStartIndent = 30;
+		pf2.dxRightIndent = 30;
+		m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+		m_log.SendMsg(EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
+		m_log.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
+		m_log.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
+		m_log.SetReadOnly(true);
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_FONTSCOLORS:
-			Options_Open(L"Customize", L"Fonts and colors");
-			break;
-
-		case IDC_LOADUNREAD:
-		case IDC_LOADCOUNT:
-		case IDC_LOADTIME:
-			bChecked = IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADCOUNTN), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADCOUNTSPIN), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADCOUNTTEXT2), bChecked);
-			bChecked = IsDlgButtonChecked(hwndDlg, IDC_LOADTIME);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADTIMEN), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADTIMESPIN), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_STMINSOLD), bChecked);
-			break;
-		
-		case IDC_SHOWTIMES:
-			bChecked = IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWSECONDS), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWDATES), bChecked);
-		
-		case IDC_SHOWDATES:
-			bChecked = IsDlgButtonChecked(hwndDlg, IDC_SHOWDATES) && IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_USELONGDATE), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_USERELATIVEDATE), bChecked);
-		
-		case IDC_SHOWNAMES:
-		case IDC_SHOWSECONDS:
-		case IDC_USELONGDATE:
-		case IDC_USERELATIVEDATE:
-		case IDC_MARKFOLLOWUPS:
-		case IDC_SHOWLOGICONS:
-		case IDC_MESSAGEONNEWLINE:
-		case IDC_DRAWLINES:
-			ShowPreview(hwndDlg);
-			break;
-		
-		case IDC_GROUPMESSAGES:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_MARKFOLLOWUPS), IsDlgButtonChecked(hwndDlg, IDC_GROUPMESSAGES));
-			ShowPreview(hwndDlg);
-			break;
-		
-		case IDC_INDENTTEXT:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_INDENTSIZE), IsDlgButtonChecked(hwndDlg, IDC_INDENTTEXT));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_INDENTSPIN), IsDlgButtonChecked(hwndDlg, IDC_INDENTTEXT));
-			ShowPreview(hwndDlg);
-			break;
-		
-		case IDC_INDENTSIZE:
-			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
-				return TRUE;
-			ShowPreview(hwndDlg);
-			break;
-		
-		case IDC_LOADCOUNTN:
-		case IDC_LOADTIMEN:
-			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
-				return TRUE;
-			break;
-		
-		case IDC_SRMM_LOG:
-			return 0;
-		}
-		MarkChanges(4, hwndDlg);
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				if (IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT))
-					db_set_b(0, SRMM_MODULE, SRMSGSET_LOADHISTORY, LOADHISTORY_COUNT);
-				else if (IsDlgButtonChecked(hwndDlg, IDC_LOADTIME))
-					db_set_b(0, SRMM_MODULE, SRMSGSET_LOADHISTORY, LOADHISTORY_TIME);
-				else
-					db_set_b(0, SRMM_MODULE, SRMSGSET_LOADHISTORY, LOADHISTORY_UNREAD);
-				db_set_w(0, SRMM_MODULE, SRMSGSET_LOADCOUNT, (WORD)SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_GETPOS, 0, 0));
-				db_set_w(0, SRMM_MODULE, SRMSGSET_LOADTIME, (WORD)SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_GETPOS, 0, 0));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWLOGICONS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWLOGICONS));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_HIDENAMES, (BYTE)BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOWNAMES));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWTIME, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWSECONDS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWSECONDS));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWDATE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWDATES));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_USELONGDATE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USELONGDATE));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_USERELATIVEDATE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USERELATIVEDATE));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_GROUPMESSAGES, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_GROUPMESSAGES));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_MARKFOLLOWUPS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MARKFOLLOWUPS));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_MESSAGEONNEWLINE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MESSAGEONNEWLINE));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_DRAWLINES, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAWLINES));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_USEIEVIEW, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USEIEVIEW));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_INDENTTEXT, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_INDENTTEXT));
-				db_set_w(0, SRMM_MODULE, SRMSGSET_INDENTSIZE, (WORD)SendDlgItemMessage(hwndDlg, IDC_INDENTSPIN, UDM_GETPOS, 0, 0));
-
-				FreeMsgLogIcons();
-				LoadMsgLogIcons();
-				ApplyChanges(4);
-				return TRUE;
-			}
-		}
-		break;
+		ShowPreview();
 	}
-	return FALSE;
-}
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		BOOL bChecked;
+
+		switch (msg) {
+		case WM_COMMAND:
+			switch (LOWORD(wParam)) {
+			case IDC_FONTSCOLORS:
+				Options_Open(L"Customize", L"Fonts and colors");
+				break;
+
+			case IDC_LOADUNREAD:
+			case IDC_LOADCOUNT:
+			case IDC_LOADTIME:
+				bChecked = IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT);
+				EnableWindow(GetDlgItem(m_hwnd, IDC_LOADCOUNTN), bChecked);
+				EnableWindow(GetDlgItem(m_hwnd, IDC_LOADCOUNTSPIN), bChecked);
+				EnableWindow(GetDlgItem(m_hwnd, IDC_LOADCOUNTTEXT2), bChecked);
+				bChecked = IsDlgButtonChecked(m_hwnd, IDC_LOADTIME);
+				EnableWindow(GetDlgItem(m_hwnd, IDC_LOADTIMEN), bChecked);
+				EnableWindow(GetDlgItem(m_hwnd, IDC_LOADTIMESPIN), bChecked);
+				EnableWindow(GetDlgItem(m_hwnd, IDC_STMINSOLD), bChecked);
+				break;
+
+			case IDC_SHOWTIMES:
+				bChecked = IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES);
+				EnableWindow(GetDlgItem(m_hwnd, IDC_SHOWSECONDS), bChecked);
+				EnableWindow(GetDlgItem(m_hwnd, IDC_SHOWDATES), bChecked);
+
+			case IDC_SHOWDATES:
+				bChecked = IsDlgButtonChecked(m_hwnd, IDC_SHOWDATES) && IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES);
+				EnableWindow(GetDlgItem(m_hwnd, IDC_USELONGDATE), bChecked);
+				EnableWindow(GetDlgItem(m_hwnd, IDC_USERELATIVEDATE), bChecked);
+
+			case IDC_SHOWNAMES:
+			case IDC_SHOWSECONDS:
+			case IDC_USELONGDATE:
+			case IDC_USERELATIVEDATE:
+			case IDC_MARKFOLLOWUPS:
+			case IDC_SHOWLOGICONS:
+			case IDC_MESSAGEONNEWLINE:
+			case IDC_DRAWLINES:
+				ShowPreview();
+				break;
+
+			case IDC_GROUPMESSAGES:
+				EnableWindow(GetDlgItem(m_hwnd, IDC_MARKFOLLOWUPS), IsDlgButtonChecked(m_hwnd, IDC_GROUPMESSAGES));
+				ShowPreview();
+				break;
+
+			case IDC_INDENTTEXT:
+				EnableWindow(GetDlgItem(m_hwnd, IDC_INDENTSIZE), IsDlgButtonChecked(m_hwnd, IDC_INDENTTEXT));
+				EnableWindow(GetDlgItem(m_hwnd, IDC_INDENTSPIN), IsDlgButtonChecked(m_hwnd, IDC_INDENTTEXT));
+				ShowPreview();
+				break;
+
+			case IDC_INDENTSIZE:
+				if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
+					return TRUE;
+				ShowPreview();
+				break;
+
+			case IDC_LOADCOUNTN:
+			case IDC_LOADTIMEN:
+				if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
+					return TRUE;
+				break;
+
+			case IDC_SRMM_LOG:
+				return 0;
+			}
+			MarkChanges(4, m_hwnd);
+			break;
+
+		case WM_NOTIFY:
+			switch (((LPNMHDR)lParam)->idFrom) {
+			case 0:
+				switch (((LPNMHDR)lParam)->code) {
+				case PSN_APPLY:
+					if (IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT))
+						db_set_b(0, SRMM_MODULE, SRMSGSET_LOADHISTORY, LOADHISTORY_COUNT);
+					else if (IsDlgButtonChecked(m_hwnd, IDC_LOADTIME))
+						db_set_b(0, SRMM_MODULE, SRMSGSET_LOADHISTORY, LOADHISTORY_TIME);
+					else
+						db_set_b(0, SRMM_MODULE, SRMSGSET_LOADHISTORY, LOADHISTORY_UNREAD);
+					db_set_w(0, SRMM_MODULE, SRMSGSET_LOADCOUNT, (WORD)SendDlgItemMessage(m_hwnd, IDC_LOADCOUNTSPIN, UDM_GETPOS, 0, 0));
+					db_set_w(0, SRMM_MODULE, SRMSGSET_LOADTIME, (WORD)SendDlgItemMessage(m_hwnd, IDC_LOADTIMESPIN, UDM_GETPOS, 0, 0));
+					db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWLOGICONS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWLOGICONS));
+					db_set_b(0, SRMM_MODULE, SRMSGSET_HIDENAMES, (BYTE)BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_SHOWNAMES));
+					db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWTIME, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES));
+					db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWSECONDS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWSECONDS));
+					db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWDATE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWDATES));
+					db_set_b(0, SRMM_MODULE, SRMSGSET_USELONGDATE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_USELONGDATE));
+					db_set_b(0, SRMM_MODULE, SRMSGSET_USERELATIVEDATE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_USERELATIVEDATE));
+					db_set_b(0, SRMM_MODULE, SRMSGSET_GROUPMESSAGES, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_GROUPMESSAGES));
+					db_set_b(0, SRMM_MODULE, SRMSGSET_MARKFOLLOWUPS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_MARKFOLLOWUPS));
+					db_set_b(0, SRMM_MODULE, SRMSGSET_MESSAGEONNEWLINE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_MESSAGEONNEWLINE));
+					db_set_b(0, SRMM_MODULE, SRMSGSET_DRAWLINES, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_DRAWLINES));
+					db_set_b(0, SRMM_MODULE, SRMSGSET_USEIEVIEW, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_USEIEVIEW));
+					db_set_b(0, SRMM_MODULE, SRMSGSET_INDENTTEXT, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_INDENTTEXT));
+					db_set_w(0, SRMM_MODULE, SRMSGSET_INDENTSIZE, (WORD)SendDlgItemMessage(m_hwnd, IDC_INDENTSPIN, UDM_GETPOS, 0, 0));
+
+					FreeMsgLogIcons();
+					LoadMsgLogIcons();
+					ApplyChanges(4);
+					return TRUE;
+				}
+			}
+			break;
+		}
+		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static void ResetCList(HWND hwndDlg)
 {
@@ -949,11 +974,13 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("Layout");
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGLOG);
-	odp.pfnDlgProc = DlgProcLogOptions;
+	odp.pszTemplate = nullptr;
+	odp.pfnDlgProc = nullptr;
+	odp.pDialog = new CLogOptionsDlg();
 	odp.szTab.a = LPGEN("Event log");
 	Options_AddPage(wParam, &odp);
 
+	odp.pDialog = nullptr;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);
 	odp.pfnDlgProc = DlgProcOptions1;
 	odp.szTab.a = LPGEN("Group chat");
