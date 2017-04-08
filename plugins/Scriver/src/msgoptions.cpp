@@ -30,7 +30,7 @@ INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 #define FONTF_BOLD		1
 #define FONTF_ITALIC	2
 
-typedef struct FontOptionsListStruct
+struct
 {
 	const wchar_t *szDescr;
 	COLORREF defColour;
@@ -38,9 +38,9 @@ typedef struct FontOptionsListStruct
 	BYTE defStyle;
 	char defSize;
 	const wchar_t *szBkgName;
-} FontOptionsList;
-
-static const FontOptionsList fontOptionsList[] = {
+}
+static const fontOptionsList[] =
+{
 	{ LPGENW("Outgoing messages"), RGB(106, 106, 106), L"Arial", 0, -12, LPGENW("Outgoing background")},
 	{ LPGENW("Incoming messages"), RGB(0, 0, 0), L"Arial", 0, -12, LPGENW("Incoming background")},
 	{ LPGENW("Outgoing name"), RGB(89, 89, 89), L"Arial", FONTF_BOLD, -12, LPGENW("Outgoing background")},
@@ -66,7 +66,8 @@ struct
 	COLORREF defColour;
 	int systemColor;
 }
-static const colourOptionsList[] = {
+static const colourOptionsList[] =
+{
 	{ LPGENW("Background"), SRMSGSET_BKGCOLOUR, 0, COLOR_WINDOW},
 	{ LPGENW("Input area background"), SRMSGSET_INPUTBKGCOLOUR, 0, COLOR_WINDOW},
 	{ LPGENW("Incoming background"), SRMSGSET_INCOMINGBKGCOLOUR, 0, COLOR_WINDOW},
