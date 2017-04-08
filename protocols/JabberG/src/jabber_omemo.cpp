@@ -548,12 +548,21 @@ namespace omemo {
 	std::map<MCONTACT, omemo_session_jabber_internal_ptrs> sessions_internal;
 	void clean_sessions()
 	{
+		/*
+		as this is called for every jabber account it may cause problemsif one of multiple jabber accounts is deleted in runtime,
+		to avoid this kind of problems this map must be defained in CJabberProto,
+		but as our silent rules agains stl and heavy constructions i will leave it here for now.
+		*/
 		for (std::map<MCONTACT, omemo_session_jabber_internal_ptrs>::iterator i = sessions_internal.begin(), end = sessions_internal.end(); i != end; ++i)
 		{
-			session_cipher_free(i->second.cipher);
-			session_builder_free(i->second.builder);
-			signal_protocol_store_context_destroy(i->second.store_context);
+			if(i->second.cipher)
+				session_cipher_free(i->second.cipher);
+			if(i->second.builder) 
+				session_builder_free(i->second.builder);
+			if(i->second.store_context)
+				signal_protocol_store_context_destroy(i->second.store_context);
 		}
+		sessions_internal.clear();
 	}
 
 	//signal_protocol_session_store callbacks follow
@@ -690,6 +699,9 @@ db_get_blob
 
 	bool create_session_store(MCONTACT hContact)
 	{
+		sessions_internal[hContact].builder = nullptr;
+		sessions_internal[hContact].cipher = nullptr;
+		sessions_internal[hContact].store_context = nullptr;
 		/* Create the data store context, and add all the callbacks to it */
 		//TODO: validation of functions return codes
 		signal_protocol_store_context *store_context;
@@ -733,39 +745,81 @@ db_get_blob
 
 		return true; //success
 	}
-	bool build_session(MCONTACT hContact, LPCTSTR jid, LPCTSTR id)
+	bool build_session(MCONTACT hContact, LPCTSTR jid, LPCTSTR dev_id, LPCTSTR key_id, LPCTSTR pre_key_public, LPCTSTR signed_pre_key_id,
+		LPCTSTR signed_pre_key_public, LPCTSTR signed_pre_key_signature, LPCTSTR identity_key)
 	{
 		/* Instantiate a session_builder for a recipient address. */
 		char *jid_str = mir_u2a(jid);
-		int dev_id = _wtoi(id);
-		signal_protocol_address address = {
-		jid_str, mir_strlen(jid_str), dev_id
+		int dev_id_int = _wtoi(dev_id);
+		signal_protocol_address address = 
+		{
+			jid_str,
+			mir_strlen(jid_str),
+			dev_id_int
 		};
 
 		session_builder *builder;
-		session_builder_create(&builder, sessions_internal[hContact].store_context, &address, global_context);
+		if (session_builder_create(&builder, sessions_internal[hContact].store_context, &address, global_context) < 0)
+		{
+			mir_free(jid_str);
+			return false; //failure
+		}
 
 		sessions_internal[hContact].builder = builder;
 
 		mir_free(jid_str);
 
-		return false; //not finished yet
-		
-		/*
-		int session_pre_key_bundle_create(session_pre_key_bundle **bundle,
-        uint32_t registration_id, int device_id, uint32_t pre_key_id,
-        ec_public_key *pre_key_public,
-        uint32_t signed_pre_key_id, ec_public_key *signed_pre_key_public,
-        const uint8_t *signed_pre_key_signature_data, size_t signed_pre_key_signature_len,
-        ec_public_key *identity_key);
-	*/
+		int key_id_int = _wtoi(key_id);
+
+		char *pre_key_a = mir_u2a(pre_key_public);
+		unsigned int key_buf_len;
+		uint8_t *key_buf = (uint8_t*)mir_base64_decode(pre_key_a, &key_buf_len);
+		ec_public_key *prekey;
+		curve_decode_point(&prekey, key_buf, key_buf_len, global_context);
+		mir_free(pre_key_a);
+		mir_free(key_buf); //TODO: check this
+		int signed_pre_key_id_int = _wtoi(signed_pre_key_id);
+		pre_key_a = mir_u2a(signed_pre_key_public);
+		key_buf = (uint8_t*)mir_base64_decode(pre_key_a, &key_buf_len);
+		ec_public_key *signed_prekey;
+		curve_decode_point(&signed_prekey, key_buf, key_buf_len, global_context);
+		mir_free(pre_key_a);
+		mir_free(key_buf); //TODO: check this
+		//load  identity key
+		ec_public_key *identity_key_p;
+		pre_key_a = mir_u2a(identity_key);
+		key_buf = (uint8_t*)mir_base64_decode(pre_key_a, &key_buf_len);
+		curve_decode_point(&identity_key_p, key_buf, key_buf_len, global_context);
+		mir_free(pre_key_a);
+		mir_free(key_buf); //TODO: check this
+		pre_key_a = mir_u2a(signed_pre_key_signature);
+		key_buf = (uint8_t*)mir_base64_decode(pre_key_a, &key_buf_len);
+		mir_free(pre_key_a);
+		session_pre_key_bundle *retrieved_pre_key;
+		//what is "registration_id" ?
+		session_pre_key_bundle_create(&retrieved_pre_key, 1, dev_id_int, key_id_int, prekey, signed_pre_key_id_int, signed_prekey, key_buf, key_buf_len, identity_key_p);
+		mir_free(key_buf); //TODO: check this
+
 
 		/* Build a session with a pre key retrieved from the server. */
-	//	session_builder_process_pre_key_bundle(builder, retrieved_pre_key);
+		int ret = session_builder_process_pre_key_bundle(builder, retrieved_pre_key);
+		switch (ret)
+		{
+		case SG_ERR_UNTRUSTED_IDENTITY:
+		//TODO: do necessary actions for untrusted identity
+		break;
+		case SG_ERR_INVALID_KEY:
+			return false; //failure
+			break;
+		default:
+			break;
+
+		}
 
 		/* Create the session cipher and encrypt the message */
 		session_cipher *cipher;
-		session_cipher_create(&cipher, sessions_internal[hContact].store_context, &address, global_context);
+		if (session_cipher_create(&cipher, sessions_internal[hContact].store_context, &address, global_context) < 0)
+			return false; //failure
 		sessions_internal[hContact].cipher = cipher;
 
 		return true; //success
@@ -1029,8 +1083,17 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo * /*pInfo
 	if (!bundle)
 		return;
 	LPCTSTR signedPreKeyPublic = XmlGetText(XmlGetChild(bundle, L"signedPreKeyPublic"));
+	if (!signedPreKeyPublic)
+		return;
+	LPCTSTR signedPreKeyId = XmlGetAttrValue(XmlGetChild(bundle, L"signedPreKeyPublic"), L"signedPreKeyId");
+	if (!signedPreKeyId)
+		return;
 	LPCTSTR signedPreKeySignature = XmlGetText(XmlGetChild(bundle, L"signedPreKeySignature"));
+	if (!signedPreKeySignature)
+		return;
 	LPCTSTR identityKey = XmlGetText(XmlGetChild(bundle, L"identityKey"));
+	if (!identityKey)
+		return;
 	HXML prekeys = XmlGetChild(bundle, L"prekeys");
 	if (!prekeys)
 		return;
@@ -1052,13 +1115,16 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo * /*pInfo
 	LPCTSTR preKeyPublic = XmlGetText(prekey_node);
 	if (!preKeyPublic)
 		return;
+	LPCTSTR preKeyId = XmlGetAttrValue(prekey_node, L"preKeyId");
+	if (!preKeyId)
+		return;
 
 	
 	//TODO: we have all required data, we need to create session with device here
 	if (!omemo::create_session_store(HContactFromJID(jid)))
 		return; //failed to create session store
 
-	if (!omemo::build_session(HContactFromJID(jid), jid, device_id))
+	if (!omemo::build_session(HContactFromJID(jid), jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic, signedPreKeySignature, identityKey))
 		return; //failed to build signal(omemo) session
 	
 /*
