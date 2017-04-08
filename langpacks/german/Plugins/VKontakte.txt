@@ -53,7 +53,7 @@ Links für Audioanhänge abkürzen
 [Use non-standard popups for news and event notifications]
 Nicht-Standard-Popups für Neuigkeiten und Ereignisbenachrichtigungen verwenden
 [Add message link to messages with attachments]
-
+Nachrichtenlink zu Nachrichten mit Anhängen hinzufügen
 [News and event notifications]
 Neuigkeiten- und Ereignisbenachrichtigungen
 [WARNING: Causes excessive network traffic!!!]
@@ -169,11 +169,11 @@ Nachricht als gelesen markieren:
 [Sync history on protocol online:]
 Verlauf synchronisieren wenn Protokoll online:
 [Load last messages when message window open and local history is empty]
-
+Letzte Nachrichten laden wenn Nachrichtenfenster offen und lokaler Verlauf leer ist
 [Use local time for received messages]
 Lokale Zeit für empfangene Nachrichten verwenden
 [Load only friends to local contact list]
-
+Nur Freunde in lokale Kontaktliste laden
 [Server-side delivery confirmation]
 Serverseitige Empfangsbestätigungen
 [Bots challenge test]
@@ -335,7 +335,7 @@ Teilnehmer
 [Owners]
 Besitzer
 [Message link]
-
+Nachrichtenlink
 [create chat]
 Chat erstellt
 [kick user]

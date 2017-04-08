@@ -249,7 +249,7 @@ Ein Fehler ist aufgetreten.
 [Invalid account.]
 Ungültiges Konto.
 [Deleted account.]
-
+Gelöschtes Konto.
 [Expired account.]
 Abgelaufenes Konto.
 [No database access.]

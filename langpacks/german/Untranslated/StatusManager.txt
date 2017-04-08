@@ -1,5 +1,0 @@
-﻿[Available modules]
-[Keep status]
-[Automatically reconnects your accounts after protocol error or internet drop.]
-[Startup status]
-[Improved auto away module with some more options than the built in, configurable per account.]

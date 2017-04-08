@@ -39,9 +39,9 @@ UDP aktivieren (sonst ist Tox gezwungen TCP zu verwenden)
 [Enable IPv6]
 IPv6 aktivieren
 [Max connect retries:]
-
+Max. Verbindungsversuche:
 [Max reconnect retries:]
-
+Max. Wiederverbindungsversuche:
 [If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
 Wenn dieses Feld eine Tox-Adresse enthält (76 Hex-Zeichen), dann werden Sie gefragt ob Sie diese zu Ihrer Freundesliste hinzufügen wollen. Anderenfalls sucht Miranda über Tox-DNS-Erkennung
 [DNS name:]
@@ -106,7 +106,7 @@ Ausgehender Anruf
 An:
 ;file \protocols\Tox\src\main.cpp
 [Current version of plugin is support Tox API version %i.%i.%i which is incompatible with %s]
-
+Aktuelle Version des Plugins unterstützt Tox-API %i.%i.%i, welche inkompatibel mit %s ist.
 ;file \protocols\Tox\src\tox_connection.cpp
 [Unable to initialize Tox core]
 Konnte Tox-Core nicht initialisieren.

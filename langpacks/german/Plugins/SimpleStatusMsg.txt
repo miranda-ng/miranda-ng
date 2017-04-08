@@ -235,7 +235,7 @@ Löschen der vordefinierten Statusnachrichten bestätigen
 [<last status>]
 <Letzter Status>
 [Startup status]
-
+Startup Status
 [Status]
 Status
 [General]

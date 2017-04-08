@@ -97,7 +97,7 @@ Beim Start nicht auslösen
 [No reminder]
 Keine Erinnerung
 [Selected days]
-
+Ausgewählte Tage
 [Mon]
 Mo
 [Tue]

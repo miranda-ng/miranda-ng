@@ -9,19 +9,19 @@
 Überprüft Ihre Verbindung und ist ein erweitertes Abwesenheitsmodul. Erlaubt es Ihnen auch, den Status von Miranda beim Start pro Protokoll festzulegen.
 ;file \plugins\StatusManager\res\resource.rc
 [Available modules]
-
+Verfügbare Module
 [Keep status]
-
+Keep Status
 [Automatically reconnects your accounts after protocol error or internet drop.]
-
+Verbindet Ihre Konten nach einem Protokollfehler oder Internetabbruch.
 [Startup status]
-
+Startup Status
 [Allows you to define the status Miranda should set on startup, configurable per account.]
 Erlaubt es Ihnen, die Status, in denen Miranda startet, zu definieren. Jedes Protokoll kann separat konfiguriert werden.
 [Advanced auto away]
 Erw. Auto-Abwesenheit
 [Improved auto away module with some more options than the built in, configurable per account.]
-
+Erweitertes Abwesenheitsmodul, mit mehr Funktionen als das Original, pro Konto einstellbar.
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Hinweis: Bei Änderungen ist ein Neustart von Miranda NG erforderlich.
 [General]

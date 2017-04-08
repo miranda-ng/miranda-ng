@@ -1,4 +1,0 @@
-﻿[Add message link to messages with attachments]
-[Load last messages when message window open and local history is empty]
-[Load only friends to local contact list]
-[Message link]

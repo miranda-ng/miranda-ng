@@ -47,9 +47,9 @@ Größere Avatare nutzen
 [Prefer real names instead of nicknames]
 Echte Namen anstatt Nicknamen verwenden
 [Load also Messenger contacts at login (not only Facebook friends)]
-
+Beim Anmelden auch Messenger-Kontakte laden (nicht nur Facebook-Freunde)
 [Use Invisible status for Facebook Pages (instead of Offline)]
-
+Unsichtbar-Status für Facebook-Seiten verwenden (anstatt Offline)
 [Popup notifications]
 Popup-Benachrichtigungen
 [Show notifications]
@@ -287,21 +287,21 @@ Erinnerungen laden...
 [On this day]
 An diesem Tag
 [Found %d memories.]
-
+%d Erinnerungen gefunden.
 [Loading notifications...]
 Benachrichtigungen laden...
 [Found %d notifications.]
-
+%d Benachrichtigungen gefunden.
 [Loading friendship requests...]
 Freundschaftsanfragen laden...
 [Found %d friendship requests (%d seen).]
-
+%d Freundschaftsanfragen gefunden (%d gesehen).
 [Found %d friendship requests.]
-
+%d Freundschaftsanfragen gefunden.
 [Loading wall posts...]
 Pinnwand-Einträge laden...
 [Found %d wall posts.]
-
+%d Pinnwand-Einträge gefunden.
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s Serververbindung

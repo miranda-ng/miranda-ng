@@ -6,7 +6,7 @@
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
-
+Unterstützung für Discord in Miranda NG.
 ;file \protocols\Discord\res\discord.rc
 [User details]
 Kontaktprofil
@@ -22,28 +22,28 @@ Standardgruppe:
 Nick:
 ;file \protocols\Discord\src\dispatch.cpp
 [edited at]
-
+bearbeitet am
 ;file \protocols\Discord\src\groupchat.cpp
 [Change &nickname]
 &Nickname ändern
 [Channel control]
-
+Channel kontrollieren
 [Change &topic]
-
+&Thema ändern
 [&Rename channel]
-
+Channel &umbenennen
 [&Destroy channel]
-
+Channel &zerstören
 [&Invite a user]
-Benutzer in diesen MUC e&inladen
+Benutzer e&inladen
 [Do you really want to destroy this channel? This action is non-revertable.]
-
+Möchten Sie diesen Channel wirklich zerstören? Diese Aktion kann nicht rückgängig gemacht werden.
 [Enter new channel name:]
-
+Neuen Channelnamen eingeben:
 [Enter new topic:]
-
+Neues Thema eingeben:
 [Enter your new nick name:]
-
+Geben Sie Ihren neuen Nicknamen ein:
 ;file \protocols\Discord\src\main.cpp
 [Main icon]
 Haupticon
@@ -51,17 +51,17 @@ Haupticon
 Gruppenchats
 ;file \protocols\Discord\src\menus.cpp
 [Enter channel name]
-
+Channelname eingeben
 [Enter invitation code you received]
-
+Geben Sie den empfangenen Einladungscode ein
 [Do you really want to leave the guild?]
-
+Möchten Sie diese Gilde wirklich verlassen?
 [Join guild]
-
+Gilde beitreten
 [Leave guild]
-
+Gilde verlassen
 [Create new channel]
-
+Neuen Channel erstellen
 ;file \protocols\Discord\src\options.cpp
 [Network]
 Netzwerk
@@ -71,15 +71,15 @@ Konto
 [%s server connection]
 %s Serververbindung
 [%s gateway connection]
-
+%s Gatewayverbindung
 [User ID]
 Nutzer-ID
 [Protocol is offline or user isn't authorized yet]
-
+Protokoll ist offline oder Benutzer ist noch nicht autorisiert.
 ;file \protocols\Discord\src\utils.cpp
 [Attachment]
-
+Anhang
 [Embed]
-
+Eingebettet
 [Preview]
 Vorschau
