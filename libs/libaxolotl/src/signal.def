@@ -74,3 +74,6 @@ EXPORTS
 	session_cipher_create
 	session_builder_free
 	session_cipher_free
+	curve_decode_point
+	session_pre_key_bundle_create
+	session_builder_process_pre_key_bundle
