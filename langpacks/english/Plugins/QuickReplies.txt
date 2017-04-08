@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: QuickReplies.dll
 ;  Plugin: Quick replies
-;  Version: 0.8.1.0
+;  Version: 0.9.1.2
 ;  Authors: Unsane
 ;============================================================
 [Plugin for quick insert (or sending) pre-defined messages in message input area.]
@@ -16,6 +16,5 @@
 [- Press [v] button for variable's help.]
 ;file \plugins\QuickReplies\src\events.cpp
 [Button]
-[Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 ;file \plugins\QuickReplies\src\options.cpp
 [Message sessions]

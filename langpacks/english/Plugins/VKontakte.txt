@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.12
+;  Version: 0.1.2.17
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -29,6 +29,7 @@
 [Process stickers as smileys]
 [Shorten links for audio attachments]
 [Use non-standard popups for news and event notifications]
+[Add message link to messages with attachments]
 [News and event notifications]
 [WARNING: Causes excessive network traffic!!!]
 [Enable news feeds]
@@ -170,6 +171,7 @@
 ;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
 [Owners]
+[Message link]
 [create chat]
 [kick user]
 [left chat]
@@ -234,6 +236,7 @@
 [Loading history]
 [Error loading message history for %s from server.]
 [Loading messages for %s is completed.]
+;file \protocols\VKontakte\src\vk_messages.cpp
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 [Account]
