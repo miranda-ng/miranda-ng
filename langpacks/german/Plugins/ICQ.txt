@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.4
+;  Version: 0.11.3.5
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -110,8 +110,6 @@ Custom Status bei Statusänderung zurücksetzen
 Custom Status Details automatisch empfangen
 [Block known Spam Bots]
 Bekannte Spambots blockieren
-[Enable AIM contacts support]
-Unterstützung für AIM-Kontakte aktivieren
 [Direct connections]
 Direktverbindungen
 [Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]

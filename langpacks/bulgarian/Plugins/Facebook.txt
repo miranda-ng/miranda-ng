@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.1.0
+;  Version: 0.3.3.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -43,6 +43,8 @@ URL:
 Ползване на по-големи аватари
 [News feed types to notify:]
 Уведомяване за следните новини:
+[Extra]
+Допълнителни
 [Use balloon notifications in system tray instead of popups]
 Ползване на балонни известия в трея вместо popup
 [Post Miranda statuses to Wall]

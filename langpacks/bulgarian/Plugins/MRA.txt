@@ -137,6 +137,10 @@
 Водолей
 [Pisces]
 Риби
+[Owners]
+Собственици
+[Visitors]
+Посетители
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]

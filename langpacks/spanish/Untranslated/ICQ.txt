@@ -43,7 +43,6 @@
 [Reset Custom status on status change]
 [Auto-retrieve Custom status details]
 [Block known Spam Bots]
-[Enable AIM contacts support]
 [Direct connections]
 [Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
 [Allow direct connections with any user]

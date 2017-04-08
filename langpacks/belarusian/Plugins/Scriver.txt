@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.12.2.1
+;  Version: 3.0.1.6
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -281,352 +281,10 @@ KB
 Зачыніць іншыя ўкладкі
 [Close tab]
 Зачыніць укладку
-[List]
-Спіс
-[&Message]
-&Паведамленне
-[Clear lo&g]
-Сцерці чат
-[Add contact]
-Дадаць кантакт
-[User's details]
-Інфа кантакту
-[User's history]
-Гісторыя кантакту
-[Send message]
-Адправіць
-[Smiley button]
-Смайлы
-[User is typing]
-Піша паведамленне
-[Typing notification off]
-"Абвесткі пра набор" выкл.
-[Sending]
-Адпраўка паведамлення
-[Quote button]
-Цытата
-[Close button]
-Кнопка "Зачыніць"
-[Icon overlay]
-Абразок па-над
-[Incoming message (10x10)]
-Уваходнае паведамленне (10x10)
-[Outgoing message (10x10)]
-Выходнае паведамленне (10x10)
-[Notice (10x10)]
-Абвестка (10x10)
-[Window Icon]
-Абразок вакна
-[Text color]
-Колер тэксту
-[Background color]
-Колер фону
-[Bold]
-Тоўсты
-[Italics]
-Курсіў
-[Underlined]
-Падкрэслены
-[Room history]
-Гісторыя
-[Room settings]
-Налады
-[Event filter disabled]
-Фільтр падзей выключаны
-[Event filter enabled]
-Фільтр падзей уключаны
-[Hide nick list]
-Схаваць спіс
-[Show nick list]
-Паказаць спіс
-[Status 1 (10x10)]
-Статус 1 (10x10)
-[Status 2 (10x10)]
-Статус 2(10x10)
-[Status 3 (10x10)]
-Статус 3 (10x10)
-[Status 4 (10x10)]
-Статус 4 (10x10)
-[Status 5 (10x10)]
-Статус 5 (10x10)
-[Status 6 (10x10)]
-Статус 6 (10x10)
-[Message in (10x10)]
-Прынятае паведамленне (10х10)
-[Message out (10x10)]
-Адпраўленае паведамленне (10х10)
-[Action (10x10)]
-Дзеянне (10x10)
-[Add Status (10x10)]
-Дадаць статус (10х10)
-[Remove status (10x10)]
-Выдаліць статус (10х10)
-[Join (10x10)]
-Увайсці (10x10)
-[Leave (10x10)]
-Пакінуць (10х10)
-[Quit (10x10)]
-Выйсце (10х10)
-[Kick (10x10)]
-Выгнаць (10х10)
-[Nickchange (10x10)]
-Змена мянушкі (10х10)
-[Topic (10x10)]
-Тэма (10х10)
-[Highlight (10x10)]
-Вылучыць (10х10)
-[Information (10x10)]
-Інфармацыя (10х10)
-[Single Messaging]
+[Messaging]
 Паведамленні
 [Group chats]
 Чаты
-[Thai]
-Тайскі
-[Japanese]
-Японскі
-[Simplified Chinese]
-Кітайскі (спрошчаны)
-[Korean]
-Карэйскі
-[Traditional Chinese]
-Кітайскі (традыцыйны)
-[Central European]
-Цэнтральнаеўрапейскі
-[Cyrillic]
-Кірыліца
-[Latin I]
-Заходнееўрапейскі
-[Greek]
-Грэцкі
-[Turkish]
-Турэцкі
-[Hebrew]
-Іўрыт
-[Arabic]
-Арабскі
-[Baltic]
-Балтыйскі
-[Vietnamese]
-В'етнамскі
-[Korean (Johab)]
-Карэйскі (Johab)
-[Messaging]
-Паведамленні
-[Navigate: Previous tab]
-Навігацыя: Папярэдняя ўкладка
-[Navigate: Next tab]
-Навігацыя: Наступная ўкладка
-[Navigate: Tab %d]
-Навігацыя: Укладка %d
-[Window: Toggle status bar]
-Вакно: укл/выкл панэль статусу
-[Window: Toggle title bar]
-Вакно: укл/выкл панэль загалоўка
-[Window: Toggle toolbar]
-Вакно: укл/выкл панэль кнопак
-[Window: Toggle info bar]
-Вакно: укл/выкл панэль інфармацыі
-[Window: Clear log]
-Вакно: Сцерці лог
-[Window: Minimize]
-Вакно: Згарнуць
-[Window: Close tab]
-Вакно: Зачыніць укладку
-[Action: Quote]
-Дзеянне: Цытаваць
-[Action: Send to all]
-Дзеянне: Паслаць усім
-[Action: Paste and send]
-Дзеянне: Уставіць і адправіць
-[Look up '%s':]
-Шукаць '%s':
-[No word to look up]
-Няма слоў для пошуку
-[User menu - %s]
-Меню кантакта - %s
-[Sending in progress: %d message(s) left...]
-Адпраўка паведамлення: %d засталося...
-[%s is typing a message...]
-%s набірае тэкст...
-[Last message received on %s at %s.]
-Апошняе паведамленне вы атрымалі %s у %s.
-[Me]
-Я
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-
-[to tiny bits, in Thy mercy]
-
-[My contact]
-Мае кантакты
-[Lorem ipsum dolor sit amet,]
-
-[consectetur adipisicing elit]
-
-[Today]
-Сёння
-[Yesterday]
-Учора
-[File sent]
-Пасылка файла
-[File received]
-Файл атрыманы
-[URL sent]
-URL адасланы
-[URL received]
-URL атрыманы
-[Outgoing messages]
-Выходныя паведамленні
-[Outgoing background]
-Выходны фон
-[Incoming messages]
-Уваходныя паведамленні
-[Incoming background]
-Уваходны фон
-[Outgoing name]
-Маё імя
-[Outgoing time]
-Час адпраўлення
-[Outgoing colon]
-Двукроп'е ў выходных паведамленнях
-[Incoming name]
-Імя суразмоўцы
-[Incoming time]
-Час атрымання
-[Incoming colon]
-Двукроп'е ва ўваходных паведамленнях
-[Message area]
-Вобласць паведамлення
-[Input area background]
-Фон поля ўводу
-[Outgoing URL]
-Выходныя URL
-[Incoming URL]
-Уваходны URL
-[Info bar contact name]
-Інфа-Панэль: імя кантакту
-[Info bar background]
-Фон інфопанэлі
-[Info bar status message]
-Інфа-Панэль: статуснае паведамленне
-[Line between messages]
-
-[Offline]
-Адключаны
-[Online]
-Далучаны
-[Away]
-Адсутнічаю
-[Not available]
-Недаступны
-[Occupied]
-Заняты
-[Do not disturb]
-Не турбаваць
-[Free for chat]
-Вольны
-[Invisible]
-Нябачны
-[Out to lunch]
-Абедаю
-[On the phone]
-На тэлефоне
-[** New contacts **]
-** Новыя кантакты **
-[** Unknown contacts **]
-** Невядомыя кантакты **
-[Message sessions]
-Гутаркі
-[General]
-Агульнае
-[Event log]
-Лог падзей
-[Group chat log]
-Лог чата
-[Typing notify]
-Набірае тэкст
-[Popups]
-Усплывальныя вокны
-[Message from %s]
-Паведамленне ад %s
-[%s is typing a message]
-%s набірае тэкст
-[Typing notification]
-Абвестка пра набор тэксту
-[&Quote]
-Цытыраваць
-[Quote]
-Цытата
-[&Add]
-&Дадаць
-[Add contact permanently to list]
-Дадаць у спіс
-[&User menu]
-Меню кантакта
-[User menu]
-Меню кантакта
-[User &details]
-&Інфармацыя
-[View user's details]
-Пра кантакт
-[&History]
-Гісторыя
-[View user's history (CTRL+H)]
-Гісторыя паведамленняў (CTRL+H)
-[&Bold]
-Тлусты
-[Make the text bold (CTRL+B)]
-Зрабіць тэкст тоўстым (CTRL+B)
-[&Italic]
-Курсіў
-[Make the text italicized (CTRL+I)]
-Зрабіць тэкст курсівам (CTRL+I)
-[&Underline]
-Падкрэсліць
-[Make the text underlined (CTRL+U)]
-Падкрэсліць тэкст (CTRL+U)
-[&Color]
-Колер
-[Select a foreground color for the text (CTRL+K)]
-Абраць колер тэксту (CTRL+K)
-[&Background color]
-колер фона
-[Select a background color for the text (CTRL+L)]
-Абраць фон тэксту (CTRL+L)
-[&Room settings]
-Налады
-[Control this room (CTRL+O)]
-Кантраляваць гэты чат (CTRL+O)
-[&Show/hide nick list]
-Паказаць/Схаваць спіс мянушак
-[Show/hide the nick list (CTRL+N)]
-Паказаць/схаваць спіс кантактаў (CTRL+N)
-[&Filter]
-фільтр
-[Enable/disable the event filter (CTRL+F)]
-Уключыць/выключыць фільтр падзей (CTRL+F)
-[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda не змагла загрузіць убудаваную сістэму сообпаведамленняў, бо адсутнічае Msftedit.dll. Калі ў вас WINE, праверце наяўнасць файла Msftedit.dll. Нажміце "Да", каб працягнуць загрузку.
-[Instant messages]
-Паведамленні IM
-[Incoming (focused window)]
-Уваходныя (актыўнае вакно)
-[Incoming (unfocused window)]
-Уваходныя (неактыўнае вакно)
-[Incoming (new session)]
-Уваходныя (новыя сеанс)
-[Outgoing]
-Выходныя
-[Contact started typing]
-Кантакт пачаў пісаць
-[Contact stopped typing]
-Кантакт скончыў пісаць
-[An unknown error has occurred.]
-Невядомая памылка.
-[The message send timed out.]
-Затрымка адпраўкі паведамлення
-[Always on top]
-Па-над усімі вокнамі
 [Flash when someone speaks]
 Міргаць, калі хтосьці кажа
 [Flash when a word is highlighted]
@@ -797,8 +455,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Паказаць у новым вакне, калі 'Фільтр падзей' уключаны
 [Select folder]
 Абраць тэчку
-[&Message %s]
-Паведамленне %s
 [%s: chat room (%u user)]
 %s: Чат (%u удзельнік)
 [%s: chat room (%u users)]
@@ -813,3 +469,341 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Асабісты конт
 [Status]
 Статус
+[Add contact]
+Дадаць кантакт
+[User's details]
+Інфа кантакту
+[User's history]
+Гісторыя кантакту
+[Send message]
+Адправіць
+[Smiley button]
+Смайлы
+[User is typing]
+Піша паведамленне
+[Typing notification off]
+"Абвесткі пра набор" выкл.
+[Sending]
+Адпраўка паведамлення
+[Quote button]
+Цытата
+[Close button]
+Кнопка "Зачыніць"
+[Icon overlay]
+Абразок па-над
+[Incoming message (10x10)]
+Уваходнае паведамленне (10x10)
+[Outgoing message (10x10)]
+Выходнае паведамленне (10x10)
+[Notice (10x10)]
+Абвестка (10x10)
+[Window Icon]
+Абразок вакна
+[Text color]
+Колер тэксту
+[Background color]
+Колер фону
+[Bold]
+Тоўсты
+[Italics]
+Курсіў
+[Underlined]
+Падкрэслены
+[Room history]
+Гісторыя
+[Room settings]
+Налады
+[Event filter disabled]
+Фільтр падзей выключаны
+[Event filter enabled]
+Фільтр падзей уключаны
+[Hide nick list]
+Схаваць спіс
+[Show nick list]
+Паказаць спіс
+[Status 1 (10x10)]
+Статус 1 (10x10)
+[Status 2 (10x10)]
+Статус 2(10x10)
+[Status 3 (10x10)]
+Статус 3 (10x10)
+[Status 4 (10x10)]
+Статус 4 (10x10)
+[Status 5 (10x10)]
+Статус 5 (10x10)
+[Status 6 (10x10)]
+Статус 6 (10x10)
+[Message in (10x10)]
+Прынятае паведамленне (10х10)
+[Message out (10x10)]
+Адпраўленае паведамленне (10х10)
+[Action (10x10)]
+Дзеянне (10x10)
+[Add Status (10x10)]
+Дадаць статус (10х10)
+[Remove status (10x10)]
+Выдаліць статус (10х10)
+[Join (10x10)]
+Увайсці (10x10)
+[Leave (10x10)]
+Пакінуць (10х10)
+[Quit (10x10)]
+Выйсце (10х10)
+[Kick (10x10)]
+Выгнаць (10х10)
+[Nickchange (10x10)]
+Змена мянушкі (10х10)
+[Topic (10x10)]
+Тэма (10х10)
+[Highlight (10x10)]
+Вылучыць (10х10)
+[Information (10x10)]
+Інфармацыя (10х10)
+[Single Messaging]
+Паведамленні
+[Thai]
+Тайскі
+[Japanese]
+Японскі
+[Simplified Chinese]
+Кітайскі (спрошчаны)
+[Korean]
+Карэйскі
+[Traditional Chinese]
+Кітайскі (традыцыйны)
+[Central European]
+Цэнтральнаеўрапейскі
+[Cyrillic]
+Кірыліца
+[Latin I]
+Заходнееўрапейскі
+[Greek]
+Грэцкі
+[Turkish]
+Турэцкі
+[Hebrew]
+Іўрыт
+[Arabic]
+Арабскі
+[Baltic]
+Балтыйскі
+[Vietnamese]
+В'етнамскі
+[Korean (Johab)]
+Карэйскі (Johab)
+[Navigate: Previous tab]
+Навігацыя: Папярэдняя ўкладка
+[Navigate: Next tab]
+Навігацыя: Наступная ўкладка
+[Navigate: Tab %d]
+Навігацыя: Укладка %d
+[Window: Toggle status bar]
+Вакно: укл/выкл панэль статусу
+[Window: Toggle title bar]
+Вакно: укл/выкл панэль загалоўка
+[Window: Toggle toolbar]
+Вакно: укл/выкл панэль кнопак
+[Window: Toggle info bar]
+Вакно: укл/выкл панэль інфармацыі
+[Window: Clear log]
+Вакно: Сцерці лог
+[Window: Minimize]
+Вакно: Згарнуць
+[Window: Close tab]
+Вакно: Зачыніць укладку
+[Action: Quote]
+Дзеянне: Цытаваць
+[Action: Send to all]
+Дзеянне: Паслаць усім
+[Action: Paste and send]
+Дзеянне: Уставіць і адправіць
+[Sending in progress: %d message(s) left...]
+Адпраўка паведамлення: %d засталося...
+[%s is typing a message...]
+%s набірае тэкст...
+[Last message received on %s at %s.]
+Апошняе паведамленне вы атрымалі %s у %s.
+[Look up '%s':]
+Шукаць '%s':
+[No word to look up]
+Няма слоў для пошуку
+[User menu - %s]
+Меню кантакта - %s
+[Me]
+Я
+[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
+
+[to tiny bits, in Thy mercy]
+
+[My contact]
+Мае кантакты
+[Lorem ipsum dolor sit amet,]
+
+[consectetur adipisicing elit]
+
+[Today]
+Сёння
+[Yesterday]
+Учора
+[File sent]
+Пасылка файла
+[File received]
+Файл атрыманы
+[URL sent]
+URL адасланы
+[URL received]
+URL атрыманы
+[Outgoing messages]
+Выходныя паведамленні
+[Outgoing background]
+Выходны фон
+[Incoming messages]
+Уваходныя паведамленні
+[Incoming background]
+Уваходны фон
+[Outgoing name]
+Маё імя
+[Outgoing time]
+Час адпраўлення
+[Outgoing colon]
+Двукроп'е ў выходных паведамленнях
+[Incoming name]
+Імя суразмоўцы
+[Incoming time]
+Час атрымання
+[Incoming colon]
+Двукроп'е ва ўваходных паведамленнях
+[Message area]
+Вобласць паведамлення
+[Input area background]
+Фон поля ўводу
+[Outgoing URL]
+Выходныя URL
+[Incoming URL]
+Уваходны URL
+[Info bar contact name]
+Інфа-Панэль: імя кантакту
+[Info bar background]
+Фон інфопанэлі
+[Info bar status message]
+Інфа-Панэль: статуснае паведамленне
+[Line between messages]
+
+[Offline]
+Адключаны
+[Online]
+Далучаны
+[Away]
+Адсутнічаю
+[Not available]
+Недаступны
+[Occupied]
+Заняты
+[Do not disturb]
+Не турбаваць
+[Free for chat]
+Вольны
+[Invisible]
+Нябачны
+[Out to lunch]
+Абедаю
+[On the phone]
+На тэлефоне
+[** New contacts **]
+** Новыя кантакты **
+[** Unknown contacts **]
+** Невядомыя кантакты **
+[Message sessions]
+Гутаркі
+[General]
+Агульнае
+[Event log]
+Лог падзей
+[Group chat log]
+Лог чата
+[Typing notify]
+Набірае тэкст
+[Popups]
+Усплывальныя вокны
+[Message from %s]
+Паведамленне ад %s
+[%s is typing a message]
+%s набірае тэкст
+[Typing notification]
+Абвестка пра набор тэксту
+[&Quote]
+Цытыраваць
+[Quote]
+Цытата
+[&Add]
+&Дадаць
+[Add contact permanently to list]
+Дадаць у спіс
+[&User menu]
+Меню кантакта
+[User menu]
+Меню кантакта
+[User &details]
+&Інфармацыя
+[View user's details]
+Пра кантакт
+[&History]
+Гісторыя
+[View user's history (CTRL+H)]
+Гісторыя паведамленняў (CTRL+H)
+[&Bold]
+Тлусты
+[Make the text bold (CTRL+B)]
+Зрабіць тэкст тоўстым (CTRL+B)
+[&Italic]
+Курсіў
+[Make the text italicized (CTRL+I)]
+Зрабіць тэкст курсівам (CTRL+I)
+[&Underline]
+Падкрэсліць
+[Make the text underlined (CTRL+U)]
+Падкрэсліць тэкст (CTRL+U)
+[&Color]
+Колер
+[Select a foreground color for the text (CTRL+K)]
+Абраць колер тэксту (CTRL+K)
+[&Background color]
+колер фона
+[Select a background color for the text (CTRL+L)]
+Абраць фон тэксту (CTRL+L)
+[&Room settings]
+Налады
+[Control this room (CTRL+O)]
+Кантраляваць гэты чат (CTRL+O)
+[&Show/hide nick list]
+Паказаць/Схаваць спіс мянушак
+[Show/hide the nick list (CTRL+N)]
+Паказаць/схаваць спіс кантактаў (CTRL+N)
+[&Filter]
+фільтр
+[Enable/disable the event filter (CTRL+F)]
+Уключыць/выключыць фільтр падзей (CTRL+F)
+[&Message]
+&Паведамленне
+[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda не змагла загрузіць убудаваную сістэму сообпаведамленняў, бо адсутнічае Msftedit.dll. Калі ў вас WINE, праверце наяўнасць файла Msftedit.dll. Нажміце "Да", каб працягнуць загрузку.
+[Instant messages]
+Паведамленні IM
+[Incoming (focused window)]
+Уваходныя (актыўнае вакно)
+[Incoming (unfocused window)]
+Уваходныя (неактыўнае вакно)
+[Incoming (new session)]
+Уваходныя (новыя сеанс)
+[Outgoing]
+Выходныя
+[Contact started typing]
+Кантакт пачаў пісаць
+[Contact stopped typing]
+Кантакт скончыў пісаць
+[An unknown error has occurred.]
+Невядомая памылка.
+[The message send timed out.]
+Затрымка адпраўкі паведамлення
+[Always on top]
+Па-над усімі вокнамі

@@ -8,7 +8,6 @@
 [Notify me when a message delivery has failed]
 [Enable Custom status support for xtraz]
 [Enable Custom status support for moods]
-[Enable AIM contacts support]
 [Display errors using popups]
 [Back Color]
 [Note]

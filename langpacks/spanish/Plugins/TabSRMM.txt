@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.1.2
+;  Version: 3.5.0.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Cancel]
@@ -45,52 +45,6 @@ Directorio de registro
 Su nombre
 [Other name]
 Otro nombre
-[List]
-Lista
-[&Message]
-&Mensaje
-[Log]
-Registro
-[Clear lo&g]
-Limpiar re&gistro
-[Co&py all]
-Co&piar todo
-[Word lookup]
-Palabra de búsqueda
-[Wikipedia]
-Wikipedia
-[Link]
-Enlace
-[Open a &new browser window]
-Abrir una nueva ventana del navegador
-[&Open in current browser window]
-Abrir en ventana actual del navegad&or
-[&Copy link]
-Copiar enlace
-[Message]
-Mensaje
-[Undo]
-Deshacer
-[Redo]
-Rehacer
-[Copy]
-Copiar
-[Cut]
-Cortar
-[Paste]
-Pegar
-[Select all]
-Seleccionar todo
-[Clear]
-Limpiar
-[Tabs]
-Pestañas
-[&Close tab]
-&Cerrar pestaña
-[C&lose other tabs]
-C&errar otras pestañas
-[&Open at this position]
-Abrir en esta p&osición
 [&Cancel]
 &Cancelar
 [&Send]
@@ -103,6 +57,8 @@ segundos
 Texto
 [Background]
 Fondo
+[Message]
+Mensaje
 [Preview]
 Previsualizar
 [Group chats]
@@ -167,14 +123,28 @@ Enviar mensaje con doble 'Intro'
 Minimizar la ventana de mensaje al enviar
 [Other events]
 Otros eventos
+[Log]
+Registro
 [&Copy]
 &Copiar
+[Co&py all]
+Co&piar todo
 [Select &all]
 Elegir &todo
 [Open in &new window]
 Abrir en nueva ventana
 [&Open in existing window]
 Abrir en ventana existente
+[&Copy link]
+Copiar enlace
+[Cut]
+Cortar
+[Copy]
+Copiar
+[Paste]
+Pegar
+[Select all]
+Seleccionar todo
 [Default]
 Por defecto
 [Global]
@@ -195,96 +165,6 @@ Barra de herramientas
 Ayuda
 [View user's history]
 Ver historial del usuario
-[Notifications]
-Notificaciones
-[disabled]
-desabilitado
-[Incoming file]
-Archivo entrante
-[Version]
-Versión
-[%s is typing a message...]
-%s está escribiendo un mensaje...
-[%s is typing a message]
-%s está escribiendo un mensaje
-[Instant messages]
-Mensajes instantáneos
-[Incoming (focused window)]
-Entrante (ventana enfocada)
-[Incoming (unfocused window)]
-Entrante (ventana desenfocada)
-[Incoming (new session)]
-Entrante (nueva sesión)
-[Outgoing]
-Saliendo
-[Message send error]
-Enviar mensaje de error
-[Other]
-Otro
-[Message from %s]
-Mensaje de
-[Paste and send]
-Pegar y Enviar
-[Send message]
-Enviar mensaje
-[Copy to clipboard]
-Copiar al portapapeles
-[contact]
-Contacto
-[Skins]
-Pieles
-[Avatars]
-Avatares
-[Typing notification]
-Escribiendo notificación
-['(Unknown contact)']
-'(Contacto desconocido)'
-[** New contacts **]
-** Nuevos contactos **
-[** Unknown contacts **]
-** Contactos desconocidos **
-[Message sessions]
-Sesiones de mensaje
-[General]
-General
-[Message log]
-Registro de mensaje
-[Typing notify]
-Notificación de escritura
-[Event notifications]
-Notificaciones de eventos
-[Settings]
-Ajustes
-[Smiley button]
-Botón de emoticono
-[Background color]
-Color de fondo
-[Room settings]
-Configuración de la Sala
-[Incoming message]
-Mensaje entrante
-[Outgoing message]
-Mensaje saliente
-[Status change]
-Cambio de estado
-[Message Sessions]
-Sesiones de mensaje
-[Message Log]
-Registro de mensaje
-[Error]
-Error
-[Contact]
-Contacto
-[Status]
-Estado
-[System tray icon]
-Icono de la bandeja de sistema
-[Close the message window on send]
-Cerrar la ventana de mensaje al enviar
-[Contact started typing]
-El contacto ha comenzado a escribir
-[Contact stopped typing]
-El contacto dejó de escribir
 [%s has joined]
 %s se ha unido
 [You have joined %s]
@@ -311,8 +191,14 @@ El tema es '%s%s'
 %s habilitar '%s' de estado para %s
 [%s disables '%s' status for %s]
 %s deshabilitar '%s' de estado para %s
+[Message Sessions]
+Sesiones de mensaje
+[Tabs]
+Pestañas
 [Nickname]
 Apodo
+[Status]
+Estado
 [Protocol]
 Protocolo
 [Flash window when someone speaks]
@@ -395,17 +281,99 @@ Variables
 Todos los archivos
 [Select folder]
 Seleccionar carpeta
-[Look up '%s':]
-Buscar '%s':
-[No word to look up]
-Ni una palabra para buscar
-[&Message %s]
-&Mensaje %s
-[%s: message session]
-%s: sesión de mensaje
-[%s: message session (%u users)]
-%s: sesión de mensaje (%u usuarios)
 [hours]
 horas
 [minutes]
 minutos
+[%s: message session]
+%s: sesión de mensaje
+[%s: message session (%u users)]
+%s: sesión de mensaje (%u usuarios)
+[Version]
+Versión
+[Notifications]
+Notificaciones
+[disabled]
+desabilitado
+[Incoming file]
+Archivo entrante
+[%s is typing a message...]
+%s está escribiendo un mensaje...
+[%s is typing a message]
+%s está escribiendo un mensaje
+[Instant messages]
+Mensajes instantáneos
+[Incoming (focused window)]
+Entrante (ventana enfocada)
+[Incoming (unfocused window)]
+Entrante (ventana desenfocada)
+[Incoming (new session)]
+Entrante (nueva sesión)
+[Outgoing]
+Saliendo
+[Message send error]
+Enviar mensaje de error
+[&Message]
+&Mensaje
+[Other]
+Otro
+[Message from %s]
+Mensaje de
+[Paste and send]
+Pegar y Enviar
+[Send message]
+Enviar mensaje
+[Copy to clipboard]
+Copiar al portapapeles
+[contact]
+Contacto
+[Skins]
+Pieles
+[Avatars]
+Avatares
+[Typing notification]
+Escribiendo notificación
+['(Unknown contact)']
+'(Contacto desconocido)'
+[** New contacts **]
+** Nuevos contactos **
+[** Unknown contacts **]
+** Contactos desconocidos **
+[Message sessions]
+Sesiones de mensaje
+[General]
+General
+[Message log]
+Registro de mensaje
+[Typing notify]
+Notificación de escritura
+[Event notifications]
+Notificaciones de eventos
+[Settings]
+Ajustes
+[Smiley button]
+Botón de emoticono
+[Background color]
+Color de fondo
+[Room settings]
+Configuración de la Sala
+[Incoming message]
+Mensaje entrante
+[Outgoing message]
+Mensaje saliente
+[Status change]
+Cambio de estado
+[Message Log]
+Registro de mensaje
+[Error]
+Error
+[Contact]
+Contacto
+[System tray icon]
+Icono de la bandeja de sistema
+[Close the message window on send]
+Cerrar la ventana de mensaje al enviar
+[Contact started typing]
+El contacto ha comenzado a escribir
+[Contact stopped typing]
+El contacto dejó de escribir

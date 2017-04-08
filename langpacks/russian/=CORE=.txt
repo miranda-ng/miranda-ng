@@ -503,6 +503,14 @@
 События, полученные менее чем
 [minutes old]
 минут назад
+[Use a tabbed interface]
+Использовать вкладки
+[Close tab on double click]
+Закрывать по двойному щелчку
+[Restore previously open tabs when showing the window]
+Восстанавливать открытые вкладки при показе окна
+[Show tabs at the bottom]
+Вкладки внизу
 [Send typing notifications to the following users when you are typing a message to them:]
 Уведомлять отмеченных пользователей о том, что вы набираете сообщение:
 [Show typing notifications when a user is typing a message]
@@ -591,28 +599,6 @@
 Фон
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
 (Установка таймаута в 0 = значение по умолчанию, -1 = бесконечно)
-[List]
-Список
-[&Message]
-&Сообщение
-[Log]
-Журнал
-[Clear lo&g]
-Очистить ча&т
-[Co&py all]
-Ко&пировать всё
-[Word lookup]
-Найти слово
-[Wikipedia]
-Википедия
-[Link]
-Ссылка
-[Open a &new browser window]
-Открыть в &новом окне
-[&Open in current browser window]
-&Открыть в текущем окне
-[&Copy link]
-&Копировать ссылку
 [Message]
 Сообщение
 [Undo]
@@ -637,14 +623,16 @@
 За&крыть остальные вкладки
 [&Open at this position]
 &Открыть в этом месте
+[Log]
+Журнал
 [C&lear log]
 Оч&истить журнал
 [&Copy]
 &Копировать
+[Co&py all]
+Ко&пировать всё
 [Select &all]
 Выделить &всё
-[&Open link]
-&Открыть ссылку
 [Paste and send]
 Вставить и отправить
 [Delete]
@@ -1215,14 +1203,28 @@ UIN, E-mail и т.д.
 &Добавить в список
 [Send &message]
 Отправить &сообщение
-[Open in &new window]
-&Открыть в новом окне
-[&Open in existing window]
-Открыть в &текущем окне
+[&Open link]
+&Открыть ссылку
+[&Copy link]
+&Копировать ссылку
 [Cancel change]
 Откатить изменения
 [Ungroup]
 Разгруппировать
+[List]
+Список
+[&Message]
+&Сообщение
+[Clear lo&g]
+Очистить ча&т
+[Word lookup]
+Найти слово
+[Yandex]
+Яндекс
+[Google Maps]
+Google Карты
+[Google Translate]
+Переводчик Google
 [%s requests authorization]
 %s запрашивает авторизацию
 [%u requests authorization]
@@ -1455,14 +1457,6 @@ UIN, E-mail и т.д.
 Цвета линий в списке пользователей
 [Nick list background (selected)]
 Заливка списка пользователей (выбрано)
-[Use a tabbed interface]
-Использовать вкладки
-[Close tab on double click]
-Закрывать по двойному щелчку
-[Restore previously open tabs when showing the window]
-Восстанавливать открытые вкладки при показе окна
-[Show tabs at the bottom]
-Вкладки внизу
 [Send message by pressing the 'Enter' key]
 ВВОД отправляет сообщение
 [Send message by pressing the 'Enter' key twice]
@@ -1481,10 +1475,6 @@ UIN, E-mail и т.д.
 Показывать кнопки форматирования текста
 [Show button menus when right clicking the buttons]
 Показывать меню кнопки по правому щелчку
-[Show new windows cascaded]
-Уложить каскадом
-[Save the size and position of chat rooms]
-Сохранять размер и положение окон комнат
 [Show the topic of the room on your contact list (if supported)]
 Показывать тему комнаты чата в списке контактов (если поддерживается)
 [Do not play sounds when the chat room is focused]
@@ -1681,8 +1671,6 @@ UIN, E-mail и т.д.
 Чаты
 [Group chats log]
 Журналы чатов
-[Options for using a tabbed interface]
-Настройки вкладок
 [Appearance and functionality of chat room windows]
 Интерфейс и функциональность окон чата
 [Appearance of the message log]
@@ -1705,12 +1693,6 @@ UIN, E-mail и т.д.
 Чат
 [Popups]
 Всплывающие окна
-[Look up '%s':]
-Искать '%s':
-[No word to look up]
-Нет слов для просмотра
-[&Message %s]
-&Сообщение %s
 [%s: chat room (%u user)]
 %s: комната чата (%u пользователь)
 [%s: chat room (%u users)]
@@ -2039,8 +2021,12 @@ Miranda не смогла загрузить встроенную систему
 Тема '%s'
 [The topic is '%s' (set by %s)]
 Тема '%s' (установлена %s)
-[Nick]
-Ник
+[Look up '%s':]
+Искать '%s':
+[No word to look up]
+Нет слов для просмотра
+[&Message %s]
+&Сообщение %s
 [New group]
 Новая группа
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2069,6 +2055,8 @@ Miranda не смогла загрузить встроенную систему
 &Добавить в постоянный список
 [My custom name (not movable)]
 Заданное имя (всегда первое)
+[Nick]
+Ник
 [FirstName]
 Имя
 [E-mail]

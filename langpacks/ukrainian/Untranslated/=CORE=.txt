@@ -1,6 +1,5 @@
-﻿[Wikipedia]
-[OutputDebugString()]
-[Chat]
+﻿[OutputDebugString()]
+[Wikipedia (en)]
 [In a civil union]
 [Browser: Back]
 [Browser: Forward]
@@ -24,4 +23,3 @@
 [Alt + ]
 [Shift + ]
 [Win + ]
-[Toolbar]

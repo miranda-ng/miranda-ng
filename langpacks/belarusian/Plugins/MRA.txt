@@ -216,11 +216,11 @@ xСтатус "%s"
 [Avatars: can't open file %s, error]
 Аватары: неамагчма адчыніць %s, памылка
 [Owners]
-
+Уладальнікі
 [Inviter]
 
 [Visitors]
-
+Наведвальнікі
 [invite sender]
 адпраўшчык запрашэння
 [invite new members]

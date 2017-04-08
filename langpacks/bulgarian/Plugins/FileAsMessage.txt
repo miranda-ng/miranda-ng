@@ -13,6 +13,8 @@ ms
 байта
 [Appearance]
 Външен вид
+[Send file]
+Изпращане на файл
 [Sending...]
 Изпращане...
 [Receiving...]

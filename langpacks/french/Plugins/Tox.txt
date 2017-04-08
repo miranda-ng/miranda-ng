@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.21
+;  Version: 0.11.1.23
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -37,6 +37,10 @@ Groupes :
 [Enable UDP (otherwise force Tox to use TCP)]
 
 [Enable IPv6]
+
+[Max connect retries:]
+
+[Max reconnect retries:]
 
 [If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
 
@@ -100,9 +104,12 @@ Date :
 
 [To:]
 À :
-;file \protocols\Tox\src\tox_chatrooms.cpp
-[Group chat]
-Discussion de groupe
+;file \protocols\Tox\src\main.cpp
+[Current version of plugin is support Tox API version %i.%i.%i which is incompatible with %s]
+
+;file \protocols\Tox\src\tox_connection.cpp
+[Unable to initialize Tox core]
+
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 
@@ -138,9 +145,6 @@ Accorder l'autorisation
 
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
-
-;file \protocols\Tox\src\tox_network.cpp
-[Unable to initialize Tox core]
 
 ;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]

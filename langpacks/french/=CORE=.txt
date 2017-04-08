@@ -510,6 +510,14 @@ Voir les x derniers évènements
 Voir les évènements ayant moins de
 [minutes old]
 minutes
+[Use a tabbed interface]
+Utiliser une interface à onglets
+[Close tab on double click]
+Fermer l'onglet par un double-clic
+[Restore previously open tabs when showing the window]
+Restaurer les derniers onglets ouverts lors de l'ouverture de la fenêtre
+[Show tabs at the bottom]
+Onglets en bas
 [Send typing notifications to the following users when you are typing a message to them:]
 Envoyer des notifications aux usagers suivants quand vous tapez un message qui leur est destiné :
 [Show typing notifications when a user is typing a message]
@@ -598,28 +606,6 @@ Texte
 Arrière-plan
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
 
-[List]
-Liste
-[&Message]
-&Message
-[Log]
-Journal
-[Clear lo&g]
-Effacer le journal
-[Co&py all]
-&Tout copier
-[Word lookup]
-Consultation de mot
-[Wikipedia]
-Wikipedia
-[Link]
-Lien
-[Open a &new browser window]
-Ouvrir &nouvelle fenêtre de navigateur
-[&Open in current browser window]
-&Ouvrir dans la fenêtre active du navigateur
-[&Copy link]
-&Copier le lien
 [Message]
 Message
 [Undo]
@@ -644,14 +630,16 @@ Fermer l'onglet
 Fermer les autres onglets
 [&Open at this position]
 Ouvrir à cet endroit
+[Log]
+Journal
 [C&lear log]
 Effacer le journal
 [&Copy]
 &Copier
+[Co&py all]
+&Tout copier
 [Select &all]
 Tout &sélectionner
-[&Open link]
-&Ouvrir le lien
 [Paste and send]
 Coller et envoyer
 [Delete]
@@ -1225,14 +1213,30 @@ cherche/ajoute
 &Ajouter à la liste
 [Send &message]
 Envoyer
-[Open in &new window]
-Ouvrir dans une nouvelle fenêtre
-[&Open in existing window]
-Ouvrir dans une fenêtre existante
+[&Open link]
+&Ouvrir le lien
+[&Copy link]
+&Copier le lien
 [Cancel change]
 Annuler les changements
 [Ungroup]
 Dégrouper
+[List]
+Liste
+[&Message]
+&Message
+[Clear lo&g]
+Effacer le journal
+[Word lookup]
+Consultation de mot
+[Yandex]
+Yandex
+[Wikipedia (en)]
+Wikipedia (en)
+[Google Maps]
+Google Maps
+[Google Translate]
+Google Translate
 ;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 %s demande une autorisation
@@ -1489,14 +1493,6 @@ Lignes de la liste
 [Nick list background (selected)]
 
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Use a tabbed interface]
-Utiliser une interface à onglets
-[Close tab on double click]
-Fermer l'onglet par un double-clic
-[Restore previously open tabs when showing the window]
-Restaurer les derniers onglets ouverts lors de l'ouverture de la fenêtre
-[Show tabs at the bottom]
-Onglets en bas
 [Send message by pressing the 'Enter' key]
 Envoyer le message en pressant 1 fois sur "Entrée"
 [Send message by pressing the 'Enter' key twice]
@@ -1515,10 +1511,6 @@ Afficher les boutons de contrôle du salon
 Afficher les boutons de formatage du texte saisi
 [Show button menus when right clicking the buttons]
 Afficher les menus des boutons par un clic droit dessus
-[Show new windows cascaded]
-Nouvelles fenêtres en cascade
-[Save the size and position of chat rooms]
-Sauver la taille et la position des salons de discussion
 [Show the topic of the room on your contact list (if supported)]
 Afficher le topic du salon sur votre liste de contact (si supporté)
 [Do not play sounds when the chat room is focused]
@@ -1715,8 +1707,6 @@ Envoi de message
 Groupe chats
 [Group chats log]
 
-[Options for using a tabbed interface]
-Options pour l'usage des onglets
 [Appearance and functionality of chat room windows]
 Apparence et fonctionnalités des fenêtres de salon
 [Appearance of the message log]
@@ -1739,13 +1729,6 @@ Fenêtre de chat
 
 [Popups]
 Popups
-;file \src\core\stdmsg\src\chat_util.cpp
-[Look up '%s':]
-
-[No word to look up]
-Aucun mot à chercher
-[&Message %s]
-&Message %s
 ;file \src\core\stdmsg\src\chat_window.cpp
 [%s: chat room (%u user)]
 %s : Salon de chat (%u usager)
@@ -2094,8 +2077,12 @@ Notice de %s : %s
 Le sujet est '%s'
 [The topic is '%s' (set by %s)]
 Le sujet est '%s' (defini par %s)
-[Nick]
-Pseudo
+[Look up '%s':]
+
+[No word to look up]
+Aucun mot à chercher
+[&Message %s]
+&Message %s
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
@@ -2131,6 +2118,8 @@ Ce contact est sur un système de messagerie instantanée gardant les listes de 
 ;file \src\mir_app\src\contacts.cpp
 [My custom name (not movable)]
 Le nom choisi (non déplaçable)
+[Nick]
+Pseudo
 [FirstName]
 Prénom
 [E-mail]
@@ -2749,6 +2738,7 @@ Icônes principales
 Fichiers son
 [WAV files]
 Fichiers WAV
+;file \src\mir_app\src\srmm_base.cpp
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Séparateur>

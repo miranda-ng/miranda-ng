@@ -503,6 +503,14 @@
 Падзеі, атрыманыя
 [minutes old]
 хвілін назад
+[Use a tabbed interface]
+Выкарыстоўваць укладкі
+[Close tab on double click]
+Зачыняць па падвойнай пстрычцы
+[Restore previously open tabs when showing the window]
+Аднаўляць адкрытыя ўкладкі пры паказе вакна
+[Show tabs at the bottom]
+Укладкі ўнізе
 [Send typing notifications to the following users when you are typing a message to them:]
 Абвяшчаць адзначаных пра тое, што вы набіраеце паведамленне:
 [Show typing notifications when a user is typing a message]
@@ -591,28 +599,6 @@
 Фон
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
 ( 0 - па змаўчанні, -1 - бясконца)
-[List]
-Спіс
-[&Message]
-Паведамленне
-[Log]
-Лог
-[Clear lo&g]
-Сцерці чат
-[Co&py all]
-Капіяваць усё
-[Word lookup]
-Знайсці слова
-[Wikipedia]
-
-[Link]
-Спасылка
-[Open a &new browser window]
-Адкрыць у &новым вакне
-[&Open in current browser window]
-Адкрыць у бягучым вакне
-[&Copy link]
-Капіяваць спасылку
 [Message]
 Паведамленне
 [Undo]
@@ -637,14 +623,16 @@
 Зачыніць астатнія ўкладкі
 [&Open at this position]
 Адкрыць у гэтым месцы
+[Log]
+Лог
 [C&lear log]
 Сцерці лог
 [&Copy]
 Капіяваць
+[Co&py all]
+Капіяваць усё
 [Select &all]
 Вылучыць &усё
-[&Open link]
-&адчыніць спасылку
 [Paste and send]
 Уставіць і адправіць
 [Delete]
@@ -1215,14 +1203,30 @@ UIN, E-mail і г.д.
 &Дадаць у спіс
 [Send &message]
 Адправіць паведамленне
-[Open in &new window]
-Адкрыць у новым вакне
-[&Open in existing window]
-Адкрыць у бягучым вакне
+[&Open link]
+&адчыніць спасылку
+[&Copy link]
+Капіяваць спасылку
 [Cancel change]
 Адкаціць змены
 [Ungroup]
 Разгуртаваць
+[List]
+Спіс
+[&Message]
+Паведамленне
+[Clear lo&g]
+Сцерці чат
+[Word lookup]
+Знайсці слова
+[Yandex]
+Яндэкс
+[Wikipedia (en)]
+
+[Google Maps]
+
+[Google Translate]
+
 [%s requests authorization]
 %s запытаў аўтарызацыю
 [%u requests authorization]
@@ -1457,14 +1461,6 @@ UIN, E-mail і г.д.
 Колер ліній спісу
 [Nick list background (selected)]
 Заліванне спісу (абрана)
-[Use a tabbed interface]
-Выкарыстоўваць укладкі
-[Close tab on double click]
-Зачыняць па падвойнай пстрычцы
-[Restore previously open tabs when showing the window]
-Аднаўляць адкрытыя ўкладкі пры паказе вакна
-[Show tabs at the bottom]
-Укладкі ўнізе
 [Send message by pressing the 'Enter' key]
 УВОД адпраўляе паведамленне
 [Send message by pressing the 'Enter' key twice]
@@ -1483,10 +1479,6 @@ UIN, E-mail і г.д.
 Паказваць кнопкі фарматавання тэксту
 [Show button menus when right clicking the buttons]
 Паказваць меню кнопкі па правай пстрычцы
-[Show new windows cascaded]
-Паскладаць каскадам
-[Save the size and position of chat rooms]
-Захоўваць памер і пазіцыю вокнаў чата
 [Show the topic of the room on your contact list (if supported)]
 Паказваць тэму чата ў спісе кантактаў (калі падтрымліваецца)
 [Do not play sounds when the chat room is focused]
@@ -1683,8 +1675,6 @@ UIN, E-mail і г.д.
 Чаты
 [Group chats log]
 Логі чатаў
-[Options for using a tabbed interface]
-Налады ўкладак
 [Appearance and functionality of chat room windows]
 Выгляд і функцыянальнасць вокнаў чата
 [Appearance of the message log]
@@ -1707,12 +1697,6 @@ UIN, E-mail і г.д.
 
 [Popups]
 Усплывальныя вокны
-[Look up '%s':]
-Шукаць '%s':
-[No word to look up]
-Няма слоў для пошуку
-[&Message %s]
-&Паведамленне %s
 [%s: chat room (%u user)]
 %s: Чат (%u удзельнік)
 [%s: chat room (%u users)]
@@ -2041,8 +2025,12 @@ Miranda не здолела загрузіць убудаваную сістэм
 Тэма '%s'
 [The topic is '%s' (set by %s)]
 Тэма '%s' (усталявана %s)
-[Nick]
-Мянушка
+[Look up '%s':]
+Шукаць '%s':
+[No word to look up]
+Няма слоў для пошуку
+[&Message %s]
+&Паведамленне %s
 [New group]
 Новы гурт
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2071,6 +2059,8 @@ Miranda не здолела загрузіць убудаваную сістэм
 Дадаць у сталы спіс
 [My custom name (not movable)]
 Зададзенае імя (заўсёды першае)
+[Nick]
+Мянушка
 [FirstName]
 Імя
 [E-mail]

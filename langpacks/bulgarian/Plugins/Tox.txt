@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.21
+;  Version: 0.11.1.23
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -99,8 +99,6 @@ IPv6 адрес (незадължително)
 Изходящо обаждане
 [To:]
 За:
-[Group chat]
-Групов чат
 [Profiles folder]
 Папка на профилите
 [Action]

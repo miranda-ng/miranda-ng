@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: OpenSSL.dll
 ;  Plugin: OpenSSL SSL API module
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Miranda NG Team
 ;============================================================
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]

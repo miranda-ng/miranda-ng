@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.1.0
+;  Version: 0.3.3.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -140,6 +140,8 @@ Utilisateur
 
 [Notifications]
 Notifications
+[%s and more (%d)]
+
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 
@@ -212,8 +214,6 @@ Public
 [Only me]
 
 ;file \protocols\FacebookRM\src\contacts.cpp
-[%s and more (%d)]
-
 [Contact was removed from your server list.]
 Le contact a été supprimé de votre liste sur le serveur.
 [Error occurred when removing contact from server.]
@@ -262,10 +262,10 @@ une photo
 
 [User sent an unsupported attachment. Open your browser to see it.]
 
-[This message is no longer available, because it was marked as abusive or spam.]
-Ce message n'est plus disponible, car il a été marqué comme injurieux ou indésirable.
 [%s is typing a message...]
 %s vous écrit un message...
+[This message is no longer available, because it was marked as abusive or spam.]
+Ce message n'est plus disponible, car il a été marqué comme injurieux ou indésirable.
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Vous ne pouvez pas envoyer de message si vous êtes Hors ligne.
@@ -282,7 +282,25 @@ Le contact n'est plus sur la liste du serveur.
 
 [<attachment without text>]
 
+[Loading memories...]
+
 [On this day]
+
+[Found %d memories.]
+
+[Loading notifications...]
+
+[Found %d notifications.]
+
+[Loading friendship requests...]
+
+[Found %d friendship requests (%d seen).]
+
+[Found %d friendship requests.]
+
+[Loading wall posts...]
+
+[Found %d wall posts.]
 
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
@@ -304,14 +322,6 @@ Envoi de message
 [Share status...]
 Partager le statut
 [Own wall]
-
-[Loading wall posts...]
-
-[Loading friendship requests...]
-
-[Loading notifications...]
-
-[Loading memories...]
 
 [Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
 

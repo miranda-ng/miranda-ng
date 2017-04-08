@@ -510,6 +510,14 @@ Ilość zdarzeń do wczytania
 Wczytaj zdarzenia nowsze niż
 [minutes old]
 minut(y)
+[Use a tabbed interface]
+Użyj kart
+[Close tab on double click]
+Dwuklik zamyka kartę
+[Restore previously open tabs when showing the window]
+Przywróć ostatnio używane karty po otworzeniu okna
+[Show tabs at the bottom]
+Pokaż karty na dole
 [Send typing notifications to the following users when you are typing a message to them:]
 Wyślij powiadomienie o pisaniu do następujących użytkowników, kiedy piszesz do nich wiadomość:
 [Show typing notifications when a user is typing a message]
@@ -598,28 +606,6 @@ Tekst
 Tło
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
 (0 - domyślnie, -1 - nie chowaj)
-[List]
-Lista
-[&Message]
-&Wiadomość
-[Log]
-Dziennik
-[Clear lo&g]
-Wyczyść dzienn&ik
-[Co&py all]
-Ko&piuj wszystko
-[Word lookup]
-Wyszukaj słowo
-[Wikipedia]
-Wikipedia
-[Link]
-Link
-[Open a &new browser window]
-Otwórz w &nowym oknie przeglądarki
-[&Open in current browser window]
-&Otwórz w bieżącym oknie przeglądarki
-[&Copy link]
-&Kopiuj link
 [Message]
 Wiadomość
 [Undo]
@@ -644,14 +630,16 @@ Karty
 Z&amknij inne karty
 [&Open at this position]
 &Otwórz w tym miejscu
+[Log]
+Dziennik
 [C&lear log]
 W&yczyść dziennik
 [&Copy]
 &Kopiuj
+[Co&py all]
+Ko&piuj wszystko
 [Select &all]
 Zaznacz &wszystko
-[&Open link]
-&Otwórz link
 [Paste and send]
 Wklej i wyślij
 [Delete]
@@ -1225,14 +1213,30 @@ znajdź/dodaj
 &Dodaj do listy
 [Send &message]
 Wyślij &wiadomość
-[Open in &new window]
-Otwórz w &nowym oknie
-[&Open in existing window]
-&Otwórz w istniejącym oknie
+[&Open link]
+&Otwórz link
+[&Copy link]
+&Kopiuj link
 [Cancel change]
 Anuluj zmianę
 [Ungroup]
 Anuluj grupowanie
+[List]
+Lista
+[&Message]
+&Wiadomość
+[Clear lo&g]
+Wyczyść dzienn&ik
+[Word lookup]
+Wyszukaj słowo
+[Yandex]
+Yandex
+[Wikipedia (en)]
+Wikipedia
+[Google Maps]
+Google Maps
+[Google Translate]
+Google Translate
 ;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 %s prosi o autoryzację
@@ -1489,14 +1493,6 @@ Linie listy użytkowników
 [Nick list background (selected)]
 Tło listy użytkowników (zaznaczenie)
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Use a tabbed interface]
-Użyj kart
-[Close tab on double click]
-Dwuklik zamyka kartę
-[Restore previously open tabs when showing the window]
-Przywróć ostatnio używane karty po otworzeniu okna
-[Show tabs at the bottom]
-Pokaż karty na dole
 [Send message by pressing the 'Enter' key]
 Wyślij wiadomość po Enterze
 [Send message by pressing the 'Enter' key twice]
@@ -1515,10 +1511,6 @@ Pokaż przyciski kontrolowania pokoju
 Pokaż przyciski formatowania wpisywanego tekstu
 [Show button menus when right clicking the buttons]
 Pokaż menu przycisku po kliknięciu na nim PPM
-[Show new windows cascaded]
-Pokaż nowe okna kaskadująco
-[Save the size and position of chat rooms]
-Zapisz rozmiar i pozycję pokojów czatu
 [Show the topic of the room on your contact list (if supported)]
 Pokaż temat pokoju na liście kontaktów (jeśli obsługiwane)
 [Do not play sounds when the chat room is focused]
@@ -1715,8 +1707,6 @@ Wiadomości
 Rozmowy grupowe
 [Group chats log]
 Dziennik czatu
-[Options for using a tabbed interface]
-Opcje interfejsu kart
 [Appearance and functionality of chat room windows]
 Wygląd i funkcjonalność okna czatu
 [Appearance of the message log]
@@ -1739,13 +1729,6 @@ Dziennik czatu
 Czat
 [Popups]
 Popupy
-;file \src\core\stdmsg\src\chat_util.cpp
-[Look up '%s':]
-Zobacz "%s":
-[No word to look up]
-Nie podano słowa do wyszukania
-[&Message %s]
-&Wiadomość %s
 ;file \src\core\stdmsg\src\chat_window.cpp
 [%s: chat room (%u user)]
 %s: Konferencja (%u użytkownik)
@@ -2094,8 +2077,12 @@ Powiadomienie od %s: %s
 Temat to "%s"
 [The topic is '%s' (set by %s)]
 Temat to "%s" (ustawiony przez %s)
-[Nick]
-Nick
+[Look up '%s':]
+Zobacz "%s":
+[No word to look up]
+Nie podano słowa do wyszukania
+[&Message %s]
+&Wiadomość %s
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
@@ -2131,6 +2118,8 @@ Us&uń
 ;file \src\mir_app\src\contacts.cpp
 [My custom name (not movable)]
 Moja własna nazwa (przeniesienie niemożliwe)
+[Nick]
+Nick
 [FirstName]
 Imię
 [E-mail]
@@ -2749,6 +2738,7 @@ Główne ikony
 Dźwięki
 [WAV files]
 Pliki WAV
+;file \src\mir_app\src\srmm_base.cpp
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Separator>

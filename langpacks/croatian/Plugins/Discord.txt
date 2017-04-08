@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.3.1.1
+;  Version: 0.5.0.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -21,14 +21,26 @@ Pojedinosti o korisniku
 [Nick:]
 
 ;file \protocols\Discord\src\dispatch.cpp
-[User]
-
 [edited at]
 
 ;file \protocols\Discord\src\groupchat.cpp
 [Change &nickname]
 
+[Channel control]
+
+[Change &topic]
+
+[&Rename channel]
+
+[&Destroy channel]
+
 [&Invite a user]
+
+[Do you really want to destroy this channel? This action is non-revertable.]
+
+[Enter new channel name:]
+
+[Enter new topic:]
 
 [Enter your new nick name:]
 
@@ -38,6 +50,8 @@ Pojedinosti o korisniku
 [Group chats]
 
 ;file \protocols\Discord\src\menus.cpp
+[Enter channel name]
+
 [Enter invitation code you received]
 
 [Do you really want to leave the guild?]
@@ -45,6 +59,8 @@ Pojedinosti o korisniku
 [Join guild]
 
 [Leave guild]
+
+[Create new channel]
 
 ;file \protocols\Discord\src\options.cpp
 [Network]
@@ -62,4 +78,8 @@ Pojedinosti o korisniku
 
 ;file \protocols\Discord\src\utils.cpp
 [Attachment]
+
+[Embed]
+
+[Preview]
 

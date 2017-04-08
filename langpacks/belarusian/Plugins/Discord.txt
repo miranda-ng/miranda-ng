@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.3.1.1
+;  Version: 0.5.0.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -16,23 +16,37 @@
 [Contacts]
 Кантакты
 [Default group:]
-
+Гурт:
 [Nick:]
 Мянушка:
-[User]
-Карыстач
 [edited at]
 
 [Change &nickname]
 Змяніць мянушку
+[Channel control]
+
+[Change &topic]
+
+[&Rename channel]
+
+[&Destroy channel]
+
 [&Invite a user]
 Запрасіць кантакт
+[Do you really want to destroy this channel? This action is non-revertable.]
+
+[Enter new channel name:]
+
+[Enter new topic:]
+
 [Enter your new nick name:]
 
 [Main icon]
 Галоўны абразок
 [Group chats]
 Чаты
+[Enter channel name]
+
 [Enter invitation code you received]
 
 [Do you really want to leave the guild?]
@@ -41,17 +55,23 @@
 
 [Leave guild]
 
+[Create new channel]
+
 [Network]
 Сеціва
 [Account]
 Уліковы запіс
 [%s server connection]
-
+Далучэнне да сервера %s
 [%s gateway connection]
 
 [User ID]
-
+ID кантакта
 [Protocol is offline or user isn't authorized yet]
 
 [Attachment]
 
+[Embed]
+
+[Preview]
+Прагляд

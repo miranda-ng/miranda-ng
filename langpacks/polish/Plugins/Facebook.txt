@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.1.0
+;  Version: 0.3.3.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -140,6 +140,8 @@ Użytkownik
 &Historia użytkownika
 [Notifications]
 Powiadomienia
+[%s and more (%d)]
+%s i więcej (%d)
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Błąd logowania: %s
@@ -212,8 +214,6 @@ Znajomi poza dalszymi znajomymi
 [Only me]
 Tylko ja
 ;file \protocols\FacebookRM\src\contacts.cpp
-[%s and more (%d)]
-%s i więcej (%d)
 [Contact was removed from your server list.]
 Kontakt został usunięty z listy serwera.
 [Error occurred when removing contact from server.]
@@ -262,10 +262,10 @@ zdjęcie
 Użytkownik wysłał %s:
 [User sent an unsupported attachment. Open your browser to see it.]
 Użytkownik wysłał plik niewspieranego typu. Otwórz przeglądarkę, aby go zobaczyć.
-[This message is no longer available, because it was marked as abusive or spam.]
-Ta wiadomość nie jest już dostępna, ponieważ została oznaczona jako nadużycie lub spam.
 [%s is typing a message...]
 %s pisze wiadomość...
+[This message is no longer available, because it was marked as abusive or spam.]
+Ta wiadomość nie jest już dostępna, ponieważ została oznaczona jako nadużycie lub spam.
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Nie można wysłać wiadomości, gdy jesteś offline.
@@ -282,8 +282,26 @@ Kontakt nie jest już na liście serwera.
 
 [<attachment without text>]
 
+[Loading memories...]
+
 [On this day]
 Tego dnia
+[Found %d memories.]
+
+[Loading notifications...]
+
+[Found %d notifications.]
+
+[Loading friendship requests...]
+
+[Found %d friendship requests (%d seen).]
+
+[Found %d friendship requests.]
+
+[Loading wall posts...]
+
+[Found %d wall posts.]
+
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 Połączenie %s
@@ -305,14 +323,6 @@ Wiadomości
 Udostępnij status
 [Own wall]
 Własna tablica
-[Loading wall posts...]
-
-[Loading friendship requests...]
-
-[Loading notifications...]
-
-[Loading memories...]
-
 [Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
 
 [This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]

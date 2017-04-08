@@ -1,4 +1,5 @@
-﻿[&E-mail]
+﻿[Wikipedia (en)]
+[&E-mail]
 [Browser: Back]
 [Browser: Forward]
 [Browser: Refresh]

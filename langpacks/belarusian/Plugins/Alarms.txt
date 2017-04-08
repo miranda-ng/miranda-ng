@@ -22,7 +22,7 @@
 [minutes]
 хвілін(ы)
 [Row height:]
-Вышыня радка
+Вышыня радка:
 [Indent:]
 Водступ:
 [Reminder frame]
@@ -98,19 +98,19 @@
 [Selected days]
 
 [Mon]
-
+Пн
 [Tue]
-
+Аўт
 [Wed]
-
+Сер
 [Thu]
-
+Чц
 [Fri]
-
+Пт
 [Sat]
-
+Сб
 [Sun]
-
+Нд
 [Monthly]
 Месяцаў
 [Dismiss]

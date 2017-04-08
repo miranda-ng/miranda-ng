@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.12.2.1
+;  Version: 3.0.1.6
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -281,338 +281,10 @@ Google Translate
 Затваряне на останалите табове
 [Close tab]
 Затваряне на таба
-[List]
-Списък
-[&Message]
-Съобщение
-[Clear lo&g]
-Изчистване на дневника
-[Add contact]
-Добавяне на контакт
-[User's details]
-Подробности за потребителя
-[User's history]
-История на потребителя
-[Send message]
-Изпращане на съобщение
-[Smiley button]
-Бутон "Усмивки"
-[User is typing]
-Потребителя пише
-[Typing notification off]
-Уведомяването при писане е изключено
-[Sending]
-Изпращане
-[Quote button]
-Бутон "Цитиране"
-[Close button]
-Бутон "Затваряне"
-[Icon overlay]
-Насложена икона
-[Incoming message (10x10)]
-Входящо съобщение (10х10)
-[Outgoing message (10x10)]
-Изходящо съобщение (10х10)
-[Notice (10x10)]
-Известие (10x10)
-[Window Icon]
-Икона на прозореца
-[Text color]
-Цвят на текста
-[Background color]
-Цвят на фона
-[Bold]
-Удебеляване
-[Italics]
-Курсив
-[Underlined]
-Подчертан
-[Room history]
-История на стаята
-[Room settings]
-Конфигуриране на стаята
-[Event filter disabled]
-Филтъра за събития е изключен
-[Event filter enabled]
-Филтъра за събития е включен
-[Hide nick list]
-Скриване на списъка с прякори
-[Show nick list]
-Показване на списъка с прякори
-[Status 1 (10x10)]
-Състояние 1 (10x10)
-[Status 2 (10x10)]
-Състояние 2 (10x10)
-[Status 3 (10x10)]
-Състояние 3 (10x10)
-[Status 4 (10x10)]
-Състояние 4 (10x10)
-[Status 5 (10x10)]
-Състояние 5 (10x10)
-[Status 6 (10x10)]
-Състояние 6 (10x10)
-[Message in (10x10)]
-Входящо съобщение (10x10)
-[Message out (10x10)]
-Изходящо съобщение (10x10)
-[Action (10x10)]
-Действие (10х10)
-[Add Status (10x10)]
-Добавяне на състояние (10х10)
-[Remove status (10x10)]
-Премахване на състояние (10x10)
-[Join (10x10)]
-Влизане (10x10)
-[Leave (10x10)]
-Излизане (10x10)
-[Quit (10x10)]
-Изход (10x10)
-[Kick (10x10)]
-Изгонване (10х10)
-[Nickchange (10x10)]
-Промяна на прякор (10х10)
-[Topic (10x10)]
-Тема (10х10)
-[Highlight (10x10)]
-Отличаване (10x10)
-[Information (10x10)]
-Информация (10х10)
-[Group chats]
-Групови чатове
-[Thai]
-тайски (тайландски)
-[Japanese]
-японски
-[Simplified Chinese]
-опростен китайски
-[Korean]
-корейски
-[Traditional Chinese]
-традиционен китайски
-[Central European]
-Централна Европа
-[Cyrillic]
-Кирилица
-[Latin I]
-Latin I
-[Greek]
-гръцки
-[Turkish]
-турски
-[Hebrew]
-иврит
-[Arabic]
-арабски
-[Baltic]
-балтийски
-[Vietnamese]
-виетнамски
-[Korean (Johab)]
-корейски (Johab)
 [Messaging]
 Съобщения
-[Navigate: Previous tab]
-Навигиране: предишен таб
-[Navigate: Next tab]
-Навигиране: следващ таб
-[Navigate: Tab %d]
-Навигиране: таб %d
-[Window: Toggle status bar]
-Прозорец: Вкл/Изкл на лентата за състояние
-[Window: Toggle title bar]
-Прозорец: Вкл/Изкл на заглавни ленти
-[Window: Toggle toolbar]
-Прозорец: Вкл/Изкл на лентата с инструменти
-[Window: Toggle info bar]
-Прозорец: Вкл/Изкл на информационната лента
-[Window: Clear log]
-Прозорец: Изчистване на дневника
-[Window: Minimize]
-Прозорец: Минимизиране
-[Window: Close tab]
-Прозорец: Затваряне на таба
-[Action: Quote]
-Действие: Цитиране
-[Action: Send to all]
-Действие: Изпрати до всички
-[Action: Paste and send]
-Действие: Поставяне и изпращане
-[Look up '%s':]
-Търсене за "%s":
-[No word to look up]
-Няма дума за търсене
-[User menu - %s]
-Потребителско меню - %s
-[Sending in progress: %d message(s) left...]
-Процес на изпращане: още %d съобщение(я)
-[%s is typing a message...]
-%s пише съобщение...
-[Last message received on %s at %s.]
-Последното съобщение е получено на %s в %s.
-[Me]
-Аз
-[My contact]
-Мой контакт
-[Today]
-Днес
-[Yesterday]
-Вчера
-[File sent]
-Файлът е изпратен
-[File received]
-Файлът е получен
-[URL sent]
-изпратени URL адреси
-[URL received]
-получени URL адреси
-[Outgoing messages]
-Изходящи съобщения
-[Outgoing background]
-Фон на изходящите
-[Incoming messages]
-Входящите съобщения
-[Incoming background]
-Фон на входящите
-[Outgoing name]
-Изходящо име
-[Outgoing time]
-Изходяща дата
-[Outgoing colon]
-Двоеточие в изходящите съобщения
-[Incoming name]
-Входящо име
-[Incoming time]
-Входяща дата
-[Incoming colon]
-Двоеточие във входящите съобщения
-[Message area]
-Поле за съобщения
-[Input area background]
-Фон на полето за въвеждане
-[Outgoing URL]
-Изходящ URL адрес
-[Incoming URL]
-Входящ URL адрес
-[Info bar contact name]
-Име на контакта в информационната лента
-[Info bar background]
-Фон на информационната лента
-[Info bar status message]
-Текст за състояние в информационната лента
-[Line between messages]
-Ред между съобщенията
-[Offline]
-Извън линия
-[Online]
-На линия
-[Away]
-Отсъстващ
-[Not available]
-Недостъпен
-[Occupied]
-Зает
-[Do not disturb]
-Не безпокойте
-[Free for chat]
-Готов за чат
-[Invisible]
-Невидим
-[Out to lunch]
-На обяд
-[On the phone]
-На телефона
-[** New contacts **]
-** Нови контакти **
-[** Unknown contacts **]
-** Непознати контакти **
-[Message sessions]
-Разговори
-[General]
-Основни
-[Event log]
-Дневник на събития
-[Group chat log]
-Дневник за груповите чатове
-[Typing notify]
-Уведомяване при писане
-[Popups]
-Рopups
-[Message from %s]
-Съобщение от %s
-[%s is typing a message]
-%s пише съобщение
-[Typing notification]
-Уведомявания при писане
-[&Quote]
-Цитиране
-[Quote]
-Цитиране
-[&Add]
-Добавяне
-[Add contact permanently to list]
-Добавяне на контакта за постоянно в списъка
-[&User menu]
-Потребителско меню
-[User menu]
-Потребителско меню
-[User &details]
-Подробности за потребителя
-[View user's details]
-Подробности за потребителя
-[&History]
-История
-[View user's history (CTRL+H)]
-История на съобщенията (CTRL+H)
-[&Bold]
-Получер
-[Make the text bold (CTRL+B)]
-Удебеляване (CTRL+B)
-[&Italic]
-Курсив
-[Make the text italicized (CTRL+I)]
-Наклоняване (CTRL+I)
-[&Underline]
-Подчертан
-[Make the text underlined (CTRL+U)]
-Подчертаване (CTRL+U)
-[&Color]
-Цвят
-[Select a foreground color for the text (CTRL+K)]
-Цвят на текста (CTRL+K)
-[&Background color]
-Фонов цвят
-[Select a background color for the text (CTRL+L)]
-Фон за текста (CTRL+L)
-[&Room settings]
-Настройки на стаята
-[Control this room (CTRL+O)]
-Управление на стаята (CTRL+O)
-[&Show/hide nick list]
-Скриване/Показване на списъка с прякори
-[Show/hide the nick list (CTRL+N)]
-Показване/Скриване на списъка с прякори (CTRL+N)
-[&Filter]
-Филтър
-[Enable/disable the event filter (CTRL+F)]
-Включване/Изключване на филтъра за събития (CTRL+F)
-[Instant messages]
-Незабавни съобщения
-[Incoming (focused window)]
-Входящо (фокусиран прозорец)
-[Incoming (unfocused window)]
-Входящо (дефокусиран прозорец)
-[Incoming (new session)]
-Входящо (нов разговор)
-[Outgoing]
-Изходящи
-[Contact started typing]
-Контакт започна да пише
-[Contact stopped typing]
-Контакт спря да пише
-[An unknown error has occurred.]
-Възникна непозната грешка.
-[Always on top]
-Винаги отгоре
+[Group chats]
+Групови чатове
 [Flash when someone speaks]
 Мигане, когато някой говори
 [Flash when a word is highlighted]
@@ -773,8 +445,6 @@ Latin I
 Стандартни събития за показване в чат стая при включен "филтър на събития"
 [Select folder]
 Избор на папка
-[&Message %s]
-Съобщение %s
 [%s: chat room (%u user)]
 %s: чат стая (%u потребител)
 [%s: chat room (%u users)]
@@ -789,3 +459,327 @@ Latin I
 Уникален ID
 [Status]
 Състояние
+[Add contact]
+Добавяне на контакт
+[User's details]
+Подробности за потребителя
+[User's history]
+История на потребителя
+[Send message]
+Изпращане на съобщение
+[Smiley button]
+Бутон "Усмивки"
+[User is typing]
+Потребителя пише
+[Typing notification off]
+Уведомяването при писане е изключено
+[Sending]
+Изпращане
+[Quote button]
+Бутон "Цитиране"
+[Close button]
+Бутон "Затваряне"
+[Icon overlay]
+Насложена икона
+[Incoming message (10x10)]
+Входящо съобщение (10х10)
+[Outgoing message (10x10)]
+Изходящо съобщение (10х10)
+[Notice (10x10)]
+Известие (10x10)
+[Window Icon]
+Икона на прозореца
+[Text color]
+Цвят на текста
+[Background color]
+Цвят на фона
+[Bold]
+Удебеляване
+[Italics]
+Курсив
+[Underlined]
+Подчертан
+[Room history]
+История на стаята
+[Room settings]
+Конфигуриране на стаята
+[Event filter disabled]
+Филтъра за събития е изключен
+[Event filter enabled]
+Филтъра за събития е включен
+[Hide nick list]
+Скриване на списъка с прякори
+[Show nick list]
+Показване на списъка с прякори
+[Status 1 (10x10)]
+Състояние 1 (10x10)
+[Status 2 (10x10)]
+Състояние 2 (10x10)
+[Status 3 (10x10)]
+Състояние 3 (10x10)
+[Status 4 (10x10)]
+Състояние 4 (10x10)
+[Status 5 (10x10)]
+Състояние 5 (10x10)
+[Status 6 (10x10)]
+Състояние 6 (10x10)
+[Message in (10x10)]
+Входящо съобщение (10x10)
+[Message out (10x10)]
+Изходящо съобщение (10x10)
+[Action (10x10)]
+Действие (10х10)
+[Add Status (10x10)]
+Добавяне на състояние (10х10)
+[Remove status (10x10)]
+Премахване на състояние (10x10)
+[Join (10x10)]
+Влизане (10x10)
+[Leave (10x10)]
+Излизане (10x10)
+[Quit (10x10)]
+Изход (10x10)
+[Kick (10x10)]
+Изгонване (10х10)
+[Nickchange (10x10)]
+Промяна на прякор (10х10)
+[Topic (10x10)]
+Тема (10х10)
+[Highlight (10x10)]
+Отличаване (10x10)
+[Information (10x10)]
+Информация (10х10)
+[Thai]
+тайски (тайландски)
+[Japanese]
+японски
+[Simplified Chinese]
+опростен китайски
+[Korean]
+корейски
+[Traditional Chinese]
+традиционен китайски
+[Central European]
+Централна Европа
+[Cyrillic]
+Кирилица
+[Latin I]
+Latin I
+[Greek]
+гръцки
+[Turkish]
+турски
+[Hebrew]
+иврит
+[Arabic]
+арабски
+[Baltic]
+балтийски
+[Vietnamese]
+виетнамски
+[Korean (Johab)]
+корейски (Johab)
+[Navigate: Previous tab]
+Навигиране: предишен таб
+[Navigate: Next tab]
+Навигиране: следващ таб
+[Navigate: Tab %d]
+Навигиране: таб %d
+[Window: Toggle status bar]
+Прозорец: Вкл/Изкл на лентата за състояние
+[Window: Toggle title bar]
+Прозорец: Вкл/Изкл на заглавни ленти
+[Window: Toggle toolbar]
+Прозорец: Вкл/Изкл на лентата с инструменти
+[Window: Toggle info bar]
+Прозорец: Вкл/Изкл на информационната лента
+[Window: Clear log]
+Прозорец: Изчистване на дневника
+[Window: Minimize]
+Прозорец: Минимизиране
+[Window: Close tab]
+Прозорец: Затваряне на таба
+[Action: Quote]
+Действие: Цитиране
+[Action: Send to all]
+Действие: Изпрати до всички
+[Action: Paste and send]
+Действие: Поставяне и изпращане
+[Sending in progress: %d message(s) left...]
+Процес на изпращане: още %d съобщение(я)
+[%s is typing a message...]
+%s пише съобщение...
+[Last message received on %s at %s.]
+Последното съобщение е получено на %s в %s.
+[Look up '%s':]
+Търсене за "%s":
+[No word to look up]
+Няма дума за търсене
+[User menu - %s]
+Потребителско меню - %s
+[Me]
+Аз
+[My contact]
+Мой контакт
+[Today]
+Днес
+[Yesterday]
+Вчера
+[File sent]
+Файлът е изпратен
+[File received]
+Файлът е получен
+[URL sent]
+изпратени URL адреси
+[URL received]
+получени URL адреси
+[Outgoing messages]
+Изходящи съобщения
+[Outgoing background]
+Фон на изходящите
+[Incoming messages]
+Входящите съобщения
+[Incoming background]
+Фон на входящите
+[Outgoing name]
+Изходящо име
+[Outgoing time]
+Изходяща дата
+[Outgoing colon]
+Двоеточие в изходящите съобщения
+[Incoming name]
+Входящо име
+[Incoming time]
+Входяща дата
+[Incoming colon]
+Двоеточие във входящите съобщения
+[Message area]
+Поле за съобщения
+[Input area background]
+Фон на полето за въвеждане
+[Outgoing URL]
+Изходящ URL адрес
+[Incoming URL]
+Входящ URL адрес
+[Info bar contact name]
+Име на контакта в информационната лента
+[Info bar background]
+Фон на информационната лента
+[Info bar status message]
+Текст за състояние в информационната лента
+[Line between messages]
+Ред между съобщенията
+[Offline]
+Извън линия
+[Online]
+На линия
+[Away]
+Отсъстващ
+[Not available]
+Недостъпен
+[Occupied]
+Зает
+[Do not disturb]
+Не безпокойте
+[Free for chat]
+Готов за чат
+[Invisible]
+Невидим
+[Out to lunch]
+На обяд
+[On the phone]
+На телефона
+[** New contacts **]
+** Нови контакти **
+[** Unknown contacts **]
+** Непознати контакти **
+[Message sessions]
+Разговори
+[General]
+Основни
+[Event log]
+Дневник на събития
+[Group chat log]
+Дневник за груповите чатове
+[Typing notify]
+Уведомяване при писане
+[Popups]
+Рopups
+[Message from %s]
+Съобщение от %s
+[%s is typing a message]
+%s пише съобщение
+[Typing notification]
+Уведомявания при писане
+[&Quote]
+Цитиране
+[Quote]
+Цитиране
+[&Add]
+Добавяне
+[Add contact permanently to list]
+Добавяне на контакта за постоянно в списъка
+[&User menu]
+Потребителско меню
+[User menu]
+Потребителско меню
+[User &details]
+Подробности за потребителя
+[View user's details]
+Подробности за потребителя
+[&History]
+История
+[View user's history (CTRL+H)]
+История на съобщенията (CTRL+H)
+[&Bold]
+Получер
+[Make the text bold (CTRL+B)]
+Удебеляване (CTRL+B)
+[&Italic]
+Курсив
+[Make the text italicized (CTRL+I)]
+Наклоняване (CTRL+I)
+[&Underline]
+Подчертан
+[Make the text underlined (CTRL+U)]
+Подчертаване (CTRL+U)
+[&Color]
+Цвят
+[Select a foreground color for the text (CTRL+K)]
+Цвят на текста (CTRL+K)
+[&Background color]
+Фонов цвят
+[Select a background color for the text (CTRL+L)]
+Фон за текста (CTRL+L)
+[&Room settings]
+Настройки на стаята
+[Control this room (CTRL+O)]
+Управление на стаята (CTRL+O)
+[&Show/hide nick list]
+Скриване/Показване на списъка с прякори
+[Show/hide the nick list (CTRL+N)]
+Показване/Скриване на списъка с прякори (CTRL+N)
+[&Filter]
+Филтър
+[Enable/disable the event filter (CTRL+F)]
+Включване/Изключване на филтъра за събития (CTRL+F)
+[&Message]
+Съобщение
+[Instant messages]
+Незабавни съобщения
+[Incoming (focused window)]
+Входящо (фокусиран прозорец)
+[Incoming (unfocused window)]
+Входящо (дефокусиран прозорец)
+[Incoming (new session)]
+Входящо (нов разговор)
+[Outgoing]
+Изходящи
+[Contact started typing]
+Контакт започна да пише
+[Contact stopped typing]
+Контакт спря да пише
+[An unknown error has occurred.]
+Възникна непозната грешка.
+[Always on top]
+Винаги отгоре

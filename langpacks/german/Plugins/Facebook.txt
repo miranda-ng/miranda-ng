@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.1.0
+;  Version: 0.3.3.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -140,6 +140,8 @@ Benutzer&details
 Kontakt&verlauf
 [Notifications]
 Benachrichtigungen
+[%s and more (%d)]
+%s und mehr (%d)
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Anmeldefehler: %s
@@ -212,8 +214,6 @@ Freunde ohne Bekannte
 [Only me]
 Nur ich
 ;file \protocols\FacebookRM\src\contacts.cpp
-[%s and more (%d)]
-%s und mehr (%d)
 [Contact was removed from your server list.]
 Kontakt wurde aus Ihrer Server-Liste entfernt.
 [Error occurred when removing contact from server.]
@@ -262,10 +262,10 @@ ein GIF
 Benutzer hat Ihnen %s gesendet:
 [User sent an unsupported attachment. Open your browser to see it.]
 Benutzer hat Ihnen einen nicht unterstützten Anhang gesendet. Öffnen Sie Ihren Browser, um ihn anzusehen.
-[This message is no longer available, because it was marked as abusive or spam.]
-Diese Nachricht ist nicht mehr verfügbar, da sie als Missbrauch oder Spam markiert wurde.
 [%s is typing a message...]
 %s tippt eine Nachricht...
+[This message is no longer available, because it was marked as abusive or spam.]
+Diese Nachricht ist nicht mehr verfügbar, da sie als Missbrauch oder Spam markiert wurde.
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Nachrichten senden ist nicht möglich, wenn Sie offline sind.
@@ -282,8 +282,26 @@ Lade Nachrichten: %d/%d
 Verlauf komplett geladen.
 [<attachment without text>]
 <Anhang ohne Text>
+[Loading memories...]
+Erinnerungen laden...
 [On this day]
 An diesem Tag
+[Found %d memories.]
+
+[Loading notifications...]
+Benachrichtigungen laden...
+[Found %d notifications.]
+
+[Loading friendship requests...]
+Freundschaftsanfragen laden...
+[Found %d friendship requests (%d seen).]
+
+[Found %d friendship requests.]
+
+[Loading wall posts...]
+Pinnwand-Einträge laden...
+[Found %d wall posts.]
+
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s Serververbindung
@@ -305,14 +323,6 @@ Nachrichten
 Status teilen...
 [Own wall]
 Eigene Pinnwand
-[Loading wall posts...]
-Pinnwand-Einträge laden...
-[Loading friendship requests...]
-Freundschaftsanfragen laden...
-[Loading notifications...]
-Benachrichtigungen laden...
-[Loading memories...]
-Erinnerungen laden...
 [Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
 Es wird bereits ein Verlauf geladen. Es kann nur für einen Kontakt auf einmal ausgeführt werden, also warten Sie bitte bis es beendet ist.
 [This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]

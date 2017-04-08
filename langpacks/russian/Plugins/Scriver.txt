@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.2
+;  Version: 3.0.1.6
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -279,348 +279,10 @@ Google Карты
 Закрыть остальные вкладки
 [Close tab]
 Закрыть вкладку
-[List]
-Список
-[&Message]
-&Сообщение
-[Clear lo&g]
-Очистить ча&т
-[Add contact]
-Добавить контакт
-[User's details]
-Инфо контакта
-[User's history]
-История контакта
-[Send message]
-Отправить
-[Smiley button]
-Смайлы
-[User is typing]
-Пишет сообщение
-[Typing notification off]
-"Уведомление о наборе" выкл.
-[Sending]
-Отправка сообщения
-[Quote button]
-Цитата
-[Close button]
-Кнопка "Закрыть"
-[Icon overlay]
-Значок поверх
-[Incoming message (10x10)]
-Входящее сообщение (10x10)
-[Outgoing message (10x10)]
-Исходящее сообщение (10x10)
-[Notice (10x10)]
-Уведомление (10x10)
-[Window Icon]
-Значок окна
-[Text color]
-Цвет текста
-[Background color]
-Цвет фона
-[Bold]
-Жирный
-[Italics]
-Курсив
-[Underlined]
-Подчёркивание
-[Room history]
-История
-[Room settings]
-Настройки
-[Event filter disabled]
-Фильтр событий выключен
-[Event filter enabled]
-Фильтр событий включён
-[Hide nick list]
-Скрыть список пользователей
-[Show nick list]
-Показать список пользователей
-[Status 1 (10x10)]
-Статус 1 (10x10)
-[Status 2 (10x10)]
-Статус 2 (10x10)
-[Status 3 (10x10)]
-Статус 3 (10x10)
-[Status 4 (10x10)]
-Статус 4 (10x10)
-[Status 5 (10x10)]
-Статус 5 (10x10)
-[Status 6 (10x10)]
-Статус 6 (10x10)
-[Message in (10x10)]
-Принятое сообщение (10х10)
-[Message out (10x10)]
-Отправленное сообщение (10х10)
-[Action (10x10)]
-Действие (10x10)
-[Add Status (10x10)]
-Добавить статус (10х10)
-[Remove status (10x10)]
-Удалить статус (10х10)
-[Join (10x10)]
-Войти (10x10)
-[Leave (10x10)]
-Покинуть (10х10)
-[Quit (10x10)]
-Выход (10х10)
-[Kick (10x10)]
-Выкинуть (10х10)
-[Nickchange (10x10)]
-Смена псевдонима (10х10)
-[Topic (10x10)]
-Тема (10х10)
-[Highlight (10x10)]
-Выделить (10х10)
-[Information (10x10)]
-Информация (10х10)
-[Single Messaging]
+[Messaging]
 Сообщения
 [Group chats]
 Чаты
-[Thai]
-Тайский
-[Japanese]
-Японский
-[Simplified Chinese]
-Китайский (упрощённый)
-[Korean]
-Корейский
-[Traditional Chinese]
-Китайский (традиционный)
-[Central European]
-Центральноевропейский
-[Cyrillic]
-Кириллица
-[Latin I]
-Западноевропейский
-[Greek]
-Греческий
-[Turkish]
-Турецкий
-[Hebrew]
-Иврит
-[Arabic]
-Арабский
-[Baltic]
-Балтийский
-[Vietnamese]
-Вьетнамский
-[Korean (Johab)]
-Корейский (Johab)
-[Messaging]
-Сообщения
-[Navigate: Previous tab]
-Навигация: предыдущая вкладка
-[Navigate: Next tab]
-Навигация: следующая вкладка
-[Navigate: Tab %d]
-Навигация: вкладка %d
-[Window: Toggle status bar]
-Окно: Вкл./выкл. строку состояния
-[Window: Toggle title bar]
-Окно: Вкл./выкл. заголовок
-[Window: Toggle toolbar]
-Окно: Вкл./выкл. панель кнопок
-[Window: Toggle info bar]
-Окно: Вкл./выкл. панель информации
-[Window: Clear log]
-Окно: Очистить лог
-[Window: Minimize]
-Окно: Свернуть
-[Window: Close tab]
-Окно: Закрыть вкладку
-[Action: Quote]
-Действие: Цитировать
-[Action: Send to all]
-Действие: Отправить всем
-[Action: Paste and send]
-Действие: Вставить и отправить
-[Look up '%s':]
-Искать '%s':
-[No word to look up]
-Нет слов для просмотра
-[User menu - %s]
-Меню пользователя - %s
-[Sending in progress: %d message(s) left...]
-Отправка сообщения: %d осталось...
-[%s is typing a message...]
-%s набирает текст...
-[Last message received on %s at %s.]
-Последнее сообщение вы получили %s в %s.
-[Me]
-Я
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-Благослови, Господи, свою ручную гранату, каковою можешь Ты в своей милости
-[to tiny bits, in Thy mercy]
-разносить врагов Твоих на маленькие кусочки
-[My contact]
-Мой контакт
-[Today]
-Сегодня
-[Yesterday]
-Вчера
-[File sent]
-Отправлен файл
-[File received]
-Получен файл
-[URL sent]
-Отправлен URL
-[URL received]
-Получен URL
-[Outgoing messages]
-Исходящие сообщения
-[Outgoing background]
-Исходящий фон
-[Incoming messages]
-Входящие сообщения
-[Incoming background]
-Входящий фон
-[Outgoing name]
-Моё имя
-[Outgoing time]
-Время отправления
-[Outgoing colon]
-Двоеточие в исходящих сообщениях
-[Incoming name]
-Имя собеседника
-[Incoming time]
-Время получения
-[Incoming colon]
-Двоеточие во входящих сообщениях
-[Message area]
-Область сообщения
-[Input area background]
-Окна ввода текста
-[Outgoing URL]
-Исходящий URL
-[Incoming URL]
-Входящий URL
-[Info bar contact name]
-Инфо-панель: имя контакта
-[Info bar background]
-Фон инфо-панели
-[Info bar status message]
-Инфо-панель: cтатусное сообщение
-[Line between messages]
-Линии между сообщениями
-[Offline]
-Не в сети
-[Online]
-В сети
-[Away]
-Отсутствую
-[Not available]
-Недоступен
-[Occupied]
-Занят
-[Do not disturb]
-Не беспокоить
-[Free for chat]
-Готов болтать
-[Invisible]
-Невидимый
-[Out to lunch]
-Обедаю
-[On the phone]
-На телефоне
-[** New contacts **]
-** Новые контакты **
-[** Unknown contacts **]
-** Неизвестные контакты **
-[Message sessions]
-Беседы
-[General]
-Общее
-[Event log]
-Журнал событий
-[Group chat log]
-Журнал чатов
-[Typing notify]
-Набирает текст
-[Popups]
-Всплывающие окна
-[Message from %s]
-Сообщение от %s
-[%s is typing a message]
-%s набирает текст
-[Typing notification]
-Уведомление о наборе текста
-[&Quote]
-&Цитировать
-[Quote]
-Цитата
-[&Add]
-&Добавить
-[Add contact permanently to list]
-Добавить в список контактов
-[&User menu]
-Меню &пользователя
-[User menu]
-Меню пользователя
-[User &details]
-&Информация
-[View user's details]
-Информация о пользователе
-[&History]
-&История
-[View user's history (CTRL+H)]
-История сообщений (CTRL+H)
-[&Bold]
-&Жирный
-[Make the text bold (CTRL+B)]
-Сделать текст жирным (CTRL+B)
-[&Italic]
-&Курсив
-[Make the text italicized (CTRL+I)]
-Сделать текст курсивом (CTRL+I)
-[&Underline]
-&Подчёркнутый
-[Make the text underlined (CTRL+U)]
-Подчеркнуть текст (CTRL+U)
-[&Color]
-&Цвет
-[Select a foreground color for the text (CTRL+K)]
-Выбрать цвет текста (CTRL+K)
-[&Background color]
-Цвет &фона
-[Select a background color for the text (CTRL+L)]
-Выбрать фон текста (CTRL+L)
-[&Room settings]
-&Настройки
-[Control this room (CTRL+O)]
-Управление комнатой чата (CTRL+O)
-[&Show/hide nick list]
-&Показать/Скрыть список ников
-[Show/hide the nick list (CTRL+N)]
-Показать/скрыть список пользователей (CTRL+N)
-[&Filter]
-&Фильтр
-[Enable/disable the event filter (CTRL+F)]
-Включить/выключить фильтр событий (CTRL+F)
-[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda не смогла загрузить встроенную систему сообщений из-за отсутствия Msftedit.dll. Если вы используете WINE, то убедитесь, что установлена библиотека Msftedit.dll. Нажмите "Да" для продолжения загрузки программы.
-[Instant messages]
-Сообщения IM
-[Incoming (focused window)]
-Входящие (активное окно)
-[Incoming (unfocused window)]
-Входящие (неактивное окно)
-[Incoming (new session)]
-Входящие (новый сеанс)
-[Outgoing]
-Исходящие
-[Contact started typing]
-Контакт начал набор текста
-[Contact stopped typing]
-Контакт закончил набор текста
-[An unknown error has occurred.]
-Неизвестная ошибка.
-[The message send timed out.]
-Таймаут отправки сообщения
-[Always on top]
-Поверх всех окон
 [Flash when someone speaks]
 Мигать, когда кто-то говорит
 [Flash when a word is highlighted]
@@ -791,8 +453,6 @@ ID текущего контакта (если определён). Наприм
 Показать в новом окне, если 'Фильтр событий' включён
 [Select folder]
 Выбрать папку
-[&Message %s]
-&Сообщение %s
 [%s: chat room (%u user)]
 %s: комната чата (%u пользователь)
 [%s: chat room (%u users)]
@@ -807,3 +467,337 @@ ID текущего контакта (если определён). Наприм
 Уник. ID
 [Status]
 Статус
+[Add contact]
+Добавить контакт
+[User's details]
+Инфо контакта
+[User's history]
+История контакта
+[Send message]
+Отправить
+[Smiley button]
+Смайлы
+[User is typing]
+Пишет сообщение
+[Typing notification off]
+"Уведомление о наборе" выкл.
+[Sending]
+Отправка сообщения
+[Quote button]
+Цитата
+[Close button]
+Кнопка "Закрыть"
+[Icon overlay]
+Значок поверх
+[Incoming message (10x10)]
+Входящее сообщение (10x10)
+[Outgoing message (10x10)]
+Исходящее сообщение (10x10)
+[Notice (10x10)]
+Уведомление (10x10)
+[Window Icon]
+Значок окна
+[Text color]
+Цвет текста
+[Background color]
+Цвет фона
+[Bold]
+Жирный
+[Italics]
+Курсив
+[Underlined]
+Подчёркивание
+[Room history]
+История
+[Room settings]
+Настройки
+[Event filter disabled]
+Фильтр событий выключен
+[Event filter enabled]
+Фильтр событий включён
+[Hide nick list]
+Скрыть список пользователей
+[Show nick list]
+Показать список пользователей
+[Status 1 (10x10)]
+Статус 1 (10x10)
+[Status 2 (10x10)]
+Статус 2 (10x10)
+[Status 3 (10x10)]
+Статус 3 (10x10)
+[Status 4 (10x10)]
+Статус 4 (10x10)
+[Status 5 (10x10)]
+Статус 5 (10x10)
+[Status 6 (10x10)]
+Статус 6 (10x10)
+[Message in (10x10)]
+Принятое сообщение (10х10)
+[Message out (10x10)]
+Отправленное сообщение (10х10)
+[Action (10x10)]
+Действие (10x10)
+[Add Status (10x10)]
+Добавить статус (10х10)
+[Remove status (10x10)]
+Удалить статус (10х10)
+[Join (10x10)]
+Войти (10x10)
+[Leave (10x10)]
+Покинуть (10х10)
+[Quit (10x10)]
+Выход (10х10)
+[Kick (10x10)]
+Выкинуть (10х10)
+[Nickchange (10x10)]
+Смена псевдонима (10х10)
+[Topic (10x10)]
+Тема (10х10)
+[Highlight (10x10)]
+Выделить (10х10)
+[Information (10x10)]
+Информация (10х10)
+[Single Messaging]
+Сообщения
+[Thai]
+Тайский
+[Japanese]
+Японский
+[Simplified Chinese]
+Китайский (упрощённый)
+[Korean]
+Корейский
+[Traditional Chinese]
+Китайский (традиционный)
+[Central European]
+Центральноевропейский
+[Cyrillic]
+Кириллица
+[Latin I]
+Западноевропейский
+[Greek]
+Греческий
+[Turkish]
+Турецкий
+[Hebrew]
+Иврит
+[Arabic]
+Арабский
+[Baltic]
+Балтийский
+[Vietnamese]
+Вьетнамский
+[Korean (Johab)]
+Корейский (Johab)
+[Navigate: Previous tab]
+Навигация: предыдущая вкладка
+[Navigate: Next tab]
+Навигация: следующая вкладка
+[Navigate: Tab %d]
+Навигация: вкладка %d
+[Window: Toggle status bar]
+Окно: Вкл./выкл. строку состояния
+[Window: Toggle title bar]
+Окно: Вкл./выкл. заголовок
+[Window: Toggle toolbar]
+Окно: Вкл./выкл. панель кнопок
+[Window: Toggle info bar]
+Окно: Вкл./выкл. панель информации
+[Window: Clear log]
+Окно: Очистить лог
+[Window: Minimize]
+Окно: Свернуть
+[Window: Close tab]
+Окно: Закрыть вкладку
+[Action: Quote]
+Действие: Цитировать
+[Action: Send to all]
+Действие: Отправить всем
+[Action: Paste and send]
+Действие: Вставить и отправить
+[Sending in progress: %d message(s) left...]
+Отправка сообщения: %d осталось...
+[%s is typing a message...]
+%s набирает текст...
+[Last message received on %s at %s.]
+Последнее сообщение вы получили %s в %s.
+[Look up '%s':]
+Искать '%s':
+[No word to look up]
+Нет слов для просмотра
+[User menu - %s]
+Меню пользователя - %s
+[Me]
+Я
+[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
+Благослови, Господи, свою ручную гранату, каковою можешь Ты в своей милости
+[to tiny bits, in Thy mercy]
+разносить врагов Твоих на маленькие кусочки
+[My contact]
+Мой контакт
+[Today]
+Сегодня
+[Yesterday]
+Вчера
+[File sent]
+Отправлен файл
+[File received]
+Получен файл
+[URL sent]
+Отправлен URL
+[URL received]
+Получен URL
+[Outgoing messages]
+Исходящие сообщения
+[Outgoing background]
+Исходящий фон
+[Incoming messages]
+Входящие сообщения
+[Incoming background]
+Входящий фон
+[Outgoing name]
+Моё имя
+[Outgoing time]
+Время отправления
+[Outgoing colon]
+Двоеточие в исходящих сообщениях
+[Incoming name]
+Имя собеседника
+[Incoming time]
+Время получения
+[Incoming colon]
+Двоеточие во входящих сообщениях
+[Message area]
+Область сообщения
+[Input area background]
+Окна ввода текста
+[Outgoing URL]
+Исходящий URL
+[Incoming URL]
+Входящий URL
+[Info bar contact name]
+Инфо-панель: имя контакта
+[Info bar background]
+Фон инфо-панели
+[Info bar status message]
+Инфо-панель: cтатусное сообщение
+[Line between messages]
+Линии между сообщениями
+[Offline]
+Не в сети
+[Online]
+В сети
+[Away]
+Отсутствую
+[Not available]
+Недоступен
+[Occupied]
+Занят
+[Do not disturb]
+Не беспокоить
+[Free for chat]
+Готов болтать
+[Invisible]
+Невидимый
+[Out to lunch]
+Обедаю
+[On the phone]
+На телефоне
+[** New contacts **]
+** Новые контакты **
+[** Unknown contacts **]
+** Неизвестные контакты **
+[Message sessions]
+Беседы
+[General]
+Общее
+[Event log]
+Журнал событий
+[Group chat log]
+Журнал чатов
+[Typing notify]
+Набирает текст
+[Popups]
+Всплывающие окна
+[Message from %s]
+Сообщение от %s
+[%s is typing a message]
+%s набирает текст
+[Typing notification]
+Уведомление о наборе текста
+[&Quote]
+&Цитировать
+[Quote]
+Цитата
+[&Add]
+&Добавить
+[Add contact permanently to list]
+Добавить в список контактов
+[&User menu]
+Меню &пользователя
+[User menu]
+Меню пользователя
+[User &details]
+&Информация
+[View user's details]
+Информация о пользователе
+[&History]
+&История
+[View user's history (CTRL+H)]
+История сообщений (CTRL+H)
+[&Bold]
+&Жирный
+[Make the text bold (CTRL+B)]
+Сделать текст жирным (CTRL+B)
+[&Italic]
+&Курсив
+[Make the text italicized (CTRL+I)]
+Сделать текст курсивом (CTRL+I)
+[&Underline]
+&Подчёркнутый
+[Make the text underlined (CTRL+U)]
+Подчеркнуть текст (CTRL+U)
+[&Color]
+&Цвет
+[Select a foreground color for the text (CTRL+K)]
+Выбрать цвет текста (CTRL+K)
+[&Background color]
+Цвет &фона
+[Select a background color for the text (CTRL+L)]
+Выбрать фон текста (CTRL+L)
+[&Room settings]
+&Настройки
+[Control this room (CTRL+O)]
+Управление комнатой чата (CTRL+O)
+[&Show/hide nick list]
+&Показать/Скрыть список ников
+[Show/hide the nick list (CTRL+N)]
+Показать/скрыть список пользователей (CTRL+N)
+[&Filter]
+&Фильтр
+[Enable/disable the event filter (CTRL+F)]
+Включить/выключить фильтр событий (CTRL+F)
+[&Message]
+&Сообщение
+[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda не смогла загрузить встроенную систему сообщений из-за отсутствия Msftedit.dll. Если вы используете WINE, то убедитесь, что установлена библиотека Msftedit.dll. Нажмите "Да" для продолжения загрузки программы.
+[Instant messages]
+Сообщения IM
+[Incoming (focused window)]
+Входящие (активное окно)
+[Incoming (unfocused window)]
+Входящие (неактивное окно)
+[Incoming (new session)]
+Входящие (новый сеанс)
+[Outgoing]
+Исходящие
+[Contact started typing]
+Контакт начал набор текста
+[Contact stopped typing]
+Контакт закончил набор текста
+[An unknown error has occurred.]
+Неизвестная ошибка.
+[The message send timed out.]
+Таймаут отправки сообщения
+[Always on top]
+Поверх всех окон

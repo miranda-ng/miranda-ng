@@ -89,6 +89,20 @@
 Без известие при стартиране на Miranda
 [No reminder]
 Без напомняне
+[Mon]
+Пон
+[Tue]
+Вто
+[Wed]
+Сря
+[Thu]
+Чет
+[Fri]
+Пет
+[Sat]
+Съб
+[Sun]
+Нед
 [Monthly]
 Месечно
 [Dismiss]

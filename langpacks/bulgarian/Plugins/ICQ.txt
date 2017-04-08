@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.4
+;  Version: 0.11.3.5
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -103,8 +103,6 @@ ICQ аватари
 Автоматично извличане на подробностите за персоналните състояния
 [Block known Spam Bots]
 Блокиране на познати спам ботове
-[Enable AIM contacts support]
-Поддържане на AIM контакти
 [Direct connections]
 Директни връзки
 [Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]

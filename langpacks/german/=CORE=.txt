@@ -510,6 +510,14 @@ Lade Anzahl vorheriger Ereignisse
 Lade Ereignisse, die nicht älter als
 [minutes old]
 Minuten alt
+[Use a tabbed interface]
+Chatfenster mit Tabs verwenden
+[Close tab on double click]
+Tabs mit Doppelklick schließen
+[Restore previously open tabs when showing the window]
+Vorher geöffnete Tabs beim Öffnen des Fensters wiederherstellen
+[Show tabs at the bottom]
+Tabs unten anzeigen
 [Send typing notifications to the following users when you are typing a message to them:]
 An folgende Kontakte eine Benachrichtigung senden, wenn Sie gerade eine Nachricht tippen:
 [Show typing notifications when a user is typing a message]
@@ -598,28 +606,6 @@ Text
 Hintergrund
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
 (0 = Standardwert vom Popup-Plugin, -1 = dauerhafte Anzeige)
-[List]
-Liste
-[&Message]
-&Nachricht
-[Log]
-Verlauf
-[Clear lo&g]
-&Verlauf löschen
-[Co&py all]
-Alles ko&pieren
-[Word lookup]
-Wort nachschlagen
-[Wikipedia]
-Wikipedia
-[Link]
-Link
-[Open a &new browser window]
-In &neuem Browserfenster öffnen
-[&Open in current browser window]
-In aktuellem Br&owserfenster öffnen
-[&Copy link]
-Link &kopieren
 [Message]
 Nachricht
 [Undo]
@@ -644,14 +630,16 @@ Tab s&chließen
 Andere Tabs sch&ließen
 [&Open at this position]
 An dieser Position &öffnen
+[Log]
+Verlauf
 [C&lear log]
 Verlauf &leeren
 [&Copy]
 &Kopieren
+[Co&py all]
+Alles ko&pieren
 [Select &all]
 &Alles auswählen
-[&Open link]
-Link &öffnen
 [Paste and send]
 Einfügen und senden
 [Delete]
@@ -1225,14 +1213,30 @@ suchen/hinzufügen
 Zur Liste &hinzufügen
 [Send &message]
 &Nachricht senden
-[Open in &new window]
-In &neuem Fenster öffnen
-[&Open in existing window]
-In bestehendem Fenster &öffnen
+[&Open link]
+Link &öffnen
+[&Copy link]
+Link &kopieren
 [Cancel change]
 Änderungen abbrechen
 [Ungroup]
 Gruppierung aufheben
+[List]
+Liste
+[&Message]
+&Nachricht
+[Clear lo&g]
+&Verlauf löschen
+[Word lookup]
+Wort nachschlagen
+[Yandex]
+Yandex
+[Wikipedia (en)]
+Wikipedia (en)
+[Google Maps]
+Google Maps
+[Google Translate]
+Google Translate
 ;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 %s fragt nach Autorisierung
@@ -1489,14 +1493,6 @@ Benutzerliste Linien
 [Nick list background (selected)]
 Benutzerliste Hintergrund (ausgewählt)
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Use a tabbed interface]
-Chatfenster mit Tabs verwenden
-[Close tab on double click]
-Tabs mit Doppelklick schließen
-[Restore previously open tabs when showing the window]
-Vorher geöffnete Tabs beim Öffnen des Fensters wiederherstellen
-[Show tabs at the bottom]
-Tabs unten anzeigen
 [Send message by pressing the 'Enter' key]
 Nachricht beim Drücken der Eingabetaste senden
 [Send message by pressing the 'Enter' key twice]
@@ -1515,10 +1511,6 @@ Schaltfläche für Chatraumeinstellungen anzeigen
 Schaltfläche für Smileys und Schriftformatierung anzeigen
 [Show button menus when right clicking the buttons]
 Buttonmenü bei Rechtsklick auf Button anzeigen (Farben, Ereignisse)
-[Show new windows cascaded]
-Neue Fenster überlappen
-[Save the size and position of chat rooms]
-Größe und Position des Chatfensters speichern
 [Show the topic of the room on your contact list (if supported)]
 Thema des Raumes in der Kontaktliste anzeigen (falls unterstützt)
 [Do not play sounds when the chat room is focused]
@@ -1715,8 +1707,6 @@ Nachrichten
 Gruppenchats
 [Group chats log]
 Gruppenchatverlauf
-[Options for using a tabbed interface]
-Einstellungen für Chatfenster mit Tabs
 [Appearance and functionality of chat room windows]
 Aussehen und Funktionen des Chatfensters
 [Appearance of the message log]
@@ -1739,13 +1729,6 @@ Chatverlauf
 Chat
 [Popups]
 Popups
-;file \src\core\stdmsg\src\chat_util.cpp
-[Look up '%s':]
-Suche nach '%s'
-[No word to look up]
-Kein Wort zum Nachschlagen
-[&Message %s]
-&Nachricht an %s
 ;file \src\core\stdmsg\src\chat_window.cpp
 [%s: chat room (%u user)]
 %s: Chatraum (%u Benutzer)
@@ -2094,8 +2077,12 @@ Notiz von %s: %s
 Das Thema ist '%s'
 [The topic is '%s' (set by %s)]
 Das Thema ist '%s' (gesetzt von %s)
-[Nick]
-Nick
+[Look up '%s':]
+Suche nach '%s'
+[No word to look up]
+Kein Wort zum Nachschlagen
+[&Message %s]
+&Nachricht an %s
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
@@ -2131,6 +2118,8 @@ D&auerhaft zur Kontaktliste hinzufügen
 ;file \src\mir_app\src\contacts.cpp
 [My custom name (not movable)]
 Selbst gewählter Name (nicht verschiebbar)
+[Nick]
+Nick
 [FirstName]
 Vorname
 [E-mail]
@@ -2749,6 +2738,7 @@ Allgemeine Icons
 Klangdateien
 [WAV files]
 WAV-Dateien
+;file \src\mir_app\src\srmm_base.cpp
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Trennlinie>

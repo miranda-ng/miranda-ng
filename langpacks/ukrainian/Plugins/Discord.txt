@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.3.1.1
+;  Version: 0.5.0.1
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -13,10 +13,10 @@
 Пароль:
 [Contacts]
 Контакти
+[Default group:]
+Група:
 [Nick:]
 Нік:
-[User]
-Користувач
 [Change &nickname]
 Змінити &нік
 [&Invite a user]
@@ -29,3 +29,9 @@
 Мережа
 [Account]
 Обліковий запис
+[%s server connection]
+З'єднання з сервером %s
+[User ID]
+ID користувача
+[Preview]
+Тест

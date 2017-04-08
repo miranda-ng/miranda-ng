@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.2.0
+;  Version: 0.3.3.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -135,6 +135,8 @@
 &История пользователя
 [Notifications]
 Уведомления
+[%s and more (%d)]
+%s и ещё (%d)
 [Login error: %s]
 Ошибка входа: %s
 [Unknown error]
@@ -203,8 +205,6 @@ SMS с кодом подтверждения отправлено на ваш м
 Друзьям, кроме знакомых
 [Only me]
 Только мне
-[%s and more (%d)]
-%s и ещё (%d)
 [Contact was removed from your server list.]
 Контакт удалён из списка на сервере.
 [Error occurred when removing contact from server.]
@@ -251,10 +251,10 @@ SMS с кодом подтверждения отправлено на ваш м
 Контакт послал %s:
 [User sent an unsupported attachment. Open your browser to see it.]
 Контакт послал неподдерживаемое вложение. Для просмотра перейдите на сайт.
-[This message is no longer available, because it was marked as abusive or spam.]
-Сообщение недоступно, поскольку было отмечено как оскорбительное или спам.
 [%s is typing a message...]
 %s набирает текст...
+[This message is no longer available, because it was marked as abusive or spam.]
+Сообщение недоступно, поскольку было отмечено как оскорбительное или спам.
 [You cannot send messages when you are offline.]
 Вы не можете отправлять сообщения без подключения к сети.
 [Contact is back on server-list.]

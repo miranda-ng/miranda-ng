@@ -510,6 +510,14 @@ Učitaj određen broj ranijih događaja
 Učitaj broj ranijih događaja, na osnovu
 [minutes old]
 minuta starosti
+[Use a tabbed interface]
+Upotreba interfesa sa jezičcima
+[Close tab on double click]
+Dvoklik zatvara jezičak
+[Restore previously open tabs when showing the window]
+Prikaz prethodno otvorenih jezičaka po otvaranju prozora
+[Show tabs at the bottom]
+Jezičci u dnu
 [Send typing notifications to the following users when you are typing a message to them:]
 Slanje obaveštenja o kucanju poruke odabranim korisnicima
 [Show typing notifications when a user is typing a message]
@@ -598,28 +606,6 @@ Tekst
 Pozadina
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
 (Podešavanje 0 je standardno, -1 znači neodređen period)
-[List]
-Spisak
-[&Message]
-&Poruka
-[Log]
-Log
-[Clear lo&g]
-&Obrisati log
-[Co&py all]
-Ko&piranje svega
-[Word lookup]
-Pronađi reč
-[Wikipedia]
-Vikipedija
-[Link]
-Link
-[Open a &new browser window]
-Otvoriti u &novom prozoru brauzera
-[&Open in current browser window]
-Otvoriti u &trenutnom prozoru brauzera
-[&Copy link]
-Kopiraj li&nk
 [Message]
 Poruka
 [Undo]
@@ -644,14 +630,16 @@ Jezičci
 Z&atvori ostale jezičke
 [&Open at this position]
 &Otvori na ovom mestu
+[Log]
+Log
 [C&lear log]
 Izbriši &log
 [&Copy]
 &Kopiranje
+[Co&py all]
+Ko&piranje svega
 [Select &all]
 &Izaberi sve
-[&Open link]
-&Otvori link
 [Paste and send]
 Ubaci i pošalji
 [Delete]
@@ -1225,14 +1213,30 @@ pronađi/dodaj
 &Dodaj na spisak
 [Send &message]
 &Slanje poruke
-[Open in &new window]
-Otvoriti &u novom prozoru
-[&Open in existing window]
-Otvoriti u &trenutnom prozoru
+[&Open link]
+&Otvori link
+[&Copy link]
+Kopiraj li&nk
 [Cancel change]
 Otkazati izmene
 [Ungroup]
 Izdvoj iz grupe
+[List]
+Spisak
+[&Message]
+&Poruka
+[Clear lo&g]
+&Obrisati log
+[Word lookup]
+Pronađi reč
+[Yandex]
+
+[Wikipedia (en)]
+
+[Google Maps]
+
+[Google Translate]
+
 ;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 &s zahteva autorizaciju
@@ -1489,14 +1493,6 @@ Međulinije spiska nadimaka
 [Nick list background (selected)]
 Pozadina spiska nadimaka (odabrano)
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Use a tabbed interface]
-Upotreba interfesa sa jezičcima
-[Close tab on double click]
-Dvoklik zatvara jezičak
-[Restore previously open tabs when showing the window]
-Prikaz prethodno otvorenih jezičaka po otvaranju prozora
-[Show tabs at the bottom]
-Jezičci u dnu
 [Send message by pressing the 'Enter' key]
 Slanje poruka pritiskom na 'Enter'
 [Send message by pressing the 'Enter' key twice]
@@ -1515,10 +1511,6 @@ Prikaz tastera za upravljanje prozorom za razgovor
 Prikaz tastera za ukrašavanje teksta tokom kucanja
 [Show button menus when right clicking the buttons]
 Prikaz opcija menija desnim klikom na tastere prozora
-[Show new windows cascaded]
-Poređaj novootvorene prozore
-[Save the size and position of chat rooms]
-Zapamti položaj i veličinu prozora pričaonice
 [Show the topic of the room on your contact list (if supported)]
 Prikaz teme (pričaonica) u spisku kontakata (ako je podržano)
 [Do not play sounds when the chat room is focused]
@@ -1715,8 +1707,6 @@ Poruke
 Sobe za razgovor
 [Group chats log]
 Log-ovi soba za razgovor
-[Options for using a tabbed interface]
-Opcije korišćenja interfejsa sa jezičcima
 [Appearance and functionality of chat room windows]
 Izgled i ponašanje prozora soba za razgovor
 [Appearance of the message log]
@@ -1739,13 +1729,6 @@ Log-ovi razgovora
 
 [Popups]
 Balončići
-;file \src\core\stdmsg\src\chat_util.cpp
-[Look up '%s':]
-Pronađi '%s':
-[No word to look up]
-Nije navedena reč za pretragu
-[&Message %s]
-&Poruka %s
 ;file \src\core\stdmsg\src\chat_window.cpp
 [%s: chat room (%u user)]
 %s: soba za razgovor (%u korisnik)
@@ -2094,8 +2077,12 @@ Naznka od: %s - %s
 Tema je '%s'
 [The topic is '%s' (set by %s)]
 Tema je '%s' (od strane: %s)
-[Nick]
-Nadimak
+[Look up '%s':]
+Pronađi '%s':
+[No word to look up]
+Nije navedena reč za pretragu
+[&Message %s]
+&Poruka %s
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
@@ -2131,6 +2118,8 @@ Kontakt je registrovan na IM serveru sa centralizovanom korisničkom bazom. Bić
 ;file \src\mir_app\src\contacts.cpp
 [My custom name (not movable)]
 Moje izmenjeno ime (neprenosivo)
+[Nick]
+Nadimak
 [FirstName]
 Ime
 [E-mail]
@@ -2749,6 +2738,7 @@ Glavne ikonice
 Zvučne datoteke
 [WAV files]
 WAV datoteke
+;file \src\mir_app\src\srmm_base.cpp
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Razdelnik>

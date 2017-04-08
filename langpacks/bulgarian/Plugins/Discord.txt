@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.3.1.1
+;  Version: 0.5.0.1
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -13,8 +13,16 @@
 Парола:
 [Contacts]
 Контакти
+[Default group:]
+Стандартна група
 [Nick:]
 Прякор:
+[Change &nickname]
+Промяна на прякора
+[&Invite a user]
+Поканване на потребител
+[Main icon]
+Главна икона
 [Group chats]
 Групови чатове
 [Network]
@@ -23,3 +31,5 @@
 Акаунт
 [%s server connection]
 %s връзка със сървъра
+[Preview]
+Образец

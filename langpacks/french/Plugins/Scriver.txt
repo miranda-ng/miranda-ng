@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.12.2.1
+;  Version: 3.0.1.6
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -282,363 +282,12 @@ Effacer
 
 [Close tab]
 
-[List]
-Liste
-[&Message]
-&Message
-[Clear lo&g]
-Effacer le journal
-;file \plugins\Scriver\src\globals.cpp
-[Add contact]
-Ajouter le contact
-[User's details]
-Détails du contact
-[User's history]
-Historique du contact
-[Send message]
-
-[Smiley button]
-Boutons des smileys
-[User is typing]
-Le contact écrit...
-[Typing notification off]
-
-[Sending]
-Envoyer
-[Quote button]
-Bouton de citation
-[Close button]
-
-[Icon overlay]
-Surimpression d'icône
-[Incoming message (10x10)]
-Message entrant (10x10)
-[Outgoing message (10x10)]
-Message sortant (10x10)
-[Notice (10x10)]
-Note (10x10)
-[Window Icon]
-Icônes de la fenêtre
-[Text color]
-Couleur du texte
-[Background color]
-Couleur de fond
-[Bold]
-Gras
-[Italics]
-Italique
-[Underlined]
-Souligné
-[Room history]
-Historique du salon
-[Room settings]
-Paramètres du salon
-[Event filter disabled]
-Filtre d'évènement désactivé
-[Event filter enabled]
-Filtre d'évènement activé
-[Hide nick list]
-Masquer la liste des usagers
-[Show nick list]
-Afficher la liste des usagers
-[Status 1 (10x10)]
-État 1 (10x10)
-[Status 2 (10x10)]
-État 2 (10x10)
-[Status 3 (10x10)]
-État 3 (10x10)
-[Status 4 (10x10)]
-État 4 (10x10)
-[Status 5 (10x10)]
-État 5 (10x10)
-[Status 6 (10x10)]
-État 6 (10x10)
-[Message in (10x10)]
-Message reçu (10x10)
-[Message out (10x10)]
-Message envoyé (10x10)
-[Action (10x10)]
-Action (10x10)
-[Add Status (10x10)]
-Ajouter un état (10x10)
-[Remove status (10x10)]
-Enlever un état (10x10)
-[Join (10x10)]
-Rejoindre (10x10)
-[Leave (10x10)]
-Partir (10x10)
-[Quit (10x10)]
-Quitter (10x10)
-[Kick (10x10)]
-Botter (10x10)
-[Nickchange (10x10)]
-Changer de pseudo (10x10)
-[Topic (10x10)]
-Sujet (10x10)
-[Highlight (10x10)]
-Surligner (10x10)
-[Information (10x10)]
-Information (10x10)
-[Single Messaging]
-
-[Group chats]
-Groupe chats
-[Thai]
-Thaïlandais
-[Japanese]
-Japonais
-[Simplified Chinese]
-Chinois simplifié
-[Korean]
-Coréen
-[Traditional Chinese]
-Chinois traditionnel
-[Central European]
-Europe Centrale
-[Cyrillic]
-Cyrillique
-[Latin I]
-Latin I
-[Greek]
-Grecque
-[Turkish]
-Turque
-[Hebrew]
-Hébreux
-[Arabic]
-Arabe
-[Baltic]
-Balte
-[Vietnamese]
-Vietnamien
-[Korean (Johab)]
-Coréen (Johab)
-;file \plugins\Scriver\src\input.cpp
+;file \plugins\Scriver\src\chat_main.cpp
 [Messaging]
 Envoi de message
-[Navigate: Previous tab]
-
-[Navigate: Next tab]
-
-[Navigate: Tab %d]
-
-[Window: Toggle status bar]
-
-[Window: Toggle title bar]
-
-[Window: Toggle toolbar]
-
-[Window: Toggle info bar]
-
-[Window: Clear log]
-
-[Window: Minimize]
-
-[Window: Close tab]
-
-[Action: Quote]
-
-[Action: Send to all]
-
-[Action: Paste and send]
-
-;file \plugins\Scriver\src\msgdialog.cpp
-[Look up '%s':]
-
-[No word to look up]
-Aucun mot à chercher
-[User menu - %s]
-Menu contact - %s
-[Sending in progress: %d message(s) left...]
-Envoi en cours : il reste %d message(s)...
-[%s is typing a message...]
-%s vous écrit un message...
-[Last message received on %s at %s.]
-Dernier message reçu le %s à %s
-;file \plugins\Scriver\src\msglog.cpp
-[Me]
-
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-
-[to tiny bits, in Thy mercy]
-
-[My contact]
-
-[Lorem ipsum dolor sit amet,]
-
-[consectetur adipisicing elit]
-
-[Today]
-
-[Yesterday]
-
-[File sent]
-Fichier envoyé
-[File received]
-Fichier reçu
-[URL sent]
-
-[URL received]
-
-;file \plugins\Scriver\src\msgoptions.cpp
-[Outgoing messages]
-Messages envoyés
-[Outgoing background]
-
-[Incoming messages]
-Messages reçus
-[Incoming background]
-
-[Outgoing name]
-Nom sortant
-[Outgoing time]
-Heure sortante
-[Outgoing colon]
-":" sortant
-[Incoming name]
-Nom entrant
-[Incoming time]
-Heure entrante
-[Incoming colon]
-":" entrant
-[Message area]
-Zone de message
-[Input area background]
-
-[Outgoing URL]
-Lien envoyé
-[Incoming URL]
-Lien reçu
-[Info bar contact name]
-
-[Info bar background]
-
-[Info bar status message]
-
-[Line between messages]
-
-[Offline]
-Hors ligne
-[Online]
-En ligne
-[Away]
-Absent
-[Not available]
-Indisponible
-[Occupied]
-Occupé
-[Do not disturb]
-Ne pas déranger
-[Free for chat]
-OK pour un chat
-[Invisible]
-Invisible
-[Out to lunch]
-Parti manger
-[On the phone]
-Au téléphone
-[** New contacts **]
-** Nouveaux contacts **
-[** Unknown contacts **]
-** Contacts inconnus **
-[Message sessions]
-Sessions de message
-[General]
-Général
-[Event log]
-
-[Group chat log]
-
-[Typing notify]
-Notification de frappe
-[Popups]
-Popups
-;file \plugins\Scriver\src\msgs.cpp
-[Message from %s]
-Message de %s
-[%s is typing a message]
-%s écrit un message
-[Typing notification]
-Notification de frappe
-[&Quote]
-&Citer
-[Quote]
-
-[&Add]
-&Ajouter
-[Add contact permanently to list]
-Ajouter le contact à la liste
-[&User menu]
-&Menu utilisateur
-[User menu]
-Menu contact
-[User &details]
-&Détails du contact
-[View user's details]
-Voir les détails du contact
-[&History]
-&Historique
-[View user's history (CTRL+H)]
-Voir l'historique (CTRL+H)
-[&Bold]
-&Gras
-[Make the text bold (CTRL+B)]
-Texte en gras (CTRL+B)
-[&Italic]
-&Italique
-[Make the text italicized (CTRL+I)]
-Texte en italique (CTRL+I)
-[&Underline]
-&Souligné
-[Make the text underlined (CTRL+U)]
-Texte souligné (CTRL+U)
-[&Color]
-&Couleur
-[Select a foreground color for the text (CTRL+K)]
-Couleur du texte (CTRL+K)
-[&Background color]
-&Couleur de fond
-[Select a background color for the text (CTRL+L)]
-Couleur de fond du texte (CTRL+L)
-[&Room settings]
-
-[Control this room (CTRL+O)]
-Contrôler ce salon (CTRL+O)
-[&Show/hide nick list]
-
-[Show/hide the nick list (CTRL+N)]
-Afficher/cacher la liste des pseudos (CTRL+N)
-[&Filter]
-
-[Enable/disable the event filter (CTRL+F)]
-Activer/désactiver les filtres d'évènement (CTRL+F)
-[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda n'a pas pu charger le module de messagerie préinstallé, Msftedit.dll est manquant. Si vous utilisez WINE, veuillez vous assurer que vous avez installé Msftedit.dll. Cliquez sur "Oui" pour continuer le chargement de Miranda.
-[Instant messages]
-Messages instantanés
-[Incoming (focused window)]
-Entrant (fenêtre active)
-[Incoming (unfocused window)]
-Entrant (fenêtre inactive)
-[Incoming (new session)]
-Entrant (nouvelle session)
-[Outgoing]
-Sortant
-[Contact started typing]
-
-[Contact stopped typing]
-
-;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occurred.]
-Une erreur inconnue s'est produite.
-;file \plugins\Scriver\src\sendqueue.cpp
-[The message send timed out.]
-Délai d'envoi du message expiré
-;file \plugins\Scriver\src\tabs.cpp
-[Always on top]
-Toujours visible
-;file \plugins\Scriver\src\chat\main.cpp
-;file \plugins\Scriver\src\chat\options.cpp
+[Group chats]
+Groupe chats
+;file \plugins\Scriver\src\chat_options.cpp
 [Flash when someone speaks]
 
 [Flash when a word is highlighted]
@@ -809,10 +458,7 @@ Apparence
 
 [Select folder]
 Sélectionnez un répertoire
-;file \plugins\Scriver\src\chat\tools.cpp
-[&Message %s]
-&Message %s
-;file \plugins\Scriver\src\chat\window.cpp
+;file \plugins\Scriver\src\chat_window.cpp
 [%s: chat room (%u user)]
 %s : salon de chat (%u usager)
 [%s: chat room (%u users)]
@@ -827,3 +473,350 @@ Pseudo
 ID unique
 [Status]
 État
+;file \plugins\Scriver\src\globals.cpp
+[Add contact]
+Ajouter le contact
+[User's details]
+Détails du contact
+[User's history]
+Historique du contact
+[Send message]
+
+[Smiley button]
+Boutons des smileys
+[User is typing]
+Le contact écrit...
+[Typing notification off]
+
+[Sending]
+Envoyer
+[Quote button]
+Bouton de citation
+[Close button]
+
+[Icon overlay]
+Surimpression d'icône
+[Incoming message (10x10)]
+Message entrant (10x10)
+[Outgoing message (10x10)]
+Message sortant (10x10)
+[Notice (10x10)]
+Note (10x10)
+[Window Icon]
+Icônes de la fenêtre
+[Text color]
+Couleur du texte
+[Background color]
+Couleur de fond
+[Bold]
+Gras
+[Italics]
+Italique
+[Underlined]
+Souligné
+[Room history]
+Historique du salon
+[Room settings]
+Paramètres du salon
+[Event filter disabled]
+Filtre d'évènement désactivé
+[Event filter enabled]
+Filtre d'évènement activé
+[Hide nick list]
+Masquer la liste des usagers
+[Show nick list]
+Afficher la liste des usagers
+[Status 1 (10x10)]
+État 1 (10x10)
+[Status 2 (10x10)]
+État 2 (10x10)
+[Status 3 (10x10)]
+État 3 (10x10)
+[Status 4 (10x10)]
+État 4 (10x10)
+[Status 5 (10x10)]
+État 5 (10x10)
+[Status 6 (10x10)]
+État 6 (10x10)
+[Message in (10x10)]
+Message reçu (10x10)
+[Message out (10x10)]
+Message envoyé (10x10)
+[Action (10x10)]
+Action (10x10)
+[Add Status (10x10)]
+Ajouter un état (10x10)
+[Remove status (10x10)]
+Enlever un état (10x10)
+[Join (10x10)]
+Rejoindre (10x10)
+[Leave (10x10)]
+Partir (10x10)
+[Quit (10x10)]
+Quitter (10x10)
+[Kick (10x10)]
+Botter (10x10)
+[Nickchange (10x10)]
+Changer de pseudo (10x10)
+[Topic (10x10)]
+Sujet (10x10)
+[Highlight (10x10)]
+Surligner (10x10)
+[Information (10x10)]
+Information (10x10)
+[Single Messaging]
+
+[Thai]
+Thaïlandais
+[Japanese]
+Japonais
+[Simplified Chinese]
+Chinois simplifié
+[Korean]
+Coréen
+[Traditional Chinese]
+Chinois traditionnel
+[Central European]
+Europe Centrale
+[Cyrillic]
+Cyrillique
+[Latin I]
+Latin I
+[Greek]
+Grecque
+[Turkish]
+Turque
+[Hebrew]
+Hébreux
+[Arabic]
+Arabe
+[Baltic]
+Balte
+[Vietnamese]
+Vietnamien
+[Korean (Johab)]
+Coréen (Johab)
+;file \plugins\Scriver\src\input.cpp
+[Navigate: Previous tab]
+
+[Navigate: Next tab]
+
+[Navigate: Tab %d]
+
+[Window: Toggle status bar]
+
+[Window: Toggle title bar]
+
+[Window: Toggle toolbar]
+
+[Window: Toggle info bar]
+
+[Window: Clear log]
+
+[Window: Minimize]
+
+[Window: Close tab]
+
+[Action: Quote]
+
+[Action: Send to all]
+
+[Action: Paste and send]
+
+;file \plugins\Scriver\src\msgdialog.cpp
+[Sending in progress: %d message(s) left...]
+Envoi en cours : il reste %d message(s)...
+[%s is typing a message...]
+%s vous écrit un message...
+[Last message received on %s at %s.]
+Dernier message reçu le %s à %s
+[Look up '%s':]
+
+[No word to look up]
+Aucun mot à chercher
+[User menu - %s]
+Menu contact - %s
+;file \plugins\Scriver\src\msglog.cpp
+[Me]
+
+[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
+
+[to tiny bits, in Thy mercy]
+
+[My contact]
+
+[Lorem ipsum dolor sit amet,]
+
+[consectetur adipisicing elit]
+
+[Today]
+
+[Yesterday]
+
+[File sent]
+Fichier envoyé
+[File received]
+Fichier reçu
+[URL sent]
+
+[URL received]
+
+;file \plugins\Scriver\src\msgoptions.cpp
+[Outgoing messages]
+Messages envoyés
+[Outgoing background]
+
+[Incoming messages]
+Messages reçus
+[Incoming background]
+
+[Outgoing name]
+Nom sortant
+[Outgoing time]
+Heure sortante
+[Outgoing colon]
+":" sortant
+[Incoming name]
+Nom entrant
+[Incoming time]
+Heure entrante
+[Incoming colon]
+":" entrant
+[Message area]
+Zone de message
+[Input area background]
+
+[Outgoing URL]
+Lien envoyé
+[Incoming URL]
+Lien reçu
+[Info bar contact name]
+
+[Info bar background]
+
+[Info bar status message]
+
+[Line between messages]
+
+[Offline]
+Hors ligne
+[Online]
+En ligne
+[Away]
+Absent
+[Not available]
+Indisponible
+[Occupied]
+Occupé
+[Do not disturb]
+Ne pas déranger
+[Free for chat]
+OK pour un chat
+[Invisible]
+Invisible
+[Out to lunch]
+Parti manger
+[On the phone]
+Au téléphone
+[** New contacts **]
+** Nouveaux contacts **
+[** Unknown contacts **]
+** Contacts inconnus **
+[Message sessions]
+Sessions de message
+[General]
+Général
+[Event log]
+
+[Group chat log]
+
+[Typing notify]
+Notification de frappe
+[Popups]
+Popups
+;file \plugins\Scriver\src\msgs.cpp
+[Message from %s]
+Message de %s
+[%s is typing a message]
+%s écrit un message
+[Typing notification]
+Notification de frappe
+[&Quote]
+&Citer
+[Quote]
+
+[&Add]
+&Ajouter
+[Add contact permanently to list]
+Ajouter le contact à la liste
+[&User menu]
+&Menu utilisateur
+[User menu]
+Menu contact
+[User &details]
+&Détails du contact
+[View user's details]
+Voir les détails du contact
+[&History]
+&Historique
+[View user's history (CTRL+H)]
+Voir l'historique (CTRL+H)
+[&Bold]
+&Gras
+[Make the text bold (CTRL+B)]
+Texte en gras (CTRL+B)
+[&Italic]
+&Italique
+[Make the text italicized (CTRL+I)]
+Texte en italique (CTRL+I)
+[&Underline]
+&Souligné
+[Make the text underlined (CTRL+U)]
+Texte souligné (CTRL+U)
+[&Color]
+&Couleur
+[Select a foreground color for the text (CTRL+K)]
+Couleur du texte (CTRL+K)
+[&Background color]
+&Couleur de fond
+[Select a background color for the text (CTRL+L)]
+Couleur de fond du texte (CTRL+L)
+[&Room settings]
+
+[Control this room (CTRL+O)]
+Contrôler ce salon (CTRL+O)
+[&Show/hide nick list]
+
+[Show/hide the nick list (CTRL+N)]
+Afficher/cacher la liste des pseudos (CTRL+N)
+[&Filter]
+
+[Enable/disable the event filter (CTRL+F)]
+Activer/désactiver les filtres d'évènement (CTRL+F)
+[&Message]
+&Message
+[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda n'a pas pu charger le module de messagerie préinstallé, Msftedit.dll est manquant. Si vous utilisez WINE, veuillez vous assurer que vous avez installé Msftedit.dll. Cliquez sur "Oui" pour continuer le chargement de Miranda.
+[Instant messages]
+Messages instantanés
+[Incoming (focused window)]
+Entrant (fenêtre active)
+[Incoming (unfocused window)]
+Entrant (fenêtre inactive)
+[Incoming (new session)]
+Entrant (nouvelle session)
+[Outgoing]
+Sortant
+[Contact started typing]
+
+[Contact stopped typing]
+
+;file \plugins\Scriver\src\msgtimedout.cpp
+[An unknown error has occurred.]
+Une erreur inconnue s'est produite.
+;file \plugins\Scriver\src\sendqueue.cpp
+[The message send timed out.]
+Délai d'envoi du message expiré
+;file \plugins\Scriver\src\tabs.cpp
+[Always on top]
+Toujours visible

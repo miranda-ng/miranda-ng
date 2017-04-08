@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: QuickReplies.dll
 ;  Plugin: Quick replies
-;  Version: 0.8.1.0
+;  Version: 0.9.1.2
 ;  Authors: Unsane
 ;============================================================
 [Plugin for quick insert (or sending) pre-defined messages in message input area.]
@@ -23,7 +23,5 @@ Quick Replies
 - натиснете бутон "V" за помощ, относно променливите
 [Button]
 Бутон
-[Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
-Quick Replies\r\nЛяв бутон отваря менюто\r\nДесен бутон отваря настройките
 [Message sessions]
 Разговори

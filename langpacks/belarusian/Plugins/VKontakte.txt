@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.12
+;  Version: 0.1.2.17
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -50,6 +50,8 @@
 [Shorten links for audio attachments]
 Пакарочаныя спасылкі для аўдыё
 [Use non-standard popups for news and event notifications]
+
+[Add message link to messages with attachments]
 
 [News and event notifications]
 Паведамленні аб навінах і падзеях
@@ -176,7 +178,7 @@
 [Bots challenge test]
 Абарона ад ботаў
 [Instruction:]
-Інструкцыя
+Інструкцыя:
 [Submit]
 Прыняць
 [Cancel]
@@ -329,6 +331,8 @@
 Удзельнікі
 [Owners]
 Уладары
+[Message link]
+
 [create chat]
 
 [kick user]
@@ -548,11 +552,11 @@
 [Service message]
 
 [Interests]
-
+Інтарэсы
 [Activities]
-
+Заняткі
 [Music]
-
+Музыка
 [Movies]
 
 [TV]
@@ -560,9 +564,9 @@
 [Books]
 
 [Games]
-
+Гульні
 [Quotes]
-
+Каціроўкі
 [Please authorize me to add you to my friend list.]
 
 [Are you sure to wipe local contacts missing in your friend list?]

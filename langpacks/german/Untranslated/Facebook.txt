@@ -1,2 +1,7 @@
 ﻿[Load also Messenger contacts at login (not only Facebook friends)]
 [Use Invisible status for Facebook Pages (instead of Offline)]
+[Found %d memories.]
+[Found %d notifications.]
+[Found %d friendship requests (%d seen).]
+[Found %d friendship requests.]
+[Found %d wall posts.]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.21
+;  Version: 0.11.1.23
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -97,8 +97,8 @@ IPv6 адреса (необов'язково)
 Вихідний дзвінок
 [To:]
 Для:
-[Group chat]
-Чат
+[Unable to initialize Tox core]
+Неможливо ініціалізувати ядро Tox
 [Profiles folder]
 Папка профілів
 [Tox URI scheme]
@@ -129,8 +129,6 @@ IPv6 адреса (необов'язково)
 Вихідний дзвінок до %s
 [%s connection]
 З'єднання %s
-[Unable to initialize Tox core]
-Неможливо ініціалізувати ядро Tox
 [Tox profile]
 Профіль Tox
 [All files]

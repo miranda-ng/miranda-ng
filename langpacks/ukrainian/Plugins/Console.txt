@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Console.dll
 ;  Plugin: Console
-;  Version: 0.0.7.3
+;  Version: 0.0.7.4
 ;  Authors: Bio
 ;============================================================
 [Console log window for Miranda.]

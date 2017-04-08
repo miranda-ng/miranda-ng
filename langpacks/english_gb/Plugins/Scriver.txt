@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.12.2.1
+;  Version: 3.0.1.6
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Behavior]
@@ -17,6 +17,10 @@ Customise fonts and colours
 Use default colours
 [Use custom colors]
 Use custom colours
+[Timestamp has same color as event]
+Timestamp has same colour as event
+[Strip colors from messages]
+Strip colours from messages
 [Text color]
 Text colour
 [Background color]
@@ -33,7 +37,3 @@ Select a foreground colour for the text (CTRL+K)
 &Background colour
 [Select a background color for the text (CTRL+L)]
 Select a background colour for the text (CTRL+L)
-[Timestamp has same color as event]
-Timestamp has same colour as event
-[Strip colors from messages]
-Strip colours from messages

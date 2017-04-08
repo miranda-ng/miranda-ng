@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.1.0
+;  Version: 0.3.3.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -70,7 +70,7 @@ URL:
 [Log notifications into special chatroom]
 
 [Extra]
-
+Іншае
 [Use balloon notifications in system tray instead of popups]
 Абвяшчаць падказкай у трэі замест усплывальных вокнаў
 [Use this server for opening links:]
@@ -137,6 +137,8 @@ URL:
 &Гісторыя кантакта
 [Notifications]
 Абвесткі
+[%s and more (%d)]
+
 [Login error: %s]
 Памылка далучэння: %s
 [Unknown error]
@@ -205,8 +207,6 @@ URL:
 Сябрам, акр. знаёмых
 [Only me]
 Толькі мне
-[%s and more (%d)]
-
 [Contact was removed from your server list.]
 Кантакт быў выдалены з вашага спісу на серверы.
 [Error occurred when removing contact from server.]
@@ -253,10 +253,10 @@ URL:
 Кантакт паслаў вам %s:
 [User sent an unsupported attachment. Open your browser to see it.]
 Кантакт паслаў непадтрымліваемае ўкладанне. Каб прагледзець, перайдзіце на сайт.
-[This message is no longer available, because it was marked as abusive or spam.]
-Паведамленне недасяжна,таму што было адзначана як спам.
 [%s is typing a message...]
 %s набірае тэкст...
+[This message is no longer available, because it was marked as abusive or spam.]
+Паведамленне недасяжна,таму што было адзначана як спам.
 [You cannot send messages when you are offline.]
 Вы не можаце адпраўляць паведамленні без далучэння.
 [Contact is back on server-list.]
@@ -271,7 +271,25 @@ URL:
 
 [<attachment without text>]
 
+[Loading memories...]
+
 [On this day]
+
+[Found %d memories.]
+
+[Loading notifications...]
+
+[Found %d notifications.]
+
+[Loading friendship requests...]
+
+[Found %d friendship requests (%d seen).]
+
+[Found %d friendship requests.]
+
+[Loading wall posts...]
+
+[Found %d wall posts.]
 
 [%s server connection]
 Далучэнне да сервера %s
@@ -293,14 +311,6 @@ Facebook ID павінна быць лічбавым значэннем.
 Статус...
 [Own wall]
 Свая сцяна
-[Loading wall posts...]
-
-[Loading friendship requests...]
-
-[Loading notifications...]
-
-[Loading memories...]
-
 [Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
 
 [This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]

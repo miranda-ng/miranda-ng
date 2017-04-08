@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.1.0
+;  Version: 0.3.3.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -131,6 +131,8 @@
 &Історія користувача
 [Notifications]
 Сповіщення
+[%s and more (%d)]
+%s і ще %d
 [Login error: %s]
 Помилка входу: %s
 [Unknown error]
@@ -199,8 +201,6 @@ SMS з кодом підтвердження відправлено на ваш 
 Друзям, крім знайомих
 [Only me]
 Тільки мені
-[%s and more (%d)]
-%s і ще %d
 [Contact was removed from your server list.]
 Контакт видалено зі списку на сервері.
 [Error occurred when removing contact from server.]
@@ -247,10 +247,10 @@ SMS з кодом підтвердження відправлено на ваш 
 Контакт надіслав %s:
 [User sent an unsupported attachment. Open your browser to see it.]
 Контакт надіслав вкладення, що не підримується. Для перегляду перейдіть на сайт.
-[This message is no longer available, because it was marked as abusive or spam.]
-Повідомлення недоступне, оскільки було відзначене як образа або спам.
 [%s is typing a message...]
 %s друкує вам повідомлення...
+[This message is no longer available, because it was marked as abusive or spam.]
+Повідомлення недоступне, оскільки було відзначене як образа або спам.
 [You cannot send messages when you are offline.]
 Для надсилання повідомлень необхідно підключитися до мережі.
 [Contact is back on server-list.]
@@ -265,8 +265,16 @@ SMS з кодом підтвердження відправлено на ваш 
 Завантаження історії завершено.
 [<attachment without text>]
 <вкладення без тексту>
+[Loading memories...]
+Завантаження спогадів...
 [On this day]
 Цього дня
+[Loading notifications...]
+Завантаження сповіщень...
+[Loading friendship requests...]
+Завантаження запитів дружби...
+[Loading wall posts...]
+Завантаження записів зі стіни...
 [%s server connection]
 З'єднання з сервером %s
 [Unable to initialize Netlib for %s.]
@@ -287,14 +295,6 @@ SMS з кодом підтвердження відправлено на ваш 
 Статус...
 [Own wall]
 Своя стіна
-[Loading wall posts...]
-Завантаження записів зі стіни...
-[Loading friendship requests...]
-Завантаження запитів дружби...
-[Loading notifications...]
-Завантаження сповіщень...
-[Loading memories...]
-Завантаження спогадів...
 [Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
 Триває завантаження історії. Завантаження неможливе для кількох контактів одночасно. Будь ласка, дочекайтеся завершення.
 [This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]

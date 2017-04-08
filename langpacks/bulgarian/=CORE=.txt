@@ -497,6 +497,14 @@
 Събития от преди
 [minutes old]
 минути
+[Use a tabbed interface]
+Ползване на табове
+[Close tab on double click]
+Затваряне на таб при двукратно натискане
+[Restore previously open tabs when showing the window]
+Възстановяване на последно отворените табове при показване на прозореца
+[Show tabs at the bottom]
+Табове на дъното
 [Send typing notifications to the following users when you are typing a message to them:]
 Изпращане на уведомяване при писане до следните потребители, когато им пишете съобщение:
 [Show typing notifications when a user is typing a message]
@@ -581,28 +589,6 @@ Popup за приставката Chat
 Текст
 [Background]
 Фон
-[List]
-Списък
-[&Message]
-Съобщение
-[Log]
-Дневник
-[Clear lo&g]
-Изчистване на дневника
-[Co&py all]
-Копиране на всичко
-[Word lookup]
-Търсене на дума
-[Wikipedia]
-Wikipedia
-[Link]
-Връзка
-[Open a &new browser window]
-Отваряне в нов прозорец на браузера
-[&Open in current browser window]
-Отваряне в текущия прозорец
-[&Copy link]
-Копиране на връзката
 [Message]
 Съобщение
 [Undo]
@@ -627,14 +613,16 @@ Wikipedia
 Затваряне на другите табове
 [&Open at this position]
 Отваряне на тази позиция
+[Log]
+Дневник
 [C&lear log]
 Изчистване на дневника
 [&Copy]
 Копиране
+[Co&py all]
+Копиране на всичко
 [Select &all]
 Маркиране на всичко
-[&Open link]
-Отваряне на връзката
 [Paste and send]
 Поставяне и изпращане
 [Delete]
@@ -1173,14 +1161,30 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Добавяне в списъка
 [Send &message]
 Изпращане на съобщение
-[Open in &new window]
-Отваряне в нов прозорец
-[&Open in existing window]
-Отваряне в съществуващ прозорец
+[&Open link]
+Отваряне на връзката
+[&Copy link]
+Копиране на връзката
 [Cancel change]
 Отказ на промяната
 [Ungroup]
 Дегрупиране
+[List]
+Списък
+[&Message]
+Съобщение
+[Clear lo&g]
+Изчистване на дневника
+[Word lookup]
+Търсене на дума
+[Yandex]
+Yandex
+[Wikipedia (en)]
+Wikipedia (en)
+[Google Maps]
+Google Maps
+[Google Translate]
+Google Translate
 [%s requests authorization]
 %s желае да бъде упълномощен
 [%u requests authorization]
@@ -1415,14 +1419,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Редове на списък с прякори
 [Nick list background (selected)]
 Фон на списъка с прякори (маркирано)
-[Use a tabbed interface]
-Ползване на табове
-[Close tab on double click]
-Затваряне на таб при двукратно натискане
-[Restore previously open tabs when showing the window]
-Възстановяване на последно отворените табове при показване на прозореца
-[Show tabs at the bottom]
-Табове на дъното
 [Send message by pressing the 'Enter' key]
 Изпращане на съобщение с натискане на бутона "Enter"
 [Send message by pressing the 'Enter' key twice]
@@ -1441,10 +1437,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Показване на бутони за форматиране на текста, който въвеждате
 [Show button menus when right clicking the buttons]
 Показване менютата на бутоните при натискане с десен бутон
-[Show new windows cascaded]
-Каскадно подреждане на новите прозорци
-[Save the size and position of chat rooms]
-Запис на размера и позицията на чат стаите
 [Show the topic of the room on your contact list (if supported)]
 Показване на темата на стаята в списъка с контакти (ако се поддържа)
 [Do not play sounds when the chat room is focused]
@@ -1639,8 +1631,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Групови чатове
 [Group chats log]
 Дневник за груповите чатове
-[Options for using a tabbed interface]
-Настройки на интерфейса с табове
 [Appearance and functionality of chat room windows]
 Външен вид и функционалност на чат стаите
 [Appearance of the message log]
@@ -1661,12 +1651,6 @@ Popups за изобразяване
 Чат дневник
 [Popups]
 Рopups
-[Look up '%s':]
-Търсене за "%s":
-[No word to look up]
-Няма дума за търсене
-[&Message %s]
-Съобщение %s
 [%s: chat room (%u user)]
 %s: Чат стая (%u потребител)
 [%s: chat room (%u users)]
@@ -1983,8 +1967,12 @@ Popups за изобразяване
 Темата е "%s"
 [The topic is '%s' (set by %s)]
 Темата е "%s" (зададена от %s)
-[Nick]
-Прякор
+[Look up '%s':]
+Търсене за "%s":
+[No word to look up]
+Няма дума за търсене
+[&Message %s]
+Съобщение %s
 [New group]
 Нова група
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2013,6 +2001,8 @@ Popups за изобразяване
 Добавяне за постоянно в списъка
 [My custom name (not movable)]
 Зададено име (неподвижно)
+[Nick]
+Прякор
 [FirstName]
 Име
 [E-mail]
@@ -2531,6 +2521,8 @@ ANSI приставка
 WAV файлове
 [<Separator>]
 <Разделител>
+[Toolbar]
+Лента с инструменти
 [Unspecified]
 Неуточнено
 [Afghanistan]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.1.2
+;  Version: 3.5.0.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Customize the panel]
@@ -57,18 +57,32 @@ Show popups if window is minimised
 Select font colour
 [Change background color]
 Change background colour
+[Common colors]
+Common colours
+[Window fill color]
+Window fill colour
+[Generic text color (only when fill color is set)]
+Generic text colour (only when fill colour is set)
+[Colorize nicknames in member list]
+Colourise nicknames in member list
+[Timestamp has same color as the event]
+Timestamp has same colour as the event
+[Strip colors from messages in the log]
+Strip colours from messages in the log
+[Colorize user names in message log]
+Colourise user names in message log
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
 Session list.\nClick left for a list of open sessions.\nClick right to access favourites and quickly configure message window behaviour
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
 One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the 'Event notifications' settings page.
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favourites.
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
-UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favourite status.
 [Do not synchronize the panel height with IM windows]
 Do not synchronise the panel height with IM windows
 [Do not synchronize the panel height with group chat windows]
 Do not synchronise the panel height with group chat windows
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favourites.
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
+UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favourite status.
 [Minimize the window to the task bar]
 Minimise the window to the task bar
 [Font color]
@@ -89,17 +103,3 @@ Activate a minimised window when a new tab is created inside it
 Automatically switch existing tabs in minimised windows on incoming messages (ignored when using Aero Peek task bar features)
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Loading a theme|Loading a colour and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?
-[Common colors]
-Common colours
-[Window fill color]
-Window fill colour
-[Generic text color (only when fill color is set)]
-Generic text colour (only when fill colour is set)
-[Colorize nicknames in member list]
-Colourise nicknames in member list
-[Timestamp has same color as the event]
-Timestamp has same colour as the event
-[Strip colors from messages in the log]
-Strip colours from messages in the log
-[Colorize user names in message log]
-Colourise user names in message log

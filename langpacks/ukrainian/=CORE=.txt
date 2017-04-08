@@ -503,6 +503,14 @@
 Події, отримані пізніше ніж
 [minutes old]
 хвилин тому
+[Use a tabbed interface]
+Увімкнути вкладки
+[Close tab on double click]
+Закривати подвійним клацанням
+[Restore previously open tabs when showing the window]
+Відновлювати попередньо відкриті вкладки при показі вікна
+[Show tabs at the bottom]
+Вкладки внизу
 [Send typing notifications to the following users when you are typing a message to them:]
 Сповіщати цих користувачів, коли ви друкуєте повідомлення для них:
 [Show typing notifications when a user is typing a message]
@@ -591,26 +599,6 @@
 Фон
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
 (0 = стандартне значення, -1 = безкінечно)
-[List]
-Список
-[&Message]
-Повідомлення
-[Log]
-Журнал
-[Clear lo&g]
-&Очистити журнал
-[Co&py all]
-Коп&іювати все
-[Word lookup]
-Пошук слова
-[Link]
-Посилання
-[Open a &new browser window]
-Відкрити в новому вікні
-[&Open in current browser window]
-Відкрити в поточному вікні
-[&Copy link]
-Копіювати по&силання
 [Message]
 Повідомлення
 [Undo]
@@ -635,14 +623,16 @@
 З&акрити інші вкладки
 [&Open at this position]
 Від&крити на цій позиції
+[Log]
+Журнал
 [C&lear log]
 &Очистити журнал
 [&Copy]
 &Копіювати
+[Co&py all]
+Коп&іювати все
 [Select &all]
 Виділити &все
-[&Open link]
-&Відкрити в браузері
 [Paste and send]
 Вставити й надіслати
 [Delete]
@@ -1211,14 +1201,28 @@ UIN, E-mail тощо
 Додати до списку
 [Send &message]
 Надіслати &повідомлення
-[Open in &new window]
-Відкрити в &новому вікні
-[&Open in existing window]
-&Відкрити в поточному вікні
+[&Open link]
+&Відкрити в браузері
+[&Copy link]
+Копіювати по&силання
 [Cancel change]
 Скасувати зміну
 [Ungroup]
 Розгрупувати
+[List]
+Список
+[&Message]
+Повідомлення
+[Clear lo&g]
+&Очистити журнал
+[Word lookup]
+Пошук слова
+[Yandex]
+Яндекс
+[Google Maps]
+Мапи Google
+[Google Translate]
+Перекладач Google
 [%s requests authorization]
 %s запитує авторизацію
 [%u requests authorization]
@@ -1453,14 +1457,6 @@ UIN, E-mail тощо
 Лінії списку користувачів
 [Nick list background (selected)]
 Фон списку користувачів (вибране)
-[Use a tabbed interface]
-Увімкнути вкладки
-[Close tab on double click]
-Закривати подвійним клацанням
-[Restore previously open tabs when showing the window]
-Відновлювати попередньо відкриті вкладки при показі вікна
-[Show tabs at the bottom]
-Вкладки внизу
 [Send message by pressing the 'Enter' key]
 Надсилати натисканням Enter
 [Send message by pressing the 'Enter' key twice]
@@ -1479,10 +1475,6 @@ UIN, E-mail тощо
 Показувати кнопки форматування тексту
 [Show button menus when right clicking the buttons]
 Показувати меню кнопки за натисненням правою кнопкою миші
-[Show new windows cascaded]
-Розміщувати нові вікна каскадом
-[Save the size and position of chat rooms]
-Зберігати розмір і позицію вікон чату
 [Show the topic of the room on your contact list (if supported)]
 Показувати тему кімнати в списку контактів (якщо підтримується)
 [Do not play sounds when the chat room is focused]
@@ -1679,8 +1671,6 @@ UIN, E-mail тощо
 Групові чати
 [Group chats log]
 Журнал чатів
-[Options for using a tabbed interface]
-Налаштування вкладок
 [Appearance and functionality of chat room windows]
 Інтерфейс та функції вікон чатів
 [Appearance of the message log]
@@ -1699,14 +1689,10 @@ UIN, E-mail тощо
 Загальне
 [Chat log]
 Журнал чату
+[Chat]
+Чат
 [Popups]
 Спливаючі вікна
-[Look up '%s':]
-Шукати "%s" у
-[No word to look up]
-Нічого шукати
-[&Message %s]
-&Написати %s
 [%s: chat room (%u user)]
 %s - Чат (%u)
 [%s: chat room (%u users)]
@@ -2033,8 +2019,12 @@ UIN, E-mail тощо
 Тема: %s
 [The topic is '%s' (set by %s)]
 Тема %s (встановив %s)
-[Nick]
-Нік
+[Look up '%s':]
+Шукати "%s" у
+[No word to look up]
+Нічого шукати
+[&Message %s]
+&Написати %s
 [New group]
 Нова група
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2063,6 +2053,8 @@ UIN, E-mail тощо
 Додати до списку
 [My custom name (not movable)]
 Задане ім'я (завжди перше)
+[Nick]
+Нік
 [FirstName]
 Ім'я
 [E-mail]
@@ -2597,6 +2589,8 @@ ANSI-плагін
 Файли WAV
 [<Separator>]
 <Роздільник>
+[Toolbar]
+Панель кнопок
 [Unspecified]
 <не вказано>
 [Afghanistan]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.12.2.1
+;  Version: 3.0.1.6
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Behavior]
@@ -161,12 +161,114 @@ Pegar && enviar
 Eliminar
 [Clear]
 Limpiar
-[List]
-Lista
-[&Message]
-&Mensaje
-[Clear lo&g]
-Limpiar re&gistro
+[Messaging]
+Mensajería
+[Group chats]
+Grupo de chats
+[Prefix all events with a timestamp]
+Prefijo de todos los eventos con una fecha y hora
+[Only prefix with timestamp if it has changed]
+Sólo prefijo de marca de tiempo si ha cambiado
+[Indent the second line of a message]
+Sangría de la segunda línea de un mensaje
+[Show topic changes]
+Mostar cambios recientes de tema
+[Show users joining]
+Mostrar usuarios entrando
+[Show users disconnecting]
+Mostrar usuarios que se desconectan
+[Show messages]
+Mostrar mensajes
+[Show actions]
+Mostrar acciones
+[Show users leaving]
+Mostrar usuarios que salen
+[Show users being kicked]
+Mostrar usuarios sacados
+[Show notices]
+Mostrar avisos
+[Show users changing name]
+Mostrar usuarios cambiando nombre
+[Show information messages]
+Mostrar mensajes de información
+[Show status changes of users]
+Mostrar cambios de estado de usuarios
+[Show icons in tray only when the chat room is not active]
+Mostrar iconos en la bandeja sólo cuando el chat no está activo
+[Show icon in tray for topic changes]
+Mostrar icono en la bandeja de cambios de temas
+[Show icon in tray for users joining]
+Mostrar icono en la bandeja para los usuarios que estan entrando
+[Show icon in tray for users disconnecting]
+Mostrar icono en la bandeja para los usuarios que se estan desconectando
+[Show icon in tray for messages]
+Mostrar icono en la bandeja para mensajes
+[Show icon in tray for actions]
+Mostrar icono en la bandeja para acciones
+[Show icon in tray for highlights]
+Mostrar icono en la bandeja para destacados
+[Show icon in tray for users leaving]
+Mostrar icono en la bandeja para los usuarios que estan saliendo
+[Show icon in tray for users kicking other user]
+Mostrar icono en la bandeja para los usuarios sacados por otro usuario
+[Show icon in tray for notices]
+Mostrar icono en la bandeja de notificaciones
+[Show icon in tray for name changes]
+Mostrar icono en la bandeja para el cambio de nombres
+[Show icon in tray for information messages]
+Mostrar icono en la bandeja para mensajes de información
+[Show icon in tray for status changes]
+Mostrar icono en la bandeja para los cambios de estado
+[Show popups only when the chat room is not active]
+Mostrar ventanas emergentes cuando el chat no está activo
+[Show popup for topic changes]
+Mostrar ventana emergente para cambios temáticos
+[Show popup for users joining]
+Mostrar ventana emergente para los usuarios que estan entrando
+[Show popup for users disconnecting]
+Mostrar ventana emergente para los usuarios que se desconectan
+[Show popup for messages]
+Mostrar ventana emergente para mensajes
+[Show popup for actions]
+Mostrar ventana emergente para acciones
+[Show popup for highlights]
+Mostrar ventana emergente para destacados
+[Show popup for users leaving]
+Mostrar ventana emergente para los usuarios que estan saliendo
+[Show popup for users kicking other user]
+Mostrar ventana emergente para usuarios sacados por otro usuario
+[Show popup for notices]
+Mostrar ventana emergente para notificaciones
+[Show popup for name changes]
+Mostrar ventana emergente para cambios de nombre
+[Show popup for information messages]
+Mostrar ventana emergente para mensajes de información
+[Show popup for status changes]
+Mostrar ventana emergente para cambios de estado
+[Icons to display in the tray]
+Iconos a mostrar en la bandeja
+[Variables]
+Variables
+[Appearance]
+Apariencia
+[Default events to show in new chat rooms if the 'event filter' is enabled]
+Eventos predeterminados a mostrar en nuevas salas de chat, si está activado el "filtro de eventos'
+[Select folder]
+Seleccionar carpeta
+[%s: chat room (%u user)]
+%s: sala de chat (%u usuario)
+[%s: chat room (%u users)]
+%s: sala de chat (%u usuarios)
+[%s: message session]
+%s: sesión de mensaje
+[%s: message session (%u users)]
+%s: sesión de mensaje (%u usuarios)
+[Nickname]
+Apodo
+[Unique ID]
+ID único
+[Status]
+Estado
 [Add contact]
 Añadir contacto
 [Send message]
@@ -243,18 +345,14 @@ Tema (10x10)
 Resaltado (10x10)
 [Information (10x10)]
 Información (10x10)
-[Group chats]
-Grupo de chats
-[Messaging]
-Mensajería
-[Look up '%s':]
-Buscar '%s':
-[No word to look up]
-Ni una palabra para buscar
 [%s is typing a message...]
 %s está escribiendo un mensaje...
 [Last message received on %s at %s.]
 Último mensaje recibido el %s a %s.
+[Look up '%s':]
+Buscar '%s':
+[No word to look up]
+Ni una palabra para buscar
 [File sent]
 Archivo enviado
 [File received]
@@ -367,6 +465,8 @@ Mostrar/ocultar la lista de apodos (CTRL+N)
 &Filtro
 [Enable/disable the event filter (CTRL+F)]
 Activar/desactivar el filtro de eventos (CTRL+F)
+[&Message]
+&Mensaje
 [Instant messages]
 Mensajes instantáneos
 [Incoming (focused window)]
@@ -387,109 +487,3 @@ Se ha producido un error desconocido.
 El mensaje envia el tiempo de espera.
 [Always on top]
 Siempre en primer plano
-[Prefix all events with a timestamp]
-Prefijo de todos los eventos con una fecha y hora
-[Only prefix with timestamp if it has changed]
-Sólo prefijo de marca de tiempo si ha cambiado
-[Indent the second line of a message]
-Sangría de la segunda línea de un mensaje
-[Show topic changes]
-Mostar cambios recientes de tema
-[Show users joining]
-Mostrar usuarios entrando
-[Show users disconnecting]
-Mostrar usuarios que se desconectan
-[Show messages]
-Mostrar mensajes
-[Show actions]
-Mostrar acciones
-[Show users leaving]
-Mostrar usuarios que salen
-[Show users being kicked]
-Mostrar usuarios sacados
-[Show notices]
-Mostrar avisos
-[Show users changing name]
-Mostrar usuarios cambiando nombre
-[Show information messages]
-Mostrar mensajes de información
-[Show status changes of users]
-Mostrar cambios de estado de usuarios
-[Show icons in tray only when the chat room is not active]
-Mostrar iconos en la bandeja sólo cuando el chat no está activo
-[Show icon in tray for topic changes]
-Mostrar icono en la bandeja de cambios de temas
-[Show icon in tray for users joining]
-Mostrar icono en la bandeja para los usuarios que estan entrando
-[Show icon in tray for users disconnecting]
-Mostrar icono en la bandeja para los usuarios que se estan desconectando
-[Show icon in tray for messages]
-Mostrar icono en la bandeja para mensajes
-[Show icon in tray for actions]
-Mostrar icono en la bandeja para acciones
-[Show icon in tray for highlights]
-Mostrar icono en la bandeja para destacados
-[Show icon in tray for users leaving]
-Mostrar icono en la bandeja para los usuarios que estan saliendo
-[Show icon in tray for users kicking other user]
-Mostrar icono en la bandeja para los usuarios sacados por otro usuario
-[Show icon in tray for notices]
-Mostrar icono en la bandeja de notificaciones
-[Show icon in tray for name changes]
-Mostrar icono en la bandeja para el cambio de nombres
-[Show icon in tray for information messages]
-Mostrar icono en la bandeja para mensajes de información
-[Show icon in tray for status changes]
-Mostrar icono en la bandeja para los cambios de estado
-[Show popups only when the chat room is not active]
-Mostrar ventanas emergentes cuando el chat no está activo
-[Show popup for topic changes]
-Mostrar ventana emergente para cambios temáticos
-[Show popup for users joining]
-Mostrar ventana emergente para los usuarios que estan entrando
-[Show popup for users disconnecting]
-Mostrar ventana emergente para los usuarios que se desconectan
-[Show popup for messages]
-Mostrar ventana emergente para mensajes
-[Show popup for actions]
-Mostrar ventana emergente para acciones
-[Show popup for highlights]
-Mostrar ventana emergente para destacados
-[Show popup for users leaving]
-Mostrar ventana emergente para los usuarios que estan saliendo
-[Show popup for users kicking other user]
-Mostrar ventana emergente para usuarios sacados por otro usuario
-[Show popup for notices]
-Mostrar ventana emergente para notificaciones
-[Show popup for name changes]
-Mostrar ventana emergente para cambios de nombre
-[Show popup for information messages]
-Mostrar ventana emergente para mensajes de información
-[Show popup for status changes]
-Mostrar ventana emergente para cambios de estado
-[Icons to display in the tray]
-Iconos a mostrar en la bandeja
-[Variables]
-Variables
-[Appearance]
-Apariencia
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Eventos predeterminados a mostrar en nuevas salas de chat, si está activado el "filtro de eventos'
-[Select folder]
-Seleccionar carpeta
-[&Message %s]
-&Mensaje %s
-[%s: chat room (%u user)]
-%s: sala de chat (%u usuario)
-[%s: chat room (%u users)]
-%s: sala de chat (%u usuarios)
-[%s: message session]
-%s: sesión de mensaje
-[%s: message session (%u users)]
-%s: sesión de mensaje (%u usuarios)
-[Nickname]
-Apodo
-[Unique ID]
-ID único
-[Status]
-Estado

@@ -7,5 +7,4 @@
 [- Add "---" for separator.]
 [- Press [v] button for variable's help.]
 [Button]
-[Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 [Message sessions]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.21
+;  Version: 0.11.1.23
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -38,6 +38,10 @@ Verbindungseinstellungen
 UDP aktivieren (sonst ist Tox gezwungen TCP zu verwenden)
 [Enable IPv6]
 IPv6 aktivieren
+[Max connect retries:]
+
+[Max reconnect retries:]
+
 [If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
 Wenn dieses Feld eine Tox-Adresse enthält (76 Hex-Zeichen), dann werden Sie gefragt ob Sie diese zu Ihrer Freundesliste hinzufügen wollen. Anderenfalls sucht Miranda über Tox-DNS-Erkennung
 [DNS name:]
@@ -100,9 +104,12 @@ Kontakt&profil
 Ausgehender Anruf
 [To:]
 An:
-;file \protocols\Tox\src\tox_chatrooms.cpp
-[Group chat]
-Gruppenchat
+;file \protocols\Tox\src\main.cpp
+[Current version of plugin is support Tox API version %i.%i.%i which is incompatible with %s]
+
+;file \protocols\Tox\src\tox_connection.cpp
+[Unable to initialize Tox core]
+Konnte Tox-Core nicht initialisieren.
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 Profilverzeichnis
@@ -139,9 +146,6 @@ Ausgehender Anruf an %s
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s-Verbindung
-;file \protocols\Tox\src\tox_network.cpp
-[Unable to initialize Tox core]
-Konnte Tox-Core nicht initialisieren.
 ;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
 Tox-Profil

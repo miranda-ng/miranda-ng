@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.12.2.1
+;  Version: 3.0.1.6
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -279,344 +279,10 @@
 Закрити всі, крім цієї
 [Close tab]
 Закрити вкладку
-[List]
-Список
-[&Message]
-&Повідомлення
-[Clear lo&g]
-&Очистити журнал
-[Add contact]
-Додати контакт
-[User's details]
-Про користувача
-[User's history]
-Історія повідомлень
-[Send message]
-Надіслати
-[Smiley button]
-Вставити смайл
-[User is typing]
-Пише повідомлення
-[Typing notification off]
-Сповіщення про друк вимк.
-[Sending]
-Прогрес надсилання
-[Quote button]
-Цитувати
-[Close button]
-Закрити вкладку
-[Icon overlay]
-Значок зверху
-[Incoming message (10x10)]
-Вхідне повідомлення (10x10)
-[Outgoing message (10x10)]
-Вихідне повідомлення (10x10)
-[Notice (10x10)]
-Приватне повідомлення (10x10)
-[Window Icon]
-Значок вікна
-[Text color]
-Колір тексту
-[Background color]
-Колір фону
-[Bold]
-Жирний
-[Italics]
-Курсив
-[Underlined]
-Підкреслений
-[Room history]
-Історія чату
-[Room settings]
-Налаштування чату
-[Event filter disabled]
-Вимкнути фільтр подій
-[Event filter enabled]
-Увімкнути фільтр подій
-[Hide nick list]
-Сховати список користувачів
-[Show nick list]
-Показати список користувачів
-[Status 1 (10x10)]
-Статус 1 (10x10)
-[Status 2 (10x10)]
-Статус 2 (10x10)
-[Status 3 (10x10)]
-Статус 3 (10x10)
-[Status 4 (10x10)]
-Статус 4 (10x10)
-[Status 5 (10x10)]
-Статус 5 (10x10)
-[Status 6 (10x10)]
-Статус 6 (10x10)
-[Message in (10x10)]
-Отримане повідомлення (10x10)
-[Message out (10x10)]
-Надіслане повідомлення (10х10)
-[Action (10x10)]
-Дія (10x10)
-[Add Status (10x10)]
-Додати статус (10х10)
-[Remove status (10x10)]
-Видалити статус (10х10)
-[Join (10x10)]
-Увійти (10x10)
-[Leave (10x10)]
-Вийти (10x10)
-[Quit (10x10)]
-Відключитися (10x10)
-[Kick (10x10)]
-Стусани (10x10)
-[Nickchange (10x10)]
-Зміна ніку (10x10)
-[Topic (10x10)]
-Тема (10х10)
-[Highlight (10x10)]
-Підсвічування (10x10)
-[Information (10x10)]
-Інформація (10х10)
-[Single Messaging]
-Повідомлення
-[Group chats]
-Чати
-[Thai]
-Тайська
-[Japanese]
-Японська
-[Simplified Chinese]
-Китайська (спрощена)
-[Korean]
-Корейська
-[Traditional Chinese]
-Китайська (традиційна)
-[Central European]
-Центральноєвропейська
-[Cyrillic]
-Кирилиця
-[Latin I]
-Західноєвропейська
-[Greek]
-Грецька
-[Turkish]
-Турецька
-[Hebrew]
-Іврит
-[Arabic]
-Арабська
-[Baltic]
-Балтійська
-[Vietnamese]
-В'єтнамська
-[Korean (Johab)]
-Корейська (Johab)
 [Messaging]
 Бесіди
-[Navigate: Previous tab]
-Навігація: попередня вкладка
-[Navigate: Next tab]
-Навігація: наступна вкладка
-[Navigate: Tab %d]
-Навігація: Вкладка %d
-[Window: Toggle status bar]
-Вікно: Увімк./вимк. панель статусу
-[Window: Toggle title bar]
-Вікно: Увімк./вимк. заголовок
-[Window: Toggle toolbar]
-Вікно: Увімк./вимк. панель кнопок
-[Window: Toggle info bar]
-Вікно: Увімк./вимк. панель інформації
-[Window: Clear log]
-Вікно: Очистити журнал
-[Window: Minimize]
-Вікно: Згорнути
-[Window: Close tab]
-Вікно: Закрити вкладку
-[Action: Quote]
-Дія: Цитувати
-[Action: Send to all]
-Дія: Надіслати всім
-[Action: Paste and send]
-Дія: Вставити й надіслати
-[Look up '%s':]
-Шукати "%s" у
-[No word to look up]
-Нічого шукати
-[User menu - %s]
-Меню користувача - %s
-[Sending in progress: %d message(s) left...]
-Відправлення: залишилося %d повідомлень...
-[%s is typing a message...]
-%s друкує вам повідомлення...
-[Last message received on %s at %s.]
-Останнє повідомлення отримано %s о %s
-[Me]
-Я
-[My contact]
-Співрозмовник
-[Today]
-Сьогодні
-[Yesterday]
-Вчора
-[File sent]
-Надіслано файл
-[File received]
-Отримано файл
-[URL sent]
-Надіслано посилання
-[URL received]
-Отримано посилання
-[Outgoing messages]
-Вихідні повідомлення
-[Outgoing background]
-Фон вихідних
-[Incoming messages]
-Вхідні повідомлення
-[Incoming background]
-Фон вхідних
-[Outgoing name]
-Ваше ім'я
-[Outgoing time]
-Час надсилання
-[Outgoing colon]
-Двокрапка в надісланих повідомленнях
-[Incoming name]
-Ім'я співрозмовника
-[Incoming time]
-Час отримання
-[Incoming colon]
-Двокрапка в отриманих повідомленнях
-[Message area]
-Поле вводу повідомлення
-[Input area background]
-Фон поля вводу
-[Outgoing URL]
-Вихідний URL
-[Incoming URL]
-Вхідний URL
-[Info bar contact name]
-Інфо-панель: ім'я контакту
-[Info bar background]
-Фон інфо-панелі
-[Info bar status message]
-Інфо-панель: статусне повідомлення
-[Line between messages]
-Лінії між повідомленнями
-[Offline]
-Не в мережі
-[Online]
-В мережі
-[Away]
-Відсутній
-[Not available]
-Недоступний
-[Occupied]
-Зайнятий
-[Do not disturb]
-Не турбувати
-[Free for chat]
-Готовий до чату
-[Invisible]
-Невидимий
-[Out to lunch]
-Обідаю
-[On the phone]
-Телефоную
-[** New contacts **]
-** Нові контакти **
-[** Unknown contacts **]
-** Невідомі контакти **
-[Message sessions]
-Бесіди
-[General]
-Загальне
-[Event log]
-Журнал подій
-[Group chat log]
-Журнал чату
-[Typing notify]
-Сповіщення про друк
-[Popups]
-Спливаючі вікна
-[Message from %s]
-Повідомлення від %s
-[%s is typing a message]
-%s друкує вам повідомлення
-[Typing notification]
-Увага!
-[&Quote]
-&Цитувати
-[Quote]
-Цитата
-[&Add]
-&Додати
-[Add contact permanently to list]
-Додати до списку
-[&User menu]
-&Меню користувача
-[User menu]
-Меню користувача
-[User &details]
-&Про користувача
-[View user's details]
-Про користувача
-[&History]
-&Історія
-[View user's history (CTRL+H)]
-Історія (CTRL+H)
-[&Bold]
-&Жирний
-[Make the text bold (CTRL+B)]
-Виділити жирним (Ctrl+B)
-[&Italic]
-&Курсив
-[Make the text italicized (CTRL+I)]
-Виділити курсивом (Ctrl+I)
-[&Underline]
-&Підкреслений
-[Make the text underlined (CTRL+U)]
-Підкреслити (Ctrl+U)
-[&Color]
-&Колір
-[Select a foreground color for the text (CTRL+K)]
-Вибрати колір тексту (Ctrl+K)
-[&Background color]
-Колір фону
-[Select a background color for the text (CTRL+L)]
-Вибрати фон тексту (Ctrl+L)
-[&Room settings]
-&Налаштування кімнати
-[Control this room (CTRL+O)]
-Налаштування кімнати (Ctrl+O)
-[&Show/hide nick list]
-&Показати/сховати список
-[Show/hide the nick list (CTRL+N)]
-Показати/сховати список користувачів (Ctrl+N)
-[&Filter]
-Фільтр
-[Enable/disable the event filter (CTRL+F)]
-Увімк./вимк. фільтр подій (Ctrl+F)
-[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
-Неможливо завантажити вбудований модуль повідомлень, оскільки Msftedit.dll відсутній. Якщо ви використовуєте WINE, будь ласка, переконайтеся, що Msftedit.dll встановлено. Натисніть "Так", щоб продовжити запуск Miranda NG.
-[Instant messages]
-Повідомлення
-[Incoming (focused window)]
-Вхідні (активне вікно)
-[Incoming (unfocused window)]
-Вхідні (неактивне вікно)
-[Incoming (new session)]
-Вхідні (нова бесіда)
-[Outgoing]
-Вихідні
-[Contact started typing]
-Співрозмовник почав друкувати
-[Contact stopped typing]
-Співрозмовник закінчив друкувати
-[An unknown error has occurred.]
-Невідома помилка.
-[The message send timed out.]
-Час надсилання повідомлення вичерпано.
-[Always on top]
-Поверх усіх вікон
+[Group chats]
+Чати
 [Flash when someone speaks]
 Блимання вікна, якщо є нове повідомлення
 [Flash when a word is highlighted]
@@ -787,8 +453,6 @@ ID поточного контакту (якщо визначено). Напри
 Показувати в новому вікні, якщо "Фільтр подій" увімкнений
 [Select folder]
 Вибрати папку
-[&Message %s]
-&Написати %s
 [%s: chat room (%u user)]
 %s - чат (%u)
 [%s: chat room (%u users)]
@@ -803,3 +467,333 @@ ID поточного контакту (якщо визначено). Напри
 Унікальний ID
 [Status]
 Статус
+[Add contact]
+Додати контакт
+[User's details]
+Про користувача
+[User's history]
+Історія повідомлень
+[Send message]
+Надіслати
+[Smiley button]
+Вставити смайл
+[User is typing]
+Пише повідомлення
+[Typing notification off]
+Сповіщення про друк вимк.
+[Sending]
+Прогрес надсилання
+[Quote button]
+Цитувати
+[Close button]
+Закрити вкладку
+[Icon overlay]
+Значок зверху
+[Incoming message (10x10)]
+Вхідне повідомлення (10x10)
+[Outgoing message (10x10)]
+Вихідне повідомлення (10x10)
+[Notice (10x10)]
+Приватне повідомлення (10x10)
+[Window Icon]
+Значок вікна
+[Text color]
+Колір тексту
+[Background color]
+Колір фону
+[Bold]
+Жирний
+[Italics]
+Курсив
+[Underlined]
+Підкреслений
+[Room history]
+Історія чату
+[Room settings]
+Налаштування чату
+[Event filter disabled]
+Вимкнути фільтр подій
+[Event filter enabled]
+Увімкнути фільтр подій
+[Hide nick list]
+Сховати список користувачів
+[Show nick list]
+Показати список користувачів
+[Status 1 (10x10)]
+Статус 1 (10x10)
+[Status 2 (10x10)]
+Статус 2 (10x10)
+[Status 3 (10x10)]
+Статус 3 (10x10)
+[Status 4 (10x10)]
+Статус 4 (10x10)
+[Status 5 (10x10)]
+Статус 5 (10x10)
+[Status 6 (10x10)]
+Статус 6 (10x10)
+[Message in (10x10)]
+Отримане повідомлення (10x10)
+[Message out (10x10)]
+Надіслане повідомлення (10х10)
+[Action (10x10)]
+Дія (10x10)
+[Add Status (10x10)]
+Додати статус (10х10)
+[Remove status (10x10)]
+Видалити статус (10х10)
+[Join (10x10)]
+Увійти (10x10)
+[Leave (10x10)]
+Вийти (10x10)
+[Quit (10x10)]
+Відключитися (10x10)
+[Kick (10x10)]
+Стусани (10x10)
+[Nickchange (10x10)]
+Зміна ніку (10x10)
+[Topic (10x10)]
+Тема (10х10)
+[Highlight (10x10)]
+Підсвічування (10x10)
+[Information (10x10)]
+Інформація (10х10)
+[Single Messaging]
+Повідомлення
+[Thai]
+Тайська
+[Japanese]
+Японська
+[Simplified Chinese]
+Китайська (спрощена)
+[Korean]
+Корейська
+[Traditional Chinese]
+Китайська (традиційна)
+[Central European]
+Центральноєвропейська
+[Cyrillic]
+Кирилиця
+[Latin I]
+Західноєвропейська
+[Greek]
+Грецька
+[Turkish]
+Турецька
+[Hebrew]
+Іврит
+[Arabic]
+Арабська
+[Baltic]
+Балтійська
+[Vietnamese]
+В'єтнамська
+[Korean (Johab)]
+Корейська (Johab)
+[Navigate: Previous tab]
+Навігація: попередня вкладка
+[Navigate: Next tab]
+Навігація: наступна вкладка
+[Navigate: Tab %d]
+Навігація: Вкладка %d
+[Window: Toggle status bar]
+Вікно: Увімк./вимк. панель статусу
+[Window: Toggle title bar]
+Вікно: Увімк./вимк. заголовок
+[Window: Toggle toolbar]
+Вікно: Увімк./вимк. панель кнопок
+[Window: Toggle info bar]
+Вікно: Увімк./вимк. панель інформації
+[Window: Clear log]
+Вікно: Очистити журнал
+[Window: Minimize]
+Вікно: Згорнути
+[Window: Close tab]
+Вікно: Закрити вкладку
+[Action: Quote]
+Дія: Цитувати
+[Action: Send to all]
+Дія: Надіслати всім
+[Action: Paste and send]
+Дія: Вставити й надіслати
+[Sending in progress: %d message(s) left...]
+Відправлення: залишилося %d повідомлень...
+[%s is typing a message...]
+%s друкує вам повідомлення...
+[Last message received on %s at %s.]
+Останнє повідомлення отримано %s о %s
+[Look up '%s':]
+Шукати "%s" у
+[No word to look up]
+Нічого шукати
+[User menu - %s]
+Меню користувача - %s
+[Me]
+Я
+[My contact]
+Співрозмовник
+[Today]
+Сьогодні
+[Yesterday]
+Вчора
+[File sent]
+Надіслано файл
+[File received]
+Отримано файл
+[URL sent]
+Надіслано посилання
+[URL received]
+Отримано посилання
+[Outgoing messages]
+Вихідні повідомлення
+[Outgoing background]
+Фон вихідних
+[Incoming messages]
+Вхідні повідомлення
+[Incoming background]
+Фон вхідних
+[Outgoing name]
+Ваше ім'я
+[Outgoing time]
+Час надсилання
+[Outgoing colon]
+Двокрапка в надісланих повідомленнях
+[Incoming name]
+Ім'я співрозмовника
+[Incoming time]
+Час отримання
+[Incoming colon]
+Двокрапка в отриманих повідомленнях
+[Message area]
+Поле вводу повідомлення
+[Input area background]
+Фон поля вводу
+[Outgoing URL]
+Вихідний URL
+[Incoming URL]
+Вхідний URL
+[Info bar contact name]
+Інфо-панель: ім'я контакту
+[Info bar background]
+Фон інфо-панелі
+[Info bar status message]
+Інфо-панель: статусне повідомлення
+[Line between messages]
+Лінії між повідомленнями
+[Offline]
+Не в мережі
+[Online]
+В мережі
+[Away]
+Відсутній
+[Not available]
+Недоступний
+[Occupied]
+Зайнятий
+[Do not disturb]
+Не турбувати
+[Free for chat]
+Готовий до чату
+[Invisible]
+Невидимий
+[Out to lunch]
+Обідаю
+[On the phone]
+Телефоную
+[** New contacts **]
+** Нові контакти **
+[** Unknown contacts **]
+** Невідомі контакти **
+[Message sessions]
+Бесіди
+[General]
+Загальне
+[Event log]
+Журнал подій
+[Group chat log]
+Журнал чату
+[Typing notify]
+Сповіщення про друк
+[Popups]
+Спливаючі вікна
+[Message from %s]
+Повідомлення від %s
+[%s is typing a message]
+%s друкує вам повідомлення
+[Typing notification]
+Увага!
+[&Quote]
+&Цитувати
+[Quote]
+Цитата
+[&Add]
+&Додати
+[Add contact permanently to list]
+Додати до списку
+[&User menu]
+&Меню користувача
+[User menu]
+Меню користувача
+[User &details]
+&Про користувача
+[View user's details]
+Про користувача
+[&History]
+&Історія
+[View user's history (CTRL+H)]
+Історія (CTRL+H)
+[&Bold]
+&Жирний
+[Make the text bold (CTRL+B)]
+Виділити жирним (Ctrl+B)
+[&Italic]
+&Курсив
+[Make the text italicized (CTRL+I)]
+Виділити курсивом (Ctrl+I)
+[&Underline]
+&Підкреслений
+[Make the text underlined (CTRL+U)]
+Підкреслити (Ctrl+U)
+[&Color]
+&Колір
+[Select a foreground color for the text (CTRL+K)]
+Вибрати колір тексту (Ctrl+K)
+[&Background color]
+Колір фону
+[Select a background color for the text (CTRL+L)]
+Вибрати фон тексту (Ctrl+L)
+[&Room settings]
+&Налаштування кімнати
+[Control this room (CTRL+O)]
+Налаштування кімнати (Ctrl+O)
+[&Show/hide nick list]
+&Показати/сховати список
+[Show/hide the nick list (CTRL+N)]
+Показати/сховати список користувачів (Ctrl+N)
+[&Filter]
+Фільтр
+[Enable/disable the event filter (CTRL+F)]
+Увімк./вимк. фільтр подій (Ctrl+F)
+[&Message]
+&Повідомлення
+[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
+Неможливо завантажити вбудований модуль повідомлень, оскільки Msftedit.dll відсутній. Якщо ви використовуєте WINE, будь ласка, переконайтеся, що Msftedit.dll встановлено. Натисніть "Так", щоб продовжити запуск Miranda NG.
+[Instant messages]
+Повідомлення
+[Incoming (focused window)]
+Вхідні (активне вікно)
+[Incoming (unfocused window)]
+Вхідні (неактивне вікно)
+[Incoming (new session)]
+Вхідні (нова бесіда)
+[Outgoing]
+Вихідні
+[Contact started typing]
+Співрозмовник почав друкувати
+[Contact stopped typing]
+Співрозмовник закінчив друкувати
+[An unknown error has occurred.]
+Невідома помилка.
+[The message send timed out.]
+Час надсилання повідомлення вичерпано.
+[Always on top]
+Поверх усіх вікон

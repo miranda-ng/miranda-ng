@@ -503,6 +503,14 @@ Número de eventos anteriores a cargar
 Cargar eventos previos de menos de
 [minutes old]
 minutos de pasado
+[Use a tabbed interface]
+Usar interfaz con pestañas
+[Close tab on double click]
+Cerrar pestaña con doble clic
+[Restore previously open tabs when showing the window]
+Restaurar pestañas previamente abiertas al mostrar la ventana
+[Show tabs at the bottom]
+Mostrar pestañas en la parte inferior
 [Send typing notifications to the following users when you are typing a message to them:]
 Enviar notificaciones de escritura a los siguientes usuarios cuando se está escribiendo un mensaje para ellos
 [Show typing notifications when a user is typing a message]
@@ -591,28 +599,6 @@ Texto
 Fondo
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
 (Ajuste de tiempo de espera a 0 significa Ajuste predeterminado y -1 significa tiempo indefinido)
-[List]
-Lista
-[&Message]
-&Mensaje
-[Log]
-Registro
-[Clear lo&g]
-Limpiar re&gistro
-[Co&py all]
-Co&piar todo
-[Word lookup]
-Palabra de búsqueda
-[Wikipedia]
-Wikipedia
-[Link]
-Enlace
-[Open a &new browser window]
-Abrir una nueva ventana del navegador
-[&Open in current browser window]
-Abrir en ventana actual del navegad&or
-[&Copy link]
-Copiar enlace
 [Message]
 Mensaje
 [Undo]
@@ -637,14 +623,16 @@ Pestañas
 C&errar otras pestañas
 [&Open at this position]
 Abrir en esta p&osición
+[Log]
+Registro
 [C&lear log]
 &Limpiar registro
 [&Copy]
 &Copiar
+[Co&py all]
+Co&piar todo
 [Select &all]
 Elegir &todo
-[&Open link]
-&Abrir enlace
 [Paste and send]
 Pegar y Enviar
 [Delete]
@@ -1159,14 +1147,22 @@ buscar/añadir
 &Añadir a la lista
 [Send &message]
 Enviar mensaje
-[Open in &new window]
-Abrir en nueva ventana
-[&Open in existing window]
-Abrir en ventana existente
+[&Open link]
+&Abrir enlace
+[&Copy link]
+Copiar enlace
 [Cancel change]
 Cancelar cambio
 [Ungroup]
 Desagrupar
+[List]
+Lista
+[&Message]
+&Mensaje
+[Clear lo&g]
+Limpiar re&gistro
+[Word lookup]
+Palabra de búsqueda
 [%s requests authorization]
 %s solicita autorización
 [%u requests authorization]
@@ -1397,14 +1393,6 @@ Fondo de lista de usuarios
 Líneas de lista de usuarios
 [Nick list background (selected)]
 Fondo de lista de usuarios (seleccionado)
-[Use a tabbed interface]
-Usar interfaz con pestañas
-[Close tab on double click]
-Cerrar pestaña con doble clic
-[Restore previously open tabs when showing the window]
-Restaurar pestañas previamente abiertas al mostrar la ventana
-[Show tabs at the bottom]
-Mostrar pestañas en la parte inferior
 [Send message by pressing the 'Enter' key]
 Enviar mensaje pulsando la tecla 'Intro'
 [Send message by pressing the 'Enter' key twice]
@@ -1423,10 +1411,6 @@ Mostrar botones para el control de la sala de chat
 Mostrar botones para formatear el texto que está escribiendo
 [Show button menus when right clicking the buttons]
 Mostrar menús del botón derecho cuando se hace clic en los botones
-[Show new windows cascaded]
-Mostrar nuevas ventanas en cascada
-[Save the size and position of chat rooms]
-Guarde el tamaño y la posición de las salas de chat
 [Show the topic of the room on your contact list (if supported)]
 Mostrar el tema de la sala en su lista de contactos (si es compatible)
 [Do not play sounds when the chat room is focused]
@@ -1623,8 +1607,6 @@ Mensajería
 Grupo de chats
 [Group chats log]
 Registro de Grupo de Chats
-[Options for using a tabbed interface]
-Opciones para usar una interfaz con pestañas
 [Appearance and functionality of chat room windows]
 Apariencia y funcionalidad de ventanas de chat
 [Appearance of the message log]
@@ -1643,14 +1625,10 @@ Sesiones de mensaje
 General
 [Chat log]
 Registro de chat
+[Chat]
+Chat
 [Popups]
 Ventanas emergentes
-[Look up '%s':]
-Buscar '%s':
-[No word to look up]
-Ni una palabra para buscar
-[&Message %s]
-&Mensaje %s
 [%s: chat room (%u user)]
 %s: sala de chat (%u usuario)
 [%s: chat room (%u users)]
@@ -1951,8 +1929,12 @@ Aviso de %s: %s
 El tema es '%s'
 [The topic is '%s' (set by %s)]
 El tema es '%s' (establecido por %s)
-[Nick]
-Apodo
+[Look up '%s':]
+Buscar '%s':
+[No word to look up]
+Ni una palabra para buscar
+[&Message %s]
+&Mensaje %s
 [New group]
 Nuevo grupo
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -1979,6 +1961,8 @@ E&liminar
 &Añadir a la lista de forma permanente
 [My custom name (not movable)]
 Mi nombre personalizado (no movible)
+[Nick]
+Apodo
 [FirstName]
 Nombre
 [E-mail]
@@ -2401,6 +2385,8 @@ Archivos de sonido
 Archivos WAV
 [<Separator>]
 <Separador>
+[Toolbar]
+Barra de herramientas
 [Unspecified]
 <Sin especificar>
 [Afghanistan]
