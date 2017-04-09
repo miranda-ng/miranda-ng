@@ -1114,6 +1114,10 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		return TRUE;
 
+	case DM_APPENDTOLOG:
+		StreamInEvents(wParam, 1, 1);
+		break;
+
 	case DM_REMAKELOG:
 		StreamInEvents(m_hDbEventFirst, -1, 0);
 		break;
@@ -1140,7 +1144,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					SendMessage(m_hwnd, DM_UPDATELASTMESSAGE, 0, 0);
 				}
 				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
-					StreamInEvents(hDbEvent, 1, 1);
+					SendMessage(m_hwnd, DM_APPENDTOLOG, hDbEvent, 0);
 				else
 					SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 
