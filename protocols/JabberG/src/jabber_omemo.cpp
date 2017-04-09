@@ -566,54 +566,178 @@ namespace omemo {
 	}
 
 	//signal_protocol_session_store callbacks follow
-	/*
 	
-ghazan
-[20:35:26]
-db_set_blob
-
-db_get_blob
-*/
-
+	struct signal_store_backend_user_data
+	{
+		MCONTACT hContact;
+		CJabberProto *proto;
+	};
 	int load_session_func(signal_buffer **record, const signal_protocol_address *address, void *user_data)
 	{
-		//TODO:
-		return 0; //failure
+		/**
+		* Returns a copy of the serialized session record corresponding to the
+		* provided recipient ID + device ID tuple.
+		*
+		* @param record pointer to a freshly allocated buffer containing the
+		*     serialized session record. Unset if no record was found.
+		*     The Signal Protocol library is responsible for freeing this buffer.
+		* @param address the address of the remote client
+		* @return 1 if the session was loaded, 0 if the session was not found, negative on failure
+		*/
+
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+
+		char *id_buf = (char*)mir_alloc(address->name_len + sizeof(int32_t));
+		memcpy(id_buf, address->name, address->name_len);
+		char *id_buf_ptr = id_buf;
+		id_buf_ptr += address->name_len;
+		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
+		char *id_str = mir_base64_encode((BYTE*)id_buf, address->name_len + sizeof(int32_t));
+		mir_free(id_buf);
+		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
+		mir_snprintf(setting_name, strlen(id_str) + 64, "", "OmemoSignalSession_", id_str);
+		mir_free(id_str);
+		DBVARIANT dbv = { 0 };
+		dbv.type = DBVT_BLOB;
+		db_get(data->hContact, data->proto->m_szModuleName, setting_name, &dbv);
+		if (!dbv.cpbVal)
+		{
+			db_free(&dbv);
+			return 0;
+		}
+		*record = signal_buffer_create(dbv.pbVal, dbv.cpbVal);
+		db_free(&dbv);
+		return 1; //session exist and succesfully loaded
 	}
 
 	int get_sub_device_sessions_func(signal_int_list **sessions, const char *name, size_t name_len, void *user_data)
 	{
+		/**
+		* Returns all known devices with active sessions for a recipient
+		*
+		* @param pointer to an array that will be allocated and populated with the result
+		* @param name the name of the remote client
+		* @param name_len the length of the name
+		* @return size of the sessions array, or negative on failure
+		*/
+
 		//TODO:
+		//db_enum_settings
 		return -1; //failure
 	}
 
 	int store_session_func(const signal_protocol_address *address, uint8_t *record, size_t record_len, void *user_data)
 	{
-		//TODO:
-		return -1; //failure
+		/**
+		* Commit to storage the session record for a given
+		* recipient ID + device ID tuple.
+		*
+		* @param address the address of the remote client
+		* @param record pointer to a buffer containing the serialized session
+		*     record for the remote client
+		* @param record_len length of the serialized session record
+		* @return 0 on success, negative on failure
+		*/
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+
+		char *id_buf = (char*)mir_alloc(address->name_len + sizeof(int32_t));
+		memcpy(id_buf, address->name, address->name_len);
+		char *id_buf_ptr = id_buf;
+		id_buf_ptr += address->name_len;
+		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
+		char *id_str = mir_base64_encode((BYTE*)id_buf, address->name_len + sizeof(int32_t));
+		mir_free(id_buf);
+		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
+		mir_snprintf(setting_name, strlen(id_str) + 64, "", "OmemoSignalSession_", id_str);
+		mir_free(id_str);
+		db_set_blob(data->hContact, data->proto->m_szModuleName, setting_name, record, record_len);
+		return 0;
+
 	}
 
 	int contains_session_func(const signal_protocol_address *address, void *user_data)
 	{
-		//TODO:
-		return 0; //not exist
+		/**
+		* Determine whether there is a committed session record for a
+		* recipient ID + device ID tuple.
+		*
+		* @param address the address of the remote client
+		* @return 1 if a session record exists, 0 otherwise.
+		*/
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+
+		char *id_buf = (char*)mir_alloc(address->name_len + sizeof(int32_t));
+		memcpy(id_buf, address->name, address->name_len);
+		char *id_buf_ptr = id_buf;
+		id_buf_ptr += address->name_len;
+		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
+		char *id_str = mir_base64_encode((BYTE*)id_buf, address->name_len + sizeof(int32_t));
+		mir_free(id_buf);
+		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
+		mir_snprintf(setting_name, strlen(id_str) + 64, "", "OmemoSignalSession_", id_str);
+		mir_free(id_str);
+		DBVARIANT dbv = { 0 };
+		dbv.type = DBVT_BLOB;
+		db_get(data->hContact, data->proto->m_szModuleName, setting_name, &dbv);
+		if (!dbv.cpbVal)
+		{
+			db_free(&dbv);
+			return 0;
+		}
+		db_free(&dbv);
+		return 1;
+
 	}
 
 	int delete_session_func(const signal_protocol_address *address, void *user_data)
 	{
-		//TODO:
-		return -1; //failure
+		/**
+		* Remove a session record for a recipient ID + device ID tuple.
+		*
+		* @param address the address of the remote client
+		* @return 1 if a session was deleted, 0 if a session was not deleted, negative on error
+		*/
+
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+
+		char *id_buf = (char*)mir_alloc(address->name_len + sizeof(int32_t));
+		memcpy(id_buf, address->name, address->name_len);
+		char *id_buf_ptr = id_buf;
+		id_buf_ptr += address->name_len;
+		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
+		char *id_str = mir_base64_encode((BYTE*)id_buf, address->name_len + sizeof(int32_t));
+		mir_free(id_buf);
+		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
+		mir_snprintf(setting_name, strlen(id_str) + 64, "", "OmemoSignalSession_", id_str);
+		mir_free(id_str);
+		db_unset(data->hContact, data->proto->m_szModuleName, setting_name);
+		return 1;
 	}
 
 	int delete_all_sessions_func(const char *name, size_t name_len, void *user_data)
 	{
+		/**
+		* Remove the session records corresponding to all devices of a recipient ID.
+		*
+		* @param name the name of the remote client
+		* @param name_len the length of the name
+		* @return the number of deleted sessions on success, negative on failure
+		*/
+
 		//TODO:
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+		//db_enum_settings
 		return -1; //failure
 	}
 
 	void destroy_func(void *user_data)
 	{
-
+		if (user_data)
+		{
+			signal_store_backend_user_data* d = (signal_store_backend_user_data*)user_data;
+			mir_free(d);
+			user_data = nullptr;
+		}
 	}
 
 	//signal_protocol_pre_key_store callback follow
@@ -697,11 +821,18 @@ db_get_blob
 	}
 	//void(*destroy_func)(void *user_data); //use first one as we have nothing special to destroy
 
-	bool create_session_store(MCONTACT hContact)
+	bool create_session_store(MCONTACT hContact, CJabberProto *proto)
 	{
 		sessions_internal[hContact].builder = nullptr;
 		sessions_internal[hContact].cipher = nullptr;
 		sessions_internal[hContact].store_context = nullptr;
+		signal_store_backend_user_data *data[4];
+		for (int i = 0; i < 4; i++)
+		{
+			data[i] = (signal_store_backend_user_data*)mir_alloc(sizeof(signal_store_backend_user_data));
+			data[i]->hContact = hContact;
+			data[i]->proto = proto;
+		}
 		/* Create the data store context, and add all the callbacks to it */
 		//TODO: validation of functions return codes
 		signal_protocol_store_context *store_context;
@@ -714,7 +845,7 @@ db_get_blob
 		ss.get_sub_device_sessions_func = &get_sub_device_sessions_func;
 		ss.load_session_func = &load_session_func;
 		ss.store_session_func = &store_session_func;
-		ss.user_data = (void*)hContact;
+		ss.user_data = (void*)data[0];
 		signal_protocol_store_context_set_session_store(store_context, &ss);
 		signal_protocol_pre_key_store sp;
 		sp.contains_pre_key = &contains_pre_key;
@@ -722,7 +853,7 @@ db_get_blob
 		sp.load_pre_key = &load_pre_key;
 		sp.remove_pre_key = &remove_pre_key;
 		sp.store_pre_key = &store_pre_key;
-		sp.user_data = (void*)hContact;
+		sp.user_data = (void*)data[1];
 		signal_protocol_store_context_set_pre_key_store(store_context, &sp);
 		signal_protocol_signed_pre_key_store ssp;
 		ssp.contains_signed_pre_key = &contains_signed_pre_key;
@@ -730,7 +861,7 @@ db_get_blob
 		ssp.load_signed_pre_key = &load_signed_pre_key;
 		ssp.remove_signed_pre_key = &remove_signed_pre_key;
 		ssp.store_signed_pre_key = &store_signed_pre_key;
-		ssp.user_data = (void*)hContact;
+		ssp.user_data = (void*)data[2];
 		signal_protocol_store_context_set_signed_pre_key_store(store_context, &ssp);
 		signal_protocol_identity_key_store sip;
 		sip.destroy_func = &destroy_func;
@@ -738,7 +869,7 @@ db_get_blob
 		sip.get_local_registration_id = &get_local_registration_id;
 		sip.is_trusted_identity = &is_trusted_identity;
 		sip.save_identity = &save_identity;
-		sip.user_data = (void*)hContact;
+		sip.user_data = (void*)data[3];
 		signal_protocol_store_context_set_identity_key_store(store_context, &sip);
 
 		sessions_internal[hContact].store_context = store_context;
@@ -1121,7 +1252,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo * /*pInfo
 
 	
 	//TODO: we have all required data, we need to create session with device here
-	if (!omemo::create_session_store(HContactFromJID(jid)))
+	if (!omemo::create_session_store(HContactFromJID(jid), this))
 		return; //failed to create session store
 
 	if (!omemo::build_session(HContactFromJID(jid), jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic, signedPreKeySignature, identityKey))

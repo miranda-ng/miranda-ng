@@ -194,7 +194,8 @@ CJabberProto::~CJabberProto()
 		mir_free(m_lstJabberFeatCapPairsDynamic[i]->szDescription);
 		delete m_lstJabberFeatCapPairsDynamic[i];
 	}
-	omemo::clean_sessions();
+	if(m_options.UseOMEMO)
+		omemo::clean_sessions();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
