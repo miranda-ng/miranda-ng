@@ -57,29 +57,34 @@ char* CDropbox::HttpStatusToText(HTTP_STATUS status)
 	return "Unknown error";
 }
 
-void CDropbox::HandleJsonResponseError(NETLIBHTTPREQUEST *response)
+void CDropbox::HandleHttpResponse(NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
 		throw DropboxException(HttpStatusToText(HTTP_STATUS_ERROR));
+}
 
-	if (response->resultCode == HTTP_STATUS_OK)
-		return;
+JSONNode CDropbox::HandleJsonResponse(NETLIBHTTPREQUEST *response)
+{
+	HandleHttpResponse(response);
 
-	if (response->resultCode != HTTP_STATUS_CONFLICT) {
+	if (response->resultCode != HTTP_STATUS_OK &&
+		response->resultCode != HTTP_STATUS_CONFLICT) {
 		if (response->dataLength)
 			throw DropboxException(response->pData);
 		throw DropboxException(HttpStatusToText((HTTP_STATUS)response->resultCode));
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
-	if (root.empty())
+	if (root.isnull())
 		throw DropboxException(HttpStatusToText(HTTP_STATUS_ERROR));
 
-	JSONNode error = root.at("error_summary");
-	if (error.empty())
-		return;
+	JSONNode error = root.at("error");
+	if (!error.isnull()) {
+		json_string tag = error.at(".tag").as_string();
+		throw DropboxException(tag.c_str());
+	}
 
-	throw DropboxException(error.as_string().c_str());
+	return root;
 }
 
 MEVENT CDropbox::AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD cbBlob, PBYTE pBlob)

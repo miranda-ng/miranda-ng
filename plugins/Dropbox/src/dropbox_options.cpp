@@ -5,10 +5,10 @@ CDropboxOptionsMain::CDropboxOptionsMain(CDropbox *instance)
 	m_instance(instance),
 	m_auth(this, IDC_GETAUTH, DROPBOX_WWW_URL "/oauth2/authorize?response_type=code&client_id=" DROPBOX_APP_KEY),
 	m_requestCode(this, IDC_REQUEST_CODE), m_authorize(this, IDC_AUTHORIZE), m_authStatus(this, IDC_AUTH_STATUS),
-	m_useShortUrl(this, IDC_USE_SHORT_LINKS), m_urlAutoSend(this, IDC_URL_AUTOSEND),
+	m_urlIsTemporary(this, IDC_URL_ISTEMPORARY), m_urlAutoSend(this, IDC_URL_AUTOSEND),
 	m_urlPasteToMessageInputArea(this, IDC_URL_COPYTOMIA), m_urlCopyToClipboard(this, IDC_URL_COPYTOCB)
 {
-	CreateLink(m_useShortUrl, "UseSortLinks", DBVT_BYTE, 1);
+	CreateLink(m_urlIsTemporary, "UrlIsTemporary", DBVT_BYTE, 0);
 	CreateLink(m_urlAutoSend, "UrlAutoSend", DBVT_BYTE, 1);
 	CreateLink(m_urlPasteToMessageInputArea, "UrlPasteToMessageInputArea", DBVT_BYTE, 0);
 	CreateLink(m_urlCopyToClipboard, "UrlCopyToClipboard", DBVT_BYTE, 0);

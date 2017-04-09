@@ -67,14 +67,23 @@ bool CDropbox::HasAccessToken()
 
 void CDropbox::RequestAccountInfo(void *p)
 {
-	CDropbox *self = (CDropbox*)p;
+	CDropbox *instance = (CDropbox*)p;
 
-	MCONTACT hContact = self->GetDefaultContact();
+	MCONTACT hContact = instance->GetDefaultContact();
 
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	GetCurrentAccountRequest request(token);
-	NLHR_PTR response(request.Send(self->hNetlibConnection));
-	HandleJsonResponseError(response);
+	NLHR_PTR response(request.Send(instance->hNetlibConnection));
+	
+	try
+	{
+		HandleHttpResponse(response);
+	}
+	catch (DropboxException &ex)
+	{
+		Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, ex.what());
+		return;
+	}
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty())

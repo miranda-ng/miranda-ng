@@ -160,7 +160,7 @@ void CDropbox::CommandDelete(void *arg)
 
 	try
 	{
-		HandleJsonResponseError(response);
+		HandleJsonResponse(response);
 
 		CMStringA message(FORMAT, "%s %s", path, T2Utf(TranslateT("is deleted")));
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);

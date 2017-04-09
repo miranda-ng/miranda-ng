@@ -114,7 +114,8 @@ private:
 	static bool IsAccountIntercepted(const char *module);
 
 	static char* HttpStatusToText(HTTP_STATUS status);
-	static void HandleJsonResponseError(NETLIBHTTPREQUEST *response);
+	static void HandleHttpResponse(NETLIBHTTPREQUEST *response);
+	static JSONNode HandleJsonResponse(NETLIBHTTPREQUEST *response);
 
 	static MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 

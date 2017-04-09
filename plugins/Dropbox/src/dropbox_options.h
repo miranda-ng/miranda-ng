@@ -12,7 +12,7 @@ private:
 	CCtrlButton m_authorize;
 	CCtrlBase m_authStatus;
 
-	CCtrlCheck m_useShortUrl;
+	CCtrlCheck m_urlIsTemporary;
 	CCtrlCheck m_urlAutoSend;
 	CCtrlCheck m_urlPasteToMessageInputArea;
 	CCtrlCheck m_urlCopyToClipboard;

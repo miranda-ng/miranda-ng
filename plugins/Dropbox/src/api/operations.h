@@ -18,6 +18,40 @@ public:
 	}
 };
 
+class CreateSharedLinkRequest : public HttpRequest
+{
+public:
+	CreateSharedLinkRequest(const char *token, const char *path) :
+		HttpRequest(REQUEST_POST, DROPBOX_API_RPC "/sharing/create_shared_link_with_settings")
+	{
+		AddBearerAuthHeader(token);
+		AddHeader("Content-Type", "application/json");
+
+		JSONNode root(JSON_NODE);
+		root << JSONNode("path", path);
+
+		json_string data = root.write();
+		SetData(data.c_str(), data.length());
+	}
+};
+
+class GetSharedLinkRequest : public HttpRequest
+{
+public:
+	GetSharedLinkRequest(const char *token, const char *path) :
+		HttpRequest(REQUEST_POST, DROPBOX_API_RPC "/sharing/list_shared_links")
+	{
+		AddBearerAuthHeader(token);
+		AddHeader("Content-Type", "application/json");
+
+		JSONNode root(JSON_NODE);
+		root << JSONNode("path", path);
+
+		json_string data = root.write();
+		SetData(data.c_str(), data.length());
+	}
+};
+
 class SearchRequest : public HttpRequest
 {
 public:

@@ -7,14 +7,10 @@ char* CDropbox::UploadFile(const char *data, size_t size, char *path)
 	UploadFileRequest request(token, encodedPath, data, size);
 	NLHR_PTR response(request.Send(hNetlibConnection));
 
-	HandleJsonResponseError(response);
+	JSONNode root = HandleJsonResponse(response);
+	JSONNode node = root.at("path_lower");
+	mir_strcpy(path, node.as_string().c_str());
 
-	JSONNode root = JSONNode::parse(response->pData);
-	if (!root.empty())
-	{
-		JSONNode node = root.at("path_lower");
-		mir_strcpy(path, node.as_string().c_str());
-	}
 	return path;
 }
 
@@ -24,12 +20,7 @@ void CDropbox::StartUploadSession(const char *data, size_t size, char *sessionId
 	StartUploadSessionRequest request(token, data, size);
 	NLHR_PTR response(request.Send(hNetlibConnection));
 
-	HandleJsonResponseError(response);
-
-	JSONNode root = JSONNode::parse(response->pData);
-	if (root.empty())
-		return;
-
+	JSONNode root = HandleJsonResponse(response);
 	JSONNode node = root.at("session_id");
 	mir_strcpy(sessionId, node.as_string().c_str());
 }
@@ -40,7 +31,7 @@ void CDropbox::AppendToUploadSession(const char *data, size_t size, const char *
 	AppendToUploadSessionRequest request(token, sessionId, offset, data, size);
 	NLHR_PTR response(request.Send(hNetlibConnection));
 
-	HandleJsonResponseError(response);
+	HandleJsonResponse(response);
 }
 
 char* CDropbox::FinishUploadSession(const char *data, size_t size, const char *sessionId, size_t offset, char *path)
@@ -49,14 +40,10 @@ char* CDropbox::FinishUploadSession(const char *data, size_t size, const char *s
 	FinishUploadSessionRequest request(token, sessionId, offset, path, data, size);
 	NLHR_PTR response(request.Send(hNetlibConnection));
 
-	HandleJsonResponseError(response);
+	JSONNode root = HandleJsonResponse(response);
+	JSONNode node = root.at("path_lower");
+	mir_strcpy(path, node.as_string().c_str());
 
-	JSONNode root = JSONNode::parse(response->pData);
-	if (!root.empty())
-	{
-		JSONNode node = root.at("path_lower");
-		mir_strcpy(path, node.as_string().c_str());
-	}
 	return path;
 }
 
@@ -70,23 +57,50 @@ void CDropbox::CreateFolder(const char *path)
 	if (response->resultCode == HTTP_STATUS_FORBIDDEN)
 		return;
 
-	HandleJsonResponseError(response);
+	HandleJsonResponse(response);
 }
 
 void CDropbox::CreateDownloadUrl(const char *path, char *url)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
-	GetTemporaryLinkRequest request(token, path);
-	NLHR_PTR response(request.Send(hNetlibConnection));
+	if (db_get_b(NULL, MODULE, "UrlIsTemporary", 0)) {
+		GetTemporaryLinkRequest request(token, path);
+		NLHR_PTR response(request.Send(hNetlibConnection));
 
-	HandleJsonResponseError(response);
+		JSONNode root = HandleJsonResponse(response);
+		JSONNode link = root.at("link");
+		mir_strcpy(url, link.as_string().c_str());
+		return;
+	}
+
+	CreateSharedLinkRequest shareRequest(token, path);
+	NLHR_PTR response(shareRequest.Send(hNetlibConnection));
+
+	HandleHttpResponse(response);
 
 	JSONNode root = JSONNode::parse(response->pData);
-	if (root.empty())
-		return;
+	if (root.isnull())
+		throw DropboxException(HttpStatusToText(HTTP_STATUS_ERROR));
 
-	JSONNode node = root.at("link");
-	mir_strcpy(url, node.as_string().c_str());
+	JSONNode error = root.at("error");
+	if (error.isnull()) {
+		JSONNode link = root.at("link");
+		mir_strcpy(url, link.as_string().c_str());
+		return;
+	}
+
+	json_string tag = error.at(".tag").as_string();
+	if (tag != "shared_link_already_exists")
+		throw DropboxException(tag.c_str());
+
+	GetSharedLinkRequest getRequest(token, path);
+	response = getRequest.Send(hNetlibConnection);
+
+	root = HandleJsonResponse(response);
+
+	JSONNode links = root.at("links").as_array();
+	JSONNode link = links[0u].at("url");
+	mir_strcpy(url, link.as_string().c_str());
 }
 
 UINT CDropbox::UploadToDropbox(void *owner, void *arg)
