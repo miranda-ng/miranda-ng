@@ -84,7 +84,7 @@ void CDropbox::CreateDownloadUrl(const char *path, char *url)
 
 	JSONNode error = root.at("error");
 	if (error.isnull()) {
-		JSONNode link = root.at("link");
+		JSONNode link = root.at("url");
 		mir_strcpy(url, link.as_string().c_str());
 		return;
 	}
@@ -99,7 +99,7 @@ void CDropbox::CreateDownloadUrl(const char *path, char *url)
 	root = HandleJsonResponse(response);
 
 	JSONNode links = root.at("links").as_array();
-	JSONNode link = links[0u].at("url");
+	const JSONNode &link = (*links.begin()).at("url");
 	mir_strcpy(url, link.as_string().c_str());
 }
 
