@@ -46,11 +46,8 @@ struct TRTFColorTable
 class Utils {
 
 public:
-	static int      FindRTLLocale(CTabBaseDlg *dat);
 	static wchar_t* GetPreviewWithEllipsis(wchar_t *szText, size_t iMaxLen);
 	static wchar_t* FilterEventMarkers(wchar_t *wszText);
-	static LPCTSTR  FormatRaw(CTabBaseDlg *dat, const wchar_t *msg, int flags, BOOL isSent);
-	static bool     FormatTitleBar(const CTabBaseDlg *dat, const wchar_t *szFormat, CMStringW &dest);
 	static char*    FilterEventMarkers(char *szText);
 	static void     DoubleAmpersands(wchar_t *pszText, size_t len);
 	static void     RTF_CTableInit();
@@ -67,8 +64,6 @@ public:
 	static void     addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const wchar_t *szText, UINT uID, UINT pos);
 	static void     enableDlgControl(const HWND hwnd, UINT id, bool fEnable = true);
 	static void     showDlgControl(const HWND hwnd, UINT id, int showCmd);
-	static int      mustPlaySound(const CTabBaseDlg *dat);
-	static HICON    iconFromAvatar(const CTabBaseDlg *dat);
 	static void     setAvatarContact(HWND hWnd, MCONTACT hContact);
 	static void     getIconSize(HICON hIcon, int& sizeX, int& sizeY);
 

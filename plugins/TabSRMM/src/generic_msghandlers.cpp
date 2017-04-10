@@ -588,7 +588,7 @@ void CTabBaseDlg::DM_InitRichEdit()
 	pf2.cbSize = sizeof(pf2);
 	pf2.wEffects = PFE_RTLPARA;
 	pf2.dwMask = PFM_RTLPARA;
-	if (Utils::FindRTLLocale(this))
+	if (FindRTLLocale())
 		m_message.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 	if (!(m_dwFlags & MWF_LOG_RTL)) {
 		pf2.wEffects = 0;

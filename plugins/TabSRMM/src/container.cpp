@@ -81,7 +81,7 @@ void TContainerData::UpdateTitle(MCONTACT hContact, CTabBaseDlg *pDlg)
 	if (dat) {
 		SendMessage(m_hwnd, DM_SETICON, (WPARAM)dat, (LPARAM)(dat->m_hXStatusIcon ? dat->m_hXStatusIcon : dat->m_hTabStatusIcon));
 		CMStringW szTitle;
-		if (Utils::FormatTitleBar(dat, settings->szTitleFormat, szTitle))
+		if (dat->FormatTitleBar(settings->szTitleFormat, szTitle))
 			SetWindowText(m_hwnd, szTitle);
 	}
 }
@@ -1693,7 +1693,7 @@ panel_found:
 
 				if (dat) {
 					if (dat->m_hTaskbarIcon == 0)
-						dat->m_hTaskbarIcon = ((dat->m_pContainer->dwFlags & CNT_AVATARSONTASKBAR) ? Utils::iconFromAvatar(dat) : 0);
+						dat->m_hTaskbarIcon = ((dat->m_pContainer->dwFlags & CNT_AVATARSONTASKBAR) ? dat->IconFromAvatar() : 0);
 					else {
 						if (!(dat->m_pContainer->dwFlags & CNT_AVATARSONTASKBAR)) {
 							DestroyIcon(dat->m_hTaskbarIcon);

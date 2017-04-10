@@ -213,9 +213,9 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 		if (dat) {
 			p->bInactive = dat->m_pContainer->m_hwnd != GetForegroundWindow();
 			p->bActiveTab = (dat->m_pContainer->m_hwndActive == si->pDlg->GetHwnd());
+			if (p->sound && dat->MustPlaySound())
+				SkinPlaySound(p->sound);
 		}
-		if (p->sound && Utils::mustPlaySound(si->pDlg))
-			SkinPlaySound(p->sound);
 	}
 	else if (p->sound)
 		SkinPlaySound(p->sound);

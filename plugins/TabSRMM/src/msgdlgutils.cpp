@@ -1163,8 +1163,7 @@ void CTabBaseDlg::LoadSplitter()
 
 void CTabBaseDlg::PlayIncomingSound() const
 {
-	int iPlay = Utils::mustPlaySound(this);
-
+	int iPlay = MustPlaySound();
 	if (iPlay) {
 		if (GetForegroundWindow() == m_pContainer->m_hwnd && m_pContainer->m_hwndActive == m_hwnd)
 			SkinPlaySound("RecvMsgActive");
@@ -1244,7 +1243,7 @@ void CTabBaseDlg::GetLocaleID(const wchar_t *szKLName)
 	pf2.cbSize = sizeof(pf2);
 	pf2.dwMask = PFM_RTLPARA;
 	m_message.SendMsg(EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
-	if (Utils::FindRTLLocale(this) && fLocaleNotSet) {
+	if (FindRTLLocale() && fLocaleNotSet) {
 		if (wCtype2[0] == C2_RIGHTTOLEFT || wCtype2[1] == C2_RIGHTTOLEFT || wCtype2[2] == C2_RIGHTTOLEFT) {
 			memset(&pf2, 0, sizeof(pf2));
 			pf2.dwMask = PFM_RTLPARA;

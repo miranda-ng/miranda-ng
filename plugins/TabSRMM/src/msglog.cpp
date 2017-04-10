@@ -477,7 +477,7 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 		return nullptr;
 	}
 	TrimMessage(msg);
-	formatted = const_cast<wchar_t *>(Utils::FormatRaw(dat, msg, dwFormattingParams, FALSE));
+	formatted = const_cast<wchar_t *>(dat->FormatRaw(msg, dwFormattingParams, FALSE));
 	mir_free(msg);
 
 	CMStringA str;
@@ -1074,57 +1074,47 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	return 0;
 }
 
-static void SetupLogFormatting(CTabBaseDlg *dat)
-{
-	if (dat->m_hHistoryEvents)
-		strncpy_s(dat->m_szMicroLf, "\\v\\cf%d \\ ~-+%d+-~\\v0 ", _TRUNCATE);
-	else
-		mir_snprintf(dat->m_szMicroLf, "%s\\par\\ltrpar\\sl-1%s ", GetRTFFont(MSGDLGFONTCOUNT), GetRTFFont(MSGDLGFONTCOUNT));
-}
-
-static void ReplaceIcons(HWND hwndDlg, CTabBaseDlg *dat, LONG startAt, int fAppend, BOOL isSent)
+void CTabBaseDlg::ReplaceIcons(LONG startAt, int fAppend, BOOL isSent)
 {
 	wchar_t trbuffer[40];
 	TEXTRANGE tr;
 	tr.lpstrText = trbuffer;
 
-	HWND hwndrtf = GetDlgItem(hwndDlg, IDC_SRMM_LOG);
-
 	FINDTEXTEX fi;
 	fi.chrg.cpMin = startAt;
-	if (dat->m_bClrAdded) {
+	if (m_bClrAdded) {
 		fi.lpstrText = L"##col##";
 		fi.chrg.cpMax = -1;
 		CHARFORMAT2 cf2;
 		memset(&cf2, 0, sizeof(cf2));
 		cf2.cbSize = sizeof(cf2);
 		cf2.dwMask = CFM_COLOR;
-		while (SendMessage(hwndrtf, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
+		while (m_log.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
 			tr.chrg.cpMin = fi.chrgText.cpMin;
 			tr.chrg.cpMax = tr.chrg.cpMin + 18;
 			trbuffer[0] = 0;
-			SendMessage(hwndrtf, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+			m_log.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 			trbuffer[18] = 0;
 
 			CHARRANGE cr;
 			cr.cpMin = fi.chrgText.cpMin;
 			cr.cpMax = cr.cpMin + 18;
-			SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&cr);
-			SendMessage(hwndrtf, EM_REPLACESEL, FALSE, (LPARAM)L"");
+			m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&cr);
+			m_log.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)L"");
 			UINT length = (unsigned int)_wtol(&trbuffer[7]);
 			int index = _wtol(&trbuffer[14]);
 			if (length > 0 && length < 20000 && index >= RTF_CTABLE_DEFSIZE && index < Utils::rtf_ctable_size) {
 				cf2.crTextColor = Utils::rtf_ctable[index].clr;
 				cr.cpMin = fi.chrgText.cpMin;
 				cr.cpMax = cr.cpMin + length;
-				SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&cr);
-				SendMessage(hwndrtf, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2);
+				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&cr);
+				m_log.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2);
 			}
 		}
 	}
 
 	fi.chrg.cpMin = startAt;
-	if (dat->m_dwFlags & MWF_LOG_SHOWICONS) {
+	if (m_dwFlags & MWF_LOG_SHOWICONS) {
 		fi.lpstrText = L"#~#";
 		fi.chrg.cpMax = -1;
 
@@ -1134,16 +1124,16 @@ static void ReplaceIcons(HWND hwndDlg, CTabBaseDlg *dat, LONG startAt, int fAppe
 		cf2.dwMask = CFM_BACKCOLOR;
 
 		CComPtr<IRichEditOle> ole;
-		SendMessage(hwndrtf, EM_GETOLEINTERFACE, 0, (LPARAM)&ole);
-		while (SendMessageA(hwndrtf, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
+		m_log.SendMsg(EM_GETOLEINTERFACE, 0, (LPARAM)&ole);
+		while (m_log.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
 			CHARRANGE cr;
 			cr.cpMin = fi.chrgText.cpMin;
 			cr.cpMax = fi.chrgText.cpMax + 2;
-			SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&cr);
+			m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&cr);
 
 			tr.chrg.cpMin = fi.chrgText.cpMin + 3;
 			tr.chrg.cpMax = fi.chrgText.cpMin + 5;
-			SendMessage(hwndrtf, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+			m_log.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 			
 			int bIconIndex = trbuffer[0] - '0';
 			if (bIconIndex >= NR_LOGICONS) {
@@ -1152,14 +1142,14 @@ static void ReplaceIcons(HWND hwndDlg, CTabBaseDlg *dat, LONG startAt, int fAppe
 			}
 			
 			char bDirection = trbuffer[1];
-			SendMessage(hwndrtf, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2);
+			m_log.SendMsg(EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2);
 			COLORREF crDefault;
 			if (cf2.crBackColor != 0)
 				crDefault = cf2.crBackColor;
 			else if (bDirection == '>')
-				crDefault = (fAppend) ? dat->m_pContainer->theme.outbg : dat->m_pContainer->theme.oldoutbg;
+				crDefault = (fAppend) ? m_pContainer->theme.outbg : m_pContainer->theme.oldoutbg;
 			else 
-				crDefault = (fAppend) ? dat->m_pContainer->theme.inbg : dat->m_pContainer->theme.oldinbg;
+				crDefault = (fAppend) ? m_pContainer->theme.inbg : m_pContainer->theme.oldinbg;
 
 			TLogIcon theIcon(Logicons[bIconIndex], crDefault);
 			CImageDataObject::InsertBitmap(ole, theIcon.m_hBmp);
@@ -1174,32 +1164,32 @@ static void ReplaceIcons(HWND hwndDlg, CTabBaseDlg *dat, LONG startAt, int fAppe
 		sel.cpMax = -1;
 
 		SMADD_RICHEDIT3 smadd = { sizeof(smadd) };
-		smadd.hwndRichEditControl = hwndrtf;
-		smadd.Protocolname = const_cast<char *>(dat->m_cache->getActiveProto());
-		smadd.hContact = dat->m_cache->getActiveContact();
+		smadd.hwndRichEditControl = m_log.GetHwnd();
+		smadd.Protocolname = const_cast<char *>(m_cache->getActiveProto());
+		smadd.hContact = m_cache->getActiveContact();
 		smadd.flags = isSent ? SAFLRE_OUTGOING : 0;
 		if (startAt > 0)
 			smadd.rangeToReplace = &sel;
 		else
 			smadd.rangeToReplace = nullptr;
 		smadd.disableRedraw = TRUE;
-		CallService(MS_SMILEYADD_REPLACESMILEYS, TABSRMM_SMILEYADD_BKGCOLORMODE, (LPARAM)&smadd);
+		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&smadd);
 	}
 
-	if (dat->m_hHistoryEvents && dat->m_curHistory == dat->m_maxHistory) {
-		char szPattern[50];
-		mir_snprintf(szPattern, "~-+%d+-~", (INT_PTR)dat->m_hHistoryEvents[0]);
+	if (m_hHistoryEvents && m_curHistory == m_maxHistory) {
+		wchar_t szPattern[50];
+		mir_snwprintf(szPattern, L"~-+%d+-~", (INT_PTR)m_hHistoryEvents[0]);
 
-		FINDTEXTEXA ft;
+		FINDTEXTEX ft;
 		ft.lpstrText = szPattern;
 		ft.chrg.cpMin = 0;
 		ft.chrg.cpMax = -1;
-		if (SendMessageA(hwndrtf, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&ft) != 0) {
+		if (m_log.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&ft) != 0) {
 			CHARRANGE sel;
 			sel.cpMin = 0;
 			sel.cpMax = 20;
-			SendMessage(hwndrtf, EM_SETSEL, 0, ft.chrgText.cpMax + 1);
-			SendMessageA(hwndrtf, EM_REPLACESEL, TRUE, (LPARAM)"");
+			m_log.SendMsg(EM_SETSEL, 0, ft.chrgText.cpMax + 1);
+			m_log.SendMsg(EM_REPLACESEL, TRUE, (LPARAM)L"");
 		}
 	}
 }
@@ -1280,14 +1270,18 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 	// separator strings used for grid lines, message separation and so on...
 	m_bClrAdded = false;
 
-	if (m_szMicroLf[0] == 0)
-		SetupLogFormatting(this);
-
+	if (m_szMicroLf[0] == 0) {
+		if (m_hHistoryEvents)
+			strncpy_s(m_szMicroLf, "\\v\\cf%d \\ ~-+%d+-~\\v0 ", _TRUNCATE);
+		else
+			mir_snprintf(m_szMicroLf, "%s\\par\\ltrpar\\sl-1%s ", GetRTFFont(MSGDLGFONTCOUNT), GetRTFFont(MSGDLGFONTCOUNT));
+	}
+	
 	szYourName = const_cast<wchar_t *>(m_cache->getNick());
 	szMyName = m_wszMyNickname;
 
-	SendMessage(hwndrtf, EM_HIDESELECTION, TRUE, 0);
-	SendMessage(hwndrtf, EM_EXGETSEL, 0, (LPARAM)&oldSel);
+	m_log.SendMsg(EM_HIDESELECTION, TRUE, 0);
+	m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
 	LogStreamData streamData = { 0 };
 	streamData.hContact = m_hContact;
@@ -1307,29 +1301,29 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 		GETTEXTLENGTHEX gtxl = { 0 };
 		gtxl.codepage = 1200;
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
-		startAt = SendMessage(hwndrtf, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
+		startAt = m_log.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 		sel.cpMin = sel.cpMax = GetWindowTextLength(hwndrtf);
-		SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&sel);
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 	}
 	else {
 		SetWindowText(hwndrtf, L"");
 		sel.cpMin = 0;
 		sel.cpMax = GetWindowTextLength(hwndrtf);
-		SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&sel);
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 		startAt = 0;
 		m_isAutoRTL = 0;
 	}
 
 	// begin to draw
-	SendMessage(hwndrtf, WM_SETREDRAW, FALSE, 0);
+	m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
 
-	SendMessage(hwndrtf, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
-	SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&oldSel);
-	SendMessage(hwndrtf, EM_HIDESELECTION, FALSE, 0);
+	m_log.SendMsg(EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
+	m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldSel);
+	m_log.SendMsg(EM_HIDESELECTION, FALSE, 0);
 	m_hDbEventLast = streamData.hDbEventLast;
 
 	if (m_isAutoRTL & 1)
-		SendMessage(hwndrtf, EM_SETBKGNDCOLOR, 0, (LOWORD(m_iLastEventType) & DBEF_SENT)
+		m_log.SendMsg(EM_SETBKGNDCOLOR, 0, (LOWORD(m_iLastEventType) & DBEF_SENT)
 			? (fAppend ? m_pContainer->theme.outbg : m_pContainer->theme.oldoutbg)
 			: (fAppend ? m_pContainer->theme.inbg : m_pContainer->theme.oldinbg));
 
@@ -1338,10 +1332,10 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 		gtxl.codepage = 1200;
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
 
-		sel.cpMax = SendMessage(hwndrtf, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
+		sel.cpMax = m_log.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 		sel.cpMin = sel.cpMax - 1;
-		SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&sel);
-		SendMessage(hwndrtf, EM_REPLACESEL, FALSE, (LPARAM)L"");
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+		m_log.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)L"");
 		m_isAutoRTL |= 2;
 	}
 
@@ -1354,17 +1348,17 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 		isSent = (dbei.flags & DBEF_SENT) != 0;
 	}
 
-	ReplaceIcons(m_hwnd, this, startAt, fAppend, isSent);
+	ReplaceIcons(startAt, fAppend, isSent);
 	m_bClrAdded = false;
 
 	if (m_hwndIEView == nullptr && m_hwndHPP == nullptr) {
 		int len = GetWindowTextLength(hwndrtf);
-		SendMessage(hwndrtf, EM_SETSEL, len - 1, len - 1);
+		m_log.SendMsg(EM_SETSEL, len - 1, len - 1);
 	}
 
 	DM_ScrollToBottom(0, 0);
 
-	SendMessage(hwndrtf, WM_SETREDRAW, TRUE, 0);
+	m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
 	InvalidateRect(hwndrtf, nullptr, FALSE);
 	EnableWindow(GetDlgItem(m_hwnd, IDC_QUOTE), m_hDbEventLast != 0);
 	mir_free(streamData.buffer);

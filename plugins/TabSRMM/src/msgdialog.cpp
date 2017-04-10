@@ -3048,7 +3048,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_DWMCOMPOSITIONCHANGED:
 		BB_RefreshTheme();
 		m_pContainer->ClearMargins();
-		CProxyWindow::verify(this);
+		VerifyProxy();
 		break;
 
 	case DM_FORCEREDRAW:

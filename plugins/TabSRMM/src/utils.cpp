@@ -67,17 +67,16 @@ static wchar_t *formatting_strings_end[] = { L"b0 ", L"i0 ", L"u0 ", L"s0 ",
 // flags: loword = words only for simple  * /_ formatting
 //        hiword = bbcode support (strip bbcodes if 0)
 
-const wchar_t* Utils::FormatRaw(CTabBaseDlg *dat, const wchar_t *msg, int flags, BOOL isSent)
+const wchar_t* CTabBaseDlg::FormatRaw(const wchar_t *msg, int flags, BOOL isSent)
 {
 	bool 	clr_was_added = false, was_added;
 	static tstring message(msg);
 	size_t beginmark = 0, endmark = 0, tempmark = 0, index;
 	int i, endindex;
 	wchar_t endmarker;
-	DWORD	dwFlags = dat->m_dwFlags;
 	message.assign(msg);
 
-	if (dwFlags & MWF_LOG_BBCODE) {
+	if (m_dwFlags & MWF_LOG_BBCODE) {
 		beginmark = 0;
 		while (true) {
 			for (i = 0; i < NR_CODES; i++) {
@@ -102,9 +101,9 @@ const wchar_t* Utils::FormatRaw(CTabBaseDlg *dat, const wchar_t *msg, int flags,
 				tstring colorname = message.substr(beginmark + 7, 8);
 search_again:
 				bool clr_found = false;
-				for (int ii = 0; ii < rtf_ctable_size; ii++) {
-					if (!wcsnicmp((wchar_t*)colorname.c_str(), rtf_ctable[ii].szName, mir_wstrlen(rtf_ctable[ii].szName))) {
-						closing = beginmark + 7 + mir_wstrlen(rtf_ctable[ii].szName);
+				for (int ii = 0; ii < Utils::rtf_ctable_size; ii++) {
+					if (!wcsnicmp((wchar_t*)colorname.c_str(), Utils::rtf_ctable[ii].szName, mir_wstrlen(Utils::rtf_ctable[ii].szName))) {
+						closing = beginmark + 7 + mir_wstrlen(Utils::rtf_ctable[ii].szName);
 						if (endmark != message.npos) {
 							message.erase(endmark, 4);
 							message.replace(endmark, 4, L"c0 ");
@@ -132,7 +131,7 @@ search_again:
 						c_closing = colorname.length();
 					const wchar_t *wszColname = colorname.c_str();
 					if (endmark != message.npos && c_closing > 2 && c_closing <= 6 && iswalnum(colorname[0]) && iswalnum(colorname[c_closing - 1])) {
-						RTF_ColorAdd(wszColname, c_closing);
+						Utils::RTF_ColorAdd(wszColname, c_closing);
 						if (!was_added) {
 							clr_was_added = was_added = true;
 							goto search_again;
@@ -158,9 +157,9 @@ invalid_code:
 		}
 	}
 
-	if (!(dwFlags & MWF_LOG_TEXTFORMAT) || message.find(L"://") != message.npos) {
-		dat->m_bClrAdded = clr_was_added;
-		return(message.c_str());
+	if (!(m_dwFlags & MWF_LOG_TEXTFORMAT) || message.find(L"://") != message.npos) {
+		m_bClrAdded = clr_was_added;
+		return message.c_str();
 	}
 
 	while ((beginmark = message.find_first_of(L"*/_", beginmark)) != message.npos) {
@@ -210,10 +209,10 @@ ok:
 
 			SMADD_BATCHPARSE2 smbp = { 0 };
 			smbp.cbSize = sizeof(smbp);
-			smbp.Protocolname = dat->m_cache->getActiveProto();
+			smbp.Protocolname = m_cache->getActiveProto();
 			smbp.flag = SAFL_TCHAR | SAFL_PATH | (isSent ? SAFL_OUTGOING : 0);
 			smbp.str = (wchar_t*)smcode.c_str();
-			smbp.hContact = dat->m_hContact;
+			smbp.hContact = m_hContact;
 			SMADD_BATCHPARSERES *smbpr = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smbp);
 			if (smbpr) {
 				CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smbpr);
@@ -226,8 +225,8 @@ ok:
 		message.insert(beginmark, L"%%%");
 		message.replace(beginmark, 4, formatting_strings_begin[index]);
 	}
-	dat->m_bClrAdded = clr_was_added;
-	return(message.c_str());
+	m_bClrAdded = clr_was_added;
+	return message.c_str();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -241,11 +240,8 @@ static wchar_t* Trunc500(wchar_t *str)
 	return str;
 }
 
-bool Utils::FormatTitleBar(const CTabBaseDlg *dat, const wchar_t *szFormat, CMStringW &dest)
+bool CTabBaseDlg::FormatTitleBar(const wchar_t *szFormat, CMStringW &dest)
 {
-	if (dat == 0)
-		return false;
-
 	for (const wchar_t *src = szFormat; *src; src++) {
 		if (*src != '%') {
 			dest.AppendChar(*src);
@@ -254,29 +250,29 @@ bool Utils::FormatTitleBar(const CTabBaseDlg *dat, const wchar_t *szFormat, CMSt
 
 		switch (*++src) {
 		case 'n':
-			dest.Append(dat->m_cache->getNick());
+			dest.Append(m_cache->getNick());
 			break;
 
 		case 'p':
 		case 'a':
-			dest.Append(dat->m_cache->getRealAccount());
+			dest.Append(m_cache->getRealAccount());
 			break;
 
 		case 's':
-			dest.Append(dat->m_wszStatus);
+			dest.Append(m_wszStatus);
 			break;
 
 		case 'u':
-			dest.Append(dat->m_cache->getUIN());
+			dest.Append(m_cache->getUIN());
 			break;
 
 		case 'c':
-			dest.Append(!mir_wstrcmp(dat->m_pContainer->m_wszName, L"default") ? TranslateT("Default container") : dat->m_pContainer->m_wszName);
+			dest.Append(!mir_wstrcmp(m_pContainer->m_wszName, L"default") ? TranslateT("Default container") : m_pContainer->m_wszName);
 			break;
 
 		case 'o':
 			{
-				const char *szProto = dat->m_cache->getActiveProto();
+				const char *szProto = m_cache->getActiveProto();
 				if (szProto)
 					dest.Append(_A2T(szProto));
 			}
@@ -284,9 +280,9 @@ bool Utils::FormatTitleBar(const CTabBaseDlg *dat, const wchar_t *szFormat, CMSt
 
 		case 'x':
 			{
-				BYTE xStatus = dat->m_cache->getXStatusId();
-				if (dat->m_wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
-					ptrW szXStatus(db_get_wsa(dat->m_hContact, dat->m_szProto, "XStatusName"));
+				BYTE xStatus = m_cache->getXStatusId();
+				if (m_wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
+					ptrW szXStatus(db_get_wsa(m_hContact, m_szProto, "XStatusName"));
 					dest.Append((szXStatus != nullptr) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
 				}
 			}
@@ -294,12 +290,12 @@ bool Utils::FormatTitleBar(const CTabBaseDlg *dat, const wchar_t *szFormat, CMSt
 
 		case 'm':
 			{
-				BYTE xStatus = dat->m_cache->getXStatusId();
-				if (dat->m_wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
-					ptrW szXStatus(db_get_wsa(dat->m_hContact, dat->m_szProto, "XStatusName"));
+				BYTE xStatus = m_cache->getXStatusId();
+				if (m_wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
+					ptrW szXStatus(db_get_wsa(m_hContact, m_szProto, "XStatusName"));
 					dest.Append((szXStatus != nullptr) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
 				}
-				else dest.Append(dat->m_wszStatus[0] ? dat->m_wszStatus : L"(undef)");
+				else dest.Append(m_wszStatus[0] ? m_wszStatus : L"(undef)");
 			}
 			break;
 
@@ -307,7 +303,7 @@ bool Utils::FormatTitleBar(const CTabBaseDlg *dat, const wchar_t *szFormat, CMSt
 		case 't':
 		case 'T':
 			{
-				ptrW tszStatus(dat->m_cache->getNormalizedStatusMsg(dat->m_cache->getStatusMsg(), true));
+				ptrW tszStatus(m_cache->getNormalizedStatusMsg(m_cache->getStatusMsg(), true));
 				if (tszStatus)
 					dest.Append(tszStatus);
 				else if (*src == 't')
@@ -317,7 +313,7 @@ bool Utils::FormatTitleBar(const CTabBaseDlg *dat, const wchar_t *szFormat, CMSt
 
 		case 'g':
 			{
-				ptrW tszGroup(db_get_wsa(dat->m_hContact, "CList", "Group"));
+				ptrW tszGroup(db_get_wsa(m_hContact, "CList", "Group"));
 				if (tszGroup != nullptr)
 					dest.Append(tszGroup);
 			}
@@ -411,14 +407,14 @@ wchar_t* Utils::GetPreviewWithEllipsis(wchar_t *szText, size_t iMaxLen)
 // returns != 0 when one of the installed keyboard layouts belongs to an rtl language
 // used to find out whether we need to configure the message input box for bidirectional mode
 
-int Utils::FindRTLLocale(CTabBaseDlg *dat)
+int CTabBaseDlg::FindRTLLocale()
 {
 	HKL layouts[20];
 	int i, result = 0;
 	LCID lcid;
 	WORD wCtype2[5];
 
-	if (dat->m_iHaveRTLLang == 0) {
+	if (m_iHaveRTLLang == 0) {
 		memset(layouts, 0, sizeof(layouts));
 		GetKeyboardLayoutList(20, layouts);
 		for (i = 0; i < 20 && layouts[i]; i++) {
@@ -427,9 +423,9 @@ int Utils::FindRTLLocale(CTabBaseDlg *dat)
 			if (wCtype2[0] == C2_RIGHTTOLEFT || wCtype2[1] == C2_RIGHTTOLEFT || wCtype2[2] == C2_RIGHTTOLEFT)
 				result = 1;
 		}
-		dat->m_iHaveRTLLang = (result ? 1 : -1);
+		m_iHaveRTLLang = (result ? 1 : -1);
 	}
-	else result = dat->m_iHaveRTLLang == 1 ? 1 : 0;
+	else result = m_iHaveRTLLang == 1 ? 1 : 0;
 
 	return result;
 }
@@ -674,32 +670,32 @@ void Utils::scaleAvatarHeightLimited(const HBITMAP hBm, double& dNewWidth, doubl
 // @param dat: _MessageWindowData* pointer to the window data
 // @return HICON: the icon handle
 
-HICON Utils::iconFromAvatar(const CTabBaseDlg *dat)
+HICON CTabBaseDlg::IconFromAvatar() const
 {
-	if (!ServiceExists(MS_AV_GETAVATARBITMAP) || dat == nullptr)
+	if (!ServiceExists(MS_AV_GETAVATARBITMAP))
 		return 0;
 
-	AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, dat->m_hContact, 0);
+	AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, m_hContact, 0);
 	if (ace == nullptr || ace->hbmPic == nullptr)
 		return nullptr;
 
 	LONG lIconSize = Win7Taskbar->getIconSize();
 	double dNewWidth, dNewHeight;
-	scaleAvatarHeightLimited(ace->hbmPic, dNewWidth, dNewHeight, lIconSize);
+	Utils::scaleAvatarHeightLimited(ace->hbmPic, dNewWidth, dNewHeight, lIconSize);
 
 	// resize picture to fit it on the task bar, use an image list for converting it to
-	// 32bpp icon format. dat->hTaskbarIcon will cache it until avatar is changed
+	// 32bpp icon format. hTaskbarIcon will cache it until avatar is changed
 	bool fFree = false;
 	HBITMAP hbmResized = CSkin::ResizeBitmap(ace->hbmPic, (LONG)dNewWidth, (LONG)dNewHeight, fFree);
 	HIMAGELIST hIml_c = ::ImageList_Create(lIconSize, lIconSize, ILC_COLOR32 | ILC_MASK, 1, 0);
 
 	RECT rc = { 0, 0, lIconSize, lIconSize };
 
-	HDC hdc = ::GetDC(dat->m_pContainer->m_hwnd);
+	HDC hdc = ::GetDC(m_pContainer->m_hwnd);
 	HDC dc = ::CreateCompatibleDC(hdc);
 	HDC dcResized = ::CreateCompatibleDC(hdc);
 
-	ReleaseDC(dat->m_pContainer->m_hwnd, hdc);
+	ReleaseDC(m_pContainer->m_hwnd, hdc);
 
 	HBITMAP hbmNew = CSkin::CreateAeroCompatibleBitmap(rc, dc);
 	HBITMAP hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(dc, hbmNew));
@@ -777,32 +773,29 @@ void Utils::addMenuItem(const HMENU& m, MENUITEMINFO &mii, HICON hIcon, const wc
 // return != 0 when the sound effect must be played for the given
 // session. Uses container sound settings
 
-int Utils::mustPlaySound(const CTabBaseDlg *dat)
+int CTabBaseDlg::MustPlaySound() const
 {
-	if (!dat)
-		return 0;
-
-	if (dat->m_pContainer->fHidden)		// hidden container is treated as closed, so play the sound
+	if (m_pContainer->fHidden)		// hidden container is treated as closed, so play the sound
 		return 1;
 
-	if (dat->m_pContainer->dwFlags & CNT_NOSOUND || nen_options.iNoSounds)
+	if (m_pContainer->dwFlags & CNT_NOSOUND || nen_options.iNoSounds)
 		return 0;
 
-	bool fActiveWindow = (dat->m_pContainer->m_hwnd == ::GetForegroundWindow() ? true : false);
-	bool fActiveTab = (dat->m_pContainer->m_hwndActive == dat->GetHwnd() ? true : false);
-	bool fIconic = (::IsIconic(dat->m_pContainer->m_hwnd) ? true : false);
+	bool fActiveWindow = (m_pContainer->m_hwnd == ::GetForegroundWindow() ? true : false);
+	bool fActiveTab = (m_pContainer->m_hwndActive == GetHwnd() ? true : false);
+	bool fIconic = (::IsIconic(m_pContainer->m_hwnd) ? true : false);
 
 	// window minimized, check if sound has to be played
 	if (fIconic)
-		return(dat->m_pContainer->dwFlagsEx & CNT_EX_SOUNDS_MINIMIZED ? 1 : 0);
+		return(m_pContainer->dwFlagsEx & CNT_EX_SOUNDS_MINIMIZED ? 1 : 0);
 
 	// window in foreground
 	if (!fActiveWindow)
-		return(dat->m_pContainer->dwFlagsEx & CNT_EX_SOUNDS_UNFOCUSED ? 1 : 0);
+		return(m_pContainer->dwFlagsEx & CNT_EX_SOUNDS_UNFOCUSED ? 1 : 0);
 
 	if (fActiveTab)
-		return(dat->m_pContainer->dwFlagsEx & CNT_EX_SOUNDS_FOCUSED ? 1 : 0);
-	return(dat->m_pContainer->dwFlagsEx & CNT_EX_SOUNDS_INACTIVETABS ? 1 : 0);
+		return(m_pContainer->dwFlagsEx & CNT_EX_SOUNDS_FOCUSED ? 1 : 0);
+	return(m_pContainer->dwFlagsEx & CNT_EX_SOUNDS_INACTIVETABS ? 1 : 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

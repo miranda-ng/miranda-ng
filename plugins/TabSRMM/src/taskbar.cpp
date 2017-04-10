@@ -172,22 +172,6 @@ void CTaskbarInteract::SetTabActive(const HWND hwndTab, const HWND hwndGroup) co
 }
 
 /**
- * create a proxy window object for the given session. Do NOT call this more than once
- * per session and not outside of WM_INITDIALOG after most things are initialized.
- * @param dat		session window data
- *
- * static member function. Ignored when OS is not Windows 7 or global option for
- * Windows 7 task bar support is diabled.
- */
-void CProxyWindow::add(CTabBaseDlg *dat)
-{
-	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek) // && (!CSkin::m_skinEnabled || M.GetByte("forceAeroPeek", 0)))
-		dat->m_pWnd = new CProxyWindow(dat);
-	else
-		dat->m_pWnd = 0;
-}
-
-/**
  * This is called from the broadcasted WM_DWMCOMPOSITIONCHANGED event by all messages
  * sessions. It checks and, if needed, destroys or creates a proxy object, based on
  * the status of the DWM
@@ -195,26 +179,25 @@ void CProxyWindow::add(CTabBaseDlg *dat)
  *
  * static member function
  */
-void CProxyWindow::verify(CTabBaseDlg *dat)
+void CTabBaseDlg::VerifyProxy()
 {
 	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek) {
-		if (0 == dat->m_pWnd) {
-			dat->m_pWnd = new CProxyWindow(dat);
-			if (dat->m_pWnd) {
-				dat->m_pWnd->updateIcon(dat->m_hTabStatusIcon);
-				dat->m_pWnd->updateTitle(dat->m_cache->getNick());
+		if (nullptr == m_pWnd) {
+			m_pWnd = new CProxyWindow(this);
+			if (m_pWnd) {
+				m_pWnd->updateIcon(m_hTabStatusIcon);
+				m_pWnd->updateTitle(m_cache->getNick());
 			}
 		}
-		else
-			dat->m_pWnd->verifyDwmState();
+		else m_pWnd->verifyDwmState();
 	}
 	/*
 	 * this should not happens, but who knows...
 	 */
 	else {
-		if (dat->m_pWnd) {
-			delete dat->m_pWnd;
-			dat->m_pWnd = 0;
+		if (m_pWnd) {
+			delete m_pWnd;
+			m_pWnd = nullptr;
 		}
 	}
 }

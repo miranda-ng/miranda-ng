@@ -243,83 +243,54 @@ class CTabBaseDlg : public CSrmmBaseDialog
 protected:
 	virtual void LoadSettings() override;
 
-	void DM_AddDivider();
-	void DM_DismissTip(const POINT& pt);
-	void DM_ErrorDetected(int type, int flag);
-	bool DM_GenericHotkeysCheck(MSG *message);
-	int  DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam);
-	void DM_UpdateLastMessage() const;
-
-	void DetermineMinHeight();
-	void FindFirstEvent();
-	void GetSendFormat();
-	bool IsAutoSplitEnabled() const;
-	void ResizeIeView();
-	void ShowPopupMenu(const CCtrlBase&, POINT pt);
+	void    DM_AddDivider();
+	void    DM_DismissTip(const POINT& pt);
+	void    DM_ErrorDetected(int type, int flag);
+	bool    DM_GenericHotkeysCheck(MSG *message);
+	int     DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam);
+	void    DM_UpdateLastMessage() const;
+			  
+	void    DetermineMinHeight();
+	void    FindFirstEvent();
+	int     FindRTLLocale();
+	void    GetSendFormat();
+	bool    IsAutoSplitEnabled() const;
+	void    ReplaceIcons(LONG startAt, int fAppend, BOOL isSent);
+	void    ResizeIeView();
+	void    ShowPopupMenu(const CCtrlBase&, POINT pt);
+	void    VerifyProxy();
 	LRESULT WMCopyHandler(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-public:
-	DWORD    m_dwFlags;
-	DWORD    m_dwFlagsEx;
-	char    *m_szProto;
-	wchar_t  m_wszMyNickname[130];
-	wchar_t  m_wszStatusBar[100];
-	wchar_t  m_wszTitle[130];        // tab title...
-	wchar_t  m_wszStatus[50];
 	WORD     m_wStatus;
-	char    *m_sendBuffer;
 	size_t   m_iSendBufferSize;
 	int      m_iSendLength;				// message length in utf-8 octets
-	HICON    m_hTabIcon, m_hTabStatusIcon, m_hXStatusIcon, m_hClientIcon, m_hTaskbarIcon;
-	HICON    m_iFlashIcon, m_hSmileyIcon;
-	HWND     m_hwndIEView, m_hwndIWebBrowserControl, m_hwndHPP;
+	HICON    m_hSmileyIcon;
 	HWND     m_hwndContactPic, m_hwndPanelPic, m_hwndPanelPicParent;
 	UINT     m_bbLSideWidth, m_bbRSideWidth;
 	BYTE     kstate[256];
 
-	StatusTextData *m_sbCustom;
-	TContainerData *m_pContainer;		// parent container description structure
-
 	RECT     m_rcNick, m_rcUIN, m_rcStatus, m_rcPic;
-	MEVENT   m_hDbEventFirst, m_hDbEventLast;
-	int      m_sendMode;
 	int      m_originalSplitterY;
-	int      m_iSplitterY, m_dynaSplitter;
-	int      m_savedSplitterY, m_savedDynaSplit;
 	SIZE     m_minEditBoxSize;
-	int      m_nTypeSecs;
 	int      m_nTypeMode;
 	DWORD    m_nLastTyping;
 	DWORD    m_lastMessage;
-	int      m_iTabID;
-	HKL      m_hkl;                                    // keyboard layout identifier
-	DWORD    m_dwTickLastEvent, m_dwUnread;
+	DWORD    m_dwTickLastEvent;
 	HBITMAP  m_hOwnPic;
 	SIZE     m_pic;
 	
-	BYTE     m_bShowTyping;
-	bool     m_bShowAvatar, m_bShowInfoAvatar, m_bShowUIElements;
+	bool     m_bShowInfoAvatar, m_bShowUIElements;
 	bool     m_bUseOffset;
-	bool     m_bIsHistory, m_bNotOnList;
 	bool     m_bkeyProcessed;
-	bool     m_bEditNotesActive;
-	bool     m_bActualHistory;
 	bool     m_bIsReattach;
-	bool     m_bIsAutosizingInput;
 	bool     m_fLimitedUpdate;
 	bool     m_bClrAdded;
 	bool     m_bInsertMode;
-	bool     m_bCanFlashTab, m_bTabFlash;
 
-	int      m_iLastEventType;
-	time_t   m_lastEventTime;
 	int      m_iRealAvatarHeight;
 	int      m_iButtonBarReallyNeeds;
 	DWORD    m_dwLastActivity;
-	int      m_iOpenJobs;
-	int      m_iCurrentQueueError;
 	MEVENT   m_hFlashingEvent;
-	wchar_t  m_myUin[80];
 	int      m_SendFormat;
 	MEVENT  *m_hQueuedEvents;
 	int      m_iNextQueuedEvent;
@@ -328,35 +299,67 @@ public:
 	LCID     m_lcid;
 	wchar_t  m_lcID[10];
 	int      m_iPanelAvatarX, m_iPanelAvatarY;
-	DWORD    m_idle;
 	HWND     m_hwndTip;
 	TOOLINFO ti;
-	HANDLE   m_hTimeZone;
 	DWORD    m_panelStatusCX;
-	MEVENT  *m_hHistoryEvents;
-	int      m_maxHistory, m_curHistory;
-	HANDLE   m_hTheme, m_hThemeIP, m_hThemeToolbar;
-	char     m_szMicroLf[128];
-	DWORD    m_isAutoRTL;
-	int      m_nMax;            // max message size
 	int      m_textLen;         // current text len
 	LONG     m_ipFieldHeight;
 	WPARAM   m_wParam;          // used for "delayed" actions like moved splitters in minimized windows
 	LPARAM   m_lParam;
 	int      m_iHaveRTLLang;
 
+	DWORD    m_iSplitterSaved;
+	POINT    m_ptTipActivation;
+	char    *m_enteredText; // Used for history in chats.
+
+public:
+	char    *m_szProto;
+	int      m_iTabID;
+	BYTE     m_bShowTyping;
+	bool     m_bIsHistory, m_bNotOnList;
+	bool     m_bActualHistory;
+	bool     m_bIsAutosizingInput;
+	bool     m_bCanFlashTab, m_bTabFlash;
+	bool     m_bEditNotesActive;
+	bool     m_bShowAvatar;
+	int      m_sendMode;
+	HKL      m_hkl;                                    // keyboard layout identifier
+	DWORD    m_isAutoRTL;
+	DWORD    m_idle;
+	DWORD    m_dwFlags, m_dwFlagsEx;
+	DWORD    m_dwUnread;
+	HANDLE   m_hTheme, m_hThemeIP, m_hThemeToolbar;
+	HWND     m_hwndIEView, m_hwndIWebBrowserControl, m_hwndHPP;
+	HICON    m_hXStatusIcon, m_hTabStatusIcon, m_hTabIcon, m_iFlashIcon, m_hTaskbarIcon, m_hClientIcon;
+	MEVENT   m_hDbEventFirst, m_hDbEventLast;
+	HANDLE   m_hTimeZone;
+	MEVENT  *m_hHistoryEvents;
+	time_t   m_lastEventTime;
+	int      m_iLastEventType;
+	int      m_nTypeSecs;
+	int      m_iOpenJobs;
+	int      m_iInputAreaHeight;
+	int      m_maxHistory, m_curHistory;
+	int      m_iCurrentQueueError;
+	int      m_iSplitterY, m_dynaSplitter;
+	int      m_savedSplitterY, m_savedDynaSplit;
+	char    *m_sendBuffer;
+	int      m_nMax;            // max message size
+
+	wchar_t  m_wszMyNickname[130];
+	wchar_t  m_wszStatus[50];
+	wchar_t  m_wszTitle[130];        // tab title...
+	wchar_t  m_myUin[80];
+	wchar_t  m_wszStatusBar[100];
+	char     m_szMicroLf[128];
+
 	CInfoPanel m_pPanel;
 	CContactCache *m_cache;
+	TContainerData *m_pContainer;		// parent container description structure
+	StatusTextData *m_sbCustom;
 	AVATARCACHEENTRY *m_ace, *m_ownAce;
 	CProxyWindow  *m_pWnd;	// proxy window object (win7+, for taskbar support).
-	// ALWAYS check this pointer before using it, it is not guaranteed to exist.
-
-	DWORD   m_iSplitterSaved;
-	LONG    m_iInputAreaHeight;
-	POINT   m_ptTipActivation;
-
-	// Used for history in chats.
-	char *m_enteredText;
+									// ALWAYS check this pointer before using it, it is not guaranteed to exist.
 
 public:
 	CTabBaseDlg(int iDialogId, SESSION_INFO* = nullptr);
@@ -412,6 +415,8 @@ public:
 	void  EnableSending(bool bMode) const;
 	void  FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei);
 	void  FlashTab(bool bInvertMode);
+	const wchar_t* FormatRaw(const wchar_t *msg, int flags, BOOL isSent);
+	bool  FormatTitleBar(const wchar_t *szFormat, CMStringW &dest);
 	bool  GetAvatarVisibility();
 	void  GetClientIcon();
 	LONG  GetDefaultMinimumInputHeight() const;
@@ -421,9 +426,11 @@ public:
 	void  GetMyNick();
 	HICON GetXStatusIcon() const;
 	void  HandlePasteAndSend();
+	HICON IconFromAvatar() const;
 	void  KbdState(bool &isShift, bool &isControl, bool &isAlt);
 	int   LoadLocalFlags();
 	void  LoadSplitter();
+	int   MustPlaySound() const;
 	void  NotifyDeliveryFailure() const;
 	void  PlayIncomingSound() const;
 	void 	SendHBitmapAsFile(HBITMAP hbmp) const;

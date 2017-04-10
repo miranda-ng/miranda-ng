@@ -1361,7 +1361,7 @@ void CTip::show(const RECT& rc, POINT& pt, const HICON hIcon, const wchar_t *szT
 		smadd.flags = 0;
 		smadd.rangeToReplace = nullptr;
 		smadd.disableRedraw = TRUE;
-		CallService(MS_SMILEYADD_REPLACESMILEYS, TABSRMM_SMILEYADD_BKGCOLORMODE, (LPARAM)&smadd);
+		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&smadd);
 	}
 
 	RECT rcParent;

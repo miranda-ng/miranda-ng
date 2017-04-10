@@ -2387,7 +2387,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_DWMCOMPOSITIONCHANGED:
 		BB_RefreshTheme();
 		m_pContainer->ClearMargins();
-		CProxyWindow::verify(this);
+		VerifyProxy();
 		break;
 	}
 	return CTabBaseDlg::DlgProc(uMsg, wParam, lParam);

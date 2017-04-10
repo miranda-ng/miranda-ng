@@ -482,7 +482,7 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					dat->SetDialogToType();
 					dat->LoadLocalFlags();
 					if ((dat->m_dwFlags & MWF_LOG_ALL) != dwOldFlags) {
-						bool	fShouldHide = true;
+						bool fShouldHide = true;
 						if (IsIconic(dat->m_pContainer->m_hwnd))
 							fShouldHide = false;
 						else

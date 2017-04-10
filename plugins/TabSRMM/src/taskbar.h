@@ -118,8 +118,6 @@ public:
 	__inline const HICON getOverlayIcon() const { return m_hOverlayIcon; }
 
 	static LRESULT CALLBACK stubWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static void	add(CTabBaseDlg *dat);
-	static void verify(CTabBaseDlg *dat);
 
 private:
 	CTabBaseDlg *m_dat;

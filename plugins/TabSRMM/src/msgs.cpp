@@ -107,7 +107,10 @@ void CTabBaseDlg::OnInitDialog()
 	m_pContainer->UpdateTabs();
 	
 	// add this window to window list & proxy
-	CProxyWindow::add(this);
+	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek)
+		m_pWnd = new CProxyWindow(this);
+	else
+		m_pWnd = nullptr;
 
 	// set up Windows themes
 	DM_ThemeChanged();
