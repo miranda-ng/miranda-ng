@@ -64,7 +64,6 @@ struct TMUCSettings : public GlobalLogSettingsBase
 	HICON    hIconOverlay;
 	DWORD    dwIconFlags;
 	LONG     iNickListFontHeight;
-	int      iEventLimitThreshold;
 
 	HFONT    UserListFonts[CHAT_STATUS_MAX];
 	COLORREF UserListColors[CHAT_STATUS_MAX];

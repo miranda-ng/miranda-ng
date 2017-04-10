@@ -80,7 +80,6 @@ static void OnCreateModule(MODULEINFO *mi)
 
 static void OnLoadSettings()
 {
-	g_Settings.iEventLimitThreshold = db_get_w(0, CHAT_MODULE, "LogLimitThreshold", 20);
 	g_Settings.dwIconFlags = M.GetDword(CHAT_MODULE, "IconFlags", 0x0000);
 	g_Settings.bOpenInDefault = M.GetBool(CHAT_MODULE, "DefaultContainer", true);
 	g_Settings.UserListColors[CHAT_STATUS_NORMAL] = M.GetDword(CHATFONT_MODULE, "Font18Col", RGB(0, 0, 0));
