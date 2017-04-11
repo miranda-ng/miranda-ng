@@ -154,8 +154,9 @@ public:
 
 	CTabbedWindow();
 
+	CTabbedWindow* AddPage(MCONTACT hContact, wchar_t *pwszText = nullptr, int iActivate = -1);
 	void AddPage(SESSION_INFO*, int insertAt = -1);
-	void FixTabIcons(CChatRoomDlg*);
+	void FixTabIcons(CSrmmBaseDialog*);
 	void SetMessageHighlight(CChatRoomDlg*);
 	void SetTabHighlight(CChatRoomDlg*);
 	void TabClicked();
@@ -170,6 +171,7 @@ public:
 extern CTabbedWindow *pDialog;
 
 void UninitTabs(void);
+CTabbedWindow* GetContainer();
 
 void TB_SaveSession(SESSION_INFO *si);
 

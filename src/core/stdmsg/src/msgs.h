@@ -66,7 +66,6 @@ class CSrmmWindow : public CSrmmBaseDialog
 	void StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend);
 
 	char *m_szProto;
-	HWND m_hwndStatus;
 	HFONT m_hFont;
 	HBRUSH m_hBkgBrush;
 
@@ -97,9 +96,10 @@ public:
 
 	HBITMAP m_avatarPic;
 	wchar_t *m_wszInitialText;
+	CTabbedWindow *m_pOwner;
 
 public:
-	CSrmmWindow(MCONTACT hContact);
+	CSrmmWindow(CTabbedWindow*, MCONTACT hContact);
 
 	virtual void OnInitDialog() override;
 	virtual void OnDestroy() override;
@@ -107,6 +107,7 @@ public:
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
 	
+	virtual void CloseTab() override;
 	virtual void LoadSettings() override {}
 	virtual void ScrollToBottom() override;
 	virtual void UpdateTitle() override {}

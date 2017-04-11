@@ -169,8 +169,8 @@ static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *value
 static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 {
 	DWORD flags = 0;
-	TVITEM tvi;
 
+	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
 	tvi.hItem = TreeView_GetRoot(hwndTree);
 	while (tvi.hItem) {
@@ -182,6 +182,8 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 	return flags;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -191,21 +193,21 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_POPLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_POPLIST), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_POPLIST), statusValues, _countof(statusValues), db_get_dw(0, SRMMMOD, SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS));
 
-		CheckDlgButton(hwndDlg, IDC_DELTEMP, g_dat.bDeleteTempCont ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AUTOMIN, g_dat.bAutoMin ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CASCADE, g_dat.bCascade ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AUTOCLOSE, g_dat.bAutoClose ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHARCOUNT, g_dat.bShowReadChar ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_STATUSWIN, g_dat.bUseStatusWinIcon ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CTRLSUPPORT, g_dat.bCtrlSupport ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOWSENDBTN, g_dat.bSendButton ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SENDONENTER, g_dat.bSendOnEnter ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LIMITAVATARH, db_get_b(0, SRMMMOD, SRMSGSET_LIMITAVHEIGHT, SRMSGDEFSET_LIMITAVHEIGHT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SENDONDBLENTER, g_dat.bSendOnDblEnter ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AVATARSUPPORT, g_dat.bShowAvatar ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOWBUTTONLINE, g_dat.bShowButtons ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SAVEPERCONTACT, g_dat.bSavePerContact ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DONOTSTEALFOCUS, g_dat.bDoNotStealFocus ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DELTEMP, g_dat.bDeleteTempCont);
+		CheckDlgButton(hwndDlg, IDC_AUTOMIN, g_dat.bAutoMin);
+		CheckDlgButton(hwndDlg, IDC_CASCADE, g_dat.bCascade);
+		CheckDlgButton(hwndDlg, IDC_AUTOCLOSE, g_dat.bAutoClose);
+		CheckDlgButton(hwndDlg, IDC_CHARCOUNT, g_dat.bShowReadChar);
+		CheckDlgButton(hwndDlg, IDC_STATUSWIN, g_dat.bUseStatusWinIcon);
+		CheckDlgButton(hwndDlg, IDC_CTRLSUPPORT, g_dat.bCtrlSupport);
+		CheckDlgButton(hwndDlg, IDC_SHOWSENDBTN, g_dat.bSendButton);
+		CheckDlgButton(hwndDlg, IDC_SENDONENTER, g_dat.bSendOnEnter);
+		CheckDlgButton(hwndDlg, IDC_LIMITAVATARH, db_get_b(0, SRMMMOD, SRMSGSET_LIMITAVHEIGHT, SRMSGDEFSET_LIMITAVHEIGHT));
+		CheckDlgButton(hwndDlg, IDC_SENDONDBLENTER, g_dat.bSendOnDblEnter);
+		CheckDlgButton(hwndDlg, IDC_AVATARSUPPORT, g_dat.bShowAvatar);
+		CheckDlgButton(hwndDlg, IDC_SHOWBUTTONLINE, g_dat.bShowButtons);
+		CheckDlgButton(hwndDlg, IDC_SAVEPERCONTACT, g_dat.bSavePerContact);
+		CheckDlgButton(hwndDlg, IDC_DONOTSTEALFOCUS, g_dat.bDoNotStealFocus);
 		{
 			DWORD avatarHeight = db_get_dw(0, SRMMMOD, SRMSGSET_AVHEIGHT, SRMSGDEFSET_AVHEIGHT);
 			SetDlgItemInt(hwndDlg, IDC_NFLASHES, db_get_b(0, SRMMMOD, SRMSGSET_FLASHCOUNT, SRMSGDEFSET_FLASHCOUNT), FALSE);
@@ -352,14 +354,14 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_SETRANGE, 0, MAKELONG(12 * 60, 0));
 		SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_SETPOS, 0, db_get_w(0, SRMMMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
 
-		CheckDlgButton(hwndDlg, IDC_SHOWLOGICONS, db_get_b(0, SRMMMOD, SRMSGSET_SHOWLOGICONS, SRMSGDEFSET_SHOWLOGICONS) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOWNAMES, !db_get_b(0, SRMMMOD, SRMSGSET_HIDENAMES, SRMSGDEFSET_HIDENAMES) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOWTIMES, db_get_b(0, SRMMMOD, SRMSGSET_SHOWTIME, SRMSGDEFSET_SHOWTIME) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWLOGICONS, db_get_b(0, SRMMMOD, SRMSGSET_SHOWLOGICONS, SRMSGDEFSET_SHOWLOGICONS));
+		CheckDlgButton(hwndDlg, IDC_SHOWNAMES, !db_get_b(0, SRMMMOD, SRMSGSET_HIDENAMES, SRMSGDEFSET_HIDENAMES));
+		CheckDlgButton(hwndDlg, IDC_SHOWTIMES, db_get_b(0, SRMMMOD, SRMSGSET_SHOWTIME, SRMSGDEFSET_SHOWTIME));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWSECS), IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES));
-		CheckDlgButton(hwndDlg, IDC_SHOWSECS, db_get_b(0, SRMMMOD, SRMSGSET_SHOWSECS, SRMSGDEFSET_SHOWSECS) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWSECS, db_get_b(0, SRMMMOD, SRMSGSET_SHOWSECS, SRMSGDEFSET_SHOWSECS));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWDATES), IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES));
-		CheckDlgButton(hwndDlg, IDC_SHOWDATES, db_get_b(0, SRMMMOD, SRMSGSET_SHOWDATE, SRMSGDEFSET_SHOWDATE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOWFORMATTING, db_get_b(0, SRMMMOD, SRMSGSET_SHOWFORMAT, SRMSGDEFSET_SHOWFORMAT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWDATES, db_get_b(0, SRMMMOD, SRMSGSET_SHOWDATE, SRMSGDEFSET_SHOWDATE));
+		CheckDlgButton(hwndDlg, IDC_SHOWFORMATTING, db_get_b(0, SRMMMOD, SRMSGSET_SHOWFORMAT, SRMSGDEFSET_SHOWFORMAT));
 		return TRUE;
 
 	case WM_COMMAND:
@@ -477,11 +479,11 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 		}
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE) | (CLS_SHOWHIDDEN) | (CLS_NOHIDEOFFLINE));
 		ResetCList(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_SHOWNOTIFY, db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TYPEWIN, db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGWIN, SRMSGDEFSET_SHOWTYPINGWIN) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TYPETRAY, db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGNOWIN, SRMSGDEFSET_SHOWTYPINGNOWIN) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_NOTIFYTRAY, db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_NOTIFYBALLOON, !db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWNOTIFY, db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING));
+		CheckDlgButton(hwndDlg, IDC_TYPEWIN, db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGWIN, SRMSGDEFSET_SHOWTYPINGWIN));
+		CheckDlgButton(hwndDlg, IDC_TYPETRAY, db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGNOWIN, SRMSGDEFSET_SHOWTYPINGNOWIN));
+		CheckDlgButton(hwndDlg, IDC_NOTIFYTRAY, db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST));
+		CheckDlgButton(hwndDlg, IDC_NOTIFYBALLOON, !db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_TYPEWIN), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_TYPETRAY), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYTRAY), IsDlgButtonChecked(hwndDlg, IDC_TYPETRAY));

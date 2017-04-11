@@ -81,8 +81,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 
 	char *szProto = GetContactProto(hContact);
 	if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0)))) {
-		CSrmmWindow *pDlg = new CSrmmWindow(hContact);
-		pDlg->Show();
+		GetContainer()->AddPage(hContact);
 		return 0;
 	}
 
@@ -120,12 +119,8 @@ INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *pwszInitialText)
 		SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 		SetForegroundWindow(hwnd);
 	}
-	else {
-		CSrmmWindow *pDlg = new CSrmmWindow(hContact);
-		pDlg->m_wszInitialText = pwszInitialText;
-		pDlg->m_bNoActivate = false;
-		pDlg->Show();
-	}
+	else GetContainer()->AddPage(hContact, pwszInitialText, false);
+
 	return 0;
 }
 
@@ -247,11 +242,10 @@ static void RestoreUnreadMessageAlerts(void)
 				if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
 					autoPopup = true;
 
-				if (autoPopup && !windowAlreadyExists) {
-					CSrmmWindow *pDlg = new CSrmmWindow(hContact);
-					pDlg->Show();
-				}
-				else arEvents.insert(new MSavedEvent(hContact, hDbEvent));
+				if (autoPopup && !windowAlreadyExists)
+					GetContainer()->AddPage(hContact);
+				else
+					arEvents.insert(new MSavedEvent(hContact, hDbEvent));
 			}
 		}
 	}

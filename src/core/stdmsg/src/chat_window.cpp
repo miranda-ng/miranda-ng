@@ -29,7 +29,7 @@ static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CChatRoomDlg::CChatRoomDlg(CTabbedWindow *pContainer, SESSION_INFO *si) :
-	CSrmmBaseDialog(g_hInst, IDD_CHANNEL, si),
+	CSuper(g_hInst, IDD_CHANNEL, si),
 	m_pOwner(pContainer),
 	m_btnOk(this, IDOK),
 	
@@ -53,7 +53,7 @@ CChatRoomDlg::CChatRoomDlg(CTabbedWindow *pContainer, SESSION_INFO *si) :
 
 void CChatRoomDlg::OnInitDialog()
 {
-	CSrmmBaseDialog::OnInitDialog();
+	CSuper::OnInitDialog();
 	m_si->pDlg = this;
 
 	if (g_Settings.bTabsEnable)
@@ -1022,7 +1022,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					m_btnChannelMgr.Enable(pci->MM_FindModule(m_si->pszModule)->bChanMgr);
 			}
 
-			CSrmmBaseDialog::DlgProc(uMsg, wParam, lParam); // call built-in resizer
+			CSuper::DlgProc(uMsg, wParam, lParam); // call built-in resizer
 			SetButtonsPos(m_hwnd, true);
 
 			InvalidateRect(m_pOwner->m_hwndStatus, nullptr, true);
@@ -1217,5 +1217,5 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	
-	return CSrmmBaseDialog::DlgProc(uMsg, wParam, lParam);
+	return CSuper::DlgProc(uMsg, wParam, lParam);
 }

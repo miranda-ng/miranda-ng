@@ -195,19 +195,14 @@ static void ShowRoom(SESSION_INFO *si)
 
 	// Do we need to create a window?
 	if (si->pDlg == nullptr) {
+		CTabbedWindow *pContainer = GetContainer();
 		if (g_Settings.bTabsEnable) {
-			if (pDialog == nullptr) {
-				pDialog = new CTabbedWindow();
-				pDialog->Show();
-			}
-			pDialog->AddPage(si);
-			PostMessage(pDialog->GetHwnd(), WM_SIZE, 0, 0);
+			pContainer->AddPage(si);
+			PostMessage(pContainer->GetHwnd(), WM_SIZE, 0, 0);
 		}
 		else {
-			CTabbedWindow *pContainer = new CTabbedWindow();
-			pContainer->Create();
-
 			CDlgBase *pDlg = pContainer->m_pEmbed = new CChatRoomDlg(pContainer, si);
+			pContainer->Create();
 			pDlg->SetParent(pContainer->GetHwnd());
 			pDlg->Create();
 			pContainer->Show();

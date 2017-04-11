@@ -44,6 +44,21 @@ CTabbedWindow *pDialog = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CTabbedWindow* GetContainer()
+{
+	if (g_Settings.bTabsEnable) {
+		if (pDialog == nullptr) {
+			pDialog = new CTabbedWindow();
+			pDialog->Show();
+		}
+		return pDialog;
+	}
+
+	return new CTabbedWindow();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 CTabbedWindow::CTabbedWindow() :
 	CDlgBase(g_hInst, IDD_CONTAINER),
 	m_tab(this, IDC_TAB),
@@ -117,6 +132,31 @@ int CTabbedWindow::Resizer(UTILRESIZECONTROL *urc)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CTabbedWindow* CTabbedWindow::AddPage(MCONTACT hContact, wchar_t *pwszText, int iNoActivate)
+{
+	CSrmmWindow *pDlg = new CSrmmWindow(this, hContact);
+	pDlg->m_wszInitialText = pwszText;
+	if (iNoActivate != -1)
+		pDlg->m_bNoActivate = iNoActivate != 0;
+
+	if (g_Settings.bTabsEnable) {
+		m_tab.AddPage(pcli->pfnGetContactDisplayName(hContact, 0), nullptr, pDlg);
+		FixTabIcons(pDlg);
+
+		m_tab.ActivatePage(m_tab.GetCount() - 1);
+	}
+	else {
+		m_pEmbed = pDlg;
+		Create();
+		pDlg->SetParent(m_hwnd);
+		pDlg->Create();
+		Show();
+	}
+
+	PostMessage(m_hwnd, WM_SIZE, 0, 0);
+	return this;
+}
+
 void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
 { 
 	// does the tab already exist?
@@ -141,20 +181,21 @@ void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
 		m_tab.ActivatePage(indexfound);
 }
 
-void CTabbedWindow::FixTabIcons(CChatRoomDlg *pDlg)
+void CTabbedWindow::FixTabIcons(CSrmmBaseDialog *pDlg)
 {
 	if (pDlg != nullptr) {
 		int idx = m_tab.GetDlgIndex(pDlg);
 		if (idx == -1)
 			return;
 
-		SESSION_INFO *si = pDlg->m_si;
 		int image = 0;
-		if (!(si->wState & GC_EVENT_HIGHLIGHT)) {
-			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
-			image = (si->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
-			if (si->wState & STATE_TALK)
-				image++;
+		if (SESSION_INFO *si = ((CChatRoomDlg*)pDlg)->m_si) {
+			if (!(si->wState & GC_EVENT_HIGHLIGHT)) {
+				MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+				image = (si->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
+				if (si->wState & STATE_TALK)
+					image++;
+			}
 		}
 
 		TCITEM tci = {};
