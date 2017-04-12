@@ -1093,8 +1093,9 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SetFocus(m_message.GetHwnd());
 		// fall through
 	case WM_MOUSEACTIVATE:
+		SendMessage(m_hwnd, DM_UPDATETITLE, 0, 0);
 		if (KillTimer(m_hwnd, TIMERID_FLASHWND))
-			FlashWindow(m_hwnd, FALSE);
+			FlashWindow(m_pOwner->GetHwnd(), FALSE);
 		break;
 
 	case WM_GETMINMAXINFO:
@@ -1203,10 +1204,10 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_TIMER:
 		if (wParam == TIMERID_FLASHWND) {
-			FlashWindow(m_hwnd, TRUE);
+			FlashWindow(m_pOwner->GetHwnd(), TRUE);
 			if (m_nFlash > 2 * g_dat.nFlashMax) {
 				KillTimer(m_hwnd, TIMERID_FLASHWND);
-				FlashWindow(m_hwnd, FALSE);
+				FlashWindow(m_pOwner->GetHwnd(), FALSE);
 				m_nFlash = 0;
 			}
 			m_nFlash++;
@@ -1418,7 +1419,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					GetScrollInfo((HWND)lParam, SB_VERT, &si);
 					if ((si.nPos + (int)si.nPage + 5) >= si.nMax)
 						if (KillTimer(m_hwnd, TIMERID_FLASHWND))
-							FlashWindow(m_hwnd, FALSE);
+							FlashWindow(m_pOwner->GetHwnd(), FALSE);
 				}
 				break;
 			}

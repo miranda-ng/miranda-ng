@@ -1104,7 +1104,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_TIMER:
 		if (wParam == TIMERID_FLASHWND)
-			FlashWindow(m_hwnd, TRUE);
+			FlashWindow(m_pOwner->GetHwnd(), TRUE);
 		break;
 
 	case WM_ACTIVATE:
@@ -1133,11 +1133,12 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (uMsg != WM_ACTIVATE)
 				SetFocus(m_message.GetHwnd());
 
+			SendMessage(m_hwnd, DM_UPDATETITLE, 0, 0);
 			pci->SetActiveSession(m_si);
 			UpdateStatusBar();
 
 			if (KillTimer(m_hwnd, TIMERID_FLASHWND))
-				FlashWindow(m_hwnd, FALSE);
+				FlashWindow(m_pOwner->GetHwnd(), FALSE);
 			if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
 				db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
 			if (pcli->pfnGetEvent(m_hContact, 0))
