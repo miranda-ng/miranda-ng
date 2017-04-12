@@ -635,6 +635,19 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (msg == WM_KEYDOWN) {
+		bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+		bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+		bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
+		if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
+			return FALSE;
+	}
+	
+	return CSuper::WndProc_Log(msg, wParam, lParam);
+}
+
 LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	bool isShift, isCtrl, isAlt;
@@ -686,7 +699,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			m_message.SendMsg(WM_PASTE, 0, 0);
 			return 0;
 		}
-
+								 
 		if (wParam == VK_UP && isCtrl && g_dat.bCtrlSupport && !g_dat.bAutoClose) {
 			if (m_cmdList.getCount()) {
 				if (m_cmdListInd < 0) {

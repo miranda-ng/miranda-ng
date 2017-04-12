@@ -53,6 +53,7 @@ class CSrmmWindow : public CSrmmBaseDialog
 	
 	static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	CCtrlBase m_avatar;
