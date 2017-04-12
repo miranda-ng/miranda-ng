@@ -41,6 +41,7 @@ void TB_SaveSession(SESSION_INFO *si)
 }
 
 CTabbedWindow *pDialog = nullptr;
+int g_iMessageIconIndex;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -197,6 +198,7 @@ void CTabbedWindow::FixTabIcons(CSrmmBaseDialog *pDlg)
 					image++;
 			}
 		}
+		else image = g_iMessageIconIndex;
 
 		TCITEM tci = {};
 		tci.mask = TCIF_IMAGE;

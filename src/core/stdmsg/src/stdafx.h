@@ -114,6 +114,7 @@ extern HIMAGELIST hIconsList;
 
 extern HINSTANCE g_hInst;
 extern BOOL SmileyAddInstalled, PopupInstalled;
+extern int g_iMessageIconIndex;
 
 // main.cpp
 void LoadIcons(void);

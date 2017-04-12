@@ -87,6 +87,8 @@ static void OnCreateModule(MODULEINFO *mi)
 	mi->hOfflineIcon = ImageList_GetIcon(hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT);
 	mi->hOfflineTalkIcon = ImageList_GetIcon(hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
 	ImageList_AddIcon(hIconsList, mi->hOfflineTalkIcon);
+
+	g_iMessageIconIndex = ImageList_AddIcon(hIconsList, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 }
 
 static void OnReplaceSession(SESSION_INFO *si)

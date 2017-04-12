@@ -163,7 +163,7 @@ static int AddOrReplaceIcon(HIMAGELIST hList, int prevIndex, HICON hIcon)
 	else prevIndex = g_dat.tabIconListUsage[usageIdx].index;
 
 	g_dat.tabIconListUsage[usageIdx].used = 1;
-	g_dat.tabIconListUsage[usageIdx].index = (int)ImageList_ReplaceIcon(hList, prevIndex, hIcon);
+	g_dat.tabIconListUsage[usageIdx].index = ImageList_ReplaceIcon(hList, prevIndex, hIcon);
 	return g_dat.tabIconListUsage[usageIdx].index;
 }
 
