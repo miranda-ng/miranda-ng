@@ -610,6 +610,41 @@ namespace omemo {
 		return 1; //session exist and succesfully loaded
 	}
 
+	struct db_enum_settings_sub_cb_data
+	{
+		signal_store_backend_user_data* user_data;
+		unsigned int &arr_size;
+		signal_int_list *sessions;
+		const char *name;
+		size_t name_len;
+		db_enum_settings_sub_cb_data(unsigned int &arr_size_) : arr_size(arr_size_)
+		{}
+		db_enum_settings_sub_cb_data() = delete; //we always need array size
+	};
+
+	int db_enum_settings_sub_cb(const char *szSetting, LPARAM lParam)
+	{
+		db_enum_settings_sub_cb_data* data = (db_enum_settings_sub_cb_data*)lParam;
+		if (strstr(szSetting, "OmemoSignalSession_"))
+		{
+			char *ptr = (char*)szSetting;
+			ptr += mir_strlen("OmemoSignalSession_");
+			char *current_name = mir_base64_encode((BYTE*)data->name, data->name_len);
+			if (strstr(ptr, current_name))
+			{
+				char *dev_encoded = ptr;
+				ptr += strlen(current_name);
+				unsigned int len;
+				void *dev_tmp = mir_base64_decode(ptr, &len);
+				signal_int_list_push_back(data->sessions, *((int *)dev_tmp));
+				data->arr_size++;
+				mir_free(dev_tmp);
+			}
+			mir_free(current_name);
+		}
+		return 0; //?
+
+	}
 	int get_sub_device_sessions_func(signal_int_list **sessions, const char *name, size_t name_len, void *user_data)
 	{
 		/**
@@ -621,9 +656,19 @@ namespace omemo {
 		* @return size of the sessions array, or negative on failure
 		*/
 
-		//TODO:
-		//db_enum_settings
-		return -1; //failure
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+		signal_int_list *l = signal_int_list_alloc();
+		unsigned int array_size = 0;
+
+		db_enum_settings_sub_cb_data *ud = new db_enum_settings_sub_cb_data(array_size);
+		ud->user_data = data;
+		ud->sessions = l;
+		ud->name = name;
+		ud->name_len = name_len;
+		db_enum_settings(data->hContact, &db_enum_settings_sub_cb, data->proto->m_szModuleName, (void*)ud);
+		*sessions = l;
+		delete ud;
+		return array_size;
 	}
 
 	int store_session_func(const signal_protocol_address *address, uint8_t *record, size_t record_len, void *user_data)
@@ -714,6 +759,29 @@ namespace omemo {
 		return 1;
 	}
 
+	struct db_enum_settings_del_all_cb_data
+	{
+		signal_store_backend_user_data* user_data;
+		LIST<char> settings; //TODO: check this
+		const char *name;
+		size_t name_len;
+	};
+
+	int db_enum_settings_del_all_cb(const char *szSetting, LPARAM lParam)
+	{
+		db_enum_settings_del_all_cb_data* data = (db_enum_settings_del_all_cb_data*)lParam;
+		if (strstr(szSetting, "OmemoSignalSession_"))
+		{
+			char *ptr = (char*)szSetting;
+			ptr += mir_strlen("OmemoSignalSession_");
+			char *current_name = mir_base64_encode((BYTE*)data->name, data->name_len);
+			if (strstr(ptr, current_name))
+				data->settings.insert(mir_strdup(szSetting));
+			mir_free(current_name);
+		}
+
+		return 0;//?
+	}
 	int delete_all_sessions_func(const char *name, size_t name_len, void *user_data)
 	{
 		/**
@@ -726,8 +794,20 @@ namespace omemo {
 
 		//TODO:
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
-		//db_enum_settings
-		return -1; //failure
+		db_enum_settings_del_all_cb_data *ud = (db_enum_settings_del_all_cb_data*)mir_alloc(sizeof(db_enum_settings_del_all_cb_data));
+		ud->user_data = data;
+		ud->name = name;
+		ud->name_len = name_len;
+		db_enum_settings(data->hContact, &db_enum_settings_del_all_cb, data->proto->m_szModuleName, (void*)ud);
+		int count = 0;
+		for (int i = 0; i < ud->settings.getCount(); i++)
+		{
+			db_unset(data->hContact, data->proto->m_szModuleName, ud->settings[i]);
+			mir_free(ud->settings[i]);
+			count++;
+		}
+		mir_free(ud);
+		return count;
 	}
 
 	void destroy_func(void *user_data)
@@ -743,24 +823,59 @@ namespace omemo {
 	//signal_protocol_pre_key_store callback follow
 	int load_pre_key(signal_buffer **record, uint32_t pre_key_id, void *user_data)
 	{
+		/**
+		* Load a local serialized PreKey record.
+		*
+		* @param record pointer to a newly allocated buffer containing the record,
+		*     if found. Unset if no record was found.
+		*     The Signal Protocol library is responsible for freeing this buffer.
+		* @param pre_key_id the ID of the local serialized PreKey record
+		* @retval SG_SUCCESS if the key was found
+		* @retval SG_ERR_INVALID_KEY_ID if the key could not be found
+		*/
+
 		//TODO:
 		return SG_ERR_INVALID_KEY_ID; //failure
 	}
 
 	int store_pre_key(uint32_t pre_key_id, uint8_t *record, size_t record_len, void *user_data)
 	{
+		/**
+		* Store a local serialized PreKey record.
+		*
+		* @param pre_key_id the ID of the PreKey record to store.
+		* @param record pointer to a buffer containing the serialized record
+		* @param record_len length of the serialized record
+		* @return 0 on success, negative on failure
+		*/
+
 		//TODO:
 		return -1; //failure
 	}
 
 	int contains_pre_key(uint32_t pre_key_id, void *user_data)
 	{
+		/**
+		* Determine whether there is a committed PreKey record matching the
+		* provided ID.
+		*
+		* @param pre_key_id A PreKey record ID.
+		* @return 1 if the store has a record for the PreKey ID, 0 otherwise
+		*/
+
 		//TODO:
 		return 0; //not found
 	}
 
 	int remove_pre_key(uint32_t pre_key_id, void *user_data)
 	{
+		/**
+		* Delete a PreKey record from local storage.
+		*
+		* @param pre_key_id The ID of the PreKey record to remove.
+		* @return 0 on success, negative on failure
+		*/
+
 		//TODO:
 		return -1; //failure
 	}
@@ -770,24 +885,59 @@ namespace omemo {
 
 	int load_signed_pre_key(signal_buffer **record, uint32_t signed_pre_key_id, void *user_data)
 	{
+		/**
+		* Load a local serialized signed PreKey record.
+		*
+		* @param record pointer to a newly allocated buffer containing the record,
+		*     if found. Unset if no record was found.
+		*     The Signal Protocol library is responsible for freeing this buffer.
+		* @param signed_pre_key_id the ID of the local signed PreKey record
+		* @retval SG_SUCCESS if the key was found
+		* @retval SG_ERR_INVALID_KEY_ID if the key could not be found
+		*/
+
 		//TODO:
 		return SG_ERR_INVALID_KEY_ID; //failure
 	}
 
 	int store_signed_pre_key(uint32_t signed_pre_key_id, uint8_t *record, size_t record_len, void *user_data)
 	{
+		/**
+		* Store a local serialized signed PreKey record.
+		*
+		* @param signed_pre_key_id the ID of the signed PreKey record to store
+		* @param record pointer to a buffer containing the serialized record
+		* @param record_len length of the serialized record
+		* @return 0 on success, negative on failure
+		*/
+
 		//TODO:
 		return -1; //failure
 	}
 
 	int contains_signed_pre_key(uint32_t signed_pre_key_id, void *user_data)
 	{
+		/**
+		* Determine whether there is a committed signed PreKey record matching
+		* the provided ID.
+		*
+		* @param signed_pre_key_id A signed PreKey record ID.
+		* @return 1 if the store has a record for the signed PreKey ID, 0 otherwise
+		*/
+
 		//TODO:
 		return 0; //not found
 	}
 
 	int remove_signed_pre_key(uint32_t signed_pre_key_id, void *user_data)
 	{
+		/**
+		* Delete a SignedPreKeyRecord from local storage.
+		*
+		* @param signed_pre_key_id The ID of the signed PreKey record to remove.
+		* @return 0 on success, negative on failure
+		*/
+
 		//TODO:
 		return -1; //failure
 	}
@@ -798,24 +948,78 @@ namespace omemo {
 
 	int get_identity_key_pair(signal_buffer **public_data, signal_buffer **private_data, void *user_data)
 	{
+		/**
+		* Get the local client's identity key pair.
+		*
+		* @param public_data pointer to a newly allocated buffer containing the
+		*     public key, if found. Unset if no record was found.
+		*     The Signal Protocol library is responsible for freeing this buffer.
+		* @param private_data pointer to a newly allocated buffer containing the
+		*     private key, if found. Unset if no record was found.
+		*     The Signal Protocol library is responsible for freeing this buffer.
+		* @return 0 on success, negative on failure
+		*/
+
 		//TODO:
 		return -1; //failure
 	}
 
 	int get_local_registration_id(void *user_data, uint32_t *registration_id)
 	{
+		/**
+		* Return the local client's registration ID.
+		*
+		* Clients should maintain a registration ID, a random number
+		* between 1 and 16380 that's generated once at install time.
+		*
+		* @param registration_id pointer to be set to the local client's
+		*     registration ID, if it was successfully retrieved.
+		* @return 0 on success, negative on failure
+		*/
+
 		//TODO:
 		return -1; //failure
 	}
 
 	int save_identity(const signal_protocol_address *address, uint8_t *key_data, size_t key_len, void *user_data)
 	{
+		/**
+		* Save a remote client's identity key
+		* <p>
+		* Store a remote client's identity key as trusted.
+		* The value of key_data may be null. In this case remove the key data
+		* from the identity store, but retain any metadata that may be kept
+		* alongside it.
+		*
+		* @param address the address of the remote client
+		* @param key_data Pointer to the remote client's identity key, may be null
+		* @param key_len Length of the remote client's identity key
+		* @return 0 on success, negative on failure
+		*/
+
 		//TODO:
 		return -1; //failure
 	}
 
 	int is_trusted_identity(const signal_protocol_address *address, uint8_t *key_data, size_t key_len, void *user_data)
 	{
+		/**
+		* Verify a remote client's identity key.
+		*
+		* Determine whether a remote client's identity is trusted.  Convention is
+		* that the TextSecure protocol is 'trust on first use.'  This means that
+		* an identity key is considered 'trusted' if there is no entry for the recipient
+		* in the local store, or if it matches the saved key for a recipient in the local
+		* store.  Only if it mismatches an entry in the local store is it considered
+		* 'untrusted.'
+		*
+		* @param address the address of the remote client
+		* @param identityKey The identity key to verify.
+		* @param key_data Pointer to the identity key to verify
+		* @param key_len Length of the identity key to verify
+		* @return 1 if trusted, 0 if untrusted, negative on failure
+		*/
+
 		//TODO:
 		return -1; //failure
 	}
