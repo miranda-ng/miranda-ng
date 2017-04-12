@@ -115,9 +115,17 @@ INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *pwszInitialText)
 			SendDlgItemMessageW(hwnd, IDC_SRMM_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)pwszInitialText);
 			mir_free(pwszInitialText);
 		}
-		ShowWindow(hwnd, SW_RESTORE);
-		SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
-		SetForegroundWindow(hwnd);
+		
+		if (!g_Settings.bTabsEnable) {
+			HWND hwndContainer = GetParent(hwnd);
+			ShowWindow(hwndContainer, SW_RESTORE);
+			SetWindowPos(hwndContainer, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+			SetForegroundWindow(hwndContainer);
+		}
+		else {
+			CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			pDialog->m_tab.ActivatePage(pDialog->m_tab.GetDlgIndex(pDlg));
+		}
 	}
 	else GetContainer()->AddPage(hContact, pwszInitialText, false);
 
