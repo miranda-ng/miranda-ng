@@ -621,7 +621,8 @@ namespace omemo {
 		size_t name_len;
 		db_enum_settings_sub_cb_data(unsigned int &arr_size_) : arr_size(arr_size_)
 		{}
-		db_enum_settings_sub_cb_data() = delete; //we always need array size
+	private:		
+		db_enum_settings_sub_cb_data(); //we always need array size
 	};
 
 	int db_enum_settings_sub_cb(const char *szSetting, LPARAM lParam)
