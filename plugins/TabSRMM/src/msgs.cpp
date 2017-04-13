@@ -147,7 +147,7 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					m_pPanel.setHeight((LONG)lParam);
 				}
 			}
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+			Resize();
 		}
 		return 0;
 

@@ -702,7 +702,7 @@ void CSrmmWindow::SetDialogToType()
 	UpdateReadChars();
 	EnableWindow(GetDlgItem(m_hwnd, IDOK), m_message.GetRichTextLength() != 0);
 	SendMessage(m_hwnd, DM_CLISTSETTINGSCHANGED, 0, 0);
-	SendMessage(m_hwnd, WM_SIZE, 0, 0);
+	Resize();
 }
 
 void CSrmmWindow::SetStatusIcon()
@@ -730,7 +730,7 @@ void CSrmmWindow::ShowAvatar()
 	INT_PTR res = CallService(MS_AV_GETAVATARBITMAP, m_hContact, 0);
 	m_ace = res != CALLSERVICE_NOTFOUND ? (AVATARCACHEENTRY*)res : nullptr;
 	m_hbmpAvatarPic = (m_ace != nullptr && (m_ace->dwFlags & AVS_HIDEONCLIST) == 0) ? m_ace->hbmPic : nullptr;
-	SendMessage(m_hwnd, WM_SIZE, 0, 0);
+	Resize();
 
 	RefreshInfobar();
 

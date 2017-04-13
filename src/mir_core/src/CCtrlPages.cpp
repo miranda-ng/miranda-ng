@@ -297,7 +297,7 @@ BOOL CCtrlPages::OnNotify(int /*idCtrl*/, NMHDR *pnmh)
 
 	case TCN_SELCHANGE:
 		if (m_pActivePage != nullptr)
-			ShowWindow(m_pActivePage->GetHwnd(), SW_HIDE);
+			m_pActivePage->Hide();
 
 		if (info = GetCurrPage()) {
 			m_pActivePage = info->m_pDlg;
@@ -357,9 +357,9 @@ void CCtrlPages::OnApply()
 		if (GetWindowLongPtr(pshn.hdr.hwndFrom, DWLP_MSGRESULT) == PSNRET_INVALID_NOCHANGEPAGE) {
 			TabCtrl_SetCurSel(m_hwnd, i);
 			if (m_pActivePage != nullptr)
-				ShowWindow(m_pActivePage->GetHwnd(), SW_HIDE);
+				m_pActivePage->Hide();
 			m_pActivePage = p->m_pDlg;
-			ShowWindow(m_pActivePage->GetHwnd(), SW_SHOW);
+			m_pActivePage->Show();
 			m_parentWnd->Fail();
 			return;
 		}

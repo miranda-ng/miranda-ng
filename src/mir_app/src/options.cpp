@@ -883,7 +883,7 @@ public:
 				m_hCurrentPage = p->hTreeItem;
 				m_pageTree.SelectItem(m_hCurrentPage);
 				if (opd)
-					opd->pDialog->Show(SW_HIDE);
+					opd->pDialog->Hide();
 				m_currentPage = i;
 				if (opd)
 					opd->pDialog->Show();

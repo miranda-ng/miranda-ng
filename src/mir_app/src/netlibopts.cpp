@@ -304,7 +304,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				CopySettingsStruct(&settings, &tempSettings[iUser]->settings);
 				flags = tempSettings[iUser]->flags;
 			}
-			ShowMultipleControls(hwndDlg, outgoingConnectionsControls, _countof(outgoingConnectionsControls), flags&NUF_OUTGOING ? SW_SHOW : SW_HIDE);
+			ShowMultipleControls(hwndDlg, outgoingConnectionsControls, _countof(outgoingConnectionsControls), flags & NUF_OUTGOING ? SW_SHOW : SW_HIDE);
 			CheckDlgButton(hwndDlg, IDC_USEPROXY, settings.useProxy);
 			SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_RESETCONTENT, 0, 0);
 			if (settings.proxyType == 0) AddProxyTypeItem(hwndDlg, 0, settings.proxyType);
@@ -323,7 +323,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			CheckDlgButton(hwndDlg, IDC_PROXYDNS, settings.dnsThroughProxy);
 			CheckDlgButton(hwndDlg, IDC_VALIDATESSL, settings.validateSSL);
 
-			ShowMultipleControls(hwndDlg, incomingConnectionsControls, _countof(incomingConnectionsControls), flags&NUF_INCOMING ? SW_SHOW : SW_HIDE);
+			ShowMultipleControls(hwndDlg, incomingConnectionsControls, _countof(incomingConnectionsControls), flags & NUF_INCOMING ? SW_SHOW : SW_HIDE);
 			CheckDlgButton(hwndDlg, IDC_SPECIFYPORTS, settings.specifyIncomingPorts);
 			SetDlgItemTextA(hwndDlg, IDC_PORTSRANGE, settings.szIncomingPorts ? settings.szIncomingPorts : "");
 

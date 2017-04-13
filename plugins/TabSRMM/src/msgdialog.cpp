@@ -152,7 +152,7 @@ void CTabBaseDlg::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 		PluginConfig.m_visualMessageSizeIndicator = !PluginConfig.m_visualMessageSizeIndicator;
 		db_set_b(0, SRMSGMOD_T, "msgsizebar", (BYTE)PluginConfig.m_visualMessageSizeIndicator);
 		Srmm_Broadcast(DM_CONFIGURETOOLBAR, 0, 0);
-		SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		Resize();
 		if (m_pContainer->hwndStatus)
 			RedrawWindow(m_pContainer->hwndStatus, 0, 0, RDW_INVALIDATE | RDW_UPDATENOW);
 		break;
@@ -410,7 +410,7 @@ void CTabBaseDlg::SetDialogToType()
 
 	EnableSendButton(GetWindowTextLength(m_message.GetHwnd()) != 0);
 	UpdateTitle();
-	SendMessage(m_hwnd, WM_SIZE, 0, 0);
+	Resize();
 
 	Utils::enableDlgControl(m_hwnd, IDC_CONTACTPIC, false);
 
@@ -1180,7 +1180,7 @@ void CSrmmWindow::onClick_Add(CCtrlButton*)
 		ShowMultipleControls(m_hwnd, addControls, _countof(addControls), SW_HIDE);
 		if (!(m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
 			Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, SW_HIDE);
-		SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		Resize();
 	}
 }
 
@@ -1278,7 +1278,7 @@ void CSrmmWindow::onClick_CancelAdd(CCtrlButton*)
 	ShowMultipleControls(m_hwnd, addControls, _countof(addControls), SW_HIDE);
 	if (!(m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
 		Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, SW_HIDE);
-	SendMessage(m_hwnd, WM_SIZE, 0, 0);
+	Resize();
 }
 
 void CSrmmWindow::onChange_Message(CCtrlEdit*)
@@ -1589,7 +1589,7 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 
 			HWND hwndEdit = m_message.GetHwnd();
 			SetWindowPos(hwndEdit, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE);
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+			Resize();
 			RedrawWindow(hwndEdit, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW | RDW_ERASE);
 			DM_ScrollToBottom(0, 0);
 			Utils::showDlgControl(m_hwnd, IDC_MULTISPLITTER, (m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
@@ -1689,7 +1689,7 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 			SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, TranslateT("Contact not on list. You may add it..."));
 		else
 			SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
-		SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		Resize();
 		DM_ScrollToBottom(1, 1);
 		return _dlgReturn(m_hwnd, 1);
 	}
@@ -2450,7 +2450,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		if (lParam == 1) {
 			DM_RecalcPictureSize();
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+			Resize();
 			DM_ScrollToBottom(0, 1);
 		}
 		return 0;
@@ -2493,7 +2493,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case DM_UPDATEPICLAYOUT:
 		LoadContactAvatar();
-		SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		Resize();
 		return 0;
 
 	case DM_SPLITTERMOVED:
@@ -2509,7 +2509,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			if (m_iMultiSplit > ((rc.right - rc.left) - 80))
 				m_iMultiSplit = oldSplitterX;
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+			Resize();
 		}
 		else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERY)) {
 			GetClientRect(m_hwnd, &rc);
@@ -2544,7 +2544,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				DM_RecalcPictureSize();
 			}
 			UpdateToolbarBG();
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+			Resize();
 		}
 		else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_PANELSPLITTER)) {
 			GetClientRect(m_log.GetHwnd(), &rc);
@@ -2698,7 +2698,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		MoveWindow(m_hwnd, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), TRUE);
 		if (m_dwFlags & MWF_WASBACKGROUNDCREATE) {
 			m_dwFlags &= ~MWF_WASBACKGROUNDCREATE;
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+			Resize();
 			PostMessage(m_hwnd, DM_UPDATEPICLAYOUT, 0, 0);
 			if (PluginConfig.m_bAutoLocaleSupport) {
 				if (m_hkl == 0)
@@ -2712,7 +2712,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_pContainer->SideBar->Layout();
 		}
 		else {
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+			Resize();
 			if (lParam == 0)
 				DM_ScrollToBottom(0, 1);
 		}

@@ -112,7 +112,7 @@ void CChatRoomDlg::onClick_NickList(CCtrlButton *pButton)
 	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(m_bNicklistEnabled ? "nicklist" : "nicklist2", FALSE));
 
 	ScrollToBottom();
-	SendMessage(m_hwnd, WM_SIZE, 0, 0);
+	Resize();
 }
 
 void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
@@ -321,7 +321,7 @@ void CChatRoomDlg::UpdateOptions()
 	m_nickList.SendMsg(LB_SETITEMHEIGHT, 0, height > font ? height : font);
 	InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
 
-	SendMessage(m_hwnd, WM_SIZE, 0, 0);
+	Resize();
 	RedrawLog2();
 }
 

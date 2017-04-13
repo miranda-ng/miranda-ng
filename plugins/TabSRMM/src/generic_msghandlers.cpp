@@ -278,7 +278,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 				LoadSplitter();
 				AdjustBottomAvatarDisplay();
 				DM_RecalcPictureSize();
-				SendMessage(m_hwnd, WM_SIZE, 0, 0);
+				Resize();
 				break;
 			
 			case ID_MODE_PRIVATE:
@@ -287,7 +287,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 				LoadSplitter();
 				AdjustBottomAvatarDisplay();
 				DM_RecalcPictureSize();
-				SendMessage(m_hwnd, WM_SIZE, 0, 0);
+				Resize();
 				break;
 			
 			case ID_GLOBAL_BBCODE:
@@ -421,7 +421,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 			RedrawWindow(m_hwnd, 0, 0, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 		}
 		SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
-		SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		Resize();
 		DM_ScrollToBottom(1, 1);
 		Utils::showDlgControl(m_hwnd, IDC_MULTISPLITTER, (m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
 		Utils::showDlgControl(m_hwnd, IDC_CLIST, (m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
@@ -460,7 +460,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 
 			if (!m_bIsAutosizingInput) {
 				m_iSplitterY = m_iSplitterSaved;
-				SendMessage(m_hwnd, WM_SIZE, 0, 0);
+				Resize();
 				DM_ScrollToBottom(0, 1);
 			}
 		}
@@ -762,7 +762,7 @@ void CTabBaseDlg::DM_RecalcPictureSize()
 		BITMAP bminfo;
 		GetObject(hbm, sizeof(bminfo), &bminfo);
 		CalcDynamicAvatarSize(&bminfo);
-		SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		Resize();
 	}
 	else m_pic.cy = m_pic.cx = 60;
 }
@@ -1174,7 +1174,7 @@ int CTabBaseDlg::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 	LoadSplitter();
 	AdjustBottomAvatarDisplay();
 	DM_RecalcPictureSize();
-	SendMessage(m_hwnd, WM_SIZE, 0, 0);
+	Resize();
 	DM_ScrollToBottom(1, 1);
 	if (this != srcDat)
 		UpdateToolbarBG();

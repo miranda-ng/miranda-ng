@@ -702,7 +702,7 @@ void CChatRoomDlg::onClick_ShowNickList(CCtrlButton *pButton)
 
 	m_bNicklistEnabled = !m_bNicklistEnabled;
 
-	SendMessage(m_hwnd, WM_SIZE, 0, 0);
+	Resize();
 	if (CSkin::m_skinEnabled)
 		InvalidateRect(m_hwnd, nullptr, TRUE);
 	ScrollToBottom();
@@ -871,7 +871,7 @@ void CChatRoomDlg::UpdateOptions()
 	InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
 
 	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
-	SendMessage(m_hwnd, WM_SIZE, 0, 0);
+	Resize();
 	RedrawLog2();
 }
 
@@ -1891,7 +1891,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (iSplitterX > rc.right - rc.left - 35)
 				iSplitterX = rc.right - rc.left - 35;
 			m_pContainer->settings->iSplitterX = iSplitterX;
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+			Resize();
 		}
 		else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERY) || lParam == -1) {
 			GetClientRect(m_hwnd, &rc);
@@ -1906,7 +1906,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_iSplitterY = rc.bottom - rc.top - DPISCALEY_S(40);
 			m_pContainer->settings->iSplitterY = m_iSplitterY;
 			UpdateToolbarBG();
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+			Resize();
 		}
 		else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_PANELSPLITTER)) {
 			pt.x = 0, pt.y = wParam;
@@ -2337,7 +2337,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		
 		if (m_dwFlags & MWF_WASBACKGROUNDCREATE) {
 			m_dwFlags &= ~MWF_WASBACKGROUNDCREATE;
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+			Resize();
 
 			pt.x = pt.y = 0;
 			m_log.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&pt);
@@ -2349,7 +2349,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		else {
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+			Resize();
 			if (lParam == 0)
 				DM_ScrollToBottom(1, 1);
 		}
@@ -2372,7 +2372,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_CONFIGURETOOLBAR:
-		SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		Resize();
 		break;
 
 	case DM_SMILEYOPTIONSCHANGED:

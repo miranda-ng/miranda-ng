@@ -353,7 +353,7 @@ void CChatRoomDlg::onClick_ShowList(CCtrlButton *pButton)
 	m_bNicklistEnabled = !m_bNicklistEnabled;
 	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon(m_bNicklistEnabled ? "chat_nicklist" : "chat_nicklist2"));
 	ScrollToBottom();
-	SendMessage(m_hwnd, WM_SIZE, 0, 0);
+	Resize();
 }
 
 void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
@@ -512,7 +512,7 @@ void CChatRoomDlg::UpdateOptions()
 		InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
 	}
 	m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
-	SendMessage(m_hwnd, WM_SIZE, 0, 0);
+	Resize();
 	RedrawLog2();
 }
 
@@ -903,7 +903,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (uMsg) {
 	case DM_SWITCHINFOBAR:
 	case DM_SWITCHTOOLBAR:
-		SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		Resize();
 		break;
 
 	case WM_SIZE:

@@ -387,7 +387,7 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 	if (m_avatarPic == nullptr || !g_dat.bShowAvatar)
 		m_avatar.Hide();
 	SendMessage(m_hwnd, DM_UPDATETITLE, 0, 0);
-	SendMessage(m_hwnd, WM_SIZE, 0, 0);
+	Resize();
 
 	if (m_hBkgBrush)
 		DeleteObject(m_hBkgBrush);
@@ -964,7 +964,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (rc.bottom - rc.top < m_minEditBoxSize.cy)
 			m_splitter.OnChange(&m_splitter);
 
-		SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		Resize();
 		break;
 
 	case DM_GETAVATAR:
@@ -1063,14 +1063,14 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		GetWindowText(m_hwnd, oldtitle, _countof(oldtitle));
 		if (mir_wstrcmp(newtitle, oldtitle)) { //swt() flickers even if the title hasn't actually changed
 			SetWindowText(m_pOwner->GetHwnd(), newtitle);
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+			Resize();
 		}
 		break;
 
 	case DM_NEWTIMEZONE:
 		m_hTimeZone = TimeZone_CreateByContact(m_hContact, 0, TZF_KNOWNONLY);
 		m_wMinute = 61;
-		SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		Resize();
 		break;
 
 	case DM_CASCADENEWWINDOW:

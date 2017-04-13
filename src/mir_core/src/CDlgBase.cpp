@@ -64,16 +64,17 @@ CDlgBase::~CDlgBase()
 		DestroyWindow(m_hwnd);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// methods
+
+void CDlgBase::Close()
+{
+	::SendMessage(m_hwnd, WM_CLOSE, 0, 0);
+}
+
 void CDlgBase::Create()
 {
 	CreateDialogParam(m_hInst, MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)this);
-}
-
-void CDlgBase::Show(int nCmdShow)
-{
-	if (m_hwnd == nullptr)
-		Create();
-	ShowWindow(m_hwnd, nCmdShow);
 }
 
 int CDlgBase::DoModal()
@@ -93,11 +94,26 @@ void CDlgBase::NotifyChange(void)
 		SendMessage(m_hwndParent, PSM_CHANGED, (WPARAM)m_hwnd, 0);
 }
 
+void CDlgBase::Resize()
+{
+	SendMessage(m_hwnd, WM_SIZE, 0, 0);
+}
+
 void CDlgBase::SetCaption(const wchar_t *ptszCaption)
 {
 	if (m_hwnd && ptszCaption)
 		SetWindowText(m_hwnd, ptszCaption);
 }
+
+void CDlgBase::Show(int nCmdShow)
+{
+	if (m_hwnd == nullptr)
+		Create();
+	ShowWindow(m_hwnd, nCmdShow);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// virtual methods
 
 int CDlgBase::Resizer(UTILRESIZECONTROL*)
 {

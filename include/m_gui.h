@@ -382,6 +382,8 @@ public:
 	virtual ~CDlgBase();
 
 	// general utilities
+	void Close();
+	void Resize();
 	void Create();
 	void Show(int nCmdShow = SW_SHOW);
 	int  DoModal();
@@ -390,13 +392,13 @@ public:
 	void SetCaption(const wchar_t *ptszCaption);
 	void NotifyChange(void); // sends a notification to a parent window
 
+	__forceinline void Fail() { m_lresult = false; }
 	__forceinline HINSTANCE GetInst() const { return m_hInst; }
 	__forceinline HWND GetHwnd() const { return m_hwnd; }
+	__forceinline void Hide() { Show(SW_HIDE); }
 	__forceinline bool IsInitialized() const { return m_initialized; }
 	__forceinline void SetParent(HWND hwnd) { m_hwndParent = hwnd; }
-	__forceinline void Close() { SendMessage(m_hwnd, WM_CLOSE, 0, 0); }
-	__forceinline void Fail() { m_lresult = false; }
-	
+
 	__forceinline CCtrlBase* operator[](int iControlId) { return FindControl(iControlId); }
 
 	static CDlgBase* Find(HWND hwnd);

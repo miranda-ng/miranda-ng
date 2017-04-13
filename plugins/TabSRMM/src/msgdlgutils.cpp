@@ -347,7 +347,7 @@ int CTabBaseDlg::MsgWindowMenuHandler(int selection, int menuId)
 			}
 
 			ShowPicture(false);
-			SendMessage(m_hwnd, WM_SIZE, 0, 0);
+			Resize();
 			DM_ScrollToBottom(0, 1);
 			return 1;
 
@@ -735,7 +735,7 @@ void CTabBaseDlg::ShowPicture(bool showNewPic)
 			if (!m_hwndPanelPic) {
 				InvalidateRect(m_hwnd, nullptr, TRUE);
 				UpdateWindow(m_hwnd);
-				SendMessage(m_hwnd, WM_SIZE, 0, 0);
+				Resize();
 			}
 			return;
 		}
@@ -753,7 +753,7 @@ void CTabBaseDlg::ShowPicture(bool showNewPic)
 	if (!showNewPic)
 		SetDialogToType();
 	else
-		SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		Resize();
 }
 
 void CTabBaseDlg::FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei)
@@ -1304,7 +1304,7 @@ void CSrmmWindow::LoadOwnAvatar()
 		AdjustBottomAvatarDisplay();
 		GetObject(m_hOwnPic, sizeof(bm), &bm);
 		CalcDynamicAvatarSize(&bm);
-		SendMessage(m_hwnd, WM_SIZE, 0, 0);
+		Resize();
 	}
 }
 
