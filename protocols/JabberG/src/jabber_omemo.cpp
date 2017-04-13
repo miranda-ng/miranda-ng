@@ -549,7 +549,8 @@ namespace omemo {
 	void clean_sessions()
 	{
 		/*
-		as this is called for every jabber account it may cause problemsif one of multiple jabber accounts is deleted in runtime,
+		as this is called for every jabber account it may cause problems
+		if one of multiple jabber accounts is deleted in runtime,
 		to avoid this kind of problems this map must be defained in CJabberProto,
 		but as our silent rules agains stl and heavy constructions i will leave it here for now.
 		*/
@@ -592,14 +593,15 @@ namespace omemo {
 		char *id_buf_ptr = id_buf;
 		id_buf_ptr += address->name_len;
 		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
-		char *id_str = mir_base64_encode((BYTE*)id_buf, address->name_len + sizeof(int32_t));
+		char *id_str = mir_base64_encode((BYTE*)id_buf, (unsigned int)(address->name_len + sizeof(int32_t)));
 		mir_free(id_buf);
 		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
-		mir_snprintf(setting_name, strlen(id_str) + 64, "", "OmemoSignalSession_", id_str);
+		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalSession_", id_str);
 		mir_free(id_str);
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
 		db_get(data->hContact, data->proto->m_szModuleName, setting_name, &dbv);
+		mir_free(setting_name);
 		if (!dbv.cpbVal)
 		{
 			db_free(&dbv);
@@ -629,13 +631,13 @@ namespace omemo {
 		{
 			char *ptr = (char*)szSetting;
 			ptr += mir_strlen("OmemoSignalSession_");
-			char *current_name = mir_base64_encode((BYTE*)data->name, data->name_len);
+			char *current_name = mir_base64_encode((BYTE*)data->name, (unsigned int)data->name_len);
 			if (strstr(ptr, current_name))
 			{
 				char *dev_encoded = ptr;
-				ptr += strlen(current_name);
+				dev_encoded += strlen(current_name);
 				unsigned int len;
-				void *dev_tmp = mir_base64_decode(ptr, &len);
+				void *dev_tmp = mir_base64_decode(dev_encoded, &len);
 				signal_int_list_push_back(data->sessions, *((int *)dev_tmp));
 				data->arr_size++;
 				mir_free(dev_tmp);
@@ -690,12 +692,13 @@ namespace omemo {
 		char *id_buf_ptr = id_buf;
 		id_buf_ptr += address->name_len;
 		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
-		char *id_str = mir_base64_encode((BYTE*)id_buf, address->name_len + sizeof(int32_t));
+		char *id_str = mir_base64_encode((BYTE*)id_buf, (unsigned int)(address->name_len + sizeof(int32_t)));
 		mir_free(id_buf);
 		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
-		mir_snprintf(setting_name, strlen(id_str) + 64, "", "OmemoSignalSession_", id_str);
+		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalSession_", id_str);
 		mir_free(id_str);
-		db_set_blob(data->hContact, data->proto->m_szModuleName, setting_name, record, record_len);
+		db_set_blob(data->hContact, data->proto->m_szModuleName, setting_name, record, (unsigned int)record_len); //TODO: check return value
+		mir_free(setting_name);
 		return 0;
 
 	}
@@ -716,14 +719,15 @@ namespace omemo {
 		char *id_buf_ptr = id_buf;
 		id_buf_ptr += address->name_len;
 		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
-		char *id_str = mir_base64_encode((BYTE*)id_buf, address->name_len + sizeof(int32_t));
+		char *id_str = mir_base64_encode((BYTE*)id_buf, (unsigned int)(address->name_len + sizeof(int32_t)));
 		mir_free(id_buf);
 		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
-		mir_snprintf(setting_name, strlen(id_str) + 64, "", "OmemoSignalSession_", id_str);
+		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalSession_", id_str);
 		mir_free(id_str);
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
 		db_get(data->hContact, data->proto->m_szModuleName, setting_name, &dbv);
+		mir_free(setting_name);
 		if (!dbv.cpbVal)
 		{
 			db_free(&dbv);
@@ -750,12 +754,13 @@ namespace omemo {
 		char *id_buf_ptr = id_buf;
 		id_buf_ptr += address->name_len;
 		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
-		char *id_str = mir_base64_encode((BYTE*)id_buf, address->name_len + sizeof(int32_t));
+		char *id_str = mir_base64_encode((BYTE*)id_buf, (unsigned int)(address->name_len + sizeof(int32_t)));
 		mir_free(id_buf);
 		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
-		mir_snprintf(setting_name, strlen(id_str) + 64, "", "OmemoSignalSession_", id_str);
+		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalSession_", id_str);
 		mir_free(id_str);
 		db_unset(data->hContact, data->proto->m_szModuleName, setting_name);
+		mir_free(setting_name);
 		return 1;
 	}
 
@@ -774,7 +779,7 @@ namespace omemo {
 		{
 			char *ptr = (char*)szSetting;
 			ptr += mir_strlen("OmemoSignalSession_");
-			char *current_name = mir_base64_encode((BYTE*)data->name, data->name_len);
+			char *current_name = mir_base64_encode((BYTE*)data->name, (unsigned int)data->name_len);
 			if (strstr(ptr, current_name))
 				data->settings.insert(mir_strdup(szSetting));
 			mir_free(current_name);
@@ -792,7 +797,6 @@ namespace omemo {
 		* @return the number of deleted sessions on success, negative on failure
 		*/
 
-		//TODO:
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 		db_enum_settings_del_all_cb_data *ud = (db_enum_settings_del_all_cb_data*)mir_alloc(sizeof(db_enum_settings_del_all_cb_data));
 		ud->user_data = data;
@@ -834,8 +838,22 @@ namespace omemo {
 		* @retval SG_ERR_INVALID_KEY_ID if the key could not be found
 		*/
 
-		//TODO:
-		return SG_ERR_INVALID_KEY_ID; //failure
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+
+		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
+		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%d", "OmemoSignalSession_", pre_key_id);
+		DBVARIANT dbv = { 0 };
+		dbv.type = DBVT_BLOB;
+		db_get(data->hContact, data->proto->m_szModuleName, setting_name, &dbv);
+		mir_free(setting_name);
+		if (!dbv.cpbVal)
+		{
+			db_free(&dbv);
+			return SG_ERR_INVALID_KEY_ID;
+		}
+		*record = signal_buffer_create(dbv.pbVal, dbv.cpbVal);
+		db_free(&dbv);
+		return SG_SUCCESS; //key exist and succesfully loaded
 	}
 
 	int store_pre_key(uint32_t pre_key_id, uint8_t *record, size_t record_len, void *user_data)
@@ -849,8 +867,14 @@ namespace omemo {
 		* @return 0 on success, negative on failure
 		*/
 
-		//TODO:
-		return -1; //failure
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+
+		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
+		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%d", "OmemoSignalSession_", pre_key_id);
+		db_set_blob(data->hContact, data->proto->m_szModuleName, setting_name, record, (unsigned int)record_len); //TODO: check return value
+		mir_free(setting_name);
+
+		return 0;
 	}
 
 	int contains_pre_key(uint32_t pre_key_id, void *user_data)
@@ -863,8 +887,22 @@ namespace omemo {
 		* @return 1 if the store has a record for the PreKey ID, 0 otherwise
 		*/
 
-		//TODO:
-		return 0; //not found
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+
+		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
+		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%d", "OmemoSignalSession_", pre_key_id);
+		DBVARIANT dbv = { 0 };
+		dbv.type = DBVT_BLOB;
+		db_get(data->hContact, data->proto->m_szModuleName, setting_name, &dbv);
+		mir_free(setting_name);
+		if (!dbv.cpbVal)
+		{
+			db_free(&dbv);
+			return 0;
+		}
+		db_free(&dbv);
+
+		return 1;
 	}
 
 	int remove_pre_key(uint32_t pre_key_id, void *user_data)
@@ -876,8 +914,14 @@ namespace omemo {
 		* @return 0 on success, negative on failure
 		*/
 
-		//TODO:
-		return -1; //failure
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+
+		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
+		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%d", "OmemoSignalSession_", pre_key_id);
+		db_unset(data->hContact, data->proto->m_szModuleName, setting_name);
+		mir_free(setting_name);
+
+		return 0;
 	}
 	//void(*destroy_func)(void *user_data); //use first one as we have nothing special to destroy
 
@@ -896,8 +940,23 @@ namespace omemo {
 		* @retval SG_ERR_INVALID_KEY_ID if the key could not be found
 		*/
 
-		//TODO:
-		return SG_ERR_INVALID_KEY_ID; //failure
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+
+		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalSignedPreKey_") + 32);
+		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%d", "OmemoSignalSignedPreKey_", signed_pre_key_id);
+		DBVARIANT dbv = { 0 };
+		dbv.type = DBVT_BLOB;
+		db_get(data->hContact, data->proto->m_szModuleName, setting_name, &dbv);
+		mir_free(setting_name);
+		if (!dbv.cpbVal)
+		{
+			db_free(&dbv);
+			return SG_ERR_INVALID_KEY_ID;
+		}
+		*record = signal_buffer_create(dbv.pbVal, dbv.cpbVal);
+		db_free(&dbv);
+		return SG_SUCCESS; //key exist and succesfully loaded
+
 	}
 
 	int store_signed_pre_key(uint32_t signed_pre_key_id, uint8_t *record, size_t record_len, void *user_data)
@@ -911,8 +970,14 @@ namespace omemo {
 		* @return 0 on success, negative on failure
 		*/
 
-		//TODO:
-		return -1; //failure
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+
+		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalSignedPreKey_") + 32);
+		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%d", "OmemoSignalSignedPreKey_", signed_pre_key_id);
+		db_set_blob(data->hContact, data->proto->m_szModuleName, setting_name, record, (unsigned int)record_len); //TODO: check return value
+		mir_free(setting_name);
+
+		return 0;
 	}
 
 	int contains_signed_pre_key(uint32_t signed_pre_key_id, void *user_data)
@@ -925,8 +990,22 @@ namespace omemo {
 		* @return 1 if the store has a record for the signed PreKey ID, 0 otherwise
 		*/
 
-		//TODO:
-		return 0; //not found
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+
+		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalSignedPreKey_") + 32);
+		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%d", "OmemoSignalSignedPreKey_", signed_pre_key_id);
+		DBVARIANT dbv = { 0 };
+		dbv.type = DBVT_BLOB;
+		db_get(data->hContact, data->proto->m_szModuleName, setting_name, &dbv);
+		mir_free(setting_name);
+		if (!dbv.cpbVal)
+		{
+			db_free(&dbv);
+			return 0;
+		}
+		db_free(&dbv);
+		return 1;
+
 	}
 
 	int remove_signed_pre_key(uint32_t signed_pre_key_id, void *user_data)
@@ -938,8 +1017,14 @@ namespace omemo {
 		* @return 0 on success, negative on failure
 		*/
 
-		//TODO:
-		return -1; //failure
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+
+		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalSignedPreKey_") + 32);
+		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%d", "OmemoSignalSignedPreKey_", signed_pre_key_id);
+		db_unset(data->hContact, data->proto->m_szModuleName, setting_name);
+		mir_free(setting_name);
+
+		return 0;
 	}
 
 	//void(*destroy_func)(void *user_data); //use first one as we have nothing special to destroy
@@ -1433,7 +1518,6 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo * /*pInfo
 	if (!prekeys)
 		return;
 
-	HXML list_item;
 	unsigned char key_num = 0;
 	while(key_num == 0)
 		Utils_GetRandom(&key_num, 1);
