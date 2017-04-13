@@ -56,13 +56,15 @@ void CChatRoomDlg::OnInitDialog()
 	CSuper::OnInitDialog();
 	m_si->pDlg = this;
 
+	NotifyEvent(MSG_WINDOW_EVT_OPENING);
+
 	if (g_Settings.bTabsEnable)
 		SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_APPWINDOW);
+	else
+		onActivate();
 
 	// initialize toolbar icons
 	Srmm_CreateToolbarIcons(m_hwnd, BBBF_ISCHATBUTTON);
-
-	NotifyEvent(MSG_WINDOW_EVT_OPENING);
 
 	m_log.SendMsg(EM_AUTOURLDETECT, 1, 0);
 
@@ -88,6 +90,28 @@ void CChatRoomDlg::OnDestroy()
 	NotifyEvent(MSG_WINDOW_EVT_CLOSE);
 
 	CSuper::OnDestroy();
+}
+
+void CChatRoomDlg::onActivate()
+{
+	WINDOWPLACEMENT wp = {};
+	wp.length = sizeof(wp);
+	GetWindowPlacement(m_hwnd, &wp);
+	g_Settings.iX = wp.rcNormalPosition.left;
+	g_Settings.iY = wp.rcNormalPosition.top;
+	g_Settings.iWidth = wp.rcNormalPosition.right - wp.rcNormalPosition.left;
+	g_Settings.iHeight = wp.rcNormalPosition.bottom - wp.rcNormalPosition.top;
+
+	SendMessage(m_hwnd, DM_UPDATETITLE, 0, 0);
+	pci->SetActiveSession(m_si);
+	UpdateStatusBar();
+
+	if (KillTimer(m_hwnd, TIMERID_FLASHWND))
+		FlashWindow(m_pOwner->GetHwnd(), FALSE);
+	if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
+		db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
+	if (pcli->pfnGetEvent(m_hContact, 0))
+		pcli->pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
 }
 
 void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
@@ -1116,34 +1140,13 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 		}
-		if (LOWORD(wParam) != WA_ACTIVE)
-			break;
-		// fall through
+		if (LOWORD(wParam) == WA_ACTIVE)
+			onActivate();
+		break;
 
 	case WM_MOUSEACTIVATE:
-		{
-			WINDOWPLACEMENT wp = {};
-			wp.length = sizeof(wp);
-			GetWindowPlacement(m_hwnd, &wp);
-			g_Settings.iX = wp.rcNormalPosition.left;
-			g_Settings.iY = wp.rcNormalPosition.top;
-			g_Settings.iWidth = wp.rcNormalPosition.right - wp.rcNormalPosition.left;
-			g_Settings.iHeight = wp.rcNormalPosition.bottom - wp.rcNormalPosition.top;
-
-			if (uMsg != WM_ACTIVATE)
-				SetFocus(m_message.GetHwnd());
-
-			SendMessage(m_hwnd, DM_UPDATETITLE, 0, 0);
-			pci->SetActiveSession(m_si);
-			UpdateStatusBar();
-
-			if (KillTimer(m_hwnd, TIMERID_FLASHWND))
-				FlashWindow(m_pOwner->GetHwnd(), FALSE);
-			if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
-				db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
-			if (pcli->pfnGetEvent(m_hContact, 0))
-				pcli->pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
-		}
+		onActivate();
+		SetFocus(m_message.GetHwnd());
 		break;
 
 	case WM_NOTIFY:

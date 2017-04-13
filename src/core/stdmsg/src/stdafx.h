@@ -204,6 +204,8 @@ class CChatRoomDlg : public CSrmmBaseDialog
 
 	int m_iSplitterX, m_iSplitterY;
 
+	void onActivate(void);
+
 public:
 	CChatRoomDlg(CTabbedWindow*, SESSION_INFO*);
 
