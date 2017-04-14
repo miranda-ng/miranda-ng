@@ -167,12 +167,12 @@ void CVkProto::WorkerThread(void*)
 				lWaitingTime = (utime - uTime[0]) > 1000 ? 0 : 1100 - (utime - uTime[0]);
 
 				if (!(pReq->m_bApiReq) || lWaitingTime < 0)
-					lWaitingTime = 0;	
+					lWaitingTime = 0;
 			}
 
 			if (m_bTerminated)
 				break;
-			
+
 			if (lWaitingTime) {
 				debugLogA("CVkProto::WorkerThread: need sleep %d msec", lWaitingTime);
 				Sleep(lWaitingTime);

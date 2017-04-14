@@ -86,7 +86,7 @@ void CVkProto::FreeProtoShearchStruct(PROTOSEARCHBYNAME *pParam)
 {
 	if (!pParam)
 		return;
-	
+
 	mir_free(pParam->pszFirstName);
 	mir_free(pParam->pszLastName);
 	mir_free(pParam->pszNick);
@@ -177,7 +177,7 @@ void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_UNICODE;
-		
+
 		CMStringW Id(FORMAT, L"%d", jnRecord["id"].as_int());
 		CMStringW FirstName(jnRecord["first_name"].as_mstring());
 		CMStringW LastName(jnRecord["last_name"].as_mstring());

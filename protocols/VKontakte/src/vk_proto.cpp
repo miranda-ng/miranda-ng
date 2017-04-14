@@ -48,7 +48,7 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	m_hAPIConnection(NULL),
 	m_pollingConn(NULL),
 	m_bSetBroadcast(false),
-	m_bNeedSendOnline (false),
+	m_bNeedSendOnline(false),
 	m_vkOptions(this)
 {
 	InitQueue();
@@ -89,7 +89,7 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 CVkProto::~CVkProto()
 {
 	debugLogA("CVkProto::~CVkProto");
-	Netlib_CloseHandle(m_hNetlibUser); 
+	Netlib_CloseHandle(m_hNetlibUser);
 	m_hNetlibUser = NULL;
 	UninitQueue();
 	UnInitMenus();
@@ -227,7 +227,7 @@ void CVkProto::InitMenus()
 		SET_UID(mi, 0x9550515e, 0x2a45, 0x4913, 0x95, 0x1a, 0x1e, 0xfa, 0x7, 0xc6, 0x2d, 0x60);
 		m_hProtoMenuItems[PMI_VISITPROFILE] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 	}
-		
+
 	// Contact Menu Items
 	mi.root = NULL;
 	mi.flags = CMIF_UNICODE;
@@ -238,7 +238,7 @@ void CVkProto::InitMenus()
 	mi.name.w = LPGENW("Visit profile");
 	SET_UID(mi, 0x828cc50e, 0x398d, 0x43a2, 0xbf, 0xd3, 0xa9, 0x96, 0x47, 0x9d, 0x52, 0xff);
 	m_hContactMenuItems[CMI_VISITPROFILE] = Menu_AddContactMenuItem(&mi, m_szModuleName);
-		
+
 	mi.pszService = PS_MARKMESSAGESASREAD;
 	mi.position = -200001000 + CMI_MARKMESSAGESASREAD;
 	mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_MARKMESSAGESASREAD));
@@ -399,19 +399,19 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	switch (message) {
 	case WM_COMMAND:
 	case WM_CONTEXTMENU:
-		{
-			CVkSendMsgParam *pd = (CVkSendMsgParam *)PUGetPluginData(hwnd);
-			if (pd != NULL && pd->hContact != NULL)
-				CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)pd->hContact, 0);	
-			PUDeletePopup(hwnd);
-		} 
-		break;
+	{
+		CVkSendMsgParam *pd = (CVkSendMsgParam *)PUGetPluginData(hwnd);
+		if (pd != NULL && pd->hContact != NULL)
+			CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)pd->hContact, 0);
+		PUDeletePopup(hwnd);
+	}
+	break;
 	case UM_FREEPLUGINDATA:
-		{
-			CVkSendMsgParam *pd = (CVkSendMsgParam *)PUGetPluginData(hwnd);
-			delete pd;
-		} 
-		return FALSE;
+	{
+		CVkSendMsgParam *pd = (CVkSendMsgParam *)PUGetPluginData(hwnd);
+		delete pd;
+	}
+	return FALSE;
 	default:
 		break;
 	}
@@ -534,13 +534,13 @@ int CVkProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 {
 	switch (event) {
 	case EV_PROTO_ONLOAD:
-		return OnModulesLoaded(wParam,lParam);
+		return OnModulesLoaded(wParam, lParam);
 
 	case EV_PROTO_ONEXIT:
-		return OnPreShutdown(wParam,lParam);
+		return OnPreShutdown(wParam, lParam);
 
 	case EV_PROTO_ONOPTIONS:
-		return OnOptionsInit(wParam,lParam);
+		return OnOptionsInit(wParam, lParam);
 	}
 
 	return 1;
@@ -570,8 +570,8 @@ int CVkProto::AuthRequest(MCONTACT hContact, const wchar_t *message)
 	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
 	if (userID == VK_INVALID_USER || !hContact || userID == VK_FEED_USER)
 		return 1;
-	
-	wchar_t msg[501] = {0};
+
+	wchar_t msg[501] = { 0 };
 	if (message)
 		wcsncpy_s(msg, _countof(msg), message, _TRUNCATE);
 
@@ -593,14 +593,14 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 			int iRet = jnResponse.as_int();
 			setByte(param->hContact, "Auth", 0);
 			if (iRet == 2) {
-				CMStringW msg,			
+				CMStringW msg,
 					wszNick(ptrW(db_get_wsa(param->hContact, m_szModuleName, "Nick")));
 				if (wszNick.IsEmpty())
 					wszNick = TranslateT("(Unknown contact)");
 				msg.AppendFormat(TranslateT("User %s added as friend"), wszNick.c_str());
 				MsgPopup(param->hContact, msg, wszNick);
 			}
-		} 
+		}
 		else {
 			switch (pReq->m_iErrorCode) {
 			case VKERR_HIMSELF_AS_FRIEND:
@@ -643,7 +643,7 @@ int CVkProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	return SvcDeleteFriend(hContact,(LPARAM)true);
+	return SvcDeleteFriend(hContact, (LPARAM)true);
 }
 
 int CVkProto::UserIsTyping(MCONTACT hContact, int type)
@@ -656,9 +656,9 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 
 		if (m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnTyping)
 			MarkMessagesRead(hContact);
-		
+
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.setActivity.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)
-			<< INT_PARAM("user_id", userID) 
+			<< INT_PARAM("user_id", userID)
 			<< CHAR_PARAM("type", "typing"));
 		return 0;
 	}

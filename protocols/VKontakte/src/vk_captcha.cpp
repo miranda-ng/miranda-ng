@@ -62,7 +62,7 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 	CVkCaptchaForm dlg(this, &param);
 	if (!dlg.DoModal())
 		return false;
-	
+
 	debugLogA("CVkProto::RunCaptchaForm: user entered text %s", param.Result);
 	result = param.Result;
 	return true;

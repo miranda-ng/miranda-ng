@@ -19,7 +19,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 int CVkProto::SetStatus(int iNewStatus)
 {
-	debugLogA("CVkProto::SetStatus iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d m_hWorkerThread = %d", iNewStatus, m_iStatus, m_iDesiredStatus, m_hWorkerThread == NULL ? 0 : 1);
+	debugLogA("CVkProto::SetStatus iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d m_hWorkerThread = %d",
+		iNewStatus, m_iStatus, m_iDesiredStatus, m_hWorkerThread == NULL ? 0 : 1);
 
 	mir_cslock lck(m_csSetStatus);
 
@@ -180,7 +181,7 @@ void CVkProto::RetrieveStatusMusic(const CMStringW &StatusMsg)
 	debugLogA("CVkProto::RetrieveStatusMusic");
 	if (!IsOnline() || m_iStatus == ID_STATUS_INVISIBLE || m_vkOptions.iMusicSendMetod == MusicSendMetod::sendNone)
 		return;
-	
+
 	CMStringW wszOldStatusMsg(db_get_wsa(0, m_szModuleName, "OldStatusMsg"));
 	if (StatusMsg.IsEmpty()) {
 		CMStringW code;

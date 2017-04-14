@@ -248,5 +248,5 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 		db_set_b(NULL, proto->m_szModuleName, "LoadOnlyFriends", bLoadOnlyFriends);
 		db_unset(NULL, proto->m_szModuleName, "AutoClean");
 	}
-	// Note 
+	// Note
 }

@@ -260,7 +260,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 	debugLogA("CVkProto::CheckJsonResult");
 
 	if (!jnNode) {
-		if (pReq) 
+		if (pReq)
 			pReq->m_iErrorCode = VKERR_NO_JSONNODE;
 		return false;
 	}
@@ -271,13 +271,13 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 
 	if (!jnError || !jnErrorCode)
 		return true;
-	
+
 	int iErrorCode = jnErrorCode.as_int();
 	debugLogA("CVkProto::CheckJsonResult %d", iErrorCode);
 	if (!pReq)
 		return (iErrorCode == 0);
 
-	pReq->m_iErrorCode = iErrorCode;	
+	pReq->m_iErrorCode = iErrorCode;
 	switch (iErrorCode) {
 	case VKERR_AUTHORIZATION_FAILED:
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
@@ -317,7 +317,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 	case VKERR_INTERNAL_SERVER_ERR:
 		if (pReq->m_iRetry > 0) {
 			pReq->bNeedsRestart = true;
-			Sleep(1000); //Pause for fix err 
+			Sleep(1000); //Pause for fix err
 			debugLogA("CVkProto::CheckJsonResult Retry = %d", pReq->m_iRetry);
 			pReq->m_iRetry--;
 		}
@@ -345,7 +345,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 	case VKERR_HIMSELF_AS_FRIEND:
 	case VKERR_YOU_ON_BLACKLIST:
 	case VKERR_USER_ON_BLACKLIST:
-		// See CVkProto::SendFileFiled 
+		// See CVkProto::SendFileFiled
 		break;
 	}
 
@@ -685,18 +685,18 @@ int CVkProto::IsHystoryMessageExist(MCONTACT hContact)
 {
 	if (!hContact)
 		return 0;
-	
+
 	MEVENT hDBEvent = db_event_first(hContact);
 
 	if (!hDBEvent)
 		return 0;
-	
+
 	 do {
 		DBEVENTINFO dbei = {};
 		db_event_get(hDBEvent, &dbei);
 		if (dbei.eventType != VK_USER_DEACTIVATE_ACTION)
 			return 1;
-		
+
 		hDBEvent = db_event_next(hContact, hDBEvent);
 	} while (hDBEvent);
 

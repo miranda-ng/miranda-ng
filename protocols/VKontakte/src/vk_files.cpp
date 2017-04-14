@@ -26,13 +26,13 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 		return (HANDLE)0;
 
 	CVkFileUploadParam *fup = new CVkFileUploadParam(hContact, desc, files);
-	
+
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)fup);
-	
+
 	if (!fup->IsAccess()) {
 		SendFileFiled(fup, VKERR_FILE_NOT_EXIST);
 		return (HANDLE)0;
-	}	
+	}
 
 	AsyncHttpRequest *pReq;
 	switch (fup->GetType()) {
@@ -105,7 +105,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 		wszError = TranslateT("Invalid audio");
 		break;
 	case VKERR_AUDIO_DEL_COPYRIGHT:
-		wszError = TranslateT("The audio file was removed by the copyright holder and cannot be reuploaded");		
+		wszError = TranslateT("The audio file was removed by the copyright holder and cannot be reuploaded");
 		break;
 	case VKERR_INVALID_FILENAME:
 		wszError = TranslateT("Invalid filename");
@@ -116,7 +116,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 	default:
 		wszError = TranslateT("Unknown error occurred");
 	}
-	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ErrorCode== VKERR_AUDIO_DEL_COPYRIGHT ? ACKRESULT_DENIED : ACKRESULT_FAILED, (HANDLE)fup);
+	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ErrorCode == VKERR_AUDIO_DEL_COPYRIGHT ? ACKRESULT_DENIED : ACKRESULT_FAILED, (HANDLE)fup);
 	debugLogW(L"CVkProto::SendFileFiled error code = %d (%s)", ErrorCode, wszError.c_str());
 	MsgPopup(NULL, wszError, TranslateT("File upload error"), true);
 	delete fup;
@@ -149,7 +149,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		SendFileFiled(fup, VKERR_INVALID_URL);
 		return;
 	}
-	
+
 	FILE *pFile = _wfopen(fup->FileName, L"rb");
 	if (pFile == NULL) {
 		SendFileFiled(fup, VKERR_ERR_OPEN_FILE);
@@ -287,7 +287,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		}
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.save.json", true, &CVkProto::OnReciveUploadFile)
 			<< CHAR_PARAM("title", fup->fileName())
-			<< WCHAR_PARAM("file", upload)	;
+			<< WCHAR_PARAM("file", upload);
 		break;
 	default:
 		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
@@ -320,7 +320,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 	}
 
 	int id = fup->GetType() == CVkFileUploadParam::typeAudio ? jnResponse["id"].as_int() : (*jnResponse.begin())["id"].as_int();
-	int owner_id = fup->GetType() == CVkFileUploadParam::typeAudio ? jnResponse["owner_id"].as_int() : (*jnResponse.begin())["owner_id"].as_int(); 	
+	int owner_id = fup->GetType() == CVkFileUploadParam::typeAudio ? jnResponse["owner_id"].as_int() : (*jnResponse.begin())["owner_id"].as_int();
 	if ((id == 0) || (owner_id == 0)) {
 		SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
 		return;
@@ -374,7 +374,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
 			<< INT_PARAM("user_id", userID);
 		pMsgReq->pUserInfo = new CVkSendMsgParam(fup->hContact, fup);
-		
+
 	}
 
 	pMsgReq << WCHAR_PARAM("message", fup->Desc) << WCHAR_PARAM("attachment", Attachment);

@@ -213,7 +213,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 				MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed."), TranslateT("Loading history"));
 				m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;
 			}
-			
+
 			delete param;
 			pReq->pUserInfo = NULL;
 		}

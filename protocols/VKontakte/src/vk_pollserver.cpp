@@ -78,7 +78,6 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 	int msgid, uid, flags, platform;
 	MCONTACT hContact;
 
-	
 	for (auto it = jnUpdates.begin(); it != jnUpdates.end(); ++it) {
 		const JSONNode &jnChild = (*it).as_array();
 		switch (jnChild[json_index_t(0)].as_int()) {
@@ -96,7 +95,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 					MessageReadData data(time(NULL), MRD_TYPE_READTIME);
 					CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
 				}
-				else 
+				else
 					SetSrmmReadStatus(hContact);
 				if (m_vkOptions.bUserForceInvisibleOnActivity)
 					SetInvisible(hContact);
@@ -267,7 +266,7 @@ void CVkProto::PollingThread(void*)
 
 	m_pollingConn = NULL;
 	debugLogA("CVkProto::PollingThread: leaving");
-	
+
 	if (m_hPollingThread) {
 		CloseHandle(m_hPollingThread);
 		m_hPollingThread = NULL;

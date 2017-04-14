@@ -430,7 +430,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			int mid = jnDlg["id"].as_int();
 			m_bNotifyForEndLoadingHistory = false;
 
-			if (getDword(hContact, "lastmsgid", -1) == -1 && numUnread && !getBool(hContact, "ActiveHistoryTask")) {	
+			if (getDword(hContact, "lastmsgid", -1) == -1 && numUnread && !getBool(hContact, "ActiveHistoryTask")) {
 				setByte(hContact, "ActiveHistoryTask", 1);
 				GetServerHistory(hContact, 0, numUnread, 0, 0, true);
 			}
@@ -441,7 +441,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 				MarkMessagesRead(hContact);
 		}
 		else if (numUnread && !getBool(hContact, "ActiveHistoryTask")) {
-			
+
 			m_bNotifyForEndLoadingHistory = false;
 			setByte(hContact, "ActiveHistoryTask", 1);
 			GetServerHistory(hContact, 0, numUnread, 0, 0, true);
