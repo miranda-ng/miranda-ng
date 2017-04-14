@@ -1191,6 +1191,10 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SetFocus(m_message.GetHwnd());
 		break;
 
+	case DM_CLOSETAB:
+		CloseTab();
+		break;
+
 	case DM_CASCADENEWWINDOW:
 		if ((HWND)wParam != m_pOwner->GetHwnd()) {
 			RECT rcThis, rcNew;

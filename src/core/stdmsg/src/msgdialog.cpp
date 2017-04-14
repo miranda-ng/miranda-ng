@@ -1411,6 +1411,10 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
+	case DM_CLOSETAB:
+		CloseTab();
+		break;
+
 	case DM_STATUSICONCHANGE:
 		SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, (SBT_OWNERDRAW | (SendMessage(m_pOwner->m_hwndStatus, SB_GETPARTS, 0, 0) - 1)), 0);
 		break;
