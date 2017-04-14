@@ -352,10 +352,12 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 
 		m_message.SetText(L"");
 
-		if (g_dat.bAutoClose)
-			DestroyWindow(m_hwnd);
-		else if (g_dat.bAutoMin)
-			Show(SW_MINIMIZE);
+		if (!g_Settings.bTabsEnable) {
+			if (g_dat.bAutoClose)
+				::PostMessage(m_hwndParent, WM_CLOSE, 0, 0);
+			else if (g_dat.bAutoMin)
+				Show(SW_MINIMIZE);
+		}
 	}
 }
 
