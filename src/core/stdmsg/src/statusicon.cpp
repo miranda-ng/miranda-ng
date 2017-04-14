@@ -70,8 +70,6 @@ void CheckStatusIconClick(MCONTACT hContact, HWND hwndFrom, POINT pt, const RECT
 	NotifyEventHooks(hHookIconPressedEvt, hContact, (LPARAM)&sicd);
 }
 
-HANDLE hServiceIcon[3];
-
 int InitStatusIcons()
 {
 	HookEvent(ME_MSG_ICONSCHANGED, OnSrmmIconChanged);

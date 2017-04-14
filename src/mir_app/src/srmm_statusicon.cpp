@@ -219,7 +219,6 @@ int LoadSrmmModule()
 void UnloadSrmmModule()
 {
 	arIcons.destroy();
-	NotifyEventHooks(hHookIconsChanged, 0, 0);
 
 	DestroyHookableEvent(hHookIconsChanged);
 	DestroyHookableEvent(hHookSrmmEvent);
