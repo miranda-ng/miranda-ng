@@ -1046,8 +1046,20 @@ namespace omemo {
 		* @return 0 on success, negative on failure
 		*/
 
-		//TODO:
-		return -1; //failure
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+		char *pub_key = data->proto->getStringA("OmemoDevicePublicKey");
+		char *priv_key = data->proto->getStringA("OmemoDevicePrivateKey");
+		unsigned int pub_key_len = 0, priv_key_len = 0;
+		char *pub_key_buf = (char*)mir_base64_decode(pub_key, &pub_key_len);
+		mir_free(pub_key);
+		char *priv_key_buf = (char*)mir_base64_decode(priv_key, &priv_key_len);
+		mir_free(priv_key);
+		*public_data = signal_buffer_create((uint8_t*)pub_key_buf, pub_key_len);
+		*private_data = signal_buffer_create((uint8_t*)priv_key_buf, priv_key_len);
+		mir_free(priv_key_buf);
+		mir_free(pub_key_buf);
+
+		return 0;
 	}
 
 	int get_local_registration_id(void *user_data, uint32_t *registration_id)
@@ -1063,8 +1075,9 @@ namespace omemo {
 		* @return 0 on success, negative on failure
 		*/
 
-		//TODO:
-		return -1; //failure
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+		*registration_id = GetOwnDeviceId(data->proto); //TODO: check it, maybe memory allocation is necessary
+		return 0;
 	}
 
 	int save_identity(const signal_protocol_address *address, uint8_t *key_data, size_t key_len, void *user_data)
@@ -1083,8 +1096,24 @@ namespace omemo {
 		* @return 0 on success, negative on failure
 		*/
 
-		//TODO:
-		return -1; //failure
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+		char *id_buf = (char*)mir_alloc(address->name_len + sizeof(int32_t));
+		memcpy(id_buf, address->name, address->name_len);
+		char *id_buf_ptr = id_buf;
+		id_buf_ptr += address->name_len;
+		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
+		char *id_str = mir_base64_encode((BYTE*)id_buf, (unsigned int)(address->name_len + sizeof(int32_t)));
+		mir_free(id_buf);
+		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
+		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalIdentity_", id_str);
+		mir_free(id_str);
+		if (key_data != 0)
+			db_set_blob(data->hContact, data->proto->m_szModuleName, setting_name, key_data, (unsigned int)key_len); //TODO: check return value
+		else
+			db_unset(data->hContact, data->proto->m_szModuleName, setting_name);
+		mir_free(setting_name);
+
+		return 0;
 	}
 
 	int is_trusted_identity(const signal_protocol_address *address, uint8_t *key_data, size_t key_len, void *user_data)
@@ -1106,8 +1135,43 @@ namespace omemo {
 		* @return 1 if trusted, 0 if untrusted, negative on failure
 		*/
 
-		//TODO:
-		return -1; //failure
+
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+		char *id_buf = (char*)mir_alloc(address->name_len + sizeof(int32_t));
+		memcpy(id_buf, address->name, address->name_len);
+		char *id_buf_ptr = id_buf;
+		id_buf_ptr += address->name_len;
+		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
+		char *id_str = mir_base64_encode((BYTE*)id_buf, (unsigned int)(address->name_len + sizeof(int32_t)));
+		mir_free(id_buf);
+		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
+		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalIdentity_", id_str);
+		mir_free(id_str);
+
+
+		DBVARIANT dbv = { 0 };
+		dbv.type = DBVT_BLOB;
+		db_get(data->hContact, data->proto->m_szModuleName, setting_name, &dbv);
+		mir_free(setting_name);
+		if (key_len > 0 && !dbv.cpbVal)
+		{
+			db_free(&dbv);
+			return 1;
+		}
+		if (dbv.cpbVal != key_len)
+		{
+			db_free(&dbv);
+			return 0;
+		}
+		if (memcmp(key_data, dbv.pbVal, key_len))
+		{
+			db_free(&dbv);
+			return 0;
+		}
+
+		db_free(&dbv);
+
+		return 1;
 	}
 	//void(*destroy_func)(void *user_data); //use first one as we have nothing special to destroy
 
