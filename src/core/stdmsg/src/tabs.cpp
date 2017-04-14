@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "statusicon.h"
 
 struct CSavedTab
 {
@@ -545,7 +546,33 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		SaveWindowPosition(false);
 		break;
 
+	case WM_DRAWITEM:
+		{
+			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
+			if (dis->hwndItem == m_hwndStatus) {
+				CSrmmBaseDialog *pDlg = (g_Settings.bTabsEnable) ? (CSrmmBaseDialog*)m_tab.GetActivePage() : m_pEmbed;
+				if (pDlg != nullptr)
+					DrawStatusIcons(pDlg->m_hContact, dis->hDC, dis->rcItem, 2);
+				return TRUE;
+			}
+		}
+		break;
+
 	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->hwndFrom == m_hwndStatus) {
+			if (((LPNMHDR)lParam)->code == NM_CLICK || ((LPNMHDR)lParam)->code == NM_RCLICK) {
+				NMMOUSE *nm = (NMMOUSE *)lParam;
+				RECT rc;
+				SendMessage(m_hwndStatus, SB_GETRECT, SendMessage(m_hwndStatus, SB_GETPARTS, 0, 0) - 1, (LPARAM)&rc);
+				if (nm->pt.x >= rc.left) {
+					CSrmmBaseDialog *pDlg = (g_Settings.bTabsEnable) ? (CSrmmBaseDialog*)m_tab.GetActivePage() : m_pEmbed;
+					if (pDlg != nullptr)
+						CheckStatusIconClick(pDlg->m_hContact, m_hwndStatus, nm->pt, rc, 2, ((LPNMHDR)lParam)->code == NM_RCLICK ? MBCF_RIGHTBUTTON : 0);
+				}
+				return TRUE;
+			}
+		}
+
 		if (((LPNMHDR)lParam)->idFrom == IDC_TAB) {
 			switch (((LPNMHDR)lParam)->code) {
 			case TCN_SELCHANGE:

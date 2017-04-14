@@ -1266,11 +1266,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (dis->CtlType == ODT_MENU)
 				return Menu_DrawItem(lParam);
 			
-			if (dis->hwndItem == m_pOwner->m_hwndStatus) {
-				DrawStatusIcons(m_hContact, dis->hDC, dis->rcItem, 2);
-				return TRUE;
-			}
-
 			if (dis->CtlID == IDC_AVATAR && m_avatarPic && g_dat.bShowAvatar) {
 				HPEN hPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
 				HPEN hOldPen = (HPEN)SelectObject(dis->hDC, hPen);
@@ -1344,16 +1339,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->hwndFrom == m_pOwner->m_hwndStatus) {
-			if (((LPNMHDR)lParam)->code == NM_CLICK || ((LPNMHDR)lParam)->code == NM_RCLICK) {
-				NMMOUSE *nm = (NMMOUSE *)lParam;
-				SendMessage(m_pOwner->m_hwndStatus, SB_GETRECT, SendMessage(m_pOwner->m_hwndStatus, SB_GETPARTS, 0, 0) - 1, (LPARAM)&rc);
-				if (nm->pt.x >= rc.left)
-					CheckStatusIconClick(m_hContact, m_pOwner->m_hwndStatus, nm->pt, rc, 2, ((LPNMHDR)lParam)->code == NM_RCLICK ? MBCF_RIGHTBUTTON : 0);
-				return TRUE;
-			}
-		}
-
 		HCURSOR hCur;
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case IDC_SRMM_LOG:
