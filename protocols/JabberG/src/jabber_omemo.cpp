@@ -1502,6 +1502,7 @@ void CJabberProto::OmemoPublishNodes()
 	OmemoSendBundle();
 }
 
+
 bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 {
 	if (getBool(hContact, "OmemoSessionChecked"))
@@ -1515,6 +1516,7 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 	
 	mir_snprintf(setting_name, "OmemoDeviceId%d", i);
 	mir_snprintf(setting_name2, "%sChecked", setting_name);
+	db_set_resident(m_szModuleName, setting_name2);
 	id = getDword(hContact, setting_name, 0);
 	checked = getBool(hContact, setting_name2);
 	while (id)
@@ -1523,7 +1525,9 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 		{
 			pending_check = true;
 			wchar_t szBareJid[JABBER_MAX_JID_LEN];
-			XmlNodeIq iq(AddIQ(&CJabberProto::OmemoOnIqResultGetBundle, JABBER_IQ_TYPE_GET));
+			unsigned int *dev_id = (unsigned int*)mir_alloc(sizeof(unsigned int));
+			*dev_id = id;
+			XmlNodeIq iq(AddIQ(&CJabberProto::OmemoOnIqResultGetBundle, JABBER_IQ_TYPE_GET, 0, 0UL, -1, dev_id));
 			iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof_portable(szBareJid)));
 			wchar_t *jid = ContactToJID(hContact);
 			iq << XATTR(L"to", jid);
@@ -1546,7 +1550,7 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 	return false;
 }
 
-void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo * /*pInfo*/)
+void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	if (iqNode == NULL)
 		return;
@@ -1603,13 +1607,39 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo * /*pInfo
 	if (!preKeyId)
 		return;
 
+	MCONTACT hContact = HContactFromJID(jid);
 	
 	//TODO: we have all required data, we need to create session with device here
-	if (!omemo::create_session_store(HContactFromJID(jid), this))
+	if (!omemo::create_session_store(hContact, this))
 		return; //failed to create session store
 
-	if (!omemo::build_session(HContactFromJID(jid), jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic, signedPreKeySignature, identityKey))
+	if (!omemo::build_session(hContact, jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic, signedPreKeySignature, identityKey))
 		return; //failed to build signal(omemo) session
+
+	unsigned int *dev_id = (unsigned int*)pInfo->GetUserData();
+	//TODO: write session checked 1
+	char setting_name[64], setting_name2[64];
+	DWORD id = 0;
+	bool checked = false;
+	int i = 0;
+
+	mir_snprintf(setting_name, "OmemoDeviceId%d", i);
+	mir_snprintf(setting_name2, "%sChecked", setting_name);
+	db_set_resident(m_szModuleName, setting_name2);
+	id = getDword(hContact, setting_name, 0);
+	while (id)
+	{
+		if (id == *dev_id)
+		{
+			setByte(hContact, setting_name2, 1);
+			break;
+		}
+		i++;
+		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
+		mir_snprintf(setting_name2, "%sChecked", setting_name);
+		id = getDword(hContact, setting_name, 0);
+	}
+
 	
 /*
 	ciphertext_message *encrypted_message;
@@ -1640,5 +1670,5 @@ void CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_text)
 bool CJabberProto::OmemoIsEnabled(MCONTACT hContact)
 {
 	//TODO:
-	return false;
+	return true;
 }

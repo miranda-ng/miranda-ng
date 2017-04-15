@@ -138,7 +138,10 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_pepServices.insert(new CPepActivity(this));
 
 	if (m_options.UseOMEMO)
+	{
+		db_set_resident(m_szModuleName, "OmemoSessionChecked");
 		OmemoInitDevice();
+	}
 
 	db_set_resident(m_szModuleName, DBSETTING_XSTATUSID);
 	db_set_resident(m_szModuleName, DBSETTING_XSTATUSNAME);
