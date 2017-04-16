@@ -545,7 +545,7 @@ namespace omemo {
 		session_cipher *cipher;
 		signal_protocol_store_context *store_context;
 	};
-	std::map<MCONTACT, omemo_session_jabber_internal_ptrs> sessions_internal;
+	std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> > sessions_internal;
 	void clean_sessions()
 	{
 		/*
@@ -554,14 +554,17 @@ namespace omemo {
 		to avoid this kind of problems this map must be defained in CJabberProto,
 		but as our silent rules agains stl and heavy constructions i will leave it here for now.
 		*/
-		for (std::map<MCONTACT, omemo_session_jabber_internal_ptrs>::iterator i = sessions_internal.begin(), end = sessions_internal.end(); i != end; ++i)
+		for (std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >::iterator i = sessions_internal.begin(), end = sessions_internal.end(); i != end; ++i)
 		{
-			if(i->second.cipher)
-				session_cipher_free(i->second.cipher);
-			if(i->second.builder) 
-				session_builder_free(i->second.builder);
-			if(i->second.store_context)
-				signal_protocol_store_context_destroy(i->second.store_context);
+			for (std::map<unsigned int, omemo_session_jabber_internal_ptrs>::iterator i2 = i->second.begin(), end2 = i->second.end(); i2 != end2; ++i2)
+			{
+				if (i2->second.cipher)
+					session_cipher_free(i2->second.cipher);
+				if (i2->second.builder)
+					session_builder_free(i2->second.builder);
+				if (i2->second.store_context)
+					signal_protocol_store_context_destroy(i2->second.store_context);
+			}
 		}
 		sessions_internal.clear();
 	}
@@ -1175,11 +1178,9 @@ namespace omemo {
 	}
 	//void(*destroy_func)(void *user_data); //use first one as we have nothing special to destroy
 
-	bool create_session_store(MCONTACT hContact, CJabberProto *proto)
+	bool create_session_store(MCONTACT hContact, LPCTSTR device_id, CJabberProto *proto)
 	{
-		sessions_internal[hContact].builder = nullptr;
-		sessions_internal[hContact].cipher = nullptr;
-		sessions_internal[hContact].store_context = nullptr;
+		sessions_internal[hContact].clear();
 		signal_store_backend_user_data *data[4];
 		for (int i = 0; i < 4; i++)
 		{
@@ -1226,7 +1227,8 @@ namespace omemo {
 		sip.user_data = (void*)data[3];
 		signal_protocol_store_context_set_identity_key_store(store_context, &sip);
 
-		sessions_internal[hContact].store_context = store_context;
+		unsigned int devid = _wtoi(device_id);
+		sessions_internal[hContact][devid].store_context = store_context;
 
 		return true; //success
 	}
@@ -1244,13 +1246,13 @@ namespace omemo {
 		};
 
 		session_builder *builder;
-		if (session_builder_create(&builder, sessions_internal[hContact].store_context, &address, global_context) < 0)
+		if (session_builder_create(&builder, sessions_internal[hContact][dev_id_int].store_context, &address, global_context) < 0)
 		{
 			mir_free(jid_str);
 			return false; //failure
 		}
 
-		sessions_internal[hContact].builder = builder;
+		sessions_internal[hContact][dev_id_int].builder = builder;
 
 		mir_free(jid_str);
 
@@ -1303,9 +1305,9 @@ namespace omemo {
 
 		/* Create the session cipher and encrypt the message */
 		session_cipher *cipher;
-		if (session_cipher_create(&cipher, sessions_internal[hContact].store_context, &address, global_context) < 0)
+		if (session_cipher_create(&cipher, sessions_internal[hContact][dev_id_int].store_context, &address, global_context) < 0)
 			return false; //failure
-		sessions_internal[hContact].cipher = cipher;
+		sessions_internal[hContact][dev_id_int].cipher = cipher;
 
 		return true; //success
 
@@ -1610,7 +1612,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 	MCONTACT hContact = HContactFromJID(jid);
 	
 	//TODO: we have all required data, we need to create session with device here
-	if (!omemo::create_session_store(hContact, this))
+	if (!omemo::create_session_store(hContact, device_id, this))
 		return; //failed to create session store
 
 	if (!omemo::build_session(hContact, jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic, signedPreKeySignature, identityKey))
@@ -1620,7 +1622,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 	//TODO: write session checked 1
 	char setting_name[64], setting_name2[64];
 	DWORD id = 0;
-	bool checked = false;
+//	bool checked = false;
 	int i = 0;
 
 	mir_snprintf(setting_name, "OmemoDeviceId%d", i);
@@ -1637,6 +1639,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 		i++;
 		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
 		mir_snprintf(setting_name2, "%sChecked", setting_name);
+		db_set_resident(m_szModuleName, setting_name2);
 		id = getDword(hContact, setting_name, 0);
 	}
 
