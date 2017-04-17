@@ -317,7 +317,7 @@ MIR_APP_DLL(void) Srmm_ResetToolbar()
 	dwSepCount = 0;
 }
 
-MIR_APP_DLL(void) Srmm_CreateToolbarIcons(HWND hwndDlg, int flags)
+void Srmm_CreateToolbarIcons(HWND hwndDlg, int flags)
 {
 	HINSTANCE hInstance = (HINSTANCE)GetWindowLongPtr(hwndDlg, GWLP_HINSTANCE);
 

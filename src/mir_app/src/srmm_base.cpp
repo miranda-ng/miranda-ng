@@ -590,6 +590,9 @@ void CSrmmBaseDialog::OnInitDialog()
 	SetWindowLongPtr(m_nickList.GetHwnd(), GWLP_USERDATA, LPARAM(this));
 	mir_subclassWindow(m_nickList.GetHwnd(), stubNicklistProc);
 
+	// three buttons below are initiated inside this call, so button creation must precede subclassing
+	Srmm_CreateToolbarIcons(m_hwnd, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
+
 	mir_subclassWindow(m_btnFilter.GetHwnd(), Srmm_ButtonSubclassProc);
 	mir_subclassWindow(m_btnColor.GetHwnd(), Srmm_ButtonSubclassProc);
 	mir_subclassWindow(m_btnBkColor.GetHwnd(), Srmm_ButtonSubclassProc);

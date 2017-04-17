@@ -259,10 +259,6 @@ EXTERN_C MIR_APP_DLL(int) Srmm_SetButtonState(MCONTACT hContact, BBButton *bbdi)
 // returns 0 on success and nonzero value otherwise
 EXTERN_C MIR_APP_DLL(void) Srmm_ResetToolbar();
 
-// creates toolbar buttons for a SRMM window
-// flags might be either BBBF_ISIMBUTTON or BBBF_ISCHATBUTTON, depending on a window type
-EXTERN_C MIR_APP_DLL(void) Srmm_CreateToolbarIcons(HWND hwndDlg, int flags);
-
 // updates all toolbar icons in a message dialog
 EXTERN_C MIR_APP_DLL(void) Srmm_UpdateToolbarIcons(HWND hdlg);
 

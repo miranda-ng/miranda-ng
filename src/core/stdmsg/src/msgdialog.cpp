@@ -156,8 +156,6 @@ void CSrmmWindow::OnInitDialog()
 	if (m_splitterPos == -1)
 		m_splitterPos = m_originalSplitterPos;
 
-	Srmm_CreateToolbarIcons(m_hwnd, BBBF_ISIMBUTTON);
-
 	GetWindowRect(m_message.GetHwnd(), &m_minEditInit);
 	SendMessage(m_hwnd, DM_UPDATESIZEBAR, 0, 0);
 

@@ -216,8 +216,6 @@ void CChatRoomDlg::OnInitDialog()
 
 	m_pParent = (ParentWindowData *)GetWindowLongPtr(m_hwndParent, GWLP_USERDATA);
 
-	Srmm_CreateToolbarIcons(m_hwnd, BBBF_ISCHATBUTTON);
-
 	RECT rc;
 	GetWindowRect(m_message.GetHwnd(), &rc);
 	m_minLogBoxHeight = m_minEditBoxHeight = rc.bottom - rc.top;

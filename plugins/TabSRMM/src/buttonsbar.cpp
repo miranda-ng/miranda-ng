@@ -153,8 +153,6 @@ void CTabBaseDlg::BB_InitDlgButtons()
 
 	m_bbLSideWidth = m_bbRSideWidth = 0;
 
-	Srmm_CreateToolbarIcons(m_hwnd, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
-
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
 		HWND hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);

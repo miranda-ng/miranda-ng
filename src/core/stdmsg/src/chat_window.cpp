@@ -63,9 +63,6 @@ void CChatRoomDlg::OnInitDialog()
 	else
 		onActivate();
 
-	// initialize toolbar icons
-	Srmm_CreateToolbarIcons(m_hwnd, BBBF_ISCHATBUTTON);
-
 	m_log.SendMsg(EM_AUTOURLDETECT, 1, 0);
 
 	int mask = (int)m_log.SendMsg(EM_GETEVENTMASK, 0, 0);

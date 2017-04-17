@@ -273,7 +273,6 @@ void CSrmmWindow::OnInitDialog()
 		PostMessage(m_message.GetHwnd(), EM_SETSEL, len, len);
 	}
 
-	Srmm_CreateToolbarIcons(m_hwnd, BBBF_ISIMBUTTON);
 	SendMessage(m_hwnd, DM_CHANGEICONS, 0, 0);
 
 	m_log.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK | ENM_KEYEVENTS);
