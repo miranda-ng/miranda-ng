@@ -13,7 +13,6 @@ EXPORTS
    signal_buffer_free
    signal_buffer_bzero_free
    signal_buffer_list_alloc
-   signal_buffer_list_push
    signal_buffer_list_size
    signal_buffer_list_free
    signal_int_list_alloc
@@ -77,3 +76,5 @@ EXPORTS
 	curve_decode_point
 	session_pre_key_bundle_create
 	session_builder_process_pre_key_bundle
+	session_cipher_encrypt
+	ciphertext_message_get_serialized

@@ -15,7 +15,9 @@ static unsigned char i_bytes[32] = {
 void fe_sqrt(fe out, const fe a)
 {
   fe exp, b, b2, bi, i;
+#ifndef NDEBUG
   fe legendre, zero, one;
+#endif
 
   fe_frombytes(i, i_bytes); 
   fe_pow22523(exp, a);             /* b = a^(q-5)/8        */
