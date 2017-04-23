@@ -4,7 +4,8 @@ static IconItem iconList[] =
 {
 	{	LPGEN("Upload file(s)"),	"upload",	IDI_UPLOAD	},
 	{	LPGEN("Dropbox"),			"dropbox",	IDI_DROPBOX	},
-	{	LPGEN("GDrive"),			"gdrive",	IDI_GDRIVE	}
+	{	LPGEN("GDrive"),			"gdrive",	IDI_GDRIVE	},
+	{	LPGEN("YaDisk"),			"yadisk",	IDI_YADISK	}
 };
 
 void InitializeIcons()

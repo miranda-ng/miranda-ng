@@ -18,7 +18,7 @@ const wchar_t* CYandexService::GetText() const
 
 HANDLE CYandexService::GetIcon() const
 {
-	return NULL;
+	return GetIconHandle(IDI_YADISK);
 }
 
 bool CYandexService::IsLoggedIn()
