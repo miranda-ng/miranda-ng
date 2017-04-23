@@ -9,10 +9,10 @@ private:
 
 	void HandleJsonError(JSONNode &node);
 
-	void StartUploadFile();
-	void UploadFile(const char *url, const char *data, size_t size);
+	void StartUploadFile(char *uploadUri, const char *name);
+	void UploadFile(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize, char *fileId);
 	void CreateFolder(const char *path);
-	void CreateSharedLink(const char *path, char *url);
+	void CreateSharedLink(const char *fileId, char *url);
 
 public:
 	CGDriveService(HNETLIBUSER hConnection);

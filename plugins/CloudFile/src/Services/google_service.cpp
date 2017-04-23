@@ -107,26 +107,46 @@ void CGDriveService::HandleJsonError(JSONNode &node)
 	}
 }
 
-void CGDriveService::StartUploadFile()
+void CGDriveService::StartUploadFile(char *uploadUri, const char *name)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	GDriveAPI::StartUploadFileRequest request(token);
-	NLHR_PTR response(request.Send(hConnection));
+	GDriveAPI::StartUploadFileRequest request(token, name);
+	NETLIBHTTPREQUEST* response = request.Send(hConnection);
 
-	GetJsonResponse(response);
+	if (response == NULL)
+		throw Exception(HttpStatusToError());
+
+	if (HTTP_CODE_SUCCESS(response->resultCode)) {
+		for (int i = 0; i < response->headersCount; i++)
+		{
+			if (mir_strcmpi(response->headers[i].szName, "Location"))
+				continue;
+
+			mir_strcpy(uploadUri, response->headers[i].szValue);
+			return;
+		}
+	}
+
+	if (response->dataLength)
+		throw Exception(response->pData);
+	throw Exception(HttpStatusToError(response->resultCode));
 }
 
-void CGDriveService::UploadFile(const char *url, const char *data, size_t size)
+void CGDriveService::UploadFile(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize, char *fileId)
 {
-	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	GDriveAPI::UploadFileRequest request(token, data, size);
+	GDriveAPI::UploadFileRequest request(uploadUri, chunk, chunkSize, offset, fileSize);
 	NLHR_PTR response(request.Send(hConnection));
 
 	if (response == NULL)
 		throw Exception(HttpStatusToError());
 
-	if (response->resultCode >= HTTP_CODE_OK &&
-		response->resultCode <= HTTP_CODE_MULTIPLE_CHOICES) {
+	if (response->resultCode == HTTP_CODE_PERMANENT_REDIRECT)
+		return;
+
+	if (HTTP_CODE_SUCCESS(response->resultCode)) {
+		JSONNode root = GetJsonResponse(response);
+		JSONNode id = root.at("id");
+		mir_strcpy(fileId, id.as_string().c_str());
 		return;
 	}
 
@@ -144,15 +164,24 @@ void CGDriveService::CreateFolder(const char *path)
 	GetJsonResponse(response);
 }
 
-void CGDriveService::CreateSharedLink(const char *path, char *url)
+void CGDriveService::CreateSharedLink(const char *fileId, char *url)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	GDriveAPI::ShareRequest request(token, path);
+	GDriveAPI::GrantPermissionsRequest request(token, fileId);
 	NLHR_PTR response(request.Send(hConnection));
 
-	JSONNode root = GetJsonResponse(response);
-	JSONNode link = root.at("href");
-	mir_strcpy(url, link.as_string().c_str());
+	if (response == NULL)
+		throw Exception(HttpStatusToError());
+
+	if (HTTP_CODE_SUCCESS(response->resultCode)) {
+		CMStringA sharedUrl(CMStringDataFormat::FORMAT, GDRIVE_SHARE, fileId);
+		mir_strcpy(url, sharedUrl);
+		return;
+	}
+
+	if (response->dataLength)
+		throw Exception(response->pData);
+	throw Exception(HttpStatusToError(response->resultCode));
 }
 
 UINT CGDriveService::Upload(FileTransferParam *ftp)
@@ -181,26 +210,32 @@ UINT CGDriveService::Upload(FileTransferParam *ftp)
 			const wchar_t *fileName = ftp->GetCurrentRelativeFilePath();
 			uint64_t fileSize = ftp->GetCurrentFileSize();
 
-			char path[MAX_PATH];
-			const wchar_t *serverFolder = ftp->GetServerFolder();
-			if (serverFolder) {
-				wchar_t serverPath[MAX_PATH] = { 0 };
-				mir_snwprintf(serverPath, L"%s\\%s", serverFolder, fileName);
-				PreparePath(serverPath, path);
+			uint64_t offset = 0;
+			char fileId[32];
+			char uploadUri[1024];
+			StartUploadFile(uploadUri, T2Utf(fileName));
+
+			size_t chunkSize = ftp->GetCurrentFileChunkSize();
+			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
+
+			size_t size = 0;
+			for (size_t i = 0; i < (fileSize / chunkSize); i++)
+			{
+				ftp->CheckCurrentFile();
+
+				size = ftp->ReadCurrentFile(chunk, chunkSize);
+				if (size == 0)
+					break;
+
+				UploadFile(uploadUri, chunk, size, offset, fileSize, fileId);
+
+				offset += size;
+				ftp->Progress(size);
 			}
-			else
-				PreparePath(fileName, path);
-			StartUploadFile();
-
-			mir_ptr<char>data((char*)mir_calloc(fileSize));
-			size_t size = ftp->ReadCurrentFile(data, fileSize);
-			UploadFile("", data, size);
-
-			ftp->Progress(size);
 
 			if (!wcschr(fileName, L'\\')) {
 				char url[MAX_PATH];
-				CreateSharedLink(path, url);
+				CreateSharedLink(fileId, url);
 				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(url)));
 			}
 		} while (ftp->NextFile());

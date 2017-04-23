@@ -42,6 +42,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define HTTP_CODE_PARTIAL_CONTENT					206
 #define HTTP_CODE_MULTI_STATUS						207
 
+#define HTTP_CODE_SUCCESS(code) ((code) <= (HTTP_CODE_MULTI_STATUS) && (code) >= (HTTP_CODE_OK))
+
 // 3xx Redirection
 #define HTTP_CODE_MULTIPLE_CHOICES					300
 #define HTTP_CODE_MOVED_PERMANENTLY					301

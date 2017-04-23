@@ -189,9 +189,9 @@ public:
 		return pfts.currentFileSize;
 	}
 
-	const uint64_t GetCurrentFileChunkSize() const
+	const size_t GetCurrentFileChunkSize() const
 	{
-		int chunkSize = 1024 * 1024;
+		size_t chunkSize = 1024 * 1024;
 		if (pfts.currentFileSize < chunkSize)
 			chunkSize = min(pfts.currentFileSize, chunkSize / 4);
 		else if (pfts.currentFileSize > 20 * chunkSize)

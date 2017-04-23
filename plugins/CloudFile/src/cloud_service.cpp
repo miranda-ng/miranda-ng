@@ -10,7 +10,7 @@ LIST<CCloudService> Services(10, CompareServices);
 void InitServices()
 {
 	Services.insert(new CDropboxService(hNetlibConnection));
-	//Services.insert(new CGDriveService(hNetlibConnection));
+	Services.insert(new CGDriveService(hNetlibConnection));
 	Services.insert(new CYandexService(hNetlibConnection));
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };

@@ -4,9 +4,11 @@
 namespace GDriveAPI
 {
 #define GOOGLE_OAUTH "https://accounts.google.com/o/oauth2/v2"
-#define GDRIVE_API "https://www.googleapis.com/drive/v2/files"
+#define GDRIVE_API "https://www.googleapis.com/drive/v3/files"
+#define GDRIVE_UPLOAD "https://www.googleapis.com/upload/drive/v3/files"
+#define GDRIVE_SHARE "https://drive.google.com/open?id=%s"
 
-#define GOOGLE_APP_ID "271668553802-3sd3tubkf165ibgrqnrhe3id8mcgnaf7.apps.googleusercontent.com"
+#define GOOGLE_APP_ID "528761318515-9hp30q3pcsk7c3qhbajs5ntvi7aiqp0b.apps.googleusercontent.com"
 #include "../../../miranda-private-keys/Google/client_secret.h"
 
 	class GetAccessTokenRequest : public HttpRequest
@@ -37,25 +39,34 @@ namespace GDriveAPI
 	class StartUploadFileRequest : public HttpRequest
 	{
 	public:
-		StartUploadFileRequest(const char *token) :
-			HttpRequest(REQUEST_POST, GDRIVE_API)
+		StartUploadFileRequest(const char *token, const char *name) :
+			HttpRequest(REQUEST_POST, GDRIVE_UPLOAD)
 		{
-			AddBearerAuthHeader(token);
-			AddHeader("Content-Type", "application/json");
+			AddUrlParameter("access_token=%s", token);
 			AddUrlParameter("uploadType=resumable");
+
+			AddHeader("Content-Type", "application/json");
+
+			JSONNode params(JSON_NODE);
+			params << JSONNode("name", name);
+
+			json_string data = params.write();
+			SetData(data.c_str(), data.length());
 		}
 	};
 
 	class UploadFileRequest : public HttpRequest
 	{
 	public:
-		UploadFileRequest(const char *token, const char *data, size_t size) :
-			HttpRequest(REQUEST_POST, GDRIVE_API)
+		UploadFileRequest(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize) :
+			HttpRequest(REQUEST_PUT, uploadUri)
 		{
-			AddBearerAuthHeader(token);
-			AddUrlParameter("uploadType=resumable");
+			uint64_t rangeMin = offset;
+			uint64_t rangeMax = offset + chunkSize - 1;
+			CMStringA range(CMStringDataFormat::FORMAT, "bytes %I64u-%I64u/%I64u", rangeMin, rangeMax, fileSize);
+			AddHeader("Content-Range", range);
 
-			SetData(data, size);
+			SetData(chunk, chunkSize);
 		}
 	};
 
@@ -65,7 +76,7 @@ namespace GDriveAPI
 		CreateFolderRequest(const char *token, const char *path) :
 			HttpRequest(REQUEST_PUT, GDRIVE_API)
 		{
-			AddBearerAuthHeader(token);
+			AddUrlParameter("access_token=%s", token);
 			AddHeader("Content-Type", "application/json");
 
 			JSONNode params(JSON_NODE);
@@ -78,13 +89,14 @@ namespace GDriveAPI
 		}
 	};
 
-	class ShareRequest : public HttpRequest
+	class GrantPermissionsRequest : public HttpRequest
 	{
 	public:
-		ShareRequest(const char *token, const char *fileId) :
-			HttpRequest(REQUEST_PUT, FORMAT, GDRIVE_API "/%s/permissions", fileId)
+		GrantPermissionsRequest(const char *token, const char *fileId) :
+			HttpRequest(REQUEST_POST, FORMAT, GDRIVE_API "/%s/permissions", fileId)
 		{
-			AddBearerAuthHeader(token);
+			AddUrlParameter("access_token=%s", token);
+
 			AddHeader("Content-Type", "application/json");
 
 			JSONNode params(JSON_NODE);
