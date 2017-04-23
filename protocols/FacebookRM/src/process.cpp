@@ -509,7 +509,7 @@ void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news,
 
 	DWORD new_time = last_post_time;
 
-	while ((pos = text.find("<div class=\"userContentWrapper", pos)) != std::string::npos && limit <= 25)
+	while ((pos = text.find("<div class=\"fbUserContent", pos)) != std::string::npos && limit <= 25)
 	{
 		std::string post = text.substr(pos, text.find("</form>", pos) - pos);
 		pos += 5;
