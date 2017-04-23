@@ -196,7 +196,7 @@ void CDropboxService::CreateSharedLink(const char *path, char *url)
 	root = GetJsonResponse(response);
 
 	JSONNode links = root.at("links").as_array();
-	JSONNode link = links[0u].at("url");
+	JSONNode link = links[(size_t)0].at("url");
 	mir_strcpy(url, link.as_string().c_str());
 }
 
