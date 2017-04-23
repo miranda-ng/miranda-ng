@@ -24,12 +24,35 @@ HANDLE CGDriveService::GetIcon() const
 bool CGDriveService::IsLoggedIn()
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	return token != NULL;
+	if (!token || token[0] == 0)
+		return false;
+	time_t now = time(NULL);
+	time_t expiresIn = db_get_dw(NULL, GetModule(), "ExpiresIn");
+	return now < expiresIn;
 }
 
 void CGDriveService::Login()
 {
-	COAuthDlg(this, GOOGLE_OAUTH "/auth?response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file&redirect_uri=urn:ietf:wg:oauth:2.0:oob&client_id=" GOOGLE_APP_ID, RequestAccessTokenThread).DoModal();
+	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	ptrA refreshToken(db_get_sa(NULL, GetModule(), "RefreshToken"));
+	if (token && refreshToken && refreshToken[0]) 	{
+		GDriveAPI::RefreshTokenRequest request(refreshToken);
+		NLHR_PTR response(request.Send(hConnection));
+		
+		JSONNode root = GetJsonResponse(response);
+
+		JSONNode node = root.at("access_token");
+		db_set_s(NULL, GetModule(), "TokenSecret", node.as_string().c_str());
+
+		node = root.at("expires_in");
+		time_t expiresIn = time(NULL) + node.as_int();
+		db_set_dw(NULL, GetModule(), "ExpiresIn", expiresIn);
+		
+		return;
+	}
+	
+	COAuthDlg dlg(this, GOOGLE_OAUTH "/auth?response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file&redirect_uri=urn:ietf:wg:oauth:2.0:oob&client_id=" GOOGLE_APP_ID, RequestAccessTokenThread);
+	dlg.DoModal();
 }
 
 void CGDriveService::Logout()
@@ -78,7 +101,13 @@ unsigned CGDriveService::RequestAccessTokenThread(void *owner, void *param)
 
 	node = root.at("access_token");
 	db_set_s(NULL, service->GetModule(), "TokenSecret", node.as_string().c_str());
-	ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_OFFLINE, (WPARAM)ID_STATUS_ONLINE);
+
+	node = root.at("expires_in");
+	time_t expiresIn = time(NULL) + node.as_int();
+	db_set_dw(NULL, service->GetModule(), "ExpiresIn", expiresIn);
+
+	node = root.at("refresh_token");
+	db_set_s(NULL, service->GetModule(), "RefreshToken", node.as_string().c_str());
 
 	SetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, "");
 
@@ -186,15 +215,15 @@ void CGDriveService::CreateSharedLink(const char *fileId, char *url)
 
 UINT CGDriveService::Upload(FileTransferParam *ftp)
 {
-	if (!IsLoggedIn())
-		Login();
-
-	if (!IsLoggedIn()) {
-		ftp->SetStatus(ACKRESULT_FAILED);
-		return ACKRESULT_FAILED;
-	}
-
 	try {
+		if (!IsLoggedIn())
+			Login();
+
+		if (!IsLoggedIn()) {
+			ftp->SetStatus(ACKRESULT_FAILED);
+			return ACKRESULT_FAILED;
+		}
+
 		const wchar_t *folderName = ftp->GetFolderName();
 		if (folderName) {
 			char path[MAX_PATH], link[MAX_PATH];

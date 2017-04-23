@@ -24,12 +24,38 @@ HANDLE CYandexService::GetIcon() const
 bool CYandexService::IsLoggedIn()
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	return token != NULL;
+	if (!token || token[0] == 0)
+		return false;
+	time_t now = time(NULL);
+	time_t expiresIn = db_get_dw(NULL, GetModule(), "ExpiresIn");
+	return now < expiresIn;
 }
 
 void CYandexService::Login()
 {
-	COAuthDlg(this, YANDEX_OAUTH "/authorize?response_type=code&client_id=" YANDEX_APP_ID, RequestAccessTokenThread).DoModal();
+	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	ptrA refreshToken(db_get_sa(NULL, GetModule(), "RefreshToken"));
+	if (token && refreshToken && refreshToken[0]) {
+		YandexAPI::RefreshTokenRequest request(refreshToken);
+		NLHR_PTR response(request.Send(hConnection));
+
+		JSONNode root = GetJsonResponse(response);
+
+		JSONNode node = root.at("access_token");
+		db_set_s(NULL, GetModule(), "TokenSecret", node.as_string().c_str());
+
+		node = root.at("expires_in");
+		time_t expiresIn = time(NULL) + node.as_int();
+		db_set_dw(NULL, GetModule(), "ExpiresIn", expiresIn);
+
+		node = root.at("refresh_token");
+		db_set_s(NULL, GetModule(), "RefreshToken", node.as_string().c_str());
+
+		return;
+	}
+
+	COAuthDlg dlg(this, YANDEX_OAUTH "/authorize?response_type=code&client_id=" YANDEX_APP_ID, RequestAccessTokenThread);
+	dlg.DoModal();
 }
 
 void CYandexService::Logout()
@@ -78,7 +104,13 @@ unsigned CYandexService::RequestAccessTokenThread(void *owner, void *param)
 
 	node = root.at("access_token");
 	db_set_s(NULL, service->GetModule(), "TokenSecret", node.as_string().c_str());
-	ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_OFFLINE, (WPARAM)ID_STATUS_ONLINE);
+
+	node = root.at("expires_in");
+	time_t expiresIn = time(NULL) + node.as_int();
+	db_set_dw(NULL, service->GetModule(), "ExpiresIn", expiresIn);
+
+	node = root.at("refresh_token");
+	db_set_s(NULL, service->GetModule(), "RefreshToken", node.as_string().c_str());
 
 	SetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, "");
 
@@ -165,15 +197,15 @@ void CYandexService::CreateSharedLink(const char *path, char *url)
 
 UINT CYandexService::Upload(FileTransferParam *ftp)
 {
-	if (!IsLoggedIn())
-		Login();
-
-	if (!IsLoggedIn()) {
-		ftp->SetStatus(ACKRESULT_FAILED);
-		return ACKRESULT_FAILED;
-	}
-
 	try {
+		if (!IsLoggedIn())
+			Login();
+
+		if (!IsLoggedIn()) {
+			ftp->SetStatus(ACKRESULT_FAILED);
+			return ACKRESULT_FAILED;
+		}
+
 		const wchar_t *folderName = ftp->GetFolderName();
 		if (folderName) {
 			char path[MAX_PATH], link[MAX_PATH];

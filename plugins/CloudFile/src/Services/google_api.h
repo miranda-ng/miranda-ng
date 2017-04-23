@@ -26,6 +26,21 @@ namespace GDriveAPI
 		}
 	};
 
+	class RefreshTokenRequest : public HttpRequest
+	{
+	public:
+		RefreshTokenRequest(const char *refreshToken) :
+			HttpRequest(REQUEST_POST, "https://www.googleapis.com/oauth2/v4/token")
+		{
+			AddHeader("Content-Type", "application/x-www-form-urlencoded");
+
+			CMStringA data(CMStringDataFormat::FORMAT,
+				"client_id=%s&client_secret=%s&grant_type=refresh_token&refresh_token=%s",
+				GOOGLE_APP_ID, GOOGLE_CLIENT_SECRET, refreshToken);
+			SetData(data.GetBuffer(), data.GetLength());
+		}
+	};
+
 	class RevokeAccessTokenRequest : public HttpRequest
 	{
 	public:

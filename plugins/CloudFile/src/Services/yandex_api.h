@@ -24,6 +24,21 @@ namespace YandexAPI
 		}
 	};
 
+	class RefreshTokenRequest : public HttpRequest
+	{
+	public:
+		RefreshTokenRequest(const char *refreshToken) :
+			HttpRequest(REQUEST_POST, YANDEX_OAUTH "/token")
+		{
+			AddHeader("Content-Type", "application/x-www-form-urlencoded");
+
+			CMStringA data(CMStringDataFormat::FORMAT,
+				"client_id=%s&client_secret=%s&grant_type=refresh_token&refresh_token=%s",
+				YANDEX_APP_ID, YADISK_CLIENT_SECRET, refreshToken);
+			SetData(data.GetBuffer(), data.GetLength());
+		}
+	};
+
 	class RevokeAccessTokenRequest : public HttpRequest
 	{
 	public:

@@ -24,7 +24,9 @@ HANDLE CDropboxService::GetIcon() const
 bool CDropboxService::IsLoggedIn()
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	return token != NULL;
+	if (!token || token[0] == 0)
+		return false;
+	return true;
 }
 
 void CDropboxService::Login()
