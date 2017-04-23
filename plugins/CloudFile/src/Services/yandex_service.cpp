@@ -149,11 +149,17 @@ void CYandexService::CreateFolder(const char *path)
 void CYandexService::CreateSharedLink(const char *path, char *url)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	YandexAPI::PublishRequest request(token, path);
-	NLHR_PTR response(request.Send(hConnection));
+	YandexAPI::PublishRequest publishRequest(token, path);
+	NLHR_PTR response(publishRequest.Send(hConnection));
+
+	GetJsonResponse(response);
+
+	YandexAPI::GetResourcesRequest resourcesRequest(token, path);
+	response = resourcesRequest.Send(hConnection);
 
 	JSONNode root = GetJsonResponse(response);
-	JSONNode link = root.at("href");
+	JSONNode link = root.at("public_url");
+
 	mir_strcpy(url, link.as_string().c_str());
 }
 

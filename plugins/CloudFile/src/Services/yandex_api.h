@@ -79,6 +79,17 @@ namespace YandexAPI
 			AddUrlParameter("path=%s", ptrA(mir_urlEncode(path)));
 		}
 	};
+
+	class GetResourcesRequest : public HttpRequest
+	{
+	public:
+		GetResourcesRequest(const char *token, const char *path) :
+			HttpRequest(REQUEST_GET, YADISK_API)
+		{
+			AddOAuthHeader(token);
+			AddUrlParameter("path=%s", ptrA(mir_urlEncode(path)));
+		}
+	};
 };
 
 #endif //_YANDEXSERVICE_API_H_
