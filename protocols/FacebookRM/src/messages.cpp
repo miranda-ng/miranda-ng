@@ -133,6 +133,13 @@ void FacebookProto::SendTypingWorker(void *p)
 
 	send_typing *typing = static_cast<send_typing*>(p);
 
+	// Don't send typing notifications when we are invisible and user don't want that
+	bool noTypingWhenInvisible = getBool(FACEBOOK_KEY_NO_TYPING_WHEN_INVISIBLE, DEFAULT_NO_TYPING_WHEN_INVISIBLE);
+	if (noTypingWhenInvisible && isInvisible()) {
+		delete typing;
+		return;
+	}
+
 	// Dont send typing notifications to not friends - Facebook won't give them that info anyway
 	if (!isChatRoom(typing->hContact) && getWord(typing->hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND) {
 		delete typing;

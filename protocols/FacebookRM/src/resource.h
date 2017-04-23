@@ -42,6 +42,7 @@
 #define IDC_PAGES_ALWAYS_ONLINE         1035
 #define IDC_LOAD_PAGES                  1036
 #define IDC_KEEP_UNREAD                 1037
+#define IDC_NO_TYPING_WHEN_INVISIBLE    1038
 #define IDC_MESSAGES_ON_OPEN            1039
 #define IDC_HIDE_CHATS                  1040
 #define IDC_NOTIFICATIONS_ENABLE        1041

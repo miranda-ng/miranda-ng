@@ -176,6 +176,10 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,47,281,10
     CONTROL         "Allow posting statuses to my pages (may slow down login)",IDC_LOAD_PAGES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,61,281,10
+    GROUPBOX        "Advanced",IDC_STATIC,7,85,294,67
+    CONTROL         "Don't send typing notifications when Invisible",IDC_NO_TYPING_WHEN_INVISIBLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,98,281,10
+    LTEXT           "Typing is one way how user is determined active. If you don't want to be seen ""active 1 min ago"" on Facebook, enable this and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it.",IDC_STATIC,32,112,262,39
 END
 
 IDD_CAPTCHAFORM DIALOGEX 0, 0, 258, 224
