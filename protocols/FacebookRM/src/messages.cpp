@@ -45,14 +45,17 @@ void FacebookProto::SendMsgWorker(void *p)
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, 0);
 	}
 	else {
-		int tries = getByte(FACEBOOK_KEY_SEND_MESSAGE_TRIES, 1);
+		// FIXME: Temporarily disabled 23.4.2017
+		/*int tries = getByte(FACEBOOK_KEY_SEND_MESSAGE_TRIES, 1);
 		tries = min(max(tries, 1), 5);
 
 		std::string error_text;
 		int result = SEND_MESSAGE_ERROR;
 		while (result == SEND_MESSAGE_ERROR && tries-- > 0) {
 			result = facy.send_message(data->msgid, data->hContact, data->msg, &error_text);
-		}
+		}*/
+		std::string error_text;
+		int result = facy.send_message(data->msgid, data->hContact, data->msg, &error_text);
 		if (result == SEND_MESSAGE_OK) {
 			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)data->msgid, 0);
 
