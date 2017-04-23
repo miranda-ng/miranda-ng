@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2011-17 Robert Pösel
+Copyright ï¿½ 2011-17 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -59,8 +59,7 @@ public:
 		*/
 
 		int idleSeconds = fc->parent->IdleSeconds();
-		if (idleSeconds > 0 && !fc->parent->isInvisible())
-			Url << INT_VALUE("idle", idleSeconds);
+		Url << INT_VALUE("idle", idleSeconds); // Browser is sending "idle" always, even if it's "0"
 
 		if (!isPing) {
 			Url << "qp=y"; // TODO: what's this item?

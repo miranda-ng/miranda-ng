@@ -177,11 +177,18 @@ void FacebookProto::ChangeStatus(void*)
 		}
 	}
 
+	bool wasAwayOrInvisible = (old_status == ID_STATUS_AWAY || old_status == ID_STATUS_INVISIBLE);
+	bool isAwayOrInvisible = (new_status == ID_STATUS_AWAY || new_status == ID_STATUS_INVISIBLE);
+	if (!wasAwayOrInvisible && isAwayOrInvisible) {
+		// Switching from "not-away" to "away" state, remember timestamp of this change (and if we are idle already, use the idle time)
+		m_awayTS = (m_idleTS > 0 ? m_idleTS : ::time(NULL));
+	}
+	else if (wasAwayOrInvisible && !isAwayOrInvisible) {
+		// Switching from "away" to "not-away" state, reset the timestamp
+		m_awayTS = 0;
+	}
+
 	m_invisible = (new_status == ID_STATUS_INVISIBLE);
-
-	// Remember time of switching to away (and if we are idle already, use the idle time)
-	m_awayTS = (new_status == ID_STATUS_AWAY ? (m_idleTS > 0 ? m_idleTS : ::time(NULL)) : 0);
-
 	facy.chat_state(!m_invisible);
 
 	m_iStatus = facy.self_.status_id = new_status;
