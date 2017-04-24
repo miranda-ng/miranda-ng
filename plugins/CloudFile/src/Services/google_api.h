@@ -57,9 +57,9 @@ namespace GDriveAPI
 		StartUploadFileRequest(const char *token, const char *name) :
 			HttpRequest(REQUEST_POST, GDRIVE_UPLOAD)
 		{
-			AddUrlParameter("access_token=%s", token);
 			AddUrlParameter("uploadType=resumable");
 
+			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");
 
 			JSONNode params(JSON_NODE);
@@ -91,7 +91,7 @@ namespace GDriveAPI
 		CreateFolderRequest(const char *token, const char *path) :
 			HttpRequest(REQUEST_PUT, GDRIVE_API)
 		{
-			AddUrlParameter("access_token=%s", token);
+			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");
 
 			JSONNode params(JSON_NODE);
@@ -110,8 +110,7 @@ namespace GDriveAPI
 		GrantPermissionsRequest(const char *token, const char *fileId) :
 			HttpRequest(REQUEST_POST, FORMAT, GDRIVE_API "/%s/permissions", fileId)
 		{
-			AddUrlParameter("access_token=%s", token);
-
+			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");
 
 			JSONNode params(JSON_NODE);

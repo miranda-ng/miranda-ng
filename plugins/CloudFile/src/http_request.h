@@ -51,58 +51,60 @@ protected:
 
 	void AddBasicAuthHeader(LPCSTR szLogin, LPCSTR szPassword)
 	{
-		char cPair[128];
+		size_t length = mir_strlen(szLogin) + mir_strlen(szPassword) + 1;
+		ptrA cPair((char*)mir_calloc(length + 1));
 		mir_snprintf(
 			cPair,
-			_countof(cPair),
+			length,
 			"%s:%s",
 			szLogin,
 			szPassword);
 
-		char *ePair = (char *)mir_base64_encode((BYTE*)cPair, (UINT)mir_strlen(cPair));
+		ptrA ePair(mir_base64_encode((BYTE*)(char*)cPair, length));
 
-		char value[128];
+		length = mir_strlen(ePair) + 7;
+		char *value = (char*)mir_calloc(length + 1);
 		mir_snprintf(
 			value,
-			_countof(value),
+			length,
 			"Basic %s",
 			ePair);
 
-		mir_free(ePair);
-
 		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
 		headers[headersCount].szName = mir_strdup("Authorization");
-		headers[headersCount].szValue = mir_strdup(value);
+		headers[headersCount].szValue = value;
 		headersCount++;
 	}
 
 	void AddBearerAuthHeader(LPCSTR szValue)
 	{
-		char value[128];
+		size_t length = mir_strlen(szValue) + 8;
+		char *value = (char*)mir_calloc(length + 1);
 		mir_snprintf(
 			value,
-			_countof(value),
+			length,
 			"Bearer %s",
 			szValue);
 
 		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
 		headers[headersCount].szName = mir_strdup("Authorization");
-		headers[headersCount].szValue = mir_strdup(value);
+		headers[headersCount].szValue = value;
 		headersCount++;
 	}
 
 	void AddOAuthHeader(LPCSTR szValue)
 	{
-		char value[128];
+		size_t length = mir_strlen(szValue) + 7;
+		char *value = (char*)mir_calloc(length + 1);
 		mir_snprintf(
 			value,
-			_countof(value),
+			length,
 			"OAuth %s",
 			szValue);
 
 		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
 		headers[headersCount].szName = mir_strdup("Authorization");
-		headers[headersCount].szValue = mir_strdup(value);
+		headers[headersCount].szValue = value;
 		headersCount++;
 	}
 

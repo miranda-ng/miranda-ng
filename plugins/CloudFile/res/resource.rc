@@ -68,6 +68,8 @@ IDI_DROPBOX             ICON                    "dropbox.ico"
 
 IDI_GDRIVE              ICON                    "gdrive.ico"
 
+IDI_ONEDRIVE            ICON                    "onedrive.ico"
+
 IDI_YADISK              ICON                    "yadisk.ico"
 
 

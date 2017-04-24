@@ -66,6 +66,7 @@ public:
 #include "oauth.h"
 #include "Services\dropbox_service.h"
 #include "Services\google_service.h"
+#include "Services\microsoft_service.h"
 #include "Services\yandex_service.h"
 extern LIST<CCloudService> Services;
 void InitServices();

@@ -26,10 +26,6 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClInclude Include="src\Dropbox\*.h" />
-    <ClCompile Include="src\Dropbox\*.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClInclude Include="src\Services\*.h" />
     <ClCompile Include="src\Services\*.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>

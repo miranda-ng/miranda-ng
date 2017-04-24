@@ -11,6 +11,7 @@ void InitServices()
 {
 	Services.insert(new CDropboxService(hNetlibConnection));
 	Services.insert(new CGDriveService(hNetlibConnection));
+	//Services.insert(new COneDriveService(hNetlibConnection));
 	Services.insert(new CYandexService(hNetlibConnection));
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
