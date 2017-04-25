@@ -964,7 +964,7 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 
 	if(m_options.UseOMEMO && OmemoIsEnabled(hContact) && !mir_wstrcmp(msgType, L"chat")) //omemo enabled in options, omemo enabled for contact
 	{
-		OmemoEncryptMessage(m, msg, hContact);
+		OmemoEncryptMessage(m, msg);
 	}
 	else
 	{
