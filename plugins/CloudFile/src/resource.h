@@ -17,6 +17,8 @@
 #define IDC_URL_COPYTOCB                1002
 #define IDC_URL_COPYTOMIA               1003
 #define IDC_URL_AUTOSEND                1004
+#define IDC_ACCOUNTS                    1011
+#define IDC_SERVICES                    1011
 
 // Next default values for new objects
 // 

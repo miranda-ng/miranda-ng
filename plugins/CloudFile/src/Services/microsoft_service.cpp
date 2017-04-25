@@ -16,9 +16,9 @@ const wchar_t* COneDriveService::GetText() const
 	return L"OneDrive";
 }
 
-HANDLE COneDriveService::GetIcon() const
+int COneDriveService::GetIconId() const
 {
-	return GetIconHandle(IDI_ONEDRIVE);
+	return IDI_ONEDRIVE;
 }
 
 bool COneDriveService::IsLoggedIn()

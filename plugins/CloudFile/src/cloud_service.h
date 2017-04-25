@@ -4,6 +4,7 @@
 class CCloudService
 {
 protected:
+	int id;
 	HNETLIBUSER hConnection;
 
 	// utils
@@ -23,7 +24,7 @@ public:
 
 	virtual const char* GetModule() const = 0;
 	virtual const wchar_t* GetText() const = 0;
-	virtual HANDLE GetIcon() const = 0;
+	virtual int GetIconId() const = 0;
 
 	virtual bool IsLoggedIn() = 0;
 	virtual void Login() = 0;

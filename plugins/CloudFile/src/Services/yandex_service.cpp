@@ -16,9 +16,9 @@ const wchar_t* CYandexService::GetText() const
 	return L"Яндекс.Диск";
 }
 
-HANDLE CYandexService::GetIcon() const
+int CYandexService::GetIconId() const
 {
-	return GetIconHandle(IDI_YADISK);
+	return IDI_YADISK;
 }
 
 bool CYandexService::IsLoggedIn()

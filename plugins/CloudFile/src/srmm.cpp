@@ -32,7 +32,7 @@ int OnSrmmWindowOpened(WPARAM, LPARAM lParam)
 		if (!isProtoOnline || (status == ID_STATUS_OFFLINE && !canSendOffline))
 			bbd.bbbFlags = BBSF_DISABLED;
 
-		//Srmm_SetButtonState(ev->hContact, &bbd);
+		Srmm_SetButtonState(ev->hContact, &bbd);
 	}
 
 	return 0;
@@ -54,8 +54,11 @@ int OnSrmmButtonPressed(WPARAM, LPARAM lParam)
 	for (size_t i = 0; i < count; i++) {
 		CCloudService *service = Services[i];
 
+		if (!db_get_b(NULL, service->GetModule(), "IsEnable", TRUE))
+			continue;
+
 		InsertMenu(hMenu, i, MF_STRING, i + 1, service->GetText());
-		//HBITMAP hBitmap = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDI_UPLOAD), IMAGE_ICON, 16, 16, 0);
+		//HBITMAP hBitmap = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(service->GetIconId()), IMAGE_ICON, 16, 16, 0);
 		//SetMenuItemBitmaps(hMenu, i, MF_BITMAP, hBitmap, hBitmap);
 	}
 

@@ -31,8 +31,8 @@ namespace OneDriveAPI
 			AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
 			CMStringA data(CMStringDataFormat::FORMAT,
-				"client_id=%s&client_secret=%s&grant_type=refresh_token&refresh_token=%s",
-				MS_APP_ID, MS_CLIENT_SECRET, refreshToken);
+				"client_id=%s&grant_type=refresh_token&refresh_token=%s",
+				MS_APP_ID, refreshToken);
 			SetData(data.GetBuffer(), data.GetLength());
 		}
 	};

@@ -16,9 +16,9 @@ const wchar_t* CDropboxService::GetText() const
 	return L"Dropbox";
 }
 
-HANDLE CDropboxService::GetIcon() const
+int CDropboxService::GetIconId() const
 {
-	return GetIconHandle(IDI_DROPBOX);
+	return IDI_DROPBOX;
 }
 
 bool CDropboxService::IsLoggedIn()

@@ -21,8 +21,8 @@ public:
 
 	const char* GetModule() const;
 	const wchar_t* GetText() const;
-	HANDLE GetIcon() const;
-	
+	int GetIconId() const;
+
 	bool IsLoggedIn();
 	void Login();
 	void Logout();

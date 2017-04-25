@@ -16,9 +16,9 @@ const wchar_t* CGDriveService::GetText() const
 	return L"GDrive";
 }
 
-HANDLE CGDriveService::GetIcon() const
+int CGDriveService::GetIconId() const
 {
-	return GetIconHandle(IDI_GDRIVE);
+	return IDI_GDRIVE;
 }
 
 bool CGDriveService::IsLoggedIn()

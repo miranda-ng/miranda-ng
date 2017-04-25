@@ -20,6 +20,9 @@ void InitServices()
 	for (size_t i = 0; i < count; i++) {
 		CCloudService *service = Services[i];
 
+		if (!db_get_b(NULL, service->GetModule(), "IsEnable", TRUE))
+			continue;
+
 		CMStringA moduleName(CMStringDataFormat::FORMAT, "%s/%s", MODULE, service->GetModule());
 		pd.type = PROTOTYPE_VIRTUAL;
 		pd.szName = moduleName.GetBuffer();

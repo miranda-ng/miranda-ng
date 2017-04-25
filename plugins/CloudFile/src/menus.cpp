@@ -35,11 +35,15 @@ void InitializeMenus()
 	for (size_t i = 0; i < count; i++) {
 		CCloudService *service = Services[i];
 
+		if (!db_get_b(NULL, service->GetModule(), "IsEnable", TRUE))
+			continue;
+
 		CMStringA serviceName(CMStringDataFormat::FORMAT, "%s/%s/Upload", MODULE, service->GetModule());
+	
 		mi.pszService = serviceName.GetBuffer();
 		mi.name.w = (wchar_t*)service->GetText();
 		mi.position = i;
-		mi.hIcolibItem = Services[i]->GetIcon();
+		mi.hIcolibItem = GetIconHandle(Services[i]->GetIconId());
 		Menu_AddContactMenuItem(&mi);
 		CreateServiceFunctionObj(mi.pszService, UploadMenuCommand, service);
 	}
