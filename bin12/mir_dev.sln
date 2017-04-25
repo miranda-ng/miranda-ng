@@ -442,6 +442,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StatusManager", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Discord", "..\protocols\Discord\discord.vcxproj", "{88928401-2CE8-4568-AAA7-226141870CBF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CloudFile", "..\plugins\CloudFile\CloudFile.vcxproj", "{E876FE63-0701-4CDA-BED5-7C73A379C1D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -2024,6 +2026,14 @@ Global
 		{88928401-2CE8-4568-AAA7-226141870CBF}.Release|Win32.Build.0 = Release|Win32
 		{88928401-2CE8-4568-AAA7-226141870CBF}.Release|x64.ActiveCfg = Release|x64
 		{88928401-2CE8-4568-AAA7-226141870CBF}.Release|x64.Build.0 = Release|x64
+		{E876FE63-0701-4CDA-BED5-7C73A379C1D1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E876FE63-0701-4CDA-BED5-7C73A379C1D1}.Debug|Win32.Build.0 = Debug|Win32
+		{E876FE63-0701-4CDA-BED5-7C73A379C1D1}.Debug|x64.ActiveCfg = Debug|x64
+		{E876FE63-0701-4CDA-BED5-7C73A379C1D1}.Debug|x64.Build.0 = Debug|x64
+		{E876FE63-0701-4CDA-BED5-7C73A379C1D1}.Release|Win32.ActiveCfg = Release|Win32
+		{E876FE63-0701-4CDA-BED5-7C73A379C1D1}.Release|Win32.Build.0 = Release|Win32
+		{E876FE63-0701-4CDA-BED5-7C73A379C1D1}.Release|x64.ActiveCfg = Release|x64
+		{E876FE63-0701-4CDA-BED5-7C73A379C1D1}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
