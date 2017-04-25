@@ -51,15 +51,19 @@ namespace OneDriveAPI
 	{
 	public:
 		CreateUploadSessionRequest(const char *token, const char *name) :
-			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/root:/%s:/createUploadSession", name)
+			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/special/approot:/%s:/createUploadSession", name)
 		{
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");
 
-			JSONNode params(JSON_NODE);
-			params
+			JSONNode item(JSON_NODE);
+			item.set_name("item");
+			item
 				<< JSONNode("@microsoft.graph.conflictBehavior", "rename")
 				<< JSONNode("name", name);
+
+			JSONNode params(JSON_NODE);
+			params << item;
 
 			json_string data = params.write();
 			SetData(data.c_str(), data.length());
@@ -71,10 +75,14 @@ namespace OneDriveAPI
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");
 
-			JSONNode params(JSON_NODE);
-			params
+			JSONNode item(JSON_NODE);
+			item.set_name("item");
+			item
 				<< JSONNode("@microsoft.graph.conflictBehavior", "rename")
 				<< JSONNode("name", name);
+
+			JSONNode params(JSON_NODE);
+			params << item;
 
 			json_string data = params.write();
 			SetData(data.c_str(), data.length());
@@ -100,15 +108,19 @@ namespace OneDriveAPI
 	{
 	public:
 		CreateFolderRequest(const char *token, const char *path) :
-			HttpRequest(REQUEST_PUT, ONEDRIVE_API "/items/root/children")
+			HttpRequest(REQUEST_PUT, ONEDRIVE_API "/special/approot/children")
 		{
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");
 
+			JSONNode folder(JSON_NODE);
+			folder.set_name("folder");
+			folder << JSONNode(JSON_NODE);
+
 			JSONNode params(JSON_NODE);
 			params
 				<< JSONNode("name", path)
-				<< JSONNode("folder", "");
+				<< folder;
 
 			json_string data = params.write();
 			SetData(data.c_str(), data.length());
@@ -118,8 +130,8 @@ namespace OneDriveAPI
 	class CreateSharedLinkRequest : public HttpRequest
 	{
 	public:
-		CreateSharedLinkRequest(const char *token, const char *path) :
-			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/items/%s/createLink", path)
+		CreateSharedLinkRequest(const char *token, const char *itemId) :
+			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/items/%s/createLink", itemId)
 		{
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");

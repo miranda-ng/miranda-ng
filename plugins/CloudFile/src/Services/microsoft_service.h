@@ -5,7 +5,6 @@ class COneDriveService : public CCloudService
 {
 private:
 	static unsigned RequestAccessTokenThread(void *owner, void *param);
-	static unsigned __stdcall RevokeAccessTokenThread(void *param);
 
 	void HandleJsonError(JSONNode &node);
 

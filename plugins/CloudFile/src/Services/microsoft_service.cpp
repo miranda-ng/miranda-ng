@@ -57,7 +57,9 @@ void COneDriveService::Login()
 
 void COneDriveService::Logout()
 {
-	mir_forkthreadex(RevokeAccessTokenThread, this);
+	db_unset(NULL, GetModule(), "TokenSecret");
+	db_unset(NULL, GetModule(), "ExpiresIn");
+	db_unset(NULL, GetModule(), "RefreshToken");
 }
 
 unsigned COneDriveService::RequestAccessTokenThread(void *owner, void *param)
@@ -91,7 +93,7 @@ unsigned COneDriveService::RequestAccessTokenThread(void *owner, void *param)
 		return 0;
 	}
 
-	JSONNode node = root.at("error");
+	JSONNode node = root.at("error_description");
 	if (!node.isnull()) {
 		ptrW error_description(mir_a2u_cp(node.as_string().c_str(), CP_UTF8));
 		Netlib_Logf(service->hConnection, "%s: %s", service->GetModule(), service->HttpStatusToError(response->resultCode));
@@ -116,17 +118,6 @@ unsigned COneDriveService::RequestAccessTokenThread(void *owner, void *param)
 	return 0;
 }
 
-unsigned COneDriveService::RevokeAccessTokenThread(void *param)
-{
-	//COneDriveService *service = (COneDriveService*)param;
-
-	/*ptrA token(db_get_sa(NULL, service->GetModule(), "TokenSecret"));
-	OneDriveAPI::RevokeAccessTokenRequest request(token);
-	NLHR_PTR response(request.Send(service->hConnection));*/
-
-	return 0;
-}
-
 void COneDriveService::HandleJsonError(JSONNode &node)
 {
 	JSONNode error = node.at("error");
@@ -139,10 +130,11 @@ void COneDriveService::HandleJsonError(JSONNode &node)
 void COneDriveService::CreateUploadSession(char *uploadUri, const char *name, const char *parentId)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	OneDriveAPI::CreateUploadSessionRequest request = mir_strlen(parentId)
-		? OneDriveAPI::CreateUploadSessionRequest(token, parentId, name)
-		: OneDriveAPI::CreateUploadSessionRequest(token, name);
-	NLHR_PTR response(request.Send(hConnection));
+	OneDriveAPI::CreateUploadSessionRequest *request = mir_strlen(parentId)
+		? new OneDriveAPI::CreateUploadSessionRequest(token, parentId, name)
+		: new OneDriveAPI::CreateUploadSessionRequest(token, name);
+	NLHR_PTR response(request->Send(hConnection));
+	delete request;
 
 	JSONNode root = GetJsonResponse(response);
 	JSONNode node = root.at("uploadUrl");
@@ -190,8 +182,9 @@ void COneDriveService::CreateSharedLink(const char *itemId, char *url)
 	NLHR_PTR response(request.Send(hConnection));
 
 	JSONNode root = GetJsonResponse(response);
-	JSONNode node = root.at("webUrl");
-	mir_strcpy(url, node.as_string().c_str());
+	JSONNode node = root.at("link");
+	JSONNode webUrl = root.at("webUrl");
+	mir_strcpy(url, webUrl.as_string().c_str());
 }
 
 UINT COneDriveService::Upload(FileTransferParam *ftp)

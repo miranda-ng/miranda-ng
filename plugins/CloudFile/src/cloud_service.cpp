@@ -11,7 +11,7 @@ void InitServices()
 {
 	Services.insert(new CDropboxService(hNetlibConnection));
 	Services.insert(new CGDriveService(hNetlibConnection));
-	//Services.insert(new COneDriveService(hNetlibConnection));
+	Services.insert(new COneDriveService(hNetlibConnection));
 	Services.insert(new CYandexService(hNetlibConnection));
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
@@ -146,8 +146,7 @@ void CCloudService::HandleHttpError(NETLIBHTTPREQUEST *response)
 	if (response == NULL)
 		throw Exception(HttpStatusToError());
 
-	if (response->resultCode != HTTP_CODE_OK &&
-		response->resultCode != HTTP_CODE_CONFLICT) {
+	if (!HTTP_CODE_SUCCESS(response->resultCode)) {
 		if (response->dataLength)
 			throw Exception(response->pData);
 		throw Exception(HttpStatusToError(response->resultCode));
