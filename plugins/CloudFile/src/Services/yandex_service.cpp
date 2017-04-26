@@ -13,7 +13,7 @@ const char* CYandexService::GetModule() const
 
 const wchar_t* CYandexService::GetText() const
 {
-	return LPGENW("Yandex.Drive");
+	return LPGENW("Yandex.Disk");
 }
 
 int CYandexService::GetIconId() const
