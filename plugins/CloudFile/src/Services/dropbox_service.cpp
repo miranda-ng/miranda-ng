@@ -13,7 +13,7 @@ const char* CDropboxService::GetModule() const
 
 const wchar_t* CDropboxService::GetText() const
 {
-	return L"Dropbox";
+	return LPGENW("Dropbox");
 }
 
 int CDropboxService::GetIconId() const

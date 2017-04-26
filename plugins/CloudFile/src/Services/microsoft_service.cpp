@@ -13,7 +13,7 @@ const char* COneDriveService::GetModule() const
 
 const wchar_t* COneDriveService::GetText() const
 {
-	return L"OneDrive";
+	return LPGENW("OneDrive");
 }
 
 int COneDriveService::GetIconId() const

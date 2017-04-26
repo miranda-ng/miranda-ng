@@ -13,7 +13,7 @@ const char* CGDriveService::GetModule() const
 
 const wchar_t* CGDriveService::GetText() const
 {
-	return L"GDrive";
+	return LPGENW("Google Drive");
 }
 
 int CGDriveService::GetIconId() const

@@ -57,7 +57,7 @@ int OnSrmmButtonPressed(WPARAM, LPARAM lParam)
 		if (!db_get_b(NULL, service->GetModule(), "IsEnable", TRUE))
 			continue;
 
-		InsertMenu(hMenu, i, MF_STRING, i + 1, service->GetText());
+		InsertMenu(hMenu, i, MF_STRING, i + 1, TranslateW(service->GetText()));
 		//HBITMAP hBitmap = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(service->GetIconId()), IMAGE_ICON, 16, 16, 0);
 		//SetMenuItemBitmaps(hMenu, i, MF_BITMAP, hBitmap, hBitmap);
 	}

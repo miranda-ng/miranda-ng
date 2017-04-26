@@ -13,7 +13,7 @@ const char* CYandexService::GetModule() const
 
 const wchar_t* CYandexService::GetText() const
 {
-	return L"Яндекс.Диск";
+	return LPGENW("Yandex.Drive");
 }
 
 int CYandexService::GetIconId() const
