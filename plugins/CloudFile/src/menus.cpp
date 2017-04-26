@@ -6,14 +6,7 @@ INT_PTR UploadMenuCommand(void *obj, WPARAM hContact, LPARAM)
 {
 	CCloudService *service = (CCloudService*)obj;
 
-	auto it = service->InterceptedContacts.find(hContact);
-	if (it == service->InterceptedContacts.end())
-	{
-		HWND hwnd = (HWND)CallService(MS_FILE_SENDFILE, hContact, 0);
-		service->InterceptedContacts[hContact] = hwnd;
-	}
-	else
-		SetActiveWindow(it->second);
+	service->OpenUploadDialog(hContact);
 
 	return 0;
 }

@@ -27,6 +27,7 @@
 #include <m_chat.h>
 #include <m_http.h>
 #include <m_json.h>
+#include <m_metacontacts.h>
 
 #include <m_protoint.h>
 #include <m_protosvc.h>

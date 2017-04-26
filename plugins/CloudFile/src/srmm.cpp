@@ -66,14 +66,7 @@ int OnSrmmButtonPressed(WPARAM, LPARAM lParam)
 	if (ind > 0) {
 		CCloudService *service = Services[ind - 1];
 
-		auto it = service->InterceptedContacts.find(cbc->hContact);
-		if (it == service->InterceptedContacts.end())
-		{
-			HWND hwnd = (HWND)CallService(MS_FILE_SENDFILE, cbc->hContact, 0);
-			service->InterceptedContacts[cbc->hContact] = hwnd;
-		}
-		else
-			SetActiveWindow(it->second);
+		service->OpenUploadDialog(cbc->hContact);
 	}
 
 	return 0;

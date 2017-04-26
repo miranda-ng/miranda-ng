@@ -46,6 +46,22 @@ CCloudService::CCloudService(HNETLIBUSER hConnection)
 {
 }
 
+void CCloudService::OpenUploadDialog(MCONTACT hContact)
+{
+	char *proto = GetContactProto(hContact);
+	if (!mir_strcmpi(proto, META_PROTO))
+		hContact = CallService(MS_MC_GETMOSTONLINECONTACT, hContact);
+
+	auto it = InterceptedContacts.find(hContact);
+	if (it == InterceptedContacts.end())
+	{
+		HWND hwnd = (HWND)CallService(MS_FILE_SENDFILE, hContact, 0);
+		InterceptedContacts[hContact] = hwnd;
+	}
+	else
+		SetActiveWindow(it->second);
+}
+
 void CCloudService::SendToContact(MCONTACT hContact, const wchar_t *data)
 {
 	const char *szProto = GetContactProto(hContact);

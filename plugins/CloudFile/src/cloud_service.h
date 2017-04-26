@@ -30,6 +30,8 @@ public:
 	virtual void Login() = 0;
 	virtual void Logout() = 0;
 
+	void OpenUploadDialog(MCONTACT hContact);
+
 	virtual UINT Upload(FileTransferParam *ftp) = 0;
 
 	void SendToContact(MCONTACT hContact, const wchar_t *data);
