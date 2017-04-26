@@ -127,6 +127,20 @@ void COneDriveService::HandleJsonError(JSONNode &node)
 	}
 }
 
+void COneDriveService::UploadFile(const char *parentId, const char *name, const char *data, size_t size, char *fileId)
+{
+	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	OneDriveAPI::UploadFileRequest *request = mir_strlen(parentId)
+		? new OneDriveAPI::UploadFileRequest(token, parentId, name, data, size)
+		: new OneDriveAPI::UploadFileRequest(token, name, data, size);
+	NLHR_PTR response(request->Send(hConnection));
+	delete request;
+
+	JSONNode root = GetJsonResponse(response);
+	JSONNode node = root.at("id");
+	mir_strcpy(fileId, node.as_string().c_str());
+}
+
 void COneDriveService::CreateUploadSession(char *uploadUri, const char *name, const char *parentId)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
@@ -154,8 +168,8 @@ void COneDriveService::UploadFileChunk(const char *uploadUri, const char *chunk,
 
 	if (HTTP_CODE_SUCCESS(response->resultCode)) {
 		JSONNode root = GetJsonResponse(response);
-		JSONNode id = root.at("id");
-		mir_strcpy(itemId, id.as_string().c_str());
+		JSONNode node = root.at("id");
+		mir_strcpy(itemId, node.as_string().c_str());
 		return;
 	}
 
@@ -183,7 +197,7 @@ void COneDriveService::CreateSharedLink(const char *itemId, char *url)
 
 	JSONNode root = GetJsonResponse(response);
 	JSONNode node = root.at("link");
-	JSONNode webUrl = root.at("webUrl");
+	JSONNode webUrl = node.at("webUrl");
 	mir_strcpy(url, webUrl.as_string().c_str());
 }
 
@@ -216,25 +230,37 @@ UINT COneDriveService::Upload(FileTransferParam *ftp)
 
 			uint64_t offset = 0;
 			char fileId[32];
-			char uploadUri[1024];
-			CreateUploadSession(uploadUri, T2Utf(fileName), folderId);
 
 			size_t chunkSize = ftp->GetCurrentFileChunkSize();
 			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
-
-			size_t size = 0;
-			for (size_t i = 0; i < (fileSize / chunkSize); i++)
+			
+			if (chunkSize == fileSize)
 			{
 				ftp->CheckCurrentFile();
 
-				size = ftp->ReadCurrentFile(chunk, chunkSize);
-				if (size == 0)
-					break;
+				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
 
-				UploadFileChunk(uploadUri, chunk, size, offset, fileSize, fileId);
+				UploadFile(folderId, T2Utf(fileName), chunk, size, fileId);
+			}
+			else
+			{
+				char uploadUri[1024];
+				CreateUploadSession(uploadUri, T2Utf(fileName), folderId);
 
-				offset += size;
-				ftp->Progress(size);
+				size_t size = 0;
+				for (size_t i = 0; i < (fileSize / chunkSize); i++)
+				{
+					ftp->CheckCurrentFile();
+
+					size = ftp->ReadCurrentFile(chunk, chunkSize);
+					if (size == 0)
+						break;
+
+					UploadFileChunk(uploadUri, chunk, size, offset, fileSize, fileId);
+
+					offset += size;
+					ftp->Progress(size);
+				}
 			}
 
 			if (!wcschr(fileName, L'\\')) {

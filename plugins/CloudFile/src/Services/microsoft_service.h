@@ -8,6 +8,7 @@ private:
 
 	void HandleJsonError(JSONNode &node);
 
+	void UploadFile(const char *parentId, const char *name, const char *data, size_t size, char *fileId);
 	void CreateUploadSession(char *uploadUri, const char *name, const char *parentId = NULL);
 	void UploadFileChunk(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize, char *itemId);
 	void CreateFolder(const char *path, char *itemId);

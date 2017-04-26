@@ -37,21 +37,35 @@ namespace OneDriveAPI
 		}
 	};
 
-	/*class RevokeAccessTokenRequest : public HttpRequest
+	class UploadFileRequest : public HttpRequest
 	{
 	public:
-		RevokeAccessTokenRequest(const char *token) :
-			HttpRequest(REQUEST_POST, MS_OAUTH "/logout")
+		UploadFileRequest(const char *token, const char *name, const char *data, size_t size) :
+			HttpRequest(REQUEST_PUT, FORMAT, ONEDRIVE_API "/special/approot:/%s:/content", ptrA(mir_urlEncode(name)))
 		{
-			AddUrlParameter("token=%s", token);
+			AddUrlParameter("@microsoft.graph.conflictBehavior=rename");
+
+			AddBearerAuthHeader(token);
+
+			SetData(data, size);
 		}
-	};*/
+
+		UploadFileRequest(const char *token, const char *parentId, const char *name, const char *data, size_t size) :
+			HttpRequest(REQUEST_PUT, FORMAT, ONEDRIVE_API "/items/{parent-id}:/{filename}:/content", parentId, ptrA(mir_urlEncode(name)))
+		{
+			AddUrlParameter("@microsoft.graph.conflictBehavior=rename");
+
+			AddBearerAuthHeader(token);
+
+			SetData(data, size);
+		}
+	};
 
 	class CreateUploadSessionRequest : public HttpRequest
 	{
 	public:
 		CreateUploadSessionRequest(const char *token, const char *name) :
-			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/special/approot:/%s:/createUploadSession", name)
+			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/special/approot:/%s:/createUploadSession", ptrA(mir_urlEncode(name)))
 		{
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");
@@ -59,8 +73,7 @@ namespace OneDriveAPI
 			JSONNode item(JSON_NODE);
 			item.set_name("item");
 			item
-				<< JSONNode("@microsoft.graph.conflictBehavior", "rename")
-				<< JSONNode("name", name);
+				<< JSONNode("@microsoft.graph.conflictBehavior", "rename");
 
 			JSONNode params(JSON_NODE);
 			params << item;

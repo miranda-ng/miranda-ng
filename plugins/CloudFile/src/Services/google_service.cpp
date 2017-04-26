@@ -136,10 +136,21 @@ void CGDriveService::HandleJsonError(JSONNode &node)
 	}
 }
 
-void CGDriveService::StartUploadFile(char *uploadUri, const char *name)
+void CGDriveService::UploadFile(const char *name, const char *data, size_t size, char *fileId)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	GDriveAPI::StartUploadFileRequest request(token, name);
+	GDriveAPI::UploadFileRequest request(token, name, data, size);
+	NLHR_PTR response(request.Send(hConnection));
+
+	JSONNode root = GetJsonResponse(response);
+	JSONNode node = root.at("id");
+	mir_strcpy(fileId, node.as_string().c_str());
+}
+
+void CGDriveService::CreateUploadSession(char *uploadUri, const char *name)
+{
+	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	GDriveAPI::CreateUploadSessionRequest request(token, name);
 	NLHR_PTR response(request.Send(hConnection));
 
 	if (response == NULL)
@@ -161,9 +172,9 @@ void CGDriveService::StartUploadFile(char *uploadUri, const char *name)
 	throw Exception(HttpStatusToError(response->resultCode));
 }
 
-void CGDriveService::UploadFile(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize, char *fileId)
+void CGDriveService::UploadFileChunk(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize, char *fileId)
 {
-	GDriveAPI::UploadFileRequest request(uploadUri, chunk, chunkSize, offset, fileSize);
+	GDriveAPI::UploadFileChunkRequest request(uploadUri, chunk, chunkSize, offset, fileSize);
 	NLHR_PTR response(request.Send(hConnection));
 
 	if (response == NULL)
@@ -174,8 +185,8 @@ void CGDriveService::UploadFile(const char *uploadUri, const char *chunk, size_t
 
 	if (HTTP_CODE_SUCCESS(response->resultCode)) {
 		JSONNode root = GetJsonResponse(response);
-		JSONNode id = root.at("id");
-		mir_strcpy(fileId, id.as_string().c_str());
+		JSONNode node = root.at("id");
+		mir_strcpy(fileId, node.as_string().c_str());
 		return;
 	}
 
@@ -241,25 +252,37 @@ UINT CGDriveService::Upload(FileTransferParam *ftp)
 
 			uint64_t offset = 0;
 			char fileId[32];
-			char uploadUri[1024];
-			StartUploadFile(uploadUri, T2Utf(fileName));
 
 			size_t chunkSize = ftp->GetCurrentFileChunkSize();
 			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
 
-			size_t size = 0;
-			for (size_t i = 0; i < (fileSize / chunkSize); i++)
+			if (chunkSize == fileSize)
 			{
 				ftp->CheckCurrentFile();
 
-				size = ftp->ReadCurrentFile(chunk, chunkSize);
-				if (size == 0)
-					break;
+				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
 
-				UploadFile(uploadUri, chunk, size, offset, fileSize, fileId);
+				UploadFile(chunk, T2Utf(fileName), size, fileId);
+			}
+			else
+			{
+				char uploadUri[1024];
+				CreateUploadSession(uploadUri, T2Utf(fileName));
 
-				offset += size;
-				ftp->Progress(size);
+				size_t size = 0;
+				for (size_t i = 0; i < (fileSize / chunkSize); i++)
+				{
+					ftp->CheckCurrentFile();
+
+					size = ftp->ReadCurrentFile(chunk, chunkSize);
+					if (size == 0)
+						break;
+
+					UploadFileChunk(uploadUri, chunk, size, offset, fileSize, fileId);
+
+					offset += size;
+					ftp->Progress(size);
+				}
 			}
 
 			if (!wcschr(fileName, L'\\')) {

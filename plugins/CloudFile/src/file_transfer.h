@@ -196,7 +196,7 @@ public:
 			chunkSize = min(pfts.currentFileSize, chunkSize / 4);
 		else if (pfts.currentFileSize > 20 * chunkSize)
 			chunkSize = chunkSize * 4;
-		return chunkSize ? chunkSize : 1;
+		return chunkSize;
 	}
 
 	void Progress(size_t count)

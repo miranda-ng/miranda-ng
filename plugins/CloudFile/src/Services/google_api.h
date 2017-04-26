@@ -51,10 +51,42 @@ namespace GDriveAPI
 		}
 	};
 
-	class StartUploadFileRequest : public HttpRequest
+	class UploadFileRequest : public HttpRequest
 	{
 	public:
-		StartUploadFileRequest(const char *token, const char *name) :
+		UploadFileRequest(const char *token, const char *name, const char *data, size_t size) :
+			HttpRequest(REQUEST_POST, GDRIVE_UPLOAD)
+		{
+			AddBearerAuthHeader(token);
+			AddHeader("Content-Type", "multipart/related; boundary=upload");
+
+			CMStringA body = "--upload";
+			body.AppendChar(0x0A);
+			body.Append("Content-Type: application/json");
+			body.AppendChar(0x0A);
+			body.AppendChar(0x0A);
+			body.Append("{");
+			body.AppendFormat("\"name\": \"%s\"", name);
+			body.Append("}");
+			body.AppendChar(0x0A);
+			body.AppendChar(0x0A);
+			body.Append("--upload");
+			body.AppendChar(0x0A);
+			body.Append("Content-Type: application/octet-stream");
+			body.AppendChar(0x0A);
+			body.AppendChar(0x0A);
+			body.Append(data, size);
+			body.AppendChar(0x0A);
+			body.Append("--upload--");
+
+			SetData(body.GetBuffer(), body.GetLength());
+		}
+	};
+
+	class CreateUploadSessionRequest : public HttpRequest
+	{
+	public:
+		CreateUploadSessionRequest(const char *token, const char *name) :
 			HttpRequest(REQUEST_POST, GDRIVE_UPLOAD)
 		{
 			AddUrlParameter("uploadType=resumable");
@@ -70,10 +102,10 @@ namespace GDriveAPI
 		}
 	};
 
-	class UploadFileRequest : public HttpRequest
+	class UploadFileChunkRequest : public HttpRequest
 	{
 	public:
-		UploadFileRequest(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize) :
+		UploadFileChunkRequest(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize):
 			HttpRequest(REQUEST_PUT, uploadUri)
 		{
 			uint64_t rangeMin = offset;
