@@ -1249,12 +1249,10 @@ namespace omemo {
 		char *jid_str = mir_u2a(jid);
 		int dev_id_int = _wtoi(dev_id);
 		signal_protocol_address *address = (signal_protocol_address*)mir_alloc(sizeof(signal_protocol_address)); //libsignal does not copy structure, so we must allocate one manually, does it free it on exit ?
-		*address =
-		{
-			jid_str, //will libsignal free arrav for us on exit ?
-			mir_strlen(jid_str), 
-			dev_id_int
-		};
+		//rotten compillers support
+		address->name = jid_str; //will libsignal free arrav for us on exit ?
+		address->name_len = mir_strlen(jid_str);
+		address->device_id = dev_id_int;
 
 		session_builder *builder;
 		if (session_builder_create(&builder, sessions_internal[hContact][dev_id_int].store_context, address, global_context) < 0)
