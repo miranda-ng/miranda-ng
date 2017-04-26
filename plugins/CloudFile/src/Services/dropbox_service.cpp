@@ -173,7 +173,15 @@ void CDropboxService::CreateSharedLink(const char *path, char *url)
 	DropboxAPI::CreateSharedLinkRequest shareRequest(token, path);
 	NLHR_PTR response(shareRequest.Send(hConnection));
 
-	HandleHttpError(response);
+	if (response == NULL)
+		throw Exception(HttpStatusToError());
+
+	if (!HTTP_CODE_SUCCESS(response->resultCode) &&
+		response->resultCode != HTTP_CODE_CONFLICT) {
+		if (response->dataLength)
+			throw Exception(response->pData);
+		throw Exception(HttpStatusToError(response->resultCode));
+	}
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.isnull())
