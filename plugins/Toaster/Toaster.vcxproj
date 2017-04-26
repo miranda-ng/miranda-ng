@@ -27,12 +27,12 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Platform)'=='Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSdk_IncludePath);</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSdk_LibraryPath_x86);</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(ProgramFiles)\Windows Kits\8.1\Include\um;$(ProgramFiles)\Windows Kits\8.1\Include\shared;$(ProgramFiles)\Windows Kits\8.1\Include\winrt;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(ProgramFiles)\Windows Kits\8.1\lib\winv6.3\um\x86;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='x64'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSdk_IncludePath);</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSdk_LibraryPath_x64);</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(ProgramFiles)\Windows Kits\8.1\Include\um;$(ProgramFiles)\Windows Kits\8.1\Include\shared;$(ProgramFiles)\Windows Kits\8.1\Include\winrt;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(ProgramFiles)\Windows Kits\8.1\lib\winv6.3\um\x64;</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
