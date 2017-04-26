@@ -193,7 +193,7 @@ public:
 	{
 		size_t chunkSize = 1024 * 1024;
 		if (pfts.currentFileSize < chunkSize)
-			chunkSize = min(pfts.currentFileSize, chunkSize / 4);
+			chunkSize = min(pfts.currentFileSize, chunkSize / 4, 1);
 		else if (pfts.currentFileSize > 20 * chunkSize)
 			chunkSize = chunkSize * 4;
 		return chunkSize;
