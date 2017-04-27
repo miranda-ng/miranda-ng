@@ -1203,8 +1203,12 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 
 				if (!mir_wstrcmp(ptszXmlns, JABBER_FEAT_OMEMO))
 				{
-					OmemoHandleMessage(xNode);
-					continue;
+					LPCTSTR jid = xmlGetAttrValue(node, L"from");
+					if (jid)
+					{
+						OmemoHandleMessage(xNode, HContactFromJID(jid));
+						continue;
+					}
 				}
 			}
 

@@ -930,11 +930,11 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 
 	if (m_options.UseOMEMO)
 	{
-		if (!OmemoCheckSession(hContact)) //check omemo session state and build new session if necessary
+		if (!OmemoCheckSession(hContact)) //check omemo session state and build new session if necessary //TODO: something better
 		{
-			TFakeAckParams *param = new TFakeAckParams(hContact, Translate("Protocol is offline or no JID"));
+			TFakeAckParams *param = new TFakeAckParams(hContact, Translate("Omemo session does not exist yet"));
 			ForkThread(&CJabberProto::SendMessageAckThread, param);
-			return 1;
+			return 0;
 		}
 	}
 
