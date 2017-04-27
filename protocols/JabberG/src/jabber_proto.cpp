@@ -932,7 +932,7 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 	{
 		if (!OmemoCheckSession(hContact)) //check omemo session state and build new session if necessary //TODO: something better
 		{
-			TFakeAckParams *param = new TFakeAckParams(hContact, Translate("Omemo session does not exist yet"));
+			TFakeAckParams *param = new TFakeAckParams(hContact, Translate("OMEMO session does not exist yet"));
 			ForkThread(&CJabberProto::SendMessageAckThread, param);
 			return 0;
 		}
