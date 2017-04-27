@@ -39,6 +39,8 @@
 [Import from:]
 [Feeds to be imported:]
 [&Import]
+;file \plugins\NewsAggregator\proto_newsaggregator\src\resource.h
+[<unknown>]
 ;file \plugins\NewsAggregator\Src\Authentication.cpp
 [Enter your username]
 [Error]

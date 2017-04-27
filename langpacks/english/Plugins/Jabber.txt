@@ -838,6 +838,7 @@
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer mechanism exists]
 [Protocol is offline or no JID]
+[Omemo session does not exist yet]
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 [Error occurred during processing command]

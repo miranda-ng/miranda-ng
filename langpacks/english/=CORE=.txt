@@ -248,7 +248,6 @@
 [An error has occurred. The protocol reported the following error:]
 [while sending the following message:]
 [Try again]
-[Message session]
 [Message window event log]
 [Show names]
 [Show timestamp]
@@ -896,6 +895,7 @@
 [Outgoing message (10x10)]
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
+[Message session]
 [%s is typing a message...]
 ;file \src\core\stdmsg\src\msglog.cpp
 [Me]
