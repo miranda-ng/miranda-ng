@@ -473,18 +473,19 @@ var filter3=/^.+(001|\/value|\*!\*|=)$/g;
 //filter from Kildor
 var filter4=/^((d\s\w)|\[\/?(\w|url|img|size|quote|color)(=\w*)?\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d)+$/gi;
 //filter from Kildor for remove filenames and paths.
-var filter5=/^[\w_:%.\\\/*-]+\.\w+$/g;
+//var filter5=/^[\w_:%.\\\/*-]+\.\w+$/g;
 
 //apply filters to our string
 test1=filter1.test(string);
 test2=filter2.test(string);
 test3=filter3.test(string);
 test4=filter4.test(string);
-test5=filter5.test(string);
+//test5=filter5.test(string);
 
 //if match (test1) first filter and NOT match other tests, thus string are good, return this string back.
 //if (test1 && !test2 && !test3 && !test4 && !test5) {
-if (!test1 && !test2 && !test3 && !test4 && !test5) {
+//if (!test1 && !test2 && !test3 && !test4 && !test5) {
+if (!test1 && !test2 && !test3 && !test4) {
     return string;
     } else {
         //in other case, string is a garbage, put into crap array.
