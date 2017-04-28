@@ -1,6 +1,8 @@
 #ifndef M_DROPBOX_H_
 #define M_DROPBOX_H_
 
+#define MIID_DROPBOX {0x9649d8e2, 0x7326, 0x4ec1, {0xb4, 0xa3, 0xf2, 0xec, 0x1a, 0x39, 0x84, 0x94}}
+
 struct DropboxUploadInfo
 {
 	const TCHAR *localPath; // local path
