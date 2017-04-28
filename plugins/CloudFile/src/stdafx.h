@@ -16,7 +16,6 @@
 #include <m_database.h>
 #include <m_netlib.h>
 #include <m_clist.h>
-#include <m_skin.h>
 #include <m_icolib.h>
 #include <m_popup.h>
 #include <m_file.h>
@@ -28,9 +27,10 @@
 #include <m_http.h>
 #include <m_json.h>
 #include <m_metacontacts.h>
-
 #include <m_protoint.h>
 #include <m_protosvc.h>
+
+#include <m_dropbox.h>
 
 #include "version.h"
 #include "resource.h"
@@ -71,11 +71,6 @@ public:
 #include "Services\yandex_service.h"
 extern LIST<CCloudService> Services;
 void InitServices();
-
-// proto
-INT_PTR ProtoGetCaps(WPARAM, LPARAM);
-INT_PTR ProtoGetName(WPARAM, LPARAM);
-INT_PTR ProtoLoadIcon(WPARAM, LPARAM);
 
 // events
 int OnModulesLoaded(WPARAM, LPARAM);

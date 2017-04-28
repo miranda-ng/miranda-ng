@@ -2,6 +2,17 @@
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
+	// init
+	InitServices();
+	InitializeIcons();
+	InitializeMenus();
+	// netlib
+	NETLIBUSER nlu = {};
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szSettingsModule = MODULE;
+	nlu.szDescriptiveName.w = _A2W("MODULE");
+	hNetlibConnection = Netlib_RegisterUser(&nlu);
+	// options
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialized);
 	// srfile
 	size_t count = Services.getCount();
