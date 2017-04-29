@@ -844,7 +844,7 @@ namespace omemo {
 			mir_free(*i);
 			count++;
 		}
-		mir_free(ud);
+		delete ud;
 		return count;
 	}
 
@@ -1608,9 +1608,7 @@ void CJabberProto::OmemoSendBundle()
 	//add prekeys
 	HXML prekeys_node = XmlAddChild(bundle_node, L"prekeys");
 
-	//TODO: use enum here
 	db_enum_settings_prekeys_cb_data *ud = new db_enum_settings_prekeys_cb_data;
-	//ud->settings = std::list<char*>();
 	db_enum_settings(0, &db_enum_settings_prekeys_cb, m_szModuleName, (void*)ud);
 	for (std::list<char*>::iterator i = ud->settings.begin(), end = ud->settings.end(); i != end; i++)
 	{
