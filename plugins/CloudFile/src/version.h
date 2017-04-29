@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME              "CloudFile"
 #define __FILENAME                 "CloudFile.dll"
-#define __DESCRIPTION              "Allows you to upload files via cloud services."
+#define __DESCRIPTION              "Allows you to transfer files via cloud services."
 #define __AUTHOR                   "Miranda NG Team"
 #define __AUTHOREMAIL              ""
 #define __AUTHORWEB                "http://miranda-ng.org/p/CloudFile/"
