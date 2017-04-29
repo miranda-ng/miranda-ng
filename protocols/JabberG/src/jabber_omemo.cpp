@@ -38,6 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //c++
 #include <cstddef>
 #include <map>
+#include <list>
 
 namespace utils {
 	// code from http://stackoverflow.com/questions/3368883/how-does-this-size-of-array-template-function-work
@@ -455,6 +456,18 @@ namespace omemo {
 
 		return false;
 	}
+
+	DWORD GetOwnDeviceId(CJabberProto *proto)
+	{
+		DWORD own_id = proto->getDword("OmemoDeviceId", 0);
+		if (own_id == 0)
+		{
+			proto->OmemoInitDevice();
+			own_id = proto->getDword("OmemoDeviceId", 0);
+		}
+		return own_id;
+	}
+
 	void RefreshDevice(CJabberProto *proto)
 	{
 		//generate and save device id
@@ -475,13 +488,24 @@ namespace omemo {
 		mir_free(key);
 		signal_buffer_free(key_buf);
 
-		//TODO: is it required to resend bundle everytime with device ?
 
 		//generate and save signed pre key
 
 		session_signed_pre_key* signed_pre_key;
-		signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, new_dev->device_key, 1, time(0), global_context);
-		SIGNAL_UNREF(new_dev->device_key);
+		{
+			const unsigned int signed_pre_key_id = 1;
+			signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, new_dev->device_key, signed_pre_key_id, time(0), global_context);
+			SIGNAL_UNREF(new_dev->device_key);
+			signal_buffer *serialized_signed_pre_key;
+			session_signed_pre_key_serialize(&serialized_signed_pre_key, signed_pre_key);
+			char *setting_name = (char*)mir_alloc(strlen("OmemoSignalSignedPreKey_") + 32);
+			mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", GetOwnDeviceId(proto), signed_pre_key_id);
+			db_set_blob(0, proto->m_szModuleName, setting_name, signal_buffer_data(serialized_signed_pre_key), (unsigned int)signal_buffer_len(serialized_signed_pre_key));
+			SIGNAL_UNREF(serialized_signed_pre_key);
+			mir_free(setting_name);
+		}
+
+
 		ec_key_pair *signed_pre_key_pair =  session_signed_pre_key_get_key_pair(signed_pre_key);
 		public_key = ec_key_pair_get_public(signed_pre_key_pair);
 		ec_public_key_serialize(&key_buf, public_key);
@@ -504,22 +528,31 @@ namespace omemo {
 		signal_protocol_key_helper_pre_key_list_node *keys_root, *it;
 		signal_protocol_key_helper_generate_pre_keys(&keys_root, 0, 100, global_context);
 		it = keys_root;
-		char setting_name[64];
-		for (int i = 0; it; it = signal_protocol_key_helper_key_list_next(it), i++)
+		char setting_name[64], setting_name2[64];
+		for (; it; it = signal_protocol_key_helper_key_list_next(it))
 		{
 			session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
+			uint32_t pre_key_id = session_pre_key_get_id(pre_key);
+			{
+				signal_buffer *serialized_pre_key;
+				session_pre_key_serialize(&serialized_pre_key, pre_key);
+				mir_snprintf(setting_name2, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(proto), pre_key_id);
+				db_set_blob(0, proto->m_szModuleName, setting_name2, signal_buffer_data(serialized_pre_key), (unsigned int)signal_buffer_len(serialized_pre_key));
+				SIGNAL_UNREF(serialized_pre_key);
+			}
+
 			ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
 			public_key = ec_key_pair_get_public(pre_key_pair);
 			ec_public_key_serialize(&key_buf, public_key);
 			key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
-			mir_snprintf(setting_name, "OmemoPreKey%dPublic", i);
+			mir_snprintf(setting_name, "OmemoPreKey%uPublic", pre_key_id);
 			proto->setString(setting_name, key);
 			mir_free(key);
 			signal_buffer_free(key_buf);
 			private_key = ec_key_pair_get_private(pre_key_pair);
 			ec_private_key_serialize(&key_buf, private_key);
 			key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
-			mir_snprintf(setting_name, "OmemoPreKey%dPrivate", i);
+			mir_snprintf(setting_name, "OmemoPreKey%uPrivate", pre_key_id);
 			proto->setString(setting_name, key);
 			mir_free(key);
 			signal_buffer_free(key_buf);
@@ -527,16 +560,6 @@ namespace omemo {
 		}
 		signal_protocol_key_helper_key_list_free(keys_root);
 
-	}
-	DWORD GetOwnDeviceId(CJabberProto *proto)
-	{
-		DWORD own_id = proto->getDword("OmemoDeviceId", 0);
-		if (own_id == 0)
-		{
-			proto->OmemoInitDevice();
-			own_id = proto->getDword("OmemoDeviceId", 0);
-		}
-		return own_id;
 	}
 
 	//session related libsignal api
@@ -778,7 +801,7 @@ namespace omemo {
 	struct db_enum_settings_del_all_cb_data
 	{
 		signal_store_backend_user_data* user_data;
-		LIST<char> settings; //TODO: check this
+		std::list<char*> settings;
 		const char *name;
 		size_t name_len;
 	};
@@ -792,7 +815,7 @@ namespace omemo {
 			ptr += mir_strlen("OmemoSignalSession_");
 			char *current_name = mir_base64_encode((BYTE*)data->name, (unsigned int)data->name_len);
 			if (strstr(ptr, current_name))
-				data->settings.insert(mir_strdup(szSetting));
+				data->settings.push_back(mir_strdup(szSetting));
 			mir_free(current_name);
 		}
 
@@ -809,16 +832,16 @@ namespace omemo {
 		*/
 
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
-		db_enum_settings_del_all_cb_data *ud = (db_enum_settings_del_all_cb_data*)mir_alloc(sizeof(db_enum_settings_del_all_cb_data));
+		db_enum_settings_del_all_cb_data *ud = new db_enum_settings_del_all_cb_data;
 		ud->user_data = data;
 		ud->name = name;
 		ud->name_len = name_len;
 		db_enum_settings(data->hContact, &db_enum_settings_del_all_cb, data->proto->m_szModuleName, (void*)ud);
 		int count = 0;
-		for (int i = 0; i < ud->settings.getCount(); i++)
+		for (std::list<char*>::iterator i = ud->settings.begin(), end = ud->settings.end(); i != end; i++)
 		{
-			db_unset(data->hContact, data->proto->m_szModuleName, ud->settings[i]);
-			mir_free(ud->settings[i]);
+			db_unset(data->hContact, data->proto->m_szModuleName, *i);
+			mir_free(*i);
 			count++;
 		}
 		mir_free(ud);
@@ -852,7 +875,7 @@ namespace omemo {
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%d%d", "OmemoSignalPreKey_", GetOwnDeviceId(data->proto), pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(data->proto), pre_key_id);
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
 		db_get(0, data->proto->m_szModuleName, setting_name, &dbv);
@@ -881,7 +904,7 @@ namespace omemo {
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%d%d", "OmemoSignalPreKey_", GetOwnDeviceId(data->proto), pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(data->proto), pre_key_id);
 		db_set_blob(0, data->proto->m_szModuleName, setting_name, record, (unsigned int)record_len); //TODO: check return value
 		mir_free(setting_name);
 
@@ -901,7 +924,7 @@ namespace omemo {
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%d%d", "OmemoSignalPreKey_", GetOwnDeviceId(data->proto), pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(data->proto), pre_key_id);
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
 		db_get(0, data->proto->m_szModuleName, setting_name, &dbv);
@@ -928,7 +951,7 @@ namespace omemo {
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%d%d", "OmemoSignalPreKey_", GetOwnDeviceId(data->proto), pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(data->proto), pre_key_id);
 		db_unset(0, data->proto->m_szModuleName, setting_name);
 		mir_free(setting_name);
 
@@ -952,22 +975,8 @@ namespace omemo {
 		*/
 
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
-		//just to test
-		{
-			if (signed_pre_key_id == 1)
-			{
-				char *prekey_tmp_a = data->proto->getStringA("OmemoSignedPreKeyPublic");
-				unsigned int outlen;
-				unsigned char *prekey = (unsigned char*)mir_base64_decode(prekey_tmp_a, &outlen);
-				*record = signal_buffer_create(prekey, outlen);
-				mir_free(prekey_tmp_a);
-				mir_free(prekey);
-				return SG_SUCCESS;
-			}
-		}
-
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalSignedPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%d%d", "OmemoSignalSignedPreKey_", GetOwnDeviceId(data->proto), signed_pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", GetOwnDeviceId(data->proto), signed_pre_key_id);
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
 		db_get(0, data->proto->m_szModuleName, setting_name, &dbv);
@@ -997,7 +1006,7 @@ namespace omemo {
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalSignedPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%d%d", "OmemoSignalSignedPreKey_", GetOwnDeviceId(data->proto), signed_pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", GetOwnDeviceId(data->proto), signed_pre_key_id);
 		db_set_blob(0, data->proto->m_szModuleName, setting_name, record, (unsigned int)record_len); //TODO: check return value
 		mir_free(setting_name);
 
@@ -1017,7 +1026,7 @@ namespace omemo {
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalSignedPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%d%d", "OmemoSignalSignedPreKey_", GetOwnDeviceId(data->proto), signed_pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", GetOwnDeviceId(data->proto), signed_pre_key_id);
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
 		db_get(0, data->proto->m_szModuleName, setting_name, &dbv);
@@ -1044,7 +1053,7 @@ namespace omemo {
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalSignedPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%d%d", "OmemoSignalSignedPreKey_", GetOwnDeviceId(data->proto), signed_pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", GetOwnDeviceId(data->proto), signed_pre_key_id);
 		db_unset(0, data->proto->m_szModuleName, setting_name);
 		mir_free(setting_name);
 
@@ -1394,7 +1403,6 @@ void CJabberProto::OmemoHandleMessage(HXML node, MCONTACT hContact)
 	signal_buffer *decrypted_key = NULL;
 	pre_key_signal_message *pm;
 	pre_key_signal_message_deserialize(&pm, encrypted_key, encrypted_key_len, omemo::global_context);
-	int id = pre_key_signal_message_get_pre_key_id(pm);
 	if (pm)
 	{
 		int ret = session_cipher_decrypt_pre_key_signal_message(omemo::sessions_internal[hContact][sender_dev_id_int].cipher, pm, 0, &decrypted_key);
@@ -1473,7 +1481,6 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
 			setDword(setting_name, current_id);
 		}
-		i++;
 		DWORD val = 0;
 		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
 		val = getDword(setting_name, 0);
@@ -1500,7 +1507,6 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
 			setDword(hContact, setting_name, current_id);
 		}
-		i++;
 		DWORD val = 0;
 		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
 		val = getDword(hContact, setting_name, 0);
@@ -1555,6 +1561,22 @@ void CJabberProto::OmemoAnnounceDevice()
 	m_ThreadInfo->send(iq);
 }
 
+struct db_enum_settings_prekeys_cb_data
+{
+	std::list<char*> settings; //TODO: check this
+};
+
+
+int db_enum_settings_prekeys_cb(const char *szSetting, LPARAM lParam)
+{
+	db_enum_settings_prekeys_cb_data* data = (db_enum_settings_prekeys_cb_data*)lParam;
+	if (strstr(szSetting, "OmemoPreKey") && strstr(szSetting, "Public")) //TODO: suboptimal code, use different names for simple searching
+		data->settings.push_back(mir_strdup(szSetting));
+
+	return 0;//?
+
+}
+
 void CJabberProto::OmemoSendBundle()
 {
 	// get own device id
@@ -1568,7 +1590,7 @@ void CJabberProto::OmemoSendBundle()
 	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish");
 	{
 		wchar_t attr_val[128];
-		mir_snwprintf(attr_val, L"%s.bundles:%d", JABBER_FEAT_OMEMO, own_id);
+		mir_snwprintf(attr_val, L"%s.bundles:%u", JABBER_FEAT_OMEMO, own_id);
 		publish_node << XATTR(L"node", attr_val);
 	}
 	HXML bundle_node = publish_node << XCHILD(L"item") << XCHILDNS(L"bundle", JABBER_FEAT_OMEMO);
@@ -1586,6 +1608,30 @@ void CJabberProto::OmemoSendBundle()
 	//add prekeys
 	HXML prekeys_node = XmlAddChild(bundle_node, L"prekeys");
 
+	//TODO: use enum here
+	db_enum_settings_prekeys_cb_data *ud = new db_enum_settings_prekeys_cb_data;
+	//ud->settings = std::list<char*>();
+	db_enum_settings(0, &db_enum_settings_prekeys_cb, m_szModuleName, (void*)ud);
+	for (std::list<char*>::iterator i = ud->settings.begin(), end = ud->settings.end(); i != end; i++)
+	{
+		ptrW val(getWStringA(*i));
+		if (val)
+		{
+			unsigned int key_id = 0;
+			char *p = *i, buf[5] = {0};
+			p += strlen("OmemoPreKey");
+			int i2 = 0;
+			for (char c = 0; c != 'P'; i2++, c = p[i2])
+				;
+			memcpy(buf, p, i2);
+			buf[i2 + 1] = 0;
+			key_id = atoi(buf);
+			prekeys_node << XCHILD(L"preKeyPublic", val) << XATTRI(L"preKeyId", key_id);
+		}
+		mir_free(*i);
+	}
+	ud->settings.clear();
+	delete ud;
 	char setting_name[64];
 	for (int i = 0;; i++) {
 		mir_snprintf(setting_name, "OmemoPreKey%dPublic", i);
@@ -1695,7 +1741,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 	unsigned char key_num = 0;
 	while(key_num == 0)
 		Utils_GetRandom(&key_num, 1);
-	key_num = key_num % 101;
+	key_num = key_num % (XmlGetChildCount(prekeys) + 1);
 
 	wchar_t key_num_str[4];
 	mir_snwprintf(key_num_str, 3, L"%d", key_num);
