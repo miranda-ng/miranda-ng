@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 [Allows you to transfer files via cloud services.]
-Позволяет передавать файлы через облачные сервисы.
+Позволяет передавать файлы через облачные хранилища.
 [Download link]
 Ссылка на загрузку
 [Autosend download link to contact]
