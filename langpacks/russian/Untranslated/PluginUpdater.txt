@@ -1,1 +1,0 @@
-﻿[Plugin updater URI scheme]

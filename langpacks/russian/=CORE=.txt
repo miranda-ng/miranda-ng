@@ -479,8 +479,6 @@
 при посылке следующего сообщения:
 [Try again]
 Ещё раз
-[Message session]
-Беседа
 [Message window event log]
 Журнал в окне сообщений
 [Show names]
@@ -1713,6 +1711,8 @@ Google Карты
 Исходящее сообщение (10x10)
 [Last message received on %s at %s.]
 Последнее сообщение вы получили %s в %s.
+[Message session]
+Беседа
 [%s is typing a message...]
 %s набирает текст...
 [Me]

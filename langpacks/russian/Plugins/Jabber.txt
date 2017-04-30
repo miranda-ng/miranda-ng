@@ -1607,6 +1607,8 @@ XML для MS Excel (кодировка UTF-8)
 Не найдено ни одного совместимого механизма передачи файлов
 [Protocol is offline or no JID]
 Протокол не в сети или нет JID
+[OMEMO session does not exist yet]
+OMEMO сессии не существует
 [Command completed successfully]
 Команда выполнена успешно
 [Error occurred during processing command]

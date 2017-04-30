@@ -153,6 +153,8 @@
 Обновлений нет.
 [Update checking already started!]
 Обновление уже запущено!
+[Plugin updater URI scheme]
+URI cхема
 [Close popup]
 Закрыть всплывающее окно
 [Do nothing]

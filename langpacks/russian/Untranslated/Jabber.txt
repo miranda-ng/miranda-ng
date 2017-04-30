@@ -4,4 +4,5 @@
 [League Of Legends (EU West)]
 [League Of Legends (Oceania)]
 [League Of Legends (US)]
+[S.ms]
 [Jabber vCard]
