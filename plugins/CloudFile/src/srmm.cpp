@@ -6,7 +6,7 @@ int OnSrmmToolbarLoaded(WPARAM, LPARAM)
 	bbd.pszModuleName = MODULE;
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
 
-	CMStringW tooltip(CMStringDataFormat::FORMAT, TranslateT("Upload files to ..."));
+	CMStringW tooltip(CMStringDataFormat::FORMAT, TranslateT("Upload files to..."));
 	bbd.pwszTooltip = tooltip;
 	bbd.hIcon = GetIconHandle(IDI_UPLOAD);
 	bbd.dwButtonID = BBB_ID_FILE_SEND;

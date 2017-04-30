@@ -15,7 +15,7 @@ void InitializeMenus()
 {
 	CMenuItem mi;
 	SET_UID(mi, 0x93d4495b, 0x259b, 0x4fba, 0xbc, 0x14, 0xf9, 0x46, 0x2c, 0xda, 0xfc, 0x6d);
-	mi.name.a = LPGEN("Upload files to ...");
+	mi.name.a = LPGEN("Upload files to...");
 	mi.position = -2000020001;
 	mi.hIcon = LoadIconEx(IDI_UPLOAD);
 	hContactMenu = Menu_AddContactMenuItem(&mi);
