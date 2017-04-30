@@ -1,11 +1,11 @@
-﻿#muuid {b908773a-86f7-4a91-8674-6a20ba0e67d1}
+﻿#muuid {e876fe63-0701-4cda-bed5-7c73a379c1d1}
 ;============================================================
 ;  File: CloudFile.dll
 ;  Plugin: CloudFile
 ;  Version: 0.11.0.1
 ;  Authors: Miranda NG Team
 ;============================================================
-[Allows you to upload files via cloud services.]
+[Allows you to transfer files via cloud services.]
 ;file \plugins\CloudFile\res\resource.rc
 [Download link]
 [Autosend download link to contact]
@@ -20,9 +20,9 @@
 ;file \plugins\CloudFile\src\icons.cpp
 [Upload file(s)]
 [Dropbox]
-[GDrive]
+[Google Drive]
 [OneDrive]
-[YaDisk]
+[Yandex.Disk]
 ;file \plugins\CloudFile\src\menus.cpp
 [Upload files to ...]
 ;file \plugins\CloudFile\src\options.cpp
@@ -30,7 +30,6 @@
 ;file \plugins\CloudFile\src\srmm.cpp
 ;file \plugins\CloudFile\src\Services\dropbox_service.cpp
 ;file \plugins\CloudFile\src\Services\google_service.cpp
-[Google Drive]
 [server does not respond]
 ;file \plugins\CloudFile\src\Services\microsoft_service.cpp
 ;file \plugins\CloudFile\src\Services\yandex_service.cpp

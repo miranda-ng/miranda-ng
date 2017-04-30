@@ -768,6 +768,7 @@
 [League Of Legends (Oceania)]
 [League Of Legends (US)]
 [Odnoklassniki]
+[S.ms]
 [Some changes will take effect the next time you connect to the Jabber network.]
 ;file \protocols\JabberG\src\jabber_password.cpp
 [Set New Password for %s@%S]
@@ -838,7 +839,7 @@
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer mechanism exists]
 [Protocol is offline or no JID]
-[Omemo session does not exist yet]
+[OMEMO session does not exist yet]
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 [Error occurred during processing command]
