@@ -6,11 +6,11 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 [Allows you to transfer files via cloud services.]
-Позволяет передавать файлы через облачные хранилища.
+Загрузка и пересылка файлов с помощью облачных хранилищ.
 [Download link]
 Ссылка на загрузку
 [Autosend download link to contact]
-Автоотправка ссылки на загрузку контакту
+Автоматически отправлять ссылку на загрузку контакту
 [Paste download link into message input area]
 Вставлять ссылку на загрузку в поле отправки сообщения
 [Copy download link to clipboard]
@@ -29,8 +29,10 @@
 Перейти по этой ссылке
 [Upload file(s)]
 Загрузить файл(ы)
+[Yandex.Disk]
+Яндекс.Диск
 [Upload files to ...]
-Загрузить файл в ...
+Загрузить файл в...
 [Account name]
 Учётная запись
 [server does not respond]

@@ -24,7 +24,7 @@
 [Download link]
 Ссылка
 [Generate temporary link]
-Генерировать временную ссылку
+Создавать временную ссылку
 [Check status of authorization]
 Проверить статус авторизации
 [Autosend download link to contact]

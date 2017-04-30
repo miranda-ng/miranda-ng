@@ -247,6 +247,8 @@
 Найти слово
 [Yandex]
 Яндекс
+[Wikipedia (en)]
+Википедия (англ.)
 [Google Maps]
 Google Карты
 [Google Translate]
