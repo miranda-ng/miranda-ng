@@ -67,7 +67,7 @@ static void SetPosition(HWND hwnd)
 			reObj.poleobj->QueryInterface(IID_ISmileyAddSmiley, (void**)&igsc);
 
 		reObj.poleobj->Release();
-		if (igsc == NULL)
+		if (igsc == nullptr)
 			continue;
 
 		TextRange->SetRange(reObj.cp, reObj.cp);
@@ -75,13 +75,13 @@ static void SetPosition(HWND hwnd)
 		BOOL res;
 		POINT pt;
 		RECT rect;
-		hr = TextRange->GetPoint(tomStart | TA_BOTTOM | TA_LEFT, &pt.x, &pt.y);
+		hr = TextRange->GetPoint(tomStart | TA_BOTTOM | TA_RIGHT, &pt.x, &pt.y);
 		if (hr == S_OK) {
 			res = ScreenToClient(hwnd, &pt);
 			rect.bottom = pt.y;
-			rect.left = pt.x;
+			rect.right = pt.x;
 		}
-		else rect.bottom = -1;
+		else rect.right = rect.bottom = -1;
 
 		hr = TextRange->GetPoint(tomStart | TA_TOP | TA_LEFT, &pt.x, &pt.y);
 		if (hr == S_OK) {
@@ -89,7 +89,7 @@ static void SetPosition(HWND hwnd)
 			rect.top = pt.y;
 			rect.left = pt.x;
 		}
-		else rect.top = -1;
+		else rect.left = rect.top = -1;
 
 		igsc->SetPosition(hwnd, &rect);
 	}
