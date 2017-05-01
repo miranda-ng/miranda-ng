@@ -442,7 +442,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 		msi.flags |= PREF_RTL;
 
 	GETTEXTEX gt = { 0 };
-	gt.flags = GT_USECRLF;
+	gt.flags = GT_DEFAULT;
 	gt.cb = bufSize * sizeof(wchar_t);
 	gt.codepage = 1200; // Unicode
 	m_message.SendMsg(EM_GETTEXTEX, (WPARAM)&gt, ptszUnicode);
