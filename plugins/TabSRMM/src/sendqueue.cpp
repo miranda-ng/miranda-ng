@@ -412,28 +412,6 @@ void SendQueue::recallFailed(CTabBaseDlg *dat, int iEntry) const
 	SendDlgItemMessage(dat->GetHwnd(), IDC_SRMM_MESSAGE, EM_SETSEL, -1, -1);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// searches string for characters typical for RTL text(hebrew and other RTL languages
-
-int SendQueue::RTL_Detect(const wchar_t *pszwText)
-{
-	size_t iLen = mir_wstrlen(pszwText);
-
-	WORD *infoTypeC2 = (WORD*)mir_calloc(sizeof(WORD) * (iLen + 2));
-	if (infoTypeC2 == nullptr)
-		return 0;
-
-	GetStringTypeW(CT_CTYPE2, pszwText, (int)iLen, infoTypeC2);
-
-	int n = 0;
-	for (size_t i = 0; i < iLen; i++)
-		if (infoTypeC2[i] == C2_RIGHTTOLEFT)
-			n++;
-
-	mir_free(infoTypeC2);
-	return(n >= 2 ? 1 : 0);
-}
-
 int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *)lParam;

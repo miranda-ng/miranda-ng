@@ -98,7 +98,6 @@ public:
 	int    doSendLater(int iIndex, CTabBaseDlg *dat, MCONTACT hContact = 0, bool fIsSendLater = true);
 
 	// static members
-	static int     TSAPI RTL_Detect(const wchar_t *pszwText);
 	static LRESULT TSAPI WarnPendingJobs(unsigned int uNrMessages);
 
 private:

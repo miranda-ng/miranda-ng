@@ -1050,3 +1050,4 @@ CallFunctionSync @1170
 ?SetReadOnly@CCtrlRichEdit@@QEAAX_N@Z @1237 NONAME
 ?Hide@CDlgBase@@QEAAXXZ @1238 NONAME
 ?Resize@CDlgBase@@QEAAXXZ @1239 NONAME
+Utils_IsRtl @1240

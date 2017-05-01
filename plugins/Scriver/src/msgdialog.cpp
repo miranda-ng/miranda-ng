@@ -91,25 +91,6 @@ static wchar_t* GetQuotedTextW(wchar_t *text)
 	return out;
 }
 
-int RTL_Detect(WCHAR *pszwText)
-{
-	size_t iLen = mir_wstrlen(pszwText);
-
-	WORD *infoTypeC2 = (WORD *)mir_calloc(sizeof(WORD) * (iLen + 2));
-	if (infoTypeC2) {
-		GetStringTypeW(CT_CTYPE2, pszwText, (int)iLen, infoTypeC2);
-
-		for (size_t i = 0; i < iLen; i++) {
-			if (infoTypeC2[i] == C2_RIGHTTOLEFT) {
-				mir_free(infoTypeC2);
-				return 1;
-			}
-		}
-		mir_free(infoTypeC2);
-	}
-	return 0;
-}
-
 static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t* szFilename)
 {
 	*pppFiles = (wchar_t**)mir_realloc(*pppFiles, (++*totalCount + 1)*sizeof(wchar_t*));
@@ -465,7 +446,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 	gt.cb = bufSize * sizeof(wchar_t);
 	gt.codepage = 1200; // Unicode
 	m_message.SendMsg(EM_GETTEXTEX, (WPARAM)&gt, ptszUnicode);
-	if (RTL_Detect(ptszUnicode))
+	if (Utils_IsRtl(ptszUnicode))
 		msi.flags |= PREF_RTL;
 
 	msi.sendBuffer = mir_utf8encodeW(ptszUnicode);

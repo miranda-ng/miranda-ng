@@ -35,26 +35,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static const UINT sendControls[] = { IDC_SRMM_MESSAGE };
 
-static int RTL_Detect(const wchar_t *ptszText)
-{
-	int iLen = (int)mir_wstrlen(ptszText);
-	WORD *infoTypeC2 = (WORD*)alloca(sizeof(WORD)* (iLen + 2));
-	GetStringTypeEx(LOCALE_USER_DEFAULT, CT_CTYPE2, ptszText, iLen, infoTypeC2);
-
-	for (int i = 0; i < iLen; i++)
-		if (infoTypeC2[i] == C2_RIGHTTOLEFT)
-			return 1;
-
-	return 0;
-}
-
 int SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact)
 {
 	if (hContact == 0)
 		return 0;
 
 	int flags = 0;
-	if (RTL_Detect(szMsg))
+	if (Utils_IsRtl(szMsg))
 		flags |= PREF_RTL;
 
 	T2Utf sendBuffer(szMsg);

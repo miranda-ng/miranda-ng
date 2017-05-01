@@ -1122,7 +1122,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton*)
 
 	int flags = 0;
 	if (pf2.wEffects & PFE_RTLPARA)
-		if (SendQueue::RTL_Detect(decoded))
+		if (Utils_IsRtl(decoded))
 			flags |= PREF_RTL;
 
 	SendMessage(hwndEdit, WM_SETREDRAW, TRUE, 0);

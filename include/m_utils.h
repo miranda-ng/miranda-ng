@@ -303,11 +303,15 @@ EXTERN_C MIR_CORE_DLL(int) PathIsAbsoluteW(const wchar_t *pSrc);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Generates Random number of any length
-// wParam = size - length of the random number to generate
-// lParam = (LPARAM)(char*)pszArray - pointer to array to fill with random number
-// Always returns 0
+// cbLen = length of the random number to generate
+// pszDest = pointer to array to fill with random number
 
 EXTERN_C MIR_CORE_DLL(void) Utils_GetRandom(void *pszDest, size_t cbLen);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Checks if a string is RTL
+
+EXTERN_C MIR_CORE_DLL(bool) Utils_IsRtl(const wchar_t *pszwText);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Replace variables in text
