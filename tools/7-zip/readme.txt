@@ -1,9 +1,9 @@
-7-Zip 16.04
------------
+7-Zip 17.00 beta
+----------------
 
 7-Zip is a file archiver for Windows NT / 2000 / 2003 / 2008 / 2012 / XP / Vista / 7 / 8 / 10. 
 
-7-Zip Copyright (C) 1999-2016 Igor Pavlov.
+7-Zip Copyright (C) 1999-2017 Igor Pavlov.
 
 The main features of 7-Zip: 
 
