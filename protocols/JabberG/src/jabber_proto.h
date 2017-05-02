@@ -337,14 +337,14 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   DeleteMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const wchar_t* jid);
 
 	//---- jabber_omemo.cpp --------------------------------------------------------------
-	void OmemoHandleMessage(HXML node, MCONTACT hContact);
+	void OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime);
 	void OmemoHandleDeviceList(HXML node);
 	void OmemoInitDevice();
 	void OmemoAnnounceDevice();
 	void OmemoSendBundle();
 	void OmemoPublishNodes();
 	bool OmemoCheckSession(MCONTACT hContact);
-	void OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_text, MCONTACT hContact);
+	unsigned int OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_text, MCONTACT hContact);
 	bool OmemoIsEnabled(MCONTACT hContact);
 	void OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo);
 

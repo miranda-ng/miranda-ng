@@ -964,7 +964,13 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 
 	if(m_options.UseOMEMO && OmemoIsEnabled(hContact) && !mir_wstrcmp(msgType, L"chat")) //omemo enabled in options, omemo enabled for contact
 	{
-		OmemoEncryptMessage(m, msg, hContact);
+		//TODO: check if message encrypted for at least one session and return error if not
+		if (!OmemoEncryptMessage(m, msg, hContact))
+		{
+			TFakeAckParams *param = new TFakeAckParams(hContact, Translate("OMEMO no valid sessions exists"));
+			ForkThread(&CJabberProto::SendMessageAckThread, param);
+			return 0;
+		}
 	}
 	else
 	{
