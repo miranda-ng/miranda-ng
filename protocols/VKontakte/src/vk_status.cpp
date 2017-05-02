@@ -97,8 +97,7 @@ void CVkProto::SetServerStatus(int iNewStatus)
 			m_bSetBroadcast = false;
 		}
 		m_iStatus = ID_STATUS_INVISIBLE;
-		if (iOldStatus == ID_STATUS_ONLINE)
-			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
 	}
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
