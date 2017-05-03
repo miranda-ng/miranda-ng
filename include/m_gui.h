@@ -807,7 +807,6 @@ public:
 
 	// returns a buffer that should be freed using mir_free() or ptrA/ptrW
 	char* GetRichTextRtf(bool bText = false, bool bSelection = false) const; // returns text with formatting
-	char* GetRichTextUtf() const;	// returns only text in utf8
 	wchar_t* GetRichText() const;	// returns only text in ucs2
 
 	// these methods return text length in Unicode chars

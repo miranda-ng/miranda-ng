@@ -207,7 +207,7 @@ int CScriverWindow::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 							cmdListNew = tcmdlist_last(cmdList);
 						}
 						if (cmdListNew != nullptr) {
-							char *textBuffer = m_message.GetRichTextUtf();
+							char *textBuffer = m_message.GetRichTextRtf(true);
 							if (textBuffer != nullptr)
 								// takes textBuffer to a queue, no leak here
 								cmdList = tcmdlist_append(cmdList, textBuffer, 20, TRUE);

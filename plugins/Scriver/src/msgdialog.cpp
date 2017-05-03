@@ -391,7 +391,7 @@ void CSrmmWindow::OnDestroy()
 
 	ReleaseSendQueueItems(m_hwnd);
 	if (g_dat.flags & SMF_SAVEDRAFTS) {
-		ptrA szText(m_message.GetRichTextUtf());
+		ptrA szText(m_message.GetRichTextRtf(true));
 		if (szText)
 			db_set_utf(m_hContact, "SRMM", "SavedMsg", szText);
 		else
@@ -438,7 +438,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 	if (pf2.wEffects & PFE_RTLPARA)
 		msi.flags |= PREF_RTL;
 
-	msi.sendBuffer = m_message.GetRichTextUtf();
+	msi.sendBuffer = m_message.GetRichTextRtf(true);
 	msi.sendBufferSize = (int)mir_strlen(msi.sendBuffer);
 	if (msi.sendBufferSize == 0)
 		return;

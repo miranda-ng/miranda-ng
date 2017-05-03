@@ -44,23 +44,6 @@ int CCtrlRichEdit::GetRichTextLength(int iCodePage) const
 	return (int)SendMessage(m_hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 }
 
-char* CCtrlRichEdit::GetRichTextUtf() const
-{
-	int textBufferSize = GetRichTextLength(CP_UTF8);
-	if (textBufferSize == 0)
-		return nullptr;
-
-	textBufferSize++;
-	char *textBuffer = (char*)mir_alloc(textBufferSize+1);
-
-	GETTEXTEX  gt = {};
-	gt.cb = textBufferSize;
-	gt.flags = GT_USECRLF;
-	gt.codepage = CP_UTF8;
-	SendMessage(m_hwnd, EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)textBuffer);
-	return textBuffer;
-}
-
 int CCtrlRichEdit::SetRichText(const wchar_t *text)
 {
 	SETTEXTEX st;
