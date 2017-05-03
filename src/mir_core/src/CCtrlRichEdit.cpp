@@ -39,7 +39,7 @@ int CCtrlRichEdit::GetRichTextLength(int iCodePage) const
 	if (iCodePage == CP_ACP)
 		gtl.flags |= GTL_NUMBYTES;
 	else
-		gtl.flags |= GTL_NUMCHARS;
+		gtl.flags |= GTL_NUMCHARS | GT_USECRLF;
 
 	return (int)SendMessage(m_hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 }
