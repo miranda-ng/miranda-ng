@@ -434,25 +434,17 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 	pf2.dwMask = PFM_RTLPARA;
 	m_message.SendMsg(EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
 
-	int bufSize = m_message.GetRichTextLength(1200) + 2;
-	ptrW ptszUnicode((wchar_t*)mir_alloc(bufSize * sizeof(wchar_t)));
-
 	MessageSendQueueItem msi = { 0 };
 	if (pf2.wEffects & PFE_RTLPARA)
 		msi.flags |= PREF_RTL;
 
-	GETTEXTEX gt = { 0 };
-	gt.flags = GT_DEFAULT;
-	gt.cb = bufSize * sizeof(wchar_t);
-	gt.codepage = 1200; // Unicode
-	m_message.SendMsg(EM_GETTEXTEX, (WPARAM)&gt, ptszUnicode);
-	if (Utils_IsRtl(ptszUnicode))
-		msi.flags |= PREF_RTL;
-
-	msi.sendBuffer = mir_utf8encodeW(ptszUnicode);
+	msi.sendBuffer = m_message.GetRichTextUtf();
 	msi.sendBufferSize = (int)mir_strlen(msi.sendBuffer);
 	if (msi.sendBufferSize == 0)
 		return;
+
+	if (Utils_IsRtl(ptrW(mir_utf8decodeW(msi.sendBuffer))))
+		msi.flags |= PREF_RTL;
 
 	/* Store messaging history */
 	TCmdList *cmdListNew = tcmdlist_last(cmdList);
