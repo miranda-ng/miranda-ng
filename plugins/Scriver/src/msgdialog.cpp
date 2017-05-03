@@ -382,6 +382,11 @@ void CSrmmWindow::OnDestroy()
 	if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 		NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
+	if (m_hXStatusTip != nullptr) {
+		DestroyWindow(m_hXStatusTip);
+		m_hXStatusTip = nullptr;
+	}
+
 	IcoLib_ReleaseIcon(m_hStatusIcon); m_hStatusIcon = nullptr;
 	IcoLib_ReleaseIcon(m_hStatusIconBig); m_hStatusIconBig = nullptr;
 	if (m_hStatusIconOverlay != nullptr) {

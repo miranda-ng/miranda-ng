@@ -259,12 +259,6 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			DestroyMenu(hMenu);
 		}
 		break;
-
-	case WM_DESTROY:
-		if (idat->m_hXStatusTip != nullptr) {
-			DestroyWindow(idat->m_hXStatusTip);
-			idat->m_hXStatusTip = nullptr;
-		}
 	}
 	return FALSE;
 }
