@@ -86,3 +86,4 @@ EXPORTS
 	session_signed_pre_key_serialize
 	session_pre_key_serialize
 	session_pre_key_get_id
+	session_pre_key_deserialize
