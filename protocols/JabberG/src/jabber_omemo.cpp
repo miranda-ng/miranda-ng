@@ -477,12 +477,14 @@ namespace omemo {
 		ec_public_key *public_key = ratchet_identity_key_pair_get_public(new_dev->device_key);
 		signal_buffer *key_buf;
 		ec_public_key_serialize(&key_buf, public_key);
+//		SIGNAL_UNREF(public_key);
 		char *key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
 		proto->setString("OmemoDevicePublicKey", key);
 		mir_free(key);
 		signal_buffer_free(key_buf);
 		ec_private_key *private_key = ratchet_identity_key_pair_get_private(new_dev->device_key);
 		ec_private_key_serialize(&key_buf, private_key);
+//		SIGNAL_UNREF(private_key);
 		key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
 		proto->setString("OmemoDevicePrivateKey", key);
 		mir_free(key);
@@ -501,24 +503,26 @@ namespace omemo {
 			char *setting_name = (char*)mir_alloc(strlen("OmemoSignalSignedPreKey_") + 32);
 			mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", GetOwnDeviceId(proto), signed_pre_key_id);
 			db_set_blob(0, proto->m_szModuleName, setting_name, signal_buffer_data(serialized_signed_pre_key), (unsigned int)signal_buffer_len(serialized_signed_pre_key));
-			SIGNAL_UNREF(serialized_signed_pre_key);
+//			SIGNAL_UNREF(serialized_signed_pre_key);
 			mir_free(setting_name);
 		}
-
-
+		//TODO: store signed_pre_key for libsignal data backend too
+		//TODO: dynamic signed pre_key id and setting name ?
 		ec_key_pair *signed_pre_key_pair =  session_signed_pre_key_get_key_pair(signed_pre_key);
 		public_key = ec_key_pair_get_public(signed_pre_key_pair);
 		ec_public_key_serialize(&key_buf, public_key);
+//		SIGNAL_UNREF(public_key);
 		key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
 		proto->setString("OmemoSignedPreKeyPublic", key);
 		mir_free(key);
 		signal_buffer_free(key_buf);
-		private_key = ec_key_pair_get_private(signed_pre_key_pair);
+/*		private_key = ec_key_pair_get_private(signed_pre_key_pair); //TODO: check if it needed anywhere
 		ec_private_key_serialize(&key_buf, private_key);
+		SIGNAL_UNREF(private_key);
 		key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
 		proto->setString("OmemoSignedPreKeyPrivate", key);
 		mir_free(key);
-		signal_buffer_free(key_buf);
+		signal_buffer_free(key_buf); */
 		char *signature = mir_base64_encode(session_signed_pre_key_get_signature(signed_pre_key), (unsigned int)session_signed_pre_key_get_signature_len(signed_pre_key));
 		proto->setString("OmemoSignedPreKeySignature", signature);
 		mir_free(signature);
@@ -544,18 +548,20 @@ namespace omemo {
 			ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
 			public_key = ec_key_pair_get_public(pre_key_pair);
 			ec_public_key_serialize(&key_buf, public_key);
+			SIGNAL_UNREF(public_key);
 			key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
 			mir_snprintf(setting_name, "OmemoPreKey%uPublic", pre_key_id);
 			proto->setString(setting_name, key);
 			mir_free(key);
 			signal_buffer_free(key_buf);
-			private_key = ec_key_pair_get_private(pre_key_pair);
+/*			private_key = ec_key_pair_get_private(pre_key_pair); //TODO: check if it needed anywhere
 			ec_private_key_serialize(&key_buf, private_key);
+			SIGNAL_UNREF(private_key);
 			key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
 			mir_snprintf(setting_name, "OmemoPreKey%uPrivate", pre_key_id);
 			proto->setString(setting_name, key);
 			mir_free(key);
-			signal_buffer_free(key_buf);
+			signal_buffer_free(key_buf); */
 
 		}
 		signal_protocol_key_helper_key_list_free(keys_root);
@@ -906,8 +912,37 @@ namespace omemo {
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
 		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(data->proto), pre_key_id);
 		db_set_blob(0, data->proto->m_szModuleName, setting_name, record, (unsigned int)record_len); //TODO: check return value
+		{ //store base64 encoded keys for bundle (private key does not required ?)
+			session_pre_key *prekey = nullptr;
+			session_pre_key_deserialize(&prekey, record, record_len, global_context); //TODO: handle error
+			if (prekey)
+			{
+				ec_public_key *public_key = nullptr;
+				//ec_private_key *private_key = nullptr;
+				ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(prekey);
+				signal_buffer *key_buf = nullptr;
+				char *key = nullptr;
+				public_key = ec_key_pair_get_public(pre_key_pair);
+				ec_public_key_serialize(&key_buf, public_key);
+				SIGNAL_UNREF(public_key);
+				key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
+				mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "OmemoPreKey%uPublic", pre_key_id);
+				data->proto->setString(setting_name, key);
+				mir_free(key);
+				signal_buffer_free(key_buf);
+/*				private_key = ec_key_pair_get_private(pre_key_pair);
+				ec_private_key_serialize(&key_buf, private_key);
+				SIGNAL_UNREF(private_key);
+				key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
+				mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "OmemoPreKey%uPrivate", pre_key_id);
+				data->proto->setString(setting_name, key);
+				mir_free(key);
+				signal_buffer_free(key_buf); */
+
+			}
+		}
 		mir_free(setting_name);
-		//TODO: additionally store base64encoded public key for bundle
+		//TODO: resend bundle ?
 
 		return 0;
 	}
@@ -954,8 +989,15 @@ namespace omemo {
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
 		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(data->proto), pre_key_id);
 		db_unset(0, data->proto->m_szModuleName, setting_name);
+		
+		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "OmemoPreKey%uPublic", pre_key_id);
+		db_unset(0, data->proto->m_szModuleName, setting_name);
+		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "OmemoPreKey%uPrivate", pre_key_id);
+		db_unset(0, data->proto->m_szModuleName, setting_name);
 		mir_free(setting_name);
-		//TODO: additionally remove base64encoded public key for bundle
+
+		//TODO: resend bundle ?
+
 
 		return 0;
 	}
