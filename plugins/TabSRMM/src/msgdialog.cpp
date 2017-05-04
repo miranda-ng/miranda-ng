@@ -2828,7 +2828,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			DWORD idFrom = GetDlgCtrlID((HWND)wParam);
 			if (idFrom >= MIN_CBUTTONID && idFrom <= MAX_CBUTTONID) {
-				Srmm_ClickToolbarIcon(m_hContact, idFrom, (HWND)wParam, 1);
+				Srmm_ClickToolbarIcon(m_hContact, idFrom, m_hwnd, 1);
 				break;
 			}
 		}

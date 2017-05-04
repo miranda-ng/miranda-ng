@@ -251,12 +251,12 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 				if (IsWindowVisible(hwndButton) || (cbd->m_bSeparator && !(cbd->m_bAutoHidden || cbd->m_bHidden)))
 					lwidth += cbd->m_iButtonWidth + gap;
 				if (!IsWindowEnabled(hwndButton) && !IsWindowVisible(hwndButton) && !cbd->m_bAutoHidden)
-					cbd->m_bAutoHidden = 1;
+					cbd->m_bAutoHidden = true;
 				continue;
 			}
 			if (!cbd->m_bCanBeHidden && !cbd->m_bHidden && !(!IsWindowEnabled(hwndButton) && !IsWindowVisible(hwndButton) && !cbd->m_bAutoHidden)) {
 				ShowWindow(hwndButton, SW_SHOW);
-				cbd->m_bAutoHidden = 0;
+				cbd->m_bAutoHidden = false;
 			}
 
 			if (!cbd->m_bSeparator && !IsWindowVisible(hwndButton) && !IsWindowEnabled(hwndButton) && !cbd->m_bAutoHidden)
@@ -265,12 +265,12 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 			if (cbd->m_bCanBeHidden && !cbd->m_bHidden && (cbd->m_bSeparator || !((!IsWindowEnabled(hwndButton) && !IsWindowVisible(hwndButton)) && !cbd->m_bAutoHidden))) {
 				if (tempL + tempR > (rect.right - foravatar)) {
 					ShowWindow(hwndButton, SW_HIDE);
-					cbd->m_bAutoHidden = 1;
+					cbd->m_bAutoHidden = true;
 					tempL -= cbd->m_iButtonWidth + gap;
 				}
 				else if (cbd->m_bAutoHidden) {
 					ShowWindow(hwndButton, SW_SHOW);
-					cbd->m_bAutoHidden = 0;
+					cbd->m_bAutoHidden = false;
 				}
 			}
 			if (nullptr != hwndButton) /* Wine fix. */
@@ -301,12 +301,12 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 				if (nullptr != hwndButton) /* Wine fix. */
 					hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, rect.right - foravatar - rwidth + gap, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 				if (!IsWindowEnabled(hwndButton) && !IsWindowVisible(hwndButton) && !cbd->m_bAutoHidden)
-					cbd->m_bAutoHidden = 1;
+					cbd->m_bAutoHidden = true;
 				continue;
 			}
 			if (!cbd->m_bCanBeHidden && !cbd->m_bHidden && !((!IsWindowEnabled(hwndButton) && !IsWindowVisible(hwndButton)) && !cbd->m_bAutoHidden)) {
 				ShowWindow(hwndButton, SW_SHOW);
-				cbd->m_bAutoHidden = 0;
+				cbd->m_bAutoHidden = false;
 			}
 
 			if (!cbd->m_bSeparator && !IsWindowVisible(hwndButton) && !IsWindowEnabled(hwndButton) && !cbd->m_bAutoHidden)
@@ -315,12 +315,12 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 			if (cbd->m_bCanBeHidden && !cbd->m_bHidden && (cbd->m_bSeparator || !((!IsWindowEnabled(hwndButton) && !IsWindowVisible(hwndButton)) && !cbd->m_bAutoHidden))) {
 				if (tempL + tempR > (rect.right - foravatar)) {
 					ShowWindow(hwndButton, SW_HIDE);
-					cbd->m_bAutoHidden = 1;
+					cbd->m_bAutoHidden = true;
 					tempR -= cbd->m_iButtonWidth + gap;
 				}
 				else if (cbd->m_bAutoHidden) {
 					ShowWindow(hwndButton, SW_SHOW);
-					cbd->m_bAutoHidden = 0;
+					cbd->m_bAutoHidden = false;
 				}
 			}
 

@@ -277,29 +277,35 @@ MIR_APP_DLL(int) Srmm_ModifyButton(BBButton *bbdi)
 	return 0;
 }
 
-MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, DWORD idFrom, HWND hwndFrom, BOOL code)
+MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, DWORD idFrom, HWND hwndDlg, BOOL code)
 {
-	RECT rc;
-	GetWindowRect(hwndFrom, &rc);
-
 	bool bFromArrow = false;
+	HWND hwndFrom = nullptr;
 
 	CustomButtonClickData cbcd = {};
-	cbcd.pt.x = rc.left;
-	cbcd.pt.y = rc.bottom;
 
 	for (int i = 0; i < arButtonsList.getCount(); i++) {
 		CustomButtonData *cbd = arButtonsList[i];
 		if	(cbd->m_dwButtonCID == idFrom) {
 			cbcd.pszModule = cbd->m_pszModuleName;
 			cbcd.dwButtonId = cbd->m_dwButtonOrigID;
+			hwndFrom = GetDlgItem(hwndDlg, idFrom);
 		}
 		else if (cbd->m_dwArrowCID == idFrom) {
 			bFromArrow = true;
 			cbcd.pszModule = cbd->m_pszModuleName;
 			cbcd.dwButtonId = cbd->m_dwButtonOrigID;
+			hwndFrom = GetDlgItem(hwndDlg, idFrom-1);
 		}
 	}
+
+	if (hwndFrom == nullptr)
+		return;
+
+	RECT rc;
+	GetWindowRect(hwndFrom, &rc);
+	cbcd.pt.x = rc.left;
+	cbcd.pt.y = rc.bottom;
 
 	cbcd.hwndFrom = GetParent(hwndFrom);
 	cbcd.hContact = hContact;

@@ -620,7 +620,7 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		if (wParam >= MIN_CBUTTONID && wParam <= MAX_CBUTTONID) {
-			Srmm_ClickToolbarIcon(m_hContact, wParam, GetDlgItem(m_hwnd, wParam), 0);
+			Srmm_ClickToolbarIcon(m_hContact, wParam, m_hwnd, 0);
 			return 0;
 		}
 		break;
