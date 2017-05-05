@@ -137,8 +137,8 @@ void FacebookProto::SendTypingWorker(void *p)
 	send_typing *typing = static_cast<send_typing*>(p);
 
 	// Don't send typing notifications when we are invisible and user don't want that
-	bool noTypingWhenInvisible = getBool(FACEBOOK_KEY_NO_TYPING_WHEN_INVISIBLE, DEFAULT_NO_TYPING_WHEN_INVISIBLE);
-	if (noTypingWhenInvisible && isInvisible()) {
+	bool typingWhenInvisible = getBool(FACEBOOK_KEY_TYPING_WHEN_INVISIBLE, DEFAULT_TYPING_WHEN_INVISIBLE);
+	if (isInvisible() && !typingWhenInvisible) {
 		delete typing;
 		return;
 	}
