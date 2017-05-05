@@ -1149,10 +1149,13 @@ void FacebookProto::MessageRead(MCONTACT hContact)
 	st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("read"));
 
 	if (isChatRoom(hContact)) {
-		// Load readers names
-		ptrW treaders(getWStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
-		mir_snwprintf(st.tszText, TranslateT("Message read: %s by %s"), ttime, treaders ? treaders : L"???");
-		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
+		// FIXME: Remove this condition when #799 is fixed
+		if (!getBool("NoChatMessageReadNotify")) {
+			// Load readers names
+			ptrW treaders(getWStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
+			mir_snwprintf(st.tszText, TranslateT("Message read: %s by %s"), ttime, treaders ? treaders : L"???");
+			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
+		}
 	} else if (!ServiceExists(MS_MESSAGESTATE_UPDATE)){
 		mir_snwprintf(st.tszText, TranslateT("Message read: %s"), ttime);
 		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
