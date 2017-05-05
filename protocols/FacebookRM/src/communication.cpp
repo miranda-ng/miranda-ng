@@ -448,9 +448,8 @@ bool facebook_client::login(const char *username, const char *password)
 		LoginRequest *request = new LoginRequest();
 		http::response resp = sendRequest(request);
 
-		// Also parse cookies set by JavaScript (more variant exists in time, so check all known now)
-		parseJsCookies("[\"DeferredCookie\",\"addToQueue\",[],[\"", resp.data, cookies);
-		parseJsCookies("[\"Cookie\",\"setIfFirstPartyContext\",[],[\"", resp.data, cookies);
+		// Also parse cookies set by JavaScript
+		parseJsCookies("[\"CookieCore\",\"setWithoutChecksIfFirstPartyContext\",[],[\"", resp.data, cookies);
 
 		// Parse hidden inputs and other data
 		std::string form = utils::text::source_get_value(&resp.data, 2, "<form", "</form>");
@@ -528,10 +527,21 @@ bool facebook_client::login(const char *username, const char *password)
 						break;
 					}
 				}
-				
+
+				// Save this actual device
+				if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos
+					&& resp.data.find("name=\"name_action_selected\"") != std::string::npos) {
+					std::string fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+					std::string nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
+
+					request = new SetupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "Continue");
+					request->Body << "&name_action_selected=save_device"; // Save device - or "dont_save"
+					resp = sendRequest(request);
+				}
+
 				// Check if we need to approve also last unapproved device
 
-				// 1) Continue (it might have been sent with approval code above already)
+				// 1) Continue to check last unknown login
 				if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos) {
 					std::string fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 					std::string nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
@@ -539,7 +549,7 @@ bool facebook_client::login(const char *username, const char *password)
 					request = new SetupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "Continue");
 					resp = sendRequest(request);
 				}
-				
+
 				// In this step might be needed identity confirmation
 				if (resp.data.find("name=\"birthday_captcha_") != std::string::npos) {
 					// Account is locked and needs identity confirmation
@@ -576,16 +586,6 @@ bool facebook_client::login(const char *username, const char *password)
 					fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 					nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 					
-					request = new SetupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "Continue");
-					request->Body << "&name_action_selected=save_device"; // Save device - or "dont_save"
-					resp = sendRequest(request);
-				}
-				
-				// Save this actual device
-				if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos) {
-					std::string fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
-					std::string nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-
 					request = new SetupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "Continue");
 					request->Body << "&name_action_selected=save_device"; // Save device - or "dont_save"
 					resp = sendRequest(request);
