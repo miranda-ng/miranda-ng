@@ -58,23 +58,23 @@ namespace DropboxAPI
 		}
 	};
 
-	class StartUploadSessionRequest : public HttpRequest
+	class CreateUploadSessionRequest : public HttpRequest
 	{
 	public:
-		StartUploadSessionRequest(const char *token, const char *data, size_t size) :
+		CreateUploadSessionRequest(const char *token, const char *chunk, size_t chunkSize) :
 			HttpRequest(REQUEST_POST, DROPBOX_API_CU "/files/upload_session/start")
 		{
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/octet-stream");
 
-			SetData(data, size);
+			SetData(chunk, chunkSize);
 		}
 	};
 
-	class AppendToUploadSessionRequest : public HttpRequest
+	class UploadFileChunkRequest : public HttpRequest
 	{
 	public:
-		AppendToUploadSessionRequest(const char *token, const char *sessionId, size_t offset, const char *data, size_t size) :
+		UploadFileChunkRequest(const char *token, const char *sessionId, size_t offset, const char *chunk, size_t chunkSize) :
 			HttpRequest(REQUEST_POST, DROPBOX_API_CU "/files/upload_session/append_v2")
 		{
 			AddBearerAuthHeader(token);
@@ -92,14 +92,14 @@ namespace DropboxAPI
 
 			AddHeader("Dropbox-API-Arg", param.write().c_str());
 
-			SetData(data, size);
+			SetData(chunk, chunkSize);
 		}
 	};
 
-	class FinishUploadSessionRequest : public HttpRequest
+	class CommitUploadSessionRequest : public HttpRequest
 	{
 	public:
-		FinishUploadSessionRequest(const char *token, const char *sessionId, size_t offset, const char *path, const char *data, size_t size) :
+		CommitUploadSessionRequest(const char *token, const char *sessionId, size_t offset, const char *path, const char *chunk, size_t chunkSize) :
 			HttpRequest(REQUEST_POST, DROPBOX_API_CU "/files/upload_session/finish")
 		{
 			AddBearerAuthHeader(token);
@@ -124,7 +124,7 @@ namespace DropboxAPI
 
 			AddHeader("Dropbox-API-Arg", params.write().c_str());
 
-			SetData(data, size);
+			SetData(chunk, chunkSize);
 		}
 	};
 

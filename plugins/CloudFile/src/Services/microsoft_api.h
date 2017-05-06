@@ -40,20 +40,26 @@ namespace OneDriveAPI
 	class UploadFileRequest : public HttpRequest
 	{
 	public:
-		UploadFileRequest(const char *token, const char *name, const char *data, size_t size) :
+		UploadFileRequest(const char *token, const char *name, const char *data, size_t size, OnConflict strategy = NONE) :
 			HttpRequest(REQUEST_PUT, FORMAT, ONEDRIVE_API "/special/approot:/%s:/content", ptrA(mir_urlEncode(name)))
 		{
-			AddUrlParameter("@microsoft.graph.conflictBehavior=rename");
+			if (strategy == OnConflict::RENAME)
+				AddUrlParameter("@microsoft.graph.conflictBehavior=rename");
+			else if (strategy == OnConflict::REPLACE)
+				AddUrlParameter("@microsoft.graph.conflictBehavior=replace");
 
 			AddBearerAuthHeader(token);
 
 			SetData(data, size);
 		}
 
-		UploadFileRequest(const char *token, const char *parentId, const char *name, const char *data, size_t size) :
+		UploadFileRequest(const char *token, const char *parentId, const char *name, const char *data, size_t size, OnConflict strategy = NONE) :
 			HttpRequest(REQUEST_PUT, FORMAT, ONEDRIVE_API "/items/{parent-id}:/{filename}:/content", parentId, ptrA(mir_urlEncode(name)))
 		{
-			AddUrlParameter("@microsoft.graph.conflictBehavior=rename");
+			if (strategy == OnConflict::RENAME)
+				AddUrlParameter("@microsoft.graph.conflictBehavior=rename");
+			else if (strategy == OnConflict::REPLACE)
+				AddUrlParameter("@microsoft.graph.conflictBehavior=replace");
 
 			AddBearerAuthHeader(token);
 
@@ -64,7 +70,7 @@ namespace OneDriveAPI
 	class CreateUploadSessionRequest : public HttpRequest
 	{
 	public:
-		CreateUploadSessionRequest(const char *token, const char *name) :
+		CreateUploadSessionRequest(const char *token, const char *name,  OnConflict strategy = NONE) :
 			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/special/approot:/%s:/createUploadSession", ptrA(mir_urlEncode(name)))
 		{
 			AddBearerAuthHeader(token);
@@ -72,8 +78,10 @@ namespace OneDriveAPI
 
 			JSONNode item(JSON_NODE);
 			item.set_name("item");
-			item
-				<< JSONNode("@microsoft.graph.conflictBehavior", "rename");
+			if (strategy == OnConflict::RENAME)
+				item << JSONNode("@microsoft.graph.conflictBehavior", "rename");
+			if (strategy == OnConflict::REPLACE)
+				item << JSONNode("@microsoft.graph.conflictBehavior", "replace");
 
 			JSONNode params(JSON_NODE);
 			params << item;
@@ -82,7 +90,7 @@ namespace OneDriveAPI
 			SetData(data.c_str(), data.length());
 		}
 
-		CreateUploadSessionRequest(const char *token, const char *parentId, const char *name) :
+		CreateUploadSessionRequest(const char *token, const char *parentId, const char *name, OnConflict strategy = NONE) :
 			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/items/%s:/%s:/createUploadSession", parentId, name)
 		{
 			AddBearerAuthHeader(token);
@@ -90,9 +98,10 @@ namespace OneDriveAPI
 
 			JSONNode item(JSON_NODE);
 			item.set_name("item");
-			item
-				<< JSONNode("@microsoft.graph.conflictBehavior", "rename")
-				<< JSONNode("name", name);
+			if (strategy == OnConflict::RENAME)
+				item << JSONNode("@microsoft.graph.conflictBehavior", "rename");
+			if (strategy == OnConflict::REPLACE)
+				item << JSONNode("@microsoft.graph.conflictBehavior", "replace");
 
 			JSONNode params(JSON_NODE);
 			params << item;

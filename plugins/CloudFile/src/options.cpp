@@ -2,11 +2,18 @@
 
 COptionsMain::COptionsMain()
 	: CPluginDlgBase(hInstance, IDD_OPTIONS_MAIN, MODULE),
+	m_defaultService(this, IDC_DEFAULTSERVICE),
+	m_renameOnConflict(this, IDC_RENAMEONCONFLICT),
+	m_repalceOnConflict(this, IDC_REPLACEONCONFLICT),
 	m_urlAutoSend(this, IDC_URL_AUTOSEND),
 	m_urlPasteToMessageInputArea(this, IDC_URL_COPYTOMIA),
-	m_urlCopyToClipboard(this, IDC_URL_COPYTOCB),
-	m_services(this, IDC_SERVICES), isServiceListInit(false)
+	m_urlCopyToClipboard(this, IDC_URL_COPYTOCB)
 {
+	/*CreateLink(m_defaultService, "DefaultService", L"");
+
+	CreateLink(m_renameOnConflict, "RenameOnConflict", DBVT_BYTE, 1);
+	CreateLink(m_repalceOnConflict, "RepalceOnConflict", DBVT_BYTE, 0);*/
+
 	CreateLink(m_urlAutoSend, "UrlAutoSend", DBVT_BYTE, 1);
 	CreateLink(m_urlPasteToMessageInputArea, "UrlPasteToMessageInputArea", DBVT_BYTE, 0);
 	CreateLink(m_urlCopyToClipboard, "UrlCopyToClipboard", DBVT_BYTE, 0);
@@ -16,58 +23,41 @@ void COptionsMain::OnInitDialog()
 {
 	CDlgBase::OnInitDialog();
 
-	m_services.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES | LVS_EX_INFOTIP);
-
-	m_services.AddColumn(0, TranslateT("Account name"), 50);
+	ptrA defaultService(db_get_sa(NULL, MODULE, "DefaultService"));
+	int iItem = m_defaultService.AddString(TranslateT("No"));
+	m_defaultService.SetCurSel(iItem);
 
 	size_t count = Services.getCount();
 	for (size_t i = 0; i < count; i++) {
 		CCloudService *service = Services[i];
 
-		int iItem = m_services.AddItem(mir_wstrdup(service->GetText()), -1, (LPARAM)service);
-		//m_services.SetItem(iItem, 1, mir_a2u(service->GetModule));
-		int isEnable = db_get_b(NULL, service->GetModule(), "IsEnable", TRUE);
-		m_services.SetCheckState(iItem, isEnable);
+		iItem = m_defaultService.AddString(mir_wstrdup(service->GetText()), (LPARAM)service);
+		if (!mir_strcmpi(service->GetModule(), defaultService))
+			m_defaultService.SetCurSel(iItem);
 	}
 
-	m_services.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
-
-	isServiceListInit = true;
+	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::NONE);
+	if (strategy == OnConflict::RENAME)
+		m_renameOnConflict.SetState(TRUE);
+	else if (strategy == OnConflict::REPLACE)
+		m_repalceOnConflict.SetState(TRUE);
 }
 
 void COptionsMain::OnApply()
 {
-	int count = m_services.GetItemCount();
-	for (int iItem = 0; iItem < count; iItem++)
-	{
-		CCloudService *service = (CCloudService*)m_services.GetItemData(iItem);
+	int iItem = m_defaultService.GetCurSel();
+	CCloudService *service = (CCloudService*)m_defaultService.GetItemData(iItem);
+	if (service)
+		db_set_s(NULL, MODULE, "DefaultService", service->GetModule());
+	else
+		db_unset(NULL, MODULE, "DefaultService");
 
-		int isEnable = m_services.GetCheckState(iItem);
-		db_set_b(NULL, service->GetModule(), "IsEnable", isEnable);
-	}
-}
-
-INT_PTR COptionsMain::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg)
-	{
-	case WM_NOTIFY:
-	{
-		LPNMHDR lpnmHdr = (LPNMHDR)lParam;
-		if (lpnmHdr->idFrom == (UINT_PTR)m_services.GetCtrlId() && lpnmHdr->code == LVN_ITEMCHANGED)
-		{
-			LPNMLISTVIEW pnmv = (LPNMLISTVIEW)lParam;
-			if (pnmv->uChanged & LVIF_STATE && pnmv->uNewState & LVIS_STATEIMAGEMASK)
-			{
-				if (isServiceListInit)
-					NotifyChange();
-			}
-		}
-	}
-	break;
-	}
-
-	return CDlgBase::DlgProc(msg, wParam, lParam);
+	if (m_renameOnConflict.GetState())
+		db_set_b(NULL, MODULE, "ConflictStrategy", OnConflict::RENAME);
+	else if (m_repalceOnConflict.GetState())
+		db_set_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
+	else
+		db_unset(NULL, MODULE, "ConflictStrategy");
 }
 
 /////////////////////////////////////////////////////////////////////////////////

@@ -80,14 +80,14 @@ unsigned CGDriveService::RequestAccessTokenThread(void *owner, void *param)
 			: service->HttpStatusToError(response->resultCode);
 
 		Netlib_Logf(service->hConnection, "%s: %s", service->GetModule(), error);
-		ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
+		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
 		return 0;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty()) {
 		Netlib_Logf(service->hConnection, "%s: %s", service->GetModule(), service->HttpStatusToError(response->resultCode));
-		ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
+		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
 		return 0;
 	}
 
@@ -95,7 +95,7 @@ unsigned CGDriveService::RequestAccessTokenThread(void *owner, void *param)
 	if (!node.isnull()) {
 		ptrW error_description(mir_a2u_cp(node.as_string().c_str(), CP_UTF8));
 		Netlib_Logf(service->hConnection, "%s: %s", service->GetModule(), service->HttpStatusToError(response->resultCode));
-		ShowNotification((wchar_t*)error_description, MB_ICONERROR);
+		//ShowNotification((wchar_t*)error_description, MB_ICONERROR);
 		return 0;
 	}
 
@@ -136,10 +136,10 @@ void CGDriveService::HandleJsonError(JSONNode &node)
 	}
 }
 
-void CGDriveService::UploadFile(const char *name, const char *data, size_t size, char *fileId)
+void CGDriveService::UploadFile(const char *parentId, const char *name, const char *data, size_t size, char *fileId)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	GDriveAPI::UploadFileRequest request(token, name, data, size);
+	GDriveAPI::UploadFileRequest request(token, parentId, name, data, size);
 	NLHR_PTR response(request.Send(hConnection));
 
 	JSONNode root = GetJsonResponse(response);
@@ -147,14 +147,13 @@ void CGDriveService::UploadFile(const char *name, const char *data, size_t size,
 	mir_strcpy(fileId, node.as_string().c_str());
 }
 
-void CGDriveService::CreateUploadSession(char *uploadUri, const char *name)
+void CGDriveService::CreateUploadSession(const char *parentId, const char *name, char *uploadUri)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	GDriveAPI::CreateUploadSessionRequest request(token, name);
+	GDriveAPI::CreateUploadSessionRequest request(token, parentId, name);
 	NLHR_PTR response(request.Send(hConnection));
 
-	if (response == NULL)
-		throw Exception(HttpStatusToError());
+	HandleHttpError(response);
 
 	if (HTTP_CODE_SUCCESS(response->resultCode)) {
 		for (int i = 0; i < response->headersCount; i++)
@@ -167,9 +166,7 @@ void CGDriveService::CreateUploadSession(char *uploadUri, const char *name)
 		}
 	}
 
-	if (response->dataLength)
-		throw Exception(response->pData);
-	throw Exception(HttpStatusToError(response->resultCode));
+	HttpResponseToError(response);
 }
 
 void CGDriveService::UploadFileChunk(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize, char *fileId)
@@ -177,8 +174,7 @@ void CGDriveService::UploadFileChunk(const char *uploadUri, const char *chunk, s
 	GDriveAPI::UploadFileChunkRequest request(uploadUri, chunk, chunkSize, offset, fileSize);
 	NLHR_PTR response(request.Send(hConnection));
 
-	if (response == NULL)
-		throw Exception(HttpStatusToError());
+	HandleHttpError(response);
 
 	if (response->resultCode == HTTP_CODE_PERMANENT_REDIRECT)
 		return;
@@ -190,38 +186,35 @@ void CGDriveService::UploadFileChunk(const char *uploadUri, const char *chunk, s
 		return;
 	}
 
-	if (response->dataLength)
-		throw Exception(response->pData);
-	throw Exception(HttpStatusToError(response->resultCode));
+	HttpResponseToError(response);
 }
 
-void CGDriveService::CreateFolder(const char *path)
+void CGDriveService::CreateFolder(const char *path, char *folderId)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
 	GDriveAPI::CreateFolderRequest request(token, path);
 	NLHR_PTR response(request.Send(hConnection));
 
-	GetJsonResponse(response);
+	JSONNode root = GetJsonResponse(response);
+	JSONNode node = root.at("id");
+	mir_strcpy(folderId, node.as_string().c_str());
 }
 
-void CGDriveService::CreateSharedLink(const char *fileId, char *url)
+void CGDriveService::CreateSharedLink(const char *itemId, char *url)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	GDriveAPI::GrantPermissionsRequest request(token, fileId);
+	GDriveAPI::GrantPermissionsRequest request(token, itemId);
 	NLHR_PTR response(request.Send(hConnection));
 
-	if (response == NULL)
-		throw Exception(HttpStatusToError());
+	HandleHttpError(response);
 
 	if (HTTP_CODE_SUCCESS(response->resultCode)) {
-		CMStringA sharedUrl(CMStringDataFormat::FORMAT, GDRIVE_SHARE, fileId);
+		CMStringA sharedUrl(CMStringDataFormat::FORMAT, GDRIVE_SHARE, itemId);
 		mir_strcpy(url, sharedUrl);
 		return;
 	}
 
-	if (response->dataLength)
-		throw Exception(response->pData);
-	throw Exception(HttpStatusToError(response->resultCode));
+	HttpResponseToError(response);
 }
 
 UINT CGDriveService::Upload(FileTransferParam *ftp)
@@ -235,22 +228,23 @@ UINT CGDriveService::Upload(FileTransferParam *ftp)
 			return ACKRESULT_FAILED;
 		}
 
-		const wchar_t *folderName = ftp->GetFolderName();
-		if (folderName) {
-			char path[MAX_PATH], link[MAX_PATH];
-			PreparePath(folderName, path);
-			CreateFolder(path);
-			CreateSharedLink(path, link);
+		char folderId[32] = { 0 };
+		if (ftp->IsFolder()) {
+			T2Utf folderName(ftp->GetFolderName());
+
+			CreateFolder(folderName, folderId);
+			char link[MAX_PATH];
+
+			CreateSharedLink(folderId, link);
 			ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
 		}
 
 		ftp->FirstFile();
 		do
 		{
-			const wchar_t *fileName = ftp->GetCurrentRelativeFilePath();
+			T2Utf fileName(ftp->GetCurrentRelativeFilePath());
 			uint64_t fileSize = ftp->GetCurrentFileSize();
 
-			uint64_t offset = 0;
 			char fileId[32];
 
 			size_t chunkSize = ftp->GetCurrentFileChunkSize();
@@ -259,24 +253,21 @@ UINT CGDriveService::Upload(FileTransferParam *ftp)
 			if (chunkSize == fileSize)
 			{
 				ftp->CheckCurrentFile();
-
 				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
 
-				UploadFile(chunk, T2Utf(fileName), size, fileId);
+				UploadFile(folderId, fileName, chunk, size, fileId);
 			}
 			else
 			{
 				char uploadUri[1024];
-				CreateUploadSession(uploadUri, T2Utf(fileName));
+				CreateUploadSession(uploadUri, folderId, fileName);
 
-				size_t size = 0;
-				for (size_t i = 0; i < (fileSize / chunkSize); i++)
+				uint64_t offset = 0;
+				size_t chunkCount = ceil(fileSize / chunkSize);
+				while (chunkCount--)
 				{
 					ftp->CheckCurrentFile();
-
-					size = ftp->ReadCurrentFile(chunk, chunkSize);
-					if (size == 0)
-						break;
+					size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
 
 					UploadFileChunk(uploadUri, chunk, size, offset, fileSize, fileId);
 
@@ -285,10 +276,10 @@ UINT CGDriveService::Upload(FileTransferParam *ftp)
 				}
 			}
 
-			if (!wcschr(fileName, L'\\')) {
-				char url[MAX_PATH];
-				CreateSharedLink(fileId, url);
-				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(url)));
+			if (!ftp->IsFolder()) {
+				char link[MAX_PATH];
+				CreateSharedLink(fileId, link);
+				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
 			}
 		} while (ftp->NextFile());
 	}

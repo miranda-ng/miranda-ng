@@ -119,10 +119,10 @@ char* CDropboxService::UploadFile(const char *data, size_t size, char *path)
 	return path;
 }
 
-void CDropboxService::StartUploadSession(const char *data, size_t size, char *sessionId)
+void CDropboxService::CreateUploadSession(const char *chunk, size_t chunkSize, char *sessionId)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	DropboxAPI::StartUploadSessionRequest request(token, data, size);
+	DropboxAPI::CreateUploadSessionRequest request(token, chunk, chunkSize);
 	NLHR_PTR response(request.Send(hConnection));
 
 	JSONNode root = GetJsonResponse(response);
@@ -130,19 +130,19 @@ void CDropboxService::StartUploadSession(const char *data, size_t size, char *se
 	mir_strcpy(sessionId, node.as_string().c_str());
 }
 
-void CDropboxService::AppendToUploadSession(const char *data, size_t size, const char *sessionId, size_t offset)
+void CDropboxService::UploadFileChunk(const char *chunk, size_t chunkSize, const char *sessionId, size_t offset)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	DropboxAPI::AppendToUploadSessionRequest request(token, sessionId, offset, data, size);
+	DropboxAPI::UploadFileChunkRequest request(token, sessionId, offset, chunk, chunkSize);
 	NLHR_PTR response(request.Send(hConnection));
 
 	GetJsonResponse(response);
 }
 
-char* CDropboxService::FinishUploadSession(const char *data, size_t size, const char *sessionId, size_t offset, char *path)
+char* CDropboxService::CommitUploadSession(const char *data, size_t size, const char *sessionId, size_t offset, char *path)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	DropboxAPI::FinishUploadSessionRequest request(token, sessionId, offset, path, data, size);
+	DropboxAPI::CommitUploadSessionRequest request(token, sessionId, offset, path, data, size);
 	NLHR_PTR response(request.Send(hConnection));
 
 	JSONNode root = GetJsonResponse(response);
@@ -214,62 +214,57 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 		Login();
 
 	try {
-		const wchar_t *folderName = ftp->GetFolderName();
-		if (folderName) {
-			char path[MAX_PATH], url[MAX_PATH];
+		if (ftp->IsFolder()) {
+			T2Utf folderName(ftp->GetFolderName());
+
+			char path[MAX_PATH];
 			PreparePath(folderName, path);
 			CreateFolder(path);
-			CreateSharedLink(path, url);
-			ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(url)));
+
+			char link[MAX_PATH];
+			CreateSharedLink(path, link);
+			ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
 		}
 
 		ftp->FirstFile();
 		do
 		{
-			const wchar_t *fileName = ftp->GetCurrentRelativeFilePath();
+			T2Utf fileName(ftp->GetCurrentRelativeFilePath());
 			uint64_t fileSize = ftp->GetCurrentFileSize();
 
 			int chunkSize = ftp->GetCurrentFileChunkSize();
 			mir_ptr<char>data((char*)mir_calloc(chunkSize));
-			size_t size = ftp->ReadCurrentFile(data, chunkSize);
 
-			size_t offset = 0;
 			char sessionId[64];
-			StartUploadSession(data, size, sessionId);
+			size_t size = ftp->ReadCurrentFile(data, chunkSize);
+			CreateUploadSession(data, size, sessionId);
 
-			offset += size;
 			ftp->Progress(size);
 
-			for (size_t chunk = 0; chunk < (fileSize / chunkSize) - 1; chunk++)
+			size_t offset = size;
+			size_t chunkCount = ceil(fileSize / chunkSize) - 2;
+			while (chunkCount--)
 			{
 				ftp->CheckCurrentFile();
 
 				size = ftp->ReadCurrentFile(data, chunkSize);
-				AppendToUploadSession(data, size, sessionId, offset);
+				UploadFileChunk(data, size, sessionId, offset);
 
 				offset += size;
 				ftp->Progress(size);
 			}
 
-			if (offset < fileSize)
-				size = ftp->ReadCurrentFile(data, fileSize - offset);
-			else
-				size = 0;
+			size = offset < fileSize
+				? ftp->ReadCurrentFile(data, fileSize - offset)
+				: 0;
 
 			char path[MAX_PATH];
-			const wchar_t *serverFolder = ftp->GetServerFolder();
-			if (serverFolder) {
-				wchar_t serverPath[MAX_PATH] = { 0 };
-				mir_snwprintf(serverPath, L"%s\\%s", serverFolder, fileName);
-				PreparePath(serverPath, path);
-			}
-			else
-				PreparePath(fileName, path);
-			FinishUploadSession(data, size, sessionId, offset, path);
+			PreparePath(fileName, path);
+			CommitUploadSession(data, size, sessionId, offset, path);
 
 			ftp->Progress(size);
 
-			if (!wcschr(fileName, L'\\')) {
+			if (!ftp->IsFolder()) {
 				char url[MAX_PATH];
 				CreateSharedLink(path, url);
 				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(url)));

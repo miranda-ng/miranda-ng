@@ -83,14 +83,14 @@ unsigned CYandexService::RequestAccessTokenThread(void *owner, void *param)
 			: service->HttpStatusToError(response->resultCode);
 
 		Netlib_Logf(service->hConnection, "%s: %s", service->GetModule(), error);
-		ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
+		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
 		return 0;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty()) {
 		Netlib_Logf(service->hConnection, "%s: %s", service->GetModule(), service->HttpStatusToError(response->resultCode));
-		ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
+		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
 		return 0;
 	}
 
@@ -98,7 +98,7 @@ unsigned CYandexService::RequestAccessTokenThread(void *owner, void *param)
 	if (!node.isnull()) {
 		ptrW error_description(mir_a2u_cp(node.as_string().c_str(), CP_UTF8));
 		Netlib_Logf(service->hConnection, "%s: %s", service->GetModule(), service->HttpStatusToError(response->resultCode));
-		ShowNotification((wchar_t*)error_description, MB_ICONERROR);
+		//ShowNotification((wchar_t*)error_description, MB_ICONERROR);
 		return 0;
 	}
 
@@ -139,7 +139,7 @@ void CYandexService::HandleJsonError(JSONNode &node)
 	}
 }
 
-void CYandexService::GetUploadUrl(char *path, char *url)
+void CYandexService::CreateUploadSession(const char *path, char *uploadUri)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
 	YandexAPI::GetUploadUrlRequest request(token, path);
@@ -147,26 +147,34 @@ void CYandexService::GetUploadUrl(char *path, char *url)
 
 	JSONNode root = GetJsonResponse(response);
 	JSONNode node = root.at("href");
-	mir_strcpy(url, node.as_string().c_str());
+	mir_strcpy(uploadUri, node.as_string().c_str());
 }
 
-void CYandexService::UploadFile(const char *url, const char *data, size_t size)
+void CYandexService::UploadFile(const char *uploadUri, const char *data, size_t size)
 {
-	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	YandexAPI::UploadFileRequest request(token, url, data, size);
+	YandexAPI::UploadFileRequest request(uploadUri, data, size);
 	NLHR_PTR response(request.Send(hConnection));
 
-	if (response == NULL)
-		throw Exception(HttpStatusToError());
+	HandleHttpError(response);
 
-	if (response->resultCode >= HTTP_CODE_OK &&
-		response->resultCode <= HTTP_CODE_MULTIPLE_CHOICES) {
+	if (response->resultCode == HTTP_CODE_CREATED)
 		return;
-	}
 
-	if (response->dataLength)
-		throw Exception(response->pData);
-	throw Exception(HttpStatusToError(response->resultCode));
+	HttpResponseToError(response);
+}
+
+void CYandexService::UploadFileChunk(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize)
+{
+	YandexAPI::UploadFileChunkRequest request(uploadUri, chunk, chunkSize, offset, fileSize);
+	NLHR_PTR response(request.Send(hConnection));
+
+	HandleHttpError(response);
+
+	if (response->resultCode == HTTP_CODE_ACCEPTED ||
+		response->resultCode == HTTP_CODE_CREATED)
+		return;
+
+	HttpResponseToError(response);
 }
 
 void CYandexService::CreateFolder(const char *path)
@@ -206,11 +214,14 @@ UINT CYandexService::Upload(FileTransferParam *ftp)
 			return ACKRESULT_FAILED;
 		}
 
-		const wchar_t *folderName = ftp->GetFolderName();
-		if (folderName) {
-			char path[MAX_PATH], link[MAX_PATH];
+		if (ftp->IsFolder()) {
+			T2Utf folderName(ftp->GetFolderName());
+
+			char path[MAX_PATH]; 
 			PreparePath(folderName, path);
 			CreateFolder(path);
+
+			char link[MAX_PATH];
 			CreateSharedLink(path, link);
 			ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
 		}
@@ -218,28 +229,40 @@ UINT CYandexService::Upload(FileTransferParam *ftp)
 		ftp->FirstFile();
 		do
 		{
-			const wchar_t *fileName = ftp->GetCurrentRelativeFilePath();
+			T2Utf fileName(ftp->GetCurrentRelativeFilePath());
 			uint64_t fileSize = ftp->GetCurrentFileSize();
 
 			char path[MAX_PATH];
-			const wchar_t *serverFolder = ftp->GetServerFolder();
-			if (serverFolder) {
-				wchar_t serverPath[MAX_PATH] = { 0 };
-				mir_snwprintf(serverPath, L"%s\\%s", serverFolder, fileName);
-				PreparePath(serverPath, path);
+			PreparePath(fileName, path);
+			
+			char uploadUri[1024];
+			CreateUploadSession(path, uploadUri);
+
+			size_t chunkSize = ftp->GetCurrentFileChunkSize();
+			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
+
+			if (chunkSize == fileSize) {
+				ftp->CheckCurrentFile();
+				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
+
+				UploadFile(uploadUri, chunk, size);
 			}
-			else
-				PreparePath(fileName, path);
-			char url[MAX_PATH];
-			GetUploadUrl(path, url);
+			else {
+				uint64_t offset = 0;
+				size_t chunkCount = ceil(fileSize / chunkSize);
+				while (chunkCount--)
+				{
+					ftp->CheckCurrentFile();
+					size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
 
-			mir_ptr<char>data((char*)mir_calloc(fileSize));
-			size_t size = ftp->ReadCurrentFile(data, fileSize);
-			UploadFile(url, data, size);
+					UploadFileChunk(uploadUri, chunk, size, offset, fileSize);
 
-			ftp->Progress(size);
+					offset += size;
+					ftp->Progress(size);
+				}
+			}
 
-			if (!wcschr(fileName, L'\\')) {
+			if (!ftp->IsFolder()) {
 				char url[MAX_PATH];
 				CreateSharedLink(path, url);
 				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(url)));

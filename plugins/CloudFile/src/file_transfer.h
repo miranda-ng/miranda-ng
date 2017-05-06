@@ -14,9 +14,7 @@ private:
 
 	const wchar_t* folderName;
 	int relativePathStart;
-
-	CMStringW serverFolder;
-
+	
 	CMStringW data;
 
 public:
@@ -96,17 +94,9 @@ public:
 			folderName = wcsrchr(path, '\\') + 1;
 	}
 
-	void SetServerFolder(const wchar_t *path)
+	const wchar_t* IsFolder() const
 	{
-		if (path)
-			serverFolder = path;
-	}
-
-	const wchar_t* GetServerFolder() const
-	{
-		if (serverFolder.IsEmpty())
-			return NULL;
-		return serverFolder;
+		return folderName;
 	}
 
 	const wchar_t* GetFolderName() const

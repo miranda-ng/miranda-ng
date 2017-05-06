@@ -9,8 +9,9 @@ private:
 
 	void HandleJsonError(JSONNode &node);
 
-	void GetUploadUrl(char *path, char *url);
-	void UploadFile(const char *url, const char *data, size_t size);
+	void CreateUploadSession(const char *path, char *uploadUri);
+	void UploadFile(const char *uploadUri, const char *data, size_t size);
+	void UploadFileChunk(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize);
 	void CreateFolder(const char *path);
 	void CreateSharedLink(const char *path, char *url);
 

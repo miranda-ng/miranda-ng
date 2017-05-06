@@ -15,25 +15,40 @@ void InitializeMenus()
 {
 	CMenuItem mi;
 	SET_UID(mi, 0x93d4495b, 0x259b, 0x4fba, 0xbc, 0x14, 0xf9, 0x46, 0x2c, 0xda, 0xfc, 0x6d);
-	mi.name.a = LPGEN("Upload files to...");
-	mi.position = -2000020001;
+	mi.name.a = LPGEN("Upload to ...");
+
+	ptrA defaultService(db_get_sa(NULL, MODULE, "DefaultService"));
+	if (defaultService) {
+		CCloudServiceSearch search(defaultService);
+		CCloudService *service = Services.find(&search);
+		if (service) {
+			mi.name.a = LPGEN("Upload");
+			mi.pszService = MODULE "/Default/Upload";
+			CreateServiceFunctionObj(mi.pszService, UploadMenuCommand, service);
+		}
+	}
+
+	mi.position = -2000019999;
 	mi.hIcon = LoadIconEx(IDI_UPLOAD);
 	hContactMenu = Menu_AddContactMenuItem(&mi);
 
+	if (defaultService)
+		return;
+
 	UNSET_UID(mi);
-	mi.flags |= CMIF_SYSTEM | CMIF_UNICODE;
+	
 	mi.root = hContactMenu;
 
 	size_t count = Services.getCount();
+	
 	for (size_t i = 0; i < count; i++) {
 		CCloudService *service = Services[i];
 
-		if (!db_get_b(NULL, service->GetModule(), "IsEnable", TRUE))
-			continue;
-
-		CMStringA serviceName(CMStringDataFormat::FORMAT, "%s/%s/Upload", MODULE, service->GetModule());
-	
+		CMStringA serviceName = MODULE;
+		serviceName.AppendFormat("/%s/Upload", service->GetModule());
 		mi.pszService = serviceName.GetBuffer();
+
+		mi.flags = CMIF_SYSTEM | CMIF_UNICODE;
 		mi.name.w = (wchar_t*)service->GetText();
 		mi.position = i;
 		mi.hIcolibItem = GetIconHandle(Services[i]->GetIconId());
@@ -44,19 +59,7 @@ void InitializeMenus()
 
 int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	bool bShow = false;
-	char *proto = GetContactProto(hContact);
-	if (proto) {
-		bool bHasIM = (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) != 0;
-		if (bHasIM) {
-			bool isProtoOnline = CallProtoService(proto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE;
-			WORD status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
-			bool canSendOffline = (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDOFFLINE) > 0;
-			if (isProtoOnline && (status != ID_STATUS_OFFLINE || canSendOffline))
-				bShow = true;
-		}
-	}
-	Menu_ShowItem(hContactMenu, bShow);
+	Menu_ShowItem(hContactMenu, CanSendToContact(hContact));
 
 	return 0;
 }

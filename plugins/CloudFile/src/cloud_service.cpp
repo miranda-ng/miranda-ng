@@ -20,23 +20,21 @@ void InitServices()
 	for (size_t i = 0; i < count; i++) {
 		CCloudService *service = Services[i];
 
-		if (!db_get_b(NULL, service->GetModule(), "IsEnable", TRUE))
-			continue;
-
-		CMStringA moduleName(CMStringDataFormat::FORMAT, "%s/%s", MODULE, service->GetModule());
+		CMStringA moduleName = MODULE;
+		moduleName.AppendFormat("/%s", service->GetModule());
 		pd.type = PROTOTYPE_VIRTUAL;
 		pd.szName = moduleName.GetBuffer();
 		Proto_RegisterModule(&pd);
 
-		CMStringA serviceName(CMStringDataFormat::FORMAT, "%s%s", moduleName, PSS_FILE);
+		CMStringA serviceName = moduleName + PSS_FILE;
 		CreateServiceFunctionObj(serviceName, ProtoSendFile, service);
 
-		moduleName = CMStringA(CMStringDataFormat::FORMAT, "%s/%s/Interceptor", MODULE, service->GetModule());
+		moduleName += "/Interceptor";
 		pd.szName = moduleName.GetBuffer();
 		pd.type = PROTOTYPE_FILTER;
 		Proto_RegisterModule(&pd);
 
-		serviceName = CMStringA(CMStringDataFormat::FORMAT, "%s%s", moduleName, PSS_FILE);
+		serviceName = moduleName + PSS_FILE;
 		CreateServiceFunctionObj(serviceName, ProtoSendFileInterceptor, service);
 	}
 }
@@ -44,6 +42,16 @@ void InitServices()
 CCloudService::CCloudService(HNETLIBUSER hConnection)
 	: hConnection(hConnection)
 {
+}
+
+const wchar_t* CCloudService::GetText() const
+{
+	return _A2T(GetModule());
+}
+
+int CCloudService::GetIconId() const
+{
+	return 0;
 }
 
 void CCloudService::OpenUploadDialog(MCONTACT hContact)
@@ -60,44 +68,6 @@ void CCloudService::OpenUploadDialog(MCONTACT hContact)
 	}
 	else
 		SetActiveWindow(it->second);
-}
-
-void CCloudService::SendToContact(MCONTACT hContact, const wchar_t *data)
-{
-	const char *szProto = GetContactProto(hContact);
-	if (db_get_b(hContact, szProto, "ChatRoom", 0) == TRUE) {
-		ptrW tszChatRoom(db_get_wsa(hContact, szProto, "ChatRoomID"));
-		Chat_SendUserMessage(szProto, tszChatRoom, data);
-		return;
-	}
-
-	char *message = mir_utf8encodeW(data);
-	if (ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)message) != ACKRESULT_FAILED)
-		AddEventToDb(hContact, EVENTTYPE_MESSAGE, DBEF_UTF | DBEF_SENT, (DWORD)mir_strlen(message), (PBYTE)message);
-}
-
-void CCloudService::PasteToInputArea(MCONTACT hContact, const wchar_t *data)
-{
-	CallService(MS_MSG_SENDMESSAGEW, hContact, (LPARAM)data);
-}
-
-void CCloudService::PasteToClipboard(const wchar_t *data)
-{
-	if (OpenClipboard(NULL)) {
-		EmptyClipboard();
-
-		size_t size = sizeof(wchar_t) * (mir_wstrlen(data) + 1);
-		HGLOBAL hClipboardData = GlobalAlloc(NULL, size);
-		if (hClipboardData) {
-			wchar_t *pchData = (wchar_t*)GlobalLock(hClipboardData);
-			if (pchData) {
-				memcpy(pchData, (wchar_t*)data, size);
-				GlobalUnlock(hClipboardData);
-				SetClipboardData(CF_UNICODETEXT, hClipboardData);
-			}
-		}
-		CloseClipboard();
-	}
 }
 
 void CCloudService::Report(MCONTACT hContact, const wchar_t *data)
@@ -157,16 +127,20 @@ char* CCloudService::HttpStatusToError(int status)
 	return "Unknown error";
 }
 
+void CCloudService::HttpResponseToError(NETLIBHTTPREQUEST *response)
+{
+	if (response->dataLength)
+		throw Exception(response->pData);
+	throw Exception(HttpStatusToError(response->resultCode));
+}
+
 void CCloudService::HandleHttpError(NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
 		throw Exception(HttpStatusToError());
 
-	if (!HTTP_CODE_SUCCESS(response->resultCode)) {
-		if (response->dataLength)
-			throw Exception(response->pData);
-		throw Exception(HttpStatusToError(response->resultCode));
-	}
+	if (!HTTP_CODE_SUCCESS(response->resultCode))
+		HttpResponseToError(response);
 }
 
 JSONNode CCloudService::GetJsonResponse(NETLIBHTTPREQUEST *response)

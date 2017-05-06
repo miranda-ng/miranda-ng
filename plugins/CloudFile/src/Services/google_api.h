@@ -54,7 +54,7 @@ namespace GDriveAPI
 	class UploadFileRequest : public HttpRequest
 	{
 	public:
-		UploadFileRequest(const char *token, const char *name, const char *data, size_t size) :
+		UploadFileRequest(const char *token, const char *parentId, const char *name, const char *data, size_t size) :
 			HttpRequest(REQUEST_POST, GDRIVE_UPLOAD)
 		{
 			AddBearerAuthHeader(token);
@@ -67,6 +67,8 @@ namespace GDriveAPI
 			body.AppendChar(0x0A);
 			body.Append("{");
 			body.AppendFormat("\"name\": \"%s\"", name);
+			if (parentId)
+				body.AppendFormat("\"parents\": [\"%s\"]", parentId);
 			body.Append("}");
 			body.AppendChar(0x0A);
 			body.AppendChar(0x0A);
@@ -86,7 +88,7 @@ namespace GDriveAPI
 	class CreateUploadSessionRequest : public HttpRequest
 	{
 	public:
-		CreateUploadSessionRequest(const char *token, const char *name) :
+		CreateUploadSessionRequest(const char *token, const char *parentId, const char *name) :
 			HttpRequest(REQUEST_POST, GDRIVE_UPLOAD)
 		{
 			AddUrlParameter("uploadType=resumable");
@@ -94,8 +96,12 @@ namespace GDriveAPI
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");
 
+			JSONNode parents(JSON_ARRAY);
+			parents << JSONNode("", parentId);
+
 			JSONNode params(JSON_NODE);
 			params << JSONNode("name", name);
+			params << parents;
 
 			json_string data = params.write();
 			SetData(data.c_str(), data.length());

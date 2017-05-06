@@ -38,3 +38,65 @@ MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD cbBlob, PBY
 	dbei.flags = flags;
 	return db_event_add(hContact, &dbei);
 }
+
+bool CanSendToContact(MCONTACT hContact)
+{
+	if (!hContact)
+		return false;
+
+	const char *proto = GetContactProto(hContact);
+	if (!proto)
+		return false;
+
+	bool canSend = (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) != 0;
+	if (!canSend)
+		return false;
+
+	bool isProtoOnline = CallProtoService(proto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE;
+	if (isProtoOnline)
+		return true;
+
+	bool isContactOnline = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE) > ID_STATUS_OFFLINE;
+	if (isContactOnline)
+		return true;
+
+	return CallProtoService(proto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDOFFLINE;
+}
+
+void SendToContact(MCONTACT hContact, const wchar_t *data)
+{
+	const char *szProto = GetContactProto(hContact);
+	if (db_get_b(hContact, szProto, "ChatRoom", 0) == TRUE) {
+		ptrW tszChatRoom(db_get_wsa(hContact, szProto, "ChatRoomID"));
+		Chat_SendUserMessage(szProto, tszChatRoom, data);
+		return;
+	}
+
+	char *message = mir_utf8encodeW(data);
+	if (ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)message) != ACKRESULT_FAILED)
+		AddEventToDb(hContact, EVENTTYPE_MESSAGE, DBEF_UTF | DBEF_SENT, (DWORD)mir_strlen(message), (PBYTE)message);
+}
+
+void PasteToInputArea(MCONTACT hContact, const wchar_t *data)
+{
+	CallService(MS_MSG_SENDMESSAGEW, hContact, (LPARAM)data);
+}
+
+void PasteToClipboard(const wchar_t *data)
+{
+	if (OpenClipboard(NULL)) {
+		EmptyClipboard();
+
+		size_t size = sizeof(wchar_t) * (mir_wstrlen(data) + 1);
+		HGLOBAL hClipboardData = GlobalAlloc(NULL, size);
+		if (hClipboardData) {
+			wchar_t *pchData = (wchar_t*)GlobalLock(hClipboardData);
+			if (pchData) {
+				memcpy(pchData, (wchar_t*)data, size);
+				GlobalUnlock(hClipboardData);
+				SetClipboardData(CF_UNICODETEXT, hClipboardData);
+			}
+		}
+		CloseClipboard();
+	}
+}

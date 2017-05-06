@@ -108,5 +108,9 @@ UINT UploadAndReportProgressThread(void *owner, void *arg);
 void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags, MCONTACT hContact = NULL);
 void ShowNotification(const wchar_t *message, int flags, MCONTACT hContact = NULL);
 MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD cbBlob, PBYTE pBlob);
+bool CanSendToContact(MCONTACT hContact);
+void SendToContact(MCONTACT hContact, const wchar_t *data);
+void PasteToInputArea(MCONTACT hContact, const wchar_t *data);
+void PasteToClipboard(const wchar_t *data);
 
 #endif //_COMMON_H_

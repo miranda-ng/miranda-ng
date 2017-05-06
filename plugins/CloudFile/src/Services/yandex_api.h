@@ -52,24 +52,38 @@ namespace YandexAPI
 	class GetUploadUrlRequest : public HttpRequest
 	{
 	public:
-		GetUploadUrlRequest(const char *token, const char *path) :
+		GetUploadUrlRequest(const char *token, const char *path, OnConflict strategy = NONE) :
 			HttpRequest(REQUEST_GET, YADISK_API "/upload")
 		{
 			AddOAuthHeader(token);
 			AddUrlParameter("path=%s", ptrA(mir_urlEncode(path)));
-			AddUrlParameter("overwrite=true");
+			if (strategy == OnConflict::REPLACE)
+				AddUrlParameter("overwrite=true");
 		}
 	};
 
 	class UploadFileRequest : public HttpRequest
 	{
 	public:
-		UploadFileRequest(const char *token, const char *url, const char *data, size_t size) :
+		UploadFileRequest(const char *url, const char *data, size_t size) :
 			HttpRequest(REQUEST_PUT, url)
 		{
-			AddOAuthHeader(token);
-
 			SetData(data, size);
+		}
+	};
+
+	class UploadFileChunkRequest : public HttpRequest
+	{
+	public:
+		UploadFileChunkRequest(const char *url, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize) :
+			HttpRequest(REQUEST_PUT, url)
+		{
+			uint64_t rangeMin = offset;
+			uint64_t rangeMax = offset + chunkSize - 1;
+			CMStringA range(CMStringDataFormat::FORMAT, "bytes %I64u-%I64u/%I64u", rangeMin, rangeMax, fileSize);
+			AddHeader("Content-Range", range);
+
+			SetData(chunk, chunkSize);
 		}
 	};
 
