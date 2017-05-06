@@ -31,7 +31,7 @@
 Загрузить файл(ы)
 [Yandex.Disk]
 Яндекс.Диск
-[Upload files to ...]
+[Upload files to...]
 Загрузить файл в...
 [Account name]
 Учётная запись
