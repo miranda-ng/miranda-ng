@@ -783,12 +783,13 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 		else if (t == "typ") { // revised 5.3.2017
 			// chat typing notification
 			const JSONNode &from_ = (*it)["from"]; // user fbid
-			//const JSONNode &to_ = (*it)["to"]; // user fbid (should be our own)
+			const JSONNode &to_ = (*it)["to"]; // user fbid (should be our own, but could be from our page too)
 			//const JSONNode &realtime_viewer_fbid_ = (*it)["realtime_viewer_fbid"]; // our user fbid
 			//const JSONNode &from_mobile_ = (*it)["from_mobile"]; // boolean // TODO: perhaps we should update user client based on this?
 			const JSONNode &st_ = (*it)["st"]; // typing status - 1 = started typing, 0 = stopped typing
 
-			if (!from_)
+			// Ignore wrong (without "from") typing notifications or that are not meant for us (but e.g. for our page)
+			if (!from_ || to_.as_string() == proto->facy.self_.user_id)
 				continue;
 
 			facebook_user fbu;
