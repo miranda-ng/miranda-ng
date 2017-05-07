@@ -215,10 +215,10 @@ int CSkypeProto::AuthRequest(MCONTACT hContact, const wchar_t *szMessage)
 
 int CSkypeProto::GetInfo(MCONTACT hContact, int)
 {
-	if (!isChatRoom(hContact))
-		PushRequest(
-		new GetProfileRequest(li, Contacts[hContact]),
-			&CSkypeProto::LoadProfile);
+	if (isChatRoom(hContact))
+		return 1;
+
+	PushRequest(new GetProfileRequest(li, Contacts[hContact]), &CSkypeProto::LoadProfile, (void*)hContact);
 	return 0;
 }
 

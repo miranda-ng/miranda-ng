@@ -439,19 +439,26 @@ void CSkypeProto::UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact)
 }
 
 //{"firstname":"Echo \/ Sound Test Service", "lastname" : null, "birthday" : null, "gender" : null, "country" : null, "city" : null, "language" : null, "homepage" : null, "about" : null, "province" : null, "jobtitle" : null, "emails" : [], "phoneMobile" : null, "phoneHome" : null, "phoneOffice" : null, "mood" : null, "richMood" : null, "avatarUrl" : null, "username" : "echo123"}
-void CSkypeProto::LoadProfile(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::LoadProfile(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	if (response == NULL)
+	MCONTACT hContact = (DWORD_PTR)arg;
+
+	if (response == NULL) {
+		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, 0);
 		return;
+	}
 
 	JSONNode root = JSONNode::parse(response->pData);
-	if (!root)
+	if (!root) {
+		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, 0);
 		return;
+	}
 
 	std::string username = root["username"].as_string();
-	MCONTACT hContact = NULL;
-	if (!IsMe(username.c_str()))
-		hContact = FindContact(username.c_str());
+	if (username.empty()) {
+		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, 0);
+		return;
+	}
 
 	UpdateProfileFirstName(root, hContact);
 	UpdateProfileLastName(root, hContact);
@@ -471,4 +478,6 @@ void CSkypeProto::LoadProfile(const NETLIBHTTPREQUEST *response)
 	UpdateProfilePhoneOffice(root, hContact);
 	//richMood
 	UpdateProfileAvatar(root, hContact);
+
+	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, 0);
 }

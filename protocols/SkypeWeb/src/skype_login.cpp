@@ -286,7 +286,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 	if (root)
 		setString("SelfEndpointName", UrlToSkypename(root["selfLink"].as_string().c_str()));
 
-	PushRequest(new GetProfileRequest(li), &CSkypeProto::LoadProfile);
+	PushRequest(new GetProfileRequest(li), &CSkypeProto::LoadProfile, NULL);
 }
 
 void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)

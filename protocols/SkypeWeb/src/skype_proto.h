@@ -271,7 +271,7 @@ private:
 	void UpdateProfileXStatusMessage(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact = NULL);
 
-	void LoadProfile(const NETLIBHTTPREQUEST *response);
+	void LoadProfile(const NETLIBHTTPREQUEST *response, void *arg);
 
 
 	void __cdecl CSkypeProto::SendFileThread(void *p);
