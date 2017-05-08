@@ -34,6 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <session_builder.h>
 #include <session_cipher.h>
 #include <protocol.h>
+#include <fingerprint.h>
 
 //c++
 #include <cstddef>
@@ -475,6 +476,22 @@ namespace omemo {
 		proto->setDword("OmemoDeviceId", new_dev->id);
 		//generate and save device key
 		ec_public_key *public_key = ratchet_identity_key_pair_get_public(new_dev->device_key);
+		{
+			//TODO: optimize it in future, generator should be global
+			fingerprint_generator *fpg = nullptr;
+			fingerprint_generator_create(&fpg, 1024, global_context);
+
+			char dev_id_a[32];
+			mir_snprintf(dev_id_a, 31, "%u", new_dev->id);
+			fingerprint *fp;
+			fingerprint_generator_create_for(fpg, dev_id_a, public_key, dev_id_a, public_key, &fp); //TODO: check this, not sure about it ...
+			displayable_fingerprint *fp_disp = fingerprint_get_displayable(fp);
+			const char *fp_str = displayable_fingerprint_text(fp_disp);
+			proto->setString("OmemoFingerprintOwn", fp_str);
+			SIGNAL_UNREF(fp);
+			fingerprint_generator_free(fpg);
+		}
+
 		signal_buffer *key_buf;
 		ec_public_key_serialize(&key_buf, public_key);
 //		SIGNAL_UNREF(public_key);
@@ -1259,7 +1276,7 @@ namespace omemo {
 	bool create_session_store(MCONTACT hContact, LPCTSTR device_id, CJabberProto *proto)
 	{
 		signal_store_backend_user_data *data[4];
-		unsigned int device_id_int = _wtoi(device_id);
+		DWORD device_id_int = _wtoll(device_id);
 		for (int i = 0; i < 4; i++)
 		{
 			data[i] = (signal_store_backend_user_data*)mir_alloc(sizeof(signal_store_backend_user_data));
@@ -1306,17 +1323,16 @@ namespace omemo {
 		sip.user_data = (void*)data[3];
 		signal_protocol_store_context_set_identity_key_store(store_context, &sip);
 
-		unsigned int devid = _wtoi(device_id);
-		sessions_internal[hContact][devid].store_context = store_context;
+		sessions_internal[hContact][device_id_int].store_context = store_context;
 
 		return true; //success
 	}
 	bool build_session(MCONTACT hContact, LPCTSTR jid, LPCTSTR dev_id, LPCTSTR key_id, LPCTSTR pre_key_public, LPCTSTR signed_pre_key_id,
-		LPCTSTR signed_pre_key_public, LPCTSTR signed_pre_key_signature, LPCTSTR identity_key)
+		LPCTSTR signed_pre_key_public, LPCTSTR signed_pre_key_signature, LPCTSTR identity_key, CJabberProto *proto)
 	{
 		/* Instantiate a session_builder for a recipient address. */
 		char *jid_str = mir_u2a(jid);
-		int dev_id_int = _wtoi(dev_id);
+		DWORD dev_id_int = _wtoll(dev_id);
 		signal_protocol_address *address = (signal_protocol_address*)mir_alloc(sizeof(signal_protocol_address)); //libsignal does not copy structure, so we must allocate one manually, does it free it on exit ?
 		//rotten compillers support
 		address->name = jid_str; //will libsignal free arrav for us on exit ?
@@ -1352,6 +1368,47 @@ namespace omemo {
 		curve_decode_point(&identity_key_p, key_buf, key_buf_len, global_context);
 		mir_free(pre_key_a);
 		mir_free(key_buf); //TODO: check this
+		bool fp_trusted = false;
+		{ //check fingerprint
+		  //TODO: optimize it in future, generator should be global
+			fingerprint_generator *fpg = nullptr;
+			fingerprint_generator_create(&fpg, 1024, global_context);
+
+			char *dev_id_a = mir_u2a(dev_id);
+			fingerprint *fp;
+			fingerprint_generator_create_for(fpg, dev_id_a, identity_key_p, dev_id_a, identity_key_p, &fp); //TODO: check this, not sure about it ...
+			mir_free(dev_id_a);
+			displayable_fingerprint *fp_disp = fingerprint_get_displayable(fp);
+			const char *fp_str = displayable_fingerprint_text(fp_disp);
+			const size_t setting_name_len = strlen("OmemoFingerprintTrusted_") + strlen(fp_str) + 1;
+			char *fp_setting_name = (char*)mir_alloc(setting_name_len);
+			mir_snprintf(fp_setting_name, setting_name_len, "%s%s", "OmemoFingerprintTrusted_", fp_str);
+			char val = proto->getByte(hContact, fp_setting_name, -1);
+			if (val == 1)
+				fp_trusted = true;
+			if (val == -1)
+			{
+				const size_t msg_len = strlen(Translate("Do you want to create omemo session with new device:")) + strlen("\n\n\t") + strlen(fp_str) + 1;
+				char *msg = (char*)mir_alloc(msg_len);
+				mir_snprintf(msg, msg_len, "%s%s%s", Translate("Do you want to create omemo session with new device:"), "\n\n\t", fp_str);
+
+				int ret = MessageBoxA(NULL, msg, Translate("OMEMO: New session"), MB_YESNO);
+				if (ret == IDYES)
+				{
+					proto->setByte(hContact, fp_setting_name, 1);
+					fp_trusted = true;
+				}
+				else if(ret == IDNO)
+					proto->setByte(hContact, fp_setting_name, 0);
+			}
+
+			mir_free(fp_setting_name);
+			SIGNAL_UNREF(fp);
+			fingerprint_generator_free(fpg);
+
+		}
+		if (!fp_trusted)
+			return false; //TODO: cleanup here
 		pre_key_a = mir_u2a(signed_pre_key_signature);
 		key_buf = (uint8_t*)mir_base64_decode(pre_key_a, &key_buf_len);
 		mir_free(pre_key_a);
@@ -1360,7 +1417,9 @@ namespace omemo {
 		*registration_id = 0;
 		signal_protocol_identity_get_local_registration_id(sessions_internal[hContact][dev_id_int].store_context, registration_id);
 		session_pre_key_bundle_create(&retrieved_pre_key, *registration_id, dev_id_int, key_id_int, prekey, signed_pre_key_id_int, signed_prekey, key_buf, key_buf_len, identity_key_p);
-		mir_free(key_buf); //TODO: check this
+		mir_free(key_buf);
+
+		
 
 
 		/* Build a session with a pre key retrieved from the server. */
@@ -1569,7 +1628,7 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 		for (int p = 1; (list_item = XmlGetNthChild(node, L"device", p)) != NULL; p++, i++)
 		{
 			current_id_str = xmlGetAttrValue(list_item, L"id");
-			current_id = _wtol(current_id_str);
+			current_id = _wtoll(current_id_str);
 			if (current_id == own_id)
 				own_device_listed = true;
 			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
@@ -1597,7 +1656,7 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 		for (int p = 1; (list_item = XmlGetNthChild(node, L"device", p)) != NULL; p++, i++)
 		{
 			current_id_str = xmlGetAttrValue(list_item, L"id");
-			current_id = _wtol(current_id_str);
+			current_id = _wtoll(current_id_str);
 			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
 			setDword(hContact, setting_name, current_id);
 		}
@@ -1776,7 +1835,7 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 			iq << XATTR(L"to", jid);
 			HXML items = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"items");
 			wchar_t bundle[64];
-			mir_snwprintf(bundle, 63, L"%s%s%d", JABBER_FEAT_OMEMO, L".bundles:", id);
+			mir_snwprintf(bundle, 63, L"%s%s%u", JABBER_FEAT_OMEMO, L".bundles:", id);
 			XmlAddAttr(items, L"node", bundle);
 			m_ThreadInfo->send(iq);
 			mir_free(jid);
@@ -1884,7 +1943,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 	if (!omemo::create_session_store(hContact, device_id, this))
 		return; //failed to create session store
 
-	if (!omemo::build_session(hContact, jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic, signedPreKeySignature, identityKey))
+	if (!omemo::build_session(hContact, jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic, signedPreKeySignature, identityKey, this))
 		return; //failed to build signal(omemo) session
 
 	{
