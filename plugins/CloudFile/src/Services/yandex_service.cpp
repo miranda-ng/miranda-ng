@@ -249,7 +249,7 @@ UINT CYandexService::Upload(FileTransferParam *ftp)
 			}
 			else {
 				uint64_t offset = 0;
-				size_t chunkCount = ceil(fileSize / chunkSize);
+				double chunkCount = ceil(double(fileSize) / chunkSize);
 				while (chunkCount--)
 				{
 					ftp->CheckCurrentFile();
