@@ -87,3 +87,8 @@ EXPORTS
 	session_pre_key_serialize
 	session_pre_key_get_id
 	session_pre_key_deserialize
+	fingerprint_generator_create
+	fingerprint_generator_free
+	fingerprint_generator_create_for
+	fingerprint_get_displayable
+	displayable_fingerprint_text
