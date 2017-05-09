@@ -105,7 +105,7 @@ void CDropboxService::HandleJsonError(JSONNode &node)
 	}
 }
 
-char* CDropboxService::UploadFile(const char *data, size_t size, char *path)
+void CDropboxService::UploadFile(const char *data, size_t size, char *path)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
 	ptrA encodedPath(mir_utf8encode(path));
@@ -115,8 +115,6 @@ char* CDropboxService::UploadFile(const char *data, size_t size, char *path)
 	JSONNode root = GetJsonResponse(response);
 	JSONNode node = root.at("path_lower");
 	mir_strcpy(path, node.as_string().c_str());
-
-	return path;
 }
 
 void CDropboxService::CreateUploadSession(const char *chunk, size_t chunkSize, char *sessionId)
