@@ -1276,7 +1276,9 @@ namespace omemo {
 	bool create_session_store(MCONTACT hContact, LPCTSTR device_id, CJabberProto *proto)
 	{
 		signal_store_backend_user_data *data[4];
-		DWORD device_id_int = _wtoll(device_id);
+		char *device_id_a = mir_u2a(device_id);
+		DWORD device_id_int = strtoul(device_id_a, nullptr, 10);
+		mir_free(device_id_a);
 		for (int i = 0; i < 4; i++)
 		{
 			data[i] = (signal_store_backend_user_data*)mir_alloc(sizeof(signal_store_backend_user_data));
@@ -1332,7 +1334,9 @@ namespace omemo {
 	{
 		/* Instantiate a session_builder for a recipient address. */
 		char *jid_str = mir_u2a(jid);
-		DWORD dev_id_int = _wtoll(dev_id);
+		char *dev_id_a = mir_u2a(dev_id);
+		DWORD dev_id_int = strtoul(dev_id_a, nullptr, 10);
+		mir_free(dev_id_a);
 		signal_protocol_address *address = (signal_protocol_address*)mir_alloc(sizeof(signal_protocol_address)); //libsignal does not copy structure, so we must allocate one manually, does it free it on exit ?
 		//rotten compillers support
 		address->name = jid_str; //will libsignal free arrav for us on exit ?
@@ -1628,7 +1632,9 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 		for (int p = 1; (list_item = XmlGetNthChild(node, L"device", p)) != NULL; p++, i++)
 		{
 			current_id_str = xmlGetAttrValue(list_item, L"id");
-			current_id = _wtoll(current_id_str);
+			char *current_id_str_a = mir_u2a(current_id_str);
+			current_id = strtoul(current_id_str_a, nullptr, 10);
+			mir_free(current_id_str_a);
 			if (current_id == own_id)
 				own_device_listed = true;
 			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
@@ -1656,7 +1662,9 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 		for (int p = 1; (list_item = XmlGetNthChild(node, L"device", p)) != NULL; p++, i++)
 		{
 			current_id_str = xmlGetAttrValue(list_item, L"id");
-			current_id = _wtoll(current_id_str);
+			char *current_id_str_a = mir_u2a(current_id_str);
+			current_id = strtoul(current_id_str_a, nullptr, 10);
+			mir_free(current_id_str_a);
 			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
 			setDword(hContact, setting_name, current_id);
 		}
