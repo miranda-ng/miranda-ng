@@ -6,6 +6,7 @@ class COptionsMain : public CPluginDlgBase
 private:
 	CCtrlCombo m_defaultService;
 
+	CCtrlCheck m_doNothingOnConflict;
 	CCtrlCheck m_renameOnConflict;
 	CCtrlCheck m_repalceOnConflict;
 

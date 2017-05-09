@@ -3,6 +3,7 @@
 COptionsMain::COptionsMain()
 	: CPluginDlgBase(hInstance, IDD_OPTIONS_MAIN, MODULE),
 	m_defaultService(this, IDC_DEFAULTSERVICE),
+	m_doNothingOnConflict(this, IDC_DONOTHINGONCONFLICT),
 	m_renameOnConflict(this, IDC_RENAMEONCONFLICT),
 	m_repalceOnConflict(this, IDC_REPLACEONCONFLICT),
 	m_urlAutoSend(this, IDC_URL_AUTOSEND),
@@ -41,6 +42,8 @@ void COptionsMain::OnInitDialog()
 		m_renameOnConflict.SetState(TRUE);
 	else if (strategy == OnConflict::REPLACE)
 		m_repalceOnConflict.SetState(TRUE);
+	else
+		m_doNothingOnConflict.SetState(TRUE);
 }
 
 void COptionsMain::OnApply()

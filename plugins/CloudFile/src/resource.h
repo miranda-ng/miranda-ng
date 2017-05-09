@@ -14,7 +14,7 @@
 #define IDC_OAUTH_AUTHORIZE             122
 #define IDD_OPTIONS_MAIN                1000
 #define IDC_DEFAULTSERVICE              1001
-#define IDC_DONOTHING                   1010
+#define IDC_DONOTHINGONCONFLICT         1010
 #define IDC_RENAMEONCONFLICT            1011
 #define IDC_REPLACEONCONFLICT           1012
 #define IDC_URL_ISTEMPORARY             1021
