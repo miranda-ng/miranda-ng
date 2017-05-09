@@ -130,9 +130,10 @@ void COneDriveService::HandleJsonError(JSONNode &node)
 void COneDriveService::UploadFile(const char *parentId, const char *name, const char *data, size_t size, char *fileId)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::NONE);
 	OneDriveAPI::UploadFileRequest *request = mir_strlen(parentId)
-		? new OneDriveAPI::UploadFileRequest(token, parentId, name, data, size)
-		: new OneDriveAPI::UploadFileRequest(token, name, data, size);
+		? new OneDriveAPI::UploadFileRequest(token, parentId, name, data, size, (OnConflict)strategy)
+		: new OneDriveAPI::UploadFileRequest(token, name, data, size, (OnConflict)strategy);
 	NLHR_PTR response(request->Send(hConnection));
 	delete request;
 
@@ -144,9 +145,10 @@ void COneDriveService::UploadFile(const char *parentId, const char *name, const 
 void COneDriveService::CreateUploadSession(const char *parentId, const char *name, char *uploadUri)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::NONE);
 	OneDriveAPI::CreateUploadSessionRequest *request = mir_strlen(parentId)
-		? new OneDriveAPI::CreateUploadSessionRequest(token, parentId, name)
-		: new OneDriveAPI::CreateUploadSessionRequest(token, name);
+		? new OneDriveAPI::CreateUploadSessionRequest(token, parentId, name, (OnConflict)strategy)
+		: new OneDriveAPI::CreateUploadSessionRequest(token, name, (OnConflict)strategy);
 	NLHR_PTR response(request->Send(hConnection));
 	delete request;
 

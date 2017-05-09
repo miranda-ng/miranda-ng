@@ -142,7 +142,8 @@ void CYandexService::HandleJsonError(JSONNode &node)
 void CYandexService::CreateUploadSession(const char *path, char *uploadUri)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	YandexAPI::GetUploadUrlRequest request(token, path);
+	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::NONE);
+	YandexAPI::GetUploadUrlRequest request(token, path, (OnConflict)strategy);
 	NLHR_PTR response(request.Send(hConnection));
 
 	JSONNode root = GetJsonResponse(response);
