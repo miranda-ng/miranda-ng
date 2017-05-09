@@ -41,7 +41,7 @@ namespace DropboxAPI
 	class UploadFileRequest : public HttpRequest
 	{
 	public:
-		UploadFileRequest(const char *token, const char *path, const char *data, size_t size) :
+		UploadFileRequest(const char *token, const char *path, const char *data, size_t size, OnConflict strategy = NONE) :
 			HttpRequest(REQUEST_POST, DROPBOX_API_CU "/files/upload")
 		{
 			AddBearerAuthHeader(token);
@@ -49,8 +49,17 @@ namespace DropboxAPI
 
 			JSONNode params(JSON_NODE);
 			params
-				<< JSONNode("path", path)
-				<< JSONNode("mode", "overwrite");
+				<< JSONNode("path", path);
+			if (strategy == OnConflict::RENAME) {
+				params
+					<< JSONNode("mode", "add")
+					<< JSONNode("autorename", true);
+			}
+			else if (strategy == OnConflict::REPLACE) {
+				params
+					<< JSONNode("mode", "overwrite")
+					<< JSONNode("autorename", false);
+			}
 
 			AddHeader("Dropbox-API-Arg", params.write().c_str());
 
@@ -99,7 +108,7 @@ namespace DropboxAPI
 	class CommitUploadSessionRequest : public HttpRequest
 	{
 	public:
-		CommitUploadSessionRequest(const char *token, const char *sessionId, size_t offset, const char *path, const char *chunk, size_t chunkSize) :
+		CommitUploadSessionRequest(const char *token, const char *sessionId, size_t offset, const char *path, const char *chunk, size_t chunkSize, OnConflict strategy = NONE) :
 			HttpRequest(REQUEST_POST, DROPBOX_API_CU "/files/upload_session/finish")
 		{
 			AddBearerAuthHeader(token);
@@ -114,8 +123,17 @@ namespace DropboxAPI
 			JSONNode commit(JSON_NODE);
 			commit.set_name("commit");
 			commit
-				<< JSONNode("path", path)
-				<< JSONNode("mode", "overwrite");
+				<< JSONNode("path", path);
+			if (strategy == OnConflict::RENAME) {
+				commit
+					<< JSONNode("mode", "add")
+					<< JSONNode("autorename", true);
+			}
+			else if (strategy == OnConflict::REPLACE) {
+				commit
+					<< JSONNode("mode", "overwrite")
+					<< JSONNode("autorename", false);
+			}
 
 			JSONNode params(JSON_NODE);
 			params

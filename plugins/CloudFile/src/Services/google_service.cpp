@@ -256,6 +256,8 @@ UINT CGDriveService::Upload(FileTransferParam *ftp)
 				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
 
 				UploadFile(folderId, fileName, chunk, size, fileId);
+
+				ftp->Progress(size);
 			}
 			else
 			{

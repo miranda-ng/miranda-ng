@@ -130,7 +130,7 @@ void COneDriveService::HandleJsonError(JSONNode &node)
 void COneDriveService::UploadFile(const char *parentId, const char *name, const char *data, size_t size, char *fileId)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::NONE);
+	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
 	OneDriveAPI::UploadFileRequest *request = mir_strlen(parentId)
 		? new OneDriveAPI::UploadFileRequest(token, parentId, name, data, size, (OnConflict)strategy)
 		: new OneDriveAPI::UploadFileRequest(token, name, data, size, (OnConflict)strategy);
@@ -145,7 +145,7 @@ void COneDriveService::UploadFile(const char *parentId, const char *name, const 
 void COneDriveService::CreateUploadSession(const char *parentId, const char *name, char *uploadUri)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::NONE);
+	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
 	OneDriveAPI::CreateUploadSessionRequest *request = mir_strlen(parentId)
 		? new OneDriveAPI::CreateUploadSessionRequest(token, parentId, name, (OnConflict)strategy)
 		: new OneDriveAPI::CreateUploadSessionRequest(token, name, (OnConflict)strategy);
@@ -241,6 +241,8 @@ UINT COneDriveService::Upload(FileTransferParam *ftp)
 				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
 
 				UploadFile(folderId, T2Utf(fileName), chunk, size, fileId);
+
+				ftp->Progress(size);
 			}
 			else
 			{

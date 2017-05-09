@@ -108,8 +108,9 @@ void CDropboxService::HandleJsonError(JSONNode &node)
 void CDropboxService::UploadFile(const char *data, size_t size, char *path)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
 	ptrA encodedPath(mir_utf8encode(path));
-	DropboxAPI::UploadFileRequest request(token, encodedPath, data, size);
+	DropboxAPI::UploadFileRequest request(token, encodedPath, data, size, (OnConflict)strategy);
 	NLHR_PTR response(request.Send(hConnection));
 
 	JSONNode root = GetJsonResponse(response);
@@ -140,7 +141,8 @@ void CDropboxService::UploadFileChunk(const char *chunk, size_t chunkSize, const
 void CDropboxService::CommitUploadSession(const char *data, size_t size, const char *sessionId, size_t offset, char *path)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	DropboxAPI::CommitUploadSessionRequest request(token, sessionId, offset, path, data, size);
+	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
+	DropboxAPI::CommitUploadSessionRequest request(token, sessionId, offset, path, data, size, (OnConflict)strategy);
 	NLHR_PTR response(request.Send(hConnection));
 
 	JSONNode root = GetJsonResponse(response);
@@ -229,35 +231,51 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 			uint64_t fileSize = ftp->GetCurrentFileSize();
 
 			int chunkSize = ftp->GetCurrentFileChunkSize();
-			mir_ptr<char>data((char*)mir_calloc(chunkSize));
-
-			char sessionId[64];
-			size_t size = ftp->ReadCurrentFile(data, chunkSize);
-			CreateUploadSession(data, size, sessionId);
-
-			ftp->Progress(size);
-
-			size_t offset = size;
-			double chunkCount = ceil(double(fileSize) / chunkSize) - 2;
-			while (chunkCount > 0) {
-				ftp->CheckCurrentFile();
-
-				size = ftp->ReadCurrentFile(data, chunkSize);
-				UploadFileChunk(data, size, sessionId, offset);
-
-				offset += size;
-				ftp->Progress(size);
-			}
-
-			size = offset < fileSize
-				? ftp->ReadCurrentFile(data, fileSize - offset)
-				: 0;
+			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
 
 			char path[MAX_PATH];
 			PreparePath(fileName, path);
-			CommitUploadSession(data, size, sessionId, offset, path);
 
-			ftp->Progress(size);
+			if (chunkSize == fileSize)
+			{
+				ftp->CheckCurrentFile();
+				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
+
+				UploadFile(chunk, size, path);
+
+				ftp->Progress(size);
+			}
+			else
+			{
+				ftp->CheckCurrentFile();
+				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
+
+				char sessionId[64];
+				CreateUploadSession(chunk, size, sessionId);
+
+				ftp->Progress(size);
+
+				size_t offset = size;
+				double chunkCount = ceil(double(fileSize) / chunkSize) - 2;
+				while (chunkCount > 0) {
+					ftp->CheckCurrentFile();
+
+					size = ftp->ReadCurrentFile(chunk, chunkSize);
+					UploadFileChunk(chunk, size, sessionId, offset);
+
+					offset += size;
+					ftp->Progress(size);
+				}
+
+				ftp->CheckCurrentFile();
+				size = offset < fileSize
+					? ftp->ReadCurrentFile(chunk, fileSize - offset)
+					: 0;
+
+				CommitUploadSession(chunk, size, sessionId, offset, path);
+
+				ftp->Progress(size);
+			}
 
 			if (!ftp->IsFolder()) {
 				char url[MAX_PATH];

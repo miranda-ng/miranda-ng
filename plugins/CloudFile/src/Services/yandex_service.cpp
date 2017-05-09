@@ -142,7 +142,7 @@ void CYandexService::HandleJsonError(JSONNode &node)
 void CYandexService::CreateUploadSession(const char *path, char *uploadUri)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::NONE);
+	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
 	YandexAPI::GetUploadUrlRequest request(token, path, (OnConflict)strategy);
 	NLHR_PTR response(request.Send(hConnection));
 
@@ -247,8 +247,11 @@ UINT CYandexService::Upload(FileTransferParam *ftp)
 				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
 
 				UploadFile(uploadUri, chunk, size);
+
+				ftp->Progress(size);
 			}
-			else {
+			else
+			{
 				uint64_t offset = 0;
 				double chunkCount = ceil(double(fileSize) / chunkSize);
 				while (chunkCount > 0) {

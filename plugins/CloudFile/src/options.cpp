@@ -37,7 +37,7 @@ void COptionsMain::OnInitDialog()
 			m_defaultService.SetCurSel(iItem);
 	}
 
-	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::NONE);
+	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
 	if (strategy == OnConflict::RENAME)
 		m_renameOnConflict.SetState(TRUE);
 	else if (strategy == OnConflict::REPLACE)
