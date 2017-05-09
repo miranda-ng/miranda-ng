@@ -67,7 +67,7 @@ namespace GDriveAPI
 			body.AppendChar(0x0A);
 			body.Append("{");
 			body.AppendFormat("\"name\": \"%s\"", name);
-			if (parentId)
+			if (mir_strlen(parentId))
 				body.AppendFormat("\"parents\": [\"%s\"]", parentId);
 			body.Append("}");
 			body.AppendChar(0x0A);

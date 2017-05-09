@@ -9,10 +9,10 @@ private:
 
 	void HandleJsonError(JSONNode &node);
 
-	char* UploadFile(const char *data, size_t size, char *path);
+	void UploadFile(const char *data, size_t size, char *path);
 	void CreateUploadSession(const char *chunk, size_t chunkSize, char *sessionId);
 	void UploadFileChunk(const char *chunk, size_t chunkSize, const char *sessionId, size_t offset);
-	char* CommitUploadSession(const char *chunk, size_t chunkSize, const char *sessionId, size_t offset, char *path);
+	void CommitUploadSession(const char *chunk, size_t chunkSize, const char *sessionId, size_t offset, char *path);
 	void CreateFolder(const char *path);
 	void CreateSharedLink(const char *path, char *url);
 

@@ -35,7 +35,7 @@ void COneDriveService::Login()
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
 	ptrA refreshToken(db_get_sa(NULL, GetModule(), "RefreshToken"));
-	if (token && refreshToken && refreshToken[0]) 	{
+	if (token && refreshToken && refreshToken[0]) {
 		OneDriveAPI::RefreshTokenRequest request(refreshToken);
 		NLHR_PTR response(request.Send(hConnection));
 		
@@ -246,7 +246,8 @@ UINT COneDriveService::Upload(FileTransferParam *ftp)
 				CreateUploadSession(uploadUri, T2Utf(fileName), folderId);
 
 				uint64_t offset = 0;
-				for (size_t i = 0; i < (fileSize / chunkSize); i++) {
+				double chunkCount = ceil(double(fileSize) / chunkSize);
+				while (chunkCount > 0) {
 					ftp->CheckCurrentFile();
 					size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
 

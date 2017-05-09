@@ -136,10 +136,10 @@ void CDropboxService::UploadFileChunk(const char *chunk, size_t chunkSize, const
 	DropboxAPI::UploadFileChunkRequest request(token, sessionId, offset, chunk, chunkSize);
 	NLHR_PTR response(request.Send(hConnection));
 
-	GetJsonResponse(response);
+	HandleHttpError(response);
 }
 
-char* CDropboxService::CommitUploadSession(const char *data, size_t size, const char *sessionId, size_t offset, char *path)
+void CDropboxService::CommitUploadSession(const char *data, size_t size, const char *sessionId, size_t offset, char *path)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
 	DropboxAPI::CommitUploadSessionRequest request(token, sessionId, offset, path, data, size);
@@ -148,8 +148,6 @@ char* CDropboxService::CommitUploadSession(const char *data, size_t size, const 
 	JSONNode root = GetJsonResponse(response);
 	JSONNode node = root.at("path_lower");
 	mir_strcpy(path, node.as_string().c_str());
-
-	return path;
 }
 
 void CDropboxService::CreateFolder(const char *path)
@@ -243,8 +241,7 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 
 			size_t offset = size;
 			double chunkCount = ceil(double(fileSize) / chunkSize) - 2;
-			while (chunkCount--)
-			{
+			while (chunkCount > 0) {
 				ftp->CheckCurrentFile();
 
 				size = ftp->ReadCurrentFile(data, chunkSize);
