@@ -637,9 +637,9 @@ namespace omemo {
 		* @return 1 if the session was loaded, 0 if the session was not found, negative on failure
 		*/
 		//some sanity checks
-		if (address->device_id <= 0)
+		if ((unsigned long)address->device_id == 0)
 			return -1;
-		if (address->name_len > 1024)
+		if (address->name_len > JABBER_MAX_JID_LEN)
 			return -1;
 
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
@@ -1349,7 +1349,7 @@ namespace omemo {
 
 		sessions_internal[hContact][dev_id_int].builder = builder;
 
-		int key_id_int = _wtoi(key_id);
+		unsigned int key_id_int = _wtoi(key_id);
 
 		char *pre_key_a = mir_u2a(pre_key_public);
 		unsigned int key_buf_len;
@@ -1358,7 +1358,7 @@ namespace omemo {
 		curve_decode_point(&prekey, key_buf, key_buf_len, global_context);
 		mir_free(pre_key_a);
 		mir_free(key_buf);
-		int signed_pre_key_id_int = _wtoi(signed_pre_key_id);
+		unsigned int signed_pre_key_id_int = _wtoi(signed_pre_key_id);
 		pre_key_a = mir_u2a(signed_pre_key_public);
 		key_buf = (uint8_t*)mir_base64_decode(pre_key_a, &key_buf_len);
 		ec_public_key *signed_prekey;
@@ -1481,7 +1481,9 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 	LPCTSTR sender_dev_id = XmlGetAttrValue(header_node, L"sid");
 	if (!sender_dev_id)
 		return;
-	unsigned int sender_dev_id_int = _wtoi(sender_dev_id);
+	char *sender_device_id_a = mir_u2a(sender_dev_id);
+	DWORD sender_dev_id_int = strtoul(sender_device_id_a, nullptr, 10);
+	mir_free(sender_device_id_a);
 	if (!omemo::sessions_internal[hContact][sender_dev_id_int].cipher || !omemo::sessions_internal[hContact][sender_dev_id_int].builder || !omemo::sessions_internal[hContact][sender_dev_id_int].store_context)
 	{
 		OmemoCheckSession(hContact); //this should not normally happened
@@ -1493,7 +1495,9 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 	for (int p = 1; (key_node = XmlGetNthChild(header_node, L"key", p)) != NULL; p++)
 	{
 		LPCTSTR dev_id = xmlGetAttrValue(key_node, L"rid");
-		DWORD dev_id_int = _wtoi(dev_id);
+		char *dev_id_a = mir_u2a(dev_id);
+		DWORD dev_id_int = strtoul(dev_id_a, nullptr, 10);
+		mir_free(dev_id_a);
 		if (dev_id_int == own_id)
 		{
 			encrypted_key_base64 = XmlGetText(key_node);
