@@ -409,11 +409,13 @@ namespace omemo {
 
 		if (signal_context_set_crypto_provider(global_context, &provider))
 		{
+			Netlib_Log(nullptr, "Jabber OMEMO: signal_context_set_crypto_provider failed");
 			//TODO: handle error
 		}
 
 		if (signal_context_set_locking_functions(global_context, &lock, &unlock))
 		{
+			Netlib_Log(nullptr, "Jabber OMEMO: signal_context_set_locking_functions failed");
 			//TODO: handle error
 		}
 
@@ -436,6 +438,7 @@ namespace omemo {
 		
 		if (signal_protocol_key_helper_generate_identity_key_pair(&(dev->device_key), global_context))
 		{
+			Netlib_Log(nullptr, "Jabber OMEMO: signal_protocol_key_helper_generate_identity_key_pair failed");
 			//TODO: handle error
 		}
 
@@ -638,9 +641,15 @@ namespace omemo {
 		*/
 		//some sanity checks
 		if ((unsigned long)address->device_id == 0)
+		{
+			Netlib_Log(nullptr, "Jabber OMEMO: libsignal data backend impl: failed to load session (invalid device id)");
 			return -1;
+		}
 		if (address->name_len > JABBER_MAX_JID_LEN)
+		{
+			Netlib_Log(nullptr, "Jabber OMEMO: libsignal data backend impl: failed to load session (invalid address length)");
 			return -1;
+		}
 
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 
@@ -661,6 +670,7 @@ namespace omemo {
 		if (!dbv.cpbVal)
 		{
 			db_free(&dbv);
+			Netlib_Log(nullptr, "Jabber OMEMO: libsignal data backend impl: failed to load session (session does not exist)");
 			return 0;
 		}
 		*record = signal_buffer_create(dbv.pbVal, dbv.cpbVal);
@@ -906,6 +916,7 @@ namespace omemo {
 		if (!dbv.cpbVal)
 		{
 			db_free(&dbv);
+			Netlib_Log(nullptr, "Jabber OMEMO: libsignal data backend impl: failed to load prekey SG_ERR_INVALID_KEY_ID");
 			return SG_ERR_INVALID_KEY_ID;
 		}
 		*record = signal_buffer_create(dbv.pbVal, dbv.cpbVal);
@@ -1045,6 +1056,7 @@ namespace omemo {
 		if (!dbv.cpbVal)
 		{
 			db_free(&dbv);
+			Netlib_Log(nullptr, "Jabber OMEMO: libsignal data backend impl: failed to load signed prekey SG_ERR_INVALID_KEY_ID");
 			return SG_ERR_INVALID_KEY_ID;
 		}
 		*record = signal_buffer_create(dbv.pbVal, dbv.cpbVal);
@@ -1345,7 +1357,10 @@ namespace omemo {
 
 		session_builder *builder;
 		if (session_builder_create(&builder, sessions_internal[hContact][dev_id_int].store_context, address, global_context) < 0)
+		{
+			Netlib_Log(nullptr, "Jabber OMEMO: session_builder_create failed");
 			return false; //failure
+		}
 
 		sessions_internal[hContact][dev_id_int].builder = builder;
 
@@ -1412,7 +1427,10 @@ namespace omemo {
 
 		}
 		if (!fp_trusted)
+		{
+			Netlib_Log(nullptr, "Jabber OMEMO: untrusted key, session build failure");
 			return false; //TODO: cleanup here
+		}
 		pre_key_a = mir_u2a(signed_pre_key_signature);
 		key_buf = (uint8_t*)mir_base64_decode(pre_key_a, &key_buf_len);
 		mir_free(pre_key_a);
@@ -1434,6 +1452,7 @@ namespace omemo {
 		//TODO: do necessary actions for untrusted identity
 		break;
 		case SG_ERR_INVALID_KEY:
+			Netlib_Log(nullptr, "Jabber OMEMO: session_builder_process_pre_key_bundle failure SG_ERR_INVALID_KEY");
 			return false; //failure
 			break;
 		default:
@@ -1444,7 +1463,10 @@ namespace omemo {
 		/* Create the session cipher and encrypt the message */
 		session_cipher *cipher;
 		if (session_cipher_create(&cipher, sessions_internal[hContact][dev_id_int].store_context, address, global_context) < 0)
+		{
+			Netlib_Log(nullptr, "Jabber OMEMO: session_cipher_create failure");
 			return false; //failure
+		}
 		sessions_internal[hContact][dev_id_int].cipher = cipher;
 
 		return true; //success
@@ -1465,27 +1487,46 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 {
 	MCONTACT hContact = HContactFromJID(jid);
 	if (!OmemoCheckSession(hContact)) //TODO: something better here
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: sessions not yet created, session creation launched, message will not be decrypted");
 		return;
+	}
 	HXML header_node = XmlGetChild(node, L"header");
 	if (!header_node)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: omemo message does not contain header");
 		return;
+	}
 	HXML payload_node = XmlGetChild(node, L"payload");
 	if (!payload_node)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: omemo message does not contain payload, it's may be \"KeyTransportElement\" which is currently unused by our implementation");
 		return; //this is "KeyTransportElement" which is currently unused
+	}
 	LPCTSTR payload_base64w = XmlGetText(payload_node);
 	if (!payload_base64w)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: failed to get payload data");
 		return;
+	}
 	LPCTSTR iv_base64 = XmlGetText(XmlGetChild(header_node, L"iv"));
 	if (!iv_base64)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: failed to get iv data");
 		return;
+	}
 	LPCTSTR sender_dev_id = XmlGetAttrValue(header_node, L"sid");
 	if (!sender_dev_id)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: failed to get sender device id");
 		return;
+	}
 	char *sender_device_id_a = mir_u2a(sender_dev_id);
 	DWORD sender_dev_id_int = strtoul(sender_device_id_a, nullptr, 10);
 	mir_free(sender_device_id_a);
 	if (!omemo::sessions_internal[hContact][sender_dev_id_int].cipher || !omemo::sessions_internal[hContact][sender_dev_id_int].builder || !omemo::sessions_internal[hContact][sender_dev_id_int].store_context)
 	{
+		Netlib_Log(nullptr, "Jabber OMEMO: bug: omemo session does not exist or broken");
 		OmemoCheckSession(hContact); //this should not normally happened
 		return;
 	}
@@ -1505,7 +1546,10 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 		}
 	}
 	if (!encrypted_key_base64)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: message does not have decryption key for our device");
 		return; //node does not contain key for our device
+	}
 	unsigned int encrypted_key_len;
 	unsigned char *encrypted_key;
 	{
@@ -1531,26 +1575,36 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 		case SG_SUCCESS:
 			break;
 		case SG_ERR_INVALID_MESSAGE:
+			Netlib_Log(nullptr, "Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_MESSAGE");
 			return;
 			break;
 		case SG_ERR_DUPLICATE_MESSAGE:
+			Netlib_Log(nullptr, "Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_DUPLICATE_MESSAGE");
 			return;
 			break;
 		case SG_ERR_LEGACY_MESSAGE:
+			Netlib_Log(nullptr, "Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_LEGACY_MESSAGE");
 			return;
 			break;
 		case SG_ERR_INVALID_KEY_ID:
+			Netlib_Log(nullptr, "Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_KEY_ID");
 			return;
 			break;
 		case SG_ERR_INVALID_KEY:
+			Netlib_Log(nullptr, "Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_KEY");
 			return;
 			break;
 		case SG_ERR_UNTRUSTED_IDENTITY:
+			Netlib_Log(nullptr, "Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_UNTRUSTED_IDENTITY");
 			return;
 			break;
 		default:
 			break;
 		}
+	}
+	else
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: pre_key_signal_message_deserialize failed");
 	}
 	char *out = nullptr;
 	{
@@ -1584,6 +1638,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 		EVP_CIPHER_CTX_free(ctx);
 		if (!dec_success)
 		{
+			Netlib_Log(nullptr, "Jabber OMEMO: error: aes_128_gcm verification failed (ignored for now, but still error)");
 			//return;
 			//TODO: handle decryption failure
 		}
@@ -1616,10 +1671,16 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 	MCONTACT hContact = HContactFromJID(jid);
 	node = XmlGetChild(node, "item"); //get <item> node
 	if (!node)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: omemo devicelist does not have <item> node");
 		return;
+	}
 	node = XmlGetChildByTag(node, L"list", L"xmlns", JABBER_FEAT_OMEMO); //<list xmlns = 'urn:xmpp:omemo:0'>
 	if (!node)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: omemo devicelist does not have <list> node");
 		return;
+	}
 	bool own_jid = false;
 	if (wcsstr(m_ThreadInfo->fullJID, jid))
 		own_jid = true;
@@ -1861,6 +1922,8 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 
 	if (!pending_check)
 		return true;
+	else
+		Netlib_Log(nullptr, "Jabber OMEMO: info: OmemoCheckSession: pending session creation encryption/decryption of THIS message will not be done and message WILL be lost");
 	return false;
 }
 
@@ -1898,6 +1961,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 			db_set_resident(m_szModuleName, setting_name2);
 			id = getDword(hContact, setting_name, 0);
 		}
+		Netlib_Log(nullptr, "Jabber OMEMO: error: failed to get bundle for device, this may be due to absent data on server or due to our bug (incorrect device id in request)");
 
 		return;
 	}
@@ -1906,29 +1970,50 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 
 	HXML pubsub = XmlGetChildByTag(iqNode, L"pubsub", L"xmlns", L"http://jabber.org/protocol/pubsub");
 	if (!pubsub)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain pubsub node");
 		return;
+	}
 	HXML items = XmlGetChild(pubsub, L"items");
 	LPCTSTR items_node_val = XmlGetAttrValue(items, L"node");
 	LPCTSTR device_id = items_node_val;
 	device_id += mir_wstrlen(JABBER_FEAT_OMEMO L".bundles:");
 	HXML bundle = XmlGetChild(XmlGetChild(items, L"item"), L"bundle");
 	if (!bundle)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain bundle node");
 		return;
+	}
 	LPCTSTR signedPreKeyPublic = XmlGetText(XmlGetChild(bundle, L"signedPreKeyPublic"));
 	if (!signedPreKeyPublic)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain signedPreKeyPublic node");
 		return;
+	}
 	LPCTSTR signedPreKeyId = XmlGetAttrValue(XmlGetChild(bundle, L"signedPreKeyPublic"), L"signedPreKeyId");
 	if (!signedPreKeyId)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain signedPreKeyPublic node");
 		return;
+	}
 	LPCTSTR signedPreKeySignature = XmlGetText(XmlGetChild(bundle, L"signedPreKeySignature"));
 	if (!signedPreKeySignature)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain signedPreKeySignature node");
 		return;
+	}
 	LPCTSTR identityKey = XmlGetText(XmlGetChild(bundle, L"identityKey"));
 	if (!identityKey)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain identityKey node");
 		return;
+	}
 	HXML prekeys = XmlGetChild(bundle, L"prekeys");
 	if (!prekeys)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain prekeys node");
 		return;
+	}
 
 	unsigned char key_num = 0;
 	while(key_num == 0)
@@ -1941,22 +2026,37 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 	for (int p = 1; (prekey_node = XmlGetNthChild(prekeys, L"preKeyPublic", p)) != NULL && p <= key_num; p++)
 		;
 	if (!prekey_node)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain preKeyPublic node");
 		return;
+	}
 
 	LPCTSTR preKeyPublic = XmlGetText(prekey_node);
 	if (!preKeyPublic)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: failed to get preKeyPublic data");
 		return;
+	}
 	LPCTSTR preKeyId = XmlGetAttrValue(prekey_node, L"preKeyId");
 	if (!preKeyId)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: failed to get preKeyId data");
 		return;
+	}
 
 	
 	
 	if (!omemo::create_session_store(hContact, device_id, this))
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: omemo::create_session_store failed");
 		return; //failed to create session store
+	}
 
 	if (!omemo::build_session(hContact, jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic, signedPreKeySignature, identityKey, this))
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: omemo::build_session failed");
 		return; //failed to build signal(omemo) session
+	}
 
 	{
 		unsigned int *dev_id = (unsigned int*)pInfo->GetUserData();
@@ -2028,12 +2128,16 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 	for (std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs>::iterator i = omemo::sessions_internal[hContact].begin(), end = omemo::sessions_internal[hContact].end(); i != end; i++)
 	{
 		if (!i->second.cipher)
+		{
+			Netlib_Log(nullptr, "Jabber OMEMO: bug: omemo session does not have valid cipher");
 			continue;
+		}
 		unsigned int intdev_id = i->first;
 		ciphertext_message *encrypted_key;
 		if (session_cipher_encrypt(i->second.cipher, (uint8_t*)key, 16, &encrypted_key) != SG_SUCCESS)
 		{
 			//TODO: handle encryption error
+			Netlib_Log(nullptr, "Jabber OMEMO: bug: session_cipher_encrypt failed");
 			continue;
 		}
 		else
@@ -2057,6 +2161,10 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 	xmlSetText(iv_node, iv_base64w);
 	mir_free(iv_base64w);
 	msg << XCHILDNS(L"store", L"urn:xmpp:hints");
+	if (!session_count)
+	{
+		Netlib_Log(nullptr, "Jabber OMEMO: error: message does not encrypted for any sessions");
+	}
 	return session_count;
 }
 bool CJabberProto::OmemoIsEnabled(MCONTACT /*hContact*/)
