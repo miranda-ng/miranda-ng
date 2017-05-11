@@ -37,6 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_message_manager.h"
 #include "jabber_presence_manager.h"
 #include "jabber_send_manager.h"
+#include "jabber_omemo.h"
 
 struct CJabberProto;
 
@@ -347,6 +348,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	unsigned int OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_text, MCONTACT hContact);
 	bool OmemoIsEnabled(MCONTACT hContact);
 	void OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo);
+
+	omemo::omemo_impl m_omemo;
 
 	//---- jabber_console.cpp ------------------------------------------------------------
 

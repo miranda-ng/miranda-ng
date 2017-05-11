@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "jabber_omemo.h"
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
 #include <openssl/rand.h>
@@ -374,53 +375,81 @@ namespace omemo {
 		return result;
 	}
 
-
-
-	mir_cs _signal_cs;
-	mir_cslockfull signal_mutex(_signal_cs);
-
-	void lock(void * /*user_data*/)
+	void lock(void *user_data)
 	{
-		signal_mutex.lock();
+		omemo_impl *omi = (omemo_impl*)user_data;
+		omi->signal_mutex->lock();
 	}
 
-	void unlock(void * /*user_data*/)
+	void unlock(void *user_data)
 	{
-		signal_mutex.unlock();
+		omemo_impl *omi = (omemo_impl*)user_data;
+		omi->signal_mutex->unlock();
 	}
-	signal_context *global_context;
 
-	int init_omemo()
+
+	signal_context *global_context = nullptr;
+	struct omemo_session_jabber_internal_ptrs
 	{
-		signal_mutex.unlock(); //fuck...
-		signal_context_create(&global_context, NULL);
-		signal_crypto_provider provider;
-		provider.random_func = &random_func;
-		provider.hmac_sha256_init_func = &hmac_sha256_init_func;
-		provider.hmac_sha256_update_func = &hmac_sha256_update_func;
-		provider.hmac_sha256_final_func = &hmac_sha256_final_func;
-		provider.hmac_sha256_cleanup_func = &hmac_sha256_cleanup_func;
-		provider.sha512_digest_init_func = &sha512_digest_init_func;
-		provider.sha512_digest_update_func = &sha512_digest_update_func;
-		provider.sha512_digest_final_func = &sha512_digest_final_func;
-		provider.sha512_digest_cleanup_func = &sha512_digest_cleanup_func;
-		provider.encrypt_func = &encrypt_func;
-		provider.decrypt_func = &decrypt_func;
+		session_builder *builder;
+		session_cipher *cipher;
+		signal_protocol_store_context *store_context;
+	};
 
-		if (signal_context_set_crypto_provider(global_context, &provider))
+
+	omemo_impl::omemo_impl(CJabberProto *p) : proto(p)
+	{
+		if (!global_context)
+			signal_context_create(&global_context, this);
+		signal_mutex = new mir_cslockfull(_signal_cs);
+		signal_mutex->unlock(); //fuck...
+		provider = new signal_crypto_provider;
+		provider->random_func = &random_func;
+		provider->hmac_sha256_init_func = &hmac_sha256_init_func;
+		provider->hmac_sha256_update_func = &hmac_sha256_update_func;
+		provider->hmac_sha256_final_func = &hmac_sha256_final_func;
+		provider->hmac_sha256_cleanup_func = &hmac_sha256_cleanup_func;
+		provider->sha512_digest_init_func = &sha512_digest_init_func;
+		provider->sha512_digest_update_func = &sha512_digest_update_func;
+		provider->sha512_digest_final_func = &sha512_digest_final_func;
+		provider->sha512_digest_cleanup_func = &sha512_digest_cleanup_func;
+		provider->encrypt_func = &encrypt_func;
+		provider->decrypt_func = &decrypt_func;
+
+		if (signal_context_set_crypto_provider(global_context, provider))
 		{
-			Netlib_Log(nullptr, "Jabber OMEMO: signal_context_set_crypto_provider failed");
+			proto->debugLogA("Jabber OMEMO: signal_context_set_crypto_provider failed");
 			//TODO: handle error
 		}
 
 		if (signal_context_set_locking_functions(global_context, &lock, &unlock))
 		{
-			Netlib_Log(nullptr, "Jabber OMEMO: signal_context_set_locking_functions failed");
+			proto->debugLogA("Jabber OMEMO: signal_context_set_crypto_provider failed");
 			//TODO: handle error
 		}
-
-		return 0;
+		sessions_internal = new std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >;
 	}
+	omemo_impl::~omemo_impl()
+	{
+		for (std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >::iterator i = ((std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >*)sessions_internal)->begin(),
+			end = ((std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >*)sessions_internal)->end(); i != end; ++i)
+		{
+			for (std::map<unsigned int, omemo_session_jabber_internal_ptrs>::iterator i2 = i->second.begin(), end2 = i->second.end(); i2 != end2; ++i2)
+			{
+				if (i2->second.cipher)
+					session_cipher_free(i2->second.cipher);
+				if (i2->second.builder)
+					session_builder_free(i2->second.builder);
+				if (i2->second.store_context)
+					signal_protocol_store_context_destroy(i2->second.store_context);
+			}
+		}
+		((std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >*)sessions_internal)->clear();
+		delete (std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >*)sessions_internal;
+		delete signal_mutex;
+		delete provider;
+	}
+
 
 	struct omemo_device
 	{
@@ -428,7 +457,7 @@ namespace omemo {
 		ratchet_identity_key_pair *device_key;
 	};
 
-	omemo_device* create_device()
+	omemo_device* omemo_impl::create_device()
 	{
 		omemo_device *dev = (omemo_device*)mir_alloc(sizeof(omemo_device));
 		for (dev->id = 0; dev->id == 0;)
@@ -438,13 +467,13 @@ namespace omemo {
 		
 		if (signal_protocol_key_helper_generate_identity_key_pair(&(dev->device_key), global_context))
 		{
-			Netlib_Log(nullptr, "Jabber OMEMO: signal_protocol_key_helper_generate_identity_key_pair failed");
+			proto->debugLogA("Jabber OMEMO: signal_protocol_key_helper_generate_identity_key_pair failed");
 			//TODO: handle error
 		}
 
 		return dev;
 	}
-	bool IsFirstRun(CJabberProto *proto)
+	bool omemo_impl::IsFirstRun()
 	{
 		//TODO: more sanity checks
 		//TODO: check and if necessary refresh prekeys
@@ -461,9 +490,9 @@ namespace omemo {
 		return false;
 	}
 
-	unsigned int GetOwnDeviceId(CJabberProto *proto)
+	unsigned long omemo_impl::GetOwnDeviceId()
 	{
-		unsigned int own_id = proto->getDword("OmemoDeviceId", 0);
+		unsigned long own_id = proto->getDword("OmemoDeviceId", 0);
 		if (own_id == 0)
 		{
 			proto->OmemoInitDevice();
@@ -472,7 +501,7 @@ namespace omemo {
 		return own_id;
 	}
 
-	void RefreshDevice(CJabberProto *proto)
+	void omemo_impl::RefreshDevice()
 	{
 		//generate and save device id
 		omemo_device *new_dev = create_device();
@@ -521,7 +550,7 @@ namespace omemo {
 			signal_buffer *serialized_signed_pre_key;
 			session_signed_pre_key_serialize(&serialized_signed_pre_key, signed_pre_key);
 			char *setting_name = (char*)mir_alloc(strlen("OmemoSignalSignedPreKey_") + 32);
-			mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", GetOwnDeviceId(proto), signed_pre_key_id);
+			mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
 			db_set_blob(0, proto->m_szModuleName, setting_name, signal_buffer_data(serialized_signed_pre_key), (unsigned int)signal_buffer_len(serialized_signed_pre_key));
 //			SIGNAL_UNREF(serialized_signed_pre_key);
 			mir_free(setting_name);
@@ -560,7 +589,7 @@ namespace omemo {
 			{
 				signal_buffer *serialized_pre_key;
 				session_pre_key_serialize(&serialized_pre_key, pre_key);
-				mir_snprintf(setting_name2, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(proto), pre_key_id);
+				mir_snprintf(setting_name2, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(), pre_key_id);
 				db_set_blob(0, proto->m_szModuleName, setting_name2, signal_buffer_data(serialized_pre_key), (unsigned int)signal_buffer_len(serialized_pre_key));
 				SIGNAL_UNREF(serialized_pre_key);
 			}
@@ -589,13 +618,6 @@ namespace omemo {
 	}
 
 	//session related libsignal api
-	struct omemo_session_jabber_internal_ptrs
-	{
-		session_builder *builder;
-		session_cipher *cipher;
-		signal_protocol_store_context *store_context;
-	};
-	std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> > sessions_internal;
 	void clean_sessions()
 	{
 		/*
@@ -604,19 +626,6 @@ namespace omemo {
 		to avoid this kind of problems this map must be defained in CJabberProto,
 		but as our silent rules agains stl and heavy constructions i will leave it here for now.
 		*/
-		for (std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >::iterator i = sessions_internal.begin(), end = sessions_internal.end(); i != end; ++i)
-		{
-			for (std::map<unsigned int, omemo_session_jabber_internal_ptrs>::iterator i2 = i->second.begin(), end2 = i->second.end(); i2 != end2; ++i2)
-			{
-				if (i2->second.cipher)
-					session_cipher_free(i2->second.cipher);
-				if (i2->second.builder)
-					session_builder_free(i2->second.builder);
-				if (i2->second.store_context)
-					signal_protocol_store_context_destroy(i2->second.store_context);
-			}
-		}
-		sessions_internal.clear();
 	}
 
 	//signal_protocol_session_store callbacks follow
@@ -640,18 +649,20 @@ namespace omemo {
 		* @return 1 if the session was loaded, 0 if the session was not found, negative on failure
 		*/
 		//some sanity checks
+		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+
 		if ((unsigned long)address->device_id == 0)
 		{
-			Netlib_Log(nullptr, "Jabber OMEMO: libsignal data backend impl: failed to load session (invalid device id)");
+			data->proto->debugLogA("Jabber OMEMO: libsignal data backend impl: failed to load session (invalid device id)");
 			return -1;
 		}
 		if (address->name_len > JABBER_MAX_JID_LEN)
 		{
-			Netlib_Log(nullptr, "Jabber OMEMO: libsignal data backend impl: failed to load session (invalid address length)");
+			data->proto->debugLogA("Jabber OMEMO: libsignal data backend impl: failed to load session (invalid address length)");
 			return -1;
 		}
 
-		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
+
 
 		char *id_buf = (char*)mir_alloc(address->name_len + sizeof(int32_t));
 		memcpy(id_buf, address->name, address->name_len);
@@ -670,7 +681,7 @@ namespace omemo {
 		if (!dbv.cpbVal)
 		{
 			db_free(&dbv);
-			Netlib_Log(nullptr, "Jabber OMEMO: libsignal data backend impl: failed to load session (session does not exist)");
+			data->proto->debugLogA("Jabber OMEMO: libsignal data backend impl: failed to load session (session does not exist)");
 			return 0;
 		}
 		*record = signal_buffer_create(dbv.pbVal, dbv.cpbVal);
@@ -908,7 +919,7 @@ namespace omemo {
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(data->proto), pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", data->proto->m_omemo.GetOwnDeviceId(), pre_key_id);
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
 		db_get(0, data->proto->m_szModuleName, setting_name, &dbv);
@@ -916,7 +927,7 @@ namespace omemo {
 		if (!dbv.cpbVal)
 		{
 			db_free(&dbv);
-			Netlib_Log(nullptr, "Jabber OMEMO: libsignal data backend impl: failed to load prekey SG_ERR_INVALID_KEY_ID");
+			data->proto->debugLogA("Jabber OMEMO: libsignal data backend impl: failed to load prekey SG_ERR_INVALID_KEY_ID");
 			return SG_ERR_INVALID_KEY_ID;
 		}
 		*record = signal_buffer_create(dbv.pbVal, dbv.cpbVal);
@@ -938,7 +949,7 @@ namespace omemo {
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(data->proto), pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", data->proto->m_omemo.GetOwnDeviceId(), pre_key_id);
 		db_set_blob(0, data->proto->m_szModuleName, setting_name, record, (unsigned int)record_len); //TODO: check return value
 		{ //store base64 encoded keys for bundle (private key does not required ?)
 			session_pre_key *prekey = nullptr;
@@ -988,7 +999,7 @@ namespace omemo {
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(data->proto), pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", data->proto->m_omemo.GetOwnDeviceId(), pre_key_id);
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
 		db_get(0, data->proto->m_szModuleName, setting_name, &dbv);
@@ -1015,7 +1026,7 @@ namespace omemo {
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(data->proto), pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", data->proto->m_omemo.GetOwnDeviceId(), pre_key_id);
 		db_unset(0, data->proto->m_szModuleName, setting_name);
 		
 		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "OmemoPreKey%uPublic", pre_key_id);
@@ -1048,7 +1059,7 @@ namespace omemo {
 
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalSignedPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", GetOwnDeviceId(data->proto), signed_pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", data->proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
 		db_get(0, data->proto->m_szModuleName, setting_name, &dbv);
@@ -1056,7 +1067,7 @@ namespace omemo {
 		if (!dbv.cpbVal)
 		{
 			db_free(&dbv);
-			Netlib_Log(nullptr, "Jabber OMEMO: libsignal data backend impl: failed to load signed prekey SG_ERR_INVALID_KEY_ID");
+			data->proto->debugLogA("Jabber OMEMO: libsignal data backend impl: failed to load signed prekey SG_ERR_INVALID_KEY_ID");
 			return SG_ERR_INVALID_KEY_ID;
 		}
 		*record = signal_buffer_create(dbv.pbVal, dbv.cpbVal);
@@ -1079,7 +1090,7 @@ namespace omemo {
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalSignedPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", GetOwnDeviceId(data->proto), signed_pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", data->proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
 		db_set_blob(0, data->proto->m_szModuleName, setting_name, record, (unsigned int)record_len); //TODO: check return value
 		mir_free(setting_name);
 		//TODO: additionally store base64encoded public key for bundle
@@ -1100,7 +1111,7 @@ namespace omemo {
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalSignedPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", GetOwnDeviceId(data->proto), signed_pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", data->proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
 		db_get(0, data->proto->m_szModuleName, setting_name, &dbv);
@@ -1127,7 +1138,7 @@ namespace omemo {
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 
 		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalSignedPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", GetOwnDeviceId(data->proto), signed_pre_key_id);
+		mir_snprintf(setting_name, strlen("OmemoSignalSignedPreKey_") + 31, "%s%u%d", "OmemoSignalSignedPreKey_", data->proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
 		db_unset(0, data->proto->m_szModuleName, setting_name);
 		mir_free(setting_name);
 		//TODO: additionally remove base64encoded public key for bundle
@@ -1183,7 +1194,7 @@ namespace omemo {
 		*/
 		uint32_t *id = (uint32_t*)mir_alloc(sizeof(uint32_t));
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
-		*id = GetOwnDeviceId(data->proto);
+		*id = data->proto->m_omemo.GetOwnDeviceId();
 		registration_id = id;
 		return 0;
 	}
@@ -1285,7 +1296,7 @@ namespace omemo {
 	}
 	//void(*destroy_func)(void *user_data); //use first one as we have nothing special to destroy
 
-	bool create_session_store(MCONTACT hContact, LPCTSTR device_id, CJabberProto *proto)
+	bool omemo_impl::create_session_store(MCONTACT hContact, LPCTSTR device_id)
 	{
 		signal_store_backend_user_data *data[4];
 		char *device_id_a = mir_u2a(device_id);
@@ -1337,12 +1348,12 @@ namespace omemo {
 		sip.user_data = (void*)data[3];
 		signal_protocol_store_context_set_identity_key_store(store_context, &sip);
 
-		sessions_internal[hContact][device_id_int].store_context = store_context;
+		(*(std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >*)sessions_internal)[hContact][device_id_int].store_context = store_context; //oh shit ....
 
 		return true; //success
 	}
-	bool build_session(MCONTACT hContact, LPCTSTR jid, LPCTSTR dev_id, LPCTSTR key_id, LPCTSTR pre_key_public, LPCTSTR signed_pre_key_id,
-		LPCTSTR signed_pre_key_public, LPCTSTR signed_pre_key_signature, LPCTSTR identity_key, CJabberProto *proto)
+	bool omemo_impl::build_session(MCONTACT hContact, LPCTSTR jid, LPCTSTR dev_id, LPCTSTR key_id, LPCTSTR pre_key_public, LPCTSTR signed_pre_key_id,
+		LPCTSTR signed_pre_key_public, LPCTSTR signed_pre_key_signature, LPCTSTR identity_key)
 	{
 		/* Instantiate a session_builder for a recipient address. */
 		char *jid_str = mir_u2a(jid);
@@ -1356,13 +1367,14 @@ namespace omemo {
 		address->device_id = dev_id_int;
 
 		session_builder *builder;
-		if (session_builder_create(&builder, sessions_internal[hContact][dev_id_int].store_context, address, global_context) < 0)
+		if (session_builder_create(&builder, (*(std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >*)sessions_internal)[hContact][dev_id_int].store_context,
+			address, global_context) < 0)
 		{
-			Netlib_Log(nullptr, "Jabber OMEMO: session_builder_create failed");
+			proto->debugLogA("Jabber OMEMO: session_builder_create failed");
 			return false; //failure
 		}
 
-		sessions_internal[hContact][dev_id_int].builder = builder;
+		(*(std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >*)sessions_internal)[hContact][dev_id_int].builder = builder;
 
 		unsigned int key_id_int = _wtoi(key_id);
 
@@ -1393,7 +1405,7 @@ namespace omemo {
 			fingerprint_generator *fpg = nullptr;
 			fingerprint_generator_create(&fpg, 1024, global_context);
 
-			char *dev_id_a = mir_u2a(dev_id);
+			dev_id_a = mir_u2a(dev_id);
 			fingerprint *fp;
 			fingerprint_generator_create_for(fpg, dev_id_a, identity_key_p, dev_id_a, identity_key_p, &fp); //TODO: check this, not sure about it ...
 			mir_free(dev_id_a);
@@ -1428,7 +1440,7 @@ namespace omemo {
 		}
 		if (!fp_trusted)
 		{
-			Netlib_Log(nullptr, "Jabber OMEMO: untrusted key, session build failure");
+			proto->debugLogA("Jabber OMEMO: untrusted key, session build failure");
 			return false; //TODO: cleanup here
 		}
 		pre_key_a = mir_u2a(signed_pre_key_signature);
@@ -1437,7 +1449,7 @@ namespace omemo {
 		session_pre_key_bundle *retrieved_pre_key;
 		uint32_t *registration_id = (uint32_t*)mir_alloc(sizeof(uint32_t)); //let's create some momory leak...
 		*registration_id = 0;
-		signal_protocol_identity_get_local_registration_id(sessions_internal[hContact][dev_id_int].store_context, registration_id);
+		signal_protocol_identity_get_local_registration_id((*(std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >*)sessions_internal)[hContact][dev_id_int].store_context, registration_id);
 		session_pre_key_bundle_create(&retrieved_pre_key, *registration_id, dev_id_int, key_id_int, prekey, signed_pre_key_id_int, signed_prekey, key_buf, key_buf_len, identity_key_p);
 		mir_free(key_buf);
 
@@ -1452,7 +1464,7 @@ namespace omemo {
 		//TODO: do necessary actions for untrusted identity
 		break;
 		case SG_ERR_INVALID_KEY:
-			Netlib_Log(nullptr, "Jabber OMEMO: session_builder_process_pre_key_bundle failure SG_ERR_INVALID_KEY");
+			proto->debugLogA("Jabber OMEMO: session_builder_process_pre_key_bundle failure SG_ERR_INVALID_KEY");
 			return false; //failure
 			break;
 		default:
@@ -1462,12 +1474,13 @@ namespace omemo {
 
 		/* Create the session cipher and encrypt the message */
 		session_cipher *cipher;
-		if (session_cipher_create(&cipher, sessions_internal[hContact][dev_id_int].store_context, address, global_context) < 0)
+		if (session_cipher_create(&cipher,
+			(*(std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >*)sessions_internal)[hContact][dev_id_int].store_context, address, global_context) < 0)
 		{
-			Netlib_Log(nullptr, "Jabber OMEMO: session_cipher_create failure");
+			proto->debugLogA("Jabber OMEMO: session_cipher_create failure");
 			return false; //failure
 		}
-		sessions_internal[hContact][dev_id_int].cipher = cipher;
+		(*(std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >*)sessions_internal)[hContact][dev_id_int].cipher = cipher;
 
 		return true; //success
 
@@ -1477,8 +1490,8 @@ namespace omemo {
 
 void CJabberProto::OmemoInitDevice()
 {
-	if (omemo::IsFirstRun(this))
-		omemo::RefreshDevice(this);
+	if (m_omemo.IsFirstRun())
+		m_omemo.RefreshDevice();
 }
 
 DWORD JabberGetLastContactMessageTime(MCONTACT hContact);
@@ -1488,25 +1501,25 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 	MCONTACT hContact = HContactFromJID(jid);
 	if (!OmemoCheckSession(hContact)) //TODO: something better here
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: sessions not yet created, session creation launched, message will not be decrypted");
+		debugLogA("Jabber OMEMO: sessions not yet created, session creation launched, message will not be decrypted");
 		return;
 	}
 	HXML header_node = XmlGetChild(node, L"header");
 	if (!header_node)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: omemo message does not contain header");
+		debugLogA("Jabber OMEMO: error: omemo message does not contain header");
 		return;
 	}
 	HXML payload_node = XmlGetChild(node, L"payload");
 	if (!payload_node)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: omemo message does not contain payload, it's may be \"KeyTransportElement\" which is currently unused by our implementation");
+		debugLogA("Jabber OMEMO: omemo message does not contain payload, it's may be \"KeyTransportElement\" which is currently unused by our implementation");
 		return; //this is "KeyTransportElement" which is currently unused
 	}
 	LPCTSTR payload_base64w = XmlGetText(payload_node);
 	if (!payload_base64w)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: failed to get payload data");
+		debugLogA("Jabber OMEMO: error: failed to get payload data");
 		return;
 	}
 	LPCTSTR iv_base64 = XmlGetText(XmlGetChild(header_node, L"iv"));
@@ -1518,20 +1531,22 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 	LPCTSTR sender_dev_id = XmlGetAttrValue(header_node, L"sid");
 	if (!sender_dev_id)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: failed to get sender device id");
+		debugLogA("Jabber OMEMO: error: failed to get sender device id");
 		return;
 	}
 	char *sender_device_id_a = mir_u2a(sender_dev_id);
 	DWORD sender_dev_id_int = strtoul(sender_device_id_a, nullptr, 10);
 	mir_free(sender_device_id_a);
-	if (!omemo::sessions_internal[hContact][sender_dev_id_int].cipher || !omemo::sessions_internal[hContact][sender_dev_id_int].builder || !omemo::sessions_internal[hContact][sender_dev_id_int].store_context)
+	if (!(*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact][sender_dev_id_int].cipher
+		|| !(*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact][sender_dev_id_int].builder
+		|| !(*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact][sender_dev_id_int].store_context)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: bug: omemo session does not exist or broken");
+		debugLogA("Jabber OMEMO: bug: omemo session does not exist or broken");
 		OmemoCheckSession(hContact); //this should not normally happened
 		return;
 	}
 	HXML key_node;
-	DWORD own_id = omemo::GetOwnDeviceId(this);
+	DWORD own_id = m_omemo.GetOwnDeviceId();
 	LPCTSTR encrypted_key_base64 = NULL;
 	for (int p = 1; (key_node = XmlGetNthChild(header_node, L"key", p)) != NULL; p++)
 	{
@@ -1547,7 +1562,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 	}
 	if (!encrypted_key_base64)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: message does not have decryption key for our device");
+		debugLogA("Jabber OMEMO: message does not have decryption key for our device");
 		return; //node does not contain key for our device
 	}
 	unsigned int encrypted_key_len;
@@ -1569,33 +1584,33 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 	pre_key_signal_message_deserialize(&pm, encrypted_key, encrypted_key_len, omemo::global_context);
 	if (pm)
 	{
-		int ret = session_cipher_decrypt_pre_key_signal_message(omemo::sessions_internal[hContact][sender_dev_id_int].cipher, pm, 0, &decrypted_key);
+		int ret = session_cipher_decrypt_pre_key_signal_message((*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact][sender_dev_id_int].cipher, pm, 0, &decrypted_key);
 		switch (ret)
 		{
 		case SG_SUCCESS:
 			break;
 		case SG_ERR_INVALID_MESSAGE:
-			Netlib_Log(nullptr, "Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_MESSAGE");
+			debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_MESSAGE");
 			return;
 			break;
 		case SG_ERR_DUPLICATE_MESSAGE:
-			Netlib_Log(nullptr, "Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_DUPLICATE_MESSAGE");
+			debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_DUPLICATE_MESSAGE");
 			return;
 			break;
 		case SG_ERR_LEGACY_MESSAGE:
-			Netlib_Log(nullptr, "Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_LEGACY_MESSAGE");
+			debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_LEGACY_MESSAGE");
 			return;
 			break;
 		case SG_ERR_INVALID_KEY_ID:
-			Netlib_Log(nullptr, "Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_KEY_ID");
+			debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_KEY_ID");
 			return;
 			break;
 		case SG_ERR_INVALID_KEY:
-			Netlib_Log(nullptr, "Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_KEY");
+			debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_KEY");
 			return;
 			break;
 		case SG_ERR_UNTRUSTED_IDENTITY:
-			Netlib_Log(nullptr, "Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_UNTRUSTED_IDENTITY");
+			debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_UNTRUSTED_IDENTITY");
 			return;
 			break;
 		default:
@@ -1604,7 +1619,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 	}
 	else
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: pre_key_signal_message_deserialize failed");
+		debugLogA("Jabber OMEMO: error: pre_key_signal_message_deserialize failed");
 	}
 	char *out = nullptr;
 	{
@@ -1638,7 +1653,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 		EVP_CIPHER_CTX_free(ctx);
 		if (!dec_success)
 		{
-			Netlib_Log(nullptr, "Jabber OMEMO: error: aes_128_gcm verification failed (ignored for now, but still error)");
+			debugLogA("Jabber OMEMO: error: aes_128_gcm verification failed (ignored for now, but still error)");
 			//return;
 			//TODO: handle decryption failure
 		}
@@ -1672,13 +1687,13 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 	node = XmlGetChild(node, "item"); //get <item> node
 	if (!node)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: omemo devicelist does not have <item> node");
+		debugLogA("Jabber OMEMO: error: omemo devicelist does not have <item> node");
 		return;
 	}
 	node = XmlGetChildByTag(node, L"list", L"xmlns", JABBER_FEAT_OMEMO); //<list xmlns = 'urn:xmpp:omemo:0'>
 	if (!node)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: omemo devicelist does not have <list> node");
+		debugLogA("Jabber OMEMO: error: omemo devicelist does not have <list> node");
 		return;
 	}
 	bool own_jid = false;
@@ -1690,7 +1705,7 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 	{
 		//check if our device exist
 		bool own_device_listed = false;
-		unsigned int own_id = omemo::GetOwnDeviceId(this);
+		unsigned int own_id = m_omemo.GetOwnDeviceId();
 		char setting_name[64];
 		HXML list_item;
 		int i = 0;
@@ -1752,7 +1767,7 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 void CJabberProto::OmemoAnnounceDevice()
 {
 	// check "OmemoDeviceId%d" for own id and send  updated list if not exist
-	unsigned int own_id = omemo::GetOwnDeviceId(this);
+	unsigned int own_id = m_omemo.GetOwnDeviceId();
 
 	char setting_name[64];
 	for (int i = 0;; ++i) {
@@ -1806,7 +1821,7 @@ int db_enum_settings_prekeys_cb(const char *szSetting, LPARAM lParam)
 void CJabberProto::OmemoSendBundle()
 {
 	// get own device id
-	DWORD own_id = omemo::GetOwnDeviceId(this);
+	DWORD own_id = m_omemo.GetOwnDeviceId();
 
 	// construct bundle node
 	wchar_t szBareJid[JABBER_MAX_JID_LEN];
@@ -1923,7 +1938,7 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 	if (!pending_check)
 		return true;
 	else
-		Netlib_Log(nullptr, "Jabber OMEMO: info: OmemoCheckSession: pending session creation encryption/decryption of THIS message will not be done and message WILL be lost");
+		debugLogA("Jabber OMEMO: info: OmemoCheckSession: pending session creation encryption/decryption of THIS message will not be done and message WILL be lost");
 	return false;
 }
 
@@ -1961,7 +1976,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 			db_set_resident(m_szModuleName, setting_name2);
 			id = getDword(hContact, setting_name, 0);
 		}
-		Netlib_Log(nullptr, "Jabber OMEMO: error: failed to get bundle for device, this may be due to absent data on server or due to our bug (incorrect device id in request)");
+		debugLogA("Jabber OMEMO: error: failed to get bundle for device, this may be due to absent data on server or due to our bug (incorrect device id in request)");
 
 		return;
 	}
@@ -1971,7 +1986,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 	HXML pubsub = XmlGetChildByTag(iqNode, L"pubsub", L"xmlns", L"http://jabber.org/protocol/pubsub");
 	if (!pubsub)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain pubsub node");
+		debugLogA("Jabber OMEMO: error: device bundle does not contain pubsub node");
 		return;
 	}
 	HXML items = XmlGetChild(pubsub, L"items");
@@ -1981,37 +1996,37 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 	HXML bundle = XmlGetChild(XmlGetChild(items, L"item"), L"bundle");
 	if (!bundle)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain bundle node");
+		debugLogA("Jabber OMEMO: error: device bundle does not contain bundle node");
 		return;
 	}
 	LPCTSTR signedPreKeyPublic = XmlGetText(XmlGetChild(bundle, L"signedPreKeyPublic"));
 	if (!signedPreKeyPublic)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain signedPreKeyPublic node");
+		debugLogA("Jabber OMEMO: error: device bundle does not contain signedPreKeyPublic node");
 		return;
 	}
 	LPCTSTR signedPreKeyId = XmlGetAttrValue(XmlGetChild(bundle, L"signedPreKeyPublic"), L"signedPreKeyId");
 	if (!signedPreKeyId)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain signedPreKeyPublic node");
+		debugLogA("Jabber OMEMO: error: device bundle does not contain signedPreKeyPublic node");
 		return;
 	}
 	LPCTSTR signedPreKeySignature = XmlGetText(XmlGetChild(bundle, L"signedPreKeySignature"));
 	if (!signedPreKeySignature)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain signedPreKeySignature node");
+		debugLogA("Jabber OMEMO: error: device bundle does not contain signedPreKeySignature node");
 		return;
 	}
 	LPCTSTR identityKey = XmlGetText(XmlGetChild(bundle, L"identityKey"));
 	if (!identityKey)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain identityKey node");
+		debugLogA("Jabber OMEMO: error: device bundle does not contain identityKey node");
 		return;
 	}
 	HXML prekeys = XmlGetChild(bundle, L"prekeys");
 	if (!prekeys)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain prekeys node");
+		debugLogA("Jabber OMEMO: error: device bundle does not contain prekeys node");
 		return;
 	}
 
@@ -2027,34 +2042,34 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 		;
 	if (!prekey_node)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: device bundle does not contain preKeyPublic node");
+		debugLogA("Jabber OMEMO: error: device bundle does not contain preKeyPublic node");
 		return;
 	}
 
 	LPCTSTR preKeyPublic = XmlGetText(prekey_node);
 	if (!preKeyPublic)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: failed to get preKeyPublic data");
+		debugLogA("Jabber OMEMO: error: failed to get preKeyPublic data");
 		return;
 	}
 	LPCTSTR preKeyId = XmlGetAttrValue(prekey_node, L"preKeyId");
 	if (!preKeyId)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: failed to get preKeyId data");
+		debugLogA("Jabber OMEMO: error: failed to get preKeyId data");
 		return;
 	}
 
 	
 	
-	if (!omemo::create_session_store(hContact, device_id, this))
+	if (!m_omemo.create_session_store(hContact, device_id))
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: omemo::create_session_store failed");
+		debugLogA("Jabber OMEMO: error: omemo::create_session_store failed");
 		return; //failed to create session store
 	}
 
-	if (!omemo::build_session(hContact, jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic, signedPreKeySignature, identityKey, this))
+	if (!m_omemo.build_session(hContact, jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic, signedPreKeySignature, identityKey))
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: omemo::build_session failed");
+		debugLogA("Jabber OMEMO: error: omemo::build_session failed");
 		return; //failed to build signal(omemo) session
 	}
 
@@ -2123,13 +2138,14 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 	xmlSetText(payload, payload_base64w);
 	mir_free(payload_base64w);
 	HXML header = encrypted << XCHILD(L"header");
-	header << XATTRI64(L"sid", omemo::GetOwnDeviceId(this));
+	header << XATTRI64(L"sid", m_omemo.GetOwnDeviceId());
 	unsigned int session_count = 0;
-	for (std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs>::iterator i = omemo::sessions_internal[hContact].begin(), end = omemo::sessions_internal[hContact].end(); i != end; i++)
+	for (std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs>::iterator i = (*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact].begin(),
+		end = (*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact].end(); i != end; i++)
 	{
 		if (!i->second.cipher)
 		{
-			Netlib_Log(nullptr, "Jabber OMEMO: bug: omemo session does not have valid cipher");
+			debugLogA("Jabber OMEMO: bug: omemo session does not have valid cipher");
 			continue;
 		}
 		unsigned int intdev_id = i->first;
@@ -2137,7 +2153,7 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 		if (session_cipher_encrypt(i->second.cipher, (uint8_t*)key, 16, &encrypted_key) != SG_SUCCESS)
 		{
 			//TODO: handle encryption error
-			Netlib_Log(nullptr, "Jabber OMEMO: bug: session_cipher_encrypt failed");
+			debugLogA("Jabber OMEMO: bug: session_cipher_encrypt failed");
 			continue;
 		}
 		else
@@ -2163,7 +2179,7 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 	msg << XCHILDNS(L"store", L"urn:xmpp:hints");
 	if (!session_count)
 	{
-		Netlib_Log(nullptr, "Jabber OMEMO: error: message does not encrypted for any sessions");
+		debugLogA("Jabber OMEMO: error: message does not encrypted for any sessions");
 	}
 	return session_count;
 }
