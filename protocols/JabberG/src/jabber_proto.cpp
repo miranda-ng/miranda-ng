@@ -157,9 +157,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 		m_tszSelectedLang = mir_wstrdup(L"en");
 }
 
-namespace omemo {
-	void clean_sessions();
-};
 
 CJabberProto::~CJabberProto()
 {
@@ -198,8 +195,6 @@ CJabberProto::~CJabberProto()
 		mir_free(m_lstJabberFeatCapPairsDynamic[i]->szDescription);
 		delete m_lstJabberFeatCapPairsDynamic[i];
 	}
-	if(m_options.UseOMEMO)
-		omemo::clean_sessions();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
