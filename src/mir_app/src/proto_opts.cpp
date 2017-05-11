@@ -881,7 +881,7 @@ LRESULT CAccountListCtrl::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (wParam == ' ') {
 			int iItem = GetCurSel();
 			if (iItem >= 0)
-				PARENT()->OnAccountCheck(m_iItem);
+				PARENT()->OnAccountCheck(iItem);
 			return 0;
 		}
 
