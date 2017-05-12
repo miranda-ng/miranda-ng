@@ -10,7 +10,8 @@ namespace omemo {
 		omemo_impl(CJabberProto *p);
 		~omemo_impl();
 
-		
+		void init();
+		void deinit();
 		bool IsFirstRun();
 		unsigned long GetOwnDeviceId();
 		void RefreshDevice();

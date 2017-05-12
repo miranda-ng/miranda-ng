@@ -848,6 +848,10 @@ public:
 				}
 			}
 		}
+		if (m_proto->m_options.UseOMEMO)
+			m_proto->m_omemo.init();
+		else
+			m_proto->m_omemo.deinit();
 		m_proto->m_clientCapsManager.UpdateFeatHash();
 		m_proto->SendPresence(m_proto->m_iStatus, true);
 	}

@@ -397,44 +397,55 @@ namespace omemo {
 	};
 
 
-	omemo_impl::omemo_impl(CJabberProto *p) : proto(p)
+	omemo_impl::omemo_impl(CJabberProto *p) : proto(p), signal_mutex(nullptr), provider(nullptr)
 	{
 		if (proto->m_options.UseOMEMO)
+			init();
+	}
+	void omemo_impl::init()
+	{
+		if (provider && signal_mutex)
+			return;
+		if (!global_context)
+			signal_context_create(&global_context, this);
+		signal_mutex = new mir_cslockfull(_signal_cs);
+		signal_mutex->unlock(); //fuck...
+		provider = new signal_crypto_provider;
+		provider->random_func = &random_func;
+		provider->hmac_sha256_init_func = &hmac_sha256_init_func;
+		provider->hmac_sha256_update_func = &hmac_sha256_update_func;
+		provider->hmac_sha256_final_func = &hmac_sha256_final_func;
+		provider->hmac_sha256_cleanup_func = &hmac_sha256_cleanup_func;
+		provider->sha512_digest_init_func = &sha512_digest_init_func;
+		provider->sha512_digest_update_func = &sha512_digest_update_func;
+		provider->sha512_digest_final_func = &sha512_digest_final_func;
+		provider->sha512_digest_cleanup_func = &sha512_digest_cleanup_func;
+		provider->encrypt_func = &encrypt_func;
+		provider->decrypt_func = &decrypt_func;
+
+		if (signal_context_set_crypto_provider(global_context, provider))
 		{
-			if (!global_context)
-				signal_context_create(&global_context, this);
-			signal_mutex = new mir_cslockfull(_signal_cs);
-			signal_mutex->unlock(); //fuck...
-			provider = new signal_crypto_provider;
-			provider->random_func = &random_func;
-			provider->hmac_sha256_init_func = &hmac_sha256_init_func;
-			provider->hmac_sha256_update_func = &hmac_sha256_update_func;
-			provider->hmac_sha256_final_func = &hmac_sha256_final_func;
-			provider->hmac_sha256_cleanup_func = &hmac_sha256_cleanup_func;
-			provider->sha512_digest_init_func = &sha512_digest_init_func;
-			provider->sha512_digest_update_func = &sha512_digest_update_func;
-			provider->sha512_digest_final_func = &sha512_digest_final_func;
-			provider->sha512_digest_cleanup_func = &sha512_digest_cleanup_func;
-			provider->encrypt_func = &encrypt_func;
-			provider->decrypt_func = &decrypt_func;
-
-			if (signal_context_set_crypto_provider(global_context, provider))
-			{
-				proto->debugLogA("Jabber OMEMO: signal_context_set_crypto_provider failed");
-				//TODO: handle error
-			}
-
-			if (signal_context_set_locking_functions(global_context, &lock, &unlock))
-			{
-				proto->debugLogA("Jabber OMEMO: signal_context_set_crypto_provider failed");
-				//TODO: handle error
-			}
-			sessions_internal = new std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >;
+			proto->debugLogA("Jabber OMEMO: signal_context_set_crypto_provider failed");
+			//TODO: handle error
 		}
+
+		if (signal_context_set_locking_functions(global_context, &lock, &unlock))
+		{
+			proto->debugLogA("Jabber OMEMO: signal_context_set_crypto_provider failed");
+			//TODO: handle error
+		}
+		sessions_internal = new std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >;
 	}
 	omemo_impl::~omemo_impl()
 	{
 		if (proto->m_options.UseOMEMO)
+		{
+			deinit();
+		}
+	}
+	void omemo_impl::deinit()
+	{
+		if (provider && signal_mutex)
 		{
 			for (std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >::iterator i = ((std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >*)sessions_internal)->begin(),
 				end = ((std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >*)sessions_internal)->end(); i != end; ++i)
@@ -453,7 +464,10 @@ namespace omemo {
 			delete (std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >*)sessions_internal;
 			delete signal_mutex;
 			delete provider;
+			provider = nullptr;
+			signal_mutex = nullptr;
 		}
+
 	}
 
 
