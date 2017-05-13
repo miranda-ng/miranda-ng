@@ -144,7 +144,7 @@ MSN уведомление
 [This conversation has been inactive, participants will be removed.]
 Эта беседа неактивна, участники будут удалены
 [To resume the conversation, please quit this session and start a new chat session.]
-Чтобы продолжить беседу, покиньте этот сеанс и начните новый сеанс.
+Чтобы продолжить беседу, покиньте эту сессию и начните новую.
 [There is only 1 person left in the chat, do you want to switch back to standard message window?]
 В чате остался только один человек, вернуться к обычному окну сообщений?
 [MSN Chat]

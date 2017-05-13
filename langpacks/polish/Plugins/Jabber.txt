@@ -1001,6 +1001,11 @@ Notatki nie są zapisywane, zamknąć okno bez wysyłania danych do serwera?
 Jesteś pewien?
 [Incoming note]
 Przychodząca notatka
+;file \protocols\JabberG\src\jabber_omemo.cpp
+[Do you want to create OMEMO session with new device:]
+
+[OMEMO: New session]
+
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 Afar
@@ -1442,7 +1447,7 @@ Wyświetlaj informacje o systemie w odpowiedzi nt. wersji
 Akceptuj tylko wewnętrzne transfery plików (nie ujawniaj adresu IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Akceptuj prośby o autoryzację HTTP (XEP-0070)
-[Use OMEMO encryption for messages if possible (placeholder)]
+[Use OMEMO encryption for messages if possible (Experimental! WIP!)]
 
 [General]
 Ogólne
@@ -1508,6 +1513,8 @@ LiveJournal Talk
 
 [Odnoklassniki]
 Odnoklassniki
+[S.ms]
+S.ms
 [Some changes will take effect the next time you connect to the Jabber network.]
 Niektóre zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią Jabber.
 ;file \protocols\JabberG\src\jabber_password.cpp
@@ -1645,6 +1652,10 @@ Edytuj listy...
 Nie istnieje żaden kompatybilny mechanizm transferu plików
 [Protocol is offline or no JID]
 Protokół jest Rozłączony lub brak JID
+[OMEMO session does not exist yet]
+
+[No valid OMEMO session exists]
+
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 Komenda zakończona poprawnie

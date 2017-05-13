@@ -475,8 +475,6 @@
 при опит за изпращане на следното съобщение:
 [Try again]
 Опитай отново
-[Message session]
-Разговор
 [Message window event log]
 Дневник на събитията в прозореца за съобщения
 [Show names]
@@ -1669,6 +1667,8 @@ Popups за изобразяване
 Изходящо съобщение (10х10)
 [Last message received on %s at %s.]
 Последното съобщение е получено на %s в %s.
+[Message session]
+Разговор
 [%s is typing a message...]
 %s пише съобщение...
 [Me]

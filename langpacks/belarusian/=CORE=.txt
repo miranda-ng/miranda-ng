@@ -479,8 +479,6 @@
 пры пасылцы наступнага паведамлення:
 [Try again]
 Яшчэ раз
-[Message session]
-Гутарка
 [Message window event log]
 Журнал гутаркі
 [Show names]
@@ -1717,6 +1715,8 @@ UIN, E-mail і г.д.
 Выходнае паведамленне (10x10)
 [Last message received on %s at %s.]
 Апошняе паведамленне вы атрымалі %s у %s.
+[Message session]
+Гутарка
 [%s is typing a message...]
 %s набірае тэкст...
 [Me]

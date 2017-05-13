@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.23
+;  Version: 0.11.1.24
 ;  Authors: Miranda NG Team
 ;============================================================
 [Unable to initialize Tox core]

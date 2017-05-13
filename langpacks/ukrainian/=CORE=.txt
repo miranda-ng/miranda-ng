@@ -479,8 +479,6 @@
 при спробі надіслати повідомлення:
 [Try again]
 Повторити
-[Message session]
-Вікно повідомлень
 [Message window event log]
 Журнал у вікні повідомлень
 [Show names]
@@ -1713,6 +1711,8 @@ UIN, E-mail тощо
 Вихідне повідомлення (10x10)
 [Last message received on %s at %s.]
 Останнє повідомлення отримано %s о %s
+[Message session]
+Вікно повідомлень
 [%s is typing a message...]
 %s друкує вам повідомлення...
 [Me]

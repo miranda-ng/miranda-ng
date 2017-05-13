@@ -486,8 +486,6 @@ Es ist ein Fehler aufgetreten. Das Protokoll meldete folgenden Fehler:
 Während des Sendens folgender Nachricht:
 [Try again]
 Erneut versuchen
-[Message session]
-Nachrichtensitzung
 [Message window event log]
 Nachrichtenfenster-Ereignislog
 [Show names]
@@ -1753,6 +1751,8 @@ Ausgehende Nachricht (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Letzte Nachricht am %s um %s erhalten.
+[Message session]
+Nachrichtensitzung
 [%s is typing a message...]
 %s tippt eine Nachricht...
 ;file \src\core\stdmsg\src\msglog.cpp

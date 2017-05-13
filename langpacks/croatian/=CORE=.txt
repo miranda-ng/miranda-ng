@@ -486,8 +486,6 @@ p&ovijest
 
 [Try again]
 
-[Message session]
-
 [Message window event log]
 
 [Show names]
@@ -1752,6 +1750,8 @@ sve datoteke
 
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
+
+[Message session]
 
 [%s is typing a message...]
 

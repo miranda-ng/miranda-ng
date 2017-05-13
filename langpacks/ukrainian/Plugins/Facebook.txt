@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.3.0
+;  Version: 0.3.3.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -81,6 +81,8 @@
 Непідтримувані статуси як "Невидимий" (замість "Відсутній")
 [Allow posting statuses to my pages (may slow down login)]
 Дозволити публікувати статуси на своїх сторінках (уповільнює вхід)
+[Advanced]
+Розширений
 [Bots challenge test]
 Захист від ботів
 [Instruction:]

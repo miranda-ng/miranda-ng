@@ -726,7 +726,7 @@ BBCode ([b][i][u])
 [Force off]
 Выключить
 [Recent sessions]
-Последние сеансы
+Последние сессии
 [Favorites]
 Избранные
 [Show the tray icon]
@@ -1366,7 +1366,7 @@ ID текущего контакта (если определён). Наприм
 [Incoming (unfocused window)]
 Входящие (неактивное окно)
 [Incoming (new session)]
-Входящие (новый сеанс)
+Входящие (новая сессия)
 [Outgoing]
 Исходящие
 [Message send error]

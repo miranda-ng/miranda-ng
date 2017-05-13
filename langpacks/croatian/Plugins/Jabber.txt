@@ -1001,6 +1001,11 @@ Odbaci autorizaciju
 
 [Incoming note]
 
+;file \protocols\JabberG\src\jabber_omemo.cpp
+[Do you want to create OMEMO session with new device:]
+
+[OMEMO: New session]
+
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 
@@ -1442,7 +1447,7 @@ drugo
 
 [Accept HTTP Authentication requests (XEP-0070)]
 
-[Use OMEMO encryption for messages if possible (placeholder)]
+[Use OMEMO encryption for messages if possible (Experimental! WIP!)]
 
 [General]
 
@@ -1507,6 +1512,8 @@ promjene statusa
 [League Of Legends (US)]
 
 [Odnoklassniki]
+
+[S.ms]
 
 [Some changes will take effect the next time you connect to the Jabber network.]
 
@@ -1644,6 +1651,10 @@ poruke
 [No compatible file transfer mechanism exists]
 
 [Protocol is offline or no JID]
+
+[OMEMO session does not exist yet]
+
+[No valid OMEMO session exists]
 
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]

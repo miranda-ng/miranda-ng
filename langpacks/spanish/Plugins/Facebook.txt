@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.3.0
+;  Version: 0.3.3.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -53,6 +53,8 @@ Abrir enlaces con este servidor:
 Enviar estados de Miranda al Muro
 [Allow posting statuses to my pages (may slow down login)]
 Permitir publicar estados a mis páginas (puede ralentizar sesión)
+[Advanced]
+Avanzado
 [Bots challenge test]
 Prueba de reto Bots
 [Instruction:]

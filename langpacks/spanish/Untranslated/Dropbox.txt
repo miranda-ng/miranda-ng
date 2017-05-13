@@ -6,7 +6,7 @@
 [Initiate authorization]
 [Authorize]
 [Download link]
-[Use shortened download links]
+[Generate temporary link]
 [Check status of authorization]
 [Autosend download link to contact]
 [Paste download link into message input area]

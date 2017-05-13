@@ -486,8 +486,6 @@ Une erreur s'est produite. Le protocole a rapporté l'erreur suivante :
 tout en envoyant le message suivant :
 [Try again]
 Réessayer
-[Message session]
-Session message
 [Message window event log]
 Zone de texte de la Fenêtre
 [Show names]
@@ -1753,6 +1751,8 @@ Message sortant (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Dernier message reçu le %s à %s
+[Message session]
+Session message
 [%s is typing a message...]
 %s vous écrit un message...
 ;file \src\core\stdmsg\src\msglog.cpp

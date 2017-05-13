@@ -486,8 +486,6 @@ Greška, protokol prijavljuje sledeće:
 usled slanja ove poruke:
 [Try again]
 Pokušaj ponovo
-[Message session]
-Razgovor
 [Message window event log]
 Log događaja tokom razgovora
 [Show names]
@@ -1753,6 +1751,8 @@ Slanje poruke (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Poslednja poruka primljena %s u %s.
+[Message session]
+Razgovor
 [%s is typing a message...]
 %s kuca poruku...
 ;file \src\core\stdmsg\src\msglog.cpp

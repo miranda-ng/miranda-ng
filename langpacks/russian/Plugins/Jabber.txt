@@ -108,7 +108,7 @@ Jabber форма
 [Complete]
 Готово
 [Jabber Password]
-Jabber Пароль
+Пароль Jabber
 [Remember password for this session]
 Запомнить пароль для этой сессии
 [Save password permanently]
@@ -458,7 +458,7 @@ Bytestream Proxy недоступно
 [Supports multi-user chat]
 Поддержка чата
 [Can report chat state in a chat session]
-Сообщение о состоянии чата в чат сессии
+Сообщение о состоянии чата в сессию чата
 [Can report information about the last activity of the user]
 Сообщение о последней активности пользователя
 [Can report own version information]
@@ -977,6 +977,10 @@ Jabber ошибка
 Вы уверены?
 [Incoming note]
 Входящая заметка
+[Do you want to create OMEMO session with new device:]
+Создать сессию OMEMO с новым устройством:
+[OMEMO: New session]
+OMEMO: Новая сессия
 [Afar]
 Афар
 [Abkhazian]
@@ -1417,8 +1421,8 @@ Jabber ошибка
 Разрешать передачу файлов только внутри потока (не раскрывать свой IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Принимать запросы аутентификации HTTP (XEP-0070)
-[Use OMEMO encryption for messages if possible (placeholder)]
-Шифровать сообщения с помощью OMEMO (если возможно) (НЕ РАБОТАЕТ!)
+[Use OMEMO encryption for messages if possible (Experimental! WIP!)]
+Шифровать сообщения с помощью OMEMO (если возможно) (Экспериментально!)
 [General]
 Общее
 [Autoaccept multiuser chat invitations]
@@ -1608,7 +1612,9 @@ XML для MS Excel (кодировка UTF-8)
 [Protocol is offline or no JID]
 Протокол не в сети или нет JID
 [OMEMO session does not exist yet]
-OMEMO сессии не существует
+Не существует сессии OMEMO
+[No valid OMEMO session exists]
+Не существует действительной сессии OMEMO
 [Command completed successfully]
 Команда выполнена успешно
 [Error occurred during processing command]

@@ -1329,6 +1329,8 @@ XML за MS Excel (кодиран с UTF-8)
 Google Talk!
 [LiveJournal Talk]
 LiveJournal Talk
+[S.ms]
+S.ms
 [Some changes will take effect the next time you connect to the Jabber network.]
 Някои промени ще бъдат осъществени при следващо свързване към мрежата Jabber.
 [Set New Password for %s@%S]

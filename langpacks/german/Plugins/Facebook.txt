@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.3.0
+;  Version: 0.3.3.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -86,6 +86,12 @@ Facebook-Chat abmelden wenn Miranda offline geht
 Nicht-unterstützte Status auf 'Unsichtbar' setzen (anstatt 'Abwesend')
 [Allow posting statuses to my pages (may slow down login)]
 Posten von Status auf meinen Seiten erlauben (kann Anmeldung verlangsamen)
+[Advanced]
+Erweitert
+[Send typing notifications even when Invisible]
+
+[Typing is one way how user is determined active. If you don't want to be seen "active 1 min ago" on Facebook, uncheck this option and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it either.]
+
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]

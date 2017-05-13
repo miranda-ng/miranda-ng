@@ -1,0 +1,13 @@
+﻿#muuid {e876fe63-0701-4cda-bed5-7c73a379c1d1}
+;============================================================
+;  File: CloudFile.dll
+;  Plugin: CloudFile
+;  Version: 0.11.0.2
+;  Authors: Miranda NG Team
+;============================================================
+[General]
+General
+[Cancel]
+Cancelar
+[No]
+No

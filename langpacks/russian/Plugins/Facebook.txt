@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.3.1
+;  Version: 0.3.3.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -85,10 +85,10 @@
 Разрешить публиковать статусы на своих страницах (замедляет вход)
 [Advanced]
 Дополнительно
-[Don't send typing notifications when Invisible]
-Не отправлять уведомления о наборе текста в режиме "Невидимый"
-[Typing is one way how user is determined active. If you don't want to be seen "active 1 min ago" on Facebook, enable this and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it.]
-Набор текста - один из показателей активности пользователя. Если вы не хотите, чтобы контакты видели, что вы были "активен 1 минуту назад", включите эту настройку и не взаимодействуйте с сайтом. Отправка сообщений из Miranda не раскроет вас, но не полагайтесь на это полностью.
+[Send typing notifications even when Invisible]
+Отправлять уведомления о наборе текста в режиме "Невидимый"
+[Typing is one way how user is determined active. If you don't want to be seen "active 1 min ago" on Facebook, uncheck this option and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it either.]
+Набор текста - один из показателей активности пользователя. Если вы не хотите, чтобы контакты видели, что вы были "активен 1 минуту назад", выключите эту настройку и не взаимодействуйте с сайтом. Отправка сообщений из Miranda не раскроет вас, но не полагайтесь полностью на эту настройку.
 [Bots challenge test]
 Защита от ботов
 [Instruction:]

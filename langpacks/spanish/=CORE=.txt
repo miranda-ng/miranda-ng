@@ -479,8 +479,6 @@ Se ha producido un error. El protocolo reportó el siguiente error:
 al enviar el siguiente mensaje:
 [Try again]
 Intentar de nuevo
-[Message session]
-Sesión de mensaje
 [Message window event log]
 Ventana de mensajes de registro de eventos
 [Show names]
@@ -1649,6 +1647,8 @@ Mensaje entrante (10x10)
 Mensaje saliente (10x10)
 [Last message received on %s at %s.]
 Último mensaje recibido el %s a %s.
+[Message session]
+Sesión de mensaje
 [%s is typing a message...]
 %s está escribiendo un mensaje...
 [File sent]

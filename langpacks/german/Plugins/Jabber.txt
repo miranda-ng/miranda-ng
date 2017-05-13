@@ -1001,6 +1001,11 @@ Notizen wurden nicht gespeichert. Fenster schließen, ohne diese auf den Server 
 Sind Sie sich sicher?
 [Incoming note]
 Eingehende Notiz
+;file \protocols\JabberG\src\jabber_omemo.cpp
+[Do you want to create OMEMO session with new device:]
+
+[OMEMO: New session]
+
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 Afarisch
@@ -1442,8 +1447,8 @@ Informationen über das Betriebssystem bei Versionsanfragen anzeigen
 Nur "In-Band"-Dateitransfers akzeptieren (enthüllt nicht die eigene IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 HTTP-Authentifizierungs-Anfragen akzeptieren (XEP-0070)
-[Use OMEMO encryption for messages if possible (placeholder)]
-OMEMO-Verschlüsselung für Nachhrichten verwenden wenn möglich (Platzhalter)
+[Use OMEMO encryption for messages if possible (Experimental! WIP!)]
+
 [General]
 Allgemein
 [Autoaccept multiuser chat invitations]
@@ -1508,6 +1513,8 @@ League Of Legends (Ozeanien)
 League Of Legends (US)
 [Odnoklassniki]
 Odnoklassniki
+[S.ms]
+S.ms
 [Some changes will take effect the next time you connect to the Jabber network.]
 Einige Änderungen werden sich erst bei Ihrer nächsten Verbindung mit Jabber auswirken.
 ;file \protocols\JabberG\src\jabber_password.cpp
@@ -1645,6 +1652,10 @@ Liste bearbeiten...
 Kein kompatibler Dateiübertragungsmechanismus vorhanden
 [Protocol is offline or no JID]
 Protokoll ist offline oder keine JID
+[OMEMO session does not exist yet]
+
+[No valid OMEMO session exists]
+
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 Befehl erfolgreich ausgeführt

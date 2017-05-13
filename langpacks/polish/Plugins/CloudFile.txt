@@ -1,0 +1,68 @@
+﻿#muuid {e876fe63-0701-4cda-bed5-7c73a379c1d1}
+;============================================================
+;  File: CloudFile.dll
+;  Plugin: CloudFile
+;  Version: 0.11.0.2
+;  Authors: Miranda NG Team
+;============================================================
+[Allows you to transfer files via cloud services.]
+
+;file \plugins\CloudFile\res\resource.rc
+[Default service]
+
+[General]
+Ogólne
+[Autosend download link to contact]
+Automatycznie wyślij link do pobrana do kontaktu
+[Paste download link into message input area]
+Wklej link do pobrania do pola wpisywania wiadomości
+[Copy download link to clipboard]
+Kopiuj link do pobrania do schowka
+[Download link]
+Link do pobrania
+[Do nothing]
+Nic nie rób
+[Try to rename]
+
+[Try to replace]
+
+[On conflict when upload]
+
+[Authorization]
+Autoryzacja
+[Cancel]
+Anuluj
+[Enter authorization code:]
+
+[Allow access to team]
+
+[Go to this link]
+Otwórz link
+;file \plugins\CloudFile\src\icons.cpp
+[Upload file(s)]
+Wyślij plik(i)
+[Dropbox]
+
+[Google Drive]
+
+[OneDrive]
+
+[Yandex.Disk]
+
+;file \plugins\CloudFile\src\menus.cpp
+[Upload to...]
+
+[Upload]
+Wyślij
+;file \plugins\CloudFile\src\options.cpp
+[No]
+Nie
+[Services]
+Usługi
+;file \plugins\CloudFile\src\srmm.cpp
+[Upload files to...]
+
+;file \plugins\CloudFile\src\Services\dropbox_service.cpp
+;file \plugins\CloudFile\src\Services\google_service.cpp
+;file \plugins\CloudFile\src\Services\microsoft_service.cpp
+;file \plugins\CloudFile\src\Services\yandex_service.cpp

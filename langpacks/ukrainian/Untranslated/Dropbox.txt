@@ -1,1 +1,2 @@
-﻿[searches for file or folder matched by query ("query" is split on spaces into multiple tokens)]
+﻿[Generate temporary link]
+[searches for file or folder matched by query ("query" is split on spaces into multiple tokens)]

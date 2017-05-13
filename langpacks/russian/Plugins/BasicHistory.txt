@@ -124,7 +124,7 @@
 [Password]
 Пароль
 [Upload to FTP (WinSCP requred)]
-Залить на FTP (требуется WinSCP)
+Загрузить на FTP (требуется WinSCP)
 [Session name]
 Имя сессии
 [Path to file**]
@@ -416,7 +416,7 @@ Dat (плагин mContacts)
 [At least one contact should be selected.]
 Должен быть выбран, хотя бы один контакт
 [Upload to FTP]
-Залить на FTP
+Загрузить на FTP
 [Path to output file]
 Путь к файлу
 [To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]

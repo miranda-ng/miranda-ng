@@ -790,7 +790,7 @@ Miranda не смогла загрузить встроенную систему
 [Incoming (unfocused window)]
 Входящие (неактивное окно)
 [Incoming (new session)]
-Входящие (новый сеанс)
+Входящие (новая сессия)
 [Outgoing]
 Исходящие
 [Contact started typing]

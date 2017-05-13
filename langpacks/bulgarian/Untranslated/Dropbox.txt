@@ -5,7 +5,7 @@
 [Enter authorization code]
 [Initiate authorization]
 [Download link]
-[Use shortened download links]
+[Generate temporary link]
 [Check status of authorization]
 [Paste download link into message input area]
 [Copy download link to clipboard]

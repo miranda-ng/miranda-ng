@@ -24,7 +24,7 @@
 [Enter a password for UIN %d:]
 Введите пароль для номера %d:
 [Remember this session password]
-Запомнить пароль сеанса
+Запомнить пароль сессии
 [Cancel]
 Отмена
 [ICQ number:]

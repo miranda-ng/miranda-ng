@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.3.0
+;  Version: 0.3.3.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -49,6 +49,8 @@ URL:
 Ползване на балонни известия в трея вместо popup
 [Post Miranda statuses to Wall]
 Публикуване на състоянията от Miranda на стената
+[Advanced]
+Разширени
 [Bots challenge test]
 Тест за ботове
 [Instruction:]

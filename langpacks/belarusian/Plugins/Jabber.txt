@@ -979,6 +979,10 @@ Jabber Рэсурс
 Вы ўпэўнены?
 [Incoming note]
 Уваходная нататка
+[Do you want to create OMEMO session with new device:]
+
+[OMEMO: New session]
+
 [Afar]
 Афар
 [Abkhazian]
@@ -1419,7 +1423,7 @@ Jabber Рэсурс
 Дазваляць перадачу файлаў толькі унутры струменя (не расчыняць свой IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Прымаць запыты аўтэнтыфікацыі HTTP (XEP-0070)
-[Use OMEMO encryption for messages if possible (placeholder)]
+[Use OMEMO encryption for messages if possible (Experimental! WIP!)]
 
 [General]
 Агульнае
@@ -1485,6 +1489,8 @@ Google Talk!
 
 [Odnoklassniki]
 Аднакласнікі
+[S.ms]
+S.ms
 [Some changes will take effect the next time you connect to the Jabber network.]
 Некаторыя змены будуць ужытыя пры наступным уваходзе ў Jabber.
 [Set New Password for %s@%S]
@@ -1619,6 +1625,10 @@ Google Talk!
 Не знойдзена ні аднаго дзейснага механізма перадачы файлаў
 [Protocol is offline or no JID]
 Конт не далучаны ці няма JID.
+[OMEMO session does not exist yet]
+
+[No valid OMEMO session exists]
+
 [Command completed successfully]
 Каманда выканана паспяхова
 [Error occurred during processing command]
