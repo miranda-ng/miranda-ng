@@ -1201,10 +1201,11 @@ namespace omemo {
 		*     registration ID, if it was successfully retrieved.
 		* @return 0 on success, negative on failure
 		*/
-		uint32_t *id = (uint32_t*)mir_alloc(sizeof(uint32_t));
+//		uint32_t *id = (uint32_t*)mir_alloc(sizeof(uint32_t));
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
-		*id = data->proto->m_omemo.GetOwnDeviceId();
-		registration_id = id;
+/*		*id = data->proto->m_omemo.GetOwnDeviceId();
+		registration_id = id; */
+		*registration_id = data->proto->m_omemo.GetOwnDeviceId();
 		return 0;
 	}
 
@@ -1590,7 +1591,23 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 	}
 	signal_buffer *decrypted_key = NULL;
 	pre_key_signal_message *pm;
-	pre_key_signal_message_deserialize(&pm, encrypted_key, encrypted_key_len, omemo::global_context);
+	//TODO: cleanup before return on error
+	{
+		int ret = pre_key_signal_message_deserialize(&pm, encrypted_key, encrypted_key_len, omemo::global_context);
+		switch (ret)
+		{
+		case SG_SUCCESS:
+			break;
+		case SG_ERR_INVALID_PROTO_BUF:
+			debugLogA("Jabber OMEMO: error: pre_key_signal_message_deserialize failed SG_ERR_INVALID_PROTO_BUF");
+			return;
+			break;
+		default:
+			debugLogA("Jabber OMEMO: error: pre_key_signal_message_deserialize failed with unknown error");
+			return;
+			break;
+		}
+	}
 	if (pm)
 	{
 		int ret = session_cipher_decrypt_pre_key_signal_message((*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact][sender_dev_id_int].cipher, pm, 0, &decrypted_key);
@@ -1623,6 +1640,8 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 			return;
 			break;
 		default:
+			debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed with unknown error");
+			return;
 			break;
 		}
 	}
@@ -2042,7 +2061,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 	unsigned char key_num = 0;
 	while(key_num == 0)
 		Utils_GetRandom(&key_num, 1);
-	key_num = key_num % (XmlGetChildCount(prekeys) + 1);
+	key_num = (key_num % (XmlGetChildCount(prekeys))) + 1;
 
 	wchar_t key_num_str[4];
 	mir_snwprintf(key_num_str, 3, L"%d", key_num);
