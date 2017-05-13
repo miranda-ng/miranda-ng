@@ -87,6 +87,8 @@ EXPORTS
         zipOpen2                                 @88
         zipOpenNewFileInZip3                     @89
 
+        fill_fopen64_filefunc                    @90
+
         unzGetFilePos                            @100
         unzGoToFilePos                           @101
 
