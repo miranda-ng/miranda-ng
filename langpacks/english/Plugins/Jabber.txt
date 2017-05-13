@@ -514,6 +514,9 @@
 [Notes are not saved, close this window without uploading data to server?]
 [Are you sure?]
 [Incoming note]
+;file \protocols\JabberG\src\jabber_omemo.cpp
+[Do you want to create OMEMO session with new device:]
+[OMEMO: New session]
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 [Abkhazian]
@@ -735,7 +738,7 @@
 [Show information about operating system in version replies]
 [Accept only in band incoming filetransfers (don't disclose own IP)]
 [Accept HTTP Authentication requests (XEP-0070)]
-[Use OMEMO encryption for messages if possible (placeholder)]
+[Use OMEMO encryption for messages if possible (Experimental! WIP!)]
 [General]
 [Autoaccept multiuser chat invitations]
 [Automatically join bookmarks on login]
@@ -840,6 +843,7 @@
 [No compatible file transfer mechanism exists]
 [Protocol is offline or no JID]
 [OMEMO session does not exist yet]
+[No valid OMEMO session exists]
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 [Error occurred during processing command]

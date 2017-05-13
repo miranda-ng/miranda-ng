@@ -2,16 +2,21 @@
 ;============================================================
 ;  File: CloudFile.dll
 ;  Plugin: CloudFile
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda NG Team
 ;============================================================
 [Allows you to transfer files via cloud services.]
 ;file \plugins\CloudFile\res\resource.rc
-[Download link]
+[Default service]
+[General]
 [Autosend download link to contact]
 [Paste download link into message input area]
 [Copy download link to clipboard]
-[Services]
+[Download link]
+[Do nothing]
+[Try to rename]
+[Try to replace]
+[On conflict when upload]
 [Authorization]
 [Cancel]
 [Enter authorization code:]
@@ -24,12 +29,14 @@
 [OneDrive]
 [Yandex.Disk]
 ;file \plugins\CloudFile\src\menus.cpp
-[Upload files to ...]
+[Upload to...]
+[Upload]
 ;file \plugins\CloudFile\src\options.cpp
-[Account name]
+[No]
+[Services]
 ;file \plugins\CloudFile\src\srmm.cpp
+[Upload files to...]
 ;file \plugins\CloudFile\src\Services\dropbox_service.cpp
 ;file \plugins\CloudFile\src\Services\google_service.cpp
-[server does not respond]
 ;file \plugins\CloudFile\src\Services\microsoft_service.cpp
 ;file \plugins\CloudFile\src\Services\yandex_service.cpp
