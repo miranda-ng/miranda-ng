@@ -1429,9 +1429,9 @@ namespace omemo {
 				fp_trusted = true;
 			if (val == -1)
 			{
-				const size_t msg_len = strlen(Translate("Do you want to create omemo session with new device:")) + strlen("\n\n\t") + strlen(fp_str) + 1;
+				const size_t msg_len = strlen(Translate("Do you want to create OMEMO session with new device:")) + strlen("\n\n\t") + strlen(fp_str) + 1;
 				char *msg = (char*)mir_alloc(msg_len);
-				mir_snprintf(msg, msg_len, "%s%s%s", Translate("Do you want to create omemo session with new device:"), "\n\n\t", fp_str);
+				mir_snprintf(msg, msg_len, "%s%s%s", Translate("Do you want to create OMEMO session with new device:"), "\n\n\t", fp_str);
 
 				int ret = MessageBoxA(NULL, msg, Translate("OMEMO: New session"), MB_YESNO);
 				if (ret == IDYES)

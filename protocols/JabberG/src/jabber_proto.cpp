@@ -963,7 +963,7 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 		//TODO: check if message encrypted for at least one session and return error if not
 		if (!OmemoEncryptMessage(m, msg, hContact))
 		{
-			TFakeAckParams *param = new TFakeAckParams(hContact, Translate("OMEMO no valid sessions exists"));
+			TFakeAckParams *param = new TFakeAckParams(hContact, Translate("No valid OMEMO session exists"));
 			ForkThread(&CJabberProto::SendMessageAckThread, param);
 			return 0;
 		}
