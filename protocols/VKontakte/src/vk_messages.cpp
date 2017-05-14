@@ -83,6 +83,8 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 
 	if (!IsEmpty(pszRetMsg))
 		SendMsg(hContact, 0, pszRetMsg);
+	else if (m_iStatus == ID_STATUS_INVISIBLE)
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
 
 	return uMsgId;
 }
