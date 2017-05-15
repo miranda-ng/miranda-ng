@@ -1585,64 +1585,115 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 		mir_free(iv_buf);
 	}
 	signal_buffer *decrypted_key = NULL;
-	pre_key_signal_message *pm;
-	//TODO: cleanup before return on error
-	{
-		int ret = pre_key_signal_message_deserialize(&pm, encrypted_key, encrypted_key_len, omemo::global_context);
+	bool decrypted = false;
+	{ //try to decrypt as  pre_key_signal_message
+
+
+		pre_key_signal_message *pm = nullptr;
+		bool deserialized = false;
+		//TODO: cleanup before return on error
+		{
+			int ret = pre_key_signal_message_deserialize(&pm, encrypted_key, encrypted_key_len, omemo::global_context);
+			switch (ret)
+			{
+			case SG_SUCCESS:
+				deserialized = true;
+				break;
+			case SG_ERR_INVALID_PROTO_BUF:
+				debugLogA("Jabber OMEMO: error: pre_key_signal_message_deserialize failed SG_ERR_INVALID_PROTO_BUF");
+//				return;
+				break;
+			default:
+				debugLogA("Jabber OMEMO: error: pre_key_signal_message_deserialize failed with unknown error");
+//				return;
+				break;
+			}
+		}
+		if (deserialized && pm)
+		{
+			int ret = session_cipher_decrypt_pre_key_signal_message((*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact][sender_dev_id_int].cipher, pm, 0, &decrypted_key);
+			switch (ret)
+			{
+			case SG_SUCCESS:
+				decrypted = true;
+				break;
+			case SG_ERR_INVALID_MESSAGE:
+				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_MESSAGE");
+//				return;
+				break;
+			case SG_ERR_DUPLICATE_MESSAGE:
+				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_DUPLICATE_MESSAGE");
+//				return;
+				break;
+			case SG_ERR_LEGACY_MESSAGE:
+				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_LEGACY_MESSAGE");
+//				return;
+				break;
+			case SG_ERR_INVALID_KEY_ID:
+				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_KEY_ID");
+//				return;
+				break;
+			case SG_ERR_INVALID_KEY:
+				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_KEY");
+//				return;
+				break;
+			case SG_ERR_UNTRUSTED_IDENTITY:
+				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_UNTRUSTED_IDENTITY");
+//				return;
+				break;
+			default:
+				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed with unknown error");
+//				return;
+				break;
+			}
+		}
+	}
+	if (!decrypted)
+	{ //try to decrypt as signal message
+		signal_message *sm = nullptr;
+
+		bool deserialized = false;
+		int ret = signal_message_deserialize(&sm, encrypted_key, encrypted_key_len, omemo::global_context);
 		switch (ret)
 		{
 		case SG_SUCCESS:
-			break;
-		case SG_ERR_INVALID_PROTO_BUF:
-			debugLogA("Jabber OMEMO: error: pre_key_signal_message_deserialize failed SG_ERR_INVALID_PROTO_BUF");
-			return;
+			deserialized = true;
 			break;
 		default:
-			debugLogA("Jabber OMEMO: error: pre_key_signal_message_deserialize failed with unknown error");
-			return;
+			debugLogA("Jabber OMEMO: error: signal_message_deserialize failed with unknown error");
 			break;
 		}
-	}
-	if (pm)
-	{
-		int ret = session_cipher_decrypt_pre_key_signal_message((*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact][sender_dev_id_int].cipher, pm, 0, &decrypted_key);
-		switch (ret)
+		if (deserialized && sm)
 		{
-		case SG_SUCCESS:
-			break;
-		case SG_ERR_INVALID_MESSAGE:
-			debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_MESSAGE");
-			return;
-			break;
-		case SG_ERR_DUPLICATE_MESSAGE:
-			debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_DUPLICATE_MESSAGE");
-			return;
-			break;
-		case SG_ERR_LEGACY_MESSAGE:
-			debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_LEGACY_MESSAGE");
-			return;
-			break;
-		case SG_ERR_INVALID_KEY_ID:
-			debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_KEY_ID");
-			return;
-			break;
-		case SG_ERR_INVALID_KEY:
-			debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_KEY");
-			return;
-			break;
-		case SG_ERR_UNTRUSTED_IDENTITY:
-			debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_UNTRUSTED_IDENTITY");
-			return;
-			break;
-		default:
-			debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed with unknown error");
-			return;
-			break;
+			ret = session_cipher_decrypt_signal_message((*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact][sender_dev_id_int].cipher, sm, 0, &decrypted_key);
+			switch (ret)
+			{
+			case SG_SUCCESS:
+				decrypted = true;
+				break;
+			case SG_ERR_INVALID_MESSAGE:
+				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_signal_message failed SG_ERR_INVALID_MESSAGE");
+				break;
+			case SG_ERR_DUPLICATE_MESSAGE:
+				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_signal_message failed SG_ERR_DUPLICATE_MESSAGE");
+				break;
+			case SG_ERR_LEGACY_MESSAGE:
+				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_signal_message failed SG_ERR_LEGACY_MESSAGE");
+				break;
+			case SG_ERR_NO_SESSION:
+				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_signal_message failed SG_ERR_NO_SESSION");
+				break;
+			default:
+				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_signal_message failed with unknown error");
+				break;
+
+			}
 		}
 	}
-	else
+	if(!decrypted)
 	{
-		debugLogA("Jabber OMEMO: error: pre_key_signal_message_deserialize failed");
+		debugLogA("Jabber OMEMO: error: failed to decrypt incomming message");
+		return; //TODO: cleanup
 	}
 	char *out = nullptr;
 	{
