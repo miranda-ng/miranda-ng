@@ -1,5 +1,4 @@
 ; zlib data compression library
-LIBRARY zlib.mir
 EXPORTS
 ; basic functions
     zlibVersion
@@ -9,6 +8,7 @@ EXPORTS
     inflateEnd
 ; advanced functions
     deflateSetDictionary
+    deflateGetDictionary
     deflateCopy
     deflateReset
     deflateParams
@@ -34,12 +34,15 @@ EXPORTS
     compress2
     compressBound
     uncompress
+    uncompress2
     gzopen
     gzdopen
     gzbuffer
     gzsetparams
     gzread
+    gzfread
     gzwrite
+    gzfwrite
     gzprintf
     gzvprintf
     gzputs
@@ -68,7 +71,9 @@ EXPORTS
     crc32_combine64
 ; checksum functions
     adler32
+    adler32_z
     crc32
+    crc32_z
     adler32_combine
     crc32_combine
 ; various hacks, don't look :)
@@ -82,26 +87,8 @@ EXPORTS
     inflateSyncPoint
     get_crc_table
     inflateUndermine
+    inflateValidate
+    inflateCodesUsed
     inflateResetKeep
     deflateResetKeep
     gzopen_w
-; minizip functions
-    zipOpen2
-    zipOpenNewFileInZip4_64
-    zipWriteInFileInZip
-    zipCloseFileInZip
-    zipClose
-    unzOpen2
-    unzClose
-    unzGoToNextFile
-    unzGetCurrentFileInfo
-    unzOpenCurrentFilePassword
-    unzCloseCurrentFile
-    unzReadCurrentFile
-    fill_win32_filefunc
-    unzGetCurrentFileInfo64
-    unzOpenCurrentFile
-    fill_fopen64_filefunc
-    unzOpen2_64
-    zipOpen2_64
-    zipOpenNewFileInZip
