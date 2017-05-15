@@ -92,3 +92,5 @@ EXPORTS
 	fingerprint_generator_create_for
 	fingerprint_get_displayable
 	displayable_fingerprint_text
+	displayable_fingerprint_local
+	displayable_fingerprint_remote
