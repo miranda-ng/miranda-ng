@@ -5,7 +5,7 @@ Jabber Protocol Plugin for Miranda NG
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Maxim Mluhov
-Copyright (ñ) 2012-17 Miranda NG project
+Copyright (ï¿½) 2012-17 Miranda NG project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -35,7 +35,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <session_builder.h>
 #include <session_cipher.h>
 #include <protocol.h>
-#include <fingerprint.h>
 
 //c++
 #include <cstddef>
@@ -528,26 +527,14 @@ namespace omemo {
 		proto->setDword("OmemoDeviceId", new_dev->id);
 		//generate and save device key
 		ec_public_key *public_key = ratchet_identity_key_pair_get_public(new_dev->device_key);
-		{
-			//TODO: optimize it in future, generator should be global
-			fingerprint_generator *fpg = nullptr;
-			fingerprint_generator_create(&fpg, 1024, global_context);
-
-			char dev_id_a[32];
-			mir_snprintf(dev_id_a, 31, "%u", new_dev->id);
-			fingerprint *fp;
-			fingerprint_generator_create_for(fpg, dev_id_a, public_key, dev_id_a, public_key, &fp); //TODO: check this, not sure about it ...
-			displayable_fingerprint *fp_disp = fingerprint_get_displayable(fp);
-			const char *fp_str = displayable_fingerprint_text(fp_disp);
-			proto->setString("OmemoFingerprintOwn", fp_str);
-			SIGNAL_UNREF(fp);
-			fingerprint_generator_free(fpg);
-		}
-
 		signal_buffer *key_buf;
 		ec_public_key_serialize(&key_buf, public_key);
 //		SIGNAL_UNREF(public_key);
 		char *key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
+		char *fingerprint = (char*)mir_alloc((signal_buffer_len(key_buf) * 2) + 1);
+		bin2hex(signal_buffer_data(key_buf), signal_buffer_len(key_buf), fingerprint);
+		proto->setString("OmemoFingerprintOwn", fingerprint);
+		mir_free(fingerprint);
 		proto->setString("OmemoDevicePublicKey", key);
 		mir_free(key);
 		signal_buffer_free(key_buf);
@@ -1380,7 +1367,7 @@ namespace omemo {
 		if (session_builder_create(&builder, (*(std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >*)sessions_internal)[hContact][dev_id_int].store_context,
 			address, global_context) < 0)
 		{
-			proto->debugLogA("Jabber OMEMO: session_builder_create failed");
+			proto->debugLogA("Jabber OMEMO: error: session_builder_create failed");
 			return false; //failure
 		}
 
@@ -1392,38 +1379,45 @@ namespace omemo {
 		unsigned int key_buf_len;
 		uint8_t *key_buf = (uint8_t*)mir_base64_decode(pre_key_a, &key_buf_len);
 		ec_public_key *prekey;
-		curve_decode_point(&prekey, key_buf, key_buf_len, global_context);
+		if (curve_decode_point(&prekey, key_buf, key_buf_len, global_context))
+		{
+			proto->debugLogA("Jabber OMEMO: error: curve_decode_point failed to parse prekey");
+			return false; //TODO: cleanup
+		}
 		mir_free(pre_key_a);
 		mir_free(key_buf);
 		unsigned int signed_pre_key_id_int = _wtoi(signed_pre_key_id);
 		pre_key_a = mir_u2a(signed_pre_key_public);
 		key_buf = (uint8_t*)mir_base64_decode(pre_key_a, &key_buf_len);
 		ec_public_key *signed_prekey;
-		curve_decode_point(&signed_prekey, key_buf, key_buf_len, global_context);
+		if(curve_decode_point(&signed_prekey, key_buf, key_buf_len, global_context))
+		{
+			proto->debugLogA("Jabber OMEMO: error: curve_decode_point failed to parse signed prekey");
+			return false; //TODO: cleanup
+		}
 		mir_free(pre_key_a);
 		mir_free(key_buf); //TODO: check this
 		//load  identity key
 		ec_public_key *identity_key_p;
 		pre_key_a = mir_u2a(identity_key);
 		key_buf = (uint8_t*)mir_base64_decode(pre_key_a, &key_buf_len);
-		curve_decode_point(&identity_key_p, key_buf, key_buf_len, global_context);
+		if(curve_decode_point(&identity_key_p, key_buf, key_buf_len, global_context))
+		{
+			proto->debugLogA("Jabber OMEMO: error: curve_decode_point failed to parse identity key");
+			return false; //TODO: cleanup
+		}
 		mir_free(pre_key_a);
 		mir_free(key_buf); //TODO: check this
 		bool fp_trusted = false;
 		{ //check fingerprint
-		  //TODO: optimize it in future, generator should be global
-			fingerprint_generator *fpg = nullptr;
-			fingerprint_generator_create(&fpg, 1024, global_context);
-
-			dev_id_a = mir_u2a(dev_id);
-			fingerprint *fp;
-			fingerprint_generator_create_for(fpg, dev_id_a, identity_key_p, dev_id_a, identity_key_p, &fp); //TODO: check this, not sure about it ...
-			mir_free(dev_id_a);
-			displayable_fingerprint *fp_disp = fingerprint_get_displayable(fp);
-			const char *fp_str = displayable_fingerprint_text(fp_disp);
-			const size_t setting_name_len = strlen("OmemoFingerprintTrusted_") + strlen(fp_str) + 1;
+			signal_buffer *key_buf;
+			ec_public_key_serialize(&key_buf, identity_key_p);
+			char *fingerprint = (char*)mir_alloc((signal_buffer_len(key_buf) * 2) + 1);
+			bin2hex(signal_buffer_data(key_buf), signal_buffer_len(key_buf), fingerprint);
+	  
+			const size_t setting_name_len = strlen("OmemoFingerprintTrusted_") + strlen(fingerprint) + 1;
 			char *fp_setting_name = (char*)mir_alloc(setting_name_len);
-			mir_snprintf(fp_setting_name, setting_name_len, "%s%s", "OmemoFingerprintTrusted_", fp_str);
+			mir_snprintf(fp_setting_name, setting_name_len, "%s%s", "OmemoFingerprintTrusted_", fingerprint);
 			char val = proto->getByte(hContact, fp_setting_name, -1);
 			if (val == 1)
 				fp_trusted = true;
@@ -1441,12 +1435,9 @@ namespace omemo {
 				}
 				else if(ret == IDNO)
 					proto->setByte(hContact, fp_setting_name, 0);
+				mir_free(msg);
 			}
-
 			mir_free(fp_setting_name);
-			SIGNAL_UNREF(fp);
-			fingerprint_generator_free(fpg);
-
 		}
 		if (!fp_trusted)
 		{
@@ -1470,6 +1461,8 @@ namespace omemo {
 		int ret = session_builder_process_pre_key_bundle(builder, retrieved_pre_key);
 		switch (ret)
 		{
+		case SG_SUCCESS:
+			break;
 		case SG_ERR_UNTRUSTED_IDENTITY:
 		//TODO: do necessary actions for untrusted identity
 		break;
@@ -1478,6 +1471,8 @@ namespace omemo {
 			return false; //failure
 			break;
 		default:
+			proto->debugLogA("Jabber OMEMO: session_builder_process_pre_key_bundle failed with unknown error");
+			return false; //failure
 			break;
 
 		}
