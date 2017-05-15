@@ -33,7 +33,7 @@
 #endif
 #endif
 
-voidpf  ZCALLBACK win32_open_file_func  OF((voidpf opaque, const char* filename, int mode));
+voidpf  ZCALLBACK win32_open_file_func  OF((voidpf opaque, const wchar_t* filename, int mode));
 uLong   ZCALLBACK win32_read_file_func  OF((voidpf opaque, voidpf stream, void* buf, uLong size));
 uLong   ZCALLBACK win32_write_file_func OF((voidpf opaque, voidpf stream, const void* buf, uLong size));
 ZPOS64_T ZCALLBACK win32_tell64_file_func  OF((voidpf opaque, voidpf stream));
@@ -166,7 +166,7 @@ voidpf ZCALLBACK win32_open64_file_funcW (voidpf opaque,const void* filename,int
 }
 
 
-voidpf ZCALLBACK win32_open_file_func (voidpf opaque,const char* filename,int mode)
+voidpf ZCALLBACK win32_open_file_func (voidpf opaque,const wchar_t* filename,int mode)
 {
     const char* mode_fopen = NULL;
     DWORD dwDesiredAccess,dwCreationDisposition,dwShareMode,dwFlagsAndAttributes ;
