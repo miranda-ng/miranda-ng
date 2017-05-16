@@ -460,6 +460,9 @@ void CSkypeProto::LoadProfile(const NETLIBHTTPREQUEST *response, void *arg)
 		return;
 	}
 
+	if (username != li.szSkypename.get())
+		li.szSkypename = mir_strdup(username.c_str());
+
 	UpdateProfileFirstName(root, hContact);
 	UpdateProfileLastName(root, hContact);
 	UpdateProfileDisplayName(root, hContact);
