@@ -71,7 +71,6 @@ void CSkypeProto::OnOAuthAuthorize(const NETLIBHTTPREQUEST *response)
 	std::regex regex;
 	std::smatch match;
 	std::string content = response->pData;
-	ptrA szContent(response->pData);
 
 	regex = "<input type=\"hidden\" name=\"t\" id=\"t\" value=\"(.+?)\">";
 	if (!std::regex_search(content, match, regex))
