@@ -341,7 +341,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 			if (g_dat.bAutoClose)
 				::PostMessage(m_hwndParent, WM_CLOSE, 0, 0);
 			else if (g_dat.bAutoMin)
-				Show(SW_MINIMIZE);
+				::ShowWindow(m_hwndParent, SW_MINIMIZE);
 		}
 	}
 }
