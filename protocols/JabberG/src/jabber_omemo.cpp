@@ -2233,7 +2233,7 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 		else
 		{
 			HXML key_node= header << XCHILD(L"key");
-			key_node << XATTRI(L"rid", intdev_id);
+			key_node << XATTRI64(L"rid", intdev_id);
 			signal_buffer *serialized_encrypted_key = ciphertext_message_get_serialized(encrypted_key);
 			char *key_base64 = mir_base64_encode(signal_buffer_data(serialized_encrypted_key), (unsigned int)signal_buffer_len(serialized_encrypted_key));
 			wchar_t *key_base64w = mir_a2u(key_base64);
