@@ -78,7 +78,7 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 
 	Push(pReq);
 
-	if (!m_bServerDelivery && !bIsChat)
+	if (!m_vkOptions.bServerDelivery && !bIsChat)
 		ForkThread(&CVkProto::SendMsgAck, new CVkSendMsgParam(hContact, uMsgId));
 
 	if (!IsEmpty(pszRetMsg))
@@ -103,6 +103,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		JSONNode jnRoot;
 		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 		if (jnResponse) {
+			debugLogA("CVkProto::OnSendMessage jnResponse %d", jnResponse.as_int());
 			UINT mid;
 			switch (jnResponse.type()) {
 			case JSON_NUMBER:
@@ -137,7 +138,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		if (!pReq->bNeedsRestart || m_bTerminated)
 			delete param->pFUP;
 	}
-	else if (m_bServerDelivery)
+	else if (m_vkOptions.bServerDelivery)
 		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, iResult, (HANDLE)(param->iMsgID));
 
 	if (!pReq->bNeedsRestart || m_bTerminated) {

@@ -334,6 +334,15 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 	case VKERR_ACC_WALL_POST_DENIED:
 		MsgPopup(NULL, TranslateT("Access to adding post denied"), TranslateT("Error"), true);
 		break;
+	case VKERR_CANT_SEND_USER_ON_BLACKLIST:
+		MsgPopup(NULL, TranslateT("Can\'t send messages for users from blacklist"), TranslateT("Error"), true);
+		break;
+	case VKERR_CANT_SEND_USER_WITHOUT_DIALOGS:
+		MsgPopup(NULL, TranslateT("Can\'t send messages for users without dialogs"), TranslateT("Error"), true);
+		break;
+	case VKERR_CANT_SEND_YOU_ON_BLACKLIST:
+		MsgPopup(NULL, TranslateT("Can\'t send messages to this user due to their privacy settings"), TranslateT("Error"), true);
+		break;
 	case VKERR_COULD_NOT_SAVE_FILE:
 	case VKERR_INVALID_ALBUM_ID:
 	case VKERR_INVALID_SERVER:
@@ -345,7 +354,8 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 	case VKERR_HIMSELF_AS_FRIEND:
 	case VKERR_YOU_ON_BLACKLIST:
 	case VKERR_USER_ON_BLACKLIST:
-		// See CVkProto::SendFileFiled
+
+	// See also CVkProto::SendFileFiled
 		break;
 	}
 

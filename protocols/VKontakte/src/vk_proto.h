@@ -120,7 +120,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void ClearAccessToken();
 	wchar_t* GetUserStoredPassword(void);
 	void ShowCaptchaInBrowser(HBITMAP hBitmap);
-	
+
 	static mir_cs m_csTimer;
 	static UINT_PTR m_timer;
 	CVKOptions m_vkOptions;
@@ -168,21 +168,20 @@ private:
 		PMI_COUNT
 	};
 
-//====================================================================================	
+//====================================================================================
 
-	bool 
+	bool
 		m_prevError,
 		m_bOnline,
 		m_bNeedSendOnline,
 		m_bSetBroadcast,
 		m_bNotifyForEndLoadingHistory,
-		m_bNotifyForEndLoadingHistoryAllContact, 
-		m_bTerminated, 
-		m_bServerDelivery;
+		m_bNotifyForEndLoadingHistoryAllContact,
+		m_bTerminated;
 
 	LONG m_myUserId;
-	
-	ptrA 
+
+	ptrA
 		m_pollingServer,
 		m_pollingKey,
 		m_pollingTs,
@@ -201,7 +200,7 @@ private:
 
 	ULONG m_msgId;
 
-	mir_cs 
+	mir_cs
 		m_csChatTyping,
 		m_csLoadHistoryTask,
 		m_csRequestsQueue,
@@ -209,7 +208,7 @@ private:
 
 	int m_iLoadHistoryTask;
 
-	LIST<void> 
+	LIST<void>
 		m_sendIds,
 		m_incIds;
 
@@ -220,7 +219,7 @@ private:
 
 	CMStringA m_prevUrl;
 
-	HGENMENU 
+	HGENMENU
 		m_hContactMenuItems[CMI_COUNT],
 		m_hContactHistoryMenuItems[CHMI_COUNT],
 		m_hProtoMenuItems[PMI_COUNT];
