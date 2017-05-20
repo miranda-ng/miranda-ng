@@ -228,14 +228,16 @@ OAuthToken::OAuthToken(const char *pszTokenName, const char *pszService, bool bP
 
 bool OAuthToken::Refresh(bool bForce)
 {
-	char szToken[1024], szRefreshToken[1024];
-	time_t tExpires;
+	if ((!bForce && !Expired()) || !m_proto->authRefreshToken)
+		return false;
 
-	if ((!bForce && !Expired()) || !m_proto->authRefreshToken ||
-		!m_proto->RefreshOAuth(m_proto->authRefreshToken, m_pszService, szToken+(m_bPreprendT?2:0), 
-			szRefreshToken, &tExpires)) return false;
-	if (m_bPreprendT) memcpy (szToken, "t=", 2);
-	//replaceStr(m_pszRefreshToken, szRefreshToken);
+	time_t tExpires;
+	CMStringA szToken, szRefreshToken;
+	if (!m_proto->RefreshOAuth(m_proto->authRefreshToken, m_pszService, &szToken, &szRefreshToken, &tExpires))
+		return false;
+	if (m_bPreprendT)
+		szToken.Insert(0, "t=");
+
 	replaceStr(m_proto->authRefreshToken, szRefreshToken);
 	m_proto->setString("authRefreshToken", szRefreshToken);
 	SetToken(szToken, tExpires);
@@ -691,21 +693,19 @@ int CMsnProto::MSN_SkypeAuth(const char *pszNonce, char *pszUIC)
 
 /* 1	-	Login successful
    0	-	Login failed
-   -1	-	Loading Skylogin library failed
-   -2	-	Functions cannot be loaded from Skylogin library
-   -3	-	Initializing Skylogin library failed
- */
+*/
+
 int CMsnProto::LoginSkypeOAuth(const char *pRefreshToken)
 {
-	int iRet = -1;
+	int iRet = 0;
 
 	// Perform login
 	SkyLogin hLogin = SkyLogin_Init();
 	if (hLogin) {
-		char szLoginToken[1024];
+		CMStringA szLoginToken;
 		SkyLogin_SetLogFunction(hLogin, debugLogSkyLoginA, this);
-		if (RefreshOAuth(pRefreshToken, "service::login.skype.com::MBI_SSL", szLoginToken) &&
-			SkyLogin_PerformLoginOAuth(hLogin, szLoginToken))
+		if (RefreshOAuth(pRefreshToken, "service::login.skype.com::MBI_SSL", &szLoginToken, nullptr, nullptr) &&
+			 SkyLogin_PerformLoginOAuth(hLogin, szLoginToken))
 		{
 			char szUIC[1024];
 			if (SkyLogin_GetCredentialsUIC(hLogin, szUIC)) {
@@ -757,7 +757,7 @@ static int CopyCookies(NETLIBHTTPREQUEST *nlhrReply, NETLIBHTTPHEADER *hdr)
 	service::skype.com::MBI_SSL			- Root of all OAuth tokens
 	service::skype.net::MBI_SSL			- ?
 */
-bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService, char *pszAccessToken, char *pszOutRefreshToken, time_t *ptExpires)
+bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService, CMStringA *pszAccessToken, CMStringA *pszOutRefreshToken, time_t *ptExpires)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
 	NETLIBHTTPHEADER headers[3];
@@ -779,8 +779,7 @@ bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService
 	nlhr.headers[1].szValue = "application/x-www-form-urlencoded";
 	nlhr.headers[2].szName = "Cookie";
 	nlhr.headers[2].szValue = authCookies;
-	post.Format("client_id=00000000480BC46C&scope=%s&grant_type=refresh_token&refresh_token=%s",
-		ptrA(mir_urlEncode(pszService)), pszRefreshToken);
+	post.Format("client_id=00000000480BC46C&scope=%s&grant_type=refresh_token&refresh_token=%s", ptrA(mir_urlEncode(pszService)), pszRefreshToken);
 	
 	nlhr.pData = (char*)(const char*)post;
 	nlhr.dataLength = (int)mir_strlen(nlhr.pData);
@@ -793,24 +792,32 @@ bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService
 	if (nlhrReply)  {
 		hHttpsConnection = nlhrReply->nlc;
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
-			char *p;
-			bRet = true;
+			JSONROOT root(nlhrReply->pData);
+			if (root) {
+				bRet = true;
 
-			if (pszAccessToken && (p=strstr(nlhrReply->pData, "\"access_token\":"))) 
-				bRet &= sscanf(p+sizeof("\"access_token\""), "\"%[^\"]\"", pszAccessToken)==1;
-			if (pszOutRefreshToken && (p=strstr(nlhrReply->pData, "\"refresh_token\":"))) 
-				bRet &= sscanf(p+sizeof("\"refresh_token\""), "\"%[^\"]\"", pszOutRefreshToken)==1;
-			if (ptExpires && (p=strstr(nlhrReply->pData, "\"expires_in\""))) {
-				int expires;
-				if (sscanf(p+sizeof("\"expires_in\""), "%d,", &expires) == 1) {
-					time(ptExpires);
-					*ptExpires+=expires;
-					bRet&=true;
+				if (pszAccessToken) {
+					*pszAccessToken = (*root)["access_token"].as_mstring();
+					if (pszAccessToken->IsEmpty())
+						bRet = false;
+				}
+					
+				if (pszOutRefreshToken) {
+					*pszOutRefreshToken = (*root)["refresh_token"].as_mstring();
+					if (pszOutRefreshToken->IsEmpty())
+						bRet = false;
+				}
+
+				if (ptExpires) {
+					*ptExpires = (*root)["expires_in"].as_int();
+					if (*ptExpires == 0)
+						bRet = false;
 				}
 			}
 		}
 		Netlib_FreeHttpRequest(nlhrReply);
-	} else hHttpsConnection = NULL;
+	}
+	else hHttpsConnection = NULL;
 	return bRet;
 }
 

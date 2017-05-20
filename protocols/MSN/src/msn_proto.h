@@ -489,17 +489,16 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	int       MSN_GetPassportAuth(void);
 	int       MSN_SkypeAuth(const char *pszNonce, char *pszUIC);
-	int       MSN_DoOAuth(void);
 	char*     GenerateLoginBlob(char* challenge);
 	void      LoadAuthTokensDB(void);
 	void      SaveAuthTokensDB(void);
-	bool	  parseLoginPage(char *pszHTML, NETLIBHTTPREQUEST *nlhr, CMStringA *post);
+	bool	    parseLoginPage(char *pszHTML, NETLIBHTTPREQUEST *nlhr, CMStringA *post);
 	int       LoginSkypeOAuth(const char *pRefreshToken);
-	bool      RefreshOAuth(const char *pszRefreshToken, const char *pszService, char *pszAccessToken, char *pszOutRefreshToken=NULL, time_t *ptExpires=NULL);
+	bool      RefreshOAuth(const char *pszRefreshToken, const char *pszService, CMStringA *pszAccessToken, CMStringA *pszOutRefreshToken, time_t *ptExpires);
 	int       MSN_AuthOAuth(void);
-	int		  MSN_RefreshOAuthTokens(bool bJustCheck);
-	void	  MSN_SendATH(ThreadData* info);
-	CMStringA HotmailLogin(const char* url);
+	int       MSN_RefreshOAuthTokens(bool bJustCheck);
+	void      MSN_SendATH(ThreadData *info);
+	CMStringA HotmailLogin(const char *url);
 	void	    FreeAuthTokens(void);
 	int       GetMyNetID(void);
 	LPCSTR    GetMyUsername(int netId);

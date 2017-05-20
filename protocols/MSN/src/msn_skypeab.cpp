@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 #include "msn_proto.h"
-#include <m_json.h>
 
 bool CMsnProto::APISkypeComRequest(NETLIBHTTPREQUEST *nlhr, NETLIBHTTPHEADER *headers)
 {
@@ -74,7 +73,8 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 		hHttpsConnection = nlhrReply->nlc;
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
 			JSONROOT root(nlhrReply->pData);
-			if (root == NULL) return false;
+			if (root == NULL)
+				return false;
 
 			JSONNode *items = json_as_array(root), *item;
 			for (size_t i = 0; i < json_size(items); i++) {
