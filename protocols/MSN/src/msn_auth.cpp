@@ -251,23 +251,20 @@ SkypeToken::SkypeToken(const char *pszTokenName):
 
 bool SkypeToken::Refresh(bool bForce)
 {
+	if (!bForce && !Expired())
+		return false;
+
+	NETLIBHTTPHEADER headers[1] = { { "User-Agent", (char*)MSN_USER_AGENT } };
+
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	NETLIBHTTPHEADER headers[1];
-	char szPOST[2048], szToken[1024];
-	bool bRet = false;
-
-	if (!bForce && !Expired()) return false;
-
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_POST;
 	nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_REDIRECT;
 	nlhr.nlc = m_proto->hHttpsConnection;
 	nlhr.headersCount = _countof(headers);
 	nlhr.headers = headers;
-	nlhr.headers[0].szName = "User-Agent";
-	nlhr.headers[0].szValue = (char*)MSN_USER_AGENT;
-	nlhr.pData = szPOST;
 
+	CMStringA szPOST;
 	if (m_proto->MyOptions.netId == NETID_SKYPE) {
 		BYTE digest[16];
 		char szPassword[100]={0};
@@ -278,40 +275,35 @@ bool SkypeToken::Refresh(bool bForce)
 		mir_md5_hash((BYTE*)szPassword, mir_strlen(szPassword), digest);
 		mir_base64_encodebuf(digest, sizeof(digest), szPassword, sizeof(szPassword));
 		nlhr.szUrl = "https://api.skype.com/login/skypetoken";
-		nlhr.dataLength = mir_snprintf(szPOST, sizeof(szPOST), "scopes=client&clientVersion=%s&username=%s&passwordHash=%s", 
-			msnProductVer, m_proto->MyOptions.szEmail, szPassword);
+		szPOST.Format("scopes=client&clientVersion=%s&username=%s&passwordHash=%s", msnProductVer, m_proto->MyOptions.szEmail, szPassword);
 	} else {
 		// Get skype_token
 		nlhr.szUrl = "https://api.skype.com/rps/skypetoken";
-		nlhr.dataLength = mir_snprintf(szPOST, sizeof(szPOST), "scopes=client&clientVersion=%s&access_token=%s&partner=999", 
-			msnProductVer, m_proto->authSkypeComToken.Token());
+		szPOST.Format("scopes=client&clientVersion=%s&access_token=%s&partner=999", msnProductVer, m_proto->authSkypeComToken.Token());
 	}
+
+	nlhr.dataLength = szPOST.GetLength();
+	nlhr.pData = szPOST.GetBuffer();
 
 	m_proto->mHttpsTS = clock();
 	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_proto->hNetlibUserHttps, &nlhr);
 	m_proto->mHttpsTS = clock();
 
+	bool bRet = false;
 	if (nlhrReply)  {
 		m_proto->hHttpsConnection = nlhrReply->nlc;
 
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
-			char *pSkypeToken, *pExpireTime, *pEnd;
-			time_t tExpires;
-
-			if ((pSkypeToken = strstr(nlhrReply->pData, "\"skypetoken\":\"")) && 
-				(pEnd=strchr(pSkypeToken+15, '"')))
-			{
-				*pEnd = 0;
-				pSkypeToken+=14;
-				mir_snprintf (szToken, sizeof(szToken), "skype_token %s", pSkypeToken);
-
-				if ((pExpireTime = strstr(pEnd+1, "\"expiresIn\":")) && 
-					(pEnd=strchr(pExpireTime+12, '}'))) {
-						*pEnd = 0;
-						tExpires = atoi(pExpireTime+12);
-				} else tExpires=86400;
-				SetToken(szToken, time(NULL)+tExpires);
-				bRet=true;
+			JSONROOT root(nlhrReply->pData);
+			if (root) {
+				CMStringA szToken((*root)["skypetoken"].as_mstring());
+				if (!szToken.IsEmpty()) {
+					time_t tExpires = (*root)["expiresIn"].as_int();
+					if (tExpires == 0)
+						tExpires = 86400;
+					SetToken("skype_token " + szToken, time(NULL) + tExpires);
+					bRet = true;
+				}
 			}
 		}
 		Netlib_FreeHttpRequest(nlhrReply);
@@ -319,7 +311,7 @@ bool SkypeToken::Refresh(bool bForce)
 	return bRet;
 }
 
-const char *SkypeToken::XSkypetoken()
+const char* SkypeToken::XSkypetoken()
 {
 	Refresh();
 	if (m_pszToken) {
