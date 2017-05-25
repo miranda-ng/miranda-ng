@@ -261,7 +261,7 @@ protected:
 	void    VerifyProxy();
 	LRESULT WMCopyHandler(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	WORD     m_wStatus;
+	WORD     m_wStatus, m_wOldStatus;
 	size_t   m_iSendBufferSize;
 	int      m_iSendLength;				// message length in utf-8 octets
 	HICON    m_hSmileyIcon;

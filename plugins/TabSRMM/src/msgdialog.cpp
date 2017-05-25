@@ -1018,6 +1018,8 @@ void CSrmmWindow::UpdateTitle()
 
 			if (mir_wstrcmp(newtitle, m_wszTitle))
 				bChanged = true;
+			else if (m_wStatus != m_wOldStatus)
+				bChanged = true;
 
 			SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 
@@ -1036,6 +1038,7 @@ void CSrmmWindow::UpdateTitle()
 	}
 	else wcsncpy_s(newtitle, L"Message Session", _TRUNCATE);
 
+	m_wOldStatus = m_wStatus;
 	if (m_idle != dwOldIdle || bChanged) {
 		if (bChanged) {
 			item.mask |= TCIF_TEXT;
