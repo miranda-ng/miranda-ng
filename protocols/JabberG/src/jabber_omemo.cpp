@@ -23,6 +23,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+//TODO: further improovement requirements folllows in priority sequence
+/* 1. fix AES-128 GCM in 4.5 implementation
+ * 2. handle prekeys properly (cleanup after first use, create new keys)
+ * 3. reimplement session initialization  without loosing first message (incomming + outgoing)
+ * 4. fingerprints/keys management ui
+ * 5. per-contact encryption settings (enable/disable for one contact)
+ */
+
 #include "stdafx.h"
 #include "jabber_omemo.h"
 #include <openssl/evp.h>
