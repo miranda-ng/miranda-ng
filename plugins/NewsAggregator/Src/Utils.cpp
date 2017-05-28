@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2012 Mataes
 
 This is free software; you can redistribute it and/or
@@ -461,6 +461,23 @@ LPCTSTR ClearText(CMStringW &result, const wchar_t *message)
 		result = message;
 	SysFreeString(bstrHtml);
 	SysFreeString(bstrRes);
+
+	result.Replace(L"&#163;", L"£"); //pound
+	result.Replace(L"&#178;", L"²"); //sup2
+	result.Replace(L"&#235;", L"ë"); //euml
+	result.Replace(L"&#246;", L"ö"); //ouml
+	result.Replace(L"&#382;", L"ž"); //Latin Small Letter Z With Caron
+	result.Replace(L"и&#774;", L"й"); //Combining Breve
+	//result.Replace(L"&#769;", L""); //Combining Acute Accent острое ударение
+	result.Replace(L"&#1123;", L"ѣ"); //Cyrillic Small Letter Yat
+	result.Replace(L"&#8203;", L"");
+	result.Replace(L"&#8206;", L""); //lrm
+	result.Replace(L"&#8207;", L""); //rlm
+	result.Replace(L"&#8209;", L"‑"); //Non-Breaking Hyphen
+	result.Replace(L"&#8227;", L"‣"); //Triangular Bullet
+	result.Replace(L"&#8722;", L"−"); //minus
+	result.Replace(L"&#9786;", L"☺"); //White Smiling Face
+	result.Replace(L"&#65279;", L"");
 
 	return result;
 }
