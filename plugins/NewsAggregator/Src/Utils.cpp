@@ -468,7 +468,7 @@ LPCTSTR ClearText(CMStringW &result, const wchar_t *message)
 	result.Replace(L"&#246;", L"ö"); //ouml
 	result.Replace(L"&#382;", L"ž"); //Latin Small Letter Z With Caron
 	result.Replace(L"и&#774;", L"й"); //Combining Breve
-	//result.Replace(L"&#769;", L""); //Combining Acute Accent острое ударение
+	result.Replace(L"&#769;", L"´"); //Combining Acute Accent острое ударение
 	result.Replace(L"&#1123;", L"ѣ"); //Cyrillic Small Letter Yat
 	result.Replace(L"&#8203;", L"");
 	result.Replace(L"&#8206;", L""); //lrm
