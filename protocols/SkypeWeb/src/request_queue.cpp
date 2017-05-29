@@ -92,11 +92,9 @@ unsigned int RequestQueue::WorkerThread(void *arg)
 {
 	RequestQueue *queue = (RequestQueue*)arg;
 
-	while (!queue->isTerminated)
-	{
+	while (!queue->isTerminated) {
 		queue->hRequestQueueEvent.Wait();
-		while (true)
-		{
+		while (true) {
 			RequestQueueItem *item = NULL;
 			{
 				mir_cslock lock(queue->requestQueueLock);

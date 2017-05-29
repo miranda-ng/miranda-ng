@@ -19,14 +19,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::CloseDialogs()
 {
-	{
-		mir_cslock lck(m_GCCreateDialogsLock);
+	{	mir_cslock lck(m_GCCreateDialogsLock);
 		for (int i = 0; i < m_GCCreateDialogs.getCount(); i++)
 			m_GCCreateDialogs[i]->Close();
 	}
 
-	{
-		mir_cslock lck(m_InviteDialogsLock);
+	{	mir_cslock lck(m_InviteDialogsLock);
 		for (int i = 0; i < m_InviteDialogs.getCount(); i++)
 			m_InviteDialogs[i]->Close();
 	}
@@ -34,17 +32,15 @@ void CSkypeProto::CloseDialogs()
 
 //CSkypeInvideDlg
 CSkypeInviteDlg::CSkypeInviteDlg(CSkypeProto *proto) :
-CSkypeDlgBase(proto, IDD_GC_INVITE, false), m_ok(this, IDOK), m_cancel(this, IDCANCEL), m_combo(this, IDC_CONTACT), m_hContact(NULL)
+	CSkypeDlgBase(proto, IDD_GC_INVITE, false), m_ok(this, IDOK), m_cancel(this, IDCANCEL), m_combo(this, IDC_CONTACT), m_hContact(NULL)
 {
 	m_ok.OnClick = Callback(this, &CSkypeInviteDlg::btnOk_OnOk);
 }
 
 void CSkypeInviteDlg::OnInitDialog()
 {
-	for (MCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) 
-	{
-		if (!m_proto->isChatRoom(hContact))
-		{
+	for (MCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
+		if (!m_proto->isChatRoom(hContact)) {
 			wchar_t *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
 			m_combo.AddString(ptszNick, hContact);
 		}
@@ -63,6 +59,7 @@ CSkypeGCCreateDlg::CSkypeGCCreateDlg(CSkypeProto *proto) :
 	m_ok.OnClick = Callback(this, &CSkypeGCCreateDlg::btnOk_OnOk);
 	m_clc.OnListRebuilt = Callback(this, &CSkypeGCCreateDlg::FilterList);
 }
+
 CSkypeGCCreateDlg::~CSkypeGCCreateDlg()
 {
 	CSkypeProto::FreeList(m_ContactsList);
@@ -80,14 +77,10 @@ void CSkypeGCCreateDlg::OnInitDialog()
 
 void CSkypeGCCreateDlg::btnOk_OnOk(CCtrlButton*)
 {
-	for (MCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) 
-	{
-		if (!m_proto->isChatRoom(hContact))
-		{
-			if (HANDLE hItem = m_clc.FindContact(hContact)) 
-			{
-				if (m_clc.GetCheck(hItem)) 
-				{
+	for (MCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
+		if (!m_proto->isChatRoom(hContact)) {
+			if (HANDLE hItem = m_clc.FindContact(hContact)) {
+				if (m_clc.GetCheck(hItem)) {
 					char *szName = mir_strdup(m_proto->Contacts[hContact]);
 					if (szName != NULL)
 						m_ContactsList.insert(szName);
@@ -95,7 +88,7 @@ void CSkypeGCCreateDlg::btnOk_OnOk(CCtrlButton*)
 			}
 		}
 	}
-	m_ContactsList.insert(m_proto->li.szSkypename);
+	m_ContactsList.insert(m_proto->li.szSkypename.GetBuffer());
 	EndDialog(m_hwnd, m_ContactsList.getCount());
 }
 

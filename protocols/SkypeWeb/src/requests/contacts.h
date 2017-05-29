@@ -31,7 +31,7 @@ public:
 			<< CHAR_VALUE("Accept", "application/json");
 	}*/
 	GetContactListRequest(LoginInfo &li, const char *filter) :
-	  HttpRequest(REQUEST_GET, FORMAT, "contacts.skype.com/contacts/v1/users/%s/contacts", CMStringA(li.szSkypename).MakeLower().GetBuffer())
+	  HttpRequest(REQUEST_GET, FORMAT, "contacts.skype.com/contacts/v1/users/%s/contacts", li.szSkypename.MakeLower().GetBuffer())
 	{
 		if (filter != NULL)
 		{

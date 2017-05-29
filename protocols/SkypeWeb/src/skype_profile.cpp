@@ -274,7 +274,7 @@ void CSkypeProto::UpdateProfileDisplayName(const JSONNode &root, MCONTACT hConta
 	else if (lastname)
 		setWString(hContact, "Nick", lastname);
 	else {
-		
+
 		const JSONNode &node = root["displayname"];
 		CMStringW displayname((!node) ? root["username"].as_mstring() : node.as_mstring());
 		if (!displayname.IsEmpty() && displayname != "null")
@@ -296,16 +296,14 @@ void CSkypeProto::UpdateProfileGender(const JSONNode &root, MCONTACT hContact)
 void CSkypeProto::UpdateProfileBirthday(const JSONNode &root, MCONTACT hContact)
 {
 	CMStringW birthday = root["birthday"].as_mstring();
-	if (!birthday.IsEmpty() && birthday != "null")
-	{
+	if (!birthday.IsEmpty() && birthday != "null") {
 		int d, m, y;
 		swscanf(birthday.GetBuffer(), L"%d-%d-%d", &y, &m, &d);
 		setWord(hContact, "BirthYear", y);
 		setByte(hContact, "BirthDay", d);
 		setByte(hContact, "BirthMonth", m);
 	}
-	else
-	{
+	else {
 		delSetting(hContact, "BirthYear");
 		delSetting(hContact, "BirthDay");
 		delSetting(hContact, "BirthMonth");
@@ -315,8 +313,7 @@ void CSkypeProto::UpdateProfileBirthday(const JSONNode &root, MCONTACT hContact)
 void CSkypeProto::UpdateProfileCountry(const JSONNode &root, MCONTACT hContact)
 {
 	std::string isocode = root["country"].as_string();
-	if (!isocode.empty() && isocode != "null")
-	{
+	if (!isocode.empty() && isocode != "null") {
 		char *country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode.c_str(), 0);
 		setString(hContact, "Country", country);
 	}
@@ -371,11 +368,9 @@ void CSkypeProto::UpdateProfileAbout(const JSONNode &root, MCONTACT hContact)
 void CSkypeProto::UpdateProfileEmails(const JSONNode &root, MCONTACT hContact)
 {
 	const JSONNode &node = root["emails"];
-	if (node)
-	{
+	if (node) {
 		const JSONNode &items = node.as_array();
-		for (size_t i = 0; i < min(items.size(), 3); i++)
-		{
+		for (size_t i = 0; i < min(items.size(), 3); i++) {
 			const JSONNode &item = items.at(i);
 			if (!item)
 				break;
@@ -384,8 +379,7 @@ void CSkypeProto::UpdateProfileEmails(const JSONNode &root, MCONTACT hContact)
 			setWString(hContact, name, item.as_mstring());
 		}
 	}
-	else
-	{
+	else {
 		delSetting(hContact, "e-mail0");
 		delSetting(hContact, "e-mail1");
 		delSetting(hContact, "e-mail2");
@@ -431,8 +425,7 @@ void CSkypeProto::UpdateProfileXStatusMessage(const JSONNode &root, MCONTACT hCo
 void CSkypeProto::UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact)
 {
 	CMStringW province = root["avatarUrl"].as_mstring();
-	if (!province.IsEmpty() && province != "null")
-	{
+	if (!province.IsEmpty() && province != "null") {
 		SetAvatarUrl(hContact, province);
 		ReloadAvatarInfo(hContact);
 	}
@@ -460,8 +453,10 @@ void CSkypeProto::LoadProfile(const NETLIBHTTPREQUEST *response, void *arg)
 		return;
 	}
 
-	if (username != li.szSkypename.get())
-		li.szSkypename = mir_strdup(username.c_str());
+	if (li.szSkypename != username.c_str())
+		li.szMyname = username.c_str();
+	else
+		li.szMyname = li.szSkypename;
 
 	UpdateProfileFirstName(root, hContact);
 	UpdateProfileLastName(root, hContact);

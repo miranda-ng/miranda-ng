@@ -19,8 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::OnOAuthStart(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL)
-	{
+	if (response == NULL || response->pData == NULL) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -33,16 +32,14 @@ void CSkypeProto::OnOAuthStart(const NETLIBHTTPREQUEST *response)
 
 	regex = "<input type=\"hidden\" name=\"PPFT\" id=\"i0327\" value=\"(.+?)\"/>";
 
-	if (!std::regex_search(content, match, regex))
-	{
+	if (!std::regex_search(content, match, regex)) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
 	std::string PPTF = match[1];
-	
-	for (int i = 0; i < response->headersCount; i++)
-	{
+
+	for (int i = 0; i < response->headersCount; i++) {
 		if (mir_strcmpi(response->headers[i].szName, "Set-Cookie"))
 			continue;
 
@@ -61,8 +58,7 @@ void CSkypeProto::OnOAuthStart(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnOAuthAuthorize(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL)
-	{
+	if (response == NULL || response->pData == NULL) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -73,8 +69,7 @@ void CSkypeProto::OnOAuthAuthorize(const NETLIBHTTPREQUEST *response)
 	std::string content = response->pData;
 
 	regex = "<input type=\"hidden\" name=\"t\" id=\"t\" value=\"(.+?)\">";
-	if (!std::regex_search(content, match, regex))
-	{
+	if (!std::regex_search(content, match, regex)) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -86,8 +81,7 @@ void CSkypeProto::OnOAuthAuthorize(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnOAuthEnd(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL)
-	{
+	if (response == NULL || response->pData == NULL) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -97,19 +91,17 @@ void CSkypeProto::OnOAuthEnd(const NETLIBHTTPREQUEST *response)
 	std::smatch match;
 	std::string content = response->pData;
 
-	regex = "<input type=\"hidden\" name=\"skypetoken\" value=\"(.+?)\"/>"; 
-	if (!std::regex_search(content, match, regex))
-	{
+	regex = "<input type=\"hidden\" name=\"skypetoken\" value=\"(.+?)\"/>";
+	if (!std::regex_search(content, match, regex)) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
 	std::string token = match[1];
-	setString("TokenSecret", token.c_str()); 
-	regex = "<input type=\"hidden\" name=\"expires_in\" value=\"(.+?)\"/>"; 
+	setString("TokenSecret", token.c_str());
+	regex = "<input type=\"hidden\" name=\"expires_in\" value=\"(.+?)\"/>";
 
-	if (std::regex_search(content, match, regex))
-	{
+	if (std::regex_search(content, match, regex)) {
 		std::string expiresIn = match[1];
 		int seconds = atoi(expiresIn.c_str());
 		setDword("TokenExpiresIn", time(NULL) + seconds);

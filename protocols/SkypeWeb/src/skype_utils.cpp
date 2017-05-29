@@ -347,10 +347,8 @@ char *CSkypeProto::RemoveHtml(const char *text)
 	std::string new_string = "";
 	std::string data = text;
 
-	for (std::string::size_type i = 0; i < data.length(); i++)
-	{
-		if (data.at(i) == '<')
-		{
+	for (std::string::size_type i = 0; i < data.length(); i++) {
+		if (data.at(i) == '<') {
 			i = data.find(">", i);
 			if (i == std::string::npos)
 				break;
@@ -358,71 +356,57 @@ char *CSkypeProto::RemoveHtml(const char *text)
 			continue;
 		}
 
-		if (data.at(i) == '&')
-		{
+		if (data.at(i) == '&') {
 			std::string::size_type begin = i;
 			i = data.find(";", i);
-			if (i == std::string::npos)
-			{
+			if (i == std::string::npos) {
 				i = begin;
 			}
 			else {
 				std::string entity = data.substr(begin + 1, i - begin - 1);
 
 				bool found = false;
-				if (entity.length() > 1 && entity.at(0) == '#')
-				{
+				if (entity.length() > 1 && entity.at(0) == '#') {
 					// Numeric replacement
 					bool hex = false;
-					if (entity.at(1) == 'x')
-					{
+					if (entity.at(1) == 'x') {
 						hex = true;
 						entity = entity.substr(2);
 					}
-					else
-					{
+					else {
 						entity = entity.substr(1);
 					}
-					if (!entity.empty())
-					{
+					if (!entity.empty()) {
 						found = true;
 						errno = 0;
 						unsigned long value = strtoul(entity.c_str(), NULL, hex ? 16 : 10);
-						if (errno != 0)
-						{ // error with conversion in strtoul, ignore the result
+						if (errno != 0) { // error with conversion in strtoul, ignore the result
 							found = false;
 						}
-						else if (value <= 127)
-						{ // U+0000 .. U+007F
+						else if (value <= 127) { // U+0000 .. U+007F
 							new_string += (char)value;
 						}
-						else if (value >= 128 && value <= 2047)
-						{ // U+0080 .. U+07FF
+						else if (value >= 128 && value <= 2047) { // U+0080 .. U+07FF
 							new_string += (char)(192 + (value / 64));
 							new_string += (char)(128 + (value % 64));
 						}
-						else if (value >= 2048 && value <= 65535)
-						{ // U+0800 .. U+FFFF
+						else if (value >= 2048 && value <= 65535) { // U+0800 .. U+FFFF
 							new_string += (char)(224 + (value / 4096));
 							new_string += (char)(128 + ((value / 64) % 64));
 							new_string += (char)(128 + (value % 64));
 						}
-						else
-						{
+						else {
 							new_string += (char)((value >> 24) & 0xFF);
 							new_string += (char)((value >> 16) & 0xFF);
 							new_string += (char)((value >> 8) & 0xFF);
-							new_string += (char)((value)& 0xFF);
+							new_string += (char)((value) & 0xFF);
 						}
 					}
 				}
-				else
-				{
+				else {
 					// Keyword replacement
-					for (int j = 0; j < _countof(htmlEntities); j++)
-					{
-						if (!mir_strcmpi(entity.c_str(), htmlEntities[j].entity))
-						{
+					for (int j = 0; j < _countof(htmlEntities); j++) {
+						if (!mir_strcmpi(entity.c_str(), htmlEntities[j].entity)) {
 							new_string += htmlEntities[j].symbol;
 							found = true;
 							break;
@@ -445,8 +429,7 @@ char *CSkypeProto::RemoveHtml(const char *text)
 
 const char *CSkypeProto::MirandaToSkypeStatus(int status)
 {
-	switch (status)
-	{
+	switch (status) {
 	case ID_STATUS_AWAY:
 		return "Away";
 
@@ -490,7 +473,7 @@ CMStringA CSkypeProto::ParseUrl(const char *url, const char *token)
 	const char *start = strstr(url, token);
 	if (start == NULL)
 		return CMStringA();
-	
+
 	start = start + mir_strlen(token);
 	const char *end = strchr(start, '/');
 	if (end == NULL)
@@ -503,7 +486,7 @@ CMStringA CSkypeProto::GetStringChunk(const char *haystack, const char *start, c
 	const char *sstart = strstr(haystack, start);
 	if (sstart == NULL)
 		return CMStringA();
-	
+
 	sstart = sstart + mir_strlen(start);
 	const char *send = strstr(sstart, end);
 	if (send == NULL)
@@ -559,13 +542,10 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		*(szSecondParam++) = 0;
 
 	// no command or message command
-	if (!szCommand || (szCommand && !mir_wstrcmpi(szCommand, L"chat")))
-	{
-		if (szSecondParam)
-		{
+	if (!szCommand || (szCommand && !mir_wstrcmpi(szCommand, L"chat"))) {
+		if (szSecondParam) {
 			wchar_t *szChatId = wcsstr(szSecondParam, L"id=");
-			if (szChatId)
-			{
+			if (szChatId) {
 				szChatId += 5;
 				StartChatRoom(szChatId, szChatId);
 				return 0;
@@ -575,18 +555,19 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, NULL);
 		return 0;
 	}
-	else if (!mir_wstrcmpi(szCommand, L"call"))
-	{
+	
+	if (!mir_wstrcmpi(szCommand, L"call")) {
 		MCONTACT hContact = AddContact(_T2A(szJid), true);
 		NotifyEventHooks(g_hCallEvent, (WPARAM)hContact, (LPARAM)0);
 		return 0;
 	}
-	else if (!mir_wstrcmpi(szCommand, L"userinfo")){ return 0; }
-	else if (!mir_wstrcmpi(szCommand, L"add"))
-	{
+	
+	if (!mir_wstrcmpi(szCommand, L"userinfo")) 
+		return 0;
+	
+	if (!mir_wstrcmpi(szCommand, L"add")) {
 		MCONTACT hContact = FindContact(_T2A(szJid));
-		if (hContact == NULL)
-		{
+		if (hContact == NULL) {
 			PROTOSEARCHRESULT psr = { 0 };
 			psr.cbSize = sizeof(psr);
 			psr.id.w = mir_wstrdup(szJid);
@@ -602,16 +583,16 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		}
 		return 0;
 	}
-	if (!mir_wstrcmpi(szCommand, L"sendfile"))
-	{
+
+	if (!mir_wstrcmpi(szCommand, L"sendfile")) {
 		MCONTACT hContact = AddContact(_T2A(szJid), true);
 		CallService(MS_FILE_SENDFILE, hContact, NULL);
 		return 1;
 	}
+
 	if (!mir_wstrcmpi(szCommand, L"voicemail"))
-	{
 		return 1;
-	}
+
 	return 1;
 }
 

@@ -80,7 +80,7 @@ struct LoginInfo
 		ptrA szServer;
 	} endpoint;
 
-	ptrA szSkypename;
+	CMStringA szSkypename, szMyname;
 };
 
 

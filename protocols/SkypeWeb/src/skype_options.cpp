@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog)
-: CSkypeDlgBase(proto, idDialog, false),
+	: CSkypeDlgBase(proto, idDialog, false),
 	m_skypename(this, IDC_SKYPENAME),
 	m_password(this, IDC_PASSWORD),
 	m_group(this, IDC_GROUP),
@@ -53,10 +53,10 @@ void CSkypeOptionsMain::OnInitDialog()
 
 void CSkypeOptionsMain::OnApply()
 {
-	ptrA szNewSkypename(m_skypename.GetTextA()),	 
-		 szOldSkypename(m_proto->getStringA(SKYPE_SETTINGS_ID));
+	ptrA szNewSkypename(m_skypename.GetTextA()), 
+		szOldSkypename(m_proto->getStringA(SKYPE_SETTINGS_ID));
 	pass_ptrA szNewPassword(m_password.GetTextA()),
-			szOldPassword(m_proto->getStringA("Password"));
+		szOldPassword(m_proto->getStringA("Password"));
 	if (mir_strcmpi(szNewSkypename, szOldSkypename) || mir_strcmp(szNewPassword, szOldPassword))
 		m_proto->delSetting("TokenExpiresIn");
 	m_proto->setString(SKYPE_SETTINGS_ID, szNewSkypename);

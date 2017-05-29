@@ -22,56 +22,45 @@ void CSkypeProto::PollingThread(void*)
 	debugLogA(__FUNCTION__ ": entering");
 
 	int nErrors = 0;
-	while (!m_bThreadsTerminated)
-	{
+	while (!m_bThreadsTerminated) {
 		m_hPollingEvent.Wait();
 		nErrors = 0;
 
 		PollRequest *request = new PollRequest(li);
 
-		while ((nErrors < POLLING_ERRORS_LIMIT) && m_iStatus != ID_STATUS_OFFLINE)
-		{
+		while ((nErrors < POLLING_ERRORS_LIMIT) && m_iStatus != ID_STATUS_OFFLINE) {
 			request->nlc = m_pollingConnection;
 			NLHR_PTR response(request->Send(m_hNetlibUser));
 
-			if (response == NULL)
-			{
+			if (response == NULL) {
 				nErrors++;
 				m_pollingConnection = nullptr;
 				continue;
 			}
 
-			if (response->resultCode == 200)
-			{
+			if (response->resultCode == 200) {
 				nErrors = 0;
 
-				if (response->pData)
-				{
+				if (response->pData) {
 					char *pData = mir_strdup(response->pData);
-					if (pData != NULL)
-					{
+					if (pData != NULL) {
 						ForkThread(&CSkypeProto::ParsePollData, pData);
 					}
-					else
-					{
+					else {
 						debugLogA(__FUNCTION__ ": memory overflow !!!");
 						break;
 					}
 				}
 			}
-			else
-			{
+			else {
 				nErrors++;
 
-				if (response->pData)
-				{
+				if (response->pData) {
 					JSONNode root = JSONNode::parse(response->pData);
 					const JSONNode &error = root["errorCode"];
-					if (error != NULL)
-					{
+					if (error != NULL) {
 						int errorCode = error.as_int();
-						if (errorCode == 729)
-						{
+						if (errorCode == 729) {
 							break;
 						}
 					}
@@ -81,8 +70,7 @@ void CSkypeProto::PollingThread(void*)
 		}
 		delete request;
 
-		if (m_iStatus != ID_STATUS_OFFLINE)
-		{
+		if (m_iStatus != ID_STATUS_OFFLINE) {
 			debugLogA(__FUNCTION__ ": unexpected termination; switching protocol to offline");
 			SetStatus(ID_STATUS_OFFLINE);
 		}
@@ -104,31 +92,25 @@ void CSkypeProto::ParsePollData(void *pData)
 	const JSONNode &node = data["eventMessages"];
 	if (!node) return;
 
-	for (auto it = node.begin(); it != node.end(); ++it)
-	{
+	for (auto it = node.begin(); it != node.end(); ++it) {
 		const JSONNode &message = *it;
 		const JSONNode &resType = message["resourceType"];
 		const JSONNode &resource = message["resource"];
 
 		std::string resourceType = resType.as_string();
-		if (resourceType == "NewMessage")
-		{
+		if (resourceType == "NewMessage") {
 			ProcessNewMessage(resource);
 		}
-		else if (resourceType == "UserPresence")
-		{
+		else if (resourceType == "UserPresence") {
 			ProcessUserPresence(resource);
 		}
-		else if (resourceType == "EndpointPresence")
-		{
+		else if (resourceType == "EndpointPresence") {
 			ProcessEndpointPresence(resource);
 		}
-		else if (resourceType == "ConversationUpdate")
-		{
+		else if (resourceType == "ConversationUpdate") {
 			ProcessConversationUpdate(resource);
 		}
-		else if (resourceType == "ThreadUpdate")
-		{
+		else if (resourceType == "ThreadUpdate") {
 			ProcessThreadUpdate(resource);
 		}
 	}
@@ -147,14 +129,12 @@ void CSkypeProto::ProcessEndpointPresence(const JSONNode &node)
 	const JSONNode &publicInfo = node["publicInfo"];
 	const JSONNode &privateInfo = node["privateInfo"];
 	CMStringA MirVer;
-	if (publicInfo)
-	{
+	if (publicInfo) {
 		std::string skypeNameVersion = publicInfo["skypeNameVersion"].as_string();
 		std::string version = publicInfo["version"].as_string();
 		std::string typ = publicInfo["typ"].as_string();
 		int iTyp = atoi(typ.c_str());
-		switch (iTyp)
-		{
+		switch (iTyp) {
 		case 0:
 		case 1:
 			MirVer.Append("Skype (Web) " + ParseUrl(version.c_str(), "/"));
@@ -187,14 +167,12 @@ void CSkypeProto::ProcessEndpointPresence(const JSONNode &node)
 			MirVer.AppendFormat("Miranda NG Skype %s", version.c_str());
 			break;
 		default:
-				MirVer.Append("Skype (Unknown)");
+			MirVer.Append("Skype (Unknown)");
 		}
 	}
-	if (privateInfo != NULL)
-	{
+	if (privateInfo != NULL) {
 		std::string epname = privateInfo["epname"].as_string();
-		if (!epname.empty())
-		{
+		if (!epname.empty()) {
 			MirVer.AppendFormat(" [%s]", epname.c_str());
 		}
 	}
@@ -209,22 +187,17 @@ void CSkypeProto::ProcessUserPresence(const JSONNode &node)
 	std::string status = node["status"].as_string();
 	CMStringA skypename = UrlToSkypename(selfLink.c_str());
 
-	if (!skypename.IsEmpty())
-	{
-		if (IsMe(skypename))
-		{
+	if (!skypename.IsEmpty()) {
+		if (IsMe(skypename)) {
 			int iNewStatus = SkypeToMirandaStatus(status.c_str());
 			if (iNewStatus == ID_STATUS_OFFLINE) return;
 			int old_status = m_iStatus;
 			m_iDesiredStatus = iNewStatus;
 			m_iStatus = iNewStatus;
 			if (old_status != iNewStatus)
-			{
 				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, iNewStatus);
-			}
 		}
-		else
-		{
+		else {
 			MCONTACT hContact = FindContact(skypename);
 			if (hContact != NULL)
 				SetContactStatus(hContact, SkypeToMirandaStatus(status.c_str()));
@@ -244,5 +217,5 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 		OnChatEvent(node);
 }
 
-void CSkypeProto::ProcessConversationUpdate(const JSONNode&){}
-void CSkypeProto::ProcessThreadUpdate(const JSONNode&){}
+void CSkypeProto::ProcessConversationUpdate(const JSONNode&) {}
+void CSkypeProto::ProcessThreadUpdate(const JSONNode&) {}

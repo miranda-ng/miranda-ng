@@ -4,8 +4,7 @@
 
 HANDLE CSkypeProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles)
 {
-	if (IsOnline())
-	{
+	if (IsOnline()) {
 		CFileUploadParam *fup = new CFileUploadParam(hContact, szDescription, ppszFiles);
 		ForkThread(&CSkypeProto::SendFileThread, (void*)fup);
 		return (HANDLE)fup;
@@ -33,8 +32,7 @@ void CSkypeProto::SendFileThread(void *p)
 void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	CFileUploadParam *fup = (CFileUploadParam*)arg;
-	if (response && response->pData)
-	{
+	if (response && response->pData) {
 		JSONNode node = JSONNode::parse((char*)response->pData);
 		std::string strObjectId = node["id"].as_string();
 		fup->uid = mir_strdup(strObjectId.c_str());
@@ -44,13 +42,13 @@ void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *ar
 		fseek(pFile, 0, SEEK_END);
 		long lFileLen = ftell(pFile);
 
-		if(lFileLen < 1) {
+		if (lFileLen < 1) {
 			fclose(pFile);
 			return;
 		}
 
 		fseek(pFile, 0, SEEK_SET);
-		
+
 		mir_ptr<BYTE> pData((BYTE*)mir_alloc(lFileLen));
 		long lBytes = (long)fread(pData, sizeof(BYTE), lFileLen, pFile);
 
@@ -69,8 +67,7 @@ void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *ar
 void CSkypeProto::OnASMObjectUploaded(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	CFileUploadParam *fup = (CFileUploadParam*)arg;
-	if (response == nullptr)
-	{
+	if (response == nullptr) {
 		FILETRANSFER_FAILED(fup);
 		return;
 	}
@@ -86,7 +83,7 @@ void CSkypeProto::OnASMObjectUploaded(const NETLIBHTTPREQUEST *response, void *a
 	xmlAddAttr(xmlOrigName, L"v", tszFile);
 	HXML xmlSize = xmlAddChild(xml, L"FileSize", nullptr);
 	xmlAddAttr(xmlSize, L"v", CMStringW(FORMAT, L"%d", fup->size));
-	
+
 	xmlAddAttr(xml, L"Type", L"File.1");
 	xmlAddAttr(xml, L"uri", CMStringW(FORMAT, L"https://api.asm.skype.com/v1/objects/%s", _A2T(fup->uid)));
 	xmlAddAttr(xml, L"url_thumbnail", CMStringW(FORMAT, L"https://api.asm.skype.com/v1/objects/%s/views/thumbnail", _A2T(fup->uid)));

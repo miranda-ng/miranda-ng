@@ -39,8 +39,7 @@ MEVENT CSkypeProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, L
 	size_t messageIdLength = mir_strlen(messageId);
 
 	mir_cslock lock(messageSyncLock);
-	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent))
-	{
+	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
 		DBEVENTINFO dbei = {};
 		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 
@@ -86,28 +85,24 @@ MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *
 	db_event_get(hEvent, &dbei);
 
 	JSONNode jMsg = JSONNode::parse((char*)dbei.pBlob);
-	if (jMsg)
-	{
+	if (jMsg) {
 		JSONNode &jEdits = jMsg["edits"];
-		if (jEdits)
-		{
-			for (auto it = jEdits.begin(); it != jEdits.end(); ++it)
-			{
+		if (jEdits) {
+			for (auto it = jEdits.begin(); it != jEdits.end(); ++it) {
 				const JSONNode &jEdit = *it;
 
 				if (jEdit["time"].as_int() == edit_time)
 					return hEvent;
 			}
 			JSONNode jEdit;
-			jEdit 
+			jEdit
 				<< JSONNode("time", (long)edit_time)
 				<< JSONNode("text", szContent);
 
 			jEdits << jEdit;
 		}
 	}
-	else
-	{
+	else {
 		jMsg = JSONNode();
 		JSONNode jOriginalMsg; jOriginalMsg.set_name("original_message");
 		JSONNode jEdits(JSON_ARRAY); jEdits.set_name("edits");
@@ -119,28 +114,28 @@ MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *
 
 		jMsg << jOriginalMsg;
 
-		jEdit 
+		jEdit
 			<< JSONNode("time", (long)edit_time)
 			<< JSONNode("text", szContent);
 
-		jEdits << jEdit;	
-		jMsg   << jEdits;
+		jEdits << jEdit;
+		jMsg << jEdits;
 
 
 	}
-	db_event_delete(hContact, hEvent);	
+	db_event_delete(hContact, hEvent);
 	return AddDbEvent(SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE, hContact, dbei.timestamp, dbei.flags, jMsg.write().c_str(), szUid);
 }
 
 MEVENT CSkypeProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
 {
 	DBEVENTINFO dbei = {};
-	dbei.szModule  = m_szModuleName;
+	dbei.szModule = m_szModuleName;
 	dbei.timestamp = timestamp;
 	dbei.eventType = type;
-	dbei.cbBlob    = cbBlob;
-	dbei.pBlob     = pBlob;
-	dbei.flags     = flags;
+	dbei.cbBlob = cbBlob;
+	dbei.pBlob = pBlob;
+	dbei.flags = flags;
 	return db_event_add(hContact, &dbei);
 }
 
@@ -155,8 +150,7 @@ void CSkypeProto::InitDBEvents()
 	dbEventType.iconService = MODULE "/GetEventIcon";
 	dbEventType.textService = MODULE "/GetEventText";
 
-	for (size_t i = 0; i < _countof(g_SkypeDBTypes); i++)
-	{
+	for (size_t i = 0; i < _countof(g_SkypeDBTypes); i++) {
 		SkypeDBType &cur = g_SkypeDBTypes[i];
 
 		dbEventType.eventType = cur.type;

@@ -19,8 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 INT_PTR CSkypeProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 {
-	switch (wParam)
-	{
+	switch (wParam) {
 	case AF_MAXSIZE:
 		((POINT*)lParam)->x = 98;
 		((POINT*)lParam)->y = 98;
@@ -44,8 +43,7 @@ INT_PTR CSkypeProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 
 void CSkypeProto::ReloadAvatarInfo(MCONTACT hContact)
 {
-	if (hContact == NULL)
-	{
+	if (hContact == NULL) {
 		CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 		return;
 	}
@@ -169,23 +167,18 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM, LPARAM lParam)
 	wchar_t *path = (wchar_t*)lParam;
 	wchar_t avatarPath[MAX_PATH];
 	GetAvatarFileName(NULL, avatarPath, _countof(avatarPath));
-	if (path != NULL)
-	{
-		if (CopyFile(path, avatarPath, FALSE))
-		{
+	if (path != NULL) {
+		if (CopyFile(path, avatarPath, FALSE)) {
 			FILE *hFile = _wfopen(path, L"rb");
-			if (hFile)
-			{
+			if (hFile) {
 				fseek(hFile, 0, SEEK_END);
 				size_t length = ftell(hFile);
-				if (length != -1)
-				{
+				if (length != -1) {
 					rewind(hFile);
 
 					mir_ptr<BYTE> data((PBYTE)mir_alloc(length));
 
-					if (data != NULL && fread(data, sizeof(BYTE), length, hFile) == length)
-					{
+					if (data != NULL && fread(data, sizeof(BYTE), length, hFile) == length) {
 						const char *szMime = "image/jpeg";
 						if (fii)
 							szMime = fii->FI_GetFIFMimeType(fii->FI_GetFIFFromFilenameU(path));
@@ -200,13 +193,8 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM, LPARAM lParam)
 		}
 		return -1;
 	}
-	else
-	{
-		if (IsFileExists(avatarPath))
-		{
-			DeleteFile(avatarPath);
-		}
-	}
+	else if (IsFileExists(avatarPath))
+		DeleteFile(avatarPath);
 
 	return 0;
 }

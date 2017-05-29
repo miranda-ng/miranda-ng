@@ -19,25 +19,25 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	PROTO<CSkypeProto>(protoName, userName),
-		m_PopupClasses(1), 
-		m_InviteDialogs(1),
-		m_GCCreateDialogs(1),
-		m_OutMessages(3, PtrKeySortT),
-		m_bThreadsTerminated(0),
-		m_TrouterConnection(0),
-		m_pollingConnection(0),
-		m_opts(this),
-		Contacts(this)
+	m_PopupClasses(1),
+	m_InviteDialogs(1),
+	m_GCCreateDialogs(1),
+	m_OutMessages(3, PtrKeySortT),
+	m_bThreadsTerminated(0),
+	m_TrouterConnection(0),
+	m_pollingConnection(0),
+	m_opts(this),
+	Contacts(this)
 {
 	InitNetwork();
 
 	requestQueue = new RequestQueue(m_hNetlibUser);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
-	CreateProtoService(PS_GETAVATARINFO,  &CSkypeProto::SvcGetAvatarInfo);
-	CreateProtoService(PS_GETAVATARCAPS,  &CSkypeProto::SvcGetAvatarCaps);
-	CreateProtoService(PS_GETMYAVATAR,    &CSkypeProto::SvcGetMyAvatar);
-	CreateProtoService(PS_SETMYAVATAR,    &CSkypeProto::SvcSetMyAvatar);
+	CreateProtoService(PS_GETAVATARINFO, &CSkypeProto::SvcGetAvatarInfo);
+	CreateProtoService(PS_GETAVATARCAPS, &CSkypeProto::SvcGetAvatarCaps);
+	CreateProtoService(PS_GETMYAVATAR, &CSkypeProto::SvcGetMyAvatar);
+	CreateProtoService(PS_SETMYAVATAR, &CSkypeProto::SvcSetMyAvatar);
 
 	CreateProtoService("/IncomingCallCLE", &CSkypeProto::OnIncomingCallCLE);
 	CreateProtoService("/IncomingCallPP", &CSkypeProto::OnIncomingCallPP);
@@ -61,18 +61,16 @@ CSkypeProto::~CSkypeProto()
 {
 	requestQueue->Stop();
 	delete requestQueue;
-	
+
 	UnInitNetwork();
 	UninitPopups();
 
-	if (m_hPollingThread)
-	{
+	if (m_hPollingThread) {
 		TerminateThread(m_hPollingThread, NULL);
 		m_hPollingThread = NULL;
 	}
 
-	if (m_hTrouterThread)
-	{
+	if (m_hTrouterThread) {
 		TerminateThread(m_hTrouterThread, NULL);
 		m_hTrouterThread = NULL;
 	}
@@ -90,14 +88,13 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 
 	m_hPollingEvent.Set();
 	m_hTrouterEvent.Set();
-	
+
 	return 0;
 }
 
 DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 {
-	switch (type)
-	{
+	switch (type) {
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_AUTHREQ | PF1_CHAT | PF1_BASICSEARCH | PF1_MODEMSG | PF1_FILE;
 	case PFLAGNUM_2:
@@ -122,20 +119,17 @@ int CSkypeProto::SetAwayMsg(int, const wchar_t *msg)
 
 HANDLE CSkypeProto::GetAwayMsg(MCONTACT hContact)
 {
-	PushRequest(new GetProfileRequest(li, Contacts[hContact]), [this, hContact](const NETLIBHTTPREQUEST *response)
-	{
+	PushRequest(new GetProfileRequest(li, Contacts[hContact]), [this, hContact](const NETLIBHTTPREQUEST *response) {
 		if (!response || !response->pData)
 			return;
 
 		JSONNode root = JSONNode::parse(response->pData);
 
-		if (JSONNode &mood = root["mood"])
-		{
+		if (JSONNode &mood = root["mood"]) {
 			CMStringW str = mood.as_mstring();
 			this->ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)str.c_str());
 		}
-		else
-		{
+		else {
 			this->ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		}
 	});
@@ -149,12 +143,12 @@ MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	if (psr->id.a == NULL)
 		return NULL;
 	MCONTACT hContact;
-	
+
 	if (psr->flags & PSR_UNICODE)
 		hContact = AddContact(T2Utf(psr->id.w));
-	else 
+	else
 		hContact = AddContact(psr->id.a);
-		
+
 	return hContact;
 }
 
@@ -174,7 +168,7 @@ MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 		return NULL;
 
 	DB_AUTH_BLOB blob(dbei.pBlob);
-	
+
 	MCONTACT hContact = AddContact(blob.get_email());
 	return hContact;
 }
@@ -232,8 +226,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	if (iNewStatus == m_iDesiredStatus)
 		return 0;
 
-	switch (iNewStatus)
-	{
+	switch (iNewStatus) {
 	case ID_STATUS_FREECHAT:
 	case ID_STATUS_ONTHEPHONE:
 		iNewStatus = ID_STATUS_ONLINE;
@@ -256,16 +249,14 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	int old_status = m_iStatus;
 	m_iDesiredStatus = iNewStatus;
 
-	if (iNewStatus == ID_STATUS_OFFLINE)
-	{
-		if (m_iStatus > ID_STATUS_CONNECTING + 1)
-		{
+	if (iNewStatus == ID_STATUS_OFFLINE) {
+		if (m_iStatus > ID_STATUS_CONNECTING + 1) {
 			SendRequest(new DeleteEndpointRequest(li));
 		}
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		// logout
 		requestQueue->Stop();
-		
+
 		CloseDialogs();
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, ID_STATUS_OFFLINE);
 
@@ -273,17 +264,14 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			SetAllContactsStatus(ID_STATUS_OFFLINE);
 		return 0;
 	}
-	else
-	{
+	else {
 		if (old_status == ID_STATUS_CONNECTING)
 			return 0;
 
-		if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE)
-		{
+		if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE) {
 			Login();
 		}
-		else
-		{
+		else {
 			SendRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus), li), &CSkypeProto::OnStatusChanged);
 		}
 	}
@@ -300,8 +288,7 @@ int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 
 int CSkypeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 {
-	switch (iEventType)
-	{
+	switch (iEventType) {
 	case EV_PROTO_ONLOAD:
 		return OnAccountLoaded(wParam, lParam);
 
@@ -336,8 +323,7 @@ int CSkypeProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 
 	pBlob = (PBYTE)mir_calloc(cbBlob);
 
-	for (i = 0, pCurBlob = pBlob; i < nCount; i++)
-	{
+	for (i = 0, pCurBlob = pBlob; i < nCount; i++) {
 		//mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->nick.w));
 		pCurBlob += mir_strlen((PCHAR)pCurBlob) + 1;
 

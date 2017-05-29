@@ -26,8 +26,7 @@ HANDLE CSkypeProto::SearchBasic(const wchar_t* id)
 void CSkypeProto::SearchBasicThread(void* id)
 {
 	debugLogA("CSkypeProto::OnSearchBasicThread");
-	if (IsOnline())
-	{
+	if (IsOnline()) {
 		ptrA szString(mir_urlEncode(T2Utf((wchar_t*)id)));
 		SendRequest(new GetSearchRequest(szString, li), &CSkypeProto::OnSearch);
 	}
@@ -54,8 +53,7 @@ void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 	}
 
 	const JSONNode &items = root["results"].as_array();
-	for (auto it = items.begin(); it != items.end(); ++it)
-	{
+	for (auto it = items.begin(); it != items.end(); ++it) {
 		const JSONNode &item = (*it)["nodeProfileData"];
 
 		std::string skypeId = item["skypeId"].as_string();
@@ -67,6 +65,6 @@ void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 		psr.nick.a = const_cast<char*>(name.c_str());
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 	}
-	
+
 	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }

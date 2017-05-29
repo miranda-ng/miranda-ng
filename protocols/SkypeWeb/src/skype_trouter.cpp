@@ -82,8 +82,7 @@ LBL_Error:
 
 void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL)
-	{
+	if (response == NULL || response->pData == NULL) {
 		debugLogA("Failed to establish a TRouter connection.");
 		return;
 	}
@@ -92,12 +91,11 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 	int iStart = 0;
 	CMStringA szToken = data.Tokenize(":", iStart).Trim();
 	TRouter.sessId = szToken.GetString();
-	
+
 	m_hTrouterEvent.Set();
 	m_hTrouterHealthEvent.Set();
 
-	if ((time(NULL) - TRouter.lastRegistrationTime) >= 3600)
-	{
+	if ((time(NULL) - TRouter.lastRegistrationTime) >= 3600) {
 		SendRequest(new RegisterTrouterRequest(li, TRouter.url.c_str(), TRouter.sessId.c_str()));
 		TRouter.lastRegistrationTime = time(NULL);
 	}
@@ -122,35 +120,29 @@ void CSkypeProto::TRouterThread(void*)
 
 	int errors = 0;
 
-	while (!m_bThreadsTerminated)
-	{
+	while (!m_bThreadsTerminated) {
 
 		m_hTrouterEvent.Wait();
 		errors = 0;
 
 		TrouterPollRequest *request = new TrouterPollRequest(TRouter.socketIo, TRouter.connId, TRouter.st, TRouter.se, TRouter.sig, TRouter.instance, TRouter.ccid, TRouter.sessId);
 
-		while (errors < POLLING_ERRORS_LIMIT && m_iStatus > ID_STATUS_OFFLINE)
-		{
+		while (errors < POLLING_ERRORS_LIMIT && m_iStatus > ID_STATUS_OFFLINE) {
 			request->nlc = m_TrouterConnection;
 			NLHR_PTR response(request->Send(m_hNetlibUser));
-			
-			if (response == NULL)
-			{
+
+			if (response == NULL) {
 				m_TrouterConnection = nullptr;
 				errors++;
 				continue;
 			}
 
-			if (response->resultCode == 200)
-			{
+			if (response->resultCode == 200) {
 				errors = 0;
 
-				if (response->pData)
-				{
+				if (response->pData) {
 					char *json = strstr(response->pData, "{");
-					if (json != NULL)
-					{
+					if (json != NULL) {
 						JSONNode root = JSONNode::parse(json);
 						std::string szBody = root["body"].as_string();
 						const JSONNode &headers = root["headers"];
@@ -159,8 +151,7 @@ void CSkypeProto::TRouterThread(void*)
 					}
 				}
 			}
-			else
-			{
+			else {
 				errors++;
 
 				SendRequest(new HealthTrouterRequest(TRouter.ccid.c_str()), &CSkypeProto::OnHealth);
@@ -170,8 +161,7 @@ void CSkypeProto::TRouterThread(void*)
 		}
 		delete request;
 
-		if (m_iStatus != ID_STATUS_OFFLINE)
-		{
+		if (m_iStatus != ID_STATUS_OFFLINE) {
 			debugLogA(__FUNCTION__ ": unexpected termination; switching protocol to offline");
 			SetStatus(ID_STATUS_OFFLINE);
 		}
@@ -189,13 +179,11 @@ void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 	std::string gp = body["gp"].as_string();
 	int evt = body["evt"].as_int();
 
-	switch (evt)
-	{
+	switch (evt) {
 	case 100: //incoming call
 		{
 			std::string callId = body["convoCallId"].as_string();
-			if (!uid.empty())
-			{
+			if (!uid.empty()) {
 				MCONTACT hContact = AddContact(uid.c_str(), true);
 
 				MEVENT hEvent = AddDbEvent(SKYPE_DB_EVENT_TYPE_INCOMING_CALL, hContact, time(NULL), DBEF_READ, gp.c_str(), callId.c_str());

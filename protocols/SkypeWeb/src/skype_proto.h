@@ -381,8 +381,8 @@ private:
 	{	return (m_iStatus > ID_STATUS_OFFLINE);
 	}
 
-	__forceinline bool IsMe(const char *szSkypename)
-	{	return (!mir_strcmpi(szSkypename, li.szSkypename) || !mir_strcmp(szSkypename, ptrA(getStringA("SelfEndpointName"))));
+	__forceinline bool IsMe(const char *str)
+	{	return (!mir_strcmpi(str, li.szMyname) || !mir_strcmp(str, ptrA(getStringA("SelfEndpointName"))));
 	}
 
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);

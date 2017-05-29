@@ -22,21 +22,18 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 {
 	DBEVENTINFO *dbei = (DBEVENTINFO*)pEvent;
 
-	CMStringA szText; 
+	CMStringA szText;
 
 	BOOL bUseBB = db_get_b(NULL, dbei->szModule, "UseBBCodes", 1);
-	switch (dbei->eventType)
-	{
+	switch (dbei->eventType) {
 	case SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE:
 		{
 			JSONNode jMsg = JSONNode::parse((char*)dbei->pBlob);
-			if (jMsg)
-			{
+			if (jMsg) {
 				JSONNode &jOriginalMsg = jMsg["original_message"];
 				szText.AppendFormat(bUseBB ? Translate("[b]Original message:[/b]\n%s\n") : Translate("Original message:\n%s\n"), mir_utf8decodeA(jOriginalMsg["text"].as_string().c_str()));
 				JSONNode &jEdits = jMsg["edits"];
-				for (auto it = jEdits.begin(); it != jEdits.end(); ++it)
-				{
+				for (auto it = jEdits.begin(); it != jEdits.end(); ++it) {
 					const JSONNode &jEdit = *it;
 
 					time_t time = jEdit["time"].as_int();
@@ -45,10 +42,9 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 
 					szText.AppendFormat(bUseBB ? Translate("[b]Edited at %s:[/b]\n%s\n") : Translate("Edited at %s:\n%s\n"), szTime, mir_utf8decodeA(jEdit["text"].as_string().c_str()));
 				}
-				
+
 			}
-			else 
-			{
+			else {
 				szText = INVALID_DATA;
 			}
 			break;
@@ -57,39 +53,31 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 	case SKYPE_DB_EVENT_TYPE_CALL_INFO:
 		{
 			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)dbei->pBlob)), 0, L"partlist");
-			if (xml != NULL)
-			{
+			if (xml != NULL) {
 				ptrA type(mir_u2a(xmlGetAttrValue(xml, L"type")));
 				bool bType = (!mir_strcmpi(type, "started")) ? 1 : 0;
 				time_t callDuration = 0;
 
-				for (int i = 0; i < xmlGetChildCount(xml); i++)
-				{
-					HXML xmlPart = xmlGetNthChild(xml, L"part", i);		
-					if (xmlPart != NULL)
-					{
+				for (int i = 0; i < xmlGetChildCount(xml); i++) {
+					HXML xmlPart = xmlGetNthChild(xml, L"part", i);
+					if (xmlPart != NULL) {
 						HXML xmlDuration = xmlGetChildByPath(xmlPart, L"duration", 0);
-						
-						if (xmlDuration != NULL)
-						{
+
+						if (xmlDuration != NULL) {
 							callDuration = _wtol(xmlGetText(xmlDuration));
 							break;
 						}
 					}
 				}
 
-				if (bType)
-				{
+				if (bType) {
 					szText = Translate("Call");
 				}
-				else 
-				{
-					if (callDuration == 0)
-					{
+				else {
+					if (callDuration == 0) {
 						szText = Translate("Call missed");
 					}
-					else
-					{
+					else {
 						char szTime[100];
 						strftime(szTime, sizeof(szTime), "%X", gmtime(&callDuration));
 						szText.Format(Translate("Call ended (%s)"), szTime);
@@ -97,8 +85,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 				}
 				xmlDestroyNode(xml);
 			}
-			else
-			{
+			else {
 				szText = INVALID_DATA;
 			}
 			break;
@@ -106,18 +93,14 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 	case SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO:
 		{
 			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)dbei->pBlob)), 0, L"files");
-			if (xml != NULL)
-			{
-				for (int i = 0; i < xmlGetChildCount(xml); i++)
-				{
+			if (xml != NULL) {
+				for (int i = 0; i < xmlGetChildCount(xml); i++) {
 					LONGLONG fileSize = 0;
 					HXML xmlNode = xmlGetNthChild(xml, L"file", i);
-					if (xmlNode != NULL)
-					{
+					if (xmlNode != NULL) {
 						fileSize = _wtol(xmlGetAttrValue(xmlNode, L"size"));
 						char *fileName = _T2A(xmlGetText(xmlNode));
-						if (fileName != NULL)
-						{
+						if (fileName != NULL) {
 							szText.AppendFormat(Translate("File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n"), fileName, fileSize);
 						}
 
@@ -125,8 +108,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 				}
 				xmlDestroyNode(xml);
 			}
-			else
-			{
+			else {
 				szText = INVALID_DATA;
 			}
 		}
@@ -137,18 +119,15 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 	case SKYPE_DB_EVENT_TYPE_URIOBJ:
 		{
 			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)dbei->pBlob)), 0, L"URIObject");
-			if (xml != NULL)
-			{
+			if (xml != NULL) {
 				//szText.Append(_T2A(xmlGetText(xml)));
 				HXML xmlA = xmlGetChildByPath(xml, L"a", 0);
-				if (xmlA != NULL)
-				{
+				if (xmlA != NULL) {
 					szText += T2Utf(xmlGetAttrValue(xmlA, L"href"));
 				}
 				xmlDestroyNode(xml);
 			}
-			else 
-			{
+			else {
 				szText = INVALID_DATA;
 			}
 		}

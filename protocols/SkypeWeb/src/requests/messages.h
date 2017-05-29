@@ -52,7 +52,7 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		CMStringA content;
-		content.AppendFormat("%s %s", li.szSkypename, message);
+		content.AppendFormat("%s %s", li.szSkypename.c_str(), message);
 
 		JSONNode node;
 		node 
@@ -60,7 +60,7 @@ public:
 			<< JSONNode("messagetype", "RichText")
 			<< JSONNode("contenttype", "text")
 			<< JSONNode("content", content)
-			<< JSONNode("skypeemoteoffset", (int)(mir_strlen(li.szSkypename) + 1));
+			<< JSONNode("skypeemoteoffset", li.szSkypename.GetLength() + 1);
 
 		Body << VALUE(node.write().c_str());
 	}

@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 /* MESSAGE RECEIVING */
 
 // incoming message flow
-int CSkypeProto::OnReceiveMessage(MCONTACT hContact, const char *szContent, const char *szMessageId, time_t timestamp,  int emoteOffset, bool isRead)
+int CSkypeProto::OnReceiveMessage(MCONTACT hContact, const char *szContent, const char *szMessageId, time_t timestamp, int emoteOffset, bool isRead)
 {
 	PROTORECVEVENT recv = { 0 };
 	recv.timestamp = timestamp;
@@ -45,8 +45,7 @@ struct SendMessageParam
 // outcoming message flow
 int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 {
-	if (!IsOnline())
-	{
+	if (!IsOnline()) {
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("You cannot send when you are offline."));
 		return 0;
 	}
@@ -76,17 +75,12 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 	HANDLE hMessage = (HANDLE)param->hMessage;
 	delete param;
 
-	if (response != NULL)
-	{
-		if (response->resultCode == 201)
-		{
-			if (m_OutMessages.getIndex(hMessage) != -1)
-			{
-				if (response->pData != NULL)
-				{
+	if (response != NULL) {
+		if (response->resultCode == 201) {
+			if (m_OutMessages.getIndex(hMessage) != -1) {
+				if (response->pData != NULL) {
 					JSONNode jRoot = JSONNode::parse(response->pData);
-					if (m_mpOutMessages.find(hMessage) == m_mpOutMessages.end())
-					{
+					if (m_mpOutMessages.find(hMessage) == m_mpOutMessages.end()) {
 						m_mpOutMessages[hMessage] = std::stoull(jRoot["OriginalArrivalTime"].as_string()) / 1000;
 					}
 				}
@@ -97,17 +91,14 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 				}
 			}
 		}
-		else
-		{
+		else {
 			std::string strError = Translate("Unknown error!");
 
-			if (response->pData != NULL)
-			{
+			if (response->pData != NULL) {
 				JSONNode jRoot = JSONNode::parse(response->pData);
 				const JSONNode &jErr = jRoot["errorCode"];
 
-				if(jErr)
-				{
+				if (jErr) {
 					strError = jErr.as_string();
 				}
 			}
@@ -115,8 +106,7 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)strError.c_str());
 		}
 	}
-	else
-	{
+	else {
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)(Translate("Network error!")));
 	}
 }
@@ -129,8 +119,7 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 		return 0;
 
 	char *message = (char*)evt->dbei->pBlob;
-	if (strncmp(message, "/me ", 4) == 0)
-	{
+	if (strncmp(message, "/me ", 4) == 0) {
 		evt->dbei->cbBlob = evt->dbei->cbBlob - 4;
 		memmove(evt->dbei->pBlob, &evt->dbei->pBlob[4], evt->dbei->cbBlob);
 		evt->dbei->eventType = SKYPE_DB_EVENT_TYPE_ACTION;
@@ -142,8 +131,7 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 	evt->dbei->cbBlob += messageId.GetLength();
 
 	auto it = m_mpOutMessages.find((HANDLE)evt->seq);
-	if (it != m_mpOutMessages.end())
-	{
+	if (it != m_mpOutMessages.end()) {
 		evt->dbei->timestamp = it->second;
 		m_mpOutMessages.erase(it);
 	}
@@ -164,7 +152,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	ptrA szClearedContent(strMessageType == "RichText" ? RemoveHtml(strContent.c_str()) : mir_strdup(strContent.c_str()));
 
 	bool bEdited = node["skypeeditedid"];
-	time_t timestamp =  IsoToUnixTime(node["composetime"].as_string().c_str());
+	time_t timestamp = IsoToUnixTime(node["composetime"].as_string().c_str());
 
 	int nEmoteOffset = atoi(node["skypeemoteoffset"].as_string().c_str());
 
@@ -173,24 +161,18 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	if (m_bHistorySynced)
 		db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
 
-	if (strMessageType == "Control/Typing")
-	{
+	if (strMessageType == "Control/Typing") {
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
 	}
-	else if (strMessageType == "Control/ClearTyping")
-	{
+	else if (strMessageType == "Control/ClearTyping") {
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 	}
-	else if (strMessageType == "Text" || strMessageType == "RichText")
-	{
-		if (IsMe(szFromSkypename))
-		{
+	else if (strMessageType == "Text" || strMessageType == "RichText") {
+		if (IsMe(szFromSkypename)) {
 			HANDLE hMessage = (HANDLE)(std::stoull(szMessageId.GetString()));
-			if (m_OutMessages.getIndex(hMessage) != -1)
-			{
+			if (m_OutMessages.getIndex(hMessage) != -1) {
 				auto it = m_mpOutMessages.find(hMessage);
-				if (it == m_mpOutMessages.end())
-				{
+				if (it == m_mpOutMessages.end()) {
 					m_mpOutMessages[hMessage] = timestamp;
 				}
 				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, 0);
@@ -199,55 +181,44 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 					m_OutMessages.remove(hMessage);
 				}
 			}
-			else
-			{
-				AddDbEvent(nEmoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact, 
+			else {
+				AddDbEvent(nEmoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact,
 					timestamp, DBEF_UTF | DBEF_SENT, &szClearedContent[nEmoteOffset], szMessageId);
 			}
 		}
-		else
-		{
+		else {
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 			MEVENT hDbEvent = GetMessageFromDb(hContact, szMessageId);
 
-			if (bEdited && hDbEvent != NULL)
-			{
+			if (bEdited && hDbEvent != NULL) {
 				AppendDBEvent(hContact, hDbEvent, szClearedContent, szMessageId, timestamp);
 			}
-			else 
-			{
+			else {
 				OnReceiveMessage(hContact, szClearedContent, szMessageId, timestamp, nEmoteOffset);
 			}
 		}
 	}
-	else if (strMessageType == "Event/Call")
-	{
+	else if (strMessageType == "Event/Call") {
 		AddDbEvent(SKYPE_DB_EVENT_TYPE_CALL_INFO, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
 	}
-	else if (strMessageType == "RichText/Files")
-	{		
+	else if (strMessageType == "RichText/Files") {
 		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
 	}
-	else if (strMessageType == "RichText/UriObject")
-	{
+	else if (strMessageType == "RichText/UriObject") {
 		AddDbEvent(SKYPE_DB_EVENT_TYPE_URIOBJ, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
 	}
-	else if (strMessageType == "RichText/Contacts")
-	{
+	else if (strMessageType == "RichText/Contacts") {
 		ProcessContactRecv(hContact, timestamp, strContent.c_str(), szMessageId);
 	}
-	else if (strMessageType == "RichText/Media_FlikMsg")
-	{
+	else if (strMessageType == "RichText/Media_FlikMsg") {
 		AddDbEvent(SKYPE_DB_EVENT_TYPE_MOJI, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
 	}
-	else if (strMessageType == "RichText/Media_GenericFile")
-	{
+	else if (strMessageType == "RichText/Media_GenericFile") {
 		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILE, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
 	}
 	//else if (messageType == "Event/SkypeVideoMessage") {}
 	//else if (messageType.c_str() == "RichText/Location") {}
-	else
-	{
+	else {
 		AddDbEvent(SKYPE_DB_EVENT_TYPE_UNKNOWN, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
 	}
 }
@@ -262,12 +233,12 @@ int CSkypeProto::OnDbEventRead(WPARAM hContact, LPARAM hDbEvent)
 void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 {
 	debugLogA(__FUNCTION__);
-	
+
 	DBEVENTINFO dbei = {};
 	db_event_get(hDbEvent, &dbei);
 	time_t timestamp = dbei.timestamp;
 
-	if(db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) > (timestamp - 300))
+	if (db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) > (timestamp - 300))
 		PushRequest(new MarkMessageReadRequest(Contacts[hContact], timestamp, timestamp, false, li));
 }
 
@@ -275,20 +246,17 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const char *szContent, const char *szMessageId)
 {
 	HXML xmlNode = xmlParseString(mir_utf8decodeW(szContent), 0, L"contacts");
-	if (xmlNode)
-	{
+	if (xmlNode) {
 		int nCount = 0;
 		PROTOSEARCHRESULT **psr;
-		for (int i = 0; i < xmlGetChildCount(xmlNode); i++) nCount++;
+		for (int i = 0; i < xmlGetChildCount(xmlNode); i++)
+			nCount++;
 
-		if (psr = (PROTOSEARCHRESULT**)mir_calloc(sizeof(PROTOSEARCHRESULT*) * nCount))
-		{
+		if (psr = (PROTOSEARCHRESULT**)mir_calloc(sizeof(PROTOSEARCHRESULT*) * nCount)) {
 			nCount = 0;
-			for (int i = 0; i < xmlGetChildCount(xmlNode); i++)
-			{
+			for (int i = 0; i < xmlGetChildCount(xmlNode); i++) {
 				HXML xmlContact = xmlGetNthChild(xmlNode, L"c", i);
-				if (xmlContact != NULL)
-				{
+				if (xmlContact != NULL) {
 					const wchar_t *tszContactId = xmlGetAttrValue(xmlContact, L"s");
 					//const wchar_t *tszContactName = xmlGetAttrValue(xmlContact, L"f");
 
@@ -300,8 +268,7 @@ void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const 
 					nCount++;
 				}
 			}
-			if (nCount)
-			{
+			if (nCount) {
 				PROTORECVEVENT pre = { 0 };
 				pre.timestamp = (DWORD)timestamp;
 				pre.szMessage = (char*)psr;
@@ -316,8 +283,7 @@ void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const 
 				pre.lParam = (LPARAM)b;
 
 				ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
-				for (DWORD i = 0; i < *((PDWORD)b); i++)
-				{
+				for (DWORD i = 0; i < *((PDWORD)b); i++) {
 					mir_free(psr[i]->id.w);
 					mir_free(psr[i]);
 				}

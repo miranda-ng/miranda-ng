@@ -28,9 +28,7 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		return 0;
 
 	if (isChatRoom(hContact))
-	{
 		return 0;
-	}
 
 	bool isCtrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 	bool isAuthNeed = getByte(hContact, "Auth", 0) > 0;
@@ -42,7 +40,6 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(ContactMenuItems[CMI_BLOCK], true);
 	Menu_ShowItem(ContactMenuItems[CMI_UNBLOCK], isCtrlPressed || isBlocked);
 	Menu_ShowItem(ContactMenuItems[CMI_GETSERVERHISTORY], true);
-
 	return 0;
 }
 
@@ -93,7 +90,7 @@ void CSkypeProto::InitMenus()
 	mi.name.w = LPGENW("Block contact");
 	mi.position = CMI_POSITION + CMI_BLOCK;
 	mi.hIcolibItem = GetIconHandle(IDI_BLOCKUSER);
-	SET_UID(mi ,0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);
+	SET_UID(mi, 0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);
 	ContactMenuItems[CMI_BLOCK] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::BlockContact>);
 

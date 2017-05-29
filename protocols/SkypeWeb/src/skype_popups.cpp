@@ -42,9 +42,7 @@ void CSkypeProto::InitPopups()
 void CSkypeProto::UninitPopups()
 {
 	for (int i = 0; i < m_PopupClasses.getCount(); i++)
-	{
 		Popup_UnregisterClass(m_PopupClasses[i]);
-	}
 }
 
 void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *message, MCONTACT hContact, int type)
@@ -55,23 +53,18 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		CMStringA className(FORMAT, "%s_", m_szModuleName);
 
-		switch (type)
-		{
+		switch (type) {
 		case 1:
-			{
-				className.Append("Error");
-				break;
-			}
+			className.Append("Error");
+			break;
+
 		case SKYPE_DB_EVENT_TYPE_INCOMING_CALL:
-			{
-				className.Append("Call");
-				break;
-			}
+			className.Append("Call");
+			break;
+
 		default:
-			{
-				className.Append("Notification");
-				break;
-			}
+			className.Append("Notification");
+			break;
 		}
 
 		POPUPDATACLASS ppd = { sizeof(ppd) };

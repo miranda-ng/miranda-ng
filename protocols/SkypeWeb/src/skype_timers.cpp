@@ -22,12 +22,9 @@ mir_cs CSkypeProto::accountsLock;
 
 void CSkypeProto::ProcessTimer()
 {
-	if (IsOnline())
-	{
+	if (IsOnline()) {
 		PushRequest(new GetContactListRequest(li, NULL), &CSkypeProto::LoadContactList);
 		SendPresence(false);
-		//if (!m_hTrouterThread)
-		//	SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
 	}
 }
 
@@ -35,9 +32,7 @@ void CALLBACK CSkypeProto::TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	mir_cslock lck(accountsLock);
 	for (int i = 0; i < Accounts.getCount(); i++)
-	{
 		Accounts[i]->ProcessTimer();
-	}
 }
 
 void CSkypeProto::SkypeSetTimer()
