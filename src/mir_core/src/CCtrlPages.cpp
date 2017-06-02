@@ -384,4 +384,6 @@ void CCtrlPages::OnDestroy()
 		TabCtrl_SetImageList(m_hwnd, nullptr);
 		ImageList_Destroy(m_hIml);
 	}
+
+	CSuper::OnDestroy();
 }

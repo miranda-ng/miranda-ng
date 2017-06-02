@@ -493,7 +493,7 @@ class MIR_CORE_EXPORT CCtrlBase
 
 public:
 	CCtrlBase(CDlgBase *wnd, int idCtrl);
-	virtual ~CCtrlBase() { }
+	virtual ~CCtrlBase();
 
 	__forceinline HWND GetHwnd() const { return m_hwnd; }
 	__forceinline int GetCtrlId() const { return m_idCtrl; }

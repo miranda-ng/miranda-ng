@@ -44,6 +44,10 @@ CCtrlBase::CCtrlBase(CDlgBase *wnd, int idCtrl)
 		wnd->AddControl(this);
 }
 
+CCtrlBase::~CCtrlBase()
+{
+}
+
 void CCtrlBase::OnInit()
 {
 	m_hwnd = (m_idCtrl && m_parentWnd && m_parentWnd->GetHwnd()) ? GetDlgItem(m_parentWnd->GetHwnd(), m_idCtrl) : nullptr;
@@ -51,6 +55,14 @@ void CCtrlBase::OnInit()
 
 void CCtrlBase::OnDestroy()
 {
+	PVOID bullshit[2];  // vfptr + hwnd
+	bullshit[1] = m_hwnd;
+	CCtrlBase *pCtrl = arControls.find((CCtrlBase*)&bullshit);
+	if (pCtrl) {
+		pCtrl->Unsubclass();
+		arControls.remove(pCtrl);
+	}
+
 	m_hwnd = nullptr;
 }
 
@@ -163,11 +175,6 @@ LRESULT CALLBACK CCtrlBase::GlobalSubclassWndProc(HWND hwnd, UINT msg, WPARAM wP
 	CCtrlBase *pCtrl = arControls.find((CCtrlBase*)&bullshit);
 	if (pCtrl) {
 		LRESULT res = pCtrl->CustomWndProc(msg, wParam, lParam);
-		if (msg == WM_DESTROY) {
-			pCtrl->Unsubclass();
-			arControls.remove(pCtrl);
-		}
-
 		if (res != 0)
 			return res;
 	}
