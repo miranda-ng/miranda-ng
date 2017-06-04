@@ -10,10 +10,10 @@ char *szProto;
 HINSTANCE hInst = NULL;
 int hLangpack = 0;
 
+CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
 HANDLE hTopToolbarButtonShowList;
 HANDLE hMsgWndEvent;
-MWindowList hWindowList;
 HGENMENU hMenuItemRemove;
 
 const INT_PTR boo = 0;
@@ -57,14 +57,14 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 void LoadDBSettings()
 {
 	memset(&LastUCOpt, 0, sizeof(LastUCOpt));
-	LastUCOpt.MaxShownContacts = (INT)db_get_b( NULL, dbLastUC_ModuleName, dbLastUC_MaxShownContacts, 0 );
-	LastUCOpt.HideOffline = db_get_b( NULL, dbLastUC_ModuleName, dbLastUC_HideOfflineContacts, 0 );
-	LastUCOpt.WindowAutoSize = db_get_b( NULL, dbLastUC_ModuleName, dbLastUC_WindowAutosize, 0 );
+	LastUCOpt.MaxShownContacts = (INT)db_get_b(NULL, MODULENAME, dbLastUC_MaxShownContacts, 0);
+	LastUCOpt.HideOffline = db_get_b(NULL, MODULENAME, dbLastUC_HideOfflineContacts, 0);
+	LastUCOpt.WindowAutoSize = db_get_b(NULL, MODULENAME, dbLastUC_WindowAutosize, 0);
 
 	DBVARIANT dbv;
 	dbv.type = DBVT_ASCIIZ;
 	dbv.pszVal = NULL;
-	if ( db_get(NULL, dbLastUC_ModuleName, dbLastUC_DateTimeFormat, &dbv) == 0 && dbv.pszVal[0]!=0 ) {
+	if (db_get(NULL, MODULENAME, dbLastUC_DateTimeFormat, &dbv) == 0 && dbv.pszVal[0] != 0) {
 		LastUCOpt.DateTimeFormat = dbv.pszVal;
 		db_free(&dbv);
 	}
@@ -87,7 +87,7 @@ void ShowListMainDlgProc_AdjustListPos(HWND hDlg, LASTUC_DLG_DATA *DlgDat)
 	rc.right = DlgDat->ListUCRect.right + cur.cx - DlgDat->WindowMinSize.cx;
 	rc.bottom = DlgDat->ListUCRect.bottom + cur.cy - DlgDat->WindowMinSize.cy;
 	MoveWindow(hList, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, TRUE);
-	
+
 	LVCOLUMN lvc = { 0 };
 	lvc.mask = LVCF_WIDTH;
 	lvc.cx = rc.right - rc.left - GetSystemMetrics(SM_CYHSCROLL) - 4;
@@ -129,7 +129,7 @@ BOOL ShowListMainDlgProc_OpenContactMenu(HWND hDlg, HWND hList, int item, LASTUC
 			if (hCMenu != NULL) {
 				POINT p;
 				GetCursorPos(&p);
-				DlgDat->hContact = (MCONTACT) lvi.lParam;
+				DlgDat->hContact = (MCONTACT)lvi.lParam;
 				BOOL ret = TrackPopupMenu(hCMenu, 0, p.x, p.y, 0, hDlg, NULL);
 				DestroyMenu(hCMenu);
 				if (ret)
@@ -144,7 +144,7 @@ BOOL ShowListMainDlgProc_OpenContactMenu(HWND hDlg, HWND hList, int item, LASTUC
 void wSetData(char **Data, const char *Value)
 {
 	if (Value[0] != 0) {
-		char *newData = (char*)mir_alloc(mir_strlen(Value)+3);
+		char *newData = (char*)mir_alloc(mir_strlen(Value) + 3);
 		mir_strcpy(newData, Value);
 		*Data = newData;
 	}
@@ -161,14 +161,12 @@ HWND hwndContactTree = NULL;
 
 INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	LASTUC_DLG_DATA *DlgDat;
-
-	DlgDat = (LASTUC_DLG_DATA *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+	LASTUC_DLG_DATA *DlgDat = (LASTUC_DLG_DATA *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 	HWND hList = GetDlgItem(hDlg, IDC_CONTACTS_LIST);
 	if (hList == NULL)
 		return FALSE;
 
-	switch( msg ) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
 		{
@@ -195,10 +193,8 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			DlgDat->ListUCRect.bottom = p.y;
 			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)DlgDat);
 
-			//set listview styles
-			ListView_SetExtendedListViewStyleEx(hList,
-				LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_LABELTIP
-				| LVS_EX_ONECLICKACTIVATE | LVS_EX_UNDERLINEHOT, -1);
+			// set listview styles
+			ListView_SetExtendedListViewStyleEx(hList, LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_LABELTIP | LVS_EX_ONECLICKACTIVATE | LVS_EX_UNDERLINEHOT, -1);
 
 			// add header columns to listview
 			LVCOLUMN lvc;
@@ -218,8 +214,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			LVITEM lvi = { 0 };
 			lvi.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 
-			int i=0;
-			cmultimap::iterator curContact;
+			int i = 0;
 			std::wstring str;
 			char strtim[256 + 16];
 
@@ -227,16 +222,16 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			DBVARIANT dbv;
 			dbv.type = DBVT_ASCIIZ;
 			dbv.pszVal = NULL;
-			if (db_get(NULL, dbLastUC_ModuleName, dbLastUC_DateTimeFormat, &dbv) == 0) {
+			if (db_get(NULL, MODULENAME, dbLastUC_DateTimeFormat, &dbv) == 0) {
 				strtimformat = dbv.pszVal;
 				db_free(&dbv);
 			}
 			else strtimformat = dbLastUC_DateTimeFormatDefault;
 
-			for(curContact = DlgDat->Contacts->begin(); curContact != DlgDat->Contacts->end(); curContact++) {
-				if (curContact->second != NULL && db_get_b(curContact->second, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0 ) {
-					wchar_t *cname = ( wchar_t* )pcli->pfnGetContactDisplayName(curContact->second, 0);
-					if ( cname == NULL )
+			for (auto curContact = DlgDat->Contacts->begin(); curContact != DlgDat->Contacts->end(); curContact++) {
+				if (curContact->second != NULL && db_get_b(curContact->second, MODULENAME, dbLastUC_IgnoreContact, 0) == 0) {
+					wchar_t *cname = (wchar_t*)pcli->pfnGetContactDisplayName(curContact->second, 0);
+					if (cname == NULL)
 						continue;
 
 					if (LastUCOpt.HideOffline == 1) {
@@ -248,7 +243,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 					lvi.iItem = i;
 					lvi.iSubItem = 0;
 					lvi.lParam = (LPARAM)curContact->second;
-							
+
 					strftime(strtim, 256, strtimformat.c_str(), _localtime64(&curContact->first));
 					strtim[255] = 0;
 					str = _A2T(strtim);
@@ -260,7 +255,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 				}
 				if (LastUCOpt.MaxShownContacts > 0 && i >= LastUCOpt.MaxShownContacts)
-				break;
+					break;
 			}
 
 
@@ -277,10 +272,10 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 					char szSettingName[64];
 					mir_snprintf(szSettingName, "%swidth", dbLastUC_WindowPosPrefix);
-					int width = db_get_dw(NULL, dbLastUC_ModuleName, szSettingName, -1);
+					int width = db_get_dw(NULL, MODULENAME, szSettingName, -1);
 
 					int right = rect.left - 6;
-					if(!IsWindowVisible(pcli->hwndContactList)) right = rect.right;
+					if (!IsWindowVisible(pcli->hwndContactList)) right = rect.right;
 
 					wp.rcNormalPosition.left = right - width;
 					wp.rcNormalPosition.top = rect.top;
@@ -294,10 +289,9 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			}
 
 			if (restorePos)
-				Utils_RestoreWindowPosition(hDlg, NULL, dbLastUC_ModuleName, dbLastUC_WindowPosPrefix);
+				Utils_RestoreWindowPosition(hDlg, NULL, MODULENAME, dbLastUC_WindowPosPrefix);
 
 			SendMessage(hDlg, WM_SIZE, 0, 0);
-			WindowList_Add(hWindowList, hDlg, NULL);
 			return TRUE;
 		}
 
@@ -349,7 +343,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 		if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, DlgDat->hContact))
 			break;
 
-		switch(wParam) {
+		switch (wParam) {
 		case IDOK:
 			ShowListMainDlgProc_OpenContact(hList, ListView_GetNextItem(hList, -1, LVIS_SELECTED));
 		case IDCANCEL:
@@ -360,7 +354,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_GETMINMAXINFO:
 		{
-			MINMAXINFO *mmi = (MINMAXINFO *) lParam;
+			MINMAXINFO *mmi = (MINMAXINFO *)lParam;
 			mmi->ptMinTrackSize.x = 100;
 			mmi->ptMinTrackSize.y = 150;
 			return 0;
@@ -375,13 +369,10 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_DESTROY:
-		Utils_SaveWindowPosition(hDlg, NULL, dbLastUC_ModuleName, dbLastUC_WindowPosPrefix);
+		Utils_SaveWindowPosition(hDlg, NULL, MODULENAME, dbLastUC_WindowPosPrefix);
 
 		delete DlgDat->Contacts;
 		delete DlgDat;
-
-		// Remove entry from Window list
-		WindowList_Remove(hWindowList, hDlg);
 		break;
 	}
 	return FALSE;
@@ -391,20 +382,17 @@ INT_PTR OnMenuCommandShowList(WPARAM, LPARAM)
 {
 	cmultimap *contacts = new cmultimap;
 
-	__time64_t curTime;
-	//DWORD t;
 	DBEVENTINFO dbe = {};
 	BYTE buf[1];
 	dbe.pBlob = buf;
-	MEVENT curEvent;
-	
-	for (MCONTACT curContact = db_find_first(); curContact != NULL; curContact = db_find_next(curContact)) {
-		curTime = ((__time64_t)db_get_dw(curContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeLo, -1)) |
-					(((__time64_t)db_get_dw(curContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeHi, -1)) << 32);
 
-		curEvent = db_event_last(curContact);
+	for (MCONTACT curContact = db_find_first(); curContact != NULL; curContact = db_find_next(curContact)) {
+		__time64_t curTime = ((__time64_t)db_get_dw(curContact, MODULENAME, dbLastUC_LastUsedTimeLo, -1)) |
+			(((__time64_t)db_get_dw(curContact, MODULENAME, dbLastUC_LastUsedTimeHi, -1)) << 32);
+
+		MEVENT curEvent = db_event_last(curContact);
 		if (curEvent != NULL) {
-			for ( ; curEvent != NULL; curEvent = db_event_prev(curContact, curEvent)) {
+			for (; curEvent != NULL; curEvent = db_event_prev(curContact, curEvent)) {
 				dbe.cbBlob = 1;
 				if (db_event_get(curEvent, &dbe) != 0) {
 					curEvent = NULL;
@@ -422,8 +410,8 @@ INT_PTR OnMenuCommandShowList(WPARAM, LPARAM)
 			contacts->insert(cpair(curTime, curContact));
 	}
 
-	HWND hWndMain;
-	if ((hWndMain = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_LASTUC_DIALOG), NULL, ShowListMainDlgProc, (LPARAM)contacts)) == NULL)
+	HWND hWndMain = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_LASTUC_DIALOG), NULL, ShowListMainDlgProc, (LPARAM)contacts);
+	if (hWndMain == NULL)
 		return -1;
 
 	ShowWindow(hWndMain, SW_SHOW);
@@ -433,11 +421,11 @@ INT_PTR OnMenuCommandShowList(WPARAM, LPARAM)
 	return 0;
 }
 
-static int OnContactSettingChanged( WPARAM hContact, LPARAM lParam )
+static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	DBCONTACTWRITESETTING* pdbcws = ( DBCONTACTWRITESETTING* )lParam;
-	if ( hContact == NULL )
-		if ( !strcmp( pdbcws->szModule, dbLastUC_ModuleName))
+	DBCONTACTWRITESETTING *pdbcws = (DBCONTACTWRITESETTING*)lParam;
+	if (hContact == NULL)
+		if (!strcmp(pdbcws->szModule, MODULENAME))
 			LoadDBSettings();
 
 	return 0;
@@ -449,7 +437,7 @@ int Create_TopToolbarShowList(WPARAM, LPARAM)
 	ttb.hIconHandleUp = icon.hIcolib;
 	ttb.pszService = msLastUC_ShowList;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	ttb.name = ttb.pszTooltipUp = msLastUC_ShowListName;
+	ttb.name = ttb.pszTooltipUp = LPGEN("Recent Contacts");
 	hTopToolbarButtonShowList = TopToolbar_AddButton(&ttb);
 	return 0;
 }
@@ -459,7 +447,7 @@ int Create_MenuitemShowList(void)
 	CMenuItem mi;
 	SET_UID(mi, 0xe22ce213, 0x362a, 0x444a, 0xa5, 0x82, 0xc, 0xcf, 0xf5, 0x4b, 0xd1, 0x8e);
 	mi.hIcolibItem = icon.hIcolib;
-	mi.name.a = msLastUC_ShowListName;
+	mi.name.a = LPGEN("Recent Contacts");
 	mi.pszService = msLastUC_ShowList;
 	Menu_AddMainMenuItem(&mi);
 
@@ -472,15 +460,36 @@ int Create_MenuitemShowList(void)
 	return 0;
 }
 
-BOOL SaveLastUsedTimeStamp(MCONTACT hContact)
+static void SaveLastUsedTimeStamp(MCONTACT hContact)
 {
 	__time64_t ct = _time64(NULL);
-	db_set_dw(hContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeLo, (DWORD)ct);
-	db_set_dw(hContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeHi, (DWORD)(ct >> 32));
-	return TRUE;
+	db_set_dw(hContact, MODULENAME, dbLastUC_LastUsedTimeLo, (DWORD)ct);
+	db_set_dw(hContact, MODULENAME, dbLastUC_LastUsedTimeHi, (DWORD)(ct >> 32));
 }
 
-int OnMsgEvent(WPARAM, LPARAM lParam)
+static int OnGCInEvent(WPARAM, LPARAM lParam)
+{
+	GCEVENT *gce = (GCEVENT*)lParam;
+	if (gce->pDest->iType == GC_EVENT_MESSAGE) {
+		SESSION_INFO *si = pci->SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+		if (si && si->hContact)
+			SaveLastUsedTimeStamp(si->hContact);
+	}
+	return 0;
+}
+
+static int OnGCOutEvent(WPARAM, LPARAM lParam)
+{
+	GCEVENT *gce = (GCEVENT*)lParam;
+	if (gce->pDest->iType == GC_USER_MESSAGE) {
+		SESSION_INFO *si = pci->SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+		if (si && si->hContact)
+			SaveLastUsedTimeStamp(si->hContact);
+	}
+	return 0;
+}
+
+static int OnMsgEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *ed = (MessageWindowEventData *)lParam;
 	if (ed->hContact != 0 && ed->uType == MSG_WINDOW_EVT_OPEN)
@@ -488,7 +497,7 @@ int OnMsgEvent(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-int OnProtoBroadcast(WPARAM, LPARAM lParam)
+static int OnProtoBroadcast(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack->type == ACKTYPE_MESSAGE && ack->result == ACKRESULT_SUCCESS)
@@ -498,14 +507,14 @@ int OnProtoBroadcast(WPARAM, LPARAM lParam)
 
 static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	if (db_get_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0)
+	if (db_get_b(hContact, MODULENAME, dbLastUC_IgnoreContact, 0) == 0)
 		Menu_ModifyItem(hMenuItemRemove, LPGENW("Ignore Contact"));
 	else
 		Menu_ModifyItem(hMenuItemRemove, LPGENW("Show Contact"));
 	return 0;
 }
 
-int OnModulesLoaded(WPARAM, LPARAM)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_TTB_MODULELOADED, Create_TopToolbarShowList);
 
@@ -523,11 +532,11 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR ToggleIgnore (WPARAM hContact, LPARAM)
+static INT_PTR ToggleIgnore(WPARAM hContact, LPARAM)
 {
 	if (hContact != NULL) {
-		int state = db_get_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0 ? 1 : 0 ;
-		db_set_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, state);
+		int state = db_get_b(hContact, MODULENAME, dbLastUC_IgnoreContact, 0) == 0 ? 1 : 0;
+		db_set_b(hContact, MODULENAME, dbLastUC_IgnoreContact, state);
 		return state;
 	}
 
@@ -538,21 +547,23 @@ INT_PTR ToggleIgnore (WPARAM hContact, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
+	pci = Chat_GetInterface();
 
 	CoInitialize(NULL);
-	hWindowList = WindowList_Create();
 
-	Icon_Register(hInst, msLastUC_ShowListName, &icon, 1);
+	Icon_Register(hInst, "Recent Contacts", &icon, 1);
 
 	CreateServiceFunction(msLastUC_ShowList, OnMenuCommandShowList);
 	CreateServiceFunction(V_RECENTCONTACTS_TOGGLE_IGNORE, ToggleIgnore);
-	
+
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
 	HookEvent(ME_MSG_WINDOWEVENT, OnMsgEvent);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged );
+	HookEvent(ME_GC_HOOK_EVENT, OnGCInEvent);
+	HookEvent(ME_GC_EVENT, OnGCOutEvent);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, onOptInitialise);
 	HookEvent(ME_PROTO_ACK, OnProtoBroadcast);
 	return 0;
@@ -562,7 +573,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	WindowList_Destroy(hWindowList);
 	CoUninitialize();
 	return 0;
 }
