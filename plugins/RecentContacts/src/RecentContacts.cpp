@@ -378,6 +378,13 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
+static __time64_t GetLastUsedTimeStamp(MCONTACT hContact)
+{
+	return
+		((__time64_t)db_get_dw(hContact, MODULENAME, dbLastUC_LastUsedTimeLo, -1)) |
+		(((__time64_t)db_get_dw(hContact, MODULENAME, dbLastUC_LastUsedTimeHi, -1)) << 32);
+}
+
 INT_PTR OnMenuCommandShowList(WPARAM, LPARAM)
 {
 	cmultimap *contacts = new cmultimap;
@@ -387,8 +394,7 @@ INT_PTR OnMenuCommandShowList(WPARAM, LPARAM)
 	dbe.pBlob = buf;
 
 	for (MCONTACT curContact = db_find_first(); curContact != NULL; curContact = db_find_next(curContact)) {
-		__time64_t curTime = ((__time64_t)db_get_dw(curContact, MODULENAME, dbLastUC_LastUsedTimeLo, -1)) |
-			(((__time64_t)db_get_dw(curContact, MODULENAME, dbLastUC_LastUsedTimeHi, -1)) << 32);
+		__time64_t curTime = GetLastUsedTimeStamp(curContact);
 
 		MEVENT curEvent = db_event_last(curContact);
 		if (curEvent != NULL) {
@@ -472,8 +478,12 @@ static int OnGCInEvent(WPARAM, LPARAM lParam)
 	GCEVENT *gce = (GCEVENT*)lParam;
 	if (gce->pDest->iType == GC_EVENT_MESSAGE) {
 		SESSION_INFO *si = pci->SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
-		if (si && si->hContact)
+		if (si && si->hContact) {
+			// skip old events
+			if (gce->time && gce->time <= GetLastUsedTimeStamp(si->hContact))
+				return 0;
 			SaveLastUsedTimeStamp(si->hContact);
+		}
 	}
 	return 0;
 }
