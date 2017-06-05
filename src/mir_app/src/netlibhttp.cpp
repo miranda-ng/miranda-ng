@@ -1015,6 +1015,9 @@ next:
 		goto next;
 	}
 
+	if (nlhrReply->resultCode == 204)
+		dataLen = 0;
+
 	for (i = 0; i < nlhrReply->headersCount; i++) {
 		NETLIBHTTPHEADER &p = nlhrReply->headers[i];
 		if (!mir_strcmpi(p.szName, "Content-Length"))
