@@ -106,10 +106,8 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 		return 0;
 
 	case ERR_AUTHENTICATION_FAILED:
-		if (info->mType != SERVER_SWITCHBOARD) {
-			MSN_ShowError("Your username or password is incorrect");
-			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
-		}
+		MSN_ShowError("Your username or password is incorrect");
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 		return 1;
 
 	default:

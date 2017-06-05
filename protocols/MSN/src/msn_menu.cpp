@@ -125,9 +125,6 @@ int CMsnProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		Menu_ModifyItem(hOpenInboxMenuItem, isMe ? LPGENW("Open &Hotmail Inbox") : LPGENW("Send &Hotmail E-mail"));
 		Menu_ShowItem(hOpenInboxMenuItem, emailEnabled);
 
-#ifdef OBSOLETE
-		Menu_ShowItem(hNetmeetingMenuItem, !noChat);
-#endif
 		Menu_ShowItem(hChatInviteMenuItem, !noChat);
 	}
 
@@ -143,123 +140,11 @@ int CMsnProto::OnContactDoubleClicked(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-#ifdef OBSOLETE
-// MsnSendNetMeeting - Netmeeting callback function
-INT_PTR CMsnProto::MsnSendNetMeeting(WPARAM wParam, LPARAM)
-{
-	if (!msnLoggedIn) return 0;
-
-	MCONTACT hContact = MCONTACT(wParam);
-
-	char szEmail[MSN_MAX_EMAIL_LEN];
-	if (MSN_IsMeByContact(hContact, szEmail)) return 0;
-
-	ThreadData* thread = MSN_GetThreadByContact(szEmail);
-
-	if (thread == NULL) {
-		MessageBox(NULL, TranslateT("You must be talking to start Netmeeting"), TranslateT("MSN Protocol"), MB_OK | MB_ICONERROR);
-		return 0;
-	}
-
-	char msg[1024];
-
-	mir_snprintf(msg,
-		"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
-		"Application-Name: NetMeeting\r\n"
-		"Application-GUID: {44BBA842-CC51-11CF-AAFA-00AA00B6015C}\r\n"
-		"Session-Protocol: SM1\r\n"
-		"Invitation-Command: INVITE\r\n"
-		"Invitation-Cookie: %i\r\n"
-		"Session-ID: {1A879604-D1B8-11D7-9066-0003FF431510}\r\n\r\n",
-		MSN_GenRandom());
-
-	thread->sendMessage('N', NULL, 1, msg, MSG_DISABLE_HDR);
-	return 0;
-}
-
-static INT_PTR MsnMenuSendNetMeeting(WPARAM wParam, LPARAM lParam)
-{
-	CMsnProto* ppro = GetProtoInstanceByHContact(wParam);
-	return (ppro) ? ppro->MsnSendNetMeeting(wParam, lParam) : 0;
-}
-
-//	SetNicknameCommand - sets nick name
-static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-	{
-		TranslateDialogDefault(hwndDlg);
-
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		CMsnProto* proto = (CMsnProto*)lParam;
-
-		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle("main"));
-		SendDlgItemMessage(hwndDlg, IDC_NICKNAME, EM_LIMITTEXT, 129, 0);
-
-		DBVARIANT dbv;
-		if (!proto->getWString("Nick", &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_NICKNAME, dbv.ptszVal);
-			db_free(&dbv);
-		}
-		return TRUE;
-	}
-	case WM_COMMAND:
-		switch (wParam) {
-		case IDOK:
-		{
-			CMsnProto *proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			if (proto->msnLoggedIn) {
-				wchar_t str[130];
-				GetDlgItemText(hwndDlg, IDC_NICKNAME, str, _countof(str));
-				proto->MSN_SendNickname(str);
-			}
-		}
-
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			break;
-		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		ReleaseIconEx("main");
-		ReleaseIconEx("main", true);
-		break;
-	}
-	return FALSE;
-}
-
-INT_PTR CMsnProto::SetNicknameUI(WPARAM, LPARAM)
-{
-	HWND hwndSetNickname = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SETNICKNAME),
-		NULL, DlgProcSetNickname, (LPARAM)this);
-
-	SetForegroundWindow(hwndSetNickname);
-	SetFocus(hwndSetNickname);
-	ShowWindow(hwndSetNickname, SW_SHOW);
-	return 0;
-}
-#endif
-
 // Menus initialization
 void CMsnProto::MsnInitMainMenu(void)
 {
 	CMenuItem mi;
 	mi.root = Menu_GetProtocolRoot(this);
-
-#ifdef OBSOLETE
-	mi.pszService = MS_SET_NICKNAME_UI;
-	CreateProtoService(mi.pszService, &CMsnProto::SetNicknameUI);
-	mi.position = 201001;
-	mi.hIcolibItem = GetIconHandle(IDI_MSN);
-	mi.name.a = LPGEN("Set &Nickname");
-	menuItemsMain[0] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
-#endif
 
 	mi.pszService = MSN_INVITE;
 	CreateProtoService(mi.pszService, &CMsnProto::MsnInviteCommand);
@@ -342,9 +227,6 @@ static int MSN_OnPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	else {
 		Menu_ShowItem(hBlockMenuItem, false);
 		Menu_ShowItem(hLiveSpaceMenuItem, false);
-#ifdef OBSOLETE
-		Menu_ShowItem(hNetmeetingMenuItem, false);
-#endif
 		Menu_ShowItem(hChatInviteMenuItem, false);
 		Menu_ShowItem(hOpenInboxMenuItem, false);
 	}
@@ -377,16 +259,6 @@ void MSN_InitContactMenu(void)
 	mi.name.a = LPGEN("View &Profile");
 	hLiveSpaceMenuItem = Menu_AddContactMenuItem(&mi);
 
-#ifdef OBSOLETE
-	mir_strcpy(tDest, MSN_NETMEETING);
-	hNetMeeting = CreateServiceFunction(servicefunction, MsnMenuSendNetMeeting);
-	mi.flags = CMIF_NOTOFFLINE;
-	mi.position = -500050002;
-	mi.hIcolibItem = GetIconHandle(IDI_NETMEETING);
-	mi.name.a = LPGEN("&Start Netmeeting");
-	hNetmeetingMenuItem = Menu_AddContactMenuItem(&mi);
-#endif
-
 	SET_UID(mi,0x25a007c0, 0x8dc7, 0x4284, 0x8a, 0x5e, 0x2, 0x83, 0x17, 0x5d, 0x52, 0xea);
 	mir_strcpy(tDest, "/SendHotmail");
 	hSendHotMail = CreateServiceFunction(servicefunction, MsnMenuSendHotmail);
@@ -403,10 +275,6 @@ void MSN_RemoveContactMenus(void)
 {
 	Menu_RemoveItem(hBlockMenuItem);
 	Menu_RemoveItem(hLiveSpaceMenuItem);
-#ifdef OBSOLETE
-	Menu_RemoveItem(hNetmeetingMenuItem);
-	DestroyServiceFunction(hNetMeeting);
-#endif
 	Menu_RemoveItem(hChatInviteMenuItem);
 	Menu_RemoveItem(hOpenInboxMenuItem);
 

@@ -248,30 +248,6 @@ LBL_Continue:
 				proto->setString("Password", password);
 			}
 
-#ifdef OBSOLETE
-			GetDlgItemText(hwndDlg, IDC_HANDLE2, screenStr, _countof(screenStr));
-			if (!proto->getWString("Nick", &dbv)) {
-				if (mir_wstrcmp(dbv.ptszVal, screenStr))
-					proto->MSN_SendNickname(screenStr);
-				db_free(&dbv);
-			}
-			else proto->MSN_SendNickname(screenStr);
-
-			BYTE mblsnd = IsDlgButtonChecked(hwndDlg, IDC_MOBILESEND) == BST_CHECKED;
-			if (mblsnd != proto->getByte("MobileAllowed", 0)) {
-				proto->msnNsThread->sendPacket("PRP", "MOB %c", mblsnd ? 'Y' : 'N');
-				proto->MSN_SetServerStatus(proto->m_iStatus);
-			}
-
-			unsigned tValue = IsDlgButtonChecked(hwndDlg, IDC_DISABLE_ANOTHER_CONTACTS);
-			if (tValue != proto->msnOtherContactsBlocked && proto->msnLoggedIn) {
-				proto->msnOtherContactsBlocked = tValue;
-				proto->msnNsThread->sendPacket("BLP", tValue ? "BL" : "AL");
-				proto->MSN_ABUpdateAttr(NULL, "MSN.IM.BLP", tValue ? "0" : "1");
-				break;
-			}
-#endif
-
 			proto->setByte("SendFontInfo", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SENDFONTINFO));
 			proto->setByte("RunMailerOnHotmail", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_RUN_APP_ON_HOTMAIL));
 			proto->setByte("ManageServer", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MANAGEGROUPS));
@@ -404,10 +380,6 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				}
 			}
 			
-#ifdef OBSOLETE
-			unsigned gethst2 = proto->getByte("AutoGetHost", 1);
-
-#endif
 			unsigned gethst = SendDlgItemMessage(hwndDlg, IDC_HOSTOPT, CB_GETCURSEL, 0, 0);
 			if (gethst < 2) gethst = !gethst;
 			proto->setByte("AutoGetHost", (BYTE)gethst);
@@ -417,11 +389,6 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				proto->setString("YourHost", str);
 			}
 			else proto->delSetting("YourHost");
-
-#ifdef OBSOLETE
-			if (gethst != gethst2)
-				proto->ForkThread(&CMsnProto::MSNConnDetectThread, NULL);
-#endif
 
 			proto->LoadOptions();
 			return TRUE;

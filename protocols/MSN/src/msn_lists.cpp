@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_proto.h"
 #include "m_smileyadd.h"
 
+const char sttVoidUid[] = "{00000000-0000-0000-0000-000000000000}";
+
 void CMsnProto::Lists_Uninit(void)
 {
 	Lists_Wipe();
@@ -139,28 +141,6 @@ int CMsnProto::Lists_GetNetId(const char* email)
 	MsnContact *p = m_arContacts.find((MsnContact*)&email);
 	return p ? p->netId : NETID_UNKNOWN;
 }
-
-#ifdef OBSOLETE
-unsigned CMsnProto::p2p_getMsgId(const char* wlid, int inc)
-{
-	mir_cslock lck(m_csLists);
-	MsnPlace *p = Lists_GetPlace(wlid);
-
-	unsigned res = p && p->p2pMsgId ? p->p2pMsgId : MSN_GenRandom();
-	if (p)
-		p->p2pMsgId = res + inc;
-
-	return res;
-}
-
-unsigned CMsnProto::p2p_getPktNum(const char* wlid)
-{
-	mir_cslock lck(m_csLists);
-
-	MsnPlace *p = Lists_GetPlace(wlid);
-	return p ? p->p2pPktNum++ : 0;
-}
-#endif
 
 int CMsnProto::Lists_Add(int list, int netId, const char* email, MCONTACT hContact, const char* nick, const char* invite)
 {

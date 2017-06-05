@@ -19,9 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #define __MAJOR_VERSION          0
-#define __MINOR_VERSION          12
-#define __RELEASE_NUM            1
-#define __BUILD_NUM              5
+#define __MINOR_VERSION          14
+#define __RELEASE_NUM            0
+#define __BUILD_NUM              1
 
 #include <stdver.h>
 

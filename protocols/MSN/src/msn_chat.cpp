@@ -421,10 +421,6 @@ INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			GCThreadData *info = NULL;
 			if (param->id)
 				info = param->ppro->MSN_GetThreadByChatId(param->id);
-			/*else if (param->hContact) {
-				if (!param->ppro->MSN_IsMeByContact(param->hContact, tEmail))
-					info = param->ppro->MSN_GetThreadByContact(tEmail);
-			}*/
 
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_CCLIST);
 			STRLIST *cont = new STRLIST;

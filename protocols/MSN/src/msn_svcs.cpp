@@ -133,19 +133,6 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 			pushAvatarRequest(pai->hContact, dbv.pszVal);
 			db_free(&dbv);
 		}
-#ifdef OBSOLETE
-		else if (p2p_getAvatarSession(pai->hContact) == NULL) {
-			filetransfer* ft = new filetransfer(this);
-			ft->std.hContact = pai->hContact;
-			ft->p2p_object = mir_strdup(szContext);
-
-			MSN_GetAvatarFileName(pai->hContact, filename, _countof(filename), L"unk");
-			ft->std.tszCurrentFile = mir_wstrdup(filename);
-
-			p2p_invite(MSN_APPID_AVATAR, ft, NULL);
-		}
-#endif
-
 		return GAIR_WAITFOR;
 	}
 	return GAIR_NOAVATAR;
@@ -251,129 +238,9 @@ INT_PTR CMsnProto::SendNudge(WPARAM hContact, LPARAM)
 	if (MSN_IsMeByContact(hContact, tEmail)) return 0;
 
 	int netId = Lists_GetNetId(tEmail);
-
-#ifdef OBSOLETE
-	static const char nudgemsg[] =
-		"Content-Type: text/x-msnmsgr-datacast\r\n\r\n"
-		"ID: 1\r\n\r\n";
-
-	switch (netId) {
-	case NETID_UNKNOWN:
-		hContact = MSN_GetChatInernalHandle(hContact);
-
-	case NETID_MSN:
-	case NETID_LCS:
-	{
-		bool isOffline;
-		ThreadData* thread = MSN_StartSB(tEmail, isOffline);
-		if (thread == NULL) {
-			if (isOffline) return 0;
-			MsgQueue_Add(tEmail, 'N', nudgemsg, -1);
-		}
-		else {
-			int tNnetId = netId == NETID_UNKNOWN ? NETID_MSN : netId;
-			thread->sendMessage('N', tEmail, tNnetId, nudgemsg, MSG_DISABLE_HDR);
-		}
-	}
-	break;
-
-	case NETID_YAHOO:
-		msnNsThread->sendMessage('3', tEmail, netId, nudgemsg, MSG_DISABLE_HDR);
-		break;
-
-	default:
-		break;
-	}
-#else
 	msnNsThread->sendMessage('3', tEmail, netId, "", MSG_NUDGE);
-#endif
 	return 0;
 }
-
-#ifdef OBSOLETE
-/////////////////////////////////////////////////////////////////////////////////////////
-//	GetCurrentMedia - get current media
-
-INT_PTR CMsnProto::GetCurrentMedia(WPARAM, LPARAM lParam)
-{
-	LISTENINGTOINFO *cm = (LISTENINGTOINFO *)lParam;
-
-	if (cm == NULL || cm->cbSize != sizeof(LISTENINGTOINFO))
-		return -1;
-
-	cm->ptszArtist = mir_wstrdup(msnCurrentMedia.ptszArtist);
-	cm->ptszAlbum = mir_wstrdup(msnCurrentMedia.ptszAlbum);
-	cm->ptszTitle = mir_wstrdup(msnCurrentMedia.ptszTitle);
-	cm->ptszTrack = mir_wstrdup(msnCurrentMedia.ptszTrack);
-	cm->ptszYear = mir_wstrdup(msnCurrentMedia.ptszYear);
-	cm->ptszGenre = mir_wstrdup(msnCurrentMedia.ptszGenre);
-	cm->ptszLength = mir_wstrdup(msnCurrentMedia.ptszLength);
-	cm->ptszPlayer = mir_wstrdup(msnCurrentMedia.ptszPlayer);
-	cm->ptszType = mir_wstrdup(msnCurrentMedia.ptszType);
-	cm->dwFlags = msnCurrentMedia.dwFlags;
-
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-//	SetCurrentMedia - set current media
-
-INT_PTR CMsnProto::SetCurrentMedia(WPARAM, LPARAM lParam)
-{
-	// Clear old info
-	mir_free(msnCurrentMedia.ptszArtist);
-	mir_free(msnCurrentMedia.ptszAlbum);
-	mir_free(msnCurrentMedia.ptszTitle);
-	mir_free(msnCurrentMedia.ptszTrack);
-	mir_free(msnCurrentMedia.ptszYear);
-	mir_free(msnCurrentMedia.ptszGenre);
-	mir_free(msnCurrentMedia.ptszLength);
-	mir_free(msnCurrentMedia.ptszPlayer);
-	mir_free(msnCurrentMedia.ptszType);
-	memset(&msnCurrentMedia, 0, sizeof(msnCurrentMedia));
-
-	// Copy new info
-	LISTENINGTOINFO *cm = (LISTENINGTOINFO *)lParam;
-	if (cm != NULL && cm->cbSize == sizeof(LISTENINGTOINFO) && (cm->ptszArtist != NULL || cm->ptszTitle != NULL)) {
-		bool unicode = (cm->dwFlags & LTI_UNICODE) != 0;
-
-		msnCurrentMedia.cbSize = sizeof(msnCurrentMedia);	// Marks that there is info set
-		msnCurrentMedia.dwFlags = LTI_TCHAR;
-
-		overrideStr(msnCurrentMedia.ptszType, cm->ptszType, unicode, L"Music");
-		overrideStr(msnCurrentMedia.ptszArtist, cm->ptszArtist, unicode);
-		overrideStr(msnCurrentMedia.ptszAlbum, cm->ptszAlbum, unicode);
-		overrideStr(msnCurrentMedia.ptszTitle, cm->ptszTitle, unicode, L"No Title");
-		overrideStr(msnCurrentMedia.ptszTrack, cm->ptszTrack, unicode);
-		overrideStr(msnCurrentMedia.ptszYear, cm->ptszYear, unicode);
-		overrideStr(msnCurrentMedia.ptszGenre, cm->ptszGenre, unicode);
-		overrideStr(msnCurrentMedia.ptszLength, cm->ptszLength, unicode);
-		overrideStr(msnCurrentMedia.ptszPlayer, cm->ptszPlayer, unicode);
-	}
-
-	// Set user text
-	if (msnCurrentMedia.cbSize == 0)
-		delSetting("ListeningTo");
-	else {
-		wchar_t *text;
-		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
-			text = (wchar_t *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%title% - %artist%", (LPARAM)&msnCurrentMedia);
-		else {
-			text = (wchar_t *)mir_alloc(128 * sizeof(wchar_t));
-			mir_snwprintf(text, 128, L"%s - %s", (msnCurrentMedia.ptszTitle ? msnCurrentMedia.ptszTitle : L""),
-				(msnCurrentMedia.ptszArtist ? msnCurrentMedia.ptszArtist : L""));
-		}
-		setWString("ListeningTo", text);
-		mir_free(text);
-	}
-
-	// Send it
-	char** msgptr = GetStatusMsgLoc(m_iDesiredStatus);
-	MSN_SendStatusMessage(msgptr ? *msgptr : NULL);
-
-	return 0;
-}
-#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnContactDeleted - called when a contact is deleted from list

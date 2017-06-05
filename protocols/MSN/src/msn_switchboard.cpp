@@ -22,32 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 #include "msn_proto.h"
-#ifdef OBSOLETE
-
-int ThreadData::contactJoined(const char* email)
-{
-	for (int i = 0; i < mJoinedContactsWLID.getCount(); i++)
-		if (_stricmp(mJoinedContactsWLID[i], email) == 0)
-			return mJoinedContactsWLID.getCount();
-
-	if (strchr(email, ';'))
-		mJoinedIdentContactsWLID.insertn(email);
-	else
-		mJoinedContactsWLID.insertn(email);
-
-	return mJoinedContactsWLID.getCount();
-}
-
-int ThreadData::contactLeft(const char* email)
-{
-	if (strchr(email, ';'))
-		mJoinedIdentContactsWLID.remove(email);
-	else
-		mJoinedContactsWLID.remove(email);
-
-	return mJoinedContactsWLID.getCount();
-}
-#endif
 
 MCONTACT ThreadData::getContactHandle(void)
 {

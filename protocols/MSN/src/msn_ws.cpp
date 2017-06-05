@@ -29,7 +29,7 @@ int ThreadData::send(const char data[], size_t datalen)
 {
 	resetTimeout();
 
-	if (proto->usingGateway && !(mType == SERVER_FILETRANS || mType == SERVER_P2P_DIRECT)) {
+	if (proto->usingGateway) {
 		mGatewayTimeout = 2;
 		Netlib_SetPollingTimeout(s, mGatewayTimeout);
 	}
@@ -52,59 +52,21 @@ void ThreadData::resetTimeout(bool term)
 
 bool ThreadData::isTimeout(void)
 {
+	if (mWaitPeriod >= clock())
+		return false;
+
 	bool res = false;
-
-	if (mWaitPeriod >= clock()) return false;
-
-	if (mIsMainThread) {
+	if (mIsMainThread)
 		res = !proto->usingGateway;
-	}
-	else if (mJoinedContactsWLID.getCount() <= 1 || mChatID[0] == 0) {
-#ifdef OBSOLETE
-		MCONTACT hContact = getContactHandle();
-#endif
-		if (mJoinedContactsWLID.getCount() == 0 || termPending)
-			res = true;
-#ifdef OBSOLETE
-		else if (proto->p2p_getThreadSession(hContact, mType) != NULL)
-			res = false;
-		else if (mType == SERVER_SWITCHBOARD) {
-			res = MSN_MsgWndExist(hContact);
-			if (res) {
-				WORD status = proto->getWord(hContact, "Status", ID_STATUS_OFFLINE);
-				if ((status == ID_STATUS_OFFLINE || status == ID_STATUS_INVISIBLE || proto->m_iStatus == ID_STATUS_INVISIBLE))
-					res = false;
-			}
-		}
-#endif
-		else
-			res = true;
-	}
+	else if (mJoinedContactsWLID.getCount() <= 1 || mChatID[0] == 0)
+		res = true;
 
 	if (res) {
-		bool sbsess = mType == SERVER_SWITCHBOARD;
-
-		proto->debugLogA("Dropping the idle %s due to inactivity", sbsess ? "switchboard" : "p2p");
-		if (!sbsess || termPending) return true;
-
-#ifdef OBSOLETE
-		if (proto->getByte("EnableSessionPopup", 0)) {
-			MCONTACT hContact = NULL;
-			if (mJoinedContactsWLID.getCount())
-				hContact = proto->MSN_HContactFromEmail(mJoinedContactsWLID[0]);
-			else if (mInitialContactWLID)
-				hContact = proto->MSN_HContactFromEmail(mInitialContactWLID);
-
-			if (hContact)
-				proto->MSN_ShowPopup(hContact, TranslateT("Chat session dropped due to inactivity"), 0);
-		}
-
-		sendTerminate();
-		resetTimeout(true);
-#endif
+		proto->debugLogA("Dropping the idle p2p due to inactivity");
+		if (termPending)
+			return true;
 	}
-	else
-		resetTimeout();
+	else resetTimeout();
 
 	return false;
 }

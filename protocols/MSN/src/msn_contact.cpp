@@ -108,28 +108,6 @@ void CMsnProto::MSN_SetContactDb(MCONTACT hContact, const char *szEmail)
 
 void CMsnProto::AddDelUserContList(const char* email, const int list, const int netId, const bool del)
 {
-#ifdef OBSOLETE
-	char buf[512];
-	size_t sz;
-
-	if (list < LIST_RL) {
-		const char* dom = strchr(email, '@');
-		if (dom == NULL) {
-			sz = mir_snprintf(buf,
-				"<ml><t><c n=\"%s\" l=\"%d\"/></t></ml>",
-				email, list);
-		}
-		else {
-			*(char*)dom = 0;
-			sz = mir_snprintf(buf,
-				"<ml><d n=\"%s\"><c n=\"%s\" l=\"%d\" t=\"%d\"/></d></ml>",
-				dom + 1, email, list, netId);
-			*(char*)dom = '@';
-		}
-		msnNsThread->sendPacket(del ? "RML" : "ADL", "%d\r\n%s", sz, buf);
-	}
-#endif
-
 	if (del)
 		Lists_Remove(list, email);
 	else
@@ -220,10 +198,6 @@ bool CMsnProto::MSN_AddUser(MCONTACT hContact, const char* email, int netId, int
 					MSN_SharingFindMembership(true);
 					AddDelUserContList(email, flags, netId, false);
 				}
-	#ifdef OBSOLETE
-				else if (netId == 1 && strstr(email, "@yahoo.com") != 0)
-					MSN_FindYahooUser(email);
-	#endif
 
 				db_free(&dbv);
 			}
@@ -239,10 +213,6 @@ bool CMsnProto::MSN_AddUser(MCONTACT hContact, const char* email, int netId, int
 				netId = Lists_GetNetId(email);
 			res = MSN_SharingAddDelMember(email, flags, netId, needRemove ? "DeleteMember" : "AddMember");
 			AddDelUserContList(email, flags, netId, needRemove);
-			if ((flags & LIST_BL) && !needRemove) {
-				ThreadData* thread = MSN_GetThreadByContact(email, SERVER_SWITCHBOARD);
-				if (thread) thread->sendTerminate();
-			}
 
 			if ((flags & LIST_PL) && needRemove)
 				MSN_AddUser(hContact, email, netId, LIST_RL);
@@ -250,22 +220,6 @@ bool CMsnProto::MSN_AddUser(MCONTACT hContact, const char* email, int netId, int
 	}
 	return res;
 }
-
-#ifdef OBSOLETE
-void CMsnProto::MSN_FindYahooUser(const char* email)
-{
-	const char *dom = strchr(email, '@');
-	if (dom) {
-		char buf[512];
-		size_t sz;
-
-		*(char*)dom = '\0';
-		sz = mir_snprintf(buf, "<ml><d n=\"%s\"><c n=\"%s\"/></d></ml>", dom + 1, email);
-		*(char*)dom = '@';
-		msnNsThread->sendPacket("FQY", "%d\r\n%s", sz, buf);
-	}
-}
-#endif
 
 bool CMsnProto::MSN_RefreshContactList(void)
 {

@@ -180,68 +180,63 @@ const char MSN_DEFAULT_LOGIN_SERVER[] = "s.gateway.messenger.live.com";
 const char MSN_DEFAULT_GATEWAY[] =      "geo.gateway.messenger.live.com";
 const char MSN_USER_AGENT[] =           NETLIB_USER_AGENT;
 
-#define MSN_BLOCK        "/BlockCommand"
-#define MSN_INVITE       "/InviteCommand"
-#define MSN_NETMEETING   "/NetMeeting"
-#define MSN_VIEW_PROFILE "/ViewProfile"
+#define  MSN_BLOCK        "/BlockCommand"
+#define  MSN_INVITE       "/InviteCommand"
+#define  MSN_VIEW_PROFILE "/ViewProfile"
 
-#define MS_GOTO_INBOX		"/GotoInbox"
-#define MS_EDIT_PROFILE		"/EditProfile"
-#define MS_EDIT_ALERTS		"/EditAlerts"
-#define MS_SET_NICKNAME_UI  "/SetNicknameUI"
-
-extern const char sttVoidUid[];
+#define  MS_GOTO_INBOX		"/GotoInbox"
+#define  MS_EDIT_PROFILE		"/EditProfile"
+#define  MS_EDIT_ALERTS		"/EditAlerts"
+#define  MS_SET_NICKNAME_UI  "/SetNicknameUI"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	MSN plugin functions
 
 struct CMsnProto;
 
-#define	MSN_ALLOW_MSGBOX    1
-#define	MSN_ALLOW_ENTER	    2
-#define	MSN_HOTMAIL_POPUP   4
-#define MSN_SHOW_ERROR      8
-#define	MSN_ALERT_POPUP	    16
+#define  MSN_ALLOW_MSGBOX    1
+#define  MSN_ALLOW_ENTER	    2
+#define  MSN_HOTMAIL_POPUP   4
+#define  MSN_SHOW_ERROR      8
+#define  MSN_ALERT_POPUP	    16
 
-void        HtmlDecode(char* str);
-char*       HtmlEncode(const char* str);
-bool		txtParseParam (const char* szData, const char* presearch, const char* start, const char* finish, char* param, const int size);
-void		stripBBCode(char* src);
-void		stripColorCode(char* src);
-void		stripHTML(char* str);
-void		parseWLID(char* wlid, char** net, char** email, char** inst);
+void     HtmlDecode(char* str);
+char*    HtmlEncode(const char* str);
+bool     txtParseParam (const char* szData, const char* presearch, const char* start, const char* finish, char* param, const int size);
+void     stripBBCode(char* src);
+void     stripColorCode(char* src);
+void     stripHTML(char* str);
+void     parseWLID(char* wlid, char** net, char** email, char** inst);
 
-char*		GetGlobalIp(void);
+char*    GetGlobalIp(void);
 
 template <class chartype> void UrlDecode(chartype* str);
 
-void		__cdecl MSN_ConnectionProc(HANDLE hNewConnection, DWORD dwRemoteIP, void*);
+char*    MSN_GetAvatarHash(char* szContext, char** pszUrl = NULL);
+bool     MSN_MsgWndExist(MCONTACT hContact);
 
-char*		MSN_GetAvatarHash(char* szContext, char** pszUrl = NULL);
-bool		MSN_MsgWndExist(MCONTACT hContact);
+#define  MSN_SendNickname(a) MSN_SendNicknameUtf(UTF8(a))
 
-#define		MSN_SendNickname(a) MSN_SendNicknameUtf(UTF8(a))
+unsigned MSN_GenRandom(void);
 
-unsigned    MSN_GenRandom(void);
+void     MSN_InitContactMenu(void);
+void     MSN_RemoveContactMenus(void);
 
-void        MSN_InitContactMenu(void);
-void        MSN_RemoveContactMenus(void);
+HANDLE   GetIconHandle(int iconId);
+HICON    LoadIconEx(const char* name, bool big = false);
+void     ReleaseIconEx(const char* name, bool big = false);
 
-HANDLE      GetIconHandle(int iconId);
-HICON       LoadIconEx(const char* name, bool big = false);
-void        ReleaseIconEx(const char* name, bool big = false);
+void     MsnInitIcons(void);
 
-void        MsnInitIcons(void);
-
-int         sttDivideWords(char* parBuffer, int parMinItems, char** parDest);
+int      sttDivideWords(char* parBuffer, int parMinItems, char** parDest);
 void		MSN_MakeDigest(const char* chl, char* dgst);
 char*		getNewUuid(void);
-time_t		IsoToUnixTime(const char *stamp);
-time_t		MsnTSToUnixtime(const char *pszTS);
+time_t	IsoToUnixTime(const char *stamp);
+time_t	MsnTSToUnixtime(const char *pszTS);
 
 wchar_t* EscapeChatTags(const wchar_t* pszText);
 
-void   overrideStr(wchar_t*& dest, const wchar_t* src, bool unicode, const wchar_t* def = NULL);
+void     overrideStr(wchar_t*& dest, const wchar_t* src, bool unicode, const wchar_t* def = NULL);
 
 char* arrayToHex(BYTE* data, size_t datasz);
 
@@ -263,14 +258,14 @@ inline unsigned __int64 _htonl64(unsigned __int64 s)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popup interface
 
-typedef struct _tag_PopupData
+struct PopupData
 {
 	unsigned flags;
 	char* url;
 	wchar_t* title;
 	wchar_t* text;
 	CMsnProto* proto;
-} PopupData;
+};
 
 struct STRLIST : public LIST<char>
 {
@@ -368,13 +363,8 @@ struct HReadBuffer
 enum TInfoType
 {
 	SERVER_NOTIFICATION,
-	SERVER_SWITCHBOARD,
-	SERVER_FILETRANS,
-	SERVER_P2P_DIRECT,
 	SERVER_HTTP
 };
-
-
 
 struct filetransfer
 {
@@ -570,13 +560,13 @@ struct ThreadData
    TInfoType     mType;              // thread type
    MsnThreadFunc mFunc;              // thread entry point
    char          mServer[80];        // server name
-   char			 mState[128];	       // state on XFR
+   char          mState[128];	       // state on XFR
 
 	HNETLIBCONN   s;                  // NetLib connection for the thread
    HANDLE        mIncomingBoundPort; // Netlib listen for the thread
    HANDLE        hWaitEvent;
    WORD          mIncomingPort;
-   wchar_t         mChatID[10];
+   wchar_t       mChatID[10];
    bool          mIsMainThread;
    clock_t       mWaitPeriod;
 
@@ -603,7 +593,7 @@ struct ThreadData
 
    //----| internal data buffer |--------------------------------------------------------
    int           mBytesInData;     // bytes available in data buffer
-   char          *mData;           // data buffer for connection
+   char         *mData;            // data buffer for connection
    size_t        mDataSize;
 
    //----| methods |---------------------------------------------------------------------
@@ -619,17 +609,13 @@ struct ThreadData
    bool          isTimeout(void);
 
    void          sendTerminate(void);
-   void          sendCaps(void);
    int           sendMessage(int msgType, const char* email, int netId, const char* msg, int parFlags);
    int           sendRawMessage(int msgType, const char* data, int datLen);
    int           sendPacket(const char* cmd, const char* fmt, ...);
-   int			 sendPacketPayload(const char* cmd, const char *param, const char* fmt, ...);
+   int			  sendPacketPayload(const char* cmd, const char *param, const char* fmt, ...);
 
-   int           contactJoined(const char* email);
-   int           contactLeft(const char* email);
    MCONTACT      getContactHandle(void);
 };
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MSN P2P session support
@@ -709,12 +695,10 @@ public:
 	const char *Token();
 	__forceinline operator char*() const { return m_pszToken; }
 	void SetToken(const char *pszToken, time_t tExpires);
-	//__forceinline const char *RefreshToken() { return m_pszRefreshToken; }
 
 protected:
 	const char *m_pszTokenName;
 	char *m_pszToken;
-	//char *m_pszRefreshToken;
 	time_t m_tExpires;
 	CMsnProto*    m_proto;
 };
@@ -723,7 +707,7 @@ class OAuthToken : public GenericToken {
 public:
 	OAuthToken(const char *pszTokenName, const char *pszService, bool bPreprendT = false);
 
-	bool Refresh(bool bForce = false);
+	virtual bool Refresh(bool bForce = false) override;
 
 private:
 	const char *m_pszService;
@@ -733,7 +717,7 @@ private:
 class SkypeToken : public GenericToken {
 public:
 	SkypeToken(const char *pszTokenName);
-	bool Refresh(bool bForce = false);
+	virtual bool Refresh(bool bForce = false) override;
 	const char *XSkypetoken();
 };
 

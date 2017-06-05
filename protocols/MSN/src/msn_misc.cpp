@@ -361,9 +361,7 @@ void CMsnProto::MSN_GoOffline(void)
 		MSN_EnableMenuItems(false);
 
 	MSN_FreeGroups();
-#ifdef OBSOLETE
-	MsgQueue_Clear();
-#endif
+
 	clearCachedMsg();
 
 	if (!g_bTerminated) {
@@ -390,12 +388,9 @@ void CMsnProto::MSN_GoOffline(void)
 		}
 	}
 }
-#ifdef OBSOLETE
-int ThreadData::sendMessage(int msgType, const char* email, int netId, const char* parMsg, int parFlags)
-#else
+
 // MSN_SendMessage - formats and sends a MSG packet through the server
 int ThreadData::sendMessage(int, const char *email, int netId, const char *parMsg, int parFlags)
-#endif
 {
 	CMStringA buf;
 
@@ -441,11 +436,6 @@ int ThreadData::sendMessage(int, const char *email, int netId, const char *parMs
 				tFontColor = db_get_dw(NULL, "SRMsg", "Font0Col", 0);
 			}
 			else tFontStyle[0] = 0;
-
-#ifdef OBSOLETE
-			if (parFlags & MSG_OFFLINE)
-				off += mir_snprintf((buf + off), (_countof(buf) - off), "Dest-Agent: client\r\n"); 
-#endif
 		}
 
 		char *pszNick=proto->MyOptions.szEmail;
@@ -491,32 +481,8 @@ int ThreadData::sendMessage(int, const char *email, int netId, const char *parMs
 		netId == NETID_SKYPE?netId:proto->MyOptions.netId, proto->GetMyUsername(netId), proto->MyOptions.szMachineGuid,
 		parMsg);
 
-#ifdef OBSOLETE
-	if (netId == NETID_YAHOO || netId == NETID_MOB || (parFlags & MSG_OFFLINE))
-		seq = sendPacket("UUM", "%s %d %c %d\r\n%s%s", email, netId, msgType,
-		mir_strlen(parMsg) + off, buf, parMsg);
-	else
-		seq = sendPacket("MSG", "%c %d\r\n%s%s", msgType,
-		mir_strlen(parMsg) + off, buf, parMsg);
-#endif
-
 	return seq;
 }
-
-#ifdef OBSOLETE
-void ThreadData::sendCaps(void)
-{
-	char mversion[100], capMsg[1000];
-	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(mversion), (LPARAM)mversion);
-
-	mir_snprintf(capMsg,
-		"Content-Type: text/x-clientcaps\r\n\r\n"
-		"Client-Name: Miranda NG %s (MSN v.%s)\r\n",
-		mversion, __VERSION_STRING_DOTS);
-
-	sendMessage('U', NULL, 1, capMsg, MSG_DISABLE_HDR);
-}
-#endif
 
 void ThreadData::sendTerminate(void)
 {
@@ -575,89 +541,13 @@ static char * HtmlEncodeUTF8T(const wchar_t *src)
 	return HtmlEncode(UTF8(src));
 }
 
-#ifdef OBSOLETE
-void CMsnProto::MSN_SendStatusMessage(const char* msg)
-#else
 // MSN_SendStatusMessage - notify a server about the status message change
 void CMsnProto::MSN_SendStatusMessage(const char*)
-#endif
 {
 	if (!msnLoggedIn)
 		return;
 
 	MSN_SetServerStatus(m_iDesiredStatus);
-	/* FIXME: Currently not implemented, should be set on status change anyway  */
-
-#ifdef OBSOLETE
-	char* msgEnc = HtmlEncode(msg ? msg : "");
-
-	size_t sz;
-	char  szMsg[2048];
-	if (msnCurrentMedia.cbSize == 0) {
-		sz = mir_snprintf(szMsg, "<Data><PSM>%s</PSM><CurrentMedia></CurrentMedia><MachineGuid>%s</MachineGuid>"
-			"<DDP></DDP><SignatureSound></SignatureSound><Scene></Scene><ColorScheme></ColorScheme></Data>",
-			msgEnc, MyOptions.szMachineGuid);
-	}
-	else {
-		char *szFormatEnc;
-		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT)) {
-			LISTENINGTOINFO lti = { 0 };
-			lti.cbSize = sizeof(lti);
-			if (msnCurrentMedia.ptszTitle != NULL) lti.ptszTitle = L"{0}";
-			if (msnCurrentMedia.ptszArtist != NULL) lti.ptszArtist = L"{1}";
-			if (msnCurrentMedia.ptszAlbum != NULL) lti.ptszAlbum = L"{2}";
-			if (msnCurrentMedia.ptszTrack != NULL) lti.ptszTrack = L"{3}";
-			if (msnCurrentMedia.ptszYear != NULL) lti.ptszYear = L"{4}";
-			if (msnCurrentMedia.ptszGenre != NULL) lti.ptszGenre = L"{5}";
-			if (msnCurrentMedia.ptszLength != NULL) lti.ptszLength = L"{6}";
-			if (msnCurrentMedia.ptszPlayer != NULL) lti.ptszPlayer = L"{7}";
-			if (msnCurrentMedia.ptszType != NULL) lti.ptszType = L"{8}";
-
-			wchar_t *tmp = (wchar_t *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%title% - %artist%", (LPARAM)&lti);
-			szFormatEnc = HtmlEncodeUTF8T(tmp);
-			mir_free(tmp);
-		}
-		else szFormatEnc = HtmlEncodeUTF8T(L"{0} - {1}");
-
-		char *szArtist = HtmlEncodeUTF8T(msnCurrentMedia.ptszArtist),
-			*szAlbum = HtmlEncodeUTF8T(msnCurrentMedia.ptszAlbum),
-			*szTitle = HtmlEncodeUTF8T(msnCurrentMedia.ptszTitle),
-			*szTrack = HtmlEncodeUTF8T(msnCurrentMedia.ptszTrack),
-			*szYear = HtmlEncodeUTF8T(msnCurrentMedia.ptszYear),
-			*szGenre = HtmlEncodeUTF8T(msnCurrentMedia.ptszGenre),
-			*szLength = HtmlEncodeUTF8T(msnCurrentMedia.ptszLength),
-			*szPlayer = HtmlEncodeUTF8T(msnCurrentMedia.ptszPlayer),
-			*szType = HtmlEncodeUTF8T(msnCurrentMedia.ptszType);
-
-		sz = mir_snprintf(szMsg, _countof(szMsg),
-			"<Data>"
-			"<PSM>%s</PSM>"
-			"<CurrentMedia>%s\\0%s\\01\\0%s\\0%s\\0%s\\0%s\\0%s\\0%s\\0%s\\0%s\\0%s\\0%s\\0\\0</CurrentMedia>"
-			"<MachineGuid>%s</MachineGuid><DDP></DDP><SignatureSound></SignatureSound><Scene></Scene><ColorScheme></ColorScheme>"
-			"<DDP></DDP><SignatureSound></SignatureSound><Scene></Scene><ColorScheme></ColorScheme>"
-			"</Data>",
-			msgEnc, szPlayer, szType, szFormatEnc, szTitle, szArtist, szAlbum, szTrack, szYear, szGenre,
-			szLength, szPlayer, szType, MyOptions.szMachineGuid);
-
-		mir_free(szArtist);
-		mir_free(szAlbum);
-		mir_free(szTitle);
-		mir_free(szTrack);
-		mir_free(szYear);
-		mir_free(szGenre);
-		mir_free(szLength);
-		mir_free(szPlayer);
-		mir_free(szType);
-		mir_free(szFormatEnc);
-	}
-	mir_free(msgEnc);
-
-	if (msnPreviousUUX == NULL || mir_strcmp(msnPreviousUUX, szMsg)) {
-		replaceStr(msnPreviousUUX, szMsg);
-		msnNsThread->sendPacket("UUX", "%d\r\n%s", sz, szMsg);
-		mStatusMsgTS = clock();
-	}
-#endif
 }
 
 // MSN_SendPacket - sends a packet accordingly to the MSN protocol
@@ -746,22 +636,6 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 		unsigned myFlagsExEx = capexex_SupportsMissedConversations | capexex_SupportsShortCircuit;
 
 		char szMsg[2048];
-#ifdef OBSOLETE
-		if (m_iStatus < ID_STATUS_ONLINE) {
-			int sz = mir_snprintf(szMsg,
-				"<EndpointData><Capabilities>%u:%u</Capabilities></EndpointData>", myFlags, myFlagsEx);
-			msnNsThread->sendPacket("UUX", "%d\r\n%s", sz, szMsg);
-
-			msnNsThread->sendPacket("BLP", msnOtherContactsBlocked ? "BL" : "AL");
-
-			DBVARIANT dbv;
-			if (!getStringUtf("Nick", &dbv)) {
-				if (dbv.pszVal[0])
-					MSN_SetNicknameUtf(dbv.pszVal);
-				db_free(&dbv);
-			}
-		}
-#endif
 
 		char *szPlace;
 		DBVARIANT dbv;
@@ -805,35 +679,9 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 			MyOptions.szMachineGuid,
 			sz, szMsg);
 
-
-		// TODO: Send, MSN_SendStatusMessage anpassen.
-#ifdef OBSOLETE
-		int sz = mir_snprintf(szMsg,
-			"<PrivateEndpointData>"
-			"<EpName>%s</EpName>"
-			"<Idle>%s</Idle>"
-			"<ClientType>1</ClientType>"
-			"<State>%s</State>"
-			"</PrivateEndpointData>",
-			szPlace, newStatus == ID_STATUS_IDLE ? "true" : "false", szStatusName);
-		msnNsThread->sendPacket("UUX", "%d\r\n%s", sz, szMsg);
-#endif
 		mir_free(szPlace);
-
-#ifdef OBSOLETE
-		if (newStatus != ID_STATUS_IDLE) {
-			char** msgptr = GetStatusMsgLoc(newStatus);
-			if (msgptr != NULL)
-				MSN_SendStatusMessage(*msgptr);
-		}
-
-		msnNsThread->sendPacket("CHG", "%s %u:%u %s", szStatusName, myFlags, myFlagsEx, msnObject.pszVal ? msnObject.pszVal : "0");
-#endif
 		db_free(&msnObject);
 	}
-#ifdef OBSOLETE
-	else msnNsThread->sendPacket("CHG", szStatusName);
-#endif
 }
 
 // MSN_FetchRecentMessages - fetches missed offline messages
@@ -1083,13 +931,8 @@ filetransfer::~filetransfer(void)
 	CloseHandle(hLockHandle);
 	CloseHandle(hResumeEvt);
 
-	if (fileId != -1) {
+	if (fileId != -1)
 		_close(fileId);
-#ifdef OBSOLETE
-		if (tType != SERVER_HTTP && p2p_appID != MSN_APPID_FILE && !(std.flags & PFTS_SENDING))
-			proto->p2p_pictureTransferFailed(this);
-#endif
-	}
 
 	if (!bCompleted && p2p_appID == MSN_APPID_FILE) {
 		std.ptszFiles = NULL;
@@ -1180,71 +1023,6 @@ int filetransfer::openNext(void)
 
 	return fileId;
 }
-
-#ifdef OBSOLETE
-directconnection::directconnection(const char* CallID, const char* Wlid)
-{
-	memset(this, 0, sizeof(directconnection));
-
-	wlid = mir_strdup(Wlid);
-	callId = mir_strdup(CallID);
-	mNonce = (UUID*)mir_alloc(sizeof(UUID));
-	UuidCreate(mNonce);
-	ts = time(NULL);
-}
-
-directconnection::~directconnection()
-{
-	mir_free(wlid);
-	mir_free(callId);
-	mir_free(mNonce);
-	mir_free(xNonce);
-}
-
-
-char* directconnection::calcHashedNonce(UUID* nonce)
-{
-	mir_sha1_ctx sha1ctx;
-	BYTE sha[MIR_SHA1_HASH_SIZE];
-
-	mir_sha1_init(&sha1ctx);
-	mir_sha1_append(&sha1ctx, (BYTE*)nonce, sizeof(UUID));
-	mir_sha1_finish(&sha1ctx, sha);
-
-	char* p;
-	UuidToStringA((UUID*)&sha, (BYTE**)&p);
-	size_t len = mir_strlen(p) + 3;
-	char* result = (char*)mir_alloc(len);
-	mir_snprintf(result, len, "{%s}", p);
-	_strupr(result);
-	RpcStringFreeA((BYTE**)&p);
-
-	return result;
-}
-
-char* directconnection::mNonceToText(void)
-{
-	char* p;
-	UuidToStringA(mNonce, (BYTE**)&p);
-	size_t len = mir_strlen(p) + 3;
-	char* result = (char*)mir_alloc(len);
-	mir_snprintf(result, len, "{%s}", p);
-	_strupr(result);
-	RpcStringFreeA((BYTE**)&p);
-
-	return result;
-}
-
-
-void directconnection::xNonceToBin(UUID* nonce)
-{
-	size_t len = mir_strlen(xNonce);
-	char *p = (char*)alloca(len);
-	mir_strcpy(p, xNonce + 1);
-	p[len - 2] = 0;
-	UuidFromStringA((BYTE*)p, nonce);
-}
-#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // TWinErrorCode class
