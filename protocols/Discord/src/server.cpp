@@ -159,7 +159,7 @@ void CDiscordProto::RetrieveUserInfo(MCONTACT hContact)
 
 void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
-	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
+	MCONTACT hContact = (UINT_PTR)pReq->pUserInfo;
 	if (pReply->resultCode != 200) {
 		if (hContact == 0)
 			ConnectionFailed(LOGINERR_WRONGPASSWORD);
@@ -183,6 +183,13 @@ void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 
 	if (hContact == 0) {
 		m_ownId = id;
+		for (int i=0; i < pReply->headersCount; i++)
+			if (!strcmp(pReply->headers[i].szName, "Set-Cookie")) {
+				char *p = strchr(pReply->headers[i].szValue, ';');
+				if (p) *p = 0;
+				m_szAccessCookie = mir_strdup(pReply->headers[i].szValue);
+			}
+
 		OnLoggedIn();
 	}
 	else {
@@ -245,7 +252,7 @@ void CDiscordProto::SetServerStatus(int iStatus)
 
 void CDiscordProto::OnReceiveAuth(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
-	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
+	MCONTACT hContact = (UINT_PTR)pReq->pUserInfo;
 	if (pReply->resultCode == 204)
 		RetrieveUserInfo(hContact);
 }
@@ -267,7 +274,7 @@ void CDiscordProto::OnReceiveCreateChannel(NETLIBHTTPREQUEST *pReply, AsyncHttpR
 
 void CDiscordProto::OnReceiveMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
-	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
+	MCONTACT hContact = (UINT_PTR)pReq->pUserInfo;
 
 	bool bSucceeded = true;
 	if (pReply->resultCode != 200 && pReply->resultCode != 204)

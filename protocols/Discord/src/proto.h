@@ -184,7 +184,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void ConnectionFailed(int iReason);
 	void ShutdownSession(void);
 
-	ptrA m_szAccessToken;
+	ptrA m_szAccessToken, m_szAccessCookie;
 
 	mir_cs m_csHttpQueue;
 	HANDLE m_evRequestsQueue;

@@ -36,6 +36,8 @@ void CDiscordProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	if (pReq->m_bMainSite) {
 		pReq->flags |= NLHRF_PERSISTENT;
 		pReq->nlc = m_hAPIConnection;
+		if (m_szAccessCookie)
+			pReq->AddHeader("Cookie", m_szAccessCookie);
 	}
 
 	debugLogA("Executing request #%d:\n%s", pReq->m_iReqNum, pReq->szUrl);
@@ -44,7 +46,8 @@ void CDiscordProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		if (pReq->m_pCallback != nullptr)
 			(this->*(pReq->m_pCallback))(reply, pReq);
 
-		m_hAPIConnection = reply->nlc;
+		if (pReq->m_bMainSite)
+			m_hAPIConnection = reply->nlc;
 
 		Netlib_FreeHttpRequest(reply);
 	}

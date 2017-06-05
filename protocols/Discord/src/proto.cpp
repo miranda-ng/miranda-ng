@@ -83,14 +83,14 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	NETLIBUSER nlu = {};
 
 	nlu.szSettingsModule = m_szModuleName;
-	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	descr.Format(TranslateT("%s server connection"), m_tszUserName);
 	nlu.szDescriptiveName.w = descr.GetBuffer();
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	CMStringA module(FORMAT, "%s.Gateway", m_szModuleName);
 	nlu.szSettingsModule = module.GetBuffer();
-	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_UNICODE;
+	nlu.flags = NUF_OUTGOING | NUF_UNICODE;
 	descr.Format(TranslateT("%s gateway connection"), m_tszUserName);
 	nlu.szDescriptiveName.w = descr.GetBuffer();
 	m_hGatewayNetlibUser = Netlib_RegisterUser(&nlu);
@@ -346,7 +346,7 @@ int CDiscordProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
 void __cdecl CDiscordProto::SendMessageAckThread(void *param)
 {
 	Sleep(100);
-	ProtoBroadcastAck((MCONTACT)param, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)Translate("Protocol is offline or user isn't authorized yet"));
+	ProtoBroadcastAck((UINT_PTR)param, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)Translate("Protocol is offline or user isn't authorized yet"));
 }
 
 int CDiscordProto::SendMsg(MCONTACT hContact, int /*flags*/, const char *pszSrc)
