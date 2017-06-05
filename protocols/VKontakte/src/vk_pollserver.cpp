@@ -23,7 +23,9 @@ void CVkProto::RetrievePollingInfo()
 	if (!IsOnline())
 		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getLongPollServer.json", true, &CVkProto::OnReceivePollingInfo, AsyncHttpRequest::rpHigh)
-		<< INT_PARAM("use_ssl", 1));
+		<< INT_PARAM("use_ssl", 1)
+		<< INT_PARAM("lp_version", 2)
+	);
 }
 
 void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -196,7 +198,7 @@ int CVkProto::PollServer()
 	debugLogA("CVkProto::PollServer (online)");
 	int iPollConnRetry = MAX_RETRIES;
 	NETLIBHTTPREQUEST *reply;
-	CMStringA szReqUrl(FORMAT, "https://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken, 106);
+	CMStringA szReqUrl(FORMAT, "https://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d&version=%d", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken, 106, 2);
 	// see mode parametr description on https://vk.com/dev/using_longpoll (Russian version)
 	NETLIBHTTPREQUEST req = {};
 	req.cbSize = sizeof(req);
