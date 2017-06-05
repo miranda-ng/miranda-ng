@@ -408,8 +408,6 @@ void CDiscordProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 {
 	CDiscordProto *ppro = (CDiscordProto*)(id - 1);
 
-	JSONNode root; root.push_back(JSONNode("token", nullptr));
-
 	mir_cslock lck(ppro->csMarkReadQueue);
 	while (ppro->arMarkReadQueue.getCount()) {
 		CDiscordUser *pUser = ppro->arMarkReadQueue[0];

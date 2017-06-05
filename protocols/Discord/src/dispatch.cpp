@@ -258,7 +258,7 @@ void CDiscordProto::OnCommandGuildDeleted(const JSONNode &pRoot)
 /////////////////////////////////////////////////////////////////////////////////////////
 // guild members
 
-void CDiscordProto::OnCommandGuildMemberAdded(const JSONNode &pRoot)
+void CDiscordProto::OnCommandGuildMemberAdded(const JSONNode&)
 {
 }
 
