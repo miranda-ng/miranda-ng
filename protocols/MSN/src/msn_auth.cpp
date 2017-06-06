@@ -803,6 +803,8 @@ bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService
 					*ptExpires = (*root)["expires_in"].as_int();
 					if (*ptExpires == 0)
 						bRet = false;
+					else
+						*ptExpires += time(0);
 				}
 			}
 		}
