@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Включаемый файл, созданный в Microsoft Visual C++.
-// Используется D:\Others\SVN\MirandaNG\trunk\plugins\Db_autobackups\res\db_autobackups.rc
+// Microsoft Visual C++ generated include file.
+// Used by D:\Miranda NG Git_orig\plugins\Db_autobackups\res\db_autobackups.rc
 //
 #define IDD_OPTIONS                     101
 #define IDI_ICON1                       270
@@ -32,7 +32,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        272
+#define _APS_NEXT_RESOURCE_VALUE        273
 #define _APS_NEXT_COMMAND_VALUE         40018
 #define _APS_NEXT_CONTROL_VALUE         1676
 #define _APS_NEXT_SYMED_VALUE           101

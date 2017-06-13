@@ -150,7 +150,7 @@ int SetDlgState(HWND hwndDlg)
 	SendDlgItemMessage(hwndDlg, SPIN_PERIOD, UDM_SETRANGE32, 1, (LPARAM)60);
 	SetDlgItemText(hwndDlg, IDC_ED_PERIOD, _itow(new_options.period, buff, 10));
 
-	SendDlgItemMessage(hwndDlg, SPIN_NUMBACKUPS, UDM_SETRANGE32, 1, (LPARAM)100);
+	SendDlgItemMessage(hwndDlg, SPIN_NUMBACKUPS, UDM_SETRANGE32, 1, (LPARAM)9999);
 	SetDlgItemText(hwndDlg, IDC_ED_NUMBACKUPS, _itow(new_options.num_backups, buff, 10));
 
 	SetDlgItemText(hwndDlg, IDC_ED_FOLDER, new_options.folder);
