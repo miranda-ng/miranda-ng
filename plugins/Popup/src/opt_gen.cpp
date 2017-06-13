@@ -203,6 +203,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		// new status options
 		{
 			int protocolCount = 0;
+			statusOptionsCount = 0;
 			PROTOACCOUNT **protocols;
 			Proto_EnumAccounts(&protocolCount, &protocols);
 			DWORD globalFlags = 0;
