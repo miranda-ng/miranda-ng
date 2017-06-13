@@ -77,7 +77,7 @@ void CSkypeProto::OnOAuthAuthorize(const NETLIBHTTPREQUEST *response)
 	}
 	std::string t = match[1];
 
-	PushRequest(new OAuthRequest(t.c_str(), 0), &CSkypeProto::OnOAuthEnd);
+	PushRequest(new OAuthRequest(t.c_str()), &CSkypeProto::OnOAuthEnd);
 }
 
 void CSkypeProto::OnOAuthEnd(const NETLIBHTTPREQUEST *response)
