@@ -64,19 +64,20 @@ void CSkypeProto::OnOAuthAuthorize(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	std::regex regex;
+	std::regex regex, regex2;
 	std::smatch match;
 	std::string content = response->pData;
 
-	regex = "<input type=\"hidden\" name=\"(.+?)\" id=\"(.+?)\" value=\"(.+?)\">";
-	if (!std::regex_search(content, match, regex)) {
+	regex = "<input type=\"hidden\" name=\"t\" id=\"t\" value=\"(.+?)\">";
+	regex2 = "<input type=\"hidden\" name=\"ipt\" id=\"ipt\" value=\"(.+?)\">";
+	if (!(std::regex_search(content, match, regex) || std::regex_search(content, match, regex2))) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
-	std::string t = match[3];
+	std::string t = match[1];
 
-	PushRequest(new OAuthRequest(t.c_str()), &CSkypeProto::OnOAuthEnd);
+	PushRequest(new OAuthRequest(t.c_str(), 0), &CSkypeProto::OnOAuthEnd);
 }
 
 void CSkypeProto::OnOAuthEnd(const NETLIBHTTPREQUEST *response)
