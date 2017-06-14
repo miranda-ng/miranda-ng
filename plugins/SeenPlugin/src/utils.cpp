@@ -32,7 +32,7 @@ void LoadWatchedProtos()
 	if (szProtos == NULL)
 		return;
 
-	for (char *p = strtok(szProtos, " "); p != NULL; p = strtok(NULL, " "))
+	for (char *p = strtok(szProtos, "\n"); p != NULL; p = strtok(NULL, "\n"))
 		arWatchedProtos.insert(mir_strdup(p));
 }
 

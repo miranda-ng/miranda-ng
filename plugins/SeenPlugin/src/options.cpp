@@ -377,7 +377,7 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 					if ((BOOL)(tvItem.state >> 12) - 1) {
 						size += (int)mir_strlen(protocol) + 2;
 						if (!watchedProtocols.IsEmpty())
-							watchedProtocols.AppendChar(' ');
+							watchedProtocols.AppendChar('\n');
 						watchedProtocols.Append(protocol);
 					}
 					hItem = TreeView_GetNextSibling(hwndTreeView, hItem);
