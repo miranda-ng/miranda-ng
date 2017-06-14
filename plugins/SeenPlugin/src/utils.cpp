@@ -28,7 +28,16 @@ char *courProtoName = 0;
 
 void LoadWatchedProtos()
 {
-	ptrA szProtos(db_get_sa(NULL, S_MOD, "WatchedProtocols"));
+	// Upgrade from old settings (separated by " ")
+	ptrA szProtosOld(db_get_sa(NULL, S_MOD, "WatchedProtocols"));
+	if (szProtosOld != NULL) {
+		CMStringA tmp(szProtosOld);
+		tmp.Replace(" ", "\n");
+		db_set_s(NULL, S_MOD, "WatchedAccounts", tmp.c_str());
+		db_unset(NULL, S_MOD, "WatchedProtocols");
+	}
+
+	ptrA szProtos(db_get_sa(NULL, S_MOD, "WatchedAccounts"));
 	if (szProtos == NULL)
 		return;
 

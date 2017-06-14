@@ -382,7 +382,7 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 					}
 					hItem = TreeView_GetNextSibling(hwndTreeView, hItem);
 				}
-				db_set_s(NULL, S_MOD, "WatchedProtocols", watchedProtocols);
+				db_set_s(NULL, S_MOD, "WatchedAccounts", watchedProtocols);
 
 				UnloadWatchedProtos();
 				LoadWatchedProtos();
