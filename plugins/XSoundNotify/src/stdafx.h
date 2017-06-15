@@ -22,15 +22,17 @@
 
 struct XSN_Data
 {
-	MCONTACT hContact;
+	LPARAM hContact;
 	wchar_t path[MAX_PATH];
 	BYTE ignore;
+	BYTE iscontact;
 
-	__forceinline XSN_Data(MCONTACT _aContact, wchar_t *_path, BYTE _ignore) :
+	__forceinline XSN_Data(LPARAM _aContact, wchar_t *_path, BYTE _ignore, BYTE _iscontact) :
 		hContact(_aContact)
 	{
 		wcsncpy(path, _path, _countof(path));
 		ignore = _ignore;
+		iscontact = _iscontact;
 	}
 };
 

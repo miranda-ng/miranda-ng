@@ -14,7 +14,7 @@ int hLangpack;
 LIST<XSN_Data> XSN_Users(10, NumericKeySortT);
 HGENMENU hChangeSound = NULL;
 MWindowList hChangeSoundDlgList = NULL;
-BYTE isIgnoreSound = 0, isOwnSound = 0;
+BYTE isIgnoreSound = 0, isOwnSound = 0, isIgnoreAccSound = 0, isAccSound = 0;
 
 CLIST_INTERFACE *pcli;
 CHAT_MANAGER *pci;
@@ -124,6 +124,23 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 		SkinPlaySoundFile(PlaySoundPath);
 		db_free(&dbv);
 		isOwnSound = 1;
+		return 0;
+	}
+
+	char *szProto = GetContactProto(hContact);
+	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
+	size_t value_max_len = mir_strlen(pa->szModuleName) + 8;
+	char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
+	mir_snprintf(value, value_max_len, "%s_ignore", pa->szModuleName);
+	isIgnoreAccSound = db_get_b(NULL, SETTINGSNAME, value, 0);
+	mir_free(value);
+	if (!isIgnoreAccSound && !db_get_ws(NULL, SETTINGSNAME, pa->szModuleName, &dbv)) {
+		wchar_t PlaySoundPath[MAX_PATH] = { 0 };
+		PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
+		isAccSound = 0;
+		SkinPlaySoundFile(PlaySoundPath);
+		db_free(&dbv);
+		isAccSound = 1;
 	}
 
 	return 0;
@@ -154,6 +171,22 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 				SkinPlaySoundFile(PlaySoundPath);
 				db_free(&dbv);
 				isOwnSound = 1;
+				return 0;
+			}
+			char *szProto = GetContactProto(hContact);
+			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
+			size_t value_max_len = mir_strlen(pa->szModuleName) + 8;
+			char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
+			mir_snprintf(value, value_max_len, "%s_ignore", pa->szModuleName);
+			isIgnoreAccSound = db_get_b(NULL, SETTINGSNAME, value, 0);
+			mir_free(value);
+			if (!isIgnoreAccSound && !db_get_ws(NULL, SETTINGSNAME, pa->szModuleName, &dbv)) {
+				wchar_t PlaySoundPath[MAX_PATH] = { 0 };
+				PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
+				isAccSound = 0;
+				SkinPlaySoundFile(PlaySoundPath);
+				db_free(&dbv);
+				isAccSound = 1;
 			}
 		}
 	}
@@ -163,10 +196,15 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 
 static int OnPlaySound(WPARAM, LPARAM)
 {
-	if (isIgnoreSound)
+	if (isIgnoreSound || isIgnoreAccSound)
 		return 1;
 	if (isOwnSound) {
 		isOwnSound = 0;
+		return 1;
+	}
+
+	if (isAccSound) {
+		isAccSound = 0;
 		return 1;
 	}
 
