@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "alarmlist.h"
+#include <list>
 
 AlarmList alarms;
 mir_cs alarm_cs;
@@ -195,7 +196,7 @@ bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ, int selected_days)
 			while (temp.wDayOfWeek == 0 || temp.wDayOfWeek == 6 || CompareFileTime(&ft_then, &ft_now) < 0);
 		break;
 
-	case OC_SELECTED_DAYS: //////TODO:::::
+	case OC_SELECTED_DAYS:
 		uli_then.HighPart = ft_then.dwHighDateTime;
 		uli_then.LowPart = ft_then.dwLowDateTime;
 		FileTimeToSystemTime(&ft_now, &temp);
@@ -338,12 +339,68 @@ void LoadAlarms()
 	}
 }
 
+int db_enum_settings_sub_cb(const char *szSetting, LPARAM lParam)
+{
+	//quick and dirty solution, feel free to rewrite
+	std::list<char*> *settings = (std::list<char*>*)lParam;
+	if (strstr(szSetting, "Title"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "Desc"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "Occ"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "STHour"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "STMinute"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "STSecond"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "SelectedDays"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "STDayOfWeek"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "STYear"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "STMonth"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "STDay"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "ActionFlags"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "ActionCommand"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "ActionParams"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "SoundNum"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "Snoozer"))
+		settings->push_back(mir_strdup(szSetting));
+	if (strstr(szSetting, "Flags"))
+		settings->push_back(mir_strdup(szSetting));
+
+	return 0;
+}
+
 void SaveAlarms()
 {
 	int index = 0;
 	char buff[256];
 
 	mir_cslock lck(alarm_cs);
+
+	//clean old data here
+	{
+		//quick and dirty solution, feel free to rewrite
+		//TODO: this should be done on "delete" button press instead, and for selected alrams only
+		std::list<char*> settings;
+		db_enum_settings(0, &db_enum_settings_sub_cb, MODULE, (void*)&settings);
+		for (std::list<char*>::iterator i = settings.begin(), end = settings.end(); i != end; ++i)
+		{
+			db_unset(0, MODULE, *i);
+			mir_free(*i);
+		}
+	}
+
 
 	ALARM *i;
 	for (alarms.reset(); i = alarms.current(); alarms.next(), index++) {
