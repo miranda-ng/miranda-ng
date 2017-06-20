@@ -95,8 +95,8 @@ public:
 
 	// Client vs protocol communication
 
-	void    client_notify(wchar_t* message);
-	void    info_notify(wchar_t* message);
+	void client_notify(wchar_t* message);
+	void info_notify(wchar_t* message);
 
 	////////////////////////////////////////////////////////////
 
@@ -122,9 +122,9 @@ public:
 	std::set<MCONTACT> typers;		// store info about typing contacts, because Facebook doesn't send "stopped typing" event when there is actual message being sent
 	std::map<MCONTACT, time_t> readers;
 
-	char*   load_cookies();
-	void    store_headers(http::response* resp, NETLIBHTTPHEADER* headers, int headers_count);
-	void    clear_cookies();
+	char*	load_cookies();
+	void	store_headers(http::response* resp, NETLIBHTTPHEADER* headers, int headers_count);
+	void	clear_cookies();
 	void	clear_notifications();
 	void	clear_chatrooms();
 	void	clear_readers();
@@ -137,9 +137,9 @@ public:
 
 	unsigned int error_count_;
 
-	bool    handle_entry(const std::string &method);
-	bool    handle_success(const std::string &method);
-	bool    handle_error(const std::string &method, int force_disconnect = 0);
+	bool handle_entry(const std::string &method);
+	bool handle_success(const std::string &method);
+	bool handle_error(const std::string &method, int force_disconnect = 0);
 
 	void __inline increment_error() { this->error_count_++; }
 	void __inline decrement_error() { if (error_count_ > 0) error_count_--; }
@@ -153,7 +153,7 @@ public:
 		return ""; // FIXME: What's this value and where it come from? Looks like it is the same through all requests.
 	}
 
-	__inline const char *__req() {
+	__inline CMStringA __req() {
 		// Increment request number and convert it to string with radix 36 (whole numbers + whole alphabet)
 		char buffer[10];
 		itoa(InterlockedIncrement(&this->chat_req_), buffer, 36);
