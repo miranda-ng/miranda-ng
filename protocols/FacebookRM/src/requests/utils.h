@@ -35,7 +35,7 @@ public:
 			<< "new_captcha_type=TFBCaptcha"
 			<< CHAR_VALUE("skipped_captcha_data", captchaPersistData)
 			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< CHAR_VALUE("__req", fc->__req())
+			<< INT_VALUE("__req", fc->__req())
 			<< CHAR_VALUE("__rev", fc->__rev())
 			<< CHAR_VALUE("__user", fc->self_.user_id.c_str());
 	}
@@ -128,7 +128,7 @@ public:
 		Body
 			<< CHAR_VALUE("fb_dtsg", fc->dtsg_.c_str())
 			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< CHAR_VALUE("__req", fc->__req())
+			<< INT_VALUE("__req", fc->__req())
 			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str())
 			<< CHAR_VALUE("__user", status->isPage && !status->user_id.empty() ? status->user_id.c_str() : fc->self_.user_id.c_str())
 			<< CHAR_VALUE("xhpc_targetid", status->user_id.empty() ? fc->self_.user_id.c_str() : status->user_id.c_str())			

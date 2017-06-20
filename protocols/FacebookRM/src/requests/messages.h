@@ -95,7 +95,7 @@ public:
 
 			<< CHAR_VALUE("__user", fc->self_.user_id.c_str())
 			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< CHAR_VALUE("__req", fc->__req())
+			<< INT_VALUE("__req", fc->__req())
 			<< CHAR_VALUE("__rev", fc->__rev())
 			<< CHAR_VALUE("fb_dtsg", fc->dtsg_.c_str())
 			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str())
@@ -125,7 +125,7 @@ public:
 			<< "source=mercury-chat"
 			<< CHAR_VALUE("__user", fc->self_.user_id.c_str())
 			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< CHAR_VALUE("__req", fc->__req())
+			<< INT_VALUE("__req", fc->__req())
 			<< CHAR_VALUE("__rev", fc->__rev())
 			<< CHAR_VALUE("fb_dtsg", fc->dtsg_.c_str())
 			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str())
@@ -160,7 +160,7 @@ public:
 			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str())
 			<< CHAR_VALUE("__user", fc->self_.user_id.c_str())
 			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< CHAR_VALUE("__req", fc->__req())
+			<< INT_VALUE("__req", fc->__req())
 			<< CHAR_VALUE("__rev", fc->__rev())
 			<< "__a=1";
 	}
