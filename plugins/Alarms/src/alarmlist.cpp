@@ -566,7 +566,7 @@ static LRESULT CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam
 		if (HIWORD(wParam) == STN_CLICKED) { //It was a click on the Popup.
 			ALARM *mpd = (ALARM *)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, 0);
 
-			if (mpd->flags & ALF_NOSNOOZE)
+			if (mpd->flags & ALF_NOSNOOZE || !options.snooze_minutes)
 				return TRUE;
 
 			// add snooze minutes to current time
