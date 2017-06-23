@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.12.1.4
+;  Version: 0.14.0.1
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
@@ -72,18 +72,6 @@
 ;file \protocols\MSN\src\msn_commands.cpp
 [%I64u bytes]
 [MSN Alert]
-[Contact tried to open an audio conference (not currently supported)]
-[Accept NetMeeting request from %s?]
-[MSN Protocol]
-[Chat session established by my request]
-[Chat session established by contact request]
-[Contact left channel]
-[This conversation has been inactive, participants will be removed.]
-[To resume the conversation, please quit this session and start a new chat session.]
-[There is only 1 person left in the chat, do you want to switch back to standard message window?]
-[MSN Chat]
-[Others]
-[Message delivery failed]
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 ;file \protocols\MSN\src\msn_ieembed.cpp
@@ -107,18 +95,15 @@
 [&Block]
 [Open &Hotmail Inbox]
 [Send &Hotmail E-mail]
-[You must be talking to start Netmeeting]
-[Set &Nickname]
 [Create &Chat]
 [Display &Hotmail Inbox]
 [View &Profile]
 [Setup Live &Alerts]
-[&Start Netmeeting]
 ;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 [Notify]
 [Error]
-;file \protocols\MSN\src\msn_msgqueue.cpp
+[MSN Protocol]
 ;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
 [Hotmail Inbox]
@@ -145,9 +130,6 @@
 [Connection]
 [Server list]
 [Notifications]
-;file \protocols\MSN\src\msn_p2p.cpp
-[Contact tried to send its webcam data (not currently supported)]
-[Contact tried to view your webcam data (not currently supported)]
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 [Live Alert]
@@ -162,5 +144,3 @@
 ;file \protocols\MSN\src\msn_svcs.cpp
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 [Convert to Chat]
-;file \protocols\MSN\src\msn_ws.cpp
-[Chat session dropped due to inactivity]
