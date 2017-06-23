@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.17
+;  Version: 0.1.2.19
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -241,6 +241,12 @@ E-mail или номер телефона:
 Один из заданных параметров отсутствует или неверен
 [Access to adding post denied]
 Превышено ограничение на число публикаций в сутки
+[Can\'t send messages for users from blacklist]
+Нельзя отправлять сообщения пользователю из черного списка
+[Can\'t send messages for users without dialogs]
+Нельзя первым писать пользователю от имени сообщества
+[Can\'t send messages to this user due to their privacy settings]
+Нельзя отправлять сообщения этому пользователю в связи с настройками приватности
 [Enter the missing digits between %s and %s of the phone number linked to your account]
 Введите недостающие цифры между %s и %s в телефонном номере, привязанном к вашей учётной записи
 [Attention!]
@@ -565,12 +571,6 @@ ID получателя ошибочен или неизвестен
 Игры
 [Quotes]
 Цитаты
-[Can\'t send messages for users from blacklist]
-Нельзя отправлять сообщения пользователю из черного списка
-[Can\'t send messages for users without dialogs]
-Нельзя первым писать пользователю от имени сообщества
-[Can\'t send messages to this user due to their privacy settings]
-Нельзя отправлять сообщения этому пользователю в связи с настройками приватности
 [Please authorize me to add you to my friend list.]
 Пожалуйста, разрешите мне добавить вас в список друзей.
 [Are you sure to wipe local contacts missing in your friend list?]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.17
+;  Version: 0.1.2.19
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -245,6 +245,12 @@ Fehler %d. Daten werden weder gesendet noch empfangen.
 Einer der angegebenen Parameter fehlte oder war ungültig.
 [Access to adding post denied]
 Zugriff auf Pinnwand verweigert
+[Can\'t send messages for users from blacklist]
+
+[Can\'t send messages for users without dialogs]
+
+[Can\'t send messages to this user due to their privacy settings]
+
 [Enter the missing digits between %s and %s of the phone number linked to your account]
 Geben Sie die fehlenden Ziffern zwischen %s und %s der mit Ihrem Konto verknüpften Telefonnummer ein.
 [Attention!]

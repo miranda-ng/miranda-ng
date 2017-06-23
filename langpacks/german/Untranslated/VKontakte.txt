@@ -1,0 +1,3 @@
+﻿[Can\'t send messages for users from blacklist]
+[Can\'t send messages for users without dialogs]
+[Can\'t send messages to this user due to their privacy settings]

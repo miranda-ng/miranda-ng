@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.17
+;  Version: 0.1.2.19
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -245,6 +245,12 @@ Błąd %d. Dane nie zostaną wysłane lub odebrane.
 Brakuje jednego z określonych parametrów lub jest on nieprawidłowy
 [Access to adding post denied]
 Odmówiono dostępu do dodawania postów
+[Can\'t send messages for users from blacklist]
+
+[Can\'t send messages for users without dialogs]
+
+[Can\'t send messages to this user due to their privacy settings]
+
 [Enter the missing digits between %s and %s of the phone number linked to your account]
 
 [Attention!]

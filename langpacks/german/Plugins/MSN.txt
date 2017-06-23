@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.12.1.4
+;  Version: 0.14.0.1
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
@@ -136,30 +136,6 @@ Benutzer Op &entziehen
 %I64u Bytes
 [MSN Alert]
 MSN Alert
-[Contact tried to open an audio conference (not currently supported)]
-Kontakt versucht eine Audiokonferenz zu starten (zzt. nicht unterstützt)
-[Accept NetMeeting request from %s?]
-NetMeeting-Anfrage von %s akzeptieren?
-[MSN Protocol]
-MSN-Protokoll
-[Chat session established by my request]
-Die Chatsitzung wurde von mir eingeleitet
-[Chat session established by contact request]
-Die Chatsitzung wurde vom Gegenüber eingeleitet
-[Contact left channel]
-Die Chatsitzung wurde beendet
-[This conversation has been inactive, participants will be removed.]
-Diese Konversation war inaktiv, Teilnehmer werden entfernt.
-[To resume the conversation, please quit this session and start a new chat session.]
-Um die Konversation fortzusetzen, beenden Sie diese Sitzung und starten Sie eine neue.
-[There is only 1 person left in the chat, do you want to switch back to standard message window?]
-Es befindet sich nur noch eine Person im Multi-Chat, wollen Sie wieder zum normalen Nachrichtenfenster wechseln?
-[MSN Chat]
-MSN-Chat
-[Others]
-Andere
-[Message delivery failed]
-Nachrichtenübertragung fehlgeschlagen
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Benutzer nicht online
@@ -200,10 +176,6 @@ Blockieren a&ufheben
 &Hotmail-Posteingang öffnen
 [Send &Hotmail E-mail]
 &Hotmail E-Mail senden
-[You must be talking to start Netmeeting]
-Sie müssen reden, um NetMeeting zu starten, beachten Sie die Hilfedatei zu NetMeeting.
-[Set &Nickname]
-&Nickname setzen
 [Create &Chat]
 &Chat erstellen
 [Display &Hotmail Inbox]
@@ -212,8 +184,6 @@ Sie müssen reden, um NetMeeting zu starten, beachten Sie die Hilfedatei zu NetM
 &Profil ansehen
 [Setup Live &Alerts]
 Live &Alerts einstellen
-[&Start Netmeeting]
-NetMeeting &starten
 ;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 Custom Smileys
@@ -221,7 +191,8 @@ Custom Smileys
 Benachrichtigung
 [Error]
 Fehler
-;file \protocols\MSN\src\msn_msgqueue.cpp
+[MSN Protocol]
+MSN-Protokoll
 ;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
 Protokollicon
@@ -273,11 +244,6 @@ Verbindung
 Serverliste
 [Notifications]
 Benachrichtigungen
-;file \protocols\MSN\src\msn_p2p.cpp
-[Contact tried to send its webcam data (not currently supported)]
-Kontakt versucht Informationen über die von ihm verwendete Webcam zu senden (zzt. nicht unterstützt)
-[Contact tried to view your webcam data (not currently supported)]
-Kontakt versucht Informationen über Ihre verwendete Webcam abzufragen (zzt. nicht unterstützt)
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Live Mail
@@ -304,6 +270,3 @@ Offline-Nachrichten sind nicht für LCS-Kontakte erlaubt!
 MSN benötigt ein Timeout von weniger als 60 Sekunden in Ihrem Nachrichtenfensterplugin. Bitte korrigieren Sie das Timeout.
 [Convert to Chat]
 In Chat umwandeln
-;file \protocols\MSN\src\msn_ws.cpp
-[Chat session dropped due to inactivity]
-Die Chatsitzung wurde wegen Inaktivität beendet

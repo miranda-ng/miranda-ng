@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.12.1.4
+;  Version: 0.14.0.1
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
@@ -133,30 +133,6 @@
 %I64u байт
 [MSN Alert]
 Абвестка MSN
-[Contact tried to open an audio conference (not currently supported)]
-Кантакт спрабаваў адкрыць аўдыёканферэнцыю (не падтрымліваецца)
-[Accept NetMeeting request from %s?]
-Прымеце запыт NetMeeting ад %s?
-[MSN Protocol]
-Пратакол MSN
-[Chat session established by my request]
-Сесія ўсталявана па маім запыце
-[Chat session established by contact request]
-Сесія ўсталявана па запыце кантакту
-[Contact left channel]
-Кантакт пакінуў канал
-[This conversation has been inactive, participants will be removed.]
-Гэта гутарка неактыўная, удзельнікі будуць выдалены
-[To resume the conversation, please quit this session and start a new chat session.]
-Каб працягнуць гутарку, пакіньце гэты сеанс і пачніце новы сеанс.
-[There is only 1 person left in the chat, do you want to switch back to standard message window?]
-У чаце застаўся толькі адзін чалавек, вярнуцца да вакна дыялогу?
-[MSN Chat]
-MSN Чат
-[Others]
-Іншае
-[Message delivery failed]
-Дастаўка паведамлення не атрымалася
 [User not online]
 Кантакт не далучаны
 [IID_IOleObject failed.]
@@ -191,10 +167,6 @@ MSN Чат
 Адкрыць скрыню &Hotmail
 [Send &Hotmail E-mail]
 Адправіць пошту Hotmail
-[You must be talking to start Netmeeting]
-Вы павінны размаўляць перад запускам Netmeeting
-[Set &Nickname]
-Мянушка...
 [Create &Chat]
 Стварыць &чат
 [Display &Hotmail Inbox]
@@ -203,14 +175,14 @@ MSN Чат
 Прагледзець &профіль
 [Setup Live &Alerts]
 Налады Live &Alerts
-[&Start Netmeeting]
-Запусціць Netmeeting
 [Custom Smileys]
 Свае смайлы
 [Notify]
 Абвестка
 [Error]
 Памылка
+[MSN Protocol]
+Пратакол MSN
 [Protocol icon]
 Абразок конту
 [Hotmail Inbox]
@@ -261,10 +233,6 @@ MSN Чат
 Спіс на серверы
 [Notifications]
 Абвесткі
-[Contact tried to send its webcam data (not currently supported)]
-Кантакт спрабаваў адправіць дадзеныя з вэб-камеры (не падтрымліваецца)
-[Contact tried to view your webcam data (not currently supported)]
-Кантакт спрабаваў прагледзець нашу вэб-камеру (не падтрымліваецца)
 [Live Mail]
 Пошта Live
 [Live Alert]
@@ -289,5 +257,3 @@ MSN Чат
 Для MSN затрымка адпраўлення паведамлення павінна быць не меней, чым 60 секунд. Калі ласка, наладзьце ваш плагін гутаркі.
 [Convert to Chat]
 Канвертаваць у чат
-[Chat session dropped due to inactivity]
-Сесія скінута з-за неактыўнасці

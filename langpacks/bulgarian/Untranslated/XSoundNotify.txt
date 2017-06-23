@@ -4,6 +4,7 @@
 [Test play]
 [Ignore sound for this contact]
 [Custom sound for %s (%s)]
+[All contacts]
 [XSound Notify]
 [Self status]
 [Custom contact sound]

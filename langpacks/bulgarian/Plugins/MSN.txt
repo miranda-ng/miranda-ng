@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.12.1.4
+;  Version: 0.14.0.1
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
@@ -115,30 +115,6 @@ Live ID
 История на потребителя
 [MSN Alert]
 MSN уведовяване
-[Contact tried to open an audio conference (not currently supported)]
-Контактът опита да стартира гласов разговор (не се поддържа)
-[Accept NetMeeting request from %s?]
-Приемате ли молбата NetMeeting от %s?
-[MSN Protocol]
-MSN протокол
-[Chat session established by my request]
-Установен е разговор по моя заявка
-[Chat session established by contact request]
-Установен е разговор по заявка на контакта
-[Contact left channel]
-Контакт излезе от канала
-[This conversation has been inactive, participants will be removed.]
-Разговора е неактивен. Участниците ще бъдат премахнати.
-[To resume the conversation, please quit this session and start a new chat session.]
-За да възстановяване на разговора е необходимо да излезете от сесията и да започнете нова чат сесия.
-[There is only 1 person left in the chat, do you want to switch back to standard message window?]
-В чата е останал само един участник, желаете ли да бъде използван стандартният прозорец за съобщения?
-[MSN Chat]
-MSN чат
-[Others]
-Други
-[Message delivery failed]
-Неуспешно доставяне на съобщение
 [User not online]
 Потребителя не е на линия
 [RESULT]
@@ -161,22 +137,18 @@ Hotmail от %s
 Деблокиране
 [&Block]
 Блокиране
-[You must be talking to start Netmeeting]
-Необходимо е да водите разговор преди да стартирате Netmeeting
-[Set &Nickname]
-Задаване на прякор
 [Create &Chat]
 Създаване на чат
 [Display &Hotmail Inbox]
 Показване на пощата в Hotmail
 [View &Profile]
 Преглед на профила
-[&Start Netmeeting]
-Иницииране на Netmeeting
 [Notify]
 Уведомяване
 [Error]
 Грешка
+[MSN Protocol]
+MSN протокол
 [Protocol icon]
 Икона на протокола
 [Profile]
@@ -223,10 +195,6 @@ IP информацията е налична само след вписване
 Списък на сървъра
 [Notifications]
 Уведомявания
-[Contact tried to send its webcam data (not currently supported)]
-Контакт се опита да изпрати данни от web камера (не се поддържа)
-[Contact tried to view your webcam data (not currently supported)]
-Контакт се опита да види данните от вашата web камера (не се поддържа)
 [Live Mail]
 Live поща
 [Live Alert]
@@ -251,5 +219,3 @@ HTTPS връзки на приставката %s
 Протоколът MSN изисква закъснението за съобщения да е не по-малко от 60 секунди. Поправете стойността.
 [Convert to Chat]
 Конвертиране в чат
-[Chat session dropped due to inactivity]
-Разговорът бе прекратен поради липса на активност

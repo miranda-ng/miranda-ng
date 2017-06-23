@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.12.1.4
+;  Version: 0.14.0.1
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
@@ -129,30 +129,6 @@
 %I64u байт
 [MSN Alert]
 MSN уведомление
-[Contact tried to open an audio conference (not currently supported)]
-Контакт пытался открыть аудиоконференцию (не поддерживается)
-[Accept NetMeeting request from %s?]
-Принять запрос NetMeeting от %s?
-[MSN Protocol]
-Протокол MSN
-[Chat session established by my request]
-Сессия установлена по моему запросу
-[Chat session established by contact request]
-Сессия установлена по запросу контакта
-[Contact left channel]
-Контакт покинул канал
-[This conversation has been inactive, participants will be removed.]
-Эта беседа неактивна, участники будут удалены
-[To resume the conversation, please quit this session and start a new chat session.]
-Чтобы продолжить беседу, покиньте эту сессию и начните новую.
-[There is only 1 person left in the chat, do you want to switch back to standard message window?]
-В чате остался только один человек, вернуться к обычному окну сообщений?
-[MSN Chat]
-MSN Чат
-[Others]
-Другое
-[Message delivery failed]
-Доставка сообщения не удалась
 [User not online]
 Пользователь не в сети
 [RESULT]
@@ -179,10 +155,6 @@ MSN Чат
 Открыть ящик &Hotmail
 [Send &Hotmail E-mail]
 Отправить почту &Hotmail
-[You must be talking to start Netmeeting]
-Вы должны разговаривать перед запуском Netmeeting
-[Set &Nickname]
-&Псевдоним
 [Create &Chat]
 Создать &чат
 [Display &Hotmail Inbox]
@@ -191,14 +163,14 @@ MSN Чат
 Просмотреть &профиль
 [Setup Live &Alerts]
 Настройки Live &Alerts
-[&Start Netmeeting]
-&Запустить Netmeeting
 [Custom Smileys]
 Смайлы
 [Notify]
 Уведомление
 [Error]
 Ошибка
+[MSN Protocol]
+Протокол MSN
 [Protocol icon]
 Значок протокола
 [Hotmail Inbox]
@@ -249,10 +221,6 @@ MSN Чат
 Список на сервере
 [Notifications]
 Уведомления
-[Contact tried to send its webcam data (not currently supported)]
-Контакт пытался отправить данные со своей веб-камеры (не поддерживается)
-[Contact tried to view your webcam data (not currently supported)]
-Контакт пытался подключиться к вашей веб-камере (не поддерживается)
 [Live Mail]
 Live почта
 [Live Alert]
@@ -277,5 +245,3 @@ Live уведомление
 Для сети MSN таймаут отправления сообщения должен быть не менее, чем 60 секунд. Пожалуйста, настройте свой плагин сообщений.
 [Convert to Chat]
 Конвертировать в чат
-[Chat session dropped due to inactivity]
-Сессия сброшена из-за неактивности

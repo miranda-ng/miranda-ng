@@ -1,1 +1,2 @@
-﻿[XSound Notify]
+﻿[All contacts]
+[XSound Notify]
