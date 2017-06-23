@@ -56,7 +56,7 @@ public:
 			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str())
 			<< CHAR_VALUE("__user", fc->self_.user_id.c_str())
 			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< INT_VALUE("__req", fc->__req())
+			<< CHAR_VALUE("__req", fc->__req())
 			<< CHAR_VALUE("__rev", fc->__rev())
 			<< "__a=1"
 			<< "__pc=PHASED:DEFAULT"
@@ -81,7 +81,7 @@ public:
 			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str())
 			<< CHAR_VALUE("__user", fc->self_.user_id.c_str())
 			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< INT_VALUE("__req", fc->__req())
+			<< CHAR_VALUE("__req", fc->__req())
 			<< CHAR_VALUE("__rev", fc->__rev())
 			<< "__a=1"
 			<< "__pc=PHASED:DEFAULT"

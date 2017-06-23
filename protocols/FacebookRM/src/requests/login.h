@@ -70,7 +70,7 @@ public:
 			<< "__pc=EXP1:DEFAULT"
 			<< CHAR_VALUE("current_time", (utils::time::unix_timestamp() + ".000").c_str())
 			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< INT_VALUE("__req", fc->__req())
+			<< CHAR_VALUE("__req", fc->__req())
 			<< CHAR_VALUE("fb_dtsg", dtsg)
 			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str())
 			<< CHAR_VALUE("__rev", fc->__rev());

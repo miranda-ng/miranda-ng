@@ -153,8 +153,11 @@ public:
 		return ""; // FIXME: What's this value and where it come from? Looks like it is the same through all requests.
 	}
 
-	__inline unsigned int __req() { // Increment request number
-		return InterlockedIncrement(&this->chat_req_);
+	__inline CMStringA __req() {
+		// Increment request number and convert it to string with radix 36 (whole numbers + whole alphabet)
+		char buffer[10];
+		itoa(InterlockedIncrement(&this->chat_req_), buffer, 36);
+		return CMStringA(buffer);
 	}
 
 	__inline const char *__rev() {

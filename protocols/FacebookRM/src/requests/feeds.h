@@ -55,7 +55,7 @@ public:
 			<< "__pc=PHASED:DEFAULT"
 			<< LONG_VALUE("timestamp", ::time(NULL))
 			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< INT_VALUE("__req", fc->__req())
+			<< CHAR_VALUE("__req", fc->__req())
 			<< CHAR_VALUE("__rev", fc->__rev())
 			<< CHAR_VALUE("__user", fc->self_.user_id.c_str());
 	}
