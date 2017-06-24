@@ -237,7 +237,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	iMaxFriendsCount(proto, "MaxFriendsCount", 1000),
 
 	pwszDefaultGroup(proto, "ProtoGroup", L"VKontakte"),
-	pwszReturnChatMessage(proto, "ReturnChatMessage", TranslateT("I\'m back")),
+	pwszReturnChatMessage(proto, "ReturnChatMessage", TranslateT("I'm back")),
 	pwszVKLang(proto, "VKLang", NULL)
 
 {

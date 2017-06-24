@@ -54,7 +54,7 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 
 	if (!m_hPollingThread) {
 		debugLogA("CVkProto::OnReceivePollingInfo m_hPollingThread is NULL");
-		debugLogA("CVkProto::OnReceivePollingInfo m_pollingTs = \'%s' m_pollingKey = \'%s\' m_pollingServer = \'%s\'",
+		debugLogA("CVkProto::OnReceivePollingInfo m_pollingTs = '%s' m_pollingKey = '%s' m_pollingServer = '%s'",
 			m_pollingTs ? m_pollingTs : "<NULL>",
 			m_pollingKey ? m_pollingKey : "<NULL>",
 			m_pollingServer ? m_pollingServer : "<NULL>");

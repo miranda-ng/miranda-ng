@@ -249,7 +249,7 @@ void CVkProto::InitMenus()
 	mi.pszService = PS_WALLPOST;
 	mi.position = -200001000 + CMI_WALLPOST;
 	mi.hIcolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_WALL));
-	mi.name.w = LPGENW("Send message to user\'s wall");
+	mi.name.w = LPGENW("Send message to user's wall");
 	SET_UID(mi, 0xd8841aaf, 0x15f6, 0x4be9, 0x9f, 0x4f, 0x16, 0xa9, 0x47, 0x6a, 0x19, 0x81);
 	m_hContactMenuItems[CMI_WALLPOST] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
