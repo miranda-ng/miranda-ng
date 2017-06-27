@@ -731,7 +731,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			}
 			// create new line, and set font and color
 			str.AppendFormat("\\ql\\sl0%s ", pci->Log_SetStyle(0));
-			str.AppendFormat("\\v~-+%d+-~\\v0 ", lin);
+			str.AppendFormat("\\v~-+%p+-~\\v0 ", lin);
 
 			// Insert icon
 			if (g_Settings.bLogSymbols)                // use symbols
@@ -952,7 +952,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 	// this uses hidden marks in the rich text to find the events which should be deleted
 	if (m_si->bTrimmed) {
 		wchar_t szPattern[50];
-		mir_snwprintf(szPattern, L"~-+%d+-~", m_si->pLogEnd);
+		mir_snwprintf(szPattern, L"~-+%p+-~", m_si->pLogEnd);
 
 		FINDTEXTEX fi;
 		fi.lpstrText = szPattern;
