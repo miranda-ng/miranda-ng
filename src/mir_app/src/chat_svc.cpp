@@ -279,39 +279,45 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 	ChatConrolParam *p = (ChatConrolParam*)param;
 
 	mir_cslock lck(csChat);
-	SESSION_INFO *si = chatApi.SM_FindSession(p->wszId, p->szModule);
-	if (si == nullptr)
-		return GC_EVENT_ERROR;
+	SESSION_INFO *si = nullptr;
+	if (p->szModule)
+		si = chatApi.SM_FindSession(p->wszId, p->szModule);
 
 	switch (p->command) {
 	case WINDOW_HIDDEN:
+		if (si == nullptr)
+			return GC_EVENT_ERROR;
 		SetInitDone(si);
 		chatApi.SetActiveSession(si);
 		break;
 
 	case WINDOW_VISIBLE:
 	case SESSION_INITDONE:
+		if (si == nullptr)
+			return GC_EVENT_ERROR;
 		SetInitDone(si);
 		if (p->command != SESSION_INITDONE || db_get_b(0, CHAT_MODULE, "PopupOnJoin", 0) == 0)
 			chatApi.ShowRoom(si);
 		break;
 
 	case SESSION_OFFLINE:
-		SM_SetOffline(si);
-		SM_SetStatus(si, ID_STATUS_OFFLINE);
-		if (si->pDlg) {
+		SM_SetOffline(p->szModule, si);
+		SM_SetStatus(p->szModule, si, ID_STATUS_OFFLINE);
+		if (si && si->pDlg) {
 			si->pDlg->UpdateStatusBar();
 			si->pDlg->UpdateNickList();
 		}
 		break;
 
 	case SESSION_ONLINE:
-		SM_SetStatus(si, ID_STATUS_ONLINE);
-		if (si->pDlg)
+		SM_SetStatus(p->szModule, si, ID_STATUS_ONLINE);
+		if (si && si->pDlg)
 			si->pDlg->UpdateStatusBar();
 		break;
 
 	case WINDOW_CLEARLOG:
+		if (si == nullptr)
+			return GC_EVENT_ERROR;
 		chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
 		si->iEventCount = 0;
 		si->LastTime = 0;

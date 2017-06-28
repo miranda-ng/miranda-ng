@@ -159,10 +159,19 @@ SESSION_INFO* SM_FindSession(const wchar_t *pszID, const char *pszModule)
 	return g_arSessions.find(&tmp);
 }
 
-BOOL SM_SetOffline(SESSION_INFO *si)
+BOOL SM_SetOffline(const char *pszModule, SESSION_INFO *si)
 {
-	if (si == nullptr)
-		return FALSE;
+	if (si == nullptr) {
+		if (pszModule == nullptr)
+			return FALSE;
+
+		for (int i = 0; i < g_arSessions.getCount(); i++) {
+			si = g_arSessions[i];
+			if (!_strcmpi(si->pszModule, pszModule))
+				SM_SetOffline(pszModule, si);
+		}
+		return TRUE;
+	}
 
 	chatApi.UM_RemoveAll(&si->pUsers);
 	si->pMe = nullptr;
@@ -329,8 +338,20 @@ static BOOL SM_BroadcastMessage(const char *pszModule, UINT msg, WPARAM wParam, 
 	return TRUE;
 }
 
-BOOL SM_SetStatus(SESSION_INFO *si, int wStatus)
+BOOL SM_SetStatus(const char *pszModule, SESSION_INFO *si, int wStatus)
 {
+	if (si == nullptr) {
+		if (pszModule == nullptr)
+			return FALSE;
+
+		for (int i = 0; i < g_arSessions.getCount(); i++) {
+			si = g_arSessions[i];
+			if (!_strcmpi(si->pszModule, pszModule))
+				SM_SetStatus(pszModule, si, wStatus);
+		}
+		return TRUE;
+	}
+
 	si->wStatus = wStatus;
 	if (si->hContact) {
 		if (si->iType != GCW_SERVER && wStatus != ID_STATUS_OFFLINE)
