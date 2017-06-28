@@ -3831,6 +3831,8 @@ begin
     begin
       DBEventInfo.d := GetEventInfo(hDBEvent);
       DBEventInfo.d.szModule := nil;
+      DBEventInfo.cbSize := sizeof(DBEventInfo);
+
       Item.Size := sizeof(DBEventInfo) + Cardinal(DBEventInfo.d.cbBlob);
     end;
     if Item.Size > 0 then
