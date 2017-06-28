@@ -245,11 +245,11 @@ Erreur
 
 [Access to adding post denied]
 
-[Can\'t send messages for users from blacklist]
+[Can't send messages for users from blacklist]
 
-[Can\'t send messages for users without dialogs]
+[Can't send messages for users without dialogs]
 
-[Can\'t send messages to this user due to their privacy settings]
+[Can't send messages to this user due to their privacy settings]
 
 [Enter the missing digits between %s and %s of the phone number linked to your account]
 
@@ -521,7 +521,7 @@ Italien
 
 [Mark messages as read]
 
-[Send message to user\'s wall]
+[Send message to user's wall]
 
 [Add as friend]
 
@@ -565,7 +565,7 @@ EN ATTENTE...
 [Enter new status message]
 
 ;file \protocols\VKontakte\src\vk_struct.cpp
-[I\'m back]
+[I'm back]
 
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Service message]

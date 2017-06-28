@@ -241,11 +241,11 @@ E-mail или номер телефона:
 Один из заданных параметров отсутствует или неверен
 [Access to adding post denied]
 Превышено ограничение на число публикаций в сутки
-[Can\'t send messages for users from blacklist]
+[Can't send messages for users from blacklist]
 Нельзя отправлять сообщения пользователю из черного списка
-[Can\'t send messages for users without dialogs]
+[Can't send messages for users without dialogs]
 Нельзя первым писать пользователю от имени сообщества
-[Can\'t send messages to this user due to their privacy settings]
+[Can't send messages to this user due to their privacy settings]
 Нельзя отправлять сообщения этому пользователю в связи с настройками приватности
 [Enter the missing digits between %s and %s of the phone number linked to your account]
 Введите недостающие цифры между %s и %s в телефонном номере, привязанном к вашей учётной записи
@@ -509,7 +509,7 @@ ID получателя ошибочен или неизвестен
 Новости и уведомления ВКонтакте
 [Mark messages as read]
 Пометить сообщения прочитанными
-[Send message to user\'s wall]
+[Send message to user's wall]
 Сообщение на стене
 [Add as friend]
 Добавить в друзья
@@ -551,7 +551,7 @@ ID получателя ошибочен или неизвестен
 Ожидание...
 [Enter new status message]
 Введите новое сообщение статуса
-[I\'m back]
+[I'm back]
 Я вернулся
 [Service message]
 Сервисное сообщение

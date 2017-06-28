@@ -245,11 +245,11 @@ Fehler %d. Daten werden weder gesendet noch empfangen.
 Einer der angegebenen Parameter fehlte oder war ungültig.
 [Access to adding post denied]
 Zugriff auf Pinnwand verweigert
-[Can\'t send messages for users from blacklist]
+[Can't send messages for users from blacklist]
 
-[Can\'t send messages for users without dialogs]
+[Can't send messages for users without dialogs]
 
-[Can\'t send messages to this user due to their privacy settings]
+[Can't send messages to this user due to their privacy settings]
 
 [Enter the missing digits between %s and %s of the phone number linked to your account]
 Geben Sie die fehlenden Ziffern zwischen %s und %s der mit Ihrem Konto verknüpften Telefonnummer ein.
@@ -521,7 +521,7 @@ VKontakte-Protokoll
 VKontakte Newsfeed- und Benachrichtigungsereignis
 [Mark messages as read]
 Nachrichten als gelesen markieren
-[Send message to user\'s wall]
+[Send message to user's wall]
 Nachricht auf Pinnwand des Benutzers senden
 [Add as friend]
 Als Freund hinzufügen
@@ -565,7 +565,7 @@ Warten...
 [Enter new status message]
 Neue Statusnachricht eingeben
 ;file \protocols\VKontakte\src\vk_struct.cpp
-[I\'m back]
+[I'm back]
 Ich bin zurück
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Service message]

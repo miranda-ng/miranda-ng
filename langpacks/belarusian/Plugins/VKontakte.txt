@@ -243,11 +243,11 @@
 
 [Access to adding post denied]
 
-[Can\'t send messages for users from blacklist]
+[Can't send messages for users from blacklist]
 
-[Can\'t send messages for users without dialogs]
+[Can't send messages for users without dialogs]
 
-[Can\'t send messages to this user due to their privacy settings]
+[Can't send messages to this user due to their privacy settings]
 
 [Enter the missing digits between %s and %s of the phone number linked to your account]
 
@@ -511,7 +511,7 @@
 
 [Mark messages as read]
 Пазначыць павеламленні прачытанымі
-[Send message to user\'s wall]
+[Send message to user's wall]
 
 [Add as friend]
 
@@ -553,7 +553,7 @@
 Чаканне...
 [Enter new status message]
 
-[I\'m back]
+[I'm back]
 
 [Service message]
 

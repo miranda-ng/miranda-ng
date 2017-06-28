@@ -245,11 +245,11 @@ Błąd %d. Dane nie zostaną wysłane lub odebrane.
 Brakuje jednego z określonych parametrów lub jest on nieprawidłowy
 [Access to adding post denied]
 Odmówiono dostępu do dodawania postów
-[Can\'t send messages for users from blacklist]
+[Can't send messages for users from blacklist]
 
-[Can\'t send messages for users without dialogs]
+[Can't send messages for users without dialogs]
 
-[Can\'t send messages to this user due to their privacy settings]
+[Can't send messages to this user due to their privacy settings]
 
 [Enter the missing digits between %s and %s of the phone number linked to your account]
 
@@ -521,7 +521,7 @@ Połączenie %s
 Zdarzenie powiadomień kanału aktualności VKontakte
 [Mark messages as read]
 Oznacz wiadomości jako przeczytane
-[Send message to user\'s wall]
+[Send message to user's wall]
 Wyślij posta na tablicę użytkownika
 [Add as friend]
 Dodaj jako znajomego
@@ -565,7 +565,7 @@ Oczekiwanie...
 [Enter new status message]
 Wprowadź nowy opis
 ;file \protocols\VKontakte\src\vk_struct.cpp
-[I\'m back]
+[I'm back]
 
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Service message]
