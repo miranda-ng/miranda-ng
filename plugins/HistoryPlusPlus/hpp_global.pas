@@ -73,6 +73,11 @@ type
 
   TRTLMode = (hppRTLDefault,hppRTLEnable,hppRTLDisable);
 
+  TOldDBEventInfo = record
+    cbSize   : dword;
+    d        : TDBEventInfo;
+  end;
+
   PHistoryItem = ^THistoryItem;
   THistoryItem = record
     Time: DWord;

@@ -33,11 +33,6 @@ type
 
   PExtCustomItem = ^TExtCustomItem;
 
-  TOldDBEventInfo = record
-    cbSize   : dword;
-    d        : TDBEventInfo;
-  end;
-
   TExtCustomItem = record
     Nick: String;
     Text: String;
