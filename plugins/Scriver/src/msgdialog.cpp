@@ -1652,14 +1652,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				case WM_RBUTTONUP:
 					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
 					return TRUE;
-
-				case WM_CHAR:
-					if (!(GetKeyState(VK_CONTROL) & 0x8000)) {
-						SetFocus(m_message.GetHwnd());
-						m_message.SendMsg(((MSGFILTER *)lParam)->msg, ((MSGFILTER *)lParam)->wParam, ((MSGFILTER *)lParam)->lParam);
-						SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
-					}
-					return TRUE;
 				}
 				break;
 			}
