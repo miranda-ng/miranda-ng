@@ -38,6 +38,8 @@ TMUCSettings g_Settings;
 
 static void OnCreateSession(SESSION_INFO *si, MODULEINFO *mi)
 {
+	if (si->hContact)
+		Chat_SetFilters(si);
 	if (si->pDlg)
 		si->pDlg->UpdateStatusBar();
 
