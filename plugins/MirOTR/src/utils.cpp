@@ -44,14 +44,13 @@ TrustLevel otr_context_get_trust(ConnContext *context)
 	TrustLevel level = TRUST_NOT_PRIVATE;
 
 	if (context && context->msgstate == OTRL_MSGSTATE_ENCRYPTED) {
-		if (context->active_fingerprint->trust && context->active_fingerprint->trust[0]) {
-			level = TRUST_PRIVATE;
-		} else {
-			level = TRUST_UNVERIFIED;
-		}
-	} else if (context && context->msgstate == OTRL_MSGSTATE_FINISHED) {
-		level = TRUST_FINISHED;
+		level = TRUST_UNVERIFIED;
+		if (context->active_fingerprint)
+			if (context->active_fingerprint->trust && context->active_fingerprint->trust[0])
+				level = TRUST_PRIVATE;
 	}
+	else if (context && context->msgstate == OTRL_MSGSTATE_FINISHED)
+		level = TRUST_FINISHED;
 
 	return level;
 }
