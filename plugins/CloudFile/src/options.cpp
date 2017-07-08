@@ -25,7 +25,7 @@ void COptionsMain::OnInitDialog()
 	CDlgBase::OnInitDialog();
 
 	ptrA defaultService(db_get_sa(NULL, MODULE, "DefaultService"));
-	int iItem = m_defaultService.AddString(TranslateT("No"));
+	int iItem = m_defaultService.AddString(TranslateT("None"));
 	m_defaultService.SetCurSel(iItem);
 
 	size_t count = Services.getCount();
