@@ -1,5 +1,0 @@
-﻿[Do you want to create OMEMO session with new device:]
-[OMEMO: New session]
-[Use OMEMO encryption for messages if possible (Experimental! WIP!)]
-[OMEMO session does not exist yet]
-[No valid OMEMO session exists]

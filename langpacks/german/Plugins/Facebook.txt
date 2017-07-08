@@ -89,9 +89,9 @@ Posten von Status auf meinen Seiten erlauben (kann Anmeldung verlangsamen)
 [Advanced]
 Erweitert
 [Send typing notifications even when Invisible]
-
+Tippenbenachrichtigungen auch senden wenn unsichtbar
 [Typing is one way how user is determined active. If you don't want to be seen "active 1 min ago" on Facebook, uncheck this option and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it either.]
-
+Tippen ist eine Art, wie Benutzer als aktiv erkannt werden. Wenn Sie nicht als "vor 1 Min aktiv gesehen werden wollen, dann deaktivieren Sie diese Einstellung und agieren Sie nicht mit der Webseite. Senden von Nachrichten aus Miranda sollte ok sein, aber verlassen Sie sich nicht drauf.
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]

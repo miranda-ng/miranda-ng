@@ -25,7 +25,7 @@ Autorisieren
 [Download link]
 Downloadlink
 [Generate temporary link]
-
+Temporären Link erzeugen
 [Check status of authorization]
 Autorisierungsstatus prüfen
 [Autosend download link to contact]

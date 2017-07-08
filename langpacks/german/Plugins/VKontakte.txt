@@ -246,11 +246,11 @@ Einer der angegebenen Parameter fehlte oder war ungültig.
 [Access to adding post denied]
 Zugriff auf Pinnwand verweigert
 [Can't send messages for users from blacklist]
-
+Nachrichten können nicht an Benutzer auf schwarzer Liste gesendet werden.
 [Can't send messages for users without dialogs]
-
+Nachrichten können nicht an Benutzer ohne vorherige Unterhaltung gesendet werden.
 [Can't send messages to this user due to their privacy settings]
-
+Nachrichten können nicht an diesen Benutzer wegen seiner Privatsphäre-Einstellungen gesendet werden.
 [Enter the missing digits between %s and %s of the phone number linked to your account]
 Geben Sie die fehlenden Ziffern zwischen %s und %s der mit Ihrem Konto verknüpften Telefonnummer ein.
 [Attention!]

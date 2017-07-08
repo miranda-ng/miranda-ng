@@ -1003,9 +1003,9 @@ Sind Sie sich sicher?
 Eingehende Notiz
 ;file \protocols\JabberG\src\jabber_omemo.cpp
 [Do you want to create OMEMO session with new device:]
-
+Möchten Sie eine OMEMO-Sitzung mit diesem neuen Gerät erzeugen:
 [OMEMO: New session]
-
+OMEMO: Neue Sitzung
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 Afarisch
@@ -1448,7 +1448,7 @@ Nur "In-Band"-Dateitransfers akzeptieren (enthüllt nicht die eigene IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 HTTP-Authentifizierungs-Anfragen akzeptieren (XEP-0070)
 [Use OMEMO encryption for messages if possible (Experimental! WIP!)]
-
+OMEMO-Verschlüsselung für Nachrichten verwenden, wenn möglich (experimentell! In Arbeit!)
 [General]
 Allgemein
 [Autoaccept multiuser chat invitations]
@@ -1653,9 +1653,9 @@ Kein kompatibler Dateiübertragungsmechanismus vorhanden
 [Protocol is offline or no JID]
 Protokoll ist offline oder keine JID
 [OMEMO session does not exist yet]
-
+OMEMO-Sitzung existiert noch nicht
 [No valid OMEMO session exists]
-
+Es existiert noch keine gültige OMEMO-Sitzung
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 Befehl erfolgreich ausgeführt
