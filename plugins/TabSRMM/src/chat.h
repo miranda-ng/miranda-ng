@@ -109,7 +109,7 @@ void  AddIcons(void);
 HICON LoadIconEx(char *pszIcoLibName);
 
 // services.c
-void ShowRoom(SESSION_INFO *si);
+void ShowRoom(TContainerData *pContainer, SESSION_INFO *si);
 
 // manager.c
 SESSION_INFO* SM_FindSessionByHWND(HWND h);

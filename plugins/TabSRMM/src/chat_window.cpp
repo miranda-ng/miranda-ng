@@ -2396,7 +2396,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // chat session creator
 
-void ShowRoom(SESSION_INFO *si)
+void ShowRoom(TContainerData *pContainer, SESSION_INFO *si)
 {
 	if (si == nullptr)
 		return;
@@ -2407,9 +2407,11 @@ void ShowRoom(SESSION_INFO *si)
 	}
 
 	wchar_t szName[CONTAINER_NAMELEN + 2]; szName[0] = 0;
-	TContainerData *pContainer = nullptr;
-	if (si->pDlg != nullptr)
-		pContainer = si->pDlg->m_pContainer;
+
+	if (pContainer == nullptr)
+		if (si->pDlg != nullptr)
+			pContainer = si->pDlg->m_pContainer;
+
 	if (pContainer == nullptr) {
 		GetContainerNameForContact(si->hContact, szName, CONTAINER_NAMELEN);
 		if (!g_Settings.bOpenInDefault && !mir_wstrcmp(szName, L"default"))
@@ -2417,6 +2419,7 @@ void ShowRoom(SESSION_INFO *si)
 		szName[CONTAINER_NAMELEN] = 0;
 		pContainer = FindContainerByName(szName);
 	}
+
 	if (pContainer == nullptr)
 		pContainer = CreateContainer(szName, FALSE, si->hContact);
 	if (pContainer == nullptr)

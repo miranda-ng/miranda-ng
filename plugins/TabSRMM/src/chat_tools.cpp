@@ -31,7 +31,7 @@
 static void __stdcall ShowRoomFromPopup(void *pi)
 {
 	SESSION_INFO *si = (SESSION_INFO*)pi;
-	ShowRoom(si);
+	ShowRoom(nullptr, si);
 }
 
 static void __stdcall Chat_DismissPopup(void *pi)

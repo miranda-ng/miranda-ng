@@ -242,6 +242,11 @@ static int OnHandleGCMenu(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+static void stubShowRoom(SESSION_INFO *si)
+{
+	ShowRoom(nullptr, si);
+}
+
 // load the module
 int Chat_Load()
 {
@@ -259,7 +264,7 @@ int Chat_Load()
 	pci->OnReplaceSession = OnReplaceSession;
 
 	pci->OnChangeNick = OnChangeNick;
-	pci->ShowRoom = ShowRoom;
+	pci->ShowRoom = stubShowRoom;
 	pci->OnLoadSettings = OnLoadSettings;
 
 	// this operation is unsafe, that's why we restore the old pci state on exit
