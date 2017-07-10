@@ -1152,7 +1152,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (DbEventIsShown(&dbei)) {
 				// Sounds *only* for sent messages, not for custom events
 				if (isMessage && !isSent) {
-					if (GetForegroundWindow() == m_hwnd)
+					if (GetForegroundWindow() == m_pOwner->GetHwnd())
 						SkinPlaySound("RecvMsgActive");
 					else
 						SkinPlaySound("RecvMsgInactive");
@@ -1168,7 +1168,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				// Flash window *only* for messages, not for custom events
 				if (isMessage && !isSent) {
-					if (GetActiveWindow() == m_hwnd && GetForegroundWindow() == m_hwnd) {
+					if (GetActiveWindow() == m_pOwner->GetHwnd() && GetForegroundWindow() == m_pOwner->GetHwnd()) {
 						if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
 							SCROLLINFO si = {};
 							si.cbSize = sizeof(si);
@@ -1207,7 +1207,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (m_bShowTyping) {
 				if (m_nTypeSecs) {
 					m_nTypeSecs--;
-					if (GetForegroundWindow() == m_hwnd)
+					if (GetForegroundWindow() == m_pOwner->GetHwnd())
 						SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 				}
 				else {
@@ -1228,7 +1228,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 					SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);
 					SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hTyping);
-					if (g_dat.bShowTypingWin && GetForegroundWindow() != m_hwnd) {
+					if (g_dat.bShowTypingWin && GetForegroundWindow() != m_pOwner->GetHwnd()) {
 						HICON hIcon = (HICON)SendMessage(m_hwnd, WM_GETICON, ICON_SMALL, 0);
 						SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hTyping);
 						IcoLib_ReleaseIcon(hIcon);

@@ -69,7 +69,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 			SkinPlaySound("RecvMsgActive");
 		}
 		else {
-			if (GetForegroundWindow() == hwnd)
+			if (GetForegroundWindow() == GetParent(hwnd))
 				SkinPlaySound("RecvMsgActive");
 			else
 				SkinPlaySound("RecvMsgInactive");
