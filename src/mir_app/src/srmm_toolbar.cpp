@@ -779,7 +779,7 @@ static int SrmmModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-static void CALLBACK SrmmLoadToolbar()
+void CALLBACK SrmmLoadToolbar()
 {
 	NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);
 }

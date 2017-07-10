@@ -100,6 +100,9 @@ void     LoadChatIcons(void);
 int      LoadChatModule(void);
 void     UnloadChatModule(void);
 
+// srmm_toolbar.cpp
+void     CALLBACK SrmmLoadToolbar();
+
 // tools.c
 int      DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pColors);
 wchar_t *RemoveFormatting(const wchar_t* pszText);

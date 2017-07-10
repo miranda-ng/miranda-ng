@@ -26,9 +26,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_version.h>
 
+#include "chat.h"
 #include "plugins.h"
 
-extern MUUID miid_clist, miid_database, miid_protocol;
+extern MUUID miid_clist, miid_database, miid_protocol, miid_srmm;
 HANDLE hevLoadModule, hevUnloadModule;
 
 static bool bOldMode = false;
@@ -199,6 +200,9 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 
 	if (CallPluginEventHook(pPlug->bpi.hInst, hModulesLoadedEvent, 0, 0) != 0)
 		goto LBL_Error;
+
+	if (hasMuuid(pPlug->bpi, miid_srmm))
+		SrmmLoadToolbar();
 
 	dat->hInst = pPlug->bpi.hInst;
 	NotifyFastHook(hevLoadModule, (WPARAM)pPlug->bpi.pluginInfo, (LPARAM)pPlug->bpi.hInst);
