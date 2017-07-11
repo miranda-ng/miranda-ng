@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma warning(disable:4509)
 
 #include <windows.h>
+#include <wincred.h>
 #include <time.h>
 #include <process.h>
 #include <memory>
