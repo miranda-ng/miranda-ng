@@ -36,7 +36,19 @@ LPCTSTR CheckFeed(wchar_t *tszURL, HWND hwndDlg)
 			LPCTSTR codepage = NULL;
 			int childcount = 0;
 			HXML node;
-			if (!mir_wstrcmpi(xmlGetName(hXml), L"xml")) {
+			HXML tmpnode = xmlGetFirstChild(hXml);
+			if (!mir_wstrcmpi(xmlGetName(tmpnode), L"xml")) {
+				int attrcount = xmlGetAttrCount(tmpnode);
+				for (int i = 0; i < attrcount; i++) {
+					LPCTSTR szAttrName = xmlGetAttrName(tmpnode, i);
+					if (!mir_wstrcmpi(szAttrName, L"encoding")) {
+						codepage = xmlGetAttrValue(tmpnode, szAttrName);
+						break;
+					}
+				}
+				node = xmlGetChild(tmpnode, childcount);
+			}
+			else if (!mir_wstrcmpi(xmlGetName(hXml), L"xml")) {
 				int attrcount = xmlGetAttrCount(hXml);
 				for (int i = 0; i < attrcount; i++) {
 					LPCTSTR szAttrName = xmlGetAttrName(hXml, i);
@@ -205,7 +217,19 @@ void CheckCurrentFeed(MCONTACT hContact)
 			LPCTSTR codepage = NULL;
 			int childcount = 0;
 			HXML node;
-			if (!mir_wstrcmpi(xmlGetName(hXml), L"xml")) {
+			HXML tmpnode = xmlGetFirstChild(hXml);
+			if (!mir_wstrcmpi(xmlGetName(tmpnode), L"xml")) {
+				int attrcount = xmlGetAttrCount(tmpnode);
+				for (int i = 0; i < attrcount; i++) {
+					LPCTSTR szAttrName = xmlGetAttrName(tmpnode, i);
+					if (!mir_wstrcmpi(szAttrName, L"encoding")) {
+						codepage = xmlGetAttrValue(tmpnode, szAttrName);
+						break;
+					}
+				}
+				node = xmlGetChild(tmpnode, childcount);
+			}
+			else if (!mir_wstrcmpi(xmlGetName(hXml), L"xml")) {
 				int attrcount = xmlGetAttrCount(hXml);
 				for (int i = 0; i < attrcount; i++) {
 					LPCTSTR szAttrName = xmlGetAttrName(hXml, i);
