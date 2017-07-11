@@ -38,7 +38,8 @@ CCtrlBase::CCtrlBase(CDlgBase *wnd, int idCtrl)
 	m_idCtrl(idCtrl),
 	m_hwnd(nullptr),
 	m_bChanged(false),
-	m_bSilent(false)
+	m_bSilent(false),
+	m_bUseSystemColors(false)
 {
 	if (wnd)
 		wnd->AddControl(this);
