@@ -100,25 +100,21 @@ static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			break;
 
 		case IDOK:
-		{
 			GetDlgItemText(hwndDlg, IDC_USERPASS, param->newPass, _countof(param->newPass));
 			
 			wchar_t tszPath[MAX_PATH];
 			PathToAbsoluteW(L"\\mirandaboot.ini", tszPath);
-			if (GetPrivateProfileInt(L"Database", L"AutoLogin", 0, tszPath))
-			{
+			if (GetPrivateProfileInt(L"Dbx_mmap", L"RememberPassword", 0, tszPath)) {
 				CREDENTIAL cred = { 0 };
 				cred.Type = CRED_TYPE_GENERIC;
-				cred.TargetName = L"Miranda NG";
-				cred.CredentialBlobSize = mir_wstrlen(param->newPass) * sizeof(wchar_t) + sizeof(wchar_t);;
+				cred.TargetName = L"Miranda NG/Dbx_mmap";
+				cred.CredentialBlobSize = mir_wstrlen(param->newPass) * sizeof(wchar_t) + sizeof(wchar_t);
 				cred.CredentialBlob = (LPBYTE)param->newPass;
 				cred.Persist = CRED_PERSIST_LOCAL_MACHINE;
-				cred.UserName = L"Token";
 				CredWrite(&cred, 0);
 			}
 
 			EndDialog(hwndDlg, IDOK);
-		}
 		}
 		break;
 
@@ -137,16 +133,13 @@ static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 bool CDb3Mmap::EnterPassword(const BYTE *pKey, const size_t keyLen)
 {
 	DlgChangePassParam param = { this };
-	while (true)
-	{
+	while (true) {
 		PCREDENTIAL pCred;
-		if (param.wrongPass == 0 && CredRead(L"Miranda NG", CRED_TYPE_GENERIC, 0, &pCred))
-		{
+		if (param.wrongPass == 0 && CredRead(L"Miranda NG/Dbx_mmap", CRED_TYPE_GENERIC, 0, &pCred)) {
 			m_crypto->setPassword(T2Utf((wchar_t*)pCred->CredentialBlob));
 			CredFree(pCred);
 		}
-		else
-		{
+		else {
 			if (IDOK != DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_LOGIN), 0, sttEnterPassword, (LPARAM)&param))
 				return false;
 			m_crypto->setPassword(T2Utf(param.newPass));
