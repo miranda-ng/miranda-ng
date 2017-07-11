@@ -24,28 +24,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "metacontacts.h"
 
-MetaOptions options;
+MetaOptions g_metaOptions;
 
 int Meta_WriteOptions()
 {
-	db_set_b(0, META_PROTO, "LockHandle", options.bLockHandle);
-	db_set_b(0, META_PROTO, "SuppressStatus", options.bSuppressStatus);
-	db_set_w(0, META_PROTO, "MenuContactLabel", (WORD)options.menu_contact_label);
-	db_set_w(0, META_PROTO, "MenuContactFunction", (WORD)options.menu_function);
-	db_set_w(0, META_PROTO, "CListContactName", (WORD)options.clist_contact_name);
-	db_set_dw(0, META_PROTO, "SetStatusFromOfflineDelay", (DWORD)(options.set_status_from_offline_delay));
+	db_set_b(0, META_PROTO, "LockHandle", g_metaOptions.bLockHandle);
+	db_set_b(0, META_PROTO, "SuppressStatus", g_metaOptions.bSuppressStatus);
+	db_set_w(0, META_PROTO, "MenuContactLabel", (WORD)g_metaOptions.menu_contact_label);
+	db_set_w(0, META_PROTO, "MenuContactFunction", (WORD)g_metaOptions.menu_function);
+	db_set_w(0, META_PROTO, "CListContactName", (WORD)g_metaOptions.clist_contact_name);
+	db_set_dw(0, META_PROTO, "SetStatusFromOfflineDelay", (DWORD)(g_metaOptions.set_status_from_offline_delay));
 	return 0;
 }
 
 int Meta_ReadOptions()
 {
 	db_mc_enable(db_get_b(0, META_PROTO, "Enabled", true) != 0);
-	options.bSuppressStatus = db_get_b(0, META_PROTO, "SuppressStatus", true) != 0;
-	options.menu_contact_label = (int)db_get_w(0, META_PROTO, "MenuContactLabel", DNT_UID);
-	options.menu_function = (int)db_get_w(0, META_PROTO, "MenuContactFunction", FT_MENU);
-	options.clist_contact_name = (int)db_get_w(0, META_PROTO, "CListContactName", CNNT_DISPLAYNAME);
-	options.set_status_from_offline_delay = (int)db_get_dw(0, META_PROTO, "SetStatusFromOfflineDelay", DEFAULT_SET_STATUS_SLEEP_TIME);
-	options.bLockHandle = db_get_b(0, META_PROTO, "LockHandle", false) != 0;
+	g_metaOptions.bSuppressStatus = db_get_b(0, META_PROTO, "SuppressStatus", true) != 0;
+	g_metaOptions.menu_contact_label = (int)db_get_w(0, META_PROTO, "MenuContactLabel", DNT_UID);
+	g_metaOptions.menu_function = (int)db_get_w(0, META_PROTO, "MenuContactFunction", FT_MENU);
+	g_metaOptions.clist_contact_name = (int)db_get_w(0, META_PROTO, "CListContactName", CNNT_DISPLAYNAME);
+	g_metaOptions.set_status_from_offline_delay = (int)db_get_dw(0, META_PROTO, "SetStatusFromOfflineDelay", DEFAULT_SET_STATUS_SLEEP_TIME);
+	g_metaOptions.bLockHandle = db_get_b(0, META_PROTO, "LockHandle", false) != 0;
 	return 0;
 }
 
@@ -72,21 +72,21 @@ public:
 
 	virtual void OnInitDialog()
 	{
-		m_btnLock.SetState(options.bLockHandle);
-		m_btnCheck.SetState(options.bSuppressStatus);
+		m_btnLock.SetState(g_metaOptions.bLockHandle);
+		m_btnCheck.SetState(g_metaOptions.bSuppressStatus);
 
-		if (options.menu_contact_label == DNT_UID)
+		if (g_metaOptions.menu_contact_label == DNT_UID)
 			m_btnUid.SetState(true);
 		else
 			m_btnDid.SetState(true);
 
-		switch (options.menu_function) {
+		switch (g_metaOptions.menu_function) {
 		case FT_MSG: m_btnMsg.SetState(true); break;
 		case FT_MENU: m_btnMenu.SetState(true); break;
 		case FT_INFO: m_btnInfo.SetState(true); break;
 		}
 
-		if (options.clist_contact_name == CNNT_NICK)
+		if (g_metaOptions.clist_contact_name == CNNT_NICK)
 			m_btnNick.SetState(true);
 		else
 			m_btnName.SetState(true);
@@ -94,22 +94,22 @@ public:
 
 	virtual void OnApply()
 	{
-		options.bLockHandle = m_btnLock.GetState() != 0;
-		options.bSuppressStatus = m_btnCheck.GetState() != 0;
+		g_metaOptions.bLockHandle = m_btnLock.GetState() != 0;
+		g_metaOptions.bSuppressStatus = m_btnCheck.GetState() != 0;
 
-		     if (m_btnUid.GetState()) options.menu_contact_label = DNT_UID;
-		else if (m_btnDid.GetState()) options.menu_contact_label = DNT_DID;
+		     if (m_btnUid.GetState()) g_metaOptions.menu_contact_label = DNT_UID;
+		else if (m_btnDid.GetState()) g_metaOptions.menu_contact_label = DNT_DID;
 
-		     if (m_btnMsg.GetState()) options.menu_function = FT_MSG;
-		else if (m_btnMenu.GetState()) options.menu_function = FT_MENU;
-		else if (m_btnInfo.GetState()) options.menu_function = FT_INFO;
+		     if (m_btnMsg.GetState()) g_metaOptions.menu_function = FT_MSG;
+		else if (m_btnMenu.GetState()) g_metaOptions.menu_function = FT_MENU;
+		else if (m_btnInfo.GetState()) g_metaOptions.menu_function = FT_INFO;
 
-		     if (m_btnNick.GetState()) options.clist_contact_name = CNNT_NICK;
-		else if (m_btnName.GetState()) options.clist_contact_name = CNNT_DISPLAYNAME;
+		     if (m_btnNick.GetState()) g_metaOptions.clist_contact_name = CNNT_NICK;
+		else if (m_btnName.GetState()) g_metaOptions.clist_contact_name = CNNT_DISPLAYNAME;
 
 		Meta_WriteOptions();
 
-		Meta_SuppressStatus(options.bSuppressStatus);
+		Meta_SuppressStatus(g_metaOptions.bSuppressStatus);
 		Meta_SetAllNicks();
 	}
 };

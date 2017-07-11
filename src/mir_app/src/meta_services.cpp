@@ -157,7 +157,7 @@ INT_PTR Meta_SetStatus(WPARAM wParam, LPARAM)
 	// firstSetOnline starts out true - used to delay metacontact's 'onlineness' to prevent double status notifications on startup
 	if (mcStatus == ID_STATUS_OFFLINE && firstSetOnline) {
 		// causes crash on exit if miranda is closed in under options.set_status_from_offline milliseconds!
-		setStatusTimerId = SetTimer(0, 0, options.set_status_from_offline_delay, SetStatusThread);
+		setStatusTimerId = SetTimer(0, 0, g_metaOptions.set_status_from_offline_delay, SetStatusThread);
 		firstSetOnline = FALSE;
 	}
 	else {
@@ -484,7 +484,7 @@ int Meta_ContactDeleted(WPARAM hContact, LPARAM)
 		currDb->MetaDetouchSub(cc, i);
 
 		// stop ignoring, if we were
-		if (options.bSuppressStatus)
+		if (g_metaOptions.bSuppressStatus)
 			CallService(MS_IGNORE_UNIGNORE, cc->pSubs[i], IGNOREEVENT_USERONLINE);
 	}
 	return 0;
@@ -602,7 +602,7 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 			continue;
 
 		CMStringW tszNick;
-		if (options.menu_contact_label == DNT_DID)
+		if (g_metaOptions.menu_contact_label == DNT_DID)
 			tszNick = cli.pfnGetContactDisplayName(cc->pSubs[i], 0);
 		else
 			Meta_GetSubNick(hMeta, i, tszNick);
@@ -677,7 +677,7 @@ INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 
 	MCONTACT hContact = Meta_GetContactHandle(cc, (int)lParam);
 
-	if (options.menu_function == FT_MSG) {
+	if (g_metaOptions.menu_function == FT_MSG) {
 		// open message window if protocol supports message sending or chat, else simulate double click
 		char *proto = GetContactProto(hContact);
 		if (proto) {
@@ -694,9 +694,9 @@ INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 		else // protocol does not support messaging - simulate double click
 			Clist_ContactDoubleClicked(hContact);
 	}
-	else if (options.menu_function == FT_MENU) // show contact's context menu
+	else if (g_metaOptions.menu_function == FT_MENU) // show contact's context menu
 		CallFunctionAsync(sttMenuThread, (void*)hContact);
-	else if (options.menu_function == FT_INFO) // show user info for subcontact
+	else if (g_metaOptions.menu_function == FT_INFO) // show user info for subcontact
 		CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 
 	return 0;

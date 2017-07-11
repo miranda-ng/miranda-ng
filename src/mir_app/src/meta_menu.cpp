@@ -99,7 +99,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 			db_unset(ccSub->contactID, "CList", "Hidden");
 
 			// stop ignoring, if we were
-			if (options.bSuppressStatus)
+			if (g_metaOptions.bSuppressStatus)
 				CallService(MS_IGNORE_UNIGNORE, ccSub->contactID, IGNOREEVENT_USERONLINE);
 		}
 	}
@@ -276,7 +276,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 			MCONTACT hContact = Meta_GetContactHandle(cc, i);
 			LPCTSTR ptszName;
 
-			if (options.menu_contact_label == DNT_UID) {
+			if (g_metaOptions.menu_contact_label == DNT_UID) {
 				Meta_GetSubNick(hMeta, i, tszNick);
 				ptszName = tszNick.GetBuffer();
 			}
@@ -431,7 +431,7 @@ void InitMenus()
 		Meta_HideMetaContacts(true);
 	}
 	else {
-		Meta_SuppressStatus(options.bSuppressStatus);
+		Meta_SuppressStatus(g_metaOptions.bSuppressStatus);
 		Meta_HideMetaContacts(false);
 	}
 }

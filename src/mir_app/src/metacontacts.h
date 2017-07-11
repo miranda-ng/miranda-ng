@@ -95,7 +95,7 @@ struct MetaOptions
 	int set_status_from_offline_delay;
 };
 
-extern MetaOptions options;
+extern MetaOptions g_metaOptions;
 
 int Meta_OptInit(WPARAM wParam, LPARAM lParam);
 int Meta_ReadOptions();

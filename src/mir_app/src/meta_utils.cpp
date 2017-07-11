@@ -180,7 +180,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	currDb->MetaMergeHistory(ccDest, ccSub);
 
 	// Ignore status if the option is on
-	if (options.bSuppressStatus)
+	if (g_metaOptions.bSuppressStatus)
 		CallService(MS_IGNORE_IGNORE, hSub, IGNOREEVENT_USERONLINE);
 
 	NotifyEventHooks(hSubcontactsChanged, hMeta, 0);
@@ -369,7 +369,7 @@ int Meta_HideLinkedContacts(void)
 			}
 		}
 
-		if (options.bSuppressStatus)
+		if (g_metaOptions.bSuppressStatus)
 			CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 
 		MCONTACT hMostOnline = Meta_GetMostOnline(ccMeta); // set nick
@@ -383,7 +383,7 @@ int Meta_HideLinkedContacts(void)
 int Meta_HideMetaContacts(bool bHide)
 {
 	// set status suppression
-	bool bSuppress = bHide ? FALSE : options.bSuppressStatus;
+	bool bSuppress = bHide ? FALSE : g_metaOptions.bSuppressStatus;
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		bool bSet;
@@ -420,7 +420,7 @@ int Meta_SuppressStatus(BOOL suppress)
 
 int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 {
-	if (options.bLockHandle)
+	if (g_metaOptions.bLockHandle)
 		hContact = Meta_GetContactHandle(ccMeta, 0);
 
 	if (!hContact)
@@ -430,14 +430,14 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 	if (szProto == nullptr)
 		return 1;
 
-	if (options.clist_contact_name == CNNT_NICK) {
+	if (g_metaOptions.clist_contact_name == CNNT_NICK) {
 		ptrW tszNick(db_get_wsa(hContact, szProto, "Nick"));
 		if (tszNick) {
 			db_set_ws(ccMeta->contactID, META_PROTO, "Nick", tszNick);
 			return 0;
 		}
 	}
-	else if (options.clist_contact_name == CNNT_DISPLAYNAME) {
+	else if (g_metaOptions.clist_contact_name == CNNT_DISPLAYNAME) {
 		wchar_t *name = cli.pfnGetContactDisplayName(hContact, 0);
 		if (name && mir_wstrcmp(name, TranslateT("(Unknown contact)")) != 0) {
 			db_set_ws(ccMeta->contactID, META_PROTO, "Nick", name);
