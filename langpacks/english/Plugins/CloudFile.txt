@@ -32,7 +32,7 @@
 [Upload to...]
 [Upload]
 ;file \plugins\CloudFile\src\options.cpp
-[No]
+[None]
 [Services]
 ;file \plugins\CloudFile\src\srmm.cpp
 [Upload files to...]
