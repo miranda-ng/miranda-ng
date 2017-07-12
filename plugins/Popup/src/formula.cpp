@@ -123,7 +123,7 @@ int Formula::eval_atom(wchar_t *&s, Args *args, bool *vars) const
 				return 0;
 			char buf[1024];
 			char *bufptr = buf;
-			while (((*s >= '0') && (*s <= '9')) || ((*s >= 'a') && (*s <= 'z')) || ((*s >= 'A') && (*s <= 'A')) || (*s == '_') || (*s == '.'))
+			while (((*s >= '0') && (*s <= '9')) || ((*s >= 'a') && (*s <= 'z')) || ((*s >= 'A') && (*s <= 'Z')) || (*s == '_') || (*s == '.'))
 				*bufptr++ = *s++;
 			*bufptr = 0;
 			int res = args->get(buf);
