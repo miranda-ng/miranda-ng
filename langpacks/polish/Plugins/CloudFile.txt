@@ -55,8 +55,8 @@ Wyślij plik(i)
 [Upload]
 Wyślij
 ;file \plugins\CloudFile\src\options.cpp
-[No]
-Nie
+[None]
+Brak
 [Services]
 Usługi
 ;file \plugins\CloudFile\src\srmm.cpp

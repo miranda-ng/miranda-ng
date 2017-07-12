@@ -55,8 +55,8 @@ Otkazivanje
 [Upload]
 
 ;file \plugins\CloudFile\src\options.cpp
-[No]
-Ne
+[None]
+Nema
 [Services]
 
 ;file \plugins\CloudFile\src\srmm.cpp

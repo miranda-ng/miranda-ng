@@ -21,5 +21,6 @@
 [Yandex.Disk]
 [Upload to...]
 [Upload]
+[None]
 [Services]
 [Upload files to...]

@@ -51,8 +51,8 @@
 
 [Upload]
 
-[No]
-Не
+[None]
+Няма
 [Services]
 
 [Upload files to...]

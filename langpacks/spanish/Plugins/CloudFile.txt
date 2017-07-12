@@ -9,5 +9,5 @@
 General
 [Cancel]
 Cancelar
-[No]
-No
+[None]
+Ninguno

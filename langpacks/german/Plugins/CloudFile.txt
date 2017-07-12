@@ -55,8 +55,8 @@ Hochladen auf...
 [Upload]
 Hochladen
 ;file \plugins\CloudFile\src\options.cpp
-[No]
-Nein
+[None]
+Keine
 [Services]
 Dienste
 ;file \plugins\CloudFile\src\srmm.cpp
