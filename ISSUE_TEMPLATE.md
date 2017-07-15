@@ -1,4 +1,4 @@
-### Exprected behaviour
+### Expected behaviour
 What did you expect?
 
 ### Actual behaviour
