@@ -1,6 +1,3 @@
-
-__TOC__
-
 ## Before reporting a bug
 * Update to the latest *development version*.
 * Check if the problem persists (it may happen that it has been fixed).
