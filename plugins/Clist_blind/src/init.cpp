@@ -320,10 +320,13 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 {
 	switch (msg) {
 	case WM_NCCREATE:
-		break;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_CREATE:
 		break;
+
+	case WM_DRAWITEM:
+		return Menu_DrawItem(lParam);
 	}
 	return coreCli.pfnContactListWndProc(hwnd, msg, wParam, lParam);
 }
