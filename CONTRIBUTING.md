@@ -1,5 +1,5 @@
 ## Before reporting a bug
-* Update to the latest *development version*.
+* Update to the latest *development version* (**caution:** Use a clean profile or make a backup of your working profile. It may not be possible to downgrade without data loss!).
 * Check if the problem persists (it may happen that it has been fixed).
 * Search the *issues* for an existing bug report for your problem.
 
