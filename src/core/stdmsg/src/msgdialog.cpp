@@ -33,8 +33,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define ENTERCLICKTIME   1000   //max time in ms during which a double-tap on enter will cause a send
 
-static const UINT sendControls[] = { IDC_SRMM_MESSAGE };
-
 int SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact)
 {
 	if (hContact == 0)
