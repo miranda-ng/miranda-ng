@@ -173,7 +173,8 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CHAR:
 		SetFocus(m_message.GetHwnd());
-		m_message.SendMsg(WM_CHAR, wParam, lParam);
+		if (wParam != '\t')
+			m_message.SendMsg(WM_CHAR, wParam, lParam);
 		break;
 
 	case WM_CONTEXTMENU:
