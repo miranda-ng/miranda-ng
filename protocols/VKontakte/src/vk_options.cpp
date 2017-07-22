@@ -236,7 +236,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto) :
 	m_spInvInterval(this, IDC_SPIN_INT_INVIS),
 	m_cbSendVKLinksAsAttachments(this, IDC_SENDVKURLSASATTACH),
 	m_cbLoadSentAttachments(this, IDC_LOADSENTATTACH),
-	m_cbUseNonStandardUrlEncode(this, IDC_USENOSTDURLENCODE),
+	m_cbPopupContactsMusic(this, IDC_POPUP_CONTACT_MUSIC),
 	m_cbReportAbuse(this, IDC_REPORT_ABUSE),
 	m_cbClearServerHistory(this, IDC_CLEAR_SERVER_HISTORY),
 	m_cbRemoveFromFrendlist(this, IDC_REMOVE_FROM_FRENDLIST),
@@ -254,7 +254,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto) :
 	CreateLink(m_edtInvInterval, m_proto->m_vkOptions.iInvisibleInterval);
 	CreateLink(m_cbSendVKLinksAsAttachments, m_proto->m_vkOptions.bSendVKLinksAsAttachments);
 	CreateLink(m_cbLoadSentAttachments, m_proto->m_vkOptions.bLoadSentAttachments);
-	CreateLink(m_cbUseNonStandardUrlEncode, m_proto->m_vkOptions.bUseNonStandardUrlEncode);
+	CreateLink(m_cbPopupContactsMusic, m_proto->m_vkOptions.bPopupContactsMusic);
 	CreateLink(m_cbReportAbuse, m_proto->m_vkOptions.bReportAbuse);
 	CreateLink(m_cbClearServerHistory, m_proto->m_vkOptions.bClearServerHistory);
 	CreateLink(m_cbRemoveFromFrendlist, m_proto->m_vkOptions.bRemoveFromFrendlist);

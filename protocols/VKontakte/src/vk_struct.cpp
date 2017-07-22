@@ -32,7 +32,7 @@ AsyncHttpRequest::AsyncHttpRequest()
 	bNeedsRestart = false;
 	bIsMainConn = false;
 	m_pFunc = NULL;
-	bExpUrlEncode = false;
+	bExpUrlEncode = true;
 	m_reqNum = ::InterlockedIncrement(&m_reqCount);
 	m_priority = rpLow;
 }
@@ -42,7 +42,7 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	cbSize = sizeof(NETLIBHTTPREQUEST);
 	m_bApiReq = true;
 	bIsMainConn = false;
-	bExpUrlEncode = (BYTE)ppro->m_vkOptions.bUseNonStandardUrlEncode != 0;
+	bExpUrlEncode = (BYTE)ppro->m_vkOptions.bUseStandardUrlEncode == 0;
 	AddHeader("Connection", "keep-alive");
 
 	if (*_url == '/') {	// relative url leads to a site
@@ -208,7 +208,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	bSendVKLinksAsAttachments(proto, "SendVKLinksAsAttachments", true),
 	bLoadSentAttachments(proto, "LoadSentAttachments", bSendVKLinksAsAttachments),
 	bUseNonStandardNotifications(proto, "UseNonStandardNotifications", false),
-	bUseNonStandardUrlEncode(proto, "UseNonStandardUrlEncode", true),
+	bUseStandardUrlEncode(proto, "UseStandardUrlEncode", false),
 	bShortenLinksForAudio(proto, "ShortenLinksForAudio", true),
 	bAddMessageLinkToMesWAtt(proto, "AddMessageLinkToMesWAtt", true),
 	bSplitFormatFwdMsg(proto, "SplitFormatFwdMsg", true),
@@ -225,6 +225,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	bShowProtoMenuItem6(proto, "ShowProtoMenuItem6", true),
 
 	iMusicSendMetod(proto, "MusicSendMetod", MusicSendMetod::sendBroadcastOnly),
+	bPopupContactsMusic(proto, "PopupContactsMusic", false),
 	iSyncHistoryMetod(proto, "SyncHistoryMetod", SyncHistoryMetod::syncOff),
 	iIMGBBCSupport(proto, "IMGBBCSupport", IMGBBCSypport::imgNo),
 	iBBCForNews(proto, "BBCForNews", BBCSupport::bbcBasic),

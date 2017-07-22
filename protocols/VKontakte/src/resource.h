@@ -103,7 +103,7 @@
 #define IDC_ATTBBC_BASIC                1085
 #define IDC_ATTBBC_ADV                  1086
 #define IDC_BBC_ATT_NEWS                1087
-#define IDC_USENOSTDURLENCODE           1088
+#define IDC_POPUP_CONTACT_MUSIC         1088
 #define IDC_ED_INT_INVIS                1089
 #define IDC_SPIN_INT_INVIS              1090
 #define IDC_ED_MSG                      1091
@@ -130,7 +130,6 @@
 #define IDC_ADD_MES_LINK_MES_ATT        1113
 
 // Next default values for new objects
-// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1

@@ -266,11 +266,11 @@ BEGIN
     LTEXT           "Invisible interval timeout (min):",IDC_STATIC,16,63,184,8
     EDITTEXT        IDC_ED_INT_INVIS,204,60,40,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN_INT_INVIS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,244,60,14,13
-    CONTROL         "Use non-standard urlEncode for sent messages (less traffic)",IDC_USENOSTDURLENCODE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,74,278,10
     CONTROL         "Send VK-objects links as attachments",IDC_SENDVKURLSASATTACH,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,85,278,10
-    CONTROL         "and load sent attachments",IDC_LOADSENTATTACH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,96,269,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,74,278,10
+    CONTROL         "and load sent attachments",IDC_LOADSENTATTACH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,85,269,10
+    CONTROL         "Notify about changes of contacts audio broadcast",IDC_POPUP_CONTACT_MUSIC,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,96,278,10
     GROUPBOX        "When I ban user...",IDC_STATIC,4,108,293,33
     CONTROL         "Report abuse",IDC_REPORT_ABUSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,118,129,10
     CONTROL         "Clear server history",IDC_CLEAR_SERVER_HISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,129,129,10

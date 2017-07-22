@@ -302,6 +302,7 @@ struct CVKOptions {
 	CMOption<BYTE> bStikersAsSmyles;
 	CMOption<BYTE> bUserForceInvisibleOnActivity;
 	CMOption<BYTE> iMusicSendMetod;
+	CMOption<BYTE> bPopupContactsMusic;
 	CMOption<BYTE> iSyncHistoryMetod;
 	CMOption<BYTE> bNewsEnabled;
 	CMOption<BYTE> iMaxLoadNewsPhoto;
@@ -330,7 +331,7 @@ struct CVKOptions {
 	CMOption<BYTE> bNotificationFilterInvites;
 	CMOption<BYTE> bNotificationFilterAcceptedFriends;
 	CMOption<BYTE> bUseNonStandardNotifications;
-	CMOption<BYTE> bUseNonStandardUrlEncode;
+	CMOption<BYTE> bUseStandardUrlEncode;
 	CMOption<BYTE> bShortenLinksForAudio;
 	CMOption<BYTE> bAddMessageLinkToMesWAtt;
 	CMOption<BYTE> bSplitFormatFwdMsg;

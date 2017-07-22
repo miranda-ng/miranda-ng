@@ -77,9 +77,9 @@ class CVkOptionAdvancedForm : public CVkDlgBase
 	CCtrlEdit m_edtInvInterval;
 	CCtrlSpin m_spInvInterval;
 
-	CCtrlCheck m_cbUseNonStandardUrlEncode;
 	CCtrlCheck m_cbSendVKLinksAsAttachments;
 	CCtrlCheck m_cbLoadSentAttachments;
+	CCtrlCheck m_cbPopupContactsMusic;
 
 	CCtrlCheck m_cbReportAbuse;
 	CCtrlCheck m_cbClearServerHistory;
