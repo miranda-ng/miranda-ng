@@ -9,6 +9,8 @@
 Поддержка протокола ВКонтакте в Miranda NG.
 [Show in protocol menu ]
 Показывать в меню протокола\s
+[Notify about changes of contacts audio broadcast]
+Уведомлять о том, что контакт слушает музыку
 [Create new chat]
 Создать новый чат
 [Status message]
@@ -130,7 +132,7 @@ E-mail или номер телефона:
 [Use non-standard urlEncode for sent messages (less traffic)]
 Использовать нестандартный urlEncode для сообщений (экономия трафика)
 [Send VK-objects links as attachments]
-Заменять вложениями ссылки на посты, изображения, музыку, документы, видео
+Заменять вложениями ссылки на посты, изображ., музыку, документы, видео
 [and load sent attachments]
 и загружать отправленные вложения
 [When I ban user...]
@@ -242,7 +244,7 @@ E-mail или номер телефона:
 [Access to adding post denied]
 Превышено ограничение на число публикаций в сутки
 [Can't send messages for users from blacklist]
-Нельзя отправлять сообщения пользователю из черного списка
+Нельзя отправлять сообщения пользователю из чёрного списка
 [Can't send messages for users without dialogs]
 Нельзя первым писать пользователю от имени сообщества
 [Can't send messages to this user due to their privacy settings]
