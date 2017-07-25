@@ -363,19 +363,6 @@ MIR_APP_DLL(int) Chat_Terminate(const char *szModule, const wchar_t *wszId, bool
 /////////////////////////////////////////////////////////////////////////////////////////
 // handles chat event
 
-struct DoFlashParam
-{
-	SESSION_INFO *si;
-	GCEVENT *gce;
-	int i1, i2;
-};
-
-static INT_PTR __stdcall stubFlash(void *param)
-{
-	DoFlashParam *p = (DoFlashParam*)param;
-	return chatApi.DoSoundsFlashPopupTrayStuff(p->si, p->gce, p->i1, p->i2);
-}
-
 static void AddUser(GCEVENT *gce)
 {
 	SESSION_INFO *si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
@@ -410,54 +397,44 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 	int bManyFix = 0;
 
 	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *p = g_arSessions[i];
-		if (!p->bInitDone || mir_strcmpi(p->pszModule, gce->pDest->pszModule))
+		SESSION_INFO *si = g_arSessions[i];
+		if (!si->bInitDone || mir_strcmpi(si->pszModule, gce->pDest->pszModule))
 			continue;
 
-		if (!chatApi.UM_FindUser(p->pUsers, gce->ptszUID))
+		if (!chatApi.UM_FindUser(si->pUsers, gce->ptszUID))
 			continue;
 
 		if (chatApi.OnEventBroadcast)
-			chatApi.OnEventBroadcast(p, gce);
+			chatApi.OnEventBroadcast(si, gce);
 
-		if (p->pDlg && p->bInitDone) {
-			if (SM_AddEvent(p->ptszID, p->pszModule, gce, FALSE))
-				p->pDlg->AddLog();
+		if (si->pDlg && si->bInitDone) {
+			if (SM_AddEvent(si->ptszID, si->pszModule, gce, FALSE))
+				si->pDlg->AddLog();
 			else
-				p->pDlg->RedrawLog2();
+				si->pDlg->RedrawLog2();
 		}
 
-		if (!(gce->dwFlags & GCEF_NOTNOTIFY)) {
-			DoFlashParam param = { p, gce, FALSE, bManyFix };
-			CallFunctionSync(stubFlash, &param);
-		}
+		if (!(gce->dwFlags & GCEF_NOTNOTIFY))
+			chatApi.DoSoundsFlashPopupTrayStuff(si, gce, FALSE, bManyFix);
 
 		bManyFix++;
 		if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
-			chatApi.LogToFile(p, gce);
+			chatApi.LogToFile(si, gce);
 	}
 
 	return 0;
 }
 
-EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
+static INT_PTR CALLBACK sttEventStub(void *_param)
 {
-	if (gce == nullptr)
-		return GC_EVENT_ERROR;
-
-	GCDEST *gcd = gce->pDest;
-	if (gcd == nullptr)
-		return GC_EVENT_ERROR;
-
-	if (!IsEventSupported(gcd->iType))
-		return GC_EVENT_ERROR;
-
+	GCEVENT *gce = (GCEVENT*)_param;
 	if (NotifyEventHooks(hHookEvent, 0, LPARAM(gce)))
 		return 1;
 
 	bool bIsHighlighted = false, bRemoveFlag = false;
 
 	// Do different things according to type of event
+	GCDEST *gcd = gce->pDest;
 	switch (gcd->iType) {
 	case GC_EVENT_SETCONTACTSTATUS:
 		return SM_SetContactStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, (WORD)gce->dwItemData);
@@ -562,9 +539,9 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 			if (gce->ptszNick == nullptr && gce->ptszUID != nullptr) {
 				USERINFO *ui = chatApi.UM_FindUser(si->pUsers, gce->ptszUID);
 				if (ui != nullptr)
-					gce->ptszNick = ui->pszNick;				
+					gce->ptszNick = ui->pszNick;
 			}
-			
+
 			int isOk = SM_AddEvent(pWnd, pMod, gce, bIsHighlighted);
 			if (si->pDlg) {
 				if (isOk)
@@ -573,11 +550,9 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 					si->pDlg->RedrawLog2();
 			}
 
-			if (!(gce->dwFlags & GCEF_NOTNOTIFY)) {
-				DoFlashParam param = { si, gce, bIsHighlighted, 0 };
-				CallFunctionSync(stubFlash, &param);
-			}
-			
+			if (!(gce->dwFlags & GCEF_NOTNOTIFY))
+				chatApi.DoSoundsFlashPopupTrayStuff(si, gce, bIsHighlighted, 0);
+
 			if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
 				chatApi.LogToFile(si, gce);
 		}
@@ -590,6 +565,21 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 		return SM_RemoveUser(gcd->ptszID, gcd->pszModule, gce->ptszUID) == 0;
 
 	return GC_EVENT_ERROR;
+}
+
+EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
+{
+	if (gce == nullptr)
+		return GC_EVENT_ERROR;
+
+	GCDEST *gcd = gce->pDest;
+	if (gcd == nullptr)
+		return GC_EVENT_ERROR;
+
+	if (!IsEventSupported(gcd->iType))
+		return GC_EVENT_ERROR;
+
+	return CallFunctionSync(sttEventStub, gce);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
