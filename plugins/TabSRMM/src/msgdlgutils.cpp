@@ -823,15 +823,6 @@ static void CreateColorMap(CMStringW &Text, int iCount, COLORREF *pSrc, int *pDs
 	}
 }
 
-static int GetRtfIndex(int iCol, int iCount, int *pIndex)
-{
-	for (int i = 0; i < iCount; i++)
-		if (pIndex[i] == iCol)
-			return i;
-
-	return -1;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // convert rich edit code to bbcode (if wanted). Otherwise, strip all RTF formatting
 // tags and return plain text
@@ -876,12 +867,17 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pCol
 
 			if (!wcsncmp(p, L"\\cf", 3)) { // foreground color
 				int iCol = _wtoi(p + 3);
-				int iInd = GetRtfIndex(iCol, iNumColors, pIndex);
+				int iInd = -1;
+				for (int i = 0; i < iNumColors; i++)
+					if (pIndex[i] == iCol) {
+						iInd = i;
+						break;
+					}
 
 				if (iCol && !isChat())
-					res.AppendFormat((iInd > 0) ? (bInsideColor ? L"[/color][color=%s]" : L"[color=%s]") : (bInsideColor ? L"[/color]" : L""), Utils::rtf_ctable[iInd - 1].szName);
+					res.AppendFormat((iInd >= 0) ? (bInsideColor ? L"[/color][color=%s]" : L"[color=%s]") : (bInsideColor ? L"[/color]" : L""), Utils::rtf_ctable[iInd].szName);
 
-				bInsideColor = iInd > 0;
+				bInsideColor = iInd >= 0;
 			}
 			else if (!wcsncmp(p, L"\\highlight", 10)) { //background color
 				wchar_t szTemp[20];

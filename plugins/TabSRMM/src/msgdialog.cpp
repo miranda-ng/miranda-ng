@@ -581,6 +581,7 @@ CSrmmWindow::CSrmmWindow()
 	m_btnOk.OnClick = Callback(this, &CSrmmWindow::onClick_Ok);
 	m_btnAdd.OnClick = Callback(this, &CSrmmWindow::onClick_Add);
 	m_btnQuote.OnClick = Callback(this, &CSrmmWindow::onClick_Quote);
+	m_btnColor.OnClick = Callback(this, &CSrmmWindow::onClick_Color);
 	m_btnCancelAdd.OnClick = Callback(this, &CSrmmWindow::onClick_CancelAdd);
 
 	m_message.OnChange = Callback(this, &CSrmmWindow::onChange_Message);
@@ -1184,6 +1185,42 @@ void CSrmmWindow::onClick_Add(CCtrlButton*)
 		if (!(m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
 			Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, SW_HIDE);
 		Resize();
+	}
+}
+
+void CSrmmWindow::onClick_Color(CCtrlButton *pButton)
+{
+	CHARFORMAT2 cf;
+	ZeroMemory(&cf, sizeof(CHARFORMAT2));
+	cf.cbSize = sizeof(CHARFORMAT2);
+	cf.dwMask = CFM_COLOR;
+	cf.dwEffects = 0;
+
+	RECT rc;
+	GetWindowRect(pButton->GetHwnd(), &rc);
+	int iSelection = TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 7), TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, NULL);
+	if (iSelection == ID_FONT_CLEARALLFORMATTING) {
+		cf.dwMask = CFM_BOLD | CFM_COLOR | CFM_ITALIC | CFM_UNDERLINE | CFM_STRIKEOUT;
+		cf.crTextColor = M.GetDword(FONTMODULE, "Font16Col", 0);
+		m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+		return;
+	}
+
+	if (iSelection == ID_FONT_DEFAULTCOLOR) {
+		cf.crTextColor = M.GetDword(FONTMODULE, "Font16Col", 0);
+		for (int i = 0; i < Utils::rtf_ctable_size; i++)
+			if (Utils::rtf_ctable[i].clr == cf.crTextColor)
+				cf.crTextColor = RGB(GetRValue(cf.crTextColor), GetGValue(cf.crTextColor), GetBValue(cf.crTextColor) == 0 ? GetBValue(cf.crTextColor) + 1 : GetBValue(cf.crTextColor) - 1);
+
+		m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+		return;
+	}
+	
+	for (int i = 0; i < RTF_CTABLE_DEFSIZE; i++) {
+		if (Utils::rtf_ctable[i].menuid == iSelection) {
+			cf.crTextColor = Utils::rtf_ctable[i].clr;
+			m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+		}
 	}
 }
 

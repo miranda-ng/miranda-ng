@@ -488,6 +488,7 @@ public:
 
 	void onClick_Ok(CCtrlButton*);
 	void onClick_Add(CCtrlButton*);
+	void onClick_Color(CCtrlButton*);
 	void onClick_Quote(CCtrlButton*);
 	void onClick_CancelAdd(CCtrlButton*);
 
