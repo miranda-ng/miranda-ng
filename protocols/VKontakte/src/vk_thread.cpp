@@ -402,8 +402,10 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 			setWString(hContact, "ListeningTo", wszListeningTo);
 			setWString(hContact, "AudioUrl", jnAudio["url"].as_mstring());
 
-			if (m_vkOptions.bPopupContactsMusic && getBool(hContact, "FloodListingToPopups", true))
-				MsgPopup(hContact, wszListeningTo, TranslateT("Listening to"));
+			if (m_vkOptions.bPopupContactsMusic && getBool(hContact, "FloodListingToPopups", true)) {
+				CMStringW wszTitle(FORMAT, L"%s %s", wszNick.c_str(), TranslateT("listening to"));
+				MsgPopup(hContact, wszListeningTo, wszTitle);
+			}
 		}
 	}
 	else if (wszValue[0] == wchar_t(9835) && wszValue.GetLength() > 2) {
