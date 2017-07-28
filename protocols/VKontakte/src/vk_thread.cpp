@@ -403,7 +403,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 			setWString(hContact, "AudioUrl", jnAudio["url"].as_mstring());
 
 			if (m_vkOptions.bPopupContactsMusic && getBool(hContact, "FloodListingToPopups", true)) {
-				CMStringW wszTitle(FORMAT, L"%s %s", wszNick.c_str(), TranslateT("listening to"));
+				CMStringW wszTitle(FORMAT, TranslateT("%s is listening to"), wszNick.c_str());
 				MsgPopup(hContact, wszListeningTo, wszTitle);
 			}
 		}
