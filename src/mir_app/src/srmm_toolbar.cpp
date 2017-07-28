@@ -773,6 +773,12 @@ void KillModuleToolbarIcons(int _hLang)
 	}
 }
 
+static INT_PTR BroadcastMessage(WPARAM, LPARAM lParam)
+{
+	Srmm_Broadcast((UINT)lParam, 0, 0);
+	return 0;
+}
+
 static int SrmmModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_OPT_INITIALISE, SrmmOptionsInit);
@@ -796,6 +802,8 @@ static int ConvertToolbarData(const char *szSetting, LPARAM)
 
 void LoadSrmmToolbarModule()
 {
+	CreateServiceFunction("SRMsg/BroadcastMessage", BroadcastMessage);
+
 	HookEvent(ME_SYSTEM_MODULESLOADED, SrmmModulesLoaded);
 
 	Miranda_WaitOnHandle(SrmmLoadToolbar);
