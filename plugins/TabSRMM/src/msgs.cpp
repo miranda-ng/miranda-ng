@@ -1002,6 +1002,22 @@ int IconsChanged(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// services needed for assembly management
+
+static INT_PTR ReloadSkin(WPARAM, LPARAM)
+{
+	Skin->setFileName();
+	Skin->Load();
+	return 0;
+}
+
+static INT_PTR ReloadSettings(WPARAM, LPARAM lParam)
+{
+	PluginConfig.reloadSettings(lParam != 0);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // initialises the internal API, services, events etc...
 
 static void TSAPI InitAPI()
@@ -1010,8 +1026,12 @@ static void TSAPI InitAPI()
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
 	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
 
+	CreateServiceFunction("TabSRMsg/ReloadSkin", ReloadSkin);
+	CreateServiceFunction("TabSRMsg/ReloadSettings", ReloadSettings);
+
 	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
 	CreateServiceFunction("SRMsg/TypingMessage", TypingMessageCommand);
+	
 	CreateServiceFunction(MS_TABMSG_SETUSERPREFS, SetUserPrefs);
 	CreateServiceFunction(MS_TABMSG_TRAYSUPPORT, Service_OpenTrayMenu);
 	CreateServiceFunction(MS_TABMSG_SLQMGR, CSendLater::svcQMgr);
