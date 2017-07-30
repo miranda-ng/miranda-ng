@@ -149,12 +149,22 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 
 int SmileyButtonCreate(WPARAM, LPARAM)
 {
+	// create a hotkey for the button first
+	HOTKEYDESC desc = {};
+	desc.pszName = "srmm_smileyadd";
+	desc.szSection.a = BB_HK_SECTION;
+	desc.szDescription.a = LPGEN("Smiley selector");
+	desc.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, 'E');
+	desc.lParam = LPARAM(g_hInst);
+	Hotkey_Register(&desc);
+
 	BBButton bbd = {};
 	bbd.pszModuleName = MODULENAME;
 	bbd.pwszTooltip = LPGENW("Show smiley selection window");
 	bbd.dwDefPos = 31;
 	bbd.hIcon = IcoLib_GetIconHandle("SmileyAdd_ButtonSmiley");
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
+	bbd.pszHotkey = desc.pszName;
 	Srmm_AddButton(&bbd);
 	return 0;
 }

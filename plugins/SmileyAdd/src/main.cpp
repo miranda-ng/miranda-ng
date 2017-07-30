@@ -67,13 +67,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	g_SmileyCategories.AddAllProtocolsAsCategory();
 	g_SmileyCategories.ClearAndLoadAll();
 
-	HOTKEYDESC desc = {};
-	desc.pszName = "smileyadd";
-	desc.szSection.a = MODULENAME;
-	desc.szDescription.a = LPGEN("Smiley selector");
-	desc.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, 'E');
-	Hotkey_Register(&desc);
-
 	ColourID cid = { sizeof(cid) };
 	strcpy_s(cid.dbSettingsGroup, MODULENAME);
 	strcpy_s(cid.group, MODULENAME);
