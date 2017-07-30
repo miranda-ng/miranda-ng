@@ -398,9 +398,9 @@ INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM)
 		int SendOnEvent = CContactSettings(g_ProtoStates[(LPSTR)NULL].m_status).Autoreply;
 		
 		if (SendOnEvent)
-			Menu_ModifyItem(g_hToggleSOEMenuItem, ENABLE_SOE_COMMAND, iconList[1].hIcolib);
+			Menu_ModifyItem(g_hToggleSOEMenuItem, DISABLE_SOE_COMMAND, iconList[1].hIcolib);
 		else
-			Menu_ModifyItem(g_hToggleSOEMenuItem, DISABLE_SOE_COMMAND, iconList[0].hIcolib);
+			Menu_ModifyItem(g_hToggleSOEMenuItem, ENABLE_SOE_COMMAND, iconList[0].hIcolib);
 
 		if (g_hTopToolbarbutton)
 			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)g_hTopToolbarbutton, SendOnEvent ? TTBST_PUSHED : 0);
