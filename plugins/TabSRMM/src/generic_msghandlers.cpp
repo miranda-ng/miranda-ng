@@ -367,8 +367,6 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 		CheckMenuItem(submenu, ID_SENDMENU_SENDLATER, MF_BYCOMMAND | (m_sendMode & SMODE_SENDLATER ? MF_CHECKED : MF_UNCHECKED));
 		CheckMenuItem(submenu, ID_SENDMENU_SENDWITHOUTTIMEOUTS, MF_BYCOMMAND | (m_sendMode & SMODE_NOACK ? MF_CHECKED : MF_UNCHECKED));
 
-		EnableMenuItem(submenu, ID_SENDMENU_SENDNUDGE, MF_BYCOMMAND | ((ProtoServiceExists(m_cache->getActiveProto(), PS_SEND_NUDGE) && ServiceExists(MS_NUDGE_SEND)) ? MF_ENABLED : MF_GRAYED));
-
 		if (lParam)
 			iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, nullptr);
 		else
@@ -381,9 +379,6 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 				DM_CreateClist();
 			else if (IsWindow(GetDlgItem(m_hwnd, IDC_CLIST)))
 				DestroyWindow(GetDlgItem(m_hwnd, IDC_CLIST));
-			break;
-		case ID_SENDMENU_SENDNUDGE:
-			SendNudge();
 			break;
 		case ID_SENDMENU_SENDDEFAULT:
 			m_sendMode = 0;

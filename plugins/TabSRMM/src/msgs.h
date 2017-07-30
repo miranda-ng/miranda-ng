@@ -435,7 +435,6 @@ public:
 	void  PlayIncomingSound() const;
 	void 	SendHBitmapAsFile(HBITMAP hbmp) const;
 	void  SaveSplitter();
-	void  SendNudge() const;
 	void  SetDialogToType();
 	void  SetMessageLog();
 	void  ShowPicture(bool showNewPic);
@@ -1022,7 +1021,6 @@ struct SIDEBARITEM {
 #define TABSRMM_HK_PASTEANDSEND      8
 #define TABSRMM_HK_SETUSERPREFS      9
 #define TABSRMM_HK_CONTAINEROPTIONS 10
-#define TABSRMM_HK_NUDGE            11
 #define TABSRMM_HK_SENDFILE         12
 #define TABSRMM_HK_QUOTEMSG         13
 #define TABSRMM_HK_SEND             14

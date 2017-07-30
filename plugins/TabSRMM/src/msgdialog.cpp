@@ -1553,9 +1553,6 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 		case TABSRMM_HK_SETUSERPREFS:
 			CallService(MS_TABMSG_SETUSERPREFS, m_hContact, 0);
 			return _dlgReturn(m_hwnd, 1);
-		case TABSRMM_HK_NUDGE:
-			SendNudge();
-			return _dlgReturn(m_hwnd, 1);
 		case TABSRMM_HK_SENDFILE:
 			CallService(MS_FILE_SENDFILE, m_hContact, 0);
 			return _dlgReturn(m_hwnd, 1);

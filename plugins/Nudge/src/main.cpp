@@ -248,6 +248,9 @@ static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 
 static int TabsrmmButtonInit(WPARAM, LPARAM)
 {
+	HOTKEYDESC hkd = { "srmm_nudge", LPGEN("Send nudge"), BB_HK_SECTION, 0, HOTKEYCODE(HOTKEYF_CONTROL, 'N'), LPARAM(hInst) };
+	Hotkey_Register(&hkd);
+
 	BBButton bbd = {};
 	bbd.pszModuleName = "Nudge";
 	bbd.pwszTooltip = LPGENW("Send Nudge");
@@ -255,8 +258,8 @@ static int TabsrmmButtonInit(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN;
 	bbd.hIcon = iconList[0].hIcolib;
 	bbd.dwButtonID = 6000;
+	bbd.pszHotkey = hkd.pszName;
 	Srmm_AddButton(&bbd);
-
 	return 0;
 }
 

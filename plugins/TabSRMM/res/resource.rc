@@ -763,8 +763,6 @@ BEGIN
         MENUITEM "Send &later",                 ID_SENDMENU_SENDLATER
         MENUITEM SEPARATOR
         MENUITEM "Send unsafe (ignore timeouts)", ID_SENDMENU_SENDWITHOUTTIMEOUTS
-        MENUITEM SEPARATOR
-        MENUITEM "Send nudge",                  ID_SENDMENU_SENDNUDGE
     END
     POPUP "Protomenu"
     BEGIN

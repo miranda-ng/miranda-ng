@@ -1621,15 +1621,6 @@ void CTabBaseDlg::EnableSending(bool bMode) const
 	EnableSendButton(bMode);
 }
 
-void CTabBaseDlg::SendNudge() const
-{
-	if (ProtoServiceExists(m_cache->getActiveProto(), PS_SEND_NUDGE) && ServiceExists(MS_NUDGE_SEND))
-		CallService(MS_NUDGE_SEND, m_cache->getActiveContact(), 0);
-	else
-		SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_SRMM_MESSAGE,
-			(LPARAM)TranslateT("Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event."));
-}
-
 void CTabBaseDlg::GetClientIcon()
 {
 	if (m_hClientIcon)

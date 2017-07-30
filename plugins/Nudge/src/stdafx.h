@@ -13,6 +13,7 @@
 #include <m_popup.h>	
 #include <m_message.h>
 #include <m_ignore.h>
+#include <m_hotkeys.h>
 #include <m_options.h>
 #include <m_skin.h>
 #include <m_database.h>
