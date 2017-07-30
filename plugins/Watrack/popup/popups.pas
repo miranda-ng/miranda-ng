@@ -297,14 +297,13 @@ begin
   FillChar(hkrec,SizeOf(hkrec),0);
   with hkrec do
   begin
-    cbSize          :=SizeOf(hkrec);
     pszName         :=HKN_POPUP;
     pszDescription.a:='WATrack popup hotkey';
     pszSection.a    :=PluginName;
     pszService      :=MS_WAT_SHOWMUSICINFO;
     DefHotKey:=((HOTKEYF_ALT or HOTKEYF_CONTROL) shl 8) or VK_F7 or HKF_MIRANDA_LOCAL;
   end;
-  CallService(MS_HOTKEY_REGISTER,0,lparam(@hkrec));
+  Hotkey_Register(@hkrec);
 end;
 
 {$include pop_dlg.inc}

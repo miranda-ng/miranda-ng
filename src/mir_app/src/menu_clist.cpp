@@ -1141,15 +1141,15 @@ void InitCustomMenus(void)
 	// initialize hotkeys
 	CreateServiceFunction(MS_CLIST_HKSTATUS, HotkeySetStatus);
 
-	HOTKEYDESC hkd = { sizeof(hkd) };
-	hkd.pwszSection = L"Status";
+	HOTKEYDESC hkd = {};
+	hkd.szSection.w = L"Status";
 	hkd.dwFlags = HKD_UNICODE;
 	for (int i = 0; i < _countof(statusHotkeys); i++) {
 		char szName[30];
 		mir_snprintf(szName, "StatusHotKey_%d", i);
 		hkd.pszName = szName;
 		hkd.lParam = statusModeList[i];
-		hkd.pwszDescription = fnGetStatusModeDescription(hkd.lParam, 0);
+		hkd.szDescription.w = fnGetStatusModeDescription(hkd.lParam, 0);
 		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, '0' + i) | HKF_MIRANDA_LOCAL;
 		hkd.pszService = MS_CLIST_HKSTATUS;
 		statusHotkeys[i] = Hotkey_Register(&hkd);

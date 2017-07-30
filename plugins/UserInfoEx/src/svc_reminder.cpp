@@ -917,11 +917,10 @@ void SvcReminderLoadModule(void)
 	CreateServiceFunction(MS_USERINFO_REMINDER_AGGRASIVEBACKUP, BackupBirthdayService);
 
 	// register hotkey
-	HOTKEYDESC hk = { 0 };
-	hk.cbSize = sizeof(HOTKEYDESC);
-	hk.pszSection = MODNAME;
+	HOTKEYDESC hk = {};
 	hk.pszName = "ReminderCheck";
-	hk.pszDescription = LPGEN("Check anniversaries");
+	hk.szSection.a = MODNAME;
+	hk.szDescription.a = LPGEN("Check anniversaries");
 	hk.pszService = MS_USERINFO_REMINDER_CHECK;
 	Hotkey_Register(&hk);
 

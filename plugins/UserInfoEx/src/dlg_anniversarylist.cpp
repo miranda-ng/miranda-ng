@@ -977,11 +977,10 @@ void DlgAnniversaryListLoadModule()
 {
 	CreateServiceFunction(MS_USERINFO_REMINDER_LIST, DlgAnniversaryListShow);
 
-	HOTKEYDESC hk = { 0 };
-	hk.cbSize = sizeof(HOTKEYDESC);
-	hk.pszSection = MODNAME;
+	HOTKEYDESC hk = {};
 	hk.pszName = "AnniversaryList";
-	hk.pszDescription = LPGEN("Popup anniversary list");
+	hk.szSection.a = MODNAME;
+	hk.szDescription.a = LPGEN("Popup anniversary list");
 	hk.pszService = MS_USERINFO_REMINDER_LIST;
 	Hotkey_Register(&hk);
 }

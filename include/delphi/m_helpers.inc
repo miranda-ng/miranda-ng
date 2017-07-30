@@ -333,7 +333,7 @@ end;
 
 function Hotkey_Register(hk:PHOTKEYDESC):int_ptr;
 begin
-	result:=CallService(MS_HOTKEY_REGISTER, hLangpack, LPARAM(hk));
+	result:=_Hotkey_Register(hk, hLangpack);
 end;
 
 function Skin_AddIcon(si:PSKINICONDESC):THANDLE;

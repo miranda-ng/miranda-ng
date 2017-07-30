@@ -163,11 +163,11 @@ extern "C" __declspec(dllexport) int Unload()
 
 void RegisterHotkeys(char buf[200], wchar_t* accName, int Number)
 {
-	HOTKEYDESC hotkey = { sizeof(hotkey) };
+	HOTKEYDESC hotkey = {};
 	hotkey.dwFlags = HKD_UNICODE;
 	hotkey.pszName = buf;
-	hotkey.pwszDescription = accName;
-	hotkey.pwszSection = LPGENW("Custom Status List");
+	hotkey.szDescription.w = accName;
+	hotkey.szSection.w = LPGENW("Custom Status List");
 	hotkey.pszService = buf;
 	hotkey.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, '0' + Number);
 	Hotkey_Register(&hotkey);

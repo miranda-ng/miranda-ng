@@ -1550,7 +1550,7 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 	}
 
 	if ((msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN) && !(GetKeyState(VK_RMENU) & 0x8000)) {
-		LRESULT mim_hotkey_check = CallService(MS_HOTKEY_CHECK, (WPARAM)&message, (LPARAM)TABSRMM_HK_SECTION_IM);
+		LRESULT mim_hotkey_check = Hotkey_Check(&message, TABSRMM_HK_SECTION_IM);
 		if (mim_hotkey_check)
 			m_bkeyProcessed = true;
 

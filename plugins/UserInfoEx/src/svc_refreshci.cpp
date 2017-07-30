@@ -875,11 +875,10 @@ void SvcRefreshContactInfoLoadModule(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	HookEvent(ME_DB_CONTACT_ADDED, OnContactAdded);
 
-	HOTKEYDESC hk = { 0 };
-	hk.cbSize = sizeof(HOTKEYDESC);
-	hk.pszSection = MODNAME;
+	HOTKEYDESC hk = {};
 	hk.pszName = "RefreshContactDetails";
-	hk.pszDescription = LPGEN("Refresh contact details");
+	hk.szSection.a = MODNAME;
+	hk.szDescription.a = LPGEN("Refresh contact details");
 	hk.pszService = MS_USERINFO_REFRESH;
 	Hotkey_Register(&hk);
 }

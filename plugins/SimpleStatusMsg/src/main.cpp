@@ -1343,13 +1343,11 @@ static int AddTopToolbarButton(WPARAM, LPARAM)
 
 void RegisterHotkey(void)
 {
-	HOTKEYDESC hkd = {0};
-
-	hkd.cbSize = sizeof(hkd);
+	HOTKEYDESC hkd = {};
 	hkd.dwFlags = HKD_UNICODE;
 	hkd.pszName = "SimpleStatusMsg_OpenDialog";
-	hkd.pwszDescription = LPGENW("Open status message dialog");
-	hkd.pwszSection = LPGENW("Status message");
+	hkd.szDescription.w = LPGENW("Open status message dialog");
+	hkd.szSection.w = LPGENW("Status message");
 	hkd.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_OEM_3);
 	Hotkey_Register(&hkd);

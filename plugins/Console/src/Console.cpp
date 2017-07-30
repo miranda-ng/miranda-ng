@@ -1132,11 +1132,10 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_COLOUR_RELOAD, OnColourChange);
 
-	HOTKEYDESC hkd = { 0 };
-	hkd.cbSize = sizeof(hkd);
+	HOTKEYDESC hkd = {};
 	hkd.pszName = "Console_Show_Hide";
-	hkd.pszDescription = LPGEN("Show/Hide Console");
-	hkd.pszSection = "Main";
+	hkd.szSection.a = "Main";
+	hkd.szDescription.a = LPGEN("Show/Hide Console");
 	hkd.pszService = MS_CONSOLE_SHOW_HIDE;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_EXT, 'C');
 	Hotkey_Register(&hkd);

@@ -209,17 +209,17 @@ INT_PTR GetStatus(WPARAM, LPARAM)
 // register Hotkey
 void LoadHotkey()
 {
-	HOTKEYDESC hk = { sizeof(hk) };
+	HOTKEYDESC hk = {};
 	hk.dwFlags = HKD_UNICODE;
 	hk.pszName = "Toggle Popups";
-	hk.pwszDescription = LPGENW("Toggle Popups");
-	hk.pwszSection = MODULNAME_PLUW;
+	hk.szDescription.w = LPGENW("Toggle Popups");
+	hk.szSection.w = MODULNAME_PLUW;
 	hk.pszService = MENUCOMMAND_SVC;
 	Hotkey_Register(&hk);
 
 	// 'Popup History' Hotkey
 	hk.pszName = "Popup History";
-	hk.pwszDescription = LPGENW("Popup History");
+	hk.szDescription.w = LPGENW("Popup History");
 	hk.pszService = MENUCOMMAND_HISTORY;
 	Hotkey_Register(&hk);
 }

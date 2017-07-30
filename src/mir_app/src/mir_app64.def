@@ -446,3 +446,8 @@ Chat_GetTextPixelSize @449 NONAME
 Srmm_GetWindowData @451
 Srmm_FindWindow @452
 Srmm_Broadcast @453
+Hotkey_Register @454
+Hotkey_Subclass @455
+Hotkey_Unregister @456
+Hotkey_Unsubclass @457
+Hotkey_Check @458

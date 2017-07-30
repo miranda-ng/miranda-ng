@@ -2,8 +2,6 @@
 
 void MakeHotkey(lua_State *L, HOTKEYDESC &hk)
 {
-	hk.cbSize = sizeof(HOTKEYDESC);
-
 	lua_getfield(L, -1, "Flags");
 	hk.dwFlags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
@@ -16,11 +14,11 @@ void MakeHotkey(lua_State *L, HOTKEYDESC &hk)
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Description");
-	hk.pwszDescription = mir_utf8decodeW(lua_tostring(L, -1));
+	hk.szDescription.w = mir_utf8decodeW(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Section");
-	hk.pwszSection = mir_utf8decodeW(luaL_optstring(L, -1, MODULE));
+	hk.szSection.w = mir_utf8decodeW(luaL_optstring(L, -1, MODULE));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Hotkey");
@@ -58,9 +56,7 @@ static int hotkeys_Register(lua_State *L)
 static int hotkeys_Unregister(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
-
-	CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)name);
-
+	Hotkey_Unregister(name);
 	return 0;
 }
 

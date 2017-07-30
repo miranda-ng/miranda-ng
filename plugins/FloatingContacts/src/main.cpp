@@ -739,17 +739,17 @@ static void LoadMenus()
 	hMainMenuItemHideAll = Menu_AddMainMenuItem(&mi);
 
 	// Register hotkeys
-	HOTKEYDESC hkd = { sizeof(hkd) };
-	hkd.pszSection = "Floating Contacts";
+	HOTKEYDESC hkd = {};
+	hkd.szSection.a = "Floating Contacts";
 
 	hkd.pszName = MODULE "/MainHideAllThumbs";
-	hkd.pszDescription = LPGEN("Show/Hide all thumbs");
+	hkd.szDescription.a = LPGEN("Show/Hide all thumbs");
 	hkd.pszService = MODULE "/MainHideAllThumbs";
 	Hotkey_Register(&hkd);
 
 	CreateServiceFunction(MODULE "/HideWhenCListShow", OnHotKey_HideWhenCListShow);
 	hkd.pszName = MODULE "/HideWhenCListShow";
-	hkd.pszDescription = LPGEN("Hide when contact list is shown");
+	hkd.szDescription.a = LPGEN("Hide when contact list is shown");
 	hkd.pszService = MODULE "/HideWhenCListShow";
 	Hotkey_Register(&hkd);
 }

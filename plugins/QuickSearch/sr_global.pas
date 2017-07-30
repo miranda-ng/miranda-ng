@@ -187,14 +187,13 @@ begin
   FillChar(hkrec,SizeOf(hkrec),0);
   with hkrec do
   begin
-    cbSize          :=SizeOf(hkrec);
     pszName         :=HKN_GLOBAL;
     pszDescription.a:='QuickSearch window hotkey';
     pszSection.a    :=qs_name;
     pszService      :=QS_SHOWSERVICE;
     DefHotKey       :=(HOTKEYF_ALT shl 8) or VK_F3;
   end;
-  CallService(MS_HOTKEY_REGISTER,0,lparam(@hkrec));
+  Hotkey_Register(@hkrec);
 end;
 
 procedure removetoolbar;

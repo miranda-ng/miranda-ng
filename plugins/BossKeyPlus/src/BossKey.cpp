@@ -551,10 +551,9 @@ void BossKeyMenuItemUnInit(void) // Remove menu item
 void RegisterCoreHotKeys(void)
 {
 	HOTKEYDESC hotkey = { 0 };
-	hotkey.cbSize = sizeof(HOTKEYDESC);
 	hotkey.pszName = "Hide/Show Miranda";
-	hotkey.pszDescription = LPGEN("Hide/Show Miranda");
-	hotkey.pszSection = "BossKey";
+	hotkey.szDescription.a = LPGEN("Hide/Show Miranda");
+	hotkey.szSection.a = "BossKey";
 	hotkey.pszService = MS_BOSSKEY_HIDE;
 	hotkey.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F12);
 

@@ -199,14 +199,12 @@ BOOL GetFormatedDateTime(wchar_t *pszOut, int nSize, time_t timestamp, BOOL fSho
 
 void AddHotkey()
 {
-	HOTKEYDESC hkd = { 0 };
-	hkd.cbSize = sizeof(hkd);
+	HOTKEYDESC hkd = {};
 	hkd.dwFlags = HKD_UNICODE;
 	hkd.pszName = "AutoShutdown_Toggle";
-	hkd.pwszDescription = LPGENW("Toggle automatic shutdown");
-	hkd.pwszSection = LPGENW("Main");
+	hkd.szDescription.w = LPGENW("Toggle automatic shutdown");
+	hkd.szSection.w = LPGENW("Main");
 	hkd.pszService = "AutoShutdown/MenuCommand";
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'T') | HKF_MIRANDA_LOCAL;
-	hkd.lParam = FALSE;
 	Hotkey_Register(&hkd);
 }

@@ -117,36 +117,21 @@ static LRESULT CALLBACK sttKeyboardProc(int code, WPARAM wParam, LPARAM lParam)
 	return CallNextHookEx(hhkKeyboard, code, wParam, lParam);
 }
 
-static INT_PTR svcHotkeySubclass(WPARAM wParam, LPARAM)
-{
-	HotkeyEditCreate((HWND)wParam);
-	return 0;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR svcHotkeyUnsubclass(WPARAM wParam, LPARAM)
+MIR_APP_DLL(int) Hotkey_Register(const HOTKEYDESC *desc, int _hLangpack)
 {
-	HotkeyEditDestroy((HWND)wParam);
-	return 0;
-}
-
-static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
-{
-	HOTKEYDESC *desc = (HOTKEYDESC *)lParam;
-	if (desc->cbSize != sizeof(HOTKEYDESC))
-		return 0;
-
 	THotkeyItem *p = (THotkeyItem*)mir_alloc(sizeof(THotkeyItem));
-	DWORD dwFlags = (desc->cbSize >= sizeof(HOTKEYDESC)) ? desc->dwFlags : 0;
-	if (dwFlags & HKD_UNICODE) {
-		p->pwszSection = mir_wstrdup(desc->pwszSection);
-		p->pwszDescription = mir_wstrdup(desc->pwszDescription);
+	if (desc->dwFlags & HKD_UNICODE) {
+		p->pwszSection = mir_wstrdup(desc->szSection.w);
+		p->pwszDescription = mir_wstrdup(desc->szDescription.w);
 	}
 	else {
-		p->pwszSection = mir_a2u(desc->pszSection);
-		p->pwszDescription = mir_a2u(desc->pszDescription);
+		p->pwszSection = mir_a2u(desc->szSection.a);
+		p->pwszDescription = mir_a2u(desc->szDescription.a);
 	}
 
-	p->hLangpack = (int)wParam;
+	p->hLangpack = _hLangpack;
 	p->allowSubHotkeys = TRUE;
 	p->rootHotkey = nullptr;
 	p->nSubHotkeys = 0;
@@ -187,7 +172,8 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 		if (p->Enabled) {
 			BYTE mod, vk;
 			sttWordToModAndVk(p->Hotkey, &mod, &vk);
-			if (vk) RegisterHotKey(g_hwndHotkeyHost, p->idHotkey, mod, vk);
+			if (vk)
+				RegisterHotKey(g_hwndHotkeyHost, p->idHotkey, mod, vk);
 		}
 	}
 
@@ -195,15 +181,14 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 
 	if (!p->rootHotkey) {
 		/* try to load alternatives from db */
-		int count, i;
 		mir_snprintf(buf, "%s$count", p->pszName);
-		count = (int)db_get_dw(0, DBMODULENAME, buf, -1);
-		for (i = 0; i < count; i++) {
+		int count = (int)db_get_dw(0, DBMODULENAME, buf, -1);
+		for (int i = 0; i < count; i++) {
 			mir_snprintf(buf, "%s$%d", p->pszName, i);
 			if (!db_get_w(0, DBMODULENAME, buf, 0))
 				continue;
 
-			svcHotkeyRegister(wParam, lParam);
+			Hotkey_Register(desc, _hLangpack);
 		}
 		p->allowSubHotkeys = count < 0;
 	}
@@ -215,9 +200,10 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 	return p->idHotkey;
 }
 
-static INT_PTR svcHotkeyUnregister(WPARAM, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(int) Hotkey_Unregister(const char *pszName)
 {
-	char *pszName = (char *)lParam;
 	char pszNamePrefix[MAXMODULELABELLENGTH];
 	size_t cbNamePrefix;
 	mir_snprintf(pszNamePrefix, "%s$", pszName);
@@ -247,22 +233,20 @@ static INT_PTR svcHotkeyUnregister(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR svcHotkeyCheck(WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(int) Hotkey_Check(MSG *msg, const char *szSection)
 {
-	MSG *msg = (MSG *)wParam;
-	wchar_t *pszSection = mir_a2u((char *)lParam);
-
-	if ((msg->message == WM_KEYDOWN) || (msg->message == WM_SYSKEYDOWN)) {
-		int i;
+	if (msg->message == WM_KEYDOWN || msg->message == WM_SYSKEYDOWN) {
 		BYTE mod = 0, vk = msg->wParam;
-
 		if (vk) {
 			if (GetAsyncKeyState(VK_CONTROL)) mod |= MOD_CONTROL;
 			if (GetAsyncKeyState(VK_MENU)) mod |= MOD_ALT;
 			if (GetAsyncKeyState(VK_SHIFT)) mod |= MOD_SHIFT;
 			if (GetAsyncKeyState(VK_LWIN) || GetAsyncKeyState(VK_RWIN)) mod |= MOD_WIN;
 
-			for (i = 0; i < hotkeys.getCount(); i++) {
+			ptrW pszSection(mir_a2u(szSection));
+			for (int i = 0; i < hotkeys.getCount(); i++) {
 				THotkeyItem *p = hotkeys[i];
 				if ((p->type != HKT_MANUAL) || mir_wstrcmp(pszSection, p->pwszSection))
 					continue;
@@ -271,15 +255,12 @@ static INT_PTR svcHotkeyCheck(WPARAM wParam, LPARAM lParam)
 				sttWordToModAndVk(p->Hotkey, &hkMod, &hkVk);
 				if (!hkVk) continue;
 				if (!p->Enabled) continue;
-				if ((vk == hkVk) && (mod == hkMod)) {
-					mir_free(pszSection);
+				if (vk == hkVk && mod == hkMod)
 					return p->lParam;
-				}
 			}
 		}
 	}
 
-	mir_free(pszSection);
 	return 0;
 }
 
@@ -369,12 +350,6 @@ int LoadSkinHotkeys(void)
 	hhkKeyboard = SetWindowsHookEx(WH_KEYBOARD, sttKeyboardProc, nullptr, hMainThreadId);
 
 	hEvChanged = CreateHookableEvent(ME_HOTKEYS_CHANGED);
-
-	CreateServiceFunction("CoreHotkeys/Register", svcHotkeyRegister);
-	CreateServiceFunction(MS_HOTKEY_UNREGISTER, svcHotkeyUnregister);
-	CreateServiceFunction(MS_HOTKEY_SUBCLASS, svcHotkeySubclass);
-	CreateServiceFunction(MS_HOTKEY_UNSUBCLASS, svcHotkeyUnsubclass);
-	CreateServiceFunction(MS_HOTKEY_CHECK, svcHotkeyCheck);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, sttModulesLoaded);
 

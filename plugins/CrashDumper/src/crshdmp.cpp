@@ -317,16 +317,15 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_CRASHDUMPER_URL;
 	Menu_ConfigureItem(Menu_AddMainMenuItem(&mi), MCI_OPT_EXECPARAM, 1);
 
-	HOTKEYDESC hk = { 0 };
-	hk.cbSize = sizeof(hk);
-	hk.pszSection = PluginName;
+	HOTKEYDESC hk = {};
+	hk.szSection.a = PluginName;
 
-	hk.pszDescription = LPGEN("Copy Version Info to clipboard");
+	hk.szDescription.a = LPGEN("Copy Version Info to clipboard");
 	hk.pszName = "CopyVerInfo";
 	hk.pszService = MS_CRASHDUMPER_STORETOCLIP;
 	Hotkey_Register(&hk);
 
-	hk.pszDescription = LPGEN("Show Version Info");
+	hk.szDescription.a = LPGEN("Show Version Info");
 	hk.pszName = "ShowVerInfo";
 	hk.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Hotkey_Register(&hk);

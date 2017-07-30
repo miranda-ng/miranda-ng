@@ -70,6 +70,3 @@ int HotkeyOptionsInit(WPARAM, LPARAM);
 void FreeHotkey(THotkeyItem *item);
 void RegisterHotkeys();
 void UnregisterHotkeys();
-
-void HotkeyEditCreate(HWND hwnd);
-void HotkeyEditDestroy(HWND hwnd);

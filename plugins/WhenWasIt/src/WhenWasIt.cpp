@@ -118,16 +118,16 @@ extern "C" int __declspec(dllexport) Load(void)
 	Menu_AddContactMenuItem(&mi);
 
 	// Register hotkeys
-	HOTKEYDESC hotkey = { sizeof(hotkey) };
-	hotkey.pszSection = LPGEN("Birthdays");
+	HOTKEYDESC hotkey = {};
+	hotkey.szSection.a = LPGEN("Birthdays");
 
 	hotkey.pszName = "wwi_birthday_list";
-	hotkey.pszDescription = LPGEN("Birthday list");
+	hotkey.szDescription.a = LPGEN("Birthday list");
 	hotkey.pszService = MS_WWI_LIST_SHOW;
 	Hotkey_Register(&hotkey);
 
 	hotkey.pszName = "wwi_check_birthdays";
-	hotkey.pszDescription = LPGEN("Check for birthdays");
+	hotkey.szDescription.a = LPGEN("Check for birthdays");
 	hotkey.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	Hotkey_Register(&hotkey);
 

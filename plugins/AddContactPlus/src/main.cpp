@@ -126,11 +126,11 @@ static int CreateButton(WPARAM, LPARAM)
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	HOTKEYDESC hkd = { sizeof(hkd) };
+	HOTKEYDESC hkd = {};
 	hkd.dwFlags = HKD_UNICODE;
 	hkd.pszName = "AddContactPlus_OpenDialog";
-	hkd.pwszDescription = LPGENW("Open add contact dialog");
-	hkd.pwszSection = LPGENW("Main");
+	hkd.szDescription.w = LPGENW("Open add contact dialog");
+	hkd.szSection.w = LPGENW("Main");
 	hkd.pszService = MS_ADDCONTACTPLUS_SHOW;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'C') | HKF_MIRANDA_LOCAL;
 	Hotkey_Register(&hkd);

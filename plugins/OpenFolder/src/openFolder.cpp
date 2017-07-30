@@ -87,12 +87,11 @@ extern "C" int __declspec(dllexport) Load()
 	Icon_Register(hInst, LPGEN("Open Folder"), &icon, 1, OPENFOLDER_MODULE_NAME);
 	
 	// hotkeys service (0.8+)
-	HOTKEYDESC hotkey = { 0 };
-	hotkey.cbSize = sizeof(hotkey);
+	HOTKEYDESC hotkey = {};
 	hotkey.dwFlags = HKD_UNICODE;
 	hotkey.pszName = "Open Folder";
-	hotkey.pwszDescription = LPGENW("Open Folder");
-	hotkey.pwszSection = LPGENW("Main");
+	hotkey.szDescription.w = LPGENW("Open Folder");
+	hotkey.szSection.w = LPGENW("Main");
 	hotkey.pszService = MS_OPENFOLDER_OPEN;
 	hotkey.DefHotKey = MAKEWORD( 'O', HOTKEYF_SHIFT | HOTKEYF_ALT );
 	Hotkey_Register(&hotkey);

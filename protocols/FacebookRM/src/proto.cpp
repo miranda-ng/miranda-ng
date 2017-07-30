@@ -1095,22 +1095,22 @@ void FacebookProto::InitHotkeys()
 	mir_strncpy(text, m_szModuleName, 100);
 	char *tDest = text + mir_strlen(text);
 
-	HOTKEYDESC hkd = { sizeof(hkd) };
+	HOTKEYDESC hkd = {};
 	hkd.pszName = text;
 	hkd.pszService = text;
-	hkd.pwszSection = m_tszUserName;
+	hkd.szSection.w = m_tszUserName;
 	hkd.dwFlags = HKD_UNICODE;
 
 	mir_strcpy(tDest, "/VisitProfile");
-	hkd.pwszDescription = LPGENW("Visit profile");
+	hkd.szDescription.w = LPGENW("Visit profile");
 	Hotkey_Register(&hkd);
 
 	mir_strcpy(tDest, "/VisitNotifications");
-	hkd.pwszDescription = LPGENW("Visit notifications");
+	hkd.szDescription.w = LPGENW("Visit notifications");
 	Hotkey_Register(&hkd);
 
 	mir_strcpy(tDest, "/Mind");
-	hkd.pwszDescription = LPGENW("Show 'Share status' window");
+	hkd.szDescription.w = LPGENW("Show 'Share status' window");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_EXT, 'F');
 	Hotkey_Register(&hkd);
 }

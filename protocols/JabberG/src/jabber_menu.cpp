@@ -795,29 +795,29 @@ void CJabberProto::GlobalMenuInit()
 	// Hotkeys
 
 	char text[200];
-	strncpy(text, m_szModuleName, sizeof(text) - 1);
+	strncpy_s(text, m_szModuleName, _TRUNCATE);
 	char* tDest = text + mir_strlen(text);
 
-	HOTKEYDESC hkd = { sizeof(hkd) };
+	HOTKEYDESC hkd = {};
 	hkd.pszName = text;
 	hkd.pszService = text;
-	hkd.pwszSection = m_tszUserName;
+	hkd.szSection.w = m_tszUserName;
 	hkd.dwFlags = HKD_UNICODE;
 
 	mir_strcpy(tDest, "/Groupchat");
-	hkd.pwszDescription = LPGENW("Join conference");
+	hkd.szDescription.w = LPGENW("Join conference");
 	Hotkey_Register(&hkd);
 
 	mir_strcpy(tDest, "/Bookmarks");
-	hkd.pwszDescription = LPGENW("Open bookmarks");
+	hkd.szDescription.w = LPGENW("Open bookmarks");
 	Hotkey_Register(&hkd);
 
 	mir_strcpy(tDest, "/PrivacyLists");
-	hkd.pwszDescription = LPGENW("Privacy lists");
+	hkd.szDescription.w = LPGENW("Privacy lists");
 	Hotkey_Register(&hkd);
 
 	mir_strcpy(tDest, "/ServiceDiscovery");
-	hkd.pwszDescription = LPGENW("Service discovery");
+	hkd.szDescription.w = LPGENW("Service discovery");
 	Hotkey_Register(&hkd);
 }
 

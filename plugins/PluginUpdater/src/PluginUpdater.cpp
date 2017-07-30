@@ -114,10 +114,10 @@ extern "C" __declspec(dllexport) int Load(void)
 #endif
 
 	// Add hotkey
-	HOTKEYDESC hkd = { sizeof(hkd) };
+	HOTKEYDESC hkd = {};
 	hkd.pszName = "Check for updates";
-	hkd.pszDescription = "Check for updates";
-	hkd.pszSection = "Plugin Updater";
+	hkd.szDescription.a = "Check for updates";
+	hkd.szSection.a = "Plugin Updater";
 	hkd.pszService = MS_PU_CHECKUPDATES;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;

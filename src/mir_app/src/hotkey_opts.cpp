@@ -185,14 +185,14 @@ static LRESULT CALLBACK sttHotkeyEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	return mir_callNextSubclass(hwnd, sttHotkeyEditProc, msg, wParam, lParam);
 }
 
-void HotkeyEditCreate(HWND hwnd)
+MIR_APP_DLL(void) Hotkey_Subclass(HWND hwnd)
 {
 	THotkeyBoxData *data = (THotkeyBoxData *)mir_alloc(sizeof(THotkeyBoxData));
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, (ULONG_PTR)data);
 	mir_subclassWindow(hwnd, sttHotkeyEditProc);
 }
 
-void HotkeyEditDestroy(HWND hwnd)
+MIR_APP_DLL(void) Hotkey_Unsubclass(HWND hwnd)
 {
 	THotkeyBoxData *data = (THotkeyBoxData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
@@ -470,7 +470,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 		TranslateDialogDefault(hwndDlg);
 
-		HotkeyEditCreate(GetDlgItem(hwndDlg, IDC_HOTKEY));
+		Hotkey_Subclass(GetDlgItem(hwndDlg, IDC_HOTKEY));
 		{
 			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 3, 1);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_WINDOWS);

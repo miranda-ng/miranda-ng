@@ -27,85 +27,66 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_core.h>
 
-#define HKD_UNICODE 0x0001
+#define HKD_UNICODE         0x0001
+#define HKF_MIRANDA_LOCAL   0x8000
 
-typedef struct
+struct HOTKEYDESC
 {
-	int cbSize;
-	const char *pszName;          /* name to refer to hotkey when playing and in db */
-	union {
-		const char *pszDescription;   /* description for options dialog */
-		const wchar_t *pwszDescription;
-	};
-	union {
-		const char *pszSection;       /* section name used to group sounds (NULL is acceptable) */
-		const wchar_t *pwszSection;
-	};
-	const char *pszService;       /* Service to call when HotKey Pressed */
-	WORD DefHotKey;               /* default hot key for action */
-	LPARAM lParam;                /* lParam to pass to service */
+	const char *pszName;          // name to refer to hotkey when playing and in db
+	MAllStrings szDescription;    // description for options dialog
+	MAllStrings szSection;        // section name used to group sounds (NULL is acceptable)
+	const char *pszService;       // Service to call when HotKey Pressed
+	WORD DefHotKey;               // default hot key for action
+	LPARAM lParam;                // lParam to pass to service
 	DWORD dwFlags;
-} HOTKEYDESC;
-
-#define HKF_MIRANDA_LOCAL		0x8000
+};
 
 extern int hLangpack;
 
-/* use this macro to defile hotkey codes like this:
-  hkd.DefHotkey = HOTKEYCODE(HOTKEYF_SHIFT|HOTKEYF_EXT, 'A');
-*/
-#define HOTKEYCODE(mod, vk)			(MAKEWORD((vk), (mod)))
+/////////////////////////////////////////////////////////////////////////////////////////
+// use this macro to defile hotkey codes like this:
+// hkd.DefHotkey = HOTKEYCODE(HOTKEYF_SHIFT|HOTKEYF_EXT, 'A');
 
-/* CoreHotkeys/Register service
-Registers new hotkey
-  wParam = 0
-  lParam = (LPARAM)(HOTKEYDESC *)hotkey
-Returns 0 on failure or hotkey atom id on success
-*/
+#define HOTKEYCODE(mod, vk) (MAKEWORD((vk), (mod)))
 
-__forceinline INT_PTR Hotkey_Register(HOTKEYDESC *hk)
-{
-	return CallService("CoreHotkeys/Register", (WPARAM)hLangpack, (LPARAM)hk);
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+// Registers new hotkey
+// Returns 0 on failure or hotkey atom id on success
 
-/* CoreHotkeys/Unregister service
-Unregister existing hotkey
-  wParam = 0
-  lParam = (LPARAM)(char *)pszName
-Returns 0 on success or nonzero otherwise
-*/
-#define MS_HOTKEY_UNREGISTER		"CoreHotkeys/Unregister"
+EXTERN_C MIR_APP_DLL(int) Hotkey_Register(const HOTKEYDESC *hk, int = hLangpack);
 
-/* CoreHotkeys/Check service
-Checks if "manual" hotkey was activated and returns its id.
-  wParam = (WPARAM)(MSG *)message
-  lParam = (LPARAM)(char *)pszSection
-Returns lParam associated with activated hotkey
-*/
-#define MS_HOTKEY_CHECK				"CoreHotkeys/Check"
+/////////////////////////////////////////////////////////////////////////////////////////
+// Unregister existing hotkey
 
-/* Subclass/unsubclass edit box to act as hotkey control
-  wParam = (WPARAM)(HWND)hwndEdit
-  lParam = 0
-Returns zero on success
+EXTERN_C MIR_APP_DLL(int) Hotkey_Unregister(const char *pszName);
 
-You will get notification with LOWORD(wParam) == 0 when users sets hotkey.
+/////////////////////////////////////////////////////////////////////////////////////////
+// Checks if "manual" hotkey was activated and returns its id.
+// Returns lParam associated with activated hotkey
 
-Subclassed control processes HKM_SETHOTKEY and HKM_GETHOTKEY similarly to
-windows' hotkey, in all other it acts just like normal editbox (beware of
-standart notifications that occur on text updates!)
+EXTERN_C MIR_APP_DLL(int) Hotkey_Check(MSG *pEvent, const char *pszSection);
 
-Subclass procedure uses GWLP_USERDATA to store internal information. Do not
-use it for own purposes.
-*/
-#define MS_HOTKEY_SUBCLASS			"CoreHotkeys/Subclass"
-#define MS_HOTKEY_UNSUBCLASS		"CoreHotkeys/Unsubclass"
+/////////////////////////////////////////////////////////////////////////////////////////
+// Subclasss/unsubclass edit box to act as hotkey control
+// You will get notification with LOWORD(wParam) == 0 when users sets hotkey.
+// 
+// Subclassed control processes HKM_SETHOTKEY and HKM_GETHOTKEY similarly to
+// windows' hotkey, in all other it acts just like normal editbox (beware of
+// standart notifications that occur on text updates!)
+// 
+// Subclass procedure uses GWLP_USERDATA to store internal information. Do not
+// use it for own purposes.
 
-/* This event is fired when hotkeys were changed
-   wParam = lParam = 0
-*/
+EXTERN_C MIR_APP_DLL(void) Hotkey_Subclass(HWND hwndEdit);
+EXTERN_C MIR_APP_DLL(void) Hotkey_Unsubclass(HWND hwndEdit);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// This event is fired when hotkeys were changed
+// wParam = lParam = 0
 
 #define ME_HOTKEYS_CHANGED       "CoreHotkeys/Changed"
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 EXTERN_C MIR_APP_DLL(void) KillModuleHotkeys(int hLangpack);
 

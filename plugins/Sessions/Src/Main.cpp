@@ -744,25 +744,25 @@ static int PluginInit(WPARAM, LPARAM)
 	HookEvent(ME_TTB_MODULELOADED, CreateButtons);
 
 	// Hotkeys
-	HOTKEYDESC hkd = { sizeof(hkd) };
-	hkd.pszSection = LPGEN("Sessions");
+	HOTKEYDESC hkd = {};
 	hkd.pszName = "OpenSessionsManager";
-	hkd.pszDescription = LPGEN("Open Sessions Manager");
+	hkd.szSection.a = LPGEN("Sessions");
+	hkd.szDescription.a = LPGEN("Open Sessions Manager");
 	hkd.pszService = MS_SESSIONS_OPENMANAGER;
 	Hotkey_Register(&hkd);
 
 	hkd.pszName = "RestoreLastSession";
-	hkd.pszDescription = LPGEN("Restore last Session");
+	hkd.szDescription.a = LPGEN("Restore last Session");
 	hkd.pszService = MS_SESSIONS_RESTORELASTSESSION;
 	Hotkey_Register(&hkd);
 
 	hkd.pszName = "SaveSession";
-	hkd.pszDescription = LPGEN("Save Session");
+	hkd.szDescription.a = LPGEN("Save Session");
 	hkd.pszService = MS_SESSIONS_SAVEUSERSESSION;
 	Hotkey_Register(&hkd);
 
 	hkd.pszName = "CloseSession";
-	hkd.pszDescription = LPGEN("Close Session");
+	hkd.szDescription.a = LPGEN("Close Session");
 	hkd.pszService = MS_SESSIONS_CLOSESESSION;
 	Hotkey_Register(&hkd);
 

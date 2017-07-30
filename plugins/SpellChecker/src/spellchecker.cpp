@@ -211,10 +211,10 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		Srmm_AddIcon(&sid);
 	}
 
-	HOTKEYDESC hkd = { sizeof(hkd) };
+	HOTKEYDESC hkd = {};
 	hkd.pszName = "Spell Checker/Toggle";
-	hkd.pszSection = LPGEN("Spell Checker");
-	hkd.pszDescription = LPGEN("Enable/disable spell checker");
+	hkd.szSection.a = LPGEN("Spell Checker");
+	hkd.szDescription.a = LPGEN("Enable/disable spell checker");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_ALT, 'S');
 	hkd.lParam = HOTKEY_ACTION_TOGGLE;
 	Hotkey_Register(&hkd);

@@ -532,10 +532,10 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	LoadDBSettings();
 
 	// hotkeys
-	HOTKEYDESC hk = { sizeof(hk) };
+	HOTKEYDESC hk = {};
 	hk.pszName = msLastUC_ShowList;
-	hk.pszDescription = LPGEN("Show Recent Contacts");
-	hk.pszSection = "Contacts";
+	hk.szSection.a = "Contacts";
+	hk.szDescription.a = LPGEN("Show Recent Contacts");
 	hk.pszService = msLastUC_ShowList;
 	hk.DefHotKey = MAKEWORD('R', HOTKEYF_CONTROL | HOTKEYF_SHIFT);
 	Hotkey_Register(&hk);

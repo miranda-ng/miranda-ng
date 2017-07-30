@@ -118,7 +118,7 @@ void CTabBaseDlg::DM_InitTip()
 
 bool CTabBaseDlg::DM_GenericHotkeysCheck(MSG *message)
 {
-	LRESULT mim_hotkey_check = CallService(MS_HOTKEY_CHECK, (WPARAM)message, (LPARAM)TABSRMM_HK_SECTION_GENERIC);
+	LRESULT mim_hotkey_check = Hotkey_Check(message, TABSRMM_HK_SECTION_GENERIC);
 
 	switch (mim_hotkey_check) {
 	case TABSRMM_HK_PASTEANDSEND:

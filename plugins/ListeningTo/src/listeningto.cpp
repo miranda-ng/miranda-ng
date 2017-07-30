@@ -293,23 +293,22 @@ int ModulesLoaded(WPARAM, LPARAM)
 	}
 
 	// Hotkeys support
-	HOTKEYDESC hkd = { 0 };
-	hkd.cbSize = sizeof(hkd);
-	hkd.pszSection = LPGEN("Listening to");
+	HOTKEYDESC hkd = {};
+	hkd.szSection.a = LPGEN("Listening to");
 
 	hkd.pszService = MS_LISTENINGTO_HOTKEYS_ENABLE;
 	hkd.pszName = "ListeningTo/EnableAll";
-	hkd.pszDescription = LPGEN("Send to all protocols");
+	hkd.szDescription.a = LPGEN("Send to all protocols");
 	Hotkey_Register(&hkd);
 
 	hkd.pszService = MS_LISTENINGTO_HOTKEYS_DISABLE;
 	hkd.pszName = "ListeningTo/DisableAll";
-	hkd.pszDescription = LPGEN("Don't send to any protocols");
+	hkd.szDescription.a = LPGEN("Don't send to any protocols");
 	Hotkey_Register(&hkd);
 
 	hkd.pszService = MS_LISTENINGTO_HOTKEYS_TOGGLE;
 	hkd.pszName = "ListeningTo/ToggleAll";
-	hkd.pszDescription = LPGEN("Toggle send to all protocols");
+	hkd.szDescription.a = LPGEN("Toggle send to all protocols");
 	Hotkey_Register(&hkd);
 
 	//

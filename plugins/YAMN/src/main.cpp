@@ -332,12 +332,11 @@ extern "C" int __declspec(dllexport) Load(void)
 	LoadIcons();
 	LoadPlugins();
 
-	HOTKEYDESC hkd = {0};
-	hkd.cbSize = sizeof(hkd);
+	HOTKEYDESC hkd = {};
 	hkd.pszName = "YAMN_hotkey";
 	hkd.pszService = MS_YAMN_FORCECHECK;
-	hkd.pszSection = YAMN_DBMODULE;
-	hkd.pszDescription = LPGEN("Check mail");
+	hkd.szSection.a = YAMN_DBMODULE;
+	hkd.szDescription.a = LPGEN("Check mail");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F11);
 	Hotkey_Register(&hkd);
 

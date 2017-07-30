@@ -67,10 +67,10 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	g_SmileyCategories.AddAllProtocolsAsCategory();
 	g_SmileyCategories.ClearAndLoadAll();
 
-	HOTKEYDESC desc = { sizeof(desc) };
+	HOTKEYDESC desc = {};
 	desc.pszName = "smileyadd";
-	desc.pszSection = MODULENAME;
-	desc.pszDescription = LPGEN("Smiley selector");
+	desc.szSection.a = MODULENAME;
+	desc.szDescription.a = LPGEN("Smiley selector");
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, 'E');
 	Hotkey_Register(&desc);
 

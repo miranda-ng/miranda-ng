@@ -46,11 +46,11 @@ TwitterProto::TwitterProto(const char *proto_name, const wchar_t *username) :
 	char text[512];
 	mir_snprintf(text, "%s/Tweet", m_szModuleName);
 
-	HOTKEYDESC hkd = { sizeof(hkd) };
+	HOTKEYDESC hkd = {};
 	hkd.pszName = text;
 	hkd.pszService = text;
-	hkd.pszSection = m_szModuleName; // Section title; TODO: use username?
-	hkd.pszDescription = "Send Tweet";
+	hkd.szSection.a = m_szModuleName; // Section title; TODO: use username?
+	hkd.szDescription.a = "Send Tweet";
 	Hotkey_Register(&hkd);
 
 	// set Tokens and stuff

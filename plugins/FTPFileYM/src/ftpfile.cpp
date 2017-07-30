@@ -170,11 +170,10 @@ void InitMenuItems()
 
 void InitHotkeys()
 {
-	HOTKEYDESC hk = { 0 };
-	hk.cbSize = sizeof(hk);
-	hk.pszDescription = LPGEN("Show FTPFile manager");
+	HOTKEYDESC hk = {};
+	hk.szSection.a = MODULE;
+	hk.szDescription.a = LPGEN("Show FTPFile manager");
 	hk.pszName = "FTP_ShowManager";
-	hk.pszSection = MODULE;
 	hk.pszService = MS_FTPFILE_SHOWMANAGER;
 	Hotkey_Register(&hk);
 }

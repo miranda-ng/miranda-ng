@@ -89,11 +89,11 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MS_NEWSAGGREGATOR_CHANGEFEED, ChangeFeed);
 	CreateServiceFunction(MS_NEWSAGGREGATOR_ENABLED, EnableDisable);
 
-	HOTKEYDESC hkd = { sizeof(hkd) };
+	HOTKEYDESC hkd = {};
 	hkd.dwFlags = HKD_UNICODE;
 	hkd.pszName = "NewsAggregator/CheckAllFeeds";
-	hkd.pwszDescription = LPGENW("Check All Feeds");
-	hkd.pwszSection = LPGENW("News Aggregator");
+	hkd.szDescription.w = LPGENW("Check All Feeds");
+	hkd.szSection.w = LPGENW("News Aggregator");
 	hkd.pszService = MS_NEWSAGGREGATOR_CHECKALLFEEDS;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL+HKCOMB_A, 'O') | HKF_MIRANDA_LOCAL;
 	Hotkey_Register(&hkd);

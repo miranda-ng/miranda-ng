@@ -178,8 +178,8 @@ struct ColorOptionsList
 struct HotkeyOptionsList
 {
 	const char *pszName;
-	const wchar_t *pwszDescription;
-	const wchar_t *pwszSection;
+	wchar_t *pwszDescription;
+	wchar_t *pwszSection;
 	const char *pszService;
 	WORD DefHotKey;
 	LPARAM lParam;
@@ -240,7 +240,6 @@ void Options::Load(void)
 	HOTKEYDESC hid = { 0 };
 	fid.cbSize = sizeof(FontIDW);
 	cid.cbSize = sizeof(ColourIDW);
-	hid.cbSize = sizeof(HOTKEYDESC);
 	strncpy_s(fid.dbSettingsGroup, "BasicHistory_Fonts", _TRUNCATE);
 	wcsncpy_s(fid.backgroundGroup, L"History", _TRUNCATE);
 	wcsncpy_s(fid.group, LPGENW("History"), _TRUNCATE);
@@ -271,8 +270,8 @@ void Options::Load(void)
 	hid.dwFlags = HKD_UNICODE;
 	for (int i = 0; i < g_hotkeysSize; ++i) {
 		hid.pszName = g_HotkeyOptionsList[i].pszName;
-		hid.pwszDescription = g_HotkeyOptionsList[i].pwszDescription;
-		hid.pwszSection = g_HotkeyOptionsList[i].pwszSection;
+		hid.szDescription.w = g_HotkeyOptionsList[i].pwszDescription;
+		hid.szSection.w = g_HotkeyOptionsList[i].pwszSection;
 		hid.pszService = g_HotkeyOptionsList[i].pszService;
 		hid.DefHotKey = g_HotkeyOptionsList[i].DefHotKey;
 		hid.lParam = g_HotkeyOptionsList[i].lParam;

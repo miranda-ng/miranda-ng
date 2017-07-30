@@ -131,12 +131,12 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	// Register hotkeys
 	_A2T text(modFullname);
-	HOTKEYDESC hkd = { sizeof(hkd) };
+	HOTKEYDESC hkd = {};
 	hkd.dwFlags = HKD_UNICODE;
 	hkd.pszName = "hk_dbepp_open";
 	hkd.pszService = "DBEditorpp/MenuCommand";
-	hkd.pwszDescription = LPGENW("Open Database Editor");
-	hkd.pwszSection = text;
+	hkd.szDescription.w = LPGENW("Open Database Editor");
+	hkd.szSection.w = text;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_EXT, 'D');
 	Hotkey_Register(&hkd);
 

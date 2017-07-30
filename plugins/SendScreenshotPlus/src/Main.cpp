@@ -317,15 +317,15 @@ DLL_EXPORT int Load(void)
 	Menu_AddContactMenuItem(&mi);
 
 	/// hotkey's
-	HOTKEYDESC hkd = { sizeof(hkd) };
+	HOTKEYDESC hkd = {};
 	hkd.pszName = "Open SendSS+";
-	hkd.pwszDescription = LPGENW("Open SendSS+");
-	hkd.pwszSection = L"SendSS+";
+	hkd.szDescription.w = LPGENW("Open SendSS+");
+	hkd.szSection.w = L"SendSS+";
 	hkd.pszService = MS_SENDSS_OPENDIALOG;
-	//hkd.DefHotKey=HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	hkd.lParam = 0xFFFF;
 	hkd.dwFlags = HKD_UNICODE;
 	Hotkey_Register(&hkd);
+
 	/// register highlighter window class
 	HBRUSH brush = CreateSolidBrush(0x0000FF00);//owned by class
 	WNDCLASS wndclass = { CS_HREDRAW | CS_VREDRAW, DefWindowProc, 0, 0, g_hSendSS, NULL, NULL, brush, NULL, L"SendSSHighlighter" };

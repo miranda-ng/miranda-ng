@@ -1529,7 +1529,7 @@ bool HistoryWindow::DoHotkey(UINT msg, LPARAM lParam, WPARAM wParam, int window)
 	message.message = msg;
 	message.lParam = lParam;
 	message.wParam = wParam;
-	LRESULT mim_hotkey_check = CallService(MS_HOTKEY_CHECK, (WPARAM)&message, (LPARAM)("History"));
+	LRESULT mim_hotkey_check = Hotkey_Check(&message, "History");
 	switch (mim_hotkey_check) {
 	case HISTORY_HK_FIND:
 		SetFocus(findWindow);

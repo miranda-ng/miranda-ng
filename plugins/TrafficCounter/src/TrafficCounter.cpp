@@ -275,11 +275,10 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	CreateServiceFunction("TrafficCounter/ShowHide", MenuCommand_TrafficShowHide);
 	// –егистрируем гор€чую клавишу дл€ показа/скрыти€ фрейма
 	{
-		HOTKEYDESC hkd = { 0 };
-		hkd.cbSize = sizeof(hkd);
+		HOTKEYDESC hkd = {};
 		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'T');
-		hkd.pszSection = "Traffic Counter";
-		hkd.pszDescription = LPGEN("Show/Hide frame");
+		hkd.szSection.a = "Traffic Counter";
+		hkd.szDescription.a = LPGEN("Show/Hide frame");
 		hkd.pszName = "TC_Show_Hide";
 		hkd.pszService = "TrafficCounter/ShowHide";
 		Hotkey_Register(&hkd);

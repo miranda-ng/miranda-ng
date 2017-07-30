@@ -213,7 +213,6 @@ begin
   if (ActionItem.flags and UAF_HKREGGED)=0 then
   begin
     FillChar(hkd,SizeOf(hkd),0);
-    hkd.cbSize          := SizeOf(hkd); // HOTKEYDESC_SIZE_V1 for pre-0.9
     hkd.dwFlags         := HKD_UNICODE; // since 0.9 only
     hkd.pszName         := ActionItem.szNameID;
     hkd.pszDescription.w:= ActionItem.szActDescr;
@@ -232,7 +231,7 @@ procedure DeleteCoreHotkey(var ActionItem:tMyActionItem);
 begin
   if ((ActionItem.flags and UAF_HKREGGED)<>0) then
   begin
-    CallService(MS_HOTKEY_UNREGISTER,0,LParam(ActionItem.szNameID));
+    Hotkey_Unregister(ActionItem.szNameID);
     ActionItem.flags:=ActionItem.flags and not UAF_HKREGGED;
   end;
 end;

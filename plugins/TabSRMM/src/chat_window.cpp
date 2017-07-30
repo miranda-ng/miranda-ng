@@ -1993,7 +1993,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						return _dlgReturn(m_hwnd, 1);
 					}
 
-					LRESULT mim_hotkey_check = CallService(MS_HOTKEY_CHECK, (WPARAM)&message, (LPARAM)(TABSRMM_HK_SECTION_GC));
+					LRESULT mim_hotkey_check = Hotkey_Check(&message, TABSRMM_HK_SECTION_GC);
 					if (mim_hotkey_check)
 						m_bkeyProcessed = true;
 					

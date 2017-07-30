@@ -552,13 +552,8 @@ LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	// Hotkey support
-	MSG msgData = { 0 };
-	msgData.hwnd = hwnd;
-	msgData.message = msg;
-	msgData.wParam = wParam;
-	msgData.lParam = lParam;
-
-	int action = CallService(MS_HOTKEY_CHECK, (WPARAM)&msgData, (LPARAM)"Spell Checker");
+	MSG msgData = { hwnd, msg, wParam, lParam };
+	int action = Hotkey_Check(&msgData, "Spell Checker");
 	if (action == HOTKEY_ACTION_TOGGLE) {
 		ToggleEnabled(dlg);
 		return 1;

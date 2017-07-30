@@ -22,13 +22,11 @@ begin
   FillChar(hkrec,SizeOf(hkrec),0);
   with hkrec do
   begin
-    cbSize          :=SizeOf(hkrec);
     pszName         :=HKN_EXPORT;
     pszDescription.a:='WATrack data insert hotkey';
     pszSection.a    :=PluginName;
     pszService      :=MS_WAT_EXPORT;
     DefHotKey       :=((HOTKEYF_ALT or HOTKEYF_SHIFT) shl 8) or VK_F7;
-//    lParam          :=0;
   end;
-  CallService(MS_HOTKEY_REGISTER,0,lparam(@hkrec));
+  Hotkey_Register(@hkrec);
 end;

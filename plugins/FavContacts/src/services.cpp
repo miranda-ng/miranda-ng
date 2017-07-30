@@ -218,10 +218,10 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	HOTKEYDESC hotkey = { sizeof(hotkey) };
+	HOTKEYDESC hotkey = {};
 	hotkey.pszName = "FavContacts/ShowMenu";
-	hotkey.pszDescription = LPGEN("Show favorite contacts");
-	hotkey.pszSection = "Contacts";
+	hotkey.szDescription.a = LPGEN("Show favorite contacts");
+	hotkey.szSection.a = "Contacts";
 	hotkey.pszService = MS_FAVCONTACTS_SHOWMENU_CENTERED;
 	hotkey.DefHotKey = MAKEWORD('Q', HOTKEYF_EXT);
 	Hotkey_Register(&hotkey);
