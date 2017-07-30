@@ -210,9 +210,7 @@ MIR_APP_DLL(int) Hotkey_Unregister(const char *pszName)
 	cbNamePrefix = mir_strlen(pszNamePrefix);
 
 	for (int i = 0; i < hotkeys.getCount(); i++) {
-		char *pszCurrentName = hotkeys[i]->rootHotkey ?
-			hotkeys[i]->rootHotkey->pszName :
-			hotkeys[i]->pszName;
+		char *pszCurrentName = hotkeys[i]->getName();
 		if (!pszCurrentName)
 			continue;
 

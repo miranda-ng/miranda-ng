@@ -1535,12 +1535,6 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 	bool isCtrl, isShift, isAlt;
 	KbdState(isShift, isCtrl, isAlt);
 
-	MSG message;
-	message.hwnd = m_hwnd;
-	message.message = msg;
-	message.lParam = lp;
-	message.wParam = wp;
-
 	if (msg == WM_SYSKEYUP) {
 		if (wp == VK_MENU)
 			if (!m_bkeyProcessed && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000) && !(lp & (1 << 24)))
@@ -1550,6 +1544,7 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 	}
 
 	if ((msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN) && !(GetKeyState(VK_RMENU) & 0x8000)) {
+		MSG message = { m_hwnd, msg, wp, lp };
 		LRESULT mim_hotkey_check = Hotkey_Check(&message, TABSRMM_HK_SECTION_IM);
 		if (mim_hotkey_check)
 			m_bkeyProcessed = true;

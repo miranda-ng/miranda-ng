@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <tchar.h>
 
-ISmileyBase* CreateSmileyObject(SmileyType *sml);
 ISmileyBase* CreateAniSmileyObject(SmileyType *sml, COLORREF clr, bool ishpp);
 
 bool g_HiddenTextSupported = true;

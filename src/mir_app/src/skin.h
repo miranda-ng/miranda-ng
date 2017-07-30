@@ -37,8 +37,8 @@ struct THotkeyBoxData
 struct THotkeyItem
 {
 	THotkeyType  type;
-	char        *pszService, *pszName; // pszName is valid _only_ for "root"   hotkeys
-	wchar_t       *pwszSection, *pwszDescription;
+	char        *pszService, *pszName; // pszName is valid _only_ for "root" hotkeys
+	wchar_t     *pwszSection, *pwszDescription;
 	LPARAM       lParam;
 	WORD         DefHotkey, Hotkey;
 	bool         Enabled;
@@ -55,6 +55,8 @@ struct THotkeyItem
 	bool         OptEnabled;
 
 	bool         UnregisterHotkey;	// valid only during WM_APP message in options UI, used to remove unregistered hotkeys from options
+
+	__inline char* getName() const { return (rootHotkey) ? rootHotkey->pszName : pszName; }
 
 	__inline wchar_t* getSection() const { return TranslateW_LP(pwszSection, hLangpack); }
 	__inline wchar_t* getDescr() const { return TranslateW_LP(pwszDescription, hLangpack); }

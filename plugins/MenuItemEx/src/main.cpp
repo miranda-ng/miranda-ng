@@ -908,8 +908,7 @@ static void TabsrmmButtonsModify(MCONTACT hContact)
 {
 	if (!DirectoryExists(hContact))
 	{
-		BBButton bbd = { 0 };
-		bbd.dwButtonID = 0;
+		BBButton bbd = {};
 		bbd.pszModuleName = MODULENAME;
 		bbd.bbbFlags = BBSF_DISABLED | BBSF_HIDDEN;
 		Srmm_SetButtonState(hContact, &bbd);
