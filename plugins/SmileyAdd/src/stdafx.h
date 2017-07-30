@@ -60,6 +60,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_button.h>
 #include <m_message.h>
 #include <m_netlib.h>
+#include <m_hotkeys.h>
 #include <m_popup.h>
 #include <m_icolib.h>
 #include <m_genmenu.h>

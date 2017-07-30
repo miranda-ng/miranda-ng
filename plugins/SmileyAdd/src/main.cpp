@@ -67,9 +67,16 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	g_SmileyCategories.AddAllProtocolsAsCategory();
 	g_SmileyCategories.ClearAndLoadAll();
 
+	HOTKEYDESC desc = { sizeof(desc) };
+	desc.pszName = "smileyadd";
+	desc.pszSection = MODULENAME;
+	desc.pszDescription = LPGEN("Smiley selector");
+	desc.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, 'E');
+	Hotkey_Register(&desc);
+
 	ColourID cid = { sizeof(cid) };
 	strcpy_s(cid.dbSettingsGroup, MODULENAME);
-	strcpy_s(cid.group, LPGEN("SmileyAdd"));
+	strcpy_s(cid.group, MODULENAME);
 	strcpy_s(cid.name, LPGEN("Background color"));
 	strcpy_s(cid.setting, "SelWndBkgClr");
 	cid.defcolour = GetSysColor(COLOR_WINDOW);
@@ -96,7 +103,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	InitImageCache();
 
-	Icon_Register(g_hInst, "SmileyAdd", &icon, 1);
+	Icon_Register(g_hInst, MODULENAME, &icon, 1);
 
 	g_SmileyCategories.SetSmileyPackStore(&g_SmileyPacks);
 
@@ -117,7 +124,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_MSG_BUTTONPRESSED, SmileyButtonPressed);
 	HookEvent(ME_MSG_TOOLBARLOADED, SmileyButtonCreate);
 
-	//create the smiley services
+	// create the smiley services
 	CreateServiceFunction(MS_SMILEYADD_REPLACESMILEYS, ReplaceSmileysCommand);
 	CreateServiceFunction(MS_SMILEYADD_SHOWSELECTION, ShowSmileySelectionCommand);
 	CreateServiceFunction(MS_SMILEYADD_GETINFO2, GetInfoCommand2);
