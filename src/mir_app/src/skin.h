@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define WM_HOTKEYUNREGISTERED   (WM_USER+721)
 
-typedef enum { HKT_GLOBAL, HKT_LOCAL, HKT_MANUAL, HKT_COUNT } THotkeyType;
+enum THotkeyType { HKT_GLOBAL, HKT_LOCAL, HKT_MANUAL };
 
 struct THotkeyBoxData
 {
