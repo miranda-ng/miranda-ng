@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 #include "chat.h"
+#include "skin.h"
 
 #define MODULENAME "SRMM_Toolbar"
 
@@ -61,7 +62,7 @@ static int sstSortButtons(const void *p1, const void *p2)
 
 static void CB_RegisterSeparators()
 {
-	BBButton bbd = { 0 };
+	BBButton bbd = {};
 	bbd.pszModuleName = "Tabsrmm_sep";
 	for (DWORD i = 0; dwSepCount > i; i++) {
 		bbd.bbbFlags = BBBF_ISSEPARATOR | BBBF_ISIMBUTTON;
@@ -138,6 +139,15 @@ MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 	cbd->m_bDisabled = (bbdi->bbbFlags & BBBF_DISABLED) != 0;
 	cbd->m_bPushButton = (bbdi->bbbFlags & BBBF_ISPUSHBUTTON) != 0;
 	cbd->m_hLangpack = _hLang;
+
+	if (bbdi->pszHotkey) {
+		for (int i = 0; i < hotkeys.getCount(); i++) {
+			if (!mir_strcmp(hotkeys[i]->getName(), bbdi->pszHotkey)) {
+				cbd->m_hotkey = hotkeys[i];
+				break;
+			}
+		}
+	}
 
 	// download database settings
 	CB_GetButtonSettings(0, cbd);
@@ -310,6 +320,40 @@ MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, DWORD idFrom, HWND hw
 	cbcd.hwndFrom = GetParent(hwndFrom);
 	cbcd.hContact = hContact;
 	cbcd.flags = (code ? BBCF_RIGHTBUTTON : 0) | (GetKeyState(VK_SHIFT) & 0x8000 ? BBCF_SHIFTPRESSED : 0) | (GetKeyState(VK_CONTROL) & 0x8000 ? BBCF_CONTROLPRESSED : 0) | (bFromArrow ? BBCF_ARROWCLICKED : 0);
+
+	NotifyEventHooks(hHookButtonPressedEvt, hContact, (LPARAM)&cbcd);
+}
+
+void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwndDlg)
+{
+	HWND hwndFrom = nullptr;
+
+	CustomButtonClickData cbcd = {};
+
+	for (int i = 0; i < arButtonsList.getCount(); i++) {
+		CustomButtonData *cbd = arButtonsList[i];
+		if (cbd->m_hotkey == nullptr || cbd->m_bDisabled)
+			continue;
+
+		if (cbd->m_hotkey->lParam == iButtonFrom) {
+			cbcd.pszModule = cbd->m_pszModuleName;
+			cbcd.dwButtonId = cbd->m_dwButtonOrigID;
+			hwndFrom = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
+			break;
+		}
+	}
+
+	if (hwndFrom == nullptr)
+		return;
+
+	RECT rc;
+	GetWindowRect(hwndFrom, &rc);
+	cbcd.pt.x = rc.left;
+	cbcd.pt.y = rc.bottom;
+
+	cbcd.hwndFrom = GetParent(hwndFrom);
+	cbcd.hContact = hContact;
+	cbcd.flags = (GetKeyState(VK_SHIFT) & 0x8000 ? BBCF_SHIFTPRESSED : 0) | (GetKeyState(VK_CONTROL) & 0x8000 ? BBCF_CONTROLPRESSED : 0);
 
 	NotifyEventHooks(hHookButtonPressedEvt, hContact, (LPARAM)&cbcd);
 }

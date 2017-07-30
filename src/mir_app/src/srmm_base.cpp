@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "chat.h"
 #include "resource.h"
+#include "skin.h"
 #include <m_history.h>
 
 CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si)
@@ -167,6 +168,18 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (sel.cpMin != sel.cpMax) {
 				sel.cpMin = sel.cpMax;
 				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+			}
+		}
+		break;
+
+	case WM_KEYDOWN:
+	case WM_SYSKEYDOWN:
+		if (!(GetKeyState(VK_RMENU) & 0x8000)) {
+			MSG message = { m_hwnd, msg, wParam, lParam };
+			LRESULT iButtonFrom = Hotkey_Check(&message, LPGEN(BB_HK_SECTION));
+			if (iButtonFrom) {
+				Srmm_ProcessToolbarHotkey(m_hContact, iButtonFrom, m_hwnd);
+				return TRUE;
 			}
 		}
 		break;
@@ -319,8 +332,23 @@ EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubMessageProc(HWND hwnd, UINT msg, WPAR
 LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	LRESULT res = mir_callNextSubclass(m_message.GetHwnd(), stubMessageProc, msg, wParam, lParam);
-	if (msg == WM_GETDLGCODE)
+	switch (msg) {
+	case WM_GETDLGCODE:
 		return res & ~DLGC_HASSETSEL;
+
+	case WM_KEYDOWN:
+	case WM_SYSKEYDOWN:
+		if (!(GetKeyState(VK_RMENU) & 0x8000)) {
+			MSG message = { m_hwnd, msg, wParam, lParam };
+			LRESULT iButtonFrom = Hotkey_Check(&message, LPGEN(BB_HK_SECTION));
+			if (iButtonFrom) {
+				Srmm_ProcessToolbarHotkey(m_hContact, iButtonFrom, m_hwnd);
+				return TRUE;
+			}
+		}
+		break;
+	}
+
 	return res;
 }
 

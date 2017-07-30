@@ -203,6 +203,9 @@ struct StatusIconClickData
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // srmm toolbar icons' support
 
+// default section for all SRMM toolbar hotkeys
+#define BB_HK_SECTION         "Message window toolbar"
+
 // button state flags
 #define BBSF_HIDDEN           (1<<0)
 #define BBSF_DISABLED         (1<<1)
@@ -233,6 +236,7 @@ struct BBButton
 	                               // use value >100, because internal buttons using 10,20,30... 80, etc
 	DWORD          bbbFlags;       // combine of BBBF_ flags above
 	HANDLE         hIcon;          // Handle to icolib registered icon
+	const char    *pszHotkey;      // name of the registered hotkey or NULL
 };
 
 // adds a new toolbar button
@@ -332,6 +336,7 @@ struct CustomButtonData : public MZeroedObject
 	bool   m_bRSided;
 	BYTE   m_opFlags;
 	int    m_hLangpack;
+	struct THotkeyItem *m_hotkey;
 };
 
 // gets the required button or NULL, if i is out of boundaries
