@@ -176,7 +176,7 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_SYSKEYDOWN:
 		if (!(GetKeyState(VK_RMENU) & 0x8000)) {
 			MSG message = { m_hwnd, msg, wParam, lParam };
-			LRESULT iButtonFrom = Hotkey_Check(&message, LPGEN(BB_HK_SECTION));
+			LRESULT iButtonFrom = Hotkey_Check(&message, BB_HK_SECTION);
 			if (iButtonFrom) {
 				Srmm_ProcessToolbarHotkey(m_hContact, iButtonFrom, m_hwnd);
 				return TRUE;
@@ -340,7 +340,7 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_SYSKEYDOWN:
 		if (!(GetKeyState(VK_RMENU) & 0x8000)) {
 			MSG message = { m_hwnd, msg, wParam, lParam };
-			LRESULT iButtonFrom = Hotkey_Check(&message, LPGEN(BB_HK_SECTION));
+			LRESULT iButtonFrom = Hotkey_Check(&message, BB_HK_SECTION);
 			if (iButtonFrom) {
 				Srmm_ProcessToolbarHotkey(m_hContact, iButtonFrom, m_hwnd);
 				return TRUE;

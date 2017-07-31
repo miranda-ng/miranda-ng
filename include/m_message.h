@@ -26,8 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_MESSAGE_H__ 1
 
 #include <m_database.h>
-
-extern int hLangpack;
+#include <m_langpack.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // brings up the send message dialog for a contact
@@ -204,7 +203,7 @@ struct StatusIconClickData
 // srmm toolbar icons' support
 
 // default section for all SRMM toolbar hotkeys
-#define BB_HK_SECTION         "Message window toolbar"
+#define BB_HK_SECTION         LPGEN("Message window toolbar")
 
 // button state flags
 #define BBSF_HIDDEN           (1<<0)
