@@ -23,8 +23,6 @@
 #ifndef M_SKIN_H__
 #define M_SKIN_H__ 1
 
-extern int hLangpack;
-
 #ifndef M_CORE_H__
 #include <m_core.h>
 #endif

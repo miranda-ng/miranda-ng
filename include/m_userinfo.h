@@ -25,6 +25,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_USERINFO_H__
 #define M_USERINFO_H__ 1
 
+#ifndef M_CORE_H__
+#include <m_core.h>
+#endif
+
 #include "m_options.h"
 
 //show the User Details dialog box
@@ -71,8 +75,6 @@ All PSN_ WM_NOTIFY messages have PSHNOTIFY.lParam = (LPARAM)hContact
 #define PSN_INFOCHANGED   1
 #define PSN_PARAMCHANGED   2
 #define PSM_FORCECHANGED  (WM_USER+100)   //force-send a PSN_INFOCHANGED to all pages
-
-extern int hLangpack;
 
 __forceinline INT_PTR UserInfo_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE* odp)
 {	odp->hLangpack = hLangpack;

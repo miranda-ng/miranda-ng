@@ -25,8 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_ICOLIB_H__
 #define M_ICOLIB_H__ 1
 
-extern int hLangpack;
-
 #ifndef M_CORE_H__
 #include <m_core.h>
 #endif

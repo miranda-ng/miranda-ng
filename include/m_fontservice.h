@@ -5,6 +5,10 @@
 #ifndef _FONT_SERVICE_API_INC
 #define _FONT_SERVICE_API_INC
 
+#ifndef M_CORE_H__
+#include <m_core.h>
+#endif
+
 //////////////////////////////////////////////////////////////////////////
 //
 //  FONTS
@@ -93,8 +97,6 @@ struct FontIDW
 };
 
 // register a font
-extern int hLangpack;
-
 EXTERN_C MIR_APP_DLL(int) Font_Register(FontID *pFont, int = hLangpack);
 EXTERN_C MIR_APP_DLL(int) Font_RegisterW(FontIDW *pFont, int = hLangpack);
 

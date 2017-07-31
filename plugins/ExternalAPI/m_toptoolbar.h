@@ -1,6 +1,10 @@
 #ifndef M_TOPTOOLBAR_H
 #define M_TOPTOOLBAR_H
 
+#ifndef M_CORE_H__
+#include <m_core.h>
+#endif
+
 #define TTB_OPTDIR "TopToolBar"
 
 //button flags
@@ -57,8 +61,6 @@ wparam = (TTBButton*)lpTTBButton
 lparam = hLangpack
 returns: hTTBButton - handle of added button on success, -1 on failure.
 */
-
-extern int hLangpack;
 
 __forceinline HANDLE TopToolbar_AddButton(TTBButton *pButton)
 {	return (HANDLE)CallService("TopToolBar/AddButton", (WPARAM)pButton, hLangpack);

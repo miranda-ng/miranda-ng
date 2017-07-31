@@ -25,7 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_OPTIONS_H__
 #define M_OPTIONS_H__
 
-extern int hLangpack;
+#ifndef M_CORE_H__
+#include <m_core.h>
+#endif
 
 /* Opt/Initialise
 The user opened the options dialog. Modules should do whatever initialisation

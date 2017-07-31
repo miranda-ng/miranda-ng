@@ -138,4 +138,10 @@ struct PLUGININFOEX
 
 #define ME_SYSTEM_MODULEUNLOAD "Miranda/System/UnloadModule"
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// initializes the plugin-specific translation context  v0.10.0+
+// always returns 0
+
+EXTERN_C MIR_CORE_DLL(void) mir_getLP(const PLUGININFOEX *pInfo, int *_hLang = &hLangpack);
+
 #endif // M_NEWPLUGINAPI_H__

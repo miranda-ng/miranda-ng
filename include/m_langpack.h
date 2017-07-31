@@ -92,12 +92,6 @@ EXTERN_C MIR_CORE_DLL(int) Langpack_GetDefaultLocale(void);
 EXTERN_C MIR_CORE_DLL(wchar_t*) Langpack_PcharToTchar(const char *pszStr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// initializes the plugin-specific translation context  v0.10.0+
-// always returns 0
-
-EXTERN_C MIR_CORE_DLL(void) mir_getLP(const PLUGININFOEX *pInfo, int *_hLang = &hLangpack);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // reloads langpack
 // wParam = 0 (ignored)
 // lParam = (LPARAM)(wchar_t*)langpack file name or NULL to reload the current one

@@ -25,7 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_HOTKEYS_H__
 #define M_HOTKEYS_H__ 1
 
+#ifndef M_CORE_H__
 #include <m_core.h>
+#endif
 
 #define HKD_UNICODE         0x0001
 #define HKF_MIRANDA_LOCAL   0x8000
@@ -40,8 +42,6 @@ struct HOTKEYDESC
 	LPARAM lParam;                // lParam to pass to service
 	DWORD dwFlags;
 };
-
-extern int hLangpack;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // use this macro to defile hotkey codes like this:

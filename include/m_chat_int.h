@@ -28,6 +28,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <time.h>
 
+#ifndef M_CORE_H__
+#include <m_core.h>
+#endif
+
 #include <m_string.h>
 #include <m_chat.h>
 #include <m_gui.h>
@@ -363,8 +367,6 @@ struct CHAT_MANAGER
 #ifndef MIR_APP_EXPORTS
 extern CHAT_MANAGER *pci;
 #endif
-
-extern int hLangpack;
 
 EXTERN_C MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pData = NULL, int = hLangpack);
 

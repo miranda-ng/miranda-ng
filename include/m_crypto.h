@@ -24,7 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CRYPTO_H__
 #define M_CRYPTO_H__ 1
 
+#ifndef M_CORE_H__
 #include <m_core.h>
+#endif
 
 struct MICryptoEngine
 {
@@ -83,7 +85,6 @@ typedef struct tagCRYPTOPROVIDER
 
 __forceinline HANDLE Crypto_RegisterEngine(CRYPTO_PROVIDER *pProvider)
 {
-	extern int hLangpack;
 	return (HANDLE)CallService(MS_CRYPTO_REGISTER_ENGINE, hLangpack, (LPARAM)pProvider);
 }
 
