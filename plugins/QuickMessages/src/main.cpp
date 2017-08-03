@@ -81,8 +81,9 @@ static int InputMenuPopup(WPARAM, LPARAM lParam)
 			if ((qd->dwPos + 254) == mwpd->selection) {
 				CHARRANGE cr;
 				UINT textlenght = 0;
-				ptrW pszText, ptszQValue, pszCBText;
+				ptrW pszText, pszCBText;
 				BOOL bIsService = 0;
+				wchar_t *ptszQValue = nullptr;
 
 				if (IsClipboardFormatAvailable(CF_TEXT)) {
 					if (OpenClipboard(mwpd->hwnd)) {
@@ -114,8 +115,10 @@ static int InputMenuPopup(WPARAM, LPARAM lParam)
 						CallService(mir_u2a(ptszQValue), (WPARAM)mwpd->hContact, 0);
 				}
 
-				if (ptszQValue)
+				if (ptszQValue) {
 					SendMessage(mwpd->hwnd, EM_REPLACESEL, TRUE, (LPARAM)ptszQValue);
+					free(ptszQValue);
+				}
 				break;
 			}
 		}
@@ -139,7 +142,8 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 
 	BOOL bCTRL = 0;
 	BOOL bIsService = 0;
-	ptrW pszText, pszCBText, ptszQValue;
+	ptrW pszText, pszCBText;
+	wchar_t *ptszQValue = nullptr;
 
 	if (IsClipboardFormatAvailable(CF_TEXT)) {
 		if (OpenClipboard(cbcd->hwndFrom)) {
@@ -241,6 +245,7 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 			if ((g_bLClickAuto && state != 1) || (g_bRClickAuto && state == 1) || cbcd->flags & BBCF_CONTROLPRESSED || bCTRL)
 				SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
 		}
+		free(ptszQValue);
 	}
 
 	return 1;
