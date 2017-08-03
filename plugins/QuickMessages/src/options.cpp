@@ -26,7 +26,7 @@ HTREEITEM hDragItem = NULL;
 HWND hButtonsList = NULL;
 HWND hMenuTree = NULL;
 HWND hwndEdit = NULL;
-				   
+
 HWND g_opHdlg = NULL, g_varhelpDlg = NULL;
 
 INT_PTR CALLBACK HelpDlgProc(HWND hdlg, UINT msg, WPARAM, LPARAM lparam)
@@ -95,13 +95,13 @@ static LRESULT CALLBACK EditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		break;
 
 	case WM_KEYDOWN:
-		{
-			if (wParam == VK_RETURN)
-				if (hwnd == GetDlgItem(hParent, IDC_BUTTONNAME))
-					SendMessage(hParent, WM_COMMAND, IDC_BLISTADD, 0);
-				else
-					SendMessage(hParent, WM_COMMAND, IDC_MTREEADD, 0);
-		}break;
+		if (wParam == VK_RETURN) {
+			if (hwnd == GetDlgItem(hParent, IDC_BUTTONNAME))
+				SendMessage(hParent, WM_COMMAND, IDC_BLISTADD, 0);
+			else
+				SendMessage(hParent, WM_COMMAND, IDC_MTREEADD, 0);
+		}
+		break;
 	}
 
 	return mir_callNextSubclass(hwnd, EditSubclassProc, msg, wParam, lParam);
@@ -238,6 +238,7 @@ void SaveMenuTree()
 
 		if (ld->ptszButtonName)
 			mir_free(ld->ptszButtonName);
+
 		if (iBl > 0)
 			if (hti = TreeView_GetNextSibling(hButtonsList, hti ? hti : tvi.hItem)) {
 				tvi.hItem = hti;
@@ -251,7 +252,6 @@ void SaveMenuTree()
 			db_set_ws(NULL, PLGNAME, szMEntry, ld->ptszQValue);
 		}
 
-
 		if (((ld->dwOPFlags & QMF_NEW) || (ld->dwOPFlags & QMF_RENAMED) || bDeleted)) {
 			BBButton bb = { 0 };
 			bb.pszModuleName = PLGNAME;
@@ -259,7 +259,6 @@ void SaveMenuTree()
 			bb.pwszTooltip = ld->ptszButtonName;
 			Srmm_ModifyButton(&bb);
 		}
-
 
 		mir_snprintf(szMEntry, "ButtonName_%u", iBl);
 		db_set_ws(NULL, PLGNAME, szMEntry, ld->ptszButtonName);
@@ -346,9 +345,9 @@ void RestoreModuleData()
 		qsort(sl->items, sl->realCount, sizeof(ButtonData *), sstSortButtons);
 
 		for (i = 0; i < sl->realCount; i++) {
-			ButtonData * bd = (ButtonData *)sl->items[i];
+			ButtonData *bd = (ButtonData *)sl->items[i];
 
-			if (bd->dwOPFlags&QMF_NEW) {
+			if (bd->dwOPFlags & QMF_NEW) {
 				RemoveMenuEntryNode(sl, i--);
 				continue;
 			}
@@ -391,7 +390,7 @@ static int BuildMenuTree(HWND hToolBarTree, SortedList * sl)
 	for (i = 0; i < sl->realCount; i++) {
 		ButtonData * bd = (ButtonData *)sl->items[i];
 
-		if (bd->dwOPFlags&QMF_DELETNEEDED)
+		if (bd->dwOPFlags & QMF_DELETNEEDED)
 			continue;
 
 		tvis.item.lParam = (LPARAM)bd;
@@ -402,11 +401,8 @@ static int BuildMenuTree(HWND hToolBarTree, SortedList * sl)
 
 		hParent = TreeView_InsertItem(hToolBarTree, &tvis);
 		if (tvis.hParent) TreeView_Expand(hMenuTree, tvis.hParent, TVE_EXPAND);
-		if (!bd->pszOpValue&&bd->fEntryOpType == 0) {
+		if (!bd->pszOpValue&&bd->fEntryOpType == 0)
 			tvis.hParent = hParent;
-		}
-		// 		else if (!(bd->fEntryOpType&QMF_EX_CHILD))
-		// 			tvis.hParent = NULL;
 	}
 
 	return 1;
@@ -503,7 +499,7 @@ void MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, BOOLEAN bAsChild)
 INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	switch (msg) {
-	case WM_INITDIALOG:{
+	case WM_INITDIALOG: {
 			DWORD style;
 			g_opHdlg = hdlg;
 			bOptionsInit = TRUE;
@@ -647,50 +643,43 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		}
 		break;
 
-		///////////////////////////////////
-		//From UserInfoEx by DeathAxe
-		//
 	case WM_MOUSEMOVE:
+		if (!drag) break;
 		{
-			if (!drag) break;
-			{
-				TVHITTESTINFO hti;
+			TVHITTESTINFO hti;
+			hti.pt.x = (short)LOWORD(lparam);
+			hti.pt.y = (short)HIWORD(lparam);
+			ClientToScreen(hdlg, &hti.pt);
+			ScreenToClient(hMenuTree, &hti.pt);
+			TreeView_HitTest(hMenuTree, &hti);
+			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
+				RECT rc;
+				if (TreeView_GetItemRect(hMenuTree, hti.hItem, &rc, FALSE)) {
+					BYTE height = (BYTE)(rc.bottom - rc.top);
 
-				hti.pt.x = (short)LOWORD(lparam);
-				hti.pt.y = (short)HIWORD(lparam);
-				ClientToScreen(hdlg, &hti.pt);
-				ScreenToClient(hMenuTree, &hti.pt);
-				TreeView_HitTest(hMenuTree, &hti);
-				if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
-					RECT rc;
-					BYTE height;
-
-					if (TreeView_GetItemRect(hMenuTree, hti.hItem, &rc, FALSE)) {
-						height = (BYTE)(rc.bottom - rc.top);
-
-						if (hti.pt.y - (height / 3) < rc.top) {
-							SetCursor(LoadCursor(NULL, IDC_ARROW));
-							TreeView_SetInsertMark(hMenuTree, hti.hItem, 0);
-						}
-						else
-							if (hti.pt.y + (height / 3) > rc.bottom) {
-								SetCursor(LoadCursor(NULL, IDC_ARROW));
-								TreeView_SetInsertMark(hMenuTree, hti.hItem, 1);
-							}
-							else {
-								TreeView_SetInsertMark(hMenuTree, NULL, 0);
-								SetCursor(LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(183)));
-							}
+					if (hti.pt.y - (height / 3) < rc.top) {
+						SetCursor(LoadCursor(NULL, IDC_ARROW));
+						TreeView_SetInsertMark(hMenuTree, hti.hItem, 0);
 					}
-				}
-				else {
-					if (hti.flags & TVHT_ABOVE) SendMessage(hMenuTree, WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
-					if (hti.flags & TVHT_BELOW) SendMessage(hMenuTree, WM_VSCROLL, MAKEWPARAM(SB_LINEDOWN, 0), 0);
-					TreeView_SetInsertMark(hMenuTree, NULL, 0);
+					else
+						if (hti.pt.y + (height / 3) > rc.bottom) {
+							SetCursor(LoadCursor(NULL, IDC_ARROW));
+							TreeView_SetInsertMark(hMenuTree, hti.hItem, 1);
+						}
+						else {
+							TreeView_SetInsertMark(hMenuTree, NULL, 0);
+							SetCursor(LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(183)));
+						}
 				}
 			}
-		}break;
-		/////////////
+			else {
+				if (hti.flags & TVHT_ABOVE) SendMessage(hMenuTree, WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
+				if (hti.flags & TVHT_BELOW) SendMessage(hMenuTree, WM_VSCROLL, MAKEWPARAM(SB_LINEDOWN, 0), 0);
+				TreeView_SetInsertMark(hMenuTree, NULL, 0);
+			}
+		}
+		break;
+
 	case WM_DESTROY:
 		if (g_varhelpDlg)
 			DestroyWindow(g_varhelpDlg);
@@ -719,7 +708,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 
 		case IDC_MENUTREE:
 			switch (((LPNMHDR)lparam)->code) {
-			case TVN_KEYDOWN:{
+			case TVN_KEYDOWN: {
 					TV_KEYDOWN* pTVKeyDown = (TV_KEYDOWN*)((LPNMHDR)lparam);
 					if (pTVKeyDown->wVKey == VK_F2)
 						TreeView_EditLabel(hMenuTree, TreeView_GetSelection(hMenuTree));
@@ -849,7 +838,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 
 		case IDC_BUTTONSLIST:
 			switch (((LPNMHDR)lparam)->code) {
-			case TVN_KEYDOWN:{
+			case TVN_KEYDOWN: {
 					TV_KEYDOWN* pTVKeyDown = (TV_KEYDOWN*)((LPNMHDR)lparam);
 					if (pTVKeyDown->wVKey == VK_F2)
 						TreeView_EditLabel(hButtonsList, TreeView_GetSelection(hButtonsList));

@@ -57,8 +57,9 @@ static int InputMenuPopup(WPARAM, LPARAM lParam)
 {
 	HMENU hSubMenu = NULL;
 	int i = 0;
-	MessageWindowPopupData * mwpd = (MessageWindowPopupData *)lParam;
-	if (mwpd->uFlags == MSG_WINDOWPOPUP_LOG || !g_bQuickMenu || !QuickList->realCount) return 0;
+	MessageWindowPopupData *mwpd = (MessageWindowPopupData *)lParam;
+	if (mwpd->uFlags == MSG_WINDOWPOPUP_LOG || !g_bQuickMenu || !QuickList->realCount)
+		return 0;
 
 	if (mwpd->uType == MSG_WINDOWPOPUP_SHOWING) {
 		hSubMenu = CreatePopupMenu();
@@ -67,8 +68,8 @@ static int InputMenuPopup(WPARAM, LPARAM lParam)
 		InsertMenu((HMENU)mwpd->hMenu, 7, MF_SEPARATOR | MF_BYPOSITION, 0, 0);
 		qsort(QuickList->items, QuickList->realCount, sizeof(QuickData *), sstQuickSortButtons);
 		for (i = 0; i < QuickList->realCount; i++) {
-			QuickData* qd = (QuickData *)QuickList->items[i];
-			if (qd->fEntryType&QMF_EX_SEPARATOR)
+			QuickData *qd = (QuickData*)QuickList->items[i];
+			if (qd->fEntryType & QMF_EX_SEPARATOR)
 				AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL);
 			else
 				AppendMenu(hSubMenu, MF_STRING, qd->dwPos + 254, qd->ptszValueName);
@@ -76,13 +77,11 @@ static int InputMenuPopup(WPARAM, LPARAM lParam)
 	}
 	else if (mwpd->uType == MSG_WINDOWPOPUP_SELECTED && mwpd->selection >= 254) {
 		for (i = 0; i < QuickList->realCount; i++) {
-			QuickData* qd = (QuickData *)QuickList->items[i];
+			QuickData *qd = (QuickData *)QuickList->items[i];
 			if ((qd->dwPos + 254) == mwpd->selection) {
 				CHARRANGE cr;
 				UINT textlenght = 0;
-				wchar_t* pszText = NULL;
-				wchar_t* ptszQValue = NULL;
-				wchar_t* pszCBText = NULL;
+				ptrW pszText, ptszQValue, pszCBText;
 				BOOL bIsService = 0;
 
 				if (IsClipboardFormatAvailable(CF_TEXT)) {
@@ -112,17 +111,11 @@ static int InputMenuPopup(WPARAM, LPARAM lParam)
 				if (qd->ptszValue) {
 					ptszQValue = ParseString(mwpd->hContact, qd->ptszValue, pszText ? pszText : L"", pszCBText ? pszCBText : L"", (int)mir_wstrlen(qd->ptszValue), textlenght, pszCBText ? (int)mir_wstrlen(pszCBText) : 0);
 					if ((bIsService = qd->bIsService) && ptszQValue)
-
 						CallService(mir_u2a(ptszQValue), (WPARAM)mwpd->hContact, 0);
-
 				}
 
 				if (ptszQValue)
 					SendMessage(mwpd->hwnd, EM_REPLACESEL, TRUE, (LPARAM)ptszQValue);
-
-				if (pszText) mir_free(pszText);
-				if (ptszQValue) free(ptszQValue);
-				if (pszCBText) mir_free(pszCBText);
 				break;
 			}
 		}
@@ -134,37 +127,24 @@ static int InputMenuPopup(WPARAM, LPARAM lParam)
 static int CustomButtonPressed(WPARAM, LPARAM lParam)
 {
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
+	if (mir_strcmp(cbcd->pszModule, PLGNAME))
+		return 0;
 
-	CHARRANGE cr;
-	HWND hEdit = NULL;
+	if (!ButtonsList[cbcd->dwButtonId])
+		return 1;
+
+	SortedList *sl = ButtonsList[cbcd->dwButtonId]->sl;
+	if (!sl)
+		return 1;
+
 	BOOL bCTRL = 0;
 	BOOL bIsService = 0;
-	wchar_t* pszText = NULL;
-	wchar_t* pszCBText = NULL;
-	wchar_t* ptszQValue = NULL;
-	UINT textlenght = 0;
-	SortedList* sl = NULL;
-	int state = 0;
-
-	if (mir_strcmp(cbcd->pszModule, PLGNAME)) return 0;
-
-	if (!ButtonsList[cbcd->dwButtonId]) return 1;
-
-	sl = ButtonsList[cbcd->dwButtonId]->sl;
-
-	if (!sl) return 1;
+	ptrW pszText, pszCBText, ptszQValue;
 
 	if (IsClipboardFormatAvailable(CF_TEXT)) {
 		if (OpenClipboard(cbcd->hwndFrom)) {
-			HANDLE hData = NULL;
-			wchar_t* chBuffer = NULL;
-			int textLength = 0;
-
-			hData = GetClipboardData(CF_UNICODETEXT);
-
-			chBuffer = (wchar_t*)GlobalLock(hData);
-			textLength = (int)mir_wstrlen(chBuffer);
-			pszCBText = mir_wstrdup(chBuffer);
+			HANDLE hData = GetClipboardData(CF_UNICODETEXT);
+			pszCBText = mir_wstrdup((wchar_t*)GlobalLock(hData));
 			GlobalUnlock(hData);
 			CloseClipboard();
 		}
@@ -172,20 +152,21 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 
 	qsort(sl->items, sl->realCount, sizeof(ButtonData *), sstSortButtons);
 
-	hEdit = GetDlgItem(cbcd->hwndFrom, IDC_MESSAGE);
-	if (!hEdit) hEdit = GetDlgItem(cbcd->hwndFrom, IDC_CHATMESSAGE);
+	HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_SRMM_MESSAGE);
 
+	CHARRANGE cr;
 	cr.cpMin = cr.cpMax = 0;
 	SendMessage(hEdit, EM_EXGETSEL, 0, (LPARAM)&cr);
 
-	textlenght = cr.cpMax - cr.cpMin;
+	UINT textlenght = cr.cpMax - cr.cpMin;
 	if (textlenght) {
 		pszText = (wchar_t *)mir_alloc((textlenght + 10)*sizeof(wchar_t));
 		memset(pszText, 0, ((textlenght + 10) * sizeof(wchar_t)));
 		SendMessage(hEdit, EM_GETSELTEXT, 0, (LPARAM)pszText);
 	}
 
-	if (cbcd->flags&BBCF_RIGHTBUTTON)
+	int state;
+	if (cbcd->flags & BBCF_RIGHTBUTTON)
 		state = 1;
 	else if (sl->realCount == 1)
 		state = 2;
@@ -219,7 +200,7 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 
 		for (int menunum = 0; menunum < sl->realCount; menunum++) {
 			ButtonData *bd = (ButtonData *)sl->items[menunum];
-			if (bd->dwOPFlags&QMF_NEW)
+			if (bd->dwOPFlags & QMF_NEW)
 				continue;
 
 			BOOL bSetPopupMark = FALSE;
@@ -231,7 +212,7 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 			if (bd->pszValue && bd->fEntryType == 0)
 				hSubMenu = NULL;
 
-			if (bd->fEntryType&QMF_EX_SEPARATOR)
+			if (bd->fEntryType & QMF_EX_SEPARATOR)
 				AppendMenu((HMENU)((hSubMenu && !bSetPopupMark) ? hSubMenu : hMenu), MF_SEPARATOR, 0, NULL);
 			else
 				AppendMenu((HMENU)((hSubMenu && !bSetPopupMark) ? hSubMenu : hMenu),
@@ -257,15 +238,11 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 		if (!bIsService) {
 			SendMessage(hEdit, EM_REPLACESEL, TRUE, (LPARAM)ptszQValue);
 
-			if ((g_bLClickAuto&&state != 1) || (g_bRClickAuto&&state == 1) || cbcd->flags&BBCF_CONTROLPRESSED || bCTRL)
+			if ((g_bLClickAuto && state != 1) || (g_bRClickAuto && state == 1) || cbcd->flags & BBCF_CONTROLPRESSED || bCTRL)
 				SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
 		}
-		free(ptszQValue);
 	}
 
-
-	mir_free(pszText);
-	mir_free(pszCBText);
 	return 1;
 }
 
