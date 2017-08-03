@@ -163,12 +163,12 @@ static INT_PTR SendMessageCommandWorker(MCONTACT hContact, wchar_t *pszMsg)
 
 static INT_PTR SendMessageCommandW(WPARAM hContact, LPARAM lParam)
 {
-	return SendMessageCommandWorker(hContact, mir_a2u(LPCSTR(lParam)));
+	return SendMessageCommandWorker(hContact, mir_wstrdup(LPCWSTR(lParam)));
 }
 
 static INT_PTR SendMessageCommand(WPARAM hContact, LPARAM lParam)
 {
-	return SendMessageCommandWorker(hContact, mir_wstrdup(LPCWSTR(lParam)));
+	return SendMessageCommandWorker(hContact, mir_a2u(LPCSTR(lParam)));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
