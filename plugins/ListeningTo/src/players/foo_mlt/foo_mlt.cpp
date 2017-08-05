@@ -384,9 +384,8 @@ static initquit_factory_t<myinitquit> g_myinitquit_factory;
 DECLARE_COMPONENT_VERSION("Miranda ListeningTo foobar2000 Plugin",
 "1.1.1",
 "compiled with foo_SDK-2010-10-02\r\n\
-Sending listeningto information to Mitanda IM client\r\n\
+Sending listeningto information to Mitanda NG client\r\n\
 if no foo_comserver2 is present.\r\n\
 Copyright (C) 2006-2010 Ricardo Pescuma Domenecci\r\n\
-http://www.miranda-im.org\r\n\
-http://pescuma.org/miranda/listeningto"
+https://www.miranda-ng.org/p/ListeningTo"
 )
