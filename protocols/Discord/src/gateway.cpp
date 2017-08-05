@@ -355,7 +355,7 @@ void CDiscordProto::GatewaySendIdentify()
 
 	JSONNode props; props.set_name("properties");
 	props << WCHAR_PARAM("os", wszOs) << CHAR_PARAM("browser", "Chrome") << CHAR_PARAM("device", szVersion)
-		<< CHAR_PARAM("referrer", "http://miranda-ng.org") << CHAR_PARAM("referring_domain", "miranda-ng.org");
+		<< CHAR_PARAM("referrer", "https://miranda-ng.org") << CHAR_PARAM("referring_domain", "miranda-ng.org");
 
 	JSONNode payload; payload.set_name("d");
 	payload << CHAR_PARAM("token", m_szAccessToken) << props << BOOL_PARAM("compress", false) << INT_PARAM("large_threshold", 250);

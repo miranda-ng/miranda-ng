@@ -139,5 +139,5 @@ void InitIcoLib()
 }
 
 TCHAR *GetDefaultUrl() {
-	return mir_tstrdup(L"http://miranda-ng.org/distr/deprecated/0.94.9/x%platform%");
+	return mir_tstrdup(L"https://miranda-ng.org/distr/deprecated/0.94.9/x%platform%");
 }

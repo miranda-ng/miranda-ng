@@ -441,11 +441,11 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 			break;
 
 		case ID__FORTUNEAWAYMSG:
-			Utils_OpenUrl("http://miranda-ng.org/");
+			Utils_OpenUrl("https://miranda-ng.org/");
 			break;
 
 		case ID__VARIABLES:
-			Utils_OpenUrl("http://miranda-ng.org/");
+			Utils_OpenUrl("https://miranda-ng.org/");
 			break;
 
 		case ID__VARIABLES_MOREVARIABLES:

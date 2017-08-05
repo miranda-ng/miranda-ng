@@ -170,7 +170,7 @@ protected:
 #define JABBER_IQID "mir_"
 #define JABBER_MAX_JID_LEN  1024
 
-#define JABBER_GC_MSG_QUIT				LPGENW("I'm happy Miranda NG user. Get it at http://miranda-ng.org/.")
+#define JABBER_GC_MSG_QUIT				LPGENW("I'm happy Miranda NG user. Get it at https://miranda-ng.org/.")
 #define JABBER_GC_MSG_SLAP				LPGENW("/me slaps %s around a bit with a large trout")
 #define JABBER_SERVER_URL				"https://xmpp.net/services.php"
 

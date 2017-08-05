@@ -399,7 +399,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					break;
 
 				case IDC_GETSKINS:
-					Utils_OpenUrl("http://miranda-ng.org/addons/category/13");
+					Utils_OpenUrl("https://miranda-ng.org/addons/category/13");
 					break;
 
 				case IDC_BTN_RELOAD:

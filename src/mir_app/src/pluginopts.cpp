@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (ñ) 2012-17 Miranda NG project (http://miranda-ng.org),
+Copyright (ñ) 2012-17 Miranda NG project (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -525,7 +525,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		if (HIWORD(wParam) == STN_CLICKED) {
 			switch (LOWORD(wParam)) {
 			case IDC_GETMOREPLUGINS:
-				Utils_OpenUrl("http://miranda-ng.org/downloads/");
+				Utils_OpenUrl("https://miranda-ng.org/downloads/");
 				break;
 
 			case IDC_PLUGINEMAIL:

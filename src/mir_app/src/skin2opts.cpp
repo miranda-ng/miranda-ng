@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (ñ) 2012-17 Miranda NG project (http://miranda-ng.org),
+Copyright (ñ) 2012-17 Miranda NG project (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -208,7 +208,7 @@ public:
 
 	void OnGetMoreClick(void*)
 	{
-		Utils_OpenUrl("http://miranda-ng.org/");
+		Utils_OpenUrl("https://miranda-ng.org/");
 	}
 
 	void OnBrowseClick(void*)
@@ -622,7 +622,7 @@ public:
 
 	void OnGetMore(void*)
 	{
-		Utils_OpenUrl("http://miranda-ng.org/");
+		Utils_OpenUrl("https://miranda-ng.org/");
 	}
 
 	void OnLoadIcons(void*)

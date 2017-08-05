@@ -1,6 +1,6 @@
 /*
 Miranda NG plugin template
-http://miranda-ng.org/
+https://miranda-ng.org/
 
 This file is placed in the public domain. Anybody is free to use or
 modify it as they wish with no restriction.
@@ -26,7 +26,7 @@ PLUGININFOEX pluginInfo = {
 	"J. Random Hacker",
 	"noreply@sourceforge.net",
 	"© 2002 J. Random Hacker",
-	"http://miranda-ng.org/",
+	"https://miranda-ng.org/",
 	UNICODE_AWARE,		//not transient
    // Generate your own unique id for your plugin.
    // Do not use this UUID!

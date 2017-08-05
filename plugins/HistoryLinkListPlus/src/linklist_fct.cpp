@@ -570,9 +570,9 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"");
 	
 	if ( options->showTime == 1 )
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"08:15 http://miranda-ng.org\n");
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"08:15 https://miranda-ng.org\n");
 	else
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"http://miranda-ng.org\n");
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"https://miranda-ng.org\n");
 
 	// outgoing
 	memset(&cf, 0, sizeof(cf));
@@ -594,9 +594,9 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"");
 	
 	if(options->showTime == 1)
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"08:16 http://miranda-ng.org\n");
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"08:16 https://miranda-ng.org\n");
 	else
-		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"http://miranda-ng.org\n");
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"https://miranda-ng.org\n");
 	
 	return 0;
 }

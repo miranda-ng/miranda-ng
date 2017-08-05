@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (ñ) 2012-17 Miranda NG project (http://miranda-ng.org),
+Copyright (ñ) 2012-17 Miranda NG project (https://miranda-ng.org),
 Copyright (c) 2000-03 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -1836,7 +1836,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			DestroyWindow(hwndDlg);
 			return TRUE;
 		case IDC_SUPPORT:
-			Utils_OpenUrl("http://miranda-ng.org/");
+			Utils_OpenUrl("https://miranda-ng.org/");
 			break;
 		}
 		break;

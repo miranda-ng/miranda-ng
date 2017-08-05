@@ -37,10 +37,10 @@ Written by: Hrk (Luca Santarelli)
 Updated by: Zazoo (Victor Pavlychko)
 
 Miranda NG can be found here:
-http://miranda-ng.org/
+https://miranda-ng.org/
 
 Miranda NG plugins and tools can be found here:
-http://miranda-ng.org/distr/
+https://miranda-ng.org/distr/
 */
 
 #ifndef HEADERS_H

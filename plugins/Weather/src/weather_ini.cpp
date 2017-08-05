@@ -173,7 +173,7 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		switch (LOWORD(wParam)) {
 		case IDC_STEP1:
 			// update current data
-			Utils_OpenUrl("http://miranda-ng.org/");
+			Utils_OpenUrl("https://miranda-ng.org/");
 			break;
 
 		case IDC_STEP2:

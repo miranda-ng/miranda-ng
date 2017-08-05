@@ -6,7 +6,7 @@ His plugin NoSound can be found at:
 http://anders.nilsson.net/programs/miranda
 
 Miranda can be found here:
-http://miranda-ng.org/
+https://miranda-ng.org/
 */
 
 #include "stdafx.h"

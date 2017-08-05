@@ -126,9 +126,9 @@ extern struct PlugOptions
 
 #define PLUGIN_INFO_URL	L"https://miranda-ng.org/p/%s"
 
-#define DEFAULT_UPDATE_URL_OLD                "http://miranda-ng.org/distr/stable/x%platform%"
-#define DEFAULT_UPDATE_URL_TRUNK_OLD          "http://miranda-ng.org/distr/x%platform%"
-#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS_OLD  "http://miranda-ng.org/distr/pdb_x%platform%"
+#define DEFAULT_UPDATE_URL_OLD                "https://miranda-ng.org/distr/stable/x%platform%"
+#define DEFAULT_UPDATE_URL_TRUNK_OLD          "https://miranda-ng.org/distr/x%platform%"
+#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS_OLD  "https://miranda-ng.org/distr/pdb_x%platform%"
 
 #define UPDATE_MODE_CUSTOM			0
 #define UPDATE_MODE_STABLE			1

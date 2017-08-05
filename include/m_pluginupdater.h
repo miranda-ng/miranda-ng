@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (ñ) 2012-17 Miranda NG project (http://miranda-ng.org)
+Copyright (ñ) 2012-17 Miranda NG project (https://miranda-ng.org)
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -35,7 +35,7 @@ typedef struct {
 //Parses hashes.zip file at the specified URL and fills the base url buffer.
 //later a plugin can use it to address files. %platform% macro is allowed,
 //it expands to 32 or 64 depending on a Miranda's platform. For example,
-//  http://miranda-ng.org/distr/stable/x%platform%
+//  https://miranda-ng.org/distr/stable/x%platform%
 //
 //wParam = (wchar_t*)ptszUrl = url of hashes.zip
 //lParam = (wchar_t[260])ptszBaseUrl = decoded base url
