@@ -1,0 +1,16 @@
+option batch abort 
+
+option confirm off
+
+open watcher
+
+put "%ArchDistr%\miranda-ng-alpha-latest.7z" distr/
+put "%ArchDistr%\miranda-ng-alpha-latest_x64.7z" distr/
+put "%ArchDistr%\miranda-ng-plugins-latest.7z" distr/installer/pl/
+put "%ArchDistr%\miranda-ng-plugins-latest_x64.7z" distr/installer/pl/
+put "%ArchDistr%\miranda-ng-debug-symbols_pdb.7z" distr/
+put "%ArchDistr%\miranda-ng-debug-symbols_pdb_x64.7z" distr/
+
+put "%SourceDir%\timestamp.chk" distr/
+
+exit

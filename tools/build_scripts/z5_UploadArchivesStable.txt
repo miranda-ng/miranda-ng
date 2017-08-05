@@ -1,0 +1,17 @@
+option batch abort 
+
+option confirm off
+
+open watcher
+
+rm distr/stable/version.txt
+rm distr/stable/miranda-ng-v*.7z
+rm distr/stable/miranda-ng-v*.exe
+
+put "%SourceDir%\version.txt" distr/stable/
+
+put "%ArchDistr%\miranda-ng-v*.7z" distr/stable/
+put "%ArchDistr%\miranda-ng-v*.exe" distr/stable/
+put "%ArchDistr%\miranda-ng-debug-symbols_pdb*.7z" distr/stable/
+
+exit

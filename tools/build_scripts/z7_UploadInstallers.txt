@@ -1,0 +1,10 @@
+option batch abort 
+
+option confirm off
+
+open watcher
+
+put "%ArchDistr%\miranda-ng-alpha-latest.exe" distr/
+put "%ArchDistr%\miranda-ng-alpha-latest_x64.exe" distr/
+
+exit
