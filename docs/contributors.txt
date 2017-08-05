@@ -2,7 +2,6 @@
 
 Bartosz Białek aka Dezeath
 Sergey Bolkhovskoy aka Elzor
-Vadim Dashevsky aka watcher
 Alexander Gluzsky aka sss
 Vladislav Grishenko aka theMIROn
 Ekaterina Gritsenko aka Tuarisa
@@ -30,6 +29,7 @@ People that previously used to develop Miranda IM Project:
 Alexey Oblezov aka faith_healer
 Ulrich Hecht aka fishbone
 Vitaly Igonin aka persei
+Vadim Dashevsky aka watcher
 Ricardo Domenecci aka pescuma
 Gennady Feldman aka gena01
 Martin Öberg aka Strickz
