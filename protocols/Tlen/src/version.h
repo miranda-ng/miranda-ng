@@ -13,5 +13,5 @@
 #define __DESCRIPTION             "Tlen protocol support for Miranda NG."
 #define __AUTHOR               "Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki"
 #define __AUTHOREMAIL            "the_leech@users.berlios.de"
-#define __AUTHORWEB               "http://miranda-ng.org/p/Tlen/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/Tlen/"
 #define __COPYRIGHT               "© 2002-2012 Santithorn Bunchua, Piotr Piastucki"

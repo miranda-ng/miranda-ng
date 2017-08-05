@@ -8,5 +8,5 @@
 #define __DESCRIPTION            "Core module for idle state processing."
 #define __AUTHOR                 "Miranda NG Development Team"
 #define __AUTHOREMAIL            ""
-#define __AUTHORWEB              "http://miranda-ng.org/p/StdIdle/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/StdIdle/"
 #define __COPYRIGHT              "© 2012-17 Miranda NG Development Team"

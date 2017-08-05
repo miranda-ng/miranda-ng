@@ -10,5 +10,5 @@
 #define __DESCRIPTION              "Steam protocol support for Miranda NG."
 #define __AUTHOR                   "Miranda NG Team, Robert P\xf6" "sel"
 #define __AUTHOREMAIL              ""
-#define __AUTHORWEB                "http://miranda-ng.org/p/Steam/"
+#define __AUTHORWEB                "https://miranda-ng.org/p/Steam/"
 #define __COPYRIGHT                "© 2014-17 Miranda NG team"

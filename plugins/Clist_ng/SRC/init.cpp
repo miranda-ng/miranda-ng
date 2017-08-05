@@ -64,7 +64,7 @@ int  ShowHide(WPARAM wParam, LPARAM lParam);
 #define __DESCRIPTION            "Displays contacts, event notifications, protocol status."
 #define __AUTHOR                 "Pixel, egoDust, cyreve, Nightwish"
 #define __AUTHOREMAIL            ""
-#define __AUTHORWEB              "http://miranda-ng.org/p/Clist_nicer/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/Clist_nicer/"
 #define __COPYRIGHT              "Copyright 2000-2015 Miranda-IM project"
 
 PLUGININFOEX pluginInfo =

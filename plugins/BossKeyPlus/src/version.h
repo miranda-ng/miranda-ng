@@ -10,5 +10,5 @@
 #define __DESCRIPTION             "Anti-Boss plugin. Makes your Miranda NG hidden or password-protected."
 #define __AUTHOR               "Goblineye Entertainment, Billy_Bons"
 #define __AUTHOREMAIL            "tatarinov.sergey@gmail.com"
-#define __AUTHORWEB               "http://miranda-ng.org/p/BossKey/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/BossKey/"
 #define __COPYRIGHT               "© 2002-2003 Goblineye Entertainment, 2007-2010 Billy_Bons"

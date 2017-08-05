@@ -10,5 +10,5 @@
 #define __DESCRIPTION        "Windows Explorer extension for Miranda NG."
 #define __AUTHOR             "Sam Kothari, Miranda NG Team"
 #define __AUTHOREMAIL        "egodust@users.sourceforge.net"
-#define __AUTHORWEB          "http://miranda-ng.org/p/ShellExt/"
+#define __AUTHORWEB          "https://miranda-ng.org/p/ShellExt/"
 #define __COPYRIGHT          "© 2009 Sam Kothari (egoDust)"

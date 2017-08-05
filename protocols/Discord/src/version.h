@@ -10,5 +10,5 @@
 #define __DESCRIPTION              "Discord support for Miranda NG."
 #define __AUTHOR                   "George Hazan"
 #define __AUTHOREMAIL              "ghazan@miranda.im"
-#define __AUTHORWEB                "http://miranda-ng.org/p/Discord/"
+#define __AUTHORWEB                "https://miranda-ng.org/p/Discord/"
 #define __COPYRIGHT                "© 2016-17 Miranda NG team"

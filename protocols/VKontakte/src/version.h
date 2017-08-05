@@ -10,5 +10,5 @@
 #define __DESCRIPTION            "VKontakte protocol support for Miranda NG."
 #define __AUTHOR                 "Miranda NG Team"
 #define __AUTHOREMAIL            ""
-#define __AUTHORWEB              "http://miranda-ng.org/p/VKontakte/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/VKontakte/"
 #define __COPYRIGHT              "© 2013-17 Miranda NG Team"

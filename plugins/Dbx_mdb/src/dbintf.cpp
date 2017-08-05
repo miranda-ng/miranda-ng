@@ -215,7 +215,7 @@ bool CDbxMdb::Remap()
 static DWORD DatabaseCorrupted = 0;
 static const TCHAR *msg = NULL;
 static DWORD dwErr = 0;
-static wchar_t tszPanic[] = LPGENW("Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.");
+static wchar_t tszPanic[] = LPGENW("Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from https://miranda-ng.org/p/DbChecker/. Miranda will now shut down.");
 
 EXTERN_C void __cdecl dbpanic(void *)
 {

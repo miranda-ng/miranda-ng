@@ -10,5 +10,5 @@
 #define __DESCRIPTION             "Allows you to handle your status messages in a convenient way."
 #define __AUTHOR                  "NightFox, Deathdemon, XF007, Goblineye Entertainment"
 #define __AUTHOREMAIL             "NightFox@myied.org"
-#define __AUTHORWEB               "http://miranda-ng.org/p/NewAwaySys/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/NewAwaySys/"
 #define __COPYRIGHT               "© 2010 NightFox; © 2005-2007 Chervov Dmitry; © 2004-2005 Iksaif; © 2002-2003 Goblineye Entertainment"

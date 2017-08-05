@@ -10,5 +10,5 @@
 #define __DESCRIPTION            "GTalk extensions for Jabber protocol"
 #define __AUTHOR                 "bems"
 #define __AUTHOREMAIL            ""
-#define __AUTHORWEB              "http://miranda-ng.org/p/GTalkExt/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/GTalkExt/"
 #define __COPYRIGHT              "© 2010-11 bems"

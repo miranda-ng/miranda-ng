@@ -10,5 +10,5 @@
 #define __DESCRIPTION             "Simple Auto Replier."
 #define __AUTHOR               "Stark Wong, Mataes, Mikel-Ard-Ri"
 #define __AUTHOREMAIL            "mikelardri@gmail.com"
-#define __AUTHORWEB               "http://miranda-ng.org/p/SimpleAR/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/SimpleAR/"
 #define __COPYRIGHT               "© 2012"

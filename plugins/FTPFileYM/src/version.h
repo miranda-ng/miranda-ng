@@ -10,5 +10,5 @@
 #define __DESCRIPTION            "FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS."
 #define __AUTHOR                 "yaho"
 #define __AUTHOREMAIL            "yaho@miranda-easy.net"
-#define __AUTHORWEB              "http://miranda-ng.org/p/FTPFile/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/FTPFile/"
 #define __COPYRIGHT              "© 2007-2010 Jan Holub"

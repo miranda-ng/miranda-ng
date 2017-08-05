@@ -31,5 +31,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __DESCRIPTION             "Adds the possibility to shutdown the computer when a specified event occurs."
 #define __AUTHOR               "H. Herkenrath"
 #define __AUTHOREMAIL            "hrathh@users.sourceforge.net"
-#define __AUTHORWEB               "http://miranda-ng.org/p/AutoShutdown/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/AutoShutdown/"
 #define __COPYRIGHT               "© 2004-2007 H. Herkenrath"

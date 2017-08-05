@@ -10,5 +10,5 @@
 #define __DESCRIPTION              ""
 #define __AUTHOR                   "Miranda NG Team"
 #define __AUTHOREMAIL              ""
-#define __AUTHORWEB                "http://miranda-ng.org/p/Telegram/"
+#define __AUTHORWEB                "https://miranda-ng.org/p/Telegram/"
 #define __COPYRIGHT                "© 2015 Miranda NG Team"

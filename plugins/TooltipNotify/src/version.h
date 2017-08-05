@@ -10,5 +10,5 @@
 #define __DESCRIPTION             "Shows a small tooltip above system tray area when a contact status is changed."
 #define __AUTHOR                 "perf"
 #define __AUTHOREMAIL            "perf@mail333.com"
-#define __AUTHORWEB               "http://miranda-ng.org/p/TooltipNotify/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/TooltipNotify/"
 #define __COPYRIGHT               "© 2004-2008 Gneedah software"

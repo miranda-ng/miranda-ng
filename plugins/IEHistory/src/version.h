@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //#define __AUTHOREMAIL           "eblis102@yahoo.com"
 #define __AUTHOREMAIL           ""
 #define __COPYRIGHT             "© 2006 Cristian Libotean, 2014-17 Miranda NG team"
-#define __AUTHORWEB             "http://miranda-ng.org/p/IEHistory"
+#define __AUTHORWEB             "https://miranda-ng.org/p/IEHistory"
 #define __PLUGIN_DISPLAY_NAME   "IEView history viewer"
 
 #endif //M_IEHISTORY_VERSION_H

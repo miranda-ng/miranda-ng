@@ -31,5 +31,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __DESCRIPTION             "Shows new message/status change info using on-screen display."
 #define __AUTHOR               "Andrej Krutak"
 #define __AUTHOREMAIL            "andree182@gmail.com"
-#define __AUTHORWEB               "http://miranda-ng.org/p/wbOSD/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/wbOSD/"
 #define __COPYRIGHT               "© 2005 Andrej Krutak"

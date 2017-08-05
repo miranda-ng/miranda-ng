@@ -10,5 +10,5 @@
 #define __DESCRIPTION            "Provides Miranda database support: global settings, contacts, history, settings per contact."
 #define __AUTHOR                 "Miranda-NG project"
 #define __AUTHOREMAIL            "ghazan@miranda.im"
-#define __AUTHORWEB              "http://miranda-ng.org/p/Dbx_kv/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/Dbx_kv/"
 #define __COPYRIGHT              "© 2015-17 Miranda NG project"

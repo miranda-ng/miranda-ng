@@ -10,5 +10,5 @@
 #define __DESCRIPTION            "Extended UserInfo module for Miranda NG. Provides interface to edit all contact information."
 #define __AUTHOR                 "DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol"
 #define __AUTHOREMAIL            "deathaxe@web.de"
-#define __AUTHORWEB              "http://miranda-ng.org/p/UInfoEx/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/UInfoEx/"
 #define __COPYRIGHT              "© 2006-2009 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol"

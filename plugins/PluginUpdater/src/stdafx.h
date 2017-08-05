@@ -124,7 +124,7 @@ extern struct PlugOptions
 	#define NEW_FILENAME FILENAME_X64
 #endif
 
-#define PLUGIN_INFO_URL	L"http://miranda-ng.org/p/%s"
+#define PLUGIN_INFO_URL	L"https://miranda-ng.org/p/%s"
 
 #define DEFAULT_UPDATE_URL_OLD                "http://miranda-ng.org/distr/stable/x%platform%"
 #define DEFAULT_UPDATE_URL_TRUNK_OLD          "http://miranda-ng.org/distr/x%platform%"

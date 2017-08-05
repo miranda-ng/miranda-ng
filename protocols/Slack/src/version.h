@@ -10,5 +10,5 @@
 #define __DESCRIPTION              "Slack for Miranda NG."
 #define __AUTHOR                   "Miranda NG Team"
 #define __AUTHOREMAIL              ""
-#define __AUTHORWEB                "http://miranda-ng.org/p/Slack/"
+#define __AUTHORWEB                "https://miranda-ng.org/p/Slack/"
 #define __COPYRIGHT                "© 2017 Miranda NG Team"

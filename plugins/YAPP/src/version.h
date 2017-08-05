@@ -10,5 +10,5 @@
 #define __DESCRIPTION             "Yet Another Popup Plugin - Provides popup notification window services to other plugins."
 #define __AUTHOR               "Scott Ellis"
 #define __AUTHOREMAIL            "mail@scottellis.com.au"
-#define __AUTHORWEB               "http://miranda-ng.org/p/YAPP/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/YAPP/"
 #define __COPYRIGHT               "© 2005-2006 Scott Ellis"

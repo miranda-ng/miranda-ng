@@ -8,5 +8,5 @@
 #define __DESCRIPTION            "Core module for sending/receiving files."
 #define __AUTHOR                 "Miranda NG Development Team"
 #define __AUTHOREMAIL            ""
-#define __AUTHORWEB              "http://miranda-ng.org/p/StdFile/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/StdFile/"
 #define __COPYRIGHT              "© 2012-17 Miranda NG Development Team"

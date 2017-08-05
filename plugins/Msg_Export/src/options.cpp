@@ -791,7 +791,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			return TRUE;
 
 		case IDC_OPEN_HELP:
-			Utils_OpenUrl("http://miranda-ng.org/p/Msg_Export/");
+			Utils_OpenUrl("https://miranda-ng.org/p/Msg_Export/");
 			return TRUE;
 
 		case ID_SET_TO_DEFAULT:

@@ -10,5 +10,5 @@
 #define __DESCRIPTION            "Displays contacts, event notifications, protocol status."
 #define __AUTHOR                 "Pixel, egoDust, cyreve, Nightwish"
 #define __AUTHOREMAIL            ""
-#define __AUTHORWEB              "http://miranda-ng.org/p/Clist_nicer/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/Clist_nicer/"
 #define __COPYRIGHT              "© 2000-2010 Miranda-IM project"

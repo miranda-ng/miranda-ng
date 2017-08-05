@@ -10,5 +10,5 @@
 #define __DESCRIPTION             "Favorite contacts menu."
 #define __AUTHOR                  "Victor Pavlychko"
 #define __AUTHOREMAIL             "nullbie@gmail.com"
-#define __AUTHORWEB               "http://miranda-ng.org/p/FavContacts/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/FavContacts/"
 #define __COPYRIGHT               "© 2007-2009 Victor Pavlychko"

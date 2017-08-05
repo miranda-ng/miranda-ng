@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __AUTHOR                "Cristian Libotean, Attila Vajda, MaKaR (NG)"
 #define __AUTHOREMAIL           "makar@poczta.of.pl"
 #define __COPYRIGHT             "© 2006-2013 Cristian Libotean and Attila Vajda"
-#define __AUTHORWEB             "http://miranda-ng.org/p/Exchange/"
+#define __AUTHORWEB             "https://miranda-ng.org/p/Exchange/"
 
 #define __PLUGIN_DISPLAY_NAME   "Exchange notifier plugin"
 

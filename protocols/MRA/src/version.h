@@ -10,5 +10,5 @@
 #define __DESCRIPTION        "Miranda Mail.ru Agent protocol plugin."
 #define __AUTHOR             "Rozhuk Ivan"
 #define __AUTHOREMAIL        "Rozhuk_I@mail.ru"
-#define __AUTHORWEB          "http://miranda-ng.org/p/MRA/"
+#define __AUTHORWEB          "https://miranda-ng.org/p/MRA/"
 #define __COPYRIGHT          "© 2005-17 Rozhuk Ivan"
