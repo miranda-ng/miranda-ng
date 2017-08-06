@@ -2193,7 +2193,7 @@ Jabber vCard: редактирование телефона
 Настроения
 [Activities]
 Занятия
-[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-Я использую Miranda NG (http://miranda-ng.org/.)
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+Я использую Miranda NG (https://miranda-ng.org/.)
 [/me slaps %s around a bit with a large trout]
 /me шарахнул %s веслом по голове

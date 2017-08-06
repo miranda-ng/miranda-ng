@@ -6023,8 +6023,8 @@ Ctrl+Лівий клік вкл. фільтр за протоколом, клі�
 Метаконтакти
 [Additional stuff]
 Додатково
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
-Для додаткових можливостей завантажте плагін MetaContacts.\n\nhttp://miranda-ng.org/p/MetaContacts/
+[For other stuff MetaContacts plugin should be loaded.\n\nhttps://miranda-ng.org/p/MetaContacts/]
+Для додаткових можливостей завантажте плагін MetaContacts.\n\nhttps://miranda-ng.org/p/MetaContacts/
 [Allow internal requesting of status message text]
 Вирішити внутрішні запити статусних повідомлень
 [Subcontacts indent:]
@@ -9018,8 +9018,8 @@ HANDLE
 Помилка бази. Miranda NG буде закрита.
 [Database Error]
 Помилка бази
-[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
-Miranda NG виявила пошкодження вашої базі даних. Це пошкодження може бути виправлене плагіном DbChecker. Будь ласка, завантажте його з http://miranda-ng.org/p/DbChecker/. Miranda NG буде закрита.
+[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from https://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
+Miranda NG виявила пошкодження вашої базі даних. Це пошкодження може бути виправлене плагіном DbChecker. Будь ласка, завантажте його з https://miranda-ng.org/p/DbChecker/. Miranda NG буде закрита.
 [Database Panic]
 Проблема з базою
 [Performing aggressive pass]
@@ -13708,7 +13708,7 @@ Miranda знайшла наступні профілі. Виберіть про�
 ;  Module: Imports history saved in TXT files from other clients
 ;  Versions: 0.0.1.10
 ;  URL: 
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/importtxt/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/importtxt/
 ;  Authors: Abyss
 ;============================================================
 [Imports history saved in TXT files from other clients.]
@@ -14867,8 +14867,8 @@ XML Консоль
 Заняття Jabber
 [Jabber Mood]
 Настрій Jabber
-[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-Я використовую Miranda NG (http://miranda-ng.org/.)
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+Я використовую Miranda NG (https://miranda-ng.org/.)
 [/me slaps %s around a bit with a large trout]
 /me торохнув %s веслом по голові
 [Error %s %s]
@@ -21932,7 +21932,7 @@ History++ для історії вікон
 ;  File: QuickSearch.dll
 ;  Module: Quick Search, Quick Search Mod
 ;  Versions: 1.4.0.4 - 1.4.0.18
-;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=260
+;  URL: https://miranda-im.org/download/details.php?action=viewfile&id=260
 ;============================================================
 [QuickSearch]
 Швидкий Пошук

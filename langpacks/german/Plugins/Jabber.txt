@@ -2246,7 +2246,7 @@ Stimmungen
 [Activities]
 Aktivitäten
 ;file \protocols\JabberG\src\stdafx.h
-[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-Ich bin ein fröhlicher Miranda-NG-Nutzer. Sie bekommen es unter http://miranda-ng.org.
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+Ich bin ein fröhlicher Miranda-NG-Nutzer. Sie bekommen es unter https://miranda-ng.org.
 [/me slaps %s around a bit with a large trout]
 /me schlägt %s mit einem großen Hering.

@@ -2187,7 +2187,7 @@ Jabber vCard: редагування телефону
 Настрої
 [Activities]
 Заняття
-[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-Я використовую Miranda NG (http://miranda-ng.org/)
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+Я використовую Miranda NG (https://miranda-ng.org/)
 [/me slaps %s around a bit with a large trout]
 /me торохнув %s веслом по голові

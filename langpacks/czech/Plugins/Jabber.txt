@@ -2235,7 +2235,7 @@ Nálada
 [Activities]
 Činnosti
 ;file \protocols\JabberG\src\stdafx.h
-[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-Jsem šťastný uživatel Mirandy NG. Stáhněte si ji z http://miranda-ng.org/.
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+Jsem šťastný uživatel Mirandy NG. Stáhněte si ji z https://miranda-ng.org/.
 [/me slaps %s around a bit with a large trout]
 

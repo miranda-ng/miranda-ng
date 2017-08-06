@@ -2597,8 +2597,8 @@ ID користувача:
 Робоча:
 [F]
 Ж
-[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
-Miranda NG знайшла ушкодження у Вашій базі. Вони можуть бути виправлені з допомогою плагіна DbChecker. Будь ласка, завантажте його з http://miranda-ng.org/p/DbChecker/. Miranda буде закрита.
+[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from https://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
+Miranda NG знайшла ушкодження у Вашій базі. Вони можуть бути виправлені з допомогою плагіна DbChecker. Будь ласка, завантажте його з https://miranda-ng.org/p/DbChecker/. Miranda буде закрита.
 [Database Panic]
 Проблема з базою
 [Please type in your new password]

@@ -2246,7 +2246,7 @@ Definir
 [Activities]
 
 ;file \protocols\JabberG\src\stdafx.h
-[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
 
 [/me slaps %s around a bit with a large trout]
 

@@ -9,7 +9,7 @@ Plugins-included: AIM,ActMan,ActMan_Hooks
 
 ; basiert auf deutsche Sprachdatei für Miranda IM
 ; Author-email: sprachdatei@miranda-im.de (original authors)
-; Deutsche Miranda IM Webseite: http://miranda-im.de
+; Deutsche Miranda IM Webseite: https://miranda-im.de
 ; http://addons.miranda-im.org/details.php?action=viewfile&id=4066
 ; FLID: Deutsche Sprachdatei 0.12.03.03
 
@@ -4655,10 +4655,10 @@ Struktur des gewahlten Profiles nicht ermittelbar. DB-Tool wird nicht helfen!
 Ausgewahltes Profil konnte nicht geoffnet werden.  Die Profilversion ist neuer als zzt. unterstutzt wird.
 [Unable to use the selected profile.  Various important parts of user data is missing.  You may be able to salvage your history and contacts.]
 Ausgewähltes Profil konnte nicht geöffnet werden. Wichtige Teile der Benutzerdaten fehlen. Ggf. können der Verlauf und die Kontakte gerettet werden.
-[Unable to verify the selected profile.  You may wish to try and fix this profile via dbtool.  Visit http://www.miranda-ng.org for more information.]
-Überprüfung des gewählten Profils nicht möglich.  Bitte das DB-Tool zum Reparieren nutzen. Siehe http://www.miranda-ng.org für mehr Informationen.
-[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin.  Please download it from http://miranda-ng.org/. Miranda will now shutdown.]
-Miranda hat Fehler in der Datenbank entdeckt. Diese Fehler könnten mit dem DbChecker Plugin repariert werden. Bitte von http://miranda-ng.org/ herunterladen. Miranda NG wird beendet.
+[Unable to verify the selected profile.  You may wish to try and fix this profile via dbtool.  Visit https://www.miranda-ng.org for more information.]
+Überprüfung des gewählten Profils nicht möglich.  Bitte das DB-Tool zum Reparieren nutzen. Siehe https://www.miranda-ng.org für mehr Informationen.
+[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin.  Please download it from https://miranda-ng.org/. Miranda will now shutdown.]
+Miranda hat Fehler in der Datenbank entdeckt. Diese Fehler könnten mit dem DbChecker Plugin repariert werden. Bitte von https://miranda-ng.org/ herunterladen. Miranda NG wird beendet.
 [Database Panic]
 Datenbankprobleme
 
@@ -7755,7 +7755,7 @@ Spieltyp
 ; Dateiname: bnet.dll
 ; Autor: Isometric God, Joe77, Mackila
 ; Link: http://bnetmessenger.sourceforge.net/ oder http://addons.miranda-im.org/details.php?action=viewfile&id=2448
-; Informationen: http://Miranda NG.de/mediawiki/index.php?title=Plugin:Battle.net
+; Informationen: https://miranda NG.de/mediawiki/index.php?title=Plugin:Battle.net
 ; Übersetzung: 21.10.08 von Sebijk
 ; Besonderheiten: Entwicklung eingestellt!
 
@@ -9274,7 +9274,7 @@ In Liste anzeigen
 #muuid {45230488-977b-405b-856d-ea276d7083b7}
 ; Autor(en): Kildor, Thief
 ; Link: http://addons.miranda-im.org/details.php?action=viewfile&id=4015
-; SVN: http://miranda-plugins.googlecode.com/svn/trunk/Rate
+; SVN: https://miranda-plugins.googlecode.com/svn/trunk/Rate
 ; Übersetzung: kaye_styles am 23.04.09
 
 [Rate low]
@@ -11035,7 +11035,7 @@ Verstecke falls Offline
 ; Dateiname: GTalkExt.dll
 #muuid {08b86253-ec6e-4d09-b7a9-64acdf0627b8}
 ; Autor(en): bems
-; Link: http://miranda-planet.com/forum/index.php?/topic/7852-gtalkext/
+; Link: https://miranda-planet.com/forum/index.php?/topic/7852-gtalkext/
 ; Übersetzung: 03.12.2010 von CHEF-KOCH
 
 [subject\n    %s\nfrom\n%s\n%s\n]
@@ -16727,7 +16727,7 @@ Verlaufsnachrichten filtern
 [Custom messages]
 Benutzerdefinierte Nachrichten
 ;[Quit:]
-;[I'm happy Miranda NG user. Get it at http://Miranda NG.org/.]
+;[I'm happy Miranda NG user. Get it at https://miranda NG.org/.]
 ;[Slap:]
 ;[/me slaps %s around a bit with a large trout]
 
@@ -18227,7 +18227,7 @@ Stelle XStatus Liste ein
 ; Dateiname: langman.dll
 ; Autor(en): H. Herkenrath
 ; Link: http://addons.miranda-im.org/details.php?action=viewfile&id=3002
-; SVN: http://miranda-plugins.googlecode.com/svn/trunk/Langman
+; SVN: https://miranda-plugins.googlecode.com/svn/trunk/Langman
 ; Übersetzung: H. Herkenrath
 
 [Language Pack Manager]
@@ -18794,7 +18794,7 @@ hat Geburtstag
 ; Version: 0.0.1.1
 ; Dateiname: mcontacts.dll
 ; Autor: bankrut
-; Link: http://miranda.kom.pl/dev/bankrut/
+; Link: https://miranda.kom.pl/dev/bankrut/
 ; Übersetzung: 27.06.05 von Lastwebpage
 
 [&Export contact list]
@@ -19892,7 +19892,7 @@ Schützt das Mirandaprofil
 ; Version: 0.1.0.0
 ; Dateiname: mTV.dll
 ; Autor: Bankrut
-; Link: http://miranda.kom.pl/dev/bankrut/get.php
+; Link: https://miranda.kom.pl/dev/bankrut/get.php
 ; Übersetzung: 03.08.05 von HERODOMI
 
 [Anything = channel list]
@@ -22167,8 +22167,8 @@ Keine Extraicons für Unterkontakte
 Offlineunterkontakte ausblenden
 [MetaContacts stuff]
 Einstellungen für Metakontakte
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://Miranda-ng.org/download]
-Für weitere Einstellungen wird MetaContacts benötigt:\n\nhttp://Miranda-ng.org/download
+[For other stuff MetaContacts plugin should be loaded.\n\nhttps://miranda-ng.org/download]
+Für weitere Einstellungen wird MetaContacts benötigt:\n\nhttps://miranda-ng.org/download
 [Subcontacts indent:]
 Unterkontakte einrücken um Pixel:
 
@@ -26485,7 +26485,7 @@ Fügt die Statusnachricht in das Nachrichtenfesnster ein, wenn es geöffnet oder
 ; Version: 1.3.1.3
 #muuid {aa997002-1e92-4ee9-a6b2-fd15542c9650}
 ; Autor: Vampyre
-; Link: http://miranda.cactus-world.net/
+; Link: https://miranda.cactus-world.net/
 
 [Pop up minimized]
 Minimiert aufpoppen
@@ -27826,7 +27826,7 @@ Dieses Plugin ist gestarten und wird alte Einstellungen zum herunterfahren verwe
 ; Dateiname: simplear.dll
 #muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
 ; Autor(en): Stark Wong, Mikel-Ard-Ri
-; Alt. SVN: http://miranda-plugins.googlecode.com/svn/trunk/SimpleAR
+; Alt. SVN: https://miranda-plugins.googlecode.com/svn/trunk/SimpleAR
 
 [Dear %user%, the owner left the following message:]
 Hallo, %user%, der Besitzer hat dir folgende Nachricht hinterlassen:
@@ -28034,7 +28034,7 @@ Gehe zu URL in Statusnachricht
 ; Dateiname: skype.dll
 ; Autor(en): leecher, tweety, jls17
 #muuid {a71f8335-7b87-4432-b8a3-81479431c6f5}
-; Alt. SVN: http://miranda-plugins.googlecode.com/svn/trunk/skype
+; Alt. SVN: https://miranda-plugins.googlecode.com/svn/trunk/skype
 ; Übersetzung: 16.10.05 von HERODOMI
 
 
@@ -29823,7 +29823,7 @@ Konvertiere letzte / ausgewählte (Rev.)
 ; Version: 0.1.1.0
 ; Dateiname: tvplugin.dll
 ; Autor(en): yaho, icons by Luciferka
-; Link: http://miranda-easy.net
+; Link: https://miranda-easy.net
 #muuid {77fee9c2-a7cb-44ec-937d-acd6bce7ba5b}
 ; Übersetzung: 20.07.08 von Baschti
 ; Überarbeitung: 11.08.09 von Baschti
@@ -29978,7 +29978,7 @@ Standbilder
 ; Dateiname: tabsrmm.dll
 #muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
 ; Autor: Nightwish
-; Link: http://miranda.or.at oder Testing
+; Link: https://miranda.or.at oder Testing
 
 
 
@@ -31896,7 +31896,7 @@ Informationen in %s
 ; Dateiname: tipper.dll
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ; Autor: Scott Ellis, yaho
-; Link: http://miranda-easy.net/mods.php
+; Link: https://miranda-easy.net/mods.php
 
 
 [Tool Tip notification windows]
@@ -36258,7 +36258,7 @@ Sicherheit und Privates
 ; Dateiname: weather.dll
 ; Autor(en): borkra
 ; Link: http://addons.miranda-im.org/details.php?action=viewfile&id=2322
-; SVN: http://mirandaimplugins.googlecode.com/svn/trunk/weather
+; SVN: https://mirandaimplugins.googlecode.com/svn/trunk/weather
 ; Übersetzung: 11.09.2005 von Dober - überarbeitet bei CHEF-KOCH am 29.05.2010
 
 

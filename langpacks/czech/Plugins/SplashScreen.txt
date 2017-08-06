@@ -34,8 +34,8 @@ Náběh:
 kroků
 [Fade out:]
 Doběh:
-[AdvaImg plugin not found. Please get it from http://miranda-ng.org/p/AdvaImg/ to be able to use images.]
-Doplněk AdvaImg nebyl nalezen. Abyste mohli pracovat s obrázky, stáhněte si jej z http://miranda-ng.org/p/AdvaImg/
+[AdvaImg plugin not found. Please get it from https://miranda-ng.org/p/AdvaImg/ to be able to use images.]
+Doplněk AdvaImg nebyl nalezen. Abyste mohli pracovat s obrázky, stáhněte si jej z https://miranda-ng.org/p/AdvaImg/
 [Preview...]
 Náhled...
 ;file \plugins\SplashScreen\src\options.cpp

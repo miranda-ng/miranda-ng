@@ -7606,8 +7606,8 @@ Ustaw domyślny kontakt
 Chcesz usunąć kontakt "%s" z metakontaktu "%s" i dodać go do "%s"?
 [Changing metacontacts (moving)]
 Zmiana metakontaktów (przesuwanie)
-[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://wiki.miranda-ng.org/Download]
-Clist Modern wymaga zainstalowanej wtyczki AVS. Zainstaluj ją używając PluginUpdater lub pobierz z http://wiki.miranda-ng.org/Download
+[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from https://wiki.miranda-ng.org/Download]
+Clist Modern wymaga zainstalowanej wtyczki AVS. Zainstaluj ją używając PluginUpdater lub pobierz z https://wiki.miranda-ng.org/Download
 [Error loading plugin]
 Błąd ładowania wtyczki
 [Skins]
@@ -9961,8 +9961,8 @@ Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane
 Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła. Zalecane tylko obsesyjnym użytkownikom.
 [Set password]
 Ustaw/Zmień hasło
-[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
-Miranda wykryła błąd w twojej bazie danych. Może być naprawiony przez wtyczkę DbChecker. Pobierz go z http://miranda-ng.org/p/DbChecker/. Miranda zostanie teraz zamknięta.
+[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from https://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
+Miranda wykryła błąd w twojej bazie danych. Może być naprawiony przez wtyczkę DbChecker. Pobierz go z https://miranda-ng.org/p/DbChecker/. Miranda zostanie teraz zamknięta.
 [Disk is full. Miranda will now shut down.]
 Dysk jest pełny. Miranda zostanie zamknięta.
 [Database failure. Miranda will now shut down.]
@@ -19559,8 +19559,8 @@ Obecnie Słucham
 Nastrój
 [Activities]
 Aktywność
-[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-Jestem szczęśliwym użytkownikiem Mirandy NG. Wypróbuj pobierając z http://miranda-ng.org/.
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+Jestem szczęśliwym użytkownikiem Mirandy NG. Wypróbuj pobierając z https://miranda-ng.org/.
 [/me slaps %s around a bit with a large trout]
 /me delikatnie bije %s dużym pstrągiem
 #muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
@@ -30510,8 +30510,8 @@ Przygasanie początkowe:
 krok
 [Fade out:]
 Przygasanie końcowe:
-[AdvaImg plugin not found. Please get it from http://miranda-ng.org/p/AdvaImg/ to be able to use images.]
-Nie znaleziono wtyczki AdvaImg.. Pobierz ją z http://miranda-ng.org/p/AdvaImg/, aby móc używać obrazków.
+[AdvaImg plugin not found. Please get it from https://miranda-ng.org/p/AdvaImg/ to be able to use images.]
+Nie znaleziono wtyczki AdvaImg.. Pobierz ją z https://miranda-ng.org/p/AdvaImg/, aby móc używać obrazków.
 [Preview...]
 Podgląd...
 [Graphic files]
@@ -34625,8 +34625,8 @@ Wyjdź
 Domyślny
 [TopToolBar background]
 Tło TopToolBar
-[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Clist nicer\nYou can get them at http://wiki.miranda-ng.org/Download]
-Nie znaleziono usługi ramek, wtyczka zostanie więc wyłączona.\nAby ją uruchomić musisz zainstalować lub włączyć wtyczkę listy kontaktów wspierającą tę usługę.\nLista kontaktów Modern\nnicer\nMożesz je pobrać na http://wiki.miranda-ng.org/Download
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Clist nicer\nYou can get them at https://wiki.miranda-ng.org/Download]
+Nie znaleziono usługi ramek, wtyczka zostanie więc wyłączona.\nAby ją uruchomić musisz zainstalować lub włączyć wtyczkę listy kontaktów wspierającą tę usługę.\nLista kontaktów Modern\nnicer\nMożesz je pobrać na https://wiki.miranda-ng.org/Download
 [TopToolBar]
 Pasek narzędzi
 [Contact list]

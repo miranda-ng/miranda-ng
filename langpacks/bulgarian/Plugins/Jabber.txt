@@ -2001,5 +2001,5 @@ Jabber vCard: Редактиране на телефонен номер
 Настроения
 [Activities]
 Дейности
-[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-Аз съм щастлив потребител на Miranda NG. Можете да свалите програмата от http://miranda-ng.org/.
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+Аз съм щастлив потребител на Miranda NG. Можете да свалите програмата от https://miranda-ng.org/.

@@ -41,8 +41,8 @@ Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht 
 [Set password]
 Passwort setzen
 ;file \plugins\Db3x_mmap\src\database.cpp
-[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
-Miranda hat Fehler in der Datenbank entdeckt. Diese Fehler könnten mit dem DbChecker Plugin repariert werden. Bitte von http://miranda-ng.org/p/DbChecker/ herunterladen. Miranda NG wird beendet.
+[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from https://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
+Miranda hat Fehler in der Datenbank entdeckt. Diese Fehler könnten mit dem DbChecker Plugin repariert werden. Bitte von https://miranda-ng.org/p/DbChecker/ herunterladen. Miranda NG wird beendet.
 [Disk is full. Miranda will now shut down.]
 Festplatte ist voll. Miranda wird nun beendet.
 [Database failure. Miranda will now shut down.]

@@ -5123,8 +5123,8 @@ ID пользователя:
 Рабочая:
 [F]
 Ж
-[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
-Miranda нашла повреждения в Вашей базе. Они могут быть исправлены с помощью плагина DbChecker. Пожалуйста, загрузите его с http://miranda-ng.org/p/DbChecker/. Miranda будет закрыта.
+[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from https://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
+Miranda нашла повреждения в Вашей базе. Они могут быть исправлены с помощью плагина DbChecker. Пожалуйста, загрузите его с https://miranda-ng.org/p/DbChecker/. Miranda будет закрыта.
 [Database Panic]
 Проблема с базой
 [Please type in your new password]
@@ -6854,8 +6854,8 @@ INI файлы
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  URL: http://miranda-ng.org/distr/x32/Plugins/addcontactplus.zip
-;  Source: http://svn.miranda-ng.org/main/trunk/plugins/AddContactPlus/
+;  URL: https://miranda-ng.org/distr/x32/Plugins/addcontactplus.zip
+;  Source: https://svn.miranda-ng.org/main/trunk/plugins/AddContactPlus/
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 [Provides the ability to quickly add new contacts.]
@@ -6907,7 +6907,7 @@ ID контакта:
 ;  Plugin: Provides generic image services for Miranda NG
 ;  Version: 0.11.0.1
 ;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/freeimage/
+;  Source: https://miranda.googlecode.com/svn/trunk/miranda/plugins/freeimage/
 ;  Authors: Nightwish, The FreeImage project
 ;============================================================
 [Generic image services for Miranda NG.]
@@ -6991,7 +6991,7 @@ AAA: статусные сообщения
 ;  Plugin: AIM Protocol
 ;  Versions: 0.10.0.2
 ;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/AimOscar/
+;  Source: https://miranda.googlecode.com/svn/trunk/miranda/protocols/AimOscar/
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
 [(seconds)]
@@ -7641,7 +7641,7 @@ Miranda NG не может открыть ссылку
 ;  Plugin: Shows authorisation state icon
 ;  Versions: 0.0.2.0
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3161
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/authstate/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/authstate/
 ;  Authors: Thief
 ;============================================================
 [If contact didn't authorized you this plugin puts an icon in front of contacts name.]
@@ -7681,7 +7681,7 @@ Miranda NG не может открыть ссылку
 ;  Plugin: Autorun
 ;  Versions: 0.1.0.1
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4353
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/autorun/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/autorun/
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)
 ;============================================================
 [Autorun]
@@ -8022,7 +8022,7 @@ Miranda NG автоматически закроется через %u секу�
 ;  Plugin: Avatar service
 ;  Versions: 0.11.1.1
 ;  URL: http://code.google.com/p/miranda/downloads/list`
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/avs/
+;  Source: https://miranda.googlecode.com/svn/trunk/miranda/plugins/avs/
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 
@@ -8361,7 +8361,7 @@ Dat (мКонтакты)
 ;  Plugin: Bass interface
 ;  Versions: 0.0.0.13
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4284
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/Bass_interface/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/Bass_interface/
 ;  Authors: tico-tico
 ;============================================================
 [un4seen's BASS interface Miranda NG plugin.]
@@ -8407,7 +8407,7 @@ Dat (мКонтакты)
 ;  Plugin: Boltun
 ;  Versions: 0.0.3.0
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=470
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/Boltun/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/Boltun/
 ;  Authors: Alexander S. Kiselev A.K.A. KAS, Valentin Pavlyuchenko
 ;============================================================
 [Boltun]
@@ -8479,7 +8479,7 @@ Mind файлы
 ;  Module: Boss Key
 ;  Versions: 0.5.0.3
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3694
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/BossKeyPlus/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/BossKeyPlus/
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Hide/Show Miranda]
@@ -8553,7 +8553,7 @@ Miranda NG заблокирована.\nВведите ваш пароль дл�
 ;  Module: Buddyexpectator plugin
 ;  Versions: 0.1.2.3
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3356
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/buddyexpectator/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/buddyexpectator/
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 [Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions.]
@@ -8663,7 +8663,7 @@ Miranda NG заблокирована.\nВведите ваш пароль дл�
 ;  Module: BuddyPounce
 ;  Versions: 0.3.2.1
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1062
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/BuddyPounce/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/BuddyPounce/
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Default Pounce Settings]
@@ -8937,7 +8937,7 @@ Pounce отослан %s за %d секунд
 ;  Plugin: A contact list for blind folks.
 ;  Versions: 0.8.0.1
 ;  URL: http://www.pescuma.org/miranda/bclist/lang/en/
-;  Source: http://svn.miranda-ng.org/main/trunk/plugins/Clist_blind/
+;  Source: https://svn.miranda-ng.org/main/trunk/plugins/Clist_blind/
 ;  Authors: Ricardo Pescuma Domenecci, ghazan
 ;============================================================
 [A contact list for blind folks.]
@@ -8949,7 +8949,7 @@ Pounce отослан %s за %d секунд
 ;  Module: Modern Contact List
 ;  Versions: 0.10.0.2
 ;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/modernb/
+;  Source: https://miranda.googlecode.com/svn/trunk/miranda/plugins/modernb/
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 
@@ -9148,8 +9148,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Удалить статусное сообщение, если контакт оффлайн
 [Use improved search method in contactlist]
 Поиск по списку с фильтрацией результатов
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
-Для дополнительных возможностей загрузите плагин MetaContacts.\nhttp://miranda-ng.org/p/MetaContacts/
+[For other stuff MetaContacts plugin should be loaded.\n\nhttps://miranda-ng.org/p/MetaContacts/]
+Для дополнительных возможностей загрузите плагин MetaContacts.\nhttps://miranda-ng.org/p/MetaContacts/
 [MetaContacts stuff]
 Метаконтакты
 [Use 'Meta' protocol icons for Metacontacts]
@@ -9566,7 +9566,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 ;  Module:  MultiWindow Contact List
 ;  Versions: 0.9.0.0
 ;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/mwclist/
+;  Source: https://miranda.googlecode.com/svn/trunk/miranda/plugins/mwclist/
 ;  Authors: Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
@@ -9608,7 +9608,7 @@ _БезПротокола_
 ;  Module: Contact list
 ;  Versions: 0.9.2.1
 ;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/clist_nicer/
+;  Source: https://miranda.googlecode.com/svn/trunk/miranda/plugins/clist_nicer/
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
@@ -10141,7 +10141,7 @@ xСтатус
 ;  File: Cln_skinedit.dll
 ;  Plugin: Allow inline skin item editing for clist nicer+
 ;  Versions: 0.0.0.1
-;  URL: http://wiki.miranda-ng.org/index.php?title=Plugin:Cln_skinedit
+;  URL: https://wiki.miranda-ng.org/index.php?title=Plugin:Cln_skinedit
 ;  Source: https://mysvn.ru/ghazan/myranda/trunk/plugins/Clist_nicer/skineditor/
 ;  Authors: Nightwish, Pixel
 ;============================================================
@@ -10303,7 +10303,7 @@ Miranda была закрыта или произошла ошибка при о
 ;  Module: Console log window for Miranda
 ;  Versions: 0.0.7.2
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2325
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/console/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/console/
 ;  Authors: Bio
 ;============================================================
 [Console log window for Miranda.]
@@ -10387,7 +10387,7 @@ Miranda была закрыта или произошла ошибка при о
 ;  Module: Contacts
 ;  Versions: 1.5.2.0
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1253
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/ContactsPlus/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/ContactsPlus/
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 [&Details]
@@ -10534,7 +10534,7 @@ Miranda NG была завершена аварийно. Отчёт сохран
 ;  Module: Crypto++ implementation for SecureIM
 ;  Versions: 1.0.4.4
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2669
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/cryptopp/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/cryptopp/
 ;  Authors: Baloo
 ;============================================================
 [Crypto++ library for SecureIM plugin.]
@@ -10548,7 +10548,7 @@ Miranda NG была завершена аварийно. Отчёт сохран
 ;  Module: Custom Status List
 ;  Versions: 0.1.0.5
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3626
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/CSList/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/CSList/
 ;  Authors: Mataes, jarvis
 ;============================================================
 [Custom Status List]
@@ -10616,7 +10616,7 @@ Miranda NG была завершена аварийно. Отчёт сохран
 ;  Module: DB AutoBackups
 ;  Versions: 0.0.0.8
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3667
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/dbx_mmap_sa/db_autobackups/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/dbx_mmap_sa/db_autobackups/
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons, Vasilich
 ;============================================================
 [Db autobackuper plugin.]
@@ -10653,7 +10653,7 @@ Miranda NG была завершена аварийно. Отчёт сохран
 ;  File: DbChecker.dll
 ;  Module: Miranda NG Database Checker
 ;  Versions: 0.11.0.1
-;  URL: http://miranda-ng.org/
+;  URL: https://miranda-ng.org/
 ;  Authors: George Hazan
 ;============================================================
 [%s\\Backup (%d) of %s]
@@ -11400,7 +11400,7 @@ Null Mod контекст
 ;  Module: Miranda database driver
 ;  Versions: 0.10.2.0
 ;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/db3x/
+;  Source: https://miranda.googlecode.com/svn/trunk/miranda/plugins/db3x/
 ;  Authors: Miranda-IM project
 ;============================================================
 [db3x Plugin]
@@ -11422,7 +11422,7 @@ db3x драйвер
 ;  Module: Miranda mmap database driver
 ;  Versions: 0.10.0.2
 ;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/db3x_mmap/
+;  Source: https://miranda.googlecode.com/svn/trunk/miranda/plugins/db3x_mmap/
 ;  Authors: Miranda-IM project
 ;============================================================
 [db3x_mmap Plugin]
@@ -11438,7 +11438,7 @@ db3x драйвер
 ;  Module: Miranda SecuredMMAP database driver
 ;  Versions: 0.7.5.4
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3667
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/dbx_mmap_sa/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/dbx_mmap_sa/
 ;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
 ;============================================================
 [Disk is full. Miranda will now shutdown.]
@@ -11520,7 +11520,7 @@ db3x драйвер
 ;  Module: Facebook
 ;  Versions: 0.0.5.5
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4406
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FacebookRM/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/FacebookRM/
 ;  Authors: Robyer
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -11734,7 +11734,7 @@ db3x драйвер
 ;  Module: Favourite Contacts
 ;  Versions: v.0.0.0.6
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4191
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FavContacts/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/FavContacts/
 ;  Authors: nullbie
 ;============================================================
 [Favourite contacts menu.]
@@ -11816,8 +11816,8 @@ db3x драйвер
 Файл уже есть. Перезаписать?
 [Request sent. Awaiting of acceptance..]
 Запрос послан. Ждем ответа...
-[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-ng.org/p/FileAsMessage/ for more information and download.]
-Если вы видите этот "мусор", значит у вас нет плагина "fileAsMessage". Посетите http://miranda-ng.org/p/FileAsMessage/
+[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see https://miranda-ng.org/p/FileAsMessage/ for more information and download.]
+Если вы видите этот "мусор", значит у вас нет плагина "fileAsMessage". Посетите https://miranda-ng.org/p/FileAsMessage/
 [Size: %d bytes]
 Размер: %d байт
 [Couldn't open a file]
@@ -11866,7 +11866,7 @@ db3x драйвер
 ;  File: Fingerprint.dll
 ;  Module: Display client icons, Fingerprint, Fingerprint Plus, Fingerprint Mod+, FingerprintNG
 ;  Versions: 0.1.0.0
-;  URL: http://miranda-ng.org/
+;  URL: https://miranda-ng.org/
 ;  Source: https://mysvn.ru/ghazan/myranda/trunk/plugins/FingerprintNG/
 ;  Authors: Artem Shpynov aka FYR, Bio, Faith Healer, HierOS, Mataes
 ;============================================================
@@ -12125,8 +12125,8 @@ MirOTR оверлей
 ;============================================================
 ;  File: FirstRun.dll
 ;  Versions: 0.0.0.2
-;  URL: http://miranda-planet.com/forum/index.php?showtopic=3556
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FirstRun/
+;  URL: https://miranda-planet.com/forum/index.php?showtopic=3556
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/FirstRun/
 ;  Authors: Yasnovidyashii
 ;============================================================
 [Displays the Accounts window at the first start.]
@@ -12138,7 +12138,7 @@ MirOTR оверлей
 ;  Module: Country Flags
 ;  Versions: 0.1.0.3
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3463
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/CountryFlags/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/CountryFlags/
 ;  Authors: HeikoH Herkenrath
 ;============================================================
 [Docs]
@@ -12178,7 +12178,7 @@ MirOTR оверлей
 ;  Module: Flash avatars service
 ;  Versions: 0.0.1.14
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2743
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FlashAvatars/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/FlashAvatars/
 ;  Authors: Joe Kucera, BigMuscle
 ;============================================================
 [Load and manage flash avatars]
@@ -12194,7 +12194,7 @@ MirOTR оверлей
 ;  Module: Floating Сontacts
 ;  Versions: 1.0.2.2
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4400
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/floatingcontacts/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/floatingcontacts/
 ;  Authors: iavorv
 ;============================================================
 [Floating Contacts plugin for Miranda.]
@@ -12566,7 +12566,7 @@ FTP сервер 5
 ;  Module: Gadu-Gadu protocol
 ;  Versions: 0.10.0.3
 ;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/Gadu-Gadu/
+;  Source: https://miranda.googlecode.com/svn/trunk/miranda/protocols/Gadu-Gadu/
 ;  Authors: dezred
 ;============================================================
 [Gadu-Gadu protocol support for Miranda NG.]
@@ -12875,8 +12875,8 @@ GG: PS_AWAYMSG вызван без PS_SETSTATUS для статуса %d, выб
 ;  File: GTalkExt.dll
 ;  Module: GTalk extensions for Jabber protocol
 ;  Versions: 0.0.0.18
-;  URL: http://miranda-planet.com/forum/index.php?autocom=downloads&showfile=1400
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/gtalkext/
+;  URL: https://miranda-planet.com/forum/index.php?autocom=downloads&showfile=1400
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/gtalkext/
 ;  Authors: bems
 ;============================================================
 [GTalk extensions for Jabber protocol]
@@ -13684,12 +13684,12 @@ Wiki-страница дополнительных параметров
 ;  Module: History Sweeper+
 ;  Versions: 0.2.0.2
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4132
-;  Source: http://mirandaimplugins.googlecode.com/svn/trunk/HistorySweeper
+;  Source: https://mirandaimplugins.googlecode.com/svn/trunk/HistorySweeper
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy
 
 ;  Versions: 0.0.0.7
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4416
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/historysweeperlight/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/historysweeperlight/
 ;  Authors: tico-tico
 ;============================================================
 [History Sweeper]
@@ -13813,7 +13813,7 @@ Wiki-страница дополнительных параметров
 ;  Module: HTTP Web Server plugin for Miranda
 ;  Versions: 0.1.2.2
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2304
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/HTTPServer/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/HTTPServer/
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [%ExternalIP% variable]
@@ -13921,7 +13921,7 @@ HTTP веб-сервер для Miranda.
 ;  Module: IcqOscarJ Protocol, ICQ Plus Mod Protocol
 ;  Versions: 0.10.0.2
 ;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/
+;  Source: https://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc
 
 ;  Versions: 0.3.10.67
@@ -14763,7 +14763,7 @@ xСтатус "%s"
 ;  Module: IEview provides IE engine to display message log.
 ;  Versions: 1.3.0.3
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1788
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/ieview/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/ieview/
 ;  Authors: the_leech
 ;============================================================
 [IEView]
@@ -14855,7 +14855,7 @@ RTL шаблон
 ;  Module: Show ignore state of contact in contacts list
 ;  Versions: 0.0.3.0
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4016
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/IgnoreState/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/IgnoreState/
 ;  Authors: Kildor
 ;============================================================
 [IgnoreState]
@@ -14881,11 +14881,11 @@ RTL шаблон
 ;  Module: Import contacts and messages
 ;  Versions: 0.10.0.2
 ;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/import/
+;  Source: https://miranda.googlecode.com/svn/trunk/miranda/plugins/import/
 ;  Authors: Miranda team
 
 ;  URL:
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/dbx_mmap_sa/import_sa/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/dbx_mmap_sa/import_sa/
 ;  Authors: Unsane, Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -15211,7 +15211,7 @@ ICQ Контакты и история не будут импортирован�
 ;  Module: Imports history saved in TXT files from other clients
 ;  Versions: 0.0.1.10
 ;  URL:
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/importtxt/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/importtxt/
 ;  Authors: Abyss
 ;============================================================
 [Imports history saved in TXT files from other clients.]
@@ -15311,7 +15311,7 @@ ICQ Контакты и история не будут импортирован�
 ;  Module: IRC Protocol
 ;  Versions: 0.10.0.2
 ;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IRCG/
+;  Source: https://miranda.googlecode.com/svn/trunk/miranda/protocols/IRCG/
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -16009,7 +16009,7 @@ Nickserv убить фантома
 ;  Module: Jabber protocol
 ;  Versions: 0.10.0.2
 ;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/JabberG/
+;  Source: https://miranda.googlecode.com/svn/trunk/miranda/protocols/JabberG/
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 
@@ -16165,8 +16165,8 @@ TLS
 Шлепок:
 [/me slaps %s around a bit with a large trout]
 /me шарахнул %s веслом по голове
-[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-Я использую Miranda NG (http://miranda-ng.org/.)
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+Я использую Miranda NG (https://miranda-ng.org/.)
 [Alternate nick:]
 Альтернативный ник:
 
@@ -17627,7 +17627,7 @@ Dial-Up (прочтите keepstatus.txt)
 ;  Module: Keyboard Notify
 ;  Versions: 1.5.7.7
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2071
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/KeyboardNotify/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/KeyboardNotify/
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
@@ -17731,7 +17731,7 @@ Dial-Up (прочтите keepstatus.txt)
 ;  Module: Language Pack Manager
 ;  Versions: 1.0.2.3
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3003
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/Langman/
+;  Source: https://miranda-plugins.googlecode.com/svn/trunk/Langman/
 ;  Authors: HeikoH Herkenrath
 ;============================================================
 [Helps you manage Language Packs of different languages.]
@@ -18580,8 +18580,8 @@ OTR-статус
 ;  File: MobileState.dll
 ;  Module: Plugin shows mobile icon in contact list next to contacts which are using mobile client
 ;  Versions: 0.0.1.0
-;  URL: http://miranda-ng.org/
-;  Source: http://svn.miranda-ng.org/main/trunk/plugins/MobileState/
+;  URL: https://miranda-ng.org/
+;  Source: https://svn.miranda-ng.org/main/trunk/plugins/MobileState/
 ;  Authors: Robert Pösel
 ;============================================================
 [Plugin shows mobile icon in contact list next to contacts which are using mobile client.]
@@ -19391,7 +19391,7 @@ UTF8 в новых файлах
 ;  File: MsgPopup.dll, messagepopup.dll
 ;  Module: Message Popup. Replace a mesaage boxes to Popups
 ;  Versions: 0.0.0.1
-;  URL: http://miranda-im.org/download/feed.php?dlfile=1228
+;  URL: https://miranda-im.org/download/feed.php?dlfile=1228
 ;============================================================
 [ASTERISK style]
 Звездочка
@@ -19837,7 +19837,7 @@ BBCode
 ;  File: New_GPG.dll
 ;  Plugin: New GPG encryption support plugin, based on code from old GPG plugin and SecureIM
 ;  Versions: 0.9.0.0
-;  URL: http://wiki.miranda-ng.org/index.php?title=Plugin:New_GPG/en
+;  URL: https://wiki.miranda-ng.org/index.php?title=Plugin:New_GPG/en
 ;  Source: https://mysvn.ru/ghazan/myranda/trunk/plugins/New_GPG/
 ;  Authors: sss
 ;============================================================
@@ -19997,7 +19997,7 @@ BBCode
 ;  File: NewEventNotify.dll
 ;  Module: NewEventNotify
 ;  Versions: 0.1.9.2 - 0.2.1.0
-;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=341
+;  URL: https://miranda-im.org/download/details.php?action=viewfile&id=341
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3637
 ;============================================================
 [Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the Popup-Plugin by hrk. Original plugin was written by icebreaker, modified by Prezes and some bugfixes were made by vj, vlko, Nightwish, TheLeech and others. More fixes & updates by Joe @ Whale.]
@@ -20328,7 +20328,7 @@ HTTP подключение каналов новостей
 ;  File: NewXstatusNotify.dll
 ;  Module: NewXstatusNotify YM
 ;  Versions: 1.4.0.0
-;  URL: http://miranda-easy.net/mods.php
+;  URL: https://miranda-easy.net/mods.php
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
 Уведомляет вас об изменениях статусов, xСтатусов или статусных сообщений контактов.
@@ -20989,7 +20989,7 @@ xСтатус удален
 ;  File: OpenFolder.dll
 ;  Plugin: Adds a menu/toobar item which opens the main Miranda NG folder
 ;  Versions: 1.1.0.0
-;  URL: http://wiki.miranda-ng.org/index.php?title=Plugin:OpenFolder
+;  URL: https://wiki.miranda-ng.org/index.php?title=Plugin:OpenFolder
 ;  Source: https://mysvn.ru/ghazan/myranda/trunk/plugins/OpenFolder/
 ;  Authors: jarvis, Kreisquadratur
 ;============================================================
@@ -22144,7 +22144,7 @@ SmileyAdd предпочтительней из-за дефектов во вн�
 ;  File: quickmessages.dll
 ;  Module: Quick messages
 ;  Versions: 0.0.4.2
-;  URL: http://miranda.radicaled.ru/index.php?plugin=3
+;  URL: https://miranda.radicaled.ru/index.php?plugin=3
 ;============================================================
 [Plugin for quick insert pre-defined messages in message input area.]
 Позволяет вставлять предварительно заготовленные фразы в окно сообщений.
@@ -22231,7 +22231,7 @@ SmileyAdd предпочтительней из-за дефектов во вн�
 ;  File: QuickSearch.dll
 ;  Module: Quick Search, Quick Search Mod
 ;  Versions: 1.4.0.4 - 1.4.0.18
-;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=260
+;  URL: https://miranda-im.org/download/details.php?action=viewfile&id=260
 ;============================================================
 [Global QuickSearch hotkey]
 Глобальная комбинация
@@ -22939,7 +22939,7 @@ HTTP подключение Quotes
 ;  File: secureim.dll
 ;  Module: SecureIM
 ;  Versions: 1.0.1.4-1.0.12.3
-;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=411
+;  URL: https://miranda-im.org/download/details.php?action=viewfile&id=411
 ;============================================================
 [GPG Key]
 GPG ключ
@@ -24458,7 +24458,7 @@ URL в статусном сообщении
 ;  File: SmileyAdd.dll, SmileyAddW.dll
 ;  Module: SmileyAdd
 ;  Versions: 0.1.3.2-0.2.3.15
-;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=540
+;  URL: https://miranda-im.org/download/details.php?action=viewfile&id=540
 ;============================================================
 [Smiley support for Miranda NG.]
 Поддержка смайлов в Miranda NG.
@@ -24600,7 +24600,7 @@ HTTP подключение SmileyAdd
 ;  File: SMS.dll
 ;  Module: SMS
 ;  Versions: 0.2.4.8
-;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=589
+;  URL: https://miranda-im.org/download/details.php?action=viewfile&id=589
 ;============================================================
 [Send SMS text messages to mobile phones through the IM networks.]
 Отсылка SMS сообщений на мобильные телефоны посредством IM сетей.
@@ -27707,12 +27707,12 @@ Tlen чаты
 ;  Versions: 0.6.0.11-0.7.0.0
 ;  Translators: Vladimir Rozhkovskiy aka Voron (VoronSoft at email.ru)
 ;  Translation-fix: SAOPP (saop at mail.ru | icq: 342834289 | www.reallite.com.ru | www.samlab.ru), CriS
-;  Template: http://miranda-im.org/download/feed.php?dlfile=466
+;  Template: https://miranda-im.org/download/feed.php?dlfile=466
 ;  Template: ruki.sys
-;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=466
+;  URL: https://miranda-im.org/download/details.php?action=viewfile&id=466
 ;============================================================
-[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org/]
-Данный плагин списка контактов не поддерживает сервис фреймов, необходимый для их работы, поэтому плагин панели кнопок был выключен.\nДля работы панели кнопок требуется установить и / или включить один из следующих плагинов списка контактов:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nВы можете скачать их на http://miranda-ng.org/
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at https://miranda-ng.org/]
+Данный плагин списка контактов не поддерживает сервис фреймов, необходимый для их работы, поэтому плагин панели кнопок был выключен.\nДля работы панели кнопок требуется установить и / или включить один из следующих плагинов списка контактов:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nВы можете скачать их на https://miranda-ng.org/
 [Hide Offline Users]
 Скрыть отключённых
 [Show All Users]
@@ -28189,7 +28189,7 @@ Tlen чаты
 ;  File: twitter.dll
 ;  Module: Provides basic support for Twitter protocol.
 ;  Versions: 0.0.7.0
-;  URL: http://miranda-twitter.googlecode.com/files/twitter-0.0.7.0.zip
+;  URL: https://miranda-twitter.googlecode.com/files/twitter-0.0.7.0.zip
 ;============================================================
 [Twitter protocol support for Miranda NG.]
 Поддержка протокола Twitter в Miranda NG.
@@ -29783,7 +29783,7 @@ VBR или нет
 ;  File: Watrack_MPD.dll
 ;  Plugin: Music Player Daemon support for Watrack
 ;  Versions: 0.0.0.4
-;  URL: http://wiki.miranda-ng.org/index.php?title=Plugin:Watrack_MPD
+;  URL: https://wiki.miranda-ng.org/index.php?title=Plugin:Watrack_MPD
 ;  Source: https://mysvn.ru/ghazan/myranda/trunk/plugins/Watrack_MPD/
 ;  Authors: sss
 ;============================================================
@@ -29833,7 +29833,7 @@ VBR или нет
 ;  File: Weather.dll
 ;  Module: Weather
 ;  Versions: 0.2.2.0-0.3.8.16
-;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=423
+;  URL: https://miranda-im.org/download/details.php?action=viewfile&id=423
 ;============================================================
 [Weather Protocol]
 Протокол погоды
@@ -31609,7 +31609,7 @@ URL полного прогноза погоды не установлен. Вы
 ;  File: wumf.dll
 ;  Module: Who Uses My Files
 ;  Versions: 0.1.0.2
-;  URL: http://miranda-im.org/download/feed.php?dlfile=831
+;  URL: https://miranda-im.org/download/feed.php?dlfile=831
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
 Сканирует сеть в поисках пользователей, использующих ваши файлы, открытые для доступа по сети и уведомляет всплывающими окнами.

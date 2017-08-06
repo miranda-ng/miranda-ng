@@ -659,8 +659,8 @@ Nastavení výchozího kontaktu
 Chcete odstranit kontakt '%s' z metakontaktu '%s' a přidat jej do '%s'?
 [Changing metacontacts (moving)]
 Změna metakontaktu (přesun)
-[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://wiki.miranda-ng.org/Download]
-Clist Modern vyžaduje použití doplňku AVS. Nainstalujte jej pomocí Aktualizátoru nebo jej stáhněte ručně z http://wiki.miranda-ng.org/Download
+[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from https://wiki.miranda-ng.org/Download]
+Clist Modern vyžaduje použití doplňku AVS. Nainstalujte jej pomocí Aktualizátoru nebo jej stáhněte ručně z https://wiki.miranda-ng.org/Download
 [Error loading plugin]
 Chyba při načítání doplňku
 [Skins]
