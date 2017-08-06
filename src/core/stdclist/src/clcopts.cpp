@@ -461,7 +461,7 @@ int ClcModernOptInit(WPARAM wParam, LPARAM)
 	obj.iType = MODERNOPT_TYPE_SUBSECTIONPAGE;
 	obj.lptzSubsection = LPGENW("Contact list");
 	obj.iBoldControls = iBoldControls;
-	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";
+	obj.lpzHelpUrl = "https://wiki.miranda-ng.org/";
 
 	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_CLCBKG);
 	obj.pfnDlgProc = DlgProcClcBkgOpts;

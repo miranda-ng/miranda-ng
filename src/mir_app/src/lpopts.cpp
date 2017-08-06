@@ -76,7 +76,7 @@ CLangpackDlg::CLangpackDlg()
 	m_authors(this, IDC_LANGAUTHORS), m_email(this, IDC_LANGEMAIL),
 	m_locale(this, IDC_LANGLOCALE), m_lastModUsing(this, IDC_LANGMODUSING),
 	m_date(this, IDC_LANGDATE), m_reload(this, IDC_RELOAD),
-	m_more(this, IDC_MORELANG, "http://wiki.miranda-ng.org/index.php?title=Langpacks/en#Download")
+	m_more(this, IDC_MORELANG, "https://wiki.miranda-ng.org/index.php?title=Langpacks/en#Download")
 {
 	m_languages.OnChange = Callback(this, &CLangpackDlg::Languages_OnChange);
 	m_email.OnClick = Callback(this, &CLangpackDlg::Email_OnClick);

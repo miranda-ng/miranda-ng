@@ -270,11 +270,11 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		switch ((INT_PTR)PUGetPluginData(hWnd)) {
 		case 0:
-			OpenAuthUrl("http://vi.miranda-ng.org/detail/%s");
+			OpenAuthUrl("https://vi.miranda-ng.org/detail/%s");
 			break;
 
 		case 1:
-			OpenAuthUrl("http://vi.miranda-ng.org/global/%s");
+			OpenAuthUrl("https://vi.miranda-ng.org/global/%s");
 			break;
 
 		case 3:

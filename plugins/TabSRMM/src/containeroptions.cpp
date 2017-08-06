@@ -313,7 +313,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 
 		case IDC_O_HELP_TITLEFORMAT:
-			Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Title_bar_formatting");
+			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Title_bar_formatting");
 			break;
 
 		case IDOK:

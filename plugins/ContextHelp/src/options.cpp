@@ -505,7 +505,7 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 
 		case IDC_MORELANG:
-			Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Download");
+			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Download");
 			return TRUE;
 		}
 		break;

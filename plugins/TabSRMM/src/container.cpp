@@ -513,7 +513,7 @@ public:
 
 	void OnClick_Support(CCtrlButton*)
 	{
-		Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM");
+		Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM");
 	}
 };
 

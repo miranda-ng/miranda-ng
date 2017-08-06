@@ -331,7 +331,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_HELP_GENERAL:
-			Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Using_skins");
+			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Using_skins");
 			break;
 
 		case IDC_SKIN_CLOSENOW:
@@ -593,7 +593,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_HELP_GENERAL:
-			Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/General_settings");
+			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/General_settings");
 			break;
 
 		case IDC_RESETWARNINGS:
@@ -946,7 +946,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 				(IsDlgButtonChecked(hwndDlg, IDC_TYPEWIN) || IsDlgButtonChecked(hwndDlg, IDC_TYPENOWIN)));
 			break;
 		case IDC_MTN_HELP:
-			Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Typing_notifications");
+			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Typing_notifications");
 			return 0;
 		}
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -1119,7 +1119,7 @@ static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM 
 			Utils::enableDlgControl(hwndDlg, IDC_TABLIMIT, IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS) != 0);
 			break;
 		case IDC_HELP_CONTAINERS:
-			Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Containers");
+			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Containers");
 			break;
 		}
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -1198,7 +1198,7 @@ INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_PLUS_HELP) {
-			Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Advanced_tweaks");
+			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Advanced_tweaks");
 			break;
 		}
 		else if (LOWORD(wParam) == IDC_PLUS_REVERT) {		// revert to defaults...
@@ -1621,7 +1621,7 @@ static int ModernOptInitialise(WPARAM wParam, LPARAM)
 	obj.iBoldControls = iBoldControls;
 	obj.lpzClassicGroup = nullptr;
 	obj.lpzClassicPage = "Message Sessions";
-	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM";
+	obj.lpzHelpUrl = "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM";
 
 	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPTS);
 	obj.pfnDlgProc = DlgProcTabSrmmModernOptions;

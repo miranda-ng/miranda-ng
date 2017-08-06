@@ -1784,7 +1784,7 @@ int ModernOptInit(WPARAM wParam, LPARAM)
 	obj.lptzSubsection = L"Fonts";
 	obj.lpzClassicGroup = NULL;
 	obj.lpzClassicPage = "Contact list";
-	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";
+	obj.lpzHelpUrl = "https://wiki.miranda-ng.org/";
 
 	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPTS);
 	obj.pfnDlgProc = DlgProcModernOptions;

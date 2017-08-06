@@ -1357,7 +1357,7 @@ int FontsModernOptInit(WPARAM wParam, LPARAM)
 	obj.lptzSubsection = LPGENW("Fonts");
 	obj.lpzClassicGroup = "Customize";
 	obj.lpzClassicPage = "Fonts";
-	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";
+	obj.lpzHelpUrl = "https://wiki.miranda-ng.org/";
 
 	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_FONTS);
 	obj.pfnDlgProc = DlgProcModernOptions;
@@ -1369,7 +1369,7 @@ int FontsModernOptInit(WPARAM wParam, LPARAM)
 	obj.pfnDlgProc = AccMgrDlgProc;
 	obj.lpzClassicGroup = nullptr;
 	obj.lpzClassicPage = "Network";
-	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";
+	obj.lpzHelpUrl = "https://wiki.miranda-ng.org/";
 	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 */
 	obj.iSection = MODERNOPT_PAGE_MODULES;
@@ -1379,7 +1379,7 @@ int FontsModernOptInit(WPARAM wParam, LPARAM)
 	obj.iBoldControls = iBoldControls;
 	obj.lpzClassicGroup = nullptr;
 	obj.lpzClassicPage = nullptr;
-	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";
+	obj.lpzHelpUrl = "https://wiki.miranda-ng.org/";
 	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 	return 0;
 }

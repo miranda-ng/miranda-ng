@@ -581,7 +581,7 @@ static int hookModernOpt_Initialize(WPARAM wParam, LPARAM)
 	obj.iType = MODERNOPT_TYPE_SECTIONPAGE;
 	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_HOME);
 	obj.pfnDlgProc = ModernOptHome_DlgProc;
-	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";
+	obj.lpzHelpUrl = "https://wiki.miranda-ng.org/";
 	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 
 	#if defined(_DEBUG) && defined(MOPT_SAMPLE_PAGES)

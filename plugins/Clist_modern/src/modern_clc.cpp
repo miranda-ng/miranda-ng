@@ -1546,7 +1546,7 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 
 	if (!ServiceExists(MS_AV_GETAVATARBITMAP))
 		MessageBox(NULL,
-			TranslateT("Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://wiki.miranda-ng.org/Download"),
+			TranslateT("Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from https://wiki.miranda-ng.org/Download"),
 			TranslateT("Error loading plugin"), MB_ICONERROR | MB_OK);
 
 	HookEvent(ME_AV_AVATARCHANGED, clcHookAvatarChanged);

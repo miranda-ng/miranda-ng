@@ -227,7 +227,7 @@ int CListModernOptInit(WPARAM wParam, LPARAM)
 	obj.iBoldControls = iBoldControls;
 	obj.lpzClassicGroup = LPGEN("Contact list");
 	obj.lpzClassicPage = "List";
-	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";
+	obj.lpzHelpUrl = "https://wiki.miranda-ng.org/";
 
 	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_CLIST);
 	obj.pfnDlgProc = DlgProcGenOpts;

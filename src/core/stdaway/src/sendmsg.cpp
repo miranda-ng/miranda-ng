@@ -554,7 +554,7 @@ static int AwayMsgSendModernOptInit(WPARAM wParam, LPARAM)
 	obj.iBoldControls = (int*)iBoldControls;
 	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_STATUS);
 	obj.pfnDlgProc = DlgProcAwayMsgOpts;
-	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";
+	obj.lpzHelpUrl = "https://wiki.miranda-ng.org/";
 	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 	return 0;
 }

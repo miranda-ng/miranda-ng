@@ -148,7 +148,7 @@ INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 		break;
 
 	case 1:
-		OpenAuthUrl("http://vi.miranda-ng.org/detail/%s");
+		OpenAuthUrl("https://vi.miranda-ng.org/detail/%s");
 		break;
 	}
 	return 0;
@@ -159,7 +159,7 @@ INT_PTR CopyLinkToClipboard(WPARAM, LPARAM)
 	ptrW tmp(db_get_wsa(NULL, PluginName, "Username"));
 	if (tmp != NULL) {
 		wchar_t buffer[MAX_PATH];
-		mir_snwprintf(buffer, L"http://vi.miranda-ng.org/detail/%s", tmp);
+		mir_snwprintf(buffer, L"https://vi.miranda-ng.org/detail/%s", tmp);
 
 		int bufLen = (sizeof(buffer) + 1) * sizeof(wchar_t);
 		HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, bufLen);

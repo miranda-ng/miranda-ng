@@ -1382,7 +1382,7 @@ int ModernOptInitialise(WPARAM wParam, LPARAM)
 	//	obj.lpzClassicGroup = NULL;
 	obj.lpzClassicPage = "Status";
 	obj.lpzClassicTab = "Main options";
-	//	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";
+	//	obj.lpzHelpUrl = "https://wiki.miranda-ng.org/";
 
 	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_MESSAGES);
 	obj.pfnDlgProc = MessagesModernOptDlg;

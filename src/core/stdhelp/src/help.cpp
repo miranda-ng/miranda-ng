@@ -41,7 +41,7 @@ static INT_PTR AboutCommand(WPARAM wParam, LPARAM)
 
 static INT_PTR IndexCommand(WPARAM, LPARAM)
 {
-	Utils_OpenUrl("http://wiki.miranda-ng.org");
+	Utils_OpenUrl("https://wiki.miranda-ng.org");
 	return 0;
 }
 
