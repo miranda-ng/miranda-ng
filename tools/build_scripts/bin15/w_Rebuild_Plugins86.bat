@@ -19,7 +19,7 @@ call vad.bat
 
 rd /S /Q "Release\Obj"
 
-..\tools\installer_ng_stable\Tools\wget.exe -P Release/Libs -r -np -nd -nH -R html -e robots=off http://www.miranda-ng.org/distr/build/x86/
+..\tools\installer_ng_stable\Tools\wget.exe -P Release/Libs -r -np -nd -nH -R html -e robots=off https://www.miranda-ng.org/distr/build/x86/
 
 rem del /F /S /Q "Release\*.pdb"
 

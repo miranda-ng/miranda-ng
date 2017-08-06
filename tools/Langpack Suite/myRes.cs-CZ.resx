@@ -283,7 +283,7 @@
     <value>Načíst VersionInfo z internetu nebo z lokálního souboru</value>
   </data>
   <data name="label6" xml:space="preserve">
-    <value>např. http://vi.miranda-ng.org/detail/mataes</value>
+    <value>např. https://vi.miranda-ng.org/detail/mataes</value>
   </data>
   <data name="tipper" xml:space="preserve">
     <value>Seznam argumentů příkazové řádky</value>

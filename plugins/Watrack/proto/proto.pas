@@ -32,7 +32,7 @@ const
     'WATrack internal info - sorry!';
 {
     'If you see this message, probably you have no WATrack plugin installed or uses old '+
-    'version. See http://miranda-ng.org/p/Watrack for '+
+    'version. See https://miranda-ng.org/p/Watrack for '+
     'more information and download.';
 }
 const

@@ -67,7 +67,7 @@ b) Plugins
 
 5. Contact
 ----------
-The official webpage for the Miranda NG project is http://www.miranda-ng.org.
+The official webpage for the Miranda NG project is https://www.miranda-ng.org.
 
 
 6. Support

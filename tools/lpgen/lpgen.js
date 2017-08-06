@@ -378,7 +378,7 @@ function ReadFile (file) {
  file_stream=FSO.GetFile(file).OpenAsTextStream(ForReading, TristateUseDefault);
  //read file fully into var
  allstrings=file_stream.ReadAll();
- //remove all comments. The text starting with \\ (but not with ":\\" it's a links like http://miranda-ng.org/ and ")//" -there is one comment right after needed string)
+ //remove all comments. The text starting with \\ (but not with ":\\" it's a links like https://miranda-ng.org/ and ")//" -there is one comment right after needed string)
  //and remove multi-line comments, started with /* and ended with */
  text=allstrings.replace(/(?:[^\):])(\/{2}.+?(?=$))|(\s\/\*[\S\s]+?\*\/)/mg,".")
  //close file

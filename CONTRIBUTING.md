@@ -9,10 +9,10 @@ Using the following tips will **greatly** increase the chances of your issue bei
 * Have a well-written bug **Summary** field – describe the issue clearly, in simple words.
 * **Description** field – provide step-by-step instructions so we can reproduce the issue (*We can't fix what we can't reproduce*).
 * Attach screenshots if possible.
-* Attach your [VersionInfo](http://wiki.miranda-ng.org/index.php?title=Version_information).
-* Attach a [crash report](http://wiki.miranda-ng.org/index.php?title=Crash_reports) if you are experiencing crashes (It includes VersionInfo as well).
-* Attach a [network log](http://wiki.miranda-ng.org/index.php?title=Network_log) captured if you are experiencing connectivity issues.
-* If Miranda freezes, hangs up or consumes CPU, attach [information obtained by Process Explorer tool](http://wiki.miranda-ng.org/index.php?title=Using_Process_Explorer_as_the_debugging_tool).
+* Attach your [VersionInfo](https://wiki.miranda-ng.org/index.php?title=Version_information).
+* Attach a [crash report](https://wiki.miranda-ng.org/index.php?title=Crash_reports) if you are experiencing crashes (It includes VersionInfo as well).
+* Attach a [network log](https://wiki.miranda-ng.org/index.php?title=Network_log) captured if you are experiencing connectivity issues.
+* If Miranda freezes, hangs up or consumes CPU, attach [information obtained by Process Explorer tool](https://wiki.miranda-ng.org/index.php?title=Using_Process_Explorer_as_the_debugging_tool).
 
 ### How to attach files
 * Attach files by dragging & dropping, selecting them, or pasting from the clipboard

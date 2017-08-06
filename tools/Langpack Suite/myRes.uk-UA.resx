@@ -289,7 +289,7 @@
     <value>Завантажити файл ВІ з Інтернету або повніий шлях</value>
   </data>
   <data name="label6" xml:space="preserve">
-    <value>наприклад,  http://vi.miranda-ng.org/detail/mataes</value>
+    <value>наприклад,  https://vi.miranda-ng.org/detail/mataes</value>
   </data>
   <data name="tipper" xml:space="preserve">
     <value>Список параметрів командного рядка</value>

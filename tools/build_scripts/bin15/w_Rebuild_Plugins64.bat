@@ -17,7 +17,7 @@ if not %BUILD_STATUS%==0 goto :Error
 
 call vad64.bat
 
-..\tools\installer_ng_stable\Tools\wget.exe -P Release64/Libs -r -np -nd -nH -R html -e robots=off http://www.miranda-ng.org/distr/build/x64/
+..\tools\installer_ng_stable\Tools\wget.exe -P Release64/Libs -r -np -nd -nH -R html -e robots=off https://www.miranda-ng.org/distr/build/x64/
 
 rd /S /Q "Release64\Obj"
 

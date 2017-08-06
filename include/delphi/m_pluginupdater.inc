@@ -38,7 +38,7 @@ const
   Parses hashes.zip file at the specified URL and fills the base url buffer.
   later a plugin can use it to address files. %platform% macro is allowed,
   it expands to 32 or 64 depending on a Miranda's platform. For example,
-    http://miranda-ng.org/distr/stable/x%platform%
+    https://miranda-ng.org/distr/stable/x%platform%
 
   wParam = (PWideChar)ptszUrl = url of hashes.zip
   lParam = (array [1..260] of PWideChar)ptszBaseUrl = decoded base url

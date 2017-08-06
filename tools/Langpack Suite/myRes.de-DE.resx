@@ -288,7 +288,7 @@ ausgelesen, falls verfügbar).</value>
     <value>VersionInfo aus Internet oder vollen lokalen Pfad</value>
   </data>
   <data name="label6" xml:space="preserve">
-    <value>bspw. http://vi.miranda-ng.org/detail/mataes</value>
+    <value>bspw. https://vi.miranda-ng.org/detail/mataes</value>
   </data>
   <data name="tipper" xml:space="preserve">
     <value>Kommandozeilen-Argumente</value>
