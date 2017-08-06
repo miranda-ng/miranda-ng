@@ -37,7 +37,7 @@ struct CSlackProto;
 
 #define SLACK_URL "https://slack.com"
 #define SLACK_API_URL SLACK_URL "/api"
-#define SLACK_REDIRECT_URL "http://www.miranda-ng.org/slack"
+#define SLACK_REDIRECT_URL "https://www.miranda-ng.org/slack"
 
 #define SLACK_CLIENT_ID "149178180673.150539976630"
 #include "../../../miranda-private-keys/Slack/client_secret.h"
