@@ -63,9 +63,6 @@
             <outline text="Miranda IM Community"
                 title="Miranda IM Community" type="rss"
                 xmlUrl="http://community.livejournal.com/ru_mirandaim/data/rss" htmlUrl="http://ru-mirandaim.livejournal.com/"/>
-            <outline text="Miranda NG Tickets"
-                title="Miranda NG Tickets" type="rss"
-                xmlUrl="http://trac.miranda-ng.org/report/1?asc=1&amp;format=rss" htmlUrl="http://trac.miranda-ng.org/report/1"/>
             <outline
                 text="Miranda-Planet - ваша планета Miranda IM ( билды, сборки, скины, плагины, русификация, WiKi, Форум )"
                 title="Miranda-Planet - ваша планета Miranda IM ( билды, сборки, скины, плагины, русификация, WiKi, Форум )"
