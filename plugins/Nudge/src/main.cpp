@@ -253,7 +253,7 @@ static int TabsrmmButtonInit(WPARAM, LPARAM)
 
 	BBButton bbd = {};
 	bbd.pszModuleName = "Nudge";
-	bbd.pwszTooltip = LPGENW("Send Nudge");
+	bbd.pwszTooltip = LPGENW("Send nudge");
 	bbd.dwDefPos = 300;
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN;
 	bbd.hIcon = iconList[0].hIcolib;
@@ -343,7 +343,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mi.flags = CMIF_NOTOFFLINE | CMIF_UNICODE;
 	mi.position = -500050004;
 	mi.hIcolibItem = iconList[0].hIcolib;
-	mi.name.w = LPGENW("Send &Nudge");
+	mi.name.w = LPGENW("Send &nudge");
 	mi.pszService = MS_NUDGE_SEND;
 	g_hContactMenu = Menu_AddContactMenuItem(&mi);
 
