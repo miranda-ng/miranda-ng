@@ -440,8 +440,8 @@
 [My contacts]
 [My Contacts]
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
-[Close Miranda]
 [Main]
+[Close Miranda]
 [Restore last status]
 [Show/Hide offline users]
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
