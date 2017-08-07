@@ -708,8 +708,6 @@ Standardno
 
 [Send unsafe (ignore timeouts)]
 
-[Send nudge]
-
 [Splitter position]
 
 [Global]
@@ -1575,8 +1573,6 @@ Obaveštenje o kucanju
 [Save and close session]
 
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
-
-[Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
 
 ['(Unknown contact)']
 '(Nepoznat kontakt)'

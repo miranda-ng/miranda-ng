@@ -708,8 +708,6 @@ Envoyer aux contacts du &conteneur
 &Différer l'envoi
 [Send unsafe (ignore timeouts)]
 Envoi incertain (ignorer les délais)
-[Send nudge]
-
 [Splitter position]
 
 [Global]
@@ -1576,8 +1574,6 @@ Le fichier existe déjà, Voulez-vous l'écraser ?
 Sauvegarde puis ferme la session
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
 La fonction "coller et envoyer" est désactivée. Vous pouvez l'activer dans les options générales, section 'Envoi de messages'
-[Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
-
 ['(Unknown contact)']
 '(Contacts Inconnus)'
 [JPEG-compressed images]

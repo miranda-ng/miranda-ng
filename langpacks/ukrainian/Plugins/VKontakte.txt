@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.20
+;  Version: 0.1.2.21
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -125,8 +125,6 @@
 Змінювати статус контакту на "Невидимий" при його активності
 [Invisible interval timeout (min):]
 Інтервал переходу в "Невидимий" (хв):
-[Use non-standard urlEncode for sent messages (less traffic)]
-Нестандартний urlEncode для повідомлень (економія трафіку)
 [Send VK-objects links as attachments]
 Заміняти вкладеннями посилання на пости, зображення, музику, відео
 [and load sent attachments]

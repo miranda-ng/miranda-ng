@@ -1,4 +1,5 @@
 ﻿[Add message link to messages with attachments]
+[Notify about changes of contacts audio broadcast]
 [Load last messages when message window open and local history is empty]
 [Load only friends to local contact list]
 [Can't send messages for users from blacklist]
@@ -9,3 +10,4 @@
 [User was deactivated (banned)]
 [Message link]
 [VK user activate/deactivate action]
+[%s is listening to]

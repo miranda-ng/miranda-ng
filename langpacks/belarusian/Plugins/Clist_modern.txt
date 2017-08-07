@@ -853,10 +853,10 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Мае кантакты
 [My Contacts]
 Мае кантакты
-[Close Miranda]
-Зачыніць праграму
 [Main]
 Галоўны
+[Close Miranda]
+Зачыніць праграму
 [Restore last status]
 Аднавіць апошні стан статусу
 [Show/Hide offline users]

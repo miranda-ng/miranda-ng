@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.20
+;  Version: 0.1.2.21
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -128,11 +128,11 @@ drugo
 
 [Invisible interval timeout (min):]
 
-[Use non-standard urlEncode for sent messages (less traffic)]
-
 [Send VK-objects links as attachments]
 
 [and load sent attachments]
+
+[Notify about changes of contacts audio broadcast]
 
 [When I ban user...]
 
@@ -569,6 +569,8 @@ Upozorenje
 
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Service message]
+
+[%s is listening to]
 
 [Interests]
 

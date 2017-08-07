@@ -87,9 +87,9 @@ Na ručku
 
 [Nudge as Default]
 
-[Send Nudge]
+[Send nudge]
 
-[Send &Nudge]
+[Send &nudge]
 
 [Show Nudge]
 

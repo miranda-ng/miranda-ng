@@ -85,9 +85,9 @@
 Встряска по-умолчанию
 [Nudge as Default]
 Встряхнуть (по умолчанию)
-[Send Nudge]
+[Send nudge]
 Встряхнуть
-[Send &Nudge]
+[Send &nudge]
 &Встряхнуть
 [Show Nudge]
 Тряска

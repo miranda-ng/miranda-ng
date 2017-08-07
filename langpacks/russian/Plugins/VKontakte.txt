@@ -2,15 +2,13 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.20
+;  Version: 0.1.2.21
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Поддержка протокола ВКонтакте в Miranda NG.
 [Show in protocol menu ]
 Показывать в меню протокола\s
-[Notify about changes of contacts audio broadcast]
-Уведомлять о том, что контакт слушает музыку
 [Create new chat]
 Создать новый чат
 [Status message]
@@ -129,12 +127,12 @@ E-mail или номер телефона:
 Переводить статус контакта в невидимый при его активности
 [Invisible interval timeout (min):]
 Интервал перевода в "Невидимый" (мин):
-[Use non-standard urlEncode for sent messages (less traffic)]
-Использовать нестандартный urlEncode для сообщений (экономия трафика)
 [Send VK-objects links as attachments]
 Заменять вложениями ссылки на посты, изображ., музыку, документы, видео
 [and load sent attachments]
 и загружать отправленные вложения
+[Notify about changes of contacts audio broadcast]
+Уведомлять о том, что контакт слушает музыку
 [When I ban user...]
 При бане пользователя...
 [Report abuse]
@@ -557,6 +555,8 @@ ID получателя ошибочен или неизвестен
 Я вернулся
 [Service message]
 Сервисное сообщение
+[%s is listening to]
+%s слушает
 [Interests]
 Интересы
 [Activities]

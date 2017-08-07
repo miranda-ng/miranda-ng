@@ -87,9 +87,9 @@ Vous ne pouvez pas envoyer tant de wizz (uniquement 1 toutes les %d sec, %d sec 
 
 [Nudge as Default]
 
-[Send Nudge]
+[Send nudge]
 
-[Send &Nudge]
+[Send &nudge]
 
 [Show Nudge]
 

@@ -847,10 +847,10 @@ xСтатус: xПовідомлення
 Мої контакти
 [My Contacts]
 Мої контакти
-[Close Miranda]
-Закрити програму
 [Main]
 Головний
+[Close Miranda]
+Закрити програму
 [Restore last status]
 Відновити останній статус
 [Show/Hide offline users]

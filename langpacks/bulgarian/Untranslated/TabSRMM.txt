@@ -36,7 +36,6 @@
 [Saved TabSRMM avatars]
 [Group chat logs root]
 [The message send timed out]
-[Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all.]
 [Window layout tweaks]
 [Image tag]

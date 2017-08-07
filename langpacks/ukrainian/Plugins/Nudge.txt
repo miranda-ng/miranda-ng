@@ -85,10 +85,10 @@
 Струс за замовчанням
 [Nudge as Default]
 Струсити (за замовчанням)
-[Send Nudge]
+[Send nudge]
 Струсити
-[Send &Nudge]
-Струсити
+[Send &nudge]
+&Струсити
 [Show Nudge]
 Тряска
 [Nudge for %s]

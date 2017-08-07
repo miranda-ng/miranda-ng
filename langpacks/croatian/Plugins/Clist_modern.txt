@@ -864,9 +864,9 @@ tekst
 [My Contacts]
 
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
-[Close Miranda]
-
 [Main]
+
+[Close Miranda]
 
 [Restore last status]
 

@@ -7,10 +7,6 @@
 ;============================================================
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
 Поддержка протокола AOL Instant Messenger (AIM) в Miranda NG.
-[Error? Attempting to add ICQ contact to an AIM list.]
-Ошибка? Попытка добавить контакт ICQ в список AIM.
-[Cannot add this buddy because it requires authorization.]
-Невозможно добавить, требуется авторизация.
 [AIM user details]
 Информация о пользователе AIM
 [Screen name:]
@@ -229,6 +225,10 @@
 (Автоответ):
 [No information has been provided by the server.]
 Сервер не предоставил никакой информации.
+[Error? Attempting to add ICQ contact to an AIM list.]
+Ошибка? Попытка добавить контакт ICQ в список AIM.
+[Cannot add this buddy because it requires authorization.]
+Невозможно добавить, требуется авторизация.
 [Unknown error when adding buddy to list. Error code %#x]
 Неизвестная ошибка при добавлении в список. Код %#x
 [Unknown error when attempting to modify a group. Error code %#x]

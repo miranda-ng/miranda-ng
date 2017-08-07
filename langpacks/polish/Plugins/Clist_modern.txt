@@ -864,10 +864,10 @@ Moje kontakty
 [My Contacts]
 Moje kontakty
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
-[Close Miranda]
-Wyłącz Mirandę NG
 [Main]
 Ogólne
+[Close Miranda]
+Wyłącz Mirandę NG
 [Restore last status]
 Przywróć ostatni status
 [Show/Hide offline users]

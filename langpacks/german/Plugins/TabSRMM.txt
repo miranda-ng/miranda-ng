@@ -708,8 +708,6 @@ An den &Container senden
 S&päter senden
 [Send unsafe (ignore timeouts)]
 Unsicher senden (Zeitüberschreitungen ignorieren)
-[Send nudge]
-Nudge senden
 [Splitter position]
 Splitterposition
 [Global]
@@ -1576,8 +1574,6 @@ Setzen Sie Ihr Avatar...
 Speichern und schließen
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
 Die 'einfügen und senden'-Funktion ist deaktiviert. Sie können diese unter 'Allgemein' auf der Optionsseite 'Nachrichtenversand'-Sektion aktivieren.
-[Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
-Entweder das Nudge-Plugin ist nicht installiert oder das Kontakt-Protokoll unterstützt die Zusendung nicht.
 ['(Unknown contact)']
 (Unbekannter Kontakt)
 [JPEG-compressed images]

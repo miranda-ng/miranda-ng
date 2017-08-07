@@ -87,9 +87,9 @@ Poproś o uwagę
 Domyślny Nudge
 [Nudge as Default]
 Nudge jako domyślny
-[Send Nudge]
-Wyślij Nudge
-[Send &Nudge]
+[Send nudge]
+Wyślij nudge
+[Send &nudge]
 Wyślij &nudge
 [Show Nudge]
 Pokaż Nudge

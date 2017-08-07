@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.20
+;  Version: 0.1.2.21
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -128,12 +128,12 @@ Alle eingehenden Nachrichten immer als ungelesen benachrichtigen
 Unsichtbarstatus bei Benutzeraktivität erzwingen
 [Invisible interval timeout (min):]
 Intervall der Unsichtbarkeit (Min.):
-[Use non-standard urlEncode for sent messages (less traffic)]
-Nicht-Standard urlEncode für gesendete Nachrichten verwenden (weniger Verkehr)
 [Send VK-objects links as attachments]
 Links zu VK-Objekten als Anhang senden
 [and load sent attachments]
 und gesendete Anhänge laden
+[Notify about changes of contacts audio broadcast]
+
 [When I ban user...]
 Wenn ich einen Benutzer banne...
 [Report abuse]
@@ -570,6 +570,8 @@ Ich bin zurück
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Service message]
 Dienstnachricht
+[%s is listening to]
+
 [Interests]
 Interessen
 [Activities]

@@ -23,7 +23,7 @@
 [Nudge]
 [Default Nudge]
 [Nudge as Default]
-[Send &Nudge]
+[Send &nudge]
 [Show Nudge]
 [Nudge for %s]
 [You received a nudge]

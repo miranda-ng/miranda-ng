@@ -797,10 +797,10 @@ Modern contact list
 Моите контакти
 [My Contacts]
 Моите контакти
-[Close Miranda]
-Затваряне на Miranda
 [Main]
 Основна
+[Close Miranda]
+Затваряне на Miranda
 [Restore last status]
 Възстановя предишното състояние
 [Show/Hide offline users]

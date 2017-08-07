@@ -708,8 +708,6 @@ Wyślij do &kontenera
 Wyślij &później
 [Send unsafe (ignore timeouts)]
 Wyślij niebezpiecznie (ignorując przekroczenie czasu oczekiwania)
-[Send nudge]
-Wyślij nudge
 [Splitter position]
 Położenie podziałki
 [Global]
@@ -1576,8 +1574,6 @@ Ustaw awatar...
 Zapisz i zamknij sesje
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
 Funkcja "Wklej i Wyślij" jest wyłączona. Możesz ją włączyć w zakładce "Ogólne" w sekcji "Wysyłanie wiadomości".
-[Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
-Wtyczka Nudge nie jest zainstalowana lub protokół kontaktu nie wspiera wysyłania zdarzenia brzęczyka.
 ['(Unknown contact)']
 "(Nieznany kontakt)"
 [JPEG-compressed images]

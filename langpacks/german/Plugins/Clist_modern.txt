@@ -864,10 +864,10 @@ Meine Kontakte
 [My Contacts]
 Meine Kontakte
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
-[Close Miranda]
-Miranda schließen
 [Main]
 Allgemein
+[Close Miranda]
+Miranda schließen
 [Restore last status]
 Letzten Status wiederherstellen
 [Show/Hide offline users]

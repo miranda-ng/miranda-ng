@@ -85,9 +85,9 @@
 Буздільнік па змаўчанні
 [Nudge as Default]
 Абудзіць (па змаўчанні)
-[Send Nudge]
+[Send nudge]
 Страсянуць
-[Send &Nudge]
+[Send &nudge]
 Абудзіць
 [Show Nudge]
 Патрэсці

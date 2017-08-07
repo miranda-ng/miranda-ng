@@ -87,9 +87,9 @@ Nudge
 Standardnudge
 [Nudge as Default]
 Standard Nudge
-[Send Nudge]
+[Send nudge]
 Nudge senden
-[Send &Nudge]
+[Send &nudge]
 &Nudge senden
 [Show Nudge]
 Zeige Nudge
