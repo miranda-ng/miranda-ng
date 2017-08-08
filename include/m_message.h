@@ -271,6 +271,7 @@ EXTERN_C MIR_APP_DLL(void) Srmm_RedrawToolbarIcons(HWND hwndDlg);
 // ToolBar loaded event
 // This event will be send after module loaded and after each toolbar reset
 // You should add your buttons on this event
+// NOTE: this event is temporary, you need to hook it using HookTemporaryEvent
 #define ME_MSG_TOOLBARLOADED "SRMM/ButtonsBar/ModuleLoaded"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////

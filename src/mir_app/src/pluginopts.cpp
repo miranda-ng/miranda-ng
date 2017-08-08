@@ -201,9 +201,6 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 	if (CallPluginEventHook(pPlug->bpi.hInst, hModulesLoadedEvent, 0, 0) != 0)
 		goto LBL_Error;
 
-	if (hasMuuid(pPlug->bpi, miid_srmm))
-		SrmmLoadToolbar();
-
 	dat->hInst = pPlug->bpi.hInst;
 	NotifyFastHook(hevLoadModule, (WPARAM)pPlug->bpi.pluginInfo, (LPARAM)pPlug->bpi.hInst);
 	return true;

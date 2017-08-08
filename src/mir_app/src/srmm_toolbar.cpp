@@ -829,9 +829,10 @@ static int SrmmModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-void CALLBACK SrmmLoadToolbar()
+static void CALLBACK SrmmLoadToolbar()
 {
 	NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);
+	DestroyHookableEvent(hHookToolBarLoadedEvt);
 }
 
 static int ConvertToolbarData(const char *szSetting, LPARAM)
@@ -873,7 +874,6 @@ void LoadSrmmToolbarModule()
 void UnloadSrmmToolbarModule()
 {
 	DestroyHookableEvent(hHookButtonPressedEvt);
-	DestroyHookableEvent(hHookToolBarLoadedEvt);
 
 	wipeList(arButtonsList);
 }
