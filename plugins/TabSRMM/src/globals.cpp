@@ -30,6 +30,7 @@
 #include "stdafx.h"
 
 void Chat_ModulesLoaded();
+void CB_InitCustomButtons();
 
 bool g_bShutdown = false;
 
@@ -278,6 +279,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 		PluginConfig.g_buttonBarIcons[i] = 0;
 	::LoadIconTheme();
 	::CreateImageList(TRUE);
+	::CB_InitCustomButtons();
 
 	MENUITEMINFOA mii = { 0 };
 	mii.cbSize = sizeof(mii);

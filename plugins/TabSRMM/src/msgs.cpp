@@ -38,7 +38,6 @@ HMODULE g_hIconDLL = 0, g_hMsftedit;
 static void UnloadIcons();
 
 void Chat_AddIcons();
-void CB_InitCustomButtons();
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // fired event when user changes IEView plugin options. Apply them to all open tabs
@@ -1037,7 +1036,6 @@ static void TSAPI InitAPI()
 	CreateServiceFunction(MS_TABMSG_SLQMGR, CSendLater::svcQMgr);
 
 	SI_InitStatusIcons();
-	CB_InitCustomButtons();
 }
 
 int LoadSendRecvMessageModule(void)
