@@ -332,6 +332,30 @@ MIR_CORE_DLL(HANDLE) HookEventObjParam(const char *name, MIRANDAHOOKOBJPARAM hoo
 	return HookEventInt(4, name, (MIRANDAHOOK)hookProc, object, lParam);
 }
 
+MIR_CORE_DLL(HANDLE) HookTemporaryEvent(const char *name, MIRANDAHOOK hookProc)
+{
+	mir_cslockfull lck(csHooks);
+
+	int idx;
+	if ((idx = hooks.getIndex((THook*)name)) == -1) {
+		lck.unlock();
+		hookProc(0, 0);
+		return NULL;
+	}
+
+	THook *p = hooks[idx];
+	p->subscriber = (THookSubscriber*)mir_realloc(p->subscriber, sizeof(THookSubscriber)*(p->subscriberCount + 1));
+
+	THookSubscriber &s = p->subscriber[p->subscriberCount];
+	memset(&s, 0, sizeof(THookSubscriber));
+	s.type = 1;
+	s.pfnHook = hookProc;
+	s.hOwner = GetInstByAddress(hookProc);
+
+	p->subscriberCount++;
+	return (HANDLE)((p->id << 16) | p->subscriberCount);
+}
+
 MIR_CORE_DLL(HANDLE) HookEventMessage(const char *name, HWND hwnd, UINT message)
 {
 	mir_cslock lck(csHooks);

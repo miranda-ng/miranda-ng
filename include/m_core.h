@@ -109,6 +109,10 @@ MIR_CORE_DLL(HANDLE)  HookEventParam(const char *name, MIRANDAHOOKPARAM hookProc
 MIR_CORE_DLL(HANDLE)  HookEventObj(const char *name, MIRANDAHOOKOBJ hookProc, void* object);
 MIR_CORE_DLL(HANDLE)  HookEventObjParam(const char *name, MIRANDAHOOKOBJPARAM hookProc, void* object, LPARAM lParam);
 MIR_CORE_DLL(HANDLE)  HookEventMessage(const char *name, HWND hwnd, UINT message);
+
+// executes the event handler if event is missing
+MIR_CORE_DLL(HANDLE)  HookTemporaryEvent(const char *name, MIRANDAHOOK hookProc);
+
 MIR_CORE_DLL(int)     UnhookEvent(HANDLE hHook);
 MIR_CORE_DLL(void)    KillObjectEventHooks(void* pObject);
 MIR_CORE_DLL(void)    KillModuleEventHooks(HINSTANCE pModule);
