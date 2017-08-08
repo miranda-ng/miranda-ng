@@ -104,11 +104,11 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_CAPS_USER_MOOD_NOTIFY            ((JabberCapsBits)1<<26)
 #define JABBER_FEAT_PUBSUB                      L"http://jabber.org/protocol/pubsub"
 #define JABBER_CAPS_PUBSUB                      ((JabberCapsBits)1<<27)
-#define JABBER_FEAT_SECUREIM                    L"https://miranda-ng.org/caps/secureim"
+#define JABBER_FEAT_SECUREIM                    L"http://miranda-ng.org/caps/secureim"
 #define JABBER_CAPS_SECUREIM                    ((JabberCapsBits)1<<28)
-#define JABBER_FEAT_MIROTR                      L"https://miranda-ng.org/caps/mirotr"
+#define JABBER_FEAT_MIROTR                      L"http://miranda-ng.org/caps/mirotr"
 #define JABBER_CAPS_MIROTR                      ((JabberCapsBits)1<<42)
-#define JABBER_FEAT_NEWGPG                      L"https://miranda-ng.org/caps/new_gpg"
+#define JABBER_FEAT_NEWGPG                      L"http://miranda-ng.org/caps/new_gpg"
 #define JABBER_CAPS_NEWGPG                      ((JabberCapsBits)1<<43)
 #define JABBER_FEAT_OMEMO						L"eu.siacs.conversations.axolotl" //will become "urn:xmpp:omemo:0" once standard get accepted
 #define JABBER_CAPS_OMEMO						((JabberCapsBits)1<<46)
@@ -143,7 +143,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_CAPS_USER_ACTIVITY               ((JabberCapsBits)1<<37)
 #define JABBER_FEAT_USER_ACTIVITY_NOTIFY        L"http://jabber.org/protocol/activity+notify"
 #define JABBER_CAPS_USER_ACTIVITY_NOTIFY        ((JabberCapsBits)1<<38)
-#define JABBER_FEAT_MIRANDA_NOTES               L"https://miranda-ng.org/storage#notes"
+#define JABBER_FEAT_MIRANDA_NOTES               L"http://miranda-ng.org/storage#notes"
 #define JABBER_CAPS_MIRANDA_NOTES               ((JabberCapsBits)1<<39)
 #define JABBER_FEAT_JINGLE                      L"urn:xmpp:jingle:1"
 #define JABBER_CAPS_JINGLE                      ((JabberCapsBits)1<<40)
@@ -159,7 +159,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY  ((JabberCapsBits)1<<63)
 #define JABBER_CAPS_OTHER_SPECIAL               (JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY|JABBER_RESOURCE_CAPS_ERROR) // must contain all the caps not listed in g_JabberFeatCapPairs, to prevent using these bits for features registered through IJabberNetInterface::RegisterFeature()
 
-#define JABBER_CAPS_MIRANDA_NODE    L"https://miranda-ng.org/caps"
+#define JABBER_CAPS_MIRANDA_NODE    L"http://miranda-ng.org/caps"
 #define JABBER_CAPS_MIRANDA_PARTIAL (JABBER_CAPS_DISCO_INFO | JABBER_CAPS_DISCO_ITEMS | JABBER_CAPS_MUC | JABBER_CAPS_ENTITY_CAPS | JABBER_CAPS_SI | JABBER_CAPS_SI_FT | \
                                      JABBER_CAPS_BYTESTREAMS | JABBER_CAPS_IBB | JABBER_CAPS_OOB | JABBER_CAPS_CHATSTATES | JABBER_CAPS_AGENTS | JABBER_CAPS_BROWSE | \
 											    JABBER_CAPS_VERSION | JABBER_CAPS_LAST_ACTIVITY | JABBER_CAPS_DATA_FORMS | JABBER_CAPS_MESSAGE_EVENTS | JABBER_CAPS_VCARD_TEMP | \
@@ -193,8 +193,8 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_RC_SET_OPTIONS              L"http://jabber.org/protocol/rc#set-options"
 #define JABBER_FEAT_RC_FORWARD                  L"http://jabber.org/protocol/rc#forward"
 #define JABBER_FEAT_RC_LEAVE_GROUPCHATS			L"http://jabber.org/protocol/rc#leave-groupchats"
-#define JABBER_FEAT_RC_WS_LOCK                  L"https://miranda-ng.org/rc#lock_workstation"
-#define JABBER_FEAT_RC_QUIT_MIRANDA             L"https://miranda-ng.org/rc#quit"
+#define JABBER_FEAT_RC_WS_LOCK                  L"http://miranda-ng.org/rc#lock_workstation"
+#define JABBER_FEAT_RC_QUIT_MIRANDA             L"http://miranda-ng.org/rc#quit"
 
 #define JABBER_FEAT_IQ_ROSTER                   L"jabber:iq:roster"
 #define JABBER_FEAT_DELAY                       L"jabber:x:delay"

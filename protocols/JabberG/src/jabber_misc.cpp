@@ -251,7 +251,7 @@ struct
 static sttCapsNodeToName_Map[] =
 {
 	{ L"http://miranda-im.org", L"Miranda IM Jabber" },
-	{ L"https://miranda-ng.org", L"Miranda NG Jabber" },
+	{ L"http://miranda-ng.org", L"Miranda NG Jabber" },
 	{ L"http://www.google.com", L"GTalk" },
 	{ L"http://mail.google.com", L"GMail" },
 	{ L"http://talk.google.com/xmpp/bot", L"GTalk Bot" },
