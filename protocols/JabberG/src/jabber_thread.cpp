@@ -1439,15 +1439,14 @@ void CJabberProto::OnProcessPresenceCapabilites(HXML node)
 	if (r == NULL)
 		return;
 
-	// check XEP-0115 support, and old style:
+	// check XEP-0115 support, an old style:
 	HXML n;
-	if ((n = XmlGetChildByTag(node, "c", "xmlns", JABBER_FEAT_ENTITY_CAPS)) != NULL ||
-		 (n = XmlGetChild(node, "c")) != NULL)
-	{
+	if ((n = XmlGetChildByTag(node, "c", "xmlns", JABBER_FEAT_ENTITY_CAPS)) != nullptr || (n = XmlGetChild(node, "c")) != nullptr) {
+		const wchar_t *hash = XmlGetAttrValue(n, L"hash");
 		const wchar_t *szNode = XmlGetAttrValue(n, L"node");
 		const wchar_t *szVer = XmlGetAttrValue(n, L"ver");
 		const wchar_t *szExt = XmlGetAttrValue(n, L"ext");
-		if (szNode && szVer) {
+		if (szNode && szVer && hash == nullptr) {
 			r->m_tszCapsNode = mir_wstrdup(szNode);
 			r->m_tszCapsVer = mir_wstrdup(szVer);
 			r->m_tszCapsExt = mir_wstrdup(szExt);

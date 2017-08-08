@@ -385,10 +385,8 @@ void CJabberProto::SendPresenceTo(int status, const wchar_t* to, HXML extra, con
 
 	// XEP-0115:Entity Capabilities
 	if (m_options.AllowVersionRequests) {
-		wchar_t szVersionWithFeatHash[256];
-		mir_snwprintf(szVersionWithFeatHash, 255, L"%s %s", szCoreVersion, m_clientCapsManager.GetFeaturesCrc());
-		HXML c = p << XCHILDNS(L"c", JABBER_FEAT_ENTITY_CAPS) << XATTR(L"node", JABBER_CAPS_MIRANDA_NODE)
-			<< XATTR(L"ver", szVersionWithFeatHash);
+		HXML c = p << XCHILDNS(L"c", JABBER_FEAT_ENTITY_CAPS) << XATTR(L"hash", L"sha-1") 
+			<< XATTR(L"node", JABBER_CAPS_MIRANDA_NODE) << XATTR(L"ver", m_clientCapsManager.GetFeaturesCrc());
 
 		LIST<wchar_t> arrExtCaps(5);
 		if (bSecureIM)

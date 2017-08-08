@@ -277,7 +277,7 @@ protected:
 	mir_cs m_cs;
 	CJabberClientCaps *m_pClients;
 	CJabberProto *ppro;
-	wchar_t *m_szFeaturesCrc;
+	CMStringW m_szFeaturesCrc;
 
 protected:
 	CJabberClientCaps *FindClient(const wchar_t *szNode);

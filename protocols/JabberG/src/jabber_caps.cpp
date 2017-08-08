@@ -519,21 +519,18 @@ BOOL CJabberClientCaps::SetPartialCaps(int nIqId, JabberCapsBits jcbCaps)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CJabberClientCapsManager class
 
-CJabberClientCapsManager::CJabberClientCapsManager(CJabberProto *proto) : m_szFeaturesCrc(nullptr)
+CJabberClientCapsManager::CJabberClientCapsManager(CJabberProto *proto)
 {
 	ppro = proto;
 	m_pClients = NULL;
 
 	UpdateFeatHash();
-
 }
 
 void CJabberClientCapsManager::UpdateFeatHash()
 {
-	if (m_szFeaturesCrc)
-		mir_free(m_szFeaturesCrc);
-	wchar_t feat_buf[2048];
-	mir_wstrcpy(feat_buf, L"");
+	m_szFeaturesCrc.Empty();
+
 	JabberCapsBits jcb = JABBER_CAPS_MIRANDA_ALL;
 	for (int i = 0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
 		jcb |= ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
@@ -543,34 +540,46 @@ void CJabberClientCapsManager::UpdateFeatHash()
 	if (ppro->m_options.UseOMEMO)
 		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
 
-
+	CMStringA feat_buf(FORMAT, "client/pc//Miranda %d.%d.%d.%d<", __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
 	for (int i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
-		if (jcb & g_JabberFeatCapPairs[i].jcbCap)
-			mir_wstrcat(feat_buf, g_JabberFeatCapPairs[i].szFeature);
+		if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
+			feat_buf.Append(_T2A(g_JabberFeatCapPairs[i].szFeature));
+			feat_buf.AppendChar('<');
+		}
 
 	for (int i = 0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
-		if (jcb & ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap)
-			mir_wstrcat(feat_buf, ppro->m_lstJabberFeatCapPairsDynamic[i]->szFeature);
-	unsigned int hash = mir_hashstrW(feat_buf);
-	char *szHash = mir_base64_encode((BYTE*)&hash, sizeof(int));
-	m_szFeaturesCrc = mir_a2u(szHash);
-	mir_free(szHash);
+		if (jcb & ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap) {
+			feat_buf.Append(_T2A(ppro->m_lstJabberFeatCapPairsDynamic[i]->szFeature));
+			feat_buf.AppendChar('<');
+		}
+
+	wchar_t szOsBuffer[256]; szOsBuffer[0] = 0;
+	GetOSDisplayString(szOsBuffer, _countof(szOsBuffer));
+
+	feat_buf.Append("software_version"); feat_buf.AppendChar('<');
+	feat_buf.Append(__VERSION_STRING_DOTS); feat_buf.AppendChar('<');
+	
+	feat_buf.Append("x-miranda-core-version"); feat_buf.AppendChar('<'); 
+	feat_buf.Append(_T2A(szCoreVersion)); feat_buf.AppendChar('<');
+
+	BYTE hash[MIR_SHA1_HASH_SIZE];
+	mir_sha1_hash((BYTE*)feat_buf.c_str(), feat_buf.GetLength(), hash);
+	ptrA szHash(mir_base64_encode((BYTE*)&hash, sizeof(hash)));
+	m_szFeaturesCrc = szHash;
 }
 
 const wchar_t* CJabberClientCapsManager::GetFeaturesCrc()
 {
-	return m_szFeaturesCrc;
+	return m_szFeaturesCrc.c_str();
 }
 
 CJabberClientCapsManager::~CJabberClientCapsManager()
 {
 	if (m_pClients)
 		delete m_pClients;
-	if(m_szFeaturesCrc)
-		mir_free(m_szFeaturesCrc);
 }
 
-CJabberClientCaps * CJabberClientCapsManager::FindClient(const wchar_t *szNode)
+CJabberClientCaps* CJabberClientCapsManager::FindClient(const wchar_t *szNode)
 {
 	if (!m_pClients || !szNode)
 		return NULL;
@@ -587,7 +596,7 @@ CJabberClientCaps * CJabberClientCapsManager::FindClient(const wchar_t *szNode)
 void CJabberClientCapsManager::AddDefaultCaps()
 {
 	wchar_t szVerWHash[256];
-	mir_snwprintf(szVerWHash, 255, L"%s %s", szCoreVersion, m_szFeaturesCrc);
+	mir_snwprintf(szVerWHash, 255, L"%s %s", szCoreVersion, m_szFeaturesCrc.c_str());
 
 	SetClientCaps(JABBER_CAPS_MIRANDA_NODE, szVerWHash, ppro->m_options.UseOMEMO ? (JABBER_CAPS_MIRANDA_ALL | JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY) : JABBER_CAPS_MIRANDA_ALL);
 
@@ -660,7 +669,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 			//TODO: something better here
 			wchar_t szExtCap[ 512 ], szExtCapWHash [560];
 			mir_snwprintf(szExtCap, L"%s#%s", JABBER_CAPS_MIRANDA_NODE, g_JabberFeatCapPairsExt[i].szFeature);
-			mir_snwprintf(szExtCapWHash, L"%s %s", szExtCap, m_szFeaturesCrc);
+			mir_snwprintf(szExtCapWHash, L"%s %s", szExtCap, m_szFeaturesCrc.c_str());
 			if (!mir_wstrcmp(szNode, szExtCap) || !mir_wstrcmp(szNode, szExtCapWHash)) {
 				jcb = g_JabberFeatCapPairsExt[i].jcbCap;
 				break;
@@ -672,7 +681,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 			//TODO: something better here
 			wchar_t szExtCap[ 512 ], szExtCapWHash[560];
 			mir_snwprintf(szExtCap, L"%s#%s", JABBER_CAPS_MIRANDA_NODE, ppro->m_lstJabberFeatCapPairsDynamic[i]->szExt);
-			mir_snwprintf(szExtCapWHash, L"%s %s", szExtCap, m_szFeaturesCrc);
+			mir_snwprintf(szExtCapWHash, L"%s %s", szExtCap, m_szFeaturesCrc.c_str());
 			if (!mir_wstrcmp(szNode, szExtCap) || !mir_wstrcmp(szNode, szExtCapWHash)) {
 				jcb = ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
 				break;
@@ -701,8 +710,8 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 	if (szNode)
 		query << XATTR(L"node", szNode);
 
-	query << XCHILD(L"identity") << XATTR(L"category", L"client")
-			<< XATTR(L"type", L"pc") << XATTR(L"name", L"Miranda");
+	CMStringW szName(FORMAT, L"Miranda %d.%d.%d.%d", __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
+	query << XCHILD(L"identity") << XATTR(L"category", L"client") << XATTR(L"type", L"pc") << XATTR(L"name", szName);
 
 	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 		if (jcb & g_JabberFeatCapPairs[i].jcbCap)
@@ -713,19 +722,8 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 			query << XCHILD(L"feature") << XATTR(L"var", ppro->m_lstJabberFeatCapPairsDynamic[i]->szFeature);
 
 	if (ppro->m_options.AllowVersionRequests && !szNode) {
-		wchar_t szOsBuffer[256] = {0};
-		wchar_t *os = szOsBuffer;
-
-		if (ppro->m_options.ShowOSVersion) {
-			if (!GetOSDisplayString(szOsBuffer, _countof(szOsBuffer)))
-				mir_wstrncpy(szOsBuffer, L"", _countof(szOsBuffer));
-			else {
-				wchar_t *szOsWindows = L"Microsoft Windows";
-				size_t nOsWindowsLength = mir_wstrlen(szOsWindows);
-				if (!wcsnicmp(szOsBuffer, szOsWindows, nOsWindowsLength))
-					os += nOsWindowsLength + 1;
-			}
-		}
+		wchar_t szOsBuffer[256]; szOsBuffer[0] = 0;
+		GetOSDisplayString(szOsBuffer, _countof(szOsBuffer));
 
 		HXML form = query << XCHILDNS(L"x", JABBER_FEAT_DATA_FORMS) << XATTR(L"type", L"result");
 		form << XCHILD(L"field") << XATTR(L"var", L"FORM_TYPE") << XATTR(L"type", L"hidden")
@@ -733,7 +731,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 
 		if (ppro->m_options.ShowOSVersion) {
 			form << XCHILD(L"field") << XATTR(L"var", L"os") << XCHILD(L"value", L"Microsoft Windows");
-			form << XCHILD(L"field") << XATTR(L"var", L"os_version") << XCHILD(L"value", os);
+			form << XCHILD(L"field") << XATTR(L"var", L"os_version") << XCHILD(L"value", szOsBuffer);
 		}
 		form << XCHILD(L"field") << XATTR(L"var", L"software") << XCHILD(L"value", L"Miranda NG Jabber Protocol");
 		form << XCHILD(L"field") << XATTR(L"var", L"software_version") << XCHILD(L"value", _T(__VERSION_STRING_DOTS));
