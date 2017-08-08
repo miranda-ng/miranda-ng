@@ -133,7 +133,7 @@ Links zu VK-Objekten als Anhang senden
 [and load sent attachments]
 und gesendete Anhänge laden
 [Notify about changes of contacts audio broadcast]
-
+Über Änderungen des Audioübertragungsstatus von Kontakten benachrichtigen
 [When I ban user...]
 Wenn ich einen Benutzer banne...
 [Report abuse]
@@ -188,7 +188,7 @@ Abbrechen
 Im Browser öffnen
 [Invite user to chat]
 Benutzer zum Chat einladen
-[Choose one of your contacts to be invited:]
+[Choose one of your contacts Über to be invited:]
 Wählen Sie einen Kontakt aus, den Sie einladen wollen:
 [Create group chat]
 Gruppenchat erstellen
@@ -571,7 +571,7 @@ Ich bin zurück
 [Service message]
 Dienstnachricht
 [%s is listening to]
-
+%s hört gerade
 [Interests]
 Interessen
 [Activities]
