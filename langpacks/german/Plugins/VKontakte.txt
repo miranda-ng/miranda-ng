@@ -188,7 +188,7 @@ Abbrechen
 Im Browser öffnen
 [Invite user to chat]
 Benutzer zum Chat einladen
-[Choose one of your contacts Über to be invited:]
+[Choose one of your contacts to be invited:]
 Wählen Sie einen Kontakt aus, den Sie einladen wollen:
 [Create group chat]
 Gruppenchat erstellen
