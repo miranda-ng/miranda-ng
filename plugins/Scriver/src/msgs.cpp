@@ -597,8 +597,9 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_AV_AVATARCHANGED, AvatarChanged);
 	HookEvent(ME_FONT_RELOAD, FontServiceFontsChanged);
 	HookEvent(ME_MSG_ICONPRESSED, StatusIconPressed);
-	HookEvent(ME_MSG_TOOLBARLOADED, RegisterToolbarIcons);
 	HookEvent(ME_MC_DEFAULTTCHANGED, MetaContactChanged);
+
+	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, RegisterToolbarIcons);
 
 	RestoreUnreadMessageAlerts();
 	RegisterStatusIcons();

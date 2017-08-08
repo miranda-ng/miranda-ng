@@ -137,6 +137,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 int ModPlus_Init()
 {
 	HookEvent(ME_MSG_BUTTONPRESSED, CustomButtonPressed);
-	HookEvent(ME_MSG_TOOLBARLOADED, RegisterCustomButton);
+	
+	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, RegisterCustomButton);
 	return 0;
 }

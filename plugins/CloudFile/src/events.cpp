@@ -11,13 +11,13 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 		HookEventObj(ME_FILEDLG_CANCELED, OnFileDialogCanceled, service);
 	}
-	// menus
+
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
-	// srmm
-	HookEvent(ME_MSG_TOOLBARLOADED, OnSrmmToolbarLoaded);
+
 	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowOpened);
 	HookEvent(ME_MSG_BUTTONPRESSED, OnSrmmButtonPressed);
 
+	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, OnSrmmToolbarLoaded);
 	return 0;
 }
 

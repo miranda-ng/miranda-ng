@@ -436,7 +436,8 @@ static int SplitmsgModulesLoaded(WPARAM, LPARAM)
 	hMsgMenuItem = Menu_AddContactMenuItem(&mi);
 
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
-	HookEvent(ME_MSG_TOOLBARLOADED, RegisterToolbarIcons);
+	
+	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, RegisterToolbarIcons);
 
 	RestoreUnreadMessageAlerts();
 	return 0;

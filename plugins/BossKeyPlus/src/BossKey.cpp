@@ -634,8 +634,9 @@ int MirandaLoaded(WPARAM, LPARAM)
 	HookEvent(ME_OPT_INITIALISE, OptsDlgInit);
 	HookEvent(ME_MSG_WINDOWEVENT, MsgWinOpening);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, EnumProtos);
-	HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit);
 	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
+
+	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit);
 
 	GetWindowThreadProcessId(pcli->hwndContactList, &g_dwMirandaPID);
 

@@ -379,5 +379,5 @@ void CTabBaseDlg::CB_ChangeButton(CustomButtonData *cbd)
 
 void CB_InitCustomButtons()
 {
-	HookEvent(ME_MSG_TOOLBARLOADED, CB_InitDefaultButtons);
+	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, CB_InitDefaultButtons);
 }

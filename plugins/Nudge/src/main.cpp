@@ -302,10 +302,9 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
-	if (HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonInit)) {
-		HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
-		HookEvent(ME_MSG_WINDOWEVENT, ContactWindowOpen);
-	}
+	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonInit);
+	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
+	HookEvent(ME_MSG_WINDOWEVENT, ContactWindowOpen);
 	return 0;
 }
 

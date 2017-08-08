@@ -138,8 +138,9 @@ void InitSRMM()
 	OTRButton.pwszTooltip = TranslateT(LANG_OTR_TOOLTIP);
 	OTRButton.hIcon = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
 
-	HookEvent(ME_MSG_TOOLBARLOADED, SVC_ButtonsBarLoaded);
 	HookEvent(ME_MSG_BUTTONPRESSED, SVC_ButtonsBarPressed);
+
+	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, SVC_ButtonsBarLoaded);
 }
 
 void DeinitSRMM()

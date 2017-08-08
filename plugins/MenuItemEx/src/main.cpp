@@ -1038,11 +1038,9 @@ static int PluginInit(WPARAM, LPARAM)
 	hIcons[3] = MakeHalfAlphaIcon(hIcons[1]);
 	hIcons[4] = MakeHalfAlphaIcon(hIcons[2]);
 
-	if (HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit)) {
-		HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
-		HookEvent(ME_MSG_WINDOWEVENT, ContactWindowOpen);
-	}
-
+	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit);
+	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
+	HookEvent(ME_MSG_WINDOWEVENT, ContactWindowOpen);
 	return 0;
 }
 

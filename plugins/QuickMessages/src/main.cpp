@@ -256,8 +256,9 @@ static int PluginInit(WPARAM, LPARAM)
 	g_bStartup = 1;
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	HookEvent(ME_MSG_BUTTONPRESSED, CustomButtonPressed);
-	HookEvent(ME_MSG_TOOLBARLOADED, RegisterCustomButton);
 	HookEvent(ME_MSG_WINDOWPOPUP, InputMenuPopup);
+
+	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, RegisterCustomButton);
 
 	g_bRClickAuto = db_get_b(NULL, PLGNAME, "RClickAuto", 0);
 	g_bLClickAuto = db_get_b(NULL, PLGNAME, "LClickAuto", 0);
