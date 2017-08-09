@@ -111,15 +111,16 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 	if (!root)
 		return;
 
-	const JSONNode &items = root.as_array();
+	const JSONNode &items = root["invite_list"].as_array();
 	for (size_t i = 0; i < items.size(); i++) {
 		const JSONNode &item = items.at(i);
 		if (!item)
 			break;
 
-		std::string skypename = item["sender"].as_string();
+		std::string skypename = item["mri"].as_string().erase(0, 2);
 		std::string reason = item["greeting"].as_string();
-		time_t eventTime = IsoToUnixTime(item["event_time_iso"].as_string().c_str());
+
+		time_t eventTime = IsoToUnixTime(item["invites"][json_index_t(0)].as_string().c_str());
 
 		MCONTACT hContact = AddContact(skypename.c_str());
 		if (hContact) {
