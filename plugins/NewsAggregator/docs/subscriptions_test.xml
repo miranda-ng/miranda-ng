@@ -67,9 +67,6 @@
                 text="Miranda-Planet - ваша планета Miranda IM ( билды, сборки, скины, плагины, русификация, WiKi, Форум )"
                 title="Miranda-Planet - ваша планета Miranda IM ( билды, сборки, скины, плагины, русификация, WiKi, Форум )"
                 type="rss" xmlUrl="http://miranda-planet.com/rss.xml" htmlUrl="http://miranda-planet.com/"/>
-            <outline text="MirandaNG SVN" title="MirandaNG SVN"
-                type="rss"
-                xmlUrl="http://bugs.miranda-ng.org/log/?format=rss&amp;limit=100&amp;mode=stop_on_copy" htmlUrl="http://bugs.miranda-ng.org/log/?rev=4037"/>
             <outline text="ruCommunity" title="ruCommunity" type="rss"
                 xmlUrl="http://forum.miranda.im/external.php?type=RSS2" htmlUrl="http://forum.miranda.im"/>
         </outline>
