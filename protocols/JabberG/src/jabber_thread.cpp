@@ -1456,7 +1456,7 @@ void CJabberProto::OnProcessPresenceCapabilites(HXML node)
 					bin2hexW(hashOut, _countof(hashOut), szHashOut);
 					r->m_pCaps = m_clientCapsManager.GetPartialCaps(szNode, szHashOut);
 					if (r->m_pCaps == nullptr)
-						r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szHash, szVer, JABBER_RESOURCE_CAPS_NONE);
+						r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szHashOut, szVer, JABBER_RESOURCE_CAPS_NONE);
 
 					MCONTACT hContact = HContactFromJID(from);
 					if (hContact)
