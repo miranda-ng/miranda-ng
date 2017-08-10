@@ -122,23 +122,28 @@ void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
 
 		// no XEP-0115 support?
 		if (r) {
-			if (!r->m_pCaps) {
+			CJabberClientPartialCaps *pCaps = r->m_pCaps;
+			if (pCaps == nullptr) {
 				r->m_jcbCachedCaps = jcbCaps;
 				r->m_dwDiscoInfoRequestTime = -1;
 				return;
+			}
+
+			HXML identity;
+			for (int i = 1; (identity = XmlGetNthChild(query, L"identity", i)) != nullptr; i++) {
+				const wchar_t *identityName = XmlGetAttrValue(identity, L"name");
+				if (identityName)
+					pCaps->SetVer(identityName);
 			}
 
 			HXML xform;
 			for (int i = 1; (xform = XmlGetNthChild(query, L"x", i)) != NULL; i++) {
 				wchar_t *szFormTypeValue = XPath(xform, L"field[@var='FORM_TYPE']/value");
 				if (!mir_wstrcmp(szFormTypeValue, L"urn:xmpp:dataforms:softwareinfo"))
-					r->m_pCaps->Parse(xform);
+					pCaps->Parse(xform);
 			}
 
-			JabberUserInfoUpdate(pInfo->GetHContact());
-
-			if (!m_clientCapsManager.SetClientCaps(pInfo->GetIqId(), jcbCaps))
-				r->m_jcbCachedCaps = jcbCaps;
+			pCaps->SetCaps(jcbCaps, pInfo->GetIqId());
 
 			UpdateMirVer(pInfo->GetHContact(), r);
 		}
@@ -146,12 +151,13 @@ void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
 		JabberUserInfoUpdate(pInfo->GetHContact());
 	}
 	else {
-		// no version info support and no XEP-0115 support?
-		if (r && !r->m_pCaps) {
-			r->m_jcbCachedCaps = JABBER_RESOURCE_CAPS_NONE;
-			r->m_dwDiscoInfoRequestTime = -1;
+		if (r) {
+			if (!r->m_pCaps) { // no XEP-0115 support?
+				r->m_jcbCachedCaps = JABBER_RESOURCE_CAPS_NONE;
+				r->m_dwDiscoInfoRequestTime = -1;
+			}
+			else r->m_pCaps->SetCaps(JABBER_RESOURCE_CAPS_ERROR);
 		}
-		else m_clientCapsManager.SetClientCaps(pInfo->GetIqId(), JABBER_RESOURCE_CAPS_ERROR);
 	}
 }
 
@@ -390,16 +396,6 @@ CJabberClientPartialCaps* CJabberClientCaps::SetPartialCaps(const wchar_t *szHas
 	return pCaps;
 }
 
-CJabberClientPartialCaps* CJabberClientCaps::SetPartialCaps(int nIqId, JabberCapsBits jcbCaps)
-{
-	CJabberClientPartialCaps *pCaps = FindById(nIqId);
-	if (!pCaps)
-		return nullptr;
-
-	pCaps->SetCaps(jcbCaps, -1);
-	return pCaps;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // CJabberClientCapsManager class
 
@@ -518,21 +514,6 @@ CJabberClientPartialCaps* CJabberClientCapsManager::SetClientCaps(const wchar_t 
 	lck.unlock();
 	ppro->debugLogW(L"CAPS: set caps %I64x for: %s, %s", jcbCaps, szNode, szVer);
 	return res;
-}
-
-CJabberClientPartialCaps* CJabberClientCapsManager::SetClientCaps(int nIqId, JabberCapsBits jcbCaps)
-{
-	mir_cslock lck(m_cs);
-
-	for (int i = 0; i < m_arCaps.getCount(); i++) {
-		CJabberClientCaps &p = m_arCaps[i];
-		CJabberClientPartialCaps *res = p.SetPartialCaps(nIqId, jcbCaps);
-		if (res != nullptr) {
-			ppro->debugLogA("CAPS: set caps %I64x for iq %d", jcbCaps, nIqId);
-			return res;
-		}
-	}
-	return nullptr;
 }
 
 bool CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, const wchar_t *szNode)
