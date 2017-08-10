@@ -1,5 +1,7 @@
-set Drive=C:
-set SourceDir=%Drive%\Sources\miranda_NG_compilation
+set Drive=%~d0
+set SourceDir=%~dp0
+for %%a in (%SourceDir:~0,-1%) do set "SourceDir=%%~dpa"
+for %%a in (%SourceDir:~0,-1%) do set "SourceDir=%%~dpa"
 set DropDir=%Drive%\Dropbox
 set StableInstDir=%SourceDir%\tools\installer_ng_stable
 set GetIt=%StableInstDir%\Tools\wget.exe
