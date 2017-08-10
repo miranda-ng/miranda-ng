@@ -221,12 +221,13 @@ void SmileyToolWindowType::SmileySel(int but)
 		GetScrollInfo(m_hwndDialog, SB_VERT, &si);
 
 		HDC hdc = GetDC(m_hwndDialog);
-		if (m_CurrentHotTrack >= 0) {
+		if (m_CurrentHotTrack >= 0) { // erase old rectangle selection and tooltip
 			RECT rect = CalculateButtonToCoordinates(m_CurrentHotTrack, si.nPos);
 			DrawFocusRect(hdc, &rect);
 			m_CurrentHotTrack = -1;
 			SendMessage(m_hToolTip, TTM_ACTIVATE, FALSE, 0);
 		}
+
 		m_CurrentHotTrack = but;
 		if (m_CurrentHotTrack >= 0) {
 			TOOLINFO ti = { 0 };
@@ -243,6 +244,17 @@ void SmileyToolWindowType::SmileySel(int but)
 			RECT rect = CalculateButtonToCoordinates(m_CurrentHotTrack, si.nPos);
 			DrawFocusRect(hdc, &rect);
 			if (m_AniPack) m_AniPack->SetSel(rect);
+			
+			// when selection is outside the window, then scroll
+			if (but < si.nPos * (opt.HorizontalSorting ? (int)m_NumberOfHorizontalButtons : 1)) {
+				int dist = but / (opt.HorizontalSorting ? (int)m_NumberOfHorizontalButtons : 1) - si.nPos;
+				ScrollV(SB_MYMOVE, dist);
+			}
+			int numVert = m_WindowSizeY / (m_ButtonSize.cy + m_ButtonSpace);
+			if (but >= (si.nPos + numVert) * (opt.HorizontalSorting ? (int)m_NumberOfHorizontalButtons : 1)) {
+				int dist = but / (opt.HorizontalSorting ? m_NumberOfHorizontalButtons : 1) - numVert - si.nPos + 1;
+				ScrollV(SB_MYMOVE, dist);
+			}
 		}
 		ReleaseDC(m_hwndDialog, hdc);
 	}
@@ -364,6 +376,14 @@ void SmileyToolWindowType::KeyUp(WPARAM wParam, LPARAM lParam)
 
 	case VK_DOWN:
 		but += (opt.HorizontalSorting ? m_NumberOfHorizontalButtons : 1) * LOWORD(lParam);
+		break;
+
+	case VK_PRIOR:
+		but -= m_WindowSizeY / (m_ButtonSize.cy + m_ButtonSpace) * (opt.HorizontalSorting ? m_NumberOfHorizontalButtons : 1);
+		break;
+
+	case VK_NEXT:
+		but += m_WindowSizeY / (m_ButtonSize.cy + m_ButtonSpace) * (opt.HorizontalSorting ? m_NumberOfHorizontalButtons : 1);
 		break;
 
 	case VK_SPACE:
