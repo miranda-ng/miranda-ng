@@ -551,11 +551,6 @@ wchar_t* CJabberProto::GetClientJID(const wchar_t *jid, wchar_t *dest, size_t de
 	mir_cslock lck(m_csLists);
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
 	if (LI != NULL) {
-		if (LI->arResources.getCount() == 1 && !mir_wstrcmp(LI->arResources[0]->m_tszCapsNode, L"http://talk.google.com/xmpp/bot/caps")) {
-			if (p) *p = 0;
-			return dest;
-		}
-
 		if (p == NULL) {
 			pResourceStatus r(LI->getBestResource());
 			if (r != NULL)

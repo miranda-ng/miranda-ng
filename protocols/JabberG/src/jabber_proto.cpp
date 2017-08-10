@@ -544,7 +544,7 @@ DWORD_PTR __cdecl CJabberProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAG_MAXCONTACTSPERPACKET:
 		wchar_t szClientJid[JABBER_MAX_JID_LEN];
 		if (GetClientJID(hContact, szClientJid, _countof(szClientJid))) {
-			JabberCapsBits jcb = GetResourceCapabilites(szClientJid, TRUE);
+			JabberCapsBits jcb = GetResourceCapabilites(szClientJid, true);
 			return ((~jcb & JABBER_CAPS_ROSTER_EXCHANGE) ? 0 : 50);
 		}
 	}
@@ -602,15 +602,9 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 					mir_snwprintf(tmp, L"%s/%s", szBareJid, r->m_tszResourceName);
 
 					if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO) {
-						XmlNodeIq iq5(AddIQ(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
+						XmlNodeIq iq5(AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
 						iq5 << XQUERY(JABBER_FEAT_DISCO_INFO);
 						m_ThreadInfo->send(iq5);
-					}
-
-					if (r->m_dwVersionRequestTime == 0) {
-						XmlNodeIq iq4(AddIQ(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
-						iq4 << XQUERY(JABBER_FEAT_VERSION);
-						m_ThreadInfo->send(iq4);
 					}
 
 					if (!mir_wstrcmp(tmp, jid)) {
@@ -619,11 +613,6 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 						m_ThreadInfo->send(iq3);
 					}
 				}
-			}
-			else if (item->getTemp()->m_dwVersionRequestTime == 0) {
-				XmlNodeIq iq4(AddIQ(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, item->jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
-				iq4 << XQUERY(JABBER_FEAT_VERSION);
-				m_ThreadInfo->send(iq4);
 			}
 		}
 	}
@@ -783,7 +772,7 @@ int __cdecl CJabberProto::SendContacts(MCONTACT hContact, int, int nContacts, MC
 	if (!GetClientJID(hContact, szClientJid, _countof(szClientJid)))
 		return 0;
 
-	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, TRUE);
+	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, true);
 	if (~jcb & JABBER_CAPS_ROSTER_EXCHANGE)
 		return 0;
 
@@ -824,10 +813,10 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescri
 	if (item->ft != NULL)
 		return 0;
 
-	JabberCapsBits jcb = GetResourceCapabilites(item->jid, TRUE);
+	JabberCapsBits jcb = GetResourceCapabilites(item->jid, true);
 	if (jcb == JABBER_RESOURCE_CAPS_IN_PROGRESS) {
 		Sleep(600);
-		jcb = GetResourceCapabilites(item->jid, TRUE);
+		jcb = GetResourceCapabilites(item->jid, true);
 	}
 
 	// fix for very smart clients, like gajim
@@ -983,9 +972,9 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 
 	pResourceStatus r(ResourceInfoFromJID(szClientJid));
 	if (r)
-		r->m_bMessageSessionActive = TRUE;
+		r->m_bMessageSessionActive = true;
 
-	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, TRUE);
+	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, true);
 
 	if (jcb & JABBER_RESOURCE_CAPS_ERROR)
 		jcb = JABBER_RESOURCE_CAPS_NONE;
@@ -1001,7 +990,7 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 		// if message sent to groupchat
 		!mir_wstrcmp(msgType, L"groupchat") ||
 		// if message delivery check disabled in settings
-		!m_options.MsgAck || !getByte(hContact, "MsgAck", TRUE))
+		!m_options.MsgAck || !getByte(hContact, "MsgAck", true))
 	{
 		if (!mir_wstrcmp(msgType, L"groupchat"))
 			XmlAddAttr(m, L"to", szClientJid);
@@ -1239,7 +1228,7 @@ int __cdecl CJabberProto::UserIsTyping(MCONTACT hContact, int type)
 	if (item == NULL)
 		return 0;
 
-	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, TRUE);
+	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, true);
 	if (jcb & JABBER_RESOURCE_CAPS_ERROR)
 		jcb = JABBER_RESOURCE_CAPS_NONE;
 

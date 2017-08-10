@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _JABBER_CAPS_H_
 #define _JABBER_CAPS_H_
 
-#include "jabber_iq.h"
-
 typedef unsigned __int64 JabberCapsBits;
 
 #define JABBER_RESOURCE_CAPS_QUERY_TIMEOUT	10000
@@ -211,16 +209,16 @@ typedef unsigned __int64 JabberCapsBits;
 
 class CJabberClientPartialCaps
 {
-
-protected:
-	wchar_t *m_szVer;
+	ptrW m_szHash, m_szOs, m_szOsVer, m_szSoft, m_szSoftVer, m_szSoftMir;
 	JabberCapsBits m_jcbCaps;
-	CJabberClientPartialCaps *m_pNext;
 	int m_nIqId;
 	DWORD m_dwRequestTime;
 
+	class CJabberClientCaps *m_parent;
+	CJabberClientPartialCaps *m_pNext;
+
 public:
-	CJabberClientPartialCaps(const wchar_t *szVer);
+	CJabberClientPartialCaps(CJabberClientCaps *pParent, const wchar_t *szHash, const wchar_t *szVer);
 	~CJabberClientPartialCaps();
 
 	CJabberClientPartialCaps* SetNext(CJabberClientPartialCaps *pCaps);
@@ -228,54 +226,48 @@ public:
 	{	return m_pNext;
 	}
 
+	void Parse(HXML);
 	void SetCaps(JabberCapsBits jcbCaps, int nIqId = -1);
 	JabberCapsBits GetCaps();
 
-	__inline wchar_t* GetVersion()
-	{	return m_szVer;
-	}
+	__inline const wchar_t* GetHash() const { return m_szHash.get(); }
+	__inline const wchar_t* GetNode() const;
 
-	__inline int GetIqId()
-	{	return m_nIqId;
-	}
+	__inline const wchar_t* GetOs() const { return m_szOs.get(); }
+	__inline const wchar_t* GetOsVer() const { return m_szOsVer.get(); }
+	__inline const wchar_t* GetSoft() const { return m_szSoft.get(); }
+	__inline const wchar_t* GetSoftVer() const { return m_szSoftVer.get(); }
+	__inline const wchar_t* GetSoftMir() const { return m_szSoftMir.get(); }
+
+	__inline int GetIqId() const { return m_nIqId; }
 };
 
 class CJabberClientCaps
 {
-
-protected:
 	wchar_t *m_szNode;
 	CJabberClientPartialCaps *m_pCaps;
-	CJabberClientCaps *m_pNext;
-
-protected:
-	CJabberClientPartialCaps* FindByVersion(const wchar_t *szVer);
-	CJabberClientPartialCaps* FindById(int nIqId);
 
 public:
 	CJabberClientCaps(const wchar_t *szNode);
 	~CJabberClientCaps();
 
-	CJabberClientCaps* SetNext(CJabberClientCaps *pClient);
-	__inline CJabberClientCaps* GetNext()
-	{	return m_pNext;
-	}
+	CJabberClientPartialCaps* FindByVersion(const wchar_t *szHash);
+	CJabberClientPartialCaps* FindById(int nIqId);
 
-	JabberCapsBits GetPartialCaps(wchar_t *szVer);
-	BOOL SetPartialCaps(const wchar_t *szVer, JabberCapsBits jcbCaps, int nIqId = -1);
-	BOOL SetPartialCaps(int nIqId, JabberCapsBits jcbCaps);
+	JabberCapsBits            GetPartialCaps(const wchar_t *szVer);
+	CJabberClientPartialCaps* SetPartialCaps(const wchar_t *szHash, const wchar_t *szVer, JabberCapsBits jcbCaps, int nIqId = -1);
+	CJabberClientPartialCaps* SetPartialCaps(int nIqId, JabberCapsBits jcbCaps);
 
-	__inline wchar_t* GetNode()
-	{	return m_szNode;
-	}
+	__inline wchar_t* GetNode() const { return m_szNode; }
 };
+
+__inline const wchar_t* CJabberClientPartialCaps::GetNode() const { return m_parent->GetNode(); }
 
 class CJabberClientCapsManager
 {
-
-protected:
 	mir_cs m_cs;
-	CJabberClientCaps *m_pClients;
+	OBJLIST<CJabberClientCaps> m_arCaps;
+
 	CJabberProto *ppro;
 	CMStringW m_szFeaturesCrc;
 
@@ -290,11 +282,18 @@ public:
 	const wchar_t* GetFeaturesCrc();
 	void UpdateFeatHash();
 
-	JabberCapsBits GetClientCaps(wchar_t *szNode, wchar_t *szVer);
-	BOOL SetClientCaps(const wchar_t *szNode, const wchar_t *szVer, JabberCapsBits jcbCaps, int nIqId = -1);
-	BOOL SetClientCaps(int nIqId, JabberCapsBits jcbCaps);
+	JabberCapsBits GetClientCaps(const wchar_t *szNode, const wchar_t *szHash);
+	CJabberClientPartialCaps* GetPartialCaps(const wchar_t *szNode, const wchar_t *szHash);
 
-	BOOL HandleInfoRequest(HXML iqNode, CJabberIqInfo *pInfo, const wchar_t *szNode);
+	CJabberClientPartialCaps* SetClientCaps(const wchar_t *szNode, const wchar_t *szHash, const wchar_t *szVer, JabberCapsBits jcbCaps, int nIqId = -1);
+	CJabberClientPartialCaps* SetClientCaps(int nIqId, JabberCapsBits jcbCaps);
+
+	__inline CJabberClientPartialCaps* SetOwnCaps(const wchar_t *szNode, const wchar_t *szVer, JabberCapsBits jcbCaps, int nIqId = -1)
+	{
+		return SetClientCaps(szNode, m_szFeaturesCrc, szVer, jcbCaps, nIqId);
+	}
+
+	bool HandleInfoRequest(HXML iqNode, CJabberIqInfo *pInfo, const wchar_t *szNode);
 };
 
 struct JabberFeatCapPair

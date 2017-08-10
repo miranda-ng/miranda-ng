@@ -279,59 +279,53 @@ void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 void CJabberProto::FormatMirVer(pResourceStatus &resource, CMStringW &res)
 {
 	res.Empty();
-	if (resource == NULL)
+	if (resource == nullptr)
 		return;
 
-	// jabber:iq:version info requested and exists?
-	if (resource->m_dwVersionRequestTime && resource->m_tszSoftware) {
-		debugLogW(L"JabberUpdateMirVer: for iq:version rc %s: %s", resource->m_tszResourceName, resource->m_tszSoftware);
-		if (!resource->m_tszSoftwareVersion || wcsstr(resource->m_tszSoftware, resource->m_tszSoftwareVersion))
-			res = resource->m_tszSoftware;
-		else
-			res.Format(L"%s %s", resource->m_tszSoftware, resource->m_tszSoftwareVersion);
-	}
-	// no version info and no caps info? set MirVer = resource name
-	else if (!resource->m_tszCapsNode || !resource->m_tszCapsVer) {
+	// no caps info? set MirVer = resource name
+	if (resource->m_pCaps == nullptr) {
 		debugLogW(L"JabberUpdateMirVer: for rc %s: %s", resource->m_tszResourceName, resource->m_tszResourceName);
 		if (resource->m_tszResourceName)
 			res = resource->m_tszResourceName;
 	}
 	// XEP-0115 caps mode
 	else {
-		debugLogW(L"JabberUpdateMirVer: for rc %s: %s#%s", resource->m_tszResourceName, resource->m_tszCapsNode, resource->m_tszCapsVer);
-
-		int i;
+		CJabberClientPartialCaps *pCaps = resource->m_pCaps;
+		debugLogW(L"JabberUpdateMirVer: for rc %s: %s#%s", resource->m_tszResourceName, pCaps->GetNode(), pCaps->GetHash());
 
 		// search through known software list
+		int i;
 		for (i = 0; i < _countof(sttCapsNodeToName_Map); i++)
-			if (wcsstr(resource->m_tszCapsNode, sttCapsNodeToName_Map[i].node)) {
-				res.Format(L"%s %s", sttCapsNodeToName_Map[i].name, resource->m_tszCapsVer);
+			if (wcsstr(pCaps->GetNode(), sttCapsNodeToName_Map[i].node)) {
+				res.Format(L"%s %s", sttCapsNodeToName_Map[i].name, pCaps->GetSoftVer());
 				break;
 			}
 
 		// unknown software
 		if (i == _countof(sttCapsNodeToName_Map))
-			res.Format(L"%s %s", resource->m_tszCapsNode, resource->m_tszCapsVer);
+			res.Format(L"%s %s", pCaps->GetSoft(), pCaps->GetSoftVer());
 	}
 
 	// attach additional info for fingerprint plguin
-	if (resource->m_tszCapsExt && wcsstr(resource->m_tszCapsExt, JABBER_EXT_PLATFORMX86) && !wcsstr(res, L"x86"))
-		res.Append(L" x86");
+	if (resource->m_tszCapsExt) {
+		if (wcsstr(resource->m_tszCapsExt, JABBER_EXT_PLATFORMX86) && !wcsstr(res, L"x86"))
+			res.Append(L" x86");
 
-	if (resource->m_tszCapsExt && wcsstr(resource->m_tszCapsExt, JABBER_EXT_PLATFORMX64) && !wcsstr(res, L"x64"))
-		res.Append(L" x64");
+		if (wcsstr(resource->m_tszCapsExt, JABBER_EXT_PLATFORMX64) && !wcsstr(res, L"x64"))
+			res.Append(L" x64");
 
-	if (resource->m_tszCapsExt && wcsstr(resource->m_tszCapsExt, JABBER_EXT_SECUREIM) && !wcsstr(res, L"(SecureIM)"))
-		res.Append(L" (SecureIM)");
+		if (wcsstr(resource->m_tszCapsExt, JABBER_EXT_SECUREIM) && !wcsstr(res, L"(SecureIM)"))
+			res.Append(L" (SecureIM)");
 
-	if (resource->m_tszCapsExt && wcsstr(resource->m_tszCapsExt, JABBER_EXT_MIROTR) && !wcsstr(res, L"(MirOTR)"))
-		res.Append(L" (MirOTR)");
+		if (wcsstr(resource->m_tszCapsExt, JABBER_EXT_MIROTR) && !wcsstr(res, L"(MirOTR)"))
+			res.Append(L" (MirOTR)");
 
-	if (resource->m_tszCapsExt && wcsstr(resource->m_tszCapsExt, JABBER_EXT_NEWGPG) && !wcsstr(res, L"(New_GPG)"))
-		res.Append(L" (New_GPG)");
+		if (wcsstr(resource->m_tszCapsExt, JABBER_EXT_NEWGPG) && !wcsstr(res, L"(New_GPG)"))
+			res.Append(L" (New_GPG)");
 
-	if (resource->m_tszCapsExt && wcsstr(resource->m_tszCapsExt, JABBER_EXT_OMEMO) && !wcsstr(res, L"(omemo)"))
-		res.Append(L" (omemo)");
+		if (wcsstr(resource->m_tszCapsExt, JABBER_EXT_OMEMO) && !wcsstr(res, L"(omemo)"))
+			res.Append(L" (omemo)");
+	}
 
 	if (resource->m_tszResourceName && !wcsstr(res, resource->m_tszResourceName))
 		if (wcsstr(res, L"Miranda IM") || wcsstr(res, L"Miranda NG") || m_options.ShowForeignResourceInMirVer)

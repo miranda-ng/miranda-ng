@@ -168,7 +168,7 @@ void sttCleanupInfo(HWND hwndTree, int stage)
 	}
 }
 
-static HTREEITEM sttFillInfoLine(HWND hwndTree, HTREEITEM htiRoot, HICON hIcon, wchar_t *title, wchar_t *value, LPARAM id=INFOLINE_BAD_ID, bool expand=false)
+static HTREEITEM sttFillInfoLine(HWND hwndTree, HTREEITEM htiRoot, HICON hIcon, const wchar_t *title, const wchar_t *value, LPARAM id = INFOLINE_BAD_ID, bool expand = false)
 {
 	HTREEITEM hti = sttFindInfoLine(hwndTree, htiRoot, id);
 
@@ -224,30 +224,33 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 		sttInfoLineId(resource, INFOLINE_MESSAGE));
 
 	// Software
-	HICON hIcon = NULL;
-	if ( ServiceExists(MS_FP_GETCLIENTICONT)) {
-		if (r->m_tszSoftware != NULL) {
-			mir_snwprintf(buf, L"%s %s", r->m_tszSoftware, r->m_tszSoftwareVersion);
-			hIcon = Finger_GetClientIcon(buf, 0);
+	if (CJabberClientPartialCaps *pCaps = r->m_pCaps) {
+		HICON hIcon = nullptr;
+
+		if (ServiceExists(MS_FP_GETCLIENTICONT)) {
+			if (pCaps->GetSoft()) {
+				mir_snwprintf(buf, L"%s %s", pCaps->GetSoft(), pCaps->GetSoftVer());
+				hIcon = Finger_GetClientIcon(buf, 0);
+			}
 		}
+
+		sttFillInfoLine(hwndTree, htiResource, hIcon, TranslateT("Software"),
+			pCaps->GetSoft() ? pCaps->GetSoft() : TranslateT("<not specified>"),
+			sttInfoLineId(resource, INFOLINE_SOFTWARE));
+
+		// Version
+		sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("Version"),
+			pCaps->GetSoftVer() ? pCaps->GetSoftVer() : TranslateT("<not specified>"),
+			sttInfoLineId(resource, INFOLINE_VERSION));
+
+		// System
+		sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("System"),
+			pCaps->GetOs() ? pCaps->GetOs() : TranslateT("<not specified>"),
+			sttInfoLineId(resource, INFOLINE_SYSTEM));
+
+		if (hIcon)
+			DestroyIcon(hIcon);
 	}
-
-	sttFillInfoLine(hwndTree, htiResource, hIcon, TranslateT("Software"),
-		r->m_tszSoftware ? r->m_tszSoftware : TranslateT("<not specified>"),
-		sttInfoLineId(resource, INFOLINE_SOFTWARE));
-
-	if (hIcon)
-		DestroyIcon(hIcon);
-
-	// Version
-	sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("Version"),
-		r->m_tszSoftwareVersion ? r->m_tszSoftwareVersion : TranslateT("<not specified>"),
-		sttInfoLineId(resource, INFOLINE_VERSION));
-
-	// System
-	sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("System"),
-		r->m_tszOs ? r->m_tszOs : TranslateT("<not specified>"),
-		sttInfoLineId(resource, INFOLINE_SYSTEM));
 
 	// Resource priority
 	wchar_t szPriority[128];
@@ -299,16 +302,18 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	// Software info
 	HTREEITEM htiSoftwareInfo = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), NULL, TranslateT("Software information"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION));
 	int nLineId = 0;
-	if (r->m_tszOs)
-		sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Operating system"), r->m_tszOs, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-	if (r->m_tszOsVersion)
-		sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Operating system version"), r->m_tszOsVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-	if (r->m_tszSoftware)
-		sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Software"), r->m_tszSoftware, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-	if (r->m_tszSoftwareVersion)
-		sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Software version"), r->m_tszSoftwareVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-	if (r->m_tszXMirandaCoreVersion)
-		sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Miranda core version"), r->m_tszXMirandaCoreVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+	if (CJabberClientPartialCaps *pCaps = r->m_pCaps) {
+		if (pCaps->GetOs())
+			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Operating system"), pCaps->GetOs(), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+		if (pCaps->GetOsVer())
+			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Operating system version"), pCaps->GetOsVer(), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+		if (pCaps->GetSoft())
+			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Software"), pCaps->GetSoft(), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+		if (pCaps->GetSoftVer())
+			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Software version"), pCaps->GetSoftVer(), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+		if (pCaps->GetSoftMir())
+			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Miranda core version"), pCaps->GetSoftMir(), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+	}
 }
 
 static void sttFillAdvStatusInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM htiRoot, DWORD dwInfoLine, MCONTACT hContact, wchar_t *szTitle, char *pszSlot)

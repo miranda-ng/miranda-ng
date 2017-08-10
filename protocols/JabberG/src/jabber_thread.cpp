@@ -1260,7 +1260,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 		else if (!mir_wstrcmp(ptszXmlns, JABBER_FEAT_MESSAGE_EVENTS)) {
 
 			// set events support only if we discovered caps and if events not already set
-			JabberCapsBits jcbCaps = GetResourceCapabilites(from, TRUE);
+			JabberCapsBits jcbCaps = GetResourceCapabilites(from, true);
 			if (jcbCaps & JABBER_RESOURCE_CAPS_ERROR)
 				jcbCaps = JABBER_RESOURCE_CAPS_NONE;
 			// FIXME: disabled due to expired XEP-0022 and problems with bombus delivery checks
@@ -1439,25 +1439,41 @@ void CJabberProto::OnProcessPresenceCapabilites(HXML node)
 	if (r == NULL)
 		return;
 
-	// check XEP-0115 support, an old style:
-	HXML n;
-	if ((n = XmlGetChildByTag(node, "c", "xmlns", JABBER_FEAT_ENTITY_CAPS)) != nullptr || (n = XmlGetChild(node, "c")) != nullptr) {
-		const wchar_t *hash = XmlGetAttrValue(n, L"hash");
-		const wchar_t *szNode = XmlGetAttrValue(n, L"node");
-		const wchar_t *szVer = XmlGetAttrValue(n, L"ver");
-		const wchar_t *szExt = XmlGetAttrValue(n, L"ext");
-		if (szNode && szVer && hash == nullptr) {
-			r->m_tszCapsNode = mir_wstrdup(szNode);
-			r->m_tszCapsVer = mir_wstrdup(szVer);
-			r->m_tszCapsExt = mir_wstrdup(szExt);
-			MCONTACT hContact = HContactFromJID(from);
-			if (hContact)
-				UpdateMirVer(hContact, r);
+	// XEP-0115 support
+	if (r->m_pCaps == nullptr) {
+		HXML n = XmlGetChildByTag(node, "c", "xmlns", JABBER_FEAT_ENTITY_CAPS);
+		if (n != nullptr) {
+			const wchar_t *szNode = XmlGetAttrValue(n, L"node");
+			const wchar_t *szVer = XmlGetAttrValue(n, L"ver");
+			const wchar_t *szExt = XmlGetAttrValue(n, L"ext");
+			if (szNode && szVer) {
+				const wchar_t *szHash = XmlGetAttrValue(n, L"hash");
+				if (szHash == nullptr) { // old version
+					ptrA szVerUtf(mir_utf8encodeW(szVer));
+					BYTE hashOut[MIR_SHA1_HASH_SIZE];
+					mir_sha1_hash((BYTE*)szVerUtf.get(), mir_strlen(szVerUtf), hashOut);
+					wchar_t szHashOut[MIR_SHA1_HASH_SIZE * 2 + 1];
+					bin2hexW(hashOut, _countof(hashOut), szHashOut);
+					r->m_pCaps = m_clientCapsManager.GetPartialCaps(szNode, szHashOut);
+					if (r->m_pCaps == nullptr)
+						r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szHash, szVer, JABBER_RESOURCE_CAPS_NONE);
+
+					MCONTACT hContact = HContactFromJID(from);
+					if (hContact)
+						UpdateMirVer(hContact, r);
+				}
+				else {
+					r->m_pCaps = m_clientCapsManager.GetPartialCaps(szNode, szVer);
+					if (r->m_pCaps == nullptr) {
+						r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szVer, L"", JABBER_RESOURCE_CAPS_UNINIT);
+						GetResourceCapabilites(from, false);
+					}
+				}
+
+				r->m_tszCapsExt = mir_wstrdup(szExt);
+			}
 		}
 	}
-
-	// update user's caps
-	// JabberCapsBits jcbCaps = GetResourceCapabilites(from, TRUE);
 }
 
 void CJabberProto::UpdateJidDbSettings(const wchar_t *jid)
@@ -1742,37 +1758,6 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 			UpdateSubscriptionInfo(hContact, item);
 		}
 	}
-}
-
-void CJabberProto::OnIqResultVersion(HXML /*node*/, CJabberIqInfo *pInfo)
-{
-	pResourceStatus r(ResourceInfoFromJID(pInfo->GetFrom()));
-	if (r == NULL)
-		return;
-
-	r->m_dwVersionRequestTime = -1;
-
-	r->m_tszSoftware = NULL;
-	r->m_tszSoftwareVersion = NULL;
-	r->m_tszOs = NULL;
-
-	HXML queryNode = pInfo->GetChildNode();
-
-	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT && queryNode) {
-		HXML n;
-		if ((n = XmlGetChild(queryNode, "name")) != NULL && XmlGetText(n))
-			r->m_tszSoftware = mir_wstrdup(XmlGetText(n));
-		if ((n = XmlGetChild(queryNode, "version")) != NULL && XmlGetText(n))
-			r->m_tszSoftwareVersion = mir_wstrdup(XmlGetText(n));
-		if ((n = XmlGetChild(queryNode, "os")) != NULL && XmlGetText(n))
-			r->m_tszOs = mir_wstrdup(XmlGetText(n));
-	}
-
-	GetResourceCapabilites(pInfo->GetFrom(), TRUE);
-	if (pInfo->GetHContact())
-		UpdateMirVer(pInfo->GetHContact(), r);
-
-	JabberUserInfoUpdate(pInfo->GetHContact());
 }
 
 BOOL CJabberProto::OnProcessJingle(HXML node)

@@ -730,7 +730,7 @@ void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 	mir_snwprintf(buf, L"Incoming note: %s\n\n%s\nTags: %s",
 		pNote->GetTitle(), pNote->GetText(), pNote->GetTagsStr());
 
-	JabberCapsBits jcb = GetResourceCapabilites(pNote->GetFrom(), TRUE);
+	JabberCapsBits jcb = GetResourceCapabilites(pNote->GetFrom(), true);
 
 	if (jcb & JABBER_RESOURCE_CAPS_ERROR)
 		jcb = JABBER_RESOURCE_CAPS_NONE;

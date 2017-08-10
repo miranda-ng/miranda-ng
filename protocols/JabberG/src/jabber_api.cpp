@@ -243,7 +243,7 @@ int CJabberProto::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription)
 			if (wcschr(L"bcdfghjklmnpqrstvwxz0123456789", *pSrc))
 				*pDst++ = *pSrc;
 		*pDst = 0;
-		m_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, szExt, jcb);
+		m_clientCapsManager.SetOwnCaps(JABBER_CAPS_MIRANDA_NODE, szExt, jcb);
 
 		fcp = new JabberFeatCapPairDynamic();
 		fcp->szExt = szExt; // will be deallocated along with other values of JabberFeatCapPairDynamic in CJabberProto destructor

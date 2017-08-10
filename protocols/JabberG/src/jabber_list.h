@@ -102,17 +102,12 @@ public:
 	ptrW  m_tszRealJid; // real jid for jabber conferences
 
 	// XEP-0115 support
-	ptrW  m_tszCapsNode;
-	ptrW  m_tszCapsVer;
+	CJabberClientPartialCaps *m_pCaps;
 	ptrW  m_tszCapsExt;
-	DWORD m_dwVersionRequestTime, m_dwDiscoInfoRequestTime;
+	DWORD m_dwDiscoInfoRequestTime;
 
 	JabberCapsBits m_jcbCachedCaps;
 	JabberCapsBits m_jcbManualDiscoveredCaps;
-
-	// XEP-232 support
-	ptrW  m_tszOs, m_tszOsVersion;
-	ptrW  m_tszSoftware, m_tszSoftwareVersion, m_tszXMirandaCoreVersion;
 
 	// XEP-0085 gone event support
 	BOOL m_bMessageSessionActive;

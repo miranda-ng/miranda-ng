@@ -312,7 +312,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	//---- jabber_caps.cpp ---------------------------------------------------------------
 
 	JabberCapsBits GetTotalJidCapabilites(const wchar_t *jid);
-	JabberCapsBits GetResourceCapabilites(const wchar_t *jid, BOOL appendBestResource);
+	JabberCapsBits GetResourceCapabilites(const wchar_t *jid, bool appendBestResource);
 
 	//---- jabber_captcha.cpp ------------------------------------------------------------
 
@@ -386,7 +386,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int    SetupServiceDiscoveryDlg(wchar_t* jid);
 
 	void   OnIqResultCapsDiscoInfo(HXML iqNode, CJabberIqInfo *pInfo);
-	void   OnIqResultCapsDiscoInfoSI(HXML iqNode, CJabberIqInfo *pInfo);
 
 	void   RegisterAgent(HWND hwndDlg, wchar_t* jid);
 
@@ -485,7 +484,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnIqResultSetRegister(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultSetSearch(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultSetVcard(HXML iqNode, CJabberIqInfo *pInfo);
-	void   OnIqResultVersion(HXML node, CJabberIqInfo *pInfo);
 	void   OnProcessLoginRq(ThreadData *info, DWORD rq);
 	void   OnLoggedIn(void);
 
