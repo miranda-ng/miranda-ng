@@ -21,24 +21,24 @@ xcopy Common\* InnoNG_64 /I /S /V /Y
 rem end
 
 rem Download
-Tools\wget.exe -O tmp\InnoSetup5.7z https://miranda-ng.org/distr/installer/InnoSetup5.7z
-Tools\wget.exe -O tmp\miranda-ng-v%MirVer%.7z https://miranda-ng.org/distr/stable/miranda-ng-v%MirVer%.7z
-Tools\wget.exe -O tmp\miranda-ng-v%MirVer%_x64.7z https://miranda-ng.org/distr/stable/miranda-ng-v%MirVer%_x64.7z
-Tools\wget.exe -O tmp\MNG_Sounds.7z https://miranda-ng.org/distr/addons/Sounds/MNG_Sounds.7z
-Tools\wget.exe -O tmp\clist_blind_x32.zip https://miranda-ng.org/distr/stable/x32/Plugins/clist_blind.zip
-Tools\wget.exe -O tmp\clist_blind_x64.zip https://miranda-ng.org/distr/stable/x64/Plugins/clist_blind.zip
-Tools\wget.exe -O tmp\clist_nicer_x32.zip https://miranda-ng.org/distr/stable/x32/Plugins/clist_nicer.zip
-Tools\wget.exe -O tmp\clist_nicer_x64.zip https://miranda-ng.org/distr/stable/x64/Plugins/clist_nicer.zip
-Tools\wget.exe -O tmp\cln_skinedit_x32.zip https://miranda-ng.org/distr/stable/x32/Plugins/cln_skinedit.zip
-Tools\wget.exe -O tmp\cln_skinedit_x64.zip https://miranda-ng.org/distr/stable/x64/Plugins/cln_skinedit.zip
-Tools\wget.exe -O tmp\scriver_x32.zip https://miranda-ng.org/distr/stable/x32/Plugins/scriver.zip
-Tools\wget.exe -O tmp\scriver_x64.zip https://miranda-ng.org/distr/stable/x64/Plugins/scriver.zip
-Tools\wget.exe -O tmp\langpack_czech.zip https://miranda-ng.org/distr/stable/x32/Languages/langpack_czech.zip
-Tools\wget.exe -O tmp\langpack_german.zip https://miranda-ng.org/distr/stable/x32/Languages/langpack_german.zip
-Tools\wget.exe -O tmp\langpack_polish.zip https://miranda-ng.org/distr/stable/x32/Languages/langpack_polish.zip
-Tools\wget.exe -O tmp\langpack_russian.zip https://miranda-ng.org/distr/stable/x32/Languages/langpack_russian.zip
-Tools\wget.exe -O InnoNG_32\Installer\vcredist_x86.exe http://download.microsoft.com/download/C/6/D/C6D0FD4E-9E53-4897-9B91-836EBA2AACD3/vcredist_x86.exe
-Tools\wget.exe -O InnoNG_64\Installer\vcredist_x64.exe http://download.microsoft.com/download/A/8/0/A80747C3-41BD-45DF-B505-E9710D2744E0/vcredist_x64.exe
+Tools\wget.exe --no-check-certificate -O tmp\InnoSetup5.7z https://miranda-ng.org/distr/installer/InnoSetup5.7z
+Tools\wget.exe --no-check-certificate -O tmp\miranda-ng-v%MirVer%.7z https://miranda-ng.org/distr/stable/miranda-ng-v%MirVer%.7z
+Tools\wget.exe --no-check-certificate -O tmp\miranda-ng-v%MirVer%_x64.7z https://miranda-ng.org/distr/stable/miranda-ng-v%MirVer%_x64.7z
+Tools\wget.exe --no-check-certificate -O tmp\MNG_Sounds.7z https://miranda-ng.org/distr/addons/Sounds/MNG_Sounds.7z
+Tools\wget.exe --no-check-certificate -O tmp\clist_blind_x32.zip https://miranda-ng.org/distr/stable/x32/Plugins/clist_blind.zip
+Tools\wget.exe --no-check-certificate -O tmp\clist_blind_x64.zip https://miranda-ng.org/distr/stable/x64/Plugins/clist_blind.zip
+Tools\wget.exe --no-check-certificate -O tmp\clist_nicer_x32.zip https://miranda-ng.org/distr/stable/x32/Plugins/clist_nicer.zip
+Tools\wget.exe --no-check-certificate -O tmp\clist_nicer_x64.zip https://miranda-ng.org/distr/stable/x64/Plugins/clist_nicer.zip
+Tools\wget.exe --no-check-certificate -O tmp\cln_skinedit_x32.zip https://miranda-ng.org/distr/stable/x32/Plugins/cln_skinedit.zip
+Tools\wget.exe --no-check-certificate -O tmp\cln_skinedit_x64.zip https://miranda-ng.org/distr/stable/x64/Plugins/cln_skinedit.zip
+Tools\wget.exe --no-check-certificate -O tmp\scriver_x32.zip https://miranda-ng.org/distr/stable/x32/Plugins/scriver.zip
+Tools\wget.exe --no-check-certificate -O tmp\scriver_x64.zip https://miranda-ng.org/distr/stable/x64/Plugins/scriver.zip
+Tools\wget.exe --no-check-certificate -O tmp\langpack_czech.zip https://miranda-ng.org/distr/stable/x32/Languages/langpack_czech.zip
+Tools\wget.exe --no-check-certificate -O tmp\langpack_german.zip https://miranda-ng.org/distr/stable/x32/Languages/langpack_german.zip
+Tools\wget.exe --no-check-certificate -O tmp\langpack_polish.zip https://miranda-ng.org/distr/stable/x32/Languages/langpack_polish.zip
+Tools\wget.exe --no-check-certificate -O tmp\langpack_russian.zip https://miranda-ng.org/distr/stable/x32/Languages/langpack_russian.zip
+Tools\wget.exe --no-check-certificate -O InnoNG_32\Installer\vcredist_x86.exe http://download.microsoft.com/download/C/6/D/C6D0FD4E-9E53-4897-9B91-836EBA2AACD3/vcredist_x86.exe
+Tools\wget.exe --no-check-certificate -O InnoNG_64\Installer\vcredist_x64.exe http://download.microsoft.com/download/A/8/0/A80747C3-41BD-45DF-B505-E9710D2744E0/vcredist_x64.exe
 rem end
 
 rem Extract
