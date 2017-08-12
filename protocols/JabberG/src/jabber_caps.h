@@ -240,6 +240,11 @@ public:
 	__inline const wchar_t* GetSoftMir() const { return m_szSoftMir.get(); }
 
 	__inline int GetIqId() const { return m_nIqId; }
+
+	__inline void SetVer(const wchar_t *szVer)
+	{
+		m_szSoft = mir_wstrdup(szVer);
+	}
 };
 
 class CJabberClientCaps
@@ -256,7 +261,6 @@ public:
 
 	JabberCapsBits            GetPartialCaps(const wchar_t *szVer);
 	CJabberClientPartialCaps* SetPartialCaps(const wchar_t *szHash, const wchar_t *szVer, JabberCapsBits jcbCaps, int nIqId = -1);
-	CJabberClientPartialCaps* SetPartialCaps(int nIqId, JabberCapsBits jcbCaps);
 
 	__inline wchar_t* GetNode() const { return m_szNode; }
 };
@@ -286,8 +290,6 @@ public:
 	CJabberClientPartialCaps* GetPartialCaps(const wchar_t *szNode, const wchar_t *szHash);
 
 	CJabberClientPartialCaps* SetClientCaps(const wchar_t *szNode, const wchar_t *szHash, const wchar_t *szVer, JabberCapsBits jcbCaps, int nIqId = -1);
-	CJabberClientPartialCaps* SetClientCaps(int nIqId, JabberCapsBits jcbCaps);
-
 	__inline CJabberClientPartialCaps* SetOwnCaps(const wchar_t *szNode, const wchar_t *szVer, JabberCapsBits jcbCaps, int nIqId = -1)
 	{
 		return SetClientCaps(szNode, m_szFeaturesCrc, szVer, jcbCaps, nIqId);

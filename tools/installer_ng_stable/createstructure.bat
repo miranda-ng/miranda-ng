@@ -37,8 +37,8 @@ Tools\wget.exe --no-check-certificate -O tmp\langpack_czech.zip https://miranda-
 Tools\wget.exe --no-check-certificate -O tmp\langpack_german.zip https://miranda-ng.org/distr/stable/x32/Languages/langpack_german.zip
 Tools\wget.exe --no-check-certificate -O tmp\langpack_polish.zip https://miranda-ng.org/distr/stable/x32/Languages/langpack_polish.zip
 Tools\wget.exe --no-check-certificate -O tmp\langpack_russian.zip https://miranda-ng.org/distr/stable/x32/Languages/langpack_russian.zip
-Tools\wget.exe --no-check-certificate -O InnoNG_32\Installer\vcredist_x86.exe http://download.microsoft.com/download/C/6/D/C6D0FD4E-9E53-4897-9B91-836EBA2AACD3/vcredist_x86.exe
-Tools\wget.exe --no-check-certificate -O InnoNG_64\Installer\vcredist_x64.exe http://download.microsoft.com/download/A/8/0/A80747C3-41BD-45DF-B505-E9710D2744E0/vcredist_x64.exe
+Tools\wget.exe --no-check-certificate -O InnoNG_32\Installer\vcredist_x86.exe https://download.microsoft.com/download/C/6/D/C6D0FD4E-9E53-4897-9B91-836EBA2AACD3/vcredist_x86.exe
+Tools\wget.exe --no-check-certificate -O InnoNG_64\Installer\vcredist_x64.exe https://download.microsoft.com/download/A/8/0/A80747C3-41BD-45DF-B505-E9710D2744E0/vcredist_x64.exe
 rem end
 
 rem Extract
