@@ -73,7 +73,7 @@ Kolor tekstu
 [Delay]
 Wyświetlaj
 [From popup plugin]
-
+Z wtyczki popup
 [Custom]
 Niestandardowe
 [Permanent]
@@ -120,7 +120,7 @@ Wpisz nazwę &giełdową lub symbol:
 &Opis:
 ;file \plugins\Quotes\src\Chart.h
 [There is nothing to show]
-
+Nie ma co pokazać
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
 Sekund
@@ -141,9 +141,9 @@ Informacje dostarczone przez
 Wprowadź liczbę dodatnią.
 ;file \plugins\Quotes\src\Forex.cpp
 [Auto Update Enabled]
-Włącz autoaktualizację
+Auto-aktualizacja włączona
 [Auto Update Disabled]
-Wyłącz autoaktualizację
+Auto-aktualizacja wyłączona
 [Quotes]
 Notowania giełdowe
 [Enable/Disable Auto Update]
@@ -189,7 +189,7 @@ Sekcja giełdowa
 [Quote]
 Cytat
 [Export]
-Eksport
+Eksportuj
 [Swap button]
 Przycisk zamiany
 [Import]

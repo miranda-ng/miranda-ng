@@ -258,7 +258,7 @@ Uwaga!
 [Enter confirmation code]
 Wprowadź kod weryfikacyjny
 [Enter new nickname]
-
+Wprowadź nowy nick
 [Message read: %s]
 Wiadomość odczytana: %s
 [has invited you to a group]

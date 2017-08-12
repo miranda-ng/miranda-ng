@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.11.0.4
+;  Version: 0.11.0.5
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -129,7 +129,7 @@ Kraj:
 [Full name:]
 Pełna nazwa:
 [Nickname:]
-Pseudonim:
+Nick:
 [First name:]
 Imię:
 [Middle:]
@@ -371,7 +371,7 @@ Metoda zapytania:
 [If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
 Jeśli chcesz zaakceptować prośbę, kliknij autoryzuj. W przeciwnym razie,naciśnij"Odrzuć", aby ją odrzucić.
 [Authorize]
-Autoryzacja
+Autoryzuj
 [Deny]
 Odrzuć
 [Dialog]

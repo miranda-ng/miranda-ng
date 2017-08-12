@@ -13,9 +13,9 @@ Konto FTP
 [Host name]
 Nazwa hosta
 [User]
-Użytkownika
+Użytkownik
 [Password]
-Hasło:
+Hasło
 [URL]
 Link
 [Directory on server]
@@ -41,7 +41,7 @@ Kopiuj link do pobrania pliku do dziennika wiadomości
 [Autosend download link to contact]
 Automatycznie wyślij do kontaktu link do pobrania pliku
 [Menu items]
-Elementy w menu
+Elementy menu
 [Use submenu (restart required)]
 Użyj podmenu (wymagany restart)
 [Hide inactive accounts]

@@ -33,7 +33,7 @@ Folder eksportu
 [Max column width]
 Szerokość
 [Note: 0 = no limit]
-
+Notka: 0 = bez limitu
 [Time format]
 Format czasu
 [Export format]
@@ -47,7 +47,7 @@ Eksportowanie starych wiadomości
 [History file for %s (%s format %s)]
 Historia użytkownika %s (%s format %s)
 [&Find...]
-&Znajdź...
+&Szukaj...
 [&External]
 &Zewnętrzna
 [&Close]
@@ -126,7 +126,7 @@ Nie znaleziono kontaktów do eksportu
 [Failed to export at least one contact]
 Nie udało się eksportować co najmniej jednego kontaktu
 [Max line width must be at least %d. Or use 0 for no limit.]
-
+Maksymalna szerokość linii musi być co najmniej %d. 0 dla braku limitu.
 [You need to restart Miranda to change the history function]
 Musisz zrestartować Mirandę aby zmienić funkcję historii
 [File]

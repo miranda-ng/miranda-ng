@@ -55,7 +55,7 @@ Admin
 [User]
 Użytkownik
 [Enter new nickname]
-
+Wprowadź nowy nick
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 Ten czat zostanie zniszczony wraz z zawartością. Ta operacja nie będzie mogła zostać cofnięta. Czy jesteś pewien?
 [Warning]
@@ -75,7 +75,7 @@ Wybierz &rolę
 [&User]
 &Użytkownik
 [Change nick...]
-
+Zmień nick...
 [Enter new chatroom topic]
 Wprowadź nowy temat pokoju
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
@@ -193,7 +193,7 @@ Dźwięk rozmowy przychodzącej
 [Incoming call canceled sound]
 Dźwięk anulowania rozmowy przychodzącej
 [Skypename]
-
+Nazwa Skype
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Incoming call from %s]
 Przychodząca rozmowa od %s

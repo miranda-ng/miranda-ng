@@ -113,7 +113,7 @@ Typ przełącznika
 [Time]
 Pokaż czas
 [Delta time]
-Okres czasu
+Przedział czasu
 [Day of week]
 Dzień tygodnia
 [Day]
@@ -186,7 +186,7 @@ Nieprawidłowa Wiadomość
 [Import]
 Importuj
 [Export]
-Eksport
+Eksportuj
 [File does not contain selected contact]
 Plik nie zawiera zaznaczonych kontaktów
 [File is corrupted]

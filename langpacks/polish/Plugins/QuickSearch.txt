@@ -100,13 +100,13 @@ BYTE
 [Word]
 WORD
 [DWord]
-DWord
+DWORD
 [Signed]
-Podpisane
+Ze znakiem
 [As hex]
 Jako hex
 [String]
-STRING
+String
 [TimeStamp]
 Sygnatura czasu
 [Module:]

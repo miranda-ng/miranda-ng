@@ -55,7 +55,7 @@ Pokaż tytuł
 [Status bar tips]
 Podpowiedzi paska statusu
 [Avatar border]
-Obramowanie awatara
+Ramka awatara
 [Round corners (avatar)]
 Zaokrąglone rogi (awatara)
 [Keep original avatar size]
@@ -380,7 +380,7 @@ Czas kontaktu
 [Time:]
 Czas:
 [xStatus title]
-Tytuł xStatus
+xStatus
 [xStatus title:]
 Tytuł xStatus:
 [xStatus text]

@@ -103,7 +103,7 @@ Dozwolone maski
 [Real path]
 Prawdziwa ścieżka
 [User]
-Użytkownika
+Użytkownik
 [Agent]
 Agent
 [Completed]

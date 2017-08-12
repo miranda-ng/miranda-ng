@@ -98,7 +98,7 @@ dni
 [hours]
 godzin
 [minutes]
-minuty
+minut
 [Select backup folder]
 Wybierz folder kopii zapasowej
 [Error creating backup folder]
@@ -106,4 +106,4 @@ Błąd tworzenia folderu kopii bezpieczeństwa
 ;file \plugins\Db_autobackups\src\stdafx.h
 ;file \plugins\Db_autobackups\src\zip.cpp
 [Miranda NG [%s] database backup]
-
+Miranda NG [%s] kopia zapasowa profilu

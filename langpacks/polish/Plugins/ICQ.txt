@@ -227,7 +227,7 @@ Język:
 [Country:]
 Kraj:
 [State:]
-Status:
+Stan:
 [City:]
 Miasto:
 [Background info]
@@ -654,7 +654,7 @@ Kolumbia
 [Comoros]
 Komory
 [Congo, Democratic Republic of the]
-Kongo, Demokratyczna Republika
+Demokratyczna Republika Konga
 [Congo, Republic of the]
 Kongo
 [Cook Islands]
@@ -1738,7 +1738,7 @@ Sumo
 [Broken hearted]
 Złamane serce
 [Free for chat]
-Chętny do rozmowy
+Porozmawiajmy
 [@home]
 @dom
 [@work]

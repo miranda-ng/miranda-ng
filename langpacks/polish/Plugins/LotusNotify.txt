@@ -15,7 +15,7 @@ Serwer główny:
 [Secondary server:]
 Serwer zapasowy:
 [Database:]
-Baza:
+Profil:
 [Password:]
 Hasło:
 [try detect]

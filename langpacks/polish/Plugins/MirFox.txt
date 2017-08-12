@@ -17,9 +17,9 @@ po kliknięciu PPM
 [on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
 po kliknięciu środkowym przyciskiem myszy\n(używając środkowego przycisku można wysłać wiadomość wielokrotnie)
 [Firefox menu]
-
+Menu Firefox
 [Add account to contact name]
-
+Dodawaj konto do nazw kontaktu
 [Firefox profiles]
 Profile Firefox
 [Show Miranda menu only in these Firefox profiles (comma delimited)]

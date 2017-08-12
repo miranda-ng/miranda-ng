@@ -56,7 +56,7 @@ Wyłączone opcje będą dostępne w następnej wersji
 Pokaż aktualne połączenia
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [User]
-Użytkownika
+Użytkownik
 [File]
 Plik
 [Access]

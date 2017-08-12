@@ -56,7 +56,7 @@ Tox ID
 [Username]
 Użytkownik
 [VKontakte ID]
-
+VKontakte ID
 [WhatsApp ID]
 WhatsApp ID
 ;file \protocols\Dummy\src\dummy_proto.cpp

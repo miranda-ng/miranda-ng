@@ -89,7 +89,7 @@ Przechowuj zablokowane wiadomości w historii kontaktu
 [and mark them unread after approval]
 i oznacz ją jako nieprzeczytaną po zatwierdzeniu
 [Reset to defaults]
-Ustaw domyślnie
+Przywróć domyślne
 [Enable popup notifications]
 Włącz popupy
 [Appearance]
@@ -125,7 +125,7 @@ Działanie matematyczne
 [Round-robin]
 System kołowy
 [Random]
-Przypadkowy
+Losowy
 [Will be automatically evaluated from %mathexpr%]
 Zostanie automatycznie obliczony z %mathexpr%
 [Invalid regular expression.\nKeeping previous value.]

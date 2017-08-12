@@ -97,7 +97,7 @@ Nie włączaj na starcie
 [No reminder]
 Nie przypominaj
 [Selected days]
-
+Wybrane dni
 [Mon]
 Pon.
 [Tue]

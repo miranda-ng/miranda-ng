@@ -11,9 +11,9 @@ Zastępuje "okna komunikatów" (tych tylko z przyciskiem OK), popup-ami.
 [ASTERISK style]
 Styl gwiazdki
 [Background color]
-Tło
+Kolor tła
 [Text color]
-Tekst
+Kolor tekstu
 [ERROR style]
 Styl błędu
 [EXCLAMATION style]

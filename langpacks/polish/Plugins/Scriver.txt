@@ -59,7 +59,7 @@ Ogranicz liczbę zakładek rozmów grupowych do
 [Layout]
 Układ
 [Show title bar]
-Pokaż pasek tytułowy
+Pokaż pasek tytułu
 [Show status bar]
 Pokaż pasek statusu
 [Show toolbar]
@@ -468,7 +468,7 @@ Wybierz folder
 [%s: message session (%u users)]
 %s: Rozmowa (%u użytkowników)
 [Nickname]
-Nazwa
+Nick
 [Unique ID]
 Unikalne ID
 [Status]

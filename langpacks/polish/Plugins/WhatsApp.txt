@@ -52,7 +52,7 @@ Właściciele
 [&Room options]
 Opcje &pokoju
 [View/change &topic]
-Zobacz/zmień &temat
+Pokaż/Zmień &temat
 [&Quit chat session]
 &Opuść sesję czatu
 [Set &avatar]
@@ -66,7 +66,7 @@ Ustaw nowy temat dla %s
 [&Add to roster]
 &Dodaj do rostera
 [&Kick]
-&Wykop
+&Wyrzuć
 [Copy &nickname]
 Kopiuj &nick
 [Copy real &JID]

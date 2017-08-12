@@ -137,7 +137,7 @@ Użyj domyślnych kolorów
 [Delay]
 Wyświetlaj
 [From popup plugin]
-
+Z wtyczki popup
 [Custom]
 Niestandardowe
 [Permanent]
@@ -373,7 +373,7 @@ Ukryj element
 [Show Items:]
 Pokaż element:
 [Reset to defaults]
-Ustaw domyślnie
+Przywróć domyślne
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 [Creating unique name for a page failed with %d and error code %d]
 Tworzenie unikalnej nazwy strony nie powiodło się z %d oraz kodem błędu %d
@@ -621,7 +621,7 @@ Eksportuj/importuj kontakt
 [&Import user details]
 &Importuj dane kontaktu
 [View/change my &details...]
-Zobacz/zmień moje &dane
+Pokaż/Zmień moje &dane...
 [Export all contacts]
 Eksportuj wszystkie kontakty
 [Import all contacts]
@@ -1081,7 +1081,7 @@ Zakochany
 [It\'s complicated]
 Too.. skomplikowane
 [In a civil union]
-
+Małżeństwo cywilne
 [jun.]
 Junior
 [sen.]

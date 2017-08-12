@@ -25,7 +25,7 @@ Zmień rozmiar okna zgodnie z listą kontaktów
 Kontakty
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Main icon]
-Ikona główna
+Główna ikona
 [Contact]
 Kontakt
 [Toggle Ignore]
