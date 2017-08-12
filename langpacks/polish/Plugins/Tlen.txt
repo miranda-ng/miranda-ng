@@ -87,7 +87,7 @@ Tekst
 [Delay]
 Wyświetlaj
 [&From popup plugin]
-
+&Z wtyczki popup
 [&Custom]
 &Niestandardowe
 [P&ermanent]
@@ -99,7 +99,7 @@ Hasło Tlen
 [Cancel]
 Anuluj
 [Nickname:]
-Pseudonim:
+Nick:
 [First name:]
 Imię:
 [Last name:]

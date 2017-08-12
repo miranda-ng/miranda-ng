@@ -125,7 +125,7 @@ Status
 [Status message]
 Opis
 [Listening to]
-Obecnie Słucham
+Teraz odtwarzane
 [My details]
 Moje dane
 [Background]

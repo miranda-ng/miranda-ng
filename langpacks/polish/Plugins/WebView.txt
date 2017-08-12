@@ -137,7 +137,7 @@ Wyświetlanie Popup
 [Delay]
 Wyświetlaj
 [From popup plugin]
-
+Z wtyczki popup
 [Permanent]
 Stałe
 [Preview]

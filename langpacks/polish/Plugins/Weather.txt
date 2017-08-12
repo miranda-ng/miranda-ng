@@ -137,9 +137,9 @@ Tylko przy zmianie warunków
 [Colors]
 Kolory
 [Background color]
-Tło
+Kolor tła
 [Text color]
-Tekst
+Kolor tekstu
 [Use Windows colors]
 Użyj kolorów Windows
 [Popup Actions]
@@ -155,7 +155,7 @@ Wyświetlaj
 [seconds]
 s
 [From popup plugin]
-
+Z wtyczki popup
 [Permanent]
 Stałe
 [Popup Text]
@@ -245,7 +245,7 @@ Otwórz mapę pogodową
 [View history]
 Pokaż historię
 [Open log file]
-Otwórz raport pliku
+Otwórz plik raportu
 [Show user menu]
 Pokaż menu użytkownika
 [Show user detail]
@@ -339,7 +339,7 @@ Nie ustawiono adresu strony z kompletną prognozą. Możesz go ustawić w okienk
 Nie ustawiono adresu mapy pogodowej. Możesz go ustawić w okienku edycji ustawień.
 ;file \plugins\Weather\src\weather.cpp
 [Enable/disable auto update]
-Włącz/Wyłącz auto-aktualizacje
+Włącz/Wyłącz autoaktualizacje
 [Auto Update Enabled]
 Auto-aktualizacja włączona
 [Auto Update Disabled]

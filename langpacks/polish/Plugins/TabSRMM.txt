@@ -337,7 +337,7 @@ Standardowe szablony...
 [RTL templates...]
 Szablony RTL...
 [Load history events]
-Ładuj zdarzenia z historii
+Wczytaj zdarzenia z historii
 [Load unread events only]
 Tylko nieprzeczytane zdarzenia
 [Load number of previous events]
@@ -439,7 +439,7 @@ Pokaż &wpis w menu głównym
 [...is typing]
 ...pisze
 [From popup plugin]
-
+Z wtyczki popup
 [From protocol]
 Z protokołu
 [Permanent]
@@ -611,7 +611,7 @@ Automatycznie przełączaj karty w zminimalizowanych oknach
 [History:]
 Historia:
 [Notifications:]
-Notyfikacje:
+Powiadomienia:
 [Don't announce when dialog is open]
 Nie ogłaszaj, gdy okno jest otwarte
 [Message events]
@@ -811,7 +811,7 @@ Zamknij kontener\talt+f4
 [Show menu bar]
 Pokaż pasek menu
 [Show status bar]
-Pokaż pasek stanu
+Pokaż pasek statusu
 [Info panel...]
 Panel informacyjny...
 [Toolbar]
@@ -891,11 +891,11 @@ Filtr zdarzeń: PPM - ustawienia, LPM - aktywacja/dezaktywacja
 Zarządzanie kanałem
 ;file \plugins\TabSRMM\src\chat_log.cpp
 [%s has joined]
-%s dołączył(-a)
+%s dołączył(a)
 [You have joined %s]
 Dołączyłeś do %s
 [%s has left]
-%s opuścił(-a) czat
+%s opuścił(a) czat
 [%s has disconnected]
 %s został rozłączony
 [%s is now known as %s]
@@ -1167,13 +1167,13 @@ Podświetlanie wyszukiwania
 [Fields background]
 Tło pola
 [Nick list background]
-Kolor listy uczestników
+Tło listy użytkowników
 [Group chat log background]
-Tło dziennika wiadomości w czacie grupowym
+Tło dziennika czatu grupowego
 [nick of current contact (if defined)]
 nick obecnego kontaktu (jeśli zdefiniowany)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
-Nazwa protokołu obecnego kontaktu jeśli zdefiniowana. Jeśli protokół wspiera kilka kont, używana jest nazwa konta.
+nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeśli protokół wspiera wiele kont, użyta zostanie nazwa konta.
 [user-defined account name of current contact (if defined).]
 nazwa zdefiniowanej nazwy konta kontaktu (jeśli zdefiniowany).
 [user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
@@ -1213,7 +1213,7 @@ pełna nazwa miesiąca
 [year without century, 01-99]
 rok bez stulecia, 01-99
 [year with century, 1901-9999]
-rok z stuleciem, 1901-9999
+rok ze stuleciem, 1901-9999
 [abbreviated weekday name]
 skrócona nazwa dnia tygodnia
 [full weekday name]
@@ -1424,9 +1424,9 @@ Wyślij wiadomość
 [Show message history]
 Pokaż historię
 [Show send menu]
-
+Pokaż menu wyślij
 [Show protocol menu]
-
+Pokaż menu protokołu
 [Show user menu]
 Pokaż menu użytkownika
 [Show user details]
@@ -1518,7 +1518,7 @@ Zapisane awatary TabSRMM
 [Group chat logs root]
 Folder dziennika czatu
 [Typing notification]
-Powiadomienie o pisaniu
+Pisanie
 ;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 Wklej tag [img] lub otocz zaznaczony tekst tagami [img][/img]
@@ -1536,7 +1536,7 @@ Automatyczne przewijanie jest wyłączone (naciśnij F12, aby je włączyć).
 [Click for contact menu\nClick dropdown for window settings]
 Kliknij, by pokazać menu kontaktu\nKliknij strzałkę, by pokazać ustawienia okna
 [Retry]
-Ponów próbę
+Gotowy
 [Send later]
 Wyślij później
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
@@ -1685,7 +1685,7 @@ Zminimalizuj okno do paska
 [Close or hide window, depends on the close button setting above]
 Zamknij lub ukryj okno, zamykanie kart ma pierwszeństwo
 [Message sessions]
-Sesje rozmowy
+Okno rozmowy
 [General]
 Ogólne
 [Tabs and layout]
@@ -1962,7 +1962,7 @@ Pokaż nagłówki
 [Dismiss popup]
 Odrzuć popup
 [Open event]
-Otwórz zdarzenie
+Pokaż zdarzenie
 [Dismiss event]
 Odrzuć zdarzenie
 [Disable event notifications for instant messages]
@@ -2030,7 +2030,7 @@ Rysuj linie dzielące zdarzenia w dzienniku
 [Use incoming/outgoing icons]
 Użyj ikon dla Przychodzących/Wychodzących
 [Use message grouping]
-Użyj grupowania wiadomości
+Grupuj wiadomości
 [Simple text formatting (*bold*, etc.)]
 Proste formatowanie tekstu (*pogrubienie* itp.)
 [Support BBCode formatting]

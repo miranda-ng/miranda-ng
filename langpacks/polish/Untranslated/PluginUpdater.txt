@@ -1,2 +1,0 @@
-﻿[Change platform to 32-bit]
-[Change platform to 64-bit]

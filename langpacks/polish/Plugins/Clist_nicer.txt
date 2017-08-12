@@ -35,13 +35,13 @@ Nie
 [Yes]
 Tak
 [Hide from list only, in order to keep their history and ignore/visibility settings]
-Tylko ukryj na liście by zatrzymać ustawienia ignorowania/widoczności.
+Tylko ukryj na liście by zatrzymać historię i ustawienia ignorowania/widoczności.
 [Use Options -> Contacts -> Ignore to unhide contacts.]
 Użyj Opcje -> Kontakty -> Ignorowanie by pokazać kontakty.
 [Are you sure you want to delete %s?]
 Czy na pewno chcesz usunąć %s?
 [This will erase all history and settings for this contact!]
-To usunie wszystkie ustawienia i historię dla tego kontaktu!
+To usunie wszystkie ustawienia i historię tego kontaktu!
 [Contact list]
 Lista kontaktów
 [Hide offline users]
@@ -71,7 +71,7 @@ Zawsze pokazuj status w podpowiedzi
 [ms]
 ms
 [Event area]
-Obszar powiadomień
+Obszar zdarzeń
 [Set base visibility on the frames menu]
 Ustaw tryby widoku
 [Auto mode]
@@ -115,7 +115,7 @@ Margines (lewy/prawy)
 [Row gap]
 Odstęp wierszy
 [Minimum row height:]
-Minimalna wysokość wiersza
+Minimalna wysokość wiersza:
 [Group row height]
 Wysokość wiersza grupy
 [Indent groups by:]
@@ -145,7 +145,7 @@ Wyrównanie do prawej
 [Avatars]
 Awatary
 [Show avatars]
-Pokaż awatar
+Pokazuj awatary
 [Height]
 Wysokość
 [Draw a border around avatars]
@@ -293,7 +293,7 @@ Użyj tych ustawień skórki dla całego tła
 [If you enable this, the background settings will affect the entire contact list frame.]
 Po włączeniu tej opcji, ustawienia tła wpłyną na całą ramkę listy kontaktów.
 [Status bar]
-Pasek stanu
+Pasek statusu
 [Show status bar]
 Pokaż pasek statusu
 [Show icons]
@@ -457,20 +457,20 @@ Za&jęty\tCtrl+4
 [&Do not disturb\tCtrl+5]
 &Nie przeszkadzać\tCtrl+5
 [&Free for chat\tCtrl+6]
-&Chętny do rozmowy\tCtrl+6
+&Porozmawiajmy\tCtrl+6
 [&Invisible\tCtrl+7]
 N&iewidoczny\tCtrl+7
 [On the &phone\tCtrl+8]
-Przy &telefonie\tCtrl+8
+Pod &telefonem\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Na &obiedzie\tCtrl+9
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Pokaż menu
 [Show/Hide offline contacts]
-Pokaż/Ukryj rozłączone kontakty
+Pokaż/Ukryj rozłączonych
 [Use/Disable groups]
-Używaj/Wyłącz grupy
+Włącz/Wyłącz grupy
 [Find and add contacts]
 Szukaj i dodaj kontakt
 [Accounts]
@@ -657,7 +657,7 @@ Czas lokalny
 [Selected text]
 Zaznaczony tekst
 [Hottrack text]
-Śledzony tekst
+Tekst pod kursorem
 [Quicksearch text]
 Tekst szybkiego szukania
 [Embedded frames border]
@@ -676,7 +676,7 @@ Z&winięty
 [&Floating mode]
 Tryb &pływający
 [&Border]
-*&Obramowanie
+&Obramowanie
 [&Skinned frame]
 &Skórkowalna ramka
 [&Align]
@@ -738,7 +738,7 @@ Rysuj zatopioną ramkę
 [&Hide/show]
 &Ukryj/pokaż
 [&Find/add contacts...]
-&Znajdź/dodaj kontakt
+&Szukaj/Dodaj kontakty...
 [Appearance]
 Personalizacja
 [&Options...]

@@ -67,7 +67,7 @@ Historia systemowa
 [Select items to import:]
 Wybierz rzeczy do importu:
 [Incoming]
-Przychodzący
+Przychodzące
 [Outgoing]
 Wychodzące
 [Only since:]
@@ -166,7 +166,7 @@ Dany plik nie istnieje. Sprawdź czy wpisałeś poprawnie jego nazwę.
 [Miranda Import]
 Import Mirandy
 [Miranda NG database]
-Baza danych Miranda NG
+Profil Mirandy NG
 [All Files]
 Wszystkie pliki
 ;file \plugins\Import\src\utils.cpp

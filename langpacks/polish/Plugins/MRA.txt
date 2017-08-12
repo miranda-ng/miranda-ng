@@ -73,7 +73,7 @@ Miejsce
 [Country:]
 Kraj:
 [State:]
-Status:
+Stan:
 [Search online users only]
 Szukaj tylko wśród połączonych
 [City:]
@@ -222,7 +222,7 @@ Awatary: nie można otworzyć pliku %s, błąd
 [Owners]
 Właściciel
 [Inviter]
-
+Zapraszający
 [Visitors]
 Goście
 [invite sender]

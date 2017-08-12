@@ -57,7 +57,7 @@ Tekst
 [Timeout]
 Wyświetlaj
 [From popup plugin]
-
+Z wtyczki popup
 [Permanent]
 Stałe
 [Custom]

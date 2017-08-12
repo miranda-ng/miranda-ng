@@ -40,7 +40,7 @@ Używaj tylko alfa-numerycznego kodowania podczas transferu
 Przejdź do Opcje -> Zdarzenia -> Transfery plików, grupa "Odbieranie plików"
 ;file \plugins\FileAsMessage\src\dialog.cpp
 [Receive file]
-
+Odbierz plik
 [Send file]
 Wyślij plik
 [File already exists. Overwrite?]

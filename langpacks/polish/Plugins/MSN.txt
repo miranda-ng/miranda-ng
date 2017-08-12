@@ -103,7 +103,7 @@ Zablokuj kontakt
 [Invite Contact To Chat]
 Zaproś kontakt do czatu
 [Live ID]
-Identyfikator Live
+Live ID
 [&Invite]
 &Zaproś
 [&Cancel]

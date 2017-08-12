@@ -134,7 +134,7 @@ Użytkownik zamknął jedno z okien
 Nieznany błąd
 ;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
 [File transfer]
-Transfer plików
+Transfer pliku
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 Transfer FTP
@@ -165,7 +165,7 @@ Przerwany
 Ignorowanie
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Main Icon]
-Główna Ikona
+Główna ikona
 [Target Cursor]
 Celownik
 [Target Desktop]

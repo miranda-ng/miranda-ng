@@ -177,7 +177,7 @@ Pokaż po ponownym połączeniu
 [Show other messages]
 Pokaż inne wiadomości
 [From popup plugin]
-Z wtyczki Popup
+Z wtyczki popup
 [Custom]
 Niestandardowe
 [Permanent]

@@ -123,7 +123,7 @@ Ucinaj nazwy kanałów po
 [Show the contacts protocols]
 Pokazuj protokoły kontaktów
 [Hide offline users]
-Ukryj rozłączone kontakty
+Ukryj rozłączonych
 [Use ignore settings]
 Używaj ustawień ignorowania
 [Use groups/subgroups]
