@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (ñ) 2012-17 Miranda NG project (https://miranda-ng.org),
+Copyright (c) 2012-17 Miranda NG project (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -130,7 +130,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 					ptstr = TranslateT("In love");
 					break;
 				case 70:
-					ptstr = TranslateT("It\'s complicated");
+					ptstr = TranslateT("It's complicated");
 					break;
 				case 80:
 					ptstr = TranslateT("In a civil union");
