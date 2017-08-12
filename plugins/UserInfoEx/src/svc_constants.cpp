@@ -2,7 +2,7 @@
 UserinfoEx plugin for Miranda IM
 
 Copyright:
-© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+Â© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -231,7 +231,7 @@ static IDSTRLIST TmplMarital[]={
 	{40, LPGEN("Widowed"), 0},
 	{50, LPGEN("Actively searching"), 0 },
 	{60, LPGEN("In love"), 0 },
-	{70, LPGEN("It\'s complicated"), 0 },
+	{70, LPGEN("It's complicated"), 0 },
 	{80, LPGEN("In a civil union"), 0 }
 };
 
@@ -247,7 +247,7 @@ static UINT MyCountriesCount = 0;
 /**
 * This is a sort procedure, which compares two items of an IDSTRLIST array.
 * It is used by qsort in SvcConstantsTranslateList and cares about the
-* locale, which was set up in OS. This prevents e.g. Ä,Ö to be put onto 
+* locale, which was set up in OS. This prevents e.g. Ã„,Ã– to be put onto 
 * the end of the list., but being sorted to the right position.
 *
 * @param	p1				- (LPIDSTRLIST) first item to compare
