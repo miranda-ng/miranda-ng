@@ -12,6 +12,7 @@ call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat"
 call svn_stable_ver.bat
 
 pushd bin10
+if not exist log mkdir log
 REM if /i '%tp%' == '32' (
 REM if exist "Release" rd /Q /S "Release" >nul
 REM )

@@ -13,6 +13,7 @@ if exist git_error.txt del /f /q git_error.txt
 REM call git_update.bat
 
 pushd bin10
+if not exist log mkdir log
 REM if /i '%tp%' == '32' (
 REM if exist "Release" rd /Q /S "Release" >nul
 REM )
