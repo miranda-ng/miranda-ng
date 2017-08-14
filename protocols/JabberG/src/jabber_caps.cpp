@@ -137,10 +137,27 @@ void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
 			}
 
 			HXML xform;
-			for (int i = 1; (xform = XmlGetNthChild(query, L"x", i)) != NULL; i++) {
+			for (int i = 1; (xform = XmlGetNthChild(query, L"x", i)) != nullptr; i++) {
 				wchar_t *szFormTypeValue = XPath(xform, L"field[@var='FORM_TYPE']/value");
-				if (!mir_wstrcmp(szFormTypeValue, L"urn:xmpp:dataforms:softwareinfo"))
-					pCaps->Parse(xform);
+				if (!mir_wstrcmp(szFormTypeValue, L"urn:xmpp:dataforms:softwareinfo")) {
+					pCaps->m_szOs = mir_wstrdup(XPath(xform, L"field[@var='os']/value"));
+					pCaps->m_szOsVer = mir_wstrdup(XPath(xform, L"field[@var='os_version']/value"));
+					pCaps->m_szSoft = mir_wstrdup(XPath(xform, L"field[@var='software']/value"));
+					pCaps->m_szSoftVer = mir_wstrdup(XPath(xform, L"field[@var='software_version']/value"));
+					pCaps->m_szSoftMir = mir_wstrdup(XPath(xform, L"field[@var='x-miranda-core-version']/value"));
+
+					JSONNode root;
+					root.push_back(JSONNode("o",  _T2A(pCaps->m_szOs)));
+					root.push_back(JSONNode("ov", _T2A(pCaps->m_szOsVer)));
+					root.push_back(JSONNode("s",  _T2A(pCaps->m_szSoft)));
+					root.push_back(JSONNode("sv", _T2A(pCaps->m_szSoftVer)));
+					root.push_back(JSONNode("sm", _T2A(pCaps->m_szSoftMir)));
+					root.push_back(JSONNode("ñ",  CMStringA(FORMAT, "%lld", jcbCaps)));
+
+					CMStringA szName(FORMAT, "%S#%S", pCaps->GetNode(), pCaps->GetHash());
+					json_string szValue = root.write();
+					db_set_s(0, "JabberCaps", szName, szValue.c_str());
+				}
 			}
 
 			pCaps->SetCaps(jcbCaps, pInfo->GetIqId());
@@ -209,7 +226,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const wchar_t *jid, bool app
 	// XEP-0115 mode
 	if (r->m_pCaps) {
 		CJabberClientPartialCaps *pCaps = r->m_pCaps;
-		JabberCapsBits jcbCaps = 0, jcbExtCaps = 0;
+		JabberCapsBits jcbCaps = 0;
 		bool bRequestSent = false;
 		JabberCapsBits jcbMainCaps = pCaps->GetCaps();
 
@@ -285,15 +302,6 @@ CJabberClientPartialCaps* CJabberClientPartialCaps::SetNext(CJabberClientPartial
 	CJabberClientPartialCaps *pRetVal = m_pNext;
 	m_pNext = pCaps;
 	return pRetVal;
-}
-
-void CJabberClientPartialCaps::Parse(HXML xform)
-{
-	m_szOs = mir_wstrdup(XPath(xform, L"field[@var='os']/value"));
-	m_szOsVer = mir_wstrdup(XPath(xform, L"field[@var='os_version']/value"));
-	m_szSoft = mir_wstrdup(XPath(xform, L"field[@var='software']/value"));
-	m_szSoftVer = mir_wstrdup(XPath(xform, L"field[@var='software_version']/value"));
-	m_szSoftMir = mir_wstrdup(XPath(xform, L"field[@var='x-miranda-core-version']/value"));
 }
 
 void CJabberClientPartialCaps::SetCaps(JabberCapsBits jcbCaps, int nIqId)

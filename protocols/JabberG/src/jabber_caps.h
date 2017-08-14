@@ -209,6 +209,8 @@ typedef unsigned __int64 JabberCapsBits;
 
 class CJabberClientPartialCaps
 {
+	friend struct CJabberProto;
+
 	ptrW m_szHash, m_szOs, m_szOsVer, m_szSoft, m_szSoftVer, m_szSoftMir;
 	JabberCapsBits m_jcbCaps;
 	int m_nIqId;
@@ -226,7 +228,6 @@ public:
 	{	return m_pNext;
 	}
 
-	void Parse(HXML);
 	void SetCaps(JabberCapsBits jcbCaps, int nIqId = -1);
 	JabberCapsBits GetCaps();
 
