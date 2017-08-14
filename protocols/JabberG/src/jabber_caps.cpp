@@ -239,30 +239,11 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const wchar_t *jid, bool app
 
 			wchar_t *token = wcstok(caps, L" ");
 			while (token) {
-				switch (jcbExtCaps = m_clientCapsManager.GetClientCaps(pCaps->GetNode(), token)) {
-				case JABBER_RESOURCE_CAPS_ERROR:
-					break;
-
-				case JABBER_RESOURCE_CAPS_UNINIT:
-					{
-						// send disco#info query
-
-						CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE);
-						pInfo->SetTimeout(JABBER_RESOURCE_CAPS_QUERY_TIMEOUT);
-						m_clientCapsManager.SetClientCaps(pCaps->GetNode(), pCaps->GetHash(), token, JABBER_RESOURCE_CAPS_IN_PROGRESS, pInfo->GetIqId());
-
-						m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY(JABBER_FEAT_DISCO_INFO) << XATTR(L"node", CMStringW(FORMAT, L"%s#%s", pCaps->GetNode(), token)));
-
-						bRequestSent = TRUE;
+				for (int i = 0; i < _countof(g_JabberFeatCapPairsExt); i++) {
+					if (!mir_wstrcmp(g_JabberFeatCapPairsExt[i].szFeature, token)) {
+						jcbCaps |= g_JabberFeatCapPairsExt[i].jcbCap;
+						break;
 					}
-					break;
-
-				case JABBER_RESOURCE_CAPS_IN_PROGRESS:
-					bRequestSent = TRUE;
-					break;
-
-				default:
-					jcbCaps |= jcbExtCaps;
 				}
 
 				token = wcstok(NULL, L" ");
