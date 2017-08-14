@@ -1,7 +1,5 @@
 set Drive=%~d0
 set SourceDir=%~dp0
-for %%a in (%SourceDir:~0,-1%) do set "SourceDir=%%~dpa"
-for %%a in (%SourceDir:~0,-1%) do set "SourceDir=%%~dpa"
 for %%a in (%SourceDir:~0,-1%) do set "SourceDir=%%a"
 set DropDir=%Drive%\Dropbox
 set StableInstDir=%SourceDir%\tools\installer_ng_stable
