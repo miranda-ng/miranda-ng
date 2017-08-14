@@ -142,16 +142,16 @@ void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
 				if (!mir_wstrcmp(szFormTypeValue, L"urn:xmpp:dataforms:softwareinfo")) {
 					JSONNode root;
 					if (pCaps->m_szOs = mir_wstrdup(XPath(xform, L"field[@var='os']/value")))
-						root.push_back(JSONNode("o", _T2A(pCaps->m_szOs)));
+						root.push_back(JSONNode("o", _T2A(pCaps->m_szOs).get()));
 					if (pCaps->m_szOsVer = mir_wstrdup(XPath(xform, L"field[@var='os_version']/value")))
-						root.push_back(JSONNode("ov", _T2A(pCaps->m_szOsVer)));
+						root.push_back(JSONNode("ov", _T2A(pCaps->m_szOsVer).get()));
 					if (pCaps->m_szSoft = mir_wstrdup(XPath(xform, L"field[@var='software']/value")))
-						root.push_back(JSONNode("s", _T2A(pCaps->m_szSoft)));
+						root.push_back(JSONNode("s", _T2A(pCaps->m_szSoft).get()));
 					if (pCaps->m_szSoftVer = mir_wstrdup(XPath(xform, L"field[@var='software_version']/value")))
-						root.push_back(JSONNode("sv", _T2A(pCaps->m_szSoftVer)));
+						root.push_back(JSONNode("sv", _T2A(pCaps->m_szSoftVer).get()));
 					if (pCaps->m_szSoftMir = mir_wstrdup(XPath(xform, L"field[@var='x-miranda-core-version']/value")))
-						root.push_back(JSONNode("sm", _T2A(pCaps->m_szSoftMir)));
-					root.push_back(JSONNode("ñ",  CMStringA(FORMAT, "%lld", jcbCaps)));
+						root.push_back(JSONNode("sm", _T2A(pCaps->m_szSoftMir).get()));
+					root.push_back(JSONNode("c",  CMStringA(FORMAT, "%lld", jcbCaps)));
 
 					CMStringA szName(FORMAT, "%S#%S", pCaps->GetNode(), pCaps->GetHash());
 					json_string szValue = root.write();
