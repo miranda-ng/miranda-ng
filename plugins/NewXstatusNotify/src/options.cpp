@@ -112,8 +112,8 @@ void LoadOptions()
 
 void SaveTemplates()
 {
-	db_set_ws(0, MODULE, "TPopupChanged", templates.PopupXstatusChanged);
-	db_set_ws(0, MODULE, "TPopupRemoved", templates.PopupXstatusRemoved);
+	db_set_ws(0, MODULE, "TPopupXChanged", templates.PopupXstatusChanged);
+	db_set_ws(0, MODULE, "TPopupXRemoved", templates.PopupXstatusRemoved);
 	db_set_ws(0, MODULE, "TPopupXMsgChanged", templates.PopupXMsgChanged);
 	db_set_ws(0, MODULE, "TPopupXMsgRemoved", templates.PopupXMsgRemoved);
 
