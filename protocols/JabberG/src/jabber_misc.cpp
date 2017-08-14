@@ -307,6 +307,9 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMStringW &res)
 		// unknown software
 		const wchar_t *szDefaultName = GetSoftName(pCaps->GetNode());
 		res.Format(L"%s %s", (szDefaultName == nullptr) ? pCaps->GetSoft() : szDefaultName, pCaps->GetSoftVer());
+
+		if (pCaps->GetSoftMir())
+			res.AppendFormat(L" %s", pCaps->GetSoftMir());
 	}
 
 	// attach additional info for fingerprint plguin
@@ -334,7 +337,6 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMStringW &res)
 		if (wcsstr(res, L"Miranda IM") || wcsstr(res, L"Miranda NG") || m_options.ShowForeignResourceInMirVer)
 			res.AppendFormat(L" [%s]", resource->m_tszResourceName);
 }
-
 
 void CJabberProto::UpdateMirVer(MCONTACT hContact, pResourceStatus &resource)
 {
