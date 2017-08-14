@@ -603,6 +603,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   InitPopups(void);
 	void   MsgPopup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *szTitle);
 	CMStringW ExtractImage(HXML node);
+	const wchar_t* GetSoftName(const wchar_t *wszName);
 
 	//---- jabber_opt.cpp ----------------------------------------------------------------
 	INT_PTR  __cdecl OnMenuHandleRosterControl(WPARAM wParam, LPARAM lParam);

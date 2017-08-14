@@ -153,8 +153,8 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_QIP_Symbian", L"*QIP*Symbian*", L"QIP Mobile Symbian", IDI_QIP_SYMBIAN, MULTI_CASE, TRUE },
 	{ "client_QIP_Java", L"*QIP*Java*", L"QIP Mobile Java", IDI_QIP_JAVA, MULTI_CASE, TRUE },
 	{ "client_QIP_PDA", L"|QIP *PDA*|*pda.qip.ru*|*QIP Mobile*", L"QIP Mobile", IDI_QIP_PDA, MULTI_CASE, TRUE },
-	{ "client_QIP_2012", L"|QIP 2012*|http://qip.ru/caps*", L"QIP 2012", IDI_QIP_2012, MULTI_CASE, TRUE },
-	{ "client_QIP_2010", L"|QIP 2010*|http://2010.qip.ru*", L"QIP 2010", IDI_QIP_2010, MULTI_CASE, TRUE },
+	{ "client_QIP_2012", L"QIP 2012*", L"QIP 2012", IDI_QIP_2012, MULTI_CASE, TRUE },
+	{ "client_QIP_2010", L"QIP 2010*", L"QIP 2010", IDI_QIP_2010, MULTI_CASE, TRUE },
 	{ "client_QIP_Infium", L"|QIP Infium*|http://*qip*", L"QIP Infium", IDI_QIP_INFIUM, MULTI_CASE, TRUE },
 
 	{ "client_qutIM", L"*qutIM*", L"qutIM", IDI_QUTIM, MULTI_CASE },

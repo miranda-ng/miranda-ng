@@ -250,13 +250,24 @@ struct
 }
 static sttCapsNodeToName_Map[] =
 {
-	{ L"http://miranda-im.org", L"Miranda IM Jabber" },
-	{ L"http://miranda-ng.org", L"Miranda NG Jabber" },
-	{ L"http://www.google.com", L"GTalk" },
+	{ L"http://miranda-im.org",  L"Miranda IM Jabber" },
+	{ L"http://miranda-ng.org",  L"Miranda NG Jabber" },
+	{ L"http://www.google.com",  L"GTalk" },
 	{ L"http://mail.google.com", L"GMail" },
-	{ L"http://talk.google.com/xmpp/bot", L"GTalk Bot" },
 	{ L"http://www.android.com", L"Android" },
+	{ L"http://qip.ru",          L"QIP 2012" },
+	{ L"http://2010.qip.ru",     L"QIP 2010"}
 };
+
+const wchar_t* CJabberProto::GetSoftName(const wchar_t *wszName)
+{
+	// search through known software list
+	for (int i = 0; i < _countof(sttCapsNodeToName_Map); i++)
+		if (wcsstr(wszName, sttCapsNodeToName_Map[i].node))
+			return sttCapsNodeToName_Map[i].name;
+
+	return nullptr;
+}
 
 void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 {
@@ -293,17 +304,9 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMStringW &res)
 		CJabberClientPartialCaps *pCaps = resource->m_pCaps;
 		debugLogW(L"JabberUpdateMirVer: for rc %s: %s#%s", resource->m_tszResourceName, pCaps->GetNode(), pCaps->GetHash());
 
-		// search through known software list
-		int i;
-		for (i = 0; i < _countof(sttCapsNodeToName_Map); i++)
-			if (wcsstr(pCaps->GetNode(), sttCapsNodeToName_Map[i].node)) {
-				res.Format(L"%s %s", sttCapsNodeToName_Map[i].name, pCaps->GetSoftVer());
-				break;
-			}
-
 		// unknown software
-		if (i == _countof(sttCapsNodeToName_Map))
-			res.Format(L"%s %s", pCaps->GetSoft(), pCaps->GetSoftVer());
+		const wchar_t *szDefaultName = GetSoftName(pCaps->GetNode());
+		res.Format(L"%s %s", (szDefaultName == nullptr) ? pCaps->GetSoft() : szDefaultName, pCaps->GetSoftVer());
 	}
 
 	// attach additional info for fingerprint plguin
