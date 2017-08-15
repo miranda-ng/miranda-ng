@@ -1236,8 +1236,10 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 		if (dbei_s != nullptr && hDbEventFirst == 0) {
 			evData.cbSize = sizeof(evData);
 			event.iType = IEE_LOG_MEM_EVENTS;
-			if (dbei_s->flags & DBEF_SENT)
+			if (dbei_s->flags & DBEF_SENT) {
 				evData.dwFlags = IEEDF_SENT;
+				evData.bIsMe = true;
+			}
 			else {
 				evData.dwFlags = IEEDF_UNICODE_NICK;
 				evData.ptszNick = pcli->pfnGetContactDisplayName(m_hContact, 0);
