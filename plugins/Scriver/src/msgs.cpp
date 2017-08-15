@@ -284,25 +284,13 @@ static void RestoreUnreadMessageAlerts(void)
 	}
 }
 
-static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
+void CScriverWindow::SetStatusText(const wchar_t *wszText, HICON hIcon)
 {
-	StatusTextData *st = (StatusTextData*)lParam;
-	if (st == nullptr)
-		return 1;
-
-	HWND hwnd = Srmm_FindWindow(hContact);
-	if (hwnd == nullptr)
-		return 1;
-
-	CScriverWindow *dat = (CScriverWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (dat == nullptr || dat->m_pParent == nullptr)
-		return 1;
-
-	ParentWindowData *pdat = dat->m_pParent;
-
-	SendMessage(pdat->hwndStatus, SB_SETICON, 0, (LPARAM)(st == nullptr ? 0 : st->hIcon));
-	SendMessage(pdat->hwndStatus, SB_SETTEXT, 0, (LPARAM)(st == nullptr ? L"" : st->tszText));
-	return 0;
+	ParentWindowData *pDat = m_pParent;
+	if (pDat != nullptr) {
+		SendMessage(pDat->hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
+		SendMessage(pDat->hwndStatus, SB_SETTEXT, 0, (LPARAM)wszText);
+	}
 }
 
 static int PrebuildContactMenu(WPARAM hContact, LPARAM)
@@ -656,7 +644,7 @@ int OnLoadModule(void)
 
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommandW);
-	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
+
 	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
 	CreateServiceFunction("SRMsg/TypingMessage", TypingMessageCommand);
 

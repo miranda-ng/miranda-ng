@@ -479,24 +479,6 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
-{
-	StatusTextData *st = (StatusTextData*)lParam;
-	if (st == nullptr)
-		return 1;
-
-	HWND hwnd = Srmm_FindWindow(wParam);
-	if (hwnd == nullptr)
-		return 1;
-
-	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (dat == nullptr)
-		return 1;
-
-	dat->SetStatusData(st);
-	return 0;
-}
-
 static wchar_t tszError[] = LPGENW("Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.");
 
 int LoadSendRecvMessageModule(void)
@@ -521,7 +503,6 @@ int LoadSendRecvMessageModule(void)
 
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
-	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
 	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
 
 	SkinAddNewSoundEx("RecvMsgActive", LPGEN("Instant messages"), LPGEN("Incoming (focused window)"));

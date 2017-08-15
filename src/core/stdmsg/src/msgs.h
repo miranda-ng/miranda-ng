@@ -112,6 +112,7 @@ public:
 	virtual void CloseTab() override;
 	virtual void LoadSettings() override {}
 	virtual void ScrollToBottom() override;
+	virtual void SetStatusText(const wchar_t*, HICON) override;
 	virtual void UpdateTitle() override {}
 
 	void OnSplitterMoved(CSplitter*);
@@ -120,7 +121,6 @@ public:
 
 	void OnOptionsApplied(bool bUpdateAvatar);
 
-	void SetStatusData(StatusTextData*);
 	void UpdateReadChars(void);
 
 	__forceinline MCONTACT getActiveContact() const

@@ -96,7 +96,7 @@ void OmegleProto::StopChat(bool disconnect)
 
 		SetTopic(); // reset topic content
 
-		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)GetChatHandle(), NULL);
+		Srmm_SetStatusText(GetChatHandle(), nullptr);
 	}
 	else
 	{ // disconnecting or inactive

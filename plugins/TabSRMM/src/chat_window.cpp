@@ -605,13 +605,10 @@ void CChatRoomDlg::OnDestroy()
 		m_pContainer->UpdateTabs();
 		m_iTabID = -1;
 	}
+	
 	if (m_pWnd) {
 		delete m_pWnd;
-		m_pWnd = 0;
-	}
-	if (m_sbCustom) {
-		delete m_sbCustom;
-		m_sbCustom = 0;
+		m_pWnd = nullptr;
 	}
 
 	NotifyEvent(MSG_WINDOW_EVT_CLOSE);

@@ -97,6 +97,7 @@ protected:
 public:
 	virtual void CloseTab() override;
 	virtual void LoadSettings() override;
+	virtual void SetStatusText(const wchar_t*, HICON) override;
 
 	void Reattach(HWND hwndContainer);
 

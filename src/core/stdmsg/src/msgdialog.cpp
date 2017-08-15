@@ -561,10 +561,10 @@ void CSrmmWindow::SetupStatusBar()
 	SendMessage(m_hwnd, DM_STATUSICONCHANGE, 0, 0);
 }
 
-void CSrmmWindow::SetStatusData(StatusTextData *st)
+void CSrmmWindow::SetStatusText(const wchar_t *wszText, HICON hIcon)
 {
-	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)(st == nullptr ? 0 : st->hIcon));
-	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)(st == nullptr ? L"" : st->tszText));
+	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
+	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)wszText);
 }
 
 void CSrmmWindow::UpdateReadChars()

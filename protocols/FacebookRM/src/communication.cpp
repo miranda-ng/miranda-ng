@@ -388,7 +388,7 @@ void facebook_client::erase_reader(MCONTACT hContact)
 	parent->delSetting(hContact, FACEBOOK_KEY_MESSAGE_READ);
 
 	readers.erase(hContact);
-	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact);
+	Srmm_SetStatusText(hContact, nullptr);
 }
 
 void loginError(FacebookProto *proto, std::string error_str) {

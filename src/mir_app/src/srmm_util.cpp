@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "chat.h"
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {
 	LOGSTREAMDATA *lstrdat = (LOGSTREAMDATA*)dwCookie;
@@ -50,6 +52,8 @@ MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, LPBYTE pb
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
 {
 	if (hContact == 0)
@@ -71,12 +75,48 @@ MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(void) Srmm_Broadcast(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WindowList_Broadcast(g_hWindowList, msg, wParam, lParam);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(HWND) Srmm_FindWindow(MCONTACT hContact)
 {
 	return WindowList_Find(g_hWindowList, hContact);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// serializes all thread-unsafe operation to the first thread
+
+struct SSTParam
+{
+	HWND hwnd;
+	const wchar_t *wszText;
+	HICON hIcon;
+};
+
+static INT_PTR CALLBACK sttSetStatusText(void *_p)
+{
+	SSTParam *param = (SSTParam*)_p;
+
+	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(param->hwnd, GWLP_USERDATA);
+	if (pDlg != nullptr)
+		pDlg->SetStatusText((param->wszText == nullptr) ? L"" : param->wszText, param->hIcon);
+	return 0;
+}
+
+MIR_APP_DLL(void) Srmm_SetStatusText(MCONTACT hContact, const wchar_t *wszText, HICON hIcon)
+{
+	HWND hwnd = Srmm_FindWindow(hContact);
+	if (hwnd == nullptr)
+		hwnd = Srmm_FindWindow(db_mc_getMeta(hContact));
+	if (hwnd == nullptr)
+		return;
+
+	SSTParam param = { hwnd, wszText, hIcon };
+	CallFunctionSync(sttSetStatusText, &param);
 }

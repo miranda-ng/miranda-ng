@@ -74,7 +74,6 @@ CTabBaseDlg::CTabBaseDlg(int iResource, SESSION_INFO *si)
 CTabBaseDlg::~CTabBaseDlg()
 {
 	delete m_pWnd;
-	delete m_sbCustom;
 
 	mir_free(m_sendBuffer);
 	mir_free(m_hHistoryEvents);
@@ -278,31 +277,15 @@ void CTabBaseDlg::NotifyDeliveryFailure() const
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// service function. Sets a status bar text for a contact
+// Sets a status bar text for a contact
 
-static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
+void CTabBaseDlg::SetStatusText(const wchar_t *wszText, HICON hIcon)
 {
-	HWND hwnd = Srmm_FindWindow(hContact);
-	if (hwnd == nullptr)
-		hwnd = Srmm_FindWindow(db_mc_getMeta(hContact));
-	if (hwnd == nullptr)
-		return 0;
-
-	CTabBaseDlg *pDlg = (CTabBaseDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (pDlg != nullptr) {
-		// delete old custom data
-		if (pDlg->m_sbCustom) {
-			delete pDlg->m_sbCustom;
-			pDlg->m_sbCustom = nullptr;
-		}
-
-		StatusTextData *st = (StatusTextData*)lParam;
-		if (st != nullptr)
-			pDlg->m_sbCustom = new StatusTextData(*st);
-
-		pDlg->tabUpdateStatusBar();
-	}
-	return 0;
+	m_bStatusSet = true;
+	m_szStatusText = wszText;
+	m_szStatusIcon = hIcon;
+	
+	tabUpdateStatusBar();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1023,7 +1006,6 @@ static void TSAPI InitAPI()
 {
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
-	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
 
 	CreateServiceFunction("TabSRMsg/ReloadSkin", ReloadSkin);
 	CreateServiceFunction("TabSRMsg/ReloadSettings", ReloadSettings);

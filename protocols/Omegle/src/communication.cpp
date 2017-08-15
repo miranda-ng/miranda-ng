@@ -552,28 +552,22 @@ bool Omegle_client::events()
 				// Stranger is typing, not supported by chat module yet
 				SkinPlaySound("StrangerTyp");
 
-				StatusTextData st = { 0 };
-				st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_on"));
-
 				ptrW who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_wstrdup(L"Stranger"));
-				mir_snwprintf(st.tszText, TranslateT("%s is typing."), TranslateW(who));
-
-				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
+				Srmm_SetStatusText(parent->GetChatHandle(), 
+					CMStringW(FORMAT, TranslateT("%s is typing."), TranslateW(who)), 
+					IcoLib_GetIconByHandle(GetIconHandle("typing_on")));
 			}
 			else if (name == "stoppedTyping" || name == "spyStoppedTyping") {
 				// Stranger stopped typing, not supported by chat module yet
 				SkinPlaySound("StrangerTypStop");
 
-				StatusTextData st = { 0 };
-				st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_off"));
-
 				ptrW who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_wstrdup(L"Stranger"));
-				mir_snwprintf(st.tszText, TranslateT("%s stopped typing."), TranslateW(who));
-
-				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
+				Srmm_SetStatusText(parent->GetChatHandle(), 
+					CMStringW(FORMAT, TranslateT("%s stopped typing."), TranslateW(who)), 
+					IcoLib_GetIconByHandle(GetIconHandle("typing_off")));
 			}
 			else if (name == "gotMessage") {
-				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), NULL);
+				Srmm_SetStatusText(parent->GetChatHandle(), nullptr);
 
 				// Play sound as we received message
 				SkinPlaySound("StrangerMessage");
@@ -584,7 +578,7 @@ bool Omegle_client::events()
 				}
 			}
 			else if (name == "spyMessage") {
-				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), NULL);
+				Srmm_SetStatusText(parent->GetChatHandle(), nullptr);
 
 				// Play sound as we received message
 				SkinPlaySound("StrangerMessage");
@@ -596,7 +590,7 @@ bool Omegle_client::events()
 				}
 			}
 			else if (name == "strangerDisconnected") {
-				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), NULL);
+				Srmm_SetStatusText(parent->GetChatHandle(), nullptr);
 
 				// Stranger disconnected
 				if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
@@ -608,7 +602,7 @@ bool Omegle_client::events()
 					parent->StopChat(false);
 			}
 			else if (name == "spyDisconnected") {
-				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), NULL);
+				Srmm_SetStatusText(parent->GetChatHandle(), nullptr);
 
 				ptrW stranger(json_as_string(json_at(item, 1)));
 

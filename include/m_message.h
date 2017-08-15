@@ -68,19 +68,6 @@ struct MessageWindowEventData
 #define ME_MSG_WINDOWEVENT "MessageAPI/WindowEvent"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// wparam = (MCONTACT)hContact
-// lparam = (StatusTextData*) or NULL to clear statusbar
-// Sets a statusbar line text for the appropriate contact
-
-struct StatusTextData
-{
-	HICON hIcon;
-	wchar_t tszText[100];
-};
-
-#define MS_MSG_SETSTATUSTEXT "MessageAPI/SetStatusText"
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // retrieves some particular info about a SRMM window by contact
 // returns 0 if a window was found or an error code otherwise
 
@@ -97,6 +84,11 @@ struct MessageWindowData
 };
 
 EXTERN_C MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// sets the status text & icon in a window associated with hContact
+
+EXTERN_C MIR_APP_DLL(void) Srmm_SetStatusText(MCONTACT hContact, const wchar_t *wszText, HICON hIcon = nullptr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // wparam = 0 (unused)

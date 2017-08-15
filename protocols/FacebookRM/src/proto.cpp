@@ -1145,19 +1145,13 @@ void FacebookProto::MessageRead(MCONTACT hContact)
 	wchar_t ttime[64];
 	wcsftime(ttime, _countof(ttime), L"%X", localtime(&time));
 
-	StatusTextData st = { 0 };
-	st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("read"));
+	HICON hIcon = IcoLib_GetIconByHandle(GetIconHandle("read"));
 
 	if (isChatRoom(hContact)) {
-		// FIXME: Remove this condition when #799 is fixed
-		if (!getBool("NoChatMessageReadNotify")) {
-			// Load readers names
-			ptrW treaders(getWStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
-			mir_snwprintf(st.tszText, TranslateT("Message read: %s by %s"), ttime, treaders ? treaders : L"???");
-			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
-		}
-	} else if (!ServiceExists(MS_MESSAGESTATE_UPDATE)){
-		mir_snwprintf(st.tszText, TranslateT("Message read: %s"), ttime);
-		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
+		// Load readers names
+		ptrW treaders(getWStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
+		Srmm_SetStatusText(hContact, CMStringW(FORMAT, TranslateT("Message read: %s by %s"), ttime, treaders ? treaders : L"???"), hIcon);
 	}
+	else if (!ServiceExists(MS_MESSAGESTATE_UPDATE))
+		Srmm_SetStatusText(hContact, CMStringW(FORMAT, TranslateT("Message read: %s"), ttime), hIcon);
 }

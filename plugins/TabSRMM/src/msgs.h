@@ -242,6 +242,7 @@ class CTabBaseDlg : public CSrmmBaseDialog
 
 protected:
 	virtual void LoadSettings() override;
+	virtual void SetStatusText(const wchar_t*, HICON) override;
 
 	void    DM_AddDivider();
 	void    DM_DismissTip(const POINT& pt);
@@ -278,7 +279,11 @@ protected:
 	DWORD    m_dwTickLastEvent;
 	HBITMAP  m_hOwnPic;
 	SIZE     m_pic;
-	
+
+	CMStringW m_szStatusText;
+	HICON     m_szStatusIcon;
+	bool      m_bStatusSet;
+
 	bool     m_bShowInfoAvatar, m_bShowUIElements;
 	bool     m_bUseOffset;
 	bool     m_bkeyProcessed;
@@ -356,7 +361,6 @@ public:
 	CInfoPanel m_pPanel;
 	CContactCache *m_cache;
 	TContainerData *m_pContainer;		// parent container description structure
-	StatusTextData *m_sbCustom;
 	AVATARCACHEENTRY *m_ace, *m_ownAce;
 	CProxyWindow  *m_pWnd;	// proxy window object (win7+, for taskbar support).
 									// ALWAYS check this pointer before using it, it is not guaranteed to exist.

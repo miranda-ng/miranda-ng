@@ -840,9 +840,7 @@ void CVkProto::ChatContactTypingThread(void *p)
 			m_ChatsTyping.remove(cp);
 		m_ChatsTyping.insert(param);
 
-		StatusTextData st = { 0 };
-		mir_snwprintf(st.tszText, TranslateT("%s is typing a message..."), cu->m_wszNick);
-		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
+		Srmm_SetStatusText(hChatContact, CMStringW(FORMAT, TranslateT("%s is typing a message..."), cu->m_wszNick));
 	}
 
 	Sleep(9500);
@@ -869,13 +867,7 @@ void CVkProto::StopChatContactTyping(int iChatId, int iUserId)
 
 	if (cp != NULL && cp->m_UserId == iUserId) {
 		m_ChatsTyping.remove(cp);
-
-		StatusTextData st = { 0 };
-		mir_snwprintf(st.tszText, L" ");
-		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
-
-		// After that I call standard cleaning procedure:
-		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact);
+		Srmm_SetStatusText(hChatContact, nullptr);
 	}
 }
 

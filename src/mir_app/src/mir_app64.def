@@ -451,3 +451,5 @@ Hotkey_Subclass @455
 Hotkey_Unregister @456
 Hotkey_Unsubclass @457
 Hotkey_Check @458
+?SetStatusText@CSrmmBaseDialog@@UEAAXPEB_WPEAUHICON__@@@Z @459 NONAME
+Srmm_SetStatusText @460

@@ -749,10 +749,7 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 	_wcsftime_l(ttime, _countof(ttime), L"%X - %x", localtime(&time), locale);
 	_free_locale(locale);
 
-	StatusTextData st = { 0 };
-	st.hIcon = IcoLib_GetIconByHandle(GetIconHandle(IDI_READMSG));
-	mir_snwprintf(st.tszText, TranslateT("Message read: %s"), ttime);
-	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
+	Srmm_SetStatusText(hContact, CMStringW(FORMAT, TranslateT("Message read: %s"), ttime)), IcoLib_GetIconByHandle(GetIconHandle(IDI_READMSG));
 }
 
 void CVkProto::MarkDialogAsRead(MCONTACT hContact)

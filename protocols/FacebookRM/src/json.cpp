@@ -835,12 +835,10 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 					MCONTACT hChatContact = proto->ChatIDToHContact(tid);
 					ptrW name(mir_utf8decodeW(participant->second.nick.c_str()));
 
-					if (st_.as_int() == 1) {
-						StatusTextData st = { 0 };
-						mir_snwprintf(st.tszText, TranslateT("%s is typing a message..."), name);
-						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
-					}
-					else CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact);
+					if (st_.as_int() == 1)
+						Srmm_SetStatusText(hChatContact, CMStringW(FORMAT, TranslateT("%s is typing a message..."), name));
+					else
+						Srmm_SetStatusText(hChatContact, nullptr);
 
 					// TODO: support proper MS_PROTO_CONTACTISTYPING service for chatrooms (when it will be implemented)
 				}
@@ -1459,4 +1457,3 @@ int facebook_json_parser::parse_messages_count(std::string *data, int *messagesC
 
 	return EXIT_SUCCESS;
 }
-

@@ -457,6 +457,7 @@ public:
 	virtual void LoadSettings() PURE;
 	virtual void RedrawLog() {}
 	virtual void ScrollToBottom() {}
+	virtual void SetStatusText(const wchar_t*, HICON) {}
 	virtual void ShowFilterMenu() {}
 	virtual void StreamInEvents(LOGINFO*, bool) {}
 	virtual void UpdateNickList() {}

@@ -476,9 +476,9 @@ void CTabBaseDlg::tabUpdateStatusBar() const
 				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 				SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_wszStatusBar);
 			}
-			else if (m_sbCustom) {
-				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)m_sbCustom->hIcon);
-				SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_sbCustom->tszText);
+			else if (m_bStatusSet) {
+				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)m_szStatusText.c_str());
+				SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_szStatusIcon);
 			}
 			else {
 				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, 0);
@@ -486,9 +486,9 @@ void CTabBaseDlg::tabUpdateStatusBar() const
 			}
 		}
 		else {
-			if (m_sbCustom) {
-				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)m_sbCustom->hIcon);
-				SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_sbCustom->tszText);
+			if (m_bStatusSet) {
+				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)m_szStatusText.c_str());
+				SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_szStatusIcon);
 			}
 			else SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, 0);
 		}

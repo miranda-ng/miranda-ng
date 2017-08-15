@@ -78,19 +78,10 @@ type
 
 function Srmm_GetWindowData(hContact:TMCONTACT; pResult:PMessageWindowData) : int; stdcall; external AppDll;
 
-type
-  PStatusTextData = ^TStatusTextData;
-  TStatusTextData = record
-    hIcon  :HICON;
-    tszText:array [0..99] of WideChar;
-  end;
-
-{ wparam=(TMCONTACT)hContact
-  lparam=PStatusTextData or NIL to clear statusbar
-  Sets a statusbar line text for the appropriate contact
+{ wparam=0(unused)
+  lparam=(pMessageWindowEvent) event written
+  fired before SRMM writes an entered message into the database
 }
-const
-  MS_MSG_SETSTATUSTEXT:PAnsiChar = 'MessageAPI/SetStatusText';
 
 type
   pMessageWindowEvent = ^tMessageWindowEvent;
@@ -101,10 +92,6 @@ type
   end;
 
 const
-{ wparam=0(unused)
-  lparam=(pMessageWindowEvent) event written
-  fired before SRMM writes an entered message into the database
-}
   ME_MSG_PRECREATEEVENT:PAnsiChar = 'MessageAPI/PreCreateEvent';
 
 { wParam = 0

@@ -47,13 +47,10 @@ std::string getLastErrorMsg()
 
 void utils::setStatusMessage(MCONTACT hContact, const wchar_t *ptszMessage)
 {
-	if (ptszMessage != NULL) {
-		StatusTextData st = { 0 };
-		st.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-		wcsncpy_s(st.tszText, ptszMessage, _TRUNCATE);
-		CallService(MS_MSG_SETSTATUSTEXT, hContact, (LPARAM)&st);
-	}
-	else CallService(MS_MSG_SETSTATUSTEXT, hContact, NULL);
+	if (ptszMessage != nullptr)
+		Srmm_SetStatusText(hContact, ptszMessage, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
+	else
+		Srmm_SetStatusText(hContact, nullptr);
 }
 
 BYTE* utils::md5string(const BYTE *data, int size, BYTE *digest)

@@ -772,9 +772,9 @@ void CTabBaseDlg::DM_UpdateLastMessage() const
 		SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 		mir_snwprintf(szBuf, TranslateT("%s is typing a message..."), m_cache->getNick());
 	}
-	else if (m_sbCustom) {
-		SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)m_sbCustom->hIcon);
-		SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_sbCustom->tszText);
+	else if (m_bStatusSet) {
+		SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)m_szStatusIcon);
+		SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_szStatusText.c_str());
 		return;
 	}
 	else {
