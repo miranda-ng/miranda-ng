@@ -80,7 +80,7 @@ void CVkProto::AddCListEvent(bool bNews)
 
 	CLISTEVENT cle = {};
 	cle.hIcon = IcoLib_GetIconByHandle(GetIconHandle(IDI_NOTIFICATION));
-	cle.pszService = "SRMsg/ReadMessage";
+	cle.pszService = MS_MSG_READMESSAGE;
 	cle.flags = CLEF_URGENT | CLEF_UNICODE;
 	cle.hContact = hContact;
 	cle.hDbEvent = NULL;

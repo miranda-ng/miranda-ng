@@ -97,8 +97,8 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA | MIIM_BITMAP | MIIM_ID;
 		if (p->pszService &&
-			(!strncmp("SRMsg/ReadMessage", p->pszService, _countof("SRMsg/ReadMessage")) ||
-			!strncmp("GChat/DblClickEvent", p->pszService, _countof("GChat/DblClickEvent")))) {
+			(!strncmp(MS_MSG_READMESSAGE, p->pszService, _countof(MS_MSG_READMESSAGE)) ||
+			 !strncmp("GChat/DblClickEvent", p->pszService, _countof("GChat/DblClickEvent")))) {
 			// dup check only for msg events
 			for (int j = 0; j < GetMenuItemCount(g_CluiData.hMenuNotify); j++) {
 				if (GetMenuItemInfo(g_CluiData.hMenuNotify, j, TRUE, &mii) != 0) {

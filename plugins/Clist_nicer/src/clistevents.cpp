@@ -235,14 +235,14 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 CListEvent* AddEvent(CLISTEVENT *cle)
 {
 	CListEvent *p = coreCli.pfnAddEvent(cle);
-	if (p == NULL)
-		return NULL;
+	if (p == nullptr)
+		return nullptr;
 
 	if (p->hContact != 0 && p->hDbEvent != 1 && !(p->flags & CLEF_ONLYAFEW)) {
 		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA | MIIM_BITMAP | MIIM_ID;
-		if (p->pszService && !strncmp("SRMsg/ReadMessage", p->pszService, 17)) {
+		if (!mir_strncmp(MS_MSG_READMESSAGE, p->pszService, _countof(MS_MSG_READMESSAGE))) {
 			// dup check only for msg events
 			for (int j = 0; j < GetMenuItemCount(cfg::dat.hMenuNotify); j++) {
 				if (GetMenuItemInfo(cfg::dat.hMenuNotify, j, TRUE, &mii) != 0) {

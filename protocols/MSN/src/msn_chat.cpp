@@ -506,12 +506,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_PRIVMESS:
-		{
-			char *email = mir_u2a(gch->ptszUID);
-			MCONTACT hContact = MSN_HContactFromEmail(email);
-			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
-			mir_free(email);
-		}
+		CallService(MS_MSG_SENDMESSAGE, MSN_HContactFromEmail(_T2A(gch->ptszUID)), 0);
 		break;
 
 	case GC_USER_LOGMENU:
@@ -528,15 +523,13 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_NICKLISTMENU:
-		MCONTACT hContact = MSN_HContactFromEmail(_T2A(gch->ptszUID));
-
 		switch (gch->dwData) {
 		case 10:
-			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
+			CallService(MS_USERINFO_SHOWDIALOG, MSN_HContactFromEmail(_T2A(gch->ptszUID)), 0);
 			break;
 
 		case 20:
-			CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0);
+			CallService(MS_HISTORY_SHOWCONTACTHISTORY, MSN_HContactFromEmail(_T2A(gch->ptszUID)), 0);
 			break;
 
 		case 30:

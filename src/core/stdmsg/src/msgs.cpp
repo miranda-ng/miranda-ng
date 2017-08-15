@@ -93,7 +93,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	cle.hDbEvent = lParam;
 	cle.flags = CLEF_UNICODE;
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-	cle.pszService = "SRMsg/ReadMessage";
+	cle.pszService = MS_MSG_READMESSAGE;
 	cle.szTooltip.w = toolTip;
 	pcli->pfnAddEvent(&cle);
 	return 0;
@@ -175,7 +175,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 			cle.hDbEvent = 1;
 			cle.flags = CLEF_ONLYAFEW | CLEF_UNICODE;
 			cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_TYPING);
-			cle.pszService = "SRMsg/ReadMessage";
+			cle.pszService = MS_MSG_READMESSAGE;
 			cle.szTooltip.w = szTip;
 			pcli->pfnAddEvent(&cle);
 
@@ -262,7 +262,7 @@ static void RestoreUnreadMessageAlerts(void)
 
 	CLISTEVENT cle = {};
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-	cle.pszService = "SRMsg/ReadMessage";
+	cle.pszService = MS_MSG_READMESSAGE;
 	cle.flags = CLEF_UNICODE;
 	cle.szTooltip.w = toolTip;
 
@@ -503,7 +503,7 @@ int LoadSendRecvMessageModule(void)
 
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
-	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
+	CreateServiceFunction(MS_MSG_READMESSAGE, ReadMessageCommand);
 
 	SkinAddNewSoundEx("RecvMsgActive", LPGEN("Instant messages"), LPGEN("Incoming (focused window)"));
 	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (unfocused window)"));

@@ -42,6 +42,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_MSG_SENDMESSAGEW  "SRMsg/SendCommandW"
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// reads a message from contact list event structure
+// wParam = 0 (unused)
+// lParam = (CLISTEVT*)pEvent
+// always returns 0
+
+#define MS_MSG_READMESSAGE   "SRMsg/ReadMessage"
+#define MS_MSG_TYPINGMESSAGE "SRMsg/TypingMessage"
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // gets fired when a message window appears/disappears
 // wparam = 0
 // lparam = (WPARAM)(MessageWindowEventData*)hWindowEvent;

@@ -283,7 +283,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 			cle.hDbEvent = 1;
 			cle.flags = CLEF_ONLYAFEW | CLEF_UNICODE;
 			cle.hIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
-			cle.pszService = "SRMsg/TypingMessage";
+			cle.pszService = MS_MSG_TYPINGMESSAGE;
 			cle.szTooltip.w = szTip;
 			pcli->pfnAddEvent(&cle);
 		}
@@ -514,7 +514,7 @@ nowindowcreate:
 			cle.hDbEvent = hDbEvent;
 			cle.flags = CLEF_UNICODE;
 			cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-			cle.pszService = "SRMsg/ReadMessage";
+			cle.pszService = MS_MSG_READMESSAGE;
 			contactName = pcli->pfnGetContactDisplayName(hContact, 0);
 			mir_snwprintf(toolTip, TranslateT("Message from %s"), contactName);
 			cle.szTooltip.w = toolTip;

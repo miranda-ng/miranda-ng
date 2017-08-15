@@ -529,7 +529,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 
 	CLISTEVENT cle = {};
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-	cle.pszService = "SRMsg/ReadMessage";
+	cle.pszService = MS_MSG_READMESSAGE;
 	cle.flags = CLEF_UNICODE;
 	cle.szTooltip.w = toolTip;
 

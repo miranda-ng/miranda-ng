@@ -1004,15 +1004,14 @@ static INT_PTR ReloadSettings(WPARAM, LPARAM lParam)
 
 static void TSAPI InitAPI()
 {
+	CreateServiceFunction(MS_MSG_READMESSAGE, ReadMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
+	CreateServiceFunction(MS_MSG_TYPINGMESSAGE, TypingMessageCommand);
 
 	CreateServiceFunction("TabSRMsg/ReloadSkin", ReloadSkin);
 	CreateServiceFunction("TabSRMsg/ReloadSettings", ReloadSettings);
 
-	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
-	CreateServiceFunction("SRMsg/TypingMessage", TypingMessageCommand);
-	
 	CreateServiceFunction(MS_TABMSG_SETUSERPREFS, SetUserPrefs);
 	CreateServiceFunction(MS_TABMSG_TRAYSUPPORT, Service_OpenTrayMenu);
 	CreateServiceFunction(MS_TABMSG_SLQMGR, CSendLater::svcQMgr);
