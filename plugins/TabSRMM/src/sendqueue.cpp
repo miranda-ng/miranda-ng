@@ -357,7 +357,7 @@ void SendQueue::logError(CTabBaseDlg *dat, int iSendJobIndex, const wchar_t *szE
 		dbei.pBlob = nullptr;
 	}
 
-	dbei.flags = DBEF_UTF;
+	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.cbBlob = (int)iMsgLen;
 	dbei.timestamp = time(nullptr);
 	dbei.szModule = (char *)szErrMsg;
