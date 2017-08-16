@@ -252,22 +252,12 @@ void CChatRoomDlg::RedrawLog()
 
 void CChatRoomDlg::ScrollToBottom()
 {
-	if ((GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) == 0)
-		return;
+	if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
+		int len = GetWindowTextLength(m_log.GetHwnd()) - 1;
+		m_log.SendMsg(EM_SETSEL, len, len);
 
-	CHARRANGE sel;
-	SCROLLINFO scroll = {};
-	scroll.cbSize = sizeof(scroll);
-	scroll.fMask = SIF_PAGE | SIF_RANGE;
-	GetScrollInfo(m_log.GetHwnd(), SB_VERT, &scroll);
-
-	scroll.fMask = SIF_POS;
-	scroll.nPos = scroll.nMax - scroll.nPage + 1;
-	SetScrollInfo(m_log.GetHwnd(), SB_VERT, &scroll, TRUE);
-
-	sel.cpMin = sel.cpMax = m_log.GetRichTextLength();
-	m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-	PostMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
+		PostMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
+	}
 }
 
 void CChatRoomDlg::ShowFilterMenu()
