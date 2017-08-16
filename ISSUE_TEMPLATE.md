@@ -4,6 +4,9 @@ What did you expect?
 ### Actual behavior
 What did you get instead?
 
+### Does it work in stable version?
+If you know in which dev build (or approximate date when) it was broken, it may be much easier to identify and fix the issue.
+
 ### Steps to reproduce that behavior
  * Provide step-by-step instructions so we can reproduce the issue (We can't fix what we can't reproduce).
  * Attach your VersionInfo.
