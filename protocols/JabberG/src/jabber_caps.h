@@ -283,7 +283,6 @@ public:
 	CJabberClientCapsManager(CJabberProto *proto);
 	~CJabberClientCapsManager();
 
-	void AddDefaultCaps();
 	const wchar_t* GetFeaturesCrc();
 	void UpdateFeatHash();
 

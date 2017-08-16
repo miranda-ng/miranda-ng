@@ -239,13 +239,15 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 			sttInfoLineId(resource, INFOLINE_SOFTWARE));
 
 		// Version
+		const wchar_t *wszVer = pCaps->GetSoftMir() ? pCaps->GetSoftMir() : pCaps->GetSoftVer();
 		sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("Version"),
-			pCaps->GetSoftVer() ? pCaps->GetSoftVer() : TranslateT("<not specified>"),
+			wszVer ? wszVer : TranslateT("<not specified>"),
 			sttInfoLineId(resource, INFOLINE_VERSION));
 
 		// System
+		wszVer = pCaps->GetOsVer() ? pCaps->GetOsVer() : pCaps->GetOs();
 		sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("System"),
-			pCaps->GetOs() ? pCaps->GetOs() : TranslateT("<not specified>"),
+			wszVer ? wszVer : TranslateT("<not specified>"),
 			sttInfoLineId(resource, INFOLINE_SYSTEM));
 
 		if (hIcon)

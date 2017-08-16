@@ -127,7 +127,8 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_iqManager.Start();
 	m_messageManager.FillPermanentHandlers();
 	m_adhocManager.FillDefaultNodes();
-	m_clientCapsManager.AddDefaultCaps();
+	
+	AddDefaultCaps();
 
 	IconsInit();
 	InitPopups();

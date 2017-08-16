@@ -311,6 +311,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_caps.cpp ---------------------------------------------------------------
 
+	void AddDefaultCaps();
+
 	JabberCapsBits GetTotalJidCapabilites(const wchar_t *jid);
 	JabberCapsBits GetResourceCapabilites(const wchar_t *jid, bool appendBestResource);
 
