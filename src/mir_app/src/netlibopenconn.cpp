@@ -354,6 +354,7 @@ static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 	u_long notblocking = 1;
 	DWORD lasterr = 0;
 	static const TIMEVAL tv = { 1, 0 };
+	NetlibUser *nlu = nlc->nlu;
 
 	// if dwTimeout is zero then its an old style connection or new with a 0 timeout, select() will error quicker anyway
 	unsigned int dwTimeout = (nloc && (nloc->cbSize == sizeof(NETLIBOPENCONNECTION)) && (nloc->flags & NLOCF_V2) && (nloc->timeout>0)) ? nloc->timeout : 30;
@@ -378,16 +379,16 @@ static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 		if (!nlc->szProxyServer) return false;
 
 		if (nloc)
-			Netlib_Logf(nlc->nlu, "(%p) Connecting to proxy %s:%d for %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort, nloc->szHost, nloc->wPort);
+			Netlib_Logf(nlu, "(%p) Connecting to proxy %s:%d for %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort, nloc->szHost, nloc->wPort);
 		else
-			Netlib_Logf(nlc->nlu, "(%p) Connecting to proxy %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort);
+			Netlib_Logf(nlu, "(%p) Connecting to proxy %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort);
 
 		sin.sin_port = htons(nlc->wProxyPort);
 		he = gethostbyname(nlc->szProxyServer);
 	}
 	else {
 		if (!nloc || !nloc->szHost || nloc->szHost[0] == '[' || strchr(nloc->szHost, ':')) return false;
-		Netlib_Logf(nlc->nlu, "(%p) Connecting to server %s:%d....", nlc, nloc->szHost, nloc->wPort);
+		Netlib_Logf(nlu, "(%p) Connecting to server %s:%d....", nlc, nloc->szHost, nloc->wPort);
 
 		sin.sin_port = htons(nloc->wPort);
 		he = gethostbyname(nloc->szHost);
@@ -397,7 +398,7 @@ static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 		sin.sin_addr.s_addr = *(u_long*)*har;
 
 		char *szIp = Netlib_AddressToString(&sin);
-		Netlib_Logf(nlc->nlu, "(%p) Connecting to ip %s ....", nlc, szIp);
+		Netlib_Logf(nlu, "(%p) Connecting to ip %s ....", nlc, szIp);
 		mir_free(szIp);
 
 retry:
@@ -409,9 +410,9 @@ retry:
 		if (ioctlsocket(nlc->s, FIONBIO, &notblocking) != 0)
 			return false;
 
-		if (nlc->nlu->settings.specifyOutgoingPorts && nlc->nlu->settings.szOutgoingPorts  && nlc->nlu->settings.szOutgoingPorts[0]) {
-			if (!BindSocketToPort(nlc->nlu->settings.szOutgoingPorts, nlc->s, INVALID_SOCKET, &nlc->nlu->inportnum))
-				Netlib_Logf(nlc->nlu, "Netlib connect: Not enough ports for outgoing connections specified");
+		if (nlu->settings.specifyOutgoingPorts && nlu->settings.szOutgoingPorts  && nlu->settings.szOutgoingPorts[0]) {
+			if (!BindSocketToPort(nlu->settings.szOutgoingPorts, nlc->s, INVALID_SOCKET, &nlu->inportnum))
+				Netlib_Logf(nlu, "Netlib connect: Not enough ports for outgoing connections specified");
 		}
 
 		// try a connect
@@ -493,6 +494,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 	if (!nloc)
 		return false;
 
+	NetlibUser *nlu = nlc->nlu;
 	int rc = SOCKET_ERROR, retrycnt = 0;
 	u_long notblocking = 1;
 	DWORD lasterr = 0;
@@ -531,11 +533,11 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 		if (!nlc->szProxyServer)
 			return false;
 
-		Netlib_Logf(nlc->nlu, "(%p) Connecting to proxy %s:%d for %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort, nloc->szHost, nloc->wPort);
+		Netlib_Logf(nlu, "(%p) Connecting to proxy %s:%d for %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort, nloc->szHost, nloc->wPort);
 
 		_itoa(nlc->wProxyPort, szPort, 10);
 		if (GetAddrInfoA(nlc->szProxyServer, szPort, &hints, &air)) {
-			Netlib_Logf(nlc->nlu, "%s %d: %s() for host %s failed (%u)", __FILE__, __LINE__, "getaddrinfo", nlc->szProxyServer, WSAGetLastError());
+			Netlib_Logf(nlu, "%s %d: %s() for host %s failed (%u)", __FILE__, __LINE__, "getaddrinfo", nlc->szProxyServer, WSAGetLastError());
 			return false;
 		}
 	}
@@ -543,18 +545,18 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 		if (!nloc->szHost)
 			return false;
 
-		Netlib_Logf(nlc->nlu, "(%p) Connecting to server %s:%d....", nlc, nloc->szHost, nloc->wPort);
+		Netlib_Logf(nlu, "(%p) Connecting to server %s:%d....", nlc, nloc->szHost, nloc->wPort);
 
 		_itoa(nlc->nloc.wPort, szPort, 10);
 
 		if (GetAddrInfoA(nlc->nloc.szHost, szPort, &hints, &air)) {
-			Netlib_Logf(nlc->nlu, "%s %d: %s() for host %s failed (%u)", __FILE__, __LINE__, "getaddrinfo", nlc->nloc.szHost, WSAGetLastError());
+			Netlib_Logf(nlu, "%s %d: %s() for host %s failed (%u)", __FILE__, __LINE__, "getaddrinfo", nlc->nloc.szHost, WSAGetLastError());
 			return false;
 		}
 	}
 
 	for (ai = air; ai && !Miranda_IsTerminated(); ai = ai->ai_next) {
-		Netlib_Logf(nlc->nlu, "(%p) Connecting to ip %s ....", nlc, ptrA(Netlib_AddressToString((sockaddr_in*)ai->ai_addr)));
+		Netlib_Logf(nlu, "(%p) Connecting to ip %s ....", nlc, ptrA(Netlib_AddressToString((sockaddr_in*)ai->ai_addr)));
 retry:
 		nlc->s = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol);
 		if (nlc->s == INVALID_SOCKET) {
@@ -568,11 +570,11 @@ retry:
 			return false;
 		}
 
-		if (nlc->nlu->settings.specifyOutgoingPorts && nlc->nlu->settings.szOutgoingPorts  && nlc->nlu->settings.szOutgoingPorts[0]) {
+		if (nlu->settings.specifyOutgoingPorts && nlu->settings.szOutgoingPorts  && nlu->settings.szOutgoingPorts[0]) {
 			SOCKET s = ai->ai_family == AF_INET ? nlc->s : INVALID_SOCKET;
 			SOCKET s6 = ai->ai_family == AF_INET6 ? nlc->s : INVALID_SOCKET;
-			if (!BindSocketToPort(nlc->nlu->settings.szOutgoingPorts, s, s6, &nlc->nlu->inportnum))
-				Netlib_Logf(nlc->nlu, "Netlib connect: Not enough ports for outgoing connections specified");
+			if (!BindSocketToPort(nlu->settings.szOutgoingPorts, s, s6, &nlu->inportnum))
+				Netlib_Logf(nlu, "Netlib connect: Not enough ports for outgoing connections specified");
 		}
 
 		// try a connect
@@ -858,16 +860,17 @@ MIR_APP_DLL(int) Netlib_StartSsl(HNETLIBCONN hConnection, const char *szHost)
 	if (nlc == nullptr)
 		return 0;
 
+	NetlibUser *nlu = nlc->nlu;
 	if (szHost == nullptr)
 		szHost = nlc->nloc.szHost;
 
-	Netlib_Logf(nlc->nlu, "(%d %s) Starting SSL negotiation", nlc->s, szHost);
-	nlc->hSsl = sslApi.connect(nlc->s, szHost, nlc->nlu->settings.validateSSL);
+	Netlib_Logf(nlu, "(%d %s) Starting SSL negotiation", nlc->s, szHost);
+	nlc->hSsl = sslApi.connect(nlc->s, szHost, nlu->settings.validateSSL);
 
 	if (nlc->hSsl == nullptr)
-		Netlib_Logf(nlc->nlu, "(%d %s) Failure to negotiate SSL connection", nlc->s, szHost);
+		Netlib_Logf(nlu, "(%d %s) Failure to negotiate SSL connection", nlc->s, szHost);
 	else
-		Netlib_Logf(nlc->nlu, "(%d %s) SSL negotiation successful", nlc->s, szHost);
+		Netlib_Logf(nlu, "(%d %s) SSL negotiation successful", nlc->s, szHost);
 
 	return nlc->hSsl != nullptr;
 }
