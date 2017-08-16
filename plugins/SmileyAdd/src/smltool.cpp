@@ -56,7 +56,7 @@ private:
 	void InsertSmiley(void);
 	void MouseMove(int x, int y);
 	void KeyUp(WPARAM wParam, LPARAM lParam);
-	void SmileySel(int but);
+	void SmileySel(int but, bool byKeyboard);
 	void ScrollV(int action, int dist = 0);
 
 	int GetRowSize(void) const { return m_ButtonSize.cy + m_ButtonSpace; }
@@ -211,7 +211,7 @@ void SmileyToolWindowType::InsertSmiley(void)
 		DestroyWindow(m_hwndDialog);
 }
 
-void SmileyToolWindowType::SmileySel(int but)
+void SmileyToolWindowType::SmileySel(int but, bool byKeyboard)
 {
 	if (but != m_CurrentHotTrack) {
 		SCROLLINFO si;
@@ -226,6 +226,22 @@ void SmileyToolWindowType::SmileySel(int but)
 			DrawFocusRect(hdc, &rect);
 			m_CurrentHotTrack = -1;
 			SendMessage(m_hToolTip, TTM_ACTIVATE, FALSE, 0);
+		}
+
+		// when selection is outside the window, then scroll
+		int dist = 0; // scrolling distance
+		if (but < si.nPos * (opt.HorizontalSorting ? (int)m_NumberOfHorizontalButtons : 1)) {
+			if (byKeyboard)
+				dist = but / (opt.HorizontalSorting ? (int)m_NumberOfHorizontalButtons : 1) - si.nPos;
+			else
+				but = -1;
+		}
+		int numVert = m_WindowSizeY / (m_ButtonSize.cy + m_ButtonSpace);
+		if (but >= (si.nPos + numVert) * (opt.HorizontalSorting ? (int)m_NumberOfHorizontalButtons : 1) && byKeyboard) {
+			if (byKeyboard)
+				dist = but / (opt.HorizontalSorting ? m_NumberOfHorizontalButtons : 1) - numVert - si.nPos + 1;
+			else
+				but = -1;
 		}
 
 		m_CurrentHotTrack = but;
@@ -244,18 +260,8 @@ void SmileyToolWindowType::SmileySel(int but)
 			RECT rect = CalculateButtonToCoordinates(m_CurrentHotTrack, si.nPos);
 			DrawFocusRect(hdc, &rect);
 			if (m_AniPack) m_AniPack->SetSel(rect);
-			
-			// when selection is outside the window, then scroll
-			if (but < si.nPos * (opt.HorizontalSorting ? (int)m_NumberOfHorizontalButtons : 1)) {
-				int dist = but / (opt.HorizontalSorting ? (int)m_NumberOfHorizontalButtons : 1) - si.nPos;
-				ScrollV(SB_MYMOVE, dist);
-			}
-			int numVert = m_WindowSizeY / (m_ButtonSize.cy + m_ButtonSpace);
-			if (but >= (si.nPos + numVert) * (opt.HorizontalSorting ? (int)m_NumberOfHorizontalButtons : 1)) {
-				int dist = but / (opt.HorizontalSorting ? m_NumberOfHorizontalButtons : 1) - numVert - si.nPos + 1;
-				ScrollV(SB_MYMOVE, dist);
-			}
 		}
+		if (dist != 0) ScrollV(SB_MYMOVE, dist);
 		ReleaseDC(m_hwndDialog, hdc);
 	}
 }
@@ -343,7 +349,7 @@ void SmileyToolWindowType::MouseMove(int xposition, int yposition)
 
 	POINT pt = { xposition, yposition };
 	int but = CalculateCoordinatesToButton(pt, si.nPos);
-	SmileySel(but);
+	SmileySel(but, false);
 }
 
 
@@ -446,7 +452,7 @@ void SmileyToolWindowType::KeyUp(WPARAM wParam, LPARAM lParam)
 	if (but < 0) but = 0;
 	if (but >= (int)m_NumberOfButtons) but = m_NumberOfButtons - 1;
 
-	SmileySel(but);
+	SmileySel(but, true);
 	if (colSel != -1)
 		InsertSmiley();
 }
