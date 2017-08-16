@@ -287,6 +287,7 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 	case WINDOW_HIDDEN:
 		if (si == nullptr)
 			return GC_EVENT_ERROR;
+
 		SetInitDone(si);
 		chatApi.SetActiveSession(si);
 		break;
@@ -295,12 +296,16 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 	case SESSION_INITDONE:
 		if (si == nullptr)
 			return GC_EVENT_ERROR;
+
 		SetInitDone(si);
 		if (p->command != SESSION_INITDONE || db_get_b(0, CHAT_MODULE, "PopupOnJoin", 0) == 0)
 			chatApi.ShowRoom(si);
 		break;
 
 	case SESSION_OFFLINE:
+		if (si == nullptr && p->wszId != nullptr)
+			return GC_EVENT_ERROR;
+
 		SM_SetOffline(p->szModule, si);
 		SM_SetStatus(p->szModule, si, ID_STATUS_OFFLINE);
 		if (si && si->pDlg) {
@@ -310,6 +315,9 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 		break;
 
 	case SESSION_ONLINE:
+		if (si == nullptr && p->wszId != nullptr)
+			return GC_EVENT_ERROR;
+
 		SM_SetStatus(p->szModule, si, ID_STATUS_ONLINE);
 		if (si && si->pDlg)
 			si->pDlg->UpdateStatusBar();
@@ -318,6 +326,7 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 	case WINDOW_CLEARLOG:
 		if (si == nullptr)
 			return GC_EVENT_ERROR;
+
 		chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
 		si->iEventCount = 0;
 		si->LastTime = 0;
