@@ -18,14 +18,14 @@ DWORD CMraProto::StartConnect()
 
 	CMStringA szPass;
 	if (szEmail.GetLength() <= 5)
-		MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateT("Please, setup e-mail in options"));
+		MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, TranslateT("Please, setup e-mail in options"));
 	else if (!GetPassDB(szPass))
-		MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateT("Please, setup password in options"));
+		MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, TranslateT("Please, setup password in options"));
 	else {
 		InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 		if (INVALID_HANDLE_VALUE != ForkThreadEx(&CMraProto::MraThreadProc, NULL, 0))
 			return 0; /* OK. */
-		MraPopupShowFromAgentW(MRA_POPUP_TYPE_ERROR, 0, TranslateT("Thread creation failure"));
+		MraPopupShowFromAgentW(MRA_POPUP_TYPE_ERROR, TranslateT("Thread creation failure"));
 	}
 	InterlockedExchange((volatile LONG*)&m_dwThreadWorkerRunning, FALSE);
 	return ERROR_OPERATION_ABORTED;
@@ -395,7 +395,7 @@ bool CMraProto::CmdLoginRejected(BinBuffer &buf)
 	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 
 	CMStringA reason; buf >> reason;
-	MraPopupShowW(NULL, MRA_POPUP_TYPE_ERROR, 0, TranslateT("Logon error: invalid login/password"), _A2T(reason.c_str()));
+	MraPopupShowW(NULL, MRA_POPUP_TYPE_ERROR, TranslateT("Logon error: invalid login/password"), _A2T(reason.c_str()));
 	return false;
 }
 
@@ -453,7 +453,7 @@ bool CMraProto::CmdMessageStatus(ULONG seq, BinBuffer &buf)
 	}
 	// not found in queue
 	else if (dwTemp != MESSAGE_DELIVERED)
-		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, TranslateT("MRIM_CS_MESSAGE_STATUS: not found in queue"));
+		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, TranslateT("MRIM_CS_MESSAGE_STATUS: not found in queue"));
 	return true;
 }
 
@@ -591,7 +591,7 @@ bool CMraProto::CmdPopSession(BinBuffer &buf)
 		}
 	}
 	//error
-	MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateT("Server error: can't get MPOP key for web authorize"));
+	MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, TranslateT("Server error: can't get MPOP key for web authorize"));
 	MraMPopSessionQueueFlush(hMPopSessionQueue);
 
 	return true;
@@ -700,7 +700,7 @@ bool CMraProto::CmdUserStatus(BinBuffer &buf)
 				CMStringW wszEmail, wszBuff;
 				mraGetStringW(hContact, "e-mail", wszEmail);
 				wszBuff.Format(L"%s <%s> - %s", pcli->pfnGetContactDisplayName(hContact, 0), wszEmail.c_str(), TranslateT("invisible status changed"));
-				MraPopupShowFromContactW(hContact, MRA_POPUP_TYPE_INFORMATION, 0, wszBuff);
+				MraPopupShowFromContactW(hContact, MRA_POPUP_TYPE_INFORMATION, wszBuff);
 
 				MraSetContactStatus(hContact, ID_STATUS_INVISIBLE);
 			}
@@ -750,12 +750,12 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 		default:// ## unknown error
 			wchar_t szBuff[1024];
 			mir_snwprintf(szBuff, TranslateT("MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu"), dwTemp);
-			MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
+			MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, szBuff);
 			break;
 		}
 		MraSendQueueFree(hSendQueueHandle, seq);
 	}
-	else MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, TranslateT("MRIM_CS_*_CONTACT_ACK: not found in queue"));
+	else MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, TranslateT("MRIM_CS_*_CONTACT_ACK: not found in queue"));
 	return true;
 }
 
@@ -763,7 +763,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 {
 	DWORD dwAckType, dwFlags; MCONTACT hContact;
 	if (MraSendQueueFind(hSendQueueHandle, seq, &dwFlags, &hContact, &dwAckType, NULL, NULL)) {
-		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, TranslateT("MRIM_ANKETA_INFO: not found in queue"));
+		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, TranslateT("MRIM_ANKETA_INFO: not found in queue"));
 		return true;
 	}
 
@@ -1044,7 +1044,7 @@ bool CMraProto::CmdGame(BinBuffer &buf)
 	default:
 		wchar_t szBuff[1024];
 		mir_snwprintf(szBuff, TranslateT("MRIM_CS_GAME: unknown internal game message code: %lu"), dwGameMsg);
-		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
+		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, szBuff);
 		break;
 	}
 	return true;
@@ -1351,7 +1351,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 		else {
 			wchar_t szBuff[1024];
 			mir_snwprintf(szBuff, TranslateT("MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu"), dwTemp);
-			MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
+			MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, szBuff);
 		}
 	}
 	return true;
@@ -1527,7 +1527,7 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 			mir_free(pByte);
 			MraSendQueueFree(hSendQueueHandle, pmaHeader->seq);
 		}
-		else MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, TranslateT("MRIM_CS_SMS_ACK: not found in queue"));
+		else MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, TranslateT("MRIM_CS_SMS_ACK: not found in queue"));
 		break;
 
 	case MRIM_CS_PROXY_HELLO:
@@ -1807,7 +1807,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 					}
 
 					if (dwFlags & MESSAGE_FLAG_SYSTEM)
-						MraPopupShowW(hContact, MRA_POPUP_TYPE_INFORMATION, 0, TranslateT("Mail.ru System notify"), (LPWSTR)pre.szMessage);
+						MraPopupShowW(hContact, MRA_POPUP_TYPE_INFORMATION, TranslateT("Mail.ru System notify"), (LPWSTR)pre.szMessage);
 				}
 			}
 		}

@@ -68,7 +68,7 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 
 		case IDC_PREVIEW:
 			for (int i = 0; i < POPUPS_TYPES_COUNT; i++)
-				ppro->MraPopupShowFromAgentW(i, 0, TranslateW(lpcwszPopupsTypes[i]));
+				ppro->MraPopupShowFromAgentW(i, TranslateW(lpcwszPopupsTypes[i]));
 			break;
 
 		case IDC_CHK_ENABLE:
@@ -98,9 +98,9 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 				DWORD dwType = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_COMBO_POPUP_TYPE);
 				DWORD dwPopupsEventFilter = ppro->getDword("PopupsEventFilter", MRA_DEFAULT_POPUPS_EVENT_FILTER);
 				if (IsDlgButtonChecked(hWndDlg, IDC_CHK_ENABLE))
-					dwPopupsEventFilter |= (1<<dwType);
+					dwPopupsEventFilter |= (1 << dwType);
 				else
-					dwPopupsEventFilter &= ~(1<<dwType);
+					dwPopupsEventFilter &= ~(1 << dwType);
 
 				ppro->setDword("PopupsEventFilter", dwPopupsEventFilter);
 
@@ -125,7 +125,7 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 
 int CMraProto::OnPopupOptInit(WPARAM wParam, LPARAM)
 {
-	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.dwInitParam = (LPARAM)this;
 		odp.position = 100000000;
@@ -195,7 +195,7 @@ LRESULT CALLBACK MraPopupDlgProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM l
 	return DefWindowProc(hWndDlg, msg, wParam, lParam);
 }
 
-void CMraProto::MraPopupShowFromContactW(MCONTACT hContact, DWORD dwType, DWORD dwFlags, LPCWSTR lpszMessage)
+void CMraProto::MraPopupShowFromContactW(MCONTACT hContact, DWORD dwType, LPCWSTR lpszMessage)
 {
 	WCHAR szTitle[MAX_CONTACTNAME];
 	CMStringW szNick, szEmail;
@@ -206,22 +206,21 @@ void CMraProto::MraPopupShowFromContactW(MCONTACT hContact, DWORD dwType, DWORD 
 	else
 		mir_snwprintf(szTitle, L"%s:  %s <%s>", m_tszUserName, szNick.c_str(), szEmail.c_str());
 
-	MraPopupShowW(hContact, dwType, dwFlags, szTitle, lpszMessage);
+	MraPopupShowW(hContact, dwType, szTitle, lpszMessage);
 }
 
-void CMraProto::MraPopupShowW(MCONTACT hContact, DWORD dwType, DWORD dwFlags, LPWSTR lpszTitle, LPCWSTR lpszMessage)
+void CMraProto::MraPopupShowW(MCONTACT hContact, DWORD dwType, LPWSTR lpszTitle, LPCWSTR lpszMessage)
 {
 	if (getByte("PopupsEnabled", MRA_DEFAULT_POPUPS_ENABLED))
 	if (GetBit(getDword("PopupsEventFilter", MRA_DEFAULT_POPUPS_EVENT_FILTER), dwType))
-	if ( ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		POPUPDATAT ppd = { 0 };
-
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		// delete old email popup
 		if (dwType == MRA_POPUP_TYPE_EMAIL_STATUS && hWndEMailPopupStatus) {
 			PUDeletePopup(hWndEMailPopupStatus);
 			hWndEMailPopupStatus = NULL;
 		}
 
+		POPUPDATAT ppd = { 0 };
 		// load icon
 		switch (dwType) {
 		case MRA_POPUP_TYPE_NONE:// proto icon
@@ -247,7 +246,7 @@ void CMraProto::MraPopupShowW(MCONTACT hContact, DWORD dwType, DWORD dwFlags, LP
 			break;
 		}
 
-		MraPopupData *dat = (MraPopupData*)mir_calloc( sizeof(MraPopupData));
+		MraPopupData *dat = (MraPopupData*)mir_calloc(sizeof(MraPopupData));
 		dat->iPopupType = dwType;
 		dat->ppro = this;
 
@@ -282,6 +281,4 @@ void CMraProto::MraPopupShowW(MCONTACT hContact, DWORD dwType, DWORD dwFlags, LP
 		else
 			PUAddPopupW(&ppd);
 	}
-	else if (dwFlags & MRA_POPUP_ALLOW_MSGBOX)
-		MessageBox(NULL, lpszMessage, lpszTitle, MB_OK+(dwType == MRA_POPUP_TYPE_WARNING)?MB_ICONERROR:MB_ICONINFORMATION);
 }

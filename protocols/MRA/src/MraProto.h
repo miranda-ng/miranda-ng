@@ -75,10 +75,10 @@ struct CMraProto : public PROTO<CMraProto>
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
 	void   ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode);
-	void   MraPopupShowW(MCONTACT hContact, DWORD dwType, DWORD dwFlags, LPWSTR lpszTitle, LPCWSTR lpszMessage);
-	void   MraPopupShowFromContactW(MCONTACT hContact, DWORD dwType, DWORD dwFlags, LPCWSTR lpszMessage);
-	__forceinline void MraPopupShowFromAgentW(DWORD dwType, DWORD dwFlags, LPCWSTR lpszMessage) {
-		MraPopupShowFromContactW(NULL, dwType, dwFlags, lpszMessage); }
+	void   MraPopupShowW(MCONTACT hContact, DWORD dwType, LPWSTR lpszTitle, LPCWSTR lpszMessage);
+	void   MraPopupShowFromContactW(MCONTACT hContact, DWORD dwType, LPCWSTR lpszMessage);
+	__forceinline void MraPopupShowFromAgentW(DWORD dwType, LPCWSTR lpszMessage) {
+		MraPopupShowFromContactW(NULL, dwType, lpszMessage); }
 
 	__forceinline bool mraGetStaticStringA(MCONTACT Contact, const char *ValueName, char *Ret, size_t RetBuffSize, size_t *pRetBuffSize) {
 		return DB_GetStaticStringA(Contact, m_szModuleName, ValueName, Ret, RetBuffSize, pRetBuffSize); }

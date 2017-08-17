@@ -24,8 +24,6 @@ struct RECURSION_DATA_STACK_ITEM
 	WIN32_FIND_DATA w32fdFindFileData;
 };
 
-LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
 CMStringA MraGetSelfVersionString()
 {
 	LPSTR lpszSecIM = ServiceExists("SecureIM/IsContactSecured") ? " + SecureIM" : "";
@@ -668,9 +666,9 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 		SkinPlaySound(szNewMailSound);
 		if (hContact) {// update user info
 			MraUpdateContactInfo(hContact);
-			MraPopupShowFromContactW(hContact, MRA_POPUP_TYPE_EMAIL_STATUS, (MRA_POPUP_ALLOW_ENTER), szStatusText);
+			MraPopupShowFromContactW(hContact, MRA_POPUP_TYPE_EMAIL_STATUS, szStatusText);
 		}
-		else MraPopupShowFromAgentW(MRA_POPUP_TYPE_EMAIL_STATUS, (MRA_POPUP_ALLOW_ENTER), szStatusText);
+		else MraPopupShowFromAgentW(MRA_POPUP_TYPE_EMAIL_STATUS, szStatusText);
 	}
 	else {
 		if ( !force_display && getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY)) {
@@ -681,7 +679,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 		}
 		else {
 			mir_snwprintf(szStatusText, TranslateT("No unread mail is available\r\nTotal messages: %lu"), dwEmailMessagesTotal);
-			MraPopupShowFromAgentW(MRA_POPUP_TYPE_EMAIL_STATUS, (MRA_POPUP_ALLOW_ENTER), szStatusText);
+			MraPopupShowFromAgentW(MRA_POPUP_TYPE_EMAIL_STATUS, szStatusText);
 		}
 	}
 }
@@ -867,7 +865,7 @@ void CMraProto::ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode
 		szErrDescription[dwErrDescriptionSize] = 0;
 		mir_snwprintf(szErrorText, L"%s %lu: %s", TranslateW(lpwszErrText), dwErrorCode, szErrDescription);
 	}
-	MraPopupShowFromAgentW(MRA_POPUP_TYPE_ERROR, 0, szErrorText);
+	MraPopupShowFromAgentW(MRA_POPUP_TYPE_ERROR, szErrorText);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -923,10 +921,9 @@ CMStringA CopyNumber(const CMStringA &str)
 {
 	CMStringA res;
 
-	for (LPCSTR p = str; *p; p++) {
+	for (LPCSTR p = str; *p; p++)
 		if (*p >= '0' && *p <= '9')
 			res.AppendChar(*p);
-	}
 
 	return res;
 }
@@ -937,7 +934,7 @@ void EnableControlsArray(HWND hWndDlg, WORD *pwControlsList, size_t dwControlsLi
 		EnableWindow(GetDlgItem(hWndDlg, pwControlsList[i]), bEnabled);
 }
 
-LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_CHAR)
 	if (GetKeyState(VK_CONTROL) & 0x8000) {
