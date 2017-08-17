@@ -1510,6 +1510,7 @@ int CJabberProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.szTab.w = LPGENW("Advanced");
 	odp.pDialog = new CDlgOptAdvanced(this);
 	Options_AddPage(wParam, &odp);
+	//TODO: add omemo options
 	return 0;
 }
 

@@ -905,7 +905,7 @@ void __cdecl CJabberProto::SendMessageAckThread(void* param)
 static char PGP_PROLOG[] = "-----BEGIN PGP MESSAGE-----\r\n\r\n";
 static char PGP_EPILOG[] = "\r\n-----END PGP MESSAGE-----\r\n";
 
-int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
+int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char* pszSrc)
 {
 	wchar_t szClientJid[JABBER_MAX_JID_LEN];
 	if (!m_bJabberOnline || !GetClientJID(hContact, szClientJid, _countof(szClientJid))) {
@@ -916,11 +916,13 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 
 	if (m_options.UseOMEMO)
 	{
-		if (!OmemoCheckSession(hContact)) //check omemo session state and build new session if necessary //TODO: something better
+		if (!OmemoCheckSession(hContact))
 		{
-			TFakeAckParams *param = new TFakeAckParams(hContact, Translate("OMEMO session does not exist yet"));
+			OmemoPutMessageToOutgoingQueue(hContact, unused_unknown, pszSrc);
+			int id = SerialNext();
+			TFakeAckParams *param = new TFakeAckParams(hContact, 0, id);
 			ForkThread(&CJabberProto::SendMessageAckThread, param);
-			return 0;
+			return id;
 		}
 	}
 

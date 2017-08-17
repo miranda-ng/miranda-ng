@@ -834,6 +834,7 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		odp.szTitle.a = LPGEN("Photo");
 		UserInfo_AddPage(wParam, &odp);
 	}
+	//TODO: add omemo dialog to userinfo
 	return 0;
 }
 

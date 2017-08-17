@@ -23,6 +23,8 @@ namespace omemo {
 
 		mir_cslockfull *signal_mutex;
 		void *sessions_internal;
+		void *session_checked;
+		void *message_queue_internal;
 	private:
 		CJabberProto *proto;
 		mir_cs _signal_cs;

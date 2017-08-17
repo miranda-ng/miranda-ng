@@ -1206,7 +1206,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 					LPCTSTR jid = xmlGetAttrValue(node, L"from");
 					if (jid)
 					{
-						OmemoHandleMessage(xNode, jid, msgTime);
+						OmemoHandleMessage(xNode, (wchar_t*)jid, msgTime);
 						continue;
 					}
 				}

@@ -26,9 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //TODO: further improovement requirements folllows in priority sequence
 /* 1. fix AES-128 GCM in 4.5 implementation
  * 2. handle prekeys properly (cleanup after first use, create new keys)
- * 3. reimplement session initialization  without loosing first message (incomming + outgoing)
- * 4. fingerprints/keys management ui
- * 5. per-contact encryption settings (enable/disable for one contact)
+ * 3. fingerprints/keys management ui
+ * 4. per-contact encryption settings (enable/disable for one contact)
  */
 
 #include "stdafx.h"
@@ -396,6 +395,39 @@ namespace omemo {
 
 
 	signal_context *global_context = nullptr;
+
+	struct incomming_message
+	{
+		incomming_message(HXML x, wchar_t *j, time_t t)
+		{
+			node = x;
+			jid = j;
+			msgTime = t;
+		}
+		HXML node;
+		wchar_t *jid;
+		time_t msgTime;
+	};
+
+	struct outgoing_message
+	{
+		outgoing_message(MCONTACT h, int u, char* p)
+		{
+			hContact = h;
+			unused_unknown = u;
+			pszSrc = p;
+		}
+		MCONTACT hContact;
+		int unused_unknown;
+		char* pszSrc;
+	};
+
+	struct message_queue
+	{
+		std::list<incomming_message> incomming_messages;
+		std::list<outgoing_message> outgoing_messages;
+	};
+
 	struct omemo_session_jabber_internal_ptrs
 	{
 		session_builder *builder;
@@ -442,6 +474,8 @@ namespace omemo {
 			//TODO: handle error
 		}
 		sessions_internal = new std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >;
+		message_queue_internal = new message_queue;
+		session_checked = new std::map<MCONTACT, bool>;
 	}
 	omemo_impl::~omemo_impl()
 	{
@@ -471,6 +505,8 @@ namespace omemo {
 			delete (std::map<MCONTACT, std::map<unsigned int, omemo_session_jabber_internal_ptrs> >*)sessions_internal;
 			delete signal_mutex;
 			delete provider;
+			delete message_queue_internal;
+			delete session_checked;
 			provider = nullptr;
 			signal_mutex = nullptr;
 		}
@@ -1418,10 +1454,10 @@ namespace omemo {
 		mir_free(key_buf); //TODO: check this
 		bool fp_trusted = false;
 		{ //check fingerprint
-			signal_buffer *key_buf;
-			ec_public_key_serialize(&key_buf, identity_key_p);
-			char *fingerprint = (char*)mir_alloc((signal_buffer_len(key_buf) * 2) + 1);
-			bin2hex(signal_buffer_data(key_buf), signal_buffer_len(key_buf), fingerprint);
+			signal_buffer *key_buf2;
+			ec_public_key_serialize(&key_buf2, identity_key_p);
+			char *fingerprint = (char*)mir_alloc((signal_buffer_len(key_buf2) * 2) + 1);
+			bin2hex(signal_buffer_data(key_buf2), signal_buffer_len(key_buf2), fingerprint);
 	  
 			const size_t setting_name_len = strlen("OmemoFingerprintTrusted_") + strlen(fingerprint) + 1;
 			char *fp_setting_name = (char*)mir_alloc(setting_name_len);
@@ -1507,14 +1543,48 @@ void CJabberProto::OmemoInitDevice()
 		m_omemo.RefreshDevice();
 }
 
+void CJabberProto::OmemoPutMessageToOutgoingQueue(MCONTACT hContact, int unused_unknown, const char* pszSrc)
+{
+	char *msg = mir_strdup(pszSrc);
+	((omemo::message_queue*)m_omemo.message_queue_internal)->outgoing_messages.push_back(omemo::outgoing_message(hContact, unused_unknown, msg));
+}
+
+void CJabberProto::OmemoPutMessageToIncommingQueue(HXML node, LPCTSTR jid, time_t msgTime)
+{
+	wchar_t *jid_ = mir_wstrdup(jid);
+	HXML node_ = xmlCopyNode(node);
+	((omemo::message_queue*)m_omemo.message_queue_internal)->incomming_messages.push_back(omemo::incomming_message(node_, jid_, msgTime));
+
+}
+
+void CJabberProto::OmemoHandleMessageQueue()
+{
+	for (std::list<omemo::outgoing_message>::iterator i = ((omemo::message_queue*)m_omemo.message_queue_internal)->outgoing_messages.begin(), 
+		end = ((omemo::message_queue*)m_omemo.message_queue_internal)->outgoing_messages.end();	i != end; ++i)
+	{
+		SendMsg(i->hContact, i->unused_unknown, i->pszSrc);
+		mir_free(i->pszSrc);
+	}
+	((omemo::message_queue*)m_omemo.message_queue_internal)->outgoing_messages.clear();
+	for (std::list<omemo::incomming_message>::iterator i = ((omemo::message_queue*)m_omemo.message_queue_internal)->incomming_messages.begin(),
+		end = ((omemo::message_queue*)m_omemo.message_queue_internal)->incomming_messages.end(); i != end; ++i)
+	{
+		OmemoHandleMessage(i->node, i->jid, i->msgTime);
+		xmlFree(i->node);
+		mir_free(i->jid);
+	}
+	((omemo::message_queue*)m_omemo.message_queue_internal)->incomming_messages.clear();
+}
+
 DWORD JabberGetLastContactMessageTime(MCONTACT hContact);
 
-void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
+void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 {
 	MCONTACT hContact = HContactFromJID(jid);
-	if (!OmemoCheckSession(hContact)) //TODO: something better here
+	if (!OmemoCheckSession(hContact))
 	{
-		debugLogA("Jabber OMEMO: sessions not yet created, session creation launched, message will not be decrypted");
+		OmemoPutMessageToIncommingQueue(node, jid, msgTime);
+		debugLogA("Jabber OMEMO: sessions not yet created, session creation launched");
 		return;
 	}
 	HXML header_node = XmlGetChild(node, L"header");
@@ -1554,8 +1624,9 @@ void CJabberProto::OmemoHandleMessage(HXML node, LPCTSTR jid, time_t msgTime)
 		|| !(*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact][sender_dev_id_int].builder
 		|| !(*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact][sender_dev_id_int].store_context)
 	{
-		debugLogA("Jabber OMEMO: bug: omemo session does not exist or broken");
 		OmemoCheckSession(hContact); //this should not normally happened
+		OmemoPutMessageToIncommingQueue(node, jid, msgTime);
+		debugLogA("Jabber OMEMO: bug: omemo session does not exist or broken");
 		return;
 	}
 	HXML key_node;
@@ -1977,8 +2048,8 @@ void CJabberProto::OmemoPublishNodes()
 
 bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 {
-/*	if (getBool(hContact, "OmemoSessionChecked"))
-		return true; */
+	if ((*(std::map<MCONTACT, bool>*)m_omemo.session_checked)[hContact])
+		return true;
 	bool pending_check = false;
 
 	char setting_name[64], setting_name2[64];
@@ -2009,6 +2080,7 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 			XmlAddAttr(items, L"node", bundle);
 			m_ThreadInfo->send(iq);
 			mir_free(jid);
+			break;
 		}
 		i++;
 		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
@@ -2018,9 +2090,13 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 	}
 
 	if (!pending_check)
+	{
+		(*(std::map<MCONTACT, bool>*)m_omemo.session_checked)[hContact] = true;
+		OmemoHandleMessageQueue();
 		return true;
+	}
 	else
-		debugLogA("Jabber OMEMO: info: OmemoCheckSession: pending session creation encryption/decryption of THIS message will not be done and message WILL be lost");
+		debugLogA("Jabber OMEMO: info: OmemoCheckSession: pending session creation");
 	return false;
 }
 
@@ -2179,7 +2255,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 			id = getDword(hContact, setting_name, 0);
 		}
 	}
-
+	OmemoCheckSession(hContact);
 
 }
 
