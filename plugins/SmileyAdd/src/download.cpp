@@ -159,7 +159,7 @@ void __cdecl SmileyDownloadThread(void*)
 bool GetSmileyFile(CMStringW &url, const CMStringW &packstr)
 {
 	_TPattern *urlsplit = _TPattern::compile(L".*/(.*)");
-	_TMatcher *m0 = urlsplit->createTMatcher(url);
+	_TMatcher *m0 = urlsplit->createWCMatcher(url);
 
 	m0->findFirstMatch();
 

@@ -77,7 +77,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 typedef WCPattern _TPattern;
 typedef WCMatcher _TMatcher;
-#define createTMatcher createWCMatcher
 
 #include "resource.h"
 #include "version.h"

@@ -97,11 +97,12 @@ void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, 
 		if (firstSml == -1)
 			break;
 
-		ReplaceSmileyType *dat = new ReplaceSmileyType;
-
+		SmileyLookup::SmileyLocType &psmlf = (*smlf)[firstSmlRef];
 		const wchar_t *textToSearch = lpstrText + smloff;
-		const wchar_t *textSmlStart = lpstrText + (*smlf)[firstSmlRef].pos;
-		const wchar_t *textSmlEnd   = textSmlStart + (*smlf)[firstSmlRef].len;
+		const wchar_t *textSmlStart = lpstrText + psmlf.pos;
+		const wchar_t *textSmlEnd   = textSmlStart + psmlf.len;
+
+		ReplaceSmileyType *dat = new ReplaceSmileyType;
 
 		// check if leading space exist
 		const wchar_t *prech = _wcsdec(textToSearch, textSmlStart);
@@ -111,8 +112,8 @@ void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, 
 		dat->trspace = *textSmlEnd == 0 || iswspace(*textSmlEnd);
 
 		// compute text location in RichEdit 
-		dat->loc.cpMin = (long)_wcsncnt(textToSearch, (*smlf)[firstSmlRef].pos - smloff) + numCharsSoFar;
-		dat->loc.cpMax = numCharsSoFar = (long)_wcsncnt(textSmlStart, (*smlf)[firstSmlRef].len) + dat->loc.cpMin;
+		dat->loc.cpMin = (long)_wcsncnt(textToSearch, psmlf.pos - smloff) + numCharsSoFar;
+		dat->loc.cpMax = numCharsSoFar = (long)_wcsncnt(textSmlStart, psmlf.len) + dat->loc.cpMin;
 
 		if (!opt.EnforceSpaces || (dat->ldspace && dat->trspace)) {
 			dat->ldspace |= !opt.SurroundSmileyWithSpaces;
@@ -137,7 +138,7 @@ void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, 
 		else delete dat;
 
 		// Advance string pointer to search for the next smiley
-		smloff = int((*smlf)[firstSmlRef].pos + (*smlf)[firstSmlRef].len);
+		smloff = int(psmlf.pos + psmlf.len);
 		csmlit[firstSml]++;
 	}
 	delete[] smileys;

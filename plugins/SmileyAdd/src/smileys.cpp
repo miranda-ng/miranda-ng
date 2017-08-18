@@ -223,7 +223,7 @@ static DWORD_PTR ConvertServiceParam(MCONTACT hContact, const wchar_t *param)
 void SmileyType::CallSmileyService(MCONTACT hContact)
 {
 	_TPattern *srvsplit = _TPattern::compile(L"(.*)\\|(.*)\\|(.*)");
-	_TMatcher *m0 = srvsplit->createTMatcher(GetTriggerText());
+	_TMatcher *m0 = srvsplit->createWCMatcher(GetTriggerText());
 	m0->findFirstMatch();
 
 	CMStringW name = m0->getGroup(1);
@@ -281,7 +281,7 @@ void SmileyPackType::AddTriggersToSmileyLookup(void)
 		else if (!m_SmileyList[dist].IsService()) {
 			bool first = true;
 			int li = 0;
-			_TMatcher *m0 = p->createTMatcher(m_SmileyList[dist].GetTriggerText());
+			_TMatcher *m0 = p->createWCMatcher(m_SmileyList[dist].GetTriggerText());
 			while (m0->findNextMatch()) {
 				int stind = m0->getStartingIndex();
 				if (li != stind) {
@@ -410,7 +410,7 @@ bool SmileyPackType::LoadSmileyFileMSL(CMStringW &tbuf, bool onlyInfo, CMStringW
 	CMStringW pathstr, packstr;
 	{
 		_TPattern *pathsplit = _TPattern::compile(L"(.*\\\\)(.*)\\.|$");
-		_TMatcher *m0 = pathsplit->createTMatcher(modpath);
+		_TMatcher *m0 = pathsplit->createWCMatcher(modpath);
 		m0->findFirstMatch();
 		pathstr = m0->getGroup(1);
 		packstr = m0->getGroup(2);
@@ -422,7 +422,7 @@ bool SmileyPackType::LoadSmileyFileMSL(CMStringW &tbuf, bool onlyInfo, CMStringW
 			L"^\\s*(Name|Author|Date|Version|ButtonSmiley)\\s*=\\s*\"(.*)\"",
 			_TPattern::MULTILINE_MATCHING);
 
-		_TMatcher *m0 = otherf->createTMatcher(tbuf);
+		_TMatcher *m0 = otherf->createWCMatcher(tbuf);
 		while (m0->findNextMatch()) {
 			if (m0->getGroup(1) == L"Name") m_Name = m0->getGroup(2);
 			if (m0->getGroup(1) == L"Author") m_Author = m0->getGroup(2);
@@ -440,7 +440,7 @@ bool SmileyPackType::LoadSmileyFileMSL(CMStringW &tbuf, bool onlyInfo, CMStringW
 			_TPattern *pat = _TPattern::compile(
 				L"^\\s*(Selection|Window)Size\\s*=\\s*(\\d+)\\s*,\\s*(\\d+)",
 				_TPattern::MULTILINE_MATCHING);
-			_TMatcher *m0 = pat->createTMatcher(tbuf);
+			_TMatcher *m0 = pat->createWCMatcher(tbuf);
 			while (m0->findNextMatch()) {
 				POINT tpt;
 				tpt.x = _wtol(m0->getGroup(2).c_str());
@@ -467,7 +467,7 @@ bool SmileyPackType::LoadSmileyFileMSL(CMStringW &tbuf, bool onlyInfo, CMStringW
 		SmileyVectorType hiddenSmileys;
 		unsigned smnum = 0;
 		{
-			_TMatcher *m0 = smiley->createTMatcher(tbuf);
+			_TMatcher *m0 = smiley->createWCMatcher(tbuf);
 			while (m0->findNextMatch()) {
 				CMStringW resname = m0->getGroup(2);
 				if (resname.Find(L"http://") != -1) {
@@ -582,18 +582,18 @@ bool SmileyPackType::LoadSmileyFileXEP(CMStringW &tbuf, bool onlyInfo, CMStringW
 	_TPattern *settings_re = _TPattern::compile(L"<settings>(.*?)</settings>",
 		_TPattern::MULTILINE_MATCHING | _TPattern::DOT_MATCHES_ALL);
 
-	m0 = settings_re->createTMatcher(tbuf);
+	m0 = settings_re->createWCMatcher(tbuf);
 	if (m0->findFirstMatch()) {
 		CMStringW settings = m0->getGroup(1);
 
-		m1 = author_re->createTMatcher(settings);
+		m1 = author_re->createWCMatcher(settings);
 		if (m1->findFirstMatch()) {
 			m_Author = m1->getGroup(1);
 			DecodeHTML(m_Author);
 		}
 		delete m1;
 
-		m1 = dbname_re->createTMatcher(settings);
+		m1 = dbname_re->createWCMatcher(settings);
 		if (m1->findFirstMatch()) {
 			m_Name = m1->getGroup(1);
 			DecodeHTML(m_Name);
@@ -620,11 +620,11 @@ bool SmileyPackType::LoadSmileyFileXEP(CMStringW &tbuf, bool onlyInfo, CMStringW
 		_TPattern *imagedt_re = _TPattern::compile(L"<!\\[CDATA\\[(.*?)\\]\\]>",
 			_TPattern::MULTILINE_MATCHING);
 
-		m0 = images_re->createTMatcher(tbuf);
+		m0 = images_re->createWCMatcher(tbuf);
 		if (m0->findFirstMatch()) {
 			CMStringW images = m0->getGroup(1);
 
-			m1 = imagedt_re->createTMatcher(images);
+			m1 = imagedt_re->createWCMatcher(images);
 			if (m1->findFirstMatch()) {
 				IStream *pStream = DecodeBase64Data(_T2A(m1->getGroup(1).c_str()));
 				if (pStream != NULL) {
@@ -637,7 +637,7 @@ bool SmileyPackType::LoadSmileyFileXEP(CMStringW &tbuf, bool onlyInfo, CMStringW
 		}
 		delete m0;
 
-		m0 = record_re->createTMatcher(tbuf);
+		m0 = record_re->createWCMatcher(tbuf);
 		while (m0->findNextMatch()) {
 			SmileyType *dat = new SmileyType;
 
@@ -648,14 +648,14 @@ bool SmileyPackType::LoadSmileyFileXEP(CMStringW &tbuf, bool onlyInfo, CMStringW
 
 			CMStringW rec = m0->getGroup(3);
 
-			m1 = expression_re->createTMatcher(rec);
+			m1 = expression_re->createWCMatcher(rec);
 			if (m1->findFirstMatch()) {
 				dat->m_TriggerText = m1->getGroup(1);
 				DecodeHTML(dat->m_TriggerText);
 			}
 			delete m1;
 
-			m1 = pastetext_re->createTMatcher(rec);
+			m1 = pastetext_re->createWCMatcher(rec);
 			if (m1->findFirstMatch()) {
 				dat->m_InsertText = m1->getGroup(1);
 				DecodeHTML(dat->m_InsertText);
@@ -663,11 +663,11 @@ bool SmileyPackType::LoadSmileyFileXEP(CMStringW &tbuf, bool onlyInfo, CMStringW
 			delete m1;
 			dat->SetHidden(dat->m_InsertText.IsEmpty());
 
-			m1 = image_re->createTMatcher(rec);
+			m1 = image_re->createWCMatcher(rec);
 			if (m1->findFirstMatch()) {
 				CMStringW images = m1->getGroup(1);
 
-				m2 = imagedt_re->createTMatcher(images);
+				m2 = imagedt_re->createWCMatcher(images);
 				if (m2->findFirstMatch()) {
 					IStream *pStream = DecodeBase64Data(_T2A(m2->getGroup(1).c_str()));
 					if (pStream != NULL) {
@@ -1063,7 +1063,7 @@ SmileyLookup::SmileyLookup(const CMStringW &str, const bool regexs, const int in
 		m_pattern = _TPattern::compile(str);
 		m_valid = m_pattern != NULL;
 		if (m_valid) {
-			_TMatcher *matcher = m_pattern->createTMatcher(testString);
+			_TMatcher *matcher = m_pattern->createWCMatcher(testString);
 			m_valid &= (!matcher->findFirstMatch() ||
 				matcher->getStartingIndex() != matcher->getEndingIndex());
 			if (!m_valid) {
@@ -1099,7 +1099,7 @@ void SmileyLookup::Find(const CMStringW &str, SmileyLocVecType &smlcur, bool fir
 	if (!m_valid) return;
 
 	if (m_text.IsEmpty()) {
-		_TMatcher *matcher = m_pattern->createTMatcher(str);
+		_TMatcher *matcher = m_pattern->createWCMatcher(str);
 		while (matcher->findNextMatch()) {
 			int st = matcher->getStartingIndex();
 			int sz = matcher->getEndingIndex() - st;
