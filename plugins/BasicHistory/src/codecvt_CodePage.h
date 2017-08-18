@@ -76,22 +76,22 @@ protected:
 		return (_Mybase::ok);
 	}
 
-	virtual int do_length(const mbstate_t&, const _Byte *, const _Byte *, size_t _Count) const _THROW0()
+	virtual int do_length(const mbstate_t&, const _Byte *, const _Byte *, size_t _Count) const throw()
 	{	// return min(_Count, converted length of bytes [_First1, _Last1))
 		return (int)_Count;	// not implemented
 	}
 
-	virtual bool do_always_noconv() const _THROW0()
+	virtual bool do_always_noconv() const throw()
 	{	// return true if conversions never change input
 		return (false);
 	}
 
-	virtual int do_max_length() const _THROW0()
+	virtual int do_max_length() const throw()
 	{	// return maximum length required for a conversion
 		return 6;
 	}
 
-	virtual int do_encoding() const _THROW0()
+	virtual int do_encoding() const throw()
 	{	// return length of code sequence (from codecvt)
 		return 0;	// -1 => state dependent, 0 => varying length
 	}
