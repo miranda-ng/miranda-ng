@@ -50,14 +50,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
 
-#ifdef DEBUG
-	{
-		int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
-		flag |= _CRTDBG_LEAK_CHECK_DF|_CRTDBG_CHECK_ALWAYS_DF;
-		_CrtSetDbgFlag(flag);
-	}
-#endif
-
 	CreateServiceFunction("Linklist/MenuCommand", LinkList_Main);
 
 	CMenuItem mi;
