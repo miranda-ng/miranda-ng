@@ -24,10 +24,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 //TODO: further improovement requirements folllows in priority sequence
-/* 1. fix AES-128 GCM in 4.5 implementation
- * 2. handle prekeys properly (cleanup after first use, create new keys)
- * 3. fingerprints/keys management ui
- * 4. per-contact encryption settings (enable/disable for one contact)
+/*
+ * 1. handle prekeys properly (cleanup after first use, create new keys)
+ * 2. fingerprints/keys management ui
+ * 3. per-contact encryption settings (enable/disable for one contact)
  */
 
 #include "stdafx.h"
@@ -1776,18 +1776,18 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 	}
 	char *out = nullptr;
 	{
-		int dec_success = 0;
+//		int dec_success = 0;
 		unsigned int payload_len = 0;
 		int outl = 0, round_len = 0;
 		char *payload_base64 = mir_u2a(payload_base64w);
 		unsigned char *payload = (unsigned char*)mir_base64_decode(payload_base64, &payload_len);
 		mir_free(payload_base64);
-		unsigned char tag[16];
+//		unsigned char tag[16];
 		out = (char*)mir_alloc(payload_len + 1); //TODO: check this
 		const EVP_CIPHER *cipher = EVP_aes_128_gcm();
 		EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
 		EVP_DecryptInit(ctx, cipher, signal_buffer_data(decrypted_key), iv);
-		EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, tag);
+//		EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, tag);
 		//EVP_DecryptInit(ctx, NULL, signal_buffer_data(decrypted_key), iv);
 		//EVP_DecryptUpdate(ctx, NULL, &howmany, AAD, aad_len);
 
@@ -1802,14 +1802,14 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 		outl += round_len;
 		out[outl] = 0;
 		mir_free(payload);
-		dec_success = EVP_DecryptFinal(ctx, tag, &round_len);
+//		dec_success = EVP_DecryptFinal(ctx, tag, &round_len);
 		EVP_CIPHER_CTX_free(ctx);
-		if (!dec_success)
-		{
-			debugLogA("Jabber OMEMO: error: aes_128_gcm verification failed (ignored for now, but still error)");
+//		if (!dec_success) //TODO: check this... omemo xep have no info about tag
+//		{
+//			debugLogA("Jabber OMEMO: error: aes_128_gcm verification failed (ignored for now, but still error)");
 			//return;
 			//TODO: handle decryption failure
-		}
+//		}
 
 	}
 
@@ -2262,10 +2262,10 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_text, MCONTACT hContact)
 {
 	const EVP_CIPHER *cipher = EVP_aes_128_gcm();
-	unsigned char key[16], iv[12], tag[16]/*, aad[48]*/;
+	unsigned char key[16], iv[12]/*,  tag[16]*/ /*, aad[48]*/;
 	Utils_GetRandom(key, _countof_portable(key));
 	Utils_GetRandom(iv, _countof_portable(iv));
-	Utils_GetRandom(tag, _countof_portable(tag));
+//	Utils_GetRandom(tag, _countof_portable(tag));
 	//Utils_GetRandom(aad, _countof_portable(aad));
 	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
 	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, _countof_portable(iv), NULL);
@@ -2284,7 +2284,7 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 	}
 	EVP_EncryptFinal(ctx, (unsigned char*)(in + tmp_len), &outl);
 	tmp_len += outl;
-	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, _countof_portable(tag), tag);
+	//EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, _countof_portable(tag), tag);
 	EVP_CIPHER_CTX_free(ctx);
 	//TODO: fix encryption
 	mir_free(in);
