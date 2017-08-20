@@ -3,7 +3,7 @@
 Omegle plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright ï¿½ 2011-17 Robert Pï¿½sel
+Copyright © 2011-17 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Product management
 #define OMEGLE_NAME               "Omegle"
-#define OMEGLE_SERVER_REGULAR     "http://www.omegle.com"
-#define OMEGLE_SERVER_CHAT        "http://%s.omegle.com"
+#define OMEGLE_SERVER_REGULAR     "https://www.omegle.com"
+#define OMEGLE_SERVER_CHAT        "https://%s.omegle.com"
 
 // Limits
 #define OMEGLE_TIMEOUTS_LIMIT		6
@@ -109,7 +109,7 @@ static const struct {
 		{ "fa", "Persian" },
 		{ "pl", "Polish" },
 		{ "pt", "Portugese" },
-		{ "ro", "Romaï¿½ian" },
+		{ "ro", "Romañian" },
 		{ "ru", "Russian" },
 		{ "el", "Greek" },
 		{ "sk", "Slovak" },
