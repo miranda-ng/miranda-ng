@@ -749,7 +749,7 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 	_wcsftime_l(ttime, _countof(ttime), L"%X - %x", localtime(&time), locale);
 	_free_locale(locale);
 
-	Srmm_SetStatusText(hContact, CMStringW(FORMAT, TranslateT("Message read: %s"), ttime)), IcoLib_GetIconByHandle(GetIconHandle(IDI_READMSG));
+	Srmm_SetStatusText(hContact, CMStringW(FORMAT, TranslateT("Message read: %s"), ttime), IcoLib_GetIconByHandle(GetIconHandle(IDI_READMSG)));
 }
 
 void CVkProto::MarkDialogAsRead(MCONTACT hContact)
