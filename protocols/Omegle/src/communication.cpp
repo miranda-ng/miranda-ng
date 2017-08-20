@@ -107,6 +107,11 @@ http::response Omegle_client::flap(const int request_type, std::string *post_dat
 		resp.code = pnlhr->resultCode;
 		resp.data = pnlhr->pData ? pnlhr->pData : "";
 
+		// This error code gives us some error page, but we don't need that, so clear the response
+		if (pnlhr->resultCode == HTTP_CODE_WEB_SERVER_IS_DOWN) {
+			resp.data = "";
+		}
+
 		parent->debugLogA("&&&&& Got response: %s", resp.data.c_str());
 
 		Netlib_FreeHttpRequest(pnlhr);
