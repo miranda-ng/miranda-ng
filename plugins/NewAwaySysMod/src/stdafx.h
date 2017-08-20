@@ -294,7 +294,6 @@ extern MWindowList g_hReadWndList;
 INT_PTR GetContactStatMsg(WPARAM wParam, LPARAM lParam);
 
 // AwayOpt.cpp
-int ModernOptInitialise(WPARAM wParam, LPARAM lParam);
 int OptsDlgInit(WPARAM wParam, LPARAM); // called on opening of the options dialog
 void InitOptions(); // called once when plugin is loaded
 

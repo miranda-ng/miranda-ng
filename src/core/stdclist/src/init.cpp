@@ -91,10 +91,8 @@ static int OnAccountsChanged(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // called when all modules got loaded
 
-static int OnModernOptsInit(WPARAM wParam, LPARAM lParam);
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	HookEvent(ME_MODERNOPT_INITIALIZE, OnModernOptsInit);
 	RegisterCListFonts();
 	himlCListClc = Clist_GetImageList();
 	return 0;
@@ -108,14 +106,6 @@ static int OnOptsInit(WPARAM wParam, LPARAM lParam)
 	ClcOptInit(wParam, lParam);
 	CluiOptInit(wParam, lParam);
 	CListOptInit(wParam, lParam);
-	return 0;
-}
-
-static int OnModernOptsInit(WPARAM wParam, LPARAM lParam)
-{
-	ClcModernOptInit(wParam, lParam);
-	CListModernOptInit(wParam, lParam);
-	CluiModernOptInit(wParam, lParam);
 	return 0;
 }
 

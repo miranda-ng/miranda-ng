@@ -534,31 +534,6 @@ static int AwayMsgOptInitialise(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static int AwayMsgSendModernOptInit(WPARAM wParam, LPARAM)
-{
-	if (protoModeMsgFlags == 0)
-		return 0;
-
-	static const int iBoldControls[] =
-	{
-		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3,
-		MODERNOPT_CTRL_LAST
-	};
-
-	MODERNOPTOBJECT obj = { 0 };
-	obj.cbSize = sizeof(obj);
-	obj.hInstance = hInst;
-	obj.dwFlags = MODEROPT_FLG_TCHAR | MODEROPT_FLG_NORESIZE;
-	obj.iSection = MODERNOPT_PAGE_STATUS;
-	obj.iType = MODERNOPT_TYPE_SECTIONPAGE;
-	obj.iBoldControls = (int*)iBoldControls;
-	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_STATUS);
-	obj.pfnDlgProc = DlgProcAwayMsgOpts;
-	obj.lpzHelpUrl = "https://wiki.miranda-ng.org/";
-	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-	return 0;
-}
-
 static int AwayMsgSendAccountsChanged(WPARAM, LPARAM)
 {
 	protoModeMsgFlags = 0;
@@ -581,7 +556,6 @@ static int AwayMsgSendModulesLoaded(WPARAM, LPARAM)
 	AwayMsgSendAccountsChanged(0, 0);
 
 	HookEvent(ME_CLIST_STATUSMODECHANGE, StatusModeChange);
-	HookEvent(ME_MODERNOPT_INITIALIZE, AwayMsgSendModernOptInit);
 	HookEvent(ME_OPT_INITIALISE, AwayMsgOptInitialise);
 	return 0;
 }

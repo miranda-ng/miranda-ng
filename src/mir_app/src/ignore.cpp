@@ -415,22 +415,6 @@ static int IgnoreAddedNotify(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static int iBoldControls[] = { IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3, MODERNOPT_CTRL_LAST };
-
-static int IgnoreModernOptInit(WPARAM wParam, LPARAM)
-{
-	MODERNOPTOBJECT obj = { sizeof(obj) };
-	obj.hInstance = g_hInst;
-	obj.dwFlags = MODEROPT_FLG_TCHAR;
-	obj.iSection = MODERNOPT_PAGE_IGNORE;
-	obj.iType = MODERNOPT_TYPE_SECTIONPAGE;
-	obj.iBoldControls = iBoldControls;
-	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_IGNORE);
-	obj.pfnDlgProc = DlgProcIgnoreOpts;
-	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-	return 0;
-}
-
 int LoadIgnoreModule(void)
 {
 	PROTOCOLDESCRIPTOR pd = { 0 };
@@ -449,7 +433,6 @@ int LoadIgnoreModule(void)
 	CreateServiceFunction(MS_IGNORE_UNIGNORE, Unignore);
 
 	HookEvent(ME_DB_EVENT_FILTER_ADD, IgnoreAddedNotify);
-	HookEvent(ME_MODERNOPT_INITIALIZE, IgnoreModernOptInit);
 	HookEvent(ME_OPT_INITIALISE, IgnoreOptInitialise);
 	return 0;
 }

@@ -25,9 +25,6 @@
 #include "m_clc.h"
 #include "GroupCheckbox.h"
 
-//NightFox
-#include <m_modernopt.h>
-
 int g_Messages_RecentRootID, g_Messages_PredefinedRootID;
 CIconList g_IconList;
 
@@ -1359,33 +1356,4 @@ void InitOptions()
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Edit(IDC_REPLYDLG_PREFIX, "ReplyPrefix", AWAY_MSGDATA_MAX, AUTOREPLY_DEF_PREFIX, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Generic(IDC_REPLYDLG_VARS, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Generic(IDC_REPLYDLG_STATIC_EXTRATEXT, IDC_REPLYDLG_ENABLEREPLY));
-}
-
-// NightFox
-int ModernOptInitialise(WPARAM wParam, LPARAM)
-{
-	static int iBoldControls[] =
-	{
-		IDC_TXT_TITLE1,
-		IDC_TXT_TITLE2,
-		IDC_TXT_TITLE3,
-		MODERNOPT_CTRL_LAST
-	};
-
-	MODERNOPTOBJECT obj = { 0 };
-	obj.cbSize = sizeof(obj);
-	obj.dwFlags = MODEROPT_FLG_TCHAR | MODEROPT_FLG_NORESIZE;
-	obj.hInstance = g_hInstance;
-	obj.iSection = MODERNOPT_PAGE_STATUS;
-	obj.iType = MODERNOPT_TYPE_SECTIONPAGE;
-	obj.iBoldControls = iBoldControls;
-	//	obj.lpzClassicGroup = NULL;
-	obj.lpzClassicPage = "Status";
-	obj.lpzClassicTab = "Main options";
-	//	obj.lpzHelpUrl = "https://wiki.miranda-ng.org/";
-
-	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_MESSAGES);
-	obj.pfnDlgProc = MessagesModernOptDlg;
-	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-	return 0;
 }

@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "modern_clcpaint.h"
 
-int ModernOptInit(WPARAM wParam, LPARAM lParam);
 int ModernSkinOptInit(WPARAM wParam, LPARAM lParam);
 
 /*
@@ -1550,9 +1549,6 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 			TranslateT("Error loading plugin"), MB_ICONERROR | MB_OK);
 
 	HookEvent(ME_AV_AVATARCHANGED, clcHookAvatarChanged);
-
-	HookEvent(ME_MODERNOPT_INITIALIZE, ModernOptInit);
-	HookEvent(ME_MODERNOPT_INITIALIZE, ModernSkinOptInit);
 
 	HookEvent(ME_FOLDERS_PATH_CHANGED, ReloadSkinFolder);
 	hSkinFolder = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Modern contact list"), MIRANDA_PATHT L"\\" _A2W(DEFAULT_SKIN_FOLDER));

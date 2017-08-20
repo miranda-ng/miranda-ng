@@ -369,30 +369,6 @@ static INT_PTR IdleGetInfo(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static int IdleModernOptInit(WPARAM wParam, LPARAM)
-{
-	static const int iBoldControls[] =
-	{
-		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3,
-		MODERNOPT_CTRL_LAST
-	};
-
-	MODERNOPTOBJECT obj = {0};
-	obj.cbSize = sizeof(obj);
-	obj.hInstance = hInst;
-	obj.dwFlags = MODEROPT_FLG_TCHAR | MODEROPT_FLG_NORESIZE;
-	obj.iSection = MODERNOPT_PAGE_STATUS;
-	obj.iType = MODERNOPT_TYPE_SECTIONPAGE;
-	obj.iBoldControls = (int*)iBoldControls;
-	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_IDLE);
-	obj.pfnDlgProc = IdleOptsDlgProc;
-//	obj.lpzClassicGroup = "Status";
-//	obj.lpzClassicPage = "Messages";
-	obj.lpzHelpUrl = "https://wiki.miranda-ng.org/";
-	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-	return 0;
-}
-
 int LoadIdleModule(void)
 {
 	bModuleInitialized = TRUE;
@@ -401,7 +377,6 @@ int LoadIdleModule(void)
 	IdleObject_Create(&gIdleObject);
 	CreateServiceFunction(MS_IDLE_GETIDLEINFO, IdleGetInfo);
 	HookEvent(ME_OPT_INITIALISE, IdleOptInit);
-	HookEvent(ME_MODERNOPT_INITIALIZE, IdleModernOptInit);
 	return 0;
 }
 

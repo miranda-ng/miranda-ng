@@ -218,7 +218,6 @@ var
   {$include m_langpack.inc}
   {$include m_message.inc}
   {$include m_metacontacts.inc}
-  {$include m_modernopt.inc}
   {$include m_netlib.inc}
   {$include m_options.inc}
   {$include m_pluginupdater.inc}

@@ -74,7 +74,6 @@
 #include <m_genmenu.h>
 #include <m_popup.h>
 #include <m_timezones.h>
-#include <m_modernopt.h>
 #include <m_xstatus.h>
 #include <m_toptoolbar.h>
 #include <m_string.h>

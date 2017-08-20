@@ -2216,29 +2216,3 @@ INT_PTR __cdecl CJabberProto::OnMenuOptions(WPARAM, LPARAM)
 	Options_Open(L"Network", m_tszUserName, L"Account");
 	return 0;
 }
-
-int CJabberProto::OnModernOptInit(WPARAM, LPARAM)
-{/*
-	static int iBoldControls[] =
-	{
-		IDC_TITLE1, MODERNOPT_CTRL_LAST
-	};
-
-	MODERNOPTOBJECT obj = {0};
-	obj.cbSize = sizeof(obj);
-	obj.dwFlags = MODEROPT_FLG_TCHAR;
-	obj.hIcon = LoadIconEx("main");
-	obj.hInstance = hInst;
-	obj.iSection = MODERNOPT_PAGE_ACCOUNTS;
-	obj.iType = MODERNOPT_TYPE_SUBSECTIONPAGE;
-	obj.lptzSubsection = mir_a2u(m_szModuleName);	// title!!!!!!!!!!!
-	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT);
-	obj.iBoldControls = iBoldControls;
-	obj.pfnDlgProc = JabberWizardDlgProc;
-	obj.lpszClassicGroup = "Network";
-	obj.lpszClassicPage = m_szModuleName;	// title!!!!!!!!!!!
-	obj.lpszHelpUrl = "https://miranda-ng.org/p/Jabber";
-	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-	mir_free(obj.lptzSubsection); */
-	return 0;
-}

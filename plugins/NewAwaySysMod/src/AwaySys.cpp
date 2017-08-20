@@ -41,8 +41,6 @@
 #include "Services.h"
 #include "version.h"
 
-#include <m_modernopt.h>
-
 HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
 
@@ -707,7 +705,6 @@ int MirandaLoaded(WPARAM, LPARAM)
 		}
 	}
 
-	HookEvent(ME_MODERNOPT_INITIALIZE, ModernOptInitialise);
 	return 0;
 }
 

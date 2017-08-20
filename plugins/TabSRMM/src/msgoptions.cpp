@@ -1602,37 +1602,9 @@ static INT_PTR CALLBACK DlgProcTabSrmmModernOptions(HWND hwndDlg, UINT msg, WPAR
 	return FALSE;
 }
 
-static int ModernOptInitialise(WPARAM wParam, LPARAM)
-{
-	static int iBoldControls[] =
-	{
-		IDC_TXT_TITLE1, IDC_TXT_TITLE2,
-		IDC_TXT_TITLE3, IDC_TXT_TITLE4,
-		IDC_TXT_TITLE5,
-		MODERNOPT_CTRL_LAST
-	};
-
-	MODERNOPTOBJECT obj = { sizeof(obj) };
-	obj.dwFlags = MODEROPT_FLG_TCHAR | MODEROPT_FLG_NORESIZE;
-	obj.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	obj.hInstance = g_hInst;
-	obj.iSection = MODERNOPT_PAGE_MSGS;
-	obj.iType = MODERNOPT_TYPE_SECTIONPAGE;
-	obj.iBoldControls = iBoldControls;
-	obj.lpzClassicGroup = nullptr;
-	obj.lpzClassicPage = "Message Sessions";
-	obj.lpzHelpUrl = "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM";
-
-	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPTS);
-	obj.pfnDlgProc = DlgProcTabSrmmModernOptions;
-	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-	return 0;
-}
-
 int TSAPI InitOptions(void)
 {
 	HookEvent(ME_OPT_INITIALISE, OptInitialise);
-	HookEvent(ME_MODERNOPT_INITIALIZE, ModernOptInitialise);
 	return 0;
 }
 

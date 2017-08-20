@@ -61,22 +61,6 @@ int SkinOptInit(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int ModernSkinOptInit(WPARAM wParam, LPARAM)
-{
-	MODERNOPTOBJECT obj = { 0 };
-	obj.cbSize = sizeof(obj);
-	obj.dwFlags = MODEROPT_FLG_TCHAR;
-	obj.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	obj.hInstance = g_hInst;
-	obj.iSection = MODERNOPT_PAGE_SKINS;
-	obj.iType = MODERNOPT_TYPE_SELECTORPAGE;
-	obj.lptzSubsection = L"Contact list";
-	obj.lpzThemeExtension = ".msf";
-	obj.lpzThemeModuleName = "ModernSkinSel";
-	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-	return 0;
-}
-
 INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {

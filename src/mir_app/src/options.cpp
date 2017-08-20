@@ -373,7 +373,7 @@ class COptionsDlg : public CDlgBase
 
 	CCtrlTreeView m_pageTree;
 	CCtrlCombo m_keywordFilter;
-	CCtrlButton m_btnApply, m_btnCancel, m_btnModern;
+	CCtrlButton m_btnApply, m_btnCancel;
 
 	COptionsDlg& operator=(const COptionsDlg&);
 
@@ -715,7 +715,6 @@ public:
 		CDlgBase(g_hInst, bSinglePage ? IDD_OPTIONSPAGE : IDD_OPTIONS),
 		m_btnApply(this, IDC_APPLY),
 		m_btnCancel(this, IDCANCEL),
-		m_btnModern(this, IDC_MODERN),
 		m_pageTree(this, IDC_PAGETREE),
 		m_keywordFilter(this, IDC_KEYWORD_FILTER),
 		m_arOpd(10),
@@ -733,14 +732,10 @@ public:
 
 		m_btnCancel.OnClick = Callback(this, &COptionsDlg::OnCancel);
 		m_btnApply.OnClick = Callback(this, &COptionsDlg::btnApply_Click);
-		m_btnModern.OnClick = Callback(this, &COptionsDlg::btnModern_Click);
 	}
 
 	virtual void OnInitDialog() override
 	{
-		if (!ServiceExists(MS_MODERNOPT_SHOW))
-			ShowWindow(GetDlgItem(m_hwnd, IDC_MODERN), FALSE);
-
 		Utils_RestoreWindowPositionNoSize(m_hwnd, 0, "Options", "");
 		Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_OTHER_OPTIONS);
 		m_btnApply.Disable();
@@ -853,8 +848,6 @@ public:
 
 		DeleteObject(m_hBoldFont);
 		pOptionsDlg = nullptr;
-
-		CallService(MS_MODERNOPT_RESTORE, 0, 0);
 	}
 
 	virtual void OnApply() override
@@ -896,14 +889,6 @@ public:
 	{
 		OnApply();
 		m_btnApply.Disable();
-	}
-
-	void btnModern_Click(CCtrlButton*)
-	{
-		db_set_b(0, "Options", "Expert", 0);
-		SaveOptionsTreeState();
-		PostMessage(m_hwnd, WM_CLOSE, 0, 0);
-		CallService(MS_MODERNOPT_SHOW, 0, 0);
 	}
 
 	void OnOk(void*)
@@ -1220,10 +1205,7 @@ MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, int _hLa
 
 static INT_PTR OpenOptionsDialog(WPARAM, LPARAM)
 {
-	if (pOptionsDlg || !ServiceExists(MS_MODERNOPT_SHOW))
-		OpenOptionsNow(0, nullptr, nullptr, nullptr, false);
-	else
-		CallService(MS_MODERNOPT_SHOW, 0, 0);
+	OpenOptionsNow(0, nullptr, nullptr, nullptr, false);
 	return 0;
 }
 

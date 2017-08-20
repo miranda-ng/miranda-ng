@@ -120,7 +120,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int  __cdecl OnContactDeleted(WPARAM, LPARAM);
 	int  __cdecl OnDbSettingChanged(WPARAM, LPARAM);
 	int  __cdecl OnIdleChanged(WPARAM, LPARAM);
-	int  __cdecl OnModernOptInit(WPARAM, LPARAM);
 	int  __cdecl OnModulesLoadedEx(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int  __cdecl OnPreShutdown(WPARAM, LPARAM);

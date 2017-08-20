@@ -502,12 +502,10 @@ MIR_APP_DLL(void) KillModuleEffects(int _hLang)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int OptInit(WPARAM, LPARAM);
-int FontsModernOptInit(WPARAM wParam, LPARAM lParam);
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_OPT_INITIALISE, OptInit);
-	HookEvent(ME_MODERNOPT_INITIALIZE, FontsModernOptInit);
 	return 0;
 }
 

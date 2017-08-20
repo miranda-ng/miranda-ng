@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 #include "m_fontservice.h"
-#include "m_modernopt.h"
 
 int ChatOptionsInitialize(WPARAM);
 
@@ -637,39 +636,7 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static int ModernOptInitialise(WPARAM wParam, LPARAM)
-{
-	static int iBoldControls[] =
-	{
-		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3,
-		MODERNOPT_CTRL_LAST
-	};
-
-	MODERNOPTOBJECT obj = { sizeof(obj) };
-	obj.dwFlags = MODEROPT_FLG_TCHAR | MODEROPT_FLG_NORESIZE;
-	obj.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-	obj.hInstance = g_hInst;
-	obj.iSection = MODERNOPT_PAGE_MSGS;
-	obj.iType = MODERNOPT_TYPE_SECTIONPAGE;
-	obj.iBoldControls = iBoldControls;
-	obj.lpzClassicGroup = nullptr;
-	obj.lpzClassicPage = "Message Sessions";
-	obj.lpzClassicTab = "Messaging";
-	obj.lpzHelpUrl = "https://wiki.miranda-ng.org/";
-
-	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_MSGDLG);
-	obj.pfnDlgProc = DlgProcOptions;
-	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-
-	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_MSGLOG);
-	obj.pfnDlgProc = DlgProcLogOptions;
-	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-
-	return 0;
-}
-
 void InitOptions(void)
 {
 	HookEvent(ME_OPT_INITIALISE, OptInitialise);
-	HookEvent(ME_MODERNOPT_INITIALIZE, ModernOptInitialise);
 }
