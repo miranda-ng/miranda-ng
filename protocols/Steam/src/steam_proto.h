@@ -138,8 +138,8 @@ protected:
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
 	void UpdateContactDetails(MCONTACT hContact, JSONNode *data);
-	void ProcessContact(std::map<std::string, JSONNode*>::iterator *it, MCONTACT hContact);
-	
+	void UpdateContactRelationship(MCONTACT hContact, JSONNode *data);
+
 	void ContactIsRemoved(MCONTACT hContact);
 	void ContactIsFriend(MCONTACT hContact);
 	void ContactIsIgnored(MCONTACT hContact);

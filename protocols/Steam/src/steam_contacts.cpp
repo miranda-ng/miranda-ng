@@ -378,19 +378,13 @@ MCONTACT CSteamProto::AddContact(const char *steamId, bool isTemporary)
 	return hContact;
 }
 
-void CSteamProto::ProcessContact(std::map<std::string, JSONNode*>::iterator *it, MCONTACT hContact)
+void CSteamProto::UpdateContactRelationship(MCONTACT hContact, JSONNode *data)
 {
-	std::string steamId = (*it)->first;
-	JSONNode *child = (*it)->second;
-
-	if (!hContact)
-		hContact = AddContact(steamId.c_str());
-
-	JSONNode *node = json_get(child, "friend_since");
+	JSONNode *node = json_get(data, "friend_since");
 	if (node)
 		db_set_dw(hContact, "UserInfo", "ContactAddTime", json_as_int(node));
 
-	node = json_get(child, "relationship");
+	node = json_get(data, "relationship");
 	if (node == NULL)
 		return;
 
@@ -457,7 +451,7 @@ void CSteamProto::OnGotFriendList(const HttpResponse *response)
 		if (it != friends.end())
 		{
 			// Contact is on server-list, update (and eventually notify) it
-			ProcessContact(&it, hContact);
+			UpdateContactRelationship(hContact, it->second);
 
 			steamIds.append(",").append(it->first);
 			friends.erase(it);
@@ -473,7 +467,8 @@ void CSteamProto::OnGotFriendList(const HttpResponse *response)
 	for (std::map<std::string, JSONNode*>::iterator it = friends.begin(); it != friends.end();)
 	{
 		// Contact is on server-list, but not in database, add (but not notify) it
-		ProcessContact(&it, NULL);
+		MCONTACT hContact = AddContact(it->first.c_str());
+		UpdateContactRelationship(hContact, it->second);
 		
 		steamIds.append(",").append(it->first);
 		it = friends.erase(it);
