@@ -456,10 +456,10 @@ bool Omegle_client::events()
 {
 	HANDLE_ENTRY;
 
-	std::string data = "id=" + this->chat_id_;
+	std::string post_data = "id=" + this->chat_id_;
 
 	// Get update
-	http::response resp = flap(OMEGLE_REQUEST_EVENTS, &data);
+	http::response resp = flap(OMEGLE_REQUEST_EVENTS, &post_data);
 
 	// Return
 	switch (resp.code)
@@ -540,9 +540,9 @@ bool Omegle_client::events()
 
 				JSONNode *items = json_at(item, 1);
 				size_t size = json_size(items);
-				for (size_t i = 0; i < size; i++) {
-					likes += ptrW(json_as_string(json_at(items, i)));
-					if (i < size - 1)
+				for (size_t j = 0; j < size; j++) {
+					likes += ptrW(json_as_string(json_at(items, j)));
+					if (j < size - 1)
 						likes += L", ";
 				}
 				
