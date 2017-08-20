@@ -24,15 +24,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Product management
 #define FACEBOOK_NAME							"Facebook"
-#define FACEBOOK_URL_HOMEPAGE					"http://www.facebook.com"
-#define FACEBOOK_URL_REQUESTS					"http://www.facebook.com/n/?reqs.php"
-#define FACEBOOK_URL_MESSAGES					"http://www.facebook.com/n/?inbox"
-#define FACEBOOK_URL_NOTIFICATIONS				"http://www.facebook.com/n/?notifications"
-#define FACEBOOK_URL_PROFILE					"http://www.facebook.com/profile.php?id="
-#define FACEBOOK_URL_GROUP						"http://www.facebook.com/n/?home.php&sk=group_"
-#define FACEBOOK_URL_PICTURE					"http://graph.facebook.com/%s/picture"
-#define FACEBOOK_URL_CONVERSATION				"http://www.facebook.com/messages/t/"
-//#define FACEBOOK_URL_STICKER					"http://www.facebook.com/stickers/asset/?sticker_id=%s&image_type=BestEffortImage"
+#define FACEBOOK_URL_HOMEPAGE					"https://www.facebook.com"
+#define FACEBOOK_URL_REQUESTS					"https://www.facebook.com/n/?reqs.php"
+#define FACEBOOK_URL_MESSAGES					"https://www.facebook.com/n/?inbox"
+#define FACEBOOK_URL_NOTIFICATIONS				"https://www.facebook.com/n/?notifications"
+#define FACEBOOK_URL_PROFILE					"https://www.facebook.com/profile.php?id="
+#define FACEBOOK_URL_GROUP						"https://www.facebook.com/n/?home.php&sk=group_"
+#define FACEBOOK_URL_PICTURE					"https://graph.facebook.com/%s/picture"
+#define FACEBOOK_URL_CONVERSATION				"https://www.facebook.com/messages/t/"
+//#define FACEBOOK_URL_STICKER					"https://www.facebook.com/stickers/asset/?sticker_id=%s&image_type=BestEffortImage"
 
 // Connection
 #define FACEBOOK_SERVER_REGULAR              "www.facebook.com"
