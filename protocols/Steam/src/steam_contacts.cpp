@@ -94,7 +94,7 @@ MCONTACT CSteamProto::FindContact(const char *steamId)
 	return hContact;
 }
 
-void CSteamProto::UpdateContact(MCONTACT hContact, JSONNode *data)
+void CSteamProto::UpdateContactDetails(MCONTACT hContact, JSONNode *data)
 {
 	// set common data
 	JSONNode *node = json_get(data, "personaname");
@@ -346,7 +346,17 @@ void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 
 MCONTACT CSteamProto::AddContact(const char *steamId, bool isTemporary)
 {
-	MCONTACT hContact = this->FindContact(steamId);
+	MCONTACT hContact = NULL;
+
+	mir_cslock lck(this->contact_search_lock);
+
+	for (hContact = db_find_first(this->m_szModuleName); hContact; hContact = db_find_next(hContact, this->m_szModuleName))
+	{
+		ptrA cSteamId(db_get_sa(hContact, this->m_szModuleName, "SteamID"));
+		if (!lstrcmpA(cSteamId, steamId))
+			break;
+	}
+
 	if (!hContact)
 	{
 		// create contact
@@ -378,19 +388,13 @@ MCONTACT CSteamProto::AddContact(const char *steamId, bool isTemporary)
 	return hContact;
 }
 
-void CSteamProto::ProcessContact(std::map<std::string, JSONNode*>::iterator *it, MCONTACT hContact)
+void CSteamProto::UpdateContactRelationship(MCONTACT hContact, JSONNode *data)
 {
-	std::string steamId = (*it)->first;
-	JSONNode *child = (*it)->second;
-
-	if (!hContact)
-		hContact = AddContact(steamId.c_str());
-
-	JSONNode *node = json_get(child, "friend_since");
+	JSONNode *node = json_get(data, "friend_since");
 	if (node)
 		db_set_dw(hContact, "UserInfo", "ContactAddTime", json_as_int(node));
 
-	node = json_get(child, "relationship");
+	node = json_get(data, "relationship");
 	if (node == NULL)
 		return;
 
@@ -442,30 +446,34 @@ void CSteamProto::OnGotFriendList(const HttpResponse *response)
 		}
 	}
 
-	// Check and update contacts in database
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
-		if (isChatRoom(hContact))
-			continue;
+		// Check and update contacts in database
+		mir_cslock lck(this->contact_search_lock);
 
-		ptrA id(getStringA(hContact, "SteamID"));
-		if (id == NULL)
-			continue;
-
-		std::map<std::string, JSONNode*>::iterator it = friends.find(std::string(id));
-
-		if (it != friends.end())
+		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 		{
-			// Contact is on server-list, update (and eventually notify) it
-			ProcessContact(&it, hContact);
+			if (isChatRoom(hContact))
+				continue;
 
-			steamIds.append(",").append(it->first);
-			friends.erase(it);
-		}
-		else
-		{
-			// Contact was removed from server-list, notify it
-			ContactIsRemoved(hContact);
+			ptrA id(getStringA(hContact, "SteamID"));
+			if (id == NULL)
+				continue;
+
+			std::map<std::string, JSONNode*>::iterator it = friends.find(std::string(id));
+
+			if (it != friends.end())
+			{
+				// Contact is on server-list, update (and eventually notify) it
+				UpdateContactRelationship(hContact, it->second);
+
+				steamIds.append(",").append(it->first);
+				friends.erase(it);
+			}
+			else
+			{
+				// Contact was removed from server-list, notify it
+				ContactIsRemoved(hContact);
+			}
 		}
 	}
 
@@ -473,7 +481,8 @@ void CSteamProto::OnGotFriendList(const HttpResponse *response)
 	for (std::map<std::string, JSONNode*>::iterator it = friends.begin(); it != friends.end();)
 	{
 		// Contact is on server-list, but not in database, add (but not notify) it
-		ProcessContact(&it, NULL);
+		MCONTACT hContact = AddContact(it->first.c_str());
+		UpdateContactRelationship(hContact, it->second);
 		
 		steamIds.append(",").append(it->first);
 		it = friends.erase(it);
@@ -568,12 +577,10 @@ void CSteamProto::OnGotUserSummaries(const HttpResponse *response)
 
 			MCONTACT hContact = NULL;
 			if (!IsMe(steamId)) {
-				hContact = FindContact(steamId);
-				if (!hContact)
-					hContact = AddContact(steamId);
+				hContact = AddContact(steamId);
 			}
 
-			UpdateContact(hContact, item);
+			UpdateContactDetails(hContact, item);
 		}
 		json_delete(nroot);
 	}
@@ -676,11 +683,9 @@ void CSteamProto::OnAuthRequested(const HttpResponse *response, void *arg)
 		node = json_get(nroot, "steamid");
 		ptrA steamId(mir_u2a(ptrW(json_as_string(node))));
 
-		MCONTACT hContact = FindContact(steamId);
-		if (!hContact)
-			hContact = AddContact(steamId);
+		MCONTACT hContact = AddContact(steamId);
 
-		UpdateContact(hContact, nroot);
+		UpdateContactDetails(hContact, nroot);
 
 		ContactIsAskingAuth(hContact);
 	}
