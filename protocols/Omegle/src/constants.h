@@ -3,7 +3,7 @@
 Omegle plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2011-17 Robert Pösel
+Copyright ï¿½ 2011-17 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Servers list
 //static const char *servers[] = {"Random", "bajor", "cardassia", "promenade", "odo-bucket", "ferengi", "quilt", "empok-nor", "quibbler"};
-static const char *servers[] = { LPGEN("Random"), "front1", "front2", "front3", "front4", "front5", "front6", "front7", "front8", "front9" };
+static const char *servers[] = { LPGEN("Random"), "front1", "front2", "front3", "front4", "front5", "front6", "front7", "front8", "front9", "front10", "front11", "front12", "front13", "front14", "front15", "front16", "front17", "front18", "front19", "front20", "front21", "front22", "front23", "front24", "front25", "front26", "front27", "front28", "front29", "front30", "front31", "front32" };
 
 static const struct {
 	const char *id;
@@ -109,7 +109,7 @@ static const struct {
 		{ "fa", "Persian" },
 		{ "pl", "Polish" },
 		{ "pt", "Portugese" },
-		{ "ro", "Romañian" },
+		{ "ro", "Romaï¿½ian" },
 		{ "ru", "Russian" },
 		{ "el", "Greek" },
 		{ "sk", "Slovak" },
