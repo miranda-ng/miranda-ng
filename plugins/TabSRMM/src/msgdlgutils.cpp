@@ -477,8 +477,8 @@ void CTabBaseDlg::tabUpdateStatusBar() const
 				SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_wszStatusBar);
 			}
 			else if (m_bStatusSet) {
-				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)m_szStatusText.c_str());
-				SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_szStatusIcon);
+				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)m_szStatusIcon);
+				SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_szStatusText.c_str());
 			}
 			else {
 				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, 0);
@@ -487,8 +487,8 @@ void CTabBaseDlg::tabUpdateStatusBar() const
 		}
 		else {
 			if (m_bStatusSet) {
-				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)m_szStatusText.c_str());
-				SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_szStatusIcon);
+				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)m_szStatusIcon);
+				SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_szStatusText.c_str());
 			}
 			else SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, 0);
 		}
