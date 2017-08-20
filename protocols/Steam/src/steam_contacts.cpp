@@ -94,7 +94,7 @@ MCONTACT CSteamProto::FindContact(const char *steamId)
 	return hContact;
 }
 
-void CSteamProto::UpdateContact(MCONTACT hContact, JSONNode *data)
+void CSteamProto::UpdateContactDetails(MCONTACT hContact, JSONNode *data)
 {
 	// set common data
 	JSONNode *node = json_get(data, "personaname");
@@ -573,7 +573,7 @@ void CSteamProto::OnGotUserSummaries(const HttpResponse *response)
 					hContact = AddContact(steamId);
 			}
 
-			UpdateContact(hContact, item);
+			UpdateContactDetails(hContact, item);
 		}
 		json_delete(nroot);
 	}
@@ -680,7 +680,7 @@ void CSteamProto::OnAuthRequested(const HttpResponse *response, void *arg)
 		if (!hContact)
 			hContact = AddContact(steamId);
 
-		UpdateContact(hContact, nroot);
+		UpdateContactDetails(hContact, nroot);
 
 		ContactIsAskingAuth(hContact);
 	}

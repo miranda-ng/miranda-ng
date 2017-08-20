@@ -104,7 +104,7 @@ MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT* psr)
 	{
 		STEAM_SEARCH_RESULT *ssr = (STEAM_SEARCH_RESULT*)psr;
 		hContact = AddContact(steamId, true);
-		UpdateContact(hContact, ssr->data);
+		UpdateContactDetails(hContact, ssr->data);
 	}
 
 	return hContact;
