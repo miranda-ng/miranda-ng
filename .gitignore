@@ -13,6 +13,8 @@ ipch/
 *.user
 *.aps
 *.opensdf
+*.map
+*.log
 
 # Keep predefined Miranda solutions
 !/bin*/*.sln
