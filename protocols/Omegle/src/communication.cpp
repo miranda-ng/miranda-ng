@@ -668,7 +668,6 @@ bool Omegle_client::events()
 		// timeout
 		return HANDLE_SUCCESS;
 
-	case HTTP_CODE_FAKE_ERROR:
 	default:
 		return HANDLE_ERROR(false);
 	}
@@ -690,7 +689,6 @@ bool Omegle_client::send_message(const std::string &message_text)
 			return HANDLE_SUCCESS;
 		}
 
-	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	default:
 		return HANDLE_ERROR(false);
@@ -712,7 +710,6 @@ bool Omegle_client::typing_start()
 			return HANDLE_SUCCESS;
 		}
 
-	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	default:
 		return HANDLE_ERROR(false);
@@ -734,7 +731,6 @@ bool Omegle_client::typing_stop()
 			return HANDLE_SUCCESS;
 		}
 
-	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	default:
 		return HANDLE_ERROR(false);
@@ -759,7 +755,6 @@ bool Omegle_client::recaptcha()
 					return handle_success( "typing_start" );
 					}*/
 
-	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	default:
 		return HANDLE_ERROR(false);
@@ -778,7 +773,6 @@ std::string Omegle_client::get_page(const int request_type)
 		HANDLE_SUCCESS;
 		break;
 
-	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	default:
 		HANDLE_ERROR(false);
