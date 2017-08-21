@@ -326,11 +326,13 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 			hNtlm->szPrincipal, isGSSAPI ? ISC_REQ_MUTUAL_AUTH | ISC_REQ_STREAM : 0, 0, SECURITY_NATIVE_DREP,
 			hasChallenge ? &inputBufferDescriptor : nullptr, 0, &hNtlm->hClientContext,
 			&outputBufferDescriptor, &contextAttributes, &tokenExpiration);
+		Netlib_Logf(nullptr, "InitializeSecurityContext(%S): 0x%x", szProvider, sc);
 
 		complete = (sc != SEC_I_COMPLETE_AND_CONTINUE && sc != SEC_I_CONTINUE_NEEDED);
-
-		if (sc == SEC_I_COMPLETE_NEEDED || sc == SEC_I_COMPLETE_AND_CONTINUE)
+		if (!complete) {
 			sc = CompleteAuthToken(&hNtlm->hClientContext, &outputBufferDescriptor);
+			Netlib_Logf(nullptr, "CompleteAuthToken: 0x%x", sc);
+		}
 
 		if (sc != SEC_E_OK && sc != SEC_I_CONTINUE_NEEDED) {
 			ReportSecError(sc, __LINE__);
