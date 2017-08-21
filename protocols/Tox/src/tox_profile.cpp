@@ -21,14 +21,13 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	debugLogA(__FUNCTION__": loading tox profile");
 
 	mir_cslock locker(profileLock);
-	
+
 	ptrW profilePath(GetToxProfilePath());
 	if (!IsFileExists(profilePath))
 		return false;
 
 	FILE *profile = _wfopen(profilePath, L"rb");
-	if (profile == NULL)
-	{
+	if (profile == NULL) {
 		ShowNotification(TranslateT("Unable to open Tox profile"), MB_ICONERROR);
 		debugLogA(__FUNCTION__": failed to open tox profile");
 		return false;
@@ -37,21 +36,18 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	fseek(profile, 0, SEEK_END);
 	long size = ftell(profile);
 	rewind(profile);
-	if (size < 0)
-	{
+	if (size < 0) {
 		fclose(profile);
 		return false;
 	}
-	
-	if (size == 0)
-	{
+
+	if (size == 0) {
 		fclose(profile);
 		return true;
 	}
 
 	uint8_t *data = (uint8_t*)mir_calloc(size);
-	if (fread((char*)data, sizeof(char), size, profile) != (size_t)size)
-	{
+	if (fread((char*)data, sizeof(char), size, profile) != (size_t)size) {
 		fclose(profile);
 		ShowNotification(TranslateT("Unable to read Tox profile"), MB_ICONERROR);
 		debugLogA(__FUNCTION__": failed to read tox profile");
@@ -60,22 +56,18 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	}
 	fclose(profile);
 
-	if (tox_is_data_encrypted(data))
-	{
+	if (tox_is_data_encrypted(data)) {
 		pass_ptrA password(mir_utf8encodeW(pass_ptrT(getWStringA("Password"))));
-		if (password == NULL || mir_strlen(password) == 0)
-		{
+		if (password == NULL || mir_strlen(password) == 0) {
 			CToxPasswordEditor passwordEditor(this);
-			if (!passwordEditor.DoModal())
-			{
+			if (!passwordEditor.DoModal()) {
 				mir_free(data);
 				return false;
 			}
 		}
 		uint8_t *encryptedData = (uint8_t*)mir_calloc(size - TOX_PASS_ENCRYPTION_EXTRA_LENGTH);
 		TOX_ERR_DECRYPTION coreDecryptError;
-		if (!tox_pass_decrypt(data, size, (uint8_t*)(char*)password, mir_strlen(password), encryptedData, &coreDecryptError))
-		{
+		if (!tox_pass_decrypt(data, size, (uint8_t*)(char*)password, mir_strlen(password), encryptedData, &coreDecryptError)) {
 			ShowNotification(TranslateT("Unable to decrypt Tox profile"), MB_ICONERROR);
 			debugLogA(__FUNCTION__": failed to decrypt tox profile (%d)", coreDecryptError);
 			mir_free(data);
@@ -86,8 +78,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 		size -= TOX_PASS_ENCRYPTION_EXTRA_LENGTH;
 	}
 
-	if (data)
-	{
+	if (data) {
 		options->savedata_data = data;
 		options->savedata_length = size;
 		options->savedata_type = TOX_SAVEDATA_TYPE_TOX_SAVE;
@@ -123,8 +114,7 @@ void CToxProto::SaveToxProfile(Tox *tox)
 
 	ptrW profilePath(GetToxProfilePath());
 	FILE *profile = _wfopen(profilePath, L"wb");
-	if (profile == NULL)
-	{
+	if (profile == NULL) {
 		debugLogA(__FUNCTION__": failed to open tox profile");
 		mir_free(data);
 		return;
@@ -132,9 +122,7 @@ void CToxProto::SaveToxProfile(Tox *tox)
 
 	size_t written = fwrite(data, sizeof(char), size, profile);
 	if (size != written)
-	{
 		debugLogA(__FUNCTION__": failed to write tox profile");
-	}
 
 	fclose(profile);
 	mir_free(data);
@@ -144,8 +132,7 @@ INT_PTR CToxProto::OnCopyToxID(WPARAM, LPARAM)
 {
 	ptrA address(getStringA(TOX_SETTINGS_ID));
 	size_t length = mir_strlen(address) + 1;
-	if (OpenClipboard(NULL))
-	{
+	if (OpenClipboard(NULL)) {
 		EmptyClipboard();
 		HGLOBAL hMemory = GlobalAlloc(GMEM_FIXED, length);
 		memcpy(GlobalLock(hMemory), address, length);

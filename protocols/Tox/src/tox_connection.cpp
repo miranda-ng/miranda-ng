@@ -8,8 +8,7 @@ bool CToxProto::IsOnline()
 void CToxProto::TryConnect(Tox *tox)
 {
 	TOX_CONNECTION connectionStatus = tox_self_get_connection_status(tox);
-	if (connectionStatus != TOX_CONNECTION_NONE)
-	{
+	if (connectionStatus != TOX_CONNECTION_NONE) {
 		debugLogA(__FUNCTION__": successfuly connected to DHT");
 
 		m_iStatus = m_iDesiredStatus;
@@ -23,8 +22,7 @@ void CToxProto::TryConnect(Tox *tox)
 	}
 
 	int maxConnectRetries = getByte("MaxConnectRetries", TOX_MAX_CONNECT_RETRIES);
-	if (m_iStatus++ > maxConnectRetries)
-	{
+	if (m_iStatus++ > maxConnectRetries) {
 		SetStatus(ID_STATUS_OFFLINE);
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
 		debugLogA(__FUNCTION__": failed to connect to DHT");
@@ -36,23 +34,18 @@ void CToxProto::CheckConnection(Tox *tox, int &retriesCount)
 {
 	int maxReconnectRetries = getByte("MaxReconnectRetries", TOX_MAX_RECONNECT_RETRIES);
 	TOX_CONNECTION connectionStatus = tox_self_get_connection_status(tox);
-	if (connectionStatus != TOX_CONNECTION_NONE)
-	{
-		if (retriesCount < maxReconnectRetries)
-		{
+	if (connectionStatus != TOX_CONNECTION_NONE) {
+		if (retriesCount < maxReconnectRetries) {
 			debugLogA(__FUNCTION__": restored connection with DHT");
 			retriesCount = maxReconnectRetries;
 		}
 	}
-	else
-	{
-		if (retriesCount == maxReconnectRetries)
-		{
+	else {
+		if (retriesCount == maxReconnectRetries) {
 			retriesCount--;
 			debugLogA(__FUNCTION__": lost connection with DHT");
 		}
-		else if (!(--retriesCount))
-		{
+		else if (!(--retriesCount)) {
 			debugLogA(__FUNCTION__": disconnected from DHT");
 			SetStatus(ID_STATUS_OFFLINE);
 			return;
@@ -68,8 +61,7 @@ void CToxProto::CheckingThread(void *arg)
 
 	Tox *tox = (Tox*)arg;
 	int retriesCount = getByte("MaxReconnectRetries", TOX_MAX_RECONNECT_RETRIES);
-	while (!isTerminated)
-	{
+	while (!isTerminated) {
 		if (m_iStatus < ID_STATUS_ONLINE)
 			TryConnect(tox);
 		else
@@ -88,8 +80,7 @@ void CToxProto::PollingThread(void*)
 	debugLogA(__FUNCTION__": entering");
 
 	Tox_Options *options = GetToxOptions();
-	if (!options)
-	{
+	if (!options) {
 		SetStatus(ID_STATUS_OFFLINE);
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL);
 		debugLogA(__FUNCTION__": leaving");
@@ -98,8 +89,7 @@ void CToxProto::PollingThread(void*)
 
 	TOX_ERR_NEW error;
 	CToxThread toxThread(options, &error);
-	if (error != TOX_ERR_NEW_OK)
-	{
+	if (error != TOX_ERR_NEW_OK) {
 		SetStatus(ID_STATUS_OFFLINE);
 		debugLogA(__FUNCTION__": failed to initialize tox core (%d)", error);
 		ShowNotification(TranslateT("Unable to initialize Tox core"), ToxErrorToString(error), MB_ICONERROR);
@@ -114,8 +104,7 @@ void CToxProto::PollingThread(void*)
 	BootstrapNodes(toxThread.Tox());
 	ForkThread(&CToxProto::CheckingThread, toxThread.Tox());
 
-	while (!isTerminated)
-	{
+	while (!isTerminated) {
 		tox_iterate(toxThread.Tox(), this);
 		uint32_t interval = tox_iteration_interval(toxThread.Tox());
 		interval = interval ? interval : 50;

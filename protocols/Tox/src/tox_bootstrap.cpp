@@ -15,7 +15,7 @@ void CToxProto::BootstrapUdpNode(Tox *tox, const char *address, int port, const 
 }
 
 void CToxProto::BootstrapTcpRelay(Tox *tox, const char *address, int port, const char *hexKey)
-{	
+{
 	if (!toxThread)
 		return;
 
@@ -33,11 +33,9 @@ void CToxProto::BootstrapNodesFromDb(Tox *tox, bool isIPv6)
 	char module[MAX_PATH];
 	mir_snprintf(module, "%s_Nodes", m_szModuleName);
 	int nodeCount = db_get_w(NULL, module, TOX_SETTINGS_NODE_COUNT, 0);
-	if (nodeCount > 0)
-	{
+	if (nodeCount > 0) {
 		char setting[MAX_PATH];
-		for (int i = 0; i < nodeCount; i++)
-		{
+		for (int i = 0; i < nodeCount; i++) {
 			mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, i);
 			ptrA address(db_get_sa(NULL, module, setting));
 			mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, i);
@@ -46,8 +44,7 @@ void CToxProto::BootstrapNodesFromDb(Tox *tox, bool isIPv6)
 			ptrA pubKey(db_get_sa(NULL, module, setting));
 			BootstrapUdpNode(tox, address, port, pubKey);
 			BootstrapTcpRelay(tox, address, port, pubKey);
-			if (isIPv6)
-			{
+			if (isIPv6) {
 				mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, i);
 				address = db_get_sa(NULL, module, setting);
 				BootstrapUdpNode(tox, address, port, pubKey);
@@ -66,11 +63,9 @@ void CToxProto::BootstrapNodesFromJson(Tox *tox, bool isIPv6)
 	if (!IsFileExists(path))
 		UpdateNodes();
 
-	if (IsFileExists(path))
-	{
+	if (IsFileExists(path)) {
 		FILE *hFile = _wfopen(path, L"r");
-		if (hFile != NULL)
-		{
+		if (hFile != NULL) {
 			_fseeki64(hFile, 0, SEEK_END);
 			size_t size = _ftelli64(hFile);
 			json = (char*)mir_calloc(size);
@@ -80,39 +75,30 @@ void CToxProto::BootstrapNodesFromJson(Tox *tox, bool isIPv6)
 		}
 	}
 
-	if (json)
-	{
+	if (json) {
 		JSONNode root = JSONNode::parse(json);
-		if (!root.empty())
-		{
+		if (!root.empty()) {
 			JSONNode nodes = root.at("nodes").as_array();
-			for (size_t i = 0; i < nodes.size(); i++)
-			{
+			for (size_t i = 0; i < nodes.size(); i++) {
 				JSONNode node = nodes[i];
-
 				JSONNode address = node.at("ipv4");
 				JSONNode pubKey = node.at("public_key");
 
-				if (node.at("status_udp").as_bool())
-				{
+				if (node.at("status_udp").as_bool()) {
 					int port = node.at("port").as_int();
 					BootstrapUdpNode(tox, address.as_string().c_str(), port, pubKey.as_string().c_str());
-					if (isIPv6)
-					{
+					if (isIPv6) {
 						address = node.at("ipv6");
 						BootstrapUdpNode(tox, address.as_string().c_str(), port, pubKey.as_string().c_str());
 					}
 				}
 
-				if (node.at("status_tcp").as_bool())
-				{
+				if (node.at("status_tcp").as_bool()) {
 					JSONNode tcpPorts = node.at("tcp_ports").as_array();
-					for (size_t k = 0; k < tcpPorts.size(); k++)
-					{
+					for (size_t k = 0; k < tcpPorts.size(); k++) {
 						int port = tcpPorts[k].as_int();
 						BootstrapTcpRelay(tox, address.as_string().c_str(), port, pubKey.as_string().c_str());
-						if (isIPv6)
-						{
+						if (isIPv6) {
 							address = node.at("ipv6");
 							BootstrapTcpRelay(tox, address.as_string().c_str(), port, pubKey.as_string().c_str());
 						}
@@ -136,15 +122,13 @@ void CToxProto::UpdateNodes()
 {
 	HttpRequest request(REQUEST_GET, "https://nodes.tox.chat/json");
 	NLHR_PTR response(request.Send(m_hNetlibUser));
-	if (!response || response->resultCode != HTTP_CODE_OK || !response->pData)
-	{
+	if (!response || response->resultCode != HTTP_CODE_OK || !response->pData) {
 		debugLogA(__FUNCTION__": failed to dowload tox.json");
 		return;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
-	if (root.empty())
-	{
+	if (root.empty()) {
 		debugLogA(__FUNCTION__": failed to dowload tox.json");
 		return;
 	}
@@ -154,11 +138,9 @@ void CToxProto::UpdateNodes()
 		return;
 
 	ptrW path(mir_wstrdup((wchar_t*)VARSW(_A2W(TOX_JSON_PATH))));
-	if (!IsFileExists(path))
-	{
+	if (!IsFileExists(path)) {
 		HANDLE hProfile = CreateFile(path, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
-		if (hProfile == NULL)
-		{
+		if (hProfile == NULL) {
 			debugLogA(__FUNCTION__": failed to create tox.json");
 			return;
 		}
@@ -166,8 +148,7 @@ void CToxProto::UpdateNodes()
 	}
 
 	FILE *hFile = _wfopen(path, L"w");
-	if (!hFile)
-	{
+	if (!hFile) {
 		debugLogA(__FUNCTION__": failed to open tox.json");
 		return;
 	}

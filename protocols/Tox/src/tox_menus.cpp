@@ -82,7 +82,7 @@ int CToxProto::OnInitStatusMenu()
 	mi.name.w = LPGENW("Copy Tox ID");
 	mi.position = SMI_POSITION + SMI_TOXID_COPY;
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
-	
+
 	// Create group chat command
 	/*
 	mi.pszService = "/CreateChatRoom";

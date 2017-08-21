@@ -13,8 +13,7 @@ void CToxProto::OnFriendMessage(Tox *tox, uint32_t friendNumber, TOX_MESSAGE_TYP
 
 	char *rawMessage = (char*)mir_alloc(length + 1);
 	// old api support
-	if (message[0] == 0 && length > 0)
-	{
+	if (message[0] == 0 && length > 0) {
 		length -= 3;
 		mir_strncpy(rawMessage, (const char*)&message[4], length);
 	}
@@ -53,16 +52,14 @@ void CToxProto::SendMessageAsync(void *arg)
 	size_t msgLen = mir_strlen(param->message);
 	uint8_t *msg = (uint8_t*)param->message;
 	TOX_MESSAGE_TYPE type = TOX_MESSAGE_TYPE_NORMAL;
-	if (strncmp(param->message, "/me ", 4) == 0)
-	{
+	if (strncmp(param->message, "/me ", 4) == 0) {
 		msg += 4; msgLen -= 4;
 		type = TOX_MESSAGE_TYPE_ACTION;
 	}
 
 	TOX_ERR_FRIEND_SEND_MESSAGE sendError;
 	int messageNumber = tox_friend_send_message(toxThread->Tox(), friendNumber, type, msg, msgLen, &sendError);
-	if (sendError != TOX_ERR_FRIEND_SEND_MESSAGE_OK)
-	{
+	if (sendError != TOX_ERR_FRIEND_SEND_MESSAGE_OK) {
 		debugLogA(__FUNCTION__": failed to send message for %d (%d)", friendNumber, sendError);
 		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)param->hMessage, (LPARAM)_T2A(ToxErrorToString(sendError)));
 	}
@@ -75,8 +72,7 @@ void CToxProto::SendMessageAsync(void *arg)
 
 int CToxProto::OnSendMessage(MCONTACT hContact, const char *szMessage)
 {
-	if (!IsOnline())
-	{
+	if (!IsOnline()) {
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("You cannot send when you are offline."));
 		return 0;
 	}
@@ -136,24 +132,21 @@ void CToxProto::GetStatusMessageAsync(void* arg)
 	MCONTACT hContact = (UINT_PTR)arg;
 
 	int32_t friendNumber = GetToxFriendNumber(hContact);
-	if (friendNumber == UINT32_MAX)
-	{
+	if (friendNumber == UINT32_MAX) {
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_FAILED, (HANDLE)hContact, 0);
 		return;
 	}
 
 	TOX_ERR_FRIEND_QUERY error;
 	size_t size = tox_friend_get_status_message_size(toxThread->Tox(), friendNumber, &error);
-	if (error != TOX_ERR_FRIEND_QUERY::TOX_ERR_FRIEND_QUERY_OK)
-	{
+	if (error != TOX_ERR_FRIEND_QUERY::TOX_ERR_FRIEND_QUERY_OK) {
 		debugLogA(__FUNCTION__": failed to get status message for (%d) (%d)", friendNumber, error);
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_FAILED, (HANDLE)hContact, 0);
 		return;
 	}
 
 	ptrA statusMessage((char*)mir_calloc(size + 1));
-	if (!tox_friend_get_status_message(toxThread->Tox(), friendNumber, (uint8_t*)(char*)statusMessage, &error))
-	{
+	if (!tox_friend_get_status_message(toxThread->Tox(), friendNumber, (uint8_t*)(char*)statusMessage, &error)) {
 		debugLogA(__FUNCTION__": failed to get status message for (%d) (%d)", friendNumber, error);
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_FAILED, (HANDLE)hContact, 0);
 		return;
@@ -181,8 +174,7 @@ void CToxProto::OnTypingChanged(Tox *tox, uint32_t friendNumber, bool isTyping, 
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	if (MCONTACT hContact = proto->GetContact(tox, friendNumber))
-	{
+	if (MCONTACT hContact = proto->GetContact(tox, friendNumber)) {
 		int typingStatus = (isTyping ? PROTOTYPE_CONTACTTYPING_INFINITE : PROTOTYPE_CONTACTTYPING_OFF);
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)typingStatus);
 	}

@@ -4,32 +4,27 @@ Tox_Options* CToxProto::GetToxOptions()
 {
 	TOX_ERR_OPTIONS_NEW error;
 	Tox_Options *options = tox_options_new(&error);
-	if (error != TOX_ERR_OPTIONS_NEW_OK)
-	{
+	if (error != TOX_ERR_OPTIONS_NEW_OK) {
 		debugLogA(__FUNCTION__": failed to initialize tox options (%d)", error);
-		return NULL;
+		return nullptr;
 	}
 
 	options->udp_enabled = getBool("EnableUDP", 1);
 	options->ipv6_enabled = getBool("EnableIPv6", 0);
 
-	if (m_hNetlibUser != NULL)
-	{
+	if (m_hNetlibUser != nullptr) {
 		NETLIBUSERSETTINGS nlus = { sizeof(nlus) };
 		Netlib_GetUserSettings(m_hNetlibUser, &nlus);
 
-		if (nlus.useProxy)
-		{
-			if (nlus.proxyType == PROXYTYPE_HTTP || nlus.proxyType == PROXYTYPE_HTTPS)
-			{
+		if (nlus.useProxy) {
+			if (nlus.proxyType == PROXYTYPE_HTTP || nlus.proxyType == PROXYTYPE_HTTPS) {
 				debugLogA(__FUNCTION__": setting http user proxy config");
 				options->proxy_type = TOX_PROXY_TYPE_HTTP;
 				mir_strcpy((char*)&options->proxy_host[0], nlus.szProxyServer);
 				options->proxy_port = nlus.wProxyPort;
 			}
 
-			if (nlus.proxyType == PROXYTYPE_SOCKS4 || nlus.proxyType == PROXYTYPE_SOCKS5)
-			{
+			if (nlus.proxyType == PROXYTYPE_SOCKS4 || nlus.proxyType == PROXYTYPE_SOCKS5) {
 				debugLogA(__FUNCTION__": setting socks user proxy config");
 				options->proxy_type = TOX_PROXY_TYPE_SOCKS5;
 				mir_strcpy((char*)&options->proxy_host[0], nlus.szProxyServer);
@@ -39,13 +34,10 @@ Tox_Options* CToxProto::GetToxOptions()
 	}
 
 	if (LoadToxProfile(options))
-	{
 		return options;
-	}
-	
+
 	tox_options_free(options);
-	
-	return NULL;
+	return nullptr;
 }
 
 void CToxProto::InitToxCore(Tox *tox)

@@ -2,8 +2,7 @@
 
 CToxCallDlgBase::CToxCallDlgBase(CToxProto *proto, int idDialog, MCONTACT hContact) :
 	CToxDlgBase(proto, idDialog, false), hContact(hContact)
-{
-}
+{}
 
 void CToxCallDlgBase::OnInitDialog()
 {
@@ -74,16 +73,14 @@ void CToxIncomingCall::OnAnswer(CCtrlBase*)
 		return;*/
 
 	int friendNumber = m_proto->GetToxFriendNumber(hContact);
-	if (friendNumber == UINT32_MAX)
-	{
+	if (friendNumber == UINT32_MAX) {
 		//mir_free(cSettings);
 		Close();
 		return;
 	}
 
 	TOXAV_ERR_ANSWER error;
-	if (!toxav_answer(m_proto->toxThread->ToxAV(), friendNumber, 0, 0, &error))
-	{
+	if (!toxav_answer(m_proto->toxThread->ToxAV(), friendNumber, 0, 0, &error)) {
 		m_proto->debugLogA(__FUNCTION__": failed to answer the call (%d)", error);
 		Close();
 	}
@@ -130,16 +127,14 @@ void CToxOutgoingCall::OnCall(CCtrlBase*)
 	}*/
 
 	int friendNumber = m_proto->GetToxFriendNumber(hContact);
-	if (friendNumber == UINT32_MAX)
-	{
+	if (friendNumber == UINT32_MAX) {
 		//mir_free(cSettings);
 		Close();
 		return;
 	}
 
 	TOXAV_ERR_CALL error;
-	if (!toxav_call(m_proto->toxThread->ToxAV(), friendNumber, 0, 0, &error))
-	{
+	if (!toxav_call(m_proto->toxThread->ToxAV(), friendNumber, 0, 0, &error)) {
 		//mir_free(cSettings);
 		m_proto->debugLogA(__FUNCTION__": failed to make a call (%d)", error);
 		return;
@@ -161,8 +156,7 @@ void CToxOutgoingCall::OnCall(CCtrlBase*)
 void CToxOutgoingCall::OnCancel(CCtrlBase*)
 {
 	int friendNumber = m_proto->GetToxFriendNumber(hContact);
-	if (friendNumber == UINT32_MAX)
-	{
+	if (friendNumber == UINT32_MAX) {
 		//mir_free(cSettings);
 		Close();
 		return;
@@ -176,8 +170,7 @@ void CToxOutgoingCall::OnCancel(CCtrlBase*)
 
 CToxCallDialog::CToxCallDialog(CToxProto *proto, MCONTACT hContact) :
 	CToxCallDlgBase(proto, IDD_CALL, hContact), end(this, IDCANCEL)
-{
-}
+{}
 
 void CToxCallDialog::OnInitDialog()
 {
@@ -189,8 +182,7 @@ void CToxCallDialog::OnInitDialog()
 void CToxCallDialog::OnClose()
 {
 	int friendNumber = m_proto->GetToxFriendNumber(hContact);
-	if (friendNumber == UINT32_MAX)
-	{
+	if (friendNumber == UINT32_MAX) {
 		//mir_free(cSettings);
 		Close();
 		return;
@@ -327,12 +319,10 @@ void CToxProto::OnFriendCall(ToxAV *toxAV, uint32_t friend_number, bool audio_en
 }
 
 void CToxProto::OnFriendCallState(ToxAV *toxAV, uint32_t friend_number, uint32_t state, void *user_data)
-{
-}
+{}
 
 void CToxProto::OnBitrateChanged(ToxAV *toxAV, uint32_t friend_number, uint32_t audio_bit_rate, uint32_t video_bit_rate, void *arg)
-{
-}
+{}
 
 // save event to db
 INT_PTR CToxProto::OnRecvAudioCall(WPARAM hContact, LPARAM lParam)
@@ -469,8 +459,7 @@ void CToxProto::OnAvCallTimeout(void*, int32_t callId, void *arg)
 
 static void CALLBACK WaveOutCallback(HWAVEOUT hOutDevice, UINT uMsg, DWORD/* dwInstance*/, DWORD dwParam1, DWORD/* dwParam2*/)
 {
-	if (uMsg == WOM_DONE)
-	{
+	if (uMsg == WOM_DONE) {
 		WAVEHDR *header = (WAVEHDR*)dwParam1;
 		if (header->dwFlags & WHDR_PREPARED)
 			waveOutUnprepareHeader(hOutDevice, header, sizeof(WAVEHDR));

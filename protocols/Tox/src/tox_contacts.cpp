@@ -44,8 +44,7 @@ MCONTACT CToxProto::GetContact(const Tox *tox, const int friendNumber)
 
 	uint8_t data[TOX_PUBLIC_KEY_SIZE];
 	TOX_ERR_FRIEND_GET_PUBLIC_KEY error;
-	if (!tox_friend_get_public_key(tox, friendNumber, data, &error))
-	{
+	if (!tox_friend_get_public_key(tox, friendNumber, data, &error)) {
 		debugLogA(__FUNCTION__": failed to get friend (%d) public key (%d)", friendNumber, error);
 		return NULL;
 	}
@@ -56,8 +55,7 @@ MCONTACT CToxProto::GetContact(const Tox *tox, const int friendNumber)
 MCONTACT CToxProto::GetContact(const char *pubKey)
 {
 	MCONTACT hContact = NULL;
-	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
-	{
+	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		ptrA contactPubKey(getStringA(hContact, TOX_SETTINGS_ID));
 		// check only public key part of address
 		if (mir_strncmpi(pubKey, contactPubKey, TOX_PUBLIC_KEY_SIZE) == 0)
@@ -73,8 +71,7 @@ ToxHexAddress CToxProto::GetContactPublicKey(const Tox *tox, const int friendNum
 
 	uint8_t data[TOX_PUBLIC_KEY_SIZE];
 	TOX_ERR_FRIEND_GET_PUBLIC_KEY error;
-	if (!tox_friend_get_public_key(tox, friendNumber, data, &error))
-	{
+	if (!tox_friend_get_public_key(tox, friendNumber, data, &error)) {
 		debugLogA(__FUNCTION__": failed to get friend (%d) public key (%d)", friendNumber, error);
 		return ToxHexAddress::Empty();
 	}
@@ -99,12 +96,8 @@ MCONTACT CToxProto::AddContact(const char *address, const char *nick, const char
 	if (mir_strlen(dnsId))
 		setWString(hContact, TOX_SETTINGS_DNS, ptrW(mir_utf8decodeW(dnsId)));
 
-	DBVARIANT dbv;
-	if (!getWString(TOX_SETTINGS_GROUP, &dbv))
-	{
-		db_set_ws(hContact, "CList", "Group", dbv.ptszVal);
-		db_free(&dbv);
-	}
+	if (wszGroup)
+		db_set_ws(hContact, "CList", "Group", wszGroup);
 
 	setByte(hContact, "Auth", 1);
 	setByte(hContact, "Grant", 1);
@@ -128,13 +121,11 @@ uint32_t CToxProto::GetToxFriendNumber(MCONTACT hContact)
 void CToxProto::LoadFriendList(Tox *tox)
 {
 	size_t count = tox_self_get_friend_list_size(tox);
-	if (count > 0)
-	{
+	if (count > 0) {
 		uint32_t *friends = (uint32_t*)mir_alloc(count * sizeof(uint32_t));
 		tox_self_get_friend_list(toxThread->Tox(), friends);
 
-		for (size_t i = 0; i < count; i++)
-		{
+		for (size_t i = 0; i < count; i++) {
 			uint32_t friendNumber = friends[i];
 
 			ToxHexAddress pubKey = GetContactPublicKey(tox, friendNumber);
@@ -142,8 +133,7 @@ void CToxProto::LoadFriendList(Tox *tox)
 				continue;
 
 			MCONTACT hContact = AddContact(pubKey);
-			if (hContact)
-			{
+			if (hContact) {
 				delSetting(hContact, "Auth");
 				delSetting(hContact, "Grant");
 
@@ -177,8 +167,7 @@ INT_PTR CToxProto::OnRequestAuth(WPARAM hContact, LPARAM lParam)
 
 	TOX_ERR_FRIEND_ADD addFriendResult;
 	int32_t friendNumber = tox_friend_add(toxThread->Tox(), address, (uint8_t*)reason, length, &addFriendResult);
-	if (addFriendResult != TOX_ERR_FRIEND_ADD_OK)
-	{
+	if (addFriendResult != TOX_ERR_FRIEND_ADD_OK) {
 		debugLogA(__FUNCTION__": failed to request auth(%d)", addFriendResult);
 		return addFriendResult;
 	}
@@ -204,8 +193,7 @@ INT_PTR CToxProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	ToxBinAddress pubKey(ptrA(getStringA(hContact, TOX_SETTINGS_ID)));
 	TOX_ERR_FRIEND_ADD error;
 	tox_friend_add_norequest(toxThread->Tox(), pubKey, &error);
-	if (error != TOX_ERR_FRIEND_ADD_OK)
-	{
+	if (error != TOX_ERR_FRIEND_ADD_OK) {
 		debugLogA(__FUNCTION__": failed to grant auth (%d)", error);
 		return error;
 	}
@@ -223,12 +211,10 @@ int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 	if (!IsOnline())
 		return 0;
 
-	if (!isChatRoom(hContact))
-	{
+	if (!isChatRoom(hContact)) {
 		int32_t friendNumber = GetToxFriendNumber(hContact);
 		TOX_ERR_FRIEND_DELETE error;
-		if (!tox_friend_delete(toxThread->Tox(), friendNumber, &error))
-		{
+		if (!tox_friend_delete(toxThread->Tox(), friendNumber, &error)) {
 			debugLogA(__FUNCTION__": failed to delete friend (%d)", error);
 			return error;
 		}
@@ -247,14 +233,13 @@ int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 	return 0;
 }
 
-void CToxProto::OnFriendRequest(Tox*, const uint8_t *pubKey, const uint8_t *message, size_t length, void *arg)
+void CToxProto::OnFriendRequest(Tox*, const uint8_t *pubKey, const uint8_t *message, size_t /* length */, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
 	ToxHexAddress address(pubKey);
 	MCONTACT hContact = proto->AddContact(address);
-	if (!hContact)
-	{
+	if (!hContact) {
 		Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to create contact");
 		return;
 	}
@@ -274,8 +259,7 @@ void CToxProto::OnFriendNameChange(Tox *tox, uint32_t friendNumber, const uint8_
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	if (MCONTACT hContact = proto->GetContact(tox, friendNumber))
-	{
+	if (MCONTACT hContact = proto->GetContact(tox, friendNumber)) {
 		ptrA rawName((char*)mir_alloc(length + 1));
 		memcpy(rawName, name, length);
 		rawName[length] = 0;
@@ -289,8 +273,7 @@ void CToxProto::OnStatusMessageChanged(Tox *tox, uint32_t friendNumber, const ui
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	if (MCONTACT hContact = proto->GetContact(tox, friendNumber))
-	{
+	if (MCONTACT hContact = proto->GetContact(tox, friendNumber)) {
 		ptrA rawMessage((char*)mir_alloc(length + 1));
 		memcpy(rawMessage, message, length);
 		rawMessage[length] = 0;
@@ -305,8 +288,7 @@ void CToxProto::OnUserStatusChanged(Tox *tox, uint32_t friendNumber, TOX_USER_ST
 	CToxProto *proto = (CToxProto*)arg;
 
 	MCONTACT hContact = proto->GetContact(tox, friendNumber);
-	if (hContact)
-	{
+	if (hContact) {
 		int status = proto->ToxToMirandaStatus(userstatus);
 		proto->SetContactStatus(hContact, status);
 	}
@@ -320,8 +302,7 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, uint32_t friendNumber, TOX_C
 	if (!hContact)
 		return;
 
-	if (status == TOX_CONNECTION_NONE)
-	{
+	if (status == TOX_CONNECTION_NONE) {
 		proto->SetContactStatus(hContact, ID_STATUS_OFFLINE);
 		return;
 	}
@@ -337,11 +318,9 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, uint32_t friendNumber, TOX_C
 
 	// update avatar
 	ptrW avatarPath(proto->GetAvatarFilePath());
-	if (IsFileExists(avatarPath))
-	{
+	if (IsFileExists(avatarPath)) {
 		FILE *hFile = _wfopen(avatarPath, L"rb");
-		if (!hFile)
-		{
+		if (!hFile) {
 			proto->debugLogA(__FUNCTION__": failed to open avatar file");
 			return;
 		}
@@ -352,8 +331,7 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, uint32_t friendNumber, TOX_C
 
 		uint8_t hash[TOX_HASH_LENGTH];
 		DBVARIANT dbv;
-		if (!db_get(NULL, proto->m_szModuleName, TOX_SETTINGS_AVATAR_HASH, &dbv))
-		{
+		if (!db_get(NULL, proto->m_szModuleName, TOX_SETTINGS_AVATAR_HASH, &dbv)) {
 			memcpy(hash, dbv.pbVal, TOX_HASH_LENGTH);
 			db_free(&dbv);
 		}
@@ -362,8 +340,7 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, uint32_t friendNumber, TOX_C
 
 		TOX_ERR_FILE_SEND error;
 		uint32_t fileNumber = tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, length, hash, NULL, 0, &error);
-		if (error != TOX_ERR_FILE_SEND_OK)
-		{
+		if (error != TOX_ERR_FILE_SEND_OK) {
 			Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to set new avatar");
 			fclose(hFile);
 			return;
@@ -376,8 +353,7 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, uint32_t friendNumber, TOX_C
 		transfer->hFile = hFile;
 		proto->transfers.Add(transfer);
 	}
-	else
-	{
+	else {
 		proto->debugLogA(__FUNCTION__": unset avatar for friend (%d)", friendNumber);
 		tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, NULL);
 	}
@@ -390,8 +366,7 @@ int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 
 	MCONTACT hContact = lParam;
 	char *szProto = GetContactProto(hContact);
-	if (szProto != NULL && !mir_strcmp(szProto, m_szModuleName))
-	{
+	if (szProto != NULL && !mir_strcmp(szProto, m_szModuleName)) {
 		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 		odp.flags = ODPF_UNICODE | ODPF_DONTTRANSLATE;
 		odp.hInstance = g_hInstance;
@@ -411,34 +386,25 @@ INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 {
 	CToxProto *proto = (CToxProto*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
-	switch (uMsg)
-	{
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
-		{
-			proto = (CToxProto*)lParam;
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
-		}
+		proto = (CToxProto*)lParam;
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 		break;
 
 	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom)
-		{
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
-			switch (((LPNMHDR)lParam)->code)
-			{
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_INFOCHANGED:
-			{
-				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-				char *szProto = (hContact == NULL) ? proto->m_szModuleName : GetContactProto(hContact);
-				if (szProto == NULL)
 				{
-					break;
+					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+					char *szProto = (hContact == NULL) ? proto->m_szModuleName : GetContactProto(hContact);
+					if (szProto != nullptr)
+						SetDlgItemText(hwnd, IDC_DNS_ID, ptrW(proto->getWStringA(hContact, TOX_SETTINGS_DNS)));
 				}
-
-				SetDlgItemText(hwnd, IDC_DNS_ID, ptrW(proto->getWStringA(hContact, TOX_SETTINGS_DNS)));
-			}
-			break;
+				break;
 
 			case PSN_PARAMCHANGED:
 				SetWindowLongPtr(hwnd, GWLP_USERDATA, ((PSHNOTIFY*)lParam)->lParam);
@@ -448,9 +414,8 @@ INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 				char *szProto = (hContact == NULL) ? proto->m_szModuleName : GetContactProto(hContact);
 				if (szProto == NULL)
-				{
 					break;
-				}
+
 				wchar_t dnsId[MAX_PATH];
 				GetDlgItemText(hwnd, IDC_DNS_ID, dnsId, MAX_PATH);
 				proto->setWString(hContact, TOX_SETTINGS_DNS, dnsId);
@@ -462,9 +427,7 @@ INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case WM_COMMAND:
 		if ((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE)
-		{
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-		}
 		break;
 	}
 

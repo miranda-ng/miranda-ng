@@ -71,7 +71,7 @@ public:
 private:
 	CToxThread *toxThread;
 	mir_cs profileLock;
-	wchar_t *accountName;
+	ptrW wszAccountName, wszGroup;
 	
 	CTransferList transfers;
 	ULONG hMessageProcess;

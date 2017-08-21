@@ -17,16 +17,15 @@ wchar_t* CToxProto::GetAvatarFilePath(MCONTACT hContact)
 
 	if (hContact && mir_wstrlen(address) > TOX_PUBLIC_KEY_SIZE * 2)
 		address[TOX_PUBLIC_KEY_SIZE * 2] = 0;
-	mir_snwprintf(path, MAX_PATH, L"%s\\%s.png", path, address);
 
+	mir_snwprintf(path, MAX_PATH, L"%s\\%s.png", path, address);
 	return path;
 }
 
 void CToxProto::SetToxAvatar(const wchar_t* path)
 {
 	FILE *hFile = _wfopen(path, L"rb");
-	if (!hFile)
-	{
+	if (!hFile) {
 		debugLogA(__FUNCTION__": failed to open avatar file");
 		return;
 	}
@@ -34,16 +33,14 @@ void CToxProto::SetToxAvatar(const wchar_t* path)
 	fseek(hFile, 0, SEEK_END);
 	size_t length = ftell(hFile);
 	rewind(hFile);
-	if (length > TOX_MAX_AVATAR_SIZE)
-	{
+	if (length > TOX_MAX_AVATAR_SIZE) {
 		fclose(hFile);
 		debugLogA(__FUNCTION__": new avatar size is excessive");
 		return;
 	}
 
 	uint8_t *data = (uint8_t*)mir_alloc(length);
-	if (fread(data, sizeof(uint8_t), length, hFile) != length)
-	{
+	if (fread(data, sizeof(uint8_t), length, hFile) != length) {
 		fclose(hFile);
 		debugLogA(__FUNCTION__": failed to read avatar file");
 		mir_free(data);
@@ -54,10 +51,8 @@ void CToxProto::SetToxAvatar(const wchar_t* path)
 	DBVARIANT dbv;
 	uint8_t hash[TOX_HASH_LENGTH];
 	tox_hash(hash, data, length);
-	if (!db_get(NULL, m_szModuleName, TOX_SETTINGS_AVATAR_HASH, &dbv))
-	{
-		if (memcmp(hash, dbv.pbVal, TOX_HASH_LENGTH) == 0)
-		{
+	if (!db_get(NULL, m_szModuleName, TOX_SETTINGS_AVATAR_HASH, &dbv)) {
+		if (memcmp(hash, dbv.pbVal, TOX_HASH_LENGTH) == 0) {
 			db_free(&dbv);
 			mir_free(data);
 			debugLogA(__FUNCTION__": new avatar is same with old");
@@ -68,16 +63,13 @@ void CToxProto::SetToxAvatar(const wchar_t* path)
 
 	db_set_blob(NULL, m_szModuleName, TOX_SETTINGS_AVATAR_HASH, (void*)hash, TOX_HASH_LENGTH);
 
-	if (IsOnline())
-	{
-		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
-		{
+	if (IsOnline()) {
+		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			if (GetContactStatus(hContact) == ID_STATUS_OFFLINE)
 				continue;
 
 			int32_t friendNumber = GetToxFriendNumber(hContact);
-			if (friendNumber == UINT32_MAX)
-			{
+			if (friendNumber == UINT32_MAX) {
 				mir_free(data);
 				return;
 			}
@@ -86,8 +78,7 @@ void CToxProto::SetToxAvatar(const wchar_t* path)
 
 			TOX_ERR_FILE_SEND error;
 			uint32_t fileNumber = tox_file_send(toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, length, hash, NULL, 0, &error);
-			if (error != TOX_ERR_FILE_SEND_OK)
-			{
+			if (error != TOX_ERR_FILE_SEND_OK) {
 				mir_free(data);
 				debugLogA(__FUNCTION__": failed to set new avatar (%d)", error);
 				return;
@@ -107,8 +98,7 @@ void CToxProto::SetToxAvatar(const wchar_t* path)
 
 INT_PTR CToxProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 {
-	switch (wParam)
-	{
+	switch (wParam) {
 	case AF_ENABLED:
 		return 1;
 
@@ -132,11 +122,9 @@ INT_PTR CToxProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
 
 	ptrA address(getStringA(pai->hContact, TOX_SETTINGS_ID));
-	if (address != NULL)
-	{
+	if (address != NULL) {
 		ptrW path(GetAvatarFilePath(pai->hContact));
-		if (IsFileExists(path))
-		{
+		if (IsFileExists(path)) {
 			mir_wstrncpy(pai->filename, path, _countof(pai->filename));
 			pai->format = PA_FORMAT_PNG;
 
@@ -161,11 +149,9 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 	debugLogA(__FUNCTION__": setting avatar");
 	wchar_t *path = (wchar_t*)lParam;
 	ptrW avatarPath(GetAvatarFilePath());
-	if (path != NULL)
-	{
+	if (path != NULL) {
 		debugLogA(__FUNCTION__": copy new avatar");
-		if (!CopyFile(path, avatarPath, FALSE))
-		{
+		if (!CopyFile(path, avatarPath, FALSE)) {
 			debugLogA(__FUNCTION__": failed to copy new avatar to avatar cache");
 			return 0;
 		}
@@ -175,10 +161,8 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 		return 0;
 	}
 
-	if (IsOnline())
-	{
-		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
-		{
+	if (IsOnline()) {
+		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			if (GetContactStatus(hContact) == ID_STATUS_OFFLINE)
 				continue;
 
@@ -190,8 +174,7 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 
 			TOX_ERR_FILE_SEND error;
 			tox_file_send(toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, &error);
-			if (error != TOX_ERR_FILE_SEND_OK)
-			{
+			if (error != TOX_ERR_FILE_SEND_OK) {
 				debugLogA(__FUNCTION__": failed to unset avatar (%d)", error);
 				return 0;
 			}
@@ -208,8 +191,7 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 
 void CToxProto::OnGotFriendAvatarInfo(AvatarTransferParam *transfer)
 {
-	if (transfer->pfts.totalBytes == 0)
-	{
+	if (transfer->pfts.totalBytes == 0) {
 		MCONTACT hConact = transfer->pfts.hContact;
 		ptrW path(GetAvatarFilePath(hConact));
 		if (IsFileExists(path))
@@ -222,10 +204,8 @@ void CToxProto::OnGotFriendAvatarInfo(AvatarTransferParam *transfer)
 	}
 
 	DBVARIANT dbv;
-	if (!db_get(transfer->pfts.hContact, m_szModuleName, TOX_SETTINGS_AVATAR_HASH, &dbv))
-	{
-		if (memcmp(transfer->hash, dbv.pbVal, TOX_HASH_LENGTH) == 0)
-		{
+	if (!db_get(transfer->pfts.hContact, m_szModuleName, TOX_SETTINGS_AVATAR_HASH, &dbv)) {
+		if (memcmp(transfer->hash, dbv.pbVal, TOX_HASH_LENGTH) == 0) {
 			db_free(&dbv);
 			CancelTransfer(transfer->pfts.hContact, transfer);
 			return;

@@ -2,8 +2,7 @@
 
 int CToxProto::MapStatus(int status)
 {
-	switch (status)
-	{
+	switch (status) {
 	case ID_STATUS_FREECHAT:
 	case ID_STATUS_ONTHEPHONE:
 		status = ID_STATUS_ONLINE;
@@ -25,8 +24,7 @@ int CToxProto::MapStatus(int status)
 TOX_USER_STATUS CToxProto::MirandaToToxStatus(int status)
 {
 	TOX_USER_STATUS userstatus = TOX_USER_STATUS_NONE;
-	switch (status)
-	{
+	switch (status) {
 	case ID_STATUS_AWAY:
 		userstatus = TOX_USER_STATUS_AWAY;
 		break;
@@ -40,8 +38,7 @@ TOX_USER_STATUS CToxProto::MirandaToToxStatus(int status)
 int CToxProto::ToxToMirandaStatus(TOX_USER_STATUS userstatus)
 {
 	int status = ID_STATUS_OFFLINE;
-	switch (userstatus)
-	{
+	switch (userstatus) {
 	case TOX_USER_STATUS_NONE:
 		status = ID_STATUS_ONLINE;
 		break;
@@ -57,8 +54,7 @@ int CToxProto::ToxToMirandaStatus(TOX_USER_STATUS userstatus)
 
 wchar_t* CToxProto::ToxErrorToString(TOX_ERR_NEW error)
 {
-	switch (error)
-	{
+	switch (error) {
 	case TOX_ERR_NEW_NULL:
 		return TranslateT("One of the arguments is missing");
 	case TOX_ERR_NEW_MALLOC:
@@ -84,8 +80,7 @@ wchar_t* CToxProto::ToxErrorToString(TOX_ERR_NEW error)
 
 wchar_t* CToxProto::ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE error)
 {
-	switch (error)
-	{
+	switch (error) {
 	case TOX_ERR_FRIEND_SEND_MESSAGE_NULL:
 		return TranslateT("One of the arguments is missing");
 	case TOX_ERR_FRIEND_SEND_MESSAGE_FRIEND_NOT_FOUND:
@@ -105,13 +100,11 @@ wchar_t* CToxProto::ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE error)
 
 void CToxProto::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags, MCONTACT hContact)
 {
-	if (Miranda_IsTerminated())
-	{
+	if (Miranda_IsTerminated()) {
 		return;
 	}
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
-	{
+	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
 		wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
@@ -157,10 +150,8 @@ INT_PTR CToxProto::ParseToxUri(WPARAM, LPARAM lParam)
 		return 1;
 
 	CToxProto *proto = NULL;
-	for (int i = 0; i < Accounts.getCount(); i++)
-	{
-		if (Accounts[i]->IsOnline())
-		{
+	for (int i = 0; i < Accounts.getCount(); i++) {
+		if (Accounts[i]->IsOnline()) {
 			proto = Accounts[i];
 			break;
 		}

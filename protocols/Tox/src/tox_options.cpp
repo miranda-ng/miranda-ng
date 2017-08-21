@@ -16,8 +16,11 @@ CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog)
 	CreateLink(m_group, TOX_SETTINGS_GROUP, L"Tox");
 	CreateLink(m_enableUdp, "EnableUDP", DBVT_BYTE, TRUE);
 	CreateLink(m_enableIPv6, "EnableIPv6", DBVT_BYTE, FALSE);
-	CreateLink(m_maxConnectRetries, "MaxConnectRetries", DBVT_BYTE, TOX_MAX_CONNECT_RETRIES);
-	CreateLink(m_maxReconnectRetries, "MaxReconnectRetries", DBVT_BYTE, TOX_MAX_RECONNECT_RETRIES);
+
+	if (idDialog == IDD_OPTIONS_MAIN) {
+		CreateLink(m_maxConnectRetries, "MaxConnectRetries", DBVT_BYTE, TOX_MAX_CONNECT_RETRIES);
+		CreateLink(m_maxReconnectRetries, "MaxReconnectRetries", DBVT_BYTE, TOX_MAX_RECONNECT_RETRIES);
+	}
 
 	m_toxAddressCopy.OnClick = Callback(this, &CToxOptionsMain::ToxAddressCopy_OnClick);
 	m_profileCreate.OnClick = Callback(this, &CToxOptionsMain::ProfileCreate_OnClick);
@@ -30,8 +33,7 @@ void CToxOptionsMain::OnInitDialog()
 	CToxDlgBase::OnInitDialog();
 
 	ptrW profilePath(m_proto->GetToxProfilePath());
-	if (CToxProto::IsFileExists(profilePath))
-	{
+	if (CToxProto::IsFileExists(profilePath)) {
 		m_toxAddress.Enable();
 
 		ShowWindow(m_profileCreate.GetHwnd(), FALSE);
@@ -56,8 +58,7 @@ void CToxOptionsMain::ToxAddressCopy_OnClick(CCtrlButton*)
 {
 	char *toxAddress = m_toxAddress.GetTextA();
 	size_t toxAddressLength = mir_strlen(toxAddress) + 1;
-	if (OpenClipboard(m_toxAddress.GetHwnd()))
-	{
+	if (OpenClipboard(m_toxAddress.GetHwnd())) {
 		EmptyClipboard();
 		HGLOBAL hMemory = GlobalAlloc(GMEM_FIXED, toxAddressLength);
 		memcpy(GlobalLock(hMemory), toxAddress, toxAddressLength);
@@ -76,11 +77,9 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 	tox_options_free(options);
 
 	ptrW profilePath(m_proto->GetToxProfilePath());
-	if (!m_proto->IsFileExists(profilePath))
-	{
+	if (!m_proto->IsFileExists(profilePath)) {
 		HANDLE hProfile = CreateFile(profilePath, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
-		if (hProfile == NULL)
-		{
+		if (hProfile == NULL) {
 			m_proto->debugLogA(__FUNCTION__": failed to create tox profile");
 			return;
 		}
@@ -88,11 +87,6 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 	}
 
 	m_proto->InitToxCore(tox);
-
-	ptrW group(m_group.GetText());
-	if (mir_wstrlen(group) > 0 && Clist_GroupExists(group))
-		Clist_GroupCreate(0, group);
-
 	m_proto->UninitToxCore(tox);
 	tox_kill(tox);
 
@@ -101,7 +95,6 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 
 	m_nickname.SetText(ptrW(m_proto->getWStringA("Nick")));
 	m_password.SetText(ptrW(m_proto->getWStringA("Password")));
-	m_group.SetText(ptrW(m_proto->getWStringA(TOX_SETTINGS_GROUP)));
 
 	ShowWindow(m_profileCreate.GetHwnd(), FALSE);
 	ShowWindow(m_profileImport.GetHwnd(), FALSE);
@@ -136,15 +129,14 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 		CopyFile(profilePath, defaultProfilePath, FALSE);
 
 	Tox_Options *options = tox_options_new(NULL);
-	if (m_proto->LoadToxProfile(options))
-	{
+	if (m_proto->LoadToxProfile(options)) {
 		CToxThread toxThread(options);
 
 		uint8_t data[TOX_ADDRESS_SIZE];
 		tox_self_get_address(toxThread.Tox(), data);
 		ToxHexAddress address(data);
 		m_proto->setString(TOX_SETTINGS_ID, address);
-		
+
 		m_toxAddress.Enable();
 		m_toxAddress.SetTextA(address);
 
@@ -197,11 +189,12 @@ void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 void CToxOptionsMain::OnApply()
 {
 	ptrW group(m_group.GetText());
-	if (mir_wstrlen(group) > 0 && Clist_GroupExists(group))
+	if (mir_wstrcmp(group, m_proto->wszGroup)) {
+		m_proto->wszGroup = mir_wstrdup(group);
 		Clist_GroupCreate(0, group);
+	}
 
-	if (m_proto->IsOnline())
-	{
+	if (m_proto->IsOnline()) {
 		CallProtoService(m_proto->m_szModuleName, PS_SETMYNICKNAME, SMNN_UNICODE, (LPARAM)ptrW(m_nickname.GetText()));
 
 		// todo: add checkbox
@@ -217,21 +210,18 @@ CToxOptionsMultimedia::CToxOptionsMultimedia(CToxProto *proto)
 	: CToxDlgBase(proto, IDD_OPTIONS_MULTIMEDIA, false),
 	m_audioInput(this, IDC_AUDIOINPUT),
 	m_audioOutput(this, IDC_AUDIOOUTPUT)
-{
-}
+{}
 
 void CToxOptionsMultimedia::EnumDevices(CCtrlCombo &combo, IMMDeviceEnumerator *pEnumerator, EDataFlow dataFlow, const char* setting)
 {
 	LPWSTR pwszDefID = NULL;
 	ptrW wszDefID(m_proto->getWStringA(setting));
-	if (wszDefID != NULL)
-	{
+	if (wszDefID != NULL) {
 		size_t len = mir_wstrlen(wszDefID) + 1;
-		pwszDefID = (LPWSTR)CoTaskMemAlloc(len*2);
+		pwszDefID = (LPWSTR)CoTaskMemAlloc(len * 2);
 		mir_wstrncpy(pwszDefID, wszDefID, len);
 	}
-	else
-	{
+	else {
 		CComPtr<IMMDevice> pDevice = NULL;
 		if (FAILED(pEnumerator->GetDefaultAudioEndpoint(dataFlow, eConsole, &pDevice))) return;
 		if (FAILED(pDevice->GetId(&pwszDefID))) return;
@@ -243,8 +233,7 @@ void CToxOptionsMultimedia::EnumDevices(CCtrlCombo &combo, IMMDeviceEnumerator *
 	UINT count;
 	EXIT_ON_ERROR(pDevices->GetCount(&count));
 
-	for (UINT i = 0; i < count; i++)
-	{
+	for (UINT i = 0; i < count; i++) {
 		CComPtr<IMMDevice> pDevice = NULL;
 		EXIT_ON_ERROR(pDevices->Item(i, &pDevice));
 
@@ -286,8 +275,7 @@ void CToxOptionsMultimedia::OnApply()
 	int i = m_audioInput.GetCurSel();
 	if (i == -1)
 		m_proto->delSetting("AudioInputDeviceID");
-	else
-	{
+	else {
 		wchar_t* data = (wchar_t*)m_audioInput.GetItemData(i);
 		m_proto->setWString("AudioInputDeviceID", data);
 	}
@@ -295,8 +283,7 @@ void CToxOptionsMultimedia::OnApply()
 	i = m_audioOutput.GetCurSel();
 	if (i == -1)
 		m_proto->delSetting("AudioOutputDeviceID");
-	else
-	{
+	else {
 		wchar_t* data = (wchar_t*)m_audioOutput.GetItemData(i);
 		m_proto->setWString("AudioOutputDeviceID", data);
 	}
@@ -305,16 +292,14 @@ void CToxOptionsMultimedia::OnApply()
 void CToxOptionsMultimedia::OnDestroy()
 {
 	int count = m_audioInput.GetCount();
-	for (int i = 0; i < count; i++)
-	{
+	for (int i = 0; i < count; i++) {
 		wchar_t* data = (wchar_t*)m_audioInput.GetItemData(i);
 		mir_free(data);
 
 	}
 
 	count = m_audioOutput.GetCount();
-	for (int i = 0; i < count; i++)
-	{
+	for (int i = 0; i < count; i++) {
 		wchar_t* data = (wchar_t*)m_audioOutput.GetItemData(i);
 		mir_free(data);
 
@@ -338,8 +323,7 @@ void CToxNodeEditor::OnInitDialog()
 {
 	SetWindowText(m_hwnd, m_iItem == -1 ? TranslateT("Add node") : TranslateT("Change node"));
 
-	if (m_iItem > -1)
-	{
+	if (m_iItem > -1) {
 		LVITEM lvi = { 0 };
 		lvi.mask = LVIF_TEXT;
 		lvi.iItem = m_iItem;
@@ -369,28 +353,24 @@ void CToxNodeEditor::OnInitDialog()
 void CToxNodeEditor::OnOk(CCtrlBase*)
 {
 	ptrW ipv4(m_ipv4.GetText());
-	if (!ipv4)
-	{
+	if (!ipv4) {
 		MessageBox(m_hwnd, TranslateT("Enter IPv4"), TranslateT("Error"), MB_OK);
 		return;
 	}
 
 	ptrW port(m_port.GetText());
-	if (!port)
-	{
+	if (!port) {
 		MessageBox(m_hwnd, TranslateT("Enter port"), TranslateT("Error"), MB_OK);
 		return;
 	}
 
 	ptrW pubKey(m_pkey.GetText());
-	if (!pubKey)
-	{
+	if (!pubKey) {
 		MessageBox(m_hwnd, TranslateT("Enter public key"), TranslateT("Error"), MB_OK);
 		return;
 	}
 
-	if (m_iItem == -1)
-	{
+	if (m_iItem == -1) {
 		m_iItem = m_list->AddItem(ipv4, -1, NULL, 1);
 		m_list->SetItemState(m_iItem, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
 		m_list->EnsureVisible(m_iItem, TRUE);
@@ -416,13 +396,11 @@ void CToxNodeEditor::OnClose()
 
 CCtrlNodeList::CCtrlNodeList(CDlgBase* dlg, int ctrlId)
 	: CCtrlListView(dlg, ctrlId)
-{
-}
+{}
 
 BOOL CCtrlNodeList::OnNotify(int idCtrl, NMHDR *pnmh)
 {
-	if (pnmh->code == NM_CLICK)
-	{
+	if (pnmh->code == NM_CLICK) {
 		TEventInfo evt = { this, pnmh };
 		OnClick(&evt);
 		return TRUE;
@@ -490,8 +468,7 @@ void CToxOptionsNodeList::OnNodeListDoubleClick(CCtrlBase*)
 	lvi.iItem = iItem;
 	lvi.mask = LVIF_GROUPID;
 	m_nodes.GetItem(&lvi);
-	if (lvi.iGroupId || (lvi.iGroupId == 0 && lvi.iItem == -1))
-	{
+	if (lvi.iGroupId || (lvi.iGroupId == 0 && lvi.iItem == -1)) {
 		CToxNodeEditor nodeEditor(lvi.iItem, &m_nodes);
 		if (nodeEditor.DoModal())
 			NotifyChange();
@@ -505,16 +482,13 @@ void CToxOptionsNodeList::OnNodeListClick(CCtrlListView::TEventInfo *evt)
 	lvi.mask = LVIF_GROUPID;
 	m_nodes.GetItem(&lvi);
 	lvi.iSubItem = evt->nmlvia->iSubItem;
-	if (lvi.iGroupId && lvi.iSubItem == 4)
-	{
+	if (lvi.iGroupId && lvi.iSubItem == 4) {
 		CToxNodeEditor nodeEditor(lvi.iItem, &m_nodes);
 		if (nodeEditor.DoModal())
 			NotifyChange();
 	}
-	else if (lvi.iGroupId && lvi.iSubItem == 5)
-	{
-		if (MessageBox(m_hwnd, TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES)
-		{
+	else if (lvi.iGroupId && lvi.iSubItem == 5) {
+		if (MessageBox(m_hwnd, TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES) {
 			m_nodes.DeleteItem(lvi.iItem);
 			NotifyChange();
 		}
@@ -528,10 +502,8 @@ void CToxOptionsNodeList::OnNodeListKeyDown(CCtrlListView::TEventInfo *evt)
 	lvi.mask = LVIF_GROUPID;
 	m_nodes.GetItem(&lvi);
 
-	if (lvi.iGroupId && lvi.iItem != -1 && (evt->nmlvkey)->wVKey == VK_DELETE)
-	{
-		if (MessageBox(GetParent(m_hwnd), TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES)
-		{
+	if (lvi.iGroupId && lvi.iItem != -1 && (evt->nmlvkey)->wVKey == VK_DELETE) {
+		if (MessageBox(GetParent(m_hwnd), TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES) {
 			m_nodes.DeleteItem(lvi.iItem);
 			NotifyChange();
 		}
@@ -545,13 +517,11 @@ void CToxOptionsNodeList::ReloadNodeList()
 	int iItem = -1;
 
 	VARSW path(_A2W(TOX_JSON_PATH));
-	if (CToxProto::IsFileExists(path))
-	{
+	if (CToxProto::IsFileExists(path)) {
 		ptrA json;
 
 		FILE *hFile = _wfopen(path, L"r");
-		if (hFile != NULL)
-		{
+		if (hFile != NULL) {
 			_fseeki64(hFile, 0, SEEK_END);
 			size_t size = _ftelli64(hFile);
 			json = (char*)mir_calloc(size);
@@ -560,14 +530,11 @@ void CToxOptionsNodeList::ReloadNodeList()
 			fclose(hFile);
 		}
 
-		if (json)
-		{
+		if (json) {
 			JSONNode root = JSONNode::parse(json);
-			if (!root.empty())
-			{
+			if (!root.empty()) {
 				JSONNode nodes = root.at("nodes").as_array();
-				for (size_t i = 0; i < nodes.size(); i++)
-				{
+				for (size_t i = 0; i < nodes.size(); i++) {
 					JSONNode node = nodes[i];
 
 					ptrW ipv4(mir_utf8decodeW(node.at("ipv4").as_string().c_str()));
@@ -590,8 +557,7 @@ void CToxOptionsNodeList::ReloadNodeList()
 	char module[MAX_PATH], setting[MAX_PATH];
 	mir_snprintf(module, "%s_Nodes", m_proto->m_szModuleName);
 	int nodeCount = db_get_w(NULL, module, TOX_SETTINGS_NODE_COUNT, 0);
-	for (int i = 0; i < nodeCount; i++)
-	{
+	for (int i = 0; i < nodeCount; i++) {
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, i);
 		ptrW value(db_get_wsa(NULL, module, setting));
 		iItem = m_nodes.AddItem(value, -1, NULL, 1);
@@ -602,8 +568,7 @@ void CToxOptionsNodeList::ReloadNodeList()
 
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, i);
 		int port = db_get_w(NULL, module, setting, 0);
-		if (port > 0)
-		{
+		if (port > 0) {
 			char portNum[10];
 			itoa(port, portNum, 10);
 			m_nodes.SetItem(iItem, 2, mir_a2u(portNum));
@@ -632,14 +597,12 @@ void CToxOptionsNodeList::OnApply()
 
 	int iItem = 0;
 	int itemCount = m_nodes.GetItemCount();
-	for (int i = 0; i < itemCount; i++)
-	{
+	for (int i = 0; i < itemCount; i++) {
 		lvi.iItem = i;
 		lvi.iGroupId = 0;
 		lvi.mask = LVIF_GROUPID;
 		m_nodes.GetItem(&lvi);
-		if (lvi.iGroupId == 0)
-		{
+		if (lvi.iGroupId == 0) {
 			continue;
 		}
 
@@ -668,8 +631,7 @@ void CToxOptionsNodeList::OnApply()
 	}
 	itemCount = iItem;
 	int nodeCount = db_get_b(NULL, module, TOX_SETTINGS_NODE_COUNT, 0);
-	for (iItem = itemCount; iItem < nodeCount; iItem++)
-	{
+	for (iItem = itemCount; iItem < nodeCount; iItem++) {
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, iItem);
 		db_unset(NULL, module, setting);
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, iItem);

@@ -8,7 +8,11 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 {
 	InitNetlib();
 
-	accountName = mir_wstrdup(userName);
+	wszAccountName = mir_wstrdup(userName);
+	wszGroup = getWStringA(TOX_SETTINGS_GROUP);
+	if (wszGroup == nullptr)
+		wszGroup = mir_wstrdup(L"Tox");
+	Clist_GroupCreate(0, wszGroup);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
 
@@ -27,7 +31,7 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	// nick
 	CreateProtoService(PS_SETMYNICKNAME, &CToxProto::SetMyNickname);
 
-	//hAudioDialogs = WindowList_Create();
+	// hAudioDialogs = WindowList_Create();
 
 	hTerminateEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 }
@@ -36,14 +40,12 @@ CToxProto::~CToxProto()
 {
 	WindowList_Destroy(hAudioDialogs);
 
-	mir_free(accountName);
 	UninitNetlib();
 }
 
 DWORD_PTR CToxProto::GetCaps(int type, MCONTACT)
 {
-	switch (type)
-	{
+	switch (type) {
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_FILE | PF1_AUTHREQ | PF1_MODEMSG | PF1_EXTSEARCH | PF1_SERVERCLIST;
 	case PFLAGNUM_2:
@@ -66,13 +68,11 @@ DWORD_PTR CToxProto::GetCaps(int type, MCONTACT)
 MCONTACT CToxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
 	ptrA myAddress(getStringA(NULL, TOX_SETTINGS_ID));
-	if (strnicmp(psr->id.a, myAddress, TOX_PUBLIC_KEY_SIZE) == 0)
-	{
+	if (strnicmp(psr->id.a, myAddress, TOX_PUBLIC_KEY_SIZE) == 0) {
 		ShowNotification(TranslateT("You cannot add yourself to your contact list"), 0);
 		return NULL;
 	}
-	if (MCONTACT hContact = GetContact(psr->id.a))
-	{
+	if (MCONTACT hContact = GetContact(psr->id.a)) {
 		ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
 		return NULL;
 	}
@@ -151,14 +151,12 @@ int CToxProto::SetStatus(int iNewStatus)
 	int old_status = m_iStatus;
 	m_iDesiredStatus = iNewStatus;
 
-	if (iNewStatus == ID_STATUS_OFFLINE)
-	{
+	if (iNewStatus == ID_STATUS_OFFLINE) {
 		// logout
 		isTerminated = true;
 		SetEvent(hTerminateEvent);
 
-		if (!Miranda_IsTerminated())
-		{
+		if (!Miranda_IsTerminated()) {
 			SetAllContactsStatus(ID_STATUS_OFFLINE);
 			//CloseAllChatChatSessions();
 		}
@@ -171,15 +169,13 @@ int CToxProto::SetStatus(int iNewStatus)
 	if (old_status >= ID_STATUS_CONNECTING && old_status < ID_STATUS_OFFLINE)
 		return 0;
 
-	if (old_status == ID_STATUS_OFFLINE && !IsOnline())
-	{
+	if (old_status == ID_STATUS_OFFLINE && !IsOnline()) {
 		// login
 		isTerminated = false;
 		m_iStatus = ID_STATUS_CONNECTING;
 		hPollingThread = ForkThreadEx(&CToxProto::PollingThread, NULL, NULL);
 	}
-	else
-	{
+	else {
 		// set tox status
 		m_iStatus = iNewStatus;
 		tox_self_set_status(toxThread->Tox(), MirandaToToxStatus(iNewStatus));
@@ -191,8 +187,7 @@ int CToxProto::SetStatus(int iNewStatus)
 
 HANDLE CToxProto::GetAwayMsg(MCONTACT hContact)
 {
-	if (IsOnline())
-	{
+	if (IsOnline()) {
 		ForkThread(&CToxProto::GetStatusMessageAsync, (void*)hContact);
 		return (HANDLE)hContact;
 	}
@@ -202,8 +197,7 @@ HANDLE CToxProto::GetAwayMsg(MCONTACT hContact)
 
 int CToxProto::SetAwayMsg(int, const wchar_t *msg)
 {
-	if (IsOnline())
-	{
+	if (IsOnline()) {
 		T2Utf statusMessage(msg);
 		TOX_ERR_SET_INFO error;
 		if (!tox_self_set_status_message(toxThread->Tox(), (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUS_MESSAGE_LENGTH, mir_strlen(statusMessage)), &error))
@@ -220,8 +214,7 @@ int CToxProto::UserIsTyping(MCONTACT hContact, int type)
 
 int CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 {
-	switch (iEventType)
-	{
+	switch (iEventType) {
 	case EV_PROTO_ONLOAD:
 		return OnAccountLoaded(wParam, lParam);
 
