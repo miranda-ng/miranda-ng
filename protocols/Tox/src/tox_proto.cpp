@@ -226,6 +226,11 @@ int CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 
 	case EV_PROTO_ONMENU:
 		return OnInitStatusMenu();
+
+	case EV_PROTO_ONERASE:
+		ptrW profilePath(GetToxProfilePath());
+		_wunlink(profilePath);
+		break;
 	}
 
 	return 1;
