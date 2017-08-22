@@ -872,7 +872,7 @@ void CSrmmWindow::OnDestroy()
 	if (m_pContainer->dwFlags & CNT_SIDEBAR)
 		m_pContainer->SideBar->removeSession(this);
 	m_cache->setWindowData();
-	if (!m_bIsReattach && m_hContact && M.GetByte("deletetemp", 0))
+	if (m_hContact && M.GetByte("deletetemp", 0))
 		if (db_get_b(m_hContact, "CList", "NotOnList", 0))
 			db_delete_contact(m_hContact);
 

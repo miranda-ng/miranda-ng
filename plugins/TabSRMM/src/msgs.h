@@ -287,7 +287,6 @@ protected:
 	bool     m_bShowInfoAvatar, m_bShowUIElements;
 	bool     m_bUseOffset;
 	bool     m_bkeyProcessed;
-	bool     m_bIsReattach;
 	bool     m_fLimitedUpdate;
 	bool     m_bClrAdded;
 	bool     m_bInsertMode;

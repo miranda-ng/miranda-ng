@@ -197,7 +197,6 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 
 			db_set_ws(m_hContact, SRMSGMOD_T, "containerW", szNewName);
-			m_bIsReattach = true;
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_DOCREATETAB, (WPARAM)pNewContainer, m_hContact);
 			if (iOldItems > 1)                // there were more than 1 tab, container is still valid
 				SendMessage(m_pContainer->m_hwndActive, WM_SIZE, 0, 0);
