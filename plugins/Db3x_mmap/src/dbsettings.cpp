@@ -25,10 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma warning(disable: 4701)
 
-DWORD GetModuleNameOfs(const char *szName);
-DBCachedContact* AddToCachedContactList(MCONTACT contactID, int index);
-
-#define VLT(n) ((n == DBVT_UTF8 || n == DBVT_ENCRYPTED)?DBVT_ASCIIZ:n)
+#define VLT(n) ((n == DBVT_UTF8 || n == DBVT_ENCRYPTED) ? DBVT_ASCIIZ : n)
 
 BOOL CDb3Mmap::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
 {

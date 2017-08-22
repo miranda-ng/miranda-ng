@@ -108,7 +108,7 @@ static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 				CREDENTIAL cred = { 0 };
 				cred.Type = CRED_TYPE_GENERIC;
 				cred.TargetName = L"Miranda NG/Dbx_mmap";
-				cred.CredentialBlobSize = mir_wstrlen(param->newPass) * sizeof(wchar_t) + sizeof(wchar_t);
+				cred.CredentialBlobSize = DWORD(mir_wstrlen(param->newPass) * sizeof(wchar_t) + sizeof(wchar_t));
 				cred.CredentialBlob = (LPBYTE)param->newPass;
 				cred.Persist = CRED_PERSIST_LOCAL_MACHINE;
 				CredWrite(&cred, 0);
