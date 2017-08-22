@@ -239,13 +239,9 @@ void CQuotesProviderGoogleFinance::RefreshQuotes(TContracts& anContacts)
 {
 	CHTTPSession http;
 	tstring sURL = GetURL();
-	bool bUseExtendedStatus = CModuleInfo::GetInstance().GetExtendedStatusFlag();
 
 	for (TContracts::const_iterator i = anContacts.begin(); i != anContacts.end() && IsOnline(); ++i) {
 		MCONTACT hContact = *i;
-
-		if (bUseExtendedStatus)
-			SetContactStatus(hContact, ID_STATUS_OCCUPIED);
 
 		tstring sFullURL = build_url(hContact, sURL);
 

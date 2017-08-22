@@ -5,7 +5,6 @@ static CModuleInfo::THTMLEnginePtr g_pHTMLEngine;
 static mir_cs g_lmParsers;
 
 CModuleInfo::CModuleInfo()
-	: m_bExtendedStatusInfo(1 == db_get_b(NULL, QUOTES_MODULE_NAME, "ExtendedStatus", false))
 {
 }
 
@@ -97,9 +96,4 @@ bool CModuleInfo::Verify()
 	}
 
 	return true;
-}
-
-bool CModuleInfo::GetExtendedStatusFlag()const
-{
-	return m_bExtendedStatusInfo;
 }

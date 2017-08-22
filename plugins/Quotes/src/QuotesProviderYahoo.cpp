@@ -50,7 +50,6 @@ bool get_double_from_parsed_line(MCONTACT hContact, const TStrings& rasParsedLin
 void CQuotesProviderYahoo::RefreshQuotes(TContracts& anContacts)
 {
 	tstring sURL = GetURL();
-	bool bUseExtendedStatus = CModuleInfo::GetInstance().GetExtendedStatusFlag();
 
 	typedef std::map<tstring, MCONTACT> TQuoteID2ContractHandles;
 	TQuoteID2ContractHandles aQuoteID2Handles;
@@ -58,8 +57,6 @@ void CQuotesProviderYahoo::RefreshQuotes(TContracts& anContacts)
 	oURL << sURL << L"dioksin.txt?s=";
 	for (TContracts::const_iterator i = anContacts.begin(); i != anContacts.end() && IsOnline(); ++i) {
 		MCONTACT hContact = *i;
-		if (bUseExtendedStatus)
-			SetContactStatus(hContact, ID_STATUS_OCCUPIED);
 
 		tstring sQuoteID = Quotes_DBGetStringT(hContact, QUOTES_MODULE_NAME, DB_STR_QUOTE_ID);
 		aQuoteID2Handles[sQuoteID] = hContact;

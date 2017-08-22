@@ -165,11 +165,6 @@ bool parse_HTML(const tstring& sHTML, TEconomicRates& raRates)
 
 void CQuotesProviderDukasCopy::RefreshQuotes(TContracts& anContacts)
 {
-	if (CModuleInfo::GetInstance().GetExtendedStatusFlag()) {
-		std::for_each(anContacts.begin(), anContacts.end(),
-			boost::bind(SetContactStatus, _1, ID_STATUS_OCCUPIED));
-	}
-
 	tstring sURL = BuildHTTPURL();
 
 	CHTTPSession http;

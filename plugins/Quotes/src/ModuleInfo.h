@@ -22,7 +22,6 @@ public:
 
 	void OnMirandaShutdown();
 	MWindowList GetWindowList(const std::string& rsKey, bool bAllocateIfNonExist = true);
-	bool GetExtendedStatusFlag()const;
 
 	static bool Verify();
 
@@ -37,7 +36,6 @@ public:
 private:
 	typedef std::map<std::string, MWindowList> THandles;
 	THandles m_ahWindowLists;
-	bool m_bExtendedStatusInfo;
 };
 
 #endif //__d0f22b66_3135_4bbe_bee5_a31ea631ce58_ModuleInfo__
