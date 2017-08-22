@@ -33,12 +33,10 @@
       <AdditionalDependencies>Winmm.lib;dnsapi.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent Condition="'$(Platform)'=='Win32'">
-      <Command>xcopy bin\x86\libtox.* "$(SolutionDir)$(Configuration)\Libs\libtox.*" /y
-tools\cv2pdb.exe "$(SolutionDir)$(Configuration)\Libs\libtox.dll"</Command>
+      <Command>call copydll.cmd x86 "$(OutputPath)..\Libs"</Command>
     </PostBuildEvent>
     <PostBuildEvent Condition="'$(Platform)'=='x64'">
-      <Command>xcopy bin\x64\libtox.* "$(SolutionDir)$(Configuration)64\Libs\libtox.*" /y
-tools\cv2pdb.exe "$(SolutionDir)$(Configuration)64\Libs\libtox.dll"</Command>
+      <Command>call copydll.cmd x64 "$(OutputPath)..\Libs"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
