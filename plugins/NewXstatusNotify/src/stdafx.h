@@ -98,8 +98,18 @@
 #define COLOR_BG_NAVAILDEFAULT	RGB(255,189,189)
 #define COLOR_TX_DEFAULT		RGB(0,0,0)
 
+#define ICO_RESET				"reset"
+#define ICO_POPUP				"popup"
+#define ICO_SOUND				"sound"
 #define ICO_NOTIFICATION_OFF	"notification_off"
 #define ICO_NOTIFICATION_ON		"notification_on"
+#define ICO_XSTATUS				"xstatus"
+#define ICO_DISABLEALL			"disable_all"
+#define ICO_ENABLEALL			"enable_all"
+#define ICO_VARIABLES			"variables"
+#define ICO_STATUS_MESSAGE		"status_message"
+#define ICO_LOGGING_XSTATUS		"logging_xstatus"
+#define ICO_LOGGING_SMSG		"logging_status_message"
 
 #define JS_PARSE_XMPP_URI		"/ParseXmppURI"
 
@@ -149,6 +159,7 @@ extern HINSTANCE hInst;
 extern HGENMENU hEnableDisableMenu;
 extern STATUS StatusList[STATUS_COUNT];
 extern STATUS StatusListEx[STATUSEX_COUNT];
+extern IconItem iconList[];
 
 wchar_t* GetStr(STATUSMSGINFO *n, const wchar_t *tmplt);
 void LogSMsgToDB(STATUSMSGINFO *smi, const wchar_t *tmplt);

@@ -1080,10 +1080,20 @@ void InitMainMenuItem()
 	EnableDisableMenuCommand(0, 0);
 }
 
-static IconItem iconList[] =
+IconItem iconList[] =
 {
+	{ LPGEN("Reset"), ICO_RESET, IDI_RESET },
+	{ LPGEN("Popups"), ICO_POPUP, IDI_POPUP },
+	{ LPGEN("Sounds"), ICO_SOUND, IDI_SOUND },
 	{ LPGEN("Notification enabled"), ICO_NOTIFICATION_OFF, IDI_NOTIFICATION_OFF },
-	{ LPGEN("Notification disabled"), ICO_NOTIFICATION_ON, IDI_NOTIFICATION_ON }
+	{ LPGEN("Notification disabled"), ICO_NOTIFICATION_ON, IDI_NOTIFICATION_ON },
+	{ LPGEN("Extra status notify"), ICO_XSTATUS, IDI_XSTATUS },
+	{ LPGEN("Disable all"), ICO_DISABLEALL, IDI_DISABLEALL },
+	{ LPGEN("Enable all"), ICO_ENABLEALL, IDI_ENABLEALL },
+	{ LPGEN("Variables"), ICO_VARIABLES, IDI_VARIABLES },
+	{ LPGEN("Status message notify"), ICO_STATUS_MESSAGE, IDI_STATUS_MESSAGE },
+	{ LPGEN("Extra status logging"), ICO_LOGGING_XSTATUS, IDI_LOGGING_XSTATUS },
+	{ LPGEN("Status message logging"), ICO_LOGGING_SMSG, IDI_LOGGING_SMSG }
 };
 
 void InitIcolib()
@@ -1106,8 +1116,8 @@ int InitTopToolbar(WPARAM, LPARAM)
 	tbb.pszService = MS_STATUSCHANGE_MENUCOMMAND;
 	tbb.dwFlags = (opt.TempDisabled ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON;
 	tbb.name = LPGEN("Toggle status notification");
-	tbb.hIconHandleUp = iconList[0].hIcolib;
-	tbb.hIconHandleDn = iconList[1].hIcolib;
+	tbb.hIconHandleUp = iconList[3].hIcolib;
+	tbb.hIconHandleDn = iconList[4].hIcolib;
 	tbb.pszTooltipUp = LPGEN("Enable status notification");
 	tbb.pszTooltipDn = LPGEN("Disable status notification");
 	hToolbarButton = TopToolbar_AddButton(&tbb);
@@ -1164,9 +1174,9 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_CLIST_STATUSMODECHANGE, StatusModeChanged);
 	HookEvent(ME_PROTO_ACK, ProtoAck);
 
+	InitIcolib();
 	LoadOptions();
 	InitStatusList();
-	InitIcolib();
 	InitSound();
 
 	db_set_resident("MetaContacts", "LastOnline");
@@ -1179,7 +1189,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	evtype.module = MODULE;
 	evtype.eventType = EVENTTYPE_STATUSCHANGE;
 	evtype.descr = LPGEN("Status change");
-	evtype.eventIcon = iconList[0].hIcolib;
+	evtype.eventIcon = iconList[3].hIcolib;
 	evtype.flags = DETF_HISTORY | DETF_MSGWINDOW;
 	DbEvent_RegisterType(&evtype);
 

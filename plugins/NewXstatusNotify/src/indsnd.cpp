@@ -422,21 +422,21 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 
 		HIMAGELIST hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 3, 3);
 
-		ImageList_AddIcon(hImageList, LoadIcon(hInst, MAKEINTRESOURCE(IDI_SOUND)));
+		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[2].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_SOUNDICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_SOUND, ILD_NORMAL), 0);
-		ImageList_AddIcon(hImageList, LoadIcon(hInst, MAKEINTRESOURCE(IDI_POPUP)));
+		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[1].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_POPUPICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_POPUP, ILD_NORMAL), 0);
-		ImageList_AddIcon(hImageList, LoadIcon(hInst, MAKEINTRESOURCE(IDI_XSTATUS)));
+		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[5].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_XSTATUSICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_XSTATUS, ILD_NORMAL), 0);
-		ImageList_AddIcon(hImageList, LoadIcon(hInst, MAKEINTRESOURCE(IDI_LOGGING_XSTATUS)));
+		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[10].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_XLOGGINGICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_XLOGGING, ILD_NORMAL), 0);
-		ImageList_AddIcon(hImageList, LoadIcon(hInst, MAKEINTRESOURCE(IDI_STATUS_MESSAGE)));
+		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[9].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_SMSGICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_STATUSMSG, ILD_NORMAL), 0);
-		ImageList_AddIcon(hImageList, LoadIcon(hInst, MAKEINTRESOURCE(IDI_LOGGING_SMSG)));
+		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[11].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_SMSGLOGGINGICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_SMSGLOGGING, ILD_NORMAL), 0);
-		ImageList_AddIcon(hImageList, LoadIcon(hInst, MAKEINTRESOURCE(IDI_DISABLEALL)));
+		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[6].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_DISABLEALLICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_DISABLEALL, ILD_NORMAL), 0);
-		ImageList_AddIcon(hImageList, LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLEALL)));
+		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[7].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_ENABLEALLICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_ENABLEALL, ILD_NORMAL), 0);
 
 		ImageList_AddIcon(hImageList, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
