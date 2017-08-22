@@ -41,21 +41,21 @@ void CDb3Mmap::AddToList(char *name, DWORD ofs)
 int CDb3Mmap::InitModuleNames(void)
 {
 	DWORD ofsThis = m_dbHeader.ofsModuleNames;
-	DBModuleName *dbmn = (struct DBModuleName*)DBRead(ofsThis, NULL);
+	DBModuleName *dbmn = (struct DBModuleName*)DBRead(ofsThis, nullptr);
 	while (ofsThis) {
 		if (dbmn->signature != DBMODULENAME_SIGNATURE)
-			DatabaseCorruption(NULL);
+			DatabaseCorruption(nullptr);
 
 		int nameLen = dbmn->cbName;
 
 		char *mod = (char*)HeapAlloc(m_hModHeap, 0, nameLen + 1);
-		memcpy(mod, DBRead(ofsThis + offsetof(struct DBModuleName, name), NULL), nameLen);
+		memcpy(mod, DBRead(ofsThis + offsetof(struct DBModuleName, name), nullptr), nameLen);
 		mod[nameLen] = 0;
 
 		AddToList(mod, ofsThis);
 
 		ofsThis = dbmn->ofsNext;
-		dbmn = (struct DBModuleName*)DBRead(ofsThis, NULL);
+		dbmn = (struct DBModuleName*)DBRead(ofsThis, nullptr);
 	}
 	return 0;
 }
@@ -115,7 +115,7 @@ char* CDb3Mmap::GetModuleNameByOfs(DWORD ofs)
 	if (m_lastmn && m_lastmn->ofs == ofs)
 		return m_lastmn->name;
 
-	ModuleName mn = { NULL, ofs };
+	ModuleName mn = { nullptr, ofs };
 	int index = m_lOfs.getIndex(&mn);
 	if (index != -1) {
 		ModuleName *pmn = m_lOfs[index];
@@ -123,8 +123,8 @@ char* CDb3Mmap::GetModuleNameByOfs(DWORD ofs)
 		return pmn->name;
 	}
 
-	DatabaseCorruption(NULL);
-	return NULL;
+	DatabaseCorruption(nullptr);
+	return nullptr;
 }
 
 STDMETHODIMP_(BOOL) CDb3Mmap::EnumModuleNames(DBMODULEENUMPROC pFunc, const void *pParam)

@@ -40,7 +40,7 @@ static PLUGININFOEX pluginInfo =
 	{ 0xf7a6b27c, 0x9d9c, 0x4a42, { 0xbe, 0x86, 0xa4, 0x48, 0xae, 0x10, 0x91, 0x61 } }
 };
 
-HINSTANCE g_hInst = NULL;
+HINSTANCE g_hInst = nullptr;
 
 LIST<CDb3Mmap> g_Dbs(1, HandleKeySortT);
 
@@ -74,7 +74,7 @@ static MIDatabase* LoadDatabase(const wchar_t *profile, BOOL bReadOnly)
 
 	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile, (bReadOnly) ? DBMODE_READONLY : 0));
 	if (db->Load(false) != ERROR_SUCCESS)
-		return NULL;
+		return nullptr;
 
 	g_Dbs.insert(db.get());
 	return db.release();
@@ -92,11 +92,11 @@ MIDatabaseChecker* CheckDb(const wchar_t *profile, int *error)
 	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile, DBMODE_READONLY));
 	if (db->Load(true) != ERROR_SUCCESS) {
 		*error = ERROR_ACCESS_DENIED;
-		return NULL;
+		return nullptr;
 	}
 
 	if (db->PrepareCheck(error))
-		return NULL;
+		return nullptr;
 
 	return db.release();
 }

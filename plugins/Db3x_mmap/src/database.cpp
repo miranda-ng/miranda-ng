@@ -76,7 +76,7 @@ DWORD CDb3Mmap::ReallocSpace(DWORD ofs, int oldSize, int newSize)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static DWORD DatabaseCorrupted = 0;
-static wchar_t *msg = NULL;
+static wchar_t *msg = nullptr;
 static DWORD dwErr = 0;
 static wchar_t tszPanic[] = LPGENW("Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from https://miranda-ng.org/p/DbChecker/. Miranda will now shut down.");
 
@@ -115,7 +115,7 @@ void CDb3Mmap::DatabaseCorruption(wchar_t *text)
 	lck.unlock();
 
 	if (kill) {
-		_beginthread(dbpanic, 0, NULL);
+		_beginthread(dbpanic, 0, nullptr);
 		Sleep(INFINITE);
 	}
 }

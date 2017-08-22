@@ -47,7 +47,7 @@ int CDb3Mmap::WorkInitialCheckHeaders()
 
 int CDb3Mmap::WorkInitialChecks(int)
 {
-	sourceFileSize = GetFileSize(m_hDbFile, NULL);
+	sourceFileSize = GetFileSize(m_hDbFile, nullptr);
 	if (sourceFileSize == 0) {
 		cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Database is newly created and has no data to process"));
 		cb->pfnAddLogMessage(STATUS_SUCCESS, TranslateT("Processing completed successfully"));

@@ -33,7 +33,7 @@ void CDb3Mmap::Map()
 	else
 		dwProtectMode = PAGE_READWRITE, dwAccess = FILE_MAP_ALL_ACCESS;
 
-	m_hMap = CreateFileMapping(m_hDbFile, NULL, dwProtectMode, 0, m_dwFileSize, NULL);
+	m_hMap = CreateFileMapping(m_hDbFile, nullptr, dwProtectMode, 0, m_dwFileSize, nullptr);
 	if (m_hMap) {
 		m_pDbCache = (PBYTE)MapViewOfFile(m_hMap, dwAccess, 0, 0, 0);
 		if (!m_pDbCache)
@@ -44,7 +44,7 @@ void CDb3Mmap::Map()
 
 void CDb3Mmap::ReMap(DWORD needed)
 {
-	KillTimer(NULL, m_flushBuffersTimerId);
+	KillTimer(nullptr, m_flushBuffersTimerId);
 
 	log3("remapping %d + %d (file end: %d)", m_dwFileSize, needed, m_dbHeader.ofsFileEnd);
 
@@ -61,7 +61,7 @@ void CDb3Mmap::ReMap(DWORD needed)
 	}
 
 	UnmapViewOfFile(m_pDbCache);
-	m_pDbCache = NULL;
+	m_pDbCache = nullptr;
 	CloseHandle(m_hMap);
 
 	Map();
@@ -92,12 +92,12 @@ PBYTE CDb3Mmap::DBRead(DWORD ofs, int *bytesAvail)
 	// buggy read
 	if (ofs >= m_dwFileSize) {
 		//log2("read from outside %d@%08x",bytesRequired,ofs);
-		if (bytesAvail != NULL)
+		if (bytesAvail != nullptr)
 			*bytesAvail = m_ChunkSize;
 		return m_pNull;
 	}
 	//log3((ofs+bytesRequired > m_dwFileSize)?"read %d@%08x, only %d avaliable":"read %d@%08x",bytesRequired,ofs,m_dwFileSize-ofs);
-	if (bytesAvail != NULL)
+	if (bytesAvail != nullptr)
 		*bytesAvail = m_dwFileSize - ofs;
 	return m_pDbCache + ofs;
 }
@@ -131,13 +131,13 @@ static VOID CALLBACK DoBufferFlushTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 		if (!db->m_pDbCache)
 			return;
 
-		KillTimer(NULL, db->m_flushBuffersTimerId);
+		KillTimer(nullptr, db->m_flushBuffersTimerId);
 		log0("tflush1");
 		if (FlushViewOfFile(db->m_pDbCache, 0) == 0) {
 			if (db->m_flushFailTick == 0)
 				db->m_flushFailTick = GetTickCount();
 			else if (GetTickCount() - db->m_flushFailTick > 5000)
-				db->DatabaseCorruption(NULL);
+				db->DatabaseCorruption(nullptr);
 		}
 		else db->m_flushFailTick = 0;
 		log0("tflush2");
@@ -153,20 +153,20 @@ void CDb3Mmap::DBFlush(int setting)
 				if (m_flushFailTick == 0)
 					m_flushFailTick = GetTickCount();
 				else if (GetTickCount() - m_flushFailTick > 5000)
-					DatabaseCorruption(NULL);
+					DatabaseCorruption(nullptr);
 			}
 			else m_flushFailTick = 0;
 		}
 		log0("nflush2");
 		return;
 	}
-	KillTimer(NULL, m_flushBuffersTimerId);
-	m_flushBuffersTimerId = SetTimer(NULL, m_flushBuffersTimerId, 50, DoBufferFlushTimerProc);
+	KillTimer(nullptr, m_flushBuffersTimerId);
+	m_flushBuffersTimerId = SetTimer(nullptr, m_flushBuffersTimerId, 50, DoBufferFlushTimerProc);
 }
 
 int CDb3Mmap::InitMap(void)
 {
-	m_dwFileSize = GetFileSize(m_hDbFile, NULL);
+	m_dwFileSize = GetFileSize(m_hDbFile, nullptr);
 
 	// Align to chunk
 	if (!m_bReadOnly) {
@@ -186,8 +186,8 @@ DWORD CDb3Mmap::GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, DWORD ofsModu
 {
 	DWORD ofsThis = dbc->ofsFirstSettings;
 	while (ofsThis) {
-		DBContactSettings *dbcs = (DBContactSettings*)DBRead(ofsThis, NULL);
-		if (dbcs->signature != DBCONTACTSETTINGS_SIGNATURE) DatabaseCorruption(NULL);
+		DBContactSettings *dbcs = (DBContactSettings*)DBRead(ofsThis, nullptr);
+		if (dbcs->signature != DBCONTACTSETTINGS_SIGNATURE) DatabaseCorruption(nullptr);
 		if (dbcs->ofsModuleName == ofsModuleName)
 			return ofsThis;
 

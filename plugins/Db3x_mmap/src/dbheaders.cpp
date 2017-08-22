@@ -40,15 +40,15 @@ int CDb3Mmap::CreateDbHeaders(const DBSignature& _sign)
 	// create user
 	m_dbHeader.ofsUser = m_dbHeader.ofsFileEnd;
 	m_dbHeader.ofsFileEnd += sizeof(DBContact);
-	SetFilePointer(m_hDbFile, 0, NULL, FILE_BEGIN);
+	SetFilePointer(m_hDbFile, 0, nullptr, FILE_BEGIN);
 
 	DWORD bytesWritten;
-	WriteFile(m_hDbFile, &m_dbHeader, sizeof(m_dbHeader), &bytesWritten, NULL);
+	WriteFile(m_hDbFile, &m_dbHeader, sizeof(m_dbHeader), &bytesWritten, nullptr);
 
 	DBContact user = { 0 };
 	user.signature = DBCONTACT_SIGNATURE;
-	SetFilePointer(m_hDbFile, m_dbHeader.ofsUser, NULL, FILE_BEGIN);
-	WriteFile(m_hDbFile, &user, sizeof(DBContact), &bytesWritten, NULL);
+	SetFilePointer(m_hDbFile, m_dbHeader.ofsUser, nullptr, FILE_BEGIN);
+	WriteFile(m_hDbFile, &user, sizeof(DBContact), &bytesWritten, nullptr);
 	FlushFileBuffers(m_hDbFile);
 	return 0;
 }
@@ -69,9 +69,9 @@ int CDb3Mmap::CheckDbHeaders(bool bInteractive)
 
 		if (!memcmp(&m_dbHeader.signature, &dbSignatureSD, sizeof(m_dbHeader.signature))) {
 			if (bInteractive)
-				if (IDYES == MessageBox(NULL, TranslateW(tszOldHeaders), TranslateT("Obsolete database format"), MB_YESNO | MB_ICONWARNING)) {
+				if (IDYES == MessageBox(nullptr, TranslateW(tszOldHeaders), TranslateT("Obsolete database format"), MB_YESNO | MB_ICONWARNING)) {
 					wchar_t tszCurPath[MAX_PATH];
-					GetModuleFileName(NULL, tszCurPath, _countof(tszCurPath));
+					GetModuleFileName(nullptr, tszCurPath, _countof(tszCurPath));
 					wchar_t *p = wcsrchr(tszCurPath, '\\');
 					if (p) *p = 0;
 

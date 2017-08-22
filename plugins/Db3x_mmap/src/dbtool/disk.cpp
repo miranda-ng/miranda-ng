@@ -78,8 +78,8 @@ DWORD CDb3Mmap::WriteSegment(DWORD ofs, PVOID buf, int cbBytes)
 		ofs = m_dbHeader.ofsFileEnd;
 		m_dbHeader.ofsFileEnd += cbBytes;
 	}
-	SetFilePointer(cb->hOutFile, ofs, NULL, FILE_BEGIN);
-	WriteFile(cb->hOutFile, buf, cbBytes, &bytesWritten, NULL);
+	SetFilePointer(cb->hOutFile, ofs, nullptr, FILE_BEGIN);
+	WriteFile(cb->hOutFile, buf, cbBytes, &bytesWritten, nullptr);
 	if ((int)bytesWritten < cbBytes) {
 		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Can't write to output file - disk full? (%u)"), GetLastError());
 		return WS_ERROR;
@@ -94,8 +94,8 @@ int CDb3Mmap::ReadWrittenSegment(DWORD ofs, PVOID buf, int cbBytes)
 	if (ofs + cbBytes > m_dbHeader.ofsFileEnd)
 		return ERROR_SEEK;
 
-	SetFilePointer(cb->hOutFile, ofs, NULL, FILE_BEGIN);
-	ReadFile(cb->hOutFile, buf, cbBytes, &bytesRead, NULL);
+	SetFilePointer(cb->hOutFile, ofs, nullptr, FILE_BEGIN);
+	ReadFile(cb->hOutFile, buf, cbBytes, &bytesRead, nullptr);
 	if ((int)bytesRead < cbBytes)
 		return ERROR_READ_FAULT;
 

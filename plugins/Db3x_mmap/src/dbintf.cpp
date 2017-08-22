@@ -71,7 +71,7 @@ CDb3Mmap::~CDb3Mmap()
 	HeapDestroy(m_hModHeap);
 
 	// destroy map
-	KillTimer(NULL, m_flushBuffersTimerId);
+	KillTimer(nullptr, m_flushBuffersTimerId);
 	if (m_pDbCache) {
 		FlushViewOfFile(m_pDbCache, 0);
 		UnmapViewOfFile(m_pDbCache);
@@ -89,8 +89,8 @@ CDb3Mmap::~CDb3Mmap()
 	// update profile last modified time
 	if (!m_bReadOnly) {
 		DWORD bytesWritten;
-		SetFilePointer(m_hDbFile, 0, NULL, FILE_BEGIN);
-		WriteFile(m_hDbFile, &dbSignatureU, 1, &bytesWritten, NULL);
+		SetFilePointer(m_hDbFile, 0, nullptr, FILE_BEGIN);
+		WriteFile(m_hDbFile, &dbSignatureU, 1, &bytesWritten, nullptr);
 	}
 
 	if (m_hDbFile != INVALID_HANDLE_VALUE)
@@ -119,14 +119,14 @@ int CDb3Mmap::Load(bool bSkipInit)
 	if (m_bShared)
 		dwMode |= FILE_SHARE_WRITE;
 	if (m_bReadOnly)
-		m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ, dwMode, NULL, OPEN_EXISTING, 0, NULL);
+		m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ, dwMode, nullptr, OPEN_EXISTING, 0, nullptr);
 	else
-		m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ | GENERIC_WRITE, dwMode, NULL, OPEN_ALWAYS, 0, NULL);
+		m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ | GENERIC_WRITE, dwMode, nullptr, OPEN_ALWAYS, 0, nullptr);
 
 	if (m_hDbFile == INVALID_HANDLE_VALUE)
 		return EGROKPRF_CANTREAD;
 
-	if (!ReadFile(m_hDbFile, &m_dbHeader, sizeof(m_dbHeader), &dummy, NULL)) {
+	if (!ReadFile(m_hDbFile, &m_dbHeader, sizeof(m_dbHeader), &dummy, nullptr)) {
 		CloseHandle(m_hDbFile);
 		return EGROKPRF_CANTREAD;
 	}
@@ -160,7 +160,7 @@ int CDb3Mmap::Load(bool bSkipInit)
 
 int CDb3Mmap::Create()
 {
-	m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, 0, NULL);
+	m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, nullptr, CREATE_ALWAYS, 0, nullptr);
 	return (m_hDbFile == INVALID_HANDLE_VALUE);
 }
 

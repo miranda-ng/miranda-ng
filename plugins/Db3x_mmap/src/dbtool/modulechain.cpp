@@ -23,7 +23,7 @@ struct ModChainEntry {
 	DWORD ofsOld, ofsNew;
 	int size;
 	char name[257];
-} static *modChain = NULL;
+} static *modChain = nullptr;
 static int modChainCount;
 static DWORD ofsCurrent;
 static int phase, iCurrentModName;
@@ -132,9 +132,9 @@ DWORD CDb3Mmap::ConvertModuleNameOfs(DWORD ofsOld)
 
 void CDb3Mmap::FreeModuleChain()
 {
-	if (modChain != NULL) {
+	if (modChain != nullptr) {
 		free(modChain);
-		modChain = NULL;
+		modChain = nullptr;
 		last_mod = 0;
 	}
 }

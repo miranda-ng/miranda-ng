@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CDb3Mmap::CheckProto(DBCachedContact *cc, const char *proto)
 {
-	if (cc->szProto == NULL) {
+	if (cc->szProto == nullptr) {
 		char protobuf[MAX_PATH] = { 0 };
 		DBVARIANT dbv;
 		dbv.type = DBVT_ASCIIZ;
@@ -34,7 +34,7 @@ int CDb3Mmap::CheckProto(DBCachedContact *cc, const char *proto)
 		if (GetContactSettingStatic(cc->contactID, "Protocol", "p", &dbv) != 0 || (dbv.type != DBVT_ASCIIZ))
 			return 0;
 
-		cc->szProto = m_cache->GetCachedSetting(NULL, protobuf, 0, (int)mir_strlen(protobuf));
+		cc->szProto = m_cache->GetCachedSetting(nullptr, protobuf, 0, (int)mir_strlen(protobuf));
 	}
 
 	return !mir_strcmp(cc->szProto, proto);
@@ -55,8 +55,8 @@ STDMETHODIMP_(MCONTACT) CDb3Mmap::FindFirstContact(const char *szProto)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBCachedContact *cc = m_cache->GetFirstContact();
-	if (cc == NULL)
-		return NULL;
+	if (cc == nullptr)
+		return 0;
 
 	if (!szProto || CheckProto(cc, szProto))
 		return cc->contactID;
@@ -69,7 +69,7 @@ STDMETHODIMP_(MCONTACT) CDb3Mmap::FindNextContact(MCONTACT contactID, const char
 	mir_cslock lck(m_csDbAccess);
 	while (contactID) {
 		DBCachedContact *cc = m_cache->GetNextContact(contactID);
-		if (cc == NULL)
+		if (cc == nullptr)
 			break;
 
 		if (!szProto || CheckProto(cc, szProto))
@@ -78,7 +78,7 @@ STDMETHODIMP_(MCONTACT) CDb3Mmap::FindNextContact(MCONTACT contactID, const char
 		contactID = cc->contactID;
 	}
 
-	return NULL;
+	return 0;
 }
 
 STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
@@ -89,7 +89,7 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
 	mir_cslockfull lck(m_csDbAccess);
 	DWORD ofsContact = GetContactOffset(contactID);
 
-	DBContact *dbc = (DBContact*)DBRead(ofsContact, NULL);
+	DBContact *dbc = (DBContact*)DBRead(ofsContact, nullptr);
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return 1;
 
@@ -111,7 +111,7 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
 	DWORD ofsThis = dbc->ofsFirstSettings;
 	DWORD ofsFirstEvent = dbc->ofsFirstEvent;
 	while (ofsThis) {
-		DBContactSettings *dbcs = (DBContactSettings*)DBRead(ofsThis, NULL);
+		DBContactSettings *dbcs = (DBContactSettings*)DBRead(ofsThis, nullptr);
 		DWORD ofsNext = dbcs->ofsNext;
 		DeleteSpace(ofsThis, offsetof(DBContactSettings, blob) + dbcs->cbBlob);
 		ofsThis = ofsNext;
@@ -120,7 +120,7 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
 	// delete event chain
 	ofsThis = ofsFirstEvent;
 	while (ofsThis) {
-		DBEvent *dbe = (DBEvent*)DBRead(ofsThis, NULL);
+		DBEvent *dbe = (DBEvent*)DBRead(ofsThis, nullptr);
 		DWORD ofsNext = dbe->ofsNext;
 		DeleteSpace(ofsThis, offsetof(DBEvent, blob) + dbe->cbBlob);
 		ofsThis = ofsNext;
@@ -134,11 +134,12 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
 	else {
 		DWORD ofsNext = dbc->ofsNext;
 		ofsThis = m_dbHeader.ofsFirstContact;
-		DBContact *dbcPrev = (DBContact*)DBRead(ofsThis, NULL);
+		DBContact *dbcPrev = (DBContact*)DBRead(ofsThis, nullptr);
 		while (dbcPrev->ofsNext != ofsContact) {
-			if (dbcPrev->ofsNext == 0) DatabaseCorruption(NULL);
+			if (dbcPrev->ofsNext == 0)
+				DatabaseCorruption(nullptr);
 			ofsThis = dbcPrev->ofsNext;
-			dbcPrev = (DBContact*)DBRead(ofsThis, NULL);
+			dbcPrev = (DBContact*)DBRead(ofsThis, nullptr);
 		}
 		dbcPrev->ofsNext = ofsNext;
 		DBWrite(ofsThis, dbcPrev, sizeof(DBContact));
@@ -155,7 +156,7 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
 	// free cache item
 	m_cache->FreeCachedContact(contactID);
 	if (contactID == m_hLastCachedContact)
-		m_hLastCachedContact = NULL;
+		m_hLastCachedContact = 0;
 	return 0;
 }
 
@@ -189,11 +190,11 @@ STDMETHODIMP_(MCONTACT) CDb3Mmap::AddContact()
 STDMETHODIMP_(BOOL) CDb3Mmap::IsDbContact(MCONTACT contactID)
 {
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
-	if (cc == NULL)
+	if (cc == nullptr)
 		return FALSE;
 
 	mir_cslock lck(m_csDbAccess);
-	DBContact *dbc = (DBContact*)DBRead(cc->dwOfsContact, NULL);
+	DBContact *dbc = (DBContact*)DBRead(cc->dwOfsContact, nullptr);
 	if (dbc->signature == DBCONTACT_SIGNATURE) {
 		m_cache->AddContactToCache(contactID);
 		return TRUE;
@@ -224,8 +225,8 @@ static int SortEvent(const DBEvent *p1, const DBEvent *p2)
 BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
 	mir_cslock lck(m_csDbAccess);
-	DBContact *dbMeta = (DBContact*)DBRead(ccMeta->dwOfsContact, NULL);
-	DBContact *dbSub = (DBContact*)DBRead(ccSub->dwOfsContact, NULL);
+	DBContact *dbMeta = (DBContact*)DBRead(ccMeta->dwOfsContact, nullptr);
+	DBContact *dbSub = (DBContact*)DBRead(ccSub->dwOfsContact, nullptr);
 	if (dbMeta->signature != DBCONTACT_SIGNATURE || dbSub->signature != DBCONTACT_SIGNATURE)
 		return 1;
 
@@ -247,7 +248,7 @@ BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 			// there're events in both meta's & sub's event chains
 			// relink sub's event chain to meta without changing events themselves
 			for (DWORD ofsMeta = dbMeta->ofsFirstEvent; ofsMeta != 0;) {
-				DBEvent *pev = (DBEvent*)DBRead(ofsMeta, NULL);
+				DBEvent *pev = (DBEvent*)DBRead(ofsMeta, nullptr);
 				if (pev->signature != DBEVENT_SIGNATURE) { // broken chain, don't touch it
 					ret = 2;
 					__leave;
@@ -258,7 +259,7 @@ BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 			}
 
 			for (DWORD ofsSub = dbSub->ofsFirstEvent; ofsSub != 0;) {
-				DBEvent *pev = (DBEvent*)DBRead(ofsSub, NULL);
+				DBEvent *pev = (DBEvent*)DBRead(ofsSub, nullptr);
 				if (pev->signature != DBEVENT_SIGNATURE) { // broken chain, don't touch it
 					ret = 2;
 					__leave;
@@ -308,8 +309,8 @@ BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
 	mir_cslock lck(m_csDbAccess);
-	DBContact dbMeta = *(DBContact*)DBRead(ccMeta->dwOfsContact, NULL);
-	DBContact dbSub = *(DBContact*)DBRead(ccSub->dwOfsContact, NULL);
+	DBContact dbMeta = *(DBContact*)DBRead(ccMeta->dwOfsContact, nullptr);
+	DBContact dbSub = *(DBContact*)DBRead(ccSub->dwOfsContact, nullptr);
 	if (dbMeta.signature != DBCONTACT_SIGNATURE || dbSub.signature != DBCONTACT_SIGNATURE)
 		return 1;
 
@@ -322,11 +323,11 @@ BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 			__leave;
 
 		DWORD dwOffset = dbMeta.ofsFirstEvent;
-		DBEvent *evMeta = NULL, *evSub = NULL;
+		DBEvent *evMeta = nullptr, *evSub = nullptr;
 		dbMeta.eventCount = 0; dbMeta.ofsFirstEvent = dbMeta.ofsLastEvent = dbMeta.ofsFirstUnread = dbMeta.tsFirstUnread = 0;
 
 		while (dwOffset != 0) {
-			DBEvent *evCurr = (DBEvent*)DBRead(dwOffset, NULL);
+			DBEvent *evCurr = (DBEvent*)DBRead(dwOffset, nullptr);
 			if (evCurr->signature != DBEVENT_SIGNATURE)
 				break;
 
@@ -335,7 +336,7 @@ BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 			// extract it to sub's chain
 			if (evCurr->contactID == ccSub->contactID) {
 				dbSub.eventCount++;
-				if (evSub != NULL) {
+				if (evSub != nullptr) {
 					evSub->ofsNext = dwOffset;
 					evCurr->ofsPrev = DWORD(PBYTE(evSub) - m_pDbCache);
 				}
@@ -352,7 +353,7 @@ BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 			}
 			else {
 				dbMeta.eventCount++;
-				if (evMeta != NULL) {
+				if (evMeta != nullptr) {
 					evMeta->ofsNext = dwOffset;
 					evCurr->ofsPrev = DWORD(PBYTE(evMeta) - m_pDbCache);
 				}
@@ -401,7 +402,7 @@ void CDb3Mmap::FillContacts()
 	OBJLIST<COldMeta> arMetas(10, NumericKeySortT);
 
 	for (DWORD dwOffset = m_dbHeader.ofsFirstContact; dwOffset != 0;) {
-		DBContact *p = (DBContact*)DBRead(dwOffset, NULL);
+		DBContact *p = (DBContact*)DBRead(dwOffset, nullptr);
 		if (p->signature != DBCONTACT_SIGNATURE)
 			break;
 
@@ -424,11 +425,11 @@ void CDb3Mmap::FillContacts()
 			for (int i = 0; i < cc->nSubs; i++) {
 				char setting[100];
 				mir_snprintf(setting, "Handle%d", i);
-				cc->pSubs[i] = (0 != GetContactSetting(dwContactID, META_PROTO, setting, &dbv)) ? NULL : dbv.dVal;
+				cc->pSubs[i] = (0 != GetContactSetting(dwContactID, META_PROTO, setting, &dbv)) ? 0 : dbv.dVal;
 			}
 		}
 		cc->nDefault = (0 != GetContactSetting(dwContactID, META_PROTO, "Default", &dbv)) ? -1 : dbv.dVal;
-		cc->parentID = (0 != GetContactSetting(dwContactID, META_PROTO, "ParentMeta", &dbv)) ? NULL : dbv.dVal;
+		cc->parentID = (0 != GetContactSetting(dwContactID, META_PROTO, "ParentMeta", &dbv)) ? 0 : dbv.dVal;
 
 		// whether we need conversion or not
 		if (!GetContactSetting(dwContactID, META_PROTO, "MetaID", &dbv))
@@ -447,7 +448,7 @@ void CDb3Mmap::FillContacts()
 			continue;
 
 		COldMeta *p = arMetas.find((COldMeta*)&dbv.dVal);
-		if (p == NULL)
+		if (p == nullptr)
 			continue;
 
 		if (GetContactSetting(hh, META_PROTO, "ContactNumber", &dbv))
@@ -485,7 +486,7 @@ void CDb3Mmap::FillContacts()
 		// we don't need it anymore
 		if (!GetContactSetting(hContact, META_PROTO, "MetaID", &dbv)) {
 			DeleteContactSetting(hContact, META_PROTO, "MetaID");
-			WipeContactHistory((DBContact*)DBRead(ccMeta->dwOfsContact, NULL));
+			WipeContactHistory((DBContact*)DBRead(ccMeta->dwOfsContact, nullptr));
 		}
 
 		for (int k = 0; k < ccMeta->nSubs; k++) {
@@ -501,11 +502,11 @@ void CDb3Mmap::FillContacts()
 DWORD CDb3Mmap::GetContactOffset(MCONTACT contactID, DBCachedContact **pcc)
 {
 	if (contactID == 0) {
-		if (pcc) *pcc = NULL;
+		if (pcc) *pcc = nullptr;
 		return m_dbHeader.ofsUser;
 	}
 
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
 	if (pcc) *pcc = cc;
-	return (cc == NULL) ? 0 : cc->dwOfsContact;
+	return (cc == nullptr) ? 0 : cc->dwOfsContact;
 }

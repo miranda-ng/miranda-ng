@@ -81,7 +81,7 @@ static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		else SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Please type in your password"));
 
 		oldLangID = 0;
-		SetTimer(hwndDlg, 1, 200, NULL);
+		SetTimer(hwndDlg, 1, 200, nullptr);
 		LanguageChanged(hwndDlg);
 		return TRUE;
 
@@ -184,7 +184,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 		oldLangID = 0;
-		SetTimer(hwndDlg, 1, 200, NULL);
+		SetTimer(hwndDlg, 1, 200, nullptr);
 		LanguageChanged(hwndDlg);
 		return TRUE;
 
@@ -211,7 +211,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			}
 			else {
 				param->db->WriteSignature(dbSignatureU);
-				param->db->SetPassword(NULL);
+				param->db->SetPassword(nullptr);
 				param->db->StoreKey();
 				EndDialog(hwndDlg, IDREMOVE);
 			}

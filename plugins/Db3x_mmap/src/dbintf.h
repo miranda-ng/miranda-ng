@@ -38,7 +38,7 @@ DBHeader
 |   |   \-->module name (DBModuleName)
 |   \-->first/last/firstunread event
 |-->user contact (DBContact)
-|   |-->next contact = NULL
+|   |-->next contact = nullptr
 |   |-->first settings	as above
 |   \-->first/last/firstunread event as above
 \-->first module name (DBModuleName)
@@ -212,8 +212,8 @@ public:
 	STDMETHODIMP_(void)     SetCacheSafetyMode(BOOL);
 
 	STDMETHODIMP_(LONG)     GetContactCount(void);
-	STDMETHODIMP_(MCONTACT) FindFirstContact(const char *szProto = NULL);
-	STDMETHODIMP_(MCONTACT) FindNextContact(MCONTACT contactID, const char *szProto = NULL);
+	STDMETHODIMP_(MCONTACT) FindFirstContact(const char *szProto = nullptr);
+	STDMETHODIMP_(MCONTACT) FindNextContact(MCONTACT contactID, const char *szProto = nullptr);
 	STDMETHODIMP_(LONG)     DeleteContact(MCONTACT contactID);
 	STDMETHODIMP_(MCONTACT) AddContact(void);
 	STDMETHODIMP_(BOOL)     IsDbContact(MCONTACT contactID);
@@ -319,7 +319,7 @@ protected:
 	// contacts
 
 	int      WipeContactHistory(DBContact *dbc);
-	DWORD    GetContactOffset(MCONTACT contactID, DBCachedContact **cc = NULL);
+	DWORD    GetContactOffset(MCONTACT contactID, DBCachedContact **cc = nullptr);
 
 	////////////////////////////////////////////////////////////////////////////
 	// events

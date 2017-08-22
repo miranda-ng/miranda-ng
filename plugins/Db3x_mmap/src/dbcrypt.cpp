@@ -89,14 +89,14 @@ void sttContactEnum(MCONTACT contactID, const char *szModule, CDb3Mmap *db)
 {
 	OBJLIST<VarDescr> arSettings(1);
 	SettingUgraderParam param = { db, szModule, contactID, &arSettings };
-	db->EnumContactSettings(NULL, sttSettingUgrader, szModule, &param);
+	db->EnumContactSettings(0, sttSettingUgrader, szModule, &param);
 
 	for (int i = 0; i < arSettings.getCount(); i++) {
 		VarDescr &p = arSettings[i];
 
 		size_t len;
 		BYTE *pResult = db->m_crypto->encodeString(p.szValue, &len);
-		if (pResult != NULL) {
+		if (pResult != nullptr) {
 			DBCONTACTWRITESETTING dbcws = { szModule, p.szVar };
 			dbcws.value.type = DBVT_ENCRYPTED;
 			dbcws.value.pbVal = pResult;
@@ -111,7 +111,7 @@ void sttContactEnum(MCONTACT contactID, const char *szModule, CDb3Mmap *db)
 int sttModuleEnum(const char *szModule, DWORD, LPARAM lParam)
 {
 	CDb3Mmap *db = (CDb3Mmap*)lParam;
-	sttContactEnum(NULL, szModule, db);
+	sttContactEnum(0, szModule, db);
 
 	for (MCONTACT contactID = db->FindFirstContact(); contactID; contactID = db->FindNextContact(contactID))
 		sttContactEnum(contactID, szModule, db);
@@ -131,7 +131,7 @@ int CDb3Mmap::InitCrypt()
 
 	DBVARIANT dbv = { 0 };
 	dbv.type = DBVT_BLOB;
-	if (GetContactSetting(NULL, "CryptoEngine", "Provider", &dbv)) {
+	if (GetContactSetting(0, "CryptoEngine", "Provider", &dbv)) {
 	LBL_CreateProvider:
 		CRYPTO_PROVIDER **ppProvs;
 		int iNumProvs;
@@ -151,7 +151,7 @@ int CDb3Mmap::InitCrypt()
 		dbcws.value.type = DBVT_BLOB;
 		dbcws.value.pbVal = (PBYTE)pProvider->pszName;
 		dbcws.value.cpbVal = (WORD)mir_strlen(pProvider->pszName) + 1;
-		WriteContactSetting(NULL, &dbcws);
+		WriteContactSetting(0, &dbcws);
 	}
 	else {
 		if (dbv.type != DBVT_BLOB) { // old version, clean it up
@@ -161,15 +161,15 @@ int CDb3Mmap::InitCrypt()
 
 		pProvider = Crypto_GetProvider(LPCSTR(dbv.pbVal));
 		FreeVariant(&dbv);
-		if (pProvider == NULL)
+		if (pProvider == nullptr)
 			goto LBL_CreateProvider;
 	}
 
-	if ((m_crypto = pProvider->pFactory()) == NULL)
+	if ((m_crypto = pProvider->pFactory()) == nullptr)
 		return 3;
 
 	dbv.type = DBVT_BLOB;
-	if (GetContactSetting(NULL, "CryptoEngine", "StoredKey", &dbv)) {
+	if (GetContactSetting(0, "CryptoEngine", "StoredKey", &dbv)) {
 		bMissingKey = true;
 
 	LBL_SetNewKey:
@@ -203,7 +203,7 @@ int CDb3Mmap::InitCrypt()
 		EnumModuleNames(sttModuleEnum, this);
 
 	dbv.type = DBVT_BYTE;
-	if (!GetContactSetting(NULL, "CryptoEngine", "DatabaseEncryption", &dbv))
+	if (!GetContactSetting(0, "CryptoEngine", "DatabaseEncryption", &dbv))
 		m_bEncrypted = dbv.bVal != 0;
 
 	InitDialogs();
@@ -220,16 +220,16 @@ void CDb3Mmap::StoreKey()
 	dbcws.value.type = DBVT_BLOB;
 	dbcws.value.cpbVal = (WORD)iKeyLength;
 	dbcws.value.pbVal = pKey;
-	WriteContactSetting(NULL, &dbcws);
+	WriteContactSetting(0, &dbcws);
 
 	SecureZeroMemory(pKey, iKeyLength);
 }
 
 void CDb3Mmap::SetPassword(LPCTSTR ptszPassword)
 {
-	if (ptszPassword == NULL || *ptszPassword == 0) {
+	if (ptszPassword == nullptr || *ptszPassword == 0) {
 		m_bUsesPassword = false;
-		m_crypto->setPassword(NULL);
+		m_crypto->setPassword(nullptr);
 	}
 	else {
 		m_bUsesPassword = true;
@@ -242,14 +242,14 @@ void CDb3Mmap::SetPassword(LPCTSTR ptszPassword)
 
 void CDb3Mmap::ToggleEncryption()
 {
-	HANDLE hSave1 = hSettingChangeEvent;    hSettingChangeEvent = NULL;
-	HANDLE hSave2 = hEventAddedEvent;       hEventAddedEvent = NULL;
-	HANDLE hSave3 = hEventDeletedEvent;     hEventDeletedEvent = NULL;
-	HANDLE hSave4 = hEventFilterAddedEvent; hEventFilterAddedEvent = NULL;
+	HANDLE hSave1 = hSettingChangeEvent;    hSettingChangeEvent = nullptr;
+	HANDLE hSave2 = hEventAddedEvent;       hEventAddedEvent = nullptr;
+	HANDLE hSave3 = hEventDeletedEvent;     hEventDeletedEvent = nullptr;
+	HANDLE hSave4 = hEventFilterAddedEvent; hEventFilterAddedEvent = nullptr;
 
 	mir_cslock lck(m_csDbAccess);
-	ToggleSettingsEncryption(NULL);
-	ToggleEventsEncryption(NULL);
+	ToggleSettingsEncryption(0);
+	ToggleEventsEncryption(0);
 
 	for (MCONTACT contactID = FindFirstContact(); contactID; contactID = FindNextContact(contactID)) {
 		ToggleSettingsEncryption(contactID);
@@ -261,7 +261,7 @@ void CDb3Mmap::ToggleEncryption()
 	DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "DatabaseEncryption" };
 	dbcws.value.type = DBVT_BYTE;
 	dbcws.value.bVal = m_bEncrypted;
-	WriteContactSetting(NULL, &dbcws);
+	WriteContactSetting(0, &dbcws);
 
 	hSettingChangeEvent = hSave1;
 	hEventAddedEvent = hSave2;
@@ -275,15 +275,15 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 	if (ofsContact == 0)
 		return;
 
-	DBContact *contact = (DBContact*)DBRead(ofsContact, NULL);
+	DBContact *contact = (DBContact*)DBRead(ofsContact, nullptr);
 	if (contact->ofsFirstSettings == 0)
 		return;
 
 	// fast cycle through all settings
-	DBContactSettings *setting = (DBContactSettings*)DBRead(contact->ofsFirstSettings, NULL);
+	DBContactSettings *setting = (DBContactSettings*)DBRead(contact->ofsFirstSettings, nullptr);
 	DWORD offset = contact->ofsFirstSettings;
 	char *szModule = GetModuleNameByOfs(setting->ofsModuleName);
-	if (szModule == NULL)
+	if (szModule == nullptr)
 		return;
 
 	while (true) {
@@ -345,7 +345,7 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 			if (!m_bEncrypted) {
 				size_t encodedLen;
 				BYTE *pResult = m_crypto->encodeString(p.szValue, &encodedLen);
-				if (pResult != NULL) {
+				if (pResult != nullptr) {
 					DBCONTACTWRITESETTING dbcws = { szModule, p.szVar };
 					dbcws.value.type = DBVT_ENCRYPTED;
 					dbcws.value.pbVal = pResult;
@@ -358,7 +358,7 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 			else {
 				size_t realLen;
 				ptrA decoded(m_crypto->decodeString((PBYTE)(char*)p.szValue, p.iLen, &realLen));
-				if (decoded != NULL) {
+				if (decoded != nullptr) {
 					DBCONTACTWRITESETTING dbcws = { szModule, p.szVar };
 					dbcws.value.type = DBVT_UNENCRYPTED;
 					dbcws.value.pszVal = decoded;
@@ -371,8 +371,8 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 		if (!ofsNext)
 			break;
 
-		setting = (DBContactSettings*)DBRead(offset = ofsNext, NULL);
-		if ((szModule = GetModuleNameByOfs(setting->ofsModuleName)) == NULL)
+		setting = (DBContactSettings*)DBRead(offset = ofsNext, nullptr);
+		if ((szModule = GetModuleNameByOfs(setting->ofsModuleName)) == nullptr)
 			break;
 	}
 }
@@ -383,13 +383,13 @@ void CDb3Mmap::ToggleEventsEncryption(MCONTACT contactID)
 	if (ofsContact == 0)
 		return;
 
-	DBContact contact = *(DBContact*)DBRead(ofsContact, NULL);
+	DBContact contact = *(DBContact*)DBRead(ofsContact, nullptr);
 	if (contact.ofsFirstEvent == 0 || contact.signature != DBCONTACT_SIGNATURE)
 		return;
 
 	// fast cycle through all events
 	for (DWORD offset = contact.ofsFirstEvent; offset != 0;) {
-		DBEvent evt = *(DBEvent*)DBRead(offset, NULL);
+		DBEvent evt = *(DBEvent*)DBRead(offset, nullptr);
 		if (evt.signature != DBEVENT_SIGNATURE)
 			return;
 
@@ -398,18 +398,18 @@ void CDb3Mmap::ToggleEventsEncryption(MCONTACT contactID)
 		mir_ptr<BYTE> pBlob;
 		BYTE *pSource = DBRead(offset + offsetof(DBEvent, blob), 0);
 		if (!m_bEncrypted) { // we need more space
-			if ((pBlob = m_crypto->encodeBuffer(pSource, evt.cbBlob, &len)) == NULL)
+			if ((pBlob = m_crypto->encodeBuffer(pSource, evt.cbBlob, &len)) == nullptr)
 				return;
 
 			ofsDest = ReallocSpace(offset, offsetof(DBEvent, blob) + evt.cbBlob, offsetof(DBEvent, blob) + (DWORD)len);
 
 			if (evt.ofsNext) {
-				DBEvent *e = (DBEvent*)DBRead(evt.ofsNext, NULL);
+				DBEvent *e = (DBEvent*)DBRead(evt.ofsNext, nullptr);
 				e->ofsPrev = ofsDest;
 				DBWrite(evt.ofsNext, e, sizeof(DBEvent));
 			}
 			if (evt.ofsPrev) {
-				DBEvent *e = (DBEvent*)DBRead(evt.ofsPrev, NULL);
+				DBEvent *e = (DBEvent*)DBRead(evt.ofsPrev, nullptr);
 				e->ofsNext = ofsDest;
 				DBWrite(evt.ofsPrev, e, sizeof(DBEvent));
 			}
@@ -423,7 +423,7 @@ void CDb3Mmap::ToggleEventsEncryption(MCONTACT contactID)
 			evt.flags |= DBEF_ENCRYPTED;
 		}
 		else {
-			if ((pBlob = (BYTE*)m_crypto->decodeBuffer(pSource, evt.cbBlob, &len)) == NULL)
+			if ((pBlob = (BYTE*)m_crypto->decodeBuffer(pSource, evt.cbBlob, &len)) == nullptr)
 				return;
 
 			ofsDest = offset; // reuse the old space
