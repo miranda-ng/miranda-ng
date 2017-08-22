@@ -57,6 +57,14 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
+IconItem iconList[] =
+{
+	{ LPGEN("RTL On"), "RTL_ON", IDI_RTL_ON },
+	{ LPGEN("RTL Off"), "RTL_OFF", IDI_RTL_OFF },
+	{ LPGEN("Group On"), "GROUP_ON", IDI_GROUP_ON },
+	{ LPGEN("Group Off"), "GROUP_OFF", IDI_GROUP_OFF }
+};
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	int wdsize = GetCurrentDirectory(0, NULL);
@@ -77,6 +85,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(MS_IEVIEW_NAVIGATE, HandleIENavigate);
 	CreateServiceFunction("IEView/ReloadOptions", ReloadOptions);
 	hHookOptionsChanged = CreateHookableEvent(ME_IEVIEW_OPTIONSCHANGED);
+	Icon_Register(hInstance, ieviewModuleName, iconList, _countof(iconList), ieviewModuleName);
 	return 0;
 }
 

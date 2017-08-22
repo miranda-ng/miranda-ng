@@ -360,10 +360,10 @@ static void RefreshIcons()
 	else {
 		hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_MASK | ILC_COLOR32, 0, 0);
 	}
-	ImageList_AddIcon(hImageList, (HICON)LoadImage(hInstance, MAKEINTRESOURCE(IDI_GROUP_OFF), IMAGE_ICON, 0, 0, 0));
-	ImageList_AddIcon(hImageList, (HICON)LoadImage(hInstance, MAKEINTRESOURCE(IDI_GROUP_ON), IMAGE_ICON, 0, 0, 0));
-	ImageList_AddIcon(hImageList, (HICON)LoadImage(hInstance, MAKEINTRESOURCE(IDI_RTL_OFF), IMAGE_ICON, 0, 0, 0));
-	ImageList_AddIcon(hImageList, (HICON)LoadImage(hInstance, MAKEINTRESOURCE(IDI_RTL_ON), IMAGE_ICON, 0, 0, 0));
+	ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[3].hIcolib));
+	ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[2].hIcolib));
+	ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[1].hIcolib));
+	ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[0].hIcolib));
 }
 
 static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates)

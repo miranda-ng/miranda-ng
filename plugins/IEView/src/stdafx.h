@@ -78,6 +78,7 @@ extern HINSTANCE hInstance;
 extern IEView *debugView;
 extern char *workingDirUtf8;
 extern HANDLE hHookOptionsChanged;
+extern IconItem iconList[];
 
 class BSTR_PTR
 {
