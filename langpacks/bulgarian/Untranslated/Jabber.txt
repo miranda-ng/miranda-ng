@@ -78,7 +78,6 @@
 [League Of Legends (Oceania)]
 [League Of Legends (US)]
 [Odnoklassniki]
-[OMEMO session does not exist yet]
 [No valid OMEMO session exists]
 [Extended away (Not available)]
 [Play sounds]

@@ -785,8 +785,6 @@
 Налаштуйте Miranda NG згідно своїх вподобань
 [Apply]
 Застосувати
-[Switch to simple options]
-Спрощений вигляд
 [Please select a subentry from the list]
 Виберіть підпункт зі списку
 [Install database settings]
@@ -1877,7 +1875,7 @@ UIN, E-mail тощо
 В активному пошуку
 [In love]
 Закоханий(а)
-[It\'s complicated]
+[It's complicated]
 Усе складно
 [Summary]
 Коротко
@@ -2161,8 +2159,6 @@ Ctrl+Знайти додає контакт
 Тонке налаштування
 [Sample text]
 Зразок тексту
-[Fonts]
-Шрифти
 [Headers]
 Заголовки
 [Generic text]

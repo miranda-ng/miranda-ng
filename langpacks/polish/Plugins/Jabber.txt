@@ -1652,8 +1652,6 @@ Edytuj listy...
 Nie istnieje żaden kompatybilny mechanizm transferu plików
 [Protocol is offline or no JID]
 Protokół jest Rozłączony lub brak JID
-[OMEMO session does not exist yet]
-
 [No valid OMEMO session exists]
 
 ;file \protocols\JabberG\src\jabber_rc.cpp

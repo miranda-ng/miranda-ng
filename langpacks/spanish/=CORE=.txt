@@ -785,8 +785,6 @@ Aquí usted puede agregar contactos a su lista de contactos
 Configure las opciones de Miranda NG
 [Apply]
 Aplicar
-[Switch to simple options]
-Cambiar a opciones sencillas
 [Please select a subentry from the list]
 Por favor seleccione una subentrada de la lista
 [Install database settings]
@@ -2059,8 +2057,6 @@ Error escribiendo archivo
 Personalizar
 [Sample text]
 Texto de ejemplo
-[Fonts]
-Fuentes
 [Headers]
 Cabeceras
 [Generic text]

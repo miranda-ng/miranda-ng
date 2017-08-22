@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.11.0.4
+;  Version: 0.11.0.5
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -1652,8 +1652,6 @@ Liste bearbeiten...
 Kein kompatibler Dateiübertragungsmechanismus vorhanden
 [Protocol is offline or no JID]
 Protokoll ist offline oder keine JID
-[OMEMO session does not exist yet]
-OMEMO-Sitzung existiert noch nicht
 [No valid OMEMO session exists]
 Es existiert noch keine gültige OMEMO-Sitzung
 ;file \protocols\JabberG\src\jabber_rc.cpp

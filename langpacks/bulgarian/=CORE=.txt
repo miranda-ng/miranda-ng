@@ -773,8 +773,6 @@ Miranda NG - диспечер на профили
 Конфигурирайте настройките на Miranda NG
 [Apply]
 Прилагане
-[Switch to simple options]
-Опростен вид на настройките
 [Please select a subentry from the list]
 Моля, изберете подраздел от списъка вляво
 [Install database settings]
@@ -1827,7 +1825,7 @@ Popups за изобразяване
 В активно търсене
 [In love]
 Влюбен
-[It\'s complicated]
+[It's complicated]
 Всичко е сложно
 [Summary]
 Обобщение
@@ -2093,8 +2091,6 @@ Popups за изобразяване
 Персонализиране
 [Sample text]
 Примерен текст
-[Fonts]
-Шрифтове
 [Headers]
 Горни колонтитули
 [Generic text]

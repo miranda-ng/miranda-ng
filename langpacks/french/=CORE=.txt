@@ -795,8 +795,6 @@ Ici, vous pouvez ajouter des contacts à votre liste de contacts
 Configurer les paramètres de votre Miranda NG
 [Apply]
 Appliquer
-[Switch to simple options]
-Passer en paramètres simple
 [Please select a subentry from the list]
 Veuillez choisir une sous-entrée de la liste
 [Install database settings]
@@ -1925,7 +1923,7 @@ Femme
 
 [In love]
 Amoureux
-[It\'s complicated]
+[It's complicated]
 
 [In a civil union]
 
@@ -2233,8 +2231,6 @@ Erreur d'écriture du fichier
 Apparence
 [Sample text]
 Exemple
-[Fonts]
-Polices
 ;file \src\mir_app\src\FontService.cpp
 [Headers]
 
