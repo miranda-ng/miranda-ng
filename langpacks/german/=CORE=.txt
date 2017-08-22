@@ -795,8 +795,6 @@ Hiermit können Sie Kontakte zur Kontaktliste hinzufügen
 Hier können Sie Ihre Miranda-NG-Einstellungen anpassen.
 [Apply]
 Übernehmen
-[Switch to simple options]
-Einfache Ansicht der Einstellungen
 [Please select a subentry from the list]
 Bitte einen Unterpunkt aus der Baumstruktur auswählen.
 [Install database settings]
@@ -1925,7 +1923,7 @@ Verwitwet
 Aktiv suchend
 [In love]
 Verliebt
-[It\'s complicated]
+[It's complicated]
 Es ist kompliziert
 [In a civil union]
 Eingetragene Partnerschaft
@@ -2233,8 +2231,6 @@ Fehler beim Schreiben der Datei
 Customize
 [Sample text]
 Beispieltext
-[Fonts]
-Schriftarten
 ;file \src\mir_app\src\FontService.cpp
 [Headers]
 Kopfzeilen

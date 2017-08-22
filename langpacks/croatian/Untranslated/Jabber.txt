@@ -796,7 +796,6 @@
 [List Editor...]
 [No compatible file transfer mechanism exists]
 [Protocol is offline or no JID]
-[OMEMO session does not exist yet]
 [No valid OMEMO session exists]
 [Command completed successfully]
 [Error occurred during processing command]

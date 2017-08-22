@@ -795,8 +795,6 @@ Tu możesz dodać kontakty do listy kontaktów
 Skonfiguruj swoją Mirandę NG
 [Apply]
 Zastosuj
-[Switch to simple options]
-Przełącz do trybu prostego
 [Please select a subentry from the list]
 Proszę wybrać opcję z listy
 [Install database settings]
@@ -1925,7 +1923,7 @@ Wdowa/Wdowiec
 Poszukuję
 [In love]
 Zakochany
-[It\'s complicated]
+[It's complicated]
 Too.. skomplikowane
 [In a civil union]
 Małżeństwo cywilne
@@ -2233,8 +2231,6 @@ Błąd zapisu pliku
 Personalizacja
 [Sample text]
 Przykładowy Tekst
-[Fonts]
-Czcionka
 ;file \src\mir_app\src\FontService.cpp
 [Headers]
 Nagłówki

@@ -785,8 +785,6 @@
 Основной диалог настроек Miranda NG
 [Apply]
 Применить
-[Switch to simple options]
-Упрощённый вид настроек
 [Please select a subentry from the list]
 Выберите подраздел из списка
 [Install database settings]
@@ -1879,7 +1877,7 @@ Miranda не смогла загрузить встроенную систему
 В активном поиске
 [In love]
 Влюблённость
-[It\'s complicated]
+[It's complicated]
 Всё сложно
 [In a civil union]
 В незарегистрированном браке
@@ -2165,8 +2163,6 @@ Ctrl+Искать добавляет контакт
 Тонкая настройка
 [Sample text]
 Пример текста
-[Fonts]
-Шрифты
 [Headers]
 Заголовки
 [Generic text]

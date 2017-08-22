@@ -6,5 +6,4 @@
 [League Of Legends (EU West)]
 [League Of Legends (Oceania)]
 [League Of Legends (US)]
-[OMEMO session does not exist yet]
 [No valid OMEMO session exists]

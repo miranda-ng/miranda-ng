@@ -795,8 +795,6 @@ Ovde dodaješ kontakte u listu
 Konfiguracija programa Miranda NG
 [Apply]
 Primeni
-[Switch to simple options]
-Obična podešavanja
 [Please select a subentry from the list]
 Odabir pojedinačnog unosa
 [Install database settings]
@@ -1925,7 +1923,7 @@ Muško
 
 [In love]
 
-[It\'s complicated]
+[It's complicated]
 
 [In a civil union]
 
@@ -2233,8 +2231,6 @@ Greška pri upisu datoteke
 Podešavanja
 [Sample text]
 Primer teksta
-[Fonts]
-Fontovi
 ;file \src\mir_app\src\FontService.cpp
 [Headers]
 Zaglavlja

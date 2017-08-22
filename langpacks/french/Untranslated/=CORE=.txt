@@ -67,7 +67,7 @@
 [Separated]
 [Widowed]
 [Actively searching]
-[It\'s complicated]
+[It's complicated]
 [In a civil union]
 [ (set by %s on %s)]
 [%s enables '%s' status for %s]

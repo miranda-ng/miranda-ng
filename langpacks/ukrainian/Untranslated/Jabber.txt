@@ -6,6 +6,5 @@
 [League Of Legends (Oceania)]
 [League Of Legends (US)]
 [S.ms]
-[OMEMO session does not exist yet]
 [No valid OMEMO session exists]
 [Jabber vCard]
