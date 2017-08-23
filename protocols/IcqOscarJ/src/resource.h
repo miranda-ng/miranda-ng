@@ -2,7 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by D:\miranda-ng\protocols\IcqOscarJ\res\resources.rc
 //
-#define IDI_ICQ                         101
 #define IDS_IDENTIFY                    102
 #define IDD_ICQACCOUNT                  103
 #define IDD_ASKAUTH                     104

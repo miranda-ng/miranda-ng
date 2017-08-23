@@ -91,6 +91,11 @@ static int OnPreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
+IconItem iconList[] =
+{
+	{ LPGEN("Expand string edit"), "ICO_EXPANDSTRINGEDIT", IDI_EXPANDSTRINGEDIT }
+};
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -124,6 +129,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 
 	hExtraXStatus = ExtraIcon_RegisterIcolib("xstatus", LPGEN("ICQ xStatus"), "icq_xstatus13");
+
+	Icon_Register(hInst, "ICQ", iconList, _countof(iconList));
 
 	g_MenuInit();
 	return 0;

@@ -252,7 +252,7 @@ void ChangeInfoData::BeginStringEdit(int iItem, RECT *rc, int i, WORD wVKey)
 	if ((si.displayType & LIM_TYPE) == LI_LONGSTRING) {
 		rc->right -= rc->bottom - rc->top;
 		hwndExpandButton = CreateWindowA("BUTTON", "", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON | BS_ICON, rc->right, rc->top, rc->bottom - rc->top, rc->bottom - rc->top, hwndList, NULL, hInst, NULL);
-		SendMessage(hwndExpandButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_EXPANDSTRINGEDIT), IMAGE_ICON, 0, 0, LR_SHARED));
+		SendMessage(hwndExpandButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(iconList[0].hIcolib));
 		mir_subclassWindow(hwndExpandButton, ExpandButtonSubclassProc);
 	}
 

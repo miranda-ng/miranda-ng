@@ -117,3 +117,4 @@
 
 extern LIST<CIcqProto> g_Instances;
 extern bool g_bTerminated;
+extern IconItem iconList[];
