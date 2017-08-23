@@ -7,6 +7,10 @@
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Поддержка протокола Tox в Miranda NG.
+[The friend ID did not designate a valid friend]
+ID контакта не соответствует ни одному контакту
+[This client is currently not connected to the friend]
+В настоящее время отсутствует соединение с контактом
 [Create]
 Создать
 [Import]
