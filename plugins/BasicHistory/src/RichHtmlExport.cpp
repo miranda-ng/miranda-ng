@@ -284,7 +284,7 @@ bool DeleteDirectory(LPCTSTR lpszDir, bool noRecycleBin = true)
 void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstring &filterName, const std::wstring &myName, const std::wstring &myId, const std::wstring &name1, const std::wstring &proto1, const std::wstring &id1, const std::string& baseProto1, const std::wstring& encoding)
 {
 	baseProto = baseProto1;
-	folder = RemoveExt(fileName) + TranslateT("_files");
+	folder = RemoveExt(fileName) + L"_files";
 	folderName = GetName(folder);
 	DeleteDirectory(folder.c_str());
 	CreateDirectory(folder.c_str(), NULL);
