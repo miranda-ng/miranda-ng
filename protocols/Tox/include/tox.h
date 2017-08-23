@@ -1622,7 +1622,7 @@ typedef enum TOX_ERR_SET_TYPING {
     TOX_ERR_SET_TYPING_OK,
 
     /**
-     * The friend number did not designate a valid friend.
+     * The friend ID did not designate a valid friend.
      */
     TOX_ERR_SET_TYPING_FRIEND_NOT_FOUND,
 
@@ -1654,7 +1654,7 @@ typedef enum TOX_ERR_FRIEND_SEND_MESSAGE {
     TOX_ERR_FRIEND_SEND_MESSAGE_NULL,
 
     /**
-     * The friend number did not designate a valid friend.
+     * The friend ID did not designate a valid friend.
      */
     TOX_ERR_FRIEND_SEND_MESSAGE_FRIEND_NOT_FOUND,
 
@@ -2786,7 +2786,7 @@ typedef enum TOX_ERR_FRIEND_CUSTOM_PACKET {
     TOX_ERR_FRIEND_CUSTOM_PACKET_NULL,
 
     /**
-     * The friend number did not designate a valid friend.
+     * The friend ID did not designate a valid friend.
      */
     TOX_ERR_FRIEND_CUSTOM_PACKET_FRIEND_NOT_FOUND,
 

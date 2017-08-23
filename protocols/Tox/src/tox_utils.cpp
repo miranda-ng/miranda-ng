@@ -84,7 +84,7 @@ wchar_t* CToxProto::ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE error)
 	case TOX_ERR_FRIEND_SEND_MESSAGE_NULL:
 		return TranslateT("One of the arguments is missing");
 	case TOX_ERR_FRIEND_SEND_MESSAGE_FRIEND_NOT_FOUND:
-		return TranslateT("The friend number did not designate a valid friend");
+		return TranslateT("The friend ID did not designate a valid friend");
 	case TOX_ERR_FRIEND_SEND_MESSAGE_FRIEND_NOT_CONNECTED:
 		return TranslateT("This client is currently not connected to the friend");
 	case TOX_ERR_FRIEND_SEND_MESSAGE_SENDQ:
