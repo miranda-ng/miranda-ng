@@ -94,6 +94,9 @@ int LoadDefaultModules(void)
 	// load database drivers & service plugins without executing their Load()
 	if (LoadNewPluginsModuleInfos()) return 1;
 
+	if (GetPrivateProfileInt(L"Interface", L"DpiAware", 0, mirandabootini) == 1)
+		SetProcessDPIAware();
+
 	switch (LoadDefaultServiceModePlugin()) {
 	case SERVICE_CONTINUE:  // continue loading Miranda normally
 	case SERVICE_ONLYDB:    // load database and go to the message cycle
