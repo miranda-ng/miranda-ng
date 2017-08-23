@@ -2,7 +2,7 @@ option batch abort
 
 option confirm off
 
-open watcher
+open miranda-ng
 
 put %Arch%\Icons\*.zip distr/stable/x%tp%/Icons/
 put %Arch%\Languages\lang*.zip distr/stable/x%tp%/Languages/

@@ -7,12 +7,6 @@ set GIT_STATUS=%ERRORLEVEL%
 if %GIT_STATUS%==0 echo Git update success
 if not %GIT_STATUS%==0 goto :Error
 
-pushd bin10
-start /wait z1_ReBuild_w810.bat 32
-
-start /wait z1_ReBuild_w810.bat 64
-popd
-
 call z1_ReBuild_Full_Stable.bat 32
 
 call z1_ReBuild_Full_Stable.bat 64

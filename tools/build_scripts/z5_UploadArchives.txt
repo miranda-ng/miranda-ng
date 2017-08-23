@@ -2,7 +2,7 @@ option batch abort
 
 option confirm off
 
-open watcher
+open miranda-ng
 
 put "%ArchDistr%\miranda-ng-alpha-latest.7z" distr/
 put "%ArchDistr%\miranda-ng-alpha-latest_x64.7z" distr/

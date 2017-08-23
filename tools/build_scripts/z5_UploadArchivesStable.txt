@@ -2,7 +2,7 @@ option batch abort
 
 option confirm off
 
-open watcher
+open miranda-ng
 
 rm distr/stable/version.txt
 rm distr/stable/miranda-ng-v*.7z

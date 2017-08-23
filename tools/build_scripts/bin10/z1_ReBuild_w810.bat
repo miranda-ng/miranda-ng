@@ -7,8 +7,7 @@ if /i '%tp%' == '32' (
   set ptr=X64
 )
 
-call "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\Common7\Tools\VsDevCmd.bat"
-
+call "%VS120COMNTOOLS%\VsDevCmd.bat"
 
 MsBuild.exe "fwin8_10.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\fwin8_10%tp%.log;errorsonly;warningsonly;summary
 

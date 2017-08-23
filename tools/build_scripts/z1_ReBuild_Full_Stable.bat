@@ -12,12 +12,13 @@ call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat"
 call svn_stable_ver.bat
 
 pushd bin10
-if not exist log mkdir log
-REM if /i '%tp%' == '32' (
-REM if exist "Release" rd /Q /S "Release" >nul
-REM )
-REM if exist "Release%tp%" rd /Q /S "Release%tp%" >nul
-REM if exist "Symbols%tp%" rd /Q /S "Symbols%tp%" >nul
+if not exist Logs mkdir Logs
+
+if /i '%tp%' == '32' (
+  if exist "Release" rd /Q /S "Release" >nul
+)
+if exist "Release%tp%" rd /Q /S "Release%tp%" >nul
+if exist "Symbols%tp%" rd /Q /S "Symbols%tp%" >nul
 
 if exist "..\include\m_version.h" del /F /Q "..\include\m_version.h"
 pushd ..\build
@@ -25,6 +26,7 @@ call make_ver_stable.bat
 popd
 
 MsBuild.exe "full.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\full%tp%.log;errorsonly;warningsonly;summary
+start /wait z1_ReBuild_w810.bat %tp%
 call pascal%tp%.bat
 pushd ..\plugins\NotifyAnything\SendLog
 call compile%tp%.bat
