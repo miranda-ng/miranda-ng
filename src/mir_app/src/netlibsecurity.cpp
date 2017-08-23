@@ -92,9 +92,7 @@ MIR_APP_DLL(HANDLE) Netlib_InitSecurityProvider(const wchar_t *szProvider, const
 	mir_cslock lck(csSec);
 
 	PSecPkgInfo ntlmSecurityPackageInfo;
-	bool isGSSAPI = mir_wstrcmpi(szProvider, L"GSSAPI") == 0;
-	const wchar_t *szProviderC = isGSSAPI ? L"Kerberos" : szProvider;
-	SECURITY_STATUS sc = QuerySecurityPackageInfo((LPTSTR)szProviderC, &ntlmSecurityPackageInfo);
+	SECURITY_STATUS sc = QuerySecurityPackageInfo((LPTSTR)szProvider, &ntlmSecurityPackageInfo);
 	if (sc == SEC_E_OK) {
 		NtlmHandleType* hNtlm;
 
@@ -217,8 +215,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 
 	NtlmHandleType *hNtlm = (NtlmHandleType*)hSecurity;
 	if (mir_wstrcmpi(hNtlm->szProvider, L"Basic")) {
-		bool isGSSAPI = mir_wstrcmpi(hNtlm->szProvider, L"GSSAPI") == 0;
-		wchar_t *szProvider = isGSSAPI ? (wchar_t*)L"Kerberos" : hNtlm->szProvider;
+		bool isGSSAPI = mir_wstrcmpi(hNtlm->szProvider, L"Kerberos") == 0;
 		bool hasChallenge = szChallenge != nullptr && szChallenge[0] != '\0';
 		if (hasChallenge) {
 			unsigned tokenLen;
@@ -307,7 +304,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 				hNtlm->hasDomain = domainLen != 0;
 			}
 
-			SECURITY_STATUS sc = AcquireCredentialsHandle(nullptr, szProvider, SECPKG_CRED_OUTBOUND, nullptr, hNtlm->hasDomain ? &auth : nullptr, nullptr, nullptr, &hNtlm->hClientCredential, &tokenExpiration);
+			SECURITY_STATUS sc = AcquireCredentialsHandle(nullptr, hNtlm->szProvider, SECPKG_CRED_OUTBOUND, nullptr, hNtlm->hasDomain ? &auth : nullptr, nullptr, nullptr, &hNtlm->hClientCredential, &tokenExpiration);
 			if (sc != SEC_E_OK) {
 				ReportSecError(sc, __LINE__);
 				return nullptr;
@@ -326,7 +323,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 			hNtlm->szPrincipal, isGSSAPI ? ISC_REQ_MUTUAL_AUTH | ISC_REQ_STREAM : 0, 0, SECURITY_NATIVE_DREP,
 			hasChallenge ? &inputBufferDescriptor : nullptr, 0, &hNtlm->hClientContext,
 			&outputBufferDescriptor, &contextAttributes, &tokenExpiration);
-		Netlib_Logf(nullptr, "InitializeSecurityContext(%S): 0x%x", szProvider, sc);
+		Netlib_Logf(nullptr, "InitializeSecurityContext(%S): 0x%x", hNtlm->szProvider, sc);
 
 		complete = (sc != SEC_I_COMPLETE_AND_CONTINUE && sc != SEC_I_CONTINUE_NEEDED);
 		if (!complete) {
