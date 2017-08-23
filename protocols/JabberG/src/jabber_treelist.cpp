@@ -46,7 +46,7 @@ struct TTreeList_ItemInfo
 	LIST<TTreeList_ItemInfo> subItems;
 
 	TTreeList_ItemInfo(int columns = 3, int children = 5):
-		text(columns), subItems(children), parent(NULL),
+		text(columns), subItems(children), parent(nullptr),
 		flags(0), indent(0), sortIndex(0), iIcon(0), iOverlay(0), data(0) {}
 	~TTreeList_ItemInfo()
 	{
@@ -68,10 +68,10 @@ struct TTreeList_Data
 	TTreeList_Data()
 	{
 		sortMode = 0;
-		filter = NULL;
+		filter = nullptr;
 		mode = TLM_TREE;
-		root = NULL;
-		hItemSelected = NULL;
+		root = nullptr;
+		hItemSelected = nullptr;
 	}
 	~TTreeList_Data()
 	{
@@ -182,7 +182,7 @@ void TreeList_SetFilter(HWND hwnd, wchar_t *filter)
 {
 	TTreeList_Data *data = (TTreeList_Data *)sttTreeList_GeWindowData(hwnd);
 	if (data->filter) mir_free(data->filter);
-	data->filter = NULL;
+	data->filter = nullptr;
 	if (filter) data->filter = mir_wstrdup(filter);
 	TreeList_Update(hwnd);
 }
@@ -194,7 +194,7 @@ HTREELISTITEM TreeList_GetActiveItem(HWND hwnd)
 	lvi.mask = LVIF_PARAM;
 	lvi.iItem = ListView_GetNextItem(hwnd, -1, LVNI_SELECTED);
 	if (lvi.iItem < 0)
-		return (data->hItemSelected->flags & TLIF_ROOT) ? NULL : data->hItemSelected;
+		return (data->hItemSelected->flags & TLIF_ROOT) ? nullptr : data->hItemSelected;
 	ListView_GetItem(hwnd, &lvi);
 	return (HTREELISTITEM)lvi.lParam;
 }

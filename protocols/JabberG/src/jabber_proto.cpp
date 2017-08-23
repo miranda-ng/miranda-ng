@@ -73,7 +73,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_lstJabberFeatCapPairsDynamic(2),
 	m_uEnabledFeatCapsDynamic(0)
 {
-	m_szXmlStreamToBeInitialized = NULL;
+	m_szXmlStreamToBeInitialized = nullptr;
 
 	debugLogA("Setting protocol/module name to '%s'", m_szModuleName);
 
@@ -153,7 +153,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	db_set_resident(m_szModuleName, "Auth");
 	db_set_resident(m_szModuleName, "Grant");
 
-	if ((m_tszSelectedLang = getWStringA("XmlLang")) == NULL)
+	if ((m_tszSelectedLang = getWStringA("XmlLang")) == nullptr)
 		m_tszSelectedLang = mir_wstrdup(L"en");
 }
 
@@ -251,11 +251,11 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 
 		if (getByte(hContact, "IsTransport", 0)) {
 			ptrW jid(getWStringA(hContact, "jid"));
-			if (jid == NULL)
+			if (jid == nullptr)
 				continue;
 
 			wchar_t *resourcepos = wcschr(jid, '/');
-			if (resourcepos != NULL)
+			if (resourcepos != nullptr)
 				*resourcepos = '\0';
 
 			m_lstTransports.insert(mir_wstrdup(jid));
@@ -305,7 +305,7 @@ MCONTACT CJabberProto::AddToListByJID(const wchar_t *newJid, DWORD flags)
 {
 	debugLogW(L"AddToListByJID jid = %s", newJid);
 
-	MCONTACT hContact = DBCreateContact(newJid, NULL, true, false);
+	MCONTACT hContact = DBCreateContact(newJid, nullptr, true, false);
 	if (flags & PALF_TEMPORARY)
 		db_set_b(hContact, "CList", "Hidden", 1);
 
@@ -314,8 +314,8 @@ MCONTACT CJabberProto::AddToListByJID(const wchar_t *newJid, DWORD flags)
 
 MCONTACT CJabberProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	if (psr->cbSize != sizeof(PROTOSEARCHRESULT) && psr->id.w == NULL)
-		return NULL;
+	if (psr->cbSize != sizeof(PROTOSEARCHRESULT) && psr->id.w == nullptr)
+		return 0;
 
 	return AddToListByJID(psr->id.w, flags);
 }
@@ -326,15 +326,15 @@ MCONTACT __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, MEV
 
 	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
-		return NULL;
-	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == NULL)
-		return NULL;
+		return 0;
+	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == nullptr)
+		return 0;
 	if (db_event_get(hDbEvent, &dbei))
-		return NULL;
+		return 0;
 	if (mir_strcmp(dbei.szModule, m_szModuleName))
-		return NULL;
+		return 0;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
-		return NULL;
+		return 0;
 
 	DB_AUTH_BLOB blob(dbei.pBlob);
 	return AddToListByJID(ptrW(dbei.getString(blob.get_email())), flags);
@@ -351,7 +351,7 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return 1;
-	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == NULL)
+	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == nullptr)
 		return 1;
 	if (db_event_get(hDbEvent, &dbei))
 		return 1;
@@ -370,7 +370,7 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 	// Automatically add this user to my roster if option is enabled
 	if (m_options.AutoAdd == TRUE) {
 		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, newJid);
-		if (item == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
+		if (item == nullptr || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
 			debugLogW(L"Try adding contact automatically jid = %s", blob.get_email());
 			if (MCONTACT hContact = AddToListByJID(newJid, 0)) {
 				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
@@ -399,7 +399,7 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 		return 1;
 
 	mir_ptr<BYTE> pBlob((PBYTE)mir_alloc(dbei.cbBlob));
-	if ((dbei.pBlob = pBlob) == NULL)
+	if ((dbei.pBlob = pBlob) == nullptr)
 		return 1;
 
 	if (db_event_get(hDbEvent, &dbei))
@@ -466,13 +466,13 @@ int __cdecl CJabberProto::FileCancel(MCONTACT, HANDLE hTransfer)
 			debugLogA("Closing ft->s = %d", ft->s);
 			ft->state = FT_ERROR;
 			Netlib_CloseHandle(ft->s);
-			ft->s = NULL;
-			if (ft->hFileEvent != NULL) {
+			ft->s = nullptr;
+			if (ft->hFileEvent != nullptr) {
 				hEvent = ft->hFileEvent;
-				ft->hFileEvent = NULL;
+				ft->hFileEvent = nullptr;
 				SetEvent(hEvent);
 			}
-			debugLogA("ft->s is now NULL, ft->state is now FT_ERROR");
+			debugLogA("ft->s is now nullptr, ft->state is now FT_ERROR");
 		}
 	}
 	else FtCancel(ft);
@@ -513,7 +513,7 @@ int __cdecl CJabberProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t *)
 int __cdecl CJabberProto::FileResume(HANDLE hTransfer, int *action, const wchar_t **szFilename)
 {
 	filetransfer *ft = (filetransfer*)hTransfer;
-	if (!m_bJabberOnline || ft == NULL)
+	if (!m_bJabberOnline || ft == nullptr)
 		return 1;
 
 	if (*action == FILERESUME_RENAME)
@@ -564,7 +564,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 		return 1;
 
 	JabberStripJid(jid, szBareJid, _countof(szBareJid));
-	bool bUseResource = ListGetItemPtr(LIST_CHATROOM, szBareJid) != NULL;
+	bool bUseResource = ListGetItemPtr(LIST_CHATROOM, szBareJid) != nullptr;
 
 	if (m_ThreadInfo) {
 		m_ThreadInfo->send(
@@ -576,14 +576,14 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 		iq2 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
 		m_ThreadInfo->send(iq2);
 
-		JABBER_LIST_ITEM *item = NULL;
+		JABBER_LIST_ITEM *item = nullptr;
 
-		if ((item = ListGetItemPtr(LIST_VCARD_TEMP, jid)) == NULL)
+		if ((item = ListGetItemPtr(LIST_VCARD_TEMP, jid)) == nullptr)
 			item = ListGetItemPtr(LIST_ROSTER, jid);
 
-		if (item == NULL) {
+		if (item == nullptr) {
 			bool bHasResource = mir_wstrcmp(jid, szBareJid) != 0;
-			JABBER_LIST_ITEM *tmpItem = NULL;
+			JABBER_LIST_ITEM *tmpItem = nullptr;
 			if (bHasResource && (tmpItem = ListGetItemPtr(LIST_CHATROOM, szBareJid))) {
 				pResourceStatus him(tmpItem->findResource(szBareJid+mir_wstrlen(szBareJid)+1));
 				if (him) {
@@ -594,7 +594,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 			else item = ListAdd(LIST_VCARD_TEMP, jid, hContact);
 		}
 
-		if (item != NULL) {
+		if (item != nullptr) {
 			if (item->arResources.getCount()) {
 				for (int i = 0; i < item->arResources.getCount(); i++) {
 					pResourceStatus r(item->arResources[i]);
@@ -643,8 +643,8 @@ void __cdecl CJabberProto::BasicSearchThread(JABBER_SEARCH_BASIC *jsb)
 	psr.lastName.w = L"";
 	psr.id.w = jsb->jid;
 
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)jsb->hSearch, (LPARAM)&psr);
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)jsb->hSearch, 0);
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)jsb->hSearch, (LPARAM)&psr);
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)jsb->hSearch, 0);
 	mir_free(jsb);
 }
 
@@ -653,20 +653,20 @@ HANDLE __cdecl CJabberProto::SearchBasic(const wchar_t *szJid)
 	debugLogW(L"JabberBasicSearch called with lParam = '%s'", szJid);
 
 	JABBER_SEARCH_BASIC *jsb;
-	if (!m_bJabberOnline || (jsb = (JABBER_SEARCH_BASIC*)mir_alloc(sizeof(JABBER_SEARCH_BASIC))) == NULL)
+	if (!m_bJabberOnline || (jsb = (JABBER_SEARCH_BASIC*)mir_alloc(sizeof(JABBER_SEARCH_BASIC))) == nullptr)
 		return 0;
 
-	if (wcschr(szJid, '@') == NULL) {
+	if (wcschr(szJid, '@') == nullptr) {
 		wchar_t *szServer = mir_a2u(m_ThreadInfo->conn.server);
 		const wchar_t *p = wcsstr(szJid, szServer);
-		if (p == NULL) {
+		if (p == nullptr) {
 			bool numericjid = true;
 			for (const wchar_t *i = szJid; *i && numericjid; i++)
 				numericjid = (*i >= '0') && (*i <= '9');
 
 			mir_free(szServer);
-			szServer = getWStringA(NULL, "LoginServer");
-			if (szServer == NULL)
+			szServer = getWStringA(0, "LoginServer");
+			if (szServer == nullptr)
 				szServer = mir_wstrdup(L"jabber.org");
 			else if (numericjid && !mir_wstrcmpi(szServer, L"S.ms")) {
 				mir_free(szServer);
@@ -690,7 +690,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const wchar_t *szJid)
 
 HANDLE __cdecl CJabberProto::SearchByEmail(const wchar_t *email)
 {
-	if (!m_bJabberOnline || email == NULL)
+	if (!m_bJabberOnline || email == nullptr)
 		return 0;
 
 	ptrA szServerName(getStringA("Jud"));
@@ -707,7 +707,7 @@ HANDLE __cdecl CJabberProto::SearchByEmail(const wchar_t *email)
 HANDLE __cdecl CJabberProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
 {
 	if (!m_bJabberOnline)
-		return NULL;
+		return nullptr;
 
 	BOOL bIsExtFormat = m_options.ExtendedSearch;
 
@@ -781,7 +781,7 @@ int __cdecl CJabberProto::SendContacts(MCONTACT hContact, int, int nContacts, MC
 
 	for (int i = 0; i < nContacts; i++) {
 		ptrW jid(getWStringA(hContactsList[i], "jid"));
-		if (jid != NULL)
+		if (jid != nullptr)
 			x << XCHILD(L"item") << XATTR(L"action", L"add") << XATTR(L"jid", jid);
 	}
 
@@ -801,16 +801,16 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescri
 		return 0;
 
 	ptrW jid(getWStringA(hContact, "jid"));
-	if (jid == NULL)
+	if (jid == nullptr)
 		return 0;
 
 	struct _stati64 statbuf;
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
-	if (item == NULL)
+	if (item == nullptr)
 		return 0;
 
 	// Check if another file transfer session request is pending (waiting for disco result)
-	if (item->ft != NULL)
+	if (item->ft != nullptr)
 		return 0;
 
 	JabberCapsBits jcb = GetResourceCapabilites(item->jid, true);
@@ -842,7 +842,7 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescri
 
 	filetransfer *ft = new filetransfer(this);
 	ft->std.hContact = hContact;
-	while (ppszFiles[ft->std.totalFiles] != NULL)
+	while (ppszFiles[ft->std.totalFiles] != nullptr)
 		ft->std.totalFiles++;
 
 	ft->std.ptszFiles = (wchar_t**)mir_calloc(sizeof(wchar_t*)* ft->std.totalFiles);
@@ -861,7 +861,7 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescri
 	}
 	if (j == 0) {
 		delete ft;
-		return NULL;
+		return nullptr;
 	}
 
 	ft->std.tszCurrentFile = mir_wstrdup(ppszFiles[0]);
@@ -939,11 +939,11 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const c
 
 	wchar_t *msg;
 	mir_utf8decode(NEWSTR_ALLOCA(pszSrc), &msg);
-	if (msg == NULL)
+	if (msg == nullptr)
 		return 0;
 
 	wchar_t *msgType;
-	if (ListGetItemPtr(LIST_CHATROOM, szClientJid) && wcschr(szClientJid, '/') == NULL)
+	if (ListGetItemPtr(LIST_CHATROOM, szClientJid) && wcschr(szClientJid, '/') == nullptr)
 		msgType = L"groupchat";
 	else
 		msgType = L"chat";
@@ -1037,7 +1037,7 @@ int __cdecl CJabberProto::SetApparentMode(MCONTACT hContact, int mode)
 		return 0;
 
 	ptrW jid(getWStringA(hContact, "jid"));
-	if (jid == NULL)
+	if (jid == nullptr)
 		return 0;
 
 	switch (mode) {
@@ -1047,13 +1047,13 @@ int __cdecl CJabberProto::SetApparentMode(MCONTACT hContact, int mode)
 		break;
 	case ID_STATUS_OFFLINE:
 		if (m_iStatus != ID_STATUS_INVISIBLE || oldMode == ID_STATUS_ONLINE)
-			SendPresenceTo(ID_STATUS_INVISIBLE, jid, NULL);
+			SendPresenceTo(ID_STATUS_INVISIBLE, jid, nullptr);
 		break;
 	case 0:
 		if (oldMode == ID_STATUS_ONLINE && m_iStatus == ID_STATUS_INVISIBLE)
-			SendPresenceTo(ID_STATUS_INVISIBLE, jid, NULL);
+			SendPresenceTo(ID_STATUS_INVISIBLE, jid, nullptr);
 		else if (oldMode == ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_INVISIBLE)
-			SendPresenceTo(m_iStatus, jid, NULL);
+			SendPresenceTo(m_iStatus, jid, nullptr);
 		break;
 	}
 
@@ -1082,19 +1082,19 @@ int __cdecl CJabberProto::SetStatus(int iNewStatus)
 		}
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
 	else if (!m_ThreadInfo && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-		ForkThread((MyThreadFunc)&CJabberProto::ServerThread, NULL);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		ForkThread((MyThreadFunc)&CJabberProto::ServerThread, nullptr);
 
 		RebuildInfoFrame();
 	}
 	else if (m_bJabberOnline)
 		SetServerStatus(iNewStatus);
 	else
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 	return 0;
 }
@@ -1109,9 +1109,9 @@ void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 	MCONTACT hContact = (DWORD_PTR)param;
 
 	ptrW jid(getWStringA(hContact, "jid"));
-	if (jid != NULL) {
+	if (jid != nullptr) {
 		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
-		if (item != NULL) {
+		if (item != nullptr) {
 			if (item->arResources.getCount() > 0) {
 				debugLogA("arResources.getCount() > 0");
 				int msgCount = 0;
@@ -1144,7 +1144,7 @@ void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 			}
 
 			wchar_t *tszStatusMsg = item->getTemp()->m_tszStatusMessage;
-			if (tszStatusMsg != NULL) {
+			if (tszStatusMsg != nullptr) {
 				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)tszStatusMsg);
 				return;
 			}
@@ -1202,7 +1202,7 @@ int __cdecl CJabberProto::SetAwayMsg(int status, const wchar_t *msg)
 		return 1;
 	}
 
-	if ((*szMsg == NULL && msg == NULL) || (*szMsg != NULL && msg != NULL && !mir_wstrcmp(*szMsg, msg)))
+	if ((*szMsg == nullptr && msg == nullptr) || (*szMsg != nullptr && msg != nullptr && !mir_wstrcmp(*szMsg, msg)))
 		return 0; // Message is the same, no update needed
 
 	// Update with the new mode message
@@ -1227,7 +1227,7 @@ int __cdecl CJabberProto::UserIsTyping(MCONTACT hContact, int type)
 		return 0;
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, szClientJid);
-	if (item == NULL)
+	if (item == nullptr)
 		return 0;
 
 	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, true);
@@ -1251,7 +1251,7 @@ int __cdecl CJabberProto::UserIsTyping(MCONTACT hContact, int type)
 	}
 	else if (jcb & JABBER_CAPS_MESSAGE_EVENTS) {
 		HXML x = m << XCHILDNS(L"x", JABBER_FEAT_MESSAGE_EVENTS);
-		if (item->messageEventIdStr != NULL)
+		if (item->messageEventIdStr != nullptr)
 			x << XCHILD(L"id", item->messageEventIdStr);
 
 		switch (type) {
@@ -1283,7 +1283,7 @@ void CJabberProto::InfoFrame_OnTransport(CJabberInfoFrame_Event *evt)
 		HMENU hContactMenu = Menu_BuildContactMenu(hContact);
 		POINT pt;
 		GetCursorPos(&pt);
-		int res = TrackPopupMenu(hContactMenu, TPM_RETURNCMD, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
+		int res = TrackPopupMenu(hContactMenu, TPM_RETURNCMD, pt.x, pt.y, 0, pcli->hwndContactList, nullptr);
 		Clist_MenuProcessCommand(res, MPCF_CONTACTMENU, hContact);
 	}
 }

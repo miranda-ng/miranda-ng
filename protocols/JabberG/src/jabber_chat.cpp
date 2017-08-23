@@ -128,19 +128,19 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 
 	ptrW szNick(JabberNickFromJID(item->jid));
 	GCSessionInfoBase *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, item->jid, szNick);
-	if (si != NULL) {
+	if (si != nullptr) {
 		item->hContact = si->hContact;
 
 		if (JABBER_LIST_ITEM *bookmark = ListGetItemPtr(LIST_BOOKMARK, item->jid)) {
 			if (bookmark->name) {
 				ptrW myHandle(db_get_wsa(si->hContact, "CList", "MyHandle"));
-				if (myHandle == NULL)
+				if (myHandle == nullptr)
 					db_set_ws(si->hContact, "CList", "MyHandle", bookmark->name);
 			}
 		}
 
 		ptrW tszNick(getWStringA(si->hContact, "MyNick"));
-		if (tszNick != NULL) {
+		if (tszNick != nullptr) {
 			if (!mir_wstrcmp(tszNick, szNick))
 				delSetting(si->hContact, "MyNick");
 			else
@@ -197,7 +197,7 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 
 	case INFO_AFFILIATION:
 		if (m_options.GcLogAffiliations) {
-			wchar_t *name = NULL;
+			wchar_t *name = nullptr;
 			switch (user->m_affiliation) {
 			case AFFILIATION_NONE:		name = TranslateT("None"); break;
 			case AFFILIATION_MEMBER:	name = TranslateT("Member"); break;
@@ -212,7 +212,7 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 
 	case INFO_ROLE:
 		if (m_options.GcLogRoles) {
-			wchar_t *name = NULL;
+			wchar_t *name = nullptr;
 			switch (user->m_role) {
 			case ROLE_NONE:			name = TranslateT("None"); break;
 			case ROLE_VISITOR:		name = TranslateT("Visitor"); break;
@@ -245,7 +245,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const wchar_t
 	int statusToSet = 0;
 
 	const wchar_t *szReason = XmlGetText(reason);
-	if (szReason == NULL) {
+	if (szReason == nullptr) {
 		if (nStatusCode == 322)
 			szReason = TranslateT("because room is now members-only");
 		else if (nStatusCode == 301)
@@ -253,14 +253,14 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const wchar_t
 	}
 
 	ptrW myNick(mir_wstrdup(item->nick));
-	if (myNick == NULL)
+	if (myNick == nullptr)
 		myNick = JabberNickFromJID(m_szJabberJID);
 
 	GCDEST gcd = { m_szModuleName, item->jid };
 	GCEVENT gce = { &gcd };
 	gce.ptszNick = nick;
 	gce.ptszUID = resource;
-	if (jid != NULL)
+	if (jid != nullptr)
 		gce.ptszUserInfo = jid;
 	gce.ptszText = szReason;
 	if (item->bChatActive == 2) {
@@ -313,18 +313,18 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const wchar_t
 
 void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 {
-	wchar_t *szMessage = NULL;
+	wchar_t *szMessage = nullptr;
 
 	if (code != 307 && code != 301) {
 		ptrW tszMessage(getWStringA("GcMsgQuit"));
-		if (tszMessage != NULL)
+		if (tszMessage != nullptr)
 			szMessage = NEWWSTR_ALLOCA(tszMessage);
 		else
 			szMessage = TranslateW(JABBER_GC_MSG_QUIT);
 	}
 	else {
 		ptrW myNick(JabberNickFromJID(m_szJabberJID));
-		GcLogUpdateMemberStatus(item, myNick, myNick, NULL, GC_EVENT_KICK, reason);
+		GcLogUpdateMemberStatus(item, myNick, myNick, nullptr, GC_EVENT_KICK, reason);
 	}
 
 	if (code == 200)
@@ -389,7 +389,7 @@ static gc_item sttLogListItems[] =
 {
 	{ LPGENW("Change &nickname"), IDM_NICK, MENU_ITEM },
 	{ LPGENW("&Invite a user"), IDM_INVITE, MENU_ITEM },
-	{ NULL, 0, MENU_SEPARATOR },
+	{ nullptr, 0, MENU_SEPARATOR },
 
 	{ LPGENW("&Roles"), IDM_ROLE, MENU_NEWPOPUP },
 	{ LPGENW("&Participant list"), IDM_LST_PARTICIPANT, MENU_POPUPITEM },
@@ -399,7 +399,7 @@ static gc_item sttLogListItems[] =
 	{ LPGENW("&Member list"), IDM_LST_MEMBER, MENU_POPUPITEM },
 	{ LPGENW("&Admin list"), IDM_LST_ADMIN, MENU_POPUPITEM },
 	{ LPGENW("&Owner list"), IDM_LST_OWNER, MENU_POPUPITEM },
-	{ NULL, 0, MENU_POPUPSEPARATOR },
+	{ nullptr, 0, MENU_POPUPSEPARATOR },
 	{ LPGENW("Outcast list (&ban)"), IDM_LST_BAN, MENU_POPUPITEM },
 
 	{ LPGENW("&Room options"), 0, MENU_NEWPOPUP },
@@ -408,23 +408,23 @@ static gc_item sttLogListItems[] =
 	{ LPGENW("&Configure..."), IDM_CONFIG, MENU_POPUPITEM },
 	{ LPGENW("&Destroy room"), IDM_DESTROY, MENU_POPUPITEM },
 
-	{ NULL, 0, MENU_SEPARATOR },
+	{ nullptr, 0, MENU_SEPARATOR },
 
 	{ LPGENW("Lin&ks"), 0, MENU_NEWPOPUP },
-	{ NULL, IDM_LINK0, 0 },
-	{ NULL, IDM_LINK1, 0 },
-	{ NULL, IDM_LINK2, 0 },
-	{ NULL, IDM_LINK3, 0 },
-	{ NULL, IDM_LINK4, 0 },
-	{ NULL, IDM_LINK5, 0 },
-	{ NULL, IDM_LINK6, 0 },
-	{ NULL, IDM_LINK7, 0 },
-	{ NULL, IDM_LINK8, 0 },
-	{ NULL, IDM_LINK9, 0 },
+	{ nullptr, IDM_LINK0, 0 },
+	{ nullptr, IDM_LINK1, 0 },
+	{ nullptr, IDM_LINK2, 0 },
+	{ nullptr, IDM_LINK3, 0 },
+	{ nullptr, IDM_LINK4, 0 },
+	{ nullptr, IDM_LINK5, 0 },
+	{ nullptr, IDM_LINK6, 0 },
+	{ nullptr, IDM_LINK7, 0 },
+	{ nullptr, IDM_LINK8, 0 },
+	{ nullptr, IDM_LINK9, 0 },
 
 	{ LPGENW("Copy room &JID"), IDM_CPY_RJID, MENU_ITEM },
 	{ LPGENW("Copy room topic"), IDM_CPY_TOPIC, MENU_ITEM },
-	{ NULL, 0, MENU_SEPARATOR },
+	{ nullptr, 0, MENU_SEPARATOR },
 
 	{ LPGENW("&Send presence"), 0, MENU_NEWPOPUP },
 	{ LPGENW("Online"), IDM_PRESENCE_ONLINE, MENU_POPUPITEM },
@@ -449,18 +449,18 @@ static gc_item sttListItems[] =
 	{ LPGENW("&Copy to clipboard"), IDM_RJID_COPY, MENU_POPUPITEM },
 
 	{ LPGENW("Invite to room"), 0, MENU_NEWPOPUP },
-	{ NULL, IDM_LINK0, 0 },
-	{ NULL, IDM_LINK1, 0 },
-	{ NULL, IDM_LINK2, 0 },
-	{ NULL, IDM_LINK3, 0 },
-	{ NULL, IDM_LINK4, 0 },
-	{ NULL, IDM_LINK5, 0 },
-	{ NULL, IDM_LINK6, 0 },
-	{ NULL, IDM_LINK7, 0 },
-	{ NULL, IDM_LINK8, 0 },
-	{ NULL, IDM_LINK9, 0 },
+	{ nullptr, IDM_LINK0, 0 },
+	{ nullptr, IDM_LINK1, 0 },
+	{ nullptr, IDM_LINK2, 0 },
+	{ nullptr, IDM_LINK3, 0 },
+	{ nullptr, IDM_LINK4, 0 },
+	{ nullptr, IDM_LINK5, 0 },
+	{ nullptr, IDM_LINK6, 0 },
+	{ nullptr, IDM_LINK7, 0 },
+	{ nullptr, IDM_LINK8, 0 },
+	{ nullptr, IDM_LINK9, 0 },
 
-	{ NULL, 0, MENU_SEPARATOR },
+	{ nullptr, 0, MENU_SEPARATOR },
 
 	{ LPGENW("Set &role"), IDM_ROLE, MENU_NEWPOPUP },
 	{ LPGENW("&Visitor"), IDM_SET_VISITOR, MENU_POPUPITEM },
@@ -472,11 +472,11 @@ static gc_item sttListItems[] =
 	{ LPGENW("&Member"), IDM_SET_MEMBER, MENU_POPUPITEM },
 	{ LPGENW("&Admin"), IDM_SET_ADMIN, MENU_POPUPITEM },
 	{ LPGENW("&Owner"), IDM_SET_OWNER, MENU_POPUPITEM },
-	{ NULL, 0, MENU_POPUPSEPARATOR },
+	{ nullptr, 0, MENU_POPUPSEPARATOR },
 	{ LPGENW("Outcast (&ban)"), IDM_SET_BAN, MENU_POPUPITEM },
 
 	{ LPGENW("&Kick"), IDM_KICK, MENU_ITEM },
-	{ NULL, 0, MENU_SEPARATOR },
+	{ nullptr, 0, MENU_SEPARATOR },
 	{ LPGENW("Copy &nickname"), IDM_CPY_NICK, MENU_ITEM },
 	{ LPGENW("Copy real &JID"), IDM_CPY_RJID, MENU_ITEM },
 	{ LPGENW("Copy in-room JID"), IDM_CPY_INROOMJID, MENU_ITEM }
@@ -485,17 +485,17 @@ static gc_item sttListItems[] =
 int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS* gcmi = (GCMENUITEMS*)lParam;
-	if (gcmi == NULL)
+	if (gcmi == nullptr)
 		return 0;
 
 	if (mir_strcmpi(gcmi->pszModule, m_szModuleName))
 		return 0;
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, gcmi->pszID);
-	if (item == NULL)
+	if (item == nullptr)
 		return 0;
 
-	pResourceStatus me(NULL), him(NULL);
+	pResourceStatus me(nullptr), him(nullptr);
 	for (int i = 0; i < item->arResources.getCount(); i++) {
 		JABBER_RESOURCE_STATUS *p = item->arResources[i];
 		if (!mir_wstrcmp(p->m_tszResourceName, item->nick))
@@ -658,7 +658,7 @@ class CGroupchatInviteDlg : public CJabberDlgBase
 
 	void ResetListOptions(CCtrlClc *)
 	{
-		m_clc.SetBkBitmap(0, NULL);
+		m_clc.SetBkBitmap(0, nullptr);
 		m_clc.SetBkColor(GetSysColor(COLOR_WINDOW));
 		m_clc.SetGreyoutFlags(0);
 		m_clc.SetLeftMargin(4);
@@ -683,7 +683,7 @@ class CGroupchatInviteDlg : public CJabberDlgBase
 
 public:
 	CGroupchatInviteDlg(CJabberProto *ppro, const wchar_t *room) :
-		CSuper(ppro, IDD_GROUPCHAT_INVITE, NULL),
+		CSuper(ppro, IDD_GROUPCHAT_INVITE, nullptr),
 		m_newJids(1),
 		m_btnInvite(this, IDC_INVITE),
 		m_txtNewJid(this, IDC_NEWJID),
@@ -768,7 +768,7 @@ public:
 			if (int hItem = SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0)) {
 				if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 					ptrW jid(m_proto->getWStringA(hContact, "jid"));
-					if (jid != NULL)
+					if (jid != nullptr)
 						InviteUser(jid, text);
 				}
 			}
@@ -972,7 +972,7 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* gch)
 {
 	pResourceStatus me(item->findResource(item->nick)), him(item->findResource(gch->ptszUID));
-	if (him == NULL || me == NULL)
+	if (him == nullptr || me == nullptr)
 		return;
 
 	// 1 kick per second, prevents crashes...
@@ -992,7 +992,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 	case IDM_SLAP:
 		if (ppro->m_bJabberOnline) {
 			ptrW szMessage(ppro->getWStringA("GcMsgSlap"));
-			if (szMessage == NULL)
+			if (szMessage == nullptr)
 				szMessage = mir_wstrdup(TranslateW(JABBER_GC_MSG_SLAP));
 
 			wchar_t buf[256];
@@ -1031,7 +1031,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			dat->him = him;
 			dat->item = item;
 			dat->ppro = ppro;
-			HWND hwndInfo = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_GROUPCHAT_INFO), NULL, sttUserInfoDlgProc, (LPARAM)dat);
+			HWND hwndInfo = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_GROUPCHAT_INFO), nullptr, sttUserInfoDlgProc, (LPARAM)dat);
 			ShowWindow(hwndInfo, SW_SHOW);
 		}
 		break;
@@ -1258,10 +1258,10 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		if (item->nick)
 			szBuffer = item->nick;
 		if (ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_")) {
-			if (ppro->ListGetItemPtr(LIST_CHATROOM, gch->pDest->ptszID) != NULL) {
+			if (ppro->ListGetItemPtr(LIST_CHATROOM, gch->pDest->ptszID) != nullptr) {
 				wchar_t text[1024];
 				mir_snwprintf(text, L"%s/%s", gch->pDest->ptszID, szBuffer.c_str());
-				ppro->SendPresenceTo(ppro->m_iStatus == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : ppro->m_iStatus, text, NULL);
+				ppro->SendPresenceTo(ppro->m_iStatus == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : ppro->m_iStatus, text, nullptr);
 			}
 		}
 		break;
@@ -1278,9 +1278,9 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 
 	case IDM_BOOKMARKS:
 		item = ppro->ListGetItemPtr(LIST_BOOKMARK, gch->pDest->ptszID);
-		if (item == NULL) {
+		if (item == nullptr) {
 			item = ppro->ListGetItemPtr(LIST_CHATROOM, gch->pDest->ptszID);
-			if (item != NULL) {
+			if (item != nullptr) {
 				item->type = L"conference";
 				MCONTACT hContact = ppro->HContactFromJID(item->jid);
 				item->name = pcli->pfnGetContactDisplayName(hContact, 0);
@@ -1298,7 +1298,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 
 		// fall through
 	case IDM_LEAVE:
-		ppro->GcQuit(item, 200, NULL);
+		ppro->GcQuit(item, 200, nullptr);
 		break;
 
 	case IDM_PRESENCE_ONLINE:
@@ -1346,8 +1346,8 @@ static void sttSendPrivateMessage(CJabberProto *ppro, JABBER_LIST_ITEM *item, co
 {
 	wchar_t szFullJid[JABBER_MAX_JID_LEN];
 	mir_snwprintf(szFullJid, L"%s/%s", item->jid, nick);
-	MCONTACT hContact = ppro->DBCreateContact(szFullJid, NULL, true, false);
-	if (hContact != NULL) {
+	MCONTACT hContact = ppro->DBCreateContact(szFullJid, nullptr, true, false);
+	if (hContact != 0) {
 		pResourceStatus r(item->findResource(nick));
 		if (r)
 			ppro->setWord(hContact, "Status", r->m_iStatus);
@@ -1365,14 +1365,14 @@ static void sttSendPrivateMessage(CJabberProto *ppro, JABBER_LIST_ITEM *item, co
 int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK*)lParam;
-	if (gch == NULL)
+	if (gch == nullptr)
 		return 0;
 
 	if (mir_strcmpi(gch->pDest->pszModule, m_szModuleName))
 		return 0;
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, gch->pDest->ptszID);
-	if (item == NULL)
+	if (item == nullptr)
 		return 0;
 
 	switch (gch->pDest->iType) {

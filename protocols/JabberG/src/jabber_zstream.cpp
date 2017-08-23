@@ -82,7 +82,7 @@ int ThreadData::zlibSend(char* data, int datalen)
 	}
 		while (zStreamOut.avail_out == 0);
 
-	if (db_get_b(NULL, "Netlib", "DumpSent", TRUE) == TRUE)
+	if (db_get_b(0, "Netlib", "DumpSent", TRUE) == TRUE)
 		proto->debugLogA("(ZLIB) Data sent\n%s\n===OUT: %d(%d) bytes", data, datalen, bytesOut);
 
 	return TRUE;
@@ -115,7 +115,7 @@ retry:
 	}
 
 	int len = datalen - zStreamIn.avail_out;
-	if (db_get_b(NULL, "Netlib", "DumpRecv", TRUE) == TRUE) {
+	if (db_get_b(0, "Netlib", "DumpRecv", TRUE) == TRUE) {
 		char* szLogBuffer = (char*)alloca(len+32);
 		memcpy(szLogBuffer, data, len);
 		szLogBuffer[ len ]='\0';

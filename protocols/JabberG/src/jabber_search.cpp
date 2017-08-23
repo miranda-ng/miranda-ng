@@ -55,7 +55,7 @@ static int JabberSearchFrameProc(HWND hwnd, int msg, WPARAM wParam, LPARAM lPara
 					pos = dat->CurrentHeight - dat->frameHeight;
 			}
 			if (pos != dat->curPos) {
-				ScrollWindow(GetDlgItem(hwndDlg, IDC_FRAME), 0, dat->curPos - pos, NULL, &(dat->frameRect));
+				ScrollWindow(GetDlgItem(hwndDlg, IDC_FRAME), 0, dat->curPos - pos, nullptr, &(dat->frameRect));
 				SetScrollPos(GetDlgItem(hwndDlg, IDC_VSCROLL), SB_CTL, pos, TRUE);
 				RECT Invalid = dat->frameRect;
 				if (dat->curPos - pos > 0)
@@ -63,7 +63,7 @@ static int JabberSearchFrameProc(HWND hwnd, int msg, WPARAM wParam, LPARAM lPara
 				else
 					Invalid.top = Invalid.bottom + (dat->curPos - pos);
 
-				RedrawWindow(GetDlgItem(hwndDlg, IDC_FRAME), NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+				RedrawWindow(GetDlgItem(hwndDlg, IDC_FRAME), nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 				dat->curPos = pos;
 			}
 		}
@@ -105,8 +105,8 @@ static int JabberSearchAddField(HWND hwndDlg, Data* FieldDat)
 
 	int Order = (FieldDat->bHidden) ? -1 : FieldDat->Order;
 
-	HWND hwndLabel = CreateWindowEx(0, L"STATIC", (LPCTSTR)TranslateW(FieldDat->Label), WS_CHILD, CornerX, CornerY + Order * 40, width, 13, hwndParent, NULL, hInst, 0);
-	HWND hwndVar = CreateWindowEx(0 | WS_EX_CLIENTEDGE, L"EDIT", (LPCTSTR)FieldDat->defValue, WS_CHILD | WS_TABSTOP, CornerX + 5, CornerY + Order * 40 + 14, width, 20, hwndParent, NULL, hInst, 0);
+	HWND hwndLabel = CreateWindowEx(0, L"STATIC", (LPCTSTR)TranslateW(FieldDat->Label), WS_CHILD, CornerX, CornerY + Order * 40, width, 13, hwndParent, nullptr, hInst, 0);
+	HWND hwndVar = CreateWindowEx(0 | WS_EX_CLIENTEDGE, L"EDIT", (LPCTSTR)FieldDat->defValue, WS_CHILD | WS_TABSTOP, CornerX + 5, CornerY + Order * 40 + 14, width, 20, hwndParent, nullptr, hInst, 0);
 	SendMessage(hwndLabel, WM_SETFONT, (WPARAM)hFont, 0);
 	SendMessage(hwndVar, WM_SETFONT, (WPARAM)hFont, 0);
 	if (!FieldDat->bHidden) {
@@ -138,7 +138,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo*)
 		return;
 
 	LPCTSTR type = XmlGetAttrValue(iqNode, L"type");
-	if (type == NULL)
+	if (type == nullptr)
 		return;
 
 	if (!mir_wstrcmp(type, L"result")) {
@@ -184,8 +184,8 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo*)
 		ShowWindow(searchHandleDlg, SW_SHOW);
 	}
 	else if (!mir_wstrcmp(type, L"error")) {
-		const wchar_t *code = NULL;
-		const wchar_t *description = NULL;
+		const wchar_t *code = nullptr;
+		const wchar_t *description = nullptr;
 		wchar_t buff[255];
 		HXML errorNode = XmlGetChild(iqNode, "error");
 		if (errorNode) {
@@ -203,7 +203,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo*)
 //  The	pmFields is the pointer to map of <field Name, field Label> Not unical but ordered
 //	This can help to made result parser routines more simple
 
-static wchar_t *nickfields[] = { L"nick", L"nickname", L"fullname", L"name", L"given", L"first", L"jid", NULL };
+static wchar_t *nickfields[] = { L"nick", L"nickname", L"fullname", L"name", L"given", L"first", L"jid", nullptr };
 
 void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_MAP * pmAllFields)
 {
@@ -248,7 +248,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 	}
 
 	Results.psr.cbSize = 0; // sending column names
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, id, (LPARAM)&Results);
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, id, (LPARAM)&Results);
 
 	/* Sending Users Data */
 	Results.psr.cbSize = sizeof(Results.psr); // sending user data
@@ -265,7 +265,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 				Results.psr.id.w = value;
 		}
 
-		wchar_t *nick = NULL;
+		wchar_t *nick = nullptr;
 		for (int k = 0; k < _countof(nickfields) && !nick; k++)
 			nick = pmUserData->operator [](nickfields[k]);
 
@@ -280,8 +280,8 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 		Results.psr.nick.w = nick;
 		Results.psr.flags = PSR_UNICODE;
 
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, id, (LPARAM)&Results);
-		Results.psr.nick.w = NULL;
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, id, (LPARAM)&Results);
+		Results.psr.nick.w = nullptr;
 	}
 	mir_free(Results.pszFields);
 }
@@ -307,8 +307,8 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo*)
 	U_TCHAR_MAP mColumnsNames(10);
 	LIST<void>  SearchResults(2);
 
-	if (((id = JabberGetPacketID(iqNode)) == -1) || ((type = XmlGetAttrValue(iqNode, L"type")) == NULL)) {
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+	if (((id = JabberGetPacketID(iqNode)) == -1) || ((type = XmlGetAttrValue(iqNode, L"type")) == nullptr)) {
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 		return;
 	}
 
@@ -324,7 +324,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo*)
 					wchar_t *var = (wchar_t*)XmlGetAttrValue(fieldNode, L"var");
 					if (var) {
 						wchar_t *Label = (wchar_t*)XmlGetAttrValue(fieldNode, L"label");
-						mColumnsNames.insert(var, (Label != NULL) ? Label : var);
+						mColumnsNames.insert(var, (Label != nullptr) ? Label : var);
 					}
 				}
 			}
@@ -357,7 +357,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo*)
 				wchar_t *keyReturned;
 				mColumnsNames.insertCopyKey(L"jid", L"jid", &keyReturned, CopyKey, DestroyKey);
 				mColumnsNames.insert(L"jid", keyReturned);
-				pUserColumn->insertCopyKey(L"jid", jid, NULL, CopyKey, DestroyKey);
+				pUserColumn->insertCopyKey(L"jid", jid, nullptr, CopyKey, DestroyKey);
 
 				for (int j = 0;; j++) {
 					HXML child = XmlGetChild(itemNode, j);
@@ -370,7 +370,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo*)
 						if (ptszChild && *ptszChild) {
 							mColumnsNames.insertCopyKey((wchar_t*)szColumnName, L"", &keyReturned, CopyKey, DestroyKey);
 							mColumnsNames.insert((wchar_t*)szColumnName, keyReturned);
-							pUserColumn->insertCopyKey((wchar_t*)szColumnName, (wchar_t*)ptszChild, NULL, CopyKey, DestroyKey);
+							pUserColumn->insertCopyKey((wchar_t*)szColumnName, (wchar_t*)ptszChild, nullptr, CopyKey, DestroyKey);
 						}
 					}
 				}
@@ -380,8 +380,8 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo*)
 		}
 	}
 	else if (!mir_wstrcmp(type, L"error")) {
-		const wchar_t *code = NULL;
-		const wchar_t *description = NULL;
+		const wchar_t *code = nullptr;
+		const wchar_t *description = nullptr;
 		wchar_t buff[255];
 		HXML errorNode = XmlGetChild(iqNode, "error");
 		if (errorNode) {
@@ -390,11 +390,11 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo*)
 		}
 
 		mir_snwprintf(buff, TranslateT("Error %s %s\r\nTry to specify more detailed"), code ? code : L"", description ? description : L"");
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 		if (searchHandleDlg)
 			SetDlgItemText(searchHandleDlg, IDC_INSTRUCTIONS, buff);
 		else
-			MessageBox(NULL, buff, TranslateT("Search error"), MB_OK | MB_ICONSTOP);
+			MessageBox(nullptr, buff, TranslateT("Search error"), MB_OK | MB_ICONSTOP);
 		return;
 	}
 
@@ -404,7 +404,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo*)
 		delete ((U_TCHAR_MAP*)SearchResults[i]);
 
 	//send success to finish searching
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 }
 
 static BOOL CALLBACK DeleteChildWindowsProc(HWND hwnd, LPARAM)
@@ -427,7 +427,7 @@ static void JabberSearchFreeData(HWND hwndDlg, JabberSearchData * dat)
 				free(dat->pJSInf[i].szFieldName);
 		}
 		free(dat->pJSInf);
-		dat->pJSInf = NULL;
+		dat->pJSInf = nullptr;
 	}
 	else EnumChildWindows(GetDlgItem(hwndDlg, IDC_FRAME), DeleteChildWindowsProc, 0);
 
@@ -495,20 +495,20 @@ void CJabberProto::SearchDeleteFromRecent(const wchar_t *szAddr, bool deleteLast
 		char key[30];
 		mir_snprintf(key, "RecentlySearched_%d", i);
 		ptrW szValue(getWStringA(key));
-		if (szValue == NULL || mir_wstrcmpi(szAddr, szValue))
+		if (szValue == nullptr || mir_wstrcmpi(szAddr, szValue))
 			continue;
 
 		for (int j = i; j < 10; j++) {
 			mir_snprintf(key, "RecentlySearched_%d", j + 1);
 			szValue = getWStringA(key);
-			if (szValue != NULL) {
+			if (szValue != nullptr) {
 				mir_snprintf(key, "RecentlySearched_%d", j);
-				setWString(NULL, key, szValue);
+				setWString(0, key, szValue);
 			}
 			else {
 				if (deleteLastFromDB) {
 					mir_snprintf(key, "RecentlySearched_%d", j);
-					delSetting(NULL, key);
+					delSetting(0, key);
 				}
 				break;
 			}
@@ -525,9 +525,9 @@ void CJabberProto::SearchAddToRecent(const wchar_t *szAddr, HWND hwndDialog)
 	for (int j = 9; j > 0; j--) {
 		mir_snprintf(key, "RecentlySearched_%d", j - 1);
 		ptrW szValue(getWStringA(key));
-		if (szValue != NULL) {
+		if (szValue != nullptr) {
 			mir_snprintf(key, "RecentlySearched_%d", j);
-			setWString(NULL, key, szValue);
+			setWString(0, key, szValue);
 		}
 	}
 
@@ -550,7 +550,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 
 			/* Server Combo box */
 			ptrA jud(dat->ppro->getStringA("Jud"));
-			char *szServerName = (jud == NULL) ? "users.jabber.org" : jud;
+			char *szServerName = (jud == nullptr) ? "users.jabber.org" : jud;
 			SetDlgItemTextA(hwndDlg, IDC_SERVER, szServerName);
 			SendDlgItemMessageA(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, (LPARAM)szServerName);
 			//TO DO: Add Transports here
@@ -565,7 +565,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 				char key[30];
 				mir_snprintf(key, "RecentlySearched_%d", i);
 				ptrW szValue(dat->ppro->getWStringA(key));
-				if (szValue != NULL)
+				if (szValue != nullptr)
 					JabberSearchAddUrlToRecentCombo(hwndDlg, szValue);
 			}
 
@@ -610,9 +610,9 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 			RECT rcFrame;
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_FRAME), &rcFrame);
 			rcFrame.bottom = rcForm.bottom;
-			SetWindowPos(GetDlgItem(hwndDlg, IDC_FRAME), NULL, 0, 0, rcFrame.right - rcFrame.left, rcFrame.bottom - rcFrame.top, SWP_NOZORDER | SWP_NOMOVE);
+			SetWindowPos(GetDlgItem(hwndDlg, IDC_FRAME), nullptr, 0, 0, rcFrame.right - rcFrame.left, rcFrame.bottom - rcFrame.top, SWP_NOZORDER | SWP_NOMOVE);
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_VSCROLL), &rcForm);
-			SetWindowPos(GetDlgItem(hwndDlg, IDC_VSCROLL), NULL, 0, 0, rcForm.right - rcForm.left, rcFrame.bottom - rcFrame.top, SWP_NOZORDER | SWP_NOMOVE);
+			SetWindowPos(GetDlgItem(hwndDlg, IDC_VSCROLL), nullptr, 0, 0, rcForm.right - rcForm.left, rcFrame.bottom - rcFrame.top, SWP_NOZORDER | SWP_NOMOVE);
 			JabberSearchRefreshFrameScroll(hwndDlg, dat);
 		}
 		return TRUE;
@@ -640,7 +640,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 			}
 			else {
 				JabberSearchRefreshFrameScroll(hwndDlg, dat);
-				ScrollWindow(GetDlgItem(hwndDlg, IDC_FRAME), 0, dat->curPos - 0, NULL, &(dat->frameRect));
+				ScrollWindow(GetDlgItem(hwndDlg, IDC_FRAME), 0, dat->curPos - 0, nullptr, &(dat->frameRect));
 				SetScrollPos(GetDlgItem(hwndDlg, IDC_VSCROLL), SB_CTL, 0, FALSE);
 				dat->curPos = 0;
 			}
@@ -662,7 +662,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 	case WM_VSCROLL:
 		{
 			int pos;
-			if (dat != NULL) {
+			if (dat != nullptr) {
 				pos = dat->curPos;
 				switch (LOWORD(wParam)) {
 				case SB_LINEDOWN:
@@ -686,7 +686,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 				if (pos < 0)
 					pos = 0;
 				if (dat->curPos != pos) {
-					ScrollWindow(GetDlgItem(hwndDlg, IDC_FRAME), 0, dat->curPos - pos, NULL, &(dat->frameRect));
+					ScrollWindow(GetDlgItem(hwndDlg, IDC_FRAME), 0, dat->curPos - pos, nullptr, &(dat->frameRect));
 					SetScrollPos(GetDlgItem(hwndDlg, IDC_VSCROLL), SB_CTL, pos, TRUE);
 					RECT Invalid = dat->frameRect;
 					if (dat->curPos - pos >0)
@@ -694,7 +694,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 					else
 						Invalid.top = Invalid.bottom + (dat->curPos - pos);
 
-					RedrawWindow(GetDlgItem(hwndDlg, IDC_FRAME), NULL, NULL, RDW_UPDATENOW | RDW_ALLCHILDREN);
+					RedrawWindow(GetDlgItem(hwndDlg, IDC_FRAME), nullptr, nullptr, RDW_UPDATENOW | RDW_ALLCHILDREN);
 					dat->curPos = pos;
 				}
 			}
@@ -715,7 +715,7 @@ HWND __cdecl CJabberProto::CreateExtendedSearchUI(HWND parent)
 {
 	if (parent && hInst) {
 		ptrW szServer(getWStringA("LoginServer"));
-		if (szServer == NULL || mir_wstrcmpi(szServer, L"S.ms"))
+		if (szServer == nullptr || mir_wstrcmpi(szServer, L"S.ms"))
 			return CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SEARCHUSER), parent, JabberSearchAdvancedDlgProc, (LPARAM)this);
 	}
 

@@ -35,7 +35,7 @@ void JabberIbbFreeJibb(JABBER_IBB_TRANSFER *jibb)
 	if (jibb)  {
 		filetransfer* pft = jibb->ft;
 		if (pft)
-			pft->jibb = NULL;
+			pft->jibb = nullptr;
 
 		mir_free(jibb->srcJID);
 		mir_free(jibb->dstJID);
@@ -91,7 +91,7 @@ void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 	debugLogA("Thread started: type=ibb_send");
 	Thread_SetName("Jabber: IbbSendThread");
 
-	jibb->hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	jibb->hEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	jibb->bStreamInitialized = FALSE;
 	jibb->bStreamClosed = FALSE;
 	jibb->state = JIBB_SENDING;
@@ -103,7 +103,7 @@ void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 
 	WaitForSingleObject(jibb->hEvent, INFINITE);
 	CloseHandle(jibb->hEvent);
-	jibb->hEvent = NULL;
+	jibb->hEvent = nullptr;
 
 	if (jibb->bStreamInitialized) {
 		jibb->wPacketId = 0;
@@ -111,7 +111,7 @@ void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 		BOOL bSent = (this->*jibb->pfnSend)(JABBER_IBB_BLOCK_SIZE, jibb->ft);
 
 		if (!jibb->bStreamClosed) {
-			jibb->hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+			jibb->hEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
 			m_ThreadInfo->send(
 				XmlNodeIq(AddIQ(&CJabberProto::OnIbbCloseResult, JABBER_IQ_TYPE_SET, jibb->dstJID, 0, -1, jibb))
@@ -119,7 +119,7 @@ void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 
 			WaitForSingleObject(jibb->hEvent, INFINITE);
 			CloseHandle(jibb->hEvent);
-			jibb->hEvent = NULL;
+			jibb->hEvent = nullptr;
 
 			if (jibb->bStreamClosed && bSent)
 				jibb->state = JIBB_DONE;
@@ -128,7 +128,7 @@ void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 	}
 
 	(this->*jibb->pfnFinal)((jibb->state==JIBB_DONE)?TRUE:FALSE, jibb->ft);
-	jibb->ft = NULL;
+	jibb->ft = nullptr;
 	JabberIbbFreeJibb(jibb);
 }
 
@@ -139,7 +139,7 @@ void __cdecl CJabberProto::IbbReceiveThread(JABBER_IBB_TRANSFER *jibb)
 
 	filetransfer *ft = jibb->ft;
 
-	jibb->hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	jibb->hEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	jibb->bStreamClosed = FALSE;
 	jibb->wPacketId = 0;
 	jibb->dwTransferredSize = 0;
@@ -148,7 +148,7 @@ void __cdecl CJabberProto::IbbReceiveThread(JABBER_IBB_TRANSFER *jibb)
 	WaitForSingleObject(jibb->hEvent, INFINITE);
 
 	CloseHandle(jibb->hEvent);
-	jibb->hEvent = NULL;
+	jibb->hEvent = nullptr;
 
 	if (jibb->state == JIBB_ERROR)
 		m_ThreadInfo->send( XmlNodeIq(L"set", SerialNext(), jibb->dstJID) << XCHILDNS(L"close", JABBER_FEAT_IBB) << XATTR(L"sid", jibb->sid));
@@ -157,7 +157,7 @@ void __cdecl CJabberProto::IbbReceiveThread(JABBER_IBB_TRANSFER *jibb)
 		jibb->state = JIBB_DONE;
 
 	(this->*jibb->pfnFinal)((jibb->state==JIBB_DONE)?TRUE:FALSE, jibb->ft);
-	jibb->ft = NULL;
+	jibb->ft = nullptr;
 
 	ListRemove(LIST_FTRECV, jibb->sid);
 
@@ -167,7 +167,7 @@ void __cdecl CJabberProto::IbbReceiveThread(JABBER_IBB_TRANSFER *jibb)
 BOOL CJabberProto::OnIbbRecvdData(const wchar_t *data, const wchar_t *sid, const wchar_t *seq)
 {
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_FTRECV, sid);
-	if (item == NULL) return FALSE;
+	if (item == nullptr) return FALSE;
 
 	WORD wSeq = (WORD)_wtoi(seq);
 	if (wSeq != item->jibb->wPacketId) {
@@ -180,10 +180,10 @@ BOOL CJabberProto::OnIbbRecvdData(const wchar_t *data, const wchar_t *sid, const
 
 	unsigned length;
 	ptrA decodedData((char*)mir_base64_decode( _T2A(data), &length));
-	if (decodedData == NULL)
+	if (decodedData == nullptr)
 		return FALSE;
 
-	(this->*item->jibb->pfnRecv)(NULL, item->ft, decodedData, length);
+	(this->*item->jibb->pfnRecv)(nullptr, item->ft, decodedData, length);
 	item->jibb->dwTransferredSize += (DWORD)length;
 	return TRUE;
 }

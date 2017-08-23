@@ -36,13 +36,13 @@ BOOL CJabberProto::WsInit(void)
 	nlu.szDescriptiveName.w = name;
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
-	return m_hNetlibUser != NULL;
+	return m_hNetlibUser != nullptr;
 }
 
 void CJabberProto::WsUninit(void)
 {
 	Netlib_CloseHandle(m_hNetlibUser);
-	m_hNetlibUser = NULL;
+	m_hNetlibUser = nullptr;
 }
 
 HNETLIBCONN CJabberProto::WsConnect(char* host, WORD port)

@@ -116,7 +116,7 @@ public:
 		for (int i=0; i < getCount(); i++)
 			if (!mir_wstrcmp((*this)[i].GetNode(), node))
 				return &((*this)[i]);
-		return NULL;
+		return nullptr;
 	}
 };
 

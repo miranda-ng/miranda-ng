@@ -58,7 +58,7 @@ void CJabberProto::RetrieveMessageArchive(MCONTACT hContact, JABBER_LIST_ITEM *p
 void CJabberProto::OnIqResultGetCollectionList(HXML iqNode, CJabberIqInfo*)
 {
 	const wchar_t *to = XmlGetAttrValue(iqNode, L"to");
-	if (to == NULL || mir_wstrcmp(XmlGetAttrValue(iqNode, L"type"), L"result"))
+	if (to == nullptr || mir_wstrcmp(XmlGetAttrValue(iqNode, L"type"), L"result"))
 		return;
 
 	HXML list = XmlGetChild(iqNode, "list");
@@ -84,7 +84,7 @@ void CJabberProto::OnIqResultGetCollectionList(HXML iqNode, CJabberIqInfo*)
 
 static DWORD dwPreviousTimeStamp = -1;
 static MCONTACT hPreviousContact = INVALID_CONTACT_ID;
-static MEVENT hPreviousDbEvent = NULL;
+static MEVENT hPreviousDbEvent = 0;
 
 // Returns TRUE if the event already exist in the database
 BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
@@ -141,7 +141,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 
 		// find event with another timestamp
 		hExistingDbEvent = db_event_next(hContact, hPreviousDbEvent);
-		while (hExistingDbEvent != NULL) {
+		while (hExistingDbEvent != 0) {
 			memset(&dbeiExisting, 0, sizeof(dbeiExisting));
 			db_event_get(hExistingDbEvent, &dbeiExisting);
 
@@ -161,7 +161,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 
 	if (dbei.timestamp <= dwPreviousTimeStamp) {
 		// look back
-		while (hExistingDbEvent != NULL) {
+		while (hExistingDbEvent != 0) {
 			memset(&dbeiExisting, 0, sizeof(dbeiExisting));
 			db_event_get(hExistingDbEvent, &dbeiExisting);
 
@@ -186,7 +186,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 	}
 	else {
 		// look forward
-		while (hExistingDbEvent != NULL) {
+		while (hExistingDbEvent != 0) {
 			memset(&dbeiExisting, 0, sizeof(dbeiExisting));
 			db_event_get(hExistingDbEvent, &dbeiExisting);
 

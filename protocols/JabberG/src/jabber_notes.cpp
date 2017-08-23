@@ -50,12 +50,12 @@ static wchar_t* StrTrimCopy(wchar_t *str)
 
 CNoteItem::CNoteItem()
 {
-	m_szTitle = m_szFrom = m_szText = m_szTags = m_szTagsStr = NULL;
+	m_szTitle = m_szFrom = m_szText = m_szTags = m_szTagsStr = nullptr;
 }
 
 CNoteItem::CNoteItem(HXML hXml, wchar_t *szFrom)
 {
-	m_szTitle = m_szFrom = m_szText = m_szTags = m_szTagsStr = NULL;
+	m_szTitle = m_szFrom = m_szText = m_szTags = m_szTagsStr = nullptr;
 	SetData(
 		XPathT(hXml, "title"),
 		szFrom ? szFrom : XPathT(hXml, "@from"),
@@ -212,7 +212,7 @@ private:
 CJabberDlgNoteItem::CJabberDlgNoteItem(CJabberDlgBase *parent, CNoteItem *pNote) :
 	CSuper(parent->GetProto(), IDD_NOTE_EDIT),
 	m_pNote(pNote),
-	m_fnProcess(NULL),
+	m_fnProcess(nullptr),
 	m_txtTitle(this, IDC_TXT_TITLE),
 	m_txtText(this, IDC_TXT_TEXT),
 	m_txtTags(this, IDC_TXT_TAGS),
@@ -287,7 +287,7 @@ public:
 		: CCtrlListBox(dlg, ctrlId),
 		m_adding(false)
 	{
-		m_hfntNormal = m_hfntSmall = m_hfntBold = NULL;
+		m_hfntNormal = m_hfntSmall = m_hfntBold = nullptr;
 	}
 
 	void SetFonts(HFONT hfntNormal, HFONT hfntSmall, HFONT hfntBold)
@@ -335,7 +335,7 @@ public:
 				if (mis.itemHeight) SendMessage(m_hwnd, LB_SETITEMHEIGHT, idx, mis.itemHeight);
 			}
 			SendMessage(m_hwnd, WM_SETREDRAW, TRUE, 0);
-			RedrawWindow(m_hwnd, NULL, NULL, RDW_INVALIDATE);
+			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE);
 		}
 
 		return CSuper::CustomWndProc(msg, wParam, lParam);
@@ -611,7 +611,7 @@ private:
 };
 
 CJabberDlgNotes::CJabberDlgNotes(CJabberProto *proto) :
-	CSuper(proto, IDD_NOTEBOOK, NULL),
+	CSuper(proto, IDD_NOTEBOOK, nullptr),
 	m_btnAdd(this, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add")),
 	m_btnEdit(this, IDC_EDIT, SKINICON_OTHER_RENAME, LPGEN("Edit")),
 	m_btnRemove(this, IDC_REMOVE, SKINICON_OTHER_DELETE, LPGEN("Remove")),
@@ -650,7 +650,7 @@ void CJabberDlgNotes::OnInitDialog()
 	m_hfntSmall = CreateFontIndirect(&lfTmp);
 	m_lstNotes.SetFonts(m_hfntNormal, m_hfntSmall, m_hfntBold);
 
-	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "notesWnd_");
+	Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "notesWnd_");
 }
 
 void CJabberDlgNotes::OnClose()
@@ -662,7 +662,7 @@ void CJabberDlgNotes::OnClose()
 		}
 	}
 
-	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "notesWnd_");
+	Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "notesWnd_");
 	DeleteObject(m_hfntSmall);
 	DeleteObject(m_hfntBold);
 	CSuper::OnClose();
@@ -671,7 +671,7 @@ void CJabberDlgNotes::OnClose()
 void CJabberDlgNotes::OnDestroy()
 {
 	m_tvFilter.DeleteAllItems();
-	m_proto->m_pDlgNotes = NULL;
+	m_proto->m_pDlgNotes = nullptr;
 	CSuper::OnDestroy();
 }
 
@@ -815,7 +815,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleNotes(WPARAM, LPARAM)
 INT_PTR __cdecl CJabberProto::OnMenuSendNote(WPARAM wParam, LPARAM)
 {
 	if (wParam) {
-		CNoteItem *pItem = new CNoteItem(NULL, ptrW(getWStringA(wParam, "jid")));
+		CNoteItem *pItem = new CNoteItem(nullptr, ptrW(getWStringA(wParam, "jid")));
 		CJabberDlgBase *pDlg = new CJabberDlgNoteItem(this, pItem, &CJabberProto::ProcessOutgoingNote);
 		pDlg->Show();
 	}

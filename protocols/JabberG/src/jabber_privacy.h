@@ -66,7 +66,7 @@ public:
 		m_bAction = bAction;
 		m_dwOrder = dwOrder;
 		m_dwPackets = dwPackets;
-		m_pNext = NULL;
+		m_pNext = nullptr;
 	};
 	~CPrivacyListRule()
 	{
@@ -157,8 +157,8 @@ public:
 	{
 		m_proto = ppro;
 		m_szListName = mir_wstrdup(szListName);
-		m_pRules = NULL;
-		m_pNext = NULL;
+		m_pRules = nullptr;
+		m_pNext = nullptr;
 		m_bLoaded = FALSE;
 		m_bModified = FALSE;
 		m_bDeleted = FALSE;
@@ -174,7 +174,7 @@ public:
 	{
 		if (m_pRules)
 			delete m_pRules;
-		m_pRules = NULL;
+		m_pRules = nullptr;
 		return TRUE;
 	}
 	__inline wchar_t* GetListName()
@@ -217,7 +217,7 @@ public:
 
 		if (m_pRules == pRuleToRemove) {
 			m_pRules = m_pRules->GetNext();
-			pRuleToRemove->SetNext(NULL);
+			pRuleToRemove->SetNext(nullptr);
 			delete pRuleToRemove;
 			return TRUE;
 		}
@@ -226,7 +226,7 @@ public:
 		while (pRule->GetNext()) {
 			if (pRule->GetNext() == pRuleToRemove) {
 				pRule->SetNext(pRule->GetNext()->GetNext());
-				pRuleToRemove->SetNext(NULL);
+				pRuleToRemove->SetNext(nullptr);
 				delete pRuleToRemove;
 				return TRUE;
 			}
@@ -285,7 +285,7 @@ public:
 			pRules[ i ]->SetOrder(dwOrder);
 			dwOrder += 10;
 		}
-		*ppPtr = NULL;
+		*ppPtr = nullptr;
 		mir_free(pRules);
 
 		return TRUE;
@@ -331,9 +331,9 @@ public:
 	CPrivacyListManager(CJabberProto *ppro)
 	{
 		m_proto = ppro;
-		m_szActiveListName = NULL;
-		m_szDefaultListName = NULL;
-		m_pLists = NULL;
+		m_szActiveListName = nullptr;
+		m_szDefaultListName = nullptr;
+		m_pLists = nullptr;
 		m_bModified = FALSE;
 	};
 	~CPrivacyListManager()
@@ -362,7 +362,7 @@ public:
 	{
 		if (m_pLists)
 			delete m_pLists;
-		m_pLists = NULL;
+		m_pLists = nullptr;
 		return TRUE;
 	}
 	CPrivacyList* FindList(const wchar_t *szListName)
@@ -373,7 +373,7 @@ public:
 				return pList;
 			pList = pList->GetNext();
 		}
-		return NULL;
+		return nullptr;
 	}
 	CPrivacyList* GetFirstList()
 	{

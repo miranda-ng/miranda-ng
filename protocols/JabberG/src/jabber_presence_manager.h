@@ -95,7 +95,7 @@ public:
 	CJabberPresenceManager(CJabberProto*);
 	~CJabberPresenceManager();
 
-	CJabberPresencePermanentInfo* AddPermanentHandler(JABBER_PRESENCE_HANDLER pHandler, void *pUserData = NULL, PRESENCE_USER_DATA_FREE_FUNC pUserDataFree = NULL, int iPriority = JH_PRIORITY_DEFAULT);
+	CJabberPresencePermanentInfo* AddPermanentHandler(JABBER_PRESENCE_HANDLER pHandler, void *pUserData = nullptr, PRESENCE_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
 	bool DeletePermanentHandler(CJabberPresencePermanentInfo *pInfo);
 	
 	bool HandlePresencePermanent(HXML node, ThreadData *pThreadData);

@@ -61,10 +61,10 @@ PLUGININFOEX pluginInfo = {
 };
 
 CLIST_INTERFACE* pcli;
-FI_INTERFACE *FIP = NULL;
+FI_INTERFACE *FIP = nullptr;
 
-HANDLE hExtraActivity = NULL;
-HANDLE hExtraMood = NULL;
+HANDLE hExtraActivity = nullptr;
+HANDLE hExtraMood = nullptr;
 HANDLE hExtListInit, hDiscoInfoResult;
 
 void JabberUserInfoInit(void);
@@ -110,8 +110,8 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_TTB_MODULELOADED, g_OnToolbarInit);
 
 	bSecureIM = ServiceExists("SecureIM/IsContactSecured") != 0;
-	bMirOTR = GetModuleHandle(L"mirotr.dll") != NULL;
-	bNewGPG = GetModuleHandle(L"new_gpg.dll") != NULL;
+	bMirOTR = GetModuleHandle(L"mirotr.dll") != nullptr;
+	bNewGPG = GetModuleHandle(L"new_gpg.dll") != nullptr;
 	#ifdef _WIN64
 		bPlatform = 1;
 	#else
@@ -188,8 +188,8 @@ extern "C" int __declspec(dllexport) Load()
 	pcli = Clist_GetInterface();
 
 	INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
-	if (FIP == NULL || result != S_OK) {
-		MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. Jabber Protocol will be disabled."), L"Error", MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
+	if (FIP == nullptr || result != S_OK) {
+		MessageBoxEx(nullptr, TranslateT("Fatal error, image services not found. Jabber Protocol will be disabled."), L"Error", MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 		return 1;
 	}
 
@@ -232,7 +232,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	JabberUserInfoUninit();
 
-	if (hMsftedit != NULL)
+	if (hMsftedit != nullptr)
 		FreeLibrary(hMsftedit);
 
 	DestroyHookableEvent(hExtListInit);

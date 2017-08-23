@@ -151,7 +151,7 @@ public:
 	}
 	BOOL CallHandler(HXML iqNode, CJabberIqInfo *pInfo, CJabberAdhocSession* pSession)
 	{
-		if (m_pHandler == NULL)
+		if (m_pHandler == nullptr)
 			return FALSE;
 		return (m_pProto->*m_pHandler)(iqNode, pInfo, pSession);
 	}
@@ -173,14 +173,14 @@ protected:
 				return pSession;
 			pSession = pSession->GetNext();
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	CJabberAdhocSession* AddNewSession()
 	{
 		CJabberAdhocSession* pSession = new CJabberAdhocSession(m_pProto);
 		if (!pSession)
-			return NULL;
+			return nullptr;
 
 		pSession->SetNext(m_pSessions);
 		m_pSessions = pSession;
@@ -196,7 +196,7 @@ protected:
 				return pNode;
 			pNode = pNode->GetNext();
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	BOOL RemoveSession(CJabberAdhocSession* pSession)
@@ -206,7 +206,7 @@ protected:
 
 		if (pSession == m_pSessions) {
 			m_pSessions = m_pSessions->GetNext();
-			pSession->SetNext(NULL);
+			pSession->SetNext(nullptr);
 			delete pSession;
 			return TRUE;
 		}
@@ -215,7 +215,7 @@ protected:
 		while (pTmp->GetNext()) {
 			if (pTmp->GetNext() == pSession) {
 				pTmp->SetNext(pSession->GetNext());
-				pSession->SetNext(NULL);
+				pSession->SetNext(nullptr);
 				delete pSession;
 				return TRUE;
 			}
@@ -232,7 +232,7 @@ protected:
 		CJabberAdhocSession* pSession = m_pSessions;
 		if (pSession->GetSessionStartTime() < dwExpireTime) {
 			m_pSessions = pSession->GetNext();
-			pSession->SetNext(NULL);
+			pSession->SetNext(nullptr);
 			delete pSession;
 			return TRUE;
 		}
@@ -241,7 +241,7 @@ protected:
 			if (pSession->GetNext()->GetSessionStartTime() < dwExpireTime) {
 				CJabberAdhocSession* pRetVal = pSession->GetNext();
 				pSession->SetNext(pSession->GetNext()->GetNext());
-				pRetVal->SetNext(NULL);
+				pRetVal->SetNext(nullptr);
 				delete pRetVal;
 				return TRUE;
 			}
@@ -254,8 +254,8 @@ public:
 	CJabberAdhocManager(CJabberProto* pProto)
 	{
 		m_pProto = pProto;
-		m_pNodes = NULL;
-		m_pSessions = NULL;
+		m_pNodes = nullptr;
+		m_pSessions = nullptr;
 	}
 	~CJabberAdhocManager()
 	{

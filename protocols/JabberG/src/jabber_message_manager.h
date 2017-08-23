@@ -125,7 +125,7 @@ public:
 	CJabberMessageManager(CJabberProto *proto);
 	~CJabberMessageManager();
 
-	CJabberMessagePermanentInfo* AddPermanentHandler(JABBER_PERMANENT_MESSAGE_HANDLER pHandler, int nMessageTypes, DWORD dwParamsToParse, const wchar_t *szXmlns, BOOL bAllowPartialNs, const wchar_t *szTag, void *pUserData = NULL, MESSAGE_USER_DATA_FREE_FUNC pUserDataFree = NULL, int iPriority = JH_PRIORITY_DEFAULT);
+	CJabberMessagePermanentInfo* AddPermanentHandler(JABBER_PERMANENT_MESSAGE_HANDLER pHandler, int nMessageTypes, DWORD dwParamsToParse, const wchar_t *szXmlns, BOOL bAllowPartialNs, const wchar_t *szTag, void *pUserData = nullptr, MESSAGE_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
 	bool DeletePermanentHandler(CJabberMessagePermanentInfo *pInfo);
 
 	bool HandleMessagePermanent(HXML node, ThreadData *pThreadData);

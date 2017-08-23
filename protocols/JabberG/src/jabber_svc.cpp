@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR __cdecl CJabberProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 {
-	wchar_t *szStatus = NULL;
+	wchar_t *szStatus = nullptr;
 
 	mir_cslock lck(m_csModeMsgMutex);
 	switch (wParam ? (int)wParam : m_iStatus) {
@@ -77,13 +77,13 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatar(WPARAM wParam, LPARAM lParam)
 	wchar_t *buf = (wchar_t*)wParam;
 	int size = (int)lParam;
 
-	if (buf == NULL || size <= 0)
+	if (buf == nullptr || size <= 0)
 		return -1;
 
 	if (!m_options.EnableAvatars)
 		return -2;
 
-	GetAvatarFileName(NULL, buf, size);
+	GetAvatarFileName(0, buf, size);
 	return 0;
 }
 
@@ -124,7 +124,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	PROTO_AVATAR_INFORMATION* pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
 	ptrA szHashValue( getStringA(pai->hContact, "AvatarHash"));
-	if (szHashValue == NULL) {
+	if (szHashValue == nullptr) {
 		debugLogA("No avatar");
 		return GAIR_NOAVATAR;
 	}
@@ -133,25 +133,25 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	GetAvatarFileName(pai->hContact, tszFileName, _countof(tszFileName));
 	wcsncpy_s(pai->filename, tszFileName, _TRUNCATE);
 
-	pai->format = (pai->hContact == NULL) ? PA_FORMAT_PNG : getByte(pai->hContact, "AvatarType", 0);
+	pai->format = (pai->hContact == 0) ? PA_FORMAT_PNG : getByte(pai->hContact, "AvatarType", 0);
 
 	if (::_waccess(pai->filename, 0) == 0) {
 		ptrA szSavedHash( getStringA(pai->hContact, "AvatarSaved"));
-		if (szSavedHash != NULL && !mir_strcmp(szSavedHash, szHashValue)) {
+		if (szSavedHash != nullptr && !mir_strcmp(szSavedHash, szHashValue)) {
 			debugLogA("Avatar is Ok: %s == %s", szSavedHash, szHashValue);
 			return GAIR_SUCCESS;
 		}
 	}
 
-	if ((wParam & GAIF_FORCE) != 0 && pai->hContact != NULL && m_bJabberOnline) {
+	if ((wParam & GAIF_FORCE) != 0 && pai->hContact != 0 && m_bJabberOnline) {
 		ptrW tszJid( getWStringA(pai->hContact, "jid"));
-		if (tszJid != NULL) {
+		if (tszJid != nullptr) {
 			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, tszJid);
-			if (item != NULL) {
+			if (item != nullptr) {
 				BOOL isXVcard = getByte(pai->hContact, "AvatarXVcard", 0);
 
 				wchar_t szJid[JABBER_MAX_JID_LEN]; szJid[0] = 0;
-				if (item->arResources.getCount() != NULL && !isXVcard)
+				if (item->arResources.getCount() != 0 && !isXVcard)
 					if (wchar_t *bestResName = ListGetBestClientResourceNamePtr(tszJid))
 						mir_snwprintf(szJid, L"%s/%s", tszJid, bestResName);
 
@@ -187,7 +187,7 @@ INT_PTR __cdecl CJabberProto::OnGetEventTextChatStates(WPARAM pEvent, LPARAM dat
 		}
 	}
 
-	return NULL;
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -244,10 +244,10 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 		SetServerVcard(TRUE, tszFileName);
 		SendPresence(m_iDesiredStatus, false);
 	}
-	else if (tszFileName == NULL || tszFileName[0] == 0) {
+	else if (tszFileName == nullptr || tszFileName[0] == 0) {
 		// Remove avatar
 		wchar_t tFileName[ MAX_PATH ];
-		GetAvatarFileName(NULL, tFileName, MAX_PATH);
+		GetAvatarFileName(0, tFileName, MAX_PATH);
 		DeleteFile(tFileName);
 
 		delSetting("AvatarSaved");
@@ -262,7 +262,7 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 
 		long dwPngSize = _filelength(fileIn);
 		char *pResult = new char[ dwPngSize ];
-		if (pResult == NULL) {
+		if (pResult == nullptr) {
 			_close(fileIn);
 			mir_free(tszFileName);
 			return 2;
@@ -278,7 +278,7 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 		mir_sha1_finish(&sha1ctx, digest);
 
 		wchar_t tFileName[MAX_PATH];
-		GetAvatarFileName(NULL, tFileName, MAX_PATH);
+		GetAvatarFileName(0, tFileName, MAX_PATH);
 		DeleteFile(tFileName);
 
 		char buf[MIR_SHA1_HASH_SIZE*2+1];
@@ -286,9 +286,9 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 
 		m_options.AvatarType = ProtoGetBufferFormat(pResult);
 
-		GetAvatarFileName(NULL, tFileName, MAX_PATH);
+		GetAvatarFileName(0, tFileName, MAX_PATH);
 		FILE *out = _wfopen(tFileName, L"wb");
-		if (out != NULL) {
+		if (out != nullptr) {
 			fwrite(pResult, dwPngSize, 1, out);
 			fclose(out);
 		}
@@ -345,11 +345,11 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 		return 0; //room global tooltip not supported yet
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, (wchar_t*)wParam);
-	if (item == NULL)
+	if (item == nullptr)
 		return 0;  //no room found
 
 	pResourceStatus info( item->findResource((wchar_t*)lParam));
-	if (info == NULL)
+	if (info == nullptr)
 		return 0; //no info found
 
 	// ok process info output will be:
@@ -363,7 +363,7 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 
 	//JID:
 	CMStringW outBuf;
-	if (wcschr(info->m_tszResourceName, '@') != NULL)
+	if (wcschr(info->m_tszResourceName, '@') != nullptr)
 		appendString(bIsTipper, LPGENW("JID:"), info->m_tszResourceName, outBuf);
 	else if (lParam) //or simple nick
 		appendString(bIsTipper, LPGENW("Nick:"), (wchar_t*)lParam, outBuf);
@@ -386,21 +386,21 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 	if (info->m_tszRealJid)
 		appendString(bIsTipper, LPGENW("Real JID:"), info->m_tszRealJid, outBuf);
 
-	return (outBuf.IsEmpty() ? NULL : (INT_PTR)mir_wstrdup(outBuf));
+	return (outBuf.IsEmpty() ? 0 : (INT_PTR)mir_wstrdup(outBuf));
 }
 
 // File Association Manager plugin support
 INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 {
 	wchar_t *arg = (wchar_t *)lParam;
-	if (arg == NULL)
+	if (arg == nullptr)
 		return 1;
 
 	// skip leading prefix
 	wchar_t szUri[ 1024 ];
 	wcsncpy_s(szUri, arg, _TRUNCATE);
 	wchar_t *szJid = wcschr(szUri, ':');
-	if (szJid == NULL)
+	if (szJid == nullptr)
 		return 1;
 
 	// skip //
@@ -417,7 +417,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 		*(szCommand++) = 0;
 
 	// parameters
-	wchar_t *szSecondParam = szCommand ? wcschr(szCommand, ';') : NULL;
+	wchar_t *szSecondParam = szCommand ? wcschr(szCommand, ';') : nullptr;
 	if (szSecondParam)
 		*(szSecondParam++) = 0;
 
@@ -427,11 +427,11 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 		if (!ServiceExists(MS_MSG_SENDMESSAGEW))
 			return 1;
 
-		wchar_t *szMsgBody = NULL;
+		wchar_t *szMsgBody = nullptr;
 		MCONTACT hContact = HContactFromJID(szJid, false);
-		if (hContact == NULL)
+		if (hContact == 0)
 			hContact = DBCreateContact(szJid, szJid, true, true);
-		if (hContact == NULL)
+		if (hContact == 0)
 			return 1;
 
 		if (szSecondParam) { //there are parameters to message
@@ -468,7 +468,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 	
 	// chat join invitation
 	if (!mir_wstrcmpi(szCommand, L"join")) {
-		GroupchatJoinRoomByJid(NULL, szJid);
+		GroupchatJoinRoomByJid(nullptr, szJid);
 		return 0;
 	}
 	
@@ -484,9 +484,9 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 			if (!wcsnicmp(szSecondParam, L"node=", 5)) {
 				szSecondParam += 5;
 				if (!*szSecondParam)
-					szSecondParam = NULL;
+					szSecondParam = nullptr;
 			}
-			else szSecondParam = NULL;
+			else szSecondParam = nullptr;
 		}
 		CJabberAdhocStartupParams* pStartupParams = new CJabberAdhocStartupParams(this, szJid, szSecondParam);
 		ContactMenuRunCommands(0, (LPARAM)pStartupParams);
@@ -496,11 +496,11 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 	// send file
 	if (!mir_wstrcmpi(szCommand, L"sendfile")) {
 		MCONTACT hContact = HContactFromJID(szJid, false);
-		if (hContact == NULL)
+		if (hContact == 0)
 			hContact = DBCreateContact(szJid, szJid, true, true);
-		if (hContact == NULL)
+		if (hContact == 0)
 			return 1;
-		CallService(MS_FILE_SENDFILE, hContact, NULL);
+		CallService(MS_FILE_SENDFILE, hContact, 0);
 		return 0;
 	}
 
@@ -514,7 +514,7 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM hContact, LPARAM)
 		return 0;
 
 	ptrW jid( getWStringA(hContact, "jid"));
-	if (jid == NULL)
+	if (jid == nullptr)
 		return 0;
 
 	wchar_t tszJid[JABBER_MAX_JID_LEN];
@@ -602,7 +602,7 @@ public:
 		BOOL bRetVal = m_proto->SendHttpAuthReply(m_pParams, bAuthorized);
 		m_pParams->Free();
 		mir_free(m_pParams);
-		m_pParams = NULL;
+		m_pParams = nullptr;
 		return bRetVal;
 	}
 

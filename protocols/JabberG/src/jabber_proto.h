@@ -86,7 +86,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason);
 	virtual	int       __cdecl FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename);
 
-	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
+	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = 0);
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
 
 	virtual	HANDLE    __cdecl SearchBasic(const wchar_t *id);
@@ -452,7 +452,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_iq.c -------------------------------------------------------------------
 
-	__forceinline CJabberIqInfo* AddIQ(JABBER_IQ_HANDLER pHandler, int nIqType = JABBER_IQ_TYPE_GET, const wchar_t *szReceiver = NULL, DWORD dwParamsToParse = 0, int nIqId = -1, void *pUserData = NULL, int iPriority = JH_PRIORITY_DEFAULT)
+	__forceinline CJabberIqInfo* AddIQ(JABBER_IQ_HANDLER pHandler, int nIqType = JABBER_IQ_TYPE_GET, const wchar_t *szReceiver = nullptr, DWORD dwParamsToParse = 0, int nIqId = -1, void *pUserData = nullptr, int iPriority = JH_PRIORITY_DEFAULT)
 	{
 		return m_iqManager.AddHandler(pHandler, nIqType, szReceiver, dwParamsToParse, nIqId, pUserData, iPriority);
 	}
@@ -547,7 +547,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	pResourceStatus ListFindResource(JABBER_LIST list, const wchar_t *jid);
 
-	bool   ListAddResource(JABBER_LIST list, const wchar_t *jid, int status, const wchar_t *statusMessage, char priority = 0, const wchar_t *nick = NULL);
+	bool   ListAddResource(JABBER_LIST list, const wchar_t *jid, int status, const wchar_t *statusMessage, char priority = 0, const wchar_t *nick = nullptr);
 	void   ListRemoveResource(JABBER_LIST list, const wchar_t *jid);
 	wchar_t* ListGetBestClientResourceNamePtr(const wchar_t *jid);
 
@@ -630,7 +630,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   BuildPrivacyMenu(void);
 	void   BuildPrivacyListsMenu(bool bDeleteOld);
 
-	void   QueryPrivacyLists(ThreadData *pThreadInfo = NULL);
+	void   QueryPrivacyLists(ThreadData *pThreadInfo = nullptr);
 
 	BOOL   OnIqRequestPrivacyLists(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultPrivacyList(HXML iqNode, CJabberIqInfo *pInfo);
@@ -661,7 +661,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo *pInfo);
 	int    SearchRenewFields(HWND hwndDlg, JabberSearchData * dat);
 	void   SearchDeleteFromRecent(const wchar_t *szAddr, bool deleteLastFromDB);
-	void   SearchAddToRecent(const wchar_t *szAddr, HWND hwndDialog = NULL);
+	void   SearchAddToRecent(const wchar_t *szAddr, HWND hwndDialog = nullptr);
 
 	//---- jabber_std.cpp ----------------------------------------------
 	void   JLoginFailed(int errorCode);
@@ -751,20 +751,20 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	MCONTACT HContactFromJID(const wchar_t *jid, bool bStripResource = true);
 	MCONTACT ChatRoomHContactFromJID(const wchar_t *jid);
 	void   SendVisibleInvisiblePresence(BOOL invisible);
-	void   SendPresenceTo(int status, const wchar_t* to, HXML extra, const wchar_t *msg = NULL);
+	void   SendPresenceTo(int status, const wchar_t* to, HXML extra, const wchar_t *msg = nullptr);
 	void   SendPresence(int m_iStatus, bool bSendToAll);
 	void   StringAppend(char* *str, int *sizeAlloced, const char* fmt, ...);
 
 	void   RebuildInfoFrame(void);
 	void   InitInfoFrame(void);
 
-	// returns buf or NULL on error
+	// returns buf or nullptr on error
 	wchar_t* GetClientJID(MCONTACT hContact, wchar_t *dest, size_t destLen);
 	wchar_t* GetClientJID(const wchar_t *jid, wchar_t *dest, size_t destLen);
 
 	void   ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *param, int recentCount=JABBER_DEFAULT_RECENT_COUNT);
 	void   ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param, const wchar_t *string, int recentCount=JABBER_DEFAULT_RECENT_COUNT);
-	BOOL   EnterString(CMStringW &result, LPCTSTR caption, int type, char *windowName=NULL, int recentCount=JABBER_DEFAULT_RECENT_COUNT, int timeout=0);
+	BOOL   EnterString(CMStringW &result, LPCTSTR caption, int type, char *windowName=nullptr, int recentCount=JABBER_DEFAULT_RECENT_COUNT, int timeout=0);
 	bool   IsMyOwnJID(LPCTSTR szJID);
 
 	void __cdecl LoadHttpAvatars(void* param);

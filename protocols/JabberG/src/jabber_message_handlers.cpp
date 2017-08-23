@@ -31,9 +31,9 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 	// we check if is message delivery failure
 	int id = JabberGetPacketID(node);
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, pInfo->GetFrom());
-	if (item == NULL)
+	if (item == nullptr)
 		item = ListGetItemPtr(LIST_CHATROOM, pInfo->GetFrom());
-	if (item != NULL) { // yes, it is
+	if (item != nullptr) { // yes, it is
 		wchar_t *szErrText = JabberErrorMsg(pInfo->GetChildNode());
 		if (id != -1) {
 			char *errText = mir_u2a(szErrText);
@@ -48,7 +48,7 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 			else
 				mir_snwprintf(buf, L"%s:\n%s", pInfo->GetFrom(), szErrText);
 
-			MsgPopup(NULL, buf, TranslateT("Jabber Error"));
+			MsgPopup(0, buf, TranslateT("Jabber Error"));
 		}
 		mir_free(szErrText);
 	}

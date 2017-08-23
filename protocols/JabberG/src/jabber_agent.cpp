@@ -52,7 +52,7 @@ public:
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		if (msg == WM_JABBER_REGDLG_UPDATE) {
-			if ((wchar_t*)lParam == NULL)
+			if ((wchar_t*)lParam == nullptr)
 				SetDlgItemText(m_hwnd, IDC_REG_STATUS, TranslateT("No message"));
 			else
 				SetDlgItemText(m_hwnd, IDC_REG_STATUS, (wchar_t*)lParam);
@@ -68,7 +68,7 @@ public:
 
 	void OnOk(CCtrlButton*)
 	{
-		m_proto->m_hwndRegProgress = NULL;
+		m_proto->m_hwndRegProgress = nullptr;
 		EndDialog(m_hwnd, 0);
 	}
 };
@@ -91,7 +91,7 @@ public:
 		CJabberDlgBase(_ppro, IDD_FORM, false),
 		m_submit(this, IDC_SUBMIT),
 		m_jid(_jid),
-		m_agentRegIqNode(NULL)
+		m_agentRegIqNode(nullptr)
 	{
 		m_submit.OnClick = Callback(this, &CAgentRegDlg::OnSubmit);
 	}
@@ -118,7 +118,7 @@ public:
 	{
 		xmlDestroyNode(m_agentRegIqNode);
 		JabberFormDestroyUI(GetDlgItem(m_hwnd, IDC_FRAME));
-		m_proto->m_hwndAgentRegInput = NULL;
+		m_proto->m_hwndAgentRegInput = nullptr;
 		EnableWindow(GetParent(m_hwnd), TRUE);
 		SetActiveWindow(GetParent(m_hwnd));
 	}
@@ -131,7 +131,7 @@ public:
 			case IDC_WHITERECT: case IDC_INSTRUCTION: case IDC_TITLE:
 				return (INT_PTR)GetStockObject(WHITE_BRUSH);
 			default:
-				return NULL;
+				return 0;
 			}
 
 		case WM_JABBER_REGINPUT_ACTIVATE:
@@ -141,8 +141,8 @@ public:
 				ShowWindow(GetDlgItem(m_hwnd, IDC_FRAME_TEXT), SW_HIDE);
 
 				HXML queryNode, xNode;
-				if ((m_agentRegIqNode = (HXML)lParam) == NULL) return TRUE;
-				if ((queryNode = XmlGetChild(m_agentRegIqNode , "query")) == NULL) return TRUE;
+				if ((m_agentRegIqNode = (HXML)lParam) == nullptr) return TRUE;
+				if ((queryNode = XmlGetChild(m_agentRegIqNode , "query")) == nullptr) return TRUE;
 
 				RECT rect;
 
@@ -153,7 +153,7 @@ public:
 				GetClientRect(GetDlgItem(m_hwnd, IDC_FRAME), &rect);
 				m_frameHeight = rect.bottom - rect.top;
 
-				if ((xNode=XmlGetChild(queryNode , "x")) != NULL) {
+				if ((xNode=XmlGetChild(queryNode , "x")) != nullptr) {
 					// use new jabber:x:data form
 					if (LPCTSTR ptszInstr = XmlGetText( XmlGetChild(xNode, "instructions")))
 						JabberFormSetInstruction(m_hwnd, ptszInstr);
@@ -165,7 +165,7 @@ public:
 					HJFORMLAYOUT layout_info = JabberFormCreateLayout(hFrame);
 					for (int i=0; ; i++) {
 						HXML n = XmlGetChild(queryNode ,i);
-						if (n == NULL)
+						if (n == nullptr)
 							break;
 
 						if (XmlGetName(n)) {
@@ -215,7 +215,7 @@ public:
 			if (pos < 0)
 				pos = 0;
 			if (m_curPos != pos) {
-				ScrollWindow(GetDlgItem(m_hwnd, IDC_FRAME), 0, m_curPos - pos, NULL, &(m_frameRect));
+				ScrollWindow(GetDlgItem(m_hwnd, IDC_FRAME), 0, m_curPos - pos, nullptr, &(m_frameRect));
 				SetScrollPos(GetDlgItem(m_hwnd, IDC_VSCROLL), SB_CTL, pos, TRUE);
 				m_curPos = pos;
 		}	}
@@ -228,9 +228,9 @@ public:
 		HXML queryNode, xNode;
 		const wchar_t *from;
 
-		if (m_agentRegIqNode == NULL) return;
-		if ((from = XmlGetAttrValue(m_agentRegIqNode, L"from")) == NULL) return;
-		if ((queryNode = XmlGetChild(m_agentRegIqNode ,  "query")) == NULL) return;
+		if (m_agentRegIqNode == nullptr) return;
+		if ((from = XmlGetAttrValue(m_agentRegIqNode, L"from")) == nullptr) return;
+		if ((queryNode = XmlGetChild(m_agentRegIqNode ,  "query")) == nullptr) return;
 		HWND hFrame = GetDlgItem(m_hwnd, IDC_FRAME);
 
 		wchar_t *str2 = (wchar_t*)alloca(sizeof(wchar_t) * 128);
@@ -239,7 +239,7 @@ public:
 		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultSetRegister, JABBER_IQ_TYPE_SET, from));
 		HXML query = iq << XQUERY(JABBER_FEAT_REGISTER);
 
-		if ((xNode = XmlGetChild(queryNode , "x")) != NULL) {
+		if ((xNode = XmlGetChild(queryNode , "x")) != nullptr) {
 			// use new jabber:x:data form
 			HXML n = JabberFormGetData(hFrame, xNode);
 			XmlAddChild(query, n);

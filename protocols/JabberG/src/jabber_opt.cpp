@@ -221,7 +221,7 @@ struct { wchar_t *szCode; wchar_t *szDescription; } g_LanguageCodes[] = {
 	{ L"yo", LPGENW("Yoruba") },
 	{ L"za", LPGENW("Zhuang; Chuang") },
 	{ L"zu", LPGENW("Zulu") },
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 class CJabberDlgRegister : public CJabberDlgBase
@@ -251,7 +251,7 @@ protected:
 	{
 		switch (msg) {
 		case WM_JABBER_REGDLG_UPDATE:	// wParam=progress (0-100), lparam=status string
-			if ((wchar_t*)lParam == NULL)
+			if ((wchar_t*)lParam == nullptr)
 				SetDlgItemText(m_hwnd, IDC_REG_STATUS, TranslateT("No message"));
 			else
 				SetDlgItemText(m_hwnd, IDC_REG_STATUS, (wchar_t*)lParam);
@@ -425,7 +425,7 @@ protected:
 
 		SendDlgItemMessage(m_hwnd, IDC_PRIORITY_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(127, -128));
 
-		wchar_t *passw = m_proto->getWStringA(NULL, "Password");
+		wchar_t *passw = m_proto->getWStringA(0, "Password");
 		if (passw) {
 			m_txtPassword.SetText(passw);
 			mir_free(passw);
@@ -445,7 +445,7 @@ protected:
 			m_cbResource.AddString(szCompName);
 
 		ptrW tszResource(m_proto->getWStringA("Resource"));
-		if (tszResource != NULL) {
+		if (tszResource != nullptr) {
 			if (CB_ERR == m_cbResource.FindString(tszResource, -1, true))
 				m_cbResource.AddString(tszResource);
 			m_cbResource.SetText(tszResource);
@@ -480,7 +480,7 @@ protected:
 	void OnApply()
 	{
 		// clear saved password
-		m_proto->m_savedPassword = NULL;
+		m_proto->m_savedPassword = nullptr;
 
 		if (m_chkSavePassword.GetState() == BST_CHECKED)
 			m_proto->setWString("Password", ptrW(m_txtPassword.GetText()));
@@ -565,7 +565,7 @@ private:
 
 	void btnUnregister_OnClick(CCtrlButton *)
 	{
-		int res = MessageBox(NULL,
+		int res = MessageBox(nullptr,
 			TranslateT("This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?"),
 			TranslateT("Account removal warning"), MB_YESNOCANCEL);
 
@@ -578,7 +578,7 @@ private:
 	void btnChangePassword_OnClick(CCtrlButton *)
 	{
 		if (!m_proto->m_bJabberOnline) {
-			MessageBox(NULL,
+			MessageBox(nullptr,
 				TranslateT("You can change your password only when you are online"),
 				TranslateT("You must be online"), MB_OK | MB_ICONSTOP);
 			return;
@@ -684,7 +684,7 @@ private:
 
 	void RefreshServers(HXML node)
 	{
-		m_gotservers = node != NULL;
+		m_gotservers = node != nullptr;
 
 		wchar_t *server = m_cbServer.GetText();
 		bool bDropdown = m_cbServer.GetDroppedState();
@@ -730,7 +730,7 @@ private:
 		if (result) {
 			if (result->resultCode == 200 && result->dataLength && result->pData) {
 				wchar_t *buf = mir_a2u(result->pData);
-				XmlNode node(buf, NULL, NULL);
+				XmlNode node(buf, nullptr, nullptr);
 				if (node) {
 					HXML queryNode = XmlGetChild(node, L"query");
 					SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)queryNode);
@@ -833,10 +833,10 @@ public:
 		LISTFOREACH(index, m_proto, LIST_ROSTER)
 		{
 			JABBER_LIST_ITEM *item = m_proto->ListGetItemPtrFromIndex(index);
-			if (item != NULL) {
-				if (wcschr(item->jid, '@') == NULL) {
+			if (item != nullptr) {
+				if (wcschr(item->jid, '@') == nullptr) {
 					MCONTACT hContact = m_proto->HContactFromJID(item->jid);
-					if (hContact != NULL) {
+					if (hContact != 0) {
 						if (bChecked) {
 							if (item->getTemp()->m_iStatus != m_proto->getWord(hContact, "Status", ID_STATUS_OFFLINE)) {
 								m_proto->setWord(hContact, "Status", (WORD)item->getTemp()->m_iStatus);
@@ -1002,15 +1002,15 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 	if (rrud.bRRAction == RRA_FILLLIST) {
 		_RosterListClear(rrud.hwndDlg);
 		HXML query = XmlGetChild(node, "query");
-		if (query == NULL) return;
+		if (query == nullptr) return;
 		int i = 1;
 		while (TRUE) {
 			HXML item = XmlGetNthChild(query, L"item", i++);
-			if (item == NULL)
+			if (item == nullptr)
 				break;
 
 			const wchar_t *jid = XmlGetAttrValue(item, L"jid");
-			if (jid == NULL)
+			if (jid == nullptr)
 				continue;
 
 			const wchar_t *name = XmlGetAttrValue(item, L"name");
@@ -1022,7 +1022,7 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 		// now it is require to process whole contact list to add not in roster contacts
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			ptrW tszJid(getWStringA(hContact, "jid"));
-			if (tszJid == NULL)
+			if (tszJid == nullptr)
 				continue;
 
 			LVFINDINFO lvfi = { 0 };
@@ -1036,7 +1036,7 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 			if (ListView_FindItem(hList, -1, &lvfi) == -1) {
 				ptrW tszName(db_get_wsa(hContact, "CList", "MyHandle"));
 				ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
-				_RosterInsertListItem(hList, tszJid, tszName, tszGroup, NULL, FALSE);
+				_RosterInsertListItem(hList, tszJid, tszName, tszGroup, nullptr, FALSE);
 			}
 		}
 		rrud.bReadyToDownload = FALSE;
@@ -1079,16 +1079,16 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 				BOOL bPushed = itemRoster ? TRUE : FALSE;
 				if (!bPushed) {
 					const wchar_t *rosterName = XmlGetAttrValue(itemRoster, L"name");
-					if ((rosterName != NULL || name[0] != 0) && mir_wstrcmpi(rosterName, name))
+					if ((rosterName != nullptr || name[0] != 0) && mir_wstrcmpi(rosterName, name))
 						bPushed = TRUE;
 					if (!bPushed) {
 						rosterName = XmlGetAttrValue(itemRoster, L"subscription");
-						if ((rosterName != NULL || subscr[0] != 0) && mir_wstrcmpi(rosterName, subscr))
+						if ((rosterName != nullptr || subscr[0] != 0) && mir_wstrcmpi(rosterName, subscr))
 							bPushed = TRUE;
 					}
 					if (!bPushed) {
 						const wchar_t *rosterGroup = XmlGetText(XmlGetChild(itemRoster, "group"));
-						if ((rosterGroup != NULL || group[0] != 0) && mir_wstrcmpi(rosterGroup, group))
+						if ((rosterGroup != nullptr || group[0] != 0) && mir_wstrcmpi(rosterGroup, group))
 							bPushed = TRUE;
 					}
 				}
@@ -1188,7 +1188,7 @@ void CJabberProto::_RosterExportToFile(HWND hwndDlg)
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = hwndDlg;
-	ofn.hInstance = NULL;
+	ofn.hInstance = nullptr;
 	ofn.lpstrFilter = filter;
 	ofn.lpstrFile = filename;
 	ofn.Flags = OFN_HIDEREADONLY;
@@ -1235,7 +1235,7 @@ void CJabberProto::_RosterExportToFile(HWND hwndDlg)
 	char header[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<?mso-application progid=\"Excel.Sheet\"?>\n";
 	fwrite(header, 1, sizeof(header) - 1 /* for zero terminator */, fp);
 
-	wchar_t *xtmp = xmlToString(root, NULL);
+	wchar_t *xtmp = xmlToString(root, nullptr);
 	fputs(T2Utf(xtmp), fp);
 	xmlFree(xtmp);
 	fclose(fp);
@@ -1248,7 +1248,7 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 	OPENFILENAMEA ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = hwndDlg;
-	ofn.hInstance = NULL;
+	ofn.hInstance = nullptr;
 	ofn.lpstrFilter = filter;
 	ofn.lpstrFile = filename;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
@@ -1277,7 +1277,7 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 	mir_free(buffer);
 
 	int nBytesProcessed = 0;
-	XmlNode node(newBuf, &nBytesProcessed, NULL);
+	XmlNode node(newBuf, &nBytesProcessed, nullptr);
 	if (node) {
 		HXML Workbook = XmlGetChild(node, L"Workbook");
 		if (Workbook) {
@@ -1293,10 +1293,10 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 							break;
 
 						BOOL bAdd = FALSE;
-						const wchar_t *jid = NULL;
-						const wchar_t *name = NULL;
-						const wchar_t *group = NULL;
-						const wchar_t *subscr = NULL;
+						const wchar_t *jid = nullptr;
+						const wchar_t *name = nullptr;
+						const wchar_t *group = nullptr;
+						const wchar_t *subscr = nullptr;
 						HXML Cell = XmlGetNthChild(Row, L"Cell", 1);
 						HXML Data = (Cell) ? XmlGetChild(Cell, "Data") : XmlNode();
 						if (Data) {
@@ -1305,7 +1305,7 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 
 							Cell = XmlGetNthChild(Row, L"Cell", 2);
 							if (Cell) Data = XmlGetChild(Cell, "Data");
-							else Data = NULL;
+							else Data = nullptr;
 							if (Data) {
 								jid = XmlGetText(Data);
 								if (!jid || mir_wstrlen(jid) == 0) continue;
@@ -1313,17 +1313,17 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 
 							Cell = XmlGetNthChild(Row, L"Cell", 3);
 							if (Cell) Data = XmlGetChild(Cell, "Data");
-							else Data = NULL;
+							else Data = nullptr;
 							if (Data) name = XmlGetText(Data);
 
 							Cell = XmlGetNthChild(Row, L"Cell", 4);
 							if (Cell) Data = XmlGetChild(Cell, "Data");
-							else Data = NULL;
+							else Data = nullptr;
 							if (Data) group = XmlGetText(Data);
 
 							Cell = XmlGetNthChild(Row, L"Cell", 5);
 							if (Cell) Data = XmlGetChild(Cell, "Data");
-							else Data = NULL;
+							else Data = nullptr;
 							if (Data) subscr = XmlGetText(Data);
 						}
 						_RosterInsertListItem(hList, jid, name, group, subscr, bAdd);
@@ -1355,7 +1355,7 @@ static LRESULT CALLBACK _RosterNewListProc(HWND hList, UINT msg, WPARAM wParam, 
 			wchar_t buff[260];
 			ListView_GetSubItemRect(hList, lvhti.iItem, lvhti.iSubItem, LVIR_BOUNDS, &rc);
 			ListView_GetItemText(hList, lvhti.iItem, lvhti.iSubItem, buff, _countof(buff));
-			HWND hEditor = CreateWindow(TEXT("EDIT"), buff, WS_CHILD | ES_AUTOHSCROLL, rc.left + 3, rc.top + 2, rc.right - rc.left - 3, rc.bottom - rc.top - 3, hList, NULL, hInst, NULL);
+			HWND hEditor = CreateWindow(TEXT("EDIT"), buff, WS_CHILD | ES_AUTOHSCROLL, rc.left + 3, rc.top + 2, rc.right - rc.left - 3, rc.bottom - rc.top - 3, hList, nullptr, hInst, nullptr);
 			SendMessage(hEditor, WM_SETFONT, (WPARAM)SendMessage(hList, WM_GETFONT, 0, 0), 0);
 			ShowWindow(hEditor, SW_SHOW);
 			SetWindowText(hEditor, buff);
@@ -1407,7 +1407,7 @@ static INT_PTR CALLBACK JabberRosterOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		TranslateDialogDefault(hwndDlg);
 		Window_SetIcon_IcoLib(hwndDlg, g_GetIconHandle(IDI_AGENTS));
 
-		Utils_RestoreWindowPosition(hwndDlg, NULL, ppro->m_szModuleName, "rosterCtrlWnd_");
+		Utils_RestoreWindowPosition(hwndDlg, 0, ppro->m_szModuleName, "rosterCtrlWnd_");
 
 		ListView_SetExtendedListViewStyle(GetDlgItem(hwndDlg, IDC_ROSTER), LVS_EX_CHECKBOXES | LVS_EX_BORDERSELECT /*| LVS_EX_FULLROWSELECT*/ | LVS_EX_GRIDLINES /*| LVS_EX_HEADERDRAGDROP*/);
 		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_ROSTER), _RosterNewListProc);
@@ -1432,8 +1432,8 @@ static INT_PTR CALLBACK JabberRosterOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		break;
 
 	case WM_DESTROY:
-		Utils_SaveWindowPosition(hwndDlg, NULL, ppro->m_szModuleName, "rosterCtrlWnd_");
-		ppro->rrud.hwndDlg = NULL;
+		Utils_SaveWindowPosition(hwndDlg, 0, ppro->m_szModuleName, "rosterCtrlWnd_");
+		ppro->rrud.hwndDlg = nullptr;
 		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
 
@@ -1484,7 +1484,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleRosterControl(WPARAM, LPARAM)
 	if (rrud.hwndDlg && IsWindow(rrud.hwndDlg))
 		SetForegroundWindow(rrud.hwndDlg);
 	else
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPT_JABBER3), NULL, JabberRosterOptDlgProc, (LPARAM)this);
+		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPT_JABBER3), nullptr, JabberRosterOptDlgProc, (LPARAM)this);
 
 	return 0;
 }
@@ -1575,7 +1575,7 @@ protected:
 
 		m_gotservers = false;
 
-		wchar_t *passw = m_proto->getWStringA(NULL, "Password");
+		wchar_t *passw = m_proto->getWStringA(0, "Password");
 		if (passw) {
 			m_txtPassword.SetText(passw);
 			mir_free(passw);
@@ -1595,7 +1595,7 @@ protected:
 			m_cbResource.AddString(szCompName);
 
 		ptrW tszResource(m_proto->getWStringA("Resource"));
-		if (tszResource != NULL) {
+		if (tszResource != nullptr) {
 			if (CB_ERR == m_cbResource.FindString(tszResource, -1, true))
 				m_cbResource.AddString(tszResource);
 			m_cbResource.SetText(tszResource);
@@ -1616,8 +1616,8 @@ protected:
 
 		char server[256], manualServer[256] = { 0 };
 		m_cbServer.GetTextA(server, _countof(server));
-		ptrA dbManualServer(db_get_sa(NULL, m_proto->m_szModuleName, "ManualHost"));
-		if (dbManualServer != NULL)
+		ptrA dbManualServer(db_get_sa(0, m_proto->m_szModuleName, "ManualHost"));
+		if (dbManualServer != nullptr)
 			mir_strncpy(manualServer, dbManualServer, _countof(manualServer));
 
 		m_canregister = true;
@@ -1668,7 +1668,7 @@ protected:
 				m_txtPort.Enable();
 
 				ptrW dbManualHost(m_proto->getWStringA("ManualHost"));
-				if (dbManualHost != NULL)
+				if (dbManualHost != nullptr)
 					m_txtManualHost.SetText(dbManualHost);
 
 				m_txtPort.SetInt(m_proto->getWord("ManualPort", m_txtPort.GetInt()));
@@ -1702,7 +1702,7 @@ protected:
 	void OnApply()
 	{
 		// clear saved password
-		m_proto->m_savedPassword = NULL;
+		m_proto->m_savedPassword = nullptr;
 
 		BOOL bUseHostnameAsResource = FALSE;
 		wchar_t szCompName[MAX_COMPUTERNAME_LENGTH + 1], szResource[MAX_COMPUTERNAME_LENGTH + 1];
@@ -2138,7 +2138,7 @@ void CJabberDlgAccMgrUI::setupSMS()
 
 void CJabberDlgAccMgrUI::RefreshServers(HXML node)
 {
-	m_gotservers = node != NULL;
+	m_gotservers = node != nullptr;
 
 	wchar_t *server = m_cbServer.GetText();
 	bool bDropdown = m_cbServer.GetDroppedState();
@@ -2180,7 +2180,7 @@ void CJabberDlgAccMgrUI::QueryServerListThread(void *arg)
 	if (result && IsWindow(hwnd)) {
 		if ((result->resultCode == 200) && result->dataLength && result->pData) {
 			wchar_t *ptszText = mir_a2u(result->pData);
-			XmlNode node(ptszText, NULL, NULL);
+			XmlNode node(ptszText, nullptr, nullptr);
 			if (node) {
 				HXML queryNode = XmlGetChild(node, L"query");
 				if (queryNode && IsWindow(hwnd)) {

@@ -312,7 +312,7 @@ struct JabberFeatCapPairExt
 	LPCSTR szService;
 
 	int Valid() const
-	{	return (szService == NULL) ? true : ServiceExists(szService);
+	{	return (szService == nullptr) ? true : ServiceExists(szService);
 	}
 };
 

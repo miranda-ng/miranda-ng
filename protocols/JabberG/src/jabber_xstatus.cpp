@@ -54,7 +54,7 @@ private:
 };
 
 CJabberDlgPepBase::CJabberDlgPepBase(CJabberProto *proto, int id):
-	CJabberDlgBase(proto, id, NULL),
+	CJabberDlgBase(proto, id, nullptr),
 	m_btnOk(this, IDOK),
 	m_btnCancel(this, IDCANCEL),
 	m_time(5)
@@ -65,7 +65,7 @@ void CJabberDlgPepBase::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
-	SetTimer(m_hwnd, 1, 1000, NULL);
+	SetTimer(m_hwnd, 1, 1000, nullptr);
 
 	wchar_t buf[128];
 	mir_snwprintf(buf, TranslateT("OK (%d)"), m_time);
@@ -179,7 +179,7 @@ CJabberDlgPepSimple::CJabberDlgPepSimple(CJabberProto *proto, wchar_t *title):
 	m_cbModes(this, IDC_CB_MODES),
 	m_txtDescription(this, IDC_TXT_DESCRIPTION),
 	m_modes(10),
-	m_text(NULL),
+	m_text(nullptr),
 	m_selected(0),
 	m_prevSelected(-1),
 	m_active(-1),
@@ -286,7 +286,7 @@ void CJabberDlgPepSimple::cbModes_OnChange(CCtrlData *)
 		mir_snprintf(szSetting, "PepMsg_%s", m_modes[m_cbModes.GetItemData(m_prevSelected)].m_name);
 
 		ptrW szDescr( m_proto->getWStringA(szSetting));
-		m_txtDescription.SetText((szDescr != NULL) ? szDescr : L"");
+		m_txtDescription.SetText((szDescr != nullptr) ? szDescr : L"");
 		m_txtDescription.Enable(true);
 	}
 	else {
@@ -347,13 +347,13 @@ BOOL CJabberDlgPepSimple::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 		}
 		else mir_wstrncpy(text, mode->m_title, _countof(text));
 
-		DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 2, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2, mode->m_hIcon, 16, 16, 0, NULL, DI_NORMAL);
+		DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 2, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2, mode->m_hIcon, 16, 16, 0, nullptr, DI_NORMAL);
 		TextOut(lpdis->hDC, lpdis->rcItem.left + 23, (lpdis->rcItem.top + lpdis->rcItem.bottom - tm.tmHeight) / 2, text, (int)mir_wstrlen(text));
 	}
 	else {
 		wchar_t text[128];
 		mir_snwprintf(text, L"...%s", mode->m_title);
-		DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 23, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2, mode->m_hIcon, 16, 16, 0, NULL, DI_NORMAL);
+		DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 23, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2, mode->m_hIcon, 16, 16, 0, nullptr, DI_NORMAL);
 		TextOut(lpdis->hDC, lpdis->rcItem.left + 44, (lpdis->rcItem.top + lpdis->rcItem.bottom - tm.tmHeight) / 2, text, (int)mir_wstrlen(text));
 	}
 
@@ -375,7 +375,7 @@ CPepService::CPepService(CJabberProto *proto, char *name, wchar_t *node):
 	m_proto(proto),
 	m_name(name),
 	m_node(node),
-	m_hMenuItem(NULL),
+	m_hMenuItem(nullptr),
 	m_wasPublished(false)
 {
 }
@@ -428,9 +428,9 @@ void CPepService::ForceRepublishOnLogin()
 CPepGuiService::CPepGuiService(CJabberProto *proto, char *name, wchar_t *node):
 	CPepService(proto, name, node),
 	m_bGuiOpen(false),
-	m_hIcolibItem(NULL),
-	m_szText(NULL),
-	m_hMenuService(NULL)
+	m_hIcolibItem(nullptr),
+	m_szText(nullptr),
+	m_hMenuService(nullptr)
 {
 }
 
@@ -438,7 +438,7 @@ CPepGuiService::~CPepGuiService()
 {
 	if (m_hMenuService) {
 		DestroyServiceFunction(m_hMenuService);
-		m_hMenuService = NULL;
+		m_hMenuService = nullptr;
 	}
 
 	if (m_szText) mir_free(m_szText);
@@ -459,7 +459,7 @@ void CPepGuiService::InitGui()
 void CPepGuiService::RebuildMenu()
 {
 	HGENMENU hJabberRoot = m_proto->m_hMenuRoot;
-	if (hJabberRoot == NULL)
+	if (hJabberRoot == nullptr)
 		return;
 
 	char szService[128];
@@ -511,7 +511,7 @@ struct
 }
 static g_arrMoods[] =
 {
-	{ LPGENW("None"),         NULL            },
+	{ LPGENW("None"),         nullptr            },
 	{ LPGENW("Afraid"),       "afraid"        },
 	{ LPGENW("Amazed"),       "amazed"        },
 	{ LPGENW("Amorous"),      "amorous"       },
@@ -600,7 +600,7 @@ static g_arrMoods[] =
 
 CPepMood::CPepMood(CJabberProto *proto) :
 	CPepGuiService(proto, "Mood", JABBER_FEAT_USER_MOOD),
-	m_text(NULL),
+	m_text(nullptr),
 	m_mode(-1)
 {
 	UpdateMenuItem(Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), LPGENW("Set mood..."));
@@ -613,7 +613,7 @@ CPepMood::~CPepMood()
 
 void CPepMood::ProcessItems(const wchar_t *from, HXML itemsNode)
 {
-	MCONTACT hContact = NULL, hSelfContact = NULL;
+	MCONTACT hContact = 0, hSelfContact = 0;
 	if (!m_proto->IsMyOwnJID(from)) {
 		hContact = m_proto->HContactFromJID(from);
 		if (!hContact) return;
@@ -622,15 +622,15 @@ void CPepMood::ProcessItems(const wchar_t *from, HXML itemsNode)
 
 	if (XmlGetChild(itemsNode, L"retract")) {
 		if (hSelfContact)
-			SetMood(hSelfContact, NULL, NULL);
-		SetMood(hContact, NULL, NULL);
+			SetMood(hSelfContact, nullptr, nullptr);
+		SetMood(hContact, nullptr, nullptr);
 		return;
 	}
 
 	HXML n, moodNode = XPath(itemsNode, L"item/mood[@xmlns='" JABBER_FEAT_USER_MOOD L"']");
 	if (!moodNode) return;
 
-	LPCTSTR moodType = NULL, moodText = NULL;
+	LPCTSTR moodType = nullptr, moodText = nullptr;
 	for (int i=0; n = XmlGetChild(moodNode, i); i++) {
 		if (!mir_wstrcmp(XmlGetName(n), L"text"))
 			moodText = XmlGetText(n);
@@ -665,7 +665,7 @@ void CPepMood::ResetExtraIcon(MCONTACT hContact)
 
 void CPepMood::SetExtraIcon(MCONTACT hContact, char *szMood)
 {
-	ExtraIcon_SetIcon(hExtraMood, hContact, szMood == NULL ? NULL : g_MoodIcons.GetIcolibHandle(szMood));
+	ExtraIcon_SetIcon(hExtraMood, hContact, szMood == nullptr ? nullptr : g_MoodIcons.GetIcolibHandle(szMood));
 }
 
 void CPepMood::SetMood(MCONTACT hContact, const wchar_t *szMood, const wchar_t *szText)
@@ -705,7 +705,7 @@ void CPepMood::SetMood(MCONTACT hContact, const wchar_t *szMood, const wchar_t *
 		if (m_proto->m_pInfoFrame)
 			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", hIcon, title);
 	}
-	else SetExtraIcon(hContact, mood < 0 ? NULL : g_arrMoods[mood].szTag);
+	else SetExtraIcon(hContact, mood < 0 ? nullptr : g_arrMoods[mood].szTag);
 
 	if (szMood) {
 		m_proto->setByte(hContact, DBSETTING_XSTATUSID, mood);
@@ -774,85 +774,85 @@ struct
 }
 static g_arrActivities[] =
 {
-	{ "doing_chores", NULL,       LPGENW("Doing chores"),       ACTIVITY_ICON(0,  0) },
-	{ NULL, "buying_groceries",   LPGENW("buying groceries"),   ACTIVITY_ICON(0,  1) },
-	{ NULL, "cleaning",           LPGENW("cleaning"),           ACTIVITY_ICON(0,  2) },
-	{ NULL, "cooking",            LPGENW("cooking"),            ACTIVITY_ICON(0,  3) },
-	{ NULL, "doing_maintenance",  LPGENW("doing maintenance"),  ACTIVITY_ICON(0,  4) },
-	{ NULL, "doing_the_dishes",   LPGENW("doing the dishes"),   ACTIVITY_ICON(0,  5) },
-	{ NULL, "doing_the_laundry",  LPGENW("doing the laundry"),  ACTIVITY_ICON(0,  6) },
-	{ NULL, "gardening",          LPGENW("gardening"),          ACTIVITY_ICON(0,  7) },
-	{ NULL, "running_an_errand",  LPGENW("running an errand"),  ACTIVITY_ICON(0,  8) },
-	{ NULL, "walking_the_dog",    LPGENW("walking the dog"),    ACTIVITY_ICON(0,  9) },
-	{ "drinking", NULL,           LPGENW("Drinking"),           ACTIVITY_ICON(1,  0) },
-	{ NULL, "having_a_beer",      LPGENW("having a beer"),      ACTIVITY_ICON(1,  1) },
-	{ NULL, "having_coffee",      LPGENW("having coffee"),      ACTIVITY_ICON(1,  2) },
-	{ NULL, "having_tea",         LPGENW("having tea"),         ACTIVITY_ICON(1,  3) },
-	{ "eating", NULL,             LPGENW("Eating"),             ACTIVITY_ICON(2,  0) },
-	{ NULL, "having_a_snack",     LPGENW("having a snack"),     ACTIVITY_ICON(2,  1) },
-	{ NULL, "having_breakfast",   LPGENW("having breakfast"),   ACTIVITY_ICON(2,  2) },
-	{ NULL, "having_dinner",      LPGENW("having dinner"),      ACTIVITY_ICON(2,  3) },
-	{ NULL, "having_lunch",       LPGENW("having lunch"),       ACTIVITY_ICON(2,  4) },
-	{ "exercising", NULL,         LPGENW("Exercising"),         ACTIVITY_ICON(3,  0) },
-	{ NULL, "cycling",            LPGENW("cycling"),            ACTIVITY_ICON(3,  1) },
-	{ NULL, "dancing",            LPGENW("dancing"),            ACTIVITY_ICON(3,  2) },
-	{ NULL, "hiking",             LPGENW("hiking"),             ACTIVITY_ICON(3,  3) },
-	{ NULL, "jogging",            LPGENW("jogging"),            ACTIVITY_ICON(3,  4) },
-	{ NULL, "playing_sports",     LPGENW("playing sports"),     ACTIVITY_ICON(3,  5) },
-	{ NULL, "running",            LPGENW("running"),            ACTIVITY_ICON(3,  6) },
-	{ NULL, "skiing",             LPGENW("skiing"),             ACTIVITY_ICON(3,  7) },
-	{ NULL, "swimming",           LPGENW("swimming"),           ACTIVITY_ICON(3,  8) },
-	{ NULL, "working_out",        LPGENW("working out"),        ACTIVITY_ICON(3,  9) },
-	{ "grooming", NULL,           LPGENW("Grooming"),           ACTIVITY_ICON(4,  0) },
-	{ NULL, "at_the_spa",         LPGENW("at the spa"),         ACTIVITY_ICON(4,  1) },
-	{ NULL, "brushing_teeth",     LPGENW("brushing teeth"),     ACTIVITY_ICON(4,  2) },
-	{ NULL, "getting_a_haircut",  LPGENW("getting a haircut"),  ACTIVITY_ICON(4,  3) },
-	{ NULL, "shaving",            LPGENW("shaving"),            ACTIVITY_ICON(4,  4) },
-	{ NULL, "taking_a_bath",      LPGENW("taking a bath"),      ACTIVITY_ICON(4,  5) },
-	{ NULL, "taking_a_shower",    LPGENW("taking a shower"),    ACTIVITY_ICON(4,  6) },
-	{ "having_appointment", NULL, LPGENW("Having appointment"), ACTIVITY_ICON(5,  0) },
-	{ "inactive", NULL,           LPGENW("Inactive"),           ACTIVITY_ICON(6,  0) },
-	{ NULL, "day_off",            LPGENW("day off"),            ACTIVITY_ICON(6,  1) },
-	{ NULL, "hanging_out",        LPGENW("hanging out"),        ACTIVITY_ICON(6,  2) },
-	{ NULL, "hiding",             LPGENW("hiding"),             ACTIVITY_ICON(6,  3) },
-	{ NULL, "on_vacation",        LPGENW("on vacation"),        ACTIVITY_ICON(6,  4) },
-	{ NULL, "praying",            LPGENW("praying"),            ACTIVITY_ICON(6,  5) },
-	{ NULL, "scheduled_holiday",  LPGENW("scheduled holiday"),  ACTIVITY_ICON(6,  6) },
-	{ NULL, "sleeping",           LPGENW("sleeping"),           ACTIVITY_ICON(6,  7) },
-	{ NULL, "thinking",           LPGENW("thinking"),           ACTIVITY_ICON(6,  8) },
-	{ "relaxing", NULL,           LPGENW("Relaxing"),           ACTIVITY_ICON(7,  0) },
-	{ NULL, "fishing",            LPGENW("fishing"),            ACTIVITY_ICON(7,  1) },
-	{ NULL, "gaming",             LPGENW("gaming"),             ACTIVITY_ICON(7,  2) },
-	{ NULL, "going_out",          LPGENW("going out"),          ACTIVITY_ICON(7,  3) },
-	{ NULL, "partying",           LPGENW("partying"),           ACTIVITY_ICON(7,  4) },
-	{ NULL, "reading",            LPGENW("reading"),            ACTIVITY_ICON(7,  5) },
-	{ NULL, "rehearsing",         LPGENW("rehearsing"),         ACTIVITY_ICON(7,  6) },
-	{ NULL, "shopping",           LPGENW("shopping"),           ACTIVITY_ICON(7,  7) },
-	{ NULL, "smoking",            LPGENW("smoking"),            ACTIVITY_ICON(7,  8) },
-	{ NULL, "socializing",        LPGENW("socializing"),        ACTIVITY_ICON(7,  9) },
-	{ NULL, "sunbathing",         LPGENW("sunbathing"),         ACTIVITY_ICON(7,  10) },
-	{ NULL, "watching_tv",        LPGENW("watching TV"),        ACTIVITY_ICON(7,  11) },
-	{ NULL, "watching_a_movie",   LPGENW("watching a movie"),   ACTIVITY_ICON(7,  12) },
-	{ "talking", NULL,            LPGENW("Talking"),            ACTIVITY_ICON(8,  0) },
-	{ NULL, "in_real_life",       LPGENW("in real life"),       ACTIVITY_ICON(8,  1) },
-	{ NULL, "on_the_phone",       LPGENW("on the phone"),       ACTIVITY_ICON(8,  2) },
-	{ NULL, "on_video_phone",     LPGENW("on video phone"),     ACTIVITY_ICON(8,  3) },
-	{ "traveling", NULL,          LPGENW("Traveling"),          ACTIVITY_ICON(9,  0) },
-	{ NULL, "commuting",          LPGENW("commuting"),          ACTIVITY_ICON(9,  1) },
-	{ NULL, "cycling",            LPGENW("cycling"),            ACTIVITY_ICON(9,  2) },
-	{ NULL, "driving",            LPGENW("driving"),            ACTIVITY_ICON(9,  3) },
-	{ NULL, "in_a_car",           LPGENW("in a car"),           ACTIVITY_ICON(9,  4) },
-	{ NULL, "on_a_bus",           LPGENW("on a bus"),           ACTIVITY_ICON(9,  5) },
-	{ NULL, "on_a_plane",         LPGENW("on a plane"),         ACTIVITY_ICON(9,  6) },
-	{ NULL, "on_a_train",         LPGENW("on a train"),         ACTIVITY_ICON(9,  7) },
-	{ NULL, "on_a_trip",          LPGENW("on a trip"),          ACTIVITY_ICON(9,  8) },
-	{ NULL, "walking",            LPGENW("walking"),            ACTIVITY_ICON(9,  9) },
-	{ "working", NULL,            LPGENW("Working"),            ACTIVITY_ICON(10,  0) },
-	{ NULL, "coding",             LPGENW("coding"),             ACTIVITY_ICON(10,  1) },
-	{ NULL, "in_a_meeting",       LPGENW("in a meeting"),       ACTIVITY_ICON(10,  2) },
-	{ NULL, "studying",           LPGENW("studying"),           ACTIVITY_ICON(10,  3) },
-	{ NULL, "writing",            LPGENW("writing"),            ACTIVITY_ICON(10,  4) },
-	{ NULL, NULL, NULL } // the end, don't delete this
+	{ "doing_chores", nullptr,       LPGENW("Doing chores"),       ACTIVITY_ICON(0,  0) },
+	{ nullptr, "buying_groceries",   LPGENW("buying groceries"),   ACTIVITY_ICON(0,  1) },
+	{ nullptr, "cleaning",           LPGENW("cleaning"),           ACTIVITY_ICON(0,  2) },
+	{ nullptr, "cooking",            LPGENW("cooking"),            ACTIVITY_ICON(0,  3) },
+	{ nullptr, "doing_maintenance",  LPGENW("doing maintenance"),  ACTIVITY_ICON(0,  4) },
+	{ nullptr, "doing_the_dishes",   LPGENW("doing the dishes"),   ACTIVITY_ICON(0,  5) },
+	{ nullptr, "doing_the_laundry",  LPGENW("doing the laundry"),  ACTIVITY_ICON(0,  6) },
+	{ nullptr, "gardening",          LPGENW("gardening"),          ACTIVITY_ICON(0,  7) },
+	{ nullptr, "running_an_errand",  LPGENW("running an errand"),  ACTIVITY_ICON(0,  8) },
+	{ nullptr, "walking_the_dog",    LPGENW("walking the dog"),    ACTIVITY_ICON(0,  9) },
+	{ "drinking", nullptr,           LPGENW("Drinking"),           ACTIVITY_ICON(1,  0) },
+	{ nullptr, "having_a_beer",      LPGENW("having a beer"),      ACTIVITY_ICON(1,  1) },
+	{ nullptr, "having_coffee",      LPGENW("having coffee"),      ACTIVITY_ICON(1,  2) },
+	{ nullptr, "having_tea",         LPGENW("having tea"),         ACTIVITY_ICON(1,  3) },
+	{ "eating", nullptr,             LPGENW("Eating"),             ACTIVITY_ICON(2,  0) },
+	{ nullptr, "having_a_snack",     LPGENW("having a snack"),     ACTIVITY_ICON(2,  1) },
+	{ nullptr, "having_breakfast",   LPGENW("having breakfast"),   ACTIVITY_ICON(2,  2) },
+	{ nullptr, "having_dinner",      LPGENW("having dinner"),      ACTIVITY_ICON(2,  3) },
+	{ nullptr, "having_lunch",       LPGENW("having lunch"),       ACTIVITY_ICON(2,  4) },
+	{ "exercising", nullptr,         LPGENW("Exercising"),         ACTIVITY_ICON(3,  0) },
+	{ nullptr, "cycling",            LPGENW("cycling"),            ACTIVITY_ICON(3,  1) },
+	{ nullptr, "dancing",            LPGENW("dancing"),            ACTIVITY_ICON(3,  2) },
+	{ nullptr, "hiking",             LPGENW("hiking"),             ACTIVITY_ICON(3,  3) },
+	{ nullptr, "jogging",            LPGENW("jogging"),            ACTIVITY_ICON(3,  4) },
+	{ nullptr, "playing_sports",     LPGENW("playing sports"),     ACTIVITY_ICON(3,  5) },
+	{ nullptr, "running",            LPGENW("running"),            ACTIVITY_ICON(3,  6) },
+	{ nullptr, "skiing",             LPGENW("skiing"),             ACTIVITY_ICON(3,  7) },
+	{ nullptr, "swimming",           LPGENW("swimming"),           ACTIVITY_ICON(3,  8) },
+	{ nullptr, "working_out",        LPGENW("working out"),        ACTIVITY_ICON(3,  9) },
+	{ "grooming", nullptr,           LPGENW("Grooming"),           ACTIVITY_ICON(4,  0) },
+	{ nullptr, "at_the_spa",         LPGENW("at the spa"),         ACTIVITY_ICON(4,  1) },
+	{ nullptr, "brushing_teeth",     LPGENW("brushing teeth"),     ACTIVITY_ICON(4,  2) },
+	{ nullptr, "getting_a_haircut",  LPGENW("getting a haircut"),  ACTIVITY_ICON(4,  3) },
+	{ nullptr, "shaving",            LPGENW("shaving"),            ACTIVITY_ICON(4,  4) },
+	{ nullptr, "taking_a_bath",      LPGENW("taking a bath"),      ACTIVITY_ICON(4,  5) },
+	{ nullptr, "taking_a_shower",    LPGENW("taking a shower"),    ACTIVITY_ICON(4,  6) },
+	{ "having_appointment", nullptr, LPGENW("Having appointment"), ACTIVITY_ICON(5,  0) },
+	{ "inactive", nullptr,           LPGENW("Inactive"),           ACTIVITY_ICON(6,  0) },
+	{ nullptr, "day_off",            LPGENW("day off"),            ACTIVITY_ICON(6,  1) },
+	{ nullptr, "hanging_out",        LPGENW("hanging out"),        ACTIVITY_ICON(6,  2) },
+	{ nullptr, "hiding",             LPGENW("hiding"),             ACTIVITY_ICON(6,  3) },
+	{ nullptr, "on_vacation",        LPGENW("on vacation"),        ACTIVITY_ICON(6,  4) },
+	{ nullptr, "praying",            LPGENW("praying"),            ACTIVITY_ICON(6,  5) },
+	{ nullptr, "scheduled_holiday",  LPGENW("scheduled holiday"),  ACTIVITY_ICON(6,  6) },
+	{ nullptr, "sleeping",           LPGENW("sleeping"),           ACTIVITY_ICON(6,  7) },
+	{ nullptr, "thinking",           LPGENW("thinking"),           ACTIVITY_ICON(6,  8) },
+	{ "relaxing", nullptr,           LPGENW("Relaxing"),           ACTIVITY_ICON(7,  0) },
+	{ nullptr, "fishing",            LPGENW("fishing"),            ACTIVITY_ICON(7,  1) },
+	{ nullptr, "gaming",             LPGENW("gaming"),             ACTIVITY_ICON(7,  2) },
+	{ nullptr, "going_out",          LPGENW("going out"),          ACTIVITY_ICON(7,  3) },
+	{ nullptr, "partying",           LPGENW("partying"),           ACTIVITY_ICON(7,  4) },
+	{ nullptr, "reading",            LPGENW("reading"),            ACTIVITY_ICON(7,  5) },
+	{ nullptr, "rehearsing",         LPGENW("rehearsing"),         ACTIVITY_ICON(7,  6) },
+	{ nullptr, "shopping",           LPGENW("shopping"),           ACTIVITY_ICON(7,  7) },
+	{ nullptr, "smoking",            LPGENW("smoking"),            ACTIVITY_ICON(7,  8) },
+	{ nullptr, "socializing",        LPGENW("socializing"),        ACTIVITY_ICON(7,  9) },
+	{ nullptr, "sunbathing",         LPGENW("sunbathing"),         ACTIVITY_ICON(7,  10) },
+	{ nullptr, "watching_tv",        LPGENW("watching TV"),        ACTIVITY_ICON(7,  11) },
+	{ nullptr, "watching_a_movie",   LPGENW("watching a movie"),   ACTIVITY_ICON(7,  12) },
+	{ "talking", nullptr,            LPGENW("Talking"),            ACTIVITY_ICON(8,  0) },
+	{ nullptr, "in_real_life",       LPGENW("in real life"),       ACTIVITY_ICON(8,  1) },
+	{ nullptr, "on_the_phone",       LPGENW("on the phone"),       ACTIVITY_ICON(8,  2) },
+	{ nullptr, "on_video_phone",     LPGENW("on video phone"),     ACTIVITY_ICON(8,  3) },
+	{ "traveling", nullptr,          LPGENW("Traveling"),          ACTIVITY_ICON(9,  0) },
+	{ nullptr, "commuting",          LPGENW("commuting"),          ACTIVITY_ICON(9,  1) },
+	{ nullptr, "cycling",            LPGENW("cycling"),            ACTIVITY_ICON(9,  2) },
+	{ nullptr, "driving",            LPGENW("driving"),            ACTIVITY_ICON(9,  3) },
+	{ nullptr, "in_a_car",           LPGENW("in a car"),           ACTIVITY_ICON(9,  4) },
+	{ nullptr, "on_a_bus",           LPGENW("on a bus"),           ACTIVITY_ICON(9,  5) },
+	{ nullptr, "on_a_plane",         LPGENW("on a plane"),         ACTIVITY_ICON(9,  6) },
+	{ nullptr, "on_a_train",         LPGENW("on a train"),         ACTIVITY_ICON(9,  7) },
+	{ nullptr, "on_a_trip",          LPGENW("on a trip"),          ACTIVITY_ICON(9,  8) },
+	{ nullptr, "walking",            LPGENW("walking"),            ACTIVITY_ICON(9,  9) },
+	{ "working", nullptr,            LPGENW("Working"),            ACTIVITY_ICON(10,  0) },
+	{ nullptr, "coding",             LPGENW("coding"),             ACTIVITY_ICON(10,  1) },
+	{ nullptr, "in_a_meeting",       LPGENW("in a meeting"),       ACTIVITY_ICON(10,  2) },
+	{ nullptr, "studying",           LPGENW("studying"),           ACTIVITY_ICON(10,  3) },
+	{ nullptr, "writing",            LPGENW("writing"),            ACTIVITY_ICON(10,  4) },
+	{ nullptr, nullptr, nullptr } // the end, don't delete this
 };
 
 inline char *ActivityGetId(int id)
@@ -905,13 +905,13 @@ char* returnActivity(int id)
 		return g_arrActivities[id].szFirst;
 	if (g_arrActivities[id].szSecond)
 		return g_arrActivities[id].szSecond;
-	return NULL;
+	return nullptr;
 }
 
 char* ActivityGetFirst(int id)
 {
 	if (id >= _countof(g_arrActivities) - 1)
-		return NULL;
+		return nullptr;
 
 	while (id >= 0) {
 		if (g_arrActivities[id].szFirst)
@@ -919,12 +919,12 @@ char* ActivityGetFirst(int id)
 		--id;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 char *ActivityGetFirst(char *szId)
 {
-	if (!szId) return NULL;
+	if (!szId) return nullptr;
 
 	int id = _countof(g_arrActivities) - 1;
 	bool found_second = false;
@@ -937,18 +937,18 @@ char *ActivityGetFirst(char *szId)
 		--id;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 char *ActivityGetSecond(int id)
 {
-	return (id >= 0) ? g_arrActivities[id].szSecond : NULL;
+	return (id >= 0) ? g_arrActivities[id].szSecond : nullptr;
 }
 
 wchar_t *ActivityGetFirstTitle(int id)
 {
 	if (id >= _countof(g_arrActivities) - 1)
-		return NULL;
+		return nullptr;
 
 	while (id >= 0) {
 		if (g_arrActivities[id].szFirst)
@@ -956,12 +956,12 @@ wchar_t *ActivityGetFirstTitle(int id)
 		--id;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 wchar_t *ActivityGetSecondTitle(int id)
 {
-	return ((id >= 0) && g_arrActivities[id].szSecond) ? g_arrActivities[id].szTitle : NULL;
+	return ((id >= 0) && g_arrActivities[id].szSecond) ? g_arrActivities[id].szTitle : nullptr;
 }
 
 void ActivityBuildTitle(int id, wchar_t *buf, int size)
@@ -980,7 +980,7 @@ void ActivityBuildTitle(int id, wchar_t *buf, int size)
 
 CPepActivity::CPepActivity(CJabberProto *proto):
 	CPepGuiService(proto, "Activity", JABBER_FEAT_USER_ACTIVITY),
-	m_text(NULL),
+	m_text(nullptr),
 	m_mode(-1)
 {
 	UpdateMenuItem(Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), LPGENW("Set activity..."));
@@ -993,7 +993,7 @@ CPepActivity::~CPepActivity()
 
 void CPepActivity::ProcessItems(const wchar_t *from, HXML itemsNode)
 {
-	MCONTACT hContact = NULL, hSelfContact = NULL;
+	MCONTACT hContact = 0, hSelfContact = 0;
 	if (!m_proto->IsMyOwnJID(from)) {
 		hContact = m_proto->HContactFromJID(from);
 		if (!hContact) return;
@@ -1002,8 +1002,8 @@ void CPepActivity::ProcessItems(const wchar_t *from, HXML itemsNode)
 
 	if (XmlGetChild(itemsNode, "retract")) {
 		if (hSelfContact)
-			SetActivity(hSelfContact, NULL, NULL, NULL);
-		SetActivity(hContact, NULL, NULL, NULL);
+			SetActivity(hSelfContact, nullptr, nullptr, nullptr);
+		SetActivity(hContact, nullptr, nullptr, nullptr);
 		return;
 	}
 
@@ -1012,7 +1012,7 @@ void CPepActivity::ProcessItems(const wchar_t *from, HXML itemsNode)
 		return;
 
 	LPCTSTR szText = XPathT(actNode, "text");
-	LPCTSTR szFirstNode = NULL, szSecondNode = NULL;
+	LPCTSTR szFirstNode = nullptr, szSecondNode = nullptr;
 
 	HXML n;
 	for (int i=0; n = XmlGetChild(actNode, i); i++) {
@@ -1059,7 +1059,7 @@ void CPepActivity::ResetExtraIcon(MCONTACT hContact)
 
 void CPepActivity::SetExtraIcon(MCONTACT hContact, char *szActivity)
 {
-	ExtraIcon_SetIcon(hExtraActivity, hContact, szActivity == NULL ? NULL : g_ActivityIcons.GetIcolibHandle(szActivity));
+	ExtraIcon_SetIcon(hExtraActivity, hContact, szActivity == nullptr ? nullptr : g_ActivityIcons.GetIcolibHandle(szActivity));
 }
 
 void CPepActivity::SetActivity(MCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSecond, LPCTSTR szText)
@@ -1094,7 +1094,7 @@ void CPepActivity::SetActivity(MCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSec
 		if (m_proto->m_pInfoFrame)
 			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", hIcon, title);
 	}
-	else SetExtraIcon(hContact, activity < 0 ? NULL : returnActivity(activity));
+	else SetExtraIcon(hContact, activity < 0 ? nullptr : returnActivity(activity));
 
 	if (activity >= 0) {
 		wchar_t *p = mir_a2u(ActivityGetId(activity));
@@ -1109,7 +1109,7 @@ void CPepActivity::ShowSetDialog(BYTE)
 	CJabberDlgPepSimple dlg(m_proto, TranslateT("Set Activity"));
 	for (int i=0; i < _countof(g_arrActivities); i++)
 		if (g_arrActivities[i].szFirst || g_arrActivities[i].szSecond)
-			dlg.AddStatusMode(i, ActivityGetId(i), g_ActivityIcons.GetIcon(returnActivity(i)), TranslateW(g_arrActivities[i].szTitle), (g_arrActivities[i].szSecond != NULL));
+			dlg.AddStatusMode(i, ActivityGetId(i), g_ActivityIcons.GetIcon(returnActivity(i)), TranslateW(g_arrActivities[i].szTitle), (g_arrActivities[i].szSecond != nullptr));
 
 	dlg.SetActiveStatus(m_mode, m_text);
 	dlg.DoModal();
@@ -1229,22 +1229,22 @@ void CJabberProto::SetContactTune(MCONTACT hContact, LPCTSTR szArtist, LPCTSTR s
 
 wchar_t* a2tf(const wchar_t *str, BOOL unicode)
 {
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	return (unicode) ? mir_wstrdup(str) : mir_a2u((char*)str);
 }
 
-void overrideStr(wchar_t*& dest, const wchar_t *src, BOOL unicode, const wchar_t *def = NULL)
+void overrideStr(wchar_t*& dest, const wchar_t *src, BOOL unicode, const wchar_t *def = nullptr)
 {
-	if (dest != NULL) {
+	if (dest != nullptr) {
 		mir_free(dest);
-		dest = NULL;
+		dest = nullptr;
 	}
 
-	if (src != NULL)
+	if (src != nullptr)
 		dest = a2tf(src, unicode);
-	else if (def != NULL)
+	else if (def != nullptr)
 		dest = mir_wstrdup(def);
 }
 
@@ -1252,12 +1252,12 @@ INT_PTR __cdecl CJabberProto::OnSetListeningTo(WPARAM, LPARAM lParam)
 {
 	LISTENINGTOINFO *cm = (LISTENINGTOINFO *)lParam;
 	if (!cm || cm->cbSize != sizeof(LISTENINGTOINFO)) {
-		SendPepTune(NULL, NULL, NULL, NULL, NULL, NULL);
+		SendPepTune(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
 		delSetting("ListeningTo");
 	}
 	else {
-		wchar_t *szArtist = NULL, *szLength = NULL, *szSource = NULL;
-		wchar_t *szTitle = NULL, *szTrack = NULL;
+		wchar_t *szArtist = nullptr, *szLength = nullptr, *szSource = nullptr;
+		wchar_t *szTitle = nullptr, *szTrack = nullptr;
 
 		BOOL unicode = cm->dwFlags & LTI_UNICODE;
 
@@ -1289,8 +1289,8 @@ INT_PTR __cdecl CJabberProto::OnSetListeningTo(WPARAM, LPARAM lParam)
 			mir_snwprintf(szLengthInSec, L"%d", result);
 		}
 
-		SendPepTune(szArtist, szLength ? szLengthInSec : NULL, szSource, szTitle, szTrack, NULL);
-		SetContactTune(NULL, szArtist, szLength, szSource, szTitle, szTrack);
+		SendPepTune(szArtist, szLength ? szLengthInSec : nullptr, szSource, szTitle, szTrack, nullptr);
+		SetContactTune(0, szArtist, szLength, szSource, szTitle, szTrack);
 
 		mir_free(szArtist);
 		mir_free(szLength);
@@ -1337,7 +1337,7 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM hContact, LPARAM lParam)
 		return 1;
 
 	CPepMood *pepMood = (CPepMood*)m_pepServices.Find(JABBER_FEAT_USER_MOOD);
-	if (pepMood == NULL)
+	if (pepMood == nullptr)
 		return 1;
 
 	// fill status member
@@ -1347,7 +1347,7 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM hContact, LPARAM lParam)
 	// fill status name member
 	if (pData->flags & CSSF_MASK_NAME) {
 		if (pData->flags & CSSF_DEFAULT_NAME) {
-			DWORD dwXStatus = (pData->wParam == NULL) ? pepMood->m_mode : *pData->wParam;
+			DWORD dwXStatus = (pData->wParam == nullptr) ? pepMood->m_mode : *pData->wParam;
 			if (dwXStatus >= _countof(g_arrMoods))
 				return 1;
 
@@ -1358,7 +1358,7 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM hContact, LPARAM lParam)
 				if (dwStatusTitleSize > STATUS_TITLE_MAX)
 					dwStatusTitleSize = STATUS_TITLE_MAX;
 
-				WideCharToMultiByte(CP_ACP, 0, g_arrMoods[dwXStatus].szName, (DWORD)dwStatusTitleSize, pData->pszName, MAX_PATH, NULL, NULL);
+				WideCharToMultiByte(CP_ACP, 0, g_arrMoods[dwXStatus].szName, (DWORD)dwStatusTitleSize, pData->pszName, MAX_PATH, nullptr, nullptr);
 				pData->pszName[dwStatusTitleSize] = 0;
 			}
 		}
@@ -1421,7 +1421,7 @@ INT_PTR __cdecl CJabberProto::OnSetXStatusEx(WPARAM, LPARAM lParam)
 	int status = (pData->flags & CSSF_MASK_STATUS) ? *pData->status : pepMood->m_mode;
 	if (status >= 0 && status < _countof(g_arrMoods)) {
 		pepMood->m_mode = status;
-		pepMood->m_text = (pData->flags & CSSF_MASK_MESSAGE) ? JabberStrFixLines(pData->ptszMessage) : NULL;
+		pepMood->m_text = (pData->flags & CSSF_MASK_MESSAGE) ? JabberStrFixLines(pData->ptszMessage) : nullptr;
 		pepMood->LaunchSetGui(1);
 		return 0;
 	}

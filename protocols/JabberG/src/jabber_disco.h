@@ -46,7 +46,7 @@ public:
 		m_szCategory = mir_wstrdup(szCategory);
 		m_szType = mir_wstrdup(szType);
 		m_szName = mir_wstrdup(szName);
-		m_pNext = NULL;
+		m_pNext = nullptr;
 	}
 	~CJabberSDIdentity()
 	{
@@ -89,8 +89,8 @@ protected:
 public:
 	CJabberSDFeature(const wchar_t *szVar)
 	{
-		m_szVar = szVar ? mir_wstrdup(szVar) : NULL;
-		m_pNext = NULL;
+		m_szVar = szVar ? mir_wstrdup(szVar) : nullptr;
+		m_pNext = nullptr;
 	}
 	~CJabberSDFeature()
 	{
@@ -132,22 +132,22 @@ protected:
 	wchar_t *m_szInfoError;
 	wchar_t *m_szItemsError;
 public:
-	CJabberSDNode(const wchar_t *szJid = NULL, const wchar_t *szNode = NULL, const wchar_t *szName = NULL)
+	CJabberSDNode(const wchar_t *szJid = nullptr, const wchar_t *szNode = nullptr, const wchar_t *szName = nullptr)
 	{
 		m_szJid = mir_wstrdup(szJid);
 		m_szNode = mir_wstrdup(szNode);
 		m_szName = mir_wstrdup(szName);
-		m_pIdentities = NULL;
-		m_pFeatures = NULL;
-		m_pNext = NULL;
-		m_pChild = NULL;
+		m_pIdentities = nullptr;
+		m_pFeatures = nullptr;
+		m_pNext = nullptr;
+		m_pChild = nullptr;
 		m_dwInfoRequestTime = 0;
 		m_dwItemsRequestTime = 0;
 		m_nInfoRequestId = 0;
 		m_nItemsRequestId = 0;
-		m_hTreeItem = NULL;
-		m_szInfoError = NULL;
-		m_szItemsError = NULL;
+		m_hTreeItem = nullptr;
+		m_szInfoError = nullptr;
+		m_szItemsError = nullptr;
 	}
 	~CJabberSDNode()
 	{
@@ -155,43 +155,43 @@ public:
 	}
 	BOOL RemoveAll()
 	{
-		replaceStrW(m_szJid, NULL);
-		replaceStrW(m_szNode, NULL);
-		replaceStrW(m_szName, NULL);
-		replaceStrW(m_szInfoError, NULL);
-		replaceStrW(m_szItemsError, NULL);
+		replaceStrW(m_szJid, nullptr);
+		replaceStrW(m_szNode, nullptr);
+		replaceStrW(m_szName, nullptr);
+		replaceStrW(m_szInfoError, nullptr);
+		replaceStrW(m_szItemsError, nullptr);
 		if (m_pIdentities)
 			delete m_pIdentities;
-		m_pIdentities = NULL;
+		m_pIdentities = nullptr;
 		if (m_pFeatures)
 			delete m_pFeatures;
-		m_pFeatures = NULL;
+		m_pFeatures = nullptr;
 		if (m_pNext)
 			delete m_pNext;
-		m_pNext = NULL;
+		m_pNext = nullptr;
 		if (m_pChild)
 			delete m_pChild;
-		m_pChild = NULL;
+		m_pChild = nullptr;
 		m_nInfoRequestId = JABBER_DISCO_RESULT_NOT_REQUESTED;
 		m_nItemsRequestId = JABBER_DISCO_RESULT_NOT_REQUESTED;
 		m_dwInfoRequestTime = 0;
 		m_dwItemsRequestTime = 0;
-		m_hTreeItem = NULL;
+		m_hTreeItem = nullptr;
 		return TRUE;
 	}
 	BOOL ResetInfo()
 	{
-		replaceStrW(m_szInfoError, NULL);
-		replaceStrW(m_szItemsError, NULL);
+		replaceStrW(m_szInfoError, nullptr);
+		replaceStrW(m_szItemsError, nullptr);
 		if (m_pIdentities)
 			delete m_pIdentities;
-		m_pIdentities = NULL;
+		m_pIdentities = nullptr;
 		if (m_pFeatures)
 			delete m_pFeatures;
-		m_pFeatures = NULL;
+		m_pFeatures = nullptr;
 		if (m_pChild)
 			delete m_pChild;
-		m_pChild = NULL;
+		m_pChild = nullptr;
 		m_nInfoRequestId = JABBER_DISCO_RESULT_NOT_REQUESTED;
 		m_nItemsRequestId = JABBER_DISCO_RESULT_NOT_REQUESTED;
 		m_dwInfoRequestTime = 0;
@@ -276,11 +276,11 @@ public:
 		if ((m_nInfoRequestId == nIqId && bInfoId) || (m_nItemsRequestId == nIqId && !bInfoId))
 			return this;
 
-		CJabberSDNode *pNode = NULL;
+		CJabberSDNode *pNode = nullptr;
 		if (m_pChild && (pNode = m_pChild->FindByIqId(nIqId, bInfoId)))
 			return pNode;
 
-		CJabberSDNode *pTmpNode = NULL;
+		CJabberSDNode *pTmpNode = nullptr;
 		pNode = m_pNext;
 		while (pNode) {
 			if ((pNode->m_nInfoRequestId == nIqId && bInfoId) || (pNode->m_nItemsRequestId == nIqId && !bInfoId))
@@ -289,7 +289,7 @@ public:
 				return pTmpNode;
 			pNode = pNode->GetNext();
 		}
-		return NULL;
+		return nullptr;
 	}
 	BOOL AddFeature(const wchar_t *szFeature)
 	{
@@ -402,7 +402,7 @@ protected:
 public:
 	CJabberSDManager()
 	{
-		m_pPrimaryNodes = NULL;
+		m_pPrimaryNodes = nullptr;
 	}
 
 	~CJabberSDManager()
@@ -415,7 +415,7 @@ public:
 	void RemoveAll()
 	{
 		delete m_pPrimaryNodes;
-		m_pPrimaryNodes = NULL;
+		m_pPrimaryNodes = nullptr;
 	}
 
 	CJabberSDNode* GetPrimaryNode()
@@ -426,11 +426,11 @@ public:
 	CJabberSDNode* AddPrimaryNode(const wchar_t *szJid, const wchar_t *szNode, const wchar_t *szName)
 	{
 		if (!szJid)
-			return NULL;
+			return nullptr;
 
 		CJabberSDNode *pNode = new CJabberSDNode(szJid, szNode, szName);
 		if (!pNode)
-			return NULL;
+			return nullptr;
 
 		pNode->SetNext(m_pPrimaryNodes);
 		m_pPrimaryNodes = pNode;
@@ -443,7 +443,7 @@ public:
 			if (CJabberSDNode *pTmpNode = pNode->FindByIqId(nIqId, bInfoId))
 				return pTmpNode;
 
-		return NULL;
+		return nullptr;
 	}
 };
 

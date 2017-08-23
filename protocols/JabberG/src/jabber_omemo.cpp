@@ -1471,7 +1471,7 @@ namespace omemo {
 				char *msg = (char*)mir_alloc(msg_len);
 				mir_snprintf(msg, msg_len, "%s%s%s", Translate("Do you want to create OMEMO session with new device:"), "\n\n\t", fingerprint);
 
-				int ret = MessageBoxA(NULL, msg, Translate("OMEMO: New session"), MB_YESNO);
+				int ret = MessageBoxA(nullptr, msg, Translate("OMEMO: New session"), MB_YESNO);
 				if (ret == IDYES)
 				{
 					proto->setByte(hContact, fp_setting_name, 1);
@@ -1631,8 +1631,8 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 	}
 	HXML key_node;
 	DWORD own_id = m_omemo.GetOwnDeviceId();
-	LPCTSTR encrypted_key_base64 = NULL;
-	for (int p = 1; (key_node = XmlGetNthChild(header_node, L"key", p)) != NULL; p++)
+	LPCTSTR encrypted_key_base64 = nullptr;
+	for (int p = 1; (key_node = XmlGetNthChild(header_node, L"key", p)) != nullptr; p++)
 	{
 		LPCTSTR dev_id = xmlGetAttrValue(key_node, L"rid");
 		char *dev_id_a = mir_u2a(dev_id);
@@ -1663,7 +1663,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 		iv = (unsigned char *)mir_base64_decode(iv_buf, &iv_len);
 		mir_free(iv_buf);
 	}
-	signal_buffer *decrypted_key = NULL;
+	signal_buffer *decrypted_key = nullptr;
 	bool decrypted = false;
 	{ //try to decrypt as  pre_key_signal_message
 
@@ -1788,8 +1788,8 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 		EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
 		EVP_DecryptInit(ctx, cipher, signal_buffer_data(decrypted_key), iv);
 //		EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, tag);
-		//EVP_DecryptInit(ctx, NULL, signal_buffer_data(decrypted_key), iv);
-		//EVP_DecryptUpdate(ctx, NULL, &howmany, AAD, aad_len);
+		//EVP_DecryptInit(ctx, nullptr, signal_buffer_data(decrypted_key), iv);
+		//EVP_DecryptUpdate(ctx, nullptr, &howmany, AAD, aad_len);
 
 		for (;;)
 		{
@@ -1813,7 +1813,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 
 	}
 
-	time_t now = time(NULL);
+	time_t now = time(nullptr);
 	if (!msgTime)
 		msgTime = now;
 
@@ -1824,7 +1824,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 	PROTORECVEVENT recv = { 0 };
 	recv.timestamp = (DWORD)msgTime;
 	recv.szMessage = mir_utf8encode(out);
-	recv.lParam = (LPARAM)((pFromResource != NULL && m_options.EnableRemoteControl) ? pFromResource->m_tszResourceName : 0);
+	recv.lParam = (LPARAM)((pFromResource != nullptr && m_options.EnableRemoteControl) ? pFromResource->m_tszResourceName : 0);
 	ProtoChainRecvMsg(hContact, &recv);
 	mir_free(out);
 }
@@ -1862,7 +1862,7 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 		char setting_name[64];
 		HXML list_item;
 		int i = 0;
-		for (int p = 1; (list_item = XmlGetNthChild(node, L"device", p)) != NULL; p++, i++)
+		for (int p = 1; (list_item = XmlGetNthChild(node, L"device", p)) != nullptr; p++, i++)
 		{
 			current_id_str = xmlGetAttrValue(list_item, L"id");
 			char *current_id_str_a = mir_u2a(current_id_str);
@@ -1892,7 +1892,7 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 		char setting_name[64];
 		HXML list_item;
 		int i = 0;
-		for (int p = 1; (list_item = XmlGetNthChild(node, L"device", p)) != NULL; p++, i++)
+		for (int p = 1; (list_item = XmlGetNthChild(node, L"device", p)) != nullptr; p++, i++)
 		{
 			current_id_str = xmlGetAttrValue(list_item, L"id");
 			char *current_id_str_a = mir_u2a(current_id_str);
@@ -2102,7 +2102,7 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 
 void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 {
-	if (iqNode == NULL)
+	if (iqNode == nullptr)
 		return;
 	
 	LPCTSTR jid = XmlGetAttrValue(iqNode, L"from");
@@ -2196,7 +2196,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 	wchar_t key_num_str[4];
 	mir_snwprintf(key_num_str, 3, L"%d", key_num);
 	HXML prekey_node;
-	for (int p = 1; (prekey_node = XmlGetNthChild(prekeys, L"preKeyPublic", p)) != NULL && p <= key_num; p++)
+	for (int p = 1; (prekey_node = XmlGetNthChild(prekeys, L"preKeyPublic", p)) != nullptr && p <= key_num; p++)
 		;
 	if (!prekey_node)
 	{
@@ -2268,12 +2268,12 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 //	Utils_GetRandom(tag, _countof_portable(tag));
 	//Utils_GetRandom(aad, _countof_portable(aad));
 	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, _countof_portable(iv), NULL);
+	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, _countof_portable(iv), nullptr);
 	EVP_EncryptInit(ctx, cipher, key, iv);
 	char *in = mir_u2a(msg_text), *out;
 	const size_t inl = strlen(in);
 	int tmp_len = 0, outl;
-	//EVP_EncryptUpdate(ctx, NULL, &outl, aad, _countof_portable(aad));
+	//EVP_EncryptUpdate(ctx, nullptr, &outl, aad, _countof_portable(aad));
 	out = (char*)mir_alloc(inl + _countof_portable(key) - 1);
 	for (;;)
 	{

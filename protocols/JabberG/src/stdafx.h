@@ -667,11 +667,11 @@ struct CJabberAdhocStartupParams
 	wchar_t *m_szNode;
 	CJabberProto *m_pProto;
 
-	CJabberAdhocStartupParams(CJabberProto *proto, wchar_t* szJid, wchar_t* szNode = NULL)
+	CJabberAdhocStartupParams(CJabberProto *proto, wchar_t* szJid, wchar_t* szNode = nullptr)
 	{
 		m_pProto = proto;
 		m_szJid = mir_wstrdup(szJid);
-		m_szNode = szNode ? mir_wstrdup(szNode) : NULL;
+		m_szNode = szNode ? mir_wstrdup(szNode) : nullptr;
 	}
 	~CJabberAdhocStartupParams()
 	{
@@ -720,7 +720,7 @@ wchar_t*        __stdcall JabberStrFixLines(const wchar_t *str);
 void          __stdcall JabberHttpUrlDecode(wchar_t *str);
 int           __stdcall JabberCombineStatus(int status1, int status2);
 wchar_t*        __stdcall JabberErrorStr(int errorCode);
-wchar_t*        __stdcall JabberErrorMsg(HXML errorNode, int *errorCode = NULL);
+wchar_t*        __stdcall JabberErrorMsg(HXML errorNode, int *errorCode = nullptr);
 time_t        __stdcall JabberIsoToUnixTime(const wchar_t *stamp);
 wchar_t*        __stdcall JabberStripJid(const wchar_t *jid, wchar_t *dest, size_t destLen);
 int           __stdcall JabberGetPacketID(HXML n);

@@ -48,16 +48,16 @@ void CJabberProto::DBAddAuthRequest(const wchar_t *jid, const wchar_t *nick)
 	MCONTACT hContact = DBCreateContact(jid, nick, true, true);
 	delSetting(hContact, "Hidden");
 
-	DB_AUTH_BLOB blob(hContact, T2Utf(nick), NULL, NULL, T2Utf(jid), NULL);
+	DB_AUTH_BLOB blob(hContact, T2Utf(nick), nullptr, nullptr, T2Utf(jid), nullptr);
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
-	dbei.timestamp = (DWORD)time(NULL);
+	dbei.timestamp = (DWORD)time(nullptr);
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = blob.size();
 	dbei.pBlob = blob;
-	db_event_add(NULL, &dbei);
+	db_event_add(0, &dbei);
 	debugLogA("Setup DBAUTHREQUEST with nick='%s' jid='%s'", blob.get_nick(), blob.get_email());
 }
 
@@ -66,11 +66,11 @@ void CJabberProto::DBAddAuthRequest(const wchar_t *jid, const wchar_t *nick)
 
 MCONTACT CJabberProto::DBCreateContact(const wchar_t *jid, const wchar_t *nick, bool temporary, bool stripResource)
 {
-	if (jid == NULL || jid[0] == '\0')
-		return NULL;
+	if (jid == nullptr || jid[0] == '\0')
+		return 0;
 
 	MCONTACT hContact = HContactFromJID(jid, stripResource);
-	if (hContact != NULL)
+	if (hContact != 0)
 		return hContact;
 
 	// strip resource if present
@@ -83,7 +83,7 @@ MCONTACT CJabberProto::DBCreateContact(const wchar_t *jid, const wchar_t *nick, 
 	MCONTACT hNewContact = db_add_contact();
 	Proto_AddToContact(hNewContact, m_szModuleName);
 	setWString(hNewContact, "jid", szJid);
-	if (nick != NULL && *nick != '\0')
+	if (nick != nullptr && *nick != '\0')
 		setWString(hNewContact, "Nick", nick);
 	if (temporary)
 		db_set_b(hNewContact, "CList", "NotOnList", 1);
@@ -123,7 +123,7 @@ BOOL CJabberProto::AddDbPresenceEvent(MCONTACT hContact, BYTE btEventType)
 	dbei.cbBlob = sizeof(btEventType);
 	dbei.eventType = EVENTTYPE_JABBER_PRESENCE;
 	dbei.flags = DBEF_READ;
-	dbei.timestamp = time(NULL);
+	dbei.timestamp = time(nullptr);
 	dbei.szModule = m_szModuleName;
 	db_event_add(hContact, &dbei);
 
@@ -145,7 +145,7 @@ void CJabberProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t
 
 	const wchar_t* szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_PNG));
 
-	if (hContact != NULL) {
+	if (hContact != 0) {
 		char str[256];
 		JabberShaStrBuf buf;
 		DBVARIANT dbv;
@@ -157,7 +157,7 @@ void CJabberProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t
 		else _i64toa((LONG_PTR)hContact, str, 10);
 		mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%S%s", JabberSha1(str, buf), szFileType);
 	}
-	else if (m_ThreadInfo != NULL) {
+	else if (m_ThreadInfo != nullptr) {
 		mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%s@%S avatar%s",
 			m_ThreadInfo->conn.username, m_ThreadInfo->conn.server, szFileType);
 	}
@@ -175,18 +175,18 @@ void CJabberProto::ResolveTransportNicks(const wchar_t *jid)
 {
 	// Set all contacts to offline
 	MCONTACT hContact = m_ThreadInfo->resolveContact;
-	if (hContact == NULL)
+	if (hContact == 0)
 		hContact = db_find_first(m_szModuleName);
 
-	for (; hContact != NULL; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (; hContact != 0; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (!getByte(hContact, "IsTransported", 0))
 			continue;
 
-		ptrW dbJid(getWStringA(hContact, "jid")); if (dbJid == NULL) continue;
-		ptrW dbNick(getWStringA(hContact, "Nick")); if (dbNick == NULL) continue;
+		ptrW dbJid(getWStringA(hContact, "jid")); if (dbJid == nullptr) continue;
+		ptrW dbNick(getWStringA(hContact, "Nick")); if (dbNick == nullptr) continue;
 
 		wchar_t *p = wcschr(dbJid, '@');
-		if (p == NULL)
+		if (p == nullptr)
 			continue;
 
 		*p = 0;
@@ -199,7 +199,7 @@ void CJabberProto::ResolveTransportNicks(const wchar_t *jid)
 	}
 
 	m_ThreadInfo->resolveID = -1;
-	m_ThreadInfo->resolveContact = NULL;
+	m_ThreadInfo->resolveContact = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -237,7 +237,7 @@ void CJabberProto::SetServerStatus(int iNewStatus)
 
 	// send presence update
 	SendPresence(m_iStatus, true);
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -277,7 +277,7 @@ void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 
 	debugLogW(L"JabberUpdateMirVer: for jid %s", item->jid);
 
-	pResourceStatus p(NULL);
+	pResourceStatus p(nullptr);
 	if (item->resourceMode == RSMODE_LASTSEEN)
 		p = item->m_pLastSeenResource;
 	else if (item->resourceMode == RSMODE_MANUAL)
@@ -346,7 +346,7 @@ void CJabberProto::UpdateMirVer(MCONTACT hContact, pResourceStatus &resource)
 		setWString(hContact, "MirVer", tszMirVer);
 
 	ptrW jid(getWStringA(hContact, "jid"));
-	if (jid == NULL)
+	if (jid == nullptr)
 		return;
 
 	wchar_t szFullJid[JABBER_MAX_JID_LEN];
@@ -438,7 +438,7 @@ void CJabberProto::MsgPopup(MCONTACT hContact, const wchar_t *szMsg, const wchar
 	}
 	else {
 		DWORD mtype = MB_OK | MB_SETFOREGROUND | MB_ICONSTOP;
-		MessageBox(NULL, szMsg, szTitle, mtype);
+		MessageBox(nullptr, szMsg, szTitle, mtype);
 	}
 }
 
@@ -448,10 +448,10 @@ CMStringW CJabberProto::ExtractImage(HXML node)
 	LPCTSTR src;
 	CMStringW link;
 
-	if ((nHtml = XmlGetChild(node, "html")) != NULL &&
-		(nBody = XmlGetChild(nHtml, "body")) != NULL &&
-		(nImg = XmlGetChild(nBody, "img")) != NULL &&
-		(src = XmlGetAttrValue(nImg, L"src")) != NULL) {
+	if ((nHtml = XmlGetChild(node, "html")) != nullptr &&
+		(nBody = XmlGetChild(nHtml, "body")) != nullptr &&
+		(nImg = XmlGetChild(nBody, "img")) != nullptr &&
+		(src = XmlGetAttrValue(nImg, L"src")) != nullptr) {
 
 		CMStringW strSrc(src);
 		if (strSrc.Left(11).Compare(L"data:image/") == 0) {
@@ -472,14 +472,14 @@ CMStringW CJabberProto::ExtractImage(HXML node)
 					wcsncat_s(tszTempFile, ext, ext.GetLength());
 
 					HANDLE h = CreateFile(tszTempFile, GENERIC_READ | GENERIC_WRITE,
-						FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
-						FILE_ATTRIBUTE_NORMAL, NULL);
+						FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS,
+						FILE_ATTRIBUTE_NORMAL, nullptr);
 
 					if (h != INVALID_HANDLE_VALUE) {
 						DWORD n;
 						unsigned int bufferLen;
 						ptrA buffer((char*)mir_base64_decode(_T2A(image), &bufferLen));
-						WriteFile(h, buffer, bufferLen, &n, NULL);
+						WriteFile(h, buffer, bufferLen, &n, nullptr);
 						CloseHandle(h);
 
 						link = L" file:///";

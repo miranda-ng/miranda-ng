@@ -37,7 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IDI_ONTHEPHONE                  1002
 #define IDI_OUTTOLUNCH                  1003
 
-HIMAGELIST hAdvancedStatusIcon = NULL;
+HIMAGELIST hAdvancedStatusIcon = nullptr;
 
 struct CTransportProtoTableItem
 {
@@ -87,7 +87,7 @@ int CIconPool::CPoolItem::cmp(const CPoolItem *p1, const CPoolItem *p2)
 }
 
 CIconPool::CPoolItem::CPoolItem() :
-	m_name(NULL), m_szIcolibName(NULL), m_hIcolibItem(NULL)
+	m_name(nullptr), m_szIcolibName(nullptr), m_hIcolibItem(nullptr)
 {
 }
 
@@ -136,7 +136,7 @@ HANDLE CIconPool::GetIcolibHandle(const char *name)
 	if (CPoolItem *item = FindItemByName(name))
 		return item->m_hIcolibItem;
 
-	return NULL;
+	return nullptr;
 }
 
 char *CIconPool::GetIcolibName(const char *name)
@@ -144,7 +144,7 @@ char *CIconPool::GetIcolibName(const char *name)
 	if (CPoolItem *item = FindItemByName(name))
 		return item->m_szIcolibName;
 
-	return NULL;
+	return nullptr;
 }
 
 HICON CIconPool::GetIcon(const char *name, bool big)
@@ -152,7 +152,7 @@ HICON CIconPool::GetIcon(const char *name, bool big)
 	if (CPoolItem *item = FindItemByName(name))
 		return IcoLib_GetIconByHandle(item->m_hIcolibItem, big);
 
-	return NULL;
+	return nullptr;
 }
 
 CIconPool::CPoolItem *CIconPool::FindItemByName(const char *name)
@@ -188,7 +188,7 @@ HICON CJabberProto::LoadIconEx(const char* name, bool big)
 	if (!mir_strcmp(name, "main"))
 		return IcoLib_GetIconByHandle(m_hProtoIcon, big);
 
-	return NULL;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -259,13 +259,13 @@ static HICON ExtractIconFromPath(const char *path, BOOL * needFree)
 	HICON hIcon;
 	mir_strncpy(file, path, sizeof(file));
 	comma = strrchr(file, ',');
-	if (comma == NULL) n = 0;
+	if (comma == nullptr) n = 0;
 	else { n = atoi(comma + 1); *comma = 0; }
 	PathToAbsolute(file, fileFull);
-	hIcon = NULL;
-	ExtractIconExA(fileFull, n, NULL, &hIcon, 1);
+	hIcon = nullptr;
+	ExtractIconExA(fileFull, n, nullptr, &hIcon, 1);
 	if (needFree)
-		*needFree = (hIcon != NULL);
+		*needFree = (hIcon != nullptr);
 
 	return hIcon;
 }
@@ -275,18 +275,18 @@ static HICON LoadTransportIcon(char *filename, int i, char *IconName, wchar_t *S
 	char szPath[MAX_PATH], szMyPath[MAX_PATH], szFullPath[MAX_PATH], *str;
 	BOOL has_proto_icon = FALSE;
 	if (needFree) *needFree = FALSE;
-	GetModuleFileNameA(NULL, szPath, MAX_PATH);
+	GetModuleFileNameA(nullptr, szPath, MAX_PATH);
 	str = strrchr(szPath, '\\');
-	if (str != NULL) *str = 0;
+	if (str != nullptr) *str = 0;
 	mir_snprintf(szMyPath, "%s\\Icons\\%s", szPath, filename);
 	mir_snprintf(szFullPath, "%s\\Icons\\%s,%d", szPath, filename, i);
 	BOOL nf;
 	HICON hi = ExtractIconFromPath(szFullPath, &nf);
 	if (hi) has_proto_icon = TRUE;
 	if (hi && nf) DestroyIcon(hi);
-	if (IconName != NULL && SectName != NULL) {
+	if (IconName != nullptr && SectName != nullptr) {
 		SKINICONDESC sid = { 0 };
-		sid.hDefaultIcon = (has_proto_icon) ? NULL : Skin_LoadProtoIcon(0, -internalidx);
+		sid.hDefaultIcon = (has_proto_icon) ? nullptr : Skin_LoadProtoIcon(0, -internalidx);
 		sid.section.w = SectName;
 		sid.pszName = IconName;
 		sid.description.w = Description;
@@ -412,15 +412,15 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const wchar_t *jid, MCONTACT hCon
 
 	// strip domain part from jid
 	wchar_t *domain = wcschr((wchar_t*)jid, '@');
-	BOOL isAgent = (domain == NULL) ? TRUE : FALSE;
+	BOOL isAgent = (domain == nullptr) ? TRUE : FALSE;
 	BOOL isTransported = FALSE;
-	if (domain != NULL)
+	if (domain != nullptr)
 		domain = NEWWSTR_ALLOCA(domain + 1);
 	else
 		domain = NEWWSTR_ALLOCA(jid);
 
 	wchar_t *resourcepos = wcschr(domain, '/');
-	if (resourcepos != NULL)
+	if (resourcepos != nullptr)
 		*resourcepos = '\0';
 
 	for (int i = 0; i < _countof(TransportProtoTable); i++)
@@ -548,7 +548,7 @@ HANDLE g_GetIconHandle(int iconId)
 		if (sharedIconList4[i].defIconID == iconId)
 			return sharedIconList4[i].hIcolib;
 
-	return NULL;
+	return nullptr;
 }
 
 HICON g_LoadIconEx(const char* name, bool big)

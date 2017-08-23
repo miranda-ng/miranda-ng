@@ -33,7 +33,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleChangePassword(WPARAM, LPARAM)
 	if (IsWindow(m_hwndJabberChangePassword))
 		SetForegroundWindow(m_hwndJabberChangePassword);
 	else
-		m_hwndJabberChangePassword = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CHANGEPASSWORD), NULL, JabberChangePasswordDlgProc, (LPARAM)this);
+		m_hwndJabberChangePassword = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CHANGEPASSWORD), nullptr, JabberChangePasswordDlgProc, (LPARAM)this);
 
 	return 0;
 }
@@ -48,7 +48,7 @@ static INT_PTR CALLBACK JabberChangePasswordDlgProc(HWND hwndDlg, UINT msg, WPAR
 
 		Window_SetIcon_IcoLib(hwndDlg, g_GetIconHandle(IDI_KEYS));
 		TranslateDialogDefault(hwndDlg);
-		if (ppro->m_bJabberOnline && ppro->m_ThreadInfo != NULL) {
+		if (ppro->m_bJabberOnline && ppro->m_ThreadInfo != nullptr) {
 			wchar_t text[1024];
 			mir_snwprintf(text, TranslateT("Set New Password for %s@%S"), ppro->m_ThreadInfo->conn.username, ppro->m_ThreadInfo->conn.server);
 			SetWindowText(hwndDlg, text);
@@ -57,7 +57,7 @@ static INT_PTR CALLBACK JabberChangePasswordDlgProc(HWND hwndDlg, UINT msg, WPAR
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			if (ppro->m_bJabberOnline && ppro->m_ThreadInfo != NULL) {
+			if (ppro->m_bJabberOnline && ppro->m_ThreadInfo != nullptr) {
 				wchar_t newPasswd[512], text[512];
 				GetDlgItemText(hwndDlg, IDC_NEWPASSWD, newPasswd, _countof(newPasswd));
 				GetDlgItemText(hwndDlg, IDC_NEWPASSWD2, text, _countof(text));
@@ -89,7 +89,7 @@ static INT_PTR CALLBACK JabberChangePasswordDlgProc(HWND hwndDlg, UINT msg, WPAR
 		DestroyWindow(hwndDlg);
 		break;
 	case WM_DESTROY:
-		ppro->m_hwndJabberChangePassword = NULL;
+		ppro->m_hwndJabberChangePassword = nullptr;
 		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
 	}

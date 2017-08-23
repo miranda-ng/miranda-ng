@@ -57,7 +57,7 @@ LPCTSTR __fastcall XmlGetAttrValue(HXML, LPCTSTR key);
 
 struct XmlNode
 {
-	__forceinline XmlNode() { m_hXml = NULL; }
+	__forceinline XmlNode() { m_hXml = nullptr; }
 
 	__forceinline XmlNode(LPCTSTR pszString, int* numBytes, LPCTSTR ptszTag)
 	{
@@ -83,7 +83,7 @@ class CJabberIqInfo;
 
 struct XmlNodeIq : public XmlNode
 {
-	XmlNodeIq(const wchar_t *type, int id = -1, const wchar_t *to = NULL);
+	XmlNodeIq(const wchar_t *type, int id = -1, const wchar_t *to = nullptr);
 	XmlNodeIq(const wchar_t *type, const wchar_t *idStr, const wchar_t *to);
 	XmlNodeIq(const wchar_t *type, HXML node, const wchar_t *to);
 	// new request
@@ -169,7 +169,7 @@ struct XCHILD
 {
 	LPCTSTR name, value;
 
-	__forceinline XCHILD(LPCTSTR _name, LPCTSTR _value = NULL) :
+	__forceinline XCHILD(LPCTSTR _name, LPCTSTR _value = nullptr) :
 		name(_name),
 		value(_value)
 		{}
@@ -185,7 +185,7 @@ struct XCHILDNS
 {
 	LPCTSTR name, ns;
 
-	__forceinline XCHILDNS(LPCTSTR _name, LPCTSTR _ns = NULL) :
+	__forceinline XCHILDNS(LPCTSTR _name, LPCTSTR _ns = nullptr) :
 		name(_name),
 		ns(_ns)
 		{}
@@ -228,7 +228,7 @@ public:
 		m_type(T_UNKNOWN),
 		m_hXml(hXml),
 		m_szPath(path),
-		m_szParam(NULL)
+		m_szParam(nullptr)
 		{}
 
 	// Read data
@@ -239,7 +239,7 @@ public:
 			case T_NODE: return m_hXml;
 			case T_NODESET: return XmlGetNthChild(m_hXml, m_szParam, 1);
 		}
-		return NULL;
+		return nullptr;
 	}
 	operator LPTSTR()
 	{
@@ -249,7 +249,7 @@ public:
 			case T_NODE: return (wchar_t *)XmlGetText(m_hXml);
 			case T_NODESET: return (wchar_t *)XmlGetText(XmlGetNthChild(m_hXml, m_szParam, 1));
 		}
-		return NULL;
+		return nullptr;
 	}
 	operator int()
 	{
@@ -266,7 +266,7 @@ public:
 	}
 	HXML operator[] (int idx)
 	{
-		return (Lookup() == T_NODESET) ? XmlGetNthChild(m_hXml, m_szParam, idx) : NULL;
+		return (Lookup() == T_NODESET) ? XmlGetNthChild(m_hXml, m_szParam, idx) : nullptr;
 	}
 
 	// Write data

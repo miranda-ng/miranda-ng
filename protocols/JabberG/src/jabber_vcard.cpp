@@ -47,7 +47,7 @@ int CJabberProto::SendGetVcard(const wchar_t *jid)
 static void SetDialogField(CJabberProto *ppro, HWND hwndDlg, int nDlgItem, char* key, bool bTranslate = false)
 {
 	ptrW tszValue(ppro->getWStringA(key));
-	if (tszValue != NULL)
+	if (tszValue != nullptr)
 		SetDlgItemText(hwndDlg, nDlgItem, (bTranslate) ? TranslateW(tszValue) : tszValue);
 	else
 		SetDlgItemTextA(hwndDlg, nDlgItem, "");
@@ -272,7 +272,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		{
 			dat = new PhotoDlgProcData;
 			dat->ppro = (CJabberProto*)lParam;
-			dat->hBitmap = NULL;
+			dat->hBitmap = nullptr;
 			dat->ppro->m_bPhotoChanged = FALSE;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			dat->ppro->WindowSubscribe(hwndDlg);
@@ -283,19 +283,19 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_JABBER_REFRESH_VCARD:
 		if (dat->hBitmap) {
 			DeleteObject(dat->hBitmap);
-			dat->hBitmap = NULL;
+			dat->hBitmap = nullptr;
 			DeleteFile(dat->ppro->m_szPhotoFileName);
 			dat->ppro->m_szPhotoFileName[0] = '\0';
 		}
 		EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
-		dat->ppro->GetAvatarFileName(NULL, szAvatarFileName, _countof(szAvatarFileName));
+		dat->ppro->GetAvatarFileName(0, szAvatarFileName, _countof(szAvatarFileName));
 		if (_waccess(szAvatarFileName, 0) == 0) {
 			if (GetTempPath(_countof(szTempPath), szTempPath) <= 0)
 				mir_wstrcpy(szTempPath, L".\\");
 			if (GetTempFileName(szTempPath, L"jab", 0, szTempFileName) > 0) {
 				dat->ppro->debugLogW(L"Temp file = %s", szTempFileName);
 				if (CopyFile(szAvatarFileName, szTempFileName, FALSE) == TRUE) {
-					if ((dat->hBitmap = Bitmap_Load(szTempFileName)) != NULL) {
+					if ((dat->hBitmap = Bitmap_Load(szTempFileName)) != nullptr) {
 						FIP->FI_Premultiply(dat->hBitmap);
 						mir_wstrcpy(dat->ppro->m_szPhotoFileName, szTempFileName);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
@@ -307,7 +307,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 
 		dat->ppro->m_bPhotoChanged = FALSE;
-		InvalidateRect(hwndDlg, NULL, TRUE);
+		InvalidateRect(hwndDlg, nullptr, TRUE);
 		UpdateWindow(hwndDlg);
 		break;
 
@@ -320,12 +320,12 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		case IDC_DELETE:
 			if (dat->hBitmap) {
 				DeleteObject(dat->hBitmap);
-				dat->hBitmap = NULL;
+				dat->hBitmap = nullptr;
 				DeleteFile(dat->ppro->m_szPhotoFileName);
 				dat->ppro->m_szPhotoFileName[0] = '\0';
 				dat->ppro->m_bPhotoChanged = TRUE;
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
-				InvalidateRect(hwndDlg, NULL, TRUE);
+				InvalidateRect(hwndDlg, nullptr, TRUE);
 				UpdateWindow(hwndDlg);
 				dat->ppro->m_vCardUpdates |= (1UL << iPageId);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -340,7 +340,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ofn.lStructSize = sizeof(ofn);
 			ofn.hwndOwner = hwndDlg;
 			ofn.lpstrFilter = szFilter;
-			ofn.lpstrCustomFilter = NULL;
+			ofn.lpstrCustomFilter = nullptr;
 			ofn.lpstrFile = szFileName;
 			ofn.nMaxFile = MAX_PATH;
 			ofn.Flags = OFN_FILEMUSTEXIST | OFN_DONTADDTORECENT;
@@ -360,7 +360,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				if (GetTempFileName(szTempPath, L"jab", 0, szTempFileName) > 0) {
 					dat->ppro->debugLogW(L"Temp file = %s", szTempFileName);
 					if (CopyFile(szFileName, szTempFileName, FALSE) == TRUE) {
-						if ((hNewBitmap = Bitmap_Load(szTempFileName)) != NULL) {
+						if ((hNewBitmap = Bitmap_Load(szTempFileName)) != nullptr) {
 							if (dat->hBitmap) {
 								DeleteObject(dat->hBitmap);
 								DeleteFile(dat->ppro->m_szPhotoFileName);
@@ -370,7 +370,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							mir_wstrcpy(dat->ppro->m_szPhotoFileName, szTempFileName);
 							dat->ppro->m_bPhotoChanged = TRUE;
 							EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
-							InvalidateRect(hwndDlg, NULL, TRUE);
+							InvalidateRect(hwndDlg, nullptr, TRUE);
 							UpdateWindow(hwndDlg);
 							dat->ppro->m_vCardUpdates |= (1UL << iPageId);
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -402,7 +402,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ptOrg.x = ptOrg.y = 0;
 			DPtoLP(hdcMem, &ptOrg, 1);
 			GetClientRect(hwndCanvas, &rect);
-			InvalidateRect(hwndCanvas, NULL, TRUE);
+			InvalidateRect(hwndCanvas, nullptr, TRUE);
 			UpdateWindow(hwndCanvas);
 			if (ptSize.x <= rect.right && ptSize.y <= rect.bottom) {
 				pt.x = (rect.right - ptSize.x) / 2;
@@ -554,7 +554,7 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			char idstr[33];
 			mir_snprintf(idstr, "e-mail%d", dat->id);
 			ptrA email(dat->ppro->getStringA(idstr));
-			if (email != NULL)
+			if (email != nullptr)
 				SetDlgItemTextA(hwndDlg, IDC_EMAIL, email);
 
 			mir_snprintf(idstr, "e-mailFlag%d", lParam);
@@ -574,7 +574,7 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (dat->id < 0)
 				for (dat->id = 0;; dat->id++) {
 					mir_snprintf(idstr, "e-mail%d", dat->id);
-					if (ptrA(dat->ppro->getStringA(idstr)) == NULL)
+					if (ptrA(dat->ppro->getStringA(idstr)) == nullptr)
 						break;
 				}
 
@@ -616,7 +616,7 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			char idstr[33];
 			mir_snprintf(idstr, "Phone%d", dat->id);
 			ptrA phone(dat->ppro->getStringA(idstr));
-			if (phone != NULL)
+			if (phone != nullptr)
 				SetDlgItemTextA(hwndDlg, IDC_PHONE, phone);
 
 			mir_snprintf(idstr, "PhoneFlag%d", dat->id);
@@ -645,7 +645,7 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (dat->id < 0)
 				for (dat->id = 0;; dat->id++) {
 					mir_snprintf(idstr, "Phone%d", dat->id);
-					if (ptrA(dat->ppro->getStringA(idstr)) == NULL)
+					if (ptrA(dat->ppro->getStringA(idstr)) == nullptr)
 						break;
 				}
 
@@ -731,7 +731,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 			for (i=0;;i++) {
 				mir_snprintf(idstr, "e-mail%d", i);
 				ptrW email( ppro->getWStringA(idstr));
-				if (email == NULL) break;
+				if (email == nullptr) break;
 
 				mir_snwprintf(number, L"%d", i+1);
 				lvi.pszText = number;
@@ -752,7 +752,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 			for (i=0;;i++) {
 				mir_snprintf(idstr, "Phone%d", i);
 				ptrW phone( ppro->getWStringA(idstr));
-				if (phone == NULL) break;
+				if (phone == nullptr) break;
 
 				mir_snwprintf(number, L"%d", i+1);
 				lvi.pszText = number;
@@ -809,7 +809,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 						else if (nm->iSubItem == 3 && nm->nmcd.lItemlParam != -1)
 							hIcon = g_LoadIconEx("delete");
 						else break;
-						DrawIconEx(nm->nmcd.hdc, (rc.left + rc.right - GetSystemMetrics(SM_CXSMICON)) / 2, (rc.top + rc.bottom - GetSystemMetrics(SM_CYSMICON)) / 2, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
+						DrawIconEx(nm->nmcd.hdc, (rc.left + rc.right - GetSystemMetrics(SM_CXSMICON)) / 2, (rc.top + rc.bottom - GetSystemMetrics(SM_CYSMICON)) / 2, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, nullptr, DI_NORMAL);
 						SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, CDRF_SKIPDEFAULT);
 						return TRUE;
 					}
@@ -861,7 +861,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 						for (i = lvi.lParam;; i++) {
 							mir_snprintf(idstr, szIdTemplate, i + 1);
 							ptrA fieldVal(ppro->getStringA(idstr));
-							if (fieldVal == NULL) break;
+							if (fieldVal == nullptr) break;
 							mir_snprintf(idstr, szIdTemplate, i);
 							ppro->setString(idstr, fieldVal);
 
@@ -1002,7 +1002,7 @@ void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 
 void CJabberProto::AppendVcardFromDB(HXML n, char *tag, char *key)
 {
-	if (n == NULL || tag == NULL || key == NULL)
+	if (n == nullptr || tag == nullptr || key == nullptr)
 		return;
 
 	ptrW tszValue(getWStringA(key));
@@ -1033,7 +1033,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName)
 	for (i = 0;; i++) {
 		mir_snprintf(idstr, "e-mail%d", i);
 		ptrW email(getWStringA(idstr));
-		if (email == NULL)
+		if (email == nullptr)
 			break;
 
 		HXML e = v << XCHILD(L"EMAIL", email);
@@ -1081,7 +1081,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName)
 	for (i = 0;; i++) {
 		mir_snprintf(idstr, "Phone%d", i);
 		ptrW phone(getWStringA(idstr));
-		if (phone == NULL)
+		if (phone == nullptr)
 			break;
 
 		n = v << XCHILD(L"TEL");
@@ -1104,7 +1104,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName)
 	}
 
 	wchar_t szAvatarName[MAX_PATH], *szFileName;
-	GetAvatarFileName(NULL, szAvatarName, _countof(szAvatarName));
+	GetAvatarFileName(0, szAvatarName, _countof(szAvatarName));
 	if (bPhotoChanged)
 		szFileName = szPhotoFileName;
 	else
@@ -1112,7 +1112,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName)
 
 	// Set photo element, also update the global jabberVcardPhotoFileName to reflect the update
 	debugLogW(L"Before update, file name = %s", szFileName);
-	if (szFileName == NULL || szFileName[0] == 0) {
+	if (szFileName == nullptr || szFileName[0] == 0) {
 		v << XCHILD(L"PHOTO");
 		DeleteFile(szAvatarName);
 		delSetting("AvatarSaved");
@@ -1124,15 +1124,15 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName)
 		struct _stat st;
 		if (_wstat(szFileName, &st) >= 0) {
 			// Note the FILE_SHARE_READ attribute so that the CopyFile can succeed
-			HANDLE hFile = CreateFile(szFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+			HANDLE hFile = CreateFile(szFileName, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 			if (hFile != INVALID_HANDLE_VALUE) {
 				ptrA buffer((char*)mir_alloc(st.st_size));
-				if (buffer != NULL) {
+				if (buffer != nullptr) {
 					DWORD nRead;
-					if (ReadFile(hFile, buffer, st.st_size, &nRead, NULL)) {
+					if (ReadFile(hFile, buffer, st.st_size, &nRead, nullptr)) {
 						ptrA str(mir_base64_encode((PBYTE)(LPSTR)buffer, nRead));
 						const wchar_t *szFileType = ProtoGetAvatarMimeType(ProtoGetBufferFormat(buffer));
-						if (str != NULL && szFileType != NULL) {
+						if (str != nullptr && szFileType != nullptr) {
 							n = v << XCHILD(L"PHOTO");
 							n << XCHILD(L"TYPE", szFileType);
 							n << XCHILD(L"BINVAL", _A2T(str));
@@ -1152,7 +1152,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName)
 							if (bPhotoChanged) {
 								DeleteFile(szAvatarName);
 
-								GetAvatarFileName(NULL, szAvatarName, _countof(szAvatarName));
+								GetAvatarFileName(0, szAvatarName, _countof(szAvatarName));
 								CopyFile(szFileName, szAvatarName, FALSE);
 							}
 

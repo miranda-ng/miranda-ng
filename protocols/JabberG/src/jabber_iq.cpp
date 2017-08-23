@@ -47,7 +47,7 @@ CJabberIqManager::CJabberIqManager(CJabberProto *proto) :
 	m_bExpirerThreadShutdownRequest(false)
 {
 	m_dwLastUsedHandle = 0;
-	m_hExpirerThread = NULL;
+	m_hExpirerThread = nullptr;
 	ppro = proto;
 }
 
@@ -77,7 +77,7 @@ void CJabberIqManager::Shutdown()
 
 	WaitForSingleObject(m_hExpirerThread, INFINITE);
 	CloseHandle(m_hExpirerThread);
-	m_hExpirerThread = NULL;
+	m_hExpirerThread = nullptr;
 }
 
 void CJabberIqManager::FillPermanentHandlers()
@@ -104,7 +104,7 @@ void CJabberIqManager::FillPermanentHandlers()
 	AddPermanentHandler(&CJabberProto::OnIqRequestPrivacyLists, JABBER_IQ_TYPE_SET, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_ID_STR, JABBER_FEAT_PRIVACY_LISTS, FALSE, L"query");
 
 	// in band bytestreams (XEP-0047)
-	AddPermanentHandler(&CJabberProto::OnFtHandleIbbIq, JABBER_IQ_TYPE_SET, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_CHILD_TAG_NAME | JABBER_IQ_PARSE_CHILD_TAG_XMLNS, JABBER_FEAT_IBB, FALSE, NULL);
+	AddPermanentHandler(&CJabberProto::OnFtHandleIbbIq, JABBER_IQ_TYPE_SET, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_CHILD_TAG_NAME | JABBER_IQ_PARSE_CHILD_TAG_XMLNS, JABBER_FEAT_IBB, FALSE, nullptr);
 
 	// socks5-bytestreams (XEP-0065)
 	AddPermanentHandler(&CJabberProto::FtHandleBytestreamRequest, JABBER_IQ_TYPE_SET, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_ID_STR | JABBER_IQ_PARSE_CHILD_TAG_NODE, JABBER_FEAT_BYTESTREAMS, FALSE, L"query");
@@ -157,7 +157,7 @@ void CJabberIqManager::ExpirerThread()
 
 	if (!m_bExpirerThreadShutdownRequest) {
 		CloseHandle(m_hExpirerThread);
-		m_hExpirerThread = NULL;
+		m_hExpirerThread = nullptr;
 	}
 }
 
@@ -174,7 +174,7 @@ void CJabberIqManager::ExpireInfo(CJabberIqInfo *pInfo)
 	ppro->debugLogW(L"Expiring iq id %d, sent to %s", pInfo->m_nIqId, pInfo->m_szReceiver ? pInfo->m_szReceiver : L"server");
 
 	pInfo->m_nIqType = JABBER_IQ_TYPE_FAIL;
-	(ppro->*(pInfo->m_pHandler))(NULL, pInfo);
+	(ppro->*(pInfo->m_pHandler))(nullptr, pInfo);
 
 	delete pInfo;
 }
@@ -240,7 +240,7 @@ bool CJabberIqManager::DeleteHandler(CJabberIqInfo *pInfo)
 
 bool CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 {
-	if (nIqId == -1 || pNode == NULL)
+	if (nIqId == -1 || pNode == nullptr)
 		return false;
 
 	const wchar_t *szType = XmlGetAttrValue(pNode, L"type");
@@ -256,7 +256,7 @@ bool CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 		return false;
 
 	CJabberIqInfo *pInfo = DetouchInfo(nIqId);
-	if (pInfo == NULL)
+	if (pInfo == nullptr)
 		return false;
 
 	do {
@@ -285,7 +285,7 @@ bool CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 		(ppro->*(pInfo->m_pHandler))(pNode, pInfo);
 		delete pInfo;
 	}
-		while ((pInfo = DetouchInfo(nIqId)) != NULL);
+		while ((pInfo = DetouchInfo(nIqId)) != nullptr);
 	return true;
 }
 
@@ -366,7 +366,7 @@ CJabberIqInfo* CJabberIqManager::DetouchInfo(int nIqId)
 			return pInfo;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 CJabberIqInfo* CJabberIqManager::DetouchInfo(void *pUserData)
@@ -380,7 +380,7 @@ CJabberIqInfo* CJabberIqManager::DetouchInfo(void *pUserData)
 			return pInfo;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 CJabberIqInfo* CJabberIqManager::DetouchExpired()
@@ -397,7 +397,7 @@ CJabberIqInfo* CJabberIqManager::DetouchExpired()
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -93,7 +93,7 @@ void CCtrlTreeOpts::OnInit()
 	wchar_t itemName[1024];
 	HIMAGELIST hImgLst;
 
-	SelectItem(NULL);
+	SelectItem(nullptr);
 	DeleteAllItems();
 
 	hImgLst = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR | ILC_COLOR32 | ILC_MASK, 5, 1);
@@ -111,7 +111,7 @@ void CCtrlTreeOpts::OnInit()
 		wchar_t *sectionName;
 		int sectionLevel = 0;
 
-		HTREEITEM hSection = NULL;
+		HTREEITEM hSection = nullptr;
 		mir_wstrcpy(itemName, m_options[i]->m_szOptionName);
 		sectionName = itemName;
 
@@ -163,7 +163,7 @@ void CCtrlTreeOpts::OnInit()
 
 	TranslateTree();
 	ShowWindow(m_hwnd, SW_SHOW);
-	SelectItem(FindNamedItem(0, NULL));
+	SelectItem(FindNamedItem(0, nullptr));
 }
 
 void CCtrlTreeOpts::OnDestroy()
@@ -226,7 +226,7 @@ void CCtrlTreeOpts::ProcessItemClick(HTREEITEM hti)
 }
 
 CCtrlTreeOpts::COptionsItem::COptionsItem(wchar_t *szOption, CMOption<BYTE> &option) :
-m_option(&option), m_groupId(OPTTREE_CHECK), m_hItem(NULL)
+m_option(&option), m_groupId(OPTTREE_CHECK), m_hItem(nullptr)
 {
 	m_szOptionName = mir_wstrdup(szOption);
 }

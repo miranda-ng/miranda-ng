@@ -37,10 +37,10 @@ int CJabberProto::SerialNext(void)
 MCONTACT CJabberProto::ChatRoomHContactFromJID(const wchar_t *jid)
 {
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, jid);
-	if (item != NULL && item->hContact)
+	if (item != nullptr && item->hContact)
 		return item->hContact;
 
-	return NULL;
+	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -48,49 +48,49 @@ MCONTACT CJabberProto::ChatRoomHContactFromJID(const wchar_t *jid)
 
 MCONTACT CJabberProto::HContactFromJID(const wchar_t *jid, bool bStripResource)
 {
-	if (jid == NULL)
-		return NULL;
+	if (jid == nullptr)
+		return 0;
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
-	if (item != NULL && item->hContact)
+	if (item != nullptr && item->hContact)
 		return item->hContact;
 
 	if (bStripResource) {
 		wchar_t szJid[JABBER_MAX_JID_LEN];
 		JabberStripJid(jid, szJid, _countof(szJid));
 		item = ListGetItemPtr(LIST_ROSTER, szJid);
-		if (item != NULL && item->hContact)
+		if (item != nullptr && item->hContact)
 			return item->hContact;
 	}
 
-	return NULL;
+	return 0;
 }
 
 wchar_t* __stdcall JabberNickFromJID(const wchar_t *jid)
 {
-	if (jid == NULL)
+	if (jid == nullptr)
 		return mir_wstrdup(L"");
 
 	const wchar_t *p = wcschr(jid, '@');
-	if (p == NULL)
+	if (p == nullptr)
 		p = wcschr(jid, '/');
 
-	return (p != NULL) ? mir_wstrndup(jid, p - jid) : mir_wstrdup(jid);
+	return (p != nullptr) ? mir_wstrndup(jid, p - jid) : mir_wstrdup(jid);
 }
 
 pResourceStatus CJabberProto::ResourceInfoFromJID(const wchar_t *jid)
 {
-	if (jid == NULL)
-		return NULL;
+	if (jid == nullptr)
+		return nullptr;
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_VCARD_TEMP, jid);
-	if (item == NULL)
+	if (item == nullptr)
 		item = ListGetItemPtr(LIST_ROSTER, jid);
-	if (item == NULL)
-		return NULL;
+	if (item == nullptr)
+		return nullptr;
 
 	const wchar_t *p = wcschr(jid, '/');
-	if (p == NULL)
+	if (p == nullptr)
 		return item->getTemp();
 
 	return item->findResource(p + 1);
@@ -98,9 +98,9 @@ pResourceStatus CJabberProto::ResourceInfoFromJID(const wchar_t *jid)
 
 wchar_t* JabberPrepareJid(LPCTSTR jid)
 {
-	if (jid == NULL) return NULL;
+	if (jid == nullptr) return nullptr;
 	wchar_t *szNewJid = mir_wstrdup(jid);
-	if (!szNewJid) return NULL;
+	if (!szNewJid) return nullptr;
 	wchar_t *pDelimiter = wcschr(szNewJid, '/');
 	if (pDelimiter) *pDelimiter = 0;
 	CharLower(szNewJid);
@@ -110,7 +110,7 @@ wchar_t* JabberPrepareJid(LPCTSTR jid)
 
 void __stdcall JabberUrlDecodeW(WCHAR *str)
 {
-	if (str == NULL)
+	if (str == nullptr)
 		return;
 
 	WCHAR *p, *q;
@@ -144,8 +144,8 @@ char* __stdcall JabberSha1(const char *str, JabberShaStrBuf buf)
 
 wchar_t* __stdcall JabberStrFixLines(const wchar_t *str)
 {
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	const wchar_t *p;
 	int add = 0;
@@ -178,7 +178,7 @@ void __stdcall JabberHttpUrlDecode(wchar_t *str)
 	wchar_t *p, *q;
 	unsigned int code;
 
-	if (str == NULL) return;
+	if (str == nullptr) return;
 	for (p = q = (wchar_t*)str; *p != '\0'; p++, q++) {
 		if (*p == '%' && *(p + 1) != '\0' && isxdigit(*(p + 1)) && *(p + 2) != '\0' && isxdigit(*(p + 2))) {
 			swscanf((wchar_t*)p + 1, L"%2x", &code);
@@ -255,7 +255,7 @@ wchar_t* __stdcall JabberErrorStr(int errorCode)
 wchar_t* __stdcall JabberErrorMsg(HXML errorNode, int* pErrorCode)
 {
 	wchar_t *errorStr = (wchar_t*)mir_alloc(256 * sizeof(wchar_t));
-	if (errorNode == NULL) {
+	if (errorNode == nullptr) {
 		if (pErrorCode)
 			*pErrorCode = -1;
 		mir_snwprintf(errorStr, 256, L"%s -1: %s", TranslateT("Error"), TranslateT("Unknown error message"));
@@ -264,16 +264,16 @@ wchar_t* __stdcall JabberErrorMsg(HXML errorNode, int* pErrorCode)
 
 	int errorCode = -1;
 	const wchar_t *str = XmlGetAttrValue(errorNode, L"code");
-	if (str != NULL)
+	if (str != nullptr)
 		errorCode = _wtoi(str);
 
 	str = XmlGetText(errorNode);
-	if (str == NULL)
+	if (str == nullptr)
 		str = XmlGetText(XmlGetChild(errorNode, L"text"));
-	if (str == NULL) {
+	if (str == nullptr) {
 		for (int i = 0;; i++) {
 			HXML c = XmlGetChild(errorNode, i);
-			if (c == NULL) break;
+			if (c == nullptr) break;
 			const wchar_t *attr = XmlGetAttrValue(c, L"xmlns");
 			if (attr && !mir_wstrcmp(attr, L"urn:ietf:params:xml:ns:xmpp-stanzas")) {
 				str = XmlGetName(c);
@@ -282,7 +282,7 @@ wchar_t* __stdcall JabberErrorMsg(HXML errorNode, int* pErrorCode)
 		}
 	}
 
-	if (str != NULL)
+	if (str != nullptr)
 		mir_snwprintf(errorStr, 256, L"%s %d: %s\r\n%s", TranslateT("Error"), errorCode, TranslateW(JabberErrorStr(errorCode)), str);
 	else
 		mir_snwprintf(errorStr, 256, L"%s %d: %s", TranslateT("Error"), errorCode, TranslateW(JabberErrorStr(errorCode)));
@@ -299,18 +299,18 @@ void CJabberProto::SendVisibleInvisiblePresence(BOOL invisible)
 	LISTFOREACH(i, this, LIST_ROSTER)
 	{
 		JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
-		if (item == NULL)
+		if (item == nullptr)
 			continue;
 
 		MCONTACT hContact = HContactFromJID(item->jid);
-		if (hContact == NULL)
+		if (hContact == 0)
 			continue;
 
 		WORD apparentMode = getWord(hContact, "ApparentMode", 0);
 		if (invisible == TRUE && apparentMode == ID_STATUS_OFFLINE)
 			m_ThreadInfo->send(XmlNode(L"presence") << XATTR(L"to", item->jid) << XATTR(L"type", L"invisible"));
 		else if (invisible == FALSE && apparentMode == ID_STATUS_ONLINE)
-			SendPresenceTo(m_iStatus, item->jid, NULL);
+			SendPresenceTo(m_iStatus, item->jid, nullptr);
 	}
 }
 
@@ -319,7 +319,7 @@ time_t __stdcall JabberIsoToUnixTime(const wchar_t *stamp)
 	wchar_t date[9];
 	int i, y;
 
-	if (stamp == NULL)
+	if (stamp == nullptr)
 		return 0;
 
 	const wchar_t *p = stamp;
@@ -377,7 +377,7 @@ void CJabberProto::SendPresenceTo(int status, const wchar_t* to, HXML extra, con
 	_itow(iPriority, szPriority, 10);
 
 	XmlNode p(L"presence"); p << XCHILD(L"priority", szPriority);
-	if (to != NULL)
+	if (to != nullptr)
 		p << XATTR(L"to", to);
 
 	if (extra)
@@ -445,7 +445,7 @@ void CJabberProto::SendPresenceTo(int status, const wchar_t* to, HXML extra, con
 		HXML x = p << XCHILDNS(L"x", L"vcard-temp:x:update");
 
 		ptrA hashValue(getStringA("AvatarHash"));
-		if (hashValue != NULL) // XEP-0153: vCard-Based Avatars
+		if (hashValue != nullptr) // XEP-0153: vCard-Based Avatars
 			x << XCHILD(L"photo", _A2T(hashValue));
 		else
 			x << XCHILD(L"photo");
@@ -491,7 +491,7 @@ void CJabberProto::SendPresenceTo(int status, const wchar_t* to, HXML extra, con
 
 void CJabberProto::SendPresence(int status, bool bSendToAll)
 {
-	SendPresenceTo(status, NULL, NULL);
+	SendPresenceTo(status, nullptr, nullptr);
 	SendVisibleInvisiblePresence(status == ID_STATUS_INVISIBLE);
 
 	// Also update status in all chatrooms
@@ -499,10 +499,10 @@ void CJabberProto::SendPresence(int status, bool bSendToAll)
 		LISTFOREACH(i, this, LIST_CHATROOM)
 		{
 			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
-			if (item != NULL && item->nick != NULL) {
+			if (item != nullptr && item->nick != nullptr) {
 				wchar_t text[1024];
 				mir_snwprintf(text, L"%s/%s", item->jid, item->nick);
-				SendPresenceTo(status == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : status, text, NULL);
+				SendPresenceTo(status == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : status, text, nullptr);
 			}
 		}
 	}
@@ -533,8 +533,8 @@ wchar_t* __stdcall JabberId2string(int id)
 
 wchar_t* CJabberProto::GetClientJID(MCONTACT hContact, wchar_t *dest, size_t destLen)
 {
-	if (hContact == NULL)
-		return NULL;
+	if (hContact == 0)
+		return nullptr;
 
 	ptrW jid(getWStringA(hContact, "jid"));
 	return GetClientJID(jid, dest, destLen);
@@ -542,18 +542,18 @@ wchar_t* CJabberProto::GetClientJID(MCONTACT hContact, wchar_t *dest, size_t des
 
 wchar_t* CJabberProto::GetClientJID(const wchar_t *jid, wchar_t *dest, size_t destLen)
 {
-	if (jid == NULL)
-		return NULL;
+	if (jid == nullptr)
+		return nullptr;
 
 	wcsncpy_s(dest, destLen, jid, _TRUNCATE);
 	wchar_t *p = wcschr(dest, '/');
 
 	mir_cslock lck(m_csLists);
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
-	if (LI != NULL) {
-		if (p == NULL) {
+	if (LI != nullptr) {
+		if (p == nullptr) {
 			pResourceStatus r(LI->getBestResource());
-			if (r != NULL)
+			if (r != nullptr)
 				mir_snwprintf(dest, destLen, L"%s/%s", jid, r->m_tszResourceName);
 		}
 	}
@@ -566,13 +566,13 @@ wchar_t* CJabberProto::GetClientJID(const wchar_t *jid, wchar_t *dest, size_t de
 
 wchar_t* __stdcall JabberStripJid(const wchar_t *jid, wchar_t *dest, size_t destLen)
 {
-	if (jid == NULL)
+	if (jid == nullptr)
 		*dest = 0;
 	else {
 		wcsncpy_s(dest, destLen, jid, _TRUNCATE);
 
 		wchar_t *p = wcschr(dest, '/');
-		if (p != NULL)
+		if (p != nullptr)
 			*p = 0;
 	}
 
@@ -595,15 +595,15 @@ LPCTSTR __stdcall JabberGetPictureType(HXML node, const char *picBuf)
 // TStringPairs class members
 
 TStringPairs::TStringPairs(char* buffer) :
-	elems(NULL)
+	elems(nullptr)
 {
 	TStringPairsElem tempElem[100];
 
 	char* token = strtok(buffer, ",");
 
-	for (numElems = 0; token != NULL; numElems++) {
+	for (numElems = 0; token != nullptr; numElems++) {
 		char* p = strchr(token, '='), *p1;
-		if (p == NULL)
+		if (p == nullptr)
 			break;
 
 		while (isspace(*token))
@@ -611,16 +611,16 @@ TStringPairs::TStringPairs(char* buffer) :
 
 		tempElem[numElems].name = rtrim(token);
 		*p++ = 0;
-		if ((p1 = strchr(p, '\"')) != NULL) {
+		if ((p1 = strchr(p, '\"')) != nullptr) {
 			*p1 = 0;
 			p = p1 + 1;
 		}
 
-		if ((p1 = strrchr(p, '\"')) != NULL)
+		if ((p1 = strrchr(p, '\"')) != nullptr)
 			*p1 = 0;
 
 		tempElem[numElems].value = rtrim(p);
-		token = strtok(NULL, ",");
+		token = strtok(nullptr, ",");
 	}
 
 	if (numElems) {
@@ -652,7 +652,7 @@ void CJabberProto::ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *par
 		char setting[MAXMODULELABELLENGTH];
 		mir_snprintf(setting, "%s%d", param, i);
 		ptrW tszRecent(getWStringA(setting));
-		if (tszRecent != NULL)
+		if (tszRecent != nullptr)
 			SendDlgItemMessage(hwndDlg, idcCombo, CB_ADDSTRING, 0, tszRecent);
 	}
 
@@ -717,13 +717,14 @@ static VOID CALLBACK sttRebuildInfoFrameApcProc(void* param)
 		ppro->m_pInfoFrame->CreateInfoItem("$/Transports", false);
 		ppro->m_pInfoFrame->UpdateInfoItem("$/Transports", ppro->GetIconHandle(IDI_TRANSPORT), TranslateT("Transports"));
 
-		JABBER_LIST_ITEM *item = NULL;
+		JABBER_LIST_ITEM *item = nullptr;
 		LISTFOREACH(i, ppro, LIST_ROSTER)
 		{
-			if ((item = ppro->ListGetItemPtrFromIndex(i)) != NULL) {
-				if (wcschr(item->jid, '@') == NULL && wcschr(item->jid, '/') == NULL && item->subscription != SUB_NONE) {
+			if ((item = ppro->ListGetItemPtrFromIndex(i)) != nullptr) {
+				if (wcschr(item->jid, '@') == nullptr && wcschr(item->jid, '/') == nullptr && item->subscription != SUB_NONE) {
 					MCONTACT hContact = ppro->HContactFromJID(item->jid);
-					if (hContact == NULL) continue;
+					if (hContact == 0)
+						continue;
 
 					char name[128];
 					char *jid_copy = mir_u2a(item->jid);
@@ -781,7 +782,7 @@ const wchar_t *JabberStrIStr(const wchar_t *str, const wchar_t *substr)
 	CharUpperBuff(substr_up, (DWORD)mir_wstrlen(substr_up));
 
 	wchar_t *p = wcsstr(str_up, substr_up);
-	return p ? (str + (p - str_up)) : NULL;
+	return p ? (str + (p - str_up)) : nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -804,7 +805,7 @@ void JabberCopyText(HWND hwnd, const wchar_t *text)
 
 BOOL CJabberProto::EnterString(CMStringW &result, LPCTSTR caption, int type, char *windowName, int recentCount, int timeout)
 {
-	if (caption == NULL) {
+	if (caption == nullptr) {
 		caption = NEWWSTR_ALLOCA(result.GetString());
 		result.Empty();
 	}
@@ -831,11 +832,11 @@ BOOL CJabberProto::EnterString(CMStringW &result, LPCTSTR caption, int type, cha
 bool JabberReadXep203delay(HXML node, time_t &msgTime)
 {
 	HXML n = XmlGetChildByTag(node, "delay", "xmlns", L"urn:xmpp:delay");
-	if (n == NULL)
+	if (n == nullptr)
 		return false;
 
 	const wchar_t *ptszTimeStamp = XmlGetAttrValue(n, L"stamp");
-	if (ptszTimeStamp == NULL)
+	if (ptszTimeStamp == nullptr)
 		return false;
 
 	// skip '-' chars
@@ -853,15 +854,15 @@ bool JabberReadXep203delay(HXML node, time_t &msgTime)
 
 bool CJabberProto::IsMyOwnJID(LPCTSTR szJID)
 {
-	if (m_ThreadInfo == NULL)
+	if (m_ThreadInfo == nullptr)
 		return false;
 
 	ptrW szFrom(JabberPrepareJid(szJID));
-	if (szFrom == NULL)
+	if (szFrom == nullptr)
 		return false;
 
 	ptrW szTo(JabberPrepareJid(m_ThreadInfo->fullJID));
-	if (szTo == NULL)
+	if (szTo == nullptr)
 		return false;
 
 	wchar_t *pDelimiter = wcschr(szFrom, '/');
@@ -880,7 +881,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 	Thread_SetName("Jabber: LoadHttpAvatars");
 
 	OBJLIST<JABBER_HTTP_AVATARS> &avs = *(OBJLIST<JABBER_HTTP_AVATARS>*)param;
-	HNETLIBCONN hHttpCon = NULL;
+	HNETLIBCONN hHttpCon = nullptr;
 	for (int i = 0; i < avs.getCount(); i++) {
 		NETLIBHTTPREQUEST nlhr = { 0 };
 		nlhr.cbSize = sizeof(nlhr);
@@ -916,12 +917,12 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					bin2hex(digest, sizeof(digest), buffer);
 
 					ptrA cmpsha(getStringA(ai.hContact, "AvatarSaved"));
-					if (cmpsha == NULL || strnicmp(cmpsha, buffer, sizeof(buffer))) {
+					if (cmpsha == nullptr || strnicmp(cmpsha, buffer, sizeof(buffer))) {
 						wchar_t tszFileName[MAX_PATH];
 						GetAvatarFileName(ai.hContact, tszFileName, _countof(tszFileName));
 						wcsncpy_s(ai.filename, tszFileName, _TRUNCATE);
 						FILE* out = _wfopen(tszFileName, L"wb");
-						if (out != NULL) {
+						if (out != nullptr) {
 							fwrite(res->pData, res->dataLength, 1, out);
 							fclose(out);
 							setString(ai.hContact, "AvatarSaved", buffer);
@@ -934,7 +935,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 			}
 			Netlib_FreeHttpRequest(res);
 		}
-		else hHttpCon = NULL;
+		else hHttpCon = nullptr;
 	}
 	delete &avs;
 	if (hHttpCon)

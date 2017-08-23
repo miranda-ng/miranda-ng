@@ -48,7 +48,7 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		params = (CAPTCHA_FORM_PARAMS*)lParam;
 
 		LPCTSTR hint = params->hint;
-		if (hint == NULL)
+		if (hint == nullptr)
 			hint = TranslateT("Enter the text you see");
 		SetDlgItemText(hwndDlg, IDC_INSTRUCTION, TranslateW(hint));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)params);
@@ -62,7 +62,7 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_TITLE:
 			return (INT_PTR)GetStockObject(WHITE_BRUSH);
 		}
-		return NULL;
+		return 0;
 
 	case WM_PAINT:
 		if (params) {
@@ -112,25 +112,25 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 {
 	HXML x = XmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
-	if (x == NULL)
+	if (x == nullptr)
 		return false;
 
 	HXML y = XmlGetChildByTag(x, L"field", L"var", L"from");
-	if (y == NULL)
+	if (y == nullptr)
 		return false;
-	if ((y = XmlGetChild(y, "value")) == NULL)
+	if ((y = XmlGetChild(y, "value")) == nullptr)
 		return false;
 
 	CAPTCHA_FORM_PARAMS param;
 	param.fromjid = XmlGetText(y);
 
-	if ((y = XmlGetChildByTag(x, L"field", L"var", L"sid")) == NULL)
+	if ((y = XmlGetChildByTag(x, L"field", L"var", L"sid")) == nullptr)
 		return false;
-	if ((y = XmlGetChild(y, "value")) == NULL)
+	if ((y = XmlGetChild(y, "value")) == nullptr)
 		return false;
 	param.sid = XmlGetText(y);
 
-	if ((y = XmlGetChildByTag(x, L"field", L"var", L"ocr")) == NULL)
+	if ((y = XmlGetChildByTag(x, L"field", L"var", L"ocr")) == nullptr)
 		return false;
 	param.hint = XmlGetAttrValue (y, L"label");
 
@@ -138,12 +138,12 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 	param.to = XmlGetAttrValue(parentNode, L"to");
 	param.challenge = XmlGetAttrValue(parentNode, L"id");
 	HXML o = XmlGetChild(parentNode, "data");
-	if (o == NULL || XmlGetText(o) == NULL)
+	if (o == nullptr || XmlGetText(o) == nullptr)
 		return false;
 
 	unsigned bufferLen;
 	ptrA buffer((char*)mir_base64_decode( _T2A(XmlGetText(o)), &bufferLen));
-	if (buffer == NULL)
+	if (buffer == nullptr)
 		return false;
 	
 	IMGSRVC_MEMIO memio;
@@ -157,7 +157,7 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 	GetObject(param.bmp, sizeof(bmp), &bmp);
 	param.w = bmp.bmWidth;
 	param.h = bmp.bmHeight;
-	int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CAPTCHAFORM), NULL, JabberCaptchaFormDlgProc, (LPARAM)&param);
+	int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CAPTCHAFORM), nullptr, JabberCaptchaFormDlgProc, (LPARAM)&param);
 	if (mir_wstrcmp(param.Result, L"") == 0 || !res)
 		sendCaptchaError(info, param.from, param.to, param.challenge);
 	else

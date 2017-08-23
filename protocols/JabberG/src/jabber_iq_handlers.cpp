@@ -109,7 +109,7 @@ BOOL CJabberProto::OnIqRequestTime(HXML, CJabberIqInfo *pInfo)
 	XmlNodeIq iq(L"result", pInfo);
 	HXML timeNode = iq << XCHILDNS(L"time", JABBER_FEAT_ENTITY_TIME);
 	timeNode << XCHILD(L"utc", stime); timeNode << XCHILD(L"tzo", szTZ);
-	LPCTSTR szTZName = TimeZone_GetName(NULL);
+	LPCTSTR szTZName = TimeZone_GetName(nullptr);
 	if (szTZName)
 		timeNode << XCHILD(L"tz", szTZName);
 	m_ThreadInfo->send(iq);
@@ -134,7 +134,7 @@ BOOL CJabberProto::OnIqProcessIqOldTime(HXML, CJabberIqInfo *pInfo)
 	XmlNodeIq iq(L"result", pInfo);
 	HXML queryNode = iq << XQUERY(JABBER_FEAT_ENTITY_TIME_OLD);
 	queryNode << XCHILD(L"utc", stime);
-	LPCTSTR szTZName = TimeZone_GetName(NULL);
+	LPCTSTR szTZName = TimeZone_GetName(nullptr);
 	if (szTZName)
 		queryNode << XCHILD(L"tz", szTZName);
 	queryNode << XCHILD(L"display", dtime);
@@ -152,19 +152,19 @@ BOOL CJabberProto::OnIqRequestAvatar(HXML, CJabberIqInfo *pInfo)
 		return TRUE;
 
 	const wchar_t *szMimeType = ProtoGetAvatarMimeType(pictureType);
-	if (szMimeType == NULL)
+	if (szMimeType == nullptr)
 		return TRUE;
 
 	wchar_t szFileName[MAX_PATH];
-	GetAvatarFileName(NULL, szFileName, _countof(szFileName));
+	GetAvatarFileName(0, szFileName, _countof(szFileName));
 
 	FILE* in = _wfopen(szFileName, L"rb");
-	if (in == NULL)
+	if (in == nullptr)
 		return TRUE;
 
 	long bytes = _filelength(_fileno(in));
 	ptrA buffer((char*)mir_alloc(bytes * 4 / 3 + bytes + 1000));
-	if (buffer == NULL) {
+	if (buffer == nullptr) {
 		fclose(in);
 		return TRUE;
 	}
@@ -237,18 +237,18 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 
 		if (mir_wstrcmp(XmlGetName(itemNode), L"item") != 0)
 			continue;
-		if ((jid = XmlGetAttrValue(itemNode, L"jid")) == NULL)
+		if ((jid = XmlGetAttrValue(itemNode, L"jid")) == nullptr)
 			continue;
-		if ((str = XmlGetAttrValue(itemNode, L"subscription")) == NULL)
+		if ((str = XmlGetAttrValue(itemNode, L"subscription")) == nullptr)
 			continue;
 
 		// we will not add new account when subscription=remove
 		if (!mir_wstrcmp(str, L"to") || !mir_wstrcmp(str, L"both") || !mir_wstrcmp(str, L"from") || !mir_wstrcmp(str, L"none")) {
 			const wchar_t *name = XmlGetAttrValue(itemNode, L"name");
-			ptrW nick((name != NULL) ? mir_wstrdup(name) : JabberNickFromJID(jid));
-			if (nick != NULL) {
+			ptrW nick((name != nullptr) ? mir_wstrdup(name) : JabberNickFromJID(jid));
+			if (nick != nullptr) {
 				MCONTACT hContact = HContactFromJID(jid, false);
-				if (hContact == NULL)
+				if (hContact == 0)
 					hContact = DBCreateContact(jid, nick, false, false);
 				else
 					setWString(hContact, "jid", jid);
@@ -260,9 +260,9 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 				HXML groupNode = XmlGetChild(itemNode, "group");
 				replaceStrW(item->group, XmlGetText(groupNode));
 
-				if (name != NULL) {
+				if (name != nullptr) {
 					ptrW tszNick(getWStringA(hContact, "Nick"));
-					if (tszNick != NULL) {
+					if (tszNick != nullptr) {
 						if (mir_wstrcmp(nick, tszNick) != 0)
 							db_set_ws(hContact, "CList", "MyHandle", nick);
 						else
@@ -273,7 +273,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 				else db_unset(hContact, "CList", "MyHandle");
 
 				if (!m_options.IgnoreRosterGroups) {
-					if (item->group != NULL) {
+					if (item->group != nullptr) {
 						Clist_GroupCreate(0, item->group);
 						db_set_ws(hContact, "CList", "Group", item->group);
 					}
@@ -334,20 +334,20 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 	ft->jid = mir_wstrdup(pInfo->GetFrom());
 	ft->std.hContact = pInfo->GetHContact();
 	ft->type = FT_OOB;
-	ft->httpHostName = NULL;
+	ft->httpHostName = nullptr;
 	ft->httpPort = 80;
-	ft->httpPath = NULL;
+	ft->httpPath = nullptr;
 
 	// Parse the URL
 	wchar_t *str = (wchar_t*)XmlGetText(n);	// URL of the file to get
 	if (!wcsnicmp(str, L"http://", 7)) {
 		wchar_t *p = str + 7, *q;
-		if ((q = wcschr(p, '/')) != NULL) {
+		if ((q = wcschr(p, '/')) != nullptr) {
 			wchar_t text[1024];
 			if (q - p < _countof(text)) {
 				wcsncpy_s(text, p, q - p);
 				text[q - p] = '\0';
-				if ((p = wcschr(text, ':')) != NULL) {
+				if ((p = wcschr(text, ':')) != nullptr) {
 					ft->httpPort = (WORD)_wtoi(p + 1);
 					*p = '\0';
 				}
@@ -360,15 +360,15 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 		ft->szId = JabberId2string(pInfo->GetIqId());
 
 	if (ft->httpHostName && ft->httpPath) {
-		wchar_t *desc = NULL;
+		wchar_t *desc = nullptr;
 
 		debugLogA("Host=%s Port=%d Path=%s", ft->httpHostName, ft->httpPort, ft->httpPath);
-		if ((n = XmlGetChild(pInfo->GetChildNode(), "desc")) != NULL)
+		if ((n = XmlGetChild(pInfo->GetChildNode(), "desc")) != nullptr)
 			desc = (wchar_t*)XmlGetText(n);
 
 		wchar_t *str2;
 		debugLogW(L"description = %s", desc);
-		if ((str2 = wcsrchr(ft->httpPath, '/')) != NULL)
+		if ((str2 = wcsrchr(ft->httpPath, '/')) != nullptr)
 			str2++;
 		else
 			str2 = ft->httpPath;
@@ -377,7 +377,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 
 		PROTORECVFILET pre;
 		pre.dwFlags = PRFF_UNICODE;
-		pre.timestamp = time(NULL);
+		pre.timestamp = time(nullptr);
 		pre.descr.w = desc;
 		pre.files.w = &str2;
 		pre.fileCount = 1;

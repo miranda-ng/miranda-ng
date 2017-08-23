@@ -150,7 +150,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 		break;
 
 	case WM_DESTROY:
-		param->ppro->m_hwndJabberAddBookmark = NULL;
+		param->ppro->m_hwndJabberAddBookmark = nullptr;
 		break;
 	}
 	return FALSE;
@@ -196,7 +196,7 @@ private:
 
 		JabberAddBookmarkDlgParam param;
 		param.ppro = m_proto;
-		param.m_item = NULL;
+		param.m_item = nullptr;
 		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_BOOKMARK_ADD), m_hwnd, JabberAddBookmarkDlgProc, (LPARAM)&param);
 	}
 
@@ -208,10 +208,10 @@ private:
 		if (iItem < 0) return;
 
 		wchar_t *address = (wchar_t *)m_lvBookmarks.GetItemData(iItem);
-		if (address == NULL) return;
+		if (address == nullptr) return;
 
 		JABBER_LIST_ITEM *item = m_proto->ListGetItemPtr(LIST_BOOKMARK, address);
-		if (item == NULL) return;
+		if (item == nullptr) return;
 
 		JabberAddBookmarkDlgParam param;
 		param.ppro = m_proto;
@@ -227,10 +227,10 @@ private:
 		if (iItem < 0) return;
 
 		wchar_t *address = (wchar_t *)m_lvBookmarks.GetItemData(iItem);
-		if (address == NULL) return;
+		if (address == nullptr) return;
 
 		JABBER_LIST_ITEM *item = m_proto->ListGetItemPtr(LIST_BOOKMARK, address);
-		if (item == NULL) return;
+		if (item == nullptr) return;
 
 		m_btnAdd.Disable();
 		m_btnEdit.Disable();
@@ -247,7 +247,7 @@ private:
 };
 
 CJabberDlgBookmarks::CJabberDlgBookmarks(CJabberProto *proto) :
-	CSuper(proto, IDD_BOOKMARKS, NULL),
+	CSuper(proto, IDD_BOOKMARKS, nullptr),
 	m_btnAdd(this, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add")),
 	m_btnEdit(this, IDC_EDIT, SKINICON_OTHER_RENAME, LPGEN("Edit")),
 	m_btnRemove(this, IDC_REMOVE, SKINICON_OTHER_DELETE, LPGEN("Remove")),
@@ -292,7 +292,7 @@ void CJabberDlgBookmarks::OnInitDialog()
 	m_lvBookmarks.AddGroup(0, TranslateT("Conferences"));
 	m_lvBookmarks.AddGroup(1, TranslateT("Links"));
 
-	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "bookmarksWnd_");
+	Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "bookmarksWnd_");
 }
 
 void CJabberDlgBookmarks::OnClose()
@@ -306,14 +306,14 @@ void CJabberDlgBookmarks::OnClose()
 	m_lvBookmarks.GetColumn(2, &lvc);
 	m_proto->setWord("bookmarksWnd_cx2", lvc.cx);
 
-	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "bookmarksWnd_");
+	Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "bookmarksWnd_");
 
 	CSuper::OnClose();
 }
 
 void CJabberDlgBookmarks::OnDestroy()
 {
-	m_proto->m_pDlgBookmarks = NULL;
+	m_proto->m_pDlgBookmarks = nullptr;
 
 	CSuper::OnDestroy();
 }
@@ -324,10 +324,10 @@ void CJabberDlgBookmarks::OpenBookmark()
 	if (iItem < 0) return;
 
 	wchar_t *address = (wchar_t *)m_lvBookmarks.GetItemData(iItem);
-	if (address == NULL) return;
+	if (address == nullptr) return;
 
 	JABBER_LIST_ITEM *item = m_proto->ListGetItemPtr(LIST_BOOKMARK, address);
-	if (item == NULL) return;
+	if (item == nullptr) return;
 
 	if (!mir_wstrcmpi(item->type, L"conference")) {
 		m_lvBookmarks.SetItemState(iItem, 0, LVIS_SELECTED); // Unselect the item
@@ -335,7 +335,7 @@ void CJabberDlgBookmarks::OpenBookmark()
 		/* some hack for using bookmark to transport not under XEP-0048 */
 		if (!wcschr(item->jid, '@'))
 			//the room name is not provided let consider that it is transport and send request to registration
-			m_proto->RegisterAgent(NULL, item->jid);
+			m_proto->RegisterAgent(nullptr, item->jid);
 		else {
 			wchar_t *room = NEWWSTR_ALLOCA(item->jid);
 			wchar_t *server = wcschr(room, '@');
@@ -387,7 +387,7 @@ void CJabberDlgBookmarks::OnProtoRefresh(WPARAM, LPARAM)
 {
 	m_lvBookmarks.DeleteAllItems();
 
-	JABBER_LIST_ITEM *item = NULL;
+	JABBER_LIST_ITEM *item = nullptr;
 	LISTFOREACH(i, m_proto, LIST_BOOKMARK)
 	{
 		if (item = m_proto->ListGetItemPtrFromIndex(i)) {
@@ -443,7 +443,7 @@ int CJabberProto::AddEditBookmark(JABBER_LIST_ITEM *item)
 		JabberAddBookmarkDlgParam param;
 		param.ppro = this;
 		param.m_item = item;//(JABBER_LIST_ITEM*)lParam;
-		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_BOOKMARK_ADD), NULL, JabberAddBookmarkDlgProc, (LPARAM)&param);
+		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_BOOKMARK_ADD), nullptr, JabberAddBookmarkDlgProc, (LPARAM)&param);
 	}
 	return 0;
 }

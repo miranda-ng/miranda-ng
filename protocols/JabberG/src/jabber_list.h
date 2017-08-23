@@ -75,7 +75,7 @@ enum JABBER_RESOURCE_MODE // initial default to RSMODE_LASTSEEN
 {
 	RSMODE_SERVER,		// always let server decide (always send correspondence without resouce name)
 	RSMODE_LASTSEEN,	// use the last seen resource (or let server decide if haven't seen anything yet)
-	RSMODE_MANUAL		// specify resource manually (see the defaultResource field - must not be NULL)
+	RSMODE_MANUAL		// specify resource manually (see the defaultResource field - must not be nullptr)
 };
 
 class JABBER_RESOURCE_STATUS : public MZeroedObject

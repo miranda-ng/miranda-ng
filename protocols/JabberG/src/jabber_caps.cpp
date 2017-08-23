@@ -76,7 +76,7 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] = {
 	{ JABBER_FEAT_ROSTER_EXCHANGE,      JABBER_CAPS_ROSTER_EXCHANGE,      LPGENW("Supports Roster Exchange") },
 	{ JABBER_FEAT_DIRECT_MUC_INVITE,    JABBER_CAPS_DIRECT_MUC_INVITE,    LPGENW("Supports direct chat invitations (XEP-0249)") },
 	{ JABBER_FEAT_OMEMO_DEVICELIST_NOTIFY,			JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY,		  LPGENW("Receives information about OMEMO devices") },
-	{ NULL }
+	{ nullptr }
 };
 
 const JabberFeatCapPairExt g_JabberFeatCapPairsExt[] = {
@@ -95,7 +95,7 @@ const JabberFeatCapPairExt g_JabberFeatCapPairsExt[] = {
 	{ szCoreVersion,                JABBER_CAPS_MIRANDA_PARTIAL                                   },
 	{ JABBER_EXT_PLATFORMX86,       JABBER_CAPS_PLATFORMX86                                       },
 	{ JABBER_EXT_PLATFORMX64,       JABBER_CAPS_PLATFORMX64                                       },
-	{ NULL }
+	{ nullptr }
 };
 
 void CJabberProto::AddDefaultCaps()
@@ -199,14 +199,14 @@ void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
 
 JabberCapsBits CJabberProto::GetTotalJidCapabilites(const wchar_t *jid)
 {
-	if (jid == NULL)
+	if (jid == nullptr)
 		return JABBER_RESOURCE_CAPS_NONE;
 
 	wchar_t szBareJid[JABBER_MAX_JID_LEN];
 	JabberStripJid(jid, szBareJid, _countof(szBareJid));
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, szBareJid);
-	if (item == NULL)
+	if (item == nullptr)
 		item = ListGetItemPtr(LIST_VCARD_TEMP, szBareJid);
 
 	JabberCapsBits jcbToReturn = JABBER_RESOURCE_CAPS_NONE;
@@ -239,7 +239,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const wchar_t *jid, bool app
 		wcsncpy_s(fullJid, jid, _TRUNCATE);
 
 	pResourceStatus r(ResourceInfoFromJID(fullJid));
-	if (r == NULL)
+	if (r == nullptr)
 		return JABBER_RESOURCE_CAPS_ERROR;
 
 	// XEP-0115 mode
@@ -282,7 +282,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const wchar_t *jid, bool app
 					}
 				}
 
-				token = wcstok(NULL, L" ");
+				token = wcstok(nullptr, L" ");
 			}
 
 			mir_free(caps);
@@ -359,7 +359,7 @@ CJabberClientPartialCaps* CJabberClientCaps::FindByVersion(const wchar_t *szHash
 CJabberClientPartialCaps* CJabberClientCaps::FindById(int nIqId)
 {
 	if (!m_pCaps || nIqId == -1)
-		return NULL;
+		return nullptr;
 
 	CJabberClientPartialCaps *pCaps = m_pCaps;
 	while (pCaps) {

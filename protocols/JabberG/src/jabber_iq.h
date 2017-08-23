@@ -106,7 +106,7 @@ public:
 			case JABBER_IQ_TYPE_ERROR: return "error";
 			case JABBER_IQ_TYPE_RESULT: return "result";
 		}
-		return NULL;
+		return nullptr;
 	}
 };
 
@@ -166,7 +166,7 @@ public:
 
 	// fucking params, maybe just return CJabberIqRequestInfo pointer ?
 	CJabberIqInfo* AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType, const wchar_t *szReceiver, DWORD dwParamsToParse, int nIqId, void *pUserData, int iPriority);
-	CJabberIqPermanentInfo* AddPermanentHandler(JABBER_PERMANENT_IQ_HANDLER pHandler, int nIqTypes, DWORD dwParamsToParse, const wchar_t *szXmlns, BOOL bAllowPartialNs, const wchar_t *szTag, void *pUserData = NULL, IQ_USER_DATA_FREE_FUNC pUserDataFree = NULL, int iPriority = JH_PRIORITY_DEFAULT);
+	CJabberIqPermanentInfo* AddPermanentHandler(JABBER_PERMANENT_IQ_HANDLER pHandler, int nIqTypes, DWORD dwParamsToParse, const wchar_t *szXmlns, BOOL bAllowPartialNs, const wchar_t *szTag, void *pUserData = nullptr, IQ_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
 
 	// returns TRUE when pInfo found, or FALSE otherwise
 	bool DeletePermanentHandler(CJabberIqPermanentInfo *pInfo);

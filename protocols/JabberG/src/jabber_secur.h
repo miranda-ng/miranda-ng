@@ -103,7 +103,7 @@ class TNtlmAuth : public TJabberAuth
 				HANDLE hProvider;
 				const wchar_t *szHostName;
 public:
-				TNtlmAuth(ThreadData*, const char* mechanism, const wchar_t *hostname = NULL);
+				TNtlmAuth(ThreadData*, const char* mechanism, const wchar_t *hostname = nullptr);
 	virtual ~TNtlmAuth();
 
 	virtual	char* getInitialRequest();

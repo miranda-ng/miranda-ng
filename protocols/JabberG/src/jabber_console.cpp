@@ -128,14 +128,14 @@ bool CJabberProto::FilterXml(HXML node, DWORD flags)
 	case TFilterInfo::T_JID:
 		attrValue = XmlGetAttrValue(node, (flags & JCPF_OUT) ? L"to" : L"from");
 		if (attrValue)
-			return JabberStrIStr(attrValue, m_filterInfo.pattern) != NULL;
+			return JabberStrIStr(attrValue, m_filterInfo.pattern) != nullptr;
 		break;
 
 	case TFilterInfo::T_XMLNS:
 		if (XmlGetChildCount(node)) {
 			attrValue = XmlGetAttrValue(XmlGetChild(node, 0), L"xmlns");
 			if (attrValue)
-				return JabberStrIStr(attrValue, m_filterInfo.pattern) != NULL;
+				return JabberStrIStr(attrValue, m_filterInfo.pattern) != nullptr;
 		}
 		break;
 
@@ -271,7 +271,7 @@ DWORD CALLBACK sttStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, L
 
 static void sttJabberConsoleRebuildStrings(CJabberProto *ppro, HWND hwndCombo)
 {
-	JABBER_LIST_ITEM *item = NULL;
+	JABBER_LIST_ITEM *item = nullptr;
 
 	int len = GetWindowTextLength(hwndCombo) + 1;
 	wchar_t *buf = (wchar_t *)_alloca(len * sizeof(wchar_t));
@@ -328,7 +328,7 @@ protected:
 };
 
 CJabberDlgConsole::CJabberDlgConsole(CJabberProto *proto):
-	CJabberDlgBase(proto, IDD_CONSOLE, NULL)
+	CJabberDlgBase(proto, IDD_CONSOLE, nullptr)
 {
 }
 
@@ -347,7 +347,7 @@ void CJabberDlgConsole::OnInitDialog()
 
 	*m_proto->m_filterInfo.pattern = 0;
 	ptrW tszPattern( m_proto->getWStringA("consoleWnd_fpattern"));
-	if (tszPattern != NULL)
+	if (tszPattern != nullptr)
 		mir_wstrncpy(m_proto->m_filterInfo.pattern, tszPattern, _countof(m_proto->m_filterInfo.pattern));
 
 	sttJabberConsoleRebuildStrings(m_proto, GetDlgItem(m_hwnd, IDC_CB_FILTER));
@@ -388,7 +388,7 @@ void CJabberDlgConsole::OnInitDialog()
 	EnableWindow(GetDlgItem(m_hwnd, IDC_CB_FILTER), (m_proto->m_filterInfo.type == TFilterInfo::T_OFF) ? FALSE : TRUE);
 	EnableWindow(GetDlgItem(m_hwnd, IDC_BTN_FILTER_REFRESH), (m_proto->m_filterInfo.type == TFilterInfo::T_OFF) ? FALSE : TRUE);
 
-	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "consoleWnd_");
+	Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "consoleWnd_");
 }
 
 void CJabberDlgConsole::OnClose()
@@ -399,7 +399,7 @@ void CJabberDlgConsole::OnClose()
 	m_proto->setByte("consoleWnd_ftype", m_proto->m_filterInfo.type);
 	m_proto->setWString("consoleWnd_fpattern", m_proto->m_filterInfo.pattern);
 
-	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "consoleWnd_");
+	Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "consoleWnd_");
 	DestroyWindow(m_hwnd);
 	CSuper::OnClose();
 }
@@ -412,7 +412,7 @@ void CJabberDlgConsole::OnDestroy()
 	IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, 0));
 	IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER_REFRESH, BM_SETIMAGE, IMAGE_ICON, 0));
 
-	m_proto->m_pDlgConsole = NULL;
+	m_proto->m_pDlgConsole = nullptr;
 	CSuper::OnDestroy();
 }
 
@@ -450,7 +450,7 @@ void CJabberDlgConsole::OnProtoRefresh(WPARAM, LPARAM lParam)
 	else SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_SETSCROLLPOS, 0, (LPARAM)&ptScroll);
 
 	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, WM_SETREDRAW, TRUE, 0);
-	InvalidateRect(GetDlgItem(m_hwnd, IDC_CONSOLE), NULL, FALSE);
+	InvalidateRect(GetDlgItem(m_hwnd, IDC_CONSOLE), nullptr, FALSE);
 }
 
 int CJabberDlgConsole::Resizer(UTILRESIZECONTROL *urc)
@@ -505,7 +505,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				GetDlgItemText(m_hwnd, IDC_CONSOLEIN, textToSend, length);
 
 				int bytesProcessed = 0;
-				XmlNode xmlTmp(textToSend, &bytesProcessed, NULL);
+				XmlNode xmlTmp(textToSend, &bytesProcessed, nullptr);
 				if (xmlTmp)
 					m_proto->m_ThreadInfo->send(xmlTmp);
 				else {
@@ -572,7 +572,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			RECT rc; GetWindowRect(GetDlgItem(m_hwnd, IDC_BTN_FILTER), &rc);
 			CheckDlgButton(m_hwnd, IDC_BTN_FILTER, BST_CHECKED);
-			int res = TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_BOTTOMALIGN, rc.left, rc.top, 0, m_hwnd, NULL);
+			int res = TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_BOTTOMALIGN, rc.left, rc.top, 0, m_hwnd, nullptr);
 			CheckDlgButton(m_hwnd, IDC_BTN_FILTER, BST_UNCHECKED);
 			DestroyMenu(hMenu);
 
@@ -599,7 +599,7 @@ void __cdecl CJabberProto::ConsoleThread(void*)
 	Thread_SetName("Jabber: ConsoleThread");
 
 	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0)) {
+	while (GetMessage(&msg, nullptr, 0, 0)) {
 		if (msg.message == WM_CREATECONSOLE) {
 			m_pDlgConsole = new CJabberDlgConsole(this);
 			m_pDlgConsole->Show();
@@ -625,7 +625,7 @@ void CJabberProto::ConsoleUninit()
 			TerminateThread(m_hThreadConsole, 0);
 		}
 		CloseHandle(m_hThreadConsole);
-		m_hThreadConsole = NULL;
+		m_hThreadConsole = nullptr;
 	}
 
 	m_filterInfo.iq = m_filterInfo.msg = m_filterInfo.presence = FALSE;

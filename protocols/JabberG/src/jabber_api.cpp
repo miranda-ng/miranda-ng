@@ -62,10 +62,10 @@ LPTSTR CJabberProto::ContactToJID(MCONTACT hContact)
 
 LPTSTR CJabberProto::GetBestResourceName(LPCTSTR jid)
 {
-	if (jid == NULL)
-		return NULL;
+	if (jid == nullptr)
+		return nullptr;
 	LPCTSTR p = wcschr(jid, '/');
-	if (p == NULL) {
+	if (p == nullptr) {
 		mir_cslock lck(m_csLists);
 		return mir_wstrdup(ListGetBestClientResourceNamePtr(jid));
 	}
@@ -74,18 +74,18 @@ LPTSTR CJabberProto::GetBestResourceName(LPCTSTR jid)
 
 LPTSTR CJabberProto::GetResourceList(LPCTSTR jid)
 {
-	if (jid == NULL)
-		return NULL;
+	if (jid == nullptr)
+		return nullptr;
 
 	mir_cslock lck(m_csLists);
-	JABBER_LIST_ITEM *item = NULL;
-	if ((item = ListGetItemPtr(LIST_VCARD_TEMP, jid)) == NULL)
+	JABBER_LIST_ITEM *item = nullptr;
+	if ((item = ListGetItemPtr(LIST_VCARD_TEMP, jid)) == nullptr)
 		item = ListGetItemPtr(LIST_ROSTER, jid);
-	if (item == NULL)
-		return NULL;
+	if (item == nullptr)
+		return nullptr;
 
 	if (!item->arResources.getCount())
-		return NULL;
+		return nullptr;
 
 	CMStringW res;
 	for (int i=0; i < item->arResources.getCount(); i++) {
@@ -173,7 +173,7 @@ HJHANDLER CJabberProto::AddTemporaryIqHandler(JABBER_HANDLER_FUNC Func, int iIqT
 	sHandlerData *d = (sHandlerData*)malloc(sizeof(sHandlerData));
 	d->Func = Func;
 	d->pUserData = pUserData;
-	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::ExternalTempIqHandler, iIqTypes, NULL, 0, iIqId, d, iPriority);
+	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::ExternalTempIqHandler, iIqTypes, nullptr, 0, iIqId, d, iPriority);
 	if (pInfo && dwTimeout > 0)
 		pInfo->SetTimeout(dwTimeout);
 	return (HJHANDLER)pInfo;
@@ -202,7 +202,7 @@ JabberFeatCapPairDynamic *CJabberProto::FindFeature(LPCTSTR szFeature)
 		if (!mir_wstrcmp(m_lstJabberFeatCapPairsDynamic[i]->szFeature, szFeature))
 			return m_lstJabberFeatCapPairsDynamic[i];
 
-	return NULL;
+	return nullptr;
 }
 
 int CJabberProto::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription)
@@ -248,7 +248,7 @@ int CJabberProto::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription)
 		fcp = new JabberFeatCapPairDynamic();
 		fcp->szExt = szExt; // will be deallocated along with other values of JabberFeatCapPairDynamic in CJabberProto destructor
 		fcp->szFeature = mir_wstrdup(szFeature);
-		fcp->szDescription = szDescription ? mir_wstrdup(szDescription) : NULL;
+		fcp->szDescription = szDescription ? mir_wstrdup(szDescription) : nullptr;
 		fcp->jcbCap = jcb;
 		m_lstJabberFeatCapPairsDynamic.insert(fcp);
 	}
@@ -272,7 +272,7 @@ int CJabberProto::AddFeatures(LPCTSTR szFeatures)
 		JabberFeatCapPairDynamic *fcp = FindFeature(szFeat);
 		// if someone is trying to add one of core features, RegisterFeature() will return false, so we don't have to perform this check here
 		if (!fcp) { // if the feature is not registered yet
-			if (!RegisterFeature(szFeat, NULL))
+			if (!RegisterFeature(szFeat, nullptr))
 				ret = false;
 			else
 				fcp = FindFeature(szFeat); // update fcp after RegisterFeature()
@@ -320,7 +320,7 @@ LPTSTR CJabberProto::GetResourceFeatures(LPCTSTR jid)
 {
 	JabberCapsBits jcb = GetResourceCapabilites(jid, true);
 	if (jcb & JABBER_RESOURCE_CAPS_ERROR)
-		return NULL;
+		return nullptr;
 
 	mir_cslockfull lck(m_csLists);
 	int i;

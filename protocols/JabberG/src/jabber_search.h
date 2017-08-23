@@ -60,7 +60,7 @@ typedef struct tag_Data
 
 } Data;
 
-static HWND searchHandleDlg=NULL;
+static HWND searchHandleDlg=nullptr;
 
 //local functions declarations
 static int JabberSearchFrameProc(HWND hwnd, int msg, WPARAM wParam, LPARAM lParam);
@@ -84,13 +84,13 @@ public:
 private:
 	typedef struct _tagRECORD
 	{
-		_tagRECORD(_KEYTYPE * key, wchar_t * value=NULL)	{ _key=key; _value=value; _order=0; _destroyKeyProc=NULL;	}
+		_tagRECORD(_KEYTYPE * key, wchar_t * value=nullptr)	{ _key=key; _value=value; _order=0; _destroyKeyProc=nullptr;	}
 		~_tagRECORD()
 		{
 			if (_key && _destroyKeyProc)
 				_destroyKeyProc(_key);
-			_key=NULL;
-			_destroyKeyProc=NULL;
+			_key=nullptr;
+			_destroyKeyProc=nullptr;
 		}
 		_KEYTYPE *_key;
 		wchar_t * _value;
@@ -133,7 +133,7 @@ private:
 			_RECORD * rec=_Records[i];
 			if (rec->_order==index)	return rec;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 public:
@@ -179,7 +179,7 @@ public:
 			{
 				delete rec;
 				DestroyProc(newKey);
-				if (_KeyReturn) *_KeyReturn=NULL;
+				if (_KeyReturn) *_KeyReturn=nullptr;
 			}
 			else
 			{
@@ -211,31 +211,31 @@ public:
 				return L"";
 		}
 		else
-			return NULL;
+			return nullptr;
 	}
 	inline wchar_t* operator[](int index) const
 	{
 		_RECORD * rv=_Records[index];
 		if (rv) return rv->_value;
-		else return NULL;
+		else return nullptr;
 	}
 	inline _KEYTYPE* getKeyName(int index)
 	{
 		_RECORD * rv=_Records[index];
 		if (rv) return rv->_key;
-		else return NULL;
+		else return nullptr;
 	}
 	inline wchar_t * getUnOrdered(int index)
 	{
 		_RECORD * rec=_getUnorderedRec(index);
 		if (rec) return rec->_value;
-		else return NULL;
+		else return nullptr;
 	}
 	inline _KEYTYPE * getUnOrderedKeyName(int index)
 	{
 		_RECORD * rec=_getUnorderedRec(index);
 		if (rec) return rec->_key;
-		else return NULL;
+		else return nullptr;
 	}
 	inline int getCount()
 	{

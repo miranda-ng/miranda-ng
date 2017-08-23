@@ -59,7 +59,7 @@ public:
 	void SetInfo(HANDLE hIcolibIcon, wchar_t *pszText)
 	{
 		mir_free(m_pszText);
-		m_pszText = pszText ? mir_wstrdup(pszText) : NULL;
+		m_pszText = pszText ? mir_wstrdup(pszText) : nullptr;
 		m_hIcolibIcon = hIcolibIcon;
 	}
 
@@ -79,7 +79,7 @@ CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto):
 
 	CLISTFrame frame = { sizeof(frame) };
 	HWND hwndClist = pcli->hwndContactList;
-	frame.hWnd = CreateWindowEx(0, L"JabberInfoFrameClass", NULL, WS_CHILD|WS_VISIBLE, 0, 0, 100, 100, hwndClist, NULL, hInst, this);
+	frame.hWnd = CreateWindowEx(0, L"JabberInfoFrameClass", nullptr, WS_CHILD|WS_VISIBLE, 0, 0, 100, 100, hwndClist, nullptr, hInst, this);
 	frame.align = alBottom;
 	frame.height = 2 * SZ_FRAMEPADDING + GetSystemMetrics(SM_CYSMICON) + SZ_LINEPADDING; // compact height by default
 	frame.Flags = F_VISIBLE|F_LOCKED|F_NOBORDER|F_UNICODE;
@@ -95,10 +95,10 @@ CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto):
 	m_hhkFontsChanged = HookEventMessage(ME_FONT_RELOAD, m_hwnd, WM_APP);
 	ReloadFonts();
 
-	m_hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL,
+	m_hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, nullptr,
 		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-		m_hwnd, NULL, hInst, NULL);
+		m_hwnd, nullptr, hInst, nullptr);
 	SetWindowPos(m_hwndToolTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
 	CreateInfoItem("$", true);
@@ -116,13 +116,13 @@ CJabberInfoFrame::~CJabberInfoFrame()
 	if (m_hhkFontsChanged)
 		UnhookEvent(m_hhkFontsChanged);
 
-	if (m_hwnd != NULL) {
+	if (m_hwnd != nullptr) {
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
 		DestroyWindow(m_hwnd);
 		DestroyWindow(m_hwndToolTip);
 		DeleteObject(m_hfntText);
 		DeleteObject(m_hfntTitle);
-		m_hwnd = NULL;
+		m_hwnd = nullptr;
 	}
 }
 
@@ -138,7 +138,7 @@ void CJabberInfoFrame::InitClass()
 	wcx.lpfnWndProc = GlobalWndProc;
 	wcx.hInstance = hInst;
 	wcx.lpszClassName = L"JabberInfoFrameClass";
-	wcx.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wcx.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	RegisterClassEx(&wcx);
 	bClassRegistered = true;
 }
@@ -180,9 +180,9 @@ LRESULT CJabberInfoFrame::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_RBUTTONUP:
 		{
 			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
-			MapWindowPoints(m_hwnd, NULL, &pt, 1);
+			MapWindowPoints(m_hwnd, nullptr, &pt, 1);
 			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDFRAMECONTEXT, m_frameId, 0);
-			int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
+			int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, pcli->hwndContactList, nullptr);
 			Clist_MenuProcessCommand(res, 0, m_frameId);
 			return 0;
 		}
@@ -269,7 +269,7 @@ void CJabberInfoFrame::UpdateSize()
 		}
 		else {
 			CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, m_frameId), height);
-			RedrawWindow(m_hwnd, NULL, NULL, RDW_INVALIDATE);
+			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE);
 		}
 	}
 	else CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, m_frameId), height);
@@ -328,7 +328,7 @@ void CJabberInfoFrame::PaintSkinGlyph(HDC hdc, RECT *rc, char **glyphs, COLORREF
 void CJabberInfoFrame::PaintCompact(HDC hdc)
 {
 	RECT rc; GetClientRect(m_hwnd, &rc);
-	char *glyphs[] = { "Main,ID=ProtoInfo", "Main,ID=EventArea", "Main,ID=StatusBar", NULL };
+	char *glyphs[] = { "Main,ID=ProtoInfo", "Main,ID=EventArea", "Main,ID=StatusBar", nullptr };
 	PaintSkinGlyph(hdc, &rc, glyphs, m_clBack);
 
 	HFONT hfntSave = (HFONT)SelectObject(hdc, m_hfntTitle);
@@ -353,7 +353,7 @@ void CJabberInfoFrame::PaintCompact(HDC hdc)
 			if (item.m_hIcolibIcon) {
 				HICON hIcon = IcoLib_GetIconByHandle(item.m_hIcolibIcon);
 				if (hIcon) {
-					DrawIconEx(hdc, SZ_FRAMEPADDING, (rc.bottom-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
+					DrawIconEx(hdc, SZ_FRAMEPADDING, (rc.bottom-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, nullptr, DI_NORMAL);
 					IcoLib_ReleaseIcon(hIcon);
 				}
 			}
@@ -366,7 +366,7 @@ void CJabberInfoFrame::PaintCompact(HDC hdc)
 				HICON hIcon = IcoLib_GetIconByHandle(item.m_hIcolibIcon);
 				if (hIcon) {
 					SetRect(&item.m_rcItem, cx, (rc.bottom-cy_icon)/2, cx+cx_icon, (rc.bottom-cy_icon)/2+cy_icon);
-					DrawIconEx(hdc, cx, (rc.bottom-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
+					DrawIconEx(hdc, cx, (rc.bottom-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, nullptr, DI_NORMAL);
 					cx -= cx_icon;
 
 					IcoLib_ReleaseIcon(hIcon);
@@ -383,7 +383,7 @@ void CJabberInfoFrame::PaintCompact(HDC hdc)
 void CJabberInfoFrame::PaintNormal(HDC hdc)
 {
 	RECT rc; GetClientRect(m_hwnd, &rc);
-	char *glyphs[] = { "Main,ID=ProtoInfo", "Main,ID=EventArea", "Main,ID=StatusBar", NULL };
+	char *glyphs[] = { "Main,ID=ProtoInfo", "Main,ID=EventArea", "Main,ID=StatusBar", nullptr };
 	PaintSkinGlyph(hdc, &rc, glyphs, m_clBack);
 
 	HFONT hfntSave = (HFONT)SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
@@ -411,7 +411,7 @@ void CJabberInfoFrame::PaintNormal(HDC hdc)
 		if (item.m_hIcolibIcon) {
 			HICON hIcon = IcoLib_GetIconByHandle(item.m_hIcolibIcon);
 			if (hIcon) {
-				DrawIconEx(hdc, cx, cy + (line_height-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
+				DrawIconEx(hdc, cx, cy + (line_height-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, nullptr, DI_NORMAL);
 				cx += cx_icon + SZ_ICONSPACING;
 
 				IcoLib_ReleaseIcon(hIcon);
@@ -454,7 +454,7 @@ void CJabberInfoFrame::UpdateInfoItem(char *pszName, HANDLE hIcolibIcon, wchar_t
 	if (CJabberInfoFrameItem *pItem = m_pItems.find((CJabberInfoFrameItem*)&pszName))
 		pItem->SetInfo(hIcolibIcon, pszText);
 	if (m_hwnd)
-		RedrawWindow(m_hwnd, NULL, NULL, RDW_INVALIDATE);
+		RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE);
 }
 
 void CJabberInfoFrame::ShowInfoItem(char *pszName, bool bShow)
@@ -500,6 +500,6 @@ void CJabberProto::InitInfoFrame()
 		m_pInfoFrame = new CJabberInfoFrame(this);
 	else {
 		delete m_pInfoFrame;
-		m_pInfoFrame = NULL;
+		m_pInfoFrame = nullptr;
 	}
 }

@@ -96,7 +96,7 @@ public:
 	CJabberSendManager(CJabberProto *proto);
 	~CJabberSendManager();
 
-	CJabberSendPermanentInfo* AddPermanentHandler(JABBER_SEND_HANDLER pHandler, void *pUserData = NULL, SEND_USER_DATA_FREE_FUNC pUserDataFree = NULL, int iPriority = JH_PRIORITY_DEFAULT);
+	CJabberSendPermanentInfo* AddPermanentHandler(JABBER_SEND_HANDLER pHandler, void *pUserData = nullptr, SEND_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
 	bool DeletePermanentHandler(CJabberSendPermanentInfo *pInfo);
 
 	bool HandleSendPermanent(HXML node, ThreadData *pThreadData);

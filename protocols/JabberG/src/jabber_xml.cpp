@@ -36,27 +36,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 XmlNodeIq::XmlNodeIq(const wchar_t *type, int id, LPCTSTR to) :
 	XmlNode(L"iq")
 {
-	if (type != NULL) *this << XATTR(L"type", type);
-	if (to   != NULL) *this << XATTR(L"to",   to);
+	if (type != nullptr) *this << XATTR(L"type", type);
+	if (to   != nullptr) *this << XATTR(L"to",   to);
 	if (id   != -1  ) *this << XATTRID(id);
 }
 
 XmlNodeIq::XmlNodeIq(const wchar_t *type, LPCTSTR idStr, LPCTSTR to) :
 	XmlNode(L"iq")
 {
-	if (type  != NULL) *this << XATTR(L"type", type );
-	if (to    != NULL) *this << XATTR(L"to",   to   );
-	if (idStr != NULL) *this << XATTR(L"id",   idStr);
+	if (type  != nullptr) *this << XATTR(L"type", type );
+	if (to    != nullptr) *this << XATTR(L"to",   to   );
+	if (idStr != nullptr) *this << XATTR(L"id",   idStr);
 }
 
 XmlNodeIq::XmlNodeIq(const wchar_t *type, HXML node, LPCTSTR to) :
 	XmlNode(L"iq")
 {
-	if (type  != NULL) *this << XATTR(L"type", type );
-	if (to    != NULL) *this << XATTR(L"to",   to   );
-	if (node  != NULL) {
+	if (type  != nullptr) *this << XATTR(L"type", type );
+	if (to    != nullptr) *this << XATTR(L"to",   to   );
+	if (node  != nullptr) {
 		const wchar_t *iqId = XmlGetAttrValue(*this, L"id");
-		if (iqId != NULL) *this << XATTR(L"id", iqId);
+		if (iqId != nullptr) *this << XATTR(L"id", iqId);
 	}
 }
 
@@ -64,8 +64,8 @@ XmlNodeIq::XmlNodeIq(CJabberIqInfo *pInfo) :
 	XmlNode(L"iq")
 {
 	if (pInfo) {
-		if (pInfo->GetCharIqType() != NULL) *this << XATTR(L"type", _A2T(pInfo->GetCharIqType()));
-		if (pInfo->GetReceiver()   != NULL) *this << XATTR(L"to", pInfo->GetReceiver());
+		if (pInfo->GetCharIqType() != nullptr) *this << XATTR(L"type", _A2T(pInfo->GetCharIqType()));
+		if (pInfo->GetReceiver()   != nullptr) *this << XATTR(L"to", pInfo->GetReceiver());
 		if (pInfo->GetIqId()       != -1)   *this << XATTRID(pInfo->GetIqId());
 	}
 }
@@ -73,10 +73,10 @@ XmlNodeIq::XmlNodeIq(CJabberIqInfo *pInfo) :
 XmlNodeIq::XmlNodeIq(const wchar_t *type, CJabberIqInfo *pInfo) :
 	XmlNode(L"iq")
 {
-	if (type != NULL) *this << XATTR(L"type", type);
+	if (type != nullptr) *this << XATTR(L"type", type);
 	if (pInfo) {
-		if (pInfo->GetFrom()  != NULL) *this << XATTR(L"to", pInfo->GetFrom());
-		if (pInfo->GetIdStr() != NULL) *this << XATTR(L"id", pInfo->GetIdStr());
+		if (pInfo->GetFrom()  != nullptr) *this << XATTR(L"to", pInfo->GetFrom());
+		if (pInfo->GetIdStr() != nullptr) *this << XATTR(L"id", pInfo->GetIdStr());
 	}
 }
 
@@ -85,7 +85,7 @@ XmlNodeIq::XmlNodeIq(const wchar_t *type, CJabberIqInfo *pInfo) :
 
 XmlNode::XmlNode(LPCTSTR pszName)
 {
-	m_hXml = xmlCreateNode(T2UTF(pszName), NULL, 0);
+	m_hXml = xmlCreateNode(T2UTF(pszName), nullptr, 0);
 }
 
 XmlNode::XmlNode(LPCTSTR pszName, LPCTSTR ptszText)
@@ -110,7 +110,7 @@ XmlNode::~XmlNode()
 {
 	if (m_hXml) {
 		xmlDestroyNode(m_hXml);
-		m_hXml = NULL;
+		m_hXml = nullptr;
 }	}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -184,7 +184,7 @@ void __fastcall XmlAddChild(HXML hXml, HXML n)
 
 HXML __fastcall XmlAddChild(HXML hXml, LPCTSTR name)
 {
-	return xmlAddChild(hXml, T2UTF(name), NULL);
+	return xmlAddChild(hXml, T2UTF(name), nullptr);
 }
 
 HXML __fastcall XmlAddChild(HXML hXml, LPCTSTR name, LPCTSTR value)
@@ -246,8 +246,8 @@ HXML __fastcall XmlGetNthChild(HXML hXml, LPCTSTR tag, int nth)
 {
 	int i, num;
 
-	if (!hXml || tag == NULL || mir_wstrlen(tag) <= 0 || nth < 1)
-		return NULL;
+	if (!hXml || tag == nullptr || mir_wstrlen(tag) <= 0 || nth < 1)
+		return nullptr;
 
 	num = 1;
 	for (i=0; ; i++) {
@@ -261,7 +261,7 @@ HXML __fastcall XmlGetNthChild(HXML hXml, LPCTSTR tag, int nth)
 			num++;
 	}	}
 
-	return NULL;
+	return nullptr;
 }
 
 LPCTSTR __fastcall XmlGetName(HXML xml)
@@ -271,7 +271,7 @@ LPCTSTR __fastcall XmlGetName(HXML xml)
 
 LPCTSTR __fastcall XmlGetText(HXML xml)
 {
-	return (xml) ? xmlGetText(xml) : NULL;
+	return (xml) ? xmlGetText(xml) : nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
