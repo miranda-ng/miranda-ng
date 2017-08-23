@@ -1791,97 +1791,6 @@ static int MetaChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static BOOL g_AboutDlgActive = 0;
-
-INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			int h;
-			HFONT hFont;
-			LOGFONT lf;
-
-			g_AboutDlgActive = TRUE;
-			hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_CLNICER, WM_GETFONT, 0, 0);
-			GetObject(hFont, sizeof(lf), &lf);
-			h = lf.lfHeight;
-			lf.lfHeight = (int)(lf.lfHeight * 1.5);
-			lf.lfWeight = FW_BOLD;
-			hFont = CreateFontIndirect(&lf);
-			SendDlgItemMessage(hwndDlg, IDC_CLNICER, WM_SETFONT, (WPARAM)hFont, 0);
-			lf.lfHeight = h;
-			hFont = CreateFontIndirect(&lf);
-			SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_SETFONT, (WPARAM)hFont, 0);
-		}
-		{
-			wchar_t str[64];
-			DWORD v = pluginInfo.version;
-			mir_snwprintf(str, L"%s %d.%d.%d.%d", TranslateT("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
-			SetDlgItemText(hwndDlg, IDC_VERSION, str);
-		}
-		{
-			HICON hIcon = LoadIcon(GetModuleHandleA("miranda32.exe"), MAKEINTRESOURCE(102));
-			SendDlgItemMessage(hwndDlg, IDC_LOGO, STM_SETICON, (WPARAM)hIcon, 0);
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
-			DestroyIcon(hIcon);
-		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			return TRUE;
-		case IDC_SUPPORT:
-			Utils_OpenUrl("https://miranda-ng.org/");
-			break;
-		}
-		break;
-
-	case WM_CTLCOLOREDIT:
-	case WM_CTLCOLORSTATIC:
-		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_WHITERECT)
-			|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_CLNICER)
-			|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_VERSION)
-			|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_COPYRIGHT)
-			|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_SUPPORT)
-			|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_LOGO)) {
-			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_CLNICER))
-				SetTextColor((HDC)wParam, RGB(180, 10, 10));
-			else if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_VERSION))
-				SetTextColor((HDC)wParam, RGB(70, 70, 70));
-			else
-				SetTextColor((HDC)wParam, RGB(0, 0, 0));
-			SetBkColor((HDC)wParam, RGB(255, 255, 255));
-			return (INT_PTR)GetStockObject(WHITE_BRUSH);
-		}
-		break;
-
-	case WM_DESTROY:
-		{
-			HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_CLNICER, WM_GETFONT, 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CLNICER, WM_SETFONT, SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0), 0);
-			DeleteObject(hFont);
-			hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_GETFONT, 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_SETFONT, SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0), 0);
-			DeleteObject(hFont);
-			g_AboutDlgActive = FALSE;
-		}
-		break;
-	}
-	return FALSE;
-}
-
-static INT_PTR CLN_ShowAbout(WPARAM, LPARAM)
-{
-	if (!g_AboutDlgActive)
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CLNABOUT), 0, DlgProcAbout, 0);
-	return 0;
-}
-
 static INT_PTR CLN_ShowMainMenu(WPARAM, LPARAM)
 {
 	POINT pt;
@@ -1927,7 +1836,6 @@ void LoadCLUIModule(void)
 	LoadExtraIconModule();
 	LoadCLUIFramesModule();
 
-	CreateServiceFunction("CLN/About", CLN_ShowAbout);
 	CreateServiceFunction(MS_CLUI_SHOWMAINMENU, CLN_ShowMainMenu);
 	CreateServiceFunction(MS_CLUI_SHOWSTATUSMENU, CLN_ShowStatusMenu);
 
