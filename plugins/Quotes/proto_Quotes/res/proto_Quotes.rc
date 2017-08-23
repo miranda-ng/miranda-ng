@@ -29,7 +29,6 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 104                     ICON         "proto_online.ico"
 105                     ICON         "proto_offline.ico"
 131                     ICON         "proto_na.ico"
-159                     ICON         "proto_occupied.ico"
 
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
