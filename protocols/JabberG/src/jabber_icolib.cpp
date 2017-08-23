@@ -456,6 +456,7 @@ void CJabberProto::CheckAllContactsAreTransported()
 
 static IconItem sharedIconList1[] =
 {
+	{ LPGEN("Jabber"),			      "jabber",			  IDI_JABBER			 },
 	{ LPGEN("Privacy Lists"),         "privacylists",     IDI_PRIVACY_LISTS      },
 	{ LPGEN("Bookmarks"),             "bookmarks",        IDI_BOOKMARKS          },
 	{ LPGEN("Notes"),                 "notes",            IDI_NOTES              },
@@ -472,7 +473,12 @@ static IconItem sharedIconList1[] =
 	{ LPGEN("Service Discovery"),     "servicediscovery", IDI_SERVICE_DISCOVERY  },
 	{ LPGEN("AdHoc Command"),         "adhoc",            IDI_COMMAND            },
 	{ LPGEN("XML Console"),           "xmlconsole",       IDI_CONSOLE            },
-	{ LPGEN("OpenID Request"),        "openid",           IDI_HTTP_AUTH          }
+	{ LPGEN("OpenID Request"),        "openid",           IDI_HTTP_AUTH          },
+	{ LPGEN("Add contact"),			  "addcontact",       IDI_ADDCONTACT		 },
+	{ LPGEN("Delete"),				  "delete",		      IDI_DELETE             },
+	{ LPGEN("Edit"),				  "edit",		      IDI_EDIT               },
+	{ LPGEN("Open"),				  "open",		      IDI_OPEN               },
+	{ LPGEN("Save"),				  "save",		      IDI_SAVE               }
 };
 
 static IconItem sharedIconList2[] =
