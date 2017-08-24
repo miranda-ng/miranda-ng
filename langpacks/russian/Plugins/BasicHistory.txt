@@ -223,6 +223,8 @@
 Полноценный HTML
 [Plain Html]
 Чистый HTML
+[Txt]
+Текстовый документ
 [Binary]
 Двоичный файл
 [Dat (mContacts)]

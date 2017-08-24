@@ -81,6 +81,10 @@
  был добавлен.
 [RESULT]
 РЕЗУЛЬТАТ
+[RTL On]
+Вкл. RTL
+[RTL Off]
+Откл. RTL
 [%s has joined.]
 %s вошёл.
 [%s has left.]

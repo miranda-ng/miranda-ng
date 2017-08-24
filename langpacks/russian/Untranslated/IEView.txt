@@ -2,3 +2,5 @@
 [IID_IOleInPlaceObject failed.]
 [Failed to Advise]
 [C++ Event Sink]
+[Group On]
+[Group Off]

@@ -1755,6 +1755,8 @@ xСтатус %s
 xСтатус
 [Greeting card:]
 Открытка:
+[Expand string edit]
+Расширить поле ввода
 [ICQ xStatus]
 xСтатус ICQ
 [ICQ Warning]

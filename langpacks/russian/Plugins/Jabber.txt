@@ -803,6 +803,10 @@ Jabber ошибка
 Команда AdHoc
 [OpenID Request]
 Запрос OpenID
+[Add contact]
+Добавить контакт
+[Open]
+Открыть
 [Discovery succeeded]
 Определение завершено
 [Discovery failed]

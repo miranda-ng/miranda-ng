@@ -7,10 +7,6 @@
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Поддержка протокола Tox в Miranda NG.
-[The friend ID did not designate a valid friend]
-ID контакта не соответствует ни одному контакту
-[This client is currently not connected to the friend]
-В настоящее время отсутствует соединение с контактом
 [Create]
 Создать
 [Import]
@@ -205,6 +201,10 @@ IPv6 адрес (необязательно)
 Некорректный формат данных
 [Unknown error]
 Неизвестная ошибка
+[The friend ID did not designate a valid friend]
+ID контакта не соответствует ни одному контакту
+[This client is currently not connected to the friend]
+В настоящее время отсутствует соединение с контактом
 [An allocation error occurred while increasing the send queue size]
 Произошла ошибка выделения при увеличении размера очереди отправки
 [Message length exceeded TOX_MAX_MESSAGE_LENGTH]
