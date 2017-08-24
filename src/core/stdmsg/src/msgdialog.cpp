@@ -564,7 +564,7 @@ void CSrmmWindow::SetupStatusBar()
 void CSrmmWindow::SetStatusText(const wchar_t *wszText, HICON hIcon)
 {
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
-	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)wszText);
+	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)(wszText == nullptr ? L"" : wszText));
 }
 
 void CSrmmWindow::UpdateReadChars()

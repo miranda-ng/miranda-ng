@@ -289,7 +289,7 @@ void CScriverWindow::SetStatusText(const wchar_t *wszText, HICON hIcon)
 	ParentWindowData *pDat = m_pParent;
 	if (pDat != nullptr) {
 		SendMessage(pDat->hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
-		SendMessage(pDat->hwndStatus, SB_SETTEXT, 0, (LPARAM)wszText);
+		SendMessage(pDat->hwndStatus, SB_SETTEXT, 0, (LPARAM)(wszText == nullptr ? L"" : wszText));
 	}
 }
 

@@ -105,7 +105,7 @@ static INT_PTR CALLBACK sttSetStatusText(void *_p)
 
 	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(param->hwnd, GWLP_USERDATA);
 	if (pDlg != nullptr)
-		pDlg->SetStatusText((param->wszText == nullptr) ? L"" : param->wszText, param->hIcon);
+		pDlg->SetStatusText(param->wszText, param->hIcon);
 	return 0;
 }
 
