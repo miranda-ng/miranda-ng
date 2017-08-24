@@ -280,10 +280,17 @@ void CTabBaseDlg::NotifyDeliveryFailure() const
 
 void CTabBaseDlg::SetStatusText(const wchar_t *wszText, HICON hIcon)
 {
-	m_bStatusSet = true;
-	m_szStatusText = wszText;
-	m_szStatusIcon = hIcon;
-	
+	if (wszText != nullptr) {
+		m_bStatusSet = true;
+		m_szStatusText = wszText;
+		m_szStatusIcon = hIcon;
+	}
+	else {
+		m_bStatusSet = false;
+		m_szStatusText.Empty();
+		m_szStatusIcon = nullptr;
+	}
+
 	tabUpdateStatusBar();
 }
 
