@@ -27,18 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern ButtonItem *g_ButtonItems;
 
-static INT_PTR GetClistVersion(WPARAM, LPARAM lParam)
-{
-	static char g_szVersionString[256];
-
-	mir_snprintf(g_szVersionString, "%s, %d.%d.%d.%d", pluginInfo.shortName, HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOBYTE(pluginInfo.version)));
-	if (!IsBadWritePtr((LPVOID)lParam, 4))
-		*((DWORD *)lParam) = pluginInfo.version;
-
-	return (INT_PTR)g_szVersionString;
-}
-
-
 void FreeProtocolData(void)
 {
 	// free protocol data

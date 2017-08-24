@@ -8,7 +8,6 @@
 #define IDD_OPT                         6
 #define IDD_EXCEPTION                   20
 #define IDD_OPTIONSDIALOG               101
-#define IDD_CLNABOUT                    102
 #define IDD_OPT_CLIST                   126
 #define IDI_CLIST                       146
 #define IDI_OPTIONS                     163
@@ -118,8 +117,6 @@
 #define IDC_SHOWMETA                    1172
 #define IDC_CENTERGROUPNAMES            1173
 #define IDC_APPLYINDENTBG               1174
-#define IDC_COPYRIGHT                   1178
-#define IDC_VERSION                     1179
 #define IDC_SHOWSTATUSICONS             1180
 #define IDC_BROWSE                      1184
 #define IDC_INACTIVEPERC                1187
@@ -131,7 +128,6 @@
 #define IDC_COPY_EXCEPTION              1201
 #define IDC_EX_REASON                   1202
 #define IDC_TILEH                       1208
-#define IDC_WHITERECT                   1225
 #define IDC_AUTOHIDE                    1235
 #define IDC_HIDETIME                    1236
 #define IDC_ALWAYSHIDEONTASKBAR         1237
@@ -192,7 +188,6 @@
 #define IDC_HIDE                        1534
 #define IDC_TOPLINE                     1535
 #define IDC_BRINGTOFRONT                1579
-#define IDC_LOGO                        1591
 #define IDC_BLINKTIME                   1607
 #define IDC_BLINKSPIN                   1608
 #define IDC_DISABLEBLINK                1609
@@ -260,8 +255,6 @@
 #define IDC_TBACCOUNTS                  1817
 #define IDC_TBFIRSTUID                  1820
 #define IDC_NOTIFYBUTTON                1900
-#define IDC_CLNICER                     2002
-#define IDC_SUPPORT                     2003
 #define IDI_OVL_OFFLINE                 2050
 #define IDI_OVL_ONLINE                  2051
 #define IDI_OVL_AWAY                    2052

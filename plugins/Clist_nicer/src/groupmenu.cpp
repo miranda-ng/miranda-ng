@@ -152,10 +152,4 @@ void InitGroupMenus(void)
 	mi.name.a = LPGEN("&Options...");
 	Menu_AddGroupMenuItem(&mi);
 
-	SET_UID(mi, 0x44ec5e76, 0xa5cc, 0x4e72, 0xb9, 0xa7, 0x5e, 0x41, 0xef, 0x99, 0x13, 0x19);
-	mi.position = 1000000;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
-	mi.pszService = "CLN/About";
-	mi.name.a = LPGEN("&About the contact list...");
-	Menu_AddGroupMenuItem(&mi);
 }
