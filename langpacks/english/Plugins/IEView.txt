@@ -51,6 +51,11 @@
 [IID_IOleInPlaceObject failed.]
 [Failed to Advise]
 [C++ Event Sink]
+;file \plugins\IEView\src\ieview_main.cpp
+[RTL On]
+[RTL Off]
+[Group On]
+[Group Off]
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 [%s has left.]

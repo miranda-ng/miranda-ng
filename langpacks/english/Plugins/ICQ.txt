@@ -906,6 +906,7 @@
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 ;file \protocols\IcqOscarJ\src\init.cpp
+[Expand string edit]
 [ICQ xStatus]
 ;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]

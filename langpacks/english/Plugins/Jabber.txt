@@ -420,6 +420,8 @@
 [Send note]
 [AdHoc Command]
 [OpenID Request]
+[Add contact]
+[Open]
 [Discovery succeeded]
 [Discovery failed]
 [Discovery in progress]

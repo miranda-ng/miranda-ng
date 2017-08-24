@@ -214,7 +214,6 @@
 [Filter:]
 [Conversation started at %s]
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-[_files]
 [Menu]
 [Open all]
 [Close all]
