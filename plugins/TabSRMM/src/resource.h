@@ -7,7 +7,6 @@
 #define IDOK2                           2
 #define IDD_USERPREFS1                  3
 #define IDD_TABCONFIG                   4
-#define IDD_ABOUT                       7
 #define IDD_INFOPANEL                   8
 #define IDC_TESTVALUE                   10
 #define IDB_BITMAP1                     10
@@ -438,7 +437,6 @@
 #define IDC_TITLEFORMAT                 1393
 #define IDC_THEME                       1394
 #define IDC_INFOPANEL                   1395
-#define IDC_SUPPORT                     1396
 #define IDC_SHOWAVATAR                  1396
 #define IDC_NOPOPUPAVAIL                1398
 #define IDC_QHTM                        1399
@@ -541,7 +539,6 @@
 #define IDC_O_TITLEBARFORMAT            1706
 #define IDC_O_CNTPRIVATE                1901
 #define IDC_PLUS_CHECKTREE              2000
-#define IDC_COPYRIGHT                   2002
 #define IDC_PLUS_HELP                   2004
 #define IDC_O_HELP_TITLEFORMAT          2064
 #define IDC_OPTIONSTAB                  2111
@@ -642,7 +639,6 @@
 #define ID_FILE_CLOSEOTHERMSGSESSIONS   40090
 #define ID_VIEW_TABSATBOTTOM            40093
 #define ID_VIEW_STAYONTOP               40095
-#define ID_HELP                         40096
 #define ID_OPTIONS_EVENTPOPUPS          40097
 #define ID_EVENTPOPUPS_DISABLEALLEVENTPOPUPS 40098
 #define ID_OPTIONS_SOUNDS               40101
@@ -736,7 +732,6 @@
 #define ID_THISCONTACT_ALWAYSOFF        40213
 #define ID_PANELPICMENU_RESETTHEAVATAR  40218
 #define ID_EDITOR_PASTEANDSENDIMMEDIATELY 40221
-#define ID_HELP_ABOUTTABSRMM            40223
 #define ID_SPLITTERCONTEXT_SAVEGLOBALFORALLSESSIONS 40229
 #define ID_SPLITTERCONTEXT_SAVEFORTHISCONTACTONLY 40230
 #define ID_SPLITTERCONTEXT_FORGETTHECHANGES 40231

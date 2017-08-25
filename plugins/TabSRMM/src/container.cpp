@@ -474,50 +474,6 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-class CAboutDlg : public CDlgBase
-{
-	CCtrlButton m_btnSupport;
-
-public:
-	CAboutDlg() :
-		CDlgBase(g_hInst, IDD_ABOUT),
-		m_btnSupport(this, IDC_SUPPORT)
-	{
-		m_btnSupport.OnClick = Callback(this, &CAboutDlg::OnClick_Support);
-	}
-
-	virtual void OnInitDialog() override
-	{
-		MFileVersion v;
-		Miranda_GetFileVersion(&v);
-
-		wchar_t tStr[80];
-		mir_snwprintf(tStr, L"%s %d.%d.%d.%d [build %d]", TranslateT("Version"), __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM, v[3]);
-		SetDlgItemText(m_hwnd, IDC_HEADERBAR, tStr);
-
-		Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_EVENT_MESSAGE);
-	}
-
-	virtual INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
-	{
-		switch (uMsg) {
-		case WM_CTLCOLOREDIT:
-		case WM_CTLCOLORSTATIC:
-			SetTextColor((HDC)wParam, RGB(60, 60, 150));
-			SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
-			return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
-		}
-		return CDlgBase::DlgProc(uMsg, wParam, lParam);
-	}
-
-	void OnClick_Support(CCtrlButton*)
-	{
-		Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM");
-	}
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // container window procedure...
 
 static BOOL fHaveTipper = FALSE;
@@ -1126,10 +1082,6 @@ panel_found:
 					dat->MsgWindowMenuHandler((int)LOWORD(wParam), MENU_LOGMENU);
 					return 1;
 				}
-				break;
-
-			case ID_HELP_ABOUTTABSRMM:
-				(new CAboutDlg())->Show();
 				break;
 			}
 

@@ -573,13 +573,6 @@ void CMenuBar::checkButtons()
 		m_TbButtons[6].idCommand = 106;
 		m_TbButtons[6].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 3));
 
-		m_TbButtons[7].iBitmap = I_IMAGENONE;
-		m_TbButtons[7].iString = (INT_PTR)TranslateT("Help");
-		m_TbButtons[7].fsState = TBSTATE_ENABLED;
-		m_TbButtons[7].fsStyle = BTNS_DROPDOWN | BTNS_AUTOSIZE;
-		m_TbButtons[7].idCommand = 107;
-		m_TbButtons[7].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 4));
-
 		m_buttonsInit = true;
 	}
 
