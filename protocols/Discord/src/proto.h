@@ -366,14 +366,13 @@ public:
 	int  OnDeleteContact(MCONTACT hContact);
 
 	void OnReceiveCreateChannel(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveAuth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveMessageAck(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-	void RetrieveUserInfo(MCONTACT hContact);
+	void RetrieveMyInfo();
 	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void RetrieveHistory(MCONTACT hContact, CDiscordHistoryOp iOp = MSG_NOFILTER, SnowFlake msgid = 0, int iLimit = 50);

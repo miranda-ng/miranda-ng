@@ -141,47 +141,33 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 /////////////////////////////////////////////////////////////////////////////////////////
 // retrieves user info
 
-void CDiscordProto::RetrieveUserInfo(MCONTACT hContact)
+void CDiscordProto::RetrieveMyInfo()
 {
-	CMStringA szUrl;
-	if (hContact != 0) {
-		SnowFlake id = getId(hContact, DB_KEY_ID);
-		if (id == 0)
-			return;
-		szUrl.Format("/users/%lld", id);
-	}
-	else szUrl = "/users/@me";
-		
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveUserInfo);
-	pReq->pUserInfo = (void*)hContact;
-	Push(pReq);
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me", &CDiscordProto::OnReceiveUserInfo));
 }
 
-void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 {
-	MCONTACT hContact = (UINT_PTR)pReq->pUserInfo;
 	if (pReply->resultCode != 200) {
-		if (hContact == 0)
-			ConnectionFailed(LOGINERR_WRONGPASSWORD);
+		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return;
 	}
 
 	JSONNode root = JSONNode::parse(pReply->pData);
 	if (!root) {
-		if (hContact == 0)
-			ConnectionFailed(LOGINERR_NOSERVER);
+		ConnectionFailed(LOGINERR_NOSERVER);
 		return;
 	}
 
 	SnowFlake id = ::getId(root["id"]);
-	setId(hContact, DB_KEY_ID, id);
+	setId(0, DB_KEY_ID, id);
 
-	setByte(hContact, DB_KEY_MFA, root["mfa_enabled"].as_bool());
-	setDword(hContact, DB_KEY_DISCR, _wtoi(root["discriminator"].as_mstring()));
-	setWString(hContact, DB_KEY_NICK, root["username"].as_mstring());
-	setWString(hContact, DB_KEY_EMAIL, root["email"].as_mstring());
+	setByte(0, DB_KEY_MFA, root["mfa_enabled"].as_bool());
+	setDword(0, DB_KEY_DISCR, _wtoi(root["discriminator"].as_mstring()));
+	setWString(0, DB_KEY_NICK, root["username"].as_mstring());
+	setWString(0, DB_KEY_EMAIL, root["email"].as_mstring());
 
-	if (hContact == 0) {
+	if (0 == 0) {
 		m_ownId = id;
 		for (int i=0; i < pReply->headersCount; i++)
 			if (!strcmp(pReply->headers[i].szName, "Set-Cookie")) {
@@ -197,7 +183,7 @@ void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 		ProcessType(pUser, root);
 	}
 
-	CheckAvatarChange(hContact, root["avatar"].as_mstring());
+	CheckAvatarChange(0, root["avatar"].as_mstring());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -248,13 +234,6 @@ void CDiscordProto::SetServerStatus(int iStatus)
 
 	int iOldStatus = m_iStatus; m_iStatus = iStatus;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
-}
-
-void CDiscordProto::OnReceiveAuth(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
-{
-	MCONTACT hContact = (UINT_PTR)pReq->pUserInfo;
-	if (pReply->resultCode == 204)
-		RetrieveUserInfo(hContact);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -333,5 +312,5 @@ LBL_Error:
 	m_szAccessToken = szToken.Detach();
 	setString("AccessToken", m_szAccessToken);
 
-	RetrieveUserInfo(0);
+	RetrieveMyInfo();
 }

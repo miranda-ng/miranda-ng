@@ -127,7 +127,7 @@ void CDiscordProto::ServerThread(void*)
 
 	if (m_szAccessToken != nullptr)
 		// try to receive a response from server
-		RetrieveUserInfo(0);
+		RetrieveMyInfo();
 	else {
 		if (mir_wstrlen(m_wszEmail) == 0) {
 			ConnectionFailed(LOGINERR_BADUSERID);

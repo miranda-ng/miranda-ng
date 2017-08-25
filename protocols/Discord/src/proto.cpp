@@ -252,7 +252,7 @@ int CDiscordProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 		return 1; // error
 
 	JSONNode root; root << WCHAR_PARAM("username", wszUsername) << INT_PARAM("discriminator", iDiscriminator);
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/users/@me/relationships", &CDiscordProto::OnReceiveAuth, &root);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/users/@me/relationships", nullptr, &root);
 	pReq->pUserInfo = (void*)hContact;
 	Push(pReq);
 	return 0;
