@@ -56,7 +56,6 @@ Plugins\folders.dll
 Plugins\ftpfile.dll
 Plugins\gg.dll
 Plugins\gmailnotifier.dll
-Plugins\gtalkext.dll
 Plugins\historypp.dll
 Plugins\historystats.dll
 Plugins\historysweeperlight.dll

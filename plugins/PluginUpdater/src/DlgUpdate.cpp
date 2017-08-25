@@ -585,6 +585,7 @@ static renameTable[] =
 	{ L"firstrun.dll",                   NULL },
 	{ L"flashavatars.dll",               NULL },
 	{ L"gender.dll",                     NULL },
+	{ L"gtalkext.dll",                   NULL },
 	{ L"langman.dll",                    NULL },
 	{ L"metacontacts.dll",               NULL },
 	{ L"modernopt.dll",                  NULL },
