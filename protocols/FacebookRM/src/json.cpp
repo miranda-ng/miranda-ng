@@ -789,7 +789,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 			const JSONNode &st_ = (*it)["st"]; // typing status - 1 = started typing, 0 = stopped typing
 
 			// Ignore wrong (without "from") typing notifications or that are not meant for us (but e.g. for our page)
-			if (!from_ || to_.as_string() == proto->facy.self_.user_id)
+			if (!from_ || to_.as_string() != proto->facy.self_.user_id)
 				continue;
 
 			facebook_user fbu;
