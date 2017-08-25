@@ -943,7 +943,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 			}
 
 			// Reset the "message seen" info when we get any new message (doesn't matter if sent from other instance or received)
-			if (msg.isUnread)
+			if (msg.isUnread || !msg.isIncoming)
 				facy.erase_reader(hContact);
 		}
 	}
