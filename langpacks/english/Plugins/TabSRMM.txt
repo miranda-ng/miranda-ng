@@ -249,9 +249,6 @@
 [Bottom tabs vertical adjustment:]
 [NOTE: some settings will not affect open containers.]
 [Tab layout tweaks]
-[About TabSRMM]
-[Copyright 2004-2011 by the Miranda IM project, 2012-2017 by the Miranda NG project.]
-[Support and latest version information]
 [Selected skin]
 [Rescan]
 [Load this skin on startup]
@@ -429,8 +426,6 @@
 [Show popups if window is focused]
 [Show popups for all inactive sessions]
 [Save current window position as default]
-[Help]
-[About TabSRMM...]
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol button]
 [Info button]
@@ -640,7 +635,6 @@
 [%s: message session]
 [%s: message session (%u users)]
 ;file \plugins\TabSRMM\src\container.cpp
-[Version]
 [Message session...]
 [Default container]
 [Attach to]

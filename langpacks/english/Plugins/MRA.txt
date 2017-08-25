@@ -157,6 +157,7 @@
 [Send files: can't open file %s, error]
 [Send files: requested file: %S - not found in send files list.]
 ;file \protocols\MRA\src\MraIcons.cpp
+[Main icon]
 [Protocols]
 [MRA]
 [Main Menu]
