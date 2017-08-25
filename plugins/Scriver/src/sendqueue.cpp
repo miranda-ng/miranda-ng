@@ -26,11 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static MessageSendQueueItem *global_sendQueue = nullptr;
 static mir_cs queueMutex;
 
-wchar_t* GetSendBufferMsg(MessageSendQueueItem *item)
-{
-	return mir_utf8decodeW(item->sendBuffer);
-}
-
 MessageSendQueueItem* CreateSendQueueItem(HWND hwndSender)
 {
 	MessageSendQueueItem *item = (MessageSendQueueItem*)mir_calloc(sizeof(MessageSendQueueItem));
@@ -103,13 +98,8 @@ void ReportSendQueueTimeouts(HWND hwndSender)
 			if (item->timeout >= timeout) {
 				if (item->hwndSender == hwndSender && item->hwndErrorDlg == nullptr) {
 					if (hwndSender != nullptr) {
-						ErrorWindowData *ewd = (ErrorWindowData *)mir_alloc(sizeof(ErrorWindowData));
-						ewd->szName = mir_wstrdup(pcli->pfnGetContactDisplayName(item->hContact, 0));
-						ewd->szDescription = mir_wstrdup(TranslateT("The message send timed out."));
-						ewd->szText = GetSendBufferMsg(item);
-						ewd->hwndParent = hwndSender;
-						ewd->queueItem = item;
-						PostMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)ewd);
+						CErrorDlg *pDlg = new CErrorDlg(TranslateT("The message send timed out."), hwndSender, item);
+						PostMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)pDlg);
 					}
 					else {
 						/* TODO: Handle errors outside messaging window in a better way */

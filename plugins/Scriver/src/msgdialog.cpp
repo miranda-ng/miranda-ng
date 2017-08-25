@@ -1542,9 +1542,9 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case DM_SHOWERRORMESSAGE:
 		if (lParam) {
-			ErrorWindowData *ewd = (ErrorWindowData *)lParam;
 			SendMessage(m_hwnd, DM_STOPMESSAGESENDING, 0, 0);
-			ewd->queueItem->hwndErrorDlg = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSENDERROR), m_hwnd, ErrorDlgProc, (LPARAM)ewd);//m_hwnd
+			CErrorDlg *pDlg = (CErrorDlg*)lParam;
+			pDlg->Create();
 		}
 		break;
 

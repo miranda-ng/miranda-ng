@@ -128,13 +128,8 @@ static int ackevent(WPARAM, LPARAM lParam)
 			if (hwndSender != nullptr) {
 				SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
 
-				ErrorWindowData *ewd = (ErrorWindowData*)mir_alloc(sizeof(ErrorWindowData));
-				ewd->szName = mir_wstrdup(pcli->pfnGetContactDisplayName(item->hContact, 0));
-				ewd->szDescription = mir_a2u((char *)pAck->lParam);
-				ewd->szText = GetSendBufferMsg(item);
-				ewd->hwndParent = hwndSender;
-				ewd->queueItem = item;
-				SendMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)ewd);
+				CErrorDlg *pDlg = new CErrorDlg(_A2T((char *)pAck->lParam), hwndSender, item);
+				SendMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)pDlg);
 			}
 			else RemoveSendQueueItem(item);
 		}

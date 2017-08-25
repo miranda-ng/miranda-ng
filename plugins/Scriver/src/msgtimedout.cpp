@@ -23,64 +23,50 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+CErrorDlg::CErrorDlg(const wchar_t *pwszDescr, HWND hWnd, MessageSendQueueItem *pItem)
+	: CDlgBase(g_hInst, IDD_MSGSENDERROR),
+	m_wszText(mir_utf8decodeW(pItem->sendBuffer)),
+	m_wszDescr(pwszDescr != nullptr ? pwszDescr : TranslateT("An unknown error has occurred.")),
+	m_hwndParent(hWnd),
+	m_queueItem(pItem),
+
+	m_btnOk(this, IDOK),
+	m_btnCancel(this, IDCANCEL)
 {
-	ErrorWindowData *ewd = (ErrorWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	//if (ewd==nullptr && msg!=WM_INITDIALOG) return FALSE;
-	switch (msg) {
-		case WM_INITDIALOG:
-		{
-			RECT rc, rcParent;
-			wchar_t szText[2048];
-			ewd = (ErrorWindowData *) lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) ewd);
-			TranslateDialogDefault(hwndDlg);
-			if (ewd != nullptr) {
-				ShowWindow(GetParent(ewd->hwndParent), SW_RESTORE);
-				if (ewd->szDescription)
-					SetDlgItemText(hwndDlg, IDC_ERRORTEXT, ewd->szDescription);
-				else
-					SetDlgItemText(hwndDlg, IDC_ERRORTEXT, TranslateT("An unknown error has occurred."));
+	const wchar_t *pwszName = pcli->pfnGetContactDisplayName(pItem->hContact, 0);
+	if (pwszName)
+		m_wszName.Format(L"%s - %s", TranslateT("Send error"), pwszName);
+	else
+		m_wszName = TranslateT("Send error");
 
-				if (ewd->szText) {
-					SETTEXTEX  st = {0};
-					st.flags = ST_DEFAULT;
-					st.codepage = 1200;
-					
-					SendDlgItemMessage(hwndDlg, IDC_MSGTEXT, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)ewd->szText);
-				}
-				if (ewd->szName)
-					mir_snwprintf(szText, L"%s - %s", TranslateT("Send error"), ewd->szName);
-				else
-					wcsncpy_s(szText, TranslateT("Send error"), _TRUNCATE);
+	m_btnOk.OnClick = Callback(this, &CErrorDlg::onOk);
+	m_btnCancel.OnClick = Callback(this, &CErrorDlg::onCancel);
+}
 
-				SetWindowText(hwndDlg, szText);
-				GetWindowRect(hwndDlg, &rc);
-				GetWindowRect(GetParent(ewd->hwndParent), &rcParent);
-				SetWindowPos(hwndDlg, HWND_TOP, rcParent.left + (rcParent.right - rcParent.left - rc.right + rc.left) / 2, rcParent.top + (rcParent.bottom - rcParent.top - rc.bottom + rc.top) / 2, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
-			}
-		}
-		return TRUE;
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-				case IDOK:
-					SendMessage(ewd->hwndParent, DM_ERRORDECIDED, MSGERROR_RETRY, (LPARAM)ewd->queueItem);
-					DestroyWindow(hwndDlg);
-					break;
-				case IDCANCEL:
-					SendMessage(ewd->hwndParent, DM_ERRORDECIDED, MSGERROR_CANCEL, (LPARAM)ewd->queueItem);
-					DestroyWindow(hwndDlg);
-					break;
-			}
-			break;
-		case WM_DESTROY:
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-			mir_free(ewd->szName);
-			mir_free(ewd->szDescription);
-			mir_free(ewd->szText);
-			mir_free(ewd);
-			break;
+void CErrorDlg::OnInitDialog()
+{
+	ShowWindow(GetParent(m_hwndParent), SW_RESTORE);
+	
+	SetDlgItemText(m_hwnd, IDC_ERRORTEXT, m_wszDescr);
+	SetWindowText(m_hwnd, m_wszName);
 
-	}
-	return FALSE;
+	SETTEXTEX st = { 0 };
+	st.flags = ST_DEFAULT;
+	st.codepage = 1200;
+	SendDlgItemMessage(m_hwnd, IDC_MSGTEXT, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)m_wszText.get());
+
+	RECT rc, rcParent;
+	GetWindowRect(m_hwnd, &rc);
+	GetWindowRect(GetParent(m_hwndParent), &rcParent);
+	SetWindowPos(m_hwnd, HWND_TOP, rcParent.left + (rcParent.right - rcParent.left - rc.right + rc.left) / 2, rcParent.top + (rcParent.bottom - rcParent.top - rc.bottom + rc.top) / 2, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+}
+
+void CErrorDlg::onOk(CCtrlButton*)
+{
+	SendMessage(m_hwndParent, DM_ERRORDECIDED, MSGERROR_RETRY, (LPARAM)m_queueItem);
+}
+
+void CErrorDlg::onCancel(CCtrlButton*)
+{
+	SendMessage(m_hwndParent, DM_ERRORDECIDED, MSGERROR_CANCEL, (LPARAM)m_queueItem);
 }

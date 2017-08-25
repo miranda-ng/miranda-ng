@@ -36,15 +36,6 @@ struct ToolbarButton
 	int width;
 };
 
-struct ErrorWindowData
-{
-	wchar_t *szName;
-	wchar_t *szDescription;
-	wchar_t *szText;
-	MessageSendQueueItem *queueItem;
-	HWND hwndParent;
-};
-
 struct TabCtrlData
 {
 	int lastClickTime;
@@ -276,7 +267,25 @@ public:
 #define EVENTTYPE_JABBER_CHATSTATES	2000
 #define EVENTTYPE_JABBER_PRESENCE	2001
 
-INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+class CErrorDlg : public CDlgBase
+{
+	ptrW m_wszText;
+	CMStringW m_wszName, m_wszDescr;
+	MessageSendQueueItem *m_queueItem;
+	HWND m_hwndParent;
+
+	CCtrlButton m_btnOk, m_btnCancel;
+
+protected:
+	virtual void OnInitDialog() override;
+
+public:
+	CErrorDlg(const wchar_t *pwszDescr, HWND, MessageSendQueueItem*);
+
+	void onOk(CCtrlButton*);
+	void onCancel(CCtrlButton*);
+};
+
 int DbEventIsShown(DBEVENTINFO &dbei);
 int DbEventIsCustomForMsgWindow(DBEVENTINFO *dbei);
 int DbEventIsMessageOrCustom(DBEVENTINFO *dbei);
