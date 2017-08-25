@@ -608,7 +608,7 @@ void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news,
 
 			if (post_attachment.empty()) {
 				// This is some textless attachment, so mention it
-				post_attachment = Translate("<attachment without text>");
+				post_attachment = ptrA(mir_utf8encode(Translate("<attachment without text>")));
 			}
 		}
 
