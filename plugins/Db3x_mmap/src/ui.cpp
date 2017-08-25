@@ -104,10 +104,10 @@ static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			
 			wchar_t tszPath[MAX_PATH];
 			PathToAbsoluteW(L"\\mirandaboot.ini", tszPath);
-			if (GetPrivateProfileInt(L"Dbx_mmap", L"RememberPassword", 0, tszPath)) {
+			if (GetPrivateProfileInt(L"Database", L"RememberPassword", 0, tszPath)) {
 				CREDENTIAL cred = { 0 };
 				cred.Type = CRED_TYPE_GENERIC;
-				cred.TargetName = L"Miranda NG/Dbx_mmap";
+				cred.TargetName = L"Miranda NG/Database";
 				cred.CredentialBlobSize = DWORD(mir_wstrlen(param->newPass) * sizeof(wchar_t) + sizeof(wchar_t));
 				cred.CredentialBlob = (LPBYTE)param->newPass;
 				cred.Persist = CRED_PERSIST_LOCAL_MACHINE;
