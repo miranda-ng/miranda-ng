@@ -18,7 +18,6 @@
 #define IDI_MRA_POSTCARD                114
 #define IDI_MRA_PHOTO                   117
 #define IDI_DELETED                     118
-#define IDI_MRA_CHAT                    120
 #define IDI_MRA_PHONE                   122
 #define IDD_OPT_FILES                   126
 #define IDD_OPT_ACCOUNT                 127

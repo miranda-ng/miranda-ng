@@ -3,6 +3,11 @@
 
 HANDLE hXStatusAdvancedStatusIcons[MRA_XSTATUS_COUNT+4];
 
+IconItem gdiMainIcon[1] =
+{
+	{ LPGEN("Main icon"),         "main",                 IDI_MRA }
+};
+
 IconItem gdiMenuItems[MAIN_MENU_ITEMS_COUNT] =
 {
 	{ MRA_GOTO_INBOX_STR,         MRA_GOTO_INBOX,         IDI_INBOX             },
@@ -64,11 +69,12 @@ HICON IconLibGetIconEx(HANDLE hIcon, DWORD dwFlags)
 
 void IconsLoad()
 {
-	g_hMainIcon = (HICON)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_MRA), IMAGE_ICON, 0, 0, LR_SHARED);
-
+	Icon_Register(g_hInstance, LPGEN("Protocols") "/" LPGEN("MRA"), gdiMainIcon, 1, "MRA_");
 	Icon_Register(g_hInstance, LPGEN("Protocols") "/" LPGEN("MRA") "/" LPGEN("Main Menu"), gdiMenuItems, MAIN_MENU_ITEMS_COUNT, "MRA_");
 	Icon_Register(g_hInstance, LPGEN("Protocols") "/" LPGEN("MRA") "/" LPGEN("Contact Menu"), gdiContactMenuItems, CONTACT_MENU_ITEMS_COUNT, "MRA_");
 	Icon_Register(g_hInstance, LPGEN("Protocols") "/" LPGEN("MRA") "/" LPGEN("Extra status"), gdiExtraStatusIconsItems, ADV_ICON_MAX, "MRA_");
+
+	g_hMainIcon = IconLibGetIcon(gdiMainIcon[0].hIcolib);
 }
 
 void InitXStatusIcons()
