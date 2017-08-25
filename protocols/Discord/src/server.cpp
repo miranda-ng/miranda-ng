@@ -143,10 +143,10 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 
 void CDiscordProto::RetrieveMyInfo()
 {
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me", &CDiscordProto::OnReceiveUserInfo));
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me", &CDiscordProto::OnReceiveMyInfo));
 }
 
-void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CDiscordProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 {
 	if (pReply->resultCode != 200) {
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
@@ -167,21 +167,16 @@ void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 	setWString(0, DB_KEY_NICK, root["username"].as_mstring());
 	setWString(0, DB_KEY_EMAIL, root["email"].as_mstring());
 
-	if (0 == 0) {
-		m_ownId = id;
-		for (int i=0; i < pReply->headersCount; i++)
-			if (!strcmp(pReply->headers[i].szName, "Set-Cookie")) {
-				char *p = strchr(pReply->headers[i].szValue, ';');
-				if (p) *p = 0;
-				m_szAccessCookie = mir_strdup(pReply->headers[i].szValue);
-			}
+	m_ownId = id;
+	for (int i = 0; i < pReply->headersCount; i++) {
+		if (!strcmp(pReply->headers[i].szName, "Set-Cookie")) {
+			char *p = strchr(pReply->headers[i].szValue, ';');
+			if (p) *p = 0;
+			m_szAccessCookie = mir_strdup(pReply->headers[i].szValue);
+		}
+	}
 
-		OnLoggedIn();
-	}
-	else {
-		CDiscordUser *pUser = FindUser(id);
-		ProcessType(pUser, root);
-	}
+	OnLoggedIn();
 
 	CheckAvatarChange(0, root["avatar"].as_mstring());
 }

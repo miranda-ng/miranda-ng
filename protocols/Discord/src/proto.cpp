@@ -235,7 +235,7 @@ HANDLE CDiscordProto::SearchBasic(const wchar_t *wszId)
 
 	CMStringA szUrl = "/users/";
 	szUrl.AppendFormat(ptrA(mir_utf8encodeW(wszId)));
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveUserInfo);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveMyInfo);
 	pReq->pUserInfo = (void*)-1;
 	Push(pReq);
 	return (HANDLE)1; // Success

@@ -66,7 +66,7 @@ void CDiscordProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 {
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	ai.format = PA_FORMAT_UNKNOWN;
-	ai.hContact = (MCONTACT)pReq->pUserInfo;
+	ai.hContact = (UINT_PTR)pReq->pUserInfo;
 
 	if (reply->resultCode != 200) {
 LBL_Error:

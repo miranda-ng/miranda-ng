@@ -373,7 +373,7 @@ public:
 	void OnReceiveToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void RetrieveMyInfo();
-	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void RetrieveHistory(MCONTACT hContact, CDiscordHistoryOp iOp = MSG_NOFILTER, SnowFlake msgid = 0, int iLimit = 50);
 	void OnReceiveHistory(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
