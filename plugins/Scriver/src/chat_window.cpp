@@ -411,10 +411,15 @@ void CChatRoomDlg::RedrawLog()
 void CChatRoomDlg::ScrollToBottom()
 {
 	if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
-		int len = GetWindowTextLength(m_log.GetHwnd()) - 1;
-		m_log.SendMsg(EM_SETSEL, len, len);
+		SCROLLINFO si = { sizeof(si) };
+		si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
+		if (GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si)) {
+			si.fMask = SIF_POS;
+			si.nPos = si.nMax - si.nPage + 1;
+			SetScrollInfo(m_log.GetHwnd(), SB_VERT, &si, TRUE);
 
-		PostMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
+			PostMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
+		}
 	}
 }
 
