@@ -1,3 +1,0 @@
-﻿[Popup icon]
-[Why C sucks]
-[* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]

@@ -1,2 +1,0 @@
-﻿[Popup icon]
-[You've received an e-mail\n%s unread threads]

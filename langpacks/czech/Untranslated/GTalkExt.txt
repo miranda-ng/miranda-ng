@@ -1,5 +1,0 @@
-﻿[Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
-[This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
-[0 means default timeout,\n-1 means no timeout]
-[Why C sucks]
-[* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]
