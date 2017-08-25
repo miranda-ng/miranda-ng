@@ -17,14 +17,6 @@
 Выход из Miranda
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 Несмотря на то, что программа продолжает работать, её необходимо перезапустить как можно скорее. Исключение может повредить внутренние структуры данных и вызвать серьёзные проблемы.
-[About Clist nicer]
-О плагине Clist nicer
-[Copyright © 2004-2010 by the Miranda IM project, 2012-2017 by the Miranda NG project.]
-Авторские права © 2004-2010 проект Miranda IM, 2012-2017 проект Miranda NG.
-[Version]
-Версия
-[Support and latest version information]
-Поддержка и информация о последней версии
 [Delete contact]
 Удалить контакт
 [No]
@@ -725,8 +717,6 @@
 Внешний вид
 [&Options...]
 &Настройки...
-[&About the contact list...]
-О &списке контактов...
 [Ungrouped contacts]
 Контакты вне групп
 [And]
