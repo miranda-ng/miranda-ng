@@ -7,6 +7,7 @@ namespace OneDriveAPI
 #define ONEDRIVE_API "https://graph.microsoft.com/v1.0/drive"
 
 #define MS_APP_ID "72b87ac7-42eb-4a97-a620-91a7f8d8b5ae"
+#include "../../../miranda-private-keys/Microsoft/client_secret.h"
 
 	class GetAccessTokenRequest : public HttpRequest
 	{
@@ -16,8 +17,10 @@ namespace OneDriveAPI
 		{
 			AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
-			CMStringA data = "redirect_uri=https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fnativeclient";
-			data.AppendFormat("&client_id=%s&grant_type=authorization_code&code=%s", MS_APP_ID, code);
+			CMStringA data = "redirect_uri=https://oauth.miranda-ng.org/verification";
+			data.Append("&scope=offline_access https://graph.microsoft.com/files.readWrite");
+			data.AppendFormat("&client_id=%s&client_secret=%s", MS_APP_ID, MS_CLIENT_SECRET);
+			data.AppendFormat("&grant_type=authorization_code&code=%s", code);
 			SetData(data.GetBuffer(), data.GetLength());
 		}
 	};

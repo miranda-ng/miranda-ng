@@ -51,7 +51,7 @@ void COneDriveService::Login()
 		return;
 	}
 	
-	COAuthDlg dlg(this, MS_OAUTH "/authorize?response_type=code&scope=offline_access%20https%3A%2F%2Fgraph.microsoft.com%2Ffiles.readWrite&redirect_uri=https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fnativeclient&client_id=" MS_APP_ID, RequestAccessTokenThread);
+	COAuthDlg dlg(this, MS_OAUTH "/authorize?response_type=code&scope=offline_access%20https%3A%2F%2Fgraph.microsoft.com%2Ffiles.readWrite&redirect_uri=https%3A%2F%2Foauth.miranda-ng.org%2Fverification&client_id=" MS_APP_ID, RequestAccessTokenThread);
 	dlg.DoModal();
 }
 
