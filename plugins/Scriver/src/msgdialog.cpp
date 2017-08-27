@@ -837,7 +837,7 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 		infobarInnerHeight = 0;
 	}
 
-	if (hSplitterPos >(h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1) / 2)
+	if (hSplitterPos > (h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1) / 2)
 		hSplitterPos = (h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1) / 2;
 
 	if (h - hSplitterPos - infobarHeight < hSplitterMinTop)
@@ -1207,6 +1207,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			m_hwndIeview = nullptr;
 		}
 
+		m_pParent->iSplitterY = SPLITTER_HEIGHT + 1;
 		SendMessage(m_hwnd, DM_GETAVATAR, 0, 0);
 		SetDialogToType();
 		{
