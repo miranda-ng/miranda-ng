@@ -9,6 +9,10 @@
 Вставляет информацию о проигрываемой музыке в окно сообщений или в сообщение статуса.
 [Clear xStatus before set new one]
 Очищать xСтатус перед установкой нового
+[Check unknown formats]
+Проверять неизвестные форматы
+[Check unknown file formats if player gives info.]
+Проверяет неизвестные форматы файлов, если проигрыватель предоставляет сведения
 [Emulate Multimedia keys]
 Эмуляция мультимедийных клавиш
 [xStatus will be cleared before text changing and restored with new text later.]
