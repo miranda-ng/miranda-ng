@@ -33,10 +33,10 @@ move /Y miranda-ng-plugins*.7z %ArchDistr%
 
 cd ..
 
-if /i '%tp%' == '32' (
-if exist "Release" rd /Q /S "Release" >nul
-)
-if exist "Release%tp%" rd /Q /S "Release%tp%" >nul
-if exist "Symbols%tp%" rd /Q /S "Symbols%tp%" >nul
+rem if /i '%tp%' == '32' (
+rem if exist "Release" rd /Q /S "Release" >nul
+rem )
+rem if exist "Release%tp%" rd /Q /S "Release%tp%" >nul
+rem if exist "Symbols%tp%" rd /Q /S "Symbols%tp%" >nul
 
 popd

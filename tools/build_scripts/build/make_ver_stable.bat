@@ -4,14 +4,20 @@ cd /d %~dp0
 for /F "tokens=2,3" %%i in (..\include\m_version.h) do if "%%i"=="MIRANDA_VERSION_FILEVERSION" (set OldVer=%%j)
 for /F %%i in ('git rev-list --count HEAD') do set Revision=%%i
 for /F %%i in ('git rev-parse --short HEAD') do set Hash=%%i
-REM for /F %%i in ('svnversion m_version.h.in') do set Revision=%%i
-REM for /F "tokens=3 delims= " %%l in (build.no) do (set /a "ver3=%%l+1")
-for /F "tokens=1,2,3 delims= " %%i in (build.no) do call :WriteVer %%i %%j %%k %Revision% %Hash%
+
+REM Fix building not-svn repository (e.g., Git mirror)
+if "%Revision:~0,11%" == "Unversioned" (set Revision=0)
+REM Fix building when svnversion tool is not installed
+if "%Revision%" == "" (set Revision=0)
+REM Fix trailing 'M', when the working copy contains modifications
+if "%Revision:~-1%" == "M" (set Revision=%Revision:~0,-1%)
+
+for /F "tokens=1,2,3 delims= " %%i in (build.no.stable) do call :WriteVer %%i %%j %%k %Revision% %Hash%
 goto :eof
 
 :WriteVer
 echo %1.%2.%3.%4.%5
-REM if "%OldVer%" == "%1,%2,%3,%4" (goto :eof)
+if "%OldVer%" == "%1,%2,%3,%4" (goto :eof)
 
 for /f "delims=/ tokens=1-3" %%a in ("%DATE:~4%") do (
 	for /f "delims=:. tokens=1-4" %%m in ("%TIME: =0%") do (

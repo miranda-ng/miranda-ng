@@ -67,7 +67,7 @@ REM move /Y miranda-ng-plugins*.7z %ArchDistr%
 
 cd ..
 
-if exist "Release%tp%" rd /Q /S "Release%tp%" >nul
-if exist "Symbols%tp%" rd /Q /S "Symbols%tp%" >nul
+rem if exist "Release%tp%" rd /Q /S "Release%tp%" >nul
+rem if exist "Symbols%tp%" rd /Q /S "Symbols%tp%" >nul
 
 popd

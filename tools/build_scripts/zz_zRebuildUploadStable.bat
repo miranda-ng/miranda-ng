@@ -2,6 +2,11 @@
 echo WARNING!!! You are about to compile and upload STABLE versions of Miranda NG! Are you absolutely sure?!
 pause
 
+call git_update.bat
+set GIT_STATUS=%ERRORLEVEL%
+if %GIT_STATUS%==0 echo Git update success
+if not %GIT_STATUS%==0 goto :Error
+
 call z1_ReBuild_Full_Stable.bat 32
 
 call z1_ReBuild_Full_Stable.bat 64
