@@ -1,9 +1,14 @@
-option batch abort 
-
 option confirm off
 
 open miranda-ng
 
+option batch continue
+mkdir distr/stable/x%tp%/
+mkdir distr/stable/x%tp%/Icons/
+mkdir distr/stable/x%tp%/Languages/
+mkdir distr/stable/x%tp%/Plugins/
+
+option batch abort
 put %Arch%\Icons\*.zip distr/stable/x%tp%/Icons/
 put %Arch%\Languages\lang*.zip distr/stable/x%tp%/Languages/
 put %Arch%\Plugins\*.zip distr/stable/x%tp%/Plugins/

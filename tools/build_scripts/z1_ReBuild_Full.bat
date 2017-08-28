@@ -10,7 +10,6 @@ if /i '%tp%' == '32' (
 call a_SetVar%tp%.bat
 call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat"
 if exist git_error.txt del /f /q git_error.txt
-REM call git_update.bat
 
 pushd bin10
 if not exist Logs mkdir Logs
@@ -26,7 +25,8 @@ pushd ..\build
 call make_ver.bat
 popd
 
-MsBuild.exe "full.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\full%tp%.log;errorsonly;warningsonly;summary
+MsBuild.exe "mir_full.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\full%tp%.log;errorsonly;warningsonly;summary
+MsBuild.exe "mir_icons.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\icons%tp%.log;errorsonly;warningsonly;summary
 start /wait z1_ReBuild_w810.bat %tp%
 call pascal%tp%.bat
 pushd ..\plugins\NotifyAnything\SendLog

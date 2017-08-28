@@ -22,14 +22,23 @@ if exist "Symbols%tp%" rd /Q /S "Symbols%tp%" >nul
 
 if exist "..\include\m_version.h" del /F /Q "..\include\m_version.h"
 pushd ..\build
-call make_ver_stable.bat
+copy build.no.stable build.no
+move make_ver.bat make_ver.old
+move make_ver_stable.bat make_ver.bat
+call make_ver.bat
 popd
 
-MsBuild.exe "full.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\full%tp%.log;errorsonly;warningsonly;summary
+MsBuild.exe "mir_full.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\full%tp%.log;errorsonly;warningsonly;summary
+MsBuild.exe "mir_icons.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\icons%tp%.log;errorsonly;warningsonly;summary
 start /wait z1_ReBuild_w810.bat %tp%
 call pascal%tp%.bat
 pushd ..\plugins\NotifyAnything\SendLog
 call compile%tp%.bat
+popd
+
+pushd ..\build
+move make_ver.bat make_ver_stable.bat
+move make_ver.old make_ver.bat
 popd
 
 if /i '%tp%' == '32' (
