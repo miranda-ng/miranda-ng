@@ -1,14 +1,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins\Clist_modern\icons_pack\Toolbar_icons.vcxproj", "{796B43EF-DACE-4145-8571-31886F45A2C0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SecureIM_icons", "..\plugins\SecureIM\SecureIM_icons\secureim_icons.vcxproj", "{3FAB6AC7-6B7F-4779-B519-34E8035074A4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags", "..\plugins\SpellChecker\Flags\spellchecker_flags.vcxproj", "{3B8B2642-716E-437C-B341-279B08FDC2C0}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags_Angelika", "..\plugins\SpellChecker\Flags-Angelika\flags-angelika.vcxproj", "{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_default_Z1", "..\plugins\UserInfoEx\IconPacks\default\icons_default_15.vcxproj", "{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}"
 EndProject
@@ -118,14 +116,6 @@ Global
 		{3B8B2642-716E-437C-B341-279B08FDC2C0}.Release|Win32.Build.0 = Release|Win32
 		{3B8B2642-716E-437C-B341-279B08FDC2C0}.Release|x64.ActiveCfg = Release|x64
 		{3B8B2642-716E-437C-B341-279B08FDC2C0}.Release|x64.Build.0 = Release|x64
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Debug|Win32.ActiveCfg = Debug|Win32
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Debug|Win32.Build.0 = Debug|Win32
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Debug|x64.ActiveCfg = Debug|x64
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Debug|x64.Build.0 = Debug|x64
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Release|Win32.ActiveCfg = Release|Win32
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Release|Win32.Build.0 = Release|Win32
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Release|x64.ActiveCfg = Release|x64
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Release|x64.Build.0 = Release|x64
 		{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}.Debug|Win32.ActiveCfg = Debug|Win32
 		{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}.Debug|Win32.Build.0 = Debug|Win32
 		{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}.Debug|x64.ActiveCfg = Debug|x64
@@ -433,6 +423,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F618F449-6B8C-43C9-9647-D7D53706723D}
 	EndGlobalSection
 	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
 		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}

@@ -8,8 +8,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SecureIM_icons", "..\plugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags", "..\plugins\SpellChecker\Flags\spellchecker_flags.vcxproj", "{3B8B2642-716E-437C-B341-279B08FDC2C0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags_Angelika", "..\plugins\SpellChecker\Flags-Angelika\flags-angelika.vcxproj", "{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_default_Z1", "..\plugins\UserInfoEx\IconPacks\default\icons_default_12.vcxproj", "{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_default_Z2", "..\plugins\UserInfoEx\IconPacks\default\icons_default_12_z2.vcxproj", "{D90DD62F-6A75-4469-ABB5-A3E88BCA6A3C}"
@@ -118,14 +116,6 @@ Global
 		{3B8B2642-716E-437C-B341-279B08FDC2C0}.Release|Win32.Build.0 = Release|Win32
 		{3B8B2642-716E-437C-B341-279B08FDC2C0}.Release|x64.ActiveCfg = Release|x64
 		{3B8B2642-716E-437C-B341-279B08FDC2C0}.Release|x64.Build.0 = Release|x64
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Debug|Win32.ActiveCfg = Debug|Win32
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Debug|Win32.Build.0 = Debug|Win32
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Debug|x64.ActiveCfg = Debug|x64
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Debug|x64.Build.0 = Debug|x64
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Release|Win32.ActiveCfg = Release|Win32
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Release|Win32.Build.0 = Release|Win32
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Release|x64.ActiveCfg = Release|x64
-		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Release|x64.Build.0 = Release|x64
 		{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}.Debug|Win32.ActiveCfg = Debug|Win32
 		{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}.Debug|Win32.Build.0 = Debug|Win32
 		{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}.Debug|x64.ActiveCfg = Debug|x64
