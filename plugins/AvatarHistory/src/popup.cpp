@@ -50,19 +50,18 @@ void InitPopups()
 
 // Deinitializations needed by popups
 void DeInitPopups()
-{
-}
+{}
 
 
 // Show an error popup
 void ShowErrPopup(const wchar_t *description, const wchar_t *title)
 {
 	ShowPopupEx(NULL, title == NULL ? _A2W(MODULE_NAME) L" Error" : title, description,
-			  NULL, POPUP_TYPE_ERROR, NULL);
+		NULL, POPUP_TYPE_ERROR, NULL);
 }
 
 
-void ShowTestPopup(MCONTACT hContact,const wchar_t *title, const wchar_t *description, const Options *op)
+void ShowTestPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *description, const Options *op)
 {
 	ShowPopupEx(hContact, title, description, NULL, POPUP_TYPE_TEST, op);
 }
@@ -75,9 +74,8 @@ void ShowPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *descripti
 
 void ShowDebugPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *description)
 {
-	if (db_get_b(NULL,MODULE_NAME,"Debug",0))
-	{
-		ShowPopup(hContact,title,description);
+	if (db_get_b(NULL, MODULE_NAME, "Debug", 0)) {
+		ShowPopup(hContact, title, description);
 	}
 }
 
@@ -90,12 +88,11 @@ PopupDataType;
 
 // Show an popup
 void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *description,
-			   void *plugin_data, int type, const Options *op)
+	void *plugin_data, int type, const Options *op)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPT))
-	{
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		// Make popup
-		POPUPDATAT ppd = {0};
+		POPUPDATAT ppd = { 0 };
 
 		ppd.lchContact = hContact;
 		ppd.lchIcon = createProtoOverlayedIcon(hContact);
@@ -108,37 +105,32 @@ void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *descrip
 			mir_wstrncpy(ppd.lptzContactName, title, _countof(ppd.lptzContactName));
 		else if (hContact != NULL)
 			mir_wstrncpy(ppd.lptzContactName, (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0),
-					_countof(ppd.lptzContactName));
+				_countof(ppd.lptzContactName));
 
 		if (description != NULL)
 			mir_wstrncpy(ppd.lptzText, description, _countof(ppd.lptzText));
 
-		if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST)
-		{
-			if (op->popup_use_default_colors)
-			{
+		if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST) {
+			if (op->popup_use_default_colors) {
 				ppd.colorBack = 0;
 				ppd.colorText = 0;
 			}
-			else if (op->popup_use_win_colors)
-			{
+			else if (op->popup_use_win_colors) {
 				ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 				ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 			}
-			else
-			{
+			else {
 				ppd.colorBack = op->popup_bkg_color;
 				ppd.colorText = op->popup_text_color;
 			}
 		}
 		else // if (type == POPUP_TYPE_ERROR)
 		{
-			ppd.colorBack = RGB(200,0,0);
-			ppd.colorText = RGB(255,255,255);
+			ppd.colorBack = RGB(200, 0, 0);
+			ppd.colorText = RGB(255, 255, 255);
 		}
 
-		if (type == POPUP_TYPE_NORMAL)
-		{
+		if (type == POPUP_TYPE_NORMAL) {
 			ppd.PluginWindowProc = PopupDlgProc;
 		}
 		else // if (type == POPUP_TYPE_TEST || type == POPUP_TYPE_ERROR)
@@ -146,22 +138,20 @@ void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *descrip
 			ppd.PluginWindowProc = DumbPopupDlgProc;
 		}
 
-		if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST)
-		{
-			switch (op->popup_delay_type)
-			{
-				case POPUP_DELAY_CUSTOM:
-					ppd.iSeconds = opts.popup_timeout;
-					break;
+		if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST) {
+			switch (op->popup_delay_type) {
+			case POPUP_DELAY_CUSTOM:
+				ppd.iSeconds = opts.popup_timeout;
+				break;
 
-				case POPUP_DELAY_PERMANENT:
-					ppd.iSeconds = -1;
-					break;
+			case POPUP_DELAY_PERMANENT:
+				ppd.iSeconds = -1;
+				break;
 
-				case POPUP_DELAY_DEFAULT:
-				default:
-					ppd.iSeconds = 0;
-					break;
+			case POPUP_DELAY_DEFAULT:
+			default:
+				ppd.iSeconds = 0;
+				break;
 			}
 		}
 		else // if (type == POPUP_TYPE_ERROR)
@@ -172,8 +162,7 @@ void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *descrip
 		// Now that every field has been filled, we want to see the popup.
 		PUAddPopupT(&ppd);
 	}
-	else
-	{
+	else {
 		MessageBox(NULL, description, title ? title : (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0),
 			MB_OK);
 	}
@@ -185,14 +174,11 @@ void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *descrip
 // wParam has the number of MOTD in case of WMU_SHOW_MOTD_DETAILS
 LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	if (uMsg == WMU_ACTION)
-	{
-		if (lParam == POPUP_ACTION_OPENAVATARHISTORY)
-		{
+	if (uMsg == WMU_ACTION) {
+		if (lParam == POPUP_ACTION_OPENAVATARHISTORY) {
 			CallService("AvatarHistory/ShowDialog", wParam, 0);
 		}
-		else if (lParam == POPUP_ACTION_OPENHISTORY)
-		{
+		else if (lParam == POPUP_ACTION_OPENHISTORY) {
 			CallService(MS_HISTORY_SHOWCONTACTHISTORY, wParam, 0);
 		}
 	}
@@ -205,7 +191,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 {
 	PopupDataType *popup = (PopupDataType*)PUGetPluginData(hWnd);
 
-	switch(message) {
+	switch (message) {
 	case WM_COMMAND:
 		PostMessage(hPopupWindow, WMU_ACTION, (WPARAM)popup->plugin_data, opts.popup_left_click_action);
 
@@ -237,7 +223,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 // Handle to popup events
 static LRESULT CALLBACK DumbPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch(message) {
+	switch (message) {
 	case WM_COMMAND:
 		PUDeletePopup(hWnd);
 		return TRUE;

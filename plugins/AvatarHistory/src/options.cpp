@@ -24,31 +24,31 @@ Options opts;
 
 // Prototypes /////////////////////////////////////////////////////////////////////////////////////
 
-static OptPageControl optionsControls[] = { 
+static OptPageControl optionsControls[] = {
 	{ NULL, CONTROL_PROTOCOL_LIST, IDC_PROTOCOLS, "%sEnabled", TRUE }
 };
 
-static OptPageControl popupsControls[] = { 
+static OptPageControl popupsControls[] = {
 	{ NULL,                           CONTROL_CHECKBOX, IDC_POPUPS,         "AvatarPopups",      AVH_DEF_AVPOPUPS },
-   { &opts.popup_bkg_color,          CONTROL_COLOR,    IDC_BGCOLOR,        "PopupsBgColor",     AVH_DEF_POPUPBG },
-   { &opts.popup_text_color,         CONTROL_COLOR,    IDC_TEXTCOLOR,      "PopupsTextColor",   AVH_DEF_POPUPFG },
-   { &opts.popup_use_win_colors,     CONTROL_CHECKBOX, IDC_WINCOLORS,      "PopupsWinColors",   FALSE },
-   { &opts.popup_use_default_colors, CONTROL_CHECKBOX, IDC_DEFAULTCOLORS,  "PopupsDefaultColors", AVH_DEF_DEFPOPUPS },
-   { &opts.popup_delay_type,         CONTROL_RADIO,    IDC_DELAYFROMPU,    "PopupsDelayType",   POPUP_DELAY_DEFAULT, POPUP_DELAY_DEFAULT },
-   { NULL,                           CONTROL_RADIO,    IDC_DELAYCUSTOM,    "PopupsDelayType",   POPUP_DELAY_DEFAULT, POPUP_DELAY_CUSTOM },
-   { NULL,                           CONTROL_RADIO,    IDC_DELAYPERMANENT, "PopupsDelayType",   POPUP_DELAY_DEFAULT, POPUP_DELAY_PERMANENT },
-   { &opts.popup_timeout,            CONTROL_SPIN,     IDC_DELAY,          "PopupsTimeout", 10, IDC_DELAY_SPIN, (WORD) 1, (WORD) 255 },
-   { &opts.popup_right_click_action, CONTROL_COMBO,    IDC_RIGHT_ACTION,   "PopupsRightClick",  POPUP_ACTION_CLOSEPOPUP },
-   { &opts.popup_left_click_action,  CONTROL_COMBO,    IDC_LEFT_ACTION,    "PopupsLeftClick",   POPUP_ACTION_OPENAVATARHISTORY },
-   { &opts.popup_show_changed,       CONTROL_CHECKBOX, IDC_CHANGED_L,      "PopupsShowChanged", TRUE },
-   { &opts.popup_changed,            CONTROL_TEXT,     IDC_CHANGED,        "PopupsTextChanged", (ULONG_PTR) DEFAULT_TEMPLATE_CHANGED },
-   { &opts.popup_show_removed,       CONTROL_CHECKBOX, IDC_REMOVED_L,      "PopupsShowRemoved", TRUE },
-   { &opts.popup_removed,            CONTROL_TEXT,     IDC_REMOVED,        "PopupsTextRemoved", (ULONG_PTR) DEFAULT_TEMPLATE_REMOVED }
+	{ &opts.popup_bkg_color,          CONTROL_COLOR,    IDC_BGCOLOR,        "PopupsBgColor",     AVH_DEF_POPUPBG },
+	{ &opts.popup_text_color,         CONTROL_COLOR,    IDC_TEXTCOLOR,      "PopupsTextColor",   AVH_DEF_POPUPFG },
+	{ &opts.popup_use_win_colors,     CONTROL_CHECKBOX, IDC_WINCOLORS,      "PopupsWinColors",   FALSE },
+	{ &opts.popup_use_default_colors, CONTROL_CHECKBOX, IDC_DEFAULTCOLORS,  "PopupsDefaultColors", AVH_DEF_DEFPOPUPS },
+	{ &opts.popup_delay_type,         CONTROL_RADIO,    IDC_DELAYFROMPU,    "PopupsDelayType",   POPUP_DELAY_DEFAULT, POPUP_DELAY_DEFAULT },
+	{ NULL,                           CONTROL_RADIO,    IDC_DELAYCUSTOM,    "PopupsDelayType",   POPUP_DELAY_DEFAULT, POPUP_DELAY_CUSTOM },
+	{ NULL,                           CONTROL_RADIO,    IDC_DELAYPERMANENT, "PopupsDelayType",   POPUP_DELAY_DEFAULT, POPUP_DELAY_PERMANENT },
+	{ &opts.popup_timeout,            CONTROL_SPIN,     IDC_DELAY,          "PopupsTimeout", 10, IDC_DELAY_SPIN, (WORD)1, (WORD)255 },
+	{ &opts.popup_right_click_action, CONTROL_COMBO,    IDC_RIGHT_ACTION,   "PopupsRightClick",  POPUP_ACTION_CLOSEPOPUP },
+	{ &opts.popup_left_click_action,  CONTROL_COMBO,    IDC_LEFT_ACTION,    "PopupsLeftClick",   POPUP_ACTION_OPENAVATARHISTORY },
+	{ &opts.popup_show_changed,       CONTROL_CHECKBOX, IDC_CHANGED_L,      "PopupsShowChanged", TRUE },
+	{ &opts.popup_changed,            CONTROL_TEXT,     IDC_CHANGED,        "PopupsTextChanged", (ULONG_PTR)DEFAULT_TEMPLATE_CHANGED },
+	{ &opts.popup_show_removed,       CONTROL_CHECKBOX, IDC_REMOVED_L,      "PopupsShowRemoved", TRUE },
+	{ &opts.popup_removed,            CONTROL_TEXT,     IDC_REMOVED,        "PopupsTextRemoved", (ULONG_PTR)DEFAULT_TEMPLATE_REMOVED }
 };
 
 // Options dialog procedure ///////////////////////////////////////////////////////////////////////
 
-static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	return SaveOptsDlgProc(optionsControls, _countof(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 }
@@ -71,7 +71,7 @@ static void PopupsEnableDisableCtrls(HWND hwndDlg)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_LEFT_ACTION_L), enabled);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_LEFT_ACTION), enabled);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_PREV), enabled);
-	
+
 	EnableWindow(GetDlgItem(hwndDlg, IDC_BGCOLOR), enabled && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS));
 	EnableWindow(GetDlgItem(hwndDlg, IDC_TEXTCOLOR), enabled && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS));
 	EnableWindow(GetDlgItem(hwndDlg, IDC_DEFAULTCOLORS), enabled && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS));
@@ -85,7 +85,7 @@ static void PopupsEnableDisableCtrls(HWND hwndDlg)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVED), enabled && IsDlgButtonChecked(hwndDlg, IDC_REMOVED_L));
 }
 
-static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -118,7 +118,7 @@ static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				PopupsEnableDisableCtrls(hwndDlg);
 			break;
 
-		case IDC_PREV: 
+		case IDC_PREV:
 			Options op = opts;
 			if (IsDlgButtonChecked(hwndDlg, IDC_DELAYFROMPU))
 				op.popup_delay_type = POPUP_DELAY_DEFAULT;
@@ -127,14 +127,14 @@ static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			else if (IsDlgButtonChecked(hwndDlg, IDC_DELAYPERMANENT))
 				op.popup_delay_type = POPUP_DELAY_PERMANENT;
 
-			op.popup_timeout = GetDlgItemInt(hwndDlg,IDC_DELAY, NULL, FALSE);
-			op.popup_bkg_color = SendDlgItemMessage(hwndDlg,IDC_BGCOLOR,CPM_GETCOLOUR,0,0);
-			op.popup_text_color = SendDlgItemMessage(hwndDlg,IDC_TEXTCOLOR,CPM_GETCOLOUR,0,0);
+			op.popup_timeout = GetDlgItemInt(hwndDlg, IDC_DELAY, NULL, FALSE);
+			op.popup_bkg_color = SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0);
+			op.popup_text_color = SendDlgItemMessage(hwndDlg, IDC_TEXTCOLOR, CPM_GETCOLOUR, 0, 0);
 			op.popup_use_win_colors = IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS) != 0;
 			op.popup_use_default_colors = IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS) != 0;
 
 			MCONTACT hContact = db_find_first();
-			ShowTestPopup(hContact,TranslateT("Test contact"), TranslateT("Test description"), &op);
+			ShowTestPopup(hContact, TranslateT("Test contact"), TranslateT("Test description"), &op);
 			break;
 		}
 	}

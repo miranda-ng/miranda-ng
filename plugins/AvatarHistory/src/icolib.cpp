@@ -38,19 +38,19 @@ int IcoLibIconsChanged(WPARAM, LPARAM)
 void SetupIcoLib()
 {
 	iconList[0].hIcolib = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
-	Icon_Register(hInst, LPGEN("Avatar history"), iconList+1, _countof(iconList)-1);
+	Icon_Register(hInst, LPGEN("Avatar history"), iconList + 1, _countof(iconList) - 1);
 	IcoLibUpdateMenus();
 }
 
 static HICON getOverlayedIcon(HICON icon, HICON overlay, BOOL big)
 {
 	HIMAGELIST il = ImageList_Create(
-		GetSystemMetrics(big?SM_CXICON:SM_CXSMICON),
-		GetSystemMetrics(big?SM_CYICON:SM_CYSMICON),
-		ILC_COLOR32|ILC_MASK, 2, 2);
+		GetSystemMetrics(big ? SM_CXICON : SM_CXSMICON),
+		GetSystemMetrics(big ? SM_CYICON : SM_CYSMICON),
+		ILC_COLOR32 | ILC_MASK, 2, 2);
 	ImageList_AddIcon(il, icon);
 	ImageList_AddIcon(il, overlay);
-	HIMAGELIST newImage = ImageList_Merge(il,0,il,1,0,0);
+	HIMAGELIST newImage = ImageList_Merge(il, 0, il, 1, 0, 0);
 	ImageList_Destroy(il);
 	HICON hIcon = ImageList_GetIcon(newImage, 0, 0);
 	ImageList_Destroy(newImage);

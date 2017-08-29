@@ -20,10 +20,9 @@ Avatar History Plugin
 
 #include "stdafx.h"
 
-HGENMENU hMenu = NULL; 
-void __cdecl AvatarDialogThread(void *param);
-static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam);
-int ShowSaveDialog(HWND hwnd, wchar_t* fn,MCONTACT hContact = NULL);
+HGENMENU hMenu = NULL;
+static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+int ShowSaveDialog(HWND hwnd, wchar_t* fn, MCONTACT hContact = NULL);
 
 bool ProtocolEnabled(const char *proto);
 int FillAvatarListFromDB(HWND list, MCONTACT hContact);
@@ -65,11 +64,16 @@ public:
 	wchar_t *filelink;
 };
 
+static void __cdecl AvatarDialogThread(void *param)
+{
+	struct AvatarDialogData* data = (struct AvatarDialogData*)param;
+	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AVATARDLG), data->parent, AvatarDlgProc, (LPARAM)param);
+}
+
 int OpenAvatarDialog(MCONTACT hContact, char* fn)
 {
 	HWND hAvatarWindow = WindowList_Find(hAvatarWindowsList, hContact);
-	if (hAvatarWindow)
-	{
+	if (hAvatarWindow) {
 		SetForegroundWindow(hAvatarWindow);
 		SetFocus(hAvatarWindow);
 		return 0;
@@ -79,48 +83,36 @@ int OpenAvatarDialog(MCONTACT hContact, char* fn)
 	memset(avdlg, 0, sizeof(struct AvatarDialogData));
 	avdlg->hContact = hContact;
 	if (fn == NULL)
-	{
 		avdlg->fn[0] = '\0';
-	}
 	else
-	{
 		MultiByteToWideChar(CP_ACP, 0, fn, -1, avdlg->fn, _countof(avdlg->fn));
-	}
 
-	CloseHandle(mir_forkthread(AvatarDialogThread, (void*)avdlg));
+	mir_forkthread(AvatarDialogThread, (void*)avdlg);
 	return 0;
-}
-
-void __cdecl AvatarDialogThread(void *param)
-{
-	struct AvatarDialogData* data = (struct AvatarDialogData*)param;
-	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AVATARDLG), data->parent, AvatarDlgProc, (LPARAM)param);
 }
 
 void EnableDisableControls(HWND hwnd)
 {
 	HWND list = GetDlgItem(hwnd, IDC_AVATARLIST);
-	
+
 	int cursel = SendMessage(list, LB_GETCURSEL, 0, 0);
 	int count = SendMessage(list, LB_GETCOUNT, 0, 0);
 
-	if (cursel == LB_ERR)
-	{
+	if (cursel == LB_ERR) {
 		EnableWindow(GetDlgItem(hwnd, IDC_BACK), count > 0);
 		EnableWindow(GetDlgItem(hwnd, IDC_NEXT), count > 0);
 	}
-	else
-	{
+	else {
 		EnableWindow(GetDlgItem(hwnd, IDC_BACK), cursel > 0);
-		EnableWindow(GetDlgItem(hwnd, IDC_NEXT), cursel < count-1);
+		EnableWindow(GetDlgItem(hwnd, IDC_NEXT), cursel < count - 1);
 	}
 }
 
-static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList = GetDlgItem(hwnd, IDC_AVATARLIST);
 
-	switch(uMsg) {
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
 			AvatarDialogData *data = (struct AvatarDialogData*) lParam;
@@ -146,8 +138,8 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 			CheckDlgButton(hwnd, IDC_POPUPUSER, (UINT)db_get_b(data->hContact, MODULE_NAME, "AvatarPopups", BST_INDETERMINATE));
 			CheckDlgButton(hwnd, IDC_HISTORYUSER, (UINT)db_get_b(data->hContact, MODULE_NAME, "LogToHistory", BST_INDETERMINATE));
 			ShowWindow(GetDlgItem(hwnd, IDC_OPENFOLDER), opts.log_per_contact_folders ? SW_SHOW : SW_HIDE);
-			Utils_RestoreWindowPositionNoSize(hwnd,NULL,MODULE_NAME,"AvatarHistoryDialog");
-			WindowList_Add(hAvatarWindowsList,hwnd,data->hContact);
+			Utils_RestoreWindowPositionNoSize(hwnd, NULL, MODULE_NAME, "AvatarHistoryDialog");
+			WindowList_Add(hAvatarWindowsList, hwnd, data->hContact);
 			TranslateDialogDefault(hwnd);
 			EnableDisableControls(hwnd);
 			free(data);
@@ -161,13 +153,13 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 		return TRUE;
 
 	case WM_DESTROY:
-		Utils_SaveWindowPosition(hwnd,NULL,MODULE_NAME,"AvatarHistoryDialog");
-		WindowList_Remove(hAvatarWindowsList,hwnd);
+		Utils_SaveWindowPosition(hwnd, NULL, MODULE_NAME, "AvatarHistoryDialog");
+		WindowList_Remove(hAvatarWindowsList, hwnd);
 		DestroyIcon((HICON)SendMessage(hwnd, WM_SETICON, ICON_BIG, 0));
 		DestroyIcon((HICON)SendMessage(hwnd, WM_SETICON, ICON_SMALL, 0));
 		{
 			int count = SendMessage(hwndList, LB_GETCOUNT, 0, 0);
-			for(int i = 0; i < count; i++)
+			for (int i = 0; i < count; i++)
 				delete (ListEntry*)SendMessage(hwndList, LB_GETITEMDATA, i, 0);
 		}
 		break;
@@ -193,7 +185,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 				SendMessage(hwndList, LB_SETCURSEL, pos, 0);
 				EnableDisableControls(hwnd);
 			}
-			else if ((HANDLE) wParam == pic) {
+			else if ((HANDLE)wParam == pic) {
 				pos = SendMessage(hwndList, LB_GETCURSEL, 0, 0);
 				if (pos == LB_ERR)
 					break;
@@ -210,14 +202,14 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 			}
 
 			POINT p;
-			p.x = LOWORD(lParam); 
-			p.y = HIWORD(lParam); 
-			int ret = TrackPopupMenu(submenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON|TPM_RETURNCMD, p.x, p.y, 0, hwndList, NULL);
+			p.x = LOWORD(lParam);
+			p.y = HIWORD(lParam);
+			int ret = TrackPopupMenu(submenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, p.x, p.y, 0, hwndList, NULL);
 			DestroyMenu(menu);
 
-			ListEntry *le = (ListEntry*) SendMessage(hwndList, LB_GETITEMDATA, pos, 0);
-			MCONTACT hContact = (MCONTACT) GetWindowLongPtr(hwnd, GWLP_USERDATA);
-			switch(ret) {
+			ListEntry *le = (ListEntry*)SendMessage(hwndList, LB_GETITEMDATA, pos, 0);
+			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			switch (ret) {
 			case ID_AVATARLISTPOPUP_SAVEAS:
 				ShowSaveDialog(hwnd, le->filename, hContact);
 				break;
@@ -227,11 +219,11 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 					BOOL blDelete;
 
 					if (le->hDbEvent)
-						blDelete = MessageBox(hwnd, TranslateT("Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!"), 
-						TranslateT("Delete avatar log?"), MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2|MB_SETFOREGROUND|MB_TOPMOST) == IDYES;
+						blDelete = MessageBox(hwnd, TranslateT("Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!"),
+							TranslateT("Delete avatar log?"), MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2 | MB_SETFOREGROUND | MB_TOPMOST) == IDYES;
 					else
-						blDelete = MessageBox(hwnd, TranslateT("Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!"), 
-						TranslateT("Delete avatar log?"), MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2|MB_SETFOREGROUND|MB_TOPMOST) == IDYES;
+						blDelete = MessageBox(hwnd, TranslateT("Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!"),
+							TranslateT("Delete avatar log?"), MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2 | MB_SETFOREGROUND | MB_TOPMOST) == IDYES;
 
 					if (blDelete) {
 						if (le->hDbEvent)
@@ -246,7 +238,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 						int count = SendMessage(hwndList, LB_GETCOUNT, 0, 0);
 						if (count > 0) {
 							if (pos >= count)
-								pos = count -1;
+								pos = count - 1;
 							SendMessage(hwndList, LB_SETCURSEL, pos, 0);
 						}
 
@@ -260,11 +252,11 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 				BOOL blDelete;
 
 				if (le->hDbEvent)
-					blDelete = MessageBox(hwnd, TranslateT("Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING: This can affect more than one entry in history!"), 
-					TranslateT("Delete avatar?"), MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2|MB_SETFOREGROUND|MB_TOPMOST) == IDYES;
+					blDelete = MessageBox(hwnd, TranslateT("Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING: This can affect more than one entry in history!"),
+						TranslateT("Delete avatar?"), MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2 | MB_SETFOREGROUND | MB_TOPMOST) == IDYES;
 				else
-					blDelete = MessageBox(hwnd, TranslateT("Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING: This can affect more than one shortcut!"), 
-					TranslateT("Delete avatar?"), MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2|MB_SETFOREGROUND|MB_TOPMOST) == IDYES;
+					blDelete = MessageBox(hwnd, TranslateT("Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING: This can affect more than one shortcut!"),
+						TranslateT("Delete avatar?"), MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2 | MB_SETFOREGROUND | MB_TOPMOST) == IDYES;
 
 				if (blDelete) {
 					DeleteFile(le->filename);
@@ -281,7 +273,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 					int count = SendMessage(hwndList, LB_GETCOUNT, 0, 0);
 					if (count > 0) {
 						if (pos >= count)
-							pos = count -1;
+							pos = count - 1;
 						SendMessage(hwndList, LB_SETCURSEL, pos, 0);
 					}
 
@@ -293,13 +285,13 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 		break;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDOK:
 			if (HIWORD(wParam) == BN_CLICKED) {
-				MCONTACT hContact = (MCONTACT) GetWindowLongPtr(hwnd, GWLP_USERDATA);
-				db_set_b(hContact, MODULE_NAME, "AvatarPopups", (BYTE) IsDlgButtonChecked(hwnd, IDC_POPUPUSER));
-				db_set_b(hContact, MODULE_NAME, "LogToDisk", (BYTE) IsDlgButtonChecked(hwnd, IDC_LOGUSER));
-				db_set_b(hContact, MODULE_NAME, "LogToHistory", (BYTE) IsDlgButtonChecked(hwnd, IDC_HISTORYUSER));
+				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				db_set_b(hContact, MODULE_NAME, "AvatarPopups", (BYTE)IsDlgButtonChecked(hwnd, IDC_POPUPUSER));
+				db_set_b(hContact, MODULE_NAME, "LogToDisk", (BYTE)IsDlgButtonChecked(hwnd, IDC_LOGUSER));
+				db_set_b(hContact, MODULE_NAME, "LogToHistory", (BYTE)IsDlgButtonChecked(hwnd, IDC_HISTORYUSER));
 
 				CleanupAvatarPic(hwnd);
 				EndDialog(hwnd, 0);
@@ -327,7 +319,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 
 		case IDC_NEXT:
 			if (HIWORD(wParam) == BN_CLICKED) {
-				SendMessage(hwndList, LB_SETCURSEL, SendMessage(hwndList, LB_GETCURSEL, 0, 0) +1, 0);
+				SendMessage(hwndList, LB_SETCURSEL, SendMessage(hwndList, LB_GETCURSEL, 0, 0) + 1, 0);
 				UpdateAvatarPic(hwnd);
 				EnableDisableControls(hwnd);
 				return TRUE;
@@ -338,9 +330,9 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 			if (HIWORD(wParam) == BN_CLICKED) {
 				int cursel = SendMessage(hwndList, LB_GETCURSEL, 0, 0);
 				if (cursel == LB_ERR)
-					SendMessage(hwndList, LB_SETCURSEL, SendMessage(hwndList, LB_GETCOUNT, 0, 0) -1, 0);
+					SendMessage(hwndList, LB_SETCURSEL, SendMessage(hwndList, LB_GETCOUNT, 0, 0) - 1, 0);
 				else
-					SendMessage(hwndList, LB_SETCURSEL, cursel -1, 0);
+					SendMessage(hwndList, LB_SETCURSEL, cursel - 1, 0);
 				UpdateAvatarPic(hwnd);
 				EnableDisableControls(hwnd);
 				return TRUE;
@@ -352,7 +344,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 }
 
 
-int AddFileToList(wchar_t *path,wchar_t *lnk,wchar_t *filename, HWND list)
+int AddFileToList(wchar_t *path, wchar_t *lnk, wchar_t *filename, HWND list)
 {
 	// Add to list
 	ListEntry *le = new ListEntry();
@@ -380,15 +372,12 @@ int FillAvatarListFromFiles(HWND list, MCONTACT hContact)
 	if (hFind == INVALID_HANDLE_VALUE)
 		return 0;
 
-	do
-	{
-		if (finddata.cFileName[0] != '.')
-		{
+	do {
+		if (finddata.cFileName[0] != '.') {
 			mir_snwprintf(path, L"%s\\%s", dir, finddata.cFileName);
-			max_pos = AddFileToList(path,finddata.cFileName,finddata.cFileName,list);
+			max_pos = AddFileToList(path, finddata.cFileName, finddata.cFileName, list);
 		}
-	}
-		while(FindNextFile(hFind, &finddata));
+	} while (FindNextFile(hFind, &finddata));
 	FindClose(hFind);
 	SendMessage(list, LB_SETCURSEL, max_pos, 0); // Set to first item
 	return 0;
@@ -407,17 +396,14 @@ int FillAvatarListFromFolder(HWND list, MCONTACT hContact)
 	if (hFind == INVALID_HANDLE_VALUE)
 		return 0;
 
-	do
-	{
-		if (finddata.cFileName[0] != '.')
-		{
+	do {
+		if (finddata.cFileName[0] != '.') {
 			wchar_t lnk[MAX_PATH];
 			mir_snwprintf(lnk, L"%s\\%s", dir, finddata.cFileName);
 			if (ResolveShortcut(lnk, path))
-				max_pos = AddFileToList(path,lnk,finddata.cFileName,list);
+				max_pos = AddFileToList(path, lnk, finddata.cFileName, list);
 		}
-	}
-		while(FindNextFile(hFind, &finddata));
+	} while (FindNextFile(hFind, &finddata));
 	FindClose(hFind);
 	SendMessage(list, LB_SETCURSEL, max_pos, 0); // Set to first item
 	return 0;
@@ -447,7 +433,7 @@ int FillAvatarListFromDB(HWND list, MCONTACT hContact)
 		ListEntry *le = new ListEntry();
 		le->hDbEvent = hDbEvent;
 		le->filename = mir_wstrdup(path);
-		max_pos = SendMessage(list,LB_ADDSTRING, 0, (LPARAM)date);
+		max_pos = SendMessage(list, LB_ADDSTRING, 0, (LPARAM)date);
 		SendMessage(list, LB_SETITEMDATA, max_pos, (LPARAM)le);
 	}
 
@@ -463,22 +449,20 @@ bool UpdateAvatarPic(HWND hwnd)
 
 	HWND list = GetDlgItem(hwnd, IDC_AVATARLIST);
 	int cursel = SendMessage(list, LB_GETCURSEL, 0, 0);
-	if (cursel < 0)
-	{
-		SetDlgItemText(hwnd,IDC_AVATARPATH,TranslateT("Avatar history is empty!"));
+	if (cursel < 0) {
+		SetDlgItemText(hwnd, IDC_AVATARPATH, TranslateT("Avatar history is empty!"));
 		return false;
 	}
-	
-	ListEntry *le = (ListEntry*) SendMessage(list, LB_GETITEMDATA, cursel, 0);
 
-	if (!le || !le->filename)
-	{
-		SetDlgItemText(hwnd,IDC_AVATARPATH,TranslateT("Avatar path is null."));
+	ListEntry *le = (ListEntry*)SendMessage(list, LB_GETITEMDATA, cursel, 0);
+
+	if (!le || !le->filename) {
+		SetDlgItemText(hwnd, IDC_AVATARPATH, TranslateT("Avatar path is null."));
 		return 0;
 	}
-	SetDlgItemText(hwnd,IDC_AVATARPATH,le->filename);
+	SetDlgItemText(hwnd, IDC_AVATARPATH, le->filename);
 
-	HBITMAP avpic = (HBITMAP) CallService(MS_IMG_LOAD, (WPARAM)le->filename, IMGL_WCHAR);
+	HBITMAP avpic = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)le->filename, IMGL_WCHAR);
 
 	bool found_image = (avpic != NULL);
 
@@ -501,7 +485,7 @@ int CleanupAvatarPic(HWND hwnd)
 	return 0;
 }
 
-int PreBuildContactMenu(WPARAM wParam, LPARAM) 
+int PreBuildContactMenu(WPARAM wParam, LPARAM)
 {
 	char *proto = GetContactProto(wParam);
 	Menu_ShowItem(hMenu, 0 != ProtocolEnabled(proto));
@@ -513,7 +497,7 @@ void InitMenuItem()
 	CreateServiceFunction(MS_AVATARHISTORY_SHOWDIALOG, ShowDialogSvc);
 
 	CMenuItem mi;
-	SET_UID(mi,0x2fb5c7eb, 0xa606, 0x4145, 0x9e, 0x86, 0x73, 0x88, 0x73, 0x1d, 0xe7, 0x5c);
+	SET_UID(mi, 0x2fb5c7eb, 0xa606, 0x4145, 0x9e, 0x86, 0x73, 0x88, 0x73, 0x1d, 0xe7, 0x5c);
 	mi.name.w = LPGENW("View avatar history");
 	mi.flags = CMIF_UNICODE;
 	mi.position = 1000090010;
@@ -541,40 +525,33 @@ int ShowSaveDialog(HWND hwnd, wchar_t* fn, MCONTACT hContact)
 	ofn.hInstance = hInst;
 
 	ofn.lpstrFilter = filter;
-	
+
 	ofn.nFilterIndex = 1;
 	wcsncpy_s(file, (wcsrchr(fn, '\\') + 1), _TRUNCATE);
 	ofn.lpstrFile = file;
 
 	wchar_t *displayName = pcli->pfnGetContactDisplayName(hContact, 0);
 	wchar_t title[MAX_PATH];
-	if (displayName)
-	{
+	if (displayName) {
 		mir_snwprintf(title, TranslateT("Save avatar for %s"), displayName);
 		ofn.lpstrTitle = title;
 	}
-	else
-	{
-		ofn.lpstrTitle = TranslateT("Save avatar");
-	}
+	else ofn.lpstrTitle = TranslateT("Save avatar");
+
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_DONTADDTORECENT;
-	ofn.lpstrDefExt = wcsrchr(fn, '.')+1;
+	ofn.lpstrDefExt = wcsrchr(fn, '.') + 1;
 
-	DBVARIANT dbvInitDir = {0};
-	if (!db_get_ws(hContact,MODULE_NAME,"SavedAvatarFolder",&dbvInitDir))
-	{
+	DBVARIANT dbvInitDir = { 0 };
+	if (!db_get_ws(hContact, MODULE_NAME, "SavedAvatarFolder", &dbvInitDir)) {
 		ofn.lpstrInitialDir = dbvInitDir.ptszVal;
 		db_free(&dbvInitDir);
 	}
-	else
-	{
-		ofn.lpstrInitialDir = L".";
-	}
-	if (GetSaveFileName(&ofn))
-	{
+	else ofn.lpstrInitialDir = L".";
+
+	if (GetSaveFileName(&ofn)) {
 		CopyFile(fn, file, FALSE);
-		db_set_ws(hContact,MODULE_NAME,"SavedAvatarFolder",file);
+		db_set_ws(hContact, MODULE_NAME, "SavedAvatarFolder", file);
 	}
 	return 0;
 }

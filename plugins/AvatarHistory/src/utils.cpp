@@ -26,12 +26,7 @@ Avatar History Plugin
 
 bool ProtocolEnabled(const char *proto)
 {
-	if (proto == NULL)
-		return FALSE;
-
-	char setting[256];
-	mir_snprintf(setting, "%sEnabled", proto);
-	return 0 != db_get_b(NULL, MODULE_NAME, setting, true);
+	return Proto_IsAccountEnabled(Proto_GetAccount(proto));
 }
 
 bool ContactEnabled(MCONTACT hContact, char *setting, int def)
@@ -61,18 +56,18 @@ BOOL IsUnicodeAscii(const WCHAR * pBuffer, int nSize)
 
 void ConvertToFilename(wchar_t *str, size_t size)
 {
-	for(size_t i = 0; i < size && str[i] != '\0'; i++) {
-		switch(str[i]) {
-			case '/':
-			case '\\':
-			case ':':
-			case '*':
-			case '?':
-			case '"':
-			case '<':
-			case '>':
-			case '|':
-				str[i] = '_';
+	for (size_t i = 0; i < size && str[i] != '\0'; i++) {
+		switch (str[i]) {
+		case '/':
+		case '\\':
+		case ':':
+		case '*':
+		case '?':
+		case '"':
+		case '<':
+		case '>':
+		case '|':
+			str[i] = '_';
 		}
 	}
 }
@@ -113,14 +108,14 @@ wchar_t* GetContactFolder(wchar_t *fn, MCONTACT hContact)
 {
 	char *proto = GetContactProto(hContact);
 	GetProtocolFolder(fn, proto);
-	
+
 	wchar_t uin[MAX_PATH];
 	ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, proto));
 	wcsncpy_s(uin, (id == NULL) ? TranslateT("Unknown UIN") : id, _TRUNCATE);
 	ConvertToFilename(uin, MAX_PATH); //added so that weather id's like "yw/CI0000" work
 	mir_snwprintf(fn, MAX_PATH, L"%s\\%s", fn, uin);
 	CreateDirectoryTreeW(fn);
-	
+
 #ifdef DBGPOPUPS
 	wchar_t log[1024];
 	mir_snwprintf(log, L"Path: %s\nProto: %S\nUIN: %s", fn, proto, uin);
@@ -136,9 +131,9 @@ wchar_t* GetOldStyleAvatarName(wchar_t *fn, MCONTACT hContact)
 
 	SYSTEMTIME curtime;
 	GetLocalTime(&curtime);
-	mir_snwprintf(fn, MAX_PATH, 
-		L"%s\\%04d-%02d-%02d %02dh%02dm%02ds", fn, 
-		curtime.wYear, curtime.wMonth, curtime.wDay, 
+	mir_snwprintf(fn, MAX_PATH,
+		L"%s\\%04d-%02d-%02d %02dh%02dm%02ds", fn,
+		curtime.wYear, curtime.wMonth, curtime.wDay,
 		curtime.wHour, curtime.wMinute, curtime.wSecond);
 	ShowDebugPopup(hContact, L"AVH Debug: GetOldStyleAvatarName", fn);
 	return fn;
@@ -154,13 +149,9 @@ void CreateOldStyleShortcut(MCONTACT hContact, wchar_t *history_filename)
 		GetExtension(history_filename));
 
 	if (!CreateShortcut(history_filename, shortcut))
-	{
 		ShowPopup(hContact, TranslateT("Avatar history: Unable to create shortcut"), shortcut);
-	}
 	else
-	{
 		ShowDebugPopup(hContact, L"AVH Debug: Shortcut created successfully", shortcut);
-	}
 }
 
 BOOL CopyImageFile(wchar_t *old_file, wchar_t *new_file)
@@ -170,7 +161,7 @@ BOOL CopyImageFile(wchar_t *old_file, wchar_t *new_file)
 	return !CopyFile(old_file, new_file, TRUE);
 }
 
-wchar_t * GetCachedAvatar(char *proto, wchar_t *hash)
+wchar_t* GetCachedAvatar(char *proto, wchar_t *hash)
 {
 	wchar_t *ret = NULL;
 	wchar_t file[1024] = L"";
@@ -187,21 +178,19 @@ wchar_t * GetCachedAvatar(char *proto, wchar_t *hash)
 	if (hFind == INVALID_HANDLE_VALUE)
 		return NULL;
 
-	do
-	{
+	do {
 		size_t len = mir_wstrlen(finddata.cFileName);
-		if (len > 4 
-			&& (!mir_wstrcmpi(&finddata.cFileName[len-4], L".png")
-				|| !mir_wstrcmpi(&finddata.cFileName[len-4], L".bmp")
-				|| !mir_wstrcmpi(&finddata.cFileName[len-4], L".gif")
-				|| !mir_wstrcmpi(&finddata.cFileName[len-4], L".jpg")
-				|| !mir_wstrcmpi(&finddata.cFileName[len-5], L".jpeg")))
-		{
+		if (len > 4
+			&& (!mir_wstrcmpi(&finddata.cFileName[len - 4], L".png")
+				|| !mir_wstrcmpi(&finddata.cFileName[len - 4], L".bmp")
+				|| !mir_wstrcmpi(&finddata.cFileName[len - 4], L".gif")
+				|| !mir_wstrcmpi(&finddata.cFileName[len - 4], L".jpg")
+				|| !mir_wstrcmpi(&finddata.cFileName[len - 5], L".jpeg"))) {
 			mir_snwprintf(file, L"%s\\%s", file, finddata.cFileName);
 			ret = mir_wstrdup(file);
 			break;
 		}
-	} while(FindNextFile(hFind, &finddata));
+	} while (FindNextFile(hFind, &finddata));
 	FindClose(hFind);
 
 	return ret;
@@ -210,19 +199,19 @@ wchar_t * GetCachedAvatar(char *proto, wchar_t *hash)
 BOOL CreateShortcut(wchar_t *file, wchar_t *shortcut)
 {
 	IShellLink *psl = NULL;
-	HRESULT hr = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (void **) &psl);
+	HRESULT hr = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (void **)&psl);
 	if (SUCCEEDED(hr)) {
-		psl->SetPath(file); 
+		psl->SetPath(file);
 
-		IPersistFile *ppf = NULL; 
-		hr = psl->QueryInterface(IID_IPersistFile,  (void **) &ppf); 
+		IPersistFile *ppf = NULL;
+		hr = psl->QueryInterface(IID_IPersistFile, (void **)&ppf);
 		if (SUCCEEDED(hr)) {
-			hr = ppf->Save(shortcut, TRUE); 
-			ppf->Release(); 
+			hr = ppf->Save(shortcut, TRUE);
+			ppf->Release();
 		}
 
-		psl->Release(); 
-	} 
+		psl->Release();
+	}
 
 	return SUCCEEDED(hr);
 }
@@ -231,25 +220,25 @@ BOOL ResolveShortcut(wchar_t *shortcut, wchar_t *file)
 {
 	IShellLink* psl = NULL;
 
-	HRESULT hr = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (void **) &psl);
+	HRESULT hr = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (void **)&psl);
 
 	if (SUCCEEDED(hr)) {
-		IPersistFile* ppf = NULL; 
-		hr = psl->QueryInterface(IID_IPersistFile,  (void **) &ppf); 
+		IPersistFile* ppf = NULL;
+		hr = psl->QueryInterface(IID_IPersistFile, (void **)&ppf);
 
 		if (SUCCEEDED(hr)) {
-			hr = ppf->Load(shortcut, STGM_READ); 
+			hr = ppf->Load(shortcut, STGM_READ);
 			if (SUCCEEDED(hr)) {
-				hr = psl->Resolve(NULL, SLR_UPDATE); 
+				hr = psl->Resolve(NULL, SLR_UPDATE);
 				if (SUCCEEDED(hr)) {
 					WIN32_FIND_DATA wfd;
-					hr = psl->GetPath(file, MAX_PATH, &wfd, SLGP_RAWPATH); 
+					hr = psl->GetPath(file, MAX_PATH, &wfd, SLGP_RAWPATH);
 				}
 			}
 
-			ppf->Release(); 
+			ppf->Release();
 		}
-		psl->Release(); 
+		psl->Release();
 	}
 
 	return SUCCEEDED(hr);
