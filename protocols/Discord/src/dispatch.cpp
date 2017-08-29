@@ -466,7 +466,10 @@ void CDiscordProto::OnCommandPresence(const JSONNode &pRoot)
 	if (!wszGame.IsEmpty())
 		setWString(pUser->hContact, "XStatusMsg", wszGame);
 	else
-		delSetting(pUser->hContact, "XStatusMsg");		
+		delSetting(pUser->hContact, "XStatusMsg");
+
+	// check avatar
+	CheckAvatarChange(pUser->hContact, pRoot["user"]["avatar"].as_mstring());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
