@@ -1211,8 +1211,9 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (PluginConfig.m_bSoundOnTyping && !isAlt && wParam == VK_DELETE)
 			SkinPlaySound("SoundOnTyping");
 
-		if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
-			return true;
+		if (wParam != VK_ESCAPE)
+			if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
+				return true;
 
 		if (wParam == VK_INSERT && !isShift && !isCtrl && !isAlt) {
 			m_bInsertMode = !m_bInsertMode;
