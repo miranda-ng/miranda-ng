@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // ntlm auth - LanServer based authorization
 
-TNtlmAuth::TNtlmAuth(ThreadData *info, const char* mechanism, const wchar_t *hostname) :
+TNtlmAuth::TNtlmAuth(ThreadData *info, const char *mechanism, const wchar_t *hostname) :
 	TJabberAuth(info)
 {
 	szName = mechanism;
@@ -48,9 +48,9 @@ LBL_Invalid:
 		return;
 	}
 
-	wchar_t szSpn[1024] = L"";
-	if (mir_strcmp(mechanism, "NTLM"))
-		if (!getSpn(szSpn, _countof(szSpn)) && !mir_strcmp(mechanism, "GSSAPI"))
+	wchar_t szSpn[1024]; szSpn[0] = 0;
+	if (!mir_strcmp(mechanism, "GSSAPI"))
+		if (!getSpn(szSpn, _countof(szSpn)))
 			goto LBL_Invalid;
 
 	if ((hProvider = Netlib_InitSecurityProvider(szProvider, szSpn)) == nullptr)
