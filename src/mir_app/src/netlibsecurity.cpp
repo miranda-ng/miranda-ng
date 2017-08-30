@@ -326,7 +326,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		Netlib_Logf(nullptr, "InitializeSecurityContext(%S): 0x%x", hNtlm->szProvider, sc);
 
 		complete = (sc != SEC_I_COMPLETE_AND_CONTINUE && sc != SEC_I_CONTINUE_NEEDED);
-		if (!complete) {
+		if (sc == SEC_I_COMPLETE_NEEDED || sc == SEC_I_COMPLETE_AND_CONTINUE) {
 			sc = CompleteAuthToken(&hNtlm->hClientContext, &outputBufferDescriptor);
 			Netlib_Logf(nullptr, "CompleteAuthToken: 0x%x", sc);
 		}
