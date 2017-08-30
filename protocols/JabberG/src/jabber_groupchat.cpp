@@ -926,7 +926,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		if (r && bRoleChanged) GcLogShowInformation(item, r, INFO_ROLE);
 
 		// update clist status
-		MCONTACT hContact = HContactFromJID(from);
+		MCONTACT hContact = HContactFromJID(from, false);
 		if (hContact != 0)
 			setWord(hContact, "Status", status);
 
