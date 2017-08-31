@@ -202,6 +202,9 @@ INT_PTR CDiscordProto::SetMyAvatar(WPARAM, LPARAM lParam)
 
 void CDiscordProto::CheckAvatarChange(MCONTACT hContact, const CMStringW &wszNewHash)
 {
+	if (wszNewHash.IsEmpty())
+		return;
+
 	ptrW wszOldAvatar(getWStringA(hContact, DB_KEY_AVHASH));
 
 	// if avatar's hash changed, we need to request a new one
