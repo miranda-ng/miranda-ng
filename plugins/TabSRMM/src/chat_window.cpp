@@ -1314,7 +1314,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 
 		if (wParam == VK_F4 && isCtrl && !isAlt) { // ctrl-F4 (close tab)
-			SendMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_CLOSE, BN_CLICKED), 0);
+			CloseTab();
 			return 0;
 		}
 
@@ -2175,7 +2175,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			return FALSE;
 
 		case IDC_CLOSE:
-			SendMessage(m_hwnd, WM_CLOSE, 0, 1);
+			CloseTab();
 			break;
 
 		case IDC_SELFTYPING:

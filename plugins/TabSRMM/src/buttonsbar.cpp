@@ -54,7 +54,7 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	Srmm_AddButton(&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
-	bbd.dwButtonID = IDC_SAVE;
+	bbd.dwButtonID = IDC_CLOSE;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[8];
 	bbd.pwszTooltip = LPGENW("Close session");

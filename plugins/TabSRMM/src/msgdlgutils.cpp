@@ -452,14 +452,14 @@ void CTabBaseDlg::UpdateSaveAndSendButton()
 
 	if (len) {          // looks complex but avoids flickering on the button while typing.
 		if (!(m_dwFlags & MWF_SAVEBTN_SAV)) {
-			SendDlgItemMessage(m_hwnd, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_SAVE]);
-			SendDlgItemMessage(m_hwnd, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Save and close session"), BATF_UNICODE);
+			SendDlgItemMessage(m_hwnd, IDC_CLOSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_SAVE]);
+			SendDlgItemMessage(m_hwnd, IDC_CLOSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Save and close session"), BATF_UNICODE);
 			m_dwFlags |= MWF_SAVEBTN_SAV;
 		}
 	}
 	else {
-		SendDlgItemMessage(m_hwnd, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
-		SendDlgItemMessage(m_hwnd, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close session"), BATF_UNICODE);
+		SendDlgItemMessage(m_hwnd, IDC_CLOSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
+		SendDlgItemMessage(m_hwnd, IDC_CLOSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close session"), BATF_UNICODE);
 		m_dwFlags &= ~MWF_SAVEBTN_SAV;
 	}
 	m_textLen = len;

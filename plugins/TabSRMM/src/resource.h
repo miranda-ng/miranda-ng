@@ -92,14 +92,13 @@
 #define IDC_NAME                        1022
 #define IDC_CHKACTL_REMOVE              1023
 #define IDC_INFOPANELMENU               1023
-#define IDC_CLOSE                       1024
-#define IDC_SAVE                        1025
+#define IDC_CHKWINDOWCHECK              1024
+#define IDC_CLOSE                       1025
 #define IDC_CHKACTR_DISMISS             1026
 #define IDC_CHKACTR_OPEN                1028
 #define IDC_CONTACTPIC                  1029
 #define IDC_ST_ENTERMSG                 1031
 #define IDC_PANELNICK                   1032
-#define IDC_CHKWINDOWCHECK              1032
 #define IDC_PANELUIN                    1033
 #define IDC_CHKPREVIEW                  1034
 #define IDC_CHKINFINITE                 1035

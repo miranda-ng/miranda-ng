@@ -226,7 +226,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 		ShowWindow(m_pContainer->m_hwnd, SW_MINIMIZE);
 		return FALSE;
 
-	case IDC_SAVE:
+	case IDC_CLOSE:
 		SendMessage(m_hwnd, WM_CLOSE, 1, 0);
 		break;
 

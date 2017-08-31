@@ -733,7 +733,7 @@ void CSrmmWindow::OnInitDialog()
 	SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, m_bNotOnList ? TranslateT("Contact not on list. You may add it...") :
 		TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
 
-	SendDlgItemMessage(m_hwnd, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close session"), BATF_UNICODE);
+	SendDlgItemMessage(m_hwnd, IDC_CLOSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close session"), BATF_UNICODE);
 	SendDlgItemMessage(m_hwnd, IDC_PROTOCOL, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Click for contact menu\nClick dropdown for window settings"), BATF_UNICODE);
 
 	SetDlgItemText(m_hwnd, IDC_RETRY, TranslateT("Retry"));

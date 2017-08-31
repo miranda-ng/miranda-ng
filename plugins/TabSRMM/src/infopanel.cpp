@@ -722,7 +722,7 @@ HMENU CInfoPanel::constructContextualMenu() const
 				::EnableMenuItem(m, IDC_SRMM_CHANMGR, MF_BYCOMMAND | MF_GRAYED);
 		}
 		::AppendMenu(m, MF_SEPARATOR, 1000, 0);
-		Utils::addMenuItem(m, mii, PluginConfig.g_buttonBarIcons[6], TranslateT("Close session"), IDC_SAVE, 4);
+		Utils::addMenuItem(m, mii, PluginConfig.g_buttonBarIcons[6], TranslateT("Close session"), IDC_CLOSE, 4);
 	}
 	::AppendMenu(m, MF_SEPARATOR, 1000, 0);
 	::AppendMenu(m, MF_STRING, CMD_IP_COPY, TranslateT("Copy to clipboard"));
