@@ -2,10 +2,7 @@
 
 Jabber Protocol Plugin for Miranda NG
 
-Copyright (c) 2002-04  Santithorn Bunchua
-Copyright (c) 2005-12  George Hazan
-Copyright (c) 2007     Maxim Mluhov
-Copyright (�) 2012-17 Miranda NG project
+Copyright (�) 2017 Miranda NG project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -25,9 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //TODO: further improovement requirements folllows in priority sequence
 /*
- * 1. handle prekeys properly (cleanup after first use, create new keys)
+ * 1. per-contact encryption settings (enable/disable for one contact)
  * 2. fingerprints/keys management ui
- * 3. per-contact encryption settings (enable/disable for one contact)
  */
 
 #include "stdafx.h"
@@ -616,13 +612,6 @@ namespace omemo {
 		proto->setString("OmemoSignedPreKeyPublic", key);
 		mir_free(key);
 		signal_buffer_free(key_buf);
-/*		private_key = ec_key_pair_get_private(signed_pre_key_pair); //TODO: check if it needed anywhere
-		ec_private_key_serialize(&key_buf, private_key);
-		SIGNAL_UNREF(private_key);
-		key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
-		proto->setString("OmemoSignedPreKeyPrivate", key);
-		mir_free(key);
-		signal_buffer_free(key_buf); */
 		char *signature = mir_base64_encode(session_signed_pre_key_get_signature(signed_pre_key), (unsigned int)session_signed_pre_key_get_signature_len(signed_pre_key));
 		proto->setString("OmemoSignedPreKeySignature", signature);
 		mir_free(signature);
@@ -654,15 +643,6 @@ namespace omemo {
 			proto->setString(setting_name, key);
 			mir_free(key);
 			signal_buffer_free(key_buf);
-/*			private_key = ec_key_pair_get_private(pre_key_pair); //TODO: check if it needed anywhere
-			ec_private_key_serialize(&key_buf, private_key);
-			SIGNAL_UNREF(private_key);
-			key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
-			mir_snprintf(setting_name, "OmemoPreKey%uPrivate", pre_key_id);
-			proto->setString(setting_name, key);
-			mir_free(key);
-			signal_buffer_free(key_buf); */
-
 		}
 		signal_protocol_key_helper_key_list_free(keys_root);
 
@@ -1534,6 +1514,47 @@ namespace omemo {
 		return true; //success
 
 	}
+	void OmemoRefreshUsedPreKey(CJabberProto *proto, pre_key_signal_message *psm)
+	{
+		uint32_t id = pre_key_signal_message_get_pre_key_id(psm);
+		//generate and save pre keys set
+
+		ec_public_key *public_key = nullptr;
+		signal_buffer *key_buf = nullptr;
+		char *key = nullptr;
+		signal_protocol_key_helper_pre_key_list_node *keys_root, *it;
+		signal_protocol_key_helper_generate_pre_keys(&keys_root, id, 1, global_context);
+		it = keys_root;
+		char setting_name[64], setting_name2[64];
+		for (; it; it = signal_protocol_key_helper_key_list_next(it))
+		{
+			session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
+			uint32_t pre_key_id = session_pre_key_get_id(pre_key);
+			{
+				signal_buffer *serialized_pre_key;
+				session_pre_key_serialize(&serialized_pre_key, pre_key);
+				mir_snprintf(setting_name2, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", proto->m_omemo.GetOwnDeviceId(), pre_key_id);
+				db_set_blob(0, proto->m_szModuleName, setting_name2, signal_buffer_data(serialized_pre_key), (unsigned int)signal_buffer_len(serialized_pre_key));
+				SIGNAL_UNREF(serialized_pre_key);
+			}
+
+			ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
+			public_key = ec_key_pair_get_public(pre_key_pair);
+			ec_public_key_serialize(&key_buf, public_key);
+			SIGNAL_UNREF(public_key);
+			key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
+			mir_snprintf(setting_name, "OmemoPreKey%uPublic", pre_key_id);
+			proto->setString(setting_name, key);
+			mir_free(key);
+			signal_buffer_free(key_buf);
+		}
+		signal_protocol_key_helper_key_list_free(keys_root);
+
+//		proto->OmemoAnnounceDevice();
+		proto->OmemoSendBundle();
+
+
+	}
 };
 
 
@@ -1695,6 +1716,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 			{
 			case SG_SUCCESS:
 				decrypted = true;
+				omemo::OmemoRefreshUsedPreKey(this, pm);
 				break;
 			case SG_ERR_INVALID_MESSAGE:
 				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_MESSAGE");
