@@ -36,11 +36,7 @@ void MakeHotkey(lua_State *L, HOTKEYDESC &hk)
 
 static int hotkeys_Register(lua_State *L)
 {
-	if (lua_type(L, 1) != LUA_TTABLE)
-	{
-		lua_pushlightuserdata(L, 0);
-		return 1;
-	}
+	luaL_checktype(L, 1, LUA_TTABLE);
 
 	HOTKEYDESC hk;
 	MakeHotkey(L, hk);
@@ -56,7 +52,9 @@ static int hotkeys_Register(lua_State *L)
 static int hotkeys_Unregister(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
+
 	Hotkey_Unregister(name);
+
 	return 0;
 }
 

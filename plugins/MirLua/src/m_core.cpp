@@ -5,13 +5,10 @@ static int core_CreateHookableEvent(lua_State *L)
 	const char *name = luaL_checkstring(L, 1);
 
 	HANDLE res = CreateHookableEvent(name);
-	if (res == NULL)
-	{
+	if (res != nullptr)
+		lua_pushlightuserdata(L, res);
+	else
 		lua_pushnil(L);
-
-		return 1;
-	}
-	lua_pushlightuserdata(L, res);
 
 	return 1;
 }

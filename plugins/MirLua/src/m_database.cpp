@@ -53,54 +53,42 @@ static int db_Contacts(lua_State *L)
 	return 1;
 }
 
+static const char *mods[] =
+{
+	"FirstName",
+	"LastName",
+	"Nick",
+	"CustomNick",
+	"Email",
+	"City",
+	"State",
+	"Country",
+	"Phone",
+	"Homepage",
+	"About",
+	"Gender",
+	"Age",
+	"FullName",
+	"Uid",
+	"DisplayName",
+	NULL
+};
+
 static int db_GetContactInfo(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 
 	int type = 0;
-	if (lua_isnumber(L, 2))
-		type = lua_tointeger(L, 2);
-	else if (lua_isstring(L, 2))
+	switch (lua_type(L, 2))
 	{
-		const char *key = luaL_checkstring(L, 2);
-
-		if (mir_strcmpi(key, "FirstName") == 0)
-			type = CNF_FIRSTNAME;
-		else if (mir_strcmpi(key, "LastName") == 0)
-			type = CNF_LASTNAME;
-		else if (mir_strcmpi(key, "Nick") == 0)
-			type = CNF_NICK;
-		else if (mir_strcmpi(key, "CustomNick") == 0)
-			type = CNF_CUSTOMNICK;
-		else if (mir_strcmpi(key, "FullName") == 0)
-			type = CNF_FIRSTLAST;
-		else if (mir_strcmpi(key, "DisplayName") == 0)
-			type = CNF_DISPLAY;
-		else if (mir_strcmpi(key, "Uid") == 0)
-			type = CNF_UNIQUEID;
-		else if (mir_strcmpi(key, "Email") == 0)
-			type = CNF_EMAIL;
-		else if (mir_strcmpi(key, "City") == 0)
-			type = CNF_CITY;
-		else if (mir_strcmpi(key, "State") == 0)
-			type = CNF_STATE;
-		else if (mir_strcmpi(key, "Country") == 0)
-			type = CNF_COUNTRY;
-		else if (mir_strcmpi(key, "Phone") == 0)
-			type = CNF_PHONE;
-		else if (mir_strcmpi(key, "Homepage") == 0)
-			type = CNF_HOMEPAGE;
-		else if (mir_strcmpi(key, "About") == 0)
-			type = CNF_ABOUT;
-		else if (mir_strcmpi(key, "Age") == 0)
-			type = CNF_AGE;
-		else if (mir_strcmpi(key, "Gender") == 0)
-			type = CNF_GENDER;
-		else
-		{
-			lua_pushnil(L);
-			return 1;
-		}
+	case LUA_TNUMBER:
+		type = luaL_checkinteger(L, 2);
+		break;
+	case LUA_TSTRING:
+		type = luaL_checkoption(L, 2, NULL, mods) + 1;
+		break;
+	default:
+		luaL_argerror(L, 1, luaL_typename(L, 2));
 	}
 
 	ptrW value(Contact_GetInfo(type, hContact));
