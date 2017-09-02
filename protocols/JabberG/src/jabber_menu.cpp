@@ -824,7 +824,7 @@ void CJabberProto::GlobalMenuInit()
 static INT_PTR g_ToolbarHandleJoinGroupchat(WPARAM w, LPARAM l)
 {
 	if (CJabberProto *ppro = JabberChooseInstance())
-		return ppro->OnMenuHandleJoinGroupchat(w, l);
+		ppro->GroupchatJoinRoomByJid(nullptr, (wchar_t*)l);
 	return 0;
 }
 
