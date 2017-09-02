@@ -50,7 +50,8 @@ static int genmenu_ModifyMenuItem(lua_State *L)
 		flags |= CMIF_UNICODE;
 
 	INT_PTR res = Menu_ModifyItem(hMenuItem, name, hIcolibItem, flags);
-	lua_pushinteger(L, res);
+	lua_pushboolean(L, res == 0);
+
 	return 1;
 }
 
@@ -63,7 +64,7 @@ static int genmenu_ConfigureMenuItem(lua_State *L)
 	INT_PTR value = (INT_PTR)lua_touserdata(L, 3);
 	
 	int res = Menu_ConfigureItem(hMenuItem, option, value);
-	lua_pushinteger(L, res);
+	lua_pushboolean(L, res >= 0);
 
 	return 1;
 }
