@@ -66,15 +66,21 @@ static int lua_Protocols(lua_State *L)
 
 static int lua_CallService(lua_State *L)
 {
-	const char *module = NULL;
+	const char *szProto = NULL;
 
 	switch (lua_type(L, 1))
 	{
 	case LUA_TNUMBER:
-		module = GetContactProto(lua_tonumber(L, 1));
-	break;
+		szProto = GetContactProto(lua_tonumber(L, 1));
+		break;
 	case LUA_TSTRING:
-		module = lua_tostring(L, 1);
+		szProto = lua_tostring(L, 1);
+		break;
+	case LUA_TUSERDATA:
+		luaL_checkudata(L, 1, "PROTOCOLDESCRIPTOR");
+		lua_getfield(L, 1, "Name");
+		szProto = lua_tostring(L, -1);
+		lua_pop(L, 1);
 		break;
 	default:
 		luaL_argerror(L, 1, luaL_typename(L, 1));
@@ -84,7 +90,7 @@ static int lua_CallService(lua_State *L)
 	WPARAM wParam = (WPARAM)luaM_tomparam(L, 3);
 	LPARAM lParam = (LPARAM)luaM_tomparam(L, 4);
 
-	INT_PTR res = CallProtoService(module, service, wParam, lParam);
+	INT_PTR res = CallProtoService(szProto, service, wParam, lParam);
 	lua_pushinteger(L, res);
 
 	return 1;
@@ -148,6 +154,11 @@ static int lua_AccountIterator(lua_State *L)
 	int i = lua_tointeger(L, lua_upvalueindex(1));
 	int count = lua_tointeger(L, lua_upvalueindex(2));
 	PROTOACCOUNT **accounts = (PROTOACCOUNT**)lua_touserdata(L, lua_upvalueindex(3));
+	const char *szProto = lua_tostring(L, lua_upvalueindex(4));
+
+	if (szProto)
+		while (i < count && mir_strcmp(szProto, accounts[i]->szProtoName))
+			i++;
 
 	if (i < count)
 	{
@@ -163,14 +174,35 @@ static int lua_AccountIterator(lua_State *L)
 
 static int lua_Accounts(lua_State *L)
 {
+	const char *szProto = NULL;
+
+	switch (lua_type(L, 1))
+	{
+	case LUA_TNONE:
+		break;
+	case LUA_TSTRING:
+		szProto = lua_tostring(L, 1);
+		break;
+	case LUA_TUSERDATA:
+		luaL_checkudata(L, 1, "PROTOCOLDESCRIPTOR");
+		lua_getfield(L, 1, "Name");
+		szProto = lua_tostring(L, -1);
+		lua_pop(L, 1);
+		break;
+	default:
+		luaL_argerror(L, 1, luaL_typename(L, 1));
+	}
+
 	int count;
 	PROTOACCOUNT **accounts;
 	Proto_EnumAccounts(&count, &accounts);
+	
 
 	lua_pushinteger(L, 0);
 	lua_pushinteger(L, count);
 	lua_pushlightuserdata(L, accounts);
-	lua_pushcclosure(L, lua_AccountIterator, 3);
+	lua_pushstring(L, szProto);
+	lua_pushcclosure(L, lua_AccountIterator, 4);
 
 	return 1;
 }
@@ -203,11 +235,36 @@ static luaL_Reg protocolsApi[] =
 
 /***********************************************/
 
+#define MT_PROTOCOLDESCRIPTOR "PROTOCOLDESCRIPTOR"
+
+template <>
+int MT<PROTOCOLDESCRIPTOR>::Index(lua_State *L, PROTOCOLDESCRIPTOR *proto)
+{
+	const char *key = luaL_checkstring(L, 2);
+
+	if (mir_strcmpi(key, "CallService") == 0)
+	{
+		lua_pushstring(L, proto->szName);
+		lua_pushcfunction(L, lua_CallService);
+	}
+	else if (mir_strcmpi(key, "Accounts") == 0)
+	{
+		lua_pushstring(L, proto->szName);
+		lua_pushcfunction(L, lua_Accounts);
+	}
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+/***********************************************/
+
 LUAMOD_API int luaopen_m_protocols(lua_State *L)
 {
 	luaL_newlib(L, protocolsApi);
 
-	MT<PROTOCOLDESCRIPTOR>(L, "PROTOCOLDESCRIPTOR")
+	MT<PROTOCOLDESCRIPTOR>(L, MT_PROTOCOLDESCRIPTOR)
 		.Field(&PROTOCOLDESCRIPTOR::szName, "Name", LUA_TSTRINGA)
 		.Field(&PROTOCOLDESCRIPTOR::type, "Type", LUA_TINTEGER);
 

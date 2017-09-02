@@ -38,42 +38,6 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 	lua_pop(L, 1);
 }
 
-/*static int genmenu_CreateRoot(lua_State *L)
-{
-	ObsoleteMethod(L, "use m_clist module instead");
-
-	int hMenuObject = luaL_checkinteger(L, 1);
-	const char *name = luaL_checkstring(L, 2);
-	int position = lua_tointeger(L, 3);
-	HANDLE hIcon = (HANDLE)lua_touserdata(L, 4);
-
-	HGENMENU res = Menu_CreateRoot(hMenuObject, ptrW(Utf8DecodeW(name)), position, hIcon);
-	lua_pushlightuserdata(L, res);
-
-	return 1;
-}
-
-static int genmenu_AddMenuItem(lua_State *L)
-{
-	ObsoleteMethod(L, "use m_clist module instead");
-
-	int hMenuObject = luaL_checkinteger(L, 1);
-
-	if (lua_type(L, 2) != LUA_TTABLE)
-	{
-		lua_pushlightuserdata(L, 0);
-		return 1;
-	}
-
-	CMenuItem mi;
-	MakeMenuItem(L, mi);
-
-	HGENMENU res = Menu_AddItem(hMenuObject, &mi, NULL);
-	lua_pushlightuserdata(L, res);
-
-	return 1;
-}*/
-
 static int genmenu_ModifyMenuItem(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
@@ -150,8 +114,6 @@ static int genmenu_RemoveMenuItem(lua_State *L)
 
 static luaL_Reg genmenuApi[] =
 {
-	//{ "CreateRoot", genmenu_CreateRoot },
-	//{ "AddMenuItem", genmenu_AddMenuItem },
 	{ "ModifyMenuItem", genmenu_ModifyMenuItem },
 	{ "ConfigureMenuItem", genmenu_ConfigureMenuItem },
 	{ "ShowMenuItem", genmenu_ShowMenuItem },
@@ -159,19 +121,12 @@ static luaL_Reg genmenuApi[] =
 	{ "CheckMenuItem", genmenu_CheckMenuItem },
 	{ "RemoveMenuItem", genmenu_RemoveMenuItem },
 
-	//{ "MO_MAIN", NULL },
-	//{ "MO_CONTACT", NULL },
-
 	{ NULL, NULL }
 };
 
 LUAMOD_API int luaopen_m_genmenu(lua_State *L)
 {
 	luaL_newlib(L, genmenuApi);
-	/*lua_pushinteger(L, MO_MAIN);
-	lua_setfield(L, -2, "MO_MAIN");
-	lua_pushinteger(L, MO_CONTACT);
-	lua_setfield(L, -2, "MO_CONTACT");*/
 
 	return 1;
 }

@@ -92,10 +92,10 @@ int luaM_print(lua_State *L)
 			data.AppendFormat("%s(0x%p)", luaL_typename(L, i), lua_topointer(L, i));
 			break;
 		}
-		data += '\t';
+		data.Append(", ");
 	}
 	if (data.GetLength() >= 1)
-		data.Delete(data.GetLength() - 1, 1);
+		data.Delete(data.GetLength() - 2, 2);
 
 	Log(data.GetBuffer());
 
