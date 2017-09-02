@@ -484,7 +484,7 @@ weiblich
 [Male]
 männlich
 [%dy %dd %dh %dm]
-&dJ %dT %dS %dM
+%dJ %dT %dS %dM
 [%dd]
 %dT
 [[No translation]]
