@@ -429,6 +429,9 @@ extern "C" LUAMOD_API int luaopen_m_enumerable(lua_State *L)
 {
 	luaL_newlib(L, methods);
 
+	lua_pushcfunction(L, lua__new);
+	lua_setglobal(L, MT_ENUMERABLE);
+
 	luaL_newmetatable(L, MT_ENUMERABLE);
 	luaL_setfuncs(L, enumerableMeta, 0);
 	lua_pushvalue(L, -1);

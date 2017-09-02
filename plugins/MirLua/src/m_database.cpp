@@ -88,7 +88,7 @@ static int db_GetContactInfo(lua_State *L)
 		type = luaL_checkoption(L, 2, NULL, mods) + 1;
 		break;
 	default:
-		luaL_argerror(L, 1, luaL_typename(L, 2));
+		luaL_argerror(L, 2, luaL_typename(L, 2));
 	}
 
 	ptrW value(Contact_GetInfo(type, hContact));
