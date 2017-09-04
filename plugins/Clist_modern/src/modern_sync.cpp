@@ -50,7 +50,7 @@ static void CALLBACK _SyncCallerUserAPCProc(void* param)
 
 static int SyncCallAPCProxy(PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lParam)
 {
-	if (pfnProc == NULL)
+	if (pfnProc == nullptr)
 		return 0;
 
 	if (GetCurrentThreadId() == g_dwMainThreadID)
@@ -61,7 +61,7 @@ static int SyncCallAPCProxy(PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lPa
 	item.lParam = lParam;
 	item.pfnProc = pfnProc;
 	item.nResult = 0;
-	item.hDoneEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	item.hDoneEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
 	CallFunctionAsync(_SyncCallerUserAPCProc, &item);
 

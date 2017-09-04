@@ -33,8 +33,8 @@ BOOL RectHitTest(RECT *rc, int testx, int testy)
 
 int cliHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD *flags)
 {
-	ClcContact *hitcontact = NULL;
-	ClcGroup *hitgroup = NULL;
+	ClcContact *hitcontact = nullptr;
+	ClcGroup *hitgroup = nullptr;
 	int hit = -1;
 	RECT clRect;
 	if (CLUI_TestCursorOnBorders() != 0) {
@@ -149,8 +149,8 @@ void cliScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
 			nowTick = GetTickCount();
 			if (nowTick >= startTick + dat->scrollTime) break;
 			dat->yScroll = oldy + (desty - oldy)*(int)(nowTick - startTick) / dat->scrollTime;
-			if (/*dat->backgroundBmpUse&CLBF_SCROLL || dat->hBmpBackground == NULL  && */FALSE)
-				ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, NULL, NULL, NULL, NULL, SW_INVALIDATE);
+			if (/*dat->backgroundBmpUse&CLBF_SCROLL || dat->hBmpBackground == nullptr  && */FALSE)
+				ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, nullptr, nullptr, nullptr, nullptr, SW_INVALIDATE);
 			else
 				CallService(MS_SKINENG_UPTATEFRAMEIMAGE, (WPARAM)hwnd, 0);
 
@@ -161,7 +161,7 @@ void cliScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
 		}
 	}
 	dat->yScroll = desty;
-	cliInvalidateRect(hwnd, NULL, FALSE);
+	cliInvalidateRect(hwnd, nullptr, FALSE);
 	SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
 }
 
@@ -281,9 +281,9 @@ void cliBeginRenameSelection(HWND hwnd, ClcData *dat)
 	if (dat->text_rtl)
 		a |= EN_ALIGN_RTL_EC;
 	if (contact->type == CLCIT_GROUP)
-		dat->hwndRenameEdit = CreateWindow(L"EDIT", contact->szText, WS_POPUP | WS_BORDER | ES_AUTOHSCROLL | a, x, y, w, h, hwnd, NULL, g_hInst, NULL);
+		dat->hwndRenameEdit = CreateWindow(L"EDIT", contact->szText, WS_POPUP | WS_BORDER | ES_AUTOHSCROLL | a, x, y, w, h, hwnd, nullptr, g_hInst, nullptr);
 	else
-		dat->hwndRenameEdit = CreateWindow(L"EDIT", pcli->pfnGetContactDisplayName(contact->hContact, 0), WS_POPUP | WS_BORDER | ES_AUTOHSCROLL | a, x, y, w, h, hwnd, NULL, g_hInst, NULL);
+		dat->hwndRenameEdit = CreateWindow(L"EDIT", pcli->pfnGetContactDisplayName(contact->hContact, 0), WS_POPUP | WS_BORDER | ES_AUTOHSCROLL | a, x, y, w, h, hwnd, nullptr, g_hInst, nullptr);
 
 	SetWindowLongPtr(dat->hwndRenameEdit, GWL_STYLE, GetWindowLongPtr(dat->hwndRenameEdit, GWL_STYLE)&(~WS_CAPTION) | WS_BORDER);
 	SetWindowLongPtr(dat->hwndRenameEdit, GWLP_USERDATA, (LONG_PTR)dat);
@@ -306,7 +306,7 @@ void cliBeginRenameSelection(HWND hwnd, ClcData *dat)
 
 int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 {
-	ClcContact *contact = NULL, *movecontact = NULL;
+	ClcContact *contact = nullptr, *movecontact = nullptr;
 	ClcGroup *group, *movegroup;
 
 	RECT clRect;
@@ -327,8 +327,8 @@ int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 
 	int nSetSelection = -1;
 	if (movecontact->type == CLCIT_GROUP) {
-		ClcContact *bottomcontact = NULL, *topcontact = NULL;
-		ClcGroup *topgroup = NULL, *bottomgroup = NULL;
+		ClcContact *bottomcontact = nullptr, *topcontact = nullptr;
+		ClcGroup *topgroup = nullptr, *bottomgroup = nullptr;
 		int topItem = -1, bottomItem = -1;
 		int ok = 0;
 		if (pt.y + dat->yScroll < cliGetRowTopY(dat, hit) + dat->insertionMarkHitHeight || contact->type != CLCIT_GROUP) {
@@ -414,9 +414,9 @@ int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 
 COLORREF cliGetColor(char *module, char *color, COLORREF defColor)
 {
-	BOOL useWinColor = db_get_b(NULL, module, "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
+	BOOL useWinColor = db_get_b(0, module, "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 	if (useWinColor) return defColor;
-	else return db_get_dw(NULL, module, color, defColor);
+	else return db_get_dw(0, module, color, defColor);
 }
 
 void RegisterCLUIFonts(void);
@@ -435,7 +435,7 @@ void LoadCLCFonts(HWND hwnd, ClcData *dat)
 		// Issue 40: Do not reload font colors for embedded clists
 		// Parent window is responsible to re-set fonts colors if needed
 		LOGFONT lf;
-		GetFontSetting(i, &lf, dat->bForceInDialog ? NULL : &dat->fontModernInfo[i].colour, &dat->fontModernInfo[i].effect, &dat->fontModernInfo[i].effectColour1, &dat->fontModernInfo[i].effectColour2);
+		GetFontSetting(i, &lf, dat->bForceInDialog ? nullptr : &dat->fontModernInfo[i].colour, &dat->fontModernInfo[i].effect, &dat->fontModernInfo[i].effectColour1, &dat->fontModernInfo[i].effectColour2);
 		dat->fontModernInfo[i].hFont = CreateFontIndirect(&lf);
 		dat->fontModernInfo[i].changed = 0;
 
@@ -450,33 +450,33 @@ void LoadCLCFonts(HWND hwnd, ClcData *dat)
 
 void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 {
-	g_CluiData.fDisableSkinEngine = db_get_b(NULL, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT);
+	g_CluiData.fDisableSkinEngine = db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT);
 
 	LoadCLCFonts(hwnd, dat);
 
-	g_CluiData.bSortByOrder[0] = db_get_b(NULL, "CList", "SortBy1", SETTING_SORTBY1_DEFAULT);
-	g_CluiData.bSortByOrder[1] = db_get_b(NULL, "CList", "SortBy2", SETTING_SORTBY2_DEFAULT);
-	g_CluiData.bSortByOrder[2] = db_get_b(NULL, "CList", "SortBy3", SETTING_SORTBY3_DEFAULT);
-	g_CluiData.fSortNoOfflineBottom = db_get_b(NULL, "CList", "NoOfflineBottom", SETTING_NOOFFLINEBOTTOM_DEFAULT);
+	g_CluiData.bSortByOrder[0] = db_get_b(0, "CList", "SortBy1", SETTING_SORTBY1_DEFAULT);
+	g_CluiData.bSortByOrder[1] = db_get_b(0, "CList", "SortBy2", SETTING_SORTBY2_DEFAULT);
+	g_CluiData.bSortByOrder[2] = db_get_b(0, "CList", "SortBy3", SETTING_SORTBY3_DEFAULT);
+	g_CluiData.fSortNoOfflineBottom = db_get_b(0, "CList", "NoOfflineBottom", SETTING_NOOFFLINEBOTTOM_DEFAULT);
 
 	// Row
-	dat->row_min_heigh = db_get_w(NULL, "CList", "MinRowHeight", CLCDEFAULT_ROWHEIGHT);
-	dat->row_border = db_get_w(NULL, "CList", "RowBorder", SETTING_ROWBORDER_DEFAULT);
-	dat->row_before_group_space = ((hwnd != pcli->hwndContactTree && pcli->hwndContactTree != NULL)
-		|| !db_get_b(NULL, "ModernData", "UseAdvancedRowLayout", SETTING_ROW_ADVANCEDLAYOUT_DEFAULT)) ? 0 : db_get_w(NULL, "ModernSkin", "SpaceBeforeGroup", SKIN_SPACEBEFOREGROUP_DEFAULT);
-	dat->row_variable_height = db_get_b(NULL, "CList", "VariableRowHeight", SETTING_VARIABLEROWHEIGHT_DEFAULT);
-	dat->row_align_left_items_to_left = db_get_b(NULL, "CList", "AlignLeftItemsToLeft", SETTING_ALIGNLEFTTOLEFT_DEFAULT);
-	dat->row_hide_group_icon = db_get_b(NULL, "CList", "HideGroupsIcon", SETTING_HIDEGROUPSICON_DEFAULT);
-	dat->row_align_right_items_to_right = db_get_b(NULL, "CList", "AlignRightItemsToRight", SETTING_ALIGNRIGHTORIGHT_DEFAULT);
+	dat->row_min_heigh = db_get_w(0, "CList", "MinRowHeight", CLCDEFAULT_ROWHEIGHT);
+	dat->row_border = db_get_w(0, "CList", "RowBorder", SETTING_ROWBORDER_DEFAULT);
+	dat->row_before_group_space = ((hwnd != pcli->hwndContactTree && pcli->hwndContactTree != nullptr)
+		|| !db_get_b(0, "ModernData", "UseAdvancedRowLayout", SETTING_ROW_ADVANCEDLAYOUT_DEFAULT)) ? 0 : db_get_w(0, "ModernSkin", "SpaceBeforeGroup", SKIN_SPACEBEFOREGROUP_DEFAULT);
+	dat->row_variable_height = db_get_b(0, "CList", "VariableRowHeight", SETTING_VARIABLEROWHEIGHT_DEFAULT);
+	dat->row_align_left_items_to_left = db_get_b(0, "CList", "AlignLeftItemsToLeft", SETTING_ALIGNLEFTTOLEFT_DEFAULT);
+	dat->row_hide_group_icon = db_get_b(0, "CList", "HideGroupsIcon", SETTING_HIDEGROUPSICON_DEFAULT);
+	dat->row_align_right_items_to_right = db_get_b(0, "CList", "AlignRightItemsToRight", SETTING_ALIGNRIGHTORIGHT_DEFAULT);
 	//TODO: Add to settings
-	dat->row_align_group_mode = db_get_b(NULL, "CList", "AlignGroupCaptions", SETTING_ALIGNGROPCAPTION_DEFAULT);
-	if (pcli->hwndContactTree == NULL || dat->hWnd == pcli->hwndContactTree) {
+	dat->row_align_group_mode = db_get_b(0, "CList", "AlignGroupCaptions", SETTING_ALIGNGROPCAPTION_DEFAULT);
+	if (pcli->hwndContactTree == nullptr || dat->hWnd == pcli->hwndContactTree) {
 
 		int defItemsOrder[NUM_ITEM_TYPE] = SETTINS_ROWITEMORDER_DEFAULT;
 		for (int i = 0; i < NUM_ITEM_TYPE; i++) {
 			char tmp[128];
 			mir_snprintf(tmp, "RowPos%d", i);
-			dat->row_items[i] = db_get_w(NULL, "CList", tmp, defItemsOrder[i]);
+			dat->row_items[i] = db_get_w(0, "CList", tmp, defItemsOrder[i]);
 		}
 	}
 	else {
@@ -486,18 +486,18 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	}
 
 	// Avatar
-	if (pcli->hwndContactTree == hwnd || pcli->hwndContactTree == NULL) {
-		dat->avatars_show = db_get_b(NULL, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT);
-		dat->avatars_draw_border = db_get_b(NULL, "CList", "AvatarsDrawBorders", SETTINGS_AVATARDRAWBORDER_DEFAULT);
-		dat->avatars_border_color = (COLORREF)db_get_dw(NULL, "CList", "AvatarsBorderColor", SETTINGS_AVATARBORDERCOLOR_DEFAULT);
-		dat->avatars_round_corners = db_get_b(NULL, "CList", "AvatarsRoundCorners", SETTINGS_AVATARROUNDCORNERS_DEFAULT);
-		dat->avatars_use_custom_corner_size = db_get_b(NULL, "CList", "AvatarsUseCustomCornerSize", SETTINGS_AVATARUSECUTOMCORNERSIZE_DEFAULT);
-		dat->avatars_custom_corner_size = db_get_w(NULL, "CList", "AvatarsCustomCornerSize", SETTINGS_AVATARCORNERSIZE_DEFAULT);
-		dat->avatars_ignore_size_for_row_height = db_get_b(NULL, "CList", "AvatarsIgnoreSizeForRow", SETTINGS_AVATARIGNORESIZEFORROW_DEFAULT);
-		dat->avatars_draw_overlay = db_get_b(NULL, "CList", "AvatarsDrawOverlay", SETTINGS_AVATARDRAWOVERLAY_DEFAULT);
-		dat->avatars_overlay_type = db_get_b(NULL, "CList", "AvatarsOverlayType", SETTINGS_AVATAROVERLAYTYPE_DEFAULT);
-		dat->avatars_maxheight_size = db_get_w(NULL, "CList", "AvatarsSize", SETTING_AVATARHEIGHT_DEFAULT);
-		dat->avatars_maxwidth_size = db_get_w(NULL, "CList", "AvatarsWidth", SETTING_AVATARWIDTH_DEFAULT);
+	if (pcli->hwndContactTree == hwnd || pcli->hwndContactTree == nullptr) {
+		dat->avatars_show = g_CluiData.bAvsPresent && db_get_b(0, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT);
+		dat->avatars_draw_border = db_get_b(0, "CList", "AvatarsDrawBorders", SETTINGS_AVATARDRAWBORDER_DEFAULT);
+		dat->avatars_border_color = (COLORREF)db_get_dw(0, "CList", "AvatarsBorderColor", SETTINGS_AVATARBORDERCOLOR_DEFAULT);
+		dat->avatars_round_corners = db_get_b(0, "CList", "AvatarsRoundCorners", SETTINGS_AVATARROUNDCORNERS_DEFAULT);
+		dat->avatars_use_custom_corner_size = db_get_b(0, "CList", "AvatarsUseCustomCornerSize", SETTINGS_AVATARUSECUTOMCORNERSIZE_DEFAULT);
+		dat->avatars_custom_corner_size = db_get_w(0, "CList", "AvatarsCustomCornerSize", SETTINGS_AVATARCORNERSIZE_DEFAULT);
+		dat->avatars_ignore_size_for_row_height = db_get_b(0, "CList", "AvatarsIgnoreSizeForRow", SETTINGS_AVATARIGNORESIZEFORROW_DEFAULT);
+		dat->avatars_draw_overlay = db_get_b(0, "CList", "AvatarsDrawOverlay", SETTINGS_AVATARDRAWOVERLAY_DEFAULT);
+		dat->avatars_overlay_type = db_get_b(0, "CList", "AvatarsOverlayType", SETTINGS_AVATAROVERLAYTYPE_DEFAULT);
+		dat->avatars_maxheight_size = db_get_w(0, "CList", "AvatarsSize", SETTING_AVATARHEIGHT_DEFAULT);
+		dat->avatars_maxwidth_size = db_get_w(0, "CList", "AvatarsWidth", SETTING_AVATARWIDTH_DEFAULT);
 	}
 	else {
 		dat->avatars_show = 0;
@@ -514,10 +514,10 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	}
 
 	// Icon
-	if (pcli->hwndContactTree == hwnd || pcli->hwndContactTree == NULL) {
-		dat->icon_hide_on_avatar = db_get_b(NULL, "CList", "IconHideOnAvatar", SETTING_HIDEICONONAVATAR_DEFAULT);
-		dat->icon_draw_on_avatar_space = db_get_b(NULL, "CList", "IconDrawOnAvatarSpace", SETTING_ICONONAVATARPLACE_DEFAULT);
-		dat->icon_ignore_size_for_row_height = db_get_b(NULL, "CList", "IconIgnoreSizeForRownHeight", SETTING_ICONIGNORESIZE_DEFAULT);
+	if (pcli->hwndContactTree == hwnd || pcli->hwndContactTree == nullptr) {
+		dat->icon_hide_on_avatar = db_get_b(0, "CList", "IconHideOnAvatar", SETTING_HIDEICONONAVATAR_DEFAULT);
+		dat->icon_draw_on_avatar_space = db_get_b(0, "CList", "IconDrawOnAvatarSpace", SETTING_ICONONAVATARPLACE_DEFAULT);
+		dat->icon_ignore_size_for_row_height = db_get_b(0, "CList", "IconIgnoreSizeForRownHeight", SETTING_ICONIGNORESIZE_DEFAULT);
 	}
 	else {
 		dat->icon_hide_on_avatar = 0;
@@ -526,9 +526,9 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	}
 
 	// Contact time
-	if (pcli->hwndContactTree == hwnd || pcli->hwndContactTree == NULL) {
-		dat->contact_time_show = db_get_b(NULL, "CList", "ContactTimeShow", SETTING_SHOWTIME_DEFAULT);
-		dat->contact_time_show_only_if_different = db_get_b(NULL, "CList", "ContactTimeShowOnlyIfDifferent", SETTING_SHOWTIMEIFDIFF_DEFAULT);
+	if (pcli->hwndContactTree == hwnd || pcli->hwndContactTree == nullptr) {
+		dat->contact_time_show = db_get_b(0, "CList", "ContactTimeShow", SETTING_SHOWTIME_DEFAULT);
+		dat->contact_time_show_only_if_different = db_get_b(0, "CList", "ContactTimeShowOnlyIfDifferent", SETTING_SHOWTIMEIFDIFF_DEFAULT);
 	}
 	else {
 		dat->contact_time_show = 0;
@@ -536,69 +536,69 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	}
 
 	// Text
-	dat->text_rtl = db_get_b(NULL, "CList", "TextRTL", SETTING_TEXT_RTL_DEFAULT);
-	dat->text_align_right = db_get_b(NULL, "CList", "TextAlignToRight", SETTING_TEXT_RIGHTALIGN_DEFAULT);
-	dat->text_replace_smileys = db_get_b(NULL, "CList", "TextReplaceSmileys", SETTING_TEXT_SMILEY_DEFAULT);
-	dat->text_resize_smileys = db_get_b(NULL, "CList", "TextResizeSmileys", SETTING_TEXT_RESIZESMILEY_DEFAULT);
+	dat->text_rtl = db_get_b(0, "CList", "TextRTL", SETTING_TEXT_RTL_DEFAULT);
+	dat->text_align_right = db_get_b(0, "CList", "TextAlignToRight", SETTING_TEXT_RIGHTALIGN_DEFAULT);
+	dat->text_replace_smileys = db_get_b(0, "CList", "TextReplaceSmileys", SETTING_TEXT_SMILEY_DEFAULT);
+	dat->text_resize_smileys = db_get_b(0, "CList", "TextResizeSmileys", SETTING_TEXT_RESIZESMILEY_DEFAULT);
 	dat->text_smiley_height = 0;
-	dat->text_use_protocol_smileys = db_get_b(NULL, "CList", "TextUseProtocolSmileys", SETTING_TEXT_PROTOSMILEY_DEFAULT);
+	dat->text_use_protocol_smileys = db_get_b(0, "CList", "TextUseProtocolSmileys", SETTING_TEXT_PROTOSMILEY_DEFAULT);
 
-	if (pcli->hwndContactTree == hwnd || pcli->hwndContactTree == NULL)
-		dat->text_ignore_size_for_row_height = db_get_b(NULL, "CList", "TextIgnoreSizeForRownHeight", SETTING_TEXT_IGNORESIZE_DEFAULT);
+	if (pcli->hwndContactTree == hwnd || pcli->hwndContactTree == nullptr)
+		dat->text_ignore_size_for_row_height = db_get_b(0, "CList", "TextIgnoreSizeForRownHeight", SETTING_TEXT_IGNORESIZE_DEFAULT);
 	else
 		dat->text_ignore_size_for_row_height = 0;
 
 	// First line
-	dat->first_line_draw_smileys = db_get_b(NULL, "CList", "FirstLineDrawSmileys", SETTING_FIRSTLINE_SMILEYS_DEFAULT);
-	dat->first_line_append_nick = db_get_b(NULL, "CList", "FirstLineAppendNick", SETTING_FIRSTLINE_APPENDNICK_DEFAULT);
-	gl_TrimText = db_get_b(NULL, "CList", "TrimText", SETTING_FIRSTLINE_TRIMTEXT_DEFAULT);
+	dat->first_line_draw_smileys = db_get_b(0, "CList", "FirstLineDrawSmileys", SETTING_FIRSTLINE_SMILEYS_DEFAULT);
+	dat->first_line_append_nick = db_get_b(0, "CList", "FirstLineAppendNick", SETTING_FIRSTLINE_APPENDNICK_DEFAULT);
+	gl_TrimText = db_get_b(0, "CList", "TrimText", SETTING_FIRSTLINE_TRIMTEXT_DEFAULT);
 
 	// Second line
-	if (pcli->hwndContactTree == hwnd || pcli->hwndContactTree == NULL) {
-		dat->secondLine.show = db_get_b(NULL, "CList", "SecondLineShow", SETTING_SECONDLINE_SHOW_DEFAULT);
-		dat->secondLine.top_space = db_get_w(NULL, "CList", "SecondLineTopSpace", SETTING_SECONDLINE_TOPSPACE_DEFAULT);
-		dat->secondLine.draw_smileys = db_get_b(NULL, "CList", "SecondLineDrawSmileys", SETTING_SECONDLINE_SMILEYS_DEFAULT);
-		dat->secondLine.type = db_get_w(NULL, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT);
+	if (pcli->hwndContactTree == hwnd || pcli->hwndContactTree == nullptr) {
+		dat->secondLine.show = db_get_b(0, "CList", "SecondLineShow", SETTING_SECONDLINE_SHOW_DEFAULT);
+		dat->secondLine.top_space = db_get_w(0, "CList", "SecondLineTopSpace", SETTING_SECONDLINE_TOPSPACE_DEFAULT);
+		dat->secondLine.draw_smileys = db_get_b(0, "CList", "SecondLineDrawSmileys", SETTING_SECONDLINE_SMILEYS_DEFAULT);
+		dat->secondLine.type = db_get_w(0, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT);
 
-		ptrW tszLineText(db_get_wsa(NULL, "CList", "SecondLineText"));
+		ptrW tszLineText(db_get_wsa(0, "CList", "SecondLineText"));
 		if (tszLineText)
 			mir_wstrncpy(dat->secondLine.text, tszLineText, _countof(dat->secondLine.text));
 		else
 			dat->secondLine.text[0] = '\0';
 
-		dat->secondLine.xstatus_has_priority = db_get_b(NULL, "CList", "SecondLineXStatusHasPriority", SETTING_SECONDLINE_XSTATUS_DEFAULT);
-		dat->secondLine.show_status_if_no_away = db_get_b(NULL, "CList", "SecondLineShowStatusIfNoAway", SETTING_SECONDLINE_STATUSIFNOAWAY_DEFAULT);
-		dat->secondLine.show_listening_if_no_away = db_get_b(NULL, "CList", "SecondLineShowListeningIfNoAway", SETTING_SECONDLINE_LISTENINGIFNOAWAY_DEFAULT);
-		dat->secondLine.use_name_and_message_for_xstatus = db_get_b(NULL, "CList", "SecondLineUseNameAndMessageForXStatus", SETTING_SECONDLINE_XSTATUSNAMETEXT_DEFAULT);
+		dat->secondLine.xstatus_has_priority = db_get_b(0, "CList", "SecondLineXStatusHasPriority", SETTING_SECONDLINE_XSTATUS_DEFAULT);
+		dat->secondLine.show_status_if_no_away = db_get_b(0, "CList", "SecondLineShowStatusIfNoAway", SETTING_SECONDLINE_STATUSIFNOAWAY_DEFAULT);
+		dat->secondLine.show_listening_if_no_away = db_get_b(0, "CList", "SecondLineShowListeningIfNoAway", SETTING_SECONDLINE_LISTENINGIFNOAWAY_DEFAULT);
+		dat->secondLine.use_name_and_message_for_xstatus = db_get_b(0, "CList", "SecondLineUseNameAndMessageForXStatus", SETTING_SECONDLINE_XSTATUSNAMETEXT_DEFAULT);
 	}
 	else memset(&dat->secondLine, 0, sizeof(dat->secondLine));
 
 	// Third line
-	if (pcli->hwndContactTree == hwnd || pcli->hwndContactTree == NULL) {
-		dat->thirdLine.show = db_get_b(NULL, "CList", "ThirdLineShow", SETTING_THIRDLINE_SHOW_DEFAULT);
-		dat->thirdLine.top_space = db_get_w(NULL, "CList", "ThirdLineTopSpace", SETTING_THIRDLINE_TOPSPACE_DEFAULT);
-		dat->thirdLine.draw_smileys = db_get_b(NULL, "CList", "ThirdLineDrawSmileys", SETTING_THIRDLINE_SMILEYS_DEFAULT);
-		dat->thirdLine.type = db_get_w(NULL, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT);
+	if (pcli->hwndContactTree == hwnd || pcli->hwndContactTree == nullptr) {
+		dat->thirdLine.show = db_get_b(0, "CList", "ThirdLineShow", SETTING_THIRDLINE_SHOW_DEFAULT);
+		dat->thirdLine.top_space = db_get_w(0, "CList", "ThirdLineTopSpace", SETTING_THIRDLINE_TOPSPACE_DEFAULT);
+		dat->thirdLine.draw_smileys = db_get_b(0, "CList", "ThirdLineDrawSmileys", SETTING_THIRDLINE_SMILEYS_DEFAULT);
+		dat->thirdLine.type = db_get_w(0, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT);
 
-		ptrW tszLineText(db_get_wsa(NULL, "CList", "ThirdLineText"));
+		ptrW tszLineText(db_get_wsa(0, "CList", "ThirdLineText"));
 		if (tszLineText)
 			mir_wstrncpy(dat->thirdLine.text, tszLineText, _countof(dat->thirdLine.text));
 		else
 			dat->thirdLine.text[0] = '\0';
 
-		dat->thirdLine.xstatus_has_priority = db_get_b(NULL, "CList", "ThirdLineXStatusHasPriority", SETTING_THIRDLINE_XSTATUS_DEFAULT);
-		dat->thirdLine.show_status_if_no_away = db_get_b(NULL, "CList", "ThirdLineShowStatusIfNoAway", SETTING_THIRDLINE_STATUSIFNOAWAY_DEFAULT);
-		dat->thirdLine.show_listening_if_no_away = db_get_b(NULL, "CList", "ThirdLineShowListeningIfNoAway", SETTING_THIRDLINE_LISTENINGIFNOAWAY_DEFAULT);
-		dat->thirdLine.use_name_and_message_for_xstatus = db_get_b(NULL, "CList", "ThirdLineUseNameAndMessageForXStatus", SETTING_THIRDLINE_XSTATUSNAMETEXT_DEFAULT);
+		dat->thirdLine.xstatus_has_priority = db_get_b(0, "CList", "ThirdLineXStatusHasPriority", SETTING_THIRDLINE_XSTATUS_DEFAULT);
+		dat->thirdLine.show_status_if_no_away = db_get_b(0, "CList", "ThirdLineShowStatusIfNoAway", SETTING_THIRDLINE_STATUSIFNOAWAY_DEFAULT);
+		dat->thirdLine.show_listening_if_no_away = db_get_b(0, "CList", "ThirdLineShowListeningIfNoAway", SETTING_THIRDLINE_LISTENINGIFNOAWAY_DEFAULT);
+		dat->thirdLine.use_name_and_message_for_xstatus = db_get_b(0, "CList", "ThirdLineUseNameAndMessageForXStatus", SETTING_THIRDLINE_XSTATUSNAMETEXT_DEFAULT);
 	}
 	else memset(&dat->thirdLine, 0, sizeof(dat->thirdLine));
 
-	dat->rightMargin = db_get_b(NULL, "CLC", "RightMargin", CLCDEFAULT_RIGHTMARGIN);
+	dat->rightMargin = db_get_b(0, "CLC", "RightMargin", CLCDEFAULT_RIGHTMARGIN);
 	dat->bForceInDialog = (pcli->hwndContactTree) ? (hwnd != pcli->hwndContactTree) : 0;
-	dat->subIndent = db_get_b(NULL, "CLC", "SubIndent", CLCDEFAULT_GROUPINDENT);
+	dat->subIndent = db_get_b(0, "CLC", "SubIndent", CLCDEFAULT_GROUPINDENT);
 
-	if (dat->hBmpBackground) { DeleteObject(dat->hBmpBackground); dat->hBmpBackground = NULL; }
-	if (dat->hMenuBackground) { DeleteObject(dat->hMenuBackground); dat->hMenuBackground = NULL; }
+	if (dat->hBmpBackground) { DeleteObject(dat->hBmpBackground); dat->hBmpBackground = nullptr; }
+	if (dat->hMenuBackground) { DeleteObject(dat->hMenuBackground); dat->hMenuBackground = nullptr; }
 
 	if (g_CluiData.fDisableSkinEngine) {
 		dat->MenuBkColor = cliGetColor("Menu", "BkColour", CLCDEFAULT_BKCOLOUR);
@@ -607,43 +607,43 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		dat->MenuTextColor = cliGetColor("Menu", "TextColour", CLCDEFAULT_TEXTCOLOUR);
 		dat->MenuTextHiColor = cliGetColor("Menu", "SelTextColour", CLCDEFAULT_MODERN_SELTEXTCOLOUR);
 
-		if (db_get_b(NULL, "Menu", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrW tszBitmap(db_get_wsa(NULL, "Menu", "BkBitmap"));
-			if (tszBitmap != NULL)
+		if (db_get_b(0, "Menu", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
+			ptrW tszBitmap(db_get_wsa(0, "Menu", "BkBitmap"));
+			if (tszBitmap != nullptr)
 				dat->hMenuBackground = Bitmap_Load(tszBitmap);
 		}
-		dat->MenuBmpUse = db_get_w(NULL, "Menu", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
+		dat->MenuBmpUse = db_get_w(0, "Menu", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
 
-	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd, GWL_STYLE)&CLS_MANUALUPDATE)) && db_get_b(NULL, META_PROTO, "Enabled", 1);
+	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd, GWL_STYLE)&CLS_MANUALUPDATE)) && db_get_b(0, META_PROTO, "Enabled", 1);
 
-	if (pcli->hwndContactTree == NULL || dat->hWnd == pcli->hwndContactTree)
-		dat->bMetaIgnoreEmptyExtra = db_get_b(NULL, "CLC", "MetaIgnoreEmptyExtra", SETTING_METAIGNOREEMPTYEXTRA_DEFAULT) != 0;
+	if (pcli->hwndContactTree == nullptr || dat->hWnd == pcli->hwndContactTree)
+		dat->bMetaIgnoreEmptyExtra = db_get_b(0, "CLC", "MetaIgnoreEmptyExtra", SETTING_METAIGNOREEMPTYEXTRA_DEFAULT) != 0;
 	else
 		dat->bMetaIgnoreEmptyExtra = false;
 
-	dat->bMetaExpanding = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT) != 0;
+	dat->bMetaExpanding = db_get_b(0, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT) != 0;
 
-	dat->bPlaceOfflineToRoot = db_get_b(NULL, "CList", "PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT) != 0;
-	dat->drawOverlayedStatus = db_get_b(NULL, "CLC", "DrawOverlayedStatus", SETTING_DRAWOVERLAYEDSTATUS_DEFAULT);
+	dat->bPlaceOfflineToRoot = db_get_b(0, "CList", "PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT) != 0;
+	dat->drawOverlayedStatus = db_get_b(0, "CLC", "DrawOverlayedStatus", SETTING_DRAWOVERLAYEDSTATUS_DEFAULT);
 
-	dat->dbbMetaHideExtra = db_get_b(NULL, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT);
-	dat->dbbBlendInActiveState = db_get_b(NULL, "CLC", "BlendInActiveState", SETTING_BLENDINACTIVESTATE_DEFAULT);
-	dat->dbbBlend25 = db_get_b(NULL, "CLC", "Blend25%", SETTING_BLENDINACTIVESTATE_DEFAULT);
-	dat->bCompactMode = db_get_b(NULL, "CLC", "CompactMode", SETTING_COMPACTMODE_DEFAULT);
+	dat->dbbMetaHideExtra = db_get_b(0, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT);
+	dat->dbbBlendInActiveState = db_get_b(0, "CLC", "BlendInActiveState", SETTING_BLENDINACTIVESTATE_DEFAULT);
+	dat->dbbBlend25 = db_get_b(0, "CLC", "Blend25%", SETTING_BLENDINACTIVESTATE_DEFAULT);
+	dat->bCompactMode = db_get_b(0, "CLC", "CompactMode", SETTING_COMPACTMODE_DEFAULT);
 
 	corecli.pfnLoadClcOptions(hwnd, dat, bFirst);
 
-	dat->selTextColour = db_get_dw(NULL, "CLC", "SelTextColour", CLCDEFAULT_MODERN_SELTEXTCOLOUR);
-	dat->hotTextColour = db_get_dw(NULL, "CLC", "HotTextColour", CLCDEFAULT_MODERN_HOTTEXTCOLOUR);
-	dat->quickSearchColour = db_get_dw(NULL, "CLC", "QuickSearchColour", CLCDEFAULT_MODERN_QUICKSEARCHCOLOUR);
+	dat->selTextColour = db_get_dw(0, "CLC", "SelTextColour", CLCDEFAULT_MODERN_SELTEXTCOLOUR);
+	dat->hotTextColour = db_get_dw(0, "CLC", "HotTextColour", CLCDEFAULT_MODERN_HOTTEXTCOLOUR);
+	dat->quickSearchColour = db_get_dw(0, "CLC", "QuickSearchColour", CLCDEFAULT_MODERN_QUICKSEARCHCOLOUR);
 	dat->bUseWindowsColours = false; // because it's missing in the options
 }
 
 int ExpandMetaContact(HWND hwnd, ClcContact *contact, ClcData *dat)
 {
 	KillTimer(hwnd, TIMERID_SUBEXPAND);
-	if (contact->type != CLCIT_CONTACT || contact->iSubAllocated == 0 || contact->bSubExpanded || !db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT))
+	if (contact->type != CLCIT_CONTACT || contact->iSubAllocated == 0 || contact->bSubExpanded || !db_get_b(0, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT))
 		return 0;
 
 	contact->bSubExpanded = true;
@@ -663,7 +663,7 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.getCount()) {
-			if ((group = group->parent) == NULL)
+			if ((group = group->parent) == nullptr)
 				break;
 			group->scanIndex++;
 			continue;
@@ -675,7 +675,7 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 			if (dat->bFilterSearch) {
 				wchar_t *lowered_szText = CharLowerW(NEWWSTR_ALLOCA(cc->szText));
 				wchar_t *lowered_text = CharLowerW(NEWWSTR_ALLOCA(text));
-				found = wcsstr(lowered_szText, lowered_text) != NULL;
+				found = wcsstr(lowered_szText, lowered_text) != nullptr;
 			}
 			else found = (prefixOk && !wcsnicmp(text, cc->szText, testlen)) || (!prefixOk && !mir_wstrcmpi(text, cc->szText));
 
@@ -706,7 +706,7 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 					if (dat->bFilterSearch) {
 						wchar_t *lowered_szText = CharLowerW(NEWWSTR_ALLOCA(ccSub.szText));
 						wchar_t *lowered_text = CharLowerW(NEWWSTR_ALLOCA(text));
-						found = wcsstr(lowered_szText, lowered_text) != NULL;
+						found = wcsstr(lowered_szText, lowered_text) != nullptr;
 					}
 					else found = (prefixOk && !wcsnicmp(text, ccSub.szText, testlen)) || (!prefixOk && !mir_wstrcmpi(text, ccSub.szText));
 

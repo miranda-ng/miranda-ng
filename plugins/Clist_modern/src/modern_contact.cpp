@@ -76,7 +76,7 @@ DWORD CompareContacts2_getLMTime(MCONTACT hContact)
 int GetProtoIndex(char * szName)
 {
 	if (szName) {
-		PROTOACCOUNT **accs = NULL;
+		PROTOACCOUNT **accs = nullptr;
 		int accCount = 0;
 		Proto_EnumAccounts(&accCount, &accs);
 
@@ -129,7 +129,7 @@ int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 			break;
 
 		case SORTBY_PROTO:
-			if (contact1->proto == NULL || contact2->proto == NULL)
+			if (contact1->proto == nullptr || contact2->proto == nullptr)
 				continue;
 			r = GetProtoIndex(contact1->proto) - GetProtoIndex(contact2->proto);
 			break;
@@ -163,14 +163,14 @@ INT_PTR SetUseGroups(WPARAM wParam, LPARAM)
 		if (!newVal == (int)wParam) return 0;
 		newVal = wParam;
 	}
-	db_set_b(NULL, "CList", "UseGroups", (BYTE)newVal);
+	db_set_b(0, "CList", "UseGroups", (BYTE)newVal);
 	SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
 	return 0;
 }
 
 INT_PTR ToggleSounds(WPARAM, LPARAM)
 {
-	db_set_b(NULL, "Skin", "UseSound",
-		(BYTE)!db_get_b(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT));
+	db_set_b(0, "Skin", "UseSound",
+		(BYTE)!db_get_b(0, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT));
 	return 0;
 }

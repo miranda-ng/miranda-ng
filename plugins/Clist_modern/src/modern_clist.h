@@ -39,7 +39,7 @@ public:
 	SortedList*	plText;
 	int			iMaxSmileyHeight;
 
-	CSmileyString() : plText(NULL), iMaxSmileyHeight(0) {};
+	CSmileyString() : plText(nullptr), iMaxSmileyHeight(0) {};
 	CSmileyString(const CSmileyString& ssIn)
 	{
 		_CopySmileyList(ssIn.plText);

@@ -45,12 +45,12 @@ static BOOL ImageArray_Alloc(IMAGE_ARRAY_DATA *iad, int size)
 	if (size_grow > iad->nodes_allocated_size) {
 		size_grow += iad->grow_step - (size_grow % iad->grow_step);
 
-		if (iad->nodes != NULL) {
+		if (iad->nodes != nullptr) {
 			IMAGE_ARRAY_DATA_NODE *tmp = (IMAGE_ARRAY_DATA_NODE *)realloc((void *)iad->nodes,
 				sizeof(IMAGE_ARRAY_DATA_NODE) * size_grow);
 
-			if (tmp == NULL) {
-				TRACE("Out of memory: realloc returned NULL (ImageArray_Alloc)");
+			if (tmp == nullptr) {
+				TRACE("Out of memory: realloc returned nullptr (ImageArray_Alloc)");
 				ImageArray_Free(iad, FALSE);
 				return FALSE;
 			}
@@ -61,8 +61,8 @@ static BOOL ImageArray_Alloc(IMAGE_ARRAY_DATA *iad, int size)
 		else {
 			iad->nodes = (IMAGE_ARRAY_DATA_NODE *)malloc(sizeof(IMAGE_ARRAY_DATA_NODE) * size_grow);
 
-			if (iad->nodes == NULL) {
-				TRACE("Out of memory: alloc returned NULL (ImageArray_Alloc)");
+			if (iad->nodes == nullptr) {
+				TRACE("Out of memory: alloc returned nullptr (ImageArray_Alloc)");
 
 				ImageArray_Free(iad, FALSE);
 
@@ -83,8 +83,8 @@ static BOOL ImageArray_Alloc(IMAGE_ARRAY_DATA *iad, int size)
 
 			tmp = (IMAGE_ARRAY_DATA_NODE *)realloc((void *)iad->nodes, sizeof(IMAGE_ARRAY_DATA_NODE) * size_grow);
 
-			if (tmp == NULL) {
-				TRACE("Out of memory: realloc returned NULL when reducing size! (ImageArray_Alloc)");
+			if (tmp == nullptr) {
+				TRACE("Out of memory: realloc returned nullptr when reducing size! (ImageArray_Alloc)");
 
 				ImageArray_Free(iad, FALSE);
 
@@ -109,34 +109,34 @@ void ImageArray_Initialize(IMAGE_ARRAY_DATA *iad, BOOL width_based, int grow_ste
 	if (iad->grow_step <= 0) {
 		iad->grow_step = 1;
 	}
-	iad->hdc = CreateCompatibleDC(NULL);
-	iad->img = NULL;
+	iad->hdc = CreateCompatibleDC(nullptr);
+	iad->img = nullptr;
 
 	iad->width = 0;
 	iad->height = 0;
 
-	iad->nodes = NULL;
+	iad->nodes = nullptr;
 	iad->nodes_allocated_size = 0;
 	iad->nodes_size = 0;
 }
 
 
 // Free data
-// If keep_bitmap is TRUE, doesn't delete de bitmap and return its handle. Else, return NULL
+// If keep_bitmap is TRUE, doesn't delete de bitmap and return its handle. Else, return nullptr
 HBITMAP ImageArray_Free(IMAGE_ARRAY_DATA *iad, BOOL keep_bitmap)
 {
 	DeleteDC(iad->hdc);
 
-	if (iad->img != NULL && !keep_bitmap) {
+	if (iad->img != nullptr && !keep_bitmap) {
 		DeleteObject(iad->img);
-		iad->img = NULL;
+		iad->img = nullptr;
 		iad->width = 0;
 		iad->height = 0;
 	}
 
-	if (iad->nodes != NULL) {
+	if (iad->nodes != nullptr) {
 		free(iad->nodes);
-		iad->nodes = NULL;
+		iad->nodes = nullptr;
 		iad->nodes_allocated_size = 0;
 		iad->nodes_size = 0;
 	}
@@ -151,16 +151,16 @@ void ImageArray_Clear(IMAGE_ARRAY_DATA *iad)
 	if (iad->hdc) DeleteDC(iad->hdc);
 	iad->hdc = tmpdc;
 
-	if (iad->img != NULL) {
+	if (iad->img != nullptr) {
 		DeleteObject(iad->img);
-		iad->img = NULL;
+		iad->img = nullptr;
 		iad->width = 0;
 		iad->height = 0;
 	}
 
-	if (iad->nodes != NULL) {
+	if (iad->nodes != nullptr) {
 		free(iad->nodes);
-		iad->nodes = NULL;
+		iad->nodes = nullptr;
 		iad->nodes_allocated_size = 0;
 		iad->nodes_size = 0;
 	}
@@ -179,7 +179,7 @@ int ImageArray_AddImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 
 	int i;
 
-	if (hBmp == NULL)
+	if (hBmp == nullptr)
 		return -1;
 
 	mir_cslock lck(cs);
@@ -211,7 +211,7 @@ int ImageArray_AddImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 
 	// Alloc image
 	hNewBmp = ImageArray_CreateBitmapPoint(new_width, new_height, &(iad->lpBits));
-	if (hNewBmp == NULL)
+	if (hNewBmp == nullptr)
 		return -1;
 
 	// Alloc array
@@ -232,7 +232,7 @@ int ImageArray_AddImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 		POINT org;
 		GetBrushOrgEx(iad->hdc, &org);
 		SetStretchBltMode(iad->hdc, HALFTONE);
-		SetBrushOrgEx(iad->hdc, org.x, org.y, NULL);
+		SetBrushOrgEx(iad->hdc, org.x, org.y, nullptr);
 	}
 
 	{
@@ -304,7 +304,7 @@ int ImageArray_AddImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 	// restore things
 	SelectObject(hdc_old, old_bmp);
 	DeleteDC(hdc_old);
-	if (iad->img != NULL) DeleteObject(iad->img);
+	if (iad->img != nullptr) DeleteObject(iad->img);
 	iad->img = hNewBmp;
 
 	// Move array
@@ -331,7 +331,7 @@ BOOL ImageArray_ChangeImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 	HDC hdc_old;
 	int i;
 
-	if (hBmp == NULL)
+	if (hBmp == nullptr)
 		return FALSE;
 
 	if (pos < 0)
@@ -357,7 +357,7 @@ BOOL ImageArray_ChangeImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 
 	// Alloc image
 	hNewBmp = ImageArray_CreateBitmapPoint(new_width, new_height, &(iad->lpBits));
-	if (hNewBmp == NULL)
+	if (hNewBmp == nullptr)
 		return FALSE;
 
 	// Move image...
@@ -371,7 +371,7 @@ BOOL ImageArray_ChangeImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 		POINT org;
 		GetBrushOrgEx(iad->hdc, &org);
 		SetStretchBltMode(iad->hdc, HALFTONE);
-		SetBrushOrgEx(iad->hdc, org.x, org.y, NULL);
+		SetBrushOrgEx(iad->hdc, org.x, org.y, nullptr);
 	}
 
 	{
@@ -442,7 +442,7 @@ BOOL ImageArray_ChangeImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 
 	// restore things
 	DeleteDC(hdc_old);
-	if (iad->img != NULL) DeleteObject(iad->img);
+	if (iad->img != nullptr) DeleteObject(iad->img);
 	iad->img = hNewBmp;
 
 	// Move array
@@ -484,7 +484,7 @@ BOOL ImageArray_RemoveImage(IMAGE_ARRAY_DATA *iad, int pos)
 
 	// Alloc image
 	hNewBmp = ImageArray_CreateBitmapPoint(new_width, new_height, &(iad->lpBits));
-	if (hNewBmp == NULL)
+	if (hNewBmp == nullptr)
 		return FALSE;
 
 	// Move image...
@@ -498,7 +498,7 @@ BOOL ImageArray_RemoveImage(IMAGE_ARRAY_DATA *iad, int pos)
 		POINT org;
 		GetBrushOrgEx(iad->hdc, &org);
 		SetStretchBltMode(iad->hdc, HALFTONE);
-		SetBrushOrgEx(iad->hdc, org.x, org.y, NULL);
+		SetBrushOrgEx(iad->hdc, org.x, org.y, nullptr);
 	}
 
 	{
@@ -554,7 +554,7 @@ BOOL ImageArray_RemoveImage(IMAGE_ARRAY_DATA *iad, int pos)
 
 	// restore things
 	DeleteDC(hdc_old);
-	if (iad->img != NULL) DeleteObject(iad->img);
+	if (iad->img != nullptr) DeleteObject(iad->img);
 	iad->img = hNewBmp;
 
 	// Move array
@@ -577,7 +577,7 @@ BOOL ImageArray_RemoveImage(IMAGE_ARRAY_DATA *iad, int pos)
 
 BOOL ImageArray_DrawImage(IMAGE_ARRAY_DATA *iad, int pos, HDC hdcDest, int nXDest, int nYDest, BYTE Alpha)
 {
-	if (hdcDest == NULL || pos < 0 || pos >= iad->nodes_size)
+	if (hdcDest == nullptr || pos < 0 || pos >= iad->nodes_size)
 		return FALSE;
 
 	mir_cslock lck(cs);

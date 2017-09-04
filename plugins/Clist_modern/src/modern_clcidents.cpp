@@ -37,11 +37,11 @@ int cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 {
 	int count = 0;
 	int subcontactscount = 0;
-	bool bMetaExpanding = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT) != 0;
+	bool bMetaExpanding = db_get_b(0, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT) != 0;
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.getCount()) {
-			if ((group = group->parent) == NULL)
+			if ((group = group->parent) == nullptr)
 				break;
 			group->scanIndex++;
 			continue;
@@ -100,7 +100,7 @@ int cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.getCount()) {
-			if ((group = group->parent) == NULL)
+			if ((group = group->parent) == nullptr)
 				break;
 			group->scanIndex++;
 			continue;

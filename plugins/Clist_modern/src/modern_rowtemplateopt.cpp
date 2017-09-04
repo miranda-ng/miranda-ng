@@ -153,7 +153,7 @@ void rowOptGenerateTreeView(pROWCELL cell, HTREEITEM node, HWND hwnd)
 int rowOptFillRowTree(HWND hwnd)
 {
 	TreeView_DeleteAllItems(hwnd);
-	rowOptGenerateTreeView(rowOptTmplRoot, NULL, hwnd);
+	rowOptGenerateTreeView(rowOptTmplRoot, nullptr, hwnd);
 	TreeView_Expand(hwnd, TreeView_GetRoot(hwnd), TVM_EXPAND);
 	return 0;
 }
@@ -162,14 +162,14 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 {
 	TVINSERTSTRUCT tvis;
 	TVITEM tviparent;
-	ROWCELL *cell = NULL;
+	ROWCELL *cell = nullptr;
 
 	if (!hti) {
 		if (TreeView_GetRoot(htree))
 			return;
 
 		rowAddCell(rowOptTmplRoot, TC_ROW);
-		tvis.hParent = NULL;
+		tvis.hParent = nullptr;
 		tvis.hInsertAfter = TVI_ROOT;
 		tvis.item.pszText = L"Line";
 		tvis.item.lParam = (LPARAM)rowOptTmplRoot;
@@ -265,7 +265,7 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 
 	}
 
-	((pROWCELL)tvi.lParam)->next = NULL;
+	((pROWCELL)tvi.lParam)->next = nullptr;
 	rowDeleteTree((pROWCELL)tvi.lParam);
 
 	{
@@ -299,7 +299,7 @@ void RefreshTree(HWND hwndDlg, HTREEITEM hti)
 	HWND htree = GetDlgItem(hwndDlg, IDC_ROWTREE);
 	pROWCELL  cell;
 	TVITEM    tvi = { 0 };
-	if (hti == NULL) hti = TreeView_GetRoot(htree);
+	if (hti == nullptr) hti = TreeView_GetRoot(htree);
 	while (hti)
 	{
 		tvi.hItem = hti;
@@ -335,7 +335,7 @@ void RefreshTree(HWND hwndDlg, HTREEITEM hti)
 		hti = TreeView_GetNextSibling(htree, hti);
 	}
 
-	RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+	RedrawWindow(hwndDlg, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 }
 
 INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -347,7 +347,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		HWND htree = GetDlgItem(hwndDlg, IDC_ROWTREE);
 
 		TranslateDialogDefault(hwndDlg);
-		rowOptTmplStr = db_get_sa(NULL, "ModernData", "RowTemplate");
+		rowOptTmplStr = db_get_sa(0, "ModernData", "RowTemplate");
 		if (!rowOptTmplStr)
 			rowOptTmplStr = mir_strdup("<TR />");
 
@@ -377,14 +377,14 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_SETCURSEL, 0, 0);
 
 		rowDeleteTree(rowOptTmplRoot);
-		rowOptTmplRoot = NULL;
+		rowOptTmplRoot = nullptr;
 		rowParse(rowOptTmplRoot, rowOptTmplRoot, rowOptTmplStr, hbuf, seq, rowOptTA);
 		seq = 0;
 		memset(rowOptTA, 0, sizeof(rowOptTA));
 		rowOptBuildTA(rowOptTmplRoot, (pROWCELL*)&rowOptTA, &seq);
 
 		rowOptFillRowTree(htree);
-		RefreshTree(hwndDlg, NULL);
+		RefreshTree(hwndDlg, nullptr);
 		TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_ROWTREE), TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_ROWTREE)));
 		rowOptShowSettings(hwndDlg);
 	}
@@ -408,7 +408,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			if (HIWORD(wParam) == CBN_SELENDOK) {
 				int index = SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_GETCURSEL, 0, 0);
 				cell->type = index;
-				RefreshTree(hwndDlg, NULL);
+				RefreshTree(hwndDlg, nullptr);
 			}
 
 		case IDC_VALIGN:
@@ -424,7 +424,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					cell->valign = TC_BOTTOM;
 					break;
 				}
-				RefreshTree(hwndDlg, NULL);
+				RefreshTree(hwndDlg, nullptr);
 			}
 
 		case IDC_HALIGN:
@@ -440,7 +440,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					cell->halign = TC_RIGHT;
 					break;
 				}
-				RefreshTree(hwndDlg, NULL);
+				RefreshTree(hwndDlg, nullptr);
 			}
 		}
 
@@ -458,10 +458,10 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			else if (lParam == (LPARAM)GetDlgItem(hwndDlg, IDC_CONTUP))
 				// Moving container to up
 			{
-				RedrawWindow(htree, &da, NULL, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+				RedrawWindow(htree, &da, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 			}
-			RefreshTree(hwndDlg, NULL);
-			RedrawWindow(GetParent(hwndDlg), NULL, NULL, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+			RefreshTree(hwndDlg, nullptr);
+			RedrawWindow(GetParent(hwndDlg), nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 		}
 		return TRUE;
 	}
@@ -472,7 +472,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			if (((LPNMHDR)lParam)->code == NM_SETCURSOR)
 				rowOptShowSettings(hwndDlg);
 			if (((LPNMHDR)lParam)->code == NM_CLICK)
-				RedrawWindow(hwndDlg, &da, NULL, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW);
+				RedrawWindow(hwndDlg, &da, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW);
 			break;
 
 		case 0: // Apply or Ok button is pressed

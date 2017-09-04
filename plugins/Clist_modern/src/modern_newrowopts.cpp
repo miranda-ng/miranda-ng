@@ -46,7 +46,7 @@ typedef struct _NodeList
 	struct _NodeList *  itemParent;
 } NodeList;
 
-NodeList * RootNode = NULL;
+NodeList * RootNode = nullptr;
 
 NodeList * AddNode(NodeList * Parent)
 {
@@ -149,7 +149,7 @@ BOOL CALLBACK DlgProcItemNewRowOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 	{
 		NodeList * res1, *res2, *res3;
 		int i = 0;
-		RootNode = AddNode(NULL);
+		RootNode = AddNode(nullptr);
 		RootNode->pData = i++;
 		res1 = AddNode(RootNode);
 		res1->pData = i++;
@@ -170,7 +170,7 @@ BOOL CALLBACK DlgProcItemNewRowOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 		if (RemoveNode(res1)) res1 = 0;
 		TRACE("*********** Nodes DUMP 2 ***********\n");
 		TraceTreeLevel(RootNode);
-		//CheckDlgButton(hwndDlg, IDC_HIDE_ICON_ON_AVATAR, db_get_b(NULL,"CList","IconHideOnAvatar",SETTING_HIDEICONONAVATAR_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
+		//CheckDlgButton(hwndDlg, IDC_HIDE_ICON_ON_AVATAR, db_get_b(0,"CList","IconHideOnAvatar",SETTING_HIDEICONONAVATAR_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
 		MessageBox(hwndDlg, L"Init NewRow Dialog", L"Notify", MB_OK);
 		break;
 	}

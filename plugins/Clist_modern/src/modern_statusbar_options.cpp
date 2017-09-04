@@ -68,11 +68,11 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 	HWND hwndComboBox = GetDlgItem(hwndDlg, IDC_STATUSBAR_PROTO_LIST);
 	BOOL perProto = IsDlgButtonChecked(hwndDlg, IDC_STATUSBAR_PER_PROTO);
 
-	StatusBarProtocolOptions *dat = (StatusBarProtocolOptions*)SendMessage(hwndComboBox, CB_GETITEMDATA, SendMessage(hwndComboBox, CB_GETCURSEL, 0, 0), NULL);
-	if (dat == NULL)
+	StatusBarProtocolOptions *dat = (StatusBarProtocolOptions*)SendMessage(hwndComboBox, CB_GETITEMDATA, SendMessage(hwndComboBox, CB_GETCURSEL, 0, 0), 0);
+	if (dat == nullptr)
 		perProto = FALSE;
 
-	StatusBarProtocolOptions &sbpo = (dat == NULL) ? _GlobalOptions : *dat;
+	StatusBarProtocolOptions &sbpo = (dat == nullptr) ? _GlobalOptions : *dat;
 
 	if (perProto) {
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SBAR_USE_ACCOUNT_SETTINGS), TRUE);
@@ -141,18 +141,18 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	HWND hwndComboBox = GetDlgItem(hwndDlg, IDC_STATUSBAR_PROTO_LIST);
 	StatusBarProtocolOptions *dat = (StatusBarProtocolOptions*)SendMessage(hwndComboBox, CB_GETITEMDATA, SendMessage(hwndComboBox, CB_GETCURSEL, 0, 0), 0);
 	BOOL perProto = IsDlgButtonChecked(hwndDlg, IDC_STATUSBAR_PER_PROTO);
-	if (dat == NULL) {
+	if (dat == nullptr) {
 		perProto = FALSE;
 		dat = &_GlobalOptions;
 	}
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		perProto = (BOOL)db_get_b(NULL, "CLUI", "SBarPerProto", SETTING_SBARPERPROTO_DEFAULT);
+		perProto = (BOOL)db_get_b(0, "CLUI", "SBarPerProto", SETTING_SBARPERPROTO_DEFAULT);
 
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_SHOWSBAR, db_get_b(NULL, "CLUI", "ShowSBar", SETTING_SHOWSBAR_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWSBAR, db_get_b(0, "CLUI", "ShowSBar", SETTING_SHOWSBAR_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_STATUSBAR_PER_PROTO, perProto ? BST_CHECKED : BST_UNCHECKED);
 		{
 			// populate per-proto list box.
@@ -178,31 +178,31 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 				char buf[256];
 				mir_snprintf(buf, "SBarAccountIsCustom_%s", szName);
-				dat->AccountIsCustomized = db_get_b(NULL, "CLUI", buf, SETTING_SBARACCOUNTISCUSTOM_DEFAULT);
+				dat->AccountIsCustomized = db_get_b(0, "CLUI", buf, SETTING_SBARACCOUNTISCUSTOM_DEFAULT);
 
 				mir_snprintf(buf, "HideAccount_%s", szName);
-				dat->HideAccount = db_get_b(NULL, "CLUI", buf, SETTING_SBARHIDEACCOUNT_DEFAULT);
+				dat->HideAccount = db_get_b(0, "CLUI", buf, SETTING_SBARHIDEACCOUNT_DEFAULT);
 
 				mir_snprintf(buf, "SBarShow_%s", szName);
-				dat->SBarShow = db_get_b(NULL, "CLUI", buf, SETTING_SBARSHOW_DEFAULT);
+				dat->SBarShow = db_get_b(0, "CLUI", buf, SETTING_SBARSHOW_DEFAULT);
 
 				mir_snprintf(buf, "SBarRightClk_%s", szName);
-				dat->SBarRightClk = db_get_b(NULL, "CLUI", buf, SETTING_SBARRIGHTCLK_DEFAULT);
+				dat->SBarRightClk = db_get_b(0, "CLUI", buf, SETTING_SBARRIGHTCLK_DEFAULT);
 
 				mir_snprintf(buf, "ShowUnreadEmails_%s", szName);
-				dat->ShowUnreadEmails = db_get_b(NULL, "CLUI", buf, SETTING_SHOWUNREADEMAILS_DEFAULT);
+				dat->ShowUnreadEmails = db_get_b(0, "CLUI", buf, SETTING_SHOWUNREADEMAILS_DEFAULT);
 
 				mir_snprintf(buf, "ShowXStatus_%s", szName);
-				dat->ShowXStatus = db_get_b(NULL, "CLUI", buf, SETTING_SHOWXSTATUS_DEFAULT);
+				dat->ShowXStatus = db_get_b(0, "CLUI", buf, SETTING_SHOWXSTATUS_DEFAULT);
 
 				mir_snprintf(buf, "UseConnectingIcon_%s", szName);
-				dat->UseConnectingIcon = db_get_b(NULL, "CLUI", buf, SETTING_USECONNECTINGICON_DEFAULT);
+				dat->UseConnectingIcon = db_get_b(0, "CLUI", buf, SETTING_USECONNECTINGICON_DEFAULT);
 
 				mir_snprintf(buf, "PaddingLeft_%s", szName);
-				dat->PaddingLeft = db_get_dw(NULL, "CLUI", buf, SETTING_PADDINGLEFT_DEFAULT);
+				dat->PaddingLeft = db_get_dw(0, "CLUI", buf, SETTING_PADDINGLEFT_DEFAULT);
 
 				mir_snprintf(buf, "PaddingRight_%s", szName);
-				dat->PaddingRight = db_get_dw(NULL, "CLUI", buf, SETTING_PADDINGRIGHT_DEFAULT);
+				dat->PaddingRight = db_get_dw(0, "CLUI", buf, SETTING_PADDINGRIGHT_DEFAULT);
 			}
 
 			if (count)
@@ -210,44 +210,44 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		}
 
 		_GlobalOptions.AccountIsCustomized = TRUE;
-		_GlobalOptions.SBarRightClk = db_get_b(NULL, "CLUI", "SBarRightClk", SETTING_SBARRIGHTCLK_DEFAULT);
-		_GlobalOptions.ShowUnreadEmails = db_get_b(NULL, "CLUI", "ShowUnreadEmails", SETTING_SHOWUNREADEMAILS_DEFAULT);
-		_GlobalOptions.ShowXStatus = db_get_b(NULL, "CLUI", "ShowXStatus", SETTING_SHOWXSTATUS_DEFAULT);
-		_GlobalOptions.UseConnectingIcon = db_get_b(NULL, "CLUI", "UseConnectingIcon", SETTING_USECONNECTINGICON_DEFAULT);
-		_GlobalOptions.SBarShow = db_get_b(NULL, "CLUI", "SBarShow", SETTING_SBARSHOW_DEFAULT);
+		_GlobalOptions.SBarRightClk = db_get_b(0, "CLUI", "SBarRightClk", SETTING_SBARRIGHTCLK_DEFAULT);
+		_GlobalOptions.ShowUnreadEmails = db_get_b(0, "CLUI", "ShowUnreadEmails", SETTING_SHOWUNREADEMAILS_DEFAULT);
+		_GlobalOptions.ShowXStatus = db_get_b(0, "CLUI", "ShowXStatus", SETTING_SHOWXSTATUS_DEFAULT);
+		_GlobalOptions.UseConnectingIcon = db_get_b(0, "CLUI", "UseConnectingIcon", SETTING_USECONNECTINGICON_DEFAULT);
+		_GlobalOptions.SBarShow = db_get_b(0, "CLUI", "SBarShow", SETTING_SBARSHOW_DEFAULT);
 
-		CheckDlgButton(hwndDlg, IDC_EQUALSECTIONS, db_get_b(NULL, "CLUI", "EqualSections", SETTING_EQUALSECTIONS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_EQUALSECTIONS, db_get_b(0, "CLUI", "EqualSections", SETTING_EQUALSECTIONS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_MULTI_SPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
-		SendDlgItemMessage(hwndDlg, IDC_MULTI_SPIN, UDM_SETPOS, 0, MAKELONG(db_get_b(NULL, "CLUI", "StatusBarProtosPerLine", SETTING_PROTOSPERLINE_DEFAULT), 0));
+		SendDlgItemMessage(hwndDlg, IDC_MULTI_SPIN, UDM_SETPOS, 0, MAKELONG(db_get_b(0, "CLUI", "StatusBarProtosPerLine", SETTING_PROTOSPERLINE_DEFAULT), 0));
 
 		SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
-		SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN, UDM_SETPOS, 0, MAKELONG(db_get_dw(NULL, "CLUI", "LeftOffset", SETTING_LEFTOFFSET_DEFAULT), 0));
+		SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN, UDM_SETPOS, 0, MAKELONG(db_get_dw(0, "CLUI", "LeftOffset", SETTING_LEFTOFFSET_DEFAULT), 0));
 
 		SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN2, UDM_SETRANGE, 0, MAKELONG(50, 0));
-		SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN2, UDM_SETPOS, 0, MAKELONG(db_get_dw(NULL, "CLUI", "RightOffset", SETTING_RIGHTOFFSET_DEFAULT), 0));
+		SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN2, UDM_SETPOS, 0, MAKELONG(db_get_dw(0, "CLUI", "RightOffset", SETTING_RIGHTOFFSET_DEFAULT), 0));
 
 		SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_TOP_SPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
-		SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_TOP_SPIN, UDM_SETPOS, 0, MAKELONG(db_get_dw(NULL, "CLUI", "TopOffset", SETTING_TOPOFFSET_DEFAULT), 0));
+		SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_TOP_SPIN, UDM_SETPOS, 0, MAKELONG(db_get_dw(0, "CLUI", "TopOffset", SETTING_TOPOFFSET_DEFAULT), 0));
 
 		SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_BOTTOM_SPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
-		SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_BOTTOM_SPIN, UDM_SETPOS, 0, MAKELONG(db_get_dw(NULL, "CLUI", "BottomOffset", SETTING_BOTTOMOFFSET_DEFAULT), 0));
+		SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_BOTTOM_SPIN, UDM_SETPOS, 0, MAKELONG(db_get_dw(0, "CLUI", "BottomOffset", SETTING_BOTTOMOFFSET_DEFAULT), 0));
 
 		SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN3, UDM_SETRANGE, 0, MAKELONG(50, 0));
-		SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN3, UDM_SETPOS, 0, MAKELONG(db_get_dw(NULL, "CLUI", "SpaceBetween", SETTING_SPACEBETWEEN_DEFAULT), 2));
+		SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN3, UDM_SETPOS, 0, MAKELONG(db_get_dw(0, "CLUI", "SpaceBetween", SETTING_SPACEBETWEEN_DEFAULT), 2));
 
 		{
 			wchar_t *align[] = { LPGENW("Left"), LPGENW("Center"), LPGENW("Right") };
 			for (int i = 0; i < _countof(align); i++)
 				SendDlgItemMessage(hwndDlg, IDC_SBAR_HORIZ_ALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateW(align[i]));
-			SendDlgItemMessage(hwndDlg, IDC_SBAR_HORIZ_ALIGN, CB_SETCURSEL, db_get_b(NULL, "CLUI", "Align", SETTING_ALIGN_DEFAULT), 0);
+			SendDlgItemMessage(hwndDlg, IDC_SBAR_HORIZ_ALIGN, CB_SETCURSEL, db_get_b(0, "CLUI", "Align", SETTING_ALIGN_DEFAULT), 0);
 		}
 
 		{
 			wchar_t *align[] = { LPGENW("Top"), LPGENW("Center"), LPGENW("Bottom") };
 			for (int i = 0; i < _countof(align); i++)
 				SendDlgItemMessage(hwndDlg, IDC_SBAR_VERT_ALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateW(align[i]));
-			SendDlgItemMessage(hwndDlg, IDC_SBAR_VERT_ALIGN, CB_SETCURSEL, db_get_b(NULL, "CLUI", "VAlign", SETTING_VALIGN_DEFAULT), 0);
+			SendDlgItemMessage(hwndDlg, IDC_SBAR_VERT_ALIGN, CB_SETCURSEL, db_get_b(0, "CLUI", "VAlign", SETTING_VALIGN_DEFAULT), 0);
 		}
 
 		{
@@ -392,7 +392,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			db_set_b(NULL, "CLUI", "SBarPerProto", IsDlgButtonChecked(hwndDlg, IDC_STATUSBAR_PER_PROTO));
+			db_set_b(0, "CLUI", "SBarPerProto", IsDlgButtonChecked(hwndDlg, IDC_STATUSBAR_PER_PROTO));
 
 			int count = SendMessage(hwndComboBox, CB_GETCOUNT, 0, 0);
 			for (int i = 1; i < count; i++) {
@@ -400,46 +400,46 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 				char settingBuf[256];
 				mir_snprintf(settingBuf, "SBarAccountIsCustom_%s", sbpo->szName);
-				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->AccountIsCustomized);
+				db_set_b(0, "CLUI", settingBuf, (BYTE)sbpo->AccountIsCustomized);
 
 				mir_snprintf(settingBuf, "HideAccount_%s", sbpo->szName);
-				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->HideAccount);
+				db_set_b(0, "CLUI", settingBuf, (BYTE)sbpo->HideAccount);
 
 				mir_snprintf(settingBuf, "SBarShow_%s", sbpo->szName);
-				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->SBarShow);
+				db_set_b(0, "CLUI", settingBuf, (BYTE)sbpo->SBarShow);
 				mir_snprintf(settingBuf, "SBarRightClk_%s", sbpo->szName);
-				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->SBarRightClk);
+				db_set_b(0, "CLUI", settingBuf, (BYTE)sbpo->SBarRightClk);
 				mir_snprintf(settingBuf, "UseConnectingIcon_%s", sbpo->szName);
-				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->UseConnectingIcon);
+				db_set_b(0, "CLUI", settingBuf, (BYTE)sbpo->UseConnectingIcon);
 				mir_snprintf(settingBuf, "ShowUnreadEmails_%s", sbpo->szName);
-				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->ShowUnreadEmails);
+				db_set_b(0, "CLUI", settingBuf, (BYTE)sbpo->ShowUnreadEmails);
 				mir_snprintf(settingBuf, "ShowXStatus_%s", sbpo->szName);
-				db_set_b(NULL, "CLUI", settingBuf, sbpo->ShowXStatus);
+				db_set_b(0, "CLUI", settingBuf, sbpo->ShowXStatus);
 				mir_snprintf(settingBuf, "PaddingLeft_%s", sbpo->szName);
-				db_set_dw(NULL, "CLUI", settingBuf, sbpo->PaddingLeft);
+				db_set_dw(0, "CLUI", settingBuf, sbpo->PaddingLeft);
 				mir_snprintf(settingBuf, "PaddingRight_%s", sbpo->szName);
-				db_set_dw(NULL, "CLUI", settingBuf, sbpo->PaddingRight);
+				db_set_dw(0, "CLUI", settingBuf, sbpo->PaddingRight);
 			}
 
-			db_set_b(NULL, "CLUI", "SBarShow", (BYTE)_GlobalOptions.SBarShow);
-			db_set_b(NULL, "CLUI", "SBarRightClk", (BYTE)_GlobalOptions.SBarRightClk);
-			db_set_b(NULL, "CLUI", "UseConnectingIcon", (BYTE)_GlobalOptions.UseConnectingIcon);
-			db_set_b(NULL, "CLUI", "ShowUnreadEmails", (BYTE)_GlobalOptions.ShowUnreadEmails);
-			db_set_b(NULL, "CLUI", "ShowXStatus", _GlobalOptions.ShowXStatus);
-			db_set_dw(NULL, "CLUI", "PaddingLeft", _GlobalOptions.PaddingLeft);
-			db_set_dw(NULL, "CLUI", "PaddingRight", _GlobalOptions.PaddingRight);
+			db_set_b(0, "CLUI", "SBarShow", (BYTE)_GlobalOptions.SBarShow);
+			db_set_b(0, "CLUI", "SBarRightClk", (BYTE)_GlobalOptions.SBarRightClk);
+			db_set_b(0, "CLUI", "UseConnectingIcon", (BYTE)_GlobalOptions.UseConnectingIcon);
+			db_set_b(0, "CLUI", "ShowUnreadEmails", (BYTE)_GlobalOptions.ShowUnreadEmails);
+			db_set_b(0, "CLUI", "ShowXStatus", _GlobalOptions.ShowXStatus);
+			db_set_dw(0, "CLUI", "PaddingLeft", _GlobalOptions.PaddingLeft);
+			db_set_dw(0, "CLUI", "PaddingRight", _GlobalOptions.PaddingRight);
 
 
-			db_set_b(NULL, "CLUI", "StatusBarProtosPerLine", (BYTE)SendDlgItemMessage(hwndDlg, IDC_MULTI_SPIN, UDM_GETPOS, 0, 0));
-			db_set_b(NULL, "CLUI", "EqualSections", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_EQUALSECTIONS));
-			db_set_b(NULL, "CLUI", "Align", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SBAR_HORIZ_ALIGN, CB_GETCURSEL, 0, 0));
-			db_set_b(NULL, "CLUI", "VAlign", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SBAR_VERT_ALIGN, CB_GETCURSEL, 0, 0));
-			db_set_dw(NULL, "CLUI", "LeftOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN, UDM_GETPOS, 0, 0));
-			db_set_dw(NULL, "CLUI", "RightOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN2, UDM_GETPOS, 0, 0));
-			db_set_dw(NULL, "CLUI", "TopOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_TOP_SPIN, UDM_GETPOS, 0, 0));
-			db_set_dw(NULL, "CLUI", "BottomOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_BOTTOM_SPIN, UDM_GETPOS, 0, 0));
-			db_set_dw(NULL, "CLUI", "SpaceBetween", (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN3, UDM_GETPOS, 0, 0));
-			db_set_b(NULL, "CLUI", "ShowSBar", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR));
+			db_set_b(0, "CLUI", "StatusBarProtosPerLine", (BYTE)SendDlgItemMessage(hwndDlg, IDC_MULTI_SPIN, UDM_GETPOS, 0, 0));
+			db_set_b(0, "CLUI", "EqualSections", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_EQUALSECTIONS));
+			db_set_b(0, "CLUI", "Align", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SBAR_HORIZ_ALIGN, CB_GETCURSEL, 0, 0));
+			db_set_b(0, "CLUI", "VAlign", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SBAR_VERT_ALIGN, CB_GETCURSEL, 0, 0));
+			db_set_dw(0, "CLUI", "LeftOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN, UDM_GETPOS, 0, 0));
+			db_set_dw(0, "CLUI", "RightOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN2, UDM_GETPOS, 0, 0));
+			db_set_dw(0, "CLUI", "TopOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_TOP_SPIN, UDM_GETPOS, 0, 0));
+			db_set_dw(0, "CLUI", "BottomOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_BOTTOM_SPIN, UDM_GETPOS, 0, 0));
+			db_set_dw(0, "CLUI", "SpaceBetween", (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN3, UDM_GETPOS, 0, 0));
+			db_set_b(0, "CLUI", "ShowSBar", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR));
 
 			LoadStatusBarData();
 			cliCluiProtocolStatusChanged(0, 0);

@@ -167,11 +167,11 @@ private:
 		COLORREF tmpforecolour;
 
 		DWORD fRelease;
-		_PaintContext(HDC _hdcMem = NULL) :
-			hdcMem(_hdcMem), hdcMem2(NULL),
-			hBmpOsb2(NULL), oldbmp2(NULL),
-			hBmpOsb(NULL), oldbmp(NULL),
-			hBrushAlternateGrey(NULL),
+		_PaintContext(HDC _hdcMem = nullptr) :
+			hdcMem(_hdcMem), hdcMem2(nullptr),
+			hBmpOsb2(nullptr), oldbmp2(nullptr),
+			hBmpOsb(nullptr), oldbmp(nullptr),
+			hBrushAlternateGrey(nullptr),
 			tmpbkcolour(0), tmpforecolour(0),
 			fRelease(release_none) {};
 	};

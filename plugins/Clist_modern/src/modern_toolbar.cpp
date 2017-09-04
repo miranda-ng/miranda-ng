@@ -39,15 +39,15 @@ struct
 }
 static BTNS[] =
 {
-	{ "MainMenu", LPGEN("Main menu"), "CList/ShowMainMenu", LPGEN("Main menu"), NULL, 100, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
-	{ "StatusMenu", LPGEN("Status menu"), "CList/ShowStatusMenu", LPGEN("Status menu"), NULL, 105, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
-	{ "AccoMgr", LPGEN("Accounts"), MS_PROTO_SHOWACCMGR, LPGEN("Accounts..."), NULL, 282, IDI_ACCMGR, IDI_ACCMGR, TRUE },
+	{ "MainMenu", LPGEN("Main menu"), "CList/ShowMainMenu", LPGEN("Main menu"), nullptr, 100, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "StatusMenu", LPGEN("Status menu"), "CList/ShowStatusMenu", LPGEN("Status menu"), nullptr, 105, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "AccoMgr", LPGEN("Accounts"), MS_PROTO_SHOWACCMGR, LPGEN("Accounts..."), nullptr, 282, IDI_ACCMGR, IDI_ACCMGR, TRUE },
 	{ "ShowHideOffline", LPGEN("Show/Hide offline contacts"), MS_CLIST_TOGGLEHIDEOFFLINE, LPGEN("Hide offline contacts"), LPGEN("Show offline contacts"), 110, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
-	{ "FindUser", LPGEN("Find user"), "FindAdd/FindAddCommand", LPGEN("Find user"), NULL, 140, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
-	{ "Options", "Options", "Options/OptionsCommand", "Options", NULL, 150, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "FindUser", LPGEN("Find user"), "FindAdd/FindAddCommand", LPGEN("Find user"), nullptr, 140, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "Options", "Options", "Options/OptionsCommand", "Options", nullptr, 150, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "UseGroups", LPGEN("Use/Disable groups"), MS_CLIST_TOGGLEGROUPS, LPGEN("Use groups"), LPGEN("Disable groups"), 160, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
 	{ "EnableSounds", LPGEN("Enable/Disable sounds"), MS_CLIST_TOGGLESOUNDS, LPGEN("Enable sounds"), LPGEN("Disable sounds"), 170, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
-	{ "Minimize", LPGEN("Minimize"), "CList/ShowHide", LPGEN("Minimize"), NULL, 180, IDI_RESETVIEW, IDI_RESETVIEW, FALSE }
+	{ "Minimize", LPGEN("Minimize"), "CList/ShowHide", LPGEN("Minimize"), nullptr, 180, IDI_RESETVIEW, IDI_RESETVIEW, FALSE }
 };
 
 static void SetButtonPressed(int i, int state)
@@ -71,13 +71,13 @@ void Modern_InitButtons()
 				mir_snprintf(buf, "%s%s%s", TTB_OPTDIR, BTNS[i].pszButtonID, "_dn");
 				tbb.hIconHandleUp = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipUp, L"icons\\toolbar_icons.dll", BTNS[i].icoDefIdx, g_hInst, BTNS[i].defResource);
 			}
-			else tbb.hIconHandleUp = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipUp, NULL, 0, NULL, SKINICON_OTHER_MAINMENU);
+			else tbb.hIconHandleUp = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipUp, nullptr, 0, nullptr, SKINICON_OTHER_MAINMENU);
 
 			if (BTNS[i].pszTooltipDn) {
 				mir_snprintf(buf, "%s%s%s", TTB_OPTDIR, BTNS[i].pszButtonID, "_up");
 				tbb.hIconHandleDn = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipDn, L"icons\\toolbar_icons.dll", BTNS[i].icoDefIdx + 1, g_hInst, BTNS[i].defResource2);
 			}
-			else tbb.hIconHandleDn = NULL;
+			else tbb.hIconHandleDn = nullptr;
 		}
 		else tbb.dwFlags |= TTBBF_ISSEPARATOR;
 
@@ -85,9 +85,9 @@ void Modern_InitButtons()
 		BTNS[i].hButton = TopToolbar_AddButton(&tbb);
 	}
 
-	SetButtonPressed(3, db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
-	SetButtonPressed(6, db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
-	SetButtonPressed(7, db_get_b(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT));
+	SetButtonPressed(3, db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
+	SetButtonPressed(6, db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
+	SetButtonPressed(7, db_get_b(0, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -106,12 +106,12 @@ struct
 	WORD     mtb_backgroundBmpUse;
 	BOOL     mtb_useWinColors;
 }
-static tbdat = { NULL, CLCDEFAULT_BKCOLOUR, CLCDEFAULT_BKBMPUSE, CLCDEFAULT_USEWINDOWSCOLOURS };
+static tbdat = { nullptr, CLCDEFAULT_BKCOLOUR, CLCDEFAULT_BKBMPUSE, CLCDEFAULT_USEWINDOWSCOLOURS };
 
 static int ehhToolBarSettingsChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (hContact != NULL)
+	if (hContact != 0)
 		return 0;
 
 	if (!strcmp(cws->szModule, "CList")) {
@@ -132,18 +132,18 @@ static int ehhToolBarBackgroundSettingsChanged(WPARAM, LPARAM)
 {
 	if (tbdat.mtb_hBmpBackground) {
 		DeleteObject(tbdat.mtb_hBmpBackground);
-		tbdat.mtb_hBmpBackground = NULL;
+		tbdat.mtb_hBmpBackground = nullptr;
 	}
 
 	if (g_CluiData.fDisableSkinEngine) {
 		tbdat.mtb_bkColour = cliGetColor("ToolBar", "BkColour", CLCDEFAULT_BKCOLOUR);
-		if (db_get_b(NULL, "ToolBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrW tszBitmapName(db_get_wsa(NULL, "ToolBar", "BkBitmap"));
+		if (db_get_b(0, "ToolBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
+			ptrW tszBitmapName(db_get_wsa(0, "ToolBar", "BkBitmap"));
 			if (tszBitmapName)
 				tbdat.mtb_hBmpBackground = Bitmap_Load(tszBitmapName);
 		}
-		tbdat.mtb_useWinColors = db_get_b(NULL, "ToolBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
-		tbdat.mtb_backgroundBmpUse = db_get_b(NULL, "ToolBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
+		tbdat.mtb_useWinColors = db_get_b(0, "ToolBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
+		tbdat.mtb_backgroundBmpUse = db_get_b(0, "ToolBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
 	PostMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 	return 0;
@@ -203,7 +203,7 @@ static void sttDrawNonLayeredSkinedBar(HWND hwnd, HDC hdc)
 	DeleteDC(hdc2);
 
 	SelectObject(hdc, (HFONT)GetStockObject(DEFAULT_GUI_FONT));
-	ValidateRect(hwnd, NULL);
+	ValidateRect(hwnd, nullptr);
 }
 
 static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -212,7 +212,7 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 	switch (msg) {
 	case WM_ERASEBKGND:
-		return (g_CluiData.fDisableSkinEngine) ? sttDrawToolBarBackground(hwnd, (HDC)wParam, NULL, pMTBInfo) : 0;
+		return (g_CluiData.fDisableSkinEngine) ? sttDrawToolBarBackground(hwnd, (HDC)wParam, nullptr, pMTBInfo) : 0;
 
 	case WM_NCPAINT:
 	case WM_PAINT:
@@ -232,7 +232,7 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == BUTTONNEEDREDRAW)
-			pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
+			pcli->pfnInvalidateRect(hwnd, nullptr, FALSE);
 		return 0;
 
 	case MTBM_LAYEREDPAINT:
@@ -303,7 +303,7 @@ static wchar_t szWarning[] = LPGENW("To view a toolbar in Clist_modern you need 
 
 static void CopySettings(const char* to, const char* from, int defValue)
 {
-	db_set_b(NULL, TTB_OPTDIR, to, db_get_b(NULL, "ModernToolBar", from, defValue));
+	db_set_b(0, TTB_OPTDIR, to, db_get_b(0, "ModernToolBar", from, defValue));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -328,23 +328,23 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 	TopToolbar_SetCustomProc(CustomizeButton, 0);
 
 	BYTE bOldSetting = 0;
-	if (!db_get_b(NULL, "Compatibility", "TTB_Upgrade", 0)) {
-		if (bOldSetting = db_get_b(NULL, "CLUI", "ShowButtonBar", 1)) {
+	if (!db_get_b(0, "Compatibility", "TTB_Upgrade", 0)) {
+		if (bOldSetting = db_get_b(0, "CLUI", "ShowButtonBar", 1)) {
 			CopySettings("BUTTWIDTH", "option_Bar0_BtnWidth", 20);
 			CopySettings("BUTTHEIGHT", "option_Bar0_BtnHeight", 20);
 			CopySettings("BUTTGAP", "option_Bar0_BtnSpace", 1);
 			CopySettings("BUTTAUTOSIZE", "option_Bar0_Autosize", 1);
 			CopySettings("BUTTMULTI", "option_Bar0_Multiline", 1);
 
-			db_unset(NULL, "CLUI", "ShowButtonBar");
+			db_unset(0, "CLUI", "ShowButtonBar");
 
 			db_delete_module(0, "ModernToolBar");
 		}
-		db_set_b(NULL, "Compatibility", "TTB_Upgrade", 1);
+		db_set_b(0, "Compatibility", "TTB_Upgrade", 1);
 	}
 
 	if (!ServiceExists(MS_TTB_REMOVEBUTTON) && bOldSetting == 1)
-		if (IDYES == MessageBox(NULL, TranslateW(szWarning), TranslateT("Toolbar upgrade"), MB_ICONQUESTION | MB_YESNO))
+		if (IDYES == MessageBox(nullptr, TranslateW(szWarning), TranslateT("Toolbar upgrade"), MB_ICONQUESTION | MB_YESNO))
 			Utils_OpenUrl(szUrl);
 
 	return 0;

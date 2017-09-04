@@ -20,7 +20,7 @@ char * __cdecl strstri(char *a, const char *b)
 	}
 	free(x);
 	free(y);
-	return NULL;
+	return nullptr;
 }
 
 void TRACE_ERROR()
@@ -31,18 +31,18 @@ void TRACE_ERROR()
 		FORMAT_MESSAGE_ALLOCATE_BUFFER |
 		FORMAT_MESSAGE_FROM_SYSTEM |
 		FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL,
+		nullptr,
 		t,
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 		(LPTSTR)&lpMsgBuf,
 		0,
-		NULL))
+		nullptr))
 	{
 		// Handle the error.
 		return;
 	}
 #ifdef _DEBUG
-	MessageBox(NULL, (LPCTSTR)lpMsgBuf, L"Error", MB_OK | MB_ICONINFORMATION);
+	MessageBox(nullptr, (LPCTSTR)lpMsgBuf, L"Error", MB_OK | MB_ICONINFORMATION);
 	DebugBreak();
 #endif
 	LocalFree(lpMsgBuf);
@@ -54,8 +54,8 @@ HICON LoadSmallIcon(HINSTANCE hInstance, int index)
 	wchar_t filename[MAX_PATH] = { 0 };
 	GetModuleFileName(hInstance, filename, MAX_PATH);
 
-	HICON hIcon = NULL;
-	ExtractIconEx(filename, index, NULL, &hIcon, 1);
+	HICON hIcon = nullptr;
+	ExtractIconEx(filename, index, nullptr, &hIcon, 1);
 	return hIcon;
 }
 

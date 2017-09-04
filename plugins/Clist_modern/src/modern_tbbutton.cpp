@@ -30,10 +30,10 @@ struct TBBUTTONDATA : public MButtonCtrl
 };
 
 static mir_cs csTips;
-static HWND hwndToolTips = NULL;
+static HWND hwndToolTips = nullptr;
 static BOOL	bThemed = FALSE;
 
-static MWindowList hButtonWindowList = NULL;
+static MWindowList hButtonWindowList = nullptr;
 
 static int OnIconLibIconChanged(WPARAM, LPARAM)
 {
@@ -87,8 +87,8 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint, POINT *pOffset)
 	int width = rcClient.right - rcClient.left;
 	int height = rcClient.bottom - rcClient.top;
 
-	HBITMAP hbmMem = NULL;
-	HBITMAP hbmOld = NULL;
+	HBITMAP hbmMem = nullptr;
+	HBITMAP hbmOld = nullptr;
 	HDC hdcMem = pOffset ? hdcPaint : CreateCompatibleDC(hdcPaint);
 	HFONT hOldFont = (HFONT)SelectObject(hdcMem, bct->hFont);
 	if (!pOffset) {
@@ -114,7 +114,7 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint, POINT *pOffset)
 		xpt_DrawTheme(bct->hThemeToolbar, bct->hwnd, hdcMem, TP_BUTTON, TBStateConvert2Flat(state), rc, rc);
 	}
 	else {
-		HBRUSH hbr = NULL;
+		HBRUSH hbr = nullptr;
 
 		if (bct->stateId == PBS_PRESSED || bct->stateId == PBS_HOT)
 			hbr = GetSysColorBrush(COLOR_3DLIGHT);
@@ -123,7 +123,7 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint, POINT *pOffset)
 			POINT pt = { 0 };
 			int ret;
 			HWND hwndParent = GetParent(bct->hwnd);
-			HDC dc = CreateCompatibleDC(NULL);
+			HDC dc = CreateCompatibleDC(nullptr);
 			HBITMAP memBM, oldBM;
 			GetWindowRect(hwndParent, &btnRect);
 			memBM = ske_CreateDIB32(btnRect.right - btnRect.left, btnRect.bottom - btnRect.top);
@@ -188,7 +188,7 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint, POINT *pOffset)
 
 	/*	Check sizes*/
 	if (bct->hIcon && (rcIcon.right > rcTemp.right || rcIcon.bottom > rcTemp.bottom || rcIcon.left < rcTemp.left || rcIcon.top < rcTemp.top))
-		bct->hIcon = NULL;
+		bct->hIcon = nullptr;
 
 	if (bHasText && (rcText.right > rcTemp.right || rcText.bottom > rcTemp.bottom || rcText.left < rcTemp.left || rcText.top < rcTemp.top))
 		bHasText = FALSE;
@@ -198,14 +198,14 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint, POINT *pOffset)
 		rcIcon.top += (rcClient.bottom - rcClient.top) / 2 - 8; /* CYSM_ICON/2 */
 		rcIcon.bottom = rcIcon.top + 16; /* CYSM_ICON */
 		/* draw it */
-		ske_DrawIconEx(hdcMem, rcIcon.left + bPressed, rcIcon.top + bPressed, bct->hIcon, 16, 16, 0, NULL, DI_NORMAL);
+		ske_DrawIconEx(hdcMem, rcIcon.left + bPressed, rcIcon.top + bPressed, bct->hIcon, 16, 16, 0, nullptr, DI_NORMAL);
 	}
 
 	if (bHasText) {
 		BOOL bCentered = TRUE;
 		SetBkMode(hdcMem, TRANSPARENT);
 		if (bct->nFontID >= 0)
-			g_clcPainter.ChangeToFont(hdcMem, NULL, bct->nFontID, NULL);
+			g_clcPainter.ChangeToFont(hdcMem, nullptr, bct->nFontID, nullptr);
 
 		RECT TextRequiredRect = rcText;
 		ske_DrawText(hdcMem, bct->szText, -1, &TextRequiredRect, DT_CENTER | DT_VCENTER | DT_CALCRECT | DT_SINGLELINE);
@@ -272,18 +272,18 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			PAINTSTRUCT ps;
 			HDC hdcPaint = BeginPaint(hwndDlg, &ps);
 			if (hdcPaint) {
-				PaintWorker(bct, hdcPaint, NULL);
+				PaintWorker(bct, hdcPaint, nullptr);
 				EndPaint(hwndDlg, &ps);
 			}
 		}
-		ValidateRect(hwndDlg, NULL);
+		ValidateRect(hwndDlg, nullptr);
 		return 0;
 
 	case WM_CAPTURECHANGED:
 		if ((HWND)lParam != bct->hwnd && bct->stateId != PBS_DISABLED) {
 			// don't change states if disabled
 			bct->stateId = PBS_NORMAL;
-			InvalidateParentRect(bct->hwnd, NULL, TRUE);
+			InvalidateParentRect(bct->hwnd, nullptr, TRUE);
 		}
 		break;
 
@@ -293,7 +293,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 
 	case WM_ENABLE: // windows tells us to enable/disable
 		bct->stateId = wParam ? PBS_NORMAL : PBS_DISABLED;
-		InvalidateParentRect(bct->hwnd, NULL, TRUE);
+		InvalidateParentRect(bct->hwnd, nullptr, TRUE);
 		return 0;
 
 	case WM_LBUTTONDOWN:
@@ -310,11 +310,11 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 				if (bct->stateId != PBS_DISABLED && bct->stateId != PBS_PRESSED) {
 					bct->stateId = PBS_PRESSED;
 					bct->bHotMark = true;
-					InvalidateParentRect(bct->hwnd, NULL, TRUE);
+					InvalidateParentRect(bct->hwnd, nullptr, TRUE);
 					if (bct->bSendOnDown) {
 						SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM)hwndDlg);
 						bct->stateId = PBS_NORMAL;
-						InvalidateParentRect(bct->hwnd, NULL, TRUE);
+						InvalidateParentRect(bct->hwnd, nullptr, TRUE);
 					}
 				}
 				SetCapture(bct->hwnd);
@@ -341,7 +341,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			if (bct->stateId != PBS_DISABLED) {
 				// don't change states if disabled
 				bct->stateId = PBS_HOT;
-				InvalidateParentRect(bct->hwnd, NULL, TRUE);
+				InvalidateParentRect(bct->hwnd, nullptr, TRUE);
 			}
 			if (!bct->bSendOnDown) {
 				bct->bHotMark = false;
@@ -350,7 +350,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		}
 		else {
 			bct->bHotMark = false;
-			InvalidateParentRect(bct->hwnd, NULL, TRUE);
+			InvalidateParentRect(bct->hwnd, nullptr, TRUE);
 		}
 		return 0;
 
@@ -371,18 +371,18 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 				SetCapture(bct->hwnd);
 				if (bct->stateId == PBS_NORMAL) {
 					bct->stateId = PBS_HOT;
-					InvalidateParentRect(bct->hwnd, NULL, TRUE);
+					InvalidateParentRect(bct->hwnd, nullptr, TRUE);
 				}
 			}
 
 			if (!inClient && bct->stateId == PBS_PRESSED) {
 				bct->stateId = PBS_HOT;
-				InvalidateParentRect(bct->hwnd, NULL, TRUE);
+				InvalidateParentRect(bct->hwnd, nullptr, TRUE);
 			}
 			else if (inClient && bct->stateId == PBS_HOT && bPressed) {
 				if (bct->bHotMark) {
 					bct->stateId = PBS_PRESSED;
-					InvalidateParentRect(bct->hwnd, NULL, TRUE);
+					InvalidateParentRect(bct->hwnd, nullptr, TRUE);
 				}
 			}
 			else if (!inClient && !bPressed) {
@@ -406,17 +406,17 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			bct->bIsPushed = 1;
 		else if (wParam == BST_UNCHECKED)
 			bct->bIsPushed = 0;
-		InvalidateRect(bct->hwnd, NULL, TRUE);
+		InvalidateRect(bct->hwnd, nullptr, TRUE);
 		return 0;
 
 	case WM_SETFOCUS: // set keyboard focus and redraw
 		bct->bFocused = true;
-		InvalidateParentRect(bct->hwnd, NULL, TRUE);
+		InvalidateParentRect(bct->hwnd, nullptr, TRUE);
 		break;
 
 	case WM_KILLFOCUS: // kill focus and redraw
 		bct->bFocused = false;
-		InvalidateParentRect(bct->hwnd, NULL, TRUE);
+		InvalidateParentRect(bct->hwnd, nullptr, TRUE);
 		break;
 
 	case WM_ERASEBKGND:
@@ -424,16 +424,16 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 
 	case MBM_SETICOLIBHANDLE:
 		bct->hIcolibHandle = (HANDLE)lParam;
-		bct->hIcon = (bct->hIcolibHandle) ? IcoLib_GetIconByHandle(bct->hIcolibHandle) : NULL;
+		bct->hIcon = (bct->hIcolibHandle) ? IcoLib_GetIconByHandle(bct->hIcolibHandle) : nullptr;
 		return 1;
 
 	case MBM_REFRESHICOLIBICON:
 		if (bct->hIcolibHandle)
 			bct->hIcon = IcoLib_GetIconByHandle(bct->hIcolibHandle);
 		else
-			bct->hIcon = NULL;
-		InvalidateRect(hwndDlg, NULL, TRUE);
-		pcli->pfnInvalidateRect(GetParent(GetParent(hwndDlg)), NULL, TRUE);
+			bct->hIcon = nullptr;
+		InvalidateRect(hwndDlg, nullptr, TRUE);
+		pcli->pfnInvalidateRect(GetParent(GetParent(hwndDlg)), nullptr, TRUE);
 		return 1;
 
 	case MBM_UPDATETRANSPARENTFLAG:
@@ -445,14 +445,14 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		if (lParam) flag |= WS_EX_TRANSPARENT;
 		if (flag != oldFlag) {
 			SetWindowLongPtr(hwndDlg, GWL_EXSTYLE, flag);
-			RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+			RedrawWindow(hwndDlg, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 		}
 		return 1;
 	}
 
 	LRESULT res = mir_callNextSubclass(hwndDlg, ToolbarButtonProc, msg, wParam, lParam);
 	if (msg == BM_SETIMAGE)
-		InvalidateParentRect(hwndDlg, NULL, TRUE);
+		InvalidateParentRect(hwndDlg, nullptr, TRUE);
 	return res;
 }
 
@@ -465,7 +465,7 @@ void MakeButtonSkinned(HWND hWnd)
 	p->nFontID = -1;
 	p->hThemeButton = xpt_AddThemeHandle(p->hwnd, L"BUTTON");
 	p->hThemeToolbar = xpt_AddThemeHandle(p->hwnd, L"TOOLBAR");
-	WindowList_Add(hButtonWindowList, hWnd, NULL);
+	WindowList_Add(hButtonWindowList, hWnd, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

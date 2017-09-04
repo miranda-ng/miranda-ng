@@ -121,8 +121,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DEFAULT_SKIN_FOLDER		"Skins\\Modern contact list"
 extern wchar_t SkinsFolder[MAX_PATH];
 
-//macros to free data and set it pointer to NULL
-#define mir_free_and_nil(x) {mir_free((void*)x); x=NULL;}
+//macros to free data and set it pointer to nullptr
+#define mir_free_and_nil(x) {mir_free((void*)x); x = 0;}
 // shared vars
 
 #define CLUI_FRAME_AUTOHIDENOTIFY  512
@@ -307,9 +307,9 @@ public:
 	HashStringKeyNoCase(const wchar_t* szKey)
 	{
 		int codepage = 0;
-		int cbLen = WideCharToMultiByte(codepage, 0, szKey, -1, NULL, 0, NULL, NULL);
+		int cbLen = WideCharToMultiByte(codepage, 0, szKey, -1, nullptr, 0, nullptr, nullptr);
 		char* result = (char*)malloc(cbLen + 1);
-		WideCharToMultiByte(codepage, 0, szKey, -1, result, cbLen, NULL, NULL);
+		WideCharToMultiByte(codepage, 0, szKey, -1, result, cbLen, nullptr, nullptr);
 		result[cbLen] = 0;
 
 		_strKey = result;
@@ -320,7 +320,7 @@ public:
 	~HashStringKeyNoCase()
 	{
 		free(_strKey);
-		_strKey = NULL;
+		_strKey = nullptr;
 		_dwKey = 0;
 	}
 

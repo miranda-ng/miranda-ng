@@ -29,8 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	ClcContact *contact = NULL;
-	ClcGroup *group = NULL;
+	ClcContact *contact = nullptr;
+	ClcGroup *group = nullptr;
 
 	switch (msg) {
 	case CLM_DELETEITEM:
@@ -56,7 +56,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 		RowHeights_GetMaxRowHeight(dat, hwnd);
 
 		if (LOWORD(lParam))
-			cliInvalidateRect(hwnd, NULL, FALSE);
+			cliInvalidateRect(hwnd, nullptr, FALSE);
 		return 0;
 
 	case CLM_SETHIDEEMPTYGROUPS:
@@ -106,24 +106,24 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 		{
 			int i = 0;
 			if (wParam != CLGN_ROOT) {
-				if (!Clist_FindItem(hwnd, dat, lParam, &contact, &group, NULL))
-					return NULL;
+				if (!Clist_FindItem(hwnd, dat, lParam, &contact, &group, nullptr))
+					return 0;
 				i = group->cl.indexOf(contact);
-				if (i < 0) return 0;
+				if (i < 0)
+					return 0;
 			}
 			switch (wParam) {
 			case CLGN_ROOT:
 				if (dat->list.cl.getCount())
 					return Clist_ContactToHItem(dat->list.cl[0]);
-				else
-					return NULL;
+				return 0;
 			
 			case CLGN_CHILD:
 				if (contact->type != CLCIT_GROUP)
-					return NULL;
+					return 0;
 				group = contact->group;
 				if (group->cl.getCount() == 0)
-					return NULL;
+					return 0;
 				return Clist_ContactToHItem(group->cl[0]);
 			
 			case CLGN_PARENT:
@@ -132,14 +132,14 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 			case CLGN_NEXT:
 				do {
 					if (++i >= group->cl.getCount())
-						return NULL;
+						return 0;
 				} while (group->cl[i]->type == CLCIT_DIVIDER);
 				return Clist_ContactToHItem(group->cl[i]);
 			
 			case CLGN_PREVIOUS:
 				do {
 					if (--i < 0)
-						return NULL;
+						return 0;
 				} while (group->cl[i]->type == CLCIT_DIVIDER);
 				return Clist_ContactToHItem(group->cl[i]);
 			
@@ -148,17 +148,17 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 					if (group->cl[i]->type == CLCIT_CONTACT)
 						break;
 				if (i >= group->cl.getCount())
-					return NULL;
+					return 0;
 				return Clist_ContactToHItem(group->cl[i]);
 			
 			case CLGN_PREVIOUSCONTACT:
 				if (i >= group->cl.getCount())
-					return NULL;
+					return 0;
 				for (i--; i >= 0; i--)
 					if (group->cl[i]->type == CLCIT_CONTACT)
 						break;
 				if (i < 0)
-					return NULL;
+					return 0;
 				return Clist_ContactToHItem(group->cl[i]);
 			
 			case CLGN_NEXTGROUP:
@@ -166,28 +166,28 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 					if (group->cl[i]->type == CLCIT_GROUP)
 						break;
 				if (i >= group->cl.getCount())
-					return NULL;
+					return 0;
 				return Clist_ContactToHItem(group->cl[i]);
 			
 			case CLGN_PREVIOUSGROUP:
 				if (i >= group->cl.getCount())
-					return NULL;
+					return 0;
 				for (i--; i >= 0; i--)
 					if (group->cl[i]->type == CLCIT_GROUP)
 						break;
 				if (i < 0)
-					return NULL;
+					return 0;
 				return Clist_ContactToHItem(group->cl[i]);
 			}
 		}
-		return NULL;
+		return 0;
 
 	case CLM_SELECTITEM:
 		ClcGroup *tgroup;
 		{
 			int index = -1;
 			int mainindex = -1;
-			if (!Clist_FindItem(hwnd, dat, wParam, &contact, &group, NULL))
+			if (!Clist_FindItem(hwnd, dat, wParam, &contact, &group, nullptr))
 				break;
 			for (tgroup = group; tgroup; tgroup = tgroup->parent)
 				pcli->pfnSetGroupExpand(hwnd, dat, tgroup, 1);
@@ -202,7 +202,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 				index += contact->iSubNumber;
 			}
 
-			BYTE k = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
+			BYTE k = db_get_b(0, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
 			if (k) {
 				for (int i = 0; i < mainindex; i++) {
 					ClcContact *tempCont = group->cl[i];

@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void InsertContactIntoTree(MCONTACT hContact, int status);
 
-wchar_t* UnknownConctactTranslatedName = NULL;
+wchar_t* UnknownConctactTranslatedName = nullptr;
 
 void cliFreeCacheItem(ClcCacheEntry *p)
 {
@@ -40,22 +40,22 @@ void cliFreeCacheItem(ClcCacheEntry *p)
 
 void cliCheckCacheItem(ClcCacheEntry *pdnce)
 {
-	if (pdnce == NULL)
+	if (pdnce == nullptr)
 		return;
 
-	if (pdnce->hContact == NULL) { //selfcontact
+	if (pdnce->hContact == 0) { //selfcontact
 		if (!pdnce->tszName)
-			pdnce->tszName = pcli->pfnGetContactDisplayName(NULL, GCDNF_NOCACHE);
+			pdnce->tszName = pcli->pfnGetContactDisplayName(0, GCDNF_NOCACHE);
 		return;
 	}
 
-	if (pdnce->m_pszProto == NULL) {
+	if (pdnce->m_pszProto == nullptr) {
 		pdnce->m_pszProto = GetContactProto(pdnce->hContact);
 		if (pdnce->m_pszProto && pdnce->tszName)
 			mir_free_and_nil(pdnce->tszName);
 	}
 
-	if (pdnce->tszName == NULL) {
+	if (pdnce->tszName == nullptr) {
 		pdnce->tszName = pcli->pfnGetContactDisplayName(pdnce->hContact, GCDNF_NOCACHE);
 		pdnce->m_bIsUnknown = !mir_wstrcmp(pdnce->tszName, UnknownConctactTranslatedName);
 	}
@@ -81,10 +81,10 @@ int GetStatusForContact(MCONTACT hContact, char *szProto)
 int GetContactInfosForSort(MCONTACT hContact, char **Proto, wchar_t **Name, int *Status)
 {
 	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hContact);
-	if (cacheEntry != NULL) {
-		if (Proto != NULL)  *Proto = cacheEntry->m_pszProto;
-		if (Name != NULL)   *Name = cacheEntry->tszName;
-		if (Status != NULL) *Status = cacheEntry->m_iStatus;
+	if (cacheEntry != nullptr) {
+		if (Proto != nullptr)  *Proto = cacheEntry->m_pszProto;
+		if (Name != nullptr)   *Name = cacheEntry->tszName;
+		if (Status != nullptr) *Status = cacheEntry->m_iStatus;
 	}
 	return 0;
 }
@@ -113,16 +113,16 @@ int MetaStatusChanged(WPARAM hMeta, LPARAM)
 
 int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	if (MirandaExiting() || !pcli || hContact == NULL)
+	if (MirandaExiting() || !pcli || !hContact)
 		return 0;
 
 	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
-	if (pdnce == NULL) {
+	if (pdnce == nullptr) {
 		TRACE("!!! Very bad pdnce not found.");
 		return 0;
 	}
 
-	if (pdnce->m_pszProto == NULL)
+	if (pdnce->m_pszProto == nullptr)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
@@ -136,7 +136,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 				if (g_CluiData.bRemoveAwayMessageForOffline)
 					db_set_s(hContact, "CList", "StatusMsg", "");
 
-			if ((db_get_w(NULL, "CList", "SecondLineType", 0) == TEXT_STATUS_MESSAGE || db_get_w(NULL, "CList", "ThirdLineType", 0) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->m_pszProto)
+			if ((db_get_w(0, "CList", "SecondLineType", 0) == TEXT_STATUS_MESSAGE || db_get_w(0, "CList", "ThirdLineType", 0) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->m_pszProto)
 				amRequestAwayMsg(hContact);
 
 			Clist_Broadcast(INTM_STATUSCHANGED, hContact, 0);
@@ -145,7 +145,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled)
 				pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
 
-			if ((db_get_w(NULL, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE || db_get_w(NULL, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->m_pszProto)
+			if ((db_get_w(0, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE || db_get_w(0, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->m_pszProto)
 				amRequestAwayMsg(hContact);
 		}
 		else if (!strcmp(cws->szSetting, "ApparentMode"))
@@ -184,7 +184,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	else if (!strcmp(cws->szModule, "Protocol")) {
 		if (!strcmp(cws->szSetting, "p")) {
 			pdnce->m_pszProto = GetContactProto(hContact);
-			char *szProto = (cws->value.type == DBVT_DELETED) ? NULL : cws->value.pszVal;
+			char *szProto = (cws->value.type == DBVT_DELETED) ? nullptr : cws->value.pszVal;
 			pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(szProto, pdnce->getStatus(), hContact));
 		}
 	}

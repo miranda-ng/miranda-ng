@@ -26,11 +26,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 {
-	cont->bSubExpanded = db_get_b(cont->hContact, "CList", "Expanded", 0) && db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
+	cont->bSubExpanded = db_get_b(cont->hContact, "CList", "Expanded", 0) && db_get_b(0, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
 	int subcount = db_mc_getSubCount(cont->hContact);
 	if (subcount <= 0) {
 		cont->iSubNumber = 0;
-		cont->subcontacts = NULL;
+		cont->subcontacts = nullptr;
 		cont->iSubAllocated = 0;
 		return;
 	}
@@ -40,7 +40,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 	cont->subcontacts = (ClcContact *)mir_calloc(sizeof(ClcContact)*subcount);
 	cont->iSubAllocated = subcount;
 	int i = 0;
-	int bHideOffline = db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+	int bHideOffline = db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 	for (int j = 0; j < subcount; j++) {
 		MCONTACT hsub = db_mc_getSub(cont->hContact, j);
 		ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hsub);
@@ -69,20 +69,20 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 		Cache_GetText(dat, &p);
 
 		char *szProto = pdnce->m_pszProto;
-		if (szProto != NULL && !pcli->pfnIsHiddenMode(dat, wStatus))
+		if (szProto != nullptr && !pcli->pfnIsHiddenMode(dat, wStatus))
 			p.flags |= CONTACTF_ONLINE;
-		int apparentMode = szProto != NULL ? pdnce->ApparentMode : 0;
+		int apparentMode = szProto != nullptr ? pdnce->ApparentMode : 0;
 		if (apparentMode == ID_STATUS_OFFLINE)	p.flags |= CONTACTF_INVISTO;
 		else if (apparentMode == ID_STATUS_ONLINE) p.flags |= CONTACTF_VISTO;
 		else if (apparentMode) p.flags |= CONTACTF_VISTO | CONTACTF_INVISTO;
 		if (pdnce->NotOnList) p.flags |= CONTACTF_NOTONLIST;
-		int idleMode = szProto != NULL ? pdnce->IdleTS : 0;
+		int idleMode = szProto != nullptr ? pdnce->IdleTS : 0;
 		if (idleMode) p.flags |= CONTACTF_IDLE;
 		i++;
 	}
 
 	cont->iSubAllocated = i;
-	if (!i && cont->subcontacts != NULL)
+	if (!i && cont->subcontacts != nullptr)
 		mir_free_and_nil(cont->subcontacts);
 }
 
@@ -119,17 +119,17 @@ static void _LoadDataToContact(ClcContact *cont, ClcCacheEntry *pdnce, ClcGroup 
 	cont->pce = pdnce;
 	cont->iSubAllocated = 0;
 	cont->iSubNumber = 0;
-	cont->subcontacts = NULL;
+	cont->subcontacts = nullptr;
 	cont->szText[0] = 0;
 	cont->lastPaintCounter = 0;
 	cont->bImageIsSpecial = false;
 	cont->hContact = hContact;
 	cont->proto = szProto;
 
-	if (szProto != NULL && !pcli->pfnIsHiddenMode(dat, pdnce->m_iStatus))
+	if (szProto != nullptr && !pcli->pfnIsHiddenMode(dat, pdnce->m_iStatus))
 		cont->flags |= CONTACTF_ONLINE;
 
-	WORD apparentMode = szProto != NULL ? pdnce->ApparentMode : 0;
+	WORD apparentMode = szProto != nullptr ? pdnce->ApparentMode : 0;
 	if (apparentMode)
 		switch (apparentMode) {
 		case ID_STATUS_OFFLINE:
@@ -145,7 +145,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcCacheEntry *pdnce, ClcGroup 
 	if (pdnce->NotOnList)
 		cont->flags |= CONTACTF_NOTONLIST;
 
-	DWORD idleMode = szProto != NULL ? pdnce->IdleTS : 0;
+	DWORD idleMode = szProto != nullptr ? pdnce->IdleTS : 0;
 	if (idleMode)
 		cont->flags |= CONTACTF_IDLE;
 
@@ -186,7 +186,7 @@ void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int update
 
 	ClcGroup *group;
 	ClcContact *cont;
-	if (Clist_FindItem(hwnd, dat, hContact, &cont, &group, NULL))
+	if (Clist_FindItem(hwnd, dat, hContact, &cont, &group, nullptr))
 		_LoadDataToContact(cont, pdnce, group, dat, hContact);
 }
 
@@ -202,18 +202,18 @@ bool CLCItems_IsShowOfflineGroup(ClcGroup *group)
 
 MCONTACT SaveSelection(ClcData *dat)
 {
-	ClcContact *selcontact = NULL;
-	if (pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) == -1)
-		return NULL;
+	ClcContact *selcontact = nullptr;
+	if (pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) == -1)
+		return 0;
 
 	return Clist_ContactToHItem(selcontact);
 }
 
 int RestoreSelection(ClcData *dat, MCONTACT hSelected)
 {
-	ClcGroup *selgroup = NULL;
-	ClcContact *selcontact = NULL;
-	if (!hSelected || !Clist_FindItem(dat->hWnd, dat, hSelected, &selcontact, &selgroup, NULL)) {
+	ClcGroup *selgroup = nullptr;
+	ClcContact *selcontact = nullptr;
+	if (!hSelected || !Clist_FindItem(dat->hWnd, dat, hSelected, &selcontact, &selgroup, nullptr)) {
 		dat->selection = -1;
 		return dat->selection;
 	}
@@ -251,8 +251,8 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 	MCONTACT hSelected = SaveSelection(dat);
 	dat->selection = -1;
 	dat->bNeedsResort = true;
-	dat->HiLightMode = db_get_b(NULL, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT);
-	dat->bPlaceOfflineToRoot = db_get_b(NULL, "CList", "PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT) != 0;
+	dat->HiLightMode = db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT);
+	dat->bPlaceOfflineToRoot = db_get_b(0, "CList", "PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT) != 0;
 
 	corecli.pfnRebuildEntireList(hwnd, dat);
 
@@ -278,7 +278,7 @@ int GetNewSelection(ClcGroup *group, int selection, int direction)
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.getCount()) {
-			if ((group = group->parent) == NULL)
+			if ((group = group->parent) == nullptr)
 				break;
 			group->scanIndex++;
 			continue;
@@ -314,12 +314,12 @@ ClcContact* cliCreateClcContact()
 
 ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 {
-	if (hContact == NULL)
-		return NULL;
+	if (hContact == 0)
+		return nullptr;
 
 	ClcCacheEntry *pdnce = (ClcCacheEntry *)mir_calloc(sizeof(ClcCacheEntry));
-	if (pdnce == NULL)
-		return NULL;
+	if (pdnce == nullptr)
+		return nullptr;
 
 	pdnce->hContact = hContact;
 	pdnce->m_pszProto = GetContactProto(hContact);
@@ -377,7 +377,7 @@ int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 			count += group->cl.getCount();
 			continue;
 		}
-		if (cc->type == CLCIT_CONTACT && cc->subcontacts != NULL && (cc->bSubExpanded || !visibleOnly))
+		if (cc->type == CLCIT_CONTACT && cc->subcontacts != nullptr && (cc->bSubExpanded || !visibleOnly))
 			count += cc->iSubAllocated;
 
 		group->scanIndex++;
@@ -398,21 +398,21 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
 
 	// always hide subcontacts (but show them on embedded contact lists)
-	if (dat != NULL && dat->IsMetaContactsEnabled && db_mc_isSub(hContact))
+	if (dat != nullptr && dat->IsMetaContactsEnabled && db_mc_isSub(hContact))
 		return -1; //subcontact
 
-	if (pdnce && pdnce->m_bIsUnknown && dat != NULL && !dat->bForceInDialog)
+	if (pdnce && pdnce->m_bIsUnknown && dat != nullptr && !dat->bForceInDialog)
 		return 1; //'Unknown Contact'
 
-	if (dat != NULL && dat->bFilterSearch && pdnce && pdnce->tszName) {
+	if (dat != nullptr && dat->bFilterSearch && pdnce && pdnce->tszName) {
 		// search filtering
 		wchar_t *lowered_name = CharLowerW(NEWWSTR_ALLOCA(pdnce->tszName));
 		wchar_t *lowered_search = CharLowerW(NEWWSTR_ALLOCA(dat->szQuickSearch));
 		searchResult = wcsstr(lowered_name, lowered_search) ? 0 : 1;
 	}
 	
-	if (pdnce && g_CluiData.bFilterEffective && dat != NULL && !dat->bForceInDialog) {
-		if (szProto == NULL)
+	if (pdnce && g_CluiData.bFilterEffective && dat != nullptr && !dat->bForceInDialog) {
+		if (szProto == nullptr)
 			szProto = GetContactProto(hContact);
 		// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
 		if (g_CluiData.bFilterEffective & CLVM_STICKY_CONTACTS) {
@@ -434,7 +434,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_GROUPS) {
 			ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
-			if (tszGroup != NULL) {
+			if (tszGroup != nullptr) {
 				wchar_t szGroupMask[256];
 				mir_snwprintf(szGroupMask, L"%s|", tszGroup);
 				filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | (wcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0)) : (filterResult & (wcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0));

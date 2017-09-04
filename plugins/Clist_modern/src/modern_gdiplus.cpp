@@ -23,7 +23,7 @@ void InitGdiPlus(void)
 {
 	GdiplusStartupInput gdiplusStartupInput;
 	if (g_gdiplusToken == 0)
-		GdiplusStartup(&g_gdiplusToken, &gdiplusStartupInput, NULL);
+		GdiplusStartup(&g_gdiplusToken, &gdiplusStartupInput, nullptr);
 }
 
 void ShutdownGdiPlus(void)
@@ -55,7 +55,7 @@ HBITMAP GDIPlus_LoadGlyphImage(const wchar_t *tszFileName)
 
 	// Clone a portion of the bitmap.
 	Bitmap* clone = bitmap.Clone(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), PixelFormat32bppPARGB);
-	HBITMAP hbmp = NULL;
+	HBITMAP hbmp = nullptr;
 	if (clone) {
 		clone->GetHBITMAP(Color(0, 0, 0), &hbmp);
 		delete clone;
@@ -67,7 +67,7 @@ void DrawAvatarImageWithGDIp(HDC hDestDC, int x, int y, DWORD width, DWORD heigh
 {
 	BITMAP bmp;
 	Bitmap *bm;
-	BYTE * bmbits = NULL;
+	BYTE * bmbits = nullptr;
 	GetObject(hbmp, sizeof(BITMAP), &bmp);
 	Graphics g(hDestDC);
 	if (bmp.bmBitsPixel == 32 && (flag&AVS_PREMULTIPLIED)) {
@@ -83,7 +83,7 @@ void DrawAvatarImageWithGDIp(HDC hDestDC, int x, int y, DWORD width, DWORD heigh
 			free(bmbits);
 		}
 	}
-	else bm = new Bitmap(hbmp, NULL);
+	else bm = new Bitmap(hbmp, nullptr);
 
 	ImageAttributes attr;
 	ColorMatrix Matrix =
@@ -97,7 +97,7 @@ void DrawAvatarImageWithGDIp(HDC hDestDC, int x, int y, DWORD width, DWORD heigh
 	attr.SetColorMatrix(&Matrix, ColorMatrixFlagsDefault, ColorAdjustTypeBitmap);
 	g.SetInterpolationMode(InterpolationModeHighQualityBicubic);
 	RectF rect((float)x, (float)y, (float)width, (float)height);
-	g.DrawImage(bm, rect, (float)x1, (float)y1, (float)width1, (float)height1, UnitPixel, &attr, NULL, NULL);
+	g.DrawImage(bm, rect, (float)x1, (float)y1, (float)width1, (float)height1, UnitPixel, &attr, nullptr, nullptr);
 	delete bm;
 }
 
@@ -113,7 +113,7 @@ BOOL GDIPlus_AlphaBlend(HDC hdcDest, int nXOriginDest, int nYOriginDest, int nWi
 		bm = new Bitmap(bmp.bmWidth, bmp.bmHeight, bmp.bmWidthBytes, PixelFormat32bppPARGB, (BYTE*)bmp.bmBits);
 		bm->RotateFlip(RotateNoneFlipY);
 	}
-	else bm = new Bitmap(hbmp, NULL);
+	else bm = new Bitmap(hbmp, nullptr);
 
 	ImageAttributes attr;
 	ColorMatrix Matrix =
@@ -134,7 +134,7 @@ BOOL GDIPlus_AlphaBlend(HDC hdcDest, int nXOriginDest, int nYOriginDest, int nWi
 	else g.SetInterpolationMode(InterpolationModeLowQuality);
 
 	RectF rect((float)nXOriginDest, (float)nYOriginDest, (float)nWidthDest, (float)nHeightDest);
-	g.DrawImage(bm, rect, (float)nXOriginSrc, (float)nYOriginSrc, (float)nWidthSrc, (float)nHeightSrc, UnitPixel, &attr, NULL, NULL);
+	g.DrawImage(bm, rect, (float)nXOriginSrc, (float)nYOriginSrc, (float)nWidthSrc, (float)nHeightSrc, UnitPixel, &attr, nullptr, nullptr);
 	delete bm;
 	return TRUE;
 }
@@ -204,7 +204,7 @@ void GDIPlus_ExtractAnimatedGIF(wchar_t *szName, int width, int height, HBITMAP 
 	clipHeight = (int)(xscale*imHeight + .5);
 
 	HBITMAP hBitmap = ske_CreateDIB32(clipWidth*nFrameCount, height);
-	HDC hdc = CreateCompatibleDC(NULL);
+	HDC hdc = CreateCompatibleDC(nullptr);
 	HBITMAP oldBmp = (HBITMAP)SelectObject(hdc, hBitmap);
 	Graphics graphics(hdc);
 	ImageAttributes attr;

@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CHECKRES(sub) if (sub != S_OK) return S_FALSE;
 
 HINSTANCE g_hInst = 0, g_hMirApp = 0;
-CLIST_INTERFACE *pcli = NULL;
+CLIST_INTERFACE *pcli = nullptr;
 CLIST_INTERFACE corecli = { 0 };
 CLUIDATA g_CluiData = { 0 };
 int hLangpack;
@@ -104,7 +104,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 	if (IsWindow(pcli->hwndContactList))
 		DestroyWindow(pcli->hwndContactList);
-	pcli->hwndContactList = NULL;
+	pcli->hwndContactList = nullptr;
 
 	ToolbarButtonUnloadModule();
 	BackgroundsUnloadModule();

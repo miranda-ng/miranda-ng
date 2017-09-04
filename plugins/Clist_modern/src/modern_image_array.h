@@ -65,7 +65,7 @@ void ImageArray_Initialize(IMAGE_ARRAY_DATA *iad, BOOL width_based, int grow_ste
 void ImageArray_Clear(IMAGE_ARRAY_DATA *iad);
 
 // Free data
-// If keep_bitmap is TRUE, doesn't delete de bitmap and return its handle. Else, return NULL
+// If keep_bitmap is TRUE, doesn't delete de bitmap and return its handle. Else, return nullptr
 HBITMAP ImageArray_Free(IMAGE_ARRAY_DATA *iad, BOOL keep_bitmap);
 
 // Add image to the list (return the index of the image or -1 on error)

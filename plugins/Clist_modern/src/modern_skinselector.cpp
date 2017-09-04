@@ -79,7 +79,7 @@ static int DeleteMaskByItID(DWORD mID, LISTMODERNMASK *mmTemplateList)
 	if (mmTemplateList->dwMaskCnt == 1) {
 		SkinSelector_DeleteMask(&(mmTemplateList->pl_Masks[0]));
 		mir_free_and_nil(mmTemplateList->pl_Masks);
-		mmTemplateList->pl_Masks = NULL;
+		mmTemplateList->pl_Masks = nullptr;
 		mmTemplateList->dwMaskCnt--;
 	}
 	else {
@@ -147,8 +147,8 @@ static BOOL _GetParamValue(char *szText, unsigned int &start, unsigned int lengt
 
 	paramlen = 0;
 	valuelen = 0;
-	value = NULL;
-	param = NULL;
+	value = nullptr;
+	param = nullptr;
 
 	except = EXCEPTION_EQUAL;
 	param = curChar;
@@ -175,7 +175,7 @@ static BOOL _GetParamValue(char *szText, unsigned int &start, unsigned int lengt
 			if (state == STATE_PARAM) {
 				// no parameter name only value
 				value = param;
-				param = NULL;
+				param = nullptr;
 				paramlen = 0;
 				state = STATE_VALUE;
 			}
@@ -345,7 +345,7 @@ SKINOBJECTDESCRIPTOR* skin_FindObjectByMask(MODERNMASK *mm, LISTMODERNMASK *mmTe
 		if (CompareModernMask(mm, &(mmTemplateList->pl_Masks[i])))
 			return (SKINOBJECTDESCRIPTOR*)mmTemplateList->pl_Masks[i].pObject;
 
-	return NULL;
+	return nullptr;
 }
 
 SKINOBJECTDESCRIPTOR* skin_FindObjectByRequest(char *szValue, LISTMODERNMASK *mmTemplateList)
@@ -354,7 +354,7 @@ SKINOBJECTDESCRIPTOR* skin_FindObjectByRequest(char *szValue, LISTMODERNMASK *mm
 		mmTemplateList = g_SkinObjectList.pMaskList;
 
 	if (!mmTemplateList)
-		return NULL;
+		return nullptr;
 
 	MODERNMASK mm = { 0 };
 	ParseToModernMask(&mm, szValue);
@@ -470,7 +470,7 @@ int RegisterButtonByParce(char * ObjectName, char * Params)
 		+ ((TL[4] == 'I') ? SBF_CALL_ON_PRESS : 0);
 	if (a)
 		return ModernSkinButton_AddButton(pcli->hwndContactList, ObjectName + 1, pServiceName, pStatusServiceName, "\0", Left, Top, Right, Bottom, alingnto, TranslateW(Hint), Section, Type, MinWidth, MinHeight);
-	return ModernSkinButton_AddButton(pcli->hwndContactList, ObjectName + 1, pServiceName, pStatusServiceName, "\0", Left, Top, Right, Bottom, alingnto, TranslateW(Hint), NULL, NULL, MinWidth, MinHeight);
+	return ModernSkinButton_AddButton(pcli->hwndContactList, ObjectName + 1, pServiceName, pStatusServiceName, "\0", Left, Top, Right, Bottom, alingnto, TranslateW(Hint), nullptr, nullptr, MinWidth, MinHeight);
 }
 
 //Parse DB string and add object
@@ -542,7 +542,7 @@ int RegisterObjectByParce(char *ObjectName, char *Params)
 		else gl.Style = ST_SKIP; // None
 
 		obj.Data = &gl;
-		int res = ske_AddDescriptorToSkinObjectList(&obj, NULL);
+		int res = ske_AddDescriptorToSkinObjectList(&obj, nullptr);
 		mir_free_and_nil(obj.szObjectID);
 		mir_free_and_nil(gl.szFileName);
 		return res;

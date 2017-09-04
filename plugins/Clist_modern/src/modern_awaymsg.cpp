@@ -39,7 +39,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static mir_cs amCS;
 static LIST<void> amItems(10, PtrKeySortT);
 
-static HANDLE  hamProcessEvent = NULL;
+static HANDLE  hamProcessEvent = nullptr;
 static DWORD   amRequestTick = 0;
 
 /*
@@ -48,7 +48,7 @@ static DWORD   amRequestTick = 0;
 static int amAddHandleToChain(MCONTACT hContact)
 {
 	mir_cslockfull lck(amCS);
-	if (amItems.find((HANDLE)hContact) != NULL)
+	if (amItems.find((HANDLE)hContact) != nullptr)
 		return 0;
 
 	amItems.insert((HANDLE)hContact);
@@ -64,7 +64,7 @@ static MCONTACT amGetCurrentChain()
 {
 	mir_cslock lck(amCS);
 	if (amItems.getCount() == 0)
-		return NULL;
+		return 0;
 
 	MCONTACT res = (DWORD_PTR)amItems[0];
 	amItems.remove(0);
@@ -76,7 +76,7 @@ static MCONTACT amGetCurrentChain()
 */
 static void amThreadProc(void *)
 {
-	Netlib_Logf(NULL, "amThreadProc thread start");
+	Netlib_Logf(nullptr, "amThreadProc thread start");
 
 	while (!MirandaExiting()) {
 		MCONTACT hContact = amGetCurrentChain();
@@ -121,8 +121,8 @@ static void amThreadProc(void *)
 	}
 
 LBL_Exit:
-	g_hAwayMsgThread = NULL;
-	Netlib_Logf(NULL, "amThreadProc thread end");
+	g_hAwayMsgThread = nullptr;
+	Netlib_Logf(nullptr, "amThreadProc thread end");
 }
 
 BOOL amWakeThread()
@@ -145,13 +145,13 @@ void amRequestAwayMsg(MCONTACT hContact)
 
 	//Do not re-ask for chat rooms
 	char *szProto = GetContactProto(hContact);
-	if (szProto != NULL && !db_get_b(hContact, szProto, "ChatRoom", 0))
+	if (szProto != nullptr && !db_get_b(hContact, szProto, "ChatRoom", 0))
 		amAddHandleToChain(hContact);
 }
 
 void InitAwayMsgModule()
 {
-	hamProcessEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	hamProcessEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	g_hAwayMsgThread = mir_forkthread(amThreadProc, 0);
 }
 

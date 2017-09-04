@@ -36,7 +36,7 @@ struct SkinListData
 	wchar_t File[MAX_PATH];
 };
 
-HBITMAP hPreviewBitmap = NULL;
+HBITMAP hPreviewBitmap = nullptr;
 HTREEITEM AddItemToTree(HWND hTree, wchar_t *itemName, void *data);
 HTREEITEM AddSkinToListFullName(HWND hwndDlg, wchar_t *fullName);
 HTREEITEM AddSkinToList(HWND hwndDlg, wchar_t *path, wchar_t *file);
@@ -149,10 +149,10 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				Sync(CLUIFrames_OnMoving, pcli->hwndContactList, &rc);
 
 				if (g_hCLUIOptionsWnd) {
-					SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, db_get_b(NULL, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT));
-					SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, db_get_b(NULL, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT));
-					SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, db_get_b(NULL, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT));
-					SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_BOTTOMMARGINSPIN, UDM_SETPOS, 0, db_get_b(NULL, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT));
+					SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT));
+					SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT));
+					SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT));
+					SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_BOTTOMMARGINSPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT));
 				}
 			}
 			break;
@@ -220,19 +220,19 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 				NotifyEventHooks(g_CluiData.hEventBkgrChanged, 0, 0);
 				Clist_Broadcast(INTM_INVALIDATE, 0, 0);
-				RedrawWindow(GetParent(pcli->hwndContactTree), NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_ALLCHILDREN);
+				RedrawWindow(GetParent(pcli->hwndContactTree), nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_ALLCHILDREN);
 			}
 			break;
 
 		case IDC_TREE1:
 			NMTREEVIEW *nmtv = (NMTREEVIEW *)lParam;
-			if (nmtv == NULL)
+			if (nmtv == nullptr)
 				return 0;
 
 			if (nmtv->hdr.code == TVN_SELCHANGED) {
 				if (hPreviewBitmap) {
 					ske_UnloadGlyphImage(hPreviewBitmap);
-					hPreviewBitmap = NULL;
+					hPreviewBitmap = nullptr;
 				}
 
 				if (nmtv->itemNew.lParam) {
@@ -252,7 +252,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					EnableWindow(GetDlgItem(hwndDlg, IDC_BUTTON_APPLY_SKIN), TRUE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_BUTTON_INFO), TRUE);
 					if (hPreviewBitmap)
-						InvalidateRect(GetDlgItem(hwndDlg, IDC_PREVIEW), NULL, TRUE);
+						InvalidateRect(GetDlgItem(hwndDlg, IDC_PREVIEW), nullptr, TRUE);
 					else { //prepare text
 						HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_TREE1));
 						if (hti == 0)
@@ -351,7 +351,7 @@ HTREEITEM FillAvailableSkinList(HWND hwndDlg)
 		SearchSkinFiles(hwndDlg, SkinsFolder);
 	{
 		wchar_t skinfull[MAX_PATH];
-		ptrW skinfile(db_get_wsa(NULL, SKIN, "SkinFile"));
+		ptrW skinfile(db_get_wsa(0, SKIN, "SkinFile"));
 		if (skinfile) {
 			PathToAbsoluteW(skinfile, skinfull);
 			res = AddSkinToListFullName(hwndDlg, skinfull);
@@ -403,7 +403,7 @@ HTREEITEM AddSkinToList(HWND hwndDlg, wchar_t * path, wchar_t* file)
 
 HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, wchar_t * Caption, void * data)
 {
-	HTREEITEM tmp = NULL;
+	HTREEITEM tmp = nullptr;
 	if (Parent)
 		tmp = TreeView_GetChild(hTree, Parent);
 	else
@@ -437,7 +437,7 @@ HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, wchar_t * Caption, void * data
 
 HTREEITEM AddItemToTree(HWND hTree, wchar_t *itemName, void *data)
 {
-	HTREEITEM cItem = NULL;
+	HTREEITEM cItem = nullptr;
 	//Insert item node
 	cItem = FindChild(hTree, 0, itemName, data);
 	if (!cItem) {
@@ -455,14 +455,14 @@ HTREEITEM AddItemToTree(HWND hTree, wchar_t *itemName, void *data)
 
 INT_PTR SvcActiveSkin(WPARAM, LPARAM)
 {
-	ptrW skinfile(db_get_wsa(NULL, SKIN, "SkinFile"));
+	ptrW skinfile(db_get_wsa(0, SKIN, "SkinFile"));
 	if (skinfile) {
 		wchar_t skinfull[MAX_PATH];
 		PathToAbsoluteW(skinfile, skinfull);
 		return (INT_PTR)mir_wstrdup(skinfull);
 	}
 
-	return NULL;
+	return 0;
 }
 
 INT_PTR SvcApplySkin(WPARAM, LPARAM lParam)
@@ -488,10 +488,10 @@ INT_PTR SvcApplySkin(WPARAM, LPARAM lParam)
 	g_mutex_bChangingMode = FALSE;
 
 	if (g_hCLUIOptionsWnd) {
-		SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, db_get_b(NULL, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT));
-		SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, db_get_b(NULL, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT));
-		SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, db_get_b(NULL, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT));
-		SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_BOTTOMMARGINSPIN, UDM_SETPOS, 0, db_get_b(NULL, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT));
+		SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT));
+		SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT));
+		SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT));
+		SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_BOTTOMMARGINSPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT));
 	}
 	return 0;
 }

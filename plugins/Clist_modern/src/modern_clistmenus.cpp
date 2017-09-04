@@ -69,7 +69,7 @@ static wchar_t *rates[] = {
 	LPGENW("High")
 };
 
-static HGENMENU hFavoriteContactMenu = NULL, hShowIfOflineItem = NULL;
+static HGENMENU hFavoriteContactMenu = nullptr, hShowIfOflineItem = nullptr;
 static HGENMENU hFavoriteContactMenuItems[_countof(rates)];
 
 static IconItem iconList[] =
@@ -142,7 +142,7 @@ int LoadFavoriteContactMenu()
 		Menu_ConfigureItem(hFavoriteContactMenuItems[i], MCI_OPT_EXECPARAM, i);
 	}
 
-	mi.hIcolibItem = NULL;
+	mi.hIcolibItem = nullptr;
 	mi.pszService = CLUI_FAVTOGGLESHOWOFFLINE;
 	mi.position = -100000000;
 	mi.name.w = LPGENW("Show even if offline");
@@ -153,6 +153,6 @@ int LoadFavoriteContactMenu()
 
 int UnloadFavoriteContactMenu()
 {
-	Menu_RemoveItem(hFavoriteContactMenu); hFavoriteContactMenu = NULL;
+	Menu_RemoveItem(hFavoriteContactMenu); hFavoriteContactMenu = nullptr;
 	return 0;
 }

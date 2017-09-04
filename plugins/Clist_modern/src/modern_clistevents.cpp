@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /**************************************************/
 
 /* Declarations */
-static HANDLE hNotifyFrame = NULL;
+static HANDLE hNotifyFrame = nullptr;
 
 /**************************************************/
 
@@ -61,7 +61,7 @@ static CLISTEVENT* MyGetEvent(int iSelection)
 		if (p.menuId == iSelection)
 			return &p;
 	}
-	return NULL;
+	return nullptr;
 }
 
 static void EventArea_HideShowNotifyFrame()
@@ -89,8 +89,8 @@ static void EventArea_HideShowNotifyFrame()
 CListEvent* cli_AddEvent(CLISTEVENT *cle)
 {
 	CListEvent *p = corecli.pfnAddEvent(cle);
-	if (p == NULL)
-		return NULL;
+	if (p == nullptr)
+		return nullptr;
 
 	if (p->hContact != 0 && p->hDbEvent != 1 && !(p->flags & CLEF_ONLYAFEW)) {
 		MENUITEMINFO mii = { 0 };
@@ -144,14 +144,14 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 	}
 
 	if (pcli->events->getCount() > 0) {
-		g_CluiData.bEventAreaEnabled = TRUE;
-		if (g_CluiData.bNotifyActive == FALSE) {
-			g_CluiData.bNotifyActive = TRUE;
+		g_CluiData.bEventAreaEnabled = true;
+		if (g_CluiData.bNotifyActive == false) {
+			g_CluiData.bNotifyActive = true;
 			EventArea_HideShowNotifyFrame();
 		}
 	}
 
-	cliInvalidateRect(g_CluiData.hwndEventFrame, NULL, FALSE);
+	cliInvalidateRect(g_CluiData.hwndEventFrame, nullptr, FALSE);
 	return p;
 }
 
@@ -188,13 +188,13 @@ int cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 	int res = corecli.pfnRemoveEvent(hContact, hDbEvent);
 
 	if (pcli->events->getCount() == 0) {
-		g_CluiData.bNotifyActive = FALSE;
+		g_CluiData.bNotifyActive = false;
 		EventArea_HideShowNotifyFrame();
 	}
 
 	if (hContact == g_CluiData.hUpdateContact || (INT_PTR)hDbEvent == 1)
 		g_CluiData.hUpdateContact = 0;
-	cliInvalidateRect(g_CluiData.hwndEventFrame, NULL, FALSE);
+	cliInvalidateRect(g_CluiData.hwndEventFrame, nullptr, FALSE);
 	return res;
 }
 
@@ -209,7 +209,7 @@ struct event_area_t
 	int      backgroundBmpUse;
 
 	event_area_t() :
-		hBmpBackground(NULL),
+		hBmpBackground(nullptr),
 		bkColour(CLCDEFAULT_BKCOLOUR),
 		useWinColors(CLCDEFAULT_USEWINDOWSCOLOURS),
 		backgroundBmpUse(CLCDEFAULT_USEBITMAP)
@@ -243,18 +243,18 @@ static int ehhEventAreaBackgroundSettingsChanged(WPARAM, LPARAM)
 {
 	if (event_area.hBmpBackground) {
 		DeleteObject(event_area.hBmpBackground);
-		event_area.hBmpBackground = NULL;
+		event_area.hBmpBackground = nullptr;
 	}
 
 	if (g_CluiData.fDisableSkinEngine) {
 		event_area.bkColour = cliGetColor("EventArea", "BkColour", CLCDEFAULT_BKCOLOUR);
-		if (db_get_b(NULL, "EventArea", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrW tszBitmap(db_get_wsa(NULL, "EventArea", "BkBitmap"));
-			if (tszBitmap != NULL)
+		if (db_get_b(0, "EventArea", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
+			ptrW tszBitmap(db_get_wsa(0, "EventArea", "BkBitmap"));
+			if (tszBitmap != nullptr)
 				event_area.hBmpBackground = Bitmap_Load(tszBitmap);
 		}
-		event_area.useWinColors = db_get_b(NULL, "EventArea", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
-		event_area.backgroundBmpUse = db_get_w(NULL, "EventArea", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
+		event_area.useWinColors = db_get_b(0, "EventArea", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
+		event_area.backgroundBmpUse = db_get_w(0, "EventArea", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
 	PostMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 	return 0;
@@ -265,15 +265,15 @@ void EventArea_ConfigureEventArea()
 	int iCount = pcli->events->getCount();
 
 	g_CluiData.dwFlags &= ~(CLUI_FRAME_AUTOHIDENOTIFY | CLUI_FRAME_SHOWALWAYS);
-	if (db_get_b(NULL, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 1) g_CluiData.dwFlags |= CLUI_FRAME_AUTOHIDENOTIFY;
-	if (db_get_b(NULL, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 2) g_CluiData.dwFlags |= CLUI_FRAME_SHOWALWAYS;
+	if (db_get_b(0, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 1) g_CluiData.dwFlags |= CLUI_FRAME_AUTOHIDENOTIFY;
+	if (db_get_b(0, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 2) g_CluiData.dwFlags |= CLUI_FRAME_SHOWALWAYS;
 
 	if (g_CluiData.dwFlags & CLUI_FRAME_SHOWALWAYS)
-		g_CluiData.bNotifyActive = 1;
+		g_CluiData.bNotifyActive = true;
 	else if (g_CluiData.dwFlags & CLUI_FRAME_AUTOHIDENOTIFY)
-		g_CluiData.bNotifyActive = iCount > 0 ? 1 : 0;
+		g_CluiData.bNotifyActive = iCount > 0;
 	else
-		g_CluiData.bNotifyActive = 0;
+		g_CluiData.bNotifyActive = false;
 
 	EventArea_HideShowNotifyFrame();
 }
@@ -290,7 +290,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 	else
 		SkinDrawGlyph(hDC, &rc, &rc, "Main,ID=EventArea");
 
-	HFONT hOldFont = g_clcPainter.ChangeToFont(hDC, NULL, FONTID_EVENTAREA, NULL);
+	HFONT hOldFont = g_clcPainter.ChangeToFont(hDC, nullptr, FONTID_EVENTAREA, nullptr);
 	SetBkMode(hDC, TRANSPARENT);
 
 	int iCount = GetMenuItemCount(g_CluiData.hMenuNotify);
@@ -337,7 +337,7 @@ static int EventArea_Draw(HWND hwnd, HDC hDC)
 	if (GetParent(hwnd) == pcli->hwndContactList)
 		return EventArea_DrawWorker(hwnd, hDC);
 
-	cliInvalidateRect(hwnd, NULL, FALSE);
+	cliInvalidateRect(hwnd, nullptr, FALSE);
 	return 0;
 }
 
@@ -401,7 +401,7 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 			int iSelection;
 			if (GetMenuItemCount(g_CluiData.hMenuNotify) > 1)
-				iSelection = TrackPopupMenu(g_CluiData.hMenuNotify, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
+				iSelection = TrackPopupMenu(g_CluiData.hMenuNotify, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
 			else
 				iSelection = GetMenuItemID(g_CluiData.hMenuNotify, 0);
 			BOOL result = GetMenuItemInfo(g_CluiData.hMenuNotify, (UINT)iSelection, FALSE, &mii);
@@ -410,12 +410,12 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 				if (nmi) {
 					CLISTEVENT *cle = MyGetEvent(iSelection);
 					if (cle) {
-						CLISTEVENT *cle1 = NULL;
-						CallService(cle->pszService, (WPARAM)NULL, (LPARAM)cle);
+						CLISTEVENT *cle1 = nullptr;
+						CallService(cle->pszService, (WPARAM)nullptr, (LPARAM)cle);
 						// re-obtain the pointer, it may already be invalid/point to another event if the
 						// event we're interested in was removed by the service (nasty one...)
 						cle1 = MyGetEvent(iSelection);
-						if (cle1 != NULL)
+						if (cle1 != nullptr)
 							pcli->pfnRemoveEvent(cle->hContact, cle->hDbEvent);
 					}
 				}
@@ -426,7 +426,7 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 	case WM_SIZE:
 		if (!g_CluiData.fLayered)
-			InvalidateRect(hwnd, NULL, FALSE);
+			InvalidateRect(hwnd, nullptr, FALSE);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_ERASEBKGND:
@@ -453,7 +453,7 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 			DeleteDC(hdc2);
 			SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
 			ReleaseDC(hwnd, hdc);
-			ValidateRect(hwnd, NULL);
+			ValidateRect(hwnd, nullptr);
 		}
 		else {
 			RECT rc;
@@ -496,22 +496,22 @@ int EventArea_Create(HWND hCluiWnd)
 		wndclass.cbClsExtra = 0;
 		wndclass.cbWndExtra = 0;
 		wndclass.hInstance = g_hInst;
-		wndclass.hIcon = NULL;
-		wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+		wndclass.hIcon = nullptr;
+		wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wndclass.hbrBackground = GetSysColorBrush(COLOR_3DFACE);
-		wndclass.lpszMenuName = NULL;
+		wndclass.lpszMenuName = nullptr;
 		wndclass.lpszClassName = pluginname;
 		RegisterClass(&wndclass);
 	}
 	g_CluiData.hwndEventFrame = CreateWindow(pluginname, pluginname, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN,
-		0, 0, 0, h, hCluiWnd, NULL, g_hInst, NULL);
+		0, 0, 0, h, hCluiWnd, nullptr, g_hInst, nullptr);
 
 	// register frame
 	CLISTFrame Frame = { sizeof(Frame) };
 	Frame.hWnd = g_CluiData.hwndEventFrame;
 	Frame.align = alBottom;
 	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
-	Frame.Flags = (db_get_b(NULL, "CLUI", "ShowEventArea", SETTING_SHOWEVENTAREAFRAME_DEFAULT) ? F_VISIBLE : 0) | F_LOCKED | F_NOBORDER | F_NO_SUBCONTAINER | F_UNICODE;
+	Frame.Flags = (db_get_b(0, "CLUI", "ShowEventArea", SETTING_SHOWEVENTAREAFRAME_DEFAULT) ? F_VISIBLE : 0) | F_LOCKED | F_NOBORDER | F_NO_SUBCONTAINER | F_UNICODE;
 	Frame.height = h;
 	Frame.tname = L"EventArea"; //do not translate
 	Frame.TBtname = TranslateT("Event area");

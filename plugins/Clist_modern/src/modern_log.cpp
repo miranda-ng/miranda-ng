@@ -15,7 +15,7 @@ void Log(const char *file, int line, const char *fmt, ...)
 	char buf[1024];
 
 	file_tmp = strrchr(file, '\\');
-	if (file_tmp == NULL)
+	if (file_tmp == nullptr)
 		file_tmp = file;
 	else
 		file_tmp++;

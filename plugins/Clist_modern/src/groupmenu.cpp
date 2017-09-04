@@ -34,7 +34,7 @@ void InitSubGroupMenus(void);
 INT_PTR GroupMenuOnAddService(WPARAM wParam, LPARAM lParam)
 {
 	MENUITEMINFO *mii = (MENUITEMINFO*)wParam;
-	if (mii == NULL)
+	if (mii == nullptr)
 		return 0;
 
 	if (hGroupMainMenuItemProxy == (HANDLE)lParam) {
