@@ -261,7 +261,10 @@ void __cdecl CIrcProto::ResolveIPThread(void *di)
 bool CIrcProto::OnIrc_PING(const CIrcMessage* pmsg)
 {
 	wchar_t szResponse[100];
-	mir_snwprintf(szResponse, L"PONG %s", pmsg->parameters[0].c_str());
+	if (pmsg->parameters.getCount() > 0)
+		mir_snwprintf(szResponse, L"PONG %s", pmsg->parameters[0].c_str());
+	else
+		wcscpy(szResponse, L"PONG");
 	SendIrcMessage(szResponse);
 	return false;
 }
