@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.5
+;  Version: 0.9.1.6
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -655,10 +655,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Хотите удалить '%s' из метаконтакта '%s' и добавить в '%s'?
 [Changing metacontacts (moving)]
 Изменение метаконтакта (перемещение)
-[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from https://wiki.miranda-ng.org/Download]
-Clist Modern требует наличия плагина AVS. Установите его, используя PluginUpdater, или скачайте с https://wiki.miranda-ng.org/Download
-[Error loading plugin]
-Ошибка загрузки плагина
 [Skins]
 Скины
 [Modern contact list]

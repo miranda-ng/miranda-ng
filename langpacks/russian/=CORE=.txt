@@ -2169,10 +2169,42 @@ Ctrl+Искать добавляет контакт
 Основной текст
 [Small text]
 Дополнительный текст
+[Browser: Back]
+Браузер: Назад
+[Browser: Forward]
+Браузер: Вперёд
+[Browser: Refresh]
+Браузер: Обновить
+[Browser: Stop]
+Браузер: Остановить
+[Browser: Search]
+Браузер: Поиск
+[Browser: Fav]
+Браузер: Избранное
+[Browser: Home]
+Браузер: Домой
 [Mute]
-Вкл/выкл звук
+Включить/выключить звук
+[Vol-]
+Громкость-
+[Vol+]
+Громкость+
+[Media: Next Track]
+Музыка: Следующий трек
+[Media: Prev. Track]
+Музыка: Предыдущий трек
+[Media: Stop]
+Музыка: Стоп
+[Media: Play/Pause]
+Музыка: Воспроизведение/пауза
 [Mail]
 Почта
+[Media: Select]
+Музыка: Выбор
+[App 1]
+Приложение 1
+[App 2]
+Приложение 2
 [Remove shortcut]
 Удалить сочетание
 [Add another shortcut]
