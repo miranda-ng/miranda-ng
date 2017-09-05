@@ -60,8 +60,6 @@
 #define IDI_INCOMING                    276
 #define IDI_OUTGOING                    277
 #define IDI_EXCL                        282
-#define IDD_MODERNOPT_MSGDLG            288
-#define IDD_MODERNOPT_MSGLOG            289
 
 #define IDC_SPLITTERX                   1003
 #define IDC_AUTOCLOSE                   1004

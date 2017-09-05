@@ -145,65 +145,6 @@ BEGIN
     CONTROL         "Show balloon popup",IDC_NOTIFYBALLOON,"Button",BS_AUTORADIOBUTTON,44,219,206,10
 END
 
-IDD_MODERNOPT_MSGDLG DIALOGEX 0, 0, 369, 106
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    CONTROL         "Close the message window on send",IDC_AUTOCLOSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,13,174,10
-    CONTROL         "Minimize the message window on send",IDC_AUTOMIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,25,174,10
-    CONTROL         "Use the contact's status icon as the window icon",IDC_STATUSWIN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,37,174,10
-    CONTROL         "Save the window position for each contact",IDC_SAVEPERCONTACT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,49,174,10
-    CONTROL         "Cascade new windows",IDC_CASCADE,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,216,119,22,10
-    CONTROL         "",IDC_POPLIST,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,194,13,175,46
-    LTEXT           "Automatically popup window when:",IDC_TXT_TITLE2,184,0,185,8
-    CONTROL         "Show 'Send' button",IDC_SHOWSENDBTN,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,10,137,25,10
-    CONTROL         "Show toolbar buttons on top row",IDC_SHOWBUTTONLINE,
-                    "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,11,174,28,10
-    CONTROL         "Send message on double 'Enter'",IDC_SENDONDBLENTER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,79,174,10
-    CONTROL         "Send message on 'Enter'",IDC_SENDONENTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,79,175,10
-    CONTROL         "Show character count",IDC_CHARCOUNT,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,59,142,22,10
-    LTEXT           "Show warning when message has not been received after",IDC_STATIC,10,93,211,8
-    EDITTEXT        IDC_SECONDS,226,91,25,12,ES_AUTOHSCROLL
-    LTEXT           "seconds",IDC_STATIC,256,93,44,8
-    CONTROL         "Support CTRL+Up/Down in message area to show previously sent messages",IDC_CTRLSUPPORT,
-                    "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,240,131,20,10
-    CONTROL         "Delete temporary contacts when closing message window",IDC_DELTEMP,
-                    "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,240,143,22,10
-    CONTROL         "Enable avatar support in the message window",IDC_AVATARSUPPORT,
-                    "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,239,155,23,10
-    CONTROL         "Limit avatar height to",IDC_LIMITAVATARH,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,236,166,26,10
-    EDITTEXT        IDC_AVATARHEIGHT,242,178,12,13,ES_AUTOHSCROLL | NOT WS_VISIBLE
-    LTEXT           "pixels",IDC_STATIC,271,177,8,8,NOT WS_VISIBLE
-    LTEXT           "Message window behavior:",IDC_TXT_TITLE1,1,0,183,8
-    LTEXT           "Messaging:",IDC_TXT_TITLE3,1,64,368,8
-END
-
-IDD_MODERNOPT_MSGLOG DIALOGEX 0, 0, 369, 103
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    CONTROL         "Show icons",IDC_SHOWLOGICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,13,146,10
-    CONTROL         "Show names",IDC_SHOWNAMES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,25,146,10
-    CONTROL         "Show timestamp",IDC_SHOWTIMES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,13,146,10
-    CONTROL         "Show dates",IDC_SHOWDATES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,206,37,135,10
-    CONTROL         "Load unread events only",IDC_LOADUNREAD,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,10,65,138,10
-    CONTROL         "Load number of previous events",IDC_LOADCOUNT,"Button",BS_AUTORADIOBUTTON,10,78,138,10
-    EDITTEXT        IDC_LOADCOUNTN,153,76,33,12,ES_RIGHT | ES_NUMBER | WS_DISABLED
-    CONTROL         "",IDC_LOADCOUNTSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK | WS_DISABLED,176,76,11,14
-    CONTROL         "Load previous events less than",IDC_LOADTIME,"Button",BS_AUTORADIOBUTTON,10,91,138,10
-    EDITTEXT        IDC_LOADTIMEN,153,89,33,12,ES_RIGHT | ES_NUMBER | WS_DISABLED
-    CONTROL         "",IDC_LOADTIMESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK | WS_DISABLED,176,89,11,14
-    LTEXT           "minutes old",IDC_STMINSOLD,191,91,82,8,WS_DISABLED
-    CONTROL         "Show seconds",IDC_SHOWSECS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,206,25,127,10
-    LTEXT           "Message window event log",IDC_TXT_TITLE1,0,0,369,8
-    LTEXT           "Load history events",IDC_TXT_TITLE2,0,52,369,8
-END
-
 IDD_CHANNEL DIALOGEX 0, 0, 252, 140
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
