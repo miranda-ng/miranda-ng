@@ -1891,7 +1891,6 @@ void CJabberProto::SetRegConfig(HXML node, void *from)
 		XmlAddChild(query, node);
 		m_regInfo->send(iq);
 	}
-	mir_free(from);
 }
 
 void CJabberProto::OnProcessRegIq(HXML node, ThreadData *info)
