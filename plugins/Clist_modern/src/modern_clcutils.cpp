@@ -450,14 +450,14 @@ void LoadCLCFonts(HWND hwnd, ClcData *dat)
 
 void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 {
-	g_CluiData.fDisableSkinEngine = db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT);
+	g_CluiData.fDisableSkinEngine = db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT) != 0;
 
 	LoadCLCFonts(hwnd, dat);
 
 	g_CluiData.bSortByOrder[0] = db_get_b(0, "CList", "SortBy1", SETTING_SORTBY1_DEFAULT);
 	g_CluiData.bSortByOrder[1] = db_get_b(0, "CList", "SortBy2", SETTING_SORTBY2_DEFAULT);
 	g_CluiData.bSortByOrder[2] = db_get_b(0, "CList", "SortBy3", SETTING_SORTBY3_DEFAULT);
-	g_CluiData.fSortNoOfflineBottom = db_get_b(0, "CList", "NoOfflineBottom", SETTING_NOOFFLINEBOTTOM_DEFAULT);
+	g_CluiData.fSortNoOfflineBottom = db_get_b(0, "CList", "NoOfflineBottom", SETTING_NOOFFLINEBOTTOM_DEFAULT) != 0;
 
 	// Row
 	dat->row_min_heigh = db_get_w(0, "CList", "MinRowHeight", CLCDEFAULT_ROWHEIGHT);
@@ -487,7 +487,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 
 	// Avatar
 	if (pcli->hwndContactTree == hwnd || pcli->hwndContactTree == nullptr) {
-		dat->avatars_show = g_CluiData.bAvsPresent && db_get_b(0, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT);
+		dat->avatars_show = ServiceExists(MS_AV_GETAVATARBITMAP) && db_get_b(0, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT);
 		dat->avatars_draw_border = db_get_b(0, "CList", "AvatarsDrawBorders", SETTINGS_AVATARDRAWBORDER_DEFAULT);
 		dat->avatars_border_color = (COLORREF)db_get_dw(0, "CList", "AvatarsBorderColor", SETTINGS_AVATARBORDERCOLOR_DEFAULT);
 		dat->avatars_round_corners = db_get_b(0, "CList", "AvatarsRoundCorners", SETTINGS_AVATARROUNDCORNERS_DEFAULT);

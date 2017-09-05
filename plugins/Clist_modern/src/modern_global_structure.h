@@ -32,23 +32,22 @@ typedef struct tagCLUIDATA
 	DWORD    t_now;
 
 	// Modern Global Variables
-	bool     bAvsPresent;
-	bool     bEventAreaEnabled;
-	bool     bNotifyActive;
-	BOOL     fDisableSkinEngine;
-	BOOL     fOnDesktop;
-	BOOL     fSmoothAnimation;
-	BOOL     fLayered;
-	BOOL     fDocked;
-	BOOL     fSortNoOfflineBottom;
-	BOOL     fAutoSize;
-	BOOL     fAeroGlass;
+	int      fDocked;
 	HRGN     hAeroGlassRgn;
 
 	BOOL     mutexPreventDockMoving;
 	BOOL     mutexOnEdgeSizing;
 	BOOL     mutexPaintLock;
 
+	bool     bEventAreaEnabled;
+	bool     bNotifyActive;
+	bool     fDisableSkinEngine;
+	bool     fOnDesktop;
+	bool     fSmoothAnimation;
+	bool     fLayered;
+	bool     fSortNoOfflineBottom;
+	bool     fAutoSize;
+	bool     fAeroGlass;
 	BYTE     bCurrentAlpha;
 	BYTE     bSTATE;
 	BYTE     bBehindEdgeSettings;

@@ -1158,7 +1158,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 				if (IsWindow(hProgMan)) {
 					SetParent(pcli->hwndContactList, hProgMan);
 					Sync(CLUIFrames_SetParentForContainers, (HWND)hProgMan);
-					g_CluiData.fOnDesktop = 1;
+					g_CluiData.fOnDesktop = true;
 				}
 			}
 			else {
@@ -1166,11 +1166,11 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 					SetParent(pcli->hwndContactList, nullptr);
 					Sync(CLUIFrames_SetParentForContainers, (HWND)nullptr);
 				}
-				g_CluiData.fOnDesktop = 0;
+				g_CluiData.fOnDesktop = false;
 			}
 			AniAva_UpdateParent();
 			db_set_b(0, "CLUI", "FadeInOut", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FADEINOUT));
-			g_CluiData.fSmoothAnimation = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FADEINOUT);
+			g_CluiData.fSmoothAnimation = IsDlgButtonChecked(hwndDlg, IDC_FADEINOUT) != 0;
 			{
 				int i1 = SendDlgItemMessage(hwndDlg, IDC_FRAMESSPIN, UDM_GETPOS, 0, 0);
 				int i2 = SendDlgItemMessage(hwndDlg, IDC_CAPTIONSSPIN, UDM_GETPOS, 0, 0);

@@ -1543,8 +1543,6 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 	if (MirandaExiting())
 		return 0;
 
-	g_CluiData.bAvsPresent = ServiceExists(MS_AV_GETAVATARBITMAP) != 0;
-
 	HookEvent(ME_AV_AVATARCHANGED, clcHookAvatarChanged);
 
 	HookEvent(ME_FOLDERS_PATH_CHANGED, ReloadSkinFolder);

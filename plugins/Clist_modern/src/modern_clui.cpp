@@ -302,7 +302,7 @@ CLUI::~CLUI()
 HRESULT CLUI::LoadDllsRuntime()
 {
 	g_CluiData.fLayered = !db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT);
-	g_CluiData.fSmoothAnimation = db_get_b(0, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT);
+	g_CluiData.fSmoothAnimation = db_get_b(0, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT) != 0;
 	g_CluiData.fLayered = (g_CluiData.fLayered*db_get_b(0, "ModernData", "EnableLayering", g_CluiData.fLayered)) && !db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT);
 
 	if (IsWinVerVistaPlus() && !IsWinVer8Plus()) {
@@ -500,33 +500,27 @@ BOOL CLUI_CheckOwnedByClui(HWND hWnd)
 
 int CLUI_ShowWindowMod(HWND hWnd, int nCmd)
 {
-	if (hWnd == pcli->hwndContactList && (nCmd == SW_HIDE || nCmd == SW_MINIMIZE)) {
-		AniAva_InvalidateAvatarPositions(0);
-		AniAva_RemoveInvalidatedAvatars();
-	}
+	if (hWnd == pcli->hwndContactList) {
+		if (nCmd == SW_HIDE || nCmd == SW_MINIMIZE) {
+			AniAva_InvalidateAvatarPositions(0);
+			AniAva_RemoveInvalidatedAvatars();
+		}
 
-	if (hWnd == pcli->hwndContactList &&
-		!g_mutex_bChangingMode &&
-		nCmd == SW_HIDE &&
-		!g_CluiData.fLayered &&
-		db_get_b(0, "CList", "WindowShadow", SETTING_WINDOWSHADOW_DEFAULT))
-	{
-		ShowWindow(hWnd, SW_MINIMIZE); // removing of shadow
-		return ShowWindow(hWnd, nCmd);
-	}
-	if (hWnd == pcli->hwndContactList &&
-		!g_mutex_bChangingMode &&
-		nCmd == SW_RESTORE &&
-		!g_CluiData.fLayered &&
-		g_CluiData.fSmoothAnimation &&
-		!g_bTransparentFlag)
-	{
-		if (db_get_b(0, "CList", "WindowShadow", SETTING_WINDOWSHADOW_DEFAULT))
-			CLUI_SmoothAlphaTransition(hWnd, 255, 1);
-		else {
-			int ret = ShowWindow(hWnd, nCmd);
-			CLUI_SmoothAlphaTransition(hWnd, 255, 1);
-			return ret;
+		if (!g_mutex_bChangingMode && !g_CluiData.fLayered) { 
+			if (nCmd == SW_HIDE && db_get_b(0, "CList", "WindowShadow", SETTING_WINDOWSHADOW_DEFAULT)) {
+				ShowWindow(hWnd, SW_MINIMIZE); // removing of shadow
+				return ShowWindow(hWnd, nCmd);
+			}
+
+			if (nCmd == SW_RESTORE && g_CluiData.fSmoothAnimation && !g_bTransparentFlag) {
+				if (db_get_b(0, "CList", "WindowShadow", SETTING_WINDOWSHADOW_DEFAULT))
+					CLUI_SmoothAlphaTransition(hWnd, 255, 1);
+				else {
+					int ret = ShowWindow(hWnd, nCmd);
+					CLUI_SmoothAlphaTransition(hWnd, 255, 1);
+					return ret;
+				}
+			}
 		}
 	}
 	return ShowWindow(hWnd, nCmd);
@@ -537,9 +531,7 @@ static BOOL CLUI_WaitThreadsCompletion()
 	static BYTE bEntersCount = 0;
 	static const BYTE bcMAX_AWAITING_RETRY = 10; // repeat awaiting only 10 times
 	TRACE("CLUI_WaitThreadsCompletion Enter");
-	if (bEntersCount < bcMAX_AWAITING_RETRY &&
-		(g_CluiData.mutexPaintLock || g_hAwayMsgThread || g_hGetTextAsyncThread || g_hSmoothAnimationThread) && !Miranda_IsTerminated())
-	{
+	if (bEntersCount < bcMAX_AWAITING_RETRY && (g_CluiData.mutexPaintLock || g_hAwayMsgThread || g_hGetTextAsyncThread || g_hSmoothAnimationThread) && !Miranda_IsTerminated()) {
 		TRACE("Waiting threads");
 		TRACEVAR("g_CluiData.mutexPaintLock: %x", g_CluiData.mutexPaintLock);
 		TRACEVAR("g_hAwayMsgThread: %x", g_hAwayMsgThread);
@@ -556,10 +548,9 @@ static BOOL CLUI_WaitThreadsCompletion()
 
 void CLUI_UpdateLayeredMode()
 {
-	g_CluiData.fDisableSkinEngine = db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT);
-	BOOL tLayeredFlag = TRUE;
-	tLayeredFlag &= (db_get_b(0, "ModernData", "EnableLayering", tLayeredFlag) && !g_CluiData.fDisableSkinEngine);
-
+	g_CluiData.fDisableSkinEngine = db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT) != 0;
+	
+	bool tLayeredFlag = db_get_b(0, "ModernData", "EnableLayering", SETTING_ENABLELAYERING_DEFAULT) != 0 && !g_CluiData.fDisableSkinEngine;
 	if (g_CluiData.fLayered != tLayeredFlag) {
 		BOOL fWasVisible = IsWindowVisible(pcli->hwndContactList);
 		if (fWasVisible)
@@ -585,7 +576,7 @@ void CLUI_UpdateLayeredMode()
 
 void CLUI_UpdateAeroGlass()
 {
-	BOOL tAeroGlass = db_get_b(0, "ModernData", "AeroGlass", SETTING_AEROGLASS_DEFAULT) && (g_CluiData.fLayered);
+	bool tAeroGlass = db_get_b(0, "ModernData", "AeroGlass", SETTING_AEROGLASS_DEFAULT) && g_CluiData.fLayered;
 	if (g_proc_DWMEnableBlurBehindWindow && (tAeroGlass != g_CluiData.fAeroGlass)) {
 		if (g_CluiData.hAeroGlassRgn) {
 			DeleteObject(g_CluiData.hAeroGlassRgn);
@@ -621,7 +612,7 @@ void CLUI_ChangeWindowMode()
 
 	g_mutex_bChangingMode = TRUE;
 	g_bTransparentFlag = db_get_b(0, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT);
-	g_CluiData.fSmoothAnimation = db_get_b(0, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT);
+	g_CluiData.fSmoothAnimation = db_get_b(0, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT) != 0;
 	if (g_bTransparentFlag == 0 && g_CluiData.bCurrentAlpha != 0)
 		g_CluiData.bCurrentAlpha = 255;
 
@@ -674,7 +665,7 @@ void CLUI_ChangeWindowMode()
 		SetParent(pcli->hwndContactList, nullptr);
 		Sync(CLUIFrames_SetParentForContainers, (HWND)nullptr);
 		UpdateWindow(pcli->hwndContactList);
-		g_CluiData.fOnDesktop = 0;
+		g_CluiData.fOnDesktop = false;
 	}
 
 	// 5 - TODO Apply Style
@@ -710,13 +701,13 @@ void CLUI_ChangeWindowMode()
 		if (IsWindow(hProgMan)) {
 			SetParent(pcli->hwndContactList, hProgMan);
 			Sync(CLUIFrames_SetParentForContainers, (HWND)hProgMan);
-			g_CluiData.fOnDesktop = 1;
+			g_CluiData.fOnDesktop = true;
 		}
 	}
 	else {
 		SetParent(pcli->hwndContactList, nullptr);
 		Sync(CLUIFrames_SetParentForContainers, (HWND)nullptr);
-		g_CluiData.fOnDesktop = 0;
+		g_CluiData.fOnDesktop = false;
 	}
 
 	// 7 - if it was visible - show
@@ -1035,7 +1026,7 @@ int CLUI_ReloadCLUIOptions()
 	wBehindEdgeHideDelay = db_get_w(0, "ModernData", "HideDelay", SETTING_HIDEDELAY_DEFAULT);
 	wBehindEdgeBorderSize = db_get_w(0, "ModernData", "HideBehindBorderSize", SETTING_HIDEBEHINDBORDERSIZE_DEFAULT);
 
-	g_CluiData.fAutoSize = db_get_b(0, "CLUI", "AutoSize", SETTING_AUTOSIZE_DEFAULT);
+	g_CluiData.fAutoSize = db_get_b(0, "CLUI", "AutoSize", SETTING_AUTOSIZE_DEFAULT) != 0;
 	g_CluiData.bInternalAwayMsgDiscovery = db_get_b(0, "ModernData", "InternalAwayMsgDiscovery", SETTING_INTERNALAWAYMSGREQUEST_DEFAULT);
 	g_CluiData.bRemoveAwayMessageForOffline = db_get_b(0, "ModernData", "RemoveAwayMessageForOffline", SETTING_REMOVEAWAYMSGFOROFFLINE_DEFAULT);
 

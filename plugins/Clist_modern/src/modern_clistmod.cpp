@@ -142,7 +142,7 @@ int CListMod_ContactListShutdownProc(WPARAM, LPARAM)
 HRESULT PreLoadContactListModule()
 {
 	/* Global data initialization */
-	g_CluiData.fOnDesktop = FALSE;
+	g_CluiData.fOnDesktop = false;
 	g_CluiData.dwKeyColor = RGB(255, 0, 255);
 	g_CluiData.bCurrentAlpha = 255;
 
