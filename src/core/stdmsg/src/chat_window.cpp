@@ -29,16 +29,13 @@ static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CChatRoomDlg::CChatRoomDlg(CTabbedWindow *pContainer, SESSION_INFO *si) :
-	CSuper(g_hInst, IDD_CHANNEL, si),
+	CSuper(IDD_CHANNEL, si),
 	m_pOwner(pContainer),
 	m_btnOk(this, IDOK),
 	
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY)
 {
-	m_autoClose = 0;
-	m_forceResizable = true;
-
 	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_Ok);
 
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
@@ -649,7 +646,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			if (wParam == '\n' || wParam == '\r') {
 				if ((isCtrl != 0) ^ (0 != db_get_b(0, CHAT_MODULE, "SendOnEnter", 1))) {
-					PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
+					m_btnOk.OnClick(&m_btnOk);
 					return 0;
 				}
 				if (db_get_b(0, CHAT_MODULE, "SendOnDblEnter", 0)) {
@@ -658,7 +655,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 					else {
 						m_message.SendMsg(WM_KEYDOWN, VK_BACK, 0);
 						m_message.SendMsg(WM_KEYUP, VK_BACK, 0);
-						PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
+						m_btnOk.OnClick(&m_btnOk);
 						return 0;
 					}
 				}

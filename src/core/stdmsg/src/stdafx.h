@@ -151,7 +151,7 @@ class CTabbedWindow : public CDlgBase
 public:
 	CCtrlPages m_tab;
 	HWND m_hwndStatus;
-	CSrmmBaseDialog *m_pEmbed;
+	CMsgDialog *m_pEmbed;
 
 	CTabbedWindow();
 
@@ -185,9 +185,9 @@ void TB_SaveSession(SESSION_INFO *si);
 #define GC_DROPPEDTAB  (WM_USER+202)
 #define GC_RENAMETAB   (WM_USER+203)
 
-class CChatRoomDlg : public CSrmmBaseDialog
+class CChatRoomDlg : public CMsgDialog
 {
-	typedef CSrmmBaseDialog CSuper;
+	typedef CMsgDialog CSuper;
 	friend class CTabbedWindow;
 
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);

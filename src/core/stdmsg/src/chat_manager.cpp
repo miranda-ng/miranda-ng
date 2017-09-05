@@ -203,7 +203,7 @@ static void ShowRoom(SESSION_INFO *si)
 			PostMessage(pContainer->GetHwnd(), WM_SIZE, 0, 0);
 		}
 		else {
-			CDlgBase *pDlg = pContainer->m_pEmbed = new CChatRoomDlg(pContainer, si);
+			CMsgDialog *pDlg = pContainer->m_pEmbed = new CChatRoomDlg(pContainer, si);
 			pContainer->Create();
 			pDlg->SetParent(pContainer->GetHwnd());
 			pDlg->Create();

@@ -28,6 +28,18 @@ const CLSID IID_IRichEditOle = { 0x00020D00, 0x00, 0x00, { 0xC0, 0x00, 0x00, 0x0
 const CLSID IID_IRichEditOleCallback = { 0x00020D03, 0x00, 0x00, { 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46 } };
 #endif
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMsgDialog::CMsgDialog(int iDialogId, SESSION_INFO *si)
+	: CSuper(g_hInst, iDialogId, si),
+	m_btnOk(this, IDOK)
+{
+	m_autoClose = 0;
+	m_forceResizable = true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int OnCheckPlugins(WPARAM, LPARAM);
 
 HGENMENU hMsgMenuItem;

@@ -212,7 +212,6 @@ void CTabbedWindow::FixTabIcons(CSrmmBaseDialog *pDlg)
 	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 }
 
-
 void CTabbedWindow::SaveWindowPosition(bool bUpdateSession)
 {
 	WINDOWPLACEMENT wp = {};
@@ -550,9 +549,19 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dis->hwndItem == m_hwndStatus) {
-				CSrmmBaseDialog *pDlg = (g_Settings.bTabsEnable) ? (CSrmmBaseDialog*)m_tab.GetActivePage() : m_pEmbed;
+				CMsgDialog *pDlg = (g_Settings.bTabsEnable) ? (CMsgDialog*)m_tab.GetActivePage() : m_pEmbed;
 				if (pDlg != nullptr)
 					DrawStatusIcons(pDlg->m_hContact, dis->hDC, dis->rcItem, 2);
+				return TRUE;
+			}
+		}
+		break;
+
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDOK) {
+			CMsgDialog *pDlg = (g_Settings.bTabsEnable) ? (CMsgDialog*)m_tab.GetActivePage() : m_pEmbed;
+			if (pDlg != nullptr) {
+				pDlg->m_btnOk.OnClick(&pDlg->m_btnOk);
 				return TRUE;
 			}
 		}
@@ -565,7 +574,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				RECT rc;
 				SendMessage(m_hwndStatus, SB_GETRECT, SendMessage(m_hwndStatus, SB_GETPARTS, 0, 0) - 1, (LPARAM)&rc);
 				if (nm->pt.x >= rc.left) {
-					CSrmmBaseDialog *pDlg = (g_Settings.bTabsEnable) ? (CSrmmBaseDialog*)m_tab.GetActivePage() : m_pEmbed;
+					CMsgDialog *pDlg = (g_Settings.bTabsEnable) ? (CMsgDialog*)m_tab.GetActivePage() : m_pEmbed;
 					if (pDlg != nullptr)
 						CheckStatusIconClick(pDlg->m_hContact, m_hwndStatus, nm->pt, rc, 2, ((LPNMHDR)lParam)->code == NM_RCLICK ? MBCF_RIGHTBUTTON : 0);
 				}

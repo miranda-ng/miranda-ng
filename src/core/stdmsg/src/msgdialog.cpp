@@ -85,17 +85,14 @@ static void SetEditorText(HWND hwnd, const wchar_t* txt)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CSrmmWindow::CSrmmWindow(CTabbedWindow *pOwner, MCONTACT hContact) :
-	CSuper(g_hInst, IDD_MSG),
+	CSuper(IDD_MSG),
 	m_splitter(this, IDC_SPLITTERY),
 	m_avatar(this, IDC_AVATAR),
-	m_btnOk(this, IDOK),
 	m_cmdList(20),
 	m_bNoActivate(g_dat.bDoNotStealFocus),
 	m_pOwner(pOwner)
 {
 	m_hContact = hContact;
-	m_autoClose = 0;
-	m_forceResizable = true;
 
 	m_btnOk.OnClick = Callback(this, &CSrmmWindow::onClick_Ok);
 	m_splitter.OnChange = Callback(this, &CSrmmWindow::OnSplitterMoved);
@@ -229,7 +226,7 @@ void CSrmmWindow::OnInitDialog()
 		if (!db_get_ws(m_hContact, SRMSGMOD, DBSAVEDMSG, &dbv)) {
 			if (dbv.ptszVal[0]) {
 				m_message.SetText(dbv.ptszVal);
-				m_btnOk.Enable(TRUE);
+				m_btnOk.Enable(true);
 				UpdateReadChars();
 				PostMessage(m_message.GetHwnd(), EM_SETSEL, -1, -1);
 			}
@@ -330,7 +327,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 		if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 			NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
-		m_btnOk.Enable(FALSE);
+		m_btnOk.Enable(false);
 		SetFocus(m_message.GetHwnd());
 
 		m_message.SetText(L"");
@@ -664,7 +661,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 		if (wParam == VK_RETURN) {
 			if (!isShift && isCtrl != g_dat.bSendOnEnter) {
-				PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
+				onClick_Ok(&m_btnOk);
 				return 0;
 			}
 			if (g_dat.bSendOnDblEnter) {
@@ -673,7 +670,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				else {
 					m_message.SendMsg(WM_KEYDOWN, VK_BACK, 0);
 					m_message.SendMsg(WM_KEYUP, VK_BACK, 0);
-					PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
+					onClick_Ok(&m_btnOk);
 					return 0;
 				}
 			}
@@ -744,7 +741,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_SYSCHAR:
 		m_iLastEnterTime = 0;
 		if ((wParam == 's' || wParam == 'S') && GetKeyState(VK_MENU) & 0x8000) {
-			PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
+			onClick_Ok(&m_btnOk);
 			return 0;
 		}
 		break;
@@ -828,7 +825,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			case IDM_PASTESEND:
 				m_message.SendMsg(EM_PASTESPECIAL, CF_TEXT, 0);
-				PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
+				onClick_Ok(&m_btnOk);
 				break;
 
 			case IDM_DELETE:

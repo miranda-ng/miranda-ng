@@ -47,10 +47,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EVENTTYPE_JABBER_CHATSTATES     2000
 #define EVENTTYPE_JABBER_PRESENCE       2001
 
-class CSrmmWindow : public CSrmmBaseDialog
+class CMsgDialog : public CSrmmBaseDialog
+{
+	typedef CSrmmBaseDialog CSuper;
+	friend class CTabbedWindow;
+
+protected:
+	CCtrlButton m_btnOk;
+
+	CMsgDialog(int idDialog, SESSION_INFO *si = nullptr);
+};
+
+class CSrmmWindow : public CMsgDialog
 {
 	friend class CTabbedWindow;
-	typedef CSrmmBaseDialog CSuper;
+	typedef CMsgDialog CSuper;
 	
 	static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -58,7 +69,6 @@ class CSrmmWindow : public CSrmmBaseDialog
 	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	CCtrlBase m_avatar;
-	CCtrlButton m_btnOk;
 	CSplitter m_splitter;
 
 	void NotifyTyping(int mode);
