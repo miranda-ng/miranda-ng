@@ -293,7 +293,20 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const wchar_t *jid, bool app
 		return jcbCaps | r->m_jcbManualDiscoveredCaps;
 	}
 
-	return JABBER_RESOURCE_CAPS_NONE;
+	// no XEP-0115: send query each time it's needed
+	switch(r->m_dwDiscoInfoRequestTime) {
+	case -1:
+		return r->m_jcbCachedCaps;
+
+	case 0:
+		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE);
+		pInfo->SetTimeout(JABBER_RESOURCE_CAPS_QUERY_TIMEOUT);
+		r->m_dwDiscoInfoRequestTime = pInfo->GetRequestTime();
+
+		m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY(JABBER_FEAT_DISCO_INFO));
+		break;
+	}
+	return JABBER_RESOURCE_CAPS_IN_PROGRESS;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
