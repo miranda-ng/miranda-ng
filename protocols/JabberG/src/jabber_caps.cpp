@@ -103,6 +103,9 @@ void CJabberProto::AddDefaultCaps()
 	JabberCapsBits myCaps = JABBER_CAPS_MIRANDA_ALL;
 	if (m_options.UseOMEMO)
 		myCaps |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
+	for (int i = 0; g_JabberFeatCapPairsExt[i].szFeature; i++)
+		if (g_JabberFeatCapPairsExt[i].Valid())
+			myCaps |= g_JabberFeatCapPairsExt[i].jcbCap;
 
 	wchar_t szOsBuffer[256]; szOsBuffer[0] = 0;
 	GetOSDisplayString(szOsBuffer, _countof(szOsBuffer));
@@ -112,10 +115,6 @@ void CJabberProto::AddDefaultCaps()
 	pCaps->m_szOsVer = mir_wstrdup(szOsBuffer);
 	pCaps->m_szSoft = mir_wstrdup(L"Miranda NG Jabber Protocol");
 	pCaps->m_szSoftMir = mir_wstrdup(szCoreVersion);  
-
-	for (int i = 0; g_JabberFeatCapPairsExt[i].szFeature; i++)
-		if (g_JabberFeatCapPairsExt[i].Valid())
-			m_clientCapsManager.SetOwnCaps(JABBER_CAPS_MIRANDA_NODE, g_JabberFeatCapPairsExt[i].szFeature, g_JabberFeatCapPairsExt[i].jcbCap);
 }
 
 void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
