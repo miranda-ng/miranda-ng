@@ -192,6 +192,7 @@ void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)
+		<< INT_PARAM("start_message_id", 0)
 		<< INT_PARAM("peer_id", userID));
 }
 
