@@ -208,7 +208,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			if (g_ctrl->bAutoSize) {
 				int Height = ArrangeButtons();
 				INT_PTR frameopt = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, g_ctrl->hFrame), 0);
-				if (Height != frameopt) {
+				if (Height != 0 && Height != frameopt) {
 					CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, g_ctrl->hFrame), Height);
 					bResize = TRUE;
 				}
