@@ -155,7 +155,6 @@ int CLUIFramesOnClistResize(WPARAM wParam, LPARAM lParam);
 
 FRAMEWND * FindFrameByItsHWND(HWND FrameHwnd);                  //cluiframes.c
 
-//int callProxied_DrawTitleBar(HDC hdcMem2,RECT *rect,int Frameid);
 int DrawTitleBar(HDC hdcMem2, RECT *rect, int Frameid);
 
 int FindFrameID(HWND FrameHwnd);
