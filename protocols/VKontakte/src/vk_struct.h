@@ -102,7 +102,7 @@ struct CVkSendMsgParam : public MZeroedObject
 		hContact(_hContact),
 		iMsgID(_iMsgID),
 		iCount(_iCount),
-		pFUP(NULL)
+		pFUP(nullptr)
 	{}
 
 	CVkSendMsgParam(MCONTACT _hContact, CVkFileUploadParam *_pFUP) :
@@ -185,7 +185,7 @@ struct CVkUserInfo : public MZeroedObject {
 		m_bIsGroup(false)
 	{}
 
-	CVkUserInfo(LONG _UserId, bool _bIsGroup, CMStringW& _wszUserNick, CMStringW& _wszLink, MCONTACT _hContact = NULL) :
+	CVkUserInfo(LONG _UserId, bool _bIsGroup, CMStringW& _wszUserNick, CMStringW& _wszLink, MCONTACT _hContact = 0) :
 		m_UserId(_UserId),
 		m_bIsGroup(_bIsGroup),
 		m_wszUserNick(_wszUserNick),
@@ -210,8 +210,8 @@ struct CVKNotification {
 
 struct CVKNewsItem : public MZeroedObject {
 	CVKNewsItem() :
-		tDate(NULL),
-		vkUser(NULL),
+		tDate(0),
+		vkUser(nullptr),
 		bIsGroup(false),
 		bIsRepost(false),
 		vkFeedbackType(vkNull),

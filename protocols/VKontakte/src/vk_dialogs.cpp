@@ -37,7 +37,7 @@ void CVkCaptchaForm::OnInitDialog()
 	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_KEYS));
 
 	m_btnOk.Disable();
-	m_btnOpenInBrowser.Enable((m_param->bmp != NULL));
+	m_btnOpenInBrowser.Enable((m_param->bmp != nullptr));
 	m_instruction.SetText(TranslateT("Enter the text you see"));
 }
 
@@ -51,7 +51,7 @@ INT_PTR CVkCaptchaForm::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_TITLE:
 			return (INT_PTR)GetStockObject(WHITE_BRUSH);
 		}
-		return NULL;
+		return 0;
 
 	case WM_PAINT:
 		if (m_param->bmp) {
@@ -75,7 +75,6 @@ INT_PTR CVkCaptchaForm::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				m_proto->ShowCaptchaInBrowser(m_param->bmp);
 		}
 		break;
-
 	}
 	return CDlgBase::DlgProc(msg, wParam, lParam);
 }
@@ -151,7 +150,7 @@ CVkInviteChatForm::CVkInviteChatForm(CVkProto *proto) :
 	CVkDlgBase(proto, IDD_INVITE, false),
 	m_btnOk(this, IDOK),
 	m_cbxCombo(this, IDC_CONTACT),
-	m_hContact(NULL)
+	m_hContact(0)
 {
 	m_btnOk.OnClick = Callback(this, &CVkInviteChatForm::btnOk_OnOk);
 }
@@ -233,7 +232,7 @@ void CVkGCCreateForm::ResetListOptions(CCtrlClc *clCList)
 	if (!clCList)
 		return;
 
-	clCList->SetBkBitmap(0, NULL);
+	clCList->SetBkBitmap(0, nullptr);
 	clCList->SetBkColor(GetSysColor(COLOR_WINDOW));
 	clCList->SetGreyoutFlags(0);
 	clCList->SetLeftMargin(4);

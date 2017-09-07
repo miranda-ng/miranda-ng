@@ -29,7 +29,7 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistoryForContact(WPARAM hContact, LPAR
 		return 0;
 
 	LPCWSTR str = TranslateT("Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?");
-	if (IDNO == MessageBoxW(NULL, str, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+	if (IDNO == MessageBoxW(nullptr, str, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 0;
 
 	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
@@ -58,7 +58,7 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM, LPARAM)
 	if (!IsOnline())
 		return 0;
 	LPCWSTR str = TranslateT("Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?");
-	if (IDNO == MessageBoxW(NULL, str, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+	if (IDNO == MessageBoxW(nullptr, str, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 0;
 
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
@@ -102,7 +102,7 @@ void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
 		return;
 	setByte(hContact, "ActiveHistoryTask", 1);
 
-	time_t tTime = time(NULL) - 60 * 60 * 24 * NDay;
+	time_t tTime = time(nullptr) - 60 * 60 * 24 * NDay;
 
 	MEVENT hDBEvent = db_event_first(hContact);
 	while (hDBEvent) {
@@ -182,10 +182,10 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		if (m_iLoadHistoryTask > 0)
 			m_iLoadHistoryTask--;
 		debugLogW(L"CVkProto::OnReceiveHistoryMessages error m_iLoadHistoryTask=%d", m_iLoadHistoryTask);
-		MsgPopup(NULL, TranslateT("Error loading message history from server."), TranslateT("Error"), true);
+		MsgPopup(TranslateT("Error loading message history from server."), TranslateT("Error"), true);
 
 		if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
-			MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed."), TranslateT("Loading history"));
+			MsgPopup(TranslateT("Loading messages for all contacts is completed."), TranslateT("Loading history"));
 			m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;
 		}
 		if (pReq->pUserInfo)
@@ -210,12 +210,12 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			debugLogW(L"CVkProto::OnReceiveHistoryMessages error for %s m_iLoadHistoryTask=%d", pwszNick, m_iLoadHistoryTask);
 
 			if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
-				MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed."), TranslateT("Loading history"));
+				MsgPopup(TranslateT("Loading messages for all contacts is completed."), TranslateT("Loading history"));
 				m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;
 			}
 
 			delete param;
-			pReq->pUserInfo = NULL;
+			pReq->pUserInfo = nullptr;
 		}
 		return;
 	}
@@ -311,7 +311,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			MsgPopup(param->hContact, str, TranslateT("Loading history"));
 
 		if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
-			MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed."), TranslateT("Loading history"));
+			MsgPopup(TranslateT("Loading messages for all contacts is completed."), TranslateT("Loading history"));
 			m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;
 		}
 		setByte(param->hContact, "ActiveHistoryTask", 0);
@@ -319,6 +319,6 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 	if (!pReq->bNeedsRestart || m_bTerminated) {
 		delete param;
-		pReq->pUserInfo = NULL;
+		pReq->pUserInfo = nullptr;
 	}
 }

@@ -49,7 +49,7 @@ void CVkProto::SearchBasicThread(void *id)
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnSearch)
 		<< WCHAR_PARAM("user_ids", (wchar_t *)id)
 		<< CHAR_PARAM("fields", "nickname, domain");
-	pReq->pUserInfo = NULL;
+	pReq->pUserInfo = nullptr;
 	Push(pReq);
 }
 

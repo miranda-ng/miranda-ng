@@ -110,7 +110,7 @@ int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 ////////////////////// Account page //////////////////////////////////////////
 
 static CVKLang vkLangCodes[] = {
-	{ NULL, LPGENW("Account language") },
+	{ nullptr, LPGENW("Account language") },
 	{ L"en", LPGENW("English") },
 	{ L"ru", LPGENW("Russian") },
 	{ L"be", LPGENW("Belarusian") },
@@ -204,7 +204,7 @@ void CVkOptionAccountForm::OnApply()
 
 	ptrW pwszGroupName(m_edtGroupName.GetText());
 	if (mir_wstrcmp(m_pwszOldGroup, pwszGroupName)) {
-		Clist_GroupCreate(NULL, pwszGroupName);
+		Clist_GroupCreate(0, pwszGroupName);
 		m_pwszOldGroup = pwszGroupName;
 	}
 
@@ -503,7 +503,7 @@ CVkOptionMenuForm::CVkOptionMenuForm(CVkProto *proto) :
 
 void CVkOptionMenuForm::OnApply()
 {
-	if (MessageBoxW(NULL,
+	if (MessageBoxW(nullptr,
 		TranslateT("These changes will take effect after Miranda NG restart.\nWould you like to restart it now?"),
 		TranslateT("VKontakte protocol"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES)
 		CallServiceSync(MS_SYSTEM_RESTART, 1, 0);

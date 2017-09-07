@@ -58,7 +58,7 @@ void CVkProto::AddFeedEvent(CVKNewsItem& vkNewsItem)
 	recv.timestamp = vkNewsItem.tDate;
 	recv.szMessage = pszBody;
 	recv.lParam = 0;
-	recv.pCustomData = NULL;
+	recv.pCustomData = nullptr;
 	recv.cbCustomDataSize = 0;
 
 	if (m_vkOptions.bUseNonStandardNotifications) {
@@ -83,7 +83,7 @@ void CVkProto::AddCListEvent(bool bNews)
 	cle.pszService = MS_MSG_READMESSAGE;
 	cle.flags = CLEF_URGENT | CLEF_UNICODE;
 	cle.hContact = hContact;
-	cle.hDbEvent = NULL;
+	cle.hDbEvent = 0;
 	wchar_t toolTip[255];
 	mir_snwprintf(toolTip, bNews ? TranslateT("New news") : TranslateT("New notifications"));
 	cle.szTooltip.w = toolTip;
@@ -96,19 +96,19 @@ CVkUserInfo* CVkProto::GetVkUserInfo(LONG iUserId, OBJLIST<CVkUserInfo> &vkUsers
 {
 	debugLogA("CVkProto::GetVkUserInfo %d", iUserId);
 	if (iUserId == 0)
-		return NULL;
+		return nullptr;
 
 	bool bIsGroup = (iUserId < 0);
 	CVkUserInfo *vkUser = vkUsers.find((CVkUserInfo *)&iUserId);
 
-	if (vkUser == NULL) {
+	if (vkUser == nullptr) {
 		CMStringW wszNick = TranslateT("Unknown");
 		CMStringW wszLink(L"https://vk.com/");
 		if (iUserId) {
 			wszLink += bIsGroup ? "club" : "id";
 			wszLink.AppendFormat(L"%d", bIsGroup ? -iUserId : iUserId);
 		}
-		vkUser = new CVkUserInfo(iUserId, bIsGroup, wszNick, wszLink, bIsGroup ? NULL : FindUser(iUserId));
+		vkUser = new CVkUserInfo(iUserId, bIsGroup, wszNick, wszLink, bIsGroup ? 0 : FindUser(iUserId));
 		vkUsers.insert(vkUser);
 	}
 
@@ -128,7 +128,7 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNod
 			const JSONNode &jnProfile = (*it);
 			if (!jnProfile["id"])
 				continue;
-			LONG UserId =  jnProfile["id"].as_int();
+			LONG UserId = jnProfile["id"].as_int();
 
 			CMStringW wszNick(jnProfile["first_name"].as_mstring());
 			wszNick.AppendChar(' ');
@@ -148,7 +148,7 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNod
 			const JSONNode &jnProfile = (*it);
 			if (!jnProfile["id"])
 				continue;
-			LONG UserId = - jnProfile["id"].as_int();
+			LONG UserId = -jnProfile["id"].as_int();
 
 			CMStringW wszNick(jnProfile["name"].as_mstring());
 			CMStringW wszLink = L"https://vk.com/";
@@ -311,7 +311,7 @@ CMStringW CVkProto::GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedba
 			wszUsers += SetBBCString(vkUser->m_wszUserNick, m_vkOptions.BBCForNews(), vkbbcUrl, vkUser->m_wszLink);
 		}
 		wszRes.AppendFormat(L"%s %%s %%s", wszUsers.c_str());
-		vkUser = NULL;
+		vkUser = nullptr;
 		iUserId = 0;
 	}
 
@@ -330,7 +330,7 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 	debugLogA("CVkProto::GetVkParent");
 	CMStringW wszRes;
 	if (!jnParent || !vkParentType)
-		return NULL;
+		return nullptr;
 
 	CVKNewsItem *vkNotificationItem = new CVKNewsItem();
 
@@ -397,7 +397,7 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 		LONG iId = jnParent["id"].as_int();
 		CMStringW wszTitle(jnParent["title"].as_mstring());
 		vkNotificationItem->wszId.AppendFormat(L"%d_%d", iOwnerId, iId);
-		vkNotificationItem->wszLink.AppendFormat(L"https://vk.com/topic%s%s", 
+		vkNotificationItem->wszLink.AppendFormat(L"https://vk.com/topic%s%s",
 			vkNotificationItem->wszId.c_str(), pwszReplyLink ? pwszReplyLink : L"");
 
 		CMStringW wszText(jnParent["text"].as_mstring());
@@ -457,7 +457,7 @@ CVKNewsItem* CVkProto::GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CV
 {
 	debugLogA("CVkProto::GetVkNotificationsItem");
 	if (!jnItem)
-		return NULL;
+		return nullptr;
 
 	CMStringW wszType(jnItem["type"].as_mstring());
 	VKObjType vkFeedbackType = vkNull, vkParentType = vkNull;
@@ -468,18 +468,18 @@ CVKNewsItem* CVkProto::GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CV
 
 	if (m_vkOptions.bNotificationFilterAcceptedFriends && wszType == L"friend_accepted" && jnFeedback && vkFeedbackType == VKObjType::vkUsers) {
 		OnFriendAccepted(jnFeedback);
-		return NULL;
+		return nullptr;
 	}
 
 	if (!jnFeedback || !jnParent)
-		return NULL;
+		return nullptr;
 
-	CVkUserInfo *vkUser = NULL;
+	CVkUserInfo *vkUser = nullptr;
 	CMStringW wszFeedback = GetVkFeedback(jnFeedback, vkFeedbackType, vkUsers, vkUser);
 	CVKNewsItem *vkNotification = GetVkParent(jnParent, vkParentType);
 
 	if (!vkNotification)
-		return NULL;
+		return nullptr;
 
 	if (vkNotification && !wszFeedback.IsEmpty()) {
 		CMStringW wszNotificaton;
@@ -505,7 +505,7 @@ CVKNewsItem* CVkProto::GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CV
 	}
 
 	delete vkNotification;
-	return NULL;
+	return nullptr;
 }
 
 void CVkProto::OnFriendAccepted(const JSONNode & jnFeedback)
@@ -530,25 +530,25 @@ CVKNewsItem* CVkProto::GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUser
 {
 	debugLogA("CVkProto::GetVkGroupInvates");
 	if (!jnItem)
-		return NULL;
+		return nullptr;
 
 	CMStringW wszType(jnItem["type"].as_mstring());
 	VKObjType vkFeedbackType = vkNull, vkParentType = vkNull;
 	CMStringW wszNotificationTranslate = SpanVKNotificationType(wszType, vkFeedbackType, vkParentType);
 
 	if (!jnItem["id"])
-		return NULL;
+		return nullptr;
 
 	LONG iGroupId = jnItem["id"].as_int();
 	CMStringW wszId(FORMAT, L"%d,", iGroupId);
-	CMStringW wszIds(ptrW(db_get_wsa(NULL, m_szModuleName, "InviteGroupIds")));
+	CMStringW wszIds(ptrW(db_get_wsa(0, m_szModuleName, "InviteGroupIds")));
 
 	if (wszIds.Find(wszId, 0) != -1)
-		return NULL;
+		return nullptr;
 
 	LONG iUserId = !jnItem["invited_by"] ? 0 : jnItem["invited_by"].as_int();
 	CVKNewsItem *vkNotification = new CVKNewsItem();
-	vkNotification->tDate = time(NULL);
+	vkNotification->tDate = time(nullptr);
 	vkNotification->vkUser = GetVkUserInfo(iUserId, vkUsers);
 	vkNotification->wszType = wszType;
 	vkNotification->wszId = wszId;
@@ -560,10 +560,12 @@ CVKNewsItem* CVkProto::GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUser
 	CMStringW wszGLink(FORMAT, L"https://vk.com/%s", jnItem["screen_name"].as_mstring().c_str());
 	wszGroupName = SetBBCString(wszGName, m_vkOptions.BBCForNews(), vkbbcUrl, wszGLink);
 
-	CMStringW wszUsers = SetBBCString(iUserId ? vkNotification->vkUser->m_wszUserNick : TranslateT("Unknown"), m_vkOptions.BBCForNews(), vkbbcUrl, iUserId ? vkNotification->vkUser->m_wszLink : L"https://vk.com/");
+	CMStringW wszUsers = SetBBCString(iUserId ? vkNotification->vkUser->m_wszUserNick : TranslateT("Unknown"), m_vkOptions.BBCForNews(),
+		vkbbcUrl, iUserId ? vkNotification->vkUser->m_wszLink : L"https://vk.com/");
 
 	vkNotification->wszText.AppendFormat(L"%s %s %s", wszUsers.c_str(), wszNotificationTranslate.c_str(), wszGroupName.c_str());
-	vkNotification->wszPopupTitle.AppendFormat(L"%s %s %s", iUserId ? vkNotification->vkUser->m_wszUserNick.c_str() : TranslateT("Unknown"), wszNotificationTranslate.c_str(), wszGName.c_str());
+	vkNotification->wszPopupTitle.AppendFormat(L"%s %s %s", iUserId ? vkNotification->vkUser->m_wszUserNick.c_str() : TranslateT("Unknown"),
+		wszNotificationTranslate.c_str(), wszGName.c_str());
 
 	wszIds += wszId;
 	setWString("InviteGroupIds", wszIds);
@@ -579,8 +581,8 @@ void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 	if (!IsOnline())
 		return;
 
-	time_t tLastNewsReqTime = getDword("LastNewsReqTime", time(NULL) - 24 * 60 * 60);
-	if (time(NULL) - tLastNewsReqTime < 3 * 60)
+	time_t tLastNewsReqTime = getDword("LastNewsReqTime", time(nullptr) - 24 * 60 * 60);
+	if (time(nullptr) - tLastNewsReqTime < 3 * 60)
 		return;
 
 	CMStringA szFilter;
@@ -625,7 +627,7 @@ void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 		<< CHAR_PARAM("filters", szFilter)
 		<< CHAR_PARAM("source_ids", szSource));
 
-	setDword("LastNewsReqTime", (DWORD)time(NULL));
+	setDword("LastNewsReqTime", (DWORD)time(nullptr));
 }
 
 static int sttCompareVKNewsItems(const CVKNewsItem *p1, const CVKNewsItem *p2)
@@ -649,7 +651,7 @@ static int sttCompareVKNotificationItems(const CVKNewsItem *p1, const CVKNewsIte
 void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveUnreadNews %d", reply->resultCode);
-	db_unset(NULL, m_szModuleName, "LastNewsReqTime");
+	db_unset(0, m_szModuleName, "LastNewsReqTime");
 	if (reply->resultCode != 200)
 		return;
 
@@ -670,7 +672,7 @@ void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *p
 			if (!vkNewsItem)
 				continue;
 			CVKNewsItem *vkNewsFoundItem = vkNews.find(vkNewsItem);
-			if (vkNewsFoundItem == NULL)
+			if (vkNewsFoundItem == nullptr)
 				vkNews.insert(vkNewsItem);
 			else if (vkNewsFoundItem->wszType == L"wall_photo" && vkNewsItem->wszType == L"post") {
 				vkNews.remove(vkNewsFoundItem);
@@ -690,7 +692,7 @@ void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *p
 	if (bNewsAdded)
 		AddCListEvent(true);
 
-	setDword("LastNewsTime", time(NULL));
+	setDword("LastNewsTime", time(nullptr));
 
 	vkNews.destroy();
 	vkUsers.destroy();
@@ -704,8 +706,8 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 	if (!IsOnline())
 		return;
 
-	time_t tLastNotificationsReqTime = getDword("LastNotificationsReqTime", time(NULL) - 24 * 60 * 60);
-	if (time(NULL) - tLastNotificationsReqTime < 3 * 60)
+	time_t tLastNotificationsReqTime = getDword("LastNotificationsReqTime", time(nullptr) - 24 * 60 * 60);
+	if (time(nullptr) - tLastNotificationsReqTime < 3 * 60)
 		return;
 
 	CMStringW code(FORMAT, L"return{\"notifications\":API.notifications.get({\"count\": 100, \"start_time\":%d})%s",
@@ -716,7 +718,7 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 		<< WCHAR_PARAM("code", code)
 	);
 
-	setDword("LastNotificationsReqTime", (DWORD)time(NULL));
+	setDword("LastNotificationsReqTime", (DWORD)time(nullptr));
 }
 
 bool CVkProto::FilterNotification(CVKNewsItem* vkNotificationItem, bool& isCommented)
@@ -754,7 +756,7 @@ void CVkProto::NotificationMarkAsViewed()
 void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveUnreadNotifications %d", reply->resultCode);
-	db_unset(NULL, m_szModuleName, "LastNotificationsReqTime");
+	db_unset(0, m_szModuleName, "LastNotificationsReqTime");
 	if (reply->resultCode != 200)
 		return;
 
@@ -780,7 +782,7 @@ void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpR
 				CVKNewsItem *vkNotificationItem = GetVkNotificationsItem((*it), vkUsers);
 				if (!vkNotificationItem)
 					continue;
-				if (vkNotification.find(vkNotificationItem) == NULL)
+				if (vkNotification.find(vkNotificationItem) == nullptr)
 					vkNotification.insert(vkNotificationItem);
 				else
 					delete vkNotificationItem;
@@ -795,7 +797,7 @@ void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpR
 				CVKNewsItem *vkNotificationItem = GetVkGroupInvates((*it), vkUsers);
 				if (!vkNotificationItem)
 					continue;
-				if (vkNotification.find(vkNotificationItem) == NULL)
+				if (vkNotification.find(vkNotificationItem) == nullptr)
 					vkNotification.insert(vkNotificationItem);
 				else
 					delete vkNotificationItem;
@@ -815,7 +817,7 @@ void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpR
 	if (bNotificationAdded)
 		AddCListEvent(false);
 
-	setDword("LastNotificationsTime", time(NULL));
+	setDword("LastNotificationsTime", time(nullptr));
 	if (m_vkOptions.bNotificationsMarkAsViewed && bNotificationCommentAdded)
 		NotificationMarkAsViewed();
 
@@ -829,12 +831,12 @@ void CVkProto::RetrieveUnreadEvents()
 	if (!IsOnline() || (!m_vkOptions.bNotificationsEnabled && !m_vkOptions.bNewsEnabled))
 		return;
 
-	time_t tLastNotificationsTime = getDword("LastNotificationsTime", time(NULL) - 24 * 60 * 60);
-	if (time(NULL) - tLastNotificationsTime - m_vkOptions.iNotificationsInterval * 60 >= -3 && m_vkOptions.bNotificationsEnabled)
+	time_t tLastNotificationsTime = getDword("LastNotificationsTime", time(nullptr) - 24 * 60 * 60);
+	if (time(nullptr) - tLastNotificationsTime - m_vkOptions.iNotificationsInterval * 60 >= -3 && m_vkOptions.bNotificationsEnabled)
 		RetrieveUnreadNotifications(tLastNotificationsTime);
 
-	time_t tLastNewsTime = getDword("LastNewsTime", time(NULL) - 24 * 60 * 60);
-	if (time(NULL) - tLastNewsTime - m_vkOptions.iNewsInterval * 60 >= -3 && m_vkOptions.bNewsEnabled)
+	time_t tLastNewsTime = getDword("LastNewsTime", time(nullptr) - 24 * 60 * 60);
+	if (time(nullptr) - tLastNewsTime - m_vkOptions.iNewsInterval * 60 >= -3 && m_vkOptions.bNewsEnabled)
 		RetrieveUnreadNews(tLastNewsTime);
 
 	NewsClearHistory();
@@ -851,7 +853,7 @@ INT_PTR CVkProto::SvcLoadVKNews(WPARAM, LPARAM)
 		AddFeedSpecialUser();
 	}
 
-	time_t tLastNewsTime = getDword("LastNewsTime", time(NULL) - 24 * 60 * 60);
+	time_t tLastNewsTime = getDword("LastNewsTime", time(nullptr) - 24 * 60 * 60);
 	RetrieveUnreadNews(tLastNewsTime);
 
 	return 0;
@@ -861,10 +863,10 @@ void CVkProto::NewsClearHistory()
 {
 	debugLogA("CVkProto::NewsClearHistory");
 	MCONTACT hContact = FindUser(VK_FEED_USER);
-	if (hContact == NULL || !m_vkOptions.bNewsAutoClearHistory)
+	if (hContact == 0 || !m_vkOptions.bNewsAutoClearHistory)
 		return;
 
-	time_t tTime = time(NULL) - m_vkOptions.iNewsAutoClearHistoryInterval;
+	time_t tTime = time(nullptr) - m_vkOptions.iNewsAutoClearHistoryInterval;
 	MEVENT hDBEvent = db_event_first(hContact);
 	while (hDBEvent) {
 		MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);

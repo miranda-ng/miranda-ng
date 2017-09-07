@@ -24,8 +24,8 @@ char szBlankUrl[] = "https://oauth.vk.com/blank.html";
 static char VK_TOKEN_BEG[] = "access_token=";
 static char VK_LOGIN_DOMAIN[] = "https://m.vk.com";
 static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, "
-"contacts, last_seen, online, status, country, city, relation, interests, activities, "
-"music, movies, tv, books, games, quotes, about,  domain";
+	"contacts, last_seen, online, status, country, city, relation, interests, activities, "
+	"music, movies, tv, books, games, quotes, about,  domain";
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -42,7 +42,7 @@ void CVkProto::ConnectionFailed(int iReason)
 {
 	delSetting("AccessToken");
 
-	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, iReason);
+	ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, iReason);
 	debugLogA("CVkProto::ConnectionFailed ShutdownSession");
 	ShutdownSession();
 }
@@ -64,14 +64,14 @@ static void CALLBACK VKSetTimer(void*)
 	mir_cslock lck(CVkProto::m_csTimer);
 	if (CVkProto::m_timer)
 		return;
-	CVkProto::m_timer = SetTimer(NULL, 0, 60000, TimerProc);
+	CVkProto::m_timer = SetTimer(nullptr, 0, 60000, TimerProc);
 }
 
 static void CALLBACK VKUnsetTimer(void*)
 {
 	mir_cslock lck(CVkProto::m_csTimer);
 	if (CVkProto::m_timer)
-		KillTimer(NULL, CVkProto::m_timer);
+		KillTimer(nullptr, CVkProto::m_timer);
 	CVkProto::m_timer = 0;
 }
 
@@ -93,8 +93,8 @@ void CVkProto::OnLoggedIn()
 	// initialize online timer
 	CallFunctionAsync(VKSetTimer, this);
 
-	db_unset(NULL, m_szModuleName, "LastNewsReqTime");
-	db_unset(NULL, m_szModuleName, "LastNotificationsReqTime");
+	db_unset(0, m_szModuleName, "LastNewsReqTime");
+	db_unset(0, m_szModuleName, "LastNotificationsReqTime");
 }
 
 void CVkProto::OnLoggedOut()
@@ -104,12 +104,12 @@ void CVkProto::OnLoggedOut()
 
 	if (m_hPollingThread) {
 		CloseHandle(m_hPollingThread);
-		m_hPollingThread = NULL;
+		m_hPollingThread = nullptr;
 	}
 
 	if (m_hWorkerThread) {
 		CloseHandle(m_hWorkerThread);
-		m_hWorkerThread = NULL;
+		m_hWorkerThread = nullptr;
 	}
 
 	if (m_hAPIConnection)
@@ -118,7 +118,7 @@ void CVkProto::OnLoggedOut()
 	if (m_pollingConn)
 		Netlib_Shutdown(m_pollingConn);
 
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
 	bool bOnline = false;
@@ -144,7 +144,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		LPCSTR pszLocation = findHeader(reply, "Location");
 		if (pszLocation) {
 			if (!_strnicmp(pszLocation, szBlankUrl, sizeof(szBlankUrl) - 1)) {
-				m_szAccessToken = NULL;
+				m_szAccessToken = nullptr;
 				LPCSTR p = strstr(pszLocation, VK_TOKEN_BEG);
 				if (p) {
 					p += sizeof(VK_TOKEN_BEG) - 1;
@@ -154,7 +154,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 							break;
 						}
 					}
-					if (m_szAccessToken == NULL)
+					if (m_szAccessToken == nullptr)
 						m_szAccessToken = mir_strdup(p);
 					setString("AccessToken", m_szAccessToken);
 					RetrieveMyInfo();
@@ -198,7 +198,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		char *p2 = strchr(pMsgWarning, '<');
 		if (p1 && p2 && (p1 + 1 < p2)) {
 			CMStringA szMsg(p1 + 1, (int)(p2 - p1 - 1));
-			MsgPopup(NULL, ptrW(mir_utf8decodeW(szMsg)), TranslateT("Service message"), true);
+			MsgPopup(ptrW(mir_utf8decodeW(szMsg)), TranslateT("Service message"), true);
 			debugLogA("CVkProto::OnOAuthAuthorize %s", szMsg.c_str());
 		}
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
@@ -275,26 +275,26 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 {
 	if (!jnItem) {
-		debugLogA("CVkProto::SetContactInfo pItem == NULL");
+		debugLogA("CVkProto::SetContactInfo pItem == nullptr");
 		return INVALID_CONTACT_ID;
 	}
 
 	LONG userid = jnItem["id"].as_int();
 	debugLogA("CVkProto::SetContactInfo %d", userid);
 	if (userid == 0 || userid == VK_FEED_USER)
-		return NULL;
+		return 0;
 
 	MCONTACT hContact = FindUser(userid, flag);
 
 	if (userid == m_myUserId) {
-		if (hContact != NULL)
+		if (hContact != 0)
 			if (self)
-				hContact = NULL;
+				hContact = 0;
 			else
 				SetContactInfo(jnItem, flag, true);
 	}
-	else if (hContact == NULL)
-		return NULL;
+	else if (hContact == 0)
+		return 0;
 
 	CMStringW wszNick, wszValue;
 	int iValue;
@@ -364,7 +364,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	setWord(hContact, "Status", iNewStatus);
 
 	if (iNewStatus == ID_STATUS_ONLINE) {
-		db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)time(NULL));
+		db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)time(nullptr));
 		db_set_dw(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_ONLINE);
 
 		int online_app = _wtoi(jnItem["online_app"].as_mstring());
@@ -615,7 +615,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			int iContactStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 
 			if ((iContactStatus == ID_STATUS_ONLINE)
-				|| (iContactStatus == ID_STATUS_INVISIBLE && time(NULL) - getDword(hContact, "InvisibleTS", 0) >= m_vkOptions.iInvisibleInterval * 60LL)) {
+				|| (iContactStatus == ID_STATUS_INVISIBLE && time(nullptr) - getDword(hContact, "InvisibleTS", 0) >= m_vkOptions.iInvisibleInterval * 60LL)) {
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 				SetMirVer(hContact, -1);
 				db_unset(hContact, m_szModuleName, "ListeningTo");
@@ -730,7 +730,7 @@ void CVkProto::RetrieveFriends(bool bCleanNonFriendContacts)
 		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends)
 		<< INT_PARAM("count", m_vkOptions.iMaxFriendsCount > 5000 ? 1000 : m_vkOptions.iMaxFriendsCount)
-		<< CHAR_PARAM("fields", fieldsName))->pUserInfo = new CVkSendMsgParam(NULL, bCleanNonFriendContacts ? 1 : 0);
+		<< CHAR_PARAM("fields", fieldsName))->pUserInfo = new CVkSendMsgParam(0, bCleanNonFriendContacts ? 1 : 0);
 }
 
 void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -765,7 +765,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
 			MCONTACT hContact = SetContactInfo((*it), true);
 
-			if (hContact == NULL || hContact == INVALID_CONTACT_ID)
+			if (hContact == 0 || hContact == INVALID_CONTACT_ID)
 				continue;
 
 			arContacts.remove((HANDLE)hContact);
@@ -800,7 +800,7 @@ INT_PTR __cdecl CVkProto::SvcAddAsFriend(WPARAM hContact, LPARAM)
 INT_PTR CVkProto::SvcWipeNonFriendContacts(WPARAM, LPARAM)
 {
 	debugLogA("CVkProto::SvcWipeNonFriendContacts");
-	if (IDNO == MessageBoxW(NULL, TranslateT("Are you sure to wipe local contacts missing in your friend list?"),
+	if (IDNO == MessageBoxW(nullptr, TranslateT("Are you sure to wipe local contacts missing in your friend list?"),
 		TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 0;
 
@@ -819,7 +819,7 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 	CMStringW pwszMsg;
 	if (flag == 0) {
 		pwszMsg.AppendFormat(TranslateT("Are you sure to delete %s from your friend list?"), IsEmpty(pwszNick) ? TranslateT("(Unknown contact)") : pwszNick);
-		if (IDNO == MessageBoxW(NULL, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+		if (IDNO == MessageBoxW(nullptr, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 			return 1;
 	}
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.delete.json", true, &CVkProto::OnReceiveDeleteFriend)
@@ -864,7 +864,7 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST *reply, AsyncHttpRequest 
 
 	if (param && (!pReq->bNeedsRestart || m_bTerminated)) {
 		delete param;
-		pReq->pUserInfo = NULL;
+		pReq->pUserInfo = nullptr;
 	}
 }
 
@@ -914,7 +914,7 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 		wszVarWarning.IsEmpty() ? L" " : TranslateT("\nIt will also"),
 		wszVarWarning.IsEmpty() ? L"\n" : wszVarWarning);
 
-	if (IDNO == MessageBoxW(NULL, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+	if (IDNO == MessageBoxW(nullptr, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 1;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
@@ -935,7 +935,7 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 
 	CMStringW wszNick(ptrW(db_get_wsa(hContact, m_szModuleName, "Nick"))),
 		pwszMsg(FORMAT, TranslateT("Are you sure to report abuse on %s?"), wszNick.IsEmpty() ? TranslateT("(Unknown contact)") : wszNick);
-	if (IDNO == MessageBoxW(NULL, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+	if (IDNO == MessageBoxW(nullptr, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 1;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.report.json", true, &CVkProto::OnReceiveSmth)

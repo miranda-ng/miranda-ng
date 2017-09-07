@@ -26,12 +26,12 @@ AsyncHttpRequest::AsyncHttpRequest()
 	cbSize = sizeof(NETLIBHTTPREQUEST);
 	m_bApiReq = true;
 	AddHeader("Connection", "keep-alive");
-	pUserInfo = NULL;
+	pUserInfo = nullptr;
 	m_iRetry = MAX_RETRIES;
 	m_iErrorCode = 0;
 	bNeedsRestart = false;
 	bIsMainConn = false;
-	m_pFunc = NULL;
+	m_pFunc = nullptr;
 	bExpUrlEncode = true;
 	m_reqNum = ::InterlockedIncrement(&m_reqCount);
 	m_priority = rpLow;
@@ -61,7 +61,7 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 
 	requestType = iRequestType;
 	m_pFunc = pFunc;
-	pUserInfo = NULL;
+	pUserInfo = nullptr;
 	m_iRetry = MAX_RETRIES;
 	m_iErrorCode = 0;
 	bNeedsRestart = false;
@@ -102,8 +102,8 @@ CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const wchar_t *_desc,
 	hContact(_hContact),
 	Desc(mir_wstrdup(_desc)),
 	FileName(mir_wstrdup(_files[0])),
-	atr(NULL),
-	fname(NULL),
+	atr(nullptr),
+	fname(nullptr),
 	filetype(typeInvalid)
 {}
 
@@ -239,15 +239,15 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 
 	pwszDefaultGroup(proto, "ProtoGroup", L"VKontakte"),
 	pwszReturnChatMessage(proto, "ReturnChatMessage", TranslateT("I'm back")),
-	pwszVKLang(proto, "VKLang", NULL)
+	pwszVKLang(proto, "VKLang", nullptr)
 
 {
 	// Note: Delete this code after next stable build
-	int iAutoClean = db_get_b(NULL, proto->m_szModuleName, "AutoClean", -1);
+	int iAutoClean = db_get_b(0, proto->m_szModuleName, "AutoClean", -1);
 	if (iAutoClean != -1) {
 		bLoadOnlyFriends = (BYTE)iAutoClean;
-		db_set_b(NULL, proto->m_szModuleName, "LoadOnlyFriends", bLoadOnlyFriends);
-		db_unset(NULL, proto->m_szModuleName, "AutoClean");
+		db_set_b(0, proto->m_szModuleName, "LoadOnlyFriends", bLoadOnlyFriends);
+		db_unset(0, proto->m_szModuleName, "AutoClean");
 	}
 	// Note
 }

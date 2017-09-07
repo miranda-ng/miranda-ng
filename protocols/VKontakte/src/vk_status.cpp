@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 int CVkProto::SetStatus(int iNewStatus)
 {
 	debugLogA("CVkProto::SetStatus iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d m_hWorkerThread = %d",
-		iNewStatus, m_iStatus, m_iDesiredStatus, m_hWorkerThread == NULL ? 0 : 1);
+		iNewStatus, m_iStatus, m_iDesiredStatus, m_hWorkerThread == nullptr ? 0 : 1);
 
 	mir_cslock lck(m_csSetStatus);
 
@@ -38,28 +38,34 @@ int CVkProto::SetStatus(int iNewStatus)
 		}
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-		debugLogA("CVkProto::SetStatus (1) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		debugLogA("CVkProto::SetStatus (1) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d",
+			iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
 	}
-	else if (m_hWorkerThread == NULL && !IsStatusConnecting(m_iStatus)) {
+	else if (m_hWorkerThread == nullptr && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-		debugLogA("CVkProto::SetStatus (2) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
-		m_hWorkerThread = ForkThreadEx(&CVkProto::WorkerThread, 0, NULL);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		debugLogA("CVkProto::SetStatus (2) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d",
+			iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
+		m_hWorkerThread = ForkThreadEx(&CVkProto::WorkerThread, 0, nullptr);
 	}
 	else if (IsOnline()) {
-		debugLogA("CVkProto::SetStatus (3) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
+		debugLogA("CVkProto::SetStatus (3) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d",
+			iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
 		SetServerStatus(iNewStatus);
 	}
 	else {
-		debugLogA("CVkProto::SetStatus (4) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		debugLogA("CVkProto::SetStatus (4) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d",
+			iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 		if (!IsStatusConnecting(m_iStatus))
 			m_iDesiredStatus = m_iStatus;
-		debugLogA("CVkProto::SetStatus (5) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
+		debugLogA("CVkProto::SetStatus (5) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d",
+			iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
 	}
 
-	debugLogA("CVkProto::SetStatus (ret) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
+	debugLogA("CVkProto::SetStatus (ret) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d",
+		iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
 	return 0;
 }
 
@@ -70,8 +76,8 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		return;
 
 	int iOldStatus = m_iStatus;
-	CMStringW oldStatusMsg(ptrW(db_get_wsa(NULL, m_szModuleName, "OldStatusMsg")));
-	ptrW pwszListeningToMsg(db_get_wsa(NULL, m_szModuleName, "ListeningTo"));
+	CMStringW oldStatusMsg(ptrW(db_get_wsa(0, m_szModuleName, "OldStatusMsg")));
+	ptrW pwszListeningToMsg(db_get_wsa(0, m_szModuleName, "ListeningTo"));
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		m_bNeedSendOnline = false;
@@ -100,7 +106,7 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
 	}
 
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -111,7 +117,7 @@ INT_PTR __cdecl CVkProto::SvcSetStatusMsg(WPARAM, LPARAM)
 	if (!IsOnline())
 		return 1;
 
-	MsgPopup(NULL, TranslateT("Loading status message from vk.com.\nThis may take some time."), TranslateT("Waiting..."));
+	MsgPopup(TranslateT("Loading status message from vk.com.\nThis may take some time."), TranslateT("Waiting..."));
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/status.get.json", true, &CVkProto::OnReceiveStatusMsg));
 
@@ -126,7 +132,7 @@ void CVkProto::OnReceiveStatusMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 
 	OnReceiveStatus(reply, pReq);
 
-	ptrW pwszOldStatusMsg(db_get_wsa(NULL, m_szModuleName, "OldStatusMsg"));
+	ptrW pwszOldStatusMsg(db_get_wsa(0, m_szModuleName, "OldStatusMsg"));
 	CMStringW wszOldStatusMsg(pwszOldStatusMsg);
 
 	ENTER_STRING pForm = { sizeof(pForm) };
@@ -211,15 +217,15 @@ INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM, LPARAM lParam)
 
 	LISTENINGTOINFO *pliInfo = (LISTENINGTOINFO*)lParam;
 	CMStringW wszListeningTo;
-	if (pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO))
-		db_unset(NULL, m_szModuleName, "ListeningTo");
+	if (pliInfo == nullptr || pliInfo->cbSize != sizeof(LISTENINGTOINFO))
+		db_unset(0, m_szModuleName, "ListeningTo");
 	else if (pliInfo->dwFlags & LTI_UNICODE) {
 		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
 			wszListeningTo = ptrW((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%artist% - %title%", (LPARAM)pliInfo));
 		else
 			wszListeningTo.Format(L"%s - %s",
-			pliInfo->ptszArtist ? pliInfo->ptszArtist : L"",
-			pliInfo->ptszTitle ? pliInfo->ptszTitle : L"");
+				pliInfo->ptszArtist ? pliInfo->ptszArtist : L"",
+				pliInfo->ptszTitle ? pliInfo->ptszTitle : L"");
 		setWString("ListeningTo", wszListeningTo);
 	}
 	RetrieveStatusMusic(wszListeningTo);

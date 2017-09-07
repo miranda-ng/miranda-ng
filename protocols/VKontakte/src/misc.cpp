@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-static const char *szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "photo_604", "photo_256", "photo_130", "photo_128", "photo_75", "photo_64" , "preview" };
+static const char *szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "photo_604", "photo_256", "photo_130", "photo_128", "photo_75", "photo_64", "preview" };
 
 static const char  *szGiftTypes[] = { "thumb_256", "thumb_96", "thumb_48" };
 
@@ -29,12 +29,12 @@ JSONNode nullNode(JSON_NULL);
 
 bool IsEmpty(LPCWSTR str)
 {
-	return (str == NULL || str[0] == 0);
+	return (str == nullptr || str[0] == 0);
 }
 
 bool IsEmpty(LPCSTR str)
 {
-	return (str == NULL || str[0] == 0);
+	return (str == nullptr || str[0] == 0);
 }
 
 LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
@@ -43,7 +43,7 @@ LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
 		if (!_stricmp(pReq->headers[i].szName, szField))
 			return pReq->headers[i].szValue;
 
-	return NULL;
+	return nullptr;
 }
 
 bool wlstrstr(wchar_t *_s1, wchar_t *_s2)
@@ -55,7 +55,7 @@ bool wlstrstr(wchar_t *_s1, wchar_t *_s2)
 	wcsncpy_s(s2, _s2, _TRUNCATE);
 	CharLowerBuff(s2, _countof(s2));
 
-	return wcsstr(s1, s2) != NULL;
+	return wcsstr(s1, s2) != nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -97,8 +97,8 @@ char* ExpUrlEncode(const char *szUrl, bool strict)
 {
 	const char szHexDigits[] = "0123456789ABCDEF";
 
-	if (szUrl == NULL)
-		return NULL;
+	if (szUrl == nullptr)
+		return nullptr;
 
 	const BYTE *s;
 	int outputLen;
@@ -113,8 +113,8 @@ char* ExpUrlEncode(const char *szUrl, bool strict)
 			outputLen += 3;
 
 	char *szOutput = (char*)mir_alloc(outputLen + 1);
-	if (szOutput == NULL)
-		return NULL;
+	if (szOutput == nullptr)
+		return nullptr;
 
 	char *d = szOutput;
 	for (s = (const BYTE*)szUrl; *s; s++)
@@ -132,8 +132,8 @@ char* ExpUrlEncode(const char *szUrl, bool strict)
 			*d++ = szHexDigits[*s & 0xF];
 		}
 
-	*d = '\0';
-	return szOutput;
+		*d = '\0';
+		return szOutput;
 }
 
 
@@ -142,8 +142,8 @@ char* ExpUrlEncode(const char *szUrl, bool strict)
 void CVkProto::ClearAccessToken()
 {
 	debugLogA("CVkProto::ClearAccessToken");
-	setDword("LastAccessTokenTime", (DWORD)time(NULL));
-	m_szAccessToken = NULL;
+	setDword("LastAccessTokenTime", (DWORD)time(nullptr));
+	m_szAccessToken = nullptr;
 	delSetting("AccessToken");
 	ShutdownSession();
 }
@@ -152,7 +152,7 @@ wchar_t* CVkProto::GetUserStoredPassword()
 {
 	debugLogA("CVkProto::GetUserStoredPassword");
 	ptrA szRawPass(getStringA("Password"));
-	return (szRawPass != NULL) ? mir_utf8decodeW(szRawPass) : NULL;
+	return (szRawPass != nullptr) ? mir_utf8decodeW(szRawPass) : nullptr;
 }
 
 void CVkProto::SetAllContactStatuses(int iStatus)
@@ -176,7 +176,7 @@ void CVkProto::SetAllContactStatuses(int iStatus)
 MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 {
 	if (!dwUserid)
-		return NULL;
+		return 0;
 
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		LONG dbUserid = getDword(hContact, "ID", VK_INVALID_USER);
@@ -188,7 +188,7 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 	}
 
 	if (!bCreate)
-		return NULL;
+		return 0;
 
 	MCONTACT hNewContact = db_add_contact();
 	Proto_AddToContact(hNewContact, m_szModuleName);
@@ -202,7 +202,7 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 MCONTACT CVkProto::FindChat(LONG dwUserid)
 {
 	if (!dwUserid)
-		return NULL;
+		return 0;
 
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		LONG dbUserid = getDword(hContact, "vk_chat_id", VK_INVALID_USER);
@@ -213,7 +213,7 @@ MCONTACT CVkProto::FindChat(LONG dwUserid)
 			return hContact;
 	}
 
-	return NULL;
+	return 0;
 }
 
 bool CVkProto::IsGroupUser(MCONTACT hContact)
@@ -288,19 +288,19 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 			break;
 		}
 
-		if (time(NULL) - getDword("LastAccessTokenTime", 0) > 60 * 60 * 24) {
+		if (time(nullptr) - getDword("LastAccessTokenTime", 0) > 60 * 60 * 24) {
 			debugLogA("CVkProto::CheckJsonResult VKERR_ACCESS_DENIED (AccessToken fail?)");
 			ClearAccessToken();
 			return false;
 		}
 		debugLogA("CVkProto::CheckJsonResult VKERR_ACCESS_DENIED");
-		MsgPopup(NULL, TranslateT("Access denied! Data will not be sent or received."), TranslateT("Error"), true);
+		MsgPopup(TranslateT("Access denied! Data will not be sent or received."), TranslateT("Error"), true);
 		break;
 	case VKERR_CAPTCHA_NEEDED:
 		ApplyCaptcha(pReq, jnError);
 		break;
 	case VKERR_VALIDATION_REQUIRED:	// Validation Required
-		MsgPopup(NULL, TranslateT("You have to validate your account before you can use VK in Miranda NG"), TranslateT("Error"), true);
+		MsgPopup(TranslateT("You have to validate your account before you can use VK in Miranda NG"), TranslateT("Error"), true);
 		if (jnRedirectUri) {
 			T2Utf szRedirectUri(jnRedirectUri.as_mstring());
 			AsyncHttpRequest *pRedirectReq = new AsyncHttpRequest(this, REQUEST_GET, szRedirectUri, false, &CVkProto::OnOAuthAuthorize);
@@ -323,25 +323,25 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 		}
 		else {
 			CMStringW msg(FORMAT, TranslateT("Error %d. Data will not be sent or received."), iErrorCode);
-			MsgPopup(NULL, msg, TranslateT("Error"), true);
+			MsgPopup(msg, TranslateT("Error"), true);
 			debugLogA("CVkProto::CheckJsonResult SendError");
 		}
 		break;
 
 	case VKERR_INVALID_PARAMETERS:
-		MsgPopup(NULL, TranslateT("One of the parameters specified was missing or invalid"), TranslateT("Error"), true);
+		MsgPopup(TranslateT("One of the parameters specified was missing or invalid"), TranslateT("Error"), true);
 		break;
 	case VKERR_ACC_WALL_POST_DENIED:
-		MsgPopup(NULL, TranslateT("Access to adding post denied"), TranslateT("Error"), true);
+		MsgPopup(TranslateT("Access to adding post denied"), TranslateT("Error"), true);
 		break;
 	case VKERR_CANT_SEND_USER_ON_BLACKLIST:
-		MsgPopup(NULL, TranslateT("Can't send messages for users from blacklist"), TranslateT("Error"), true);
+		MsgPopup(TranslateT("Can't send messages for users from blacklist"), TranslateT("Error"), true);
 		break;
 	case VKERR_CANT_SEND_USER_WITHOUT_DIALOGS:
-		MsgPopup(NULL, TranslateT("Can't send messages for users without dialogs"), TranslateT("Error"), true);
+		MsgPopup(TranslateT("Can't send messages for users without dialogs"), TranslateT("Error"), true);
 		break;
 	case VKERR_CANT_SEND_YOU_ON_BLACKLIST:
-		MsgPopup(NULL, TranslateT("Can't send messages to this user due to their privacy settings"), TranslateT("Error"), true);
+		MsgPopup(TranslateT("Can't send messages to this user due to their privacy settings"), TranslateT("Error"), true);
 		break;
 	case VKERR_COULD_NOT_SAVE_FILE:
 	case VKERR_INVALID_ALBUM_ID:
@@ -354,9 +354,8 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 	case VKERR_HIMSELF_AS_FRIEND:
 	case VKERR_YOU_ON_BLACKLIST:
 	case VKERR_USER_ON_BLACKLIST:
-
-	// See also CVkProto::SendFileFiled
 		break;
+	// See also CVkProto::SendFileFiled
 	}
 
 	return (iErrorCode == 0);
@@ -375,13 +374,13 @@ void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 static CMStringA getAttr(char *szSrc, LPCSTR szAttrName)
 {
 	char *pEnd = strchr(szSrc, '>');
-	if (pEnd == NULL)
+	if (pEnd == nullptr)
 		return "";
 
 	*pEnd = 0;
 
 	char *p1 = strstr(szSrc, szAttrName);
-	if (p1 == NULL) {
+	if (p1 == nullptr) {
 		*pEnd = '>';
 		return "";
 	}
@@ -395,7 +394,7 @@ static CMStringA getAttr(char *szSrc, LPCSTR szAttrName)
 	p1 += 2;
 	char *p2 = strchr(p1, '\"');
 	*pEnd = '>';
-	if (p2 == NULL)
+	if (p2 == nullptr)
 		return "";
 
 	return CMStringA(p1, (int)(p2 - p1));
@@ -407,11 +406,11 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 	szResult.Empty();
 
 	char *pFormBeg = strstr(pBody, "<form ");
-	if (pFormBeg == NULL)
+	if (pFormBeg == nullptr)
 		return false;
 
 	char *pFormEnd = strstr(pFormBeg, "</form>");
-	if (pFormEnd == NULL)
+	if (pFormEnd == nullptr)
 		return false;
 
 	*pFormEnd = 0;
@@ -421,7 +420,7 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 	CMStringA result;
 	char *pFieldBeg = pFormBeg;
 	while (true) {
-		if ((pFieldBeg = strstr(pFieldBeg + 1, "<input ")) == NULL)
+		if ((pFieldBeg = strstr(pFieldBeg + 1, "<input ")) == nullptr)
 			break;
 
 		CMStringA type = getAttr(pFieldBeg, "type");
@@ -445,8 +444,9 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 				if (pPhonePref && sscanf(pPhonePref, "<span class=\"field_prefix\">%[^<]", szPrefixTel) == 1) {
 					pPhonePref = strstr(pPhonePref + 1, "<span class=\"field_prefix\">&nbsp;");
 					if (pPhonePref && sscanf(pPhonePref, "<span class=\"field_prefix\">&nbsp;%[^<]", szSufixTel) == 1) {
-						wszTitle.Format(TranslateT("Enter the missing digits between %s and %s of the phone number linked to your account"), ptrW(mir_a2u(szPrefixTel)), ptrW(mir_a2u(szSufixTel)));
-						MessageBoxW(NULL, wszTitle, TranslateT("Attention!"), MB_ICONWARNING | MB_OK);
+						wszTitle.Format(TranslateT("Enter the missing digits between %s and %s of the phone number linked to your account"),
+							ptrW(mir_a2u(szPrefixTel)), ptrW(mir_a2u(szSufixTel)));
+						MessageBoxW(nullptr, wszTitle, TranslateT("Attention!"), MB_ICONWARNING | MB_OK);
 					}
 				}
 
@@ -471,7 +471,7 @@ CMStringW CVkProto::RunConfirmationCode(LPCWSTR pwszTitle)
 	pForm.type = ESF_COMBO;
 	pForm.recentCount = 0;
 	pForm.caption = IsEmpty(pwszTitle) ? TranslateT("Enter confirmation code") : pwszTitle;
-	pForm.ptszInitVal = NULL;
+	pForm.ptszInitVal = nullptr;
 	pForm.szModuleName = m_szModuleName;
 	pForm.szDataPrefix = "confirmcode_";
 	return (!EnterString(&pForm)) ? CMStringW() : CMStringW(ptrW(pForm.ptszResult));
@@ -554,7 +554,7 @@ void CVkProto::ApplyCookies(AsyncHttpRequest *pReq)
 void __cdecl CVkProto::DBAddAuthRequestThread(void *p)
 {
 	CVkDBAddAuthRequestThreadParam *param = (CVkDBAddAuthRequestThreadParam *)p;
-	if (param->hContact == NULL || param->hContact == INVALID_CONTACT_ID || !IsOnline())
+	if (param->hContact == 0 || param->hContact == INVALID_CONTACT_ID || !IsOnline())
 		return;
 
 	for (int i = 0; i < MAX_RETRIES && IsEmpty(ptrW(db_get_wsa(param->hContact, m_szModuleName, "Nick"))); i++) {
@@ -575,16 +575,16 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact, bool added)
 	DB_AUTH_BLOB blob(hContact,
 		T2Utf(ptrW(db_get_wsa(hContact, m_szModuleName, "Nick"))),
 		T2Utf(ptrW(db_get_wsa(hContact, m_szModuleName, "FirstName"))),
-		T2Utf(ptrW(db_get_wsa(hContact, m_szModuleName, "LastName"))), NULL, NULL);
+		T2Utf(ptrW(db_get_wsa(hContact, m_szModuleName, "LastName"))), nullptr, nullptr);
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
-	dbei.timestamp = (DWORD)time(NULL);
+	dbei.timestamp = (DWORD)time(nullptr);
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = added ? EVENTTYPE_ADDED : EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = blob.size();
 	dbei.pBlob = blob;
-	db_event_add(NULL, &dbei);
+	db_event_add(0, &dbei);
 	debugLogA("CVkProto::DBAddAuthRequest %s", blob.get_nick() ? blob.get_nick() : "<null>");
 }
 
@@ -613,7 +613,7 @@ MCONTACT CVkProto::MContactFromDbEvent(MEVENT hDbEvent)
 
 void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 {
-	if (hContact == NULL || hContact == INVALID_CONTACT_ID)
+	if (hContact == 0 || hContact == INVALID_CONTACT_ID)
 		return;
 	if (platform == -1) {
 		db_unset(hContact, m_szModuleName, "MirVer");
@@ -701,7 +701,7 @@ int CVkProto::IsHystoryMessageExist(MCONTACT hContact)
 	if (!hDBEvent)
 		return 0;
 
-	 do {
+	do {
 		DBEVENTINFO dbei = {};
 		db_event_get(hDBEvent, &dbei);
 		if (dbei.eventType != VK_USER_DEACTIVATE_ACTION)
@@ -762,9 +762,9 @@ void CVkProto::MarkDialogAsRead(MCONTACT hContact)
 	if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
 		return;
 
-	MEVENT hDBEvent = NULL;
+	MEVENT hDBEvent = 0;
 	MCONTACT hMContact = db_mc_tryMeta(hContact);
-	while ((hDBEvent = db_event_firstUnread(hContact)) != NULL)
+	while ((hDBEvent = db_event_firstUnread(hContact)) != 0)
 	{
 		DBEVENTINFO dbei = {};
 		if (!db_event_get(hDBEvent, &dbei) && !mir_strcmp(m_szModuleName, dbei.szModule))
@@ -780,7 +780,7 @@ void CVkProto::MarkDialogAsRead(MCONTACT hContact)
 char* CVkProto::GetStickerId(const char *Msg, int &stickerid)
 {
 	stickerid = 0;
-	char *retMsg = NULL;
+	char *retMsg = nullptr;
 
 	int iRes = 0;
 	char HeadMsg[32] = { 0 };
@@ -803,9 +803,9 @@ char* CVkProto::GetStickerId(const char *Msg, int &stickerid)
 const char* FindVKUrls(const char *Msg)
 {
 	if (IsEmpty(Msg))
-		return NULL;
+		return nullptr;
 
-	const char *pos = NULL;
+	const char *pos = nullptr;
 	for (int i = 0; i < _countof(szVKUrls) && !pos; i++) {
 		pos = strstr(Msg, szVKUrls[i]);
 		if (pos)
@@ -813,7 +813,7 @@ const char* FindVKUrls(const char *Msg)
 	}
 
 	if (pos >= (Msg + mir_strlen(Msg)))
-		pos = NULL;
+		pos = nullptr;
 
 	return pos;
 }
@@ -829,7 +829,7 @@ CMStringA CVkProto::GetAttachmentsFromMessage(const char *Msg)
 		return CMStringA();
 
 	const char *nextpos = FindVKUrls(pos);
-	const char *pos2 = NULL;
+	const char *pos2 = nullptr;
 
 	for (int i = 0; i < _countof(szVKLinkParam) && !pos2; i++) {
 		pos2 = strstr(pos, szVKLinkParam[i]);
@@ -868,7 +868,7 @@ CMStringA CVkProto::GetAttachmentsFromMessage(const char *Msg)
 int CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (hContact != NULL)
+	if (hContact != 0)
 		return 0;
 
 	if (strcmp(cws->szModule, "ListeningTo"))
@@ -1018,7 +1018,7 @@ CMStringW CVkProto::SetBBCString(LPCWSTR pwszString, BBCSupport iBBC, VKBBCType 
 	if (IsEmpty(pwszString))
 		return CMStringW();
 
-	wchar_t *pwszFormat = NULL;
+	wchar_t *pwszFormat = nullptr;
 	for (int i = 0; i < _countof(bbcItem); i++)
 		if (bbcItem[i].vkBBCType == bbcType && bbcItem[i].vkBBCSettings == iBBC) {
 			pwszFormat = bbcItem[i].pwszTempate;
@@ -1026,7 +1026,7 @@ CMStringW CVkProto::SetBBCString(LPCWSTR pwszString, BBCSupport iBBC, VKBBCType 
 		}
 
 	CMStringW res;
-	if (pwszFormat == NULL)
+	if (pwszFormat == nullptr)
 		return CMStringW(pwszString);
 
 	if (bbcType == vkbbcUrl && iBBC != bbcAdvanced)
@@ -1059,7 +1059,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 	debugLogA("CVkProto::GetAttachmentDescr");
 	CMStringW res;
 	if (!jnAttachments) {
-		debugLogA("CVkProto::GetAttachmentDescr pAttachments == NULL");
+		debugLogA("CVkProto::GetAttachmentDescr pAttachments == nullptr");
 		return res;
 	}
 
@@ -1276,7 +1276,7 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 	CMStringW res;
 	debugLogA("CVkProto::GetFwdMessages");
 	if (!jnMessages) {
-		debugLogA("CVkProto::GetFwdMessages pMessages == NULL");
+		debugLogA("CVkProto::GetFwdMessages pMessages == nullptr");
 		return res;
 	}
 
@@ -1369,7 +1369,7 @@ void CVkProto::SetInvisible(MCONTACT hContact)
 		db_set_dw(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_INVISIBLE);
 		debugLogA("CVkProto::SetInvisible %d set ID_STATUS_INVISIBLE", getDword(hContact, "ID", VK_INVALID_USER));
 	}
-	time_t now = time(NULL);
+	time_t now = time(nullptr);
 	db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)now);
 	setDword(hContact, "InvisibleTS", (DWORD)now);
 }
@@ -1463,14 +1463,14 @@ void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
 	CMStringW wszHTMLPath(FORMAT, L"%s\\miranda_captcha.html", wszTempDir);
 
 	FILE *pFile = _wfopen(wszHTMLPath, L"w");
-	if (pFile == NULL)
+	if (pFile == nullptr)
 		return;
 
 	FIBITMAP *dib = fii->FI_CreateDIBFromHBITMAP(hBitmap);
 	FIMEMORY *hMem = fii->FI_OpenMemory(nullptr, 0);
 	fii->FI_SaveToMemory(FIF_PNG, dib, hMem, 0);
 
-	BYTE *buf = NULL;
+	BYTE *buf = nullptr;
 	DWORD bufLen;
 	fii->FI_AcquireMemory(hMem, &buf, &bufLen);
 	ptrA base64(mir_base64_encode(buf, bufLen));
@@ -1507,7 +1507,7 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
-	dbei.timestamp = time(NULL);
+	dbei.timestamp = time(nullptr);
 	dbei.eventType = VK_USER_DEACTIVATE_ACTION;
 	dbei.cbBlob = (DWORD)mir_strlen(vkDeactivateEvent[iDEIdx].szDescription) + 1;
 	dbei.pBlob = (PBYTE)mir_strdup(vkDeactivateEvent[iDEIdx].szDescription);

@@ -55,9 +55,10 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 	ptrA pszRetMsg(GetStickerId(szMsg, StickerId));
 
 	ULONG uMsgId = ::InterlockedIncrement(&m_msgId);
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, bIsChat ? &CVkProto::OnSendChatMsg : &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true,
+		bIsChat ? &CVkProto::OnSendChatMsg : &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
 		<< INT_PARAM(bIsChat ? "chat_id" : "peer_id", iUserID)
-		<< INT_PARAM("random_id", ((LONG)time(NULL)) * 100 + uMsgId % 100);
+		<< INT_PARAM("random_id", ((LONG)time(nullptr)) * 100 + uMsgId % 100);
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
 	if (StickerId)
@@ -92,8 +93,8 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	int iResult = ACKRESULT_FAILED;
-	if (pReq->pUserInfo == NULL) {
-		debugLogA("CVkProto::OnSendMessage failed! (pUserInfo == NULL)");
+	if (pReq->pUserInfo == nullptr) {
+		debugLogA("CVkProto::OnSendMessage failed! (pUserInfo == nullptr)");
 		return;
 	}
 	CVkSendMsgParam *param = (CVkSendMsgParam *)pReq->pUserInfo;
@@ -143,7 +144,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 	if (!pReq->bNeedsRestart || m_bTerminated) {
 		delete param;
-		pReq->pUserInfo = NULL;
+		pReq->pUserInfo = nullptr;
 	}
 }
 
@@ -239,7 +240,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	for (auto it = jnMsgs.begin(); it != jnMsgs.end(); ++it) {
 		const JSONNode &jnMsg = (*it);
 		if (!jnMsg) {
-			debugLogA("CVkProto::OnReceiveMessages pMsg == NULL");
+			debugLogA("CVkProto::OnReceiveMessages pMsg == nullptr");
 			break;
 		}
 
@@ -271,7 +272,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.BBCForAttachments(), vkbbcUrl,
 				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", uid, mid));
 
-		MCONTACT hContact = NULL;
+		MCONTACT hContact = 0;
 		int chat_id = jnMsg["chat_id"].as_int();
 		if (chat_id == 0)
 			hContact = FindUser(uid, true);
@@ -305,11 +306,11 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			recv.flags |= PREF_CREATEREAD;
 		if (isOut)
 			recv.flags |= PREF_SENT;
-		else if (m_vkOptions.bUserForceInvisibleOnActivity && time(NULL) - datetime < 60 * m_vkOptions.iInvisibleInterval)
+		else if (m_vkOptions.bUserForceInvisibleOnActivity && time(nullptr) - datetime < 60 * m_vkOptions.iInvisibleInterval)
 			SetInvisible(hContact);
 
 		T2Utf pszBody(wszBody);
-		recv.timestamp = m_vkOptions.bUseLocalTime ? time(NULL) : datetime;
+		recv.timestamp = m_vkOptions.bUseLocalTime ? time(nullptr) : datetime;
 		recv.szMessage = pszBody;
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;
@@ -328,7 +329,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 		else if (m_vkOptions.bLoadSentAttachments && !wszAttachmentDescr.IsEmpty() && isOut) {
 			T2Utf pszAttach(wszAttachmentDescr);
-			recv.timestamp = time(NULL); // only local time
+			recv.timestamp = time(nullptr); // only local time
 			recv.szMessage = pszAttach;
 			ProtoChainRecvMsg(hContact, &recv);
 		}
@@ -390,11 +391,11 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			break;
 		int numUnread = (*it)["unread"].as_int();
 		const JSONNode &jnDlg = (*it)["message"];
-		if (jnDlg == NULL)
+		if (jnDlg == nullptr)
 			break;
 
 		int uid = 0;
-		MCONTACT hContact(NULL);
+		MCONTACT hContact(0);
 
 		int chatid = jnDlg["chat_id"].as_int();
 
@@ -427,7 +428,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 		if (chatid) {
 			debugLogA("CVkProto::OnReceiveDlgs chatid = %d", chatid);
-			if (m_chats.find((CVkChatInfo*)&chatid) == NULL)
+			if (m_chats.find((CVkChatInfo*)&chatid) == nullptr)
 				AppendChat(chatid, jnDlg);
 		}
 		else if (m_vkOptions.iSyncHistoryMetod) {

@@ -39,7 +39,7 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 		req.flags = VK_NODUMPHEADERS;
 
 		NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, &req);
-		if (reply == NULL)
+		if (reply == nullptr)
 			return false;
 
 		if (reply->resultCode != 200) {

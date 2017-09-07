@@ -28,10 +28,10 @@ void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	ai.format = ProtoGetBufferFormat(reply->pData);
 
 	FILE *out = _wfopen(ai.filename, L"wb");
-	if (out == NULL) {
+	if (out == nullptr) {
 		ProtoBroadcastAck(param->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
 		delete param;
-		pReq->pUserInfo = NULL;
+		pReq->pUserInfo = nullptr;
 		return;
 	}
 
@@ -40,7 +40,7 @@ void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	setByte(param->hContact, "NeedNewAvatar", 0);
 	ProtoBroadcastAck(param->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 	delete param;
-	pReq->pUserInfo = NULL;
+	pReq->pUserInfo = nullptr;
 }
 
 INT_PTR CVkProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
@@ -82,7 +82,7 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
 
 	ptrA szUrl(getStringA(pai->hContact, "AvatarUrl"));
-	if (szUrl == NULL)
+	if (szUrl == nullptr)
 		return GAIR_NOAVATAR;
 
 	wchar_t wszFileName[MAX_PATH];
@@ -142,7 +142,7 @@ void CVkProto::GetAvatarFileName(MCONTACT hContact, wchar_t *pwszDest, size_t cb
 	ptrW wszUrl(getWStringA(hContact, "AvatarUrl"));
 	if (wszUrl) {
 		wchar_t *p = wcsrchr(wszUrl, '.');
-		if (p != NULL)
+		if (p != nullptr)
 			szFileType = p;
 	}
 
@@ -159,11 +159,11 @@ void CVkProto::SetAvatarUrl(MCONTACT hContact, CMStringW &wszUrl)
 
 	if (wszUrl.IsEmpty()) {
 		delSetting(hContact, "AvatarUrl");
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr);
 	}
 	else {
 		setWString(hContact, "AvatarUrl", wszUrl);
-		setByte(hContact,"NeedNewAvatar", 1);
+		setByte(hContact, "NeedNewAvatar", 1);
 		PROTO_AVATAR_INFORMATION ai = { 0 };
 		ai.hContact = hContact;
 		GetAvatarFileName(ai.hContact, ai.filename, _countof(ai.filename));

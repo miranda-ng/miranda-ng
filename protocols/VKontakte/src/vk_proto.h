@@ -48,15 +48,15 @@ struct CVkProto : public PROTO<CVkProto>
 	CVkProto(const char*, const wchar_t*);
 	~CVkProto();
 
-//====================================================================================
-// PROTO_INTERFACE
-//====================================================================================
+	//====================================================================================
+	// PROTO_INTERFACE
+	//====================================================================================
 
 	virtual	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT *psr);
 	virtual	int __cdecl Authorize(MEVENT hDbEvent);
 	virtual	int __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t *szReason);
 	virtual	int __cdecl AuthRequest(MCONTACT hContact, const wchar_t *szMessage);
-	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
+	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = 0);
 	virtual	int __cdecl GetInfo(MCONTACT hContact, int infoType);
 	virtual	HANDLE __cdecl SearchBasic(const wchar_t *id);
 	virtual	HANDLE __cdecl SearchByEmail(const wchar_t *email);
@@ -68,7 +68,7 @@ struct CVkProto : public PROTO<CVkProto>
 	virtual	int __cdecl UserIsTyping(MCONTACT hContact, int type);
 	virtual	int __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
-//==== Events ========================================================================
+	//==== Events ========================================================================
 
 	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
@@ -76,7 +76,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void OnOAuthAuthorize(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-//==== Services ======================================================================
+	//==== Services ======================================================================
 
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
@@ -84,7 +84,7 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcSetListeningTo(WPARAM, LPARAM);
 
-//==== Menus ==========================================================================
+	//==== Menus ==========================================================================
 
 	INT_PTR __cdecl SvcVisitProfile(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcAddAsFriend(WPARAM hContact, LPARAM);
@@ -98,7 +98,7 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcMarkMessagesAsRead(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcSetStatusMsg(WPARAM, LPARAM);
 
-//==== History Menus ==================================================================
+	//==== History Menus ==================================================================
 
 	template <unsigned short Days>
 	INT_PTR __cdecl SvcGetServerHistoryLastNDay(WPARAM hContact, LPARAM)
@@ -112,7 +112,8 @@ struct CVkProto : public PROTO<CVkProto>
 
 	INT_PTR __cdecl SvcGetAllServerHistoryForContact(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM, LPARAM);
-//=====================================================================================
+
+	//=====================================================================================
 
 	void CreateNewChat(LPCSTR uids, LPCWSTR pwszTitle);
 	__forceinline bool IsOnline() const { return m_bOnline; }
@@ -129,7 +130,7 @@ private:
 
 	friend struct AsyncHttpRequest;
 
-//==== Enums =========================================================================
+	//==== Enums =========================================================================
 
 	enum CLMenuIndexes {
 		CMI_VISITPROFILE,
@@ -168,7 +169,7 @@ private:
 		PMI_COUNT
 	};
 
-//====================================================================================
+	//====================================================================================
 
 	bool
 		m_prevError,
@@ -224,26 +225,27 @@ private:
 		m_hContactHistoryMenuItems[CHMI_COUNT],
 		m_hProtoMenuItems[PMI_COUNT];
 
-//==== Menus =========================================================================
+	//==== Menus =========================================================================
 
 	void InitMenus();
 	void UnInitMenus();
 	int __cdecl OnPreBuildContactMenu(WPARAM hContact, LPARAM);
 
-//==== PopUps ========================================================================
+	//==== PopUps ========================================================================
 
 	void InitPopups(void);
 	void MsgPopup(MCONTACT hContact, const wchar_t *wszMsg, const wchar_t *wszTitle, bool err = false);
+	void MsgPopup(const wchar_t *wszMsg, const wchar_t *wszTitle, bool err = false);
 
 	void InitDBCustomEvents();
 
-//==== Hooks =========================================================================
+	//==== Hooks =========================================================================
 
 	int __cdecl OnProcessSrmmEvent(WPARAM, LPARAM);
 	int __cdecl OnDbEventRead(WPARAM, LPARAM);
 	int __cdecl OnDbSettingChanged(WPARAM, LPARAM);
 
-//==== Search ========================================================================
+	//==== Search ========================================================================
 
 	void __cdecl SearchBasicThread(void *id);
 	void __cdecl SearchByMailThread(void *email);
@@ -252,14 +254,14 @@ private:
 	void OnSearch(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSearchByMail(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-//==== Files Upload ==================================================================
+	//==== Files Upload ==================================================================
 
 	void SendFileFiled(CVkFileUploadParam *fup, int ErrorCode);
 	void OnReciveUploadServer(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReciveUpload(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReciveUploadFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-//==== Feed ==========================================================================
+	//==== Feed ==========================================================================
 
 	void AddFeedSpecialUser();
 	void AddFeedEvent(CVKNewsItem& vkNewsItem);
@@ -271,7 +273,7 @@ private:
 	CVKNewsItem* GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers);
 	void OnFriendAccepted(const JSONNode &jnFeedback);
 	CMStringW GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);
-	CVKNewsItem* GetVkParent(const JSONNode &jnParent, VKObjType vkParentType, LPCWSTR pwszReplyText = NULL, LPCWSTR pwszReplyLink = NULL);
+	CVKNewsItem* GetVkParent(const JSONNode &jnParent, VKObjType vkParentType, LPCWSTR pwszReplyText = nullptr, LPCWSTR pwszReplyLink = nullptr);
 	void RetrieveUnreadNews(time_t tLastNewsTime);
 	void OnReceiveUnreadNews(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void RetrieveUnreadNotifications(time_t tLastNotificationsTime);
@@ -282,7 +284,7 @@ private:
 	void NewsClearHistory();
 	INT_PTR __cdecl SvcLoadVKNews(WPARAM, LPARAM);
 
-//====================================================================================
+	//====================================================================================
 
 	void SetServerStatus(int);
 	void RetrieveUsersInfo(bool flag = false, bool bRepeat = false);
@@ -321,7 +323,7 @@ private:
 	void OnReceiveAuthRequest(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveDeleteFriend(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-//==== Misc ==========================================================================
+	//==== Misc ==========================================================================
 
 	void SetAllContactStatuses(int status);
 	MCONTACT FindUser(LONG userid, bool bCreate = false);
@@ -348,7 +350,7 @@ private:
 	CMStringA GetAttachmentsFromMessage(const char * Msg);
 	CMStringW SpanVKNotificationType(CMStringW& wszType, VKObjType& vkFeedback, VKObjType& vkParent);
 	CMStringW GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC);
-	CMStringW SetBBCString(LPCWSTR wszString, BBCSupport iBBC, VKBBCType bbcType, LPCWSTR wszAddString = NULL);
+	CMStringW SetBBCString(LPCWSTR wszString, BBCSupport iBBC, VKBBCType bbcType, LPCWSTR wszAddString = nullptr);
 	CMStringW& ClearFormatNick(CMStringW& wszText);
 	CMStringW GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC = bbcNo);
 	CMStringW GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC = bbcNo);

@@ -118,7 +118,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 	}
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ErrorCode == VKERR_AUDIO_DEL_COPYRIGHT ? ACKRESULT_DENIED : ACKRESULT_FAILED, (HANDLE)fup);
 	debugLogW(L"CVkProto::SendFileFiled error code = %d (%s)", ErrorCode, wszError.c_str());
-	MsgPopup(NULL, wszError, TranslateT("File upload error"), true);
+	MsgPopup(wszError, TranslateT("File upload error"), true);
 	delete fup;
 }
 
@@ -151,7 +151,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	}
 
 	FILE *pFile = _wfopen(fup->FileName, L"rb");
-	if (pFile == NULL) {
+	if (pFile == nullptr) {
 		SendFileFiled(fup, VKERR_ERR_OPEN_FILE);
 		return;
 	}
@@ -176,7 +176,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	// Boundary
 	int iboundary;
 	Utils_GetRandom(&iboundary, sizeof(iboundary));
-	boundary.AppendFormat("Miranda%dNG%d", iboundary, time(NULL));
+	boundary.AppendFormat("Miranda%dNG%d", iboundary, time(nullptr));
 	// Header
 	header.AppendFormat("multipart/form-data; boundary=%s", boundary.c_str());
 	pUploadReq->AddHeader("Content-Type", header);
@@ -354,7 +354,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		}
 
 		CVkChatInfo *cc = GetChatById(wszChatID);
-		if (cc == NULL) {
+		if (cc == nullptr) {
 			SendFileFiled(fup, VKERR_INVALID_USER);
 			return;
 		}

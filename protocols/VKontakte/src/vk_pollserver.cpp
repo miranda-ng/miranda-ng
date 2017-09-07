@@ -39,7 +39,7 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	if (!jnResponse) {
 		if (!pReq->bNeedsRestart) {
 			debugLogA("CVkProto::OnReceivePollingInfo PollingThread not start (getLongPollServer error)");
-			m_pollingConn = NULL;
+			m_pollingConn = nullptr;
 			ShutdownSession();
 		}
 		return;
@@ -53,24 +53,24 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	m_pollingServer = mir_u2a(jnResponse["server"].as_mstring());
 
 	if (!m_hPollingThread) {
-		debugLogA("CVkProto::OnReceivePollingInfo m_hPollingThread is NULL");
+		debugLogA("CVkProto::OnReceivePollingInfo m_hPollingThread is nullptr");
 		debugLogA("CVkProto::OnReceivePollingInfo m_pollingTs = '%s' m_pollingKey = '%s' m_pollingServer = '%s'",
-			m_pollingTs ? m_pollingTs : "<NULL>",
-			m_pollingKey ? m_pollingKey : "<NULL>",
-			m_pollingServer ? m_pollingServer : "<NULL>");
-		if (m_pollingTs != NULL && m_pollingKey != NULL && m_pollingServer != NULL) {
+			m_pollingTs ? m_pollingTs : "<nullptr>",
+			m_pollingKey ? m_pollingKey : "<nullptr>",
+			m_pollingServer ? m_pollingServer : "<nullptr>");
+		if (m_pollingTs != nullptr && m_pollingKey != nullptr && m_pollingServer != nullptr) {
 			debugLogA("CVkProto::OnReceivePollingInfo PollingThread starting...");
-			m_hPollingThread = ForkThreadEx(&CVkProto::PollingThread, NULL, NULL);
+			m_hPollingThread = ForkThreadEx(&CVkProto::PollingThread, nullptr, nullptr);
 		}
 		else {
 			debugLogA("CVkProto::OnReceivePollingInfo PollingThread not start");
-			m_pollingConn = NULL;
+			m_pollingConn = nullptr;
 			ShutdownSession();
 			return;
 		}
 	}
 	else
-		debugLogA("CVkProto::OnReceivePollingInfo m_hPollingThread is not NULL");
+		debugLogA("CVkProto::OnReceivePollingInfo m_hPollingThread is not nullptr");
 }
 
 void CVkProto::PollUpdates(const JSONNode &jnUpdates)
@@ -91,10 +91,10 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			uid = jnChild[3].as_int();
 			hContact = FindUser(uid);
 
-			if (hContact != NULL && (flags & VKFLAG_MSGUNREAD) && !CheckMid(m_incIds, msgid)) {
-				setDword(hContact, "LastMsgReadTime", time(NULL));
+			if (hContact != 0 && (flags & VKFLAG_MSGUNREAD) && !CheckMid(m_incIds, msgid)) {
+				setDword(hContact, "LastMsgReadTime", time(nullptr));
 				if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
-					MessageReadData data(time(NULL), MRD_TYPE_READTIME);
+					MessageReadData data(time(nullptr), MRD_TYPE_READTIME);
 					CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
 				}
 				else
@@ -122,14 +122,15 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 		case VKPOLL_READ_ALL_OUT:
 			uid = jnChild[1].as_int();
 			hContact = FindUser(uid);
-			if (hContact != NULL) {
-				setDword(hContact, "LastMsgReadTime", time(NULL));
+			if (hContact != 0) {
+				setDword(hContact, "LastMsgReadTime", time(nullptr));
 				if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
-					MessageReadData data(time(NULL), MRD_TYPE_READTIME);
+					MessageReadData data(time(nullptr), MRD_TYPE_READTIME);
 					CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
 				}
 				else
 					SetSrmmReadStatus(hContact);
+
 				if (m_vkOptions.bUserForceInvisibleOnActivity)
 					SetInvisible(hContact);
 			}
@@ -137,13 +138,13 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 		case VKPOLL_READ_ALL_IN:
 			uid = jnChild[1].as_int();
 			hContact = FindUser(uid);
-			if (hContact != NULL && m_vkOptions.bSyncReadMessageStatusFromServer)
+			if (hContact != 0 && m_vkOptions.bSyncReadMessageStatusFromServer)
 				MarkDialogAsRead(hContact);
 			break;
 
 		case VKPOLL_USR_ONLINE:
 			uid = -jnChild[1].as_int();
-			if ((hContact = FindUser(uid)) != NULL) {
+			if ((hContact = FindUser(uid)) != 0) {
 				setWord(hContact, "Status", ID_STATUS_ONLINE);
 				platform = jnChild[2].as_int();
 				SetMirVer(hContact, platform);
@@ -152,7 +153,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 
 		case VKPOLL_USR_OFFLINE:
 			uid = -jnChild[1].as_int();
-			if ((hContact = FindUser(uid)) != NULL) {
+			if ((hContact = FindUser(uid)) != 0) {
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 				db_unset(hContact, m_szModuleName, "ListeningTo");
 				SetMirVer(hContact, -1);
@@ -162,7 +163,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 		case VKPOLL_USR_UTN:
 			uid = jnChild[1].as_int();
 			hContact = FindUser(uid);
-			if (hContact != NULL) {
+			if (hContact != 0) {
 				ForkThread(&CVkProto::ContactTypingThread, (void *)hContact);
 				if (m_vkOptions.bUserForceInvisibleOnActivity)
 					SetInvisible(hContact);
@@ -190,7 +191,7 @@ int CVkProto::PollServer()
 	debugLogA("CVkProto::PollServer");
 	if (!IsOnline()) {
 		debugLogA("CVkProto::PollServer is dead (not online)");
-		m_pollingConn = NULL;
+		m_pollingConn = nullptr;
 		ShutdownSession();
 		return 0;
 	}
@@ -208,9 +209,9 @@ int CVkProto::PollServer()
 	req.timeout = 30000;
 	req.nlc = m_pollingConn;
 
-	while ((reply = Netlib_HttpTransaction(m_hNetlibUser, &req)) == NULL) {
+	while ((reply = Netlib_HttpTransaction(m_hNetlibUser, &req)) == nullptr) {
 		debugLogA("CVkProto::PollServer is dead");
-		m_pollingConn = NULL;
+		m_pollingConn = nullptr;
 		if (iPollConnRetry && !m_bTerminated) {
 			iPollConnRetry--;
 			debugLogA("CVkProto::PollServer restarting %d", MAX_RETRIES - iPollConnRetry);
@@ -232,7 +233,7 @@ int CVkProto::PollServer()
 			retVal = -1;
 			debugLogA("Polling key expired, restarting polling thread");
 		}
-		else if (CheckJsonResult(NULL, jnRoot)) {
+		else if (CheckJsonResult(nullptr, jnRoot)) {
 			char ts[32];
 			itoa(jnRoot["ts"].as_int(), ts, 10);
 			m_pollingTs = mir_strdup(ts);
@@ -245,7 +246,7 @@ int CVkProto::PollServer()
 	else if ((reply->resultCode >= 400 && reply->resultCode <= 417)
 		|| (reply->resultCode >= 500 && reply->resultCode <= 509)) {
 		debugLogA("CVkProto::PollServer is dead. Error code - %d", reply->resultCode);
-		m_pollingConn = NULL;
+		m_pollingConn = nullptr;
 		Netlib_FreeHttpRequest(reply);
 		ShutdownSession();
 		return 0;
@@ -266,11 +267,11 @@ void CVkProto::PollingThread(void*)
 		if (PollServer() == -1 || !m_hPollingThread)
 			break;
 
-	m_pollingConn = NULL;
+	m_pollingConn = nullptr;
 	debugLogA("CVkProto::PollingThread: leaving");
 
 	if (m_hPollingThread) {
 		CloseHandle(m_hPollingThread);
-		m_hPollingThread = NULL;
+		m_hPollingThread = nullptr;
 	}
 }

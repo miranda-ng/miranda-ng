@@ -45,8 +45,8 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	m_iLoadHistoryTask(0),
 	m_bNotifyForEndLoadingHistory(false),
 	m_bNotifyForEndLoadingHistoryAllContact(false),
-	m_hAPIConnection(NULL),
-	m_pollingConn(NULL),
+	m_hAPIConnection(nullptr),
+	m_pollingConn(nullptr),
 	m_bSetBroadcast(false),
 	m_bNeedSendOnline(false),
 	m_vkOptions(this)
@@ -70,10 +70,10 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
-	Clist_GroupCreate(NULL, m_vkOptions.pwszDefaultGroup);
+	Clist_GroupCreate(0, m_vkOptions.pwszDefaultGroup);
 
 	CMStringA szListeningTo(FORMAT, "%sEnabled", m_szModuleName);
-	db_set_b(NULL, "ListeningTo", szListeningTo, m_vkOptions.iMusicSendMetod == 0 ? 0 : 1);
+	db_set_b(0, "ListeningTo", szListeningTo, m_vkOptions.iMusicSendMetod == 0 ? 0 : 1);
 
 	delSetting("InviteGroupIds");
 	db_set_resident(m_szModuleName, "ActiveHistoryTask");
@@ -90,7 +90,7 @@ CVkProto::~CVkProto()
 {
 	debugLogA("CVkProto::~CVkProto");
 	Netlib_CloseHandle(m_hNetlibUser);
-	m_hNetlibUser = NULL;
+	m_hNetlibUser = nullptr;
 	UninitQueue();
 	UnInitMenus();
 	if (m_hPopupClassError)
@@ -130,7 +130,7 @@ int CVkProto::OnModulesLoaded(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Menu support 
+// Menu support
 
 void CVkProto::InitMenus()
 {
@@ -229,7 +229,7 @@ void CVkProto::InitMenus()
 	}
 
 	// Contact Menu Items
-	mi.root = NULL;
+	mi.root = nullptr;
 	mi.flags = CMIF_UNICODE;
 
 	mi.pszService = PS_VISITPROFILE;
@@ -392,7 +392,7 @@ void CVkProto::UnInitMenus()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// PopUp support 
+// PopUp support
 
 LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -401,7 +401,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	case WM_CONTEXTMENU:
 	{
 		CVkSendMsgParam *pd = (CVkSendMsgParam *)PUGetPluginData(hwnd);
-		if (pd != NULL && pd->hContact != NULL)
+		if (pd != nullptr && pd->hContact != 0)
 			CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)pd->hContact, 0);
 		PUDeletePopup(hwnd);
 	}
@@ -466,10 +466,14 @@ void CVkProto::MsgPopup(MCONTACT hContact, const wchar_t *wszMsg, const wchar_t 
 	}
 	else {
 		DWORD mtype = MB_OK | MB_SETFOREGROUND | (err ? MB_ICONERROR : MB_ICONINFORMATION);
-		MessageBoxW(NULL, wszMsg, wszTitle, mtype);
+		MessageBoxW(nullptr, wszMsg, wszTitle, mtype);
 	}
 }
 
+void CVkProto::MsgPopup(const wchar_t *wszMsg, const wchar_t *wszTitle, bool err)
+{
+	MsgPopup(0, wszMsg, wszTitle, err);
+}
 //////////////////////////////////////////////////////////////////////////////
 
 void  CVkProto::InitDBCustomEvents()
@@ -502,7 +506,8 @@ DWORD_PTR CVkProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_BASICSEARCH | PF1_SEARCHBYNAME | PF1_SEARCHBYEMAIL | PF1_MODEMSG | PF1_FILESEND | PF1_FILERESUME;
+		return PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_BASICSEARCH
+			| PF1_SEARCHBYNAME | PF1_SEARCHBYEMAIL | PF1_MODEMSG | PF1_FILESEND | PF1_FILERESUME;
 
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_INVISIBLE | PF2_ONTHEPHONE | PF2_IDLE;
@@ -511,7 +516,8 @@ DWORD_PTR CVkProto::GetCaps(int type, MCONTACT)
 		return PF2_ONLINE;
 
 	case PFLAGNUM_4:
-		return PF4_AVATARS | PF4_SUPPORTTYPING | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE | PF4_OFFLINEFILES | PF4_READNOTIFY | PF4_GROUPCHATFILES;
+		return PF4_AVATARS | PF4_SUPPORTTYPING | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE
+			| PF4_OFFLINEFILES | PF4_READNOTIFY | PF4_GROUPCHATFILES;
 
 	case PFLAGNUM_5:
 		return PF2_ONTHEPHONE;
@@ -554,7 +560,7 @@ MCONTACT CVkProto::AddToList(int, PROTOSEARCHRESULT *psr)
 
 	int uid = _wtoi(psr->id.w);
 	if (!uid)
-		return NULL;
+		return 0;
 
 	MCONTACT hContact = FindUser(uid, true);
 	RetrieveUserInfo(uid);
@@ -618,7 +624,7 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 
 	if (param && (!pReq->bNeedsRestart || m_bTerminated)) {
 		delete param;
-		pReq->pUserInfo = NULL;
+		pReq->pUserInfo = nullptr;
 	}
 }
 
@@ -631,7 +637,7 @@ int CVkProto::Authorize(MEVENT hDbEvent)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	return AuthRequest(hContact, NULL);
+	return AuthRequest(hContact, nullptr);
 }
 
 int CVkProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)

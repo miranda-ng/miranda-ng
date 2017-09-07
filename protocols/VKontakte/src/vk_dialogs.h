@@ -61,7 +61,7 @@ struct WALLPOST_FORM_PARAMS
 		pwszNick(nick),
 		bFriendsOnly(false)
 	{
-		pwszMsg = pwszUrl = NULL;
+		pwszMsg = pwszUrl = nullptr;
 	}
 
 	~WALLPOST_FORM_PARAMS()

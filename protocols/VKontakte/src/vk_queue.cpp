@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 void CVkProto::InitQueue()
 {
 	debugLogA("CVkProto::InitQueue");
-	m_evRequestsQueue = CreateEvent(NULL, FALSE, FALSE, NULL);
+	m_evRequestsQueue = CreateEvent(nullptr, false, false, nullptr);
 }
 
 void CVkProto::UninitQueue()
@@ -56,9 +56,9 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 
 		debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->szUrl);
 		NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
-		if (reply != NULL) {
-			if (pReq->m_pFunc != NULL)
-				(this->*(pReq->m_pFunc))(reply, pReq); // may be set pReq->bNeedsRestart 
+		if (reply != nullptr) {
+			if (pReq->m_pFunc != nullptr)
+				(this->*(pReq->m_pFunc))(reply, pReq); // may be set pReq->bNeedsRestart
 
 			if (pReq->m_bApiReq)
 				m_hAPIConnection = reply->nlc;
@@ -70,7 +70,7 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 				ConnectionFailed(LOGINERR_NONETWORK);
 			else if (pReq->m_iRetry && !m_bTerminated) {
 				pReq->bNeedsRestart = true;
-				Sleep(1000); //Pause for fix err 
+				Sleep(1000); //Pause for fix err
 				pReq->m_iRetry--;
 				debugLogA("CVkProto::ExecuteRequest restarting (retry = %d)", MAX_RETRIES - pReq->m_iRetry);
 			}
@@ -82,7 +82,7 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		debugLogA("CVkProto::ExecuteRequest pReq->bNeedsRestart = %d", (int)pReq->bNeedsRestart);
 
 		if (!reply && pReq->m_bApiReq)
-			m_hAPIConnection = NULL;
+			m_hAPIConnection = nullptr;
 
 	} while (pReq->bNeedsRestart && !m_bTerminated);
 	delete pReq;
@@ -122,10 +122,10 @@ void CVkProto::WorkerThread(void*)
 	if (szAccessScore != Score) {
 		setString("AccessScore", Score);
 		delSetting("AccessToken");
-		m_szAccessToken = NULL;
+		m_szAccessToken = nullptr;
 	}
 
-	if (m_szAccessToken != NULL)
+	if (m_szAccessToken != nullptr)
 		// try to receive a response from server
 		RetrieveMyInfo();
 	else {
@@ -143,7 +143,7 @@ void CVkProto::WorkerThread(void*)
 		Push(pReq);
 	}
 
-	m_hAPIConnection = NULL;
+	m_hAPIConnection = nullptr;
 
 	while (true) {
 		WaitForSingleObject(m_evRequestsQueue, 1000);
@@ -193,14 +193,14 @@ void CVkProto::WorkerThread(void*)
 		debugLogA("CVkProto::WorkerThread: Netlib_CloseHandle(m_hAPIConnection) beg");
 		Netlib_CloseHandle(m_hAPIConnection);
 		debugLogA("CVkProto::WorkerThread: Netlib_CloseHandle(m_hAPIConnection) end");
-		m_hAPIConnection = NULL;
+		m_hAPIConnection = nullptr;
 	}
 
 	debugLogA("CVkProto::WorkerThread: leaving m_bTerminated = %d", m_bTerminated ? 1 : 0);
 
 	if (m_hWorkerThread) {
 		CloseHandle(m_hWorkerThread);
-		m_hWorkerThread = NULL;
+		m_hWorkerThread = nullptr;
 	}
 }
 
