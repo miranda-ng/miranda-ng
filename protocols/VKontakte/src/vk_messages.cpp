@@ -391,7 +391,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			break;
 		int numUnread = (*it)["unread"].as_int();
 		const JSONNode &jnDlg = (*it)["message"];
-		if (jnDlg == nullptr)
+		if (!jnDlg)
 			break;
 
 		int uid = 0;
