@@ -22,12 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "statusicon.h"
 
-/* Missing MinGW GUIDs */
-#ifdef __MINGW32__
-const CLSID IID_IRichEditOle = { 0x00020D00, 0x00, 0x00, { 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46 } };
-const CLSID IID_IRichEditOleCallback = { 0x00020D03, 0x00, 0x00, { 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46 } };
-#endif
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CMsgDialog::CMsgDialog(int iDialogId, SESSION_INFO *si)
