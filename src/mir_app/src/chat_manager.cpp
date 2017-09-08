@@ -28,8 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int compareSessions(const SESSION_INFO *p1, const SESSION_INFO *p2)
 {
-	int res = mir_strcmp(p1->pszModule, p2->pszModule);
-	return (res != 0) ? res : mir_wstrcmp(p1->ptszID, p2->ptszID);
+	int res = mir_strcmpi(p1->pszModule, p2->pszModule);
+	return (res != 0) ? res : mir_wstrcmpi(p1->ptszID, p2->ptszID);
 }
 
 LIST<SESSION_INFO> g_arSessions(10, compareSessions);
