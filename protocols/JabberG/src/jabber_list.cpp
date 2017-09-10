@@ -90,16 +90,17 @@ void JABBER_RESOURCE_STATUS::Release()
 void CJabberProto::ListInit(void)
 {
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if (isChatRoom(hContact)) {
-			ptrW jid(getWStringA(hContact, "ChatRoomID"));
-			if (jid != nullptr)
-				ListAdd(LIST_CHATROOM, jid, hContact);
-		}
-		else {
-			ptrW jid(getWStringA(hContact, "jid"));
-			if (jid != nullptr)
-				ListAdd(LIST_ROSTER, jid, hContact);
-		}
+		if (!isChatRoom(hContact)) continue;
+		ptrW jid(getWStringA(hContact, "ChatRoomID"));
+		if (jid != nullptr)
+			ListAdd(LIST_CHATROOM, jid, hContact);
+	}
+
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		if (isChatRoom(hContact)) continue;
+		ptrW jid(getWStringA(hContact, "jid"));
+		if (jid != nullptr)
+			ListAdd(LIST_ROSTER, jid, hContact);
 	}
 }
 
