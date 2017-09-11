@@ -83,3 +83,4 @@ extern TOOLTIPSKIN skin;
 extern wchar_t SKIN_FOLDER[256];
 
 extern int ReloadFont(WPARAM wParam, LPARAM lParam);
+extern IconItem iconList[];

@@ -730,7 +730,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (!hMenu)
 				return 0;
 
-			HICON hIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_ITEM_ALL), IMAGE_ICON, 0, 0, LR_LOADTRANSPARENT);
+			HICON hIcon = IcoLib_GetIconByHandle(iconList[1].hIcolib);
 			if (!hIcon) {
 				DestroyMenu(hMenu);
 				return 0;
@@ -739,7 +739,6 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			ICONINFO iconInfo;
 			GetIconInfo(hIcon, &iconInfo);
 			HBITMAP hbmpAllItems = iconInfo.hbmColor;
-			DestroyIcon(hIcon);
 
 			AppendMenu(hMenu, MF_STRING, COPYMENU_ALLITEMS_LABELS, LPGENW("Copy all items with labels"));
 			AppendMenu(hMenu, MF_STRING, COPYMENU_ALLITEMS, LPGENW("Copy all items"));
@@ -752,7 +751,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SetMenuItemBitmaps(hMenu, COPYMENU_ALLITEMS, MF_BYCOMMAND, hbmpAllItems, hbmpAllItems);
 			SetMenuItemBitmaps(hMenu, COPYMENU_AVATAR, MF_BYCOMMAND, hbmpAllItems, hbmpAllItems);
 
-			hIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_ITEM), IMAGE_ICON, 0, 0, LR_LOADTRANSPARENT);
+			hIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
 			if (!hIcon) {
 				DeleteObject(hbmpAllItems);
 				DestroyMenu(hMenu);
@@ -761,7 +760,6 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			GetIconInfo(hIcon, &iconInfo);
 			HBITMAP hbmpItem = iconInfo.hbmColor;
-			DestroyIcon(hIcon);
 
 			for (int i = 0; i < pwd->iRowCount; i++) {
 				if (pwd->rows[i].swzValue) {

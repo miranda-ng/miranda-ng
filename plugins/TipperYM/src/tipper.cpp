@@ -314,6 +314,17 @@ static INT_PTR ReloadSkin(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+IconItem iconList[] =
+{
+	{ LPGEN("Copy item"),      "copy_item",      IDI_ITEM      },
+	{ LPGEN("Copy all items"), "copy_all_items", IDI_ITEM_ALL  },
+	{ LPGEN("Arrow up"),       "arrow_up",       IDI_UP        },
+	{ LPGEN("Arrow down"),     "arrow_down",     IDI_DOWN      },
+	{ LPGEN("Separator"),      "separator",      IDI_SEPARATOR },
+	{ LPGEN("Reload"),         "reload",         IDI_RELOAD    },
+	{ LPGEN("Apply"),          "apply",          IDI_APPLY     }
+};
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fii);
@@ -321,6 +332,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	pcli = Clist_GetInterface();
 
 	iCodePage = Langpack_GetDefaultCodePage();
+
+	Icon_Register(hInst, MODULE, iconList, _countof(iconList), MODULE);
 
 	InitTranslations();
 	InitMessagePump();
