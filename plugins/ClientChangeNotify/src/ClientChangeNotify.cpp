@@ -250,7 +250,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 		if (PerContactSetting == NOTIFY_ALWAYS || (PopupOptPage.GetValue(IDC_POPUPOPTDLG_POPUPNOTIFY) && (g_PreviewOptPage || PerContactSetting == NOTIFY_ALMOST_ALWAYS || -1 == PcreCheck(sd.MirVer)))) {
 			ShowPopup(&sd);
-			SkinPlaySound(CLIENTCHANGED_SOUND);
+			Skin_PlaySound(CLIENTCHANGED_SOUND);
 		}
 	}
 
@@ -322,7 +322,8 @@ int MirandaLoaded(WPARAM, LPARAM)
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
-	SkinAddNewSoundEx(CLIENTCHANGED_SOUND, NULL, LPGEN("ClientChangeNotify: Client changed"));
+
+	Skin_AddSound(CLIENTCHANGED_SOUND, nullptr, LPGENW("ClientChangeNotify: Client changed"));
 
 	if (bPopupExists) {
 		CreateServiceFunction(MS_CCN_TOGGLEPOPUPS, srvTogglePopups);

@@ -37,7 +37,7 @@ struct TTooltips
 
 static LIST<TTooltips> lToolTips(1, NumericKeySortT);
 static mir_cs csTips;
-static BOOL bModuleInitialized = FALSE;
+static bool bModuleInitialized = false;
 
 // Used for our own cheap TrackMouseEvent
 #define BUTTON_POLLID       100

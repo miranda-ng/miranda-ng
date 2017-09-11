@@ -92,12 +92,12 @@ void showPopupSM(MCONTACT hContact)
 {
 	if (db_get_b(0, MODULENAME, "ss", 0))
 		showPopup(sim009, hContact, g_hPOP[POP_PU_MSS], 2);
-	SkinPlaySound("OutgoingSecureMessage");
+	Skin_PlaySound("OutgoingSecureMessage");
 }
 
 void showPopupRM(MCONTACT hContact)
 {
 	if (db_get_b(0, MODULENAME, "sr", 0))
 		showPopup(sim010, hContact, g_hPOP[POP_PU_MSR], 2);
-	SkinPlaySound("IncomingSecureMessage");
+	Skin_PlaySound("IncomingSecureMessage");
 }

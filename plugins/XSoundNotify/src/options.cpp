@@ -205,14 +205,14 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					if (!db_get_ws(NULL, SETTINGSNAME, pa->szModuleName, &dbv)) {
 						wchar_t longpath[MAX_PATH];
 						PathToAbsoluteW(dbv.ptszVal, longpath);
-						SkinPlaySoundFile(longpath);
+						Skin_PlaySoundFile(longpath);
 						db_free(&dbv);
 					}
 				}
 				else {
 					wchar_t longpath[MAX_PATH] = { 0 };
 					PathToAbsoluteW(p->path, longpath);
-					SkinPlaySoundFile(longpath);
+					Skin_PlaySoundFile(longpath);
 				}
 			}
 			else {
@@ -224,14 +224,14 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					if (!db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 						wchar_t longpath[MAX_PATH];
 						PathToAbsoluteW(dbv.ptszVal, longpath);
-						SkinPlaySoundFile(longpath);
+						Skin_PlaySoundFile(longpath);
 						db_free(&dbv);
 					}
 				}
 				else {
 					wchar_t longpath[MAX_PATH] = { 0 };
 					PathToAbsoluteW(p->path, longpath);
-					SkinPlaySoundFile(longpath);
+					Skin_PlaySoundFile(longpath);
 				}
 			}
 		}

@@ -33,9 +33,6 @@ function Langpack_Register:int_ptr;
 
 function CreateProtoServiceFunction(const szModule, szService: PAnsiChar; serviceProc: TMIRANDASERVICE): int_ptr;
 
-function SkinAddNewSound(const name, description, defaultFile: PAnsiChar): int_ptr;
-function SkinPlaySound  (const name: PAnsiChar): int_ptr;
-
 function Menu_AddContextFrameMenuItem(mi:PMO_MenuItem):HGENMENU;
 function Menu_AddMainMenuItem        (mi:PMO_MenuItem):HGENMENU;
 function Menu_AddContactMenuItem     (mi:PMO_MenuItem):HGENMENU;
@@ -274,24 +271,6 @@ begin
   lstrcpya(@szStr, szModule);
   lstrcata(@szStr, szService);
   Result := CreateServiceFunction(szStr, @serviceProc);
-end;
-
-function SkinAddNewSound(const name, description, defaultFile: PAnsiChar): int_ptr;
-var
-  ssd: TSKINSOUNDDESCEX;
-begin
-  FillChar(ssd,SizeOf(ssd),0);
-  ssd.cbSize         := sizeof(ssd);
-  ssd.pszName        := name;
-  ssd.pszDescription.a := description;
-  ssd.pszDefaultFile.a := defaultFile;
-  Result := CallService(MS_SKIN_ADDNEWSOUND, hLangpack, lParam(@ssd));
-end;
-
-function SkinPlaySound (const name: PAnsiChar): int_ptr;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  Result := CallService(MS_SKIN_PLAYSOUND, 0, lParam(name));
 end;
 
 

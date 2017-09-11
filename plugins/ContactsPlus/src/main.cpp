@@ -70,7 +70,7 @@ static int HookDBEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		dbe.pBlob = (PBYTE)_alloca(dbe.cbBlob);
 	db_event_get(hDbEvent, &dbe);
 	//play received sound
-	SkinPlaySound("RecvContacts");
+	Skin_PlaySound("RecvContacts");
 	{
 		//add event to the contact list
 		wchar_t caToolTip[128];
@@ -219,8 +219,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MS_CONTACTS_RECEIVE, ServiceReceiveCommand);
 
 	//define event sounds
-	SkinAddNewSoundEx("RecvContacts", LPGEN("Events"), LPGEN("Incoming Contacts"), "contacts.wav");
-	SkinAddNewSoundEx("SentContacts", LPGEN("Events"), LPGEN("Outgoing Contacts"), "ocontacts.wav");
+	Skin_AddSound("RecvContacts", LPGENW("Events"), LPGENW("Incoming Contacts"), L"contacts.wav");
+	Skin_AddSound("SentContacts", LPGENW("Events"), LPGENW("Outgoing Contacts"), L"ocontacts.wav");
 	return 0;
 }
 

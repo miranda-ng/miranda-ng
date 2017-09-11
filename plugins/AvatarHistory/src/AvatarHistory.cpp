@@ -127,7 +127,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 			db_free(&dbvOldHash);
 			return 0;
 		}
-		SkinPlaySound("avatar_removed");
+		Skin_PlaySound("avatar_removed");
 
 		// Is a flash avatar or avs could not load it
 		db_set_ws(hContact, MODULE_NAME, "AvatarHash", L"-");
@@ -142,7 +142,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 			db_free(&dbvOldHash);
 			return 0;
 		}
-		SkinPlaySound("avatar_changed");
+		Skin_PlaySound("avatar_changed");
 		db_set_ws(hContact, "AvatarHistory", "AvatarHash", avatar->hash);
 
 		wchar_t history_filename[MAX_PATH] = L"";
@@ -343,8 +343,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	Profile_GetPathW(MAX_PATH, profilePath);
 
-	SkinAddNewSoundExW("avatar_changed", LPGENW("Avatar history"), LPGENW("Contact changed avatar"));
-	SkinAddNewSoundExW("avatar_removed", LPGENW("Avatar history"), LPGENW("Contact removed avatar"));
+	Skin_AddSound("avatar_changed", LPGENW("Avatar history"), LPGENW("Contact changed avatar"));
+	Skin_AddSound("avatar_removed", LPGENW("Avatar history"), LPGENW("Contact removed avatar"));
 
 	hAvatarWindowsList = WindowList_Create();
 

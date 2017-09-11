@@ -215,7 +215,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
 				Preview = TRUE;
 				if (EnPreview)
-					SkinPlaySound("AlertMsg");
+					Skin_PlaySound("AlertMsg");
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 		break;
@@ -391,7 +391,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				SendMessage(hwndOptSlider, TBM_SETPOS, TRUE, Volume);
 				Preview = TRUE;
 				if (EnPreview)
-					SkinPlaySound("AlertMsg");
+					Skin_PlaySound("AlertMsg");
 			}
 		break;
 

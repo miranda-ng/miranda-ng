@@ -339,7 +339,7 @@ void UploadJob::upload()
 		}
 
 		DBEntry::add(this);
-		SkinPlaySound(SOUND_UPCOMPLETE);
+		Skin_PlaySound(SOUND_UPCOMPLETE);
 	}
 
 	setStatus(STATUS_COMPLETED);

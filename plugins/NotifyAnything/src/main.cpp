@@ -142,15 +142,7 @@ void registerSound(const std::wstring &name)
 	std::wstring id = L"NotifyAnything_" + name;
 	std::wstring desc = L"NotifyAnything: " + name;
 	std::wstring file = name + L".wav";
-
-	SKINSOUNDDESCEX ssd = { 0 };
-	ssd.cbSize = sizeof(ssd);
-	ssd.dwFlags = SSDF_UNICODE;
-	ssd.pszName = _T2A(id.c_str());
-	ssd.pwszSection = LPGENW("Notify Anything");
-	ssd.pwszDescription = desc.c_str();
-	ssd.pwszDefaultFile = file.c_str();
-	Skin_AddSound(&ssd);
+	Skin_AddSound(_T2A(id.c_str()), LPGENW("Notify Anything"), desc.c_str(), file.c_str());
 }
 
 HICON getIcon(const std::wstring &name)
@@ -823,7 +815,7 @@ void processMessage(std::wstring buf)
 				Beep(650, 50);
 			else {
 				std::wstring sname = L"NotifyAnything_" + msg.sound;
-				SkinPlaySound(_T2A(sname.c_str()));
+				Skin_PlaySound(_T2A(sname.c_str()));
 			}
 		}
 	}
