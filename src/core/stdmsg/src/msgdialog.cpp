@@ -1148,9 +1148,9 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				// Sounds *only* for sent messages, not for custom events
 				if (isMessage && !isSent) {
 					if (GetForegroundWindow() == m_pOwner->GetHwnd())
-						SkinPlaySound("RecvMsgActive");
+						Skin_PlaySound("RecvMsgActive");
 					else
-						SkinPlaySound("RecvMsgInactive");
+						Skin_PlaySound("RecvMsgInactive");
 				}
 				if (isMessage && !isSent) {
 					m_lastMessage = dbei.timestamp;

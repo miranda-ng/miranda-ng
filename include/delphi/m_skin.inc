@@ -115,19 +115,6 @@ function Skin_LoadProtoIcon(protoName:PAnsiChar; iconId:int; big:byte) : HICON; 
                  external AppDLL name 'Skin_LoadProtoIcon';
 
 const
-  SSDF_UNICODE  = $0001;
-type
-  PSKINSOUNDDESCEX = ^TSKINSOUNDDESCEX;
-  TSKINSOUNDDESCEX = record
-    cbSize        : int;
-    pszName       : PAnsiChar; // name to refer to sound when playing and in DB
-    pszDescription: TChar; // [TRANSLATED-BY-CORE] description to use for it in options dialog
-    pszDefaultFile: TChar; // the default sound file to use, WITHOUT path
-    pszSection    : TChar; // [TRANSLATED-BY-CORE] section name used to group sounds (NULL is acceptable)
-    dwFlags       : dword; // if Miranda ver >=9.0
-  end;
-
-const
   {
     Affect : Load an icon from the user's custom skin lib, or from the exe
              if there isn't one loaded, see notes
@@ -137,55 +124,11 @@ const
   MS_SKIN_LOADICON:PAnsiChar = 'Skin/Icons/Load';
 
   {
-    Affect : Load an icon representing the status_wanted for a particular protocol, see notes
-    Returns: an HICON for the new icon, do NOT DestroyIcon() the return value
-             returns NULL(0) on failure.
-    Notes  : If wParam is NULL(0) the service will load the user's selected
-             'all protocols' status icon
-  }
-
-  {
-    wParam : hLangpack
-    lParam : Pointer to a initialised SKINSOUNDDESC
-    Affect : Add a new sound so it has a default and can be changed in the
-             options dialog
-    Returns: 0 on success, [non zero] on failure
-  }
-  MS_SKIN_ADDNEWSOUND:PAnsiChar = 'Skin/Sounds/AddNew';
-
-  {
-    wParam : 0
-    lParam : Pointer to a null terminated string containing the name of the
-             sound to play
-    Affect : plays a named sound event, play name should of been added
-             with MS_SKIN_ADDNEWSOUND,  see notes
-    Notes  : function will not fail, it will play the Windows
-  }
-  MS_SKIN_PLAYSOUND:PAnsiChar = 'Skin/Sounds/Play';
-
-  {
-    wParam = 0
-    lParam = (WideChar *) ptszFileName
-    Affect: plays any sound file
-  }
-  MS_SKIN_PLAYSOUNDFILE:PAnsiChar = 'Skin/Sounds/PlayFile';
-
-  {
     wParam : 0
     lParam : 0
     Affect : Sent when the icons DLL has been changed in the options dialog
              and everyone should remake their image lists.
   }
   ME_SKIN_ICONSCHANGED:PAnsiChar = 'Skin/IconsChanged';
-
-  {
-    wParam: 0 when playing sound (1 when sound is being previewed)
-    lParam: (AnsiChar*) pszSoundFile
-    Affect: This hook is fired when the sound module needs to play a sound
-    Note  : This event has default processing, if no one HookEvent()'s this
-        event then it will use the default hook code, which uses PlaySound()
-    Version: 0.3.4a (2004/09/15)
-  }
-  ME_SKIN_PLAYINGSOUND:PAnsiChar = 'Skin/Sounds/Playing';
 
 {$ENDIF}

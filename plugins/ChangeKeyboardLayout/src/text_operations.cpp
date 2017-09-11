@@ -436,9 +436,9 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		}
 
 		if (TextOperation == TOT_Layout)
-			SkinPlaySound(SND_ChangeLayout);
+			Skin_PlaySound(SND_ChangeLayout);
 		else if (TextOperation == TOT_Case)
-			SkinPlaySound(SND_ChangeCase);
+			Skin_PlaySound(SND_ChangeCase);
 
 		if (moOptions.CopyToClipboard)
 			CopyTextToClipboard(ptszMBox);
@@ -540,9 +540,9 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		InvalidateRect(hTextWnd, NULL, FALSE);
 
 		if (TextOperation == TOT_Layout)
-			SkinPlaySound(SND_ChangeLayout);
+			Skin_PlaySound(SND_ChangeLayout);
 		else if (TextOperation == TOT_Case)
-			SkinPlaySound(SND_ChangeCase);
+			Skin_PlaySound(SND_ChangeCase);
 	}
 
 	return 0;

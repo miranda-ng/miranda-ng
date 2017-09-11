@@ -53,7 +53,7 @@ static int CompareSounds(const SoundItem* p1, const SoundItem* p2)
 
 static OBJLIST<SoundItem> arSounds(10, CompareSounds);
 
-///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_APP_DLL(void) KillModuleSounds(int _hLang)
 {
@@ -66,9 +66,80 @@ MIR_APP_DLL(void) KillModuleSounds(int _hLang)
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
-HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const wchar_t* name)
+static HANDLE hPlayEvent = nullptr;
+
+MIR_APP_DLL(int) Skin_AddSound(const char *pszName, const wchar_t *pwszSection, const wchar_t *pwszDescription, const wchar_t *pwszDefaultFile, int _hLang)
+{
+	if (pszName == nullptr || pwszDescription == nullptr)
+		return 1;
+
+	SoundItem *item = new SoundItem; // due to OBJLIST
+	item->name = mir_strdup(pszName);
+	item->ptszTempFile = nullptr;
+	item->hLangpack = _hLang;
+	arSounds.insert(item);
+
+	item->pwszDescription = mir_wstrdup(pwszDescription);
+	item->pwszSection = mir_wstrdup((pwszSection != nullptr) ? pwszSection : L"Other");
+
+	if (pwszDefaultFile) {
+		ptrW wszSavedValue(db_get_wsa(0, "SkinSounds", item->name));
+		if (wszSavedValue == nullptr)
+			db_set_ws(0, "SkinSounds", item->name, pwszDefaultFile);
+	}
+
+	return 0;
+}
+
+static int Skin_PlaySoundDefault(WPARAM wParam, LPARAM lParam)
+{
+	wchar_t *pszFile = (wchar_t*) lParam;
+	if (pszFile && (db_get_b(0, "Skin", "UseSound", 0) || (int)wParam == 1))
+		PlaySound(pszFile, nullptr, SND_ASYNC | SND_FILENAME | SND_NOSTOP);
+
+	return 0;
+}
+
+MIR_APP_DLL(int) Skin_PlaySoundFile(const wchar_t *pwszFileName)
+{
+	if (pwszFileName == nullptr)
+		return 1;
+
+	wchar_t tszFull[MAX_PATH];
+	PathToAbsoluteW(pwszFileName, tszFull);
+	NotifyEventHooks(hPlayEvent, 0, (LPARAM)tszFull);
+	return 0;
+}
+
+MIR_APP_DLL(int) Skin_PlaySound(const char *pszSoundName)
+{
+	if (pszSoundName == nullptr)
+		return 1;
+
+	SoundItem tmp = { (char*)pszSoundName };
+	int idx = arSounds.getIndex(&tmp);
+	if (idx == -1)
+		return 1;
+
+	if (db_get_b(0, "SkinSoundsOff", pszSoundName, 0))
+		return 1;
+
+	ptrW wszFilePath(db_get_wsa(0, "SkinSounds", pszSoundName));
+	if (wszFilePath == nullptr)
+		return 1;
+
+	Skin_PlaySoundFile(wszFilePath);
+	return 0;
+}
+
+#define DM_REBUILD_STREE (WM_USER+1)
+#define DM_HIDEPANE      (WM_USER+2)
+#define DM_SHOWPANE      (WM_USER+3)
+#define DM_CHECKENABLED  (WM_USER+4)
+
+static HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const wchar_t* name)
 {
 	wchar_t str[128];
 	TVITEM tvi;
@@ -85,94 +156,6 @@ HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const wchar_t* name)
 	}
 	return nullptr;
 }
-
-static BOOL bModuleInitialized = FALSE;
-static HANDLE hPlayEvent = nullptr;
-
-static INT_PTR ServiceSkinAddNewSound(WPARAM wParam, LPARAM lParam)
-{
-	SKINSOUNDDESCEX *ssd = (SKINSOUNDDESCEX*)lParam;
-	if (ssd->cbSize != sizeof(SKINSOUNDDESCEX) || ssd->pszName == nullptr || ssd->pszDescription == nullptr)
-		return 1;
-
-	SoundItem *item = new SoundItem; // due to OBJLIST
-	item->name = mir_strdup(ssd->pszName);
-	item->ptszTempFile = nullptr;
-	item->hLangpack = (int)wParam;
-	arSounds.insert(item);
-
-	wchar_t *pwszDefaultFile;
-	if (ssd->dwFlags & SSDF_UNICODE) {
-		item->pwszDescription = mir_wstrdup(ssd->pwszDescription);
-		item->pwszSection = mir_wstrdup((ssd->pszSection != nullptr) ? ssd->pwszSection : L"Other");
-		pwszDefaultFile = mir_wstrdup(ssd->pwszDefaultFile);
-	}
-	else {
-		item->pwszDescription = mir_a2u(ssd->pszDescription);
-		item->pwszSection = mir_a2u((ssd->pszSection != nullptr) ? ssd->pszSection : "Other");
-		pwszDefaultFile = mir_a2u(ssd->pszDefaultFile);
-	}
-
-	if (pwszDefaultFile) {
-		DBVARIANT dbv;
-		if (db_get_s(0, "SkinSounds", item->name, &dbv))
-			db_set_ws(0, "SkinSounds", item->name, pwszDefaultFile);
-		else
-			db_free(&dbv);
-		mir_free(pwszDefaultFile);
-	}
-
-	return 0;
-}
-
-static int SkinPlaySoundDefault(WPARAM wParam, LPARAM lParam)
-{
-	wchar_t *pszFile = (wchar_t*) lParam;
-	if (pszFile && (db_get_b(0, "Skin", "UseSound", 0) || (int)wParam == 1))
-		PlaySound(pszFile, nullptr, SND_ASYNC | SND_FILENAME | SND_NOSTOP);
-
-	return 0;
-}
-
-static INT_PTR ServiceSkinPlaySoundFile(WPARAM, LPARAM lParam)
-{
-	wchar_t *ptszFileName = (wchar_t*)lParam;
-	if (ptszFileName == nullptr)
-		return 1;
-
-	wchar_t tszFull[MAX_PATH];
-	PathToAbsoluteW(ptszFileName, tszFull);
-	NotifyEventHooks(hPlayEvent, 0, (LPARAM)tszFull);
-	return 0;
-}
-
-static INT_PTR ServiceSkinPlaySound(WPARAM, LPARAM lParam)
-{
-	char *pszSoundName = (char*)lParam;
-	if (pszSoundName == nullptr)
-		return 1;
-
-	SoundItem tmp = { pszSoundName };
-	int idx = arSounds.getIndex(&tmp);
-	if (idx == -1)
-		return 1;
-
-	if (db_get_b(0, "SkinSoundsOff", pszSoundName, 0))
-		return 1;
-
-	DBVARIANT dbv;
-	if (db_get_ws(0, "SkinSounds", pszSoundName, &dbv) == 0) {
-		ServiceSkinPlaySoundFile(0, (LPARAM)dbv.ptszVal);
-		db_free(&dbv);
-		return 0;
-	}
-	return 1;
-}
-
-#define DM_REBUILD_STREE (WM_USER+1)
-#define DM_HIDEPANE      (WM_USER+2)
-#define DM_SHOWPANE      (WM_USER+3)
-#define DM_CHECKENABLED  (WM_USER+4)
 
 INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -474,14 +457,9 @@ static int SkinSystemModulesLoaded(WPARAM, LPARAM)
 
 int LoadSkinSounds(void)
 {
-	bModuleInitialized = TRUE;
-
-	CreateServiceFunction("Skin/Sounds/AddNew", ServiceSkinAddNewSound);
-	CreateServiceFunction(MS_SKIN_PLAYSOUND, ServiceSkinPlaySound);
-	CreateServiceFunction(MS_SKIN_PLAYSOUNDFILE, ServiceSkinPlaySoundFile);
 	HookEvent(ME_SYSTEM_MODULESLOADED, SkinSystemModulesLoaded);
 	hPlayEvent = CreateHookableEvent(ME_SKIN_PLAYINGSOUND);
-	SetHookDefaultForHookableEvent(hPlayEvent, SkinPlaySoundDefault);
+	SetHookDefaultForHookableEvent(hPlayEvent, Skin_PlaySoundDefault);
 	return 0;
 }
 

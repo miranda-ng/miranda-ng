@@ -139,7 +139,7 @@ int NudgeReceived(WPARAM hContact, LPARAM lParam)
 							if (p.autoResend)
 								mir_forkthread(AutoResendNudge, (void*)hContact);
 
-							SkinPlaySound(p.NudgeSoundname);
+							Skin_PlaySound(p.NudgeSoundname);
 						}
 					}
 
@@ -182,7 +182,7 @@ int NudgeReceived(WPARAM hContact, LPARAM lParam)
 					if (DefaultNudge.autoResend)
 						mir_forkthread(AutoResendNudge, (void*)hContact);
 
-					SkinPlaySound(DefaultNudge.NudgeSoundname);
+					Skin_PlaySound(DefaultNudge.NudgeSoundname);
 				}
 			}
 
@@ -210,7 +210,7 @@ void LoadProtocols(void)
 	//Load the default nudge
 	mir_snprintf(DefaultNudge.ProtocolName, "Default");
 	mir_snprintf(DefaultNudge.NudgeSoundname, "Nudge : Default");
-	SkinAddNewSoundEx(DefaultNudge.NudgeSoundname, LPGEN("Nudge"), LPGEN("Default Nudge"));
+	Skin_AddSound(DefaultNudge.NudgeSoundname, LPGENW("Nudge"), LPGENW("Default Nudge"));
 	DefaultNudge.Load();
 
 	GlobalNudge.Load();
@@ -411,7 +411,7 @@ int Preview()
 		for (int i = 0; i < arNudges.getCount(); i++) {
 			CNudgeElement &p = arNudges[i];
 			if (p.enabled) {
-				SkinPlaySound(p.NudgeSoundname);
+				Skin_PlaySound(p.NudgeSoundname);
 				if (p.showPopup)
 					Nudge_ShowPopup(&p, hContact, p.recText);
 				if (p.openContactList)
@@ -427,7 +427,7 @@ int Preview()
 	}
 	else {
 		if (DefaultNudge.enabled) {
-			SkinPlaySound(DefaultNudge.NudgeSoundname);
+			Skin_PlaySound(DefaultNudge.NudgeSoundname);
 			if (DefaultNudge.showPopup)
 				Nudge_ShowPopup(&DefaultNudge, hContact, DefaultNudge.recText);
 			if (DefaultNudge.openContactList)
@@ -525,7 +525,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 
 	wchar_t soundDesc[MAXMODULELABELLENGTH + 10];
 	mir_snwprintf(soundDesc, LPGENW("Nudge for %s"), proto->tszAccountName);
-	SkinAddNewSoundExW(p->NudgeSoundname, LPGENW("Nudge"), soundDesc);
+	Skin_AddSound(p->NudgeSoundname, LPGENW("Nudge"), soundDesc);
 
 	arNudges.insert(p);
 }

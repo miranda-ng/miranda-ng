@@ -1,8 +1,8 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#define YAMN_NEWMAILSNDDESC		LPGEN("YAMN: new mail message")
-#define YAMN_CONNECTFAILSNDDESC	LPGEN("YAMN: connect failed")
+#define YAMN_NEWMAILSNDDESC		LPGENW("YAMN: new mail message")
+#define YAMN_CONNECTFAILSNDDESC	LPGENW("YAMN: connect failed")
 #define	YAMN_CONNECTFAILSOUND	"YAMN/Sound/ConnectFail"
 #define	YAMN_NEWMAILSOUND		"YAMN/Sound/NewMail"
 

@@ -93,7 +93,7 @@ void MessageFailureProcess(TMsgQueue *item, const char* err)
 	}
 	else SendMessage(hwnd, DM_REMAKELOG, 0, 0);
 
-	SkinPlaySound("SendError");
+	Skin_PlaySound("SendError");
 
 	ErrorDlgParam param = { err, item };
 	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSENDERROR), hwnd, ErrorDlgProc, (LPARAM)&param);

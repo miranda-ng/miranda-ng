@@ -648,7 +648,7 @@ void DoAlarm(ALARM *alarm)
 			if (alarm->sound_num > 0 && alarm->sound_num <= 3) {
 				char buff[128];
 				mir_snprintf(buff, "Triggered%d", alarm->sound_num);
-				SkinPlaySound(buff);
+				Skin_PlaySound(buff);
 			}
 			else if (alarm->sound_num == 4) {
 				if (alarm->szTitle != NULL && alarm->szTitle[0] != '\0') {
@@ -779,9 +779,9 @@ int IdleChanged(WPARAM, LPARAM lParam)
 
 void InitList()
 {
-	SkinAddNewSoundEx("Triggered1", LPGEN("Alarms"), LPGEN("Alert 1"));
-	SkinAddNewSoundEx("Triggered2", LPGEN("Alarms"), LPGEN("Alert 2"));
-	SkinAddNewSoundEx("Triggered3", LPGEN("Alarms"), LPGEN("Alert 3"));
+	Skin_AddSound("Triggered1", LPGENW("Alarms"), LPGENW("Alert 1"));
+	Skin_AddSound("Triggered2", LPGENW("Alarms"), LPGENW("Alert 2"));
+	Skin_AddSound("Triggered3", LPGENW("Alarms"), LPGENW("Alert 3"));
 
 	// load last checked time	
 	DBVARIANT dbv;

@@ -991,7 +991,7 @@ static void TlenProcessM(XmlNode *node, ThreadData *info)
 						else {
 							if (info->proto->tlenOptions.logAlerts)
 								TlenLogMessage(info->proto, hContact, 0, Translate("An alert has been received."));
-							SkinPlaySound("TlenAlertNotify");
+							Skin_PlaySound("TlenAlertNotify");
 						}
 					}
 				}
@@ -1107,7 +1107,7 @@ static void TlenProcessN(XmlNode *node, ThreadData *info)
 		TlenStringAppend(&str, &strSize, "%s: %s", Translate("Subject"), s);
 		popupText = TlenTextDecode(str);
 		TlenMailPopup(info->proto, popupTitle, popupText);
-		SkinPlaySound("TlenMailNotify");
+		Skin_PlaySound("TlenMailNotify");
 
 		mir_free(popupTitle);
 		mir_free(popupText);
@@ -1211,7 +1211,7 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 		if ((e=TlenXmlGetAttrValue(node, "e")) != NULL) {
 			if (!mir_strcmp(e, "1")) {
 				if ((id=TlenXmlGetAttrValue(node, "i")) != NULL) {
-					SkinPlaySound("TlenVoiceNotify");
+					Skin_PlaySound("TlenVoiceNotify");
 					TlenVoiceAccept(info->proto, id, from);
 				}
 			} else if (!mir_strcmp(e, "3")) {

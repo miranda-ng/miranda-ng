@@ -245,7 +245,7 @@ void __cdecl BadConnection(void *Param)
 		DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read enter\n");
 #endif
 		if (ActualAccount->BadConnectN.Flags & YAMN_ACC_SND)
-			CallService(MS_SKIN_PLAYSOUND, 0, (LPARAM)YAMN_CONNECTFAILSOUND);
+			Skin_PlaySound(YAMN_CONNECTFAILSOUND);
 
 		if (ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG)
 			ShowWindow(hBadConnect, SW_SHOWNORMAL);

@@ -280,7 +280,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	if (bHighlight) {
 		gce->pDest->iType |= GC_EVENT_HIGHLIGHT;
 		if (bInactive || !g_Settings->bSoundsFocus)
-			SkinPlaySound("ChatHighlight");
+			Skin_PlaySound("ChatHighlight");
 		if (db_get_b(si->hContact, "CList", "Hidden", 0) != 0)
 			db_unset(si->hContact, "CList", "Hidden");
 		if (bInactive)
@@ -306,28 +306,28 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		switch (iEvent) {
 		case GC_EVENT_JOIN:
 			if (bInactive || !g_Settings->bSoundsFocus)
-				SkinPlaySound("ChatJoin");
+				Skin_PlaySound("ChatJoin");
 			break;
 		case GC_EVENT_PART:
 			if (bInactive || !g_Settings->bSoundsFocus)
-				SkinPlaySound("ChatPart");
+				Skin_PlaySound("ChatPart");
 			break;
 		case GC_EVENT_QUIT:
 			if (bInactive || !g_Settings->bSoundsFocus)
-				SkinPlaySound("ChatQuit");
+				Skin_PlaySound("ChatQuit");
 			break;
 		case GC_EVENT_ADDSTATUS:
 		case GC_EVENT_REMOVESTATUS:
 			if (bInactive || !g_Settings->bSoundsFocus)
-				SkinPlaySound("ChatMode");
+				Skin_PlaySound("ChatMode");
 			break;
 		case GC_EVENT_KICK:
 			if (bInactive || !g_Settings->bSoundsFocus)
-				SkinPlaySound("ChatKick");
+				Skin_PlaySound("ChatKick");
 			break;
 		case GC_EVENT_MESSAGE:
 			if (bInactive || !g_Settings->bSoundsFocus)
-				SkinPlaySound("ChatMessage");
+				Skin_PlaySound("ChatMessage");
 
 			if (bInactive && !(si->wState & STATE_TALK)) {
 				si->wState |= STATE_TALK;
@@ -338,19 +338,19 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			break;
 		case GC_EVENT_ACTION:
 			if (bInactive || !g_Settings->bSoundsFocus)
-				SkinPlaySound("ChatAction");
+				Skin_PlaySound("ChatAction");
 			break;
 		case GC_EVENT_NICK:
 			if (bInactive || !g_Settings->bSoundsFocus)
-				SkinPlaySound("ChatNick");
+				Skin_PlaySound("ChatNick");
 			break;
 		case GC_EVENT_NOTICE:
 			if (bInactive || !g_Settings->bSoundsFocus)
-				SkinPlaySound("ChatNotice");
+				Skin_PlaySound("ChatNotice");
 			break;
 		case GC_EVENT_TOPIC:
 			if (bInactive || !g_Settings->bSoundsFocus)
-				SkinPlaySound("ChatTopic");
+				Skin_PlaySound("ChatTopic");
 			break;
 		}
 	}

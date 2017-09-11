@@ -395,7 +395,7 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				result = Utils::msgBox(TranslateT("Do you really want to cancel all running jobs?"), MB_YESNO | MB_ICONQUESTION);
 
 			if (result == IDYES) {
-				SkinPlaySound(SOUND_CANCEL);
+				Skin_PlaySound(SOUND_CANCEL);
 				size_t count = uDlg->m_tabs.size();
 				for (UINT i = 0; i < count; i++)
 					uDlg->m_tabs[0]->m_job->closeAllTabs();

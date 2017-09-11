@@ -230,19 +230,14 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM, LPARAM)
 
 int TlenProtocol::OnModulesLoaded(WPARAM, LPARAM)
 {
-	char str[128];
 	/* Set all contacts to offline */
-
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 		if (db_get_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 			db_set_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE);
 
-	strncpy_s(str, LPGEN("Incoming mail"), _TRUNCATE);
-	SkinAddNewSoundEx("TlenMailNotify", m_szModuleName, str);
-	strncpy_s(str, LPGEN("Alert"), _TRUNCATE);
-	SkinAddNewSoundEx("TlenAlertNotify", m_szModuleName, str);
-	strncpy_s(str, LPGEN("Voice chat"), _TRUNCATE);
-	SkinAddNewSoundEx("TlenVoiceNotify", m_szModuleName, str);
+	Skin_AddSound("TlenMailNotify", m_tszUserName, LPGENW("Incoming mail"));
+	Skin_AddSound("TlenAlertNotify", m_tszUserName, LPGENW("Alert"));
+	Skin_AddSound("TlenVoiceNotify", m_tszUserName, LPGENW("Voice chat"));
 
 	HookProtoEvent(ME_USERINFO_INITIALISE, &TlenProtocol::UserInfoInit);
 	return 0;

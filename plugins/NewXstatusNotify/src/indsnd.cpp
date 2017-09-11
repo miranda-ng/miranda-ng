@@ -35,13 +35,13 @@ void PreviewSound(HWND hList)
 	ListView_GetItemText(hList, lvi.iItem, 1, buff, _countof(buff));
 	if (!mir_wstrcmp(buff, TranslateW(DEFAULT_SOUND))) {
 		if (hlpStatus < ID_STATUS_MIN)
-			SkinPlaySound(StatusListEx[hlpStatus].lpzSkinSoundName);
+			Skin_PlaySound(StatusListEx[hlpStatus].lpzSkinSoundName);
 		else
-			SkinPlaySound(StatusList[Index(hlpStatus)].lpzSkinSoundName);
+			Skin_PlaySound(StatusList[Index(hlpStatus)].lpzSkinSoundName);
 	}
 	else {
 		PathToAbsoluteW(buff, stzSoundPath);
-		SkinPlaySoundFile(stzSoundPath);
+		Skin_PlaySoundFile(stzSoundPath);
 	}
 }
 

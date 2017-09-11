@@ -164,7 +164,7 @@ extern "C" int __declspec(dllexport) Load()
 	InitServices();
 
 	//add sound event to options
-	SkinAddNewSoundExW("webviewalert", _A2W(MODULENAME), LPGENW("Alert event"));
+	Skin_AddSound("webviewalert", _A2W(MODULENAME), LPGENW("Alert event"));
 
 	//value is 1 if menu is disabled
 	db_set_b(NULL, MODULENAME, MENU_IS_DISABLED_KEY, 1);

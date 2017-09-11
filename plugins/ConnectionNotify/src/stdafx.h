@@ -26,6 +26,7 @@
 
 #define MAX_SETTING_STR 512
 #define PLUGINNAME "ConnectionNotify"
+#define PLUGINNAMEW L"ConnectionNotify"
 #define MAX_LENGTH 512
 #define STATUS_COUNT 9
 

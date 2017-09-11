@@ -458,10 +458,10 @@ void GetTriggerTimeString(const ULARGE_INTEGER *When, char *s, UINT strSize, BOO
 	else mir_snprintf(s, strSize, "%d-%02d-%02d %02d:%02d", tm.wYear, tm.wMonth, tm.wDay, tm.wHour, tm.wMinute);
 }
 
-static void SkinPlaySoundPoly(LPCSTR pszSoundName)
+static void Skin_PlaySoundPoly(LPCSTR pszSoundName)
 {
 	if (g_UseDefaultPlaySound) {
-		SkinPlaySound(pszSoundName);
+		Skin_PlaySound(pszSoundName);
 		return;
 	}
 
@@ -501,10 +501,10 @@ static void UpdateReminderEvent(REMINDERDATA *pReminder, UINT nElapsedSeconds, B
 
 			if (!(*pHasPlayedSound & dwSoundMask)) {
 				switch (pReminder->SoundSel) {
-				case 1: SkinPlaySoundPoly("AlertReminder2"); break;
-				case 2: SkinPlaySoundPoly("AlertReminder3"); break;
+				case 1: Skin_PlaySoundPoly("AlertReminder2"); break;
+				case 2: Skin_PlaySoundPoly("AlertReminder3"); break;
 				default:
-					SkinPlaySoundPoly("AlertReminder");
+					Skin_PlaySoundPoly("AlertReminder");
 				}
 
 				*pHasPlayedSound |= dwSoundMask;
@@ -546,10 +546,10 @@ static void FireReminder(REMINDERDATA *pReminder, BOOL *pHasPlayedSound)
 
 	if (!(*pHasPlayedSound & dwSoundMask)) {
 		switch (pReminder->SoundSel) {
-		case 1: SkinPlaySoundPoly("AlertReminder2"); break;
-		case 2: SkinPlaySoundPoly("AlertReminder3"); break;
+		case 1: Skin_PlaySoundPoly("AlertReminder2"); break;
+		case 2: Skin_PlaySoundPoly("AlertReminder3"); break;
 		default:
-			SkinPlaySoundPoly("AlertReminder");
+			Skin_PlaySoundPoly("AlertReminder");
 		}
 
 		*pHasPlayedSound |= dwSoundMask;
@@ -1825,9 +1825,9 @@ static INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog, UINT Message, WPARAM wPa
 					int n = SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_GETCURSEL, 0, 0);
 					n = (int)SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_GETITEMDATA, n, 0);
 					switch (n) {
-					case 0: SkinPlaySound("AlertReminder"); break;
-					case 1: SkinPlaySound("AlertReminder2"); break;
-					case 2: SkinPlaySound("AlertReminder3"); break;
+					case 0: Skin_PlaySound("AlertReminder"); break;
+					case 1: Skin_PlaySound("AlertReminder2"); break;
+					case 2: Skin_PlaySound("AlertReminder3"); break;
 					}
 				}
 				return TRUE;
