@@ -418,17 +418,17 @@ void CSend::Exit(unsigned int Result)
 		bool err = true;
 		switch (Result) {
 		case CSEND_DIALOG:
-			SkinPlaySound("FileDone");
+			Skin_PlaySound("FileDone");
 			DialogBoxParam(g_hSendSS, MAKEINTRESOURCE(IDD_UResultForm), 0, ResultDialogProc, (LPARAM)this);
 			err = false;
 			break;
 		case ACKRESULT_SUCCESS:
 		case GC_RESULT_SUCCESS:
-			SkinPlaySound("FileDone");
+			Skin_PlaySound("FileDone");
 			err = false;
 			break;
 		case ACKRESULT_DENIED:
-			SkinPlaySound("FileDenied");
+			Skin_PlaySound("FileDenied");
 			Error(L"%s (%i):\nFile transfer denied.", TranslateW(m_pszSendTyp), Result);
 			MsgBoxService(NULL, (LPARAM)&m_box);
 			err = false;
@@ -447,7 +447,7 @@ void CSend::Exit(unsigned int Result)
 			break;
 		}
 		if (err) {
-			SkinPlaySound("FileFailed");
+			Skin_PlaySound("FileFailed");
 			if (m_ErrorMsg) MsgBoxService(NULL, (LPARAM)&m_box);
 			else MsgErr(NULL, LPGENW("An unknown error has occurred."));
 		}

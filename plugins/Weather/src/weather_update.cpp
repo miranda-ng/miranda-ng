@@ -110,7 +110,7 @@ int UpdateWeather(MCONTACT hContact)
 		// alert issued, set display to italic
 		if (opt.MakeItalic)
 			db_set_w(hContact, WEATHERPROTONAME, "ApparentMode", ID_STATUS_OFFLINE);
-		SkinPlaySound("weatheralert");
+		Skin_PlaySound("weatheralert");
 	}
 	// alert dropped, set the display back to normal
 	else db_unset(hContact, WEATHERPROTONAME, "ApparentMode");
@@ -162,7 +162,7 @@ int UpdateWeather(MCONTACT hContact)
 	// logging
 	if (Ch) {
 		// play the sound event
-		SkinPlaySound("weatherupdated");
+		Skin_PlaySound("weatherupdated");
 
 		if (db_get_b(hContact, WEATHERPROTONAME, "File", 0)) {
 			// external log

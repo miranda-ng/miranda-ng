@@ -431,7 +431,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			}
 			delete ackData; // all done, release structure
 			if (!wndData->uacklist.Count) {
-				SkinPlaySound("SentContacts");
+				Skin_PlaySound("SentContacts");
 				KillTimer(hwndDlg, TIMERID_MSGSEND);
 
 				if (wndData->hError)

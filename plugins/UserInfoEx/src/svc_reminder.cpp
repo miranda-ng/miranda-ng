@@ -352,11 +352,11 @@ static BYTE NotifyWithSound(const CEvent &evt)
 	if (evt._wDaysLeft <= min(db_get_b(NULL, MODNAME, SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET), gRemindOpts.wDaysEarlier)) {
 		switch (evt._eType) {
 		case CEvent::BIRTHDAY:
-			SkinPlaySound(evt._wDaysLeft == 0 ? SOUND_BIRTHDAY_TODAY : SOUND_BIRTHDAY_SOON);
+			Skin_PlaySound(evt._wDaysLeft == 0 ? SOUND_BIRTHDAY_TODAY : SOUND_BIRTHDAY_SOON);
 			return 0;
 
 		case CEvent::ANNIVERSARY:
-			SkinPlaySound(SOUND_ANNIVERSARY);
+			Skin_PlaySound(SOUND_ANNIVERSARY);
 			return 0;
 		}
 	}
@@ -893,24 +893,9 @@ void SvcReminderOnModulesLoaded(void)
 void SvcReminderLoadModule(void)
 {
 	// init sounds
-	SKINSOUNDDESCEX ssd = { 0 };
-	ssd.cbSize = sizeof(ssd);
-	ssd.pszSection = MODNAME;
-
-	ssd.pszName = SOUND_BIRTHDAY_TODAY;
-	ssd.pszDescription = LPGEN("Birthday reminder");
-	ssd.pszDefaultFile = "Sounds\\BirthDay.wav";
-	Skin_AddSound(&ssd);
-
-	ssd.pszName = SOUND_BIRTHDAY_SOON;
-	ssd.pszDescription = LPGEN("Birthday reminder: it's coming");
-	ssd.pszDefaultFile = "Sounds\\BirthDayComing.wav";
-	Skin_AddSound(&ssd);
-
-	ssd.pszName = SOUND_ANNIVERSARY;
-	ssd.pszDescription = LPGEN("Anniversary Reminder");
-	ssd.pszDefaultFile = "Sounds\\Reminder.wav";
-	Skin_AddSound(&ssd);
+	Skin_AddSound(SOUND_BIRTHDAY_TODAY, LPGENW("Birthday reminder"), L"Sounds\\BirthDay.wav");
+	Skin_AddSound(SOUND_BIRTHDAY_SOON, LPGENW("Birthday reminder: it's coming"), L"Sounds\\BirthDayComing.wav");
+	Skin_AddSound(SOUND_ANNIVERSARY, LPGENW("Anniversary Reminder"), L"Sounds\\Reminder.wav");
 
 	// create service functions
 	CreateServiceFunction(MS_USERINFO_REMINDER_CHECK, CheckService);
@@ -926,7 +911,6 @@ void SvcReminderLoadModule(void)
 
 	if (db_get_b(NULL, MODNAME, SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) != REMIND_OFF && ExtraIcon == INVALID_HANDLE_VALUE)
 		ExtraIcon = ExtraIcon_RegisterIcolib("Reminder", LPGEN("Reminder (UInfoEx)"), ICO_COMMON_ANNIVERSARY);
-
 }
 
 /**

@@ -75,7 +75,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 				if (hContact == NULL) {
 					if (RecvSMSWindowAdd(NULL, ICQEVENTTYPE_SMS, tszPhone, dwPhoneSize, (LPSTR)dbei.pBlob, dbei.cbBlob)) {
 						db_event_markRead(hContact, hResult);
-						SkinPlaySound("RecvSMSMsg");
+						Skin_PlaySound("RecvSMSMsg");
 					}
 				}
 			}
@@ -224,7 +224,7 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 	if ((dbei.flags & DBEF_SENT) == 0)
 	if (dbei.eventType == ICQEVENTTYPE_SMS) {
 		if (dbei.cbBlob > MIN_SMS_DBEVENT_LEN) {
-			SkinPlaySound("RecvSMSMsg");
+			Skin_PlaySound("RecvSMSMsg");
 			if (DB_SMS_GetByte(NULL, "AutoPopup", 0)) {
 				if (RecvSMSWindowAdd(hContact, ICQEVENTTYPE_SMS, NULL, 0, (LPSTR)dbei.pBlob, dbei.cbBlob))
 					db_event_markRead(hContact, hDbEvent);
@@ -245,7 +245,7 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 		}
 	}
 	else if (dbei.eventType == ICQEVENTTYPE_SMSCONFIRMATION) {
-		SkinPlaySound("RecvSMSConfirmation");
+		Skin_PlaySound("RecvSMSConfirmation");
 		if (DB_SMS_GetByte(NULL, "AutoPopup", 0)) {
 			if (RecvSMSWindowAdd(hContact, ICQEVENTTYPE_SMSCONFIRMATION, NULL, 0, (LPSTR)dbei.pBlob, dbei.cbBlob))
 				db_event_delete(hContact, hDbEvent);

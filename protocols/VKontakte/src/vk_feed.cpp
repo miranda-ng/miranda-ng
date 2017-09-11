@@ -71,7 +71,7 @@ void CVkProto::AddFeedEvent(CVKNewsItem& vkNewsItem)
 
 void CVkProto::AddCListEvent(bool bNews)
 {
-	SkinPlaySound("VKNewsFeed");
+	Skin_PlaySound("VKNewsFeed");
 
 	if (!m_vkOptions.bUseNonStandardNotifications)
 		return;

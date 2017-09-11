@@ -187,7 +187,7 @@ void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 				MCONTACT hContact = AddContact(uid.c_str(), true);
 
 				MEVENT hEvent = AddDbEvent(SKYPE_DB_EVENT_TYPE_INCOMING_CALL, hContact, time(NULL), DBEF_READ, gp.c_str(), callId.c_str());
-				SkinPlaySound("skype_inc_call");
+				Skin_PlaySound("skype_inc_call");
 
 				CLISTEVENT cle = {};
 				cle.flags = CLEF_UNICODE;
@@ -210,7 +210,7 @@ void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 
 	case 104: //call canceled: callerId=""; conversationId=NULL; callId=call id
 		// std::string callId = body["callId"].as_string();
-		SkinPlaySound("skype_call_canceled");
+		Skin_PlaySound("skype_call_canceled");
 		break;
 	}
 }

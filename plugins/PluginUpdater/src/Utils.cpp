@@ -163,14 +163,14 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 	if (!ret) {
 		Netlib_LogfW(hNetlibUser,L"Downloading list of available updates from %s failed",baseUrl);
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
-		SkinPlaySound("updatefailed");
+		Skin_PlaySound("updatefailed");
 		return false;
 	}
 
 	if(!unzip(pFileUrl.tszDiskPath, g_tszTempPath, NULL,true)) {
 		Netlib_LogfW(hNetlibUser,L"Unzipping list of available updates from %s failed",baseUrl);
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
-		SkinPlaySound("updatefailed");
+		Skin_PlaySound("updatefailed");
 		return false;
 	}
 	

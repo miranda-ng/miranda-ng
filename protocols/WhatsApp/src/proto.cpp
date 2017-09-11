@@ -399,7 +399,7 @@ void WhatsAppProto::NotifyEvent(const wchar_t *title, const wchar_t *info, MCONT
 			colorText = getDword(WHATSAPP_KEY_EVENT_OTHER_COLTEXT, DEFAULT_EVENT_COLTEXT);
 		}
 		timeout = getDword(WHATSAPP_KEY_EVENT_OTHER_TIMEOUT, -1);
-		SkinPlaySound("OtherEvent");
+		Skin_PlaySound("OtherEvent");
 		flags |= NIIF_INFO;
 		break;
 	}

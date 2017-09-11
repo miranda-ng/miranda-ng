@@ -68,7 +68,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	ptrW szUid(Contact_GetInfo(CNF_UNIQUEID, hContact));
 
 	if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
-		SkinPlaySound("AuthRequest");
+		Skin_PlaySound("AuthRequest");
 		if (szUid)
 			mir_snwprintf(szTooltip, TranslateT("%s requests authorization"), szUid);
 		else
@@ -79,7 +79,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 		pcli->pfnAddEvent(&cli);
 	}
 	else if (dbei.eventType == EVENTTYPE_ADDED) {
-		SkinPlaySound("AddedEvent");
+		Skin_PlaySound("AddedEvent");
 		if (szUid)
 			mir_snwprintf(szTooltip, TranslateT("%s added you to their contact list"), szUid);
 		else
@@ -98,7 +98,7 @@ int LoadSendRecvAuthModule(void)
 	CreateServiceFunction(MS_AUTH_SHOWADDED, ShowAddedWindow);
 	HookEvent(ME_DB_EVENT_ADDED, AuthEventAdded);
 
-	SkinAddNewSoundEx("AuthRequest", LPGEN("Alerts"), LPGEN("Authorization request"));
-	SkinAddNewSoundEx("AddedEvent", LPGEN("Alerts"), LPGEN("Added event"));
+	Skin_AddSound("AuthRequest", LPGENW("Alerts"), LPGENW("Authorization request"));
+	Skin_AddSound("AddedEvent", LPGENW("Alerts"), LPGENW("Added event"));
 	return 0;
 }

@@ -194,9 +194,9 @@ int DialogNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 int SoundNotifyBirthday(int dtb)
 {
 	if (dtb == 0)
-		SkinPlaySound(BIRTHDAY_TODAY_SOUND);
+		Skin_PlaySound(BIRTHDAY_TODAY_SOUND);
 	else if (dtb <= commonData.cSoundNearDays)
-		SkinPlaySound(BIRTHDAY_NEAR_SOUND);
+		Skin_PlaySound(BIRTHDAY_NEAR_SOUND);
 
 	return 0;
 }

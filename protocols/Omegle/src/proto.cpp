@@ -57,10 +57,10 @@ PROTO<OmegleProto>(proto_name, username)
 
 	facy.set_handle(m_hNetlibUser);
 
-	SkinAddNewSoundExW("StrangerTyp", m_tszUserName, LPGENW("Stranger is typing"));
-	SkinAddNewSoundExW("StrangerTypStop", m_tszUserName, LPGENW("Stranger stopped typing"));
-	SkinAddNewSoundExW("StrangerChange", m_tszUserName, LPGENW("Changing stranger"));
-	SkinAddNewSoundExW("StrangerMessage", m_tszUserName, LPGENW("Receive message"));
+	Skin_AddSound("StrangerTyp", m_tszUserName, LPGENW("Stranger is typing"));
+	Skin_AddSound("StrangerTypStop", m_tszUserName, LPGENW("Stranger stopped typing"));
+	Skin_AddSound("StrangerChange", m_tszUserName, LPGENW("Changing stranger"));
+	Skin_AddSound("StrangerMessage", m_tszUserName, LPGENW("Receive message"));
 }
 
 OmegleProto::~OmegleProto()

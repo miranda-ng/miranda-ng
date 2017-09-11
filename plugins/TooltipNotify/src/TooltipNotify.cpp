@@ -133,14 +133,13 @@ int CTooltipNotify::ModulesLoaded(WPARAM, LPARAM)
 		db_set_b(NULL, MODULENAME, "firstrun", 0);
 	}
 
-	SkinAddNewSoundEx(SND_ONLINE, LPGEN("Tooltip Notify"), LPGEN("Online"), "online.wav");
-	SkinAddNewSoundEx(SND_OFFLINE, LPGEN("Tooltip Notify"), LPGEN("Offline"), "offline.wav");
-	SkinAddNewSoundEx(SND_OTHER, LPGEN("Tooltip Notify"), LPGEN("Other"), "other.wav");
-	SkinAddNewSoundEx(SND_TYPING, LPGEN("Tooltip Notify"), LPGEN("Typing"), "typing.wav");
+	Skin_AddSound(SND_ONLINE,  LPGENW("Tooltip Notify"), LPGENW("Online"),  L"online.wav");
+	Skin_AddSound(SND_OFFLINE, LPGENW("Tooltip Notify"), LPGENW("Offline"), L"offline.wav");
+	Skin_AddSound(SND_OTHER,   LPGENW("Tooltip Notify"), LPGENW("Other"),   L"other.wav");
+	Skin_AddSound(SND_TYPING,  LPGENW("Tooltip Notify"), LPGENW("Typing"),  L"typing.wav");
 
 	// register fonts
 	RegisterFonts();
-
 	return 0;
 }
 
@@ -156,7 +155,7 @@ int CTooltipNotify::ProtoContactIsTyping(WPARAM hContact, LPARAM lParam)
 		pTooltipData->iStatus = ID_TTNTF_STATUS_TYPING;
 
 		EndNotifyAll();
-		SkinPlaySound(SND_TYPING);
+		Skin_PlaySound(SND_TYPING);
 		BeginNotify(pTooltipData);
 	}
 	else EndNotifyAll();
@@ -225,18 +224,18 @@ int CTooltipNotify::ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	switch (wNewStatus) {
 	case ID_STATUS_OFFLINE:
 		if (!m_sOptions.bOffline) return 0;
-		SkinPlaySound(SND_OFFLINE);
+		Skin_PlaySound(SND_OFFLINE);
 		break;
 
 	case ID_STATUS_ONLINE:
 		if (CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE) && m_sOptions.bConjSOLN) return 0;
 		if (!m_sOptions.bOnline) return 0;
-		SkinPlaySound(SND_ONLINE);
+		Skin_PlaySound(SND_ONLINE);
 		break;
 
 	default:
 		if (!m_sOptions.bOther) return 0;
-		SkinPlaySound(SND_OTHER);
+		Skin_PlaySound(SND_OTHER);
 		break;
 	}
 

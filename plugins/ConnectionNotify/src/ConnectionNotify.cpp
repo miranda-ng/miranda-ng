@@ -707,7 +707,7 @@ static unsigned __stdcall checkthread(void *)
 				if (WAIT_OBJECT_0 == WaitForSingleObject(hExceptionsMutex, 100)) {
 					if (checkFilter(connExceptions, cur)) {
 						showMsg(cur->PName, cur->Pid, cur->strIntIp, cur->strExtIp, cur->intIntPort, cur->intExtPort, cur->state);
-						SkinPlaySound(PLUGINNAME_NEWSOUND);
+						Skin_PlaySound(PLUGINNAME_NEWSOUND);
 					}
 					ReleaseMutex(hExceptionsMutex);
 				}
@@ -876,7 +876,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateProtoServiceFunction(PLUGINNAME, PS_SETSTATUS, SetStatus);
 	CreateProtoServiceFunction(PLUGINNAME, PS_GETSTATUS, GetStatus);
 
-	SkinAddNewSoundEx(PLUGINNAME_NEWSOUND, PLUGINNAME, LPGEN("New Connection Notification"));
+	Skin_AddSound(PLUGINNAME_NEWSOUND, PLUGINNAMEW, LPGENW("New Connection Notification"));
 	hOptInit = HookEvent(ME_OPT_INITIALISE, ConnectionNotifyOptInit);//register service to hook option call
 	assert(hOptInit);
 	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, modulesloaded);//hook event that all plugins are loaded
