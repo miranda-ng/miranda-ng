@@ -1,4 +1,4 @@
-call git_update.bat
+call git_update.bat master
 set GIT_STATUS=%ERRORLEVEL%
 if %GIT_STATUS%==0 echo Git update success
 if not %GIT_STATUS%==0 goto :Error

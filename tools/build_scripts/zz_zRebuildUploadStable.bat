@@ -2,7 +2,9 @@
 echo WARNING!!! You are about to compile and upload STABLE versions of Miranda NG! Are you absolutely sure?!
 pause
 
-call git_update.bat
+for /F "tokens=1,2,3 delims= " %%i in (build/build.no.stable) do set Branch=%%i_%%j_%%k
+
+call git_update.bat %Branch%
 set GIT_STATUS=%ERRORLEVEL%
 if %GIT_STATUS%==0 echo Git update success
 if not %GIT_STATUS%==0 goto :Error
