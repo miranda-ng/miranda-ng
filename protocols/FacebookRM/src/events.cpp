@@ -41,22 +41,22 @@ HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact,
 
 	case EVENT_NOTIFICATION:
 		mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
-		Skin_PlaySound("Notification");
+		SkinPlaySound("Notification");
 		break;
 
 	case EVENT_OTHER:
 		mir_snprintf(name, "%s_%s", m_szModuleName, "Other");
-		Skin_PlaySound("OtherEvent");
+		SkinPlaySound("OtherEvent");
 		break;
 
 	case EVENT_FRIENDSHIP:
 		mir_snprintf(name, "%s_%s", m_szModuleName, "Friendship");
-		Skin_PlaySound("Friendship");
+		SkinPlaySound("Friendship");
 		break;
 
 	case EVENT_TICKER:
 		mir_snprintf(name, "%s_%s", m_szModuleName, "Ticker");
-		Skin_PlaySound("Ticker");
+		SkinPlaySound("Ticker");
 		break;
 
 	case EVENT_ON_THIS_DAY:

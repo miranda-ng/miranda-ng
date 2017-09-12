@@ -510,7 +510,7 @@ void myPlaySound(MCONTACT hcontact, WORD newStatus, WORD oldStatus)
 	else if (oldStatus == ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusFromOffline";
 	else soundname = "LastSeenTrackedStatusChange";
 	if (soundname != NULL)
-		Skin_PlaySound(soundname);
+		SkinPlaySound(soundname);
 }
 
 // will add hContact to queue and will return position;

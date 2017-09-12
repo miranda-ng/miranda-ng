@@ -120,7 +120,7 @@ void NotifyUser(Account *curAcc)
 			PUAddPopup(&ppd);
 		}
 		if (newMails > 0)
-			Skin_PlaySound("Gmail");
+			SkinPlaySound("Gmail");
 	}
 	curAcc->oldResults_num = curAcc->results_num;
 	DeleteResults(curAcc->results.next);

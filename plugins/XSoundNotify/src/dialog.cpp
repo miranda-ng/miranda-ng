@@ -137,14 +137,14 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 				if (!db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 					wchar_t longpath[MAX_PATH] = { 0 };
 					PathToAbsoluteW(dbv.ptszVal, longpath);
-					Skin_PlaySoundFile(longpath);
+					SkinPlaySoundFile(longpath);
 					db_free(&dbv);
 				}
 			}
 			else {
 				wchar_t longpath[MAX_PATH] = { 0 };
 				PathToAbsoluteW(p->path, longpath);
-				Skin_PlaySoundFile(longpath);
+				SkinPlaySoundFile(longpath);
 			}
 			break;
 

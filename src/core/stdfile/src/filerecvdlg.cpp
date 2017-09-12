@@ -388,7 +388,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				EnableWindow(GetDlgItem(hwndDlg, IDC_FILEDIR), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_FILEDIRBROWSE), FALSE);
 				SetDlgItemText(hwndDlg, IDC_MSG, TranslateT("This file transfer has been canceled by the other side"));
-				Skin_PlaySound("FileDenied");
+				SkinPlaySound("FileDenied");
 				FlashWindow(hwndDlg, TRUE);
 			}
 			else if (ack->result != ACKRESULT_FILERESUME)

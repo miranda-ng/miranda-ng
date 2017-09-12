@@ -1991,7 +1991,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		KbdState(isShift, isCtrl, isAlt);
 
 		if (PluginConfig.m_bSoundOnTyping && !isAlt && !isCtrl && !(m_pContainer->dwFlags & CNT_NOSOUND) && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_bAllowTab))
-			Skin_PlaySound("SoundOnTyping");
+			SkinPlaySound("SoundOnTyping");
 
 		if (isCtrl && !isAlt) {
 			switch (wParam) {
@@ -2044,7 +2044,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		KbdState(isShift, isCtrl, isAlt);
 
 		if (PluginConfig.m_bSoundOnTyping && !isAlt && !(m_pContainer->dwFlags & CNT_NOSOUND) && wParam == VK_DELETE)
-			Skin_PlaySound("SoundOnTyping");
+			SkinPlaySound("SoundOnTyping");
 
 		if (wParam == VK_INSERT && !isShift && !isCtrl && !isAlt) {
 			m_bInsertMode = !m_bInsertMode;
@@ -2679,7 +2679,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				mir_snwprintf(job->szErrorMsg, TranslateT("Delivery failure: %s"), TranslateT("The message send timed out"));
 				job->iStatus = SendQueue::SQ_ERROR;
 				if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
-					Skin_PlaySound("SendError");
+					SkinPlaySound("SendError");
 				if (!(m_dwFlags & MWF_ERRORSTATE))
 					sendQueue->handleError(this, iIndex);
 				break;

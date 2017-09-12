@@ -150,9 +150,9 @@ static void InitServices()
 {
 	// register sounds
 
-	Skin_AddSound("AlertReminder",  LPGENW("Alerts"), LPGENW("Reminder triggered"));
-	Skin_AddSound("AlertReminder2", LPGENW("Alerts"), LPGENW("Reminder triggered (Alternative 1)"));
-	Skin_AddSound("AlertReminder3", LPGENW("Alerts"), LPGENW("Reminder triggered (Alternative 2)"));
+	SkinAddNewSoundEx("AlertReminder", LPGEN("Alerts"), LPGEN("Reminder triggered"));
+	SkinAddNewSoundEx("AlertReminder2", LPGEN("Alerts"), LPGEN("Reminder triggered (Alternative 1)"));
+	SkinAddNewSoundEx("AlertReminder3", LPGEN("Alerts"), LPGEN("Reminder triggered (Alternative 2)"));
 
 	// register menu command services
 

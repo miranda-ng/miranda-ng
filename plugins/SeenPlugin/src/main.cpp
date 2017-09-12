@@ -104,10 +104,10 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	LoadWatchedProtos();
 
-	Skin_AddSound("LastSeenTrackedStatusChange", LPGENW("LastSeen"), LPGENW("User status change"));
-	Skin_AddSound("LastSeenTrackedStatusOnline", LPGENW("LastSeen"), LPGENW("Changed to Online"));
-	Skin_AddSound("LastSeenTrackedStatusOffline", LPGENW("LastSeen"), LPGENW("User Logged Off"));
-	Skin_AddSound("LastSeenTrackedStatusFromOffline", LPGENW("LastSeen"), LPGENW("User Logged In"));
+	SkinAddNewSoundExW("LastSeenTrackedStatusChange", LPGENW("LastSeen"), LPGENW("User status change"));
+	SkinAddNewSoundExW("LastSeenTrackedStatusOnline", LPGENW("LastSeen"), LPGENW("Changed to Online"));
+	SkinAddNewSoundExW("LastSeenTrackedStatusOffline", LPGENW("LastSeen"), LPGENW("User Logged Off"));
+	SkinAddNewSoundExW("LastSeenTrackedStatusFromOffline", LPGENW("LastSeen"), LPGENW("User Logged In"));
 	return 0;
 }
 

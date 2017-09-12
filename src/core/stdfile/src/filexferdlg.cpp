@@ -624,16 +624,16 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 				if (ack->result == ACKRESULT_DENIED) {
 					dat->fs = NULL; /* protocol will free structure */
-					Skin_PlaySound("FileDenied");
+					SkinPlaySound("FileDenied");
 					SetFtStatus(hwndDlg, LPGENW("File transfer denied"), FTS_TEXT);
 				}
 				else if (ack->result == ACKRESULT_FAILED) {
 					dat->fs = NULL; /* protocol will free structure */
-					Skin_PlaySound("FileFailed");
+					SkinPlaySound("FileFailed");
 					SetFtStatus(hwndDlg, LPGENW("File transfer failed"), FTS_TEXT);
 				}
 				else {
-					Skin_PlaySound("FileDone");
+					SkinPlaySound("FileDone");
 					if (dat->send) {
 						dat->fs = NULL; /* protocol will free structure */
 						SetFtStatus(hwndDlg, LPGENW("Transfer completed."), FTS_TEXT);

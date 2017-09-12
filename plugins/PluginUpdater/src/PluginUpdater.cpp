@@ -126,8 +126,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitEvents();
 
 	// add sounds
-	Skin_AddSound("updatecompleted", LPGENW("Plugin Updater"), LPGENW("Update completed"));
-	Skin_AddSound("updatefailed",    LPGENW("Plugin Updater"), LPGENW("Update failed"));
+	SkinAddNewSoundEx("updatecompleted", LPGEN("Plugin Updater"), LPGEN("Update completed"));
+	SkinAddNewSoundEx("updatefailed", LPGEN("Plugin Updater"), LPGEN("Update failed"));
 
 #if MIRANDA_VER >= 0x0A00
 	// Upgrade old settings

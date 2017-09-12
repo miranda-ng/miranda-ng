@@ -87,7 +87,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 		msgQueue_processack(pAck->hContact, (INT_PTR)pAck->hProcess, pAck->result == ACKRESULT_SUCCESS, (char*)pAck->lParam);
 
 		if (pAck->result == ACKRESULT_SUCCESS)
-			Skin_PlaySound("SendMsg");
+			SkinPlaySound("SendMsg");
 	}
 	return 0;
 }

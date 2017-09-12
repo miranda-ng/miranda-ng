@@ -105,7 +105,7 @@ void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, (LPARAM)&cle);
 	}
 	else {
-		Skin_PlaySound("RecvFile");
+		SkinPlaySound("RecvFile");
 
 		wchar_t szTooltip[256];
 		mir_snwprintf(szTooltip, TranslateT("File from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
@@ -443,9 +443,9 @@ int LoadSendRecvFileModule(void)
 	CreateServiceFunction("SRFile/OpenContRecDir", openContRecDir);
 	CreateServiceFunction("SRFile/OpenRecDir", openRecDir);
 
-	Skin_AddSound("RecvFile",   LPGENW("File"), LPGENW("Incoming"));
-	Skin_AddSound("FileDone",   LPGENW("File"), LPGENW("Complete"));
-	Skin_AddSound("FileFailed", LPGENW("File"), LPGENW("Error"));
-	Skin_AddSound("FileDenied", LPGENW("File"), LPGENW("Denied"));
+	SkinAddNewSoundEx("RecvFile", LPGEN("File"), LPGEN("Incoming"));
+	SkinAddNewSoundEx("FileDone", LPGEN("File"), LPGEN("Complete"));
+	SkinAddNewSoundEx("FileFailed", LPGEN("File"), LPGEN("Error"));
+	SkinAddNewSoundEx("FileDenied", LPGEN("File"), LPGEN("Denied"));
 	return 0;
 }

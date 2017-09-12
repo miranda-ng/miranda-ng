@@ -548,8 +548,8 @@ int TN_ModuleInit()
 		hDisableMenu = Menu_AddMainMenuItem(&mi);
 	}
 
-	Skin_AddSound("TNStart", LPGENW("Instant messages"), LPGENW("Contact started typing"));
-	Skin_AddSound("TNStop", LPGENW("Instant messages"), LPGENW("Contact stopped typing"));
+	SkinAddNewSoundEx("TNStart", LPGEN("Instant messages"), LPGEN("Contact started typing"));
+	SkinAddNewSoundEx("TNStop", LPGEN("Instant messages"), LPGEN("Contact stopped typing"));
 	return 0;
 }
 

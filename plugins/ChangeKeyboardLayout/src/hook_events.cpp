@@ -122,8 +122,8 @@ int ModulesLoaded(WPARAM, LPARAM)
 	ReadPopupOptions();
 
 	// Зарегим звук
-	Skin_AddSound(SND_ChangeLayout, ModuleNameW, LPGENW("Changing Layout"));
-	Skin_AddSound(SND_ChangeCase,   ModuleNameW, LPGENW("Changing Case"));
+	SkinAddNewSoundEx(SND_ChangeLayout, ModuleName, LPGEN("Changing Layout"));
+	SkinAddNewSoundEx(SND_ChangeCase, ModuleName, LPGEN("Changing Case"));
 
 	// Хук на нажатие клавиши
 	kbHook_All = SetWindowsHookEx(WH_KEYBOARD, (HOOKPROC)Keyboard_Hook, NULL, GetCurrentThreadId());

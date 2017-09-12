@@ -119,7 +119,7 @@ static const LPSTR lpcszMailRuDomains[] =
 #define ADV_ICON_BLOGSTATUS_ID               "ADV_ICON_BLOGSTATUS"
 #define ADV_ICON_BLOGSTATUS_STR              LPGEN("Blog status message")
 
-#define MRA_SOUND_NEW_EMAIL                   LPGENW("New E-mail available in Inbox")
+#define MRA_SOUND_NEW_EMAIL                   LPGEN("New E-mail available in Inbox")
 
 #define MAILRU_SERVER_TIME_ZONE              -180 //internal // +0300
 #define MAILRU_CONTACTISTYPING_TIMEOUT       10 //internal

@@ -161,7 +161,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 	}
 	else if (hwndSender != nullptr) {
 		SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
-		Skin_PlaySound("SendMsg");
+		SkinPlaySound("SendMsg");
 	}
 
 	return 0;

@@ -790,7 +790,7 @@ void checkthread(void*)
 			log(L"checkthread: filters checked - positive");
 			///TODO eliminate popups with blank fields
 			showMsg(msgFrom, msgSubject, noteID, strLink);
-			Skin_PlaySound("LotusNotify");
+			SkinPlaySound("LotusNotify");
 		}
 		else {
 			log(L"checkthread: filters checked - negative");
@@ -1728,7 +1728,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	LoadSettings(); //read from db to variables
 
-	Skin_AddSound("LotusNotify", LPGENW("Lotus Notify"), LPGENW("New Lotus document detected"));
+	SkinAddNewSoundExW("LotusNotify", LPGENW("Lotus Notify"), LPGENW("New Lotus document detected"));
 
 	hOptInit = HookEvent(ME_OPT_INITIALISE, LotusNotifyOptInit); //register service to hook option call
 	assert(hOptInit);

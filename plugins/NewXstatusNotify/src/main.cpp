@@ -334,13 +334,13 @@ void PlayChangeSound(MCONTACT hContact, const char *name)
 			//Now make path to IndSound absolute, as it isn't registered
 			wchar_t stzSoundPath[MAX_PATH];
 			PathToAbsoluteW(stzSoundFile, stzSoundPath);
-			Skin_PlaySoundFile(stzSoundPath);
+			SkinPlaySoundFile(stzSoundPath);
 			return;
 		}
 	}
 
 	if (db_get_b(0, "SkinSoundsOff", name, 0) == 0)
-		Skin_PlaySound(name);
+		SkinPlaySound(name);
 }
 
 int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
@@ -1104,10 +1104,10 @@ void InitIcolib()
 void InitSound()
 {
 	for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
-		Skin_AddSound(StatusList[Index(i)].lpzSkinSoundName, LPGENW("Status Notify"), StatusList[Index(i)].lpzSkinSoundDesc);
+		SkinAddNewSoundExW(StatusList[Index(i)].lpzSkinSoundName, LPGENW("Status Notify"), StatusList[Index(i)].lpzSkinSoundDesc);
 
 	for (int i = 0; i <= ID_STATUSEX_MAX; i++)
-		Skin_AddSound(StatusListEx[i].lpzSkinSoundName, LPGENW("Status Notify"), StatusListEx[i].lpzSkinSoundDesc);
+		SkinAddNewSoundExW(StatusListEx[i].lpzSkinSoundName, LPGENW("Status Notify"), StatusListEx[i].lpzSkinSoundDesc);
 }
 
 int InitTopToolbar(WPARAM, LPARAM)

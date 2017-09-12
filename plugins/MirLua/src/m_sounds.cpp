@@ -7,7 +7,16 @@ static int sounds_AddSound(lua_State *L)
 	ptrW section(mir_utf8decodeW(luaL_optstring(L, 3, MODULE)));
 	ptrW filePath(mir_utf8decodeW(lua_tostring(L, 4)));
 
-	int res = Skin_AddSound(name, section, description, filePath, CMLuaScript::GetScriptIdFromEnviroment(L));
+	SKINSOUNDDESCEX ssd = { sizeof(SKINSOUNDDESCEX) };
+	ssd.pszName = name;
+	ssd.dwFlags = SSDF_UNICODE;
+	ssd.pwszDescription = description;
+	ssd.pwszSection = section;
+	ssd.pwszDefaultFile = filePath;
+
+	int hScriptLangpack = CMLuaScript::GetScriptIdFromEnviroment(L);
+
+	INT_PTR res = CallService("Skin/Sounds/AddNew", hScriptLangpack, (LPARAM)&ssd);
 	lua_pushboolean(L, res == 0);
 
 	return 1;
@@ -17,7 +26,7 @@ static int sounds_PlaySound(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
 
-	INT_PTR res = Skin_PlaySound(name);
+	INT_PTR res = SkinPlaySound(name);
 	lua_pushboolean(L, res == 0);
 
 	return 1;
@@ -27,7 +36,7 @@ static int sounds_PlayFile(lua_State *L)
 {
 	ptrW filePath(mir_utf8decodeW(luaL_checkstring(L, 1)));
 
-	INT_PTR res = Skin_PlaySoundFile(filePath);
+	INT_PTR res = SkinPlaySoundFile(filePath);
 	lua_pushboolean(L, res == 0);
 
 	return 1;

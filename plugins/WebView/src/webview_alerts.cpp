@@ -345,7 +345,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					wasAlert = 1;
 
 					// play sound?
-					Skin_PlaySound("webviewalert");
+					SkinPlaySound("webviewalert");
 					//
 					if ((!notpresent)) {
 						if (alertIndex == 0) { // popup
@@ -443,7 +443,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 
 			if (strncmp(tempraw, cachecompare, mir_strlen(tempraw)) != 0) { //lets try this instead
 				// play sound?
-				Skin_PlaySound("webviewalert");
+				SkinPlaySound("webviewalert");
 				// there was an alert
 				wasAlert = 1;
 
@@ -654,7 +654,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				// end write to cache
 				if (strncmp(raw, cachecompare, (mir_strlen(raw))) != 0) { //lets try this instead
 					// play sound?
-					Skin_PlaySound("webviewalert");
+					SkinPlaySound("webviewalert");
 					// there was an alert
 					wasAlert = 1;
 

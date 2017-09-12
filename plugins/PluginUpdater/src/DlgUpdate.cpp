@@ -87,7 +87,7 @@ static void ApplyUpdates(void *param)
 				// interrupt update as we require all components to be updated
 				Netlib_CloseHandle(nlc);
 				PostMessage(hDlg, UM_ERROR, 0, 0);
-				Skin_PlaySound("updatefailed");
+				SkinPlaySound("updatefailed");
 				return;
 			}
 			SetStringText(hwndList, i, TranslateT("Succeeded."));
@@ -121,7 +121,7 @@ static void ApplyUpdates(void *param)
 			}
 		}
 	}
-	Skin_PlaySound("updatecompleted");
+	SkinPlaySound("updatecompleted");
 
 #if MIRANDA_VER < 0x0A00
 	// 4) Change title of clist
@@ -429,7 +429,7 @@ static void DlgUpdateSilent(void *param)
 			if (!DownloadFile(pFileUrl, nlc)) {
 				// interrupt update as we require all components to be updated
 				Netlib_CloseHandle(nlc);
-				Skin_PlaySound("updatefailed");
+				SkinPlaySound("updatefailed");
 				delete &UpdateFiles;
 				return;
 			}
@@ -473,7 +473,7 @@ static void DlgUpdateSilent(void *param)
 		}
 	}
 	delete &UpdateFiles;
-	Skin_PlaySound("updatecompleted");
+	SkinPlaySound("updatecompleted");
 
 #if MIRANDA_VER < 0x0A00
 	// 4) Change title of clist

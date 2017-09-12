@@ -218,8 +218,8 @@ void __cdecl sttCheckStatusThreadProc(void*)
 			}
 		}
 
-		if (timeout) Skin_PlaySound("PingTimeout");
-		if (reply) Skin_PlaySound("PingReply");
+		if (timeout) SkinPlaySound("PingTimeout");
+		if (reply) SkinPlaySound("PingReply");
 
 		if (!get_list_changed()) {
 			upCount = count;

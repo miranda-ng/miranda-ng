@@ -65,7 +65,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 				pcli->pfnAddEvent(&cle);
 				IcoLib_ReleaseIcon(cle.hIcon, 0);
                 db_set_dw(cle.hContact, "UserOnline", "LastEvent", (DWORD)cle.hDbEvent);
-				Skin_PlaySound("UserOnline");
+				SkinPlaySound("UserOnline");
 			}
 		}
 	}
@@ -117,6 +117,6 @@ int LoadUserOnlineModule(void)
 	HookEvent(ME_PROTO_ACK, UserOnlineAck);
 	HookEvent(ME_SYSTEM_MODULESLOADED, UserOnlineModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, UserOnlineAccountsChanged);
-	Skin_AddSound("UserOnline", LPGENW("Alerts"), LPGENW("Online"));
+	SkinAddNewSoundEx("UserOnline", LPGEN("Alerts"), LPGEN("Online"));
 	return 0;
 }

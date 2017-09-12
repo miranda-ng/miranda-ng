@@ -328,7 +328,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA, countdown);
 			SendMessage(hwndDlg, M_UPDATE_COUNTDOWN, 0, countdown);
 		}
-		Skin_PlaySound("AutoShutdown_Countdown");
+		SkinPlaySound("AutoShutdown_Countdown");
 		if (!SetTimer(hwndDlg, 1, 1000, NULL))
 			PostMessage(hwndDlg, M_START_SHUTDOWN, 0, 0);
 
@@ -375,7 +375,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (countdown == 27 || countdown == 24 || countdown == 21 || countdown == 19 ||
 				countdown == 17 || countdown == 15 || countdown == 13 || countdown == 11 ||
 				countdown <= 10)
-				Skin_PlaySound("AutoShutdown_Countdown");
+				SkinPlaySound("AutoShutdown_Countdown");
 		}
 		else KillTimer(hwndDlg, wParam);  /* countdown finished */
 		PostMessage(hwndDlg, M_UPDATE_COUNTDOWN, 0, countdown);
@@ -496,7 +496,7 @@ void InitShutdownSvc(void)
 {
 	/* Shutdown Dialog */
 	hwndShutdownDlg = NULL;
-	Skin_AddSound("AutoShutdown_Countdown", LPGENW("Alerts"), LPGENW("Automatic shutdown countdown"));
+	SkinAddNewSoundExW("AutoShutdown_Countdown", LPGENW("Alerts"), LPGENW("Automatic shutdown countdown"));
 
 	/* Events */
 	hEventOkToShutdown = CreateHookableEvent(ME_AUTOSHUTDOWN_OKTOSHUTDOWN);

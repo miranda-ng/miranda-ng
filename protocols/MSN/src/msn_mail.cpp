@@ -304,7 +304,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 
 	// Disable to notify receiving hotmail
 	if (ShowPopup && !getByte("DisableHotmail", 0)) {
-		Skin_PlaySound(mailsoundname);
+		SkinPlaySound(mailsoundname);
 
 		const char *msgurl = tFileInfo["Message-URL"];
 		if (msgurl) {

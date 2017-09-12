@@ -247,7 +247,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 
 				CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, APF_NEWDATA);
 
-				Skin_PlaySound("buddyExpectatorHide");
+				SkinPlaySound("buddyExpectatorHide");
 			}
 
 	return (daysSinceOnline >= days && (daysSinceMessage == -1 || daysSinceMessage >= days));
@@ -258,7 +258,7 @@ void ReturnNotify(MCONTACT hContact, wchar_t *message)
 	if (db_get_b(hContact, "CList", "NotOnList", 0) == 1 || db_get_b(hContact, "CList", "Hidden", 0) == 1)
 		return;
 
-	Skin_PlaySound("buddyExpectatorReturn");
+	SkinPlaySound("buddyExpectatorReturn");
 
 	if (options.iShowPopup > 0) {
 		// Display Popup
@@ -501,7 +501,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 
 			CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, APF_NEWDATA);
 
-			Skin_PlaySound("buddyExpectatorMissYou");
+			SkinPlaySound("buddyExpectatorMissYou");
 		}
 	}
 
@@ -549,7 +549,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 		if (proto && (db_get_b(hContact, proto, "ChatRoom", 0) == 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) && isContactGoneFor(hContact, options.iAbsencePeriod2) && (db_get_b(hContact, MODULE_NAME, "StillAbsentNotified", 0) == 0))
 		{
 			db_set_b(hContact, MODULE_NAME, "StillAbsentNotified", 1);
-			Skin_PlaySound("buddyExpectatorStillAbsent");
+			SkinPlaySound("buddyExpectatorStillAbsent");
 
 			wchar_t* message = TranslateT("has not returned after a long absence.");
 			time_t tmpTime;
@@ -593,10 +593,10 @@ int ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_USERINFO_INITIALISE, UserinfoInit);
 
 	// add sounds support
-	Skin_AddSound("buddyExpectatorReturn", LPGENW("BuddyExpectator"), LPGENW("Contact returned"));
-	Skin_AddSound("buddyExpectatorStillAbsent", LPGENW("BuddyExpectator"), LPGENW("Contact still absent"));
-	Skin_AddSound("buddyExpectatorMissYou", LPGENW("BuddyExpectator"), LPGENW("Miss you event"));
-	Skin_AddSound("buddyExpectatorHide", LPGENW("BuddyExpectator"), LPGENW("Hide contact event"));
+	SkinAddNewSoundExW("buddyExpectatorReturn", LPGENW("BuddyExpectator"), LPGENW("Contact returned"));
+	SkinAddNewSoundExW("buddyExpectatorStillAbsent", LPGENW("BuddyExpectator"), LPGENW("Contact still absent"));
+	SkinAddNewSoundExW("buddyExpectatorMissYou", LPGENW("BuddyExpectator"), LPGENW("Miss you event"));
+	SkinAddNewSoundExW("buddyExpectatorHide", LPGENW("BuddyExpectator"), LPGENW("Hide contact event"));
 
 	timer_id = SetTimer(0, 0, 1000 * 60 * 60 * 4, TimerProc); // check every 4 hours
 

@@ -663,7 +663,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 			pcli->pfnAddEvent(&cle);
 		}
 
-		Skin_PlaySound(szNewMailSound);
+		SkinPlaySound(szNewMailSound);
 		if (hContact) {// update user info
 			MraUpdateContactInfo(hContact);
 			MraPopupShowFromContactW(hContact, MRA_POPUP_TYPE_EMAIL_STATUS, szStatusText);

@@ -1120,12 +1120,12 @@ void FacebookProto::InitHotkeys()
  */
 void FacebookProto::InitSounds()
 {
-	Skin_AddSound("Notification", m_tszUserName, LPGENW("Notification"));
-	Skin_AddSound("NewsFeed", m_tszUserName, LPGENW("Newsfeed event"));
-	Skin_AddSound("OtherEvent", m_tszUserName, LPGENW("Other event"));
-	Skin_AddSound("Friendship", m_tszUserName, LPGENW("Friendship event"));
-	Skin_AddSound("Ticker", m_tszUserName, LPGENW("Ticker event"));
-	Skin_AddSound("Memories", m_tszUserName, LPGENW("Memories"));
+	SkinAddNewSoundExW("Notification", m_tszUserName, LPGENW("Notification"));
+	SkinAddNewSoundExW("NewsFeed", m_tszUserName, LPGENW("Newsfeed event"));
+	SkinAddNewSoundExW("OtherEvent", m_tszUserName, LPGENW("Other event"));
+	SkinAddNewSoundExW("Friendship", m_tszUserName, LPGENW("Friendship event"));
+	SkinAddNewSoundExW("Ticker", m_tszUserName, LPGENW("Ticker event"));
+	SkinAddNewSoundExW("Memories", m_tszUserName, LPGENW("Memories"));
 }
 
 /**

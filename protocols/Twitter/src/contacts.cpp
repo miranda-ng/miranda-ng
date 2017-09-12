@@ -249,7 +249,7 @@ MCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
 
 			std::string url = profile_base_url("https://twitter.com/") + http::url_encode(name);
 			setString(hContact, "Homepage", url.c_str());
-			Skin_PlaySound("TwitterNewContact");
+			SkinPlaySound("TwitterNewContact");
 			DBVARIANT dbv;
 			if (!getWString(TWITTER_KEY_GROUP, &dbv)) {
 				db_set_ws(hContact, "CList", "Group", dbv.ptszVal);

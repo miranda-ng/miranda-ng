@@ -718,7 +718,7 @@ void CMsnProto::MSN_ProcessNotificationMessage(char* buf, size_t len)
 		mir_snprintf((fullurl + sz), (_countof(fullurl) - sz), "notification_id=%s&message_id=%s",
 			ezxml_attr(xmlnot, "id"), ezxml_attr(xmlmsg, "id"));
 
-		Skin_PlaySound(alertsoundname);
+		SkinPlaySound(alertsoundname);
 
 		wchar_t* alrt = mir_utf8decodeW(ezxml_txt(xmltxt));
 		MSN_ShowPopup(TranslateT("MSN Alert"), alrt, MSN_ALERT_POPUP | MSN_ALLOW_MSGBOX, fullurl);

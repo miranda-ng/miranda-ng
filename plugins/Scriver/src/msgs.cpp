@@ -106,7 +106,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	/* does a window for the contact exist? */
 	if (hwnd == nullptr) {
 		/* new message */
-		Skin_PlaySound("AlertMsg");
+		SkinPlaySound("AlertMsg");
 		if (IsAutoPopup(hContact)) {
 			(new CSrmmWindow(hContact, true))->Show();
 			return 0;
@@ -188,7 +188,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 
 	hContact = db_mc_tryMeta(hContact);
 
-	Skin_PlaySound((lParam) ? "TNStart" : "TNStop");
+	SkinPlaySound((lParam) ? "TNStart" : "TNStop");
 
 	HWND hwnd = Srmm_FindWindow(hContact);
 	if (hwnd)
@@ -647,12 +647,12 @@ int OnLoadModule(void)
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommandW);
 	CreateServiceFunction(MS_MSG_TYPINGMESSAGE, TypingMessageCommand);
 
-	Skin_AddSound("RecvMsgActive", LPGENW("Instant messages"), LPGENW("Incoming (focused window)"));
-	Skin_AddSound("RecvMsgInactive", LPGENW("Instant messages"), LPGENW("Incoming (unfocused window)"));
-	Skin_AddSound("AlertMsg", LPGENW("Instant messages"), LPGENW("Incoming (new session)"));
-	Skin_AddSound("SendMsg", LPGENW("Instant messages"), LPGENW("Outgoing"));
-	Skin_AddSound("TNStart", LPGENW("Instant messages"), LPGENW("Contact started typing"));
-	Skin_AddSound("TNStop", LPGENW("Instant messages"), LPGENW("Contact stopped typing"));
+	SkinAddNewSoundEx("RecvMsgActive", LPGEN("Instant messages"), LPGEN("Incoming (focused window)"));
+	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (unfocused window)"));
+	SkinAddNewSoundEx("AlertMsg", LPGEN("Instant messages"), LPGEN("Incoming (new session)"));
+	SkinAddNewSoundEx("SendMsg", LPGEN("Instant messages"), LPGEN("Outgoing"));
+	SkinAddNewSoundEx("TNStart", LPGEN("Instant messages"), LPGEN("Contact started typing"));
+	SkinAddNewSoundEx("TNStop", LPGEN("Instant messages"), LPGEN("Contact stopped typing"));
 
 	hDragCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DRAGCURSOR));
 

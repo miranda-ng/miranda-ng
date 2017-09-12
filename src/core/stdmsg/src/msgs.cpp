@@ -72,18 +72,18 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 			ShowWindow(hwnd, SW_RESTORE);
 			SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 			SetForegroundWindow(hwnd);
-			Skin_PlaySound("RecvMsgActive");
+			SkinPlaySound("RecvMsgActive");
 		}
 		else {
 			if (GetForegroundWindow() == GetParent(hwnd))
-				Skin_PlaySound("RecvMsgActive");
+				SkinPlaySound("RecvMsgActive");
 			else
-				Skin_PlaySound("RecvMsgInactive");
+				SkinPlaySound("RecvMsgInactive");
 		}
 		return 0;
 	}
 	/* new message */
-	Skin_PlaySound("AlertMsg");
+	SkinPlaySound("AlertMsg");
 
 	char *szProto = GetContactProto(hContact);
 	if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0)))) {
@@ -164,7 +164,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 
 	hContact = db_mc_tryMeta(hContact);
 
-	Skin_PlaySound((lParam) ? "TNStart" : "TNStop");
+	SkinPlaySound((lParam) ? "TNStart" : "TNStop");
 
 	HWND hwnd = Srmm_FindWindow(hContact);
 	if (hwnd)
@@ -511,13 +511,13 @@ int LoadSendRecvMessageModule(void)
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
 	CreateServiceFunction(MS_MSG_READMESSAGE, ReadMessageCommand);
 
-	Skin_AddSound("RecvMsgActive",   LPGENW("Instant messages"), LPGENW("Incoming (focused window)"));
-	Skin_AddSound("RecvMsgInactive", LPGENW("Instant messages"), LPGENW("Incoming (unfocused window)"));
-	Skin_AddSound("AlertMsg",        LPGENW("Instant messages"), LPGENW("Incoming (new session)"));
-	Skin_AddSound("SendMsg",         LPGENW("Instant messages"), LPGENW("Outgoing"));
-	Skin_AddSound("SendError",       LPGENW("Instant messages"), LPGENW("Message send error"));
-	Skin_AddSound("TNStart",         LPGENW("Instant messages"), LPGENW("Contact started typing"));
-	Skin_AddSound("TNStop",          LPGENW("Instant messages"), LPGENW("Contact stopped typing"));
+	SkinAddNewSoundEx("RecvMsgActive", LPGEN("Instant messages"), LPGEN("Incoming (focused window)"));
+	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (unfocused window)"));
+	SkinAddNewSoundEx("AlertMsg", LPGEN("Instant messages"), LPGEN("Incoming (new session)"));
+	SkinAddNewSoundEx("SendMsg", LPGEN("Instant messages"), LPGEN("Outgoing"));
+	SkinAddNewSoundEx("SendError", LPGEN("Instant messages"), LPGEN("Message send error"));
+	SkinAddNewSoundEx("TNStart", LPGEN("Instant messages"), LPGEN("Contact started typing"));
+	SkinAddNewSoundEx("TNStop", LPGEN("Instant messages"), LPGEN("Contact stopped typing"));
 
 	InitStatusIcons();
 	return 0;

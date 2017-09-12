@@ -78,7 +78,7 @@ void InitSelfSounds()
 
 			wchar_t infobuf[256];
 			mir_snwprintf(infobuf, L"%s [%s]", TranslateT("Self status"), protos[i]->tszAccountName);
-			Skin_AddSound(namebuf, infobuf, pcli->pfnGetStatusModeDescription(selfSounds[j].iStatus, 0));
+			SkinAddNewSoundExW(namebuf, infobuf, pcli->pfnGetStatusModeDescription(selfSounds[j].iStatus, 0));
 		}
 	}
 }
@@ -91,7 +91,7 @@ static int ProtoAck(WPARAM, LPARAM lParam)
 			if (selfSounds[i].iStatus == ack->lParam) {
 				char buf[128];
 				mir_snprintf(buf, "%s%s", ack->szModule, selfSounds[i].szName);
-				Skin_PlaySound(buf);
+				SkinPlaySound(buf);
 				break;
 			}
 		}
@@ -121,7 +121,7 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 		wchar_t PlaySoundPath[MAX_PATH] = { 0 };
 		PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
 		isOwnSound = 0;
-		Skin_PlaySoundFile(PlaySoundPath);
+		SkinPlaySoundFile(PlaySoundPath);
 		db_free(&dbv);
 		isOwnSound = 1;
 		return 0;
@@ -138,7 +138,7 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 		wchar_t PlaySoundPath[MAX_PATH] = { 0 };
 		PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
 		isAccSound = 0;
-		Skin_PlaySoundFile(PlaySoundPath);
+		SkinPlaySoundFile(PlaySoundPath);
 		db_free(&dbv);
 		isAccSound = 1;
 	}
@@ -168,7 +168,7 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 				wchar_t PlaySoundPath[MAX_PATH] = { 0 };
 				PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
 				isOwnSound = 0;
-				Skin_PlaySoundFile(PlaySoundPath);
+				SkinPlaySoundFile(PlaySoundPath);
 				db_free(&dbv);
 				isOwnSound = 1;
 				return 0;
@@ -184,7 +184,7 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 				wchar_t PlaySoundPath[MAX_PATH] = { 0 };
 				PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
 				isAccSound = 0;
-				Skin_PlaySoundFile(PlaySoundPath);
+				SkinPlaySoundFile(PlaySoundPath);
 				db_free(&dbv);
 				isAccSound = 1;
 			}

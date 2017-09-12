@@ -226,8 +226,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitServices();
 
 	// add sound event
-	Skin_AddSound("weatherupdated", _A2W(WEATHERPROTONAME), LPGENW("Weather Condition Changed"));
-	Skin_AddSound("weatheralert", _A2W(WEATHERPROTONAME), LPGENW("Weather Alert Issued"));
+	SkinAddNewSoundExW("weatherupdated", _A2W(WEATHERPROTONAME), LPGENW("Weather Condition Changed"));
+	SkinAddNewSoundExW("weatheralert", _A2W(WEATHERPROTONAME), LPGENW("Weather Alert Issued"));
 
 	// window needed for popup commands
 	wchar_t SvcFunc[100];

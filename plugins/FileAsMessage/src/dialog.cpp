@@ -450,7 +450,7 @@ void FILEECHO::incomeRequest(char *param)
 	setState(STATE_PRERECV);
 	inSend = FALSE;
 
-	Skin_PlaySound("RecvFile");
+	SkinPlaySound("RecvFile");
 	int AutoMin = db_get_b(NULL, "SRFile", "AutoMin", 0);
 	if (db_get_b(NULL, "SRFile", "AutoAccept", 0) && !db_get_b(hContact, "CList", "NotOnList", 0))
 	{
@@ -548,7 +548,7 @@ void FILEECHO::onRecvTimer()
 			PostMessage(hDlg, WM_CLOSE, 0, 0);
 			pcli->pfnRemoveEvent(hContact, 0);
 		}
-		Skin_PlaySound("FileDone");
+		SkinPlaySound("FileDone");
 		destroyTransfer();
 		buffer[0] = 'x'; buffer[1] = 0;
 	}
@@ -719,7 +719,7 @@ void FILEECHO::cmdDACK(char *param)
 		char *msg = Translate("Sent successfully");
 		SetDlgItemText(hDlg, IDC_STATUS, msg);
 
-		Skin_PlaySound("FileDone");
+		SkinPlaySound("FileDone");
 		destroyTransfer();
 		MakePopupMsg(hDlg, hContact, msg);
 		setState(STATE_FINISHED);

@@ -69,11 +69,11 @@ void CGlobals::reloadSystemStartup()
 	PluginConfig.g_hMenuContext = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_TABCONTEXT));
 	TranslateMenu(g_hMenuContext);
 
-	Skin_AddSound("RecvMsgActive",   LPGENW("Instant messages"), LPGENW("Incoming (focused window)"));
-	Skin_AddSound("RecvMsgInactive", LPGENW("Instant messages"), LPGENW("Incoming (unfocused window)"));
-	Skin_AddSound("AlertMsg",        LPGENW("Instant messages"), LPGENW("Incoming (new session)"));
-	Skin_AddSound("SendMsg",         LPGENW("Instant messages"), LPGENW("Outgoing"));
-	Skin_AddSound("SendError",       LPGENW("Instant messages"), LPGENW("Message send error"));
+	SkinAddNewSoundEx("RecvMsgActive", LPGEN("Instant messages"), LPGEN("Incoming (focused window)"));
+	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (unfocused window)"));
+	SkinAddNewSoundEx("AlertMsg", LPGEN("Instant messages"), LPGEN("Incoming (new session)"));
+	SkinAddNewSoundEx("SendMsg", LPGEN("Instant messages"), LPGEN("Outgoing"));
+	SkinAddNewSoundEx("SendError", LPGEN("Instant messages"), LPGEN("Message send error"));
 
 	hCurSplitNS = LoadCursor(nullptr, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(nullptr, IDC_SIZEWE);
@@ -212,7 +212,7 @@ void CGlobals::reloadAdv()
 	m_bDontUseDefaultKbd = M.GetBool("adv_leaveKeyboardAlone", true);
 
 	if (m_bSoundOnTyping && m_TypingSoundAdded == false) {
-		Skin_AddSound("SoundOnTyping", LPGENW("Other"), LPGENW("TabSRMM: typing"));
+		SkinAddNewSoundEx("SoundOnTyping", LPGEN("Other"), LPGEN("TabSRMM: typing"));
 		m_TypingSoundAdded = true;
 	}
 	m_bAllowOfflineMultisend = M.GetBool("AllowOfflineMultisend", true);

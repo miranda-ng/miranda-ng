@@ -1162,9 +1162,9 @@ void CTabBaseDlg::PlayIncomingSound() const
 	int iPlay = MustPlaySound();
 	if (iPlay) {
 		if (GetForegroundWindow() == m_pContainer->m_hwnd && m_pContainer->m_hwndActive == m_hwnd)
-			Skin_PlaySound("RecvMsgActive");
+			SkinPlaySound("RecvMsgActive");
 		else
-			Skin_PlaySound("RecvMsgInactive");
+			SkinPlaySound("RecvMsgInactive");
 	}
 }
 

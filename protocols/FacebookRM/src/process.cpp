@@ -695,7 +695,7 @@ void FacebookProto::ProcessMemories(void *p)
 			parseFeeds(html, news, new_time, true);
 
 			if (!news.empty()) {
-				Skin_PlaySound("Memories");
+				SkinPlaySound("Memories");
 			}
 
 			numMemories = news.size();
@@ -1176,7 +1176,7 @@ void FacebookProto::ProcessFeeds(void *p)
 	parseFeeds(resp.data, news, new_time, filterAds);
 
 	if (!news.empty()) {
-		Skin_PlaySound("NewsFeed");
+		SkinPlaySound("NewsFeed");
 	}
 
 	if (manuallyTriggered) {

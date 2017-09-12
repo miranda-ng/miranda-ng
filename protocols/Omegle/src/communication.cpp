@@ -555,7 +555,7 @@ bool Omegle_client::events()
 			}
 			else if (name == "typing" || name == "spyTyping") {
 				// Stranger is typing, not supported by chat module yet
-				Skin_PlaySound("StrangerTyp");
+				SkinPlaySound("StrangerTyp");
 
 				ptrW who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_wstrdup(L"Stranger"));
 				Srmm_SetStatusText(parent->GetChatHandle(), 
@@ -564,7 +564,7 @@ bool Omegle_client::events()
 			}
 			else if (name == "stoppedTyping" || name == "spyStoppedTyping") {
 				// Stranger stopped typing, not supported by chat module yet
-				Skin_PlaySound("StrangerTypStop");
+				SkinPlaySound("StrangerTypStop");
 
 				ptrW who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_wstrdup(L"Stranger"));
 				Srmm_SetStatusText(parent->GetChatHandle(), 
@@ -575,7 +575,7 @@ bool Omegle_client::events()
 				Srmm_SetStatusText(parent->GetChatHandle(), nullptr);
 
 				// Play sound as we received message
-				Skin_PlaySound("StrangerMessage");
+				SkinPlaySound("StrangerMessage");
 
 				if (state_ == STATE_ACTIVE) {
 					ptrW msg(json_as_string(json_at(item, 1)));
@@ -586,7 +586,7 @@ bool Omegle_client::events()
 				Srmm_SetStatusText(parent->GetChatHandle(), nullptr);
 
 				// Play sound as we received message
-				Skin_PlaySound("StrangerMessage");
+				SkinPlaySound("StrangerMessage");
 
 				if (state_ == STATE_SPY) {
 					ptrW stranger(json_as_string(json_at(item, 1)));
@@ -600,7 +600,7 @@ bool Omegle_client::events()
 				// Stranger disconnected
 				if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
 				{
-					Skin_PlaySound("StrangerChange");
+					SkinPlaySound("StrangerChange");
 					parent->NewChat();
 				}
 				else
@@ -618,7 +618,7 @@ bool Omegle_client::events()
 				// Stranger disconnected
 				if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
 				{
-					Skin_PlaySound("StrangerChange");
+					SkinPlaySound("StrangerChange");
 					parent->NewChat();
 				}
 				else

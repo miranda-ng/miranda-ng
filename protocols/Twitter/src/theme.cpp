@@ -33,8 +33,8 @@ static IconItem icons[] =
 
 void TwitterInitSounds(void)
 {
-	Skin_AddSound("TwitterNewContact", LPGENW("Twitter"), LPGENW("First tweet from new contact"));
-	Skin_AddSound("TwitterNew",        LPGENW("Twitter"), LPGENW("New tweet"));
+	SkinAddNewSoundEx("TwitterNewContact", LPGEN("Twitter"), LPGEN("First tweet from new contact"));
+	SkinAddNewSoundEx("TwitterNew", LPGEN("Twitter"), LPGEN("New tweet"));
 }
 
 // TODO: uninit

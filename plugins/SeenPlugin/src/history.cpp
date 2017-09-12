@@ -297,7 +297,7 @@ void ShowHistory(MCONTACT hContact, BYTE isAlert)
 	}
 
 	if (isAlert)
-		Skin_PlaySound("LastSeenTrackedStatusChange");
+		SkinPlaySound("LastSeenTrackedStatusChange");
 }
 
 void InitHistoryDialog(void)

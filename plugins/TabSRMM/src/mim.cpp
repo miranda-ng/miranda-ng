@@ -238,7 +238,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 	else fShowOnClist = false;
 
 	if ((!foundWin || !(pContainer->dwFlags & CNT_NOSOUND)) && preTyping != (mode != 0))
-		Skin_PlaySound(mode ? "TNStart" : "TNStop");
+		SkinPlaySound(mode ? "TNStart" : "TNStop");
 
 	if (M.GetByte(SRMSGMOD, "ShowTypingPopup", 0)) {
 		BOOL fShow = false;
@@ -447,7 +447,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	// if no window is open, we are not interested in anything else but unread message events
 	// new message
 	if (!nen_options.iNoSounds)
-		Skin_PlaySound("AlertMsg");
+		SkinPlaySound("AlertMsg");
 
 	if (nen_options.iNoAutoPopup)
 		goto nowindowcreate;
