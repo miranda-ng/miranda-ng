@@ -21,14 +21,12 @@ private:
 	wchar_t filePath[MAX_PATH];
 	Status status;
 
-
 public:
 	CMLuaScript(lua_State *L, const wchar_t *path);
 	~CMLuaScript();
 
 	static CMLuaScript* GetScriptFromEnviroment(lua_State *L);
 	static int GetScriptIdFromEnviroment(lua_State *L);
-	static bool GetEnviroment(lua_State *L);
 
 	int GetId() const;
 

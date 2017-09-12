@@ -2,6 +2,8 @@
 
 static int db_FindFirstContact(lua_State *L)
 {
+	ObsoleteMethod(L, "Use Contacts method");
+
 	const char *szProto = lua_tostring(L, 1);
 
 	MCONTACT res = db_find_first(szProto);
@@ -12,6 +14,8 @@ static int db_FindFirstContact(lua_State *L)
 
 static int db_FindNextContact(lua_State *L)
 {
+	ObsoleteMethod(L, "Use Contacts method");
+
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 	const char *szProto = lua_tostring(L, 2);
 
@@ -24,11 +28,11 @@ static int db_FindNextContact(lua_State *L)
 static int db_ContactIterator(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, lua_upvalueindex(1));
-	const char *szProto = lua_tostring(L, lua_upvalueindex(2));
+	const char *szModule = lua_tostring(L, lua_upvalueindex(2));
 
 	hContact = hContact == NULL
-		? db_find_first(szProto)
-		: db_find_next(hContact, szProto);
+		? db_find_first(szModule)
+		: db_find_next(hContact, szModule);
 
 	if (hContact)
 	{
@@ -44,10 +48,27 @@ static int db_ContactIterator(lua_State *L)
 
 static int db_Contacts(lua_State *L)
 {
-	const char *szProto = lua_tostring(L, 1);
+	const char *szModule = NULL;
+
+	switch (lua_type(L, 1))
+	{
+	case LUA_TNONE:
+		break;
+	case LUA_TSTRING:
+		szModule = lua_tostring(L, 1);
+		break;
+	case LUA_TUSERDATA:
+	{
+		PROTOACCOUNT **pa = (PROTOACCOUNT**)luaL_checkudata(L, 1, MT_PROTOACCOUNT);
+		szModule = (*pa)->szModuleName;
+		break;
+	}
+	default:
+		luaL_argerror(L, 1, luaL_typename(L, 1));
+	}
 
 	lua_pushinteger(L, 0);
-	lua_pushstring(L, szProto);
+	lua_pushstring(L, szModule);
 	lua_pushcclosure(L, db_ContactIterator, 2);
 
 	return 1;
@@ -493,6 +514,7 @@ static int db_WriteSetting(lua_State *L)
 	MCONTACT hContact = lua_tointeger(L, 1);
 	LPCSTR szModule = luaL_checkstring(L, 2);
 	LPCSTR szSetting = luaL_checkstring(L, 3);
+	luaL_checkany(L, 4);
 
 	DBVARIANT dbv = { 0 };
 	if (lua_isnoneornil(L, 5))
@@ -675,14 +697,16 @@ int MT<DBCONTACTWRITESETTING>::Index(lua_State *L, DBCONTACTWRITESETTING *dbcw)
 #define MT_DBEVENTINFO "DBEVENTINFO"
 
 template <>
-void MT<DBEVENTINFO>::Init(lua_State *L, DBEVENTINFO **dbei)
+DBEVENTINFO* MT<DBEVENTINFO>::Init(lua_State *L)
 {
 	MEVENT hDbEvent = luaL_checkinteger(L, 1);
 
-	*dbei = (DBEVENTINFO*)mir_calloc(sizeof(DBEVENTINFO));
-	(*dbei)->cbBlob = db_event_getBlobSize((MEVENT)hDbEvent);
-	(*dbei)->pBlob = (PBYTE)mir_calloc((*dbei)->cbBlob);
-	db_event_get((MEVENT)hDbEvent, (*dbei));
+	DBEVENTINFO* dbei = (DBEVENTINFO*)mir_calloc(sizeof(DBEVENTINFO));
+	dbei->cbBlob = db_event_getBlobSize((MEVENT)hDbEvent);
+	dbei->pBlob = (PBYTE)mir_calloc(dbei->cbBlob);
+	db_event_get((MEVENT)hDbEvent, dbei);
+
+	return dbei;
 }
 
 template <>

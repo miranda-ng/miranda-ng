@@ -43,7 +43,7 @@ static int hotkeys_Register(lua_State *L)
 
 	int hScriptLangpack = CMLuaScript::GetScriptIdFromEnviroment(L);
 
-	INT_PTR res = ::CallService("CoreHotkeys/Register", (WPARAM)hScriptLangpack, (LPARAM)&hk);
+	INT_PTR res = Hotkey_Register(&hk, hScriptLangpack);
 	lua_pushboolean(L, res);
 
 	return 1;

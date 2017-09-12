@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#define SCRIPT "Script"
+#define MT_SCRIPT "SCRIPT"
 
 CMLuaScript::CMLuaScript(lua_State *L, const wchar_t *path)
 	: L(L), status(None), unloadRef(LUA_NOREF)
@@ -26,31 +26,12 @@ CMLuaScript::~CMLuaScript()
 	mir_free(moduleName);
 }
 
-bool CMLuaScript::GetEnviroment(lua_State *L)
-{
-	lua_Debug ar;
-	if (lua_getstack(L, 1, &ar) == 0 || lua_getinfo(L, "f", &ar) == 0 || lua_iscfunction(L, -1))
-	{
-		lua_pop(L, 1);
-		return false;
-	}
-
-	const char *env = lua_getupvalue(L, -1, 1);
-	if (!env || mir_strcmp(env, "_ENV") != 0)
-	{
-		lua_pop(L, 1);
-		return false;
-	}
-
-	return true;
-}
-
 CMLuaScript* CMLuaScript::GetScriptFromEnviroment(lua_State *L)
 {
-	if (!GetEnviroment(L))
+	if (!luaM_getenv(L))
 		return NULL;
 
-	lua_getfield(L, -1, SCRIPT);
+	lua_rawgeti(L, -1, NULL);
 	CMLuaScript *script = (CMLuaScript*)lua_touserdata(L, -1);
 	lua_pop(L, 3);
 
@@ -101,12 +82,14 @@ bool CMLuaScript::Load()
 		return false;
 	}
 
-	lua_createtable(L, 0, 2);
+	lua_createtable(L, 1, 1);
+	lua_pushlightuserdata(L, this);
+	lua_rawseti(L, -2, NULL);
 	lua_pushvalue(L, -1);
 	lua_setfield(L, -2, "_G");
-	lua_pushlightuserdata(L, this);
-	lua_setfield(L, -2, "Script");
 	lua_createtable(L, 0, 2);
+	lua_pushliteral(L, MT_SCRIPT);
+	lua_setfield(L, -2, "__metatable");
 	lua_getglobal(L, "_G");
 	lua_setfield(L, -2, "__index");
 	lua_setmetatable(L, -2);

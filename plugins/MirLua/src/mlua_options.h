@@ -1,6 +1,8 @@
 #ifndef _LUA_OPTIONS_H_
 #define _LUA_OPTIONS_H_
 
+#include <m_gui.h>
+
 class CCtrlScriptList : public CCtrlListView
 {
 private:

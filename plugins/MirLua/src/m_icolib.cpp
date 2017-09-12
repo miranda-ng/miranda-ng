@@ -1,35 +1,117 @@
 #include "stdafx.h"
 
-static int icolib_AddIcon(lua_State *L)
+static void MakeSKINICONDESC(lua_State *L, SKINICONDESC &sid)
 {
-	const char *name = luaL_checkstring(L, 1);
-	ptrW description(mir_utf8decodeW(luaL_checkstring(L, 2)));
-	ptrW section(mir_utf8decodeW(luaL_optstring(L, 3, MODULE)));
-	ptrW filePath(mir_utf8decodeW(lua_tostring(L, 4)));
+	lua_getfield(L, -1, "Flags");
+	sid.flags = lua_tointeger(L, -1);
+	lua_pop(L, 1);
 
-	if (filePath == NULL)
+	if (!(sid.flags & SIDF_ALL_UNICODE))
+		sid.flags |= SIDF_ALL_UNICODE;
+
+	lua_getfield(L, -1, "Name");
+	sid.pszName = mir_utf8decodeA(luaL_checkstring(L, -1));
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "Description");
+	sid.description.w = mir_utf8decodeW(luaL_checkstring(L, -1));
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "Section");
+	sid.section.w = mir_utf8decodeW(luaL_optstring(L, 3, MODULE));
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "DefaultFile");
+	sid.defaultFile.w = mir_utf8decodeW(lua_tostring(L, -1));
+	lua_pop(L, 1);
+
+	if (sid.defaultFile.w == NULL)
 	{
-		filePath = (wchar_t*)mir_calloc(MAX_PATH + 1);
-		GetModuleFileName(g_hInstance, filePath, MAX_PATH);
+		sid.defaultFile.w = (wchar_t*)mir_calloc(MAX_PATH + 1);
+		GetModuleFileName(g_hInstance, sid.defaultFile.w, MAX_PATH);
 	}
 
-	SKINICONDESC si = { 0 };
-	si.flags = SIDF_ALL_UNICODE;
-	si.pszName = mir_utf8decodeA(name);
-	si.description.w = description;
-	si.section.w = section;
-	si.defaultFile.w = filePath;
-	si.hDefaultIcon = GetIcon(IDI_SCRIPT);
+	lua_getfield(L, -1, "DefaultIndex");
+	sid.iDefaultIndex = lua_tointeger(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "DefaultIcon");
+	sid.hDefaultIcon = (HICON)lua_touserdata(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "SizeX");
+	sid.iDefaultIndex = lua_tointeger(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "SizeY");
+	sid.iDefaultIndex = lua_tointeger(L, -1);
+	lua_pop(L, 1);
+}
+
+static int lua_AddIcon(lua_State *L)
+{
+	SKINICONDESC sid;
+
+	if (lua_type(L, 1) == LUA_TSTRING)
+	{
+		sid.flags = SIDF_ALL_UNICODE;
+		sid.pszName = mir_utf8decodeA(luaL_checkstring(L, 1));
+		sid.description.w = mir_utf8decodeW(luaL_checkstring(L, 2));
+		sid.section.w = mir_utf8decodeW(luaL_optstring(L, 3, MODULE));
+		sid.defaultFile.w = mir_utf8decodeW(lua_tostring(L, 4));
+		sid.hDefaultIcon = GetIcon(IDI_SCRIPT);
+
+		if (sid.defaultFile.w == NULL)
+		{
+			sid.defaultFile.w = (wchar_t*)mir_calloc(MAX_PATH + 1);
+			GetModuleFileName(g_hInstance, sid.defaultFile.w, MAX_PATH);
+		}
+	}
+	else if(lua_type(L, 1) == LUA_TTABLE)
+		MakeSKINICONDESC(L, sid);
+	else
+		luaL_argerror(L, 1, luaL_typename(L, 1));
 
 	int hScriptLangpack = CMLuaScript::GetScriptIdFromEnviroment(L);
 
-	HANDLE res = IcoLib_AddIcon(&si, hScriptLangpack);
+	HANDLE res = IcoLib_AddIcon(&sid, hScriptLangpack);
 	lua_pushlightuserdata(L, res);
+
+	mir_free((void*)sid.pszName);
+	mir_free((void*)sid.description.w);
+	mir_free((void*)sid.section.w);
+	mir_free((void*)sid.defaultFile.w);
 
 	return 1;
 }
 
-static int icolib_GetIcon(lua_State *L)
+static int lua_GetIcon(lua_State *L)
+{
+	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
+	bool big = luaM_toboolean(L, 2);
+
+	HICON hIcon = NULL;
+	switch (lua_type(L, 1))
+	{
+	case LUA_TLIGHTUSERDATA:
+		hIcon = IcoLib_GetIconByHandle(lua_touserdata(L, 1), big);
+		break;
+	case LUA_TSTRING:
+		hIcon = IcoLib_GetIcon(lua_tostring(L, 1), big);
+		break;
+	default:
+		luaL_argerror(L, 1, luaL_typename(L, 1));
+	}
+
+	if (hIcon)
+		lua_pushlightuserdata(L, hIcon);
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+static int lua_GetIconHandle(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
 
@@ -39,21 +121,29 @@ static int icolib_GetIcon(lua_State *L)
 	return 1;
 }
 
-static int icolib_RemoveIcon(lua_State *L)
+static int lua_RemoveIcon(lua_State *L)
 {
-	if (lua_isuserdata(L, 1))
+	switch (lua_type(L, 1))
+	{
+	case LUA_TLIGHTUSERDATA:
 		IcoLib_RemoveIconByHandle(lua_touserdata(L, 1));
-	else if (lua_isstring(L, 1))
+		break;
+	case LUA_TSTRING:
 		IcoLib_RemoveIcon(luaL_checkstring(L, 1));
+		break;
+	default:
+		luaL_argerror(L, 1, luaL_typename(L, 1));
+	}
 
 	return 0;
 }
 
 static luaL_Reg icolibApi[] =
 {
-	{ "AddIcon", icolib_AddIcon },
-	{ "GetIcon", icolib_GetIcon },
-	{ "RemoveIcon", icolib_RemoveIcon },
+	{ "AddIcon", lua_AddIcon },
+	{ "GetIcon", lua_GetIcon },
+	{ "GetIconHandle", lua_GetIconHandle },
+	{ "RemoveIcon", lua_RemoveIcon },
 
 	{ NULL, NULL }
 };

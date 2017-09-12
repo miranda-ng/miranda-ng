@@ -1,6 +1,7 @@
 #ifndef _LUA_METATABLE_H_
 #define _LUA_METATABLE_H_
 
+#include <map>
 #include <cstddef>
 #include <functional>
 
@@ -17,6 +18,7 @@ union MTFieldVal
 	const char *string;
 	const char *stringA;
 	const wchar_t *stringW;
+	lua_CFunction function;
 };
 
 struct MTField
@@ -24,7 +26,6 @@ struct MTField
 	int lua_type;
 	MTFieldVal val;
 };
-
 
 class CMTField
 {
@@ -50,6 +51,21 @@ public:
 	}
 };
 
+class CMTFieldFunction : public CMTField
+{
+	lua_CFunction func;
+public:
+
+	CMTFieldFunction(lua_CFunction f) : func(f) {}
+
+	virtual MTField GetValue(void *obj)
+	{
+		MTField tmp = { LUA_TFUNCTION };
+		tmp.val.function = func;
+		return tmp;
+	}
+};
+
 template <typename Obj>
 class CMTFieldLambda : public CMTField
 {
@@ -67,7 +83,6 @@ public:
 	}
 };
 
-
 template<typename T>
 class MT
 {
@@ -77,10 +92,10 @@ private:
 	static const char *name;
 	static std::map<std::string, CMTField*> fields;
 
-	static void Init(lua_State *L, T **obj)
+	static T* Init(lua_State *L)
 	{
 		luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
-		*obj = (T*)lua_touserdata(L, 1);
+		return (T*)lua_touserdata(L, 1);
 	}
 
 	static int Index(lua_State *L, T* /*obj*/)
@@ -97,24 +112,13 @@ private:
 	static int lua__new(lua_State *L)
 	{
 		T **udata = (T**)lua_newuserdata(L, sizeof(T*));
-		Init(L, udata);
+		*udata = Init(L);
 		if (*udata == NULL)
 		{
 			lua_pushnil(L);
 			return 1;
 		}
 		luaL_setmetatable(L, MT::name);
-
-		return 1;
-	}
-
-	static int lua__call(lua_State *L)
-	{
-		int nargs = lua_gettop(L);
-		lua_pushcfunction(L, lua__new);
-		for (int i = 2; i <= nargs; i++)
-			lua_pushvalue(L, i);
-		luaM_pcall(L, nargs - 1, 1);
 
 		return 1;
 	}
@@ -162,6 +166,9 @@ private:
 			break;
 		case LUA_TLIGHTUSERDATA:
 			lua_pushlightuserdata(L, fieldVal.val.userdata);
+			break;
+		case LUA_TFUNCTION:
+			lua_pushcfunction(L, fieldVal.val.function);
 			break;
 		default:
 			lua_pushnil(L);
@@ -230,8 +237,6 @@ public:
 		MT::name = tname;
 
 		luaL_newmetatable(L, MT::name);
-		lua_pushcfunction(L, lua__call);
-		lua_setfield(L, -2, "__call");
 		lua_pushcfunction(L, lua__index);
 		lua_setfield(L, -2, "__index");
 		lua_pushcfunction(L, lua__bnot);
@@ -247,7 +252,6 @@ public:
 		lua_setfield(L, -2, "new");
 		lua_pushvalue(L, -1);
 		lua_setglobal(L, MT::name);
-		luaL_setmetatable(L, MT::name);
 		lua_pop(L, 1);
 	}
 
@@ -267,6 +271,12 @@ public:
 	{
 		if (type != LUA_TNONE)
 			fields[name] = new CMTFieldLambda<T>(f, type);
+		return *this;
+	}
+
+	MT& Field(const lua_CFunction f, const char *name)
+	{
+		fields[name] = new CMTFieldFunction(f);
 		return *this;
 	}
 

@@ -2,23 +2,15 @@
 #define _COMMON_H_
 
 #include <windows.h>
-#include <commctrl.h>
-#include <malloc.h>
 #include <time.h>
-
-#include <map>
-#include <string>
 
 #include <newpluginapi.h>
 #include <m_core.h>
 #include <m_utils.h>
 #include <m_langpack.h>
-#include <m_database.h>
 #include <m_options.h>
-#include <m_gui.h>
 #include <m_netlib.h>
 
-#include <m_genmenu.h>
 #include <m_clist.h>
 #include <m_hotkeys.h>
 #include <m_icolib.h>
@@ -33,7 +25,7 @@
 #include <m_toptoolbar.h>
 
 #include <m_lua.h>
-#include <lua.hpp>
+#include <mirlua.h>
 
 #include "version.h"
 #include "resource.h"
@@ -74,8 +66,7 @@ LUAMOD_API int (luaopen_m_chat)(lua_State *L);
 #define MLUA_CLIST	"m_clist"
 LUAMOD_API int (luaopen_m_clist)(lua_State *L);
 
-#define MLUA_DATABASE	"m_database"
-LUAMOD_API int (luaopen_m_database)(lua_State *L);
+#include "m_database.h"
 
 #define MLUA_ICOLIB	"m_icolib"
 LUAMOD_API int (luaopen_m_icolib)(lua_State *L);
@@ -96,6 +87,9 @@ LUAMOD_API int (luaopen_m_options)(lua_State *L);
 #define MLUA_SOUNDS	"m_sounds"
 LUAMOD_API int (luaopen_m_sounds)(lua_State *L);
 
+#define MLUA_SRMM	"m_srmm"
+LUAMOD_API int (luaopen_m_srmm)(lua_State *L);
+
 /* utils */
 
 extern HNETLIBUSER hNetlib;
@@ -109,17 +103,7 @@ void ObsoleteMethod(lua_State *L, const char *message);
 int luaM_atpanic(lua_State *L);
 int luaM_pcall(lua_State *L, int n = 0, int r = 0);
 
-int luaM_print(lua_State *L);
-
-int luaM_toansi(lua_State *L);
-int luaM_toucs2(lua_State *L);
-
-int luaM_topointer(lua_State *L);
-int luaM_tonumber(lua_State *L);
-
-WPARAM luaM_tomparam(lua_State *L, int idx);
-
-int luaM_interpolate(lua_State *L);
+int luaM_getenv(lua_State *L);
 
 bool luaM_toboolean(lua_State *L, int idx);
 

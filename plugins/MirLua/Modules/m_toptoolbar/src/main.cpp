@@ -29,11 +29,11 @@ static TTBButton* MakeTBButton(lua_State *L)
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "wParamUp");
-	tbb->wParamUp = (WPARAM)lua_touserdata(L, -1);
+	tbb->wParamUp = (WPARAM)luaM_tomparam(L, -1);
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "lParamUp");
-	tbb->lParamUp = (LPARAM)lua_touserdata(L, -1);
+	tbb->lParamUp = (LPARAM)luaM_tomparam(L, -1);
 	lua_pop(L, 1);
 
 	// dn state
@@ -46,11 +46,11 @@ static TTBButton* MakeTBButton(lua_State *L)
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "wParamDown");
-	tbb->wParamDown = (WPARAM)lua_touserdata(L, -1);
+	tbb->wParamDown = (WPARAM)luaM_tomparam(L, -1);
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "lParamDown");
-	tbb->lParamDown = (LPARAM)lua_touserdata(L, -1);
+	tbb->lParamDown = (LPARAM)luaM_tomparam(L, -1);
 	lua_pop(L, 1);
 
 	return tbb;
@@ -64,9 +64,15 @@ static int lua_AddButton(lua_State *L)
 		return 1;
 	}
 
-	TTBButton* tbb = MakeTBButton(L);
+	TTBButton *tbb = MakeTBButton(L);
 
-	HANDLE res = ::TopToolbar_AddButton(tbb);
+	HANDLE res = TopToolbar_AddButton(tbb);
+	if (res == (HANDLE)-1)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
 	lua_pushlightuserdata(L, res);
 
 	mir_free(tbb->name);
@@ -81,7 +87,7 @@ static int lua_RemoveButton(lua_State *L)
 {
 	HANDLE hTTButton = (HANDLE)lua_touserdata(L, 1);
 
-	INT_PTR res = ::CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hTTButton, 0);
+	INT_PTR res = CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hTTButton, 0);
 	lua_pushinteger(L, res);
 
 	return 1;

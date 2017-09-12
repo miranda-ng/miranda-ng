@@ -4,26 +4,26 @@ HANDLE hRecvMessage = NULL;
 
 static int lua_GetProtocol(lua_State *L)
 {
-	const char *name = NULL;
+	const char *szProto = NULL;
 
 	switch (lua_type(L, 1))
 	{
 	case LUA_TNUMBER:
 	{
-		const char *proto = GetContactProto(lua_tonumber(L, 1));
-		PROTOACCOUNT *pa = Proto_GetAccount(proto);
+		const char *szModule = GetContactProto(lua_tonumber(L, 1));
+		PROTOACCOUNT *pa = Proto_GetAccount(szModule);
 		if (pa)
-			name = pa->szProtoName;
-	}
+			szProto = pa->szProtoName;
 		break;
+	}
 	case LUA_TSTRING:
-		name = lua_tostring(L, 1);
+		szProto = lua_tostring(L, 1);
 		break;
 	default:
 		luaL_argerror(L, 1, luaL_typename(L, 1));
 	}
 
-	PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(name);
+	PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(szProto);
 	if (pd)
 		MT<PROTOCOLDESCRIPTOR>::Set(L, pd);
 	else
@@ -60,38 +60,6 @@ static int lua_Protocols(lua_State *L)
 	lua_pushinteger(L, count);
 	lua_pushlightuserdata(L, protos);
 	lua_pushcclosure(L, lua_ProtocolIterator, 3);
-
-	return 1;
-}
-
-static int lua_CallService(lua_State *L)
-{
-	const char *szProto = NULL;
-
-	switch (lua_type(L, 1))
-	{
-	case LUA_TNUMBER:
-		szProto = GetContactProto(lua_tonumber(L, 1));
-		break;
-	case LUA_TSTRING:
-		szProto = lua_tostring(L, 1);
-		break;
-	case LUA_TUSERDATA:
-		luaL_checkudata(L, 1, "PROTOCOLDESCRIPTOR");
-		lua_getfield(L, 1, "Name");
-		szProto = lua_tostring(L, -1);
-		lua_pop(L, 1);
-		break;
-	default:
-		luaL_argerror(L, 1, luaL_typename(L, 1));
-	}
-
-	const char *service = luaL_checkstring(L, 2);
-	WPARAM wParam = (WPARAM)luaM_tomparam(L, 3);
-	LPARAM lParam = (LPARAM)luaM_tomparam(L, 4);
-
-	INT_PTR res = CallProtoService(szProto, service, wParam, lParam);
-	lua_pushinteger(L, res);
 
 	return 1;
 }
@@ -184,11 +152,11 @@ static int lua_Accounts(lua_State *L)
 		szProto = lua_tostring(L, 1);
 		break;
 	case LUA_TUSERDATA:
-		luaL_checkudata(L, 1, "PROTOCOLDESCRIPTOR");
-		lua_getfield(L, 1, "Name");
-		szProto = lua_tostring(L, -1);
-		lua_pop(L, 1);
+	{
+		PROTOCOLDESCRIPTOR **pd = (PROTOCOLDESCRIPTOR**)luaL_checkudata(L, 1, MT_PROTOCOLDESCRIPTOR);
+		szProto = (*pd)->szName;
 		break;
+	}
 	default:
 		luaL_argerror(L, 1, luaL_typename(L, 1));
 	}
@@ -196,13 +164,44 @@ static int lua_Accounts(lua_State *L)
 	int count;
 	PROTOACCOUNT **accounts;
 	Proto_EnumAccounts(&count, &accounts);
-	
 
 	lua_pushinteger(L, 0);
 	lua_pushinteger(L, count);
 	lua_pushlightuserdata(L, accounts);
 	lua_pushstring(L, szProto);
 	lua_pushcclosure(L, lua_AccountIterator, 4);
+
+	return 1;
+}
+
+static int lua_CallService(lua_State *L)
+{
+	const char *szModule = NULL;
+
+	switch (lua_type(L, 1))
+	{
+	case LUA_TNUMBER:
+		szModule = GetContactProto(lua_tonumber(L, 1));
+		break;
+	case LUA_TSTRING:
+		szModule = lua_tostring(L, 1);
+		break;
+	case LUA_TUSERDATA:
+	{
+		PROTOACCOUNT **pa = (PROTOACCOUNT**)luaL_checkudata(L, 1, MT_PROTOACCOUNT);
+		szModule = (*pa)->szModuleName;
+		break;
+	}
+	default:
+		luaL_argerror(L, 1, luaL_typename(L, 1));
+	}
+
+	const char *service = luaL_checkstring(L, 2);
+	WPARAM wParam = (WPARAM)luaM_tomparam(L, 3);
+	LPARAM lParam = (LPARAM)luaM_tomparam(L, 4);
+
+	INT_PTR res = CallProtoService(szModule, service, wParam, lParam);
+	lua_pushinteger(L, res);
 
 	return 1;
 }
@@ -223,40 +222,17 @@ static luaL_Reg protocolsApi[] =
 {
 	{ "GetProtocol", lua_GetProtocol },
 	{ "Protocols", lua_Protocols },
-	{ "CallService", lua_CallService },
+
 	{ "CallSendChain", lua_ChainSend },
 	{ "CallReceiveChain", lua_ChainRecv },
 
 	{ "GetAccount", lua_GetAccount },
 	{ "Accounts", lua_Accounts },
 
+	{ "CallService", lua_CallService },
+
 	{ NULL, NULL }
 };
-
-/***********************************************/
-
-#define MT_PROTOCOLDESCRIPTOR "PROTOCOLDESCRIPTOR"
-
-template <>
-int MT<PROTOCOLDESCRIPTOR>::Index(lua_State *L, PROTOCOLDESCRIPTOR *proto)
-{
-	const char *key = luaL_checkstring(L, 2);
-
-	if (mir_strcmpi(key, "CallService") == 0)
-	{
-		lua_pushstring(L, proto->szName);
-		lua_pushcfunction(L, lua_CallService);
-	}
-	else if (mir_strcmpi(key, "Accounts") == 0)
-	{
-		lua_pushstring(L, proto->szName);
-		lua_pushcfunction(L, lua_Accounts);
-	}
-	else
-		lua_pushnil(L);
-
-	return 1;
-}
 
 /***********************************************/
 
@@ -266,16 +242,18 @@ LUAMOD_API int luaopen_m_protocols(lua_State *L)
 
 	MT<PROTOCOLDESCRIPTOR>(L, MT_PROTOCOLDESCRIPTOR)
 		.Field(&PROTOCOLDESCRIPTOR::szName, "Name", LUA_TSTRINGA)
-		.Field(&PROTOCOLDESCRIPTOR::type, "Type", LUA_TINTEGER);
+		.Field(&PROTOCOLDESCRIPTOR::type, "Type", LUA_TINTEGER)
+		.Field(lua_Accounts, "Accounts");
 
-	MT<PROTOACCOUNT>(L, "PROTOACCOUNT")
+	MT<PROTOACCOUNT>(L, MT_PROTOACCOUNT)
 		.Field(&PROTOACCOUNT::szModuleName, "ModuleName", LUA_TSTRINGA)
 		.Field(&PROTOACCOUNT::tszAccountName, "AccountName", LUA_TSTRINGW)
 		.Field(&PROTOACCOUNT::szProtoName, "ProtoName", LUA_TSTRINGA)
 		.Field(&PROTOACCOUNT::bIsEnabled, "IsEnabled", LUA_TBOOLEAN)
 		.Field(&PROTOACCOUNT::bIsVisible, "IsVisible", LUA_TBOOLEAN)
 		.Field(&PROTOACCOUNT::bIsVirtual, "IsVirtual", LUA_TBOOLEAN)
-		.Field(&PROTOACCOUNT::bOldProto, "IsOldProto", LUA_TBOOLEAN);
+		.Field(&PROTOACCOUNT::bOldProto, "IsOldProto", LUA_TBOOLEAN)
+		.Field(lua_CallService, "CallService");
 
 	MT<ACKDATA>(L, "ACKDATA")
 		.Field(&ACKDATA::szModule, "Module", LUA_TSTRINGA)

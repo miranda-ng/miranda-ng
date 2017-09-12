@@ -86,6 +86,36 @@ static int core_HookEvent(lua_State *L)
 	return 1;
 }
 
+static int core_HookTemporaryEvent(lua_State *L)
+{
+	const char *name = luaL_checkstring(L, 1);
+	luaL_checktype(L, 2, LUA_TFUNCTION);
+
+	lua_pushvalue(L, 2);
+	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
+	HANDLE res = NULL;
+	CMLuaScript *script = CMLuaScript::GetScriptFromEnviroment(L);
+	if (script)
+		res = HookEventObjParam(name, HookEventScriptParam, script, ref);
+	else
+		res = HookEventObjParam(name, HookEventLuaStateParam, L, ref);
+	// event does not exists, call hook immideatelly
+	if (res == NULL)
+	{
+		lua_pushnil(L);
+		lua_pushnil(L);
+		luaM_pcall(L, 2, 1);
+		return lua_tointeger(script->L, -1);
+	}
+
+	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
+
+	lua_pushlightuserdata(L, res);
+
+	return 1;
+}
+
 static int core_UnhookEvent(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
@@ -116,17 +146,6 @@ static int core_NotifyEventHooks(lua_State *L)
 
 	int res = NotifyEventHooks(hEvent, wParam, lParam);
 	lua_pushboolean(L, res != -1);
-
-	return 1;
-}
-
-static int core_DestroyHookableEvent(lua_State *L)
-{
-	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
-	HANDLE hEvent = lua_touserdata(L, 1);
-
-	int res = DestroyHookableEvent(hEvent);
-	lua_pushboolean(L, !res);
 
 	return 1;
 }
@@ -250,16 +269,6 @@ static int core_IsPluginLoaded(lua_State *L)
 	return 1;
 }
 
-static int core_Utf8DecodeA(lua_State *L)
-{
-	return luaM_toansi(L);
-}
-
-static int core_Utf8DecodeW(lua_State *L)
-{
-	return luaM_toucs2(L);
-}
-
 static int core_Free(lua_State *L)
 {
 	if (lua_islightuserdata(L, 1))
@@ -368,12 +377,11 @@ static int core_TerminateThread(lua_State *L)
 luaL_Reg coreApi[] =
 {
 	{ "CreateHookableEvent", core_CreateHookableEvent },
-	// potentially unsefe for use in scripts
-	//{ "DestroyHookableEvent", core_DestroyHookableEvent },
 
 	{ "NotifyEventHooks", core_NotifyEventHooks },
 
 	{ "HookEvent", core_HookEvent },
+	{ "HookTemporaryEvent", core_HookTemporaryEvent },
 	{ "UnhookEvent", core_UnhookEvent },
 
 	{ "CreateServiceFunction", core_CreateServiceFunction },
@@ -384,9 +392,6 @@ luaL_Reg coreApi[] =
 
 	{ "IsPluginLoaded", core_IsPluginLoaded },
 
-	{ "Utf8DecodeA", core_Utf8DecodeA },
-	{ "Utf8DecodeW", core_Utf8DecodeW },
-	
 	{ "Free", core_Free },
 
 	{ "Translate", core_Translate },

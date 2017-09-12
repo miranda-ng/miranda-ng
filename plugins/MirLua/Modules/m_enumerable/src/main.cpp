@@ -429,14 +429,18 @@ extern "C" LUAMOD_API int luaopen_m_enumerable(lua_State *L)
 {
 	luaL_newlib(L, methods);
 
-	lua_pushcfunction(L, lua__new);
-	lua_setglobal(L, MT_ENUMERABLE);
-
 	luaL_newmetatable(L, MT_ENUMERABLE);
 	luaL_setfuncs(L, enumerableMeta, 0);
 	lua_pushvalue(L, -1);
 	lua_setfield(L, -2, "__index");
 	luaL_setfuncs(L, enumerableApi, 0);
+	lua_pop(L, 1);
+
+	lua_createtable(L, 0, 1);
+	lua_pushcfunction(L, lua__new);
+	lua_setfield(L, -2, "new");
+	lua_pushvalue(L, -1);
+	lua_setglobal(L, MT_ENUMERABLE);
 	lua_pop(L, 1);
 
 	return 1;

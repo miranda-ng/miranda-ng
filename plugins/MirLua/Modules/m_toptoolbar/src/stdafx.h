@@ -3,7 +3,7 @@
 
 #include <windows.h>
 
-#include <lua.hpp>
+#include <mirlua.h>
 
 #include <m_core.h>
 #include <m_utils.h>

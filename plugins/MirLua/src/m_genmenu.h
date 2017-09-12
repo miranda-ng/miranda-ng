@@ -1,6 +1,8 @@
 #ifndef _LUA_M_GENMENU_H_
 #define _LUA_M_GENMENU_H_
 
+#include <m_genmenu.h>
+
 #define MLUA_GENMENU	"m_genmenu"
 LUAMOD_API int (luaopen_m_genmenu)(lua_State *L);
 
