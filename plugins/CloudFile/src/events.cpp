@@ -18,6 +18,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_MSG_BUTTONPRESSED, OnSrmmButtonPressed);
 
 	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, OnSrmmToolbarLoaded);
+
 	return 0;
 }
 

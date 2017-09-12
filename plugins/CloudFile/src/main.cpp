@@ -40,9 +40,9 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = MODULE;
-	nlu.szDescriptiveName.w = _A2W("MODULE");
+	nlu.szDescriptiveName.a = MODULE;
 	hNetlibConnection = Netlib_RegisterUser(&nlu);
 
 	InitServices();
