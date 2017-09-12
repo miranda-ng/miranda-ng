@@ -382,7 +382,8 @@ void ImageType::DrawInternal(HDC hdc, int x, int y, int sizeX, int sizeY)
 
 int ImageType::GetFrameDelay(void) const
 {
-	return ((long*)m_pPropertyItem->value)[m_nCurrentFrame];
+	int Del = ((long*)m_pPropertyItem->value)[m_nCurrentFrame];
+	return (Del ? Del : 5);
 }
 
 HICON ImageType::GetIcon(void)
