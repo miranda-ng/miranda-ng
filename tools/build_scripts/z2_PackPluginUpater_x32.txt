@@ -199,7 +199,6 @@ Libs\ssleay32.mir
 Libs\zlib.mir
 
 
-Scripts\m_msg_buttonsbar.dll
 Scripts\m_popup.dll
 Scripts\m_schedule.dll
 Scripts\m_toptoolbar.dll
