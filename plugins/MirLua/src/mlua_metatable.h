@@ -197,14 +197,6 @@ private:
 		return 1;
 	}
 
-	static int lua__gc(lua_State *L)
-	{
-		T **obj = (T**)luaL_checkudata(L, 1, MT::name);
-		MT::Free(L, obj);
-
-		return 0;
-	}
-
 	static int lua__tostring(lua_State *L)
 	{
 		T *obj = *(T**)luaL_checkudata(L, 1, MT::name);
@@ -252,6 +244,26 @@ private:
 		return 1;
 	}
 
+	static int lua__gc(lua_State *L)
+	{
+		T **obj = (T**)luaL_checkudata(L, 1, MT::name);
+		MT::Free(L, obj);
+
+		return 0;
+	}
+
+	static int lua__call(lua_State *L)
+	{
+		luaL_checktype(L, 1, LUA_TTABLE);
+		luaL_checkany(L, 2);
+
+		lua_getfield(L, 1, "new");
+		lua_pushvalue(L, 2);
+		luaM_pcall(L, 1, 1);
+
+		return 1;
+	}
+
 public:
 	MT(lua_State *L, const char *tname) : L(L)
 	{
@@ -262,18 +274,21 @@ public:
 		lua_setfield(L, -2, "__index");
 		lua_pushcfunction(L, lua__bnot);
 		lua_setfield(L, -2, "__bnot");
-		lua_pushcfunction(L, lua__gc);
-		lua_setfield(L, -2, "__gc");
 		lua_pushcfunction(L, lua__tostring);
 		lua_setfield(L, -2, "__tostring");
+		lua_pushcfunction(L, lua__gc);
+		lua_setfield(L, -2, "__gc");
 		lua_pop(L, 1);
 
 		lua_createtable(L, 0, 1);
 		lua_pushcfunction(L, lua__new);
 		lua_setfield(L, -2, "new");
-		lua_pushvalue(L, -1);
+
+		lua_createtable(L, 0, 2);
+		lua_pushcfunction(L, lua__call);
+		lua_setfield(L, -2, "__call");
+		lua_setmetatable(L, -2);
 		lua_setglobal(L, MT::name);
-		lua_pop(L, 1);
 	}
 
 	template<typename R>
