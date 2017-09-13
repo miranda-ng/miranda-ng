@@ -641,7 +641,7 @@ class COptLogDlg : public CDlgBase
 	CCtrlCheck  chkAlwaysTrim, chkLoadUnread, chkLoadCount, chkLoadTime;
 	CCtrlCombo 	cmbLogDisplay;
 
-	int have_ieview = 0, have_hpp = 0;
+	int have_ieview, have_hpp;
 
 	// configure the option page - hide most of the settings here when either IEView
 	// or H++ is set as the global message log viewer. Showing these options may confuse
@@ -676,6 +676,9 @@ public:
 
 		chkAlwaysTrim.OnChange = Callback(this, &COptLogDlg::onChange_Trim);
 		chkLoadTime.OnChange = chkLoadCount.OnChange = chkLoadUnread.OnChange = Callback(this, &COptLogDlg::onChange_Load);
+
+		have_ieview = ServiceExists(MS_IEVIEW_WINDOW);
+		have_hpp = ServiceExists("History++/ExtGrid/NewWindow");
 	}
 
 	virtual void OnInitDialog() override
@@ -722,9 +725,6 @@ public:
 		Utils::enableDlgControl(m_hwnd, IDC_TRIMSPIN, maxhist != 0);
 		Utils::enableDlgControl(m_hwnd, IDC_TRIM, maxhist != 0);
 		CheckDlgButton(m_hwnd, IDC_ALWAYSTRIM, maxhist != 0);
-
-		have_ieview = ServiceExists(MS_IEVIEW_WINDOW);
-		have_hpp = ServiceExists("History++/ExtGrid/NewWindow");
 
 		cmbLogDisplay.AddString(TranslateT("Internal message log"));
 		cmbLogDisplay.SetCurSel(0);
