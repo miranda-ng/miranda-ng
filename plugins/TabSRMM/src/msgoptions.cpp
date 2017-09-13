@@ -240,15 +240,15 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		// a skin while a message window is open. Show the warning that all
 		// windows must be closed.
 	case WM_USER + 100:
-	{
-		bool fWindowsOpen = (pFirstContainer != 0 ? true : false);
-		for (int i = 0; _ctrls[i]; i++)
-			Utils::enableDlgControl(hwndDlg, _ctrls[i], !fWindowsOpen);
+		{
+			bool fWindowsOpen = (pFirstContainer != 0 ? true : false);
+			for (int i = 0; _ctrls[i]; i++)
+				Utils::enableDlgControl(hwndDlg, _ctrls[i], !fWindowsOpen);
 
-		Utils::showDlgControl(hwndDlg, IDC_SKIN_WARN, fWindowsOpen ? SW_SHOW : SW_HIDE);
-		Utils::showDlgControl(hwndDlg, IDC_SKIN_CLOSENOW, fWindowsOpen ? SW_SHOW : SW_HIDE);
-	}
-	return 0;
+			Utils::showDlgControl(hwndDlg, IDC_SKIN_WARN, fWindowsOpen ? SW_SHOW : SW_HIDE);
+			Utils::showDlgControl(hwndDlg, IDC_SKIN_CLOSENOW, fWindowsOpen ? SW_SHOW : SW_HIDE);
+		}
+		return 0;
 
 	case WM_TIMER:
 		if (wParam == 1000)
@@ -290,12 +290,12 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_THEMEEXPORT:
-		{
-			const wchar_t *szFilename = GetThemeFileName(1);
-			if (szFilename != nullptr)
-				WriteThemeToINI(szFilename, 0);
-		}
-		break;
+			{
+				const wchar_t *szFilename = GetThemeFileName(1);
+				if (szFilename != nullptr)
+					WriteThemeToINI(szFilename, 0);
+			}
+			break;
 
 		case IDC_THEMEIMPORT:
 			if (CSkin::m_skinEnabled) {
@@ -564,72 +564,72 @@ BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM, LPARAM lParam)
 	return TRUE;
 }
 
-static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Main options dialog
+
+class COptMainDlg : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			TreeViewInit(GetDlgItem(hwndDlg, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, 0, FALSE);
+	CCtrlButton btnHelp, btnReset;
 
-			SetDlgItemInt(hwndDlg, IDC_MAXAVATARHEIGHT, M.GetDword("avatarheight", 100), FALSE);
-			CheckDlgButton(hwndDlg, IDC_PRESERVEAVATARSIZE, M.GetByte("dontscaleavatars", 0) ? BST_CHECKED : BST_UNCHECKED);
-			SendDlgItemMessage(hwndDlg, IDC_AVATARSPIN, UDM_SETRANGE, 0, MAKELONG(150, 0));
-
-			BOOL translated;
-			SendDlgItemMessage(hwndDlg, IDC_AVATARSPIN, UDM_SETPOS, 0, GetDlgItemInt(hwndDlg, IDC_MAXAVATARHEIGHT, &translated, FALSE));
-		}
-		return TRUE;
-
-	case WM_DESTROY:
-		TreeViewDestroy(GetDlgItem(hwndDlg, IDC_WINDOWOPTIONS));
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_MAXAVATARHEIGHT:
-			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
-				return TRUE;
-			break;
-
-		case IDC_HELP_GENERAL:
-			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/General_settings");
-			break;
-
-		case IDC_RESETWARNINGS:
-			db_set_dw(0, SRMSGMOD_T, "cWarningsL", 0);
-			db_set_dw(0, SRMSGMOD_T, "cWarningsH", 0);
-			break;
-		}
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case IDC_WINDOWOPTIONS:
-			return TreeViewHandleClick(hwndDlg, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
-			break;
-
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				BOOL translated;
-				db_set_dw(0, SRMSGMOD_T, "avatarheight", GetDlgItemInt(hwndDlg, IDC_MAXAVATARHEIGHT, &translated, FALSE));
-
-				db_set_b(0, SRMSGMOD_T, "dontscaleavatars", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PRESERVEAVATARSIZE) ? 1 : 0));
-
-				// scan the tree view and obtain the options...
-				TreeViewToDB(GetDlgItem(hwndDlg, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, SRMSGMOD_T, nullptr);
-				PluginConfig.reloadSettings();
-				Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
-				return TRUE;
-			}
-			break;
-		}
-		break;
+public:
+	COptMainDlg()
+		: CDlgBase(g_hInst, IDD_OPT_MSGDLG),
+		btnHelp(this, IDC_HELP_GENERAL),
+		btnReset(this, IDC_RESETWARNINGS)
+	{
+		btnHelp.OnClick = Callback(this, &COptMainDlg::onClick_Help);
+		btnReset.OnClick = Callback(this, &COptMainDlg::onClick_Reset);
 	}
-	return FALSE;
-}
+
+	virtual void OnInitDialog() override
+	{
+		TreeViewInit(GetDlgItem(m_hwnd, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, 0, FALSE);
+
+		SetDlgItemInt(m_hwnd, IDC_MAXAVATARHEIGHT, M.GetDword("avatarheight", 100), FALSE);
+		CheckDlgButton(m_hwnd, IDC_PRESERVEAVATARSIZE, M.GetByte("dontscaleavatars", 0) ? BST_CHECKED : BST_UNCHECKED);
+		SendDlgItemMessage(m_hwnd, IDC_AVATARSPIN, UDM_SETRANGE, 0, MAKELONG(150, 0));
+
+		BOOL translated;
+		SendDlgItemMessage(m_hwnd, IDC_AVATARSPIN, UDM_SETPOS, 0, GetDlgItemInt(m_hwnd, IDC_MAXAVATARHEIGHT, &translated, FALSE));
+	}
+
+	virtual void OnApply() override
+	{
+		BOOL translated;
+		db_set_dw(0, SRMSGMOD_T, "avatarheight", GetDlgItemInt(m_hwnd, IDC_MAXAVATARHEIGHT, &translated, FALSE));
+
+		db_set_b(0, SRMSGMOD_T, "dontscaleavatars", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_PRESERVEAVATARSIZE) ? 1 : 0));
+
+		// scan the tree view and obtain the options...
+		TreeViewToDB(GetDlgItem(m_hwnd, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, SRMSGMOD_T, nullptr);
+		PluginConfig.reloadSettings();
+		Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
+	}
+
+	virtual void OnDestroy() override
+	{
+		TreeViewDestroy(GetDlgItem(m_hwnd, IDC_WINDOWOPTIONS));
+	}
+
+	void onClick_Help(CCtrlButton*)
+	{
+		Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/General_settings");
+	}
+
+	void onClick_Reset(CCtrlButton*)
+	{
+		db_set_dw(0, SRMSGMOD_T, "cWarningsL", 0);
+		db_set_dw(0, SRMSGMOD_T, "cWarningsH", 0);
+	}
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (msg == WM_NOTIFY && ((LPNMHDR)lParam)->idFrom == IDC_WINDOWOPTIONS)
+			return TreeViewHandleClick(m_hwnd, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
+
+		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -844,231 +844,258 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // typing notify options
 
-static void ResetCList(HWND hwndDlg)
+class COptTypingDlg : public CDlgBase
 {
-	if (!M.GetByte("CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
-		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, FALSE, 0);
-	else
-		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
-}
+	HANDLE hItemNew, hItemUnknown;
 
-static void RebuildList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
-{
-	BYTE defType = M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW);
-	if (hItemNew && defType)
-		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemNew, 1);
+	CCtrlCheck chkWin, chkNoWin;
+	CCtrlCheck chkNotifyPopup, chkNotifyTray, chkShowNotify;
+	CCtrlButton btnHelp;
 
-	if (hItemUnknown && M.GetByte(SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
-		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemUnknown, 1);
-
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
-		if (hItem && db_get_b(hContact, SRMSGMOD, SRMSGSET_TYPING, defType))
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
+	void ResetCList()
+	{
+		if (!M.GetByte("CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
+			SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETUSEGROUPS, FALSE, 0);
+		else
+			SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETUSEGROUPS, TRUE, 0);
+		SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 	}
-}
 
-static void SaveList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
-{
-	if (hItemNew)
-		db_set_b(0, SRMSGMOD, SRMSGSET_TYPINGNEW, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemNew, 0) ? 1 : 0));
+	void RebuildList()
+	{
+		BYTE defType = M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW);
+		if (hItemNew && defType)
+			SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemNew, 1);
 
-	if (hItemUnknown)
-		db_set_b(0, SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemUnknown, 0) ? 1 : 0));
+		if (hItemUnknown && M.GetByte(SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
+			SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemUnknown, 1);
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
-		if (hItem)
-			db_set_b(hContact, SRMSGMOD, SRMSGSET_TYPING, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0) ? 1 : 0));
-	}
-}
-
-static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	static HANDLE hItemNew, hItemUnknown;
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			CLCINFOITEM cii = { sizeof(cii) };
-			cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
-			cii.pszText = TranslateT("** New contacts **");
-			hItemNew = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
-			cii.pszText = TranslateT("** Unknown contacts **");
-			hItemUnknown = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			HANDLE hItem = (HANDLE)SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
+			if (hItem && db_get_b(hContact, SRMSGMOD, SRMSGSET_TYPING, defType))
+				SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 		}
-		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE) | (CLS_SHOWHIDDEN));
-		ResetCList(hwndDlg);
+	}
 
-		CheckDlgButton(hwndDlg, IDC_SHOWNOTIFY, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TYPEFLASHWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH) ? BST_CHECKED : BST_UNCHECKED);
+	void SaveList()
+	{
+		if (hItemNew)
+			db_set_b(0, SRMSGMOD, SRMSGSET_TYPINGNEW, (BYTE)(SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemNew, 0) ? 1 : 0));
 
-		CheckDlgButton(hwndDlg, IDC_TYPENOWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TYPEWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_NOTIFYTRAY, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_NOTIFYBALLOON, M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0));
+		if (hItemUnknown)
+			db_set_b(0, SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, (BYTE)(SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemUnknown, 0) ? 1 : 0));
 
-		CheckDlgButton(hwndDlg, IDC_NOTIFYPOPUP, M.GetByte(SRMSGMOD, "ShowTypingPopup", 0) ? BST_CHECKED : BST_UNCHECKED);
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			HANDLE hItem = (HANDLE)SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
+			if (hItem)
+				db_set_b(hContact, SRMSGMOD, SRMSGSET_TYPING, (BYTE)(SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0) ? 1 : 0));
+		}
+	}
 
-		Utils::enableDlgControl(hwndDlg, IDC_TYPEWIN, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY) != 0);
-		Utils::enableDlgControl(hwndDlg, IDC_TYPENOWIN, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY) != 0);
-		Utils::enableDlgControl(hwndDlg, IDC_NOTIFYBALLOON, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY) &&
-			(IsDlgButtonChecked(hwndDlg, IDC_TYPEWIN) || IsDlgButtonChecked(hwndDlg, IDC_TYPENOWIN)));
+public:
+	COptTypingDlg()
+		: CDlgBase(g_hInst, IDD_OPT_MSGTYPE),
+		btnHelp(this, IDC_MTN_HELP),
+		chkWin(this, IDC_TYPEWIN),
+		chkNoWin(this, IDC_TYPENOWIN),
+		chkNotifyTray(this, IDC_NOTIFYTRAY),
+		chkShowNotify(this, IDC_SHOWNOTIFY),
+		chkNotifyPopup(this, IDC_NOTIFYPOPUP)
+	{
+		btnHelp.OnClick = Callback(this, &COptTypingDlg::onClick_Help);
 
-		Utils::enableDlgControl(hwndDlg, IDC_TYPEFLASHWIN, IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY) != 0);
-		Utils::enableDlgControl(hwndDlg, IDC_MTN_POPUPMODE, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYPOPUP) != 0);
+		chkWin.OnChange = chkNoWin.OnChange = Callback(this, &COptTypingDlg::onCheck_Win);
 
-		SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always"));
-		SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always, but no popup when window is focused"));
-		SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Only when no message window is open"));
+		chkNotifyTray.OnChange = Callback(this, &COptTypingDlg::onCheck_NotifyTray);
+		chkShowNotify.OnChange = Callback(this, &COptTypingDlg::onCheck_ShowNotify);
+		chkNotifyPopup.OnChange = Callback(this, &COptTypingDlg::onCheck_NotifyPopup);
+	}
 
-		SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_SETCURSEL, (WPARAM)M.GetByte("MTN_PopupMode", 0), 0);
+	virtual void OnInitDialog() override
+	{
+		CLCINFOITEM cii = { sizeof(cii) };
+		cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
+		cii.pszText = TranslateT("** New contacts **");
+		hItemNew = (HANDLE)SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
+		cii.pszText = TranslateT("** Unknown contacts **");
+		hItemUnknown = (HANDLE)SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
+
+		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE) | (CLS_SHOWHIDDEN));
+		ResetCList();
+
+		CheckDlgButton(m_hwnd, IDC_SHOWNOTIFY, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_TYPEFLASHWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH) ? BST_CHECKED : BST_UNCHECKED);
+
+		CheckDlgButton(m_hwnd, IDC_TYPENOWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_TYPEWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_NOTIFYTRAY, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_NOTIFYBALLOON, M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0));
+
+		CheckDlgButton(m_hwnd, IDC_NOTIFYPOPUP, M.GetByte(SRMSGMOD, "ShowTypingPopup", 0) ? BST_CHECKED : BST_UNCHECKED);
+
+		Utils::enableDlgControl(m_hwnd, IDC_TYPEWIN, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY) != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_TYPENOWIN, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY) != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_NOTIFYBALLOON, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY) &&
+			(IsDlgButtonChecked(m_hwnd, IDC_TYPEWIN) || IsDlgButtonChecked(m_hwnd, IDC_TYPENOWIN)));
+
+		Utils::enableDlgControl(m_hwnd, IDC_TYPEFLASHWIN, IsDlgButtonChecked(m_hwnd, IDC_SHOWNOTIFY) != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_MTN_POPUPMODE, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYPOPUP) != 0);
+
+		SendDlgItemMessage(m_hwnd, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always"));
+		SendDlgItemMessage(m_hwnd, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always, but no popup when window is focused"));
+		SendDlgItemMessage(m_hwnd, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Only when no message window is open"));
+
+		SendDlgItemMessage(m_hwnd, IDC_MTN_POPUPMODE, CB_SETCURSEL, (WPARAM)M.GetByte("MTN_PopupMode", 0), 0);
 
 		if (!PluginConfig.g_bPopupAvail) {
-			Utils::showDlgControl(hwndDlg, IDC_NOTIFYPOPUP, SW_HIDE);
-			Utils::showDlgControl(hwndDlg, IDC_STATIC111, SW_HIDE);
-			Utils::showDlgControl(hwndDlg, IDC_MTN_POPUPMODE, SW_HIDE);
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_NOTIFYTRAY:
-			Utils::enableDlgControl(hwndDlg, IDC_TYPEWIN, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY) != 0);
-			Utils::enableDlgControl(hwndDlg, IDC_TYPENOWIN, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY) != 0);
-			Utils::enableDlgControl(hwndDlg, IDC_NOTIFYBALLOON, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY) != 0);
-			break;
-		case IDC_SHOWNOTIFY:
-			Utils::enableDlgControl(hwndDlg, IDC_TYPEFLASHWIN, IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY) != 0);
-			break;
-		case IDC_NOTIFYPOPUP:
-			Utils::enableDlgControl(hwndDlg, IDC_MTN_POPUPMODE, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYPOPUP) != 0);
-			break;
-		case IDC_TYPEWIN:
-		case IDC_TYPENOWIN:
-			Utils::enableDlgControl(hwndDlg, IDC_NOTIFYBALLOON, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY) &&
-				(IsDlgButtonChecked(hwndDlg, IDC_TYPEWIN) || IsDlgButtonChecked(hwndDlg, IDC_TYPENOWIN)));
-			break;
-		case IDC_MTN_HELP:
-			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Typing_notifications");
-			return 0;
-		}
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		switch (((NMHDR*)lParam)->idFrom) {
-		case IDC_CLIST:
-			switch (((NMHDR*)lParam)->code) {
-			case CLN_OPTIONSCHANGED:
-				ResetCList(hwndDlg);
-				break;
-			case CLN_CHECKCHANGED:
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			case CLN_LISTREBUILT:
-				RebuildList(hwndDlg, hItemNew, hItemUnknown);
-				break;
-			}
-			break;
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				SaveList(hwndDlg, hItemNew, hItemUnknown);
-				db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPING, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
-				db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TYPEFLASHWIN));
-				db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TYPENOWIN));
-				db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TYPEWIN));
-				db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY));
-				db_set_b(0, SRMSGMOD, "ShowTypingBalloon", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTIFYBALLOON));
-				db_set_b(0, SRMSGMOD, "ShowTypingPopup", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTIFYPOPUP));
-				db_set_b(0, SRMSGMOD_T, "MTN_PopupMode", (BYTE)SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_GETCURSEL, 0, 0));
-				PluginConfig.reloadSettings();
-			}
+			Utils::showDlgControl(m_hwnd, IDC_NOTIFYPOPUP, SW_HIDE);
+			Utils::showDlgControl(m_hwnd, IDC_STATIC111, SW_HIDE);
+			Utils::showDlgControl(m_hwnd, IDC_MTN_POPUPMODE, SW_HIDE);
 		}
 	}
-	return FALSE;
-}
+
+	virtual void OnApply() override
+	{
+		SaveList();
+		db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPING, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWNOTIFY));
+		db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TYPEFLASHWIN));
+		db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TYPENOWIN));
+		db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TYPEWIN));
+		db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY));
+		db_set_b(0, SRMSGMOD, "ShowTypingBalloon", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYBALLOON));
+		db_set_b(0, SRMSGMOD, "ShowTypingPopup", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYPOPUP));
+		db_set_b(0, SRMSGMOD_T, "MTN_PopupMode", (BYTE)SendDlgItemMessage(m_hwnd, IDC_MTN_POPUPMODE, CB_GETCURSEL, 0, 0));
+		PluginConfig.reloadSettings();
+	}
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (msg == WM_NOTIFY && ((NMHDR*)lParam)->idFrom == IDC_CLIST) {
+			switch (((NMHDR*)lParam)->code) {
+			case CLN_OPTIONSCHANGED:
+				ResetCList();
+				break;
+			case CLN_CHECKCHANGED:
+				SendMessage(m_hwndParent, PSM_CHANGED, 0, 0);
+				break;
+			case CLN_LISTREBUILT:
+				RebuildList();
+				break;
+			}
+		}
+
+		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+
+	void onCheck_NotifyPopup(CCtrlCheck*)
+	{
+		Utils::enableDlgControl(m_hwnd, IDC_MTN_POPUPMODE, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYPOPUP) != 0);
+	}
+
+	void onCheck_NotifyTray(CCtrlCheck*)
+	{
+		Utils::enableDlgControl(m_hwnd, IDC_TYPEWIN, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY) != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_TYPENOWIN, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY) != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_NOTIFYBALLOON, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY) != 0);
+	}
+
+	void onCheck_ShowNotify(CCtrlCheck*)
+	{
+		Utils::enableDlgControl(m_hwnd, IDC_TYPEFLASHWIN, IsDlgButtonChecked(m_hwnd, IDC_SHOWNOTIFY) != 0);
+	}
+
+	void onCheck_Win(CCtrlCheck*)
+	{
+		Utils::enableDlgControl(m_hwnd, IDC_NOTIFYBALLOON, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY) &&
+			(IsDlgButtonChecked(m_hwnd, IDC_TYPEWIN) || IsDlgButtonChecked(m_hwnd, IDC_TYPENOWIN)));
+	}
+
+	void onClick_Help(CCtrlButton*)
+	{
+		Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Typing_notifications");
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // options for tabbed messaging got their own page.. finally :)
 
-static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class COptTabbedDlg : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
+	CCtrlCheck chkCut;
+	CCtrlCombo cmbEscMode;
+	CCtrlButton btnSetup;
 
-		TreeViewInit(GetDlgItem(hwndDlg, IDC_TABMSGOPTIONS), CTranslator::TREE_TAB, 0, FALSE);
+public:
+	COptTabbedDlg()
+		: CDlgBase(g_hInst, IDD_OPT_TABBEDMSG),
+		chkCut(this, IDC_CUT_TABTITLE),
+		btnSetup(this, IDC_SETUPAUTOCREATEMODES),
+		cmbEscMode(this, IDC_ESCMODE)
+	{
+		btnSetup.OnClick = Callback(this, &COptTabbedDlg::onClick_Setup);
 
-		CheckDlgButton(hwndDlg, IDC_CUT_TABTITLE, M.GetByte("cuttitle", 0) ? BST_CHECKED : BST_UNCHECKED);
-		SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_SETRANGE, 0, MAKELONG(20, 5));
-		SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_SETPOS, 0, (WPARAM)db_get_w(0, SRMSGMOD_T, "cut_at", 15));
-
-		Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAX, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE) != 0);
-		Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAXSPIN, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE) != 0);
-
-		SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Normal - close tab, if last tab is closed also close the window"));
-		SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Minimize the window to the task bar"));
-		SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Close or hide window, depends on the close button setting above"));
-		SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_SETCURSEL, (WPARAM)PluginConfig.m_EscapeCloses, 0);
-		break;
-
-	case WM_DESTROY:
-		TreeViewDestroy(GetDlgItem(hwndDlg, IDC_TABMSGOPTIONS));
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_CUT_TITLEMAX:
-			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
-				return TRUE;
-			break;
-		case IDC_SETUPAUTOCREATEMODES: {
-			HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), hwndDlg, DlgProcSetupStatusModes, M.GetDword("autopopupmask", -1));
-			SendMessage(hwndNew, DM_SETPARENTDIALOG, 0, (LPARAM)hwndDlg);
-			break;
-		}
-		case IDC_CUT_TABTITLE:
-			Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAX, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE) != 0);
-			Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAXSPIN, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE) != 0);
-			break;
-		}
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case DM_STATUSMASKSET:
-		db_set_dw(0, SRMSGMOD_T, "autopopupmask", (DWORD)lParam);
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case IDC_TABMSGOPTIONS:
-			return TreeViewHandleClick(hwndDlg, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
-			break;
-
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				db_set_b(0, SRMSGMOD_T, "cuttitle", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE));
-				db_set_w(0, SRMSGMOD_T, "cut_at", (WORD)SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_GETPOS, 0, 0));
-
-				// scan the tree view and obtain the options...
-				TreeViewToDB(GetDlgItem(hwndDlg, IDC_TABMSGOPTIONS), CTranslator::TREE_TAB, SRMSGMOD_T, nullptr);
-
-				PluginConfig.m_EscapeCloses = (int)SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_GETCURSEL, 0, 0);
-				db_set_b(0, SRMSGMOD_T, "escmode", (BYTE)PluginConfig.m_EscapeCloses);
-				PluginConfig.reloadSettings();
-				Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
-				return TRUE;
-			}
-		}
-		break;
+		chkCut.OnChange = Callback(this, &COptTabbedDlg::onChange_Cut);
 	}
-	return FALSE;
-}
+
+	virtual void OnInitDialog() override
+	{
+		TreeViewInit(GetDlgItem(m_hwnd, IDC_TABMSGOPTIONS), CTranslator::TREE_TAB, 0, FALSE);
+
+		CheckDlgButton(m_hwnd, IDC_CUT_TABTITLE, M.GetByte("cuttitle", 0) ? BST_CHECKED : BST_UNCHECKED);
+		SendDlgItemMessage(m_hwnd, IDC_CUT_TITLEMAXSPIN, UDM_SETRANGE, 0, MAKELONG(20, 5));
+		SendDlgItemMessage(m_hwnd, IDC_CUT_TITLEMAXSPIN, UDM_SETPOS, 0, (WPARAM)db_get_w(0, SRMSGMOD_T, "cut_at", 15));
+
+		Utils::enableDlgControl(m_hwnd, IDC_CUT_TITLEMAX, IsDlgButtonChecked(m_hwnd, IDC_CUT_TABTITLE) != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_CUT_TITLEMAXSPIN, IsDlgButtonChecked(m_hwnd, IDC_CUT_TABTITLE) != 0);
+
+		cmbEscMode.AddString(TranslateT("Normal - close tab, if last tab is closed also close the window"));
+		cmbEscMode.AddString(TranslateT("Minimize the window to the task bar"));
+		cmbEscMode.AddString(TranslateT("Close or hide window, depends on the close button setting above"));
+		cmbEscMode.SetCurSel(PluginConfig.m_EscapeCloses);
+	}
+
+	virtual void OnApply() override
+	{
+		db_set_b(0, SRMSGMOD_T, "cuttitle", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_CUT_TABTITLE));
+		db_set_w(0, SRMSGMOD_T, "cut_at", (WORD)SendDlgItemMessage(m_hwnd, IDC_CUT_TITLEMAXSPIN, UDM_GETPOS, 0, 0));
+
+		// scan the tree view and obtain the options...
+		TreeViewToDB(GetDlgItem(m_hwnd, IDC_TABMSGOPTIONS), CTranslator::TREE_TAB, SRMSGMOD_T, nullptr);
+
+		PluginConfig.m_EscapeCloses = cmbEscMode.GetCurSel();
+		db_set_b(0, SRMSGMOD_T, "escmode", (BYTE)PluginConfig.m_EscapeCloses);
+		PluginConfig.reloadSettings();
+		Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
+	}
+
+	virtual void OnDestroy() override
+	{
+		TreeViewDestroy(GetDlgItem(m_hwnd, IDC_TABMSGOPTIONS));
+	}
+
+	void onClick_Setup(CCtrlButton*)
+	{
+		HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), m_hwnd, DlgProcSetupStatusModes, M.GetDword("autopopupmask", -1));
+		SendMessage(hwndNew, DM_SETPARENTDIALOG, 0, (LPARAM)m_hwnd);
+	}
+
+	void onChange_Cut(CCtrlCheck*)
+	{
+		Utils::enableDlgControl(m_hwnd, IDC_CUT_TITLEMAX, IsDlgButtonChecked(m_hwnd, IDC_CUT_TABTITLE) != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_CUT_TITLEMAXSPIN, IsDlgButtonChecked(m_hwnd, IDC_CUT_TABTITLE) != 0);
+	}
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (msg == WM_COMMAND && wParam == DM_STATUSMASKSET)
+			db_set_dw(0, SRMSGMOD_T, "autopopupmask", (DWORD)lParam);
+
+		if (msg == WM_NOTIFY && ((LPNMHDR)lParam)->idFrom == IDC_TABMSGOPTIONS)
+			return TreeViewHandleClick(m_hwnd, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
+
+		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // container options
@@ -1167,73 +1194,71 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // TabModPlus options
 
-INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class COptAdvancedDlg : public CDlgBase
 {
-	switch (msg)	{
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
+	CCtrlButton btnHelp, btnRevert;
 
-		TreeViewInit(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, 0, FALSE);
-
-		SendDlgItemMessage(hwndDlg, IDC_TIMEOUTSPIN, UDM_SETRANGE, 0, MAKELONG(300, SRMSGSET_MSGTIMEOUT_MIN / 1000));
-		SendDlgItemMessage(hwndDlg, IDC_TIMEOUTSPIN, UDM_SETPOS, 0, PluginConfig.m_MsgTimeout / 1000);
-
-		SendDlgItemMessage(hwndDlg, IDC_HISTORYSIZESPIN, UDM_SETRANGE, 0, MAKELONG(255, 15));
-		SendDlgItemMessage(hwndDlg, IDC_HISTORYSIZESPIN, UDM_SETPOS, 0, (int)M.GetByte("historysize", 0));
-		return TRUE;
-
-	case WM_DESTROY:
-		TreeViewDestroy(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE));
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case IDC_PLUS_CHECKTREE:
-			return TreeViewHandleClick(hwndDlg, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
-			break;
-
-		default:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				TreeViewToDB(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, SRMSGMOD_T, nullptr);
-
-				int msgTimeout = 1000 * GetDlgItemInt(hwndDlg, IDC_SECONDS, nullptr, FALSE);
-				PluginConfig.m_MsgTimeout = msgTimeout >= SRMSGSET_MSGTIMEOUT_MIN ? msgTimeout : SRMSGSET_MSGTIMEOUT_MIN;
-				db_set_dw(0, SRMSGMOD, SRMSGSET_MSGTIMEOUT, PluginConfig.m_MsgTimeout);
-
-				db_set_b(0, SRMSGMOD_T, "historysize", (BYTE)SendDlgItemMessage(hwndDlg, IDC_HISTORYSIZESPIN, UDM_GETPOS, 0, 0));
-				PluginConfig.reloadAdv();
-				return TRUE;
-			}
-		}
-		break;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_PLUS_HELP) {
-			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Advanced_tweaks");
-			break;
-		}
-		else if (LOWORD(wParam) == IDC_PLUS_REVERT) {		// revert to defaults...
-			TOptionListItem *lvItems = CTranslator::getTree(CTranslator::TREE_MODPLUS);
-
-			for (int i = 0; lvItems[i].szName != nullptr; i++)
-				if (lvItems[i].uType == LOI_TYPE_SETTING)
-					db_set_b(0, SRMSGMOD_T, (char *)lvItems[i].lParam, (BYTE)lvItems[i].id);
-			TreeViewSetFromDB(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, 0);
-			break;
-		}
-		if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
-			return TRUE;
-
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_CLOSE:
-		EndDialog(hwndDlg, 0);
-		return 0;
+public:
+	COptAdvancedDlg()
+		: CDlgBase(g_hInst, IDD_OPTIONS_PLUS),
+		btnHelp(this, IDC_PLUS_HELP),
+		btnRevert(this, IDC_PLUS_REVERT)
+	{
+		btnHelp.OnClick = Callback(this, &COptAdvancedDlg::onClick_Help);
+		btnRevert.OnClick = Callback(this, &COptAdvancedDlg::onClick_Revert);
 	}
-	return 0;
-}
+
+	virtual void OnInitDialog() override
+	{
+		TreeViewInit(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, 0, FALSE);
+
+		SendDlgItemMessage(m_hwnd, IDC_TIMEOUTSPIN, UDM_SETRANGE, 0, MAKELONG(300, SRMSGSET_MSGTIMEOUT_MIN / 1000));
+		SendDlgItemMessage(m_hwnd, IDC_TIMEOUTSPIN, UDM_SETPOS, 0, PluginConfig.m_MsgTimeout / 1000);
+
+		SendDlgItemMessage(m_hwnd, IDC_HISTORYSIZESPIN, UDM_SETRANGE, 0, MAKELONG(255, 15));
+		SendDlgItemMessage(m_hwnd, IDC_HISTORYSIZESPIN, UDM_SETPOS, 0, (int)M.GetByte("historysize", 0));
+	}
+
+	virtual void OnApply() override
+	{
+		TreeViewToDB(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, SRMSGMOD_T, nullptr);
+
+		int msgTimeout = 1000 * GetDlgItemInt(m_hwnd, IDC_SECONDS, nullptr, FALSE);
+		PluginConfig.m_MsgTimeout = msgTimeout >= SRMSGSET_MSGTIMEOUT_MIN ? msgTimeout : SRMSGSET_MSGTIMEOUT_MIN;
+		db_set_dw(0, SRMSGMOD, SRMSGSET_MSGTIMEOUT, PluginConfig.m_MsgTimeout);
+
+		db_set_b(0, SRMSGMOD_T, "historysize", (BYTE)SendDlgItemMessage(m_hwnd, IDC_HISTORYSIZESPIN, UDM_GETPOS, 0, 0));
+		PluginConfig.reloadAdv();
+	}
+
+	virtual void OnDestroy() override
+	{
+		TreeViewDestroy(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE));
+	}
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (msg == WM_NOTIFY && ((LPNMHDR)lParam)->idFrom == IDC_PLUS_CHECKTREE)
+			return TreeViewHandleClick(m_hwnd, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
+
+		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+
+	void onClick_Help(CCtrlButton*)
+	{
+		Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Advanced_tweaks");
+	}
+
+	void onClick_Revert(CCtrlButton*)
+	{
+		TOptionListItem *lvItems = CTranslator::getTree(CTranslator::TREE_MODPLUS);
+
+		for (int i = 0; lvItems[i].szName != nullptr; i++)
+			if (lvItems[i].uType == LOI_TYPE_SETTING)
+				db_set_b(0, SRMSGMOD_T, (char *)lvItems[i].lParam, (BYTE)lvItems[i].id);
+		TreeViewSetFromDB(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, 0);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1249,14 +1274,16 @@ INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 #define SAMEASF_COLOUR 8
 #include <pshpack1.h>
 
-struct {
+struct
+{
 	BYTE sameAsFlags, sameAs;
 	COLORREF colour;
 	char size;
 	BYTE style;
 	BYTE charset;
 	char szFace[LF_FACESIZE];
-} static fontSettings[MSGDLGFONTCOUNT + 1];
+}
+static fontSettings[MSGDLGFONTCOUNT + 1];
 
 #include <poppack.h>
 
@@ -1267,22 +1294,19 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	if (PluginConfig.g_bPopupAvail)
 		TN_OptionsInitialize(wParam, lParam);
 
-	OPTIONSDIALOGPAGE odp = {};
-	odp.position = 910000000;
-	odp.hInstance = g_hInst;
-	odp.szTitle.a = LPGEN("Message sessions");
-	odp.flags = ODPF_BOLDGROUPS;
-	OPTIONSDIALOGPAGE odpnew = odp;
+	OPTIONSDIALOGPAGE odpnew = {};
+	odpnew.position = 910000000;
+	odpnew.hInstance = g_hInst;
+	odpnew.flags = ODPF_BOLDGROUPS;
+	odpnew.szTitle.a = LPGEN("Message sessions");
 
-	odp.szTab.a = LPGEN("General");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGDLG);
-	odp.pfnDlgProc = DlgProcOptions;
-	Options_AddPage(wParam, &odp);
+	odpnew.szTab.a = LPGEN("General");
+	odpnew.pDialog = new COptMainDlg();
+	Options_AddPage(wParam, &odpnew);
 
-	odp.szTab.a = LPGEN("Tabs and layout");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABBEDMSG);
-	odp.pfnDlgProc = DlgProcTabbedOptions;
-	Options_AddPage(wParam, &odp);
+	odpnew.szTab.a = LPGEN("Tabs and layout");
+	odpnew.pDialog = new COptTabbedDlg();
+	Options_AddPage(wParam, &odpnew);
 
 	odpnew.szTab.a = LPGEN("Containers");
 	odpnew.pDialog = new COptContainersDlg();
@@ -1292,16 +1316,19 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odpnew.pDialog = new COptLogDlg();
 	Options_AddPage(wParam, &odpnew);
 
-	odp.szTab.a = LPGEN("Advanced tweaks");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PLUS);
-	odp.pfnDlgProc = PlusOptionsProc;
-	Options_AddPage(wParam, &odp);
+	odpnew.szTab.a = LPGEN("Advanced tweaks");
+	odpnew.pDialog = new COptAdvancedDlg();
+	Options_AddPage(wParam, &odpnew);
 
-	odp.szGroup.a = LPGEN("Message sessions");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
-	odp.szTitle.a = LPGEN("Typing notify");
-	odp.pfnDlgProc = DlgProcTypeOptions;
-	Options_AddPage(wParam, &odp);
+	odpnew.szGroup.a = LPGEN("Message sessions");
+	odpnew.szTitle.a = LPGEN("Typing notify");
+	odpnew.pDialog = new COptTypingDlg();
+	Options_AddPage(wParam, &odpnew);
+
+	OPTIONSDIALOGPAGE odp = {};
+	odp.hInstance = g_hInst;
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.position = 910000000;
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPT);
@@ -1494,7 +1521,7 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case DM_SETPARENTDIALOG:
 		hwndParent = (HWND)lParam;
 		break;
-	
+
 	case DM_GETSTATUSMASK:
 		if (IsDlgButtonChecked(hwndDlg, IDC_ALWAYS))
 			dwNewStatusMask = -1;
