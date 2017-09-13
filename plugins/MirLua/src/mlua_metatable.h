@@ -32,8 +32,15 @@ class CMTField
 	ptrA pszName;
 
 public:
+	CMTField(const char *name) :
+		pszName(mir_strdup(name))
+	{}
+
 	const char* GetName() const { return pszName; }
-	void SetName(const char *szName) { pszName = mir_strdup(szName); }
+
+	static int Compare(const CMTField *p1, const CMTField *p2)
+	{	return mir_strcmp(p1->pszName, p2->pszName);
+	}
 
 	virtual MTField GetValue(void *obj) = 0;
 	virtual ~CMTField(){};
@@ -47,7 +54,11 @@ class CMTFieldOffset : public CMTField
 	size_t size;
 
 public:
-	CMTFieldOffset(ptrdiff_t off, size_t s, int type) : offset(off), lua_type(type), size(s) {}
+	CMTFieldOffset(const char *name, ptrdiff_t off, size_t s, int type)
+		: CMTField(name),
+		offset(off), lua_type(type), size(s)
+	{}
+	
 	virtual MTField GetValue(void *obj)
 	{
 		MTField fd = { lua_type };
@@ -62,7 +73,10 @@ class CMTFieldFunction : public CMTField
 	lua_CFunction func;
 public:
 
-	CMTFieldFunction(lua_CFunction f) : func(f) {}
+	CMTFieldFunction(const char *name, lua_CFunction f) : 
+		CMTField(name),
+		func(f)
+	{}
 
 	virtual MTField GetValue(void*)
 	{
@@ -79,7 +93,10 @@ class CMTFieldLambda : public CMTField
 	std::function<MTFieldVal(Obj*)> lambda;
 public:
 
-	CMTFieldLambda(decltype(lambda) f, int type) : lambda(f), lua_type(type) {}
+	CMTFieldLambda(const char *name, decltype(lambda) f, int type)
+		: CMTField(name),
+		lambda(f), lua_type(type)
+	{}
 
 	virtual MTField GetValue(void *obj)
 	{
@@ -142,16 +159,13 @@ private:
 		T *obj = *(T**)luaL_checkudata(L, 1, MT::name);
 		const char *key = lua_tostring(L, 2);
 
-		auto it = fields.find(key);
-		if (it == fields.end())
-		{
+		LPCVOID arTmp[2] = { nullptr, key };
+		CMTField *pField = arFields.find((CMTField*)&arTmp);
+		if (pField == nullptr)
 			return Index(L, obj);
-		}
 
-		MTField fieldVal = it->second->GetValue(obj);
-		
-		switch (fieldVal.lua_type)
-		{
+		MTField fieldVal = pField->GetValue(obj);
+		switch (fieldVal.lua_type) {
 		case LUA_TBOOLEAN:
 			lua_pushboolean(L, fieldVal.val.boolean);
 			break;
@@ -197,12 +211,13 @@ private:
 		CMStringA data(MT::name);
 		data += "(";
 
-
-		for (auto it = fields.begin(); it != fields.end(); ++it)
+		for (int i = 0; i < arFields.getCount(); i++)
 		{
-			data += it->first.c_str();
+			CMTField &F = arFields[i];
+
+			data += F.GetName();
 			data += "=";
-			MTField fieldVal = it->second->GetValue(obj);
+			MTField fieldVal = F.GetValue(obj);
 
 			switch (fieldVal.lua_type)
 			{
@@ -268,7 +283,7 @@ public:
 			size = sizeof(M);
 		size_t offset = (size_t)(&(((T*)0)->*M));
 		if (type != LUA_TNONE)
-			fields[name] = new CMTFieldOffset<T, R>(offset, size, type);
+			arFields.insert(new CMTFieldOffset<T, R>(name, offset, size, type));
 		return *this;
 	}
 
@@ -276,13 +291,13 @@ public:
 	MT& Field(const L &f, const char *name, int type)
 	{
 		if (type != LUA_TNONE)
-			fields[name] = new CMTFieldLambda<T>(f, type);
+			arFields.insert(new CMTFieldLambda<T>(name, f, type));
 		return *this;
 	}
 
 	MT& Field(const lua_CFunction f, const char *name)
 	{
-		fields[name] = new CMTFieldFunction(f);
+		arFields.insert(new CMTFieldFunction(name, f));
 		return *this;
 	}
 
@@ -304,6 +319,6 @@ template<typename T>
 const char *MT<T>::name;
 
 template<typename T>
-std::map<std::string, CMTField*> MT<T>::fields;
+OBJLIST<CMTField> MT<T>::arFields(5, &CMTField::Compare);
 
 #endif //_LUA_METATABLE_H_
