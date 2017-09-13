@@ -29,7 +29,12 @@ struct MTField
 
 class CMTField
 {
+	ptrA pszName;
+
 public:
+	const char* GetName() const { return pszName; }
+	void SetName(const char *szName) { pszName = mir_strdup(szName); }
+
 	virtual MTField GetValue(void *obj) = 0;
 	virtual ~CMTField(){};
 };
@@ -40,6 +45,7 @@ class CMTFieldOffset : public CMTField
 	int lua_type;
 	ptrdiff_t offset;
 	size_t size;
+
 public:
 	CMTFieldOffset(ptrdiff_t off, size_t s, int type) : offset(off), lua_type(type), size(s) {}
 	virtual MTField GetValue(void *obj)
@@ -58,7 +64,7 @@ public:
 
 	CMTFieldFunction(lua_CFunction f) : func(f) {}
 
-	virtual MTField GetValue(void *obj)
+	virtual MTField GetValue(void*)
 	{
 		MTField tmp = { LUA_TFUNCTION };
 		tmp.val.function = func;
@@ -90,7 +96,7 @@ private:
 	lua_State *L;
 
 	static const char *name;
-	static std::map<std::string, CMTField*> fields;
+	static OBJLIST<CMTField> arFields;
 
 	static T* Init(lua_State *L)
 	{
