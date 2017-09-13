@@ -62,7 +62,6 @@
 #define IDD_OPT_SKIN                    251
 #define IDD_OPT_META_CLC                279
 #define IDI_ACCMGR                      281
-#define IDD_MODERNOPTS                  288
 #define IDC_DEFAULTSUB                  293
 #define IDC_DROPMETA                    295
 #define IDC_REGROUP                     296
@@ -251,17 +250,12 @@
 #define IDC_METASUBEXTRA_IGN            1615
 #define IDC_MIN_ROW_HEIGHT              1616
 #define IDC_MIN_ROW_HEIGHT_SPIN         1617
-#define IDC_TXT_TITLE1                  1617
 #define IDC_ROW_BORDER                  1618
-#define IDC_TXT_TITLE2                  1618
 #define IDC_ROW_BORDER_SPIN             1619
 #define IDC_AVATAR_SIZE                 1620
-#define IDC_TXT_TITLE4                  1620
 #define IDC_AVATAR_SIZE_SPIN            1621
 #define IDC_AVATAR_CUSTOM_CORNER_SIZE   1622
-#define IDC_TXT_TITLE5                  1622
 #define IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN 1623
-#define IDC_TXT_TITLE3                  1623
 #define IDC_AVATAR_WIDTH                1624
 #define IDC_AVATAR_WIDTH_SPIN           1625
 #define IDC_BUTTON1                     1633

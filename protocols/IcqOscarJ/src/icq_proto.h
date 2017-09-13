@@ -124,7 +124,6 @@ struct CIcqProto : public PROTO<CIcqProto>
     //====| Events |======================================================================
 	void __cdecl OnAddContactForever(DBCONTACTWRITESETTING *cws, MCONTACT hContact);
 	int  __cdecl OnIdleChanged(WPARAM, LPARAM);
-	int  __cdecl OnModernOptInit(WPARAM, LPARAM);
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int  __cdecl OnPreShutdown(WPARAM, LPARAM);
