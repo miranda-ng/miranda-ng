@@ -633,207 +633,213 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int have_ieview = 0, have_hpp = 0;
+static UINT __ctrls[] = { IDC_INDENTSPIN, IDC_RINDENTSPIN, IDC_INDENTAMOUNT, IDC_RIGHTINDENT, IDC_MODIFY, IDC_RTLMODIFY };
 
-static UINT __ctrls[] = { IDC_INDENTSPIN, IDC_RINDENTSPIN, IDC_INDENTAMOUNT, IDC_RIGHTINDENT,
-IDC_MODIFY, IDC_RTLMODIFY };
-
-static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class COptLogDlg : public CDlgBase
 {
+	CCtrlButton btnModify, btnRtlModify;
+	CCtrlCheck  chkAlwaysTrim, chkLoadUnread, chkLoadCount, chkLoadTime;
+	CCtrlCombo 	cmbLogDisplay;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			DWORD maxhist = M.GetDword("maxhist", 0);
-			DWORD dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
-			BOOL translated;
+	int have_ieview = 0, have_hpp = 0;
 
-			switch (M.GetByte(SRMSGMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY)) {
-			case LOADHISTORY_UNREAD:
-				CheckDlgButton(hwndDlg, IDC_LOADUNREAD, BST_CHECKED);
-				break;
-			case LOADHISTORY_COUNT:
-				CheckDlgButton(hwndDlg, IDC_LOADCOUNT, BST_CHECKED);
-				Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTN, true);
-				Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTSPIN, true);
-				break;
-			case LOADHISTORY_TIME:
-				CheckDlgButton(hwndDlg, IDC_LOADTIME, BST_CHECKED);
-				Utils::enableDlgControl(hwndDlg, IDC_LOADTIMEN, true);
-				Utils::enableDlgControl(hwndDlg, IDC_LOADTIMESPIN, true);
-				Utils::enableDlgControl(hwndDlg, IDC_STMINSOLD, true);
-				break;
-			}
+	// configure the option page - hide most of the settings here when either IEView
+	// or H++ is set as the global message log viewer. Showing these options may confuse
+	// the user, because they are not working and the user needs to configure the 3rd
+	// party plugin.
 
-			TreeViewInit(GetDlgItem(hwndDlg, IDC_LOGOPTIONS), CTranslator::TREE_LOG, dwFlags, FALSE);
-
-			SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
-			SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_SETPOS, 0, db_get_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
-			SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_SETRANGE, 0, MAKELONG(24 * 60, 0));
-			SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_SETPOS, 0, db_get_w(0, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
-
-			SetDlgItemInt(hwndDlg, IDC_INDENTAMOUNT, M.GetDword("IndentAmount", 20), FALSE);
-			SendDlgItemMessage(hwndDlg, IDC_INDENTSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
-			SendDlgItemMessage(hwndDlg, IDC_INDENTSPIN, UDM_SETPOS, 0, GetDlgItemInt(hwndDlg, IDC_INDENTAMOUNT, &translated, FALSE));
-
-			SetDlgItemInt(hwndDlg, IDC_RIGHTINDENT, M.GetDword("RightIndent", 20), FALSE);
-			SendDlgItemMessage(hwndDlg, IDC_RINDENTSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
-			SendDlgItemMessage(hwndDlg, IDC_RINDENTSPIN, UDM_SETPOS, 0, GetDlgItemInt(hwndDlg, IDC_RIGHTINDENT, &translated, FALSE));
-			SendMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_INDENT, 0), 0);
-
-			SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 5));
-			SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_SETPOS, 0, maxhist);
-			Utils::enableDlgControl(hwndDlg, IDC_TRIMSPIN, maxhist != 0);
-			Utils::enableDlgControl(hwndDlg, IDC_TRIM, maxhist != 0);
-			CheckDlgButton(hwndDlg, IDC_ALWAYSTRIM, maxhist != 0);
-
-			have_ieview = ServiceExists(MS_IEVIEW_WINDOW);
-			have_hpp = ServiceExists("History++/ExtGrid/NewWindow");
-
-			SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Internal message log"));
-			SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_SETCURSEL, 0, 0);
-			if (have_ieview || have_hpp) {
-				if (have_ieview) {
-					SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("IEView plugin"));
-					if (M.GetByte("default_ieview", 0))
-						SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_SETCURSEL, 1, 0);
-				}
-				if (have_hpp) {
-					SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("History++ plugin"));
-					if (M.GetByte("default_ieview", 0))
-						SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_SETCURSEL, 1, 0);
-					else if (M.GetByte("default_hpp", 0))
-						SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_SETCURSEL, have_ieview ? 2 : 1, 0);
-				}
-			}
-			else EnableWindow(GetDlgItem(hwndDlg, IDC_MSGLOGDIDSPLAY), FALSE);
-
-			SetDlgItemText(hwndDlg, IDC_EXPLAINMSGLOGSETTINGS, TranslateT("You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++."));
-			SendMessage(hwndDlg, WM_USER + 100, 0, 0);
-		}
-		return TRUE;
-
-	case WM_DESTROY:
-		TreeViewDestroy(GetDlgItem(hwndDlg, IDC_LOGOPTIONS));
-		break;
-
-		// configure the option page - hide most of the settings here when either IEView
-		// or H++ is set as the global message log viewer. Showing these options may confuse
-		// the user, because they are not working and the user needs to configure the 3rd
-		// party plugin.
-	case WM_USER + 100:
+	void ShowHide()
 	{
-		LRESULT r = SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_GETCURSEL, 0, 0);
-		Utils::showDlgControl(hwndDlg, IDC_EXPLAINMSGLOGSETTINGS, r == 0 ? SW_HIDE : SW_SHOW);
-		Utils::showDlgControl(hwndDlg, IDC_LOGOPTIONS, r == 0 ? SW_SHOW : SW_HIDE);
-		Utils::enableDlgControl(GetDlgItem(hwndDlg, IDC_MSGLOGDIDSPLAY), r != 0);
+		LRESULT r = cmbLogDisplay.GetCurSel();
+		Utils::showDlgControl(m_hwnd, IDC_EXPLAINMSGLOGSETTINGS, r == 0 ? SW_HIDE : SW_SHOW);
+		Utils::showDlgControl(m_hwnd, IDC_LOGOPTIONS, r == 0 ? SW_SHOW : SW_HIDE);
+		Utils::enableDlgControl(GetDlgItem(m_hwnd, IDC_MSGLOGDIDSPLAY), r != 0);
 		for (int i = 0; i < _countof(__ctrls); i++)
-			Utils::enableDlgControl(hwndDlg, __ctrls[i], r == 0 ? TRUE : FALSE);
+			Utils::enableDlgControl(m_hwnd, __ctrls[i], r == 0 ? TRUE : FALSE);
 	}
-	return 0;
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_ALWAYSTRIM:
-			Utils::enableDlgControl(hwndDlg, IDC_TRIMSPIN, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM) != 0);
-			Utils::enableDlgControl(hwndDlg, IDC_TRIM, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM) != 0);
+public:
+	COptLogDlg()
+		: CDlgBase(g_hInst, IDD_OPT_MSGLOG),
+		btnModify(this, IDC_MODIFY),
+		btnRtlModify(this, IDC_RTLMODIFY),
+		chkLoadTime(this, IDC_LOADTIME),
+		chkLoadCount(this, IDC_LOADCOUNT),
+		chkAlwaysTrim(this, IDC_ALWAYSTRIM),
+		chkLoadUnread(this, IDC_LOADUNREAD),
+		cmbLogDisplay(this, IDC_MSGLOGDIDSPLAY)
+	{
+		btnModify.OnClick = Callback(this, &COptLogDlg::onClick_Modify);
+		btnRtlModify.OnClick = Callback(this, &COptLogDlg::onClick_RtlModify);
+
+		cmbLogDisplay.OnChange = Callback(this, &COptLogDlg::onChange_Combo);
+
+		chkAlwaysTrim.OnChange = Callback(this, &COptLogDlg::onChange_Trim);
+		chkLoadTime.OnChange = chkLoadCount.OnChange = chkLoadUnread.OnChange = Callback(this, &COptLogDlg::onChange_Load);
+	}
+
+	virtual void OnInitDialog() override
+	{
+		DWORD maxhist = M.GetDword("maxhist", 0);
+		DWORD dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
+		BOOL translated;
+
+		switch (M.GetByte(SRMSGMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY)) {
+		case LOADHISTORY_UNREAD:
+			CheckDlgButton(m_hwnd, IDC_LOADUNREAD, BST_CHECKED);
 			break;
-		case IDC_LOADUNREAD:
-		case IDC_LOADCOUNT:
-		case IDC_LOADTIME:
-			Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTN, IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT) != 0);
-			Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTSPIN, IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT) != 0);
-			Utils::enableDlgControl(hwndDlg, IDC_LOADTIMEN, IsDlgButtonChecked(hwndDlg, IDC_LOADTIME) != 0);
-			Utils::enableDlgControl(hwndDlg, IDC_LOADTIMESPIN, IsDlgButtonChecked(hwndDlg, IDC_LOADTIME) != 0);
-			Utils::enableDlgControl(hwndDlg, IDC_STMINSOLD, IsDlgButtonChecked(hwndDlg, IDC_LOADTIME) != 0);
+		case LOADHISTORY_COUNT:
+			CheckDlgButton(m_hwnd, IDC_LOADCOUNT, BST_CHECKED);
+			Utils::enableDlgControl(m_hwnd, IDC_LOADCOUNTN, true);
+			Utils::enableDlgControl(m_hwnd, IDC_LOADCOUNTSPIN, true);
 			break;
-		case IDC_INDENTAMOUNT:
-		case IDC_LOADCOUNTN:
-		case IDC_LOADTIMEN:
-		case IDC_RIGHTINDENT:
-		case IDC_TRIM:
-			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
-				return TRUE;
-			break;
-		case IDC_MODIFY:
-			{
-				TemplateEditorNew teNew = { 0, 0, hwndDlg };
-				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_TEMPLATEEDIT), hwndDlg, DlgProcTemplateEditor, (LPARAM)&teNew);
-			}
-			break;
-		case IDC_RTLMODIFY:
-			{
-				TemplateEditorNew teNew = { 0, TRUE, hwndDlg };
-				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_TEMPLATEEDIT), hwndDlg, DlgProcTemplateEditor, (LPARAM)&teNew);
-			}
-			break;
-		case IDC_MSGLOGDIDSPLAY:
-			SendMessage(hwndDlg, WM_USER + 100, 0, 0);
+		case LOADHISTORY_TIME:
+			CheckDlgButton(m_hwnd, IDC_LOADTIME, BST_CHECKED);
+			Utils::enableDlgControl(m_hwnd, IDC_LOADTIMEN, true);
+			Utils::enableDlgControl(m_hwnd, IDC_LOADTIMESPIN, true);
+			Utils::enableDlgControl(m_hwnd, IDC_STMINSOLD, true);
 			break;
 		}
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
 
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case IDC_LOGOPTIONS:
-			return TreeViewHandleClick(hwndDlg, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
-			break;
+		TreeViewInit(GetDlgItem(m_hwnd, IDC_LOGOPTIONS), CTranslator::TREE_LOG, dwFlags, FALSE);
 
-		default:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				LRESULT msglogmode = SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_GETCURSEL, 0, 0);
-				DWORD dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
-				BOOL translated;
+		SendDlgItemMessage(m_hwnd, IDC_LOADCOUNTSPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
+		SendDlgItemMessage(m_hwnd, IDC_LOADCOUNTSPIN, UDM_SETPOS, 0, db_get_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
+		SendDlgItemMessage(m_hwnd, IDC_LOADTIMESPIN, UDM_SETRANGE, 0, MAKELONG(24 * 60, 0));
+		SendDlgItemMessage(m_hwnd, IDC_LOADTIMESPIN, UDM_SETPOS, 0, db_get_w(0, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
 
-				dwFlags &= ~(MWF_LOG_ALL);
+		SetDlgItemInt(m_hwnd, IDC_INDENTAMOUNT, M.GetDword("IndentAmount", 20), FALSE);
+		SendDlgItemMessage(m_hwnd, IDC_INDENTSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
+		SendDlgItemMessage(m_hwnd, IDC_INDENTSPIN, UDM_SETPOS, 0, GetDlgItemInt(m_hwnd, IDC_INDENTAMOUNT, &translated, FALSE));
 
-				if (IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT))
-					db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_COUNT);
-				else if (IsDlgButtonChecked(hwndDlg, IDC_LOADTIME))
-					db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_TIME);
-				else
-					db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_UNREAD);
-				db_set_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, (WORD)SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_GETPOS, 0, 0));
-				db_set_w(0, SRMSGMOD, SRMSGSET_LOADTIME, (WORD)SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_GETPOS, 0, 0));
+		SetDlgItemInt(m_hwnd, IDC_RIGHTINDENT, M.GetDword("RightIndent", 20), FALSE);
+		SendDlgItemMessage(m_hwnd, IDC_RINDENTSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
+		SendDlgItemMessage(m_hwnd, IDC_RINDENTSPIN, UDM_SETPOS, 0, GetDlgItemInt(m_hwnd, IDC_RIGHTINDENT, &translated, FALSE));
+		SendMessage(m_hwnd, WM_COMMAND, MAKELONG(IDC_INDENT, 0), 0);
 
-				db_set_dw(0, SRMSGMOD_T, "IndentAmount", (DWORD)GetDlgItemInt(hwndDlg, IDC_INDENTAMOUNT, &translated, FALSE));
-				db_set_dw(0, SRMSGMOD_T, "RightIndent", (DWORD)GetDlgItemInt(hwndDlg, IDC_RIGHTINDENT, &translated, FALSE));
+		SendDlgItemMessage(m_hwnd, IDC_TRIMSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 5));
+		SendDlgItemMessage(m_hwnd, IDC_TRIMSPIN, UDM_SETPOS, 0, maxhist);
+		Utils::enableDlgControl(m_hwnd, IDC_TRIMSPIN, maxhist != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_TRIM, maxhist != 0);
+		CheckDlgButton(m_hwnd, IDC_ALWAYSTRIM, maxhist != 0);
 
-				db_set_b(0, SRMSGMOD_T, "default_ieview", 0);
-				db_set_b(0, SRMSGMOD_T, "default_hpp", 0);
-				switch (msglogmode) {
-				case 0:
-					break;
-				case 1:
-					if (have_ieview)
-						db_set_b(0, SRMSGMOD_T, "default_ieview", 1);
-					else
-						db_set_b(0, SRMSGMOD_T, "default_hpp", 1);
-					break;
-				case 2:
-					db_set_b(0, SRMSGMOD_T, "default_hpp", 1);
-					break;
-				}
+		have_ieview = ServiceExists(MS_IEVIEW_WINDOW);
+		have_hpp = ServiceExists("History++/ExtGrid/NewWindow");
 
-				// scan the tree view and obtain the options...
-				TreeViewToDB(GetDlgItem(hwndDlg, IDC_LOGOPTIONS), CTranslator::TREE_LOG, SRMSGMOD_T, &dwFlags);
-				db_set_dw(0, SRMSGMOD_T, "mwflags", dwFlags);
-				if (IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM))
-					db_set_dw(0, SRMSGMOD_T, "maxhist", (DWORD)SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_GETPOS, 0, 0));
-				else
-					db_set_dw(0, SRMSGMOD_T, "maxhist", 0);
-				PluginConfig.reloadSettings();
-				Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
-				return TRUE;
+		cmbLogDisplay.AddString(TranslateT("Internal message log"));
+		cmbLogDisplay.SetCurSel(0);
+		if (have_ieview || have_hpp) {
+			if (have_ieview) {
+				cmbLogDisplay.AddString(TranslateT("IEView plugin"));
+				if (M.GetByte("default_ieview", 0))
+					cmbLogDisplay.SetCurSel(1);
+			}
+			if (have_hpp) {
+				cmbLogDisplay.AddString(TranslateT("History++ plugin"));
+				if (M.GetByte("default_ieview", 0))
+					cmbLogDisplay.SetCurSel(1);
+				else if (M.GetByte("default_hpp", 0))
+					cmbLogDisplay.SetCurSel(have_ieview ? 2 : 1);
 			}
 		}
-		break;
+		else cmbLogDisplay.Disable();
+
+		SetDlgItemText(m_hwnd, IDC_EXPLAINMSGLOGSETTINGS, TranslateT("You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++."));
+		ShowHide();
 	}
-	return FALSE;
-}
+
+	virtual void OnApply() override
+	{
+		LRESULT msglogmode = SendDlgItemMessage(m_hwnd, IDC_MSGLOGDIDSPLAY, CB_GETCURSEL, 0, 0);
+		DWORD dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
+
+		dwFlags &= ~(MWF_LOG_ALL);
+
+		if (IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT))
+			db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_COUNT);
+		else if (IsDlgButtonChecked(m_hwnd, IDC_LOADTIME))
+			db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_TIME);
+		else
+			db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_UNREAD);
+		db_set_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, (WORD)SendDlgItemMessage(m_hwnd, IDC_LOADCOUNTSPIN, UDM_GETPOS, 0, 0));
+		db_set_w(0, SRMSGMOD, SRMSGSET_LOADTIME, (WORD)SendDlgItemMessage(m_hwnd, IDC_LOADTIMESPIN, UDM_GETPOS, 0, 0));
+
+		BOOL translated;
+		db_set_dw(0, SRMSGMOD_T, "IndentAmount", (DWORD)GetDlgItemInt(m_hwnd, IDC_INDENTAMOUNT, &translated, FALSE));
+		db_set_dw(0, SRMSGMOD_T, "RightIndent", (DWORD)GetDlgItemInt(m_hwnd, IDC_RIGHTINDENT, &translated, FALSE));
+
+		db_set_b(0, SRMSGMOD_T, "default_ieview", 0);
+		db_set_b(0, SRMSGMOD_T, "default_hpp", 0);
+		switch (msglogmode) {
+		case 0:
+			break;
+		case 1:
+			if (have_ieview)
+				db_set_b(0, SRMSGMOD_T, "default_ieview", 1);
+			else
+				db_set_b(0, SRMSGMOD_T, "default_hpp", 1);
+			break;
+		case 2:
+			db_set_b(0, SRMSGMOD_T, "default_hpp", 1);
+			break;
+		}
+
+		// scan the tree view and obtain the options...
+		TreeViewToDB(GetDlgItem(m_hwnd, IDC_LOGOPTIONS), CTranslator::TREE_LOG, SRMSGMOD_T, &dwFlags);
+		db_set_dw(0, SRMSGMOD_T, "mwflags", dwFlags);
+		if (IsDlgButtonChecked(m_hwnd, IDC_ALWAYSTRIM))
+			db_set_dw(0, SRMSGMOD_T, "maxhist", (DWORD)SendDlgItemMessage(m_hwnd, IDC_TRIMSPIN, UDM_GETPOS, 0, 0));
+		else
+			db_set_dw(0, SRMSGMOD_T, "maxhist", 0);
+		PluginConfig.reloadSettings();
+		Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
+	}
+
+	virtual void OnDestroy() override
+	{
+		TreeViewDestroy(GetDlgItem(m_hwnd, IDC_LOGOPTIONS));
+	}
+
+	void onChange_Trim(CCtrlCheck*)
+	{
+		Utils::enableDlgControl(m_hwnd, IDC_TRIMSPIN, IsDlgButtonChecked(m_hwnd, IDC_ALWAYSTRIM) != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_TRIM, IsDlgButtonChecked(m_hwnd, IDC_ALWAYSTRIM) != 0);
+	}
+
+	void onChange_Load(CCtrlCheck*)
+	{
+		Utils::enableDlgControl(m_hwnd, IDC_LOADCOUNTN, IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT) != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_LOADCOUNTSPIN, IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT) != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_LOADTIMEN, IsDlgButtonChecked(m_hwnd, IDC_LOADTIME) != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_LOADTIMESPIN, IsDlgButtonChecked(m_hwnd, IDC_LOADTIME) != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_STMINSOLD, IsDlgButtonChecked(m_hwnd, IDC_LOADTIME) != 0);
+	}
+
+	void onClick_Modify(CCtrlButton*)
+	{
+		TemplateEditorNew teNew = { 0, 0, m_hwnd };
+		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_TEMPLATEEDIT), m_hwnd, DlgProcTemplateEditor, (LPARAM)&teNew);
+	}
+
+	void onClick_RtlModify(CCtrlButton*)
+	{
+		TemplateEditorNew teNew = { 0, TRUE, m_hwnd };
+		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_TEMPLATEEDIT), m_hwnd, DlgProcTemplateEditor, (LPARAM)&teNew);
+	}
+
+	void onChange_Combo(CCtrlCombo*)
+	{
+		ShowHide();
+	}
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (msg == WM_NOTIFY && ((LPNMHDR)lParam)->idFrom == IDC_LOGOPTIONS)
+			return TreeViewHandleClick(m_hwnd, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
+
+		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // typing notify options
@@ -1282,10 +1288,9 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odpnew.pDialog = new COptContainersDlg();
 	Options_AddPage(wParam, &odpnew);
 
-	odp.szTab.a = LPGEN("Message log");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGLOG);
-	odp.pfnDlgProc = DlgProcLogOptions;
-	Options_AddPage(wParam, &odp);
+	odpnew.szTab.a = LPGEN("Message log");
+	odpnew.pDialog = new COptLogDlg();
+	Options_AddPage(wParam, &odpnew);
 
 	odp.szTab.a = LPGEN("Advanced tweaks");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PLUS);
