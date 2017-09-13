@@ -40,6 +40,7 @@ private:
 	HWND m_hWndTarget;
 	SmileyPackType *m_pSmileyPack;
 	int m_CurrentHotTrack;
+	int m_CurrMouseTrack;
 	int m_XPosition;
 	int m_YPosition;
 	int m_Direction;
@@ -56,7 +57,7 @@ private:
 	void InsertSmiley(void);
 	void MouseMove(int x, int y);
 	void KeyUp(WPARAM wParam, LPARAM lParam);
-	void SmileySel(int but, bool byKeyboard);
+	void SmileySel(int but);
 	void ScrollV(int action, int dist = 0);
 
 	int GetRowSize(void) const { return m_ButtonSize.cy + m_ButtonSpace; }
@@ -153,7 +154,12 @@ LRESULT SmileyToolWindowType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_LBUTTONUP:
+		SmileySel(m_CurrMouseTrack);
 		InsertSmiley();
+		break;
+
+	case WM_RBUTTONUP:
+		SmileySel(m_CurrMouseTrack);
 		break;
 
 	case WM_MOUSEWHEEL:
@@ -211,7 +217,7 @@ void SmileyToolWindowType::InsertSmiley(void)
 		DestroyWindow(m_hwndDialog);
 }
 
-void SmileyToolWindowType::SmileySel(int but, bool byKeyboard)
+void SmileyToolWindowType::SmileySel(int but)
 {
 	if (but != m_CurrentHotTrack) {
 		SCROLLINFO si;
@@ -230,33 +236,14 @@ void SmileyToolWindowType::SmileySel(int but, bool byKeyboard)
 
 		// when selection is outside the window, then scroll
 		int dist = 0; // scrolling distance
-		if (but < si.nPos * (opt.HorizontalSorting ? (int)m_NumberOfHorizontalButtons : 1)) {
-			if (byKeyboard)
-				dist = but / (opt.HorizontalSorting ? (int)m_NumberOfHorizontalButtons : 1) - si.nPos;
-			else
-				but = -1;
-		}
+		if (but < si.nPos * (opt.HorizontalSorting ? (int)m_NumberOfHorizontalButtons : 1))
+			dist = but / (opt.HorizontalSorting ? (int)m_NumberOfHorizontalButtons : 1) - si.nPos;
 		int numVert = m_WindowSizeY / (m_ButtonSize.cy + m_ButtonSpace);
-		if (but >= (si.nPos + numVert) * (opt.HorizontalSorting ? (int)m_NumberOfHorizontalButtons : 1) && byKeyboard) {
-			if (byKeyboard)
-				dist = but / (opt.HorizontalSorting ? m_NumberOfHorizontalButtons : 1) - numVert - si.nPos + 1;
-			else
-				but = -1;
-		}
+		if (but >= (si.nPos + numVert) * (opt.HorizontalSorting ? (int)m_NumberOfHorizontalButtons : 1))
+			dist = but / (opt.HorizontalSorting ? m_NumberOfHorizontalButtons : 1) - numVert - si.nPos + 1;
 
 		m_CurrentHotTrack = but;
 		if (m_CurrentHotTrack >= 0) {
-			TOOLINFO ti = { 0 };
-			ti.cbSize = sizeof(ti);
-			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
-			ti.hwnd = m_hwndDialog;
-			ti.uId = (UINT_PTR)m_hwndDialog;
-
-			const CMStringW &toolText = m_pSmileyPack->GetSmiley(m_CurrentHotTrack)->GetToolText();
-			ti.lpszText = const_cast<wchar_t*>(toolText.c_str());
-			SendMessage(m_hToolTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
-			SendMessage(m_hToolTip, TTM_ACTIVATE, TRUE, 0);
-
 			RECT rect = CalculateButtonToCoordinates(m_CurrentHotTrack, si.nPos);
 			DrawFocusRect(hdc, &rect);
 			if (m_AniPack) m_AniPack->SetSel(rect);
@@ -338,8 +325,6 @@ void SmileyToolWindowType::ScrollV(int action, int dist)
 void SmileyToolWindowType::MouseMove(int xposition, int yposition)
 {
 	if (m_CurrentHotTrack == -2) return; //prevent focussing when not drawn yet!
-	//    SetFocus(m_hwndDialog);
-
 
 	SCROLLINFO si;
 	si.cbSize = sizeof(si);
@@ -349,7 +334,21 @@ void SmileyToolWindowType::MouseMove(int xposition, int yposition)
 
 	POINT pt = { xposition, yposition };
 	int but = CalculateCoordinatesToButton(pt, si.nPos);
-	SmileySel(but, false);
+	if (but<0)
+		SendMessage(m_hToolTip, TTM_ACTIVATE, FALSE, 0);
+	else
+		if (m_CurrMouseTrack != but) {
+			TOOLINFO ti = { 0 };
+			ti.cbSize = sizeof(ti);
+			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
+			ti.hwnd = m_hwndDialog;
+			ti.uId = (UINT_PTR)m_hwndDialog;
+			const CMStringW &toolText = m_pSmileyPack->GetSmiley(but)->GetToolText();
+			ti.lpszText = const_cast<wchar_t*>(toolText.c_str());
+			SendMessage(m_hToolTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
+			SendMessage(m_hToolTip, TTM_ACTIVATE, TRUE, 0);
+		}
+	m_CurrMouseTrack = but;
 }
 
 
@@ -452,7 +451,7 @@ void SmileyToolWindowType::KeyUp(WPARAM wParam, LPARAM lParam)
 	if (but < 0) but = 0;
 	if (but >= (int)m_NumberOfButtons) but = m_NumberOfButtons - 1;
 
-	SmileySel(but, true);
+	SmileySel(but);
 	if (colSel != -1)
 		InsertSmiley();
 }
@@ -473,6 +472,7 @@ void SmileyToolWindowType::InitDialog(LPARAM lParam)
 	m_hContact = stwp->hContact;
 
 	m_CurrentHotTrack = -2;
+	m_CurrMouseTrack = -1;
 	m_Choosing = false;
 
 	CreateSmileyWinDim();
