@@ -757,17 +757,17 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				return TRUE;
 			break;
 		case IDC_MODIFY:
-		{
-			TemplateEditorNew teNew = { 0, 0, hwndDlg };
-			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_TEMPLATEEDIT), hwndDlg, DlgProcTemplateEditor, (LPARAM)&teNew);
-		}
-		break;
+			{
+				TemplateEditorNew teNew = { 0, 0, hwndDlg };
+				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_TEMPLATEEDIT), hwndDlg, DlgProcTemplateEditor, (LPARAM)&teNew);
+			}
+			break;
 		case IDC_RTLMODIFY:
-		{
-			TemplateEditorNew teNew = { 0, TRUE, hwndDlg };
-			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_TEMPLATEEDIT), hwndDlg, DlgProcTemplateEditor, (LPARAM)&teNew);
-		}
-		break;
+			{
+				TemplateEditorNew teNew = { 0, TRUE, hwndDlg };
+				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_TEMPLATEEDIT), hwndDlg, DlgProcTemplateEditor, (LPARAM)&teNew);
+			}
+			break;
 		case IDC_MSGLOGDIDSPLAY:
 			SendMessage(hwndDlg, WM_USER + 100, 0, 0);
 			break;
@@ -1067,93 +1067,99 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 /////////////////////////////////////////////////////////////////////////////////////////
 // container options
 
-static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class COptContainersDlg : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_CONTAINERGROUPMODE, M.GetByte("useclistgroups", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LIMITTABS, M.GetByte("limittabs", 0) ? BST_CHECKED : BST_UNCHECKED);
+	CCtrlButton btnHelp;
+	CCtrlCheck  chkUseAero, chkLimits, chkSingle, chkGroup, chkDefault;
 
-		SendDlgItemMessage(hwndDlg, IDC_TABLIMITSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 1));
-		SendDlgItemMessage(hwndDlg, IDC_TABLIMITSPIN, UDM_SETPOS, 0, (int)M.GetDword("maxtabs", 1));
-		SetDlgItemInt(hwndDlg, IDC_TABLIMIT, (int)M.GetDword("maxtabs", 1), FALSE);
-		Utils::enableDlgControl(hwndDlg, IDC_TABLIMIT, IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS) != 0);
-		CheckDlgButton(hwndDlg, IDC_SINGLEWINDOWMODE, M.GetByte("singlewinmode", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DEFAULTCONTAINERMODE, !(IsDlgButtonChecked(hwndDlg, IDC_CONTAINERGROUPMODE) || IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS) || IsDlgButtonChecked(hwndDlg, IDC_SINGLEWINDOWMODE)) ? BST_CHECKED : BST_UNCHECKED);
-
-		SetDlgItemInt(hwndDlg, IDC_NRFLASH, M.GetByte("nrflash", 4), FALSE);
-		SendDlgItemMessage(hwndDlg, IDC_NRFLASHSPIN, UDM_SETRANGE, 0, MAKELONG(255, 0));
-		SendDlgItemMessage(hwndDlg, IDC_NRFLASHSPIN, UDM_SETPOS, 0, (int)M.GetByte("nrflash", 4));
-
-		SetDlgItemInt(hwndDlg, IDC_FLASHINTERVAL, M.GetDword("flashinterval", 1000), FALSE);
-		SendDlgItemMessage(hwndDlg, IDC_FLASHINTERVALSPIN, UDM_SETRANGE, 0, MAKELONG(10000, 500));
-		SendDlgItemMessage(hwndDlg, IDC_FLASHINTERVALSPIN, UDM_SETPOS, 0, (int)M.GetDword("flashinterval", 1000));
-		SendDlgItemMessage(hwndDlg, IDC_FLASHINTERVALSPIN, UDM_SETACCEL, 0, (int)M.GetDword("flashinterval", 1000));
-		CheckDlgButton(hwndDlg, IDC_USEAERO, M.GetByte("useAero", 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_USEAEROPEEK, M.GetByte("useAeroPeek", 1) ? BST_CHECKED : BST_UNCHECKED);
-		for (int i = 0; i < CSkin::AERO_EFFECT_LAST; i++)
-			SendDlgItemMessage(hwndDlg, IDC_AEROEFFECT, CB_INSERTSTRING, -1, (LPARAM)TranslateW(CSkin::m_aeroEffects[i].tszName));
-
-		SendDlgItemMessage(hwndDlg, IDC_AEROEFFECT, CB_SETCURSEL, (WPARAM)CSkin::m_aeroEffect, 0);
-		Utils::enableDlgControl(hwndDlg, IDC_AEROEFFECT, PluginConfig.m_bIsVista);
-		Utils::enableDlgControl(hwndDlg, IDC_USEAERO, PluginConfig.m_bIsVista);
-		Utils::enableDlgControl(hwndDlg, IDC_USEAEROPEEK, PluginConfig.m_bIsWin7);
-		if (PluginConfig.m_bIsVista)
-			Utils::enableDlgControl(hwndDlg, IDC_AEROEFFECT, IsDlgButtonChecked(hwndDlg, IDC_USEAERO) != 0);
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_TABLIMIT:
-			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
-				return TRUE;
-			break;
-		case IDC_USEAERO:
-			Utils::enableDlgControl(hwndDlg, IDC_AEROEFFECT, IsDlgButtonChecked(hwndDlg, IDC_USEAERO) != 0);
-			break;
-		case IDC_LIMITTABS:
-		case IDC_SINGLEWINDOWMODE:
-		case IDC_CONTAINERGROUPMODE:
-		case IDC_DEFAULTCONTAINERMODE:
-			Utils::enableDlgControl(hwndDlg, IDC_TABLIMIT, IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS) != 0);
-			break;
-		case IDC_HELP_CONTAINERS:
-			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Containers");
-			break;
-		}
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				BOOL translated;
-				bool	fOldAeroState = M.getAeroState();
-				db_set_b(0, SRMSGMOD_T, "useclistgroups", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CONTAINERGROUPMODE)));
-				db_set_b(0, SRMSGMOD_T, "limittabs", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS)));
-				db_set_dw(0, SRMSGMOD_T, "maxtabs", GetDlgItemInt(hwndDlg, IDC_TABLIMIT, &translated, FALSE));
-				db_set_b(0, SRMSGMOD_T, "singlewinmode", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SINGLEWINDOWMODE)));
-				db_set_dw(0, SRMSGMOD_T, "flashinterval", GetDlgItemInt(hwndDlg, IDC_FLASHINTERVAL, &translated, FALSE));
-				db_set_b(0, SRMSGMOD_T, "nrflash", (BYTE)(GetDlgItemInt(hwndDlg, IDC_NRFLASH, &translated, FALSE)));
-				db_set_b(0, SRMSGMOD_T, "useAero", IsDlgButtonChecked(hwndDlg, IDC_USEAERO) ? 1 : 0);
-				db_set_b(0, SRMSGMOD_T, "useAeroPeek", IsDlgButtonChecked(hwndDlg, IDC_USEAEROPEEK) ? 1 : 0);
-				CSkin::setAeroEffect(SendDlgItemMessage(hwndDlg, IDC_AEROEFFECT, CB_GETCURSEL, 0, 0));
-
-				if (M.getAeroState() != fOldAeroState) {
-					SendMessage(PluginConfig.g_hwndHotkeyHandler, WM_DWMCOMPOSITIONCHANGED, 0, 0);	// simulate aero state change
-					SendMessage(PluginConfig.g_hwndHotkeyHandler, WM_DWMCOLORIZATIONCOLORCHANGED, 0, 0);	// simulate aero state change
-				}
-				BuildContainerMenu();
-				return TRUE;
-			}
-		}
-		break;
+	void onHelp(CCtrlButton*)
+	{
+		Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Containers");
 	}
-	return FALSE;
-}
+
+	void onChangeAero(CCtrlCheck*)
+	{
+		Utils::enableDlgControl(m_hwnd, IDC_AEROEFFECT, chkUseAero.GetState() != 0);
+	}
+
+	void onChangeLimits(CCtrlCheck*)
+	{
+		Utils::enableDlgControl(m_hwnd, IDC_TABLIMIT, chkLimits.GetState() != 0);
+	}
+
+public:
+	COptContainersDlg()
+		: CDlgBase(g_hInst, IDD_OPT_CONTAINERS),
+		btnHelp(this, IDC_HELP_CONTAINERS),
+		chkUseAero(this, IDC_USEAERO),
+		chkLimits(this, IDC_LIMITTABS),
+		chkSingle(this, IDC_SINGLEWINDOWMODE),
+		chkGroup(this, IDC_CONTAINERGROUPMODE),
+		chkDefault(this, IDC_DEFAULTCONTAINERMODE)
+	{
+		btnHelp.OnClick = Callback(this, &COptContainersDlg::onHelp);
+
+		chkUseAero.OnChange = Callback(this, &COptContainersDlg::onChangeAero);
+		chkLimits.OnChange = chkSingle.OnChange = chkGroup.OnChange = chkDefault.OnChange = Callback(this, &COptContainersDlg::onChangeLimits);
+	}
+
+	virtual void OnInitDialog() override
+	{
+		CheckDlgButton(m_hwnd, IDC_CONTAINERGROUPMODE, M.GetByte("useclistgroups", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_LIMITTABS, M.GetByte("limittabs", 0) ? BST_CHECKED : BST_UNCHECKED);
+
+		SendDlgItemMessage(m_hwnd, IDC_TABLIMITSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 1));
+		SendDlgItemMessage(m_hwnd, IDC_TABLIMITSPIN, UDM_SETPOS, 0, (int)M.GetDword("maxtabs", 1));
+		SetDlgItemInt(m_hwnd, IDC_TABLIMIT, (int)M.GetDword("maxtabs", 1), FALSE);
+		Utils::enableDlgControl(m_hwnd, IDC_TABLIMIT, IsDlgButtonChecked(m_hwnd, IDC_LIMITTABS) != 0);
+		CheckDlgButton(m_hwnd, IDC_SINGLEWINDOWMODE, M.GetByte("singlewinmode", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_DEFAULTCONTAINERMODE, !(IsDlgButtonChecked(m_hwnd, IDC_CONTAINERGROUPMODE) || IsDlgButtonChecked(m_hwnd, IDC_LIMITTABS) || IsDlgButtonChecked(m_hwnd, IDC_SINGLEWINDOWMODE)) ? BST_CHECKED : BST_UNCHECKED);
+
+		SetDlgItemInt(m_hwnd, IDC_NRFLASH, M.GetByte("nrflash", 4), FALSE);
+		SendDlgItemMessage(m_hwnd, IDC_NRFLASHSPIN, UDM_SETRANGE, 0, MAKELONG(255, 0));
+		SendDlgItemMessage(m_hwnd, IDC_NRFLASHSPIN, UDM_SETPOS, 0, (int)M.GetByte("nrflash", 4));
+
+		SetDlgItemInt(m_hwnd, IDC_FLASHINTERVAL, M.GetDword("flashinterval", 1000), FALSE);
+		SendDlgItemMessage(m_hwnd, IDC_FLASHINTERVALSPIN, UDM_SETRANGE, 0, MAKELONG(10000, 500));
+		SendDlgItemMessage(m_hwnd, IDC_FLASHINTERVALSPIN, UDM_SETPOS, 0, (int)M.GetDword("flashinterval", 1000));
+		SendDlgItemMessage(m_hwnd, IDC_FLASHINTERVALSPIN, UDM_SETACCEL, 0, (int)M.GetDword("flashinterval", 1000));
+		CheckDlgButton(m_hwnd, IDC_USEAERO, M.GetByte("useAero", 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_USEAEROPEEK, M.GetByte("useAeroPeek", 1) ? BST_CHECKED : BST_UNCHECKED);
+		for (int i = 0; i < CSkin::AERO_EFFECT_LAST; i++)
+			SendDlgItemMessage(m_hwnd, IDC_AEROEFFECT, CB_INSERTSTRING, -1, (LPARAM)TranslateW(CSkin::m_aeroEffects[i].tszName));
+
+		SendDlgItemMessage(m_hwnd, IDC_AEROEFFECT, CB_SETCURSEL, (WPARAM)CSkin::m_aeroEffect, 0);
+		Utils::enableDlgControl(m_hwnd, IDC_AEROEFFECT, PluginConfig.m_bIsVista);
+		Utils::enableDlgControl(m_hwnd, IDC_USEAERO, PluginConfig.m_bIsVista);
+		Utils::enableDlgControl(m_hwnd, IDC_USEAEROPEEK, PluginConfig.m_bIsWin7);
+		if (PluginConfig.m_bIsVista)
+			Utils::enableDlgControl(m_hwnd, IDC_AEROEFFECT, IsDlgButtonChecked(m_hwnd, IDC_USEAERO) != 0);
+	}
+
+	virtual void OnApply() override
+	{
+		BOOL translated;
+		bool fOldAeroState = M.getAeroState();
+		db_set_b(0, SRMSGMOD_T, "useclistgroups", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_CONTAINERGROUPMODE)));
+		db_set_b(0, SRMSGMOD_T, "limittabs", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_LIMITTABS)));
+		db_set_dw(0, SRMSGMOD_T, "maxtabs", GetDlgItemInt(m_hwnd, IDC_TABLIMIT, &translated, FALSE));
+		db_set_b(0, SRMSGMOD_T, "singlewinmode", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_SINGLEWINDOWMODE)));
+		db_set_dw(0, SRMSGMOD_T, "flashinterval", GetDlgItemInt(m_hwnd, IDC_FLASHINTERVAL, &translated, FALSE));
+		db_set_b(0, SRMSGMOD_T, "nrflash", (BYTE)(GetDlgItemInt(m_hwnd, IDC_NRFLASH, &translated, FALSE)));
+		db_set_b(0, SRMSGMOD_T, "useAero", IsDlgButtonChecked(m_hwnd, IDC_USEAERO) ? 1 : 0);
+		db_set_b(0, SRMSGMOD_T, "useAeroPeek", IsDlgButtonChecked(m_hwnd, IDC_USEAEROPEEK) ? 1 : 0);
+		CSkin::setAeroEffect(SendDlgItemMessage(m_hwnd, IDC_AEROEFFECT, CB_GETCURSEL, 0, 0));
+
+		if (M.getAeroState() != fOldAeroState) {
+			SendMessage(PluginConfig.g_hwndHotkeyHandler, WM_DWMCOMPOSITIONCHANGED, 0, 0);	// simulate aero state change
+			SendMessage(PluginConfig.g_hwndHotkeyHandler, WM_DWMCOLORIZATIONCOLORCHANGED, 0, 0);	// simulate aero state change
+		}
+		BuildContainerMenu();
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// TabModPlus options
 
 INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1255,11 +1261,12 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	if (PluginConfig.g_bPopupAvail)
 		TN_OptionsInitialize(wParam, lParam);
 
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
 	odp.szTitle.a = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
+	OPTIONSDIALOGPAGE odpnew = odp;
 
 	odp.szTab.a = LPGEN("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGDLG);
@@ -1271,10 +1278,9 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcTabbedOptions;
 	Options_AddPage(wParam, &odp);
 
-	odp.szTab.a = LPGEN("Containers");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTAINERS);
-	odp.pfnDlgProc = DlgProcContainerSettings;
-	Options_AddPage(wParam, &odp);
+	odpnew.szTab.a = LPGEN("Containers");
+	odpnew.pDialog = new COptContainersDlg();
+	Options_AddPage(wParam, &odpnew);
 
 	odp.szTab.a = LPGEN("Message log");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGLOG);
