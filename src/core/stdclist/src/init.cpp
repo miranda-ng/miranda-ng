@@ -37,11 +37,8 @@ void InitCustomMenus( void );
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint);
 
 int ClcOptInit(WPARAM wParam, LPARAM lParam);
-int ClcModernOptInit(WPARAM wParam, LPARAM lParam);
 int CluiOptInit(WPARAM wParam, LPARAM lParam);
-int CluiModernOptInit(WPARAM wParam, LPARAM lParam);
 int CListOptInit(WPARAM wParam, LPARAM lParam);
-int CListModernOptInit(WPARAM wParam, LPARAM lParam);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // dll stub

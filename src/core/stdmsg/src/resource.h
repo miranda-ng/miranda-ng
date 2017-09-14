@@ -154,9 +154,6 @@
 #define IDC_AVATARHEIGHT                1613
 #define IDC_SHOWSECS                    1614
 #define IDC_POPLIST                     1616
-#define IDC_TXT_TITLE1                  1617
-#define IDC_TXT_TITLE2                  1618
-#define IDC_TXT_TITLE3                  1619
 #define IDC_USETABS                     1620
 #define IDC_CLOSETABS                   1621
 #define IDC_RESTORETABS                 1622

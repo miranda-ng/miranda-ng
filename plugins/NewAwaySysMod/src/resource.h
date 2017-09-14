@@ -4,7 +4,6 @@
 //
 #define IDD_OPTDIALOGMAIN               101
 #define IDD_MESSAGES                    101
-#define IDD_MODERNOPT_MESSAGES          102
 #define IDI_MSGICON                     109
 #define IDI_SOE_ENABLED                 110
 #define IDD_READAWAYMSG                 111
@@ -50,7 +49,6 @@
 #define IDC_SAWAYMSG_MSGDATA            1008
 #define IDC_MOREOPTDLG_USEDEFMSG        1008
 #define IDC_OPTDLG_SAVE                 1010
-#define IDC_LNK_AUTOAWAY                1010
 #define IDC_OPTDLG_RESET                1012
 #define IDC_OPTDLG_VARSLIST             1013
 #define IDC_MESSAGEDLG_VARS             1013
@@ -208,9 +206,6 @@
 #define IDC_POPUPOPTDLG_LOGONLYWITHPOPUP 1177
 #define IDC_POPUPOPTDLG_STATIC_EXTRATEXT 1178
 #define IDC_REPLYDLG_STATIC_EXTRATEXT   1179
-#define IDC_TXT_TITLE1                  1181
-#define IDC_TXT_TITLE2                  1182
-#define IDC_TXT_TITLE3                  1183
 #define IDC_SAWAYMSG_STATIC_COUNTER     1202
 #define IDC_READAWAYMSG_RETRIEVE        3453
 #define IDS_MESSAGEDLG_DEF_ONL          20000

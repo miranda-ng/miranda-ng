@@ -56,56 +56,12 @@ BEGIN
     CONTROL         "Disable sounds on idle",IDC_IDLESOUNDSOFF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,177,265,9
 END
 
-IDD_MODERNOPT_IDLE DIALOGEX 0, 0, 369, 64
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    CONTROL         "Become idle if computer is left unattended for:",IDC_IDLESHORT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,13,171,9
-    CONTROL         "Windows",IDC_IDLEONWINDOWS,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE,325,25,26,9
-    CONTROL         "Miranda",IDC_IDLEONMIRANDA,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE,287,37,15,9
-    EDITTEXT        IDC_IDLE1STTIME,181,11,27,12,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_IDLESPIN,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,193,7,11,23
-    CONTROL         "Become idle if the screen saver is active",IDC_SCREENSAVER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,25,268,9
-    CONTROL         "Become idle if the computer is locked",IDC_LOCKED,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,37,249,9
-    CONTROL         "Become idle if a terminal session is disconnected",IDC_IDLETERMINAL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,49,265,10
-    CONTROL         "Do not let protocols report any idle information",IDC_IDLEPRIVATE,
-                    "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,303,13,22,9
-    LTEXT           "minute(s)",IDC_STATIC,213,13,76,9,SS_CENTERIMAGE
-    COMBOBOX        IDC_AASTATUS,325,46,23,50,CBS_DROPDOWNLIST | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Change my status mode to:",IDC_AASHORTIDLE,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,334,11,23,11
-    CONTROL         "Do not set status back to online when returning from idle",IDC_IDLESTATUSLOCK,
-                    "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,299,24,16,10
-    LTEXT           "Idle (auto-away):",IDC_TXT_TITLE1,0,0,246,8
-END
-
 #endif    // APSTUDIO_INVOKED
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO
 //
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
-    IDD_MODERNOPT_IDLE, DIALOG
-    BEGIN
-        VERTGUIDE, 10
-        VERTGUIDE, 181
-        HORZGUIDE, 8
-        HORZGUIDE, 22
-        HORZGUIDE, 34
-        HORZGUIDE, 46
-    END
-END
-
-#endif    // APSTUDIO_INVOKED
-
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
