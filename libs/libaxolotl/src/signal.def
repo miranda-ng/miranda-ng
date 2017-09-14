@@ -94,3 +94,4 @@ EXPORTS
 	displayable_fingerprint_text
 	displayable_fingerprint_local
 	displayable_fingerprint_remote
+	ciphertext_message_get_type
