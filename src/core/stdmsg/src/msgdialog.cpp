@@ -315,7 +315,8 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 	if (!pButton->Enabled())
 		return;
 
-	ptrW temp(m_message.GetText());
+	ptrA msgText(m_message.GetRichTextRtf(true));
+	ptrW temp(mir_utf8decodeW(msgText));
 	if (!temp[0])
 		return;
 
