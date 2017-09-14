@@ -124,13 +124,13 @@ static void HomepageOnClick(Info*, const char *text)
 
 static Info infos[] =
 {
-	{ "homepage", "Homepage", SKINICON_OTHER_MIRANDAWEB,
+	{ "homepage", LPGEN("Homepage"), SKINICON_OTHER_MIRANDAWEB,
 		{ nullptr, "Homepage", "UserInfo", "Homepage" },
 		&HomepageOnClick, EIF_DISABLED_BY_DEFAULT },
-	{ "sms", "Phone/SMS", SKINICON_OTHER_SMS,
+	{ "sms", LPGEN("Phone/SMS"), SKINICON_OTHER_SMS,
 		{ nullptr, "Cellular", "UserInfo", "Cellular", "UserInfo", "Phone", "UserInfo", "MyPhone0" },
 		nullptr, EIF_DISABLED_BY_DEFAULT },
-	{ "email", "E-mail", SKINICON_OTHER_SENDEMAIL,
+	{ "email", LPGEN("E-mail"), SKINICON_OTHER_SENDEMAIL,
 		{ nullptr, "e-mail", "UserInfo", "e-mail", "UserInfo", "Mye-mail0" },
 		&EmailOnClick, EIF_DISABLED_BY_DEFAULT },
 };
