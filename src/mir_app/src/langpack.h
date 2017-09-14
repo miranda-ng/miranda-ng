@@ -24,14 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR srvTranslateString(WPARAM wParam, LPARAM lParam);
-static INT_PTR srvTranslateMenu(WPARAM wParam, LPARAM lParam);
-static INT_PTR srvRegisterLP(WPARAM wParam, LPARAM lParam);
 static INT_PTR srvGetDefaultCodePage(WPARAM, LPARAM);
 static INT_PTR srvGetDefaultLocale(WPARAM, LPARAM);
-static INT_PTR srvPcharToTchar(WPARAM wParam, LPARAM lParam);
-static INT_PTR srvReloadLangpack(WPARAM wParam, LPARAM lParam);
-static INT_PTR srvGetPluginLangpack(WPARAM wParam, LPARAM lParam);
+static INT_PTR srvReloadLangpack(WPARAM, LPARAM);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -51,8 +46,5 @@ struct LANGPACK_INFO
 	wchar_t tszFullPath[MAX_PATH]; /* full path to the langpack */
 	BYTE flags; /* see LPIF_* flags */
 };
-
-typedef BOOL(*ENUM_PACKS_CALLBACK) (LANGPACK_INFO *pack, WPARAM wParam, LPARAM lParam);
-BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam);
 
 int LangpackOptionsInit(WPARAM wParam, LPARAM);

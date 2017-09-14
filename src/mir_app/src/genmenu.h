@@ -107,9 +107,6 @@ extern LIST<TIntMenuObject> g_menus;
 // internal usage
 TMO_IntMenuItem* MO_GetIntMenuItem(HGENMENU);
 
-int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis);
-int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis);
-
 int MO_ProcessCommandBySubMenuIdent(int menuID, int command, LPARAM lParam);
 
 // function returns TRUE if the walk should be immediately stopped
@@ -124,13 +121,9 @@ int UninitGenMenu();
 
 int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *param);
 
-TMO_IntMenuItem * GetMenuItemByGlobalID(int globalMenuID);
-BOOL	FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles * dat);	//GenMenu.c
-
 LPTSTR GetMenuItemText(TMO_IntMenuItem*);
 
 int GenMenuOptInit(WPARAM wParam, LPARAM);
-int GetMenuItembyId(const int objpos, const int id);
 
 TIntMenuObject* GetMenuObjbyId(const int id);
 

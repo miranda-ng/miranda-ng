@@ -140,9 +140,6 @@ void NetlibDeleteNestedCS(NetlibNestedCriticalSection *nlncs);
 #define NLNCS_RECV  1
 int NetlibEnterNestedCS(NetlibConnection *nlc, int which);
 void NetlibLeaveNestedCS(NetlibNestedCriticalSection *nlncs);
-INT_PTR NetlibBase64Encode(WPARAM wParam, LPARAM lParam);
-INT_PTR NetlibBase64Decode(WPARAM wParam, LPARAM lParam);
-INT_PTR NetlibHttpUrlEncode(WPARAM wParam, LPARAM lParam);
 
 extern mir_cs csNetlibUser;
 extern LIST<NetlibUser> netlibUser;
@@ -198,5 +195,4 @@ void NetlibUPnPInit(void);
 void NetlibUPnPDestroy(void);
 
 // netlibsecurity.c
-char*  NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const wchar_t* login, const wchar_t* psw,
-									   bool http, unsigned& complete);
+char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const wchar_t* login, const wchar_t* psw, bool http, unsigned& complete);

@@ -39,7 +39,6 @@ extern int g_IconWidth, g_IconHeight;
 extern HIMAGELIST hCListImages;
 
 void fnClcOptionsChanged(void);
-void fnClcBroadcast(int msg, WPARAM wParam, LPARAM lParam);
 void fnInitAutoRebuild(HWND hWnd);
 
 LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -90,7 +89,6 @@ int  fnClcStatusToPf2(int status);
 int  fnIsHiddenMode(struct ClcData *dat, int status);
 void fnHideInfoTip(HWND hwnd, struct ClcData *dat);
 void fnNotifyNewContact(HWND hwnd, MCONTACT hContact);
-void fnGetSetting(int i, LOGFONT* lf, COLORREF* colour);
 void fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF* colour);
 void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour);
 void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
@@ -109,7 +107,6 @@ int fnRowHitTest(struct ClcData *dat, int y);
 
 /* clcopts.c */
 int ClcOptInit(WPARAM wParam, LPARAM lParam);
-void GetFontSetting(int i, LOGFONTA *lf, COLORREF *colour);
 
 /* clistmenus.c */
 HGENMENU fnGetProtocolMenu(const char*);

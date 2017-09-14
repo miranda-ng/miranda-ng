@@ -67,8 +67,6 @@ DBCachedContact* CheckMeta(MCONTACT hMeta);
 void Meta_FixStatus(DBCachedContact *ccMeta);
 void Meta_UpdateSrmmIcon(DBCachedContact *ccMeta, int iStatus);
 
-char *Meta_GetUniqueIdentifier(MCONTACT hContact, DWORD *pused);
-
 INT_PTR Meta_GetCaps(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_GetName(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_LoadIcon(WPARAM wParam,LPARAM lParam);
