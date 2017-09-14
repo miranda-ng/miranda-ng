@@ -1700,7 +1700,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 				deserialized = true;
 				break;
 			case SG_ERR_INVALID_PROTO_BUF:
-				debugLogA("Jabber OMEMO: error: pre_key_signal_message_deserialize failed SG_ERR_INVALID_PROTO_BUF");
+				debugLogA("Jabber OMEMO: error: pre_key_signal_message_deserialize failed SG_ERR_INVALID_PROTO_BUF\nTODO: use prekey tag in incomming message key element to avoid this");
 //				return;
 				break;
 			default:
@@ -1719,7 +1719,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 				omemo::OmemoRefreshUsedPreKey(this, pm);
 				break;
 			case SG_ERR_INVALID_MESSAGE:
-				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_MESSAGE");
+				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_MESSAGE\nTODO: use prekey tag in incomming message key element to avoid this");
 //				return;
 				break;
 			case SG_ERR_DUPLICATE_MESSAGE:
@@ -1798,19 +1798,26 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 	}
 	char *out = nullptr;
 	{
-//		int dec_success = 0;
+		int dec_success = 0;
 		unsigned int payload_len = 0;
 		int outl = 0, round_len = 0;
 		char *payload_base64 = mir_u2a(payload_base64w);
 		unsigned char *payload = (unsigned char*)mir_base64_decode(payload_base64, &payload_len);
 		mir_free(payload_base64);
-//		unsigned char tag[16];
+		unsigned char key[16], tag[16];
+		{
+			unsigned char tmp[32];
+			memcpy(tmp, signal_buffer_data(decrypted_key), 32);
+			memcpy(key, tmp, 16);
+			unsigned char *ptr = tmp + 16;
+			memcpy(tag, ptr, 16);
+		}
 		out = (char*)mir_alloc(payload_len + 1); //TODO: check this
 		const EVP_CIPHER *cipher = EVP_aes_128_gcm();
 		EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-		EVP_DecryptInit(ctx, cipher, signal_buffer_data(decrypted_key), iv);
-//		EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, tag);
-		//EVP_DecryptInit(ctx, nullptr, signal_buffer_data(decrypted_key), iv);
+		EVP_DecryptInit(ctx, cipher, key, iv);
+		EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, tag);
+		EVP_DecryptInit(ctx, nullptr, key, iv);
 		//EVP_DecryptUpdate(ctx, nullptr, &howmany, AAD, aad_len);
 
 		for (;;)
@@ -1824,14 +1831,13 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 		outl += round_len;
 		out[outl] = 0;
 		mir_free(payload);
-//		dec_success = EVP_DecryptFinal(ctx, tag, &round_len);
+		dec_success = EVP_DecryptFinal(ctx, tag, &round_len);
 		EVP_CIPHER_CTX_free(ctx);
-//		if (!dec_success) //TODO: check this... omemo xep have no info about tag
-//		{
-//			debugLogA("Jabber OMEMO: error: aes_128_gcm verification failed (ignored for now, but still error)");
-			//return;
-			//TODO: handle decryption failure
-//		}
+		if (dec_success <= 0) //TODO: check this... omemo xep have no info about tag
+		{
+			debugLogA("Jabber OMEMO: error: aes_128_gcm verification failed");
+			return;
+		}
 
 	}
 
@@ -1959,7 +1965,7 @@ void CJabberProto::OmemoAnnounceDevice()
 	wchar_t szBareJid[JABBER_MAX_JID_LEN];
 	XmlNodeIq iq(L"set", SerialNext()); 
 	iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof_portable(szBareJid)));
-	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish") << XATTR(L"node", JABBER_FEAT_OMEMO L".devicelist");
+	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish") << XATTR(L"node", JABBER_FEAT_OMEMO L":devicelist");
 	HXML list_node = publish_node << XCHILDNS(L"item") << XCHILDNS(L"list", JABBER_FEAT_OMEMO);
 
 	for (int i = 0; ; ++i) {
@@ -2284,10 +2290,10 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_text, MCONTACT hContact)
 {
 	const EVP_CIPHER *cipher = EVP_aes_128_gcm();
-	unsigned char key[16], iv[12]/*,  tag[16]*/ /*, aad[48]*/;
+	unsigned char key[16], iv[12],  tag[16] /*, aad[48]*/;
 	Utils_GetRandom(key, _countof_portable(key));
 	Utils_GetRandom(iv, _countof_portable(iv));
-//	Utils_GetRandom(tag, _countof_portable(tag));
+	Utils_GetRandom(tag, _countof_portable(tag));
 	//Utils_GetRandom(aad, _countof_portable(aad));
 	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
 	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, _countof_portable(iv), nullptr);
@@ -2306,9 +2312,8 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 	}
 	EVP_EncryptFinal(ctx, (unsigned char*)(in + tmp_len), &outl);
 	tmp_len += outl;
-	//EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, _countof_portable(tag), tag);
+	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, _countof_portable(tag), tag);
 	EVP_CIPHER_CTX_free(ctx);
-	//TODO: fix encryption
 	mir_free(in);
 	HXML encrypted = msg << XCHILDNS(L"encrypted", JABBER_FEAT_OMEMO);
 	HXML payload = encrypted << XCHILD(L"payload");
@@ -2320,6 +2325,12 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 	HXML header = encrypted << XCHILD(L"header");
 	header << XATTRI64(L"sid", m_omemo.GetOwnDeviceId());
 	unsigned int session_count = 0;
+	char key_plus_tag[32] = {0};
+	memcpy(key_plus_tag, key, 16);
+	{
+		char *ptr = key_plus_tag + 16;
+		memcpy(ptr, tag, 16);
+	}
 	for (std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs>::iterator i = (*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact].begin(),
 		end = (*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact].end(); i != end; i++)
 	{
@@ -2330,7 +2341,7 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 		}
 		unsigned int intdev_id = i->first;
 		ciphertext_message *encrypted_key;
-		if (session_cipher_encrypt(i->second.cipher, (uint8_t*)key, 16, &encrypted_key) != SG_SUCCESS)
+		if (session_cipher_encrypt(i->second.cipher, (uint8_t*)key_plus_tag, 32, &encrypted_key) != SG_SUCCESS)
 		{
 			//TODO: handle encryption error
 			debugLogA("Jabber OMEMO: bug: session_cipher_encrypt failed");
@@ -2338,8 +2349,13 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 		}
 		else
 		{
-			HXML key_node= header << XCHILD(L"key");
+			HXML key_node = header << XCHILD(L"key");
 			key_node << XATTRI64(L"rid", intdev_id);
+			int msg_type = ciphertext_message_get_type(encrypted_key);
+			if(msg_type == CIPHERTEXT_PREKEY_TYPE)
+			{
+				key_node << XATTR(L"prekey", L"true");
+			}
 			signal_buffer *serialized_encrypted_key = ciphertext_message_get_serialized(encrypted_key);
 			char *key_base64 = mir_base64_encode(signal_buffer_data(serialized_encrypted_key), (unsigned int)signal_buffer_len(serialized_encrypted_key));
 			wchar_t *key_base64w = mir_a2u(key_base64);
