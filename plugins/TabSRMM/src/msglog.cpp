@@ -951,7 +951,7 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 						fontindex = iFontIDOffset + (isSent ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG);
 						break;
 					case 'M':
-						fontindex = iFontIDOffset + (isSent ? MSGFONTID_MYMISC : MSGFONTID_YOURMSG);
+						fontindex = iFontIDOffset + (isSent ? MSGFONTID_MYMISC : MSGFONTID_YOURMISC);
 						break;
 					case 's':
 						fontindex = isSent ? MSGFONTID_SYMBOLS_OUT : MSGFONTID_SYMBOLS_IN;
