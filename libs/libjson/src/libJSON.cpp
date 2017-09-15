@@ -90,6 +90,9 @@ LIBJSON_DLL(void) json_delete(JSONNode *node) {
 
 JSONNode JSONNode::parse(const json_char *str)
 {
+	if (str == nullptr)
+		return JSONNode();
+
 	return JSONWorker::parse(str);
 }
 
