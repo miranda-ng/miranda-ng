@@ -20,14 +20,14 @@ Tox_Options* CToxProto::GetToxOptions()
 			if (nlus.proxyType == PROXYTYPE_HTTP || nlus.proxyType == PROXYTYPE_HTTPS) {
 				debugLogA(__FUNCTION__": setting http user proxy config");
 				options->proxy_type = TOX_PROXY_TYPE_HTTP;
-				mir_strcpy((char*)&options->proxy_host[0], nlus.szProxyServer);
+				options->proxy_host = nlus.szProxyServer;
 				options->proxy_port = nlus.wProxyPort;
 			}
 
 			if (nlus.proxyType == PROXYTYPE_SOCKS4 || nlus.proxyType == PROXYTYPE_SOCKS5) {
 				debugLogA(__FUNCTION__": setting socks user proxy config");
 				options->proxy_type = TOX_PROXY_TYPE_SOCKS5;
-				mir_strcpy((char*)&options->proxy_host[0], nlus.szProxyServer);
+				options->proxy_host = nlus.szProxyServer;
 				options->proxy_port = nlus.wProxyPort;
 			}
 		}
