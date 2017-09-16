@@ -195,7 +195,7 @@ GetAlphaBlendedColor(const RGBQUAD *bgcolor, const RGBQUAD *fgcolor, RGBQUAD *bl
 	
 	blended->rgbRed   = (BYTE)( ((WORD)fgcolor->rgbRed   * alpha + not_alpha * (WORD)bgcolor->rgbRed)   >> 8 );
 	blended->rgbGreen = (BYTE)( ((WORD)fgcolor->rgbGreen * alpha + not_alpha * (WORD)bgcolor->rgbGreen) >> 8) ;
-	blended->rgbBlue  = (BYTE)( ((WORD)fgcolor->rgbRed   * alpha + not_alpha * (WORD)bgcolor->rgbBlue)  >> 8 );
+	blended->rgbBlue  = (BYTE)( ((WORD)fgcolor->rgbBlue   * alpha + not_alpha * (WORD)bgcolor->rgbBlue)  >> 8 );
 	blended->rgbReserved = 0xFF;
 
 	return TRUE;
