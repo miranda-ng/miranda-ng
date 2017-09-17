@@ -103,11 +103,12 @@ extern TTBCtrl* g_ctrl;
 
 extern LIST<TopButtonInt> Buttons;
 extern HINSTANCE hInst;
-extern HBITMAP hBmpBackground, hBmpSeparator;
+extern HBITMAP hBmpBackground;
 extern mir_cs csButtonsHook;
 extern pfnCustomProc g_CustomProc;
 extern LPARAM g_CustomProcParam;
 extern HANDLE hTTBModuleLoaded;
+extern IconItem iconList[];
 
 void AddToOptions(TopButtonInt* b);
 void RemoveFromOptions(int id);

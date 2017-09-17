@@ -151,9 +151,8 @@ void TopButtonInt::SetBitmap()
 	curstyle &= (~SS_ICON);
 
 	if (dwFlags & TTBBF_ISSEPARATOR) {
-		SetWindowLongPtr(hwnd, GWL_STYLE, curstyle | SS_BITMAP);
-		SendMessage(hwnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBmpSeparator);
-		SendMessage(hwnd, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBmpSeparator);
+		SetWindowLongPtr(hwnd, GWL_STYLE, curstyle | SS_ICON);
+		SendMessage(hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(iconList[9].hIcolib));
 	}
 	else {
 		if (GetWindowLongPtr(hwnd, GWL_STYLE) & SS_ICON)

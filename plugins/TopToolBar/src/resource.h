@@ -2,13 +2,13 @@
 // Microsoft Visual C++ generated include file.
 // Used by ..\res\main.rc
 //
-#define IDB_SEP                         118
 #define IDI_SHOWOFFLINE                 125
 #define IDI_HIDEOFFLINE                 126
 #define IDI_GROUPSOFF                   127
 #define IDI_GROUPSON                    128
 #define IDI_SOUNDSOFF                   129
 #define IDI_SOUNDSON                    130
+#define IDI_SEPARATOR                   131
 #define IDI_METAON                      139
 #define IDI_RUN                         140
 #define IDI_METAOFF                     141

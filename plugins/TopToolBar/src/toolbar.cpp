@@ -637,8 +637,6 @@ int LoadToolbarModule()
 
 	db_unset(NULL, TTB_OPTDIR, "WarningDone");
 
-	hBmpSeparator = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SEP));
-
 	HookEvent(ME_SYSTEM_MODULELOAD, OnPluginLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnPluginUnload);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoad);
@@ -679,8 +677,6 @@ int LoadToolbarModule()
 int UnloadToolbarModule()
 {
 	DestroyHookableEvent(hTTBModuleLoaded);
-
-	DeleteObject(hBmpSeparator);
 
 	for (int i = 0; i < Buttons.getCount(); i++)
 		delete Buttons[i];

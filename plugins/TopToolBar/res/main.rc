@@ -81,13 +81,6 @@ END
 #endif    // APSTUDIO_INVOKED
 
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Bitmap
-//
-
-IDB_SEP                 BITMAP                  "sep.bmp"
-
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -130,6 +123,7 @@ IDI_SOUNDSOFF           ICON                    "Sounds Enable_Disable_DN.ico"
 IDI_SOUNDSON            ICON                    "Sounds Enable_Disable_UP.ico"
 IDI_METAON              ICON                    "..\\..\\..\\src\\mir_app\\res\\meta_menu.ico"
 IDI_METAOFF             ICON                    "..\\..\\..\\src\\mir_app\\res\\meta_menuof.ico"
+IDI_SEPARATOR           ICON                    "separator.ico"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 

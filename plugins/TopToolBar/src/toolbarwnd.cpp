@@ -2,7 +2,7 @@
 #include "stdafx.h"
 
 COLORREF bkColour;
-HBITMAP hBmpBackground, hBmpSeparator;
+HBITMAP hBmpBackground;
 int backgroundBmpUse;
 
 static wchar_t pluginname[] = L"TopToolBar";
