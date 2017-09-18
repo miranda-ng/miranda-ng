@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-HANDLE hFunc, hTempRemove, hLoadHook;
 int hLangpack;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -42,12 +41,12 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	plSets = new Settings;
 
-	hFunc = CreateServiceFunction(MS_STOPSPAM_CONTACTPASSED, IsContactPassed);
+	CreateServiceFunction(MS_STOPSPAM_CONTACTPASSED, IsContactPassed);
 
-	hLoadHook = HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
 
 	// Add deliting temporary contacts
-	hTempRemove = CreateServiceFunction(MS_STOPSPAM_REMTEMPCONTACTS, RemoveTempContacts);
+	CreateServiceFunction(MS_STOPSPAM_REMTEMPCONTACTS, RemoveTempContacts);
 
 	CMenuItem mi;
 	SET_UID(mi, 0xf2164e17, 0xa4c1, 0x4b07, 0xae, 0x81, 0x9e, 0xae, 0x7f, 0xa2, 0x55, 0x13);
@@ -66,17 +65,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	miranda::EventHooker::UnhookAll();
 
-	if (hFunc)
-	{
-		DestroyServiceFunction(hFunc);
-		hFunc = 0;
-	}
-	if (hTempRemove)
-	{
-		DestroyServiceFunction(hTempRemove);
-		hTempRemove = 0;
-	}
 	delete plSets;
-
 	return 0;
 }

@@ -36,7 +36,6 @@ extern wchar_t * pluginDescription;
 extern wchar_t const * infTalkProtPrefix;
 extern char const * answeredSetting;
 extern char const * questCountSetting;
-extern HANDLE hLoadHook;
 extern HINSTANCE hInst;
 
 //options
