@@ -373,8 +373,9 @@ void CCtrlPages::OnDestroy()
 	int tabCount = GetCount();
 	for (int i = 0; i < tabCount; i++) {
 		TPageInfo *p = GetItemPage(i);
-		if (p->m_pDlg->GetHwnd())
-			p->m_pDlg->Close();
+		CDlgBase *pDlg = p->m_pDlg; p->m_pDlg = nullptr;
+		if (pDlg->GetHwnd())
+			pDlg->Close();
 		delete p;
 	}			
 
