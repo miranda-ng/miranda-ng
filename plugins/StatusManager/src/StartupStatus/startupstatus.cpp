@@ -480,11 +480,6 @@ int SSModuleLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-HANDLE hSSModuleLoadedHook = NULL,
-	hGetProfileService,
-	hGetProfileCountService,
-	hGetProfileNameService;
-
 static INT_PTR SrvGetProfile(WPARAM wParam, LPARAM lParam)
 {
 	return GetProfile((int)wParam, *(TSettingsList*)lParam);
@@ -495,7 +490,7 @@ void StartupStatusLoad()
 	MUUID muidLast = MIID_LAST;
 	hSSLangpack = GetPluginLangId(muidLast, 0);
 
-	hSSModuleLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, SSModuleLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, SSModuleLoaded);
 
 	if (db_get_b(NULL, SSMODULENAME, SETTING_SETPROFILE, 1) ||
 		db_get_b(NULL, SSMODULENAME, SETTING_OFFLINECLOSE, 0))
@@ -511,9 +506,9 @@ void StartupStatusLoad()
 	}
 
 	// Create service functions; the get functions are created here; they don't rely on commonstatus
-	hGetProfileService = CreateServiceFunction(MS_SS_GETPROFILE, SrvGetProfile);
-	hGetProfileCountService = CreateServiceFunction(MS_SS_GETPROFILECOUNT, GetProfileCount);
-	hGetProfileNameService = CreateServiceFunction(MS_SS_GETPROFILENAME, GetProfileName);
+	CreateServiceFunction(MS_SS_GETPROFILE, SrvGetProfile);
+	CreateServiceFunction(MS_SS_GETPROFILECOUNT, GetProfileCount);
+	CreateServiceFunction(MS_SS_GETPROFILENAME, GetProfileName);
 
 	LoadProfileModule();
 }
@@ -524,11 +519,4 @@ void StartupStatusUnload()
 	KillModuleMenus(hSSLangpack);
 
 	DeinitProfilesModule();
-	UnloadProfileModule();
-
-	DestroyServiceFunction(hGetProfileService);
-	DestroyServiceFunction(hGetProfileCountService);
-	DestroyServiceFunction(hGetProfileNameService);
-
-	UnhookEvent(hSSModuleLoadedHook);
 }

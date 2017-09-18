@@ -27,7 +27,6 @@ HINSTANCE hInst;
 HCURSOR     hCurSplitNS, hCurSplitWE;
 HANDLE  g_hMainThread = NULL;
 
-HANDLE hServiceShowContactHistory, hServiceDeleteAllContactHistory, hServiceExecuteTask;
 HANDLE *hEventIcons = NULL;
 int iconsNum = 3;
 HANDLE hToolbarButton;
@@ -253,9 +252,9 @@ extern "C" int __declspec(dllexport) Load(void)
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
 
-	hServiceShowContactHistory = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowContactHistory);
-	hServiceDeleteAllContactHistory = CreateServiceFunction(MS_HISTORY_DELETEALLCONTACTHISTORY, HistoryWindow::DeleteAllUserHistory);
-	hServiceExecuteTask = CreateServiceFunction(MS_HISTORY_EXECUTE_TASK, ExecuteTaskService);
+	CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowContactHistory);
+	CreateServiceFunction(MS_HISTORY_DELETEALLCONTACTHISTORY, HistoryWindow::DeleteAllUserHistory);
+	CreateServiceFunction(MS_HISTORY_EXECUTE_TASK, ExecuteTaskService);
 
 	Options::instance = new Options();
 
@@ -273,10 +272,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	if (g_hMainThread)
 		CloseHandle(g_hMainThread);
 	g_hMainThread = NULL;
-
-	DestroyServiceFunction(hServiceShowContactHistory);
-	DestroyServiceFunction(hServiceDeleteAllContactHistory);
-	DestroyServiceFunction(hServiceExecuteTask);
 
 	HistoryWindow::Deinit();
 

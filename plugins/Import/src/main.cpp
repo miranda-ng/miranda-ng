@@ -24,8 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int nImportOptions;
 
-static HANDLE hImportService = NULL;
-
 HINSTANCE hInst;
 INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -117,7 +115,7 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	hImportService = CreateServiceFunction(IMPORT_SERVICE, ImportCommand);
+	CreateServiceFunction(IMPORT_SERVICE, ImportCommand);
 	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
 	RegisterIcons();
 
@@ -145,6 +143,5 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	DestroyServiceFunction(hImportService);
 	return 0;
 }

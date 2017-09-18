@@ -29,17 +29,10 @@ int InitServices()
 
 int DestroyServices()
 {
-	DestroyServiceFunction(MS_EXCHANGE_CHECKEMAIL);
 	return 0;
 }
 
 int CheckEmailService(WPARAM, LPARAM)
 {
-/*
-	if (!exchangeServer.IsConnected())
-		{
-			exchangeServer.Connect(1); //force connection attempt
-		}
-	return exchangeServer.Check(TRUE); */
 	return ThreadCheckEmail(TRUE);
 }

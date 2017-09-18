@@ -208,8 +208,6 @@ extern struct CountryListEntry *countries;
 
 DWORD	hashSetting(LPCSTR szStr);					//old miranda hash
 
-INT_PTR	myDestroyServiceFunction(const char * key);
-
 static FORCEINLINE BOOL IsProtoOnline(LPSTR pszProto)
 {
 	return pszProto && pszProto[0] && CallProtoService(pszProto, PS_GETSTATUS, NULL, NULL) >= ID_STATUS_ONLINE;

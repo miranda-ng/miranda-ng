@@ -276,11 +276,6 @@ int QuotesEventFunc_OptInitialise(WPARAM wp, LPARAM/* lp*/)
 	return 0;
 }
 
-inline int Quotes_DestroyServiceFunction(HANDLE h)
-{
-	return DestroyServiceFunction(h);
-}
-
 inline int Quotes_UnhookEvent(HANDLE h)
 {
 	return UnhookEvent(h);

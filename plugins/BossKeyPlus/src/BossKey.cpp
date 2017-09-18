@@ -22,7 +22,6 @@
 HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
 HGENMENU g_hMenuItem;
-HANDLE g_hHideService;
 HWINEVENTHOOK g_hWinHook;
 HWND g_hListenWindow, g_hDlgPass, hOldForegroundWindow;
 HWND_ITEM *g_pMirWnds; // a pretty simple linked list
@@ -708,7 +707,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	Icon_Register(g_hInstance, "BossKey", iconList, _countof(iconList));
 
-	g_hHideService = CreateServiceFunction(MS_BOSSKEY_HIDE, BossKeyHideMiranda); // Create service
+	CreateServiceFunction(MS_BOSSKEY_HIDE, BossKeyHideMiranda); // Create service
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
 	return 0;
@@ -720,8 +719,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 	if (g_hWinHook != 0)
 		UnhookWinEvent(g_hWinHook);
-
-	DestroyServiceFunction(g_hHideService);
 
 	if (g_hListenWindow)
 	{

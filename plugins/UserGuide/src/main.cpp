@@ -2,7 +2,6 @@
 
 HINSTANCE hInst;
 
-HANDLE hShowGuide;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -80,7 +79,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	hShowGuide = CreateServiceFunction("UserGuide/ShowGuide", ShowGuideFile);
+	CreateServiceFunction("UserGuide/ShowGuide", ShowGuideFile);
 
 	CMenuItem mi;
 	SET_UID(mi, 0x6787c12d, 0xdc85, 0x409d, 0xaa, 0x6c, 0x1f, 0xfe, 0x5f, 0xe8, 0xc1, 0x18);
@@ -96,6 +95,5 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	DestroyServiceFunction(hShowGuide);
 	return 0;
 }

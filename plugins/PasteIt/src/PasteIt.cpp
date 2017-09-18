@@ -25,7 +25,6 @@ DWORD gMirandaVersion;
 HNETLIBUSER g_hNetlibUser;
 HANDLE hModulesLoaded, hTabsrmmButtonPressed;
 HANDLE hPrebuildContactMenu;
-HANDLE hServiceContactMenu;
 HGENMENU hContactMenu;
 HGENMENU hWebPageMenus[PasteToWeb::pages];
 HANDLE hOptionsInit;
@@ -408,7 +407,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	hOptionsInit = HookEvent(ME_OPT_INITIALISE, Options::InitOptions);
 	hTabsrmmButtonPressed = NULL;
-	hServiceContactMenu = CreateServiceFunction(MS_PASTEIT_CONTACTMENU, ContactMenuService);
+	CreateServiceFunction(MS_PASTEIT_CONTACTMENU, ContactMenuService);
 	contactWindows = new std::map<MCONTACT, HWND>();
 	return 0;
 }
@@ -421,7 +420,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	if (hWindowEvent != NULL)
 		UnhookEvent(hWindowEvent);
 
-	DestroyServiceFunction(hServiceContactMenu);
 	Netlib_CloseHandle(g_hNetlibUser);
 	if (hTabsrmmButtonPressed != NULL)
 		UnhookEvent(hTabsrmmButtonPressed);

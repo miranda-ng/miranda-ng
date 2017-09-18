@@ -2,7 +2,7 @@
 
 int hLangpack = 0;
 HINSTANCE hInst;
-HANDLE hServiceOpenFolder, hButtonTopToolbar;
+HANDLE hButtonTopToolbar;
 
 PLUGININFOEX pluginInfoEx =
 {
@@ -79,7 +79,7 @@ extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
 
-	hServiceOpenFolder = CreateServiceFunction(MS_OPENFOLDER_OPEN, MenuCommand_OpenFolder);
+	CreateServiceFunction(MS_OPENFOLDER_OPEN, MenuCommand_OpenFolder);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
@@ -112,6 +112,5 @@ extern "C" int __declspec(dllexport) Load()
 
 extern "C" int __declspec(dllexport) Unload()
 {
-	DestroyServiceFunction(hServiceOpenFolder);
 	return 0;
 }

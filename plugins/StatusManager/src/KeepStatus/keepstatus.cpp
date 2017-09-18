@@ -32,12 +32,7 @@ struct TimerInfo {
 HANDLE hMainThread = 0;
 unsigned long mainThreadId = 0;
 
-HANDLE hKSModuleLoadedHook = NULL,
-	hConnectionEvent = NULL,
-	hStopRecon = NULL,
-	hEnableProto = NULL,
-	hIsProtoEnabled = NULL,
-	hAnnounceStat = NULL;
+HANDLE hConnectionEvent = NULL;
 
 static mir_cs GenTimerCS, GenStatusCS, CheckContinueslyCS;
 
@@ -1219,14 +1214,14 @@ void KeepStatusLoad()
 	MUUID muidLast = MIID_LAST;
 	hKSLangpack = GetPluginLangId(muidLast, 0);
 
-	hKSModuleLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, KSModuleLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, KSModuleLoaded);
 
 	CreateHookableEvent(ME_KS_CONNECTIONEVENT);
 
-	hStopRecon = CreateServiceFunction(MS_KS_STOPRECONNECTING, StopReconnectingService);
-	hEnableProto = CreateServiceFunction(MS_KS_ENABLEPROTOCOL, EnableProtocolService);
-	hIsProtoEnabled = CreateServiceFunction(MS_KS_ISPROTOCOLENABLED, IsProtocolEnabledService);
-	hAnnounceStat = CreateServiceFunction(MS_KS_ANNOUNCESTATUSCHANGE, AnnounceStatusChangeService);
+	CreateServiceFunction(MS_KS_STOPRECONNECTING, StopReconnectingService);
+	CreateServiceFunction(MS_KS_ENABLEPROTOCOL, EnableProtocolService);
+	CreateServiceFunction(MS_KS_ISPROTOCOLENABLED, IsProtocolEnabledService);
+	CreateServiceFunction(MS_KS_ANNOUNCESTATUSCHANGE, AnnounceStatusChangeService);
 
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
 	mainThreadId = GetCurrentThreadId();
@@ -1237,12 +1232,5 @@ void KeepStatusUnload()
 	if (hMainThread)
 		CloseHandle(hMainThread);
 
-	DestroyServiceFunction(hStopRecon);
-	DestroyServiceFunction(hEnableProto);
-	DestroyServiceFunction(hIsProtoEnabled);
-	DestroyServiceFunction(hAnnounceStat);
-
 	DestroyHookableEvent(hConnectionEvent);
-
-	UnhookEvent(hKSModuleLoadedHook);
 }

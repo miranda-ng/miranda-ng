@@ -25,7 +25,6 @@ extern HINSTANCE hInst;
 extern int protoCount;
 
 static int menuprofiles[MAX_MMITEMS];
-static HANDLE hProfileServices[MAX_MMITEMS];
 static int mcount = 0;
 
 static PROFILECE *pce = NULL;
@@ -34,7 +33,6 @@ static int pceCount = 0;
 static UINT_PTR releaseTtbTimerId = 0;
 
 static HANDLE hTBModuleLoadedHook;
-static HANDLE hLoadAndSetProfileService;
 static HANDLE hMessageHook = NULL;
 
 static HWND hMessageWindow = NULL;
@@ -72,7 +70,7 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 
 		char servicename[128];
 		mir_snprintf(servicename, "%s%d", MS_SS_MENUSETPROFILEPREFIX, mcount);
-		hProfileServices[mcount] = CreateServiceFunctionParam(servicename, profileService, mcount);
+		CreateServiceFunctionParam(servicename, profileService, mcount);
 
 		mi.name.w = profilename;
 		mi.position = 2000100000 + mcount;
@@ -310,13 +308,7 @@ int SSLoadMainOptions()
 
 int LoadProfileModule()
 {
-	hLoadAndSetProfileService = CreateServiceFunction(MS_SS_LOADANDSETPROFILE, LoadAndSetProfile);
-	return 0;
-}
-
-int UnloadProfileModule()
-{
-	DestroyServiceFunction(hLoadAndSetProfileService);
+	CreateServiceFunction(MS_SS_LOADANDSETPROFILE, LoadAndSetProfile);
 	return 0;
 }
 
@@ -333,9 +325,6 @@ int InitProfileModule()
 
 int DeinitProfilesModule()
 {
-	for (int i = 0; i < mcount; i++)
-		DestroyServiceFunction(hProfileServices[i]);
-
 	if (pce) {
 		for (int i = 0; i < pceCount; i++)
 			free(pce[i].szProto);

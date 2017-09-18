@@ -13,7 +13,7 @@ https://miranda-ng.org/
 
 HINSTANCE hInst;
 
-static HANDLE hEventSoundSettingChange, hEventStatusModeChange, hEventOptionsInitialize, hAckEvent, hSoundMenu;
+static HANDLE hEventSoundSettingChange, hEventStatusModeChange, hEventOptionsInitialize, hAckEvent;
 HGENMENU noSoundMenu;
 int hLangpack;
 
@@ -231,7 +231,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	//The menu item - begin
 	if (!db_get_b(NULL, MODNAME, "HideMenu", 1)) {
-		hSoundMenu = CreateServiceFunction(MODNAME "/MenuCommand", NoSoundMenuCommand);
+		CreateServiceFunction(MODNAME "/MenuCommand", NoSoundMenuCommand);
 
 		CMenuItem mi;
 		mi.position = -0x7FFFFFFF;
@@ -257,6 +257,5 @@ extern "C" __declspec(dllexport) int Unload(void)
 	UnhookEvent(hEventSoundSettingChange);
 	UnhookEvent(hEventOptionsInitialize);
 	UnhookEvent(hAckEvent);
-	DestroyServiceFunction(hSoundMenu);
 	return 0;
 }

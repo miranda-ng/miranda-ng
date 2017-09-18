@@ -288,7 +288,7 @@ int MainInit(WPARAM, LPARAM)
 
 	SetLayeredWindowAttributes(g_hWnd, db_get_dw(NULL, THIS_MODULE, "bkclr", DEFAULT_BKCLR), db_get_b(NULL, THIS_MODULE, "alpha", DEFAULT_ALPHA), (db_get_b(NULL, THIS_MODULE, "transparent", DEFAULT_TRANPARENT) ? LWA_COLORKEY : 0) | LWA_ALPHA);
 
-	hservosda = CreateServiceFunction("OSD/Announce", OSDAnnounce);
+	CreateServiceFunction("OSD/Announce", OSDAnnounce);
 
 	HookEvent(ME_DB_EVENT_ADDED, HookedNewEvent);
 

@@ -29,7 +29,6 @@ HFONT hFontTitle, hFontLabels, hFontValues, hFontTrayTitle;
 // hooked here so it's in the main thread
 HANDLE hAvChangeEvent, hShowTipEvent, hHideTipEvent, hAckEvent, hFramesSBShow, hFramesSBHide;
 HANDLE hSettingChangedEvent, hEventDeleted;
-HANDLE hShowTipService, hShowTipWService, hHideTipService;
 HANDLE hReloadFonts = NULL;
 
 HANDLE hFolderChanged, hSkinFolder;
@@ -282,10 +281,6 @@ int Shutdown(WPARAM, LPARAM)
 	if (hHideTipEvent) UnhookEvent(hHideTipEvent);
 	if (hAckEvent) UnhookEvent(hAckEvent);
 
-	if (hShowTipService) DestroyServiceFunction(hShowTipService);
-	if (hShowTipWService) DestroyServiceFunction(hShowTipWService);
-	if (hHideTipService) DestroyServiceFunction(hHideTipService);
-
 	if (hFolderChanged) UnhookEvent(hFolderChanged);
 
 	DeinitMessagePump();
@@ -340,12 +335,9 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitOptions();
 
 	// for compatibility with mToolTip status tooltips
-	hShowTipService = CreateServiceFunction("mToolTip/ShowTip", ShowTip);
-
-	hShowTipWService = CreateServiceFunction("mToolTip/ShowTipW", ShowTipW);
-
-	hHideTipService = CreateServiceFunction("mToolTip/HideTip", HideTip);
-
+	CreateServiceFunction("mToolTip/ShowTip", ShowTip);
+	CreateServiceFunction("mToolTip/ShowTipW", ShowTipW);
+	CreateServiceFunction("mToolTip/HideTip", HideTip);
 	CreateServiceFunction("mToolTip/ReloadSkin", ReloadSkin);
 
 	hEventPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, Shutdown);

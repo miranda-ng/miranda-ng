@@ -29,7 +29,7 @@ LIST<DBEVENT> eventListXStatus(10);
 LIST<DBEVENT> eventListStatus(10);
 LIST<DBEVENT> eventListSMsg(10);
 
-HANDLE hStatusModeChange, hServiceMenu, hHookContactStatusChanged, hToolbarButton;
+HANDLE hStatusModeChange, hHookContactStatusChanged, hToolbarButton;
 HGENMENU hEnableDisableMenu;
 
 STATUS StatusList[STATUS_COUNT];
@@ -1193,14 +1193,12 @@ extern "C" int __declspec(dllexport) Load(void)
 	evtype.flags = DETF_HISTORY | DETF_MSGWINDOW;
 	DbEvent_RegisterType(&evtype);
 
-	hServiceMenu = CreateServiceFunction(MS_STATUSCHANGE_MENUCOMMAND, EnableDisableMenuCommand);
-
+	CreateServiceFunction(MS_STATUSCHANGE_MENUCOMMAND, EnableDisableMenuCommand);
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	DestroyHookableEvent(hHookContactStatusChanged);
-	DestroyServiceFunction(hServiceMenu);
 	return 0;
 }

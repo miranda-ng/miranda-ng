@@ -154,7 +154,6 @@ void RemoveTopToolbarButtons();
 int  CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam);
 
 int LoadProfileModule();
-int UnloadProfileModule();
 int InitProfileModule();
 int DeinitProfilesModule();
 

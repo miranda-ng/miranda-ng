@@ -95,8 +95,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload()
 {
-	DestroyServices();
-
 	WindowList_Broadcast(hOpenWindowsList, WM_CLOSE, 0, 0);
 	WindowList_Destroy(hOpenWindowsList);
 	return 0;

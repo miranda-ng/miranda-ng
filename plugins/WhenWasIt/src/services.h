@@ -36,7 +36,6 @@ extern int bShouldCheckBirthdays;
 extern int bBirthdayFound;
 
 int InitServices();
-int DestroyServices();
 
 int NotifyContactBirthday(MCONTACT hContact, time_t now, int daysInAdvance);
 int NotifyMissedContactBirthday(MCONTACT hContact, time_t now, int daysAfter);

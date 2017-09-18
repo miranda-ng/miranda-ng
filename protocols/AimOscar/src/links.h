@@ -19,6 +19,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LINKS_H
 
 void aim_links_init();
-void aim_links_destroy();
 
 #endif

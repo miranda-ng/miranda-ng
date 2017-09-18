@@ -116,7 +116,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	InitIcons();
 	InitExtraIcons();
-
 	return 0;
 }
 
@@ -125,6 +124,5 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	aim_links_destroy();
 	return 0;
 }

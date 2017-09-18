@@ -154,9 +154,6 @@ extern "C" int __declspec(dllexport) Unload()
 	Log("%s", "Unhooking events ...");
 	UnhookEvents();
 
-	Log("%s", "Destroying service functions ...");
-	DestroyServices();
-
 	Log("%s", "Leaving function " __FUNCTION__);
 	return 0;
 }

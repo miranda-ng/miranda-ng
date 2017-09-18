@@ -18,8 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-static HANDLE hServiceParseLink;
-
 extern OBJLIST<CAimProto> g_Instances;
 
 static int SingleHexToDecimal(wchar_t c)
@@ -168,11 +166,6 @@ void aim_links_init(void)
 {
 	static const char szService[] = "AIM/ParseAimLink";
 
-	hServiceParseLink = CreateServiceFunction(szService, ServiceParseAimLink);
+	CreateServiceFunction(szService, ServiceParseAimLink);
 	AssocMgr_AddNewUrlTypeT("aim:", TranslateT("AIM link protocol"), hInstance, IDI_AOL, szService, 0);
-}
-
-void aim_links_destroy(void)
-{
-	DestroyServiceFunction(hServiceParseLink);
 }

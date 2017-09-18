@@ -21,14 +21,6 @@
 
 /* some handles */
 static HANDLE
-	hFormatStringService,
-	hRegisterVariableService,
-	hGetMMIService,
-	hShowHelpService,
-	hShowHelpExService,
-	hGetIconService;
-
-static HANDLE
 	hOptionsHook = NULL,
 	hIconsChangedHook = NULL;
 
@@ -422,19 +414,19 @@ int LoadVarModule()
 		return -1;
 
 	setParseOptions(NULL);
-	hFormatStringService = CreateServiceFunction(MS_VARS_FORMATSTRING, formatStringService);
-	hRegisterVariableService = CreateServiceFunction(MS_VARS_REGISTERTOKEN, registerToken);
+	CreateServiceFunction(MS_VARS_FORMATSTRING, formatStringService);
+	CreateServiceFunction(MS_VARS_REGISTERTOKEN, registerToken);
 	// help dialog
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 
-	hShowHelpService = CreateServiceFunction(MS_VARS_SHOWHELP, showHelpService);
-	hShowHelpExService = CreateServiceFunction(MS_VARS_SHOWHELPEX, showHelpExService);
+	CreateServiceFunction(MS_VARS_SHOWHELP, showHelpService);
+	CreateServiceFunction(MS_VARS_SHOWHELPEX, showHelpExService);
 
 	Icon_Register(hInst, LPGEN("Variables"), &icon, 1);
 
 	hIconsChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED, iconsChanged);
 
-	hGetIconService = CreateServiceFunction(MS_VARS_GETSKINITEM, getSkinItemService);
+	CreateServiceFunction(MS_VARS_GETSKINITEM, getSkinItemService);
 	hOptionsHook = HookEvent(ME_OPT_INITIALISE, OptionsInit);
 
 	// register internal tokens
@@ -472,12 +464,6 @@ int UnloadVarModule()
 	if (hIconsChangedHook != NULL)
 		UnhookEvent(hIconsChangedHook);
 
-	DestroyServiceFunction(hRegisterVariableService);
-	DestroyServiceFunction(hFormatStringService);
-	DestroyServiceFunction(hGetMMIService);
-	DestroyServiceFunction(hShowHelpService);
-	DestroyServiceFunction(hShowHelpExService);
-	DestroyServiceFunction(hGetIconService);
 	DestroyCursor(hCurSplitNS);
 	deinitContactModule();
 	deinitTokenRegister();

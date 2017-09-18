@@ -32,7 +32,6 @@ static HANDLE hHookSettingChanged;
 /* Weather Shutdown */
 static HANDLE hHookWeatherUpdated;
 /* Services */
-static HANDLE hServiceStartWatcher, hServiceStopWatcher, hServiceIsEnabled;
 static HANDLE hEventWatcherChanged;
 /* Misc */
 static HANDLE hHookModulesLoaded;
@@ -342,9 +341,9 @@ void InitWatcher(void)
 	hHookWeatherUpdated = NULL;
 	/* Services */
 	hEventWatcherChanged = CreateHookableEvent(ME_AUTOSHUTDOWN_WATCHERCHANGED);
-	hServiceStartWatcher = CreateServiceFunction(MS_AUTOSHUTDOWN_STARTWATCHER, ServiceStartWatcher);
-	hServiceStopWatcher = CreateServiceFunction(MS_AUTOSHUTDOWN_STOPWATCHER, ServiceStopWatcher);
-	hServiceIsEnabled = CreateServiceFunction(MS_AUTOSHUTDOWN_ISWATCHERENABLED, ServiceIsWatcherEnabled);
+	CreateServiceFunction(MS_AUTOSHUTDOWN_STARTWATCHER, ServiceStartWatcher);
+	CreateServiceFunction(MS_AUTOSHUTDOWN_STOPWATCHER, ServiceStopWatcher);
+	CreateServiceFunction(MS_AUTOSHUTDOWN_ISWATCHERENABLED, ServiceIsWatcherEnabled);
 }
 
 void UninitWatcher(void)
@@ -366,9 +365,6 @@ void UninitWatcher(void)
 	/* Weather Shutdown */
 	UnhookEvent(hHookWeatherUpdated); /* does NULL check */
 	/* Services */
-	DestroyServiceFunction(hServiceStartWatcher);
-	DestroyServiceFunction(hServiceStopWatcher);
-	DestroyServiceFunction(hServiceIsEnabled);
 	DestroyHookableEvent(hEventWatcherChanged);
 	/* Misc */
 	UnhookEvent(hHookModulesLoaded);

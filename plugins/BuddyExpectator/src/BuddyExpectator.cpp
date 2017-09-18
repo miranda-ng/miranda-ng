@@ -27,7 +27,6 @@ int hLangpack;
 
 DWORD timer_id = 0;
 
-HANDLE hContactReturnedAction, hContactStillAbsentAction, hMissYouAction, hMenuMissYouClick;
 HGENMENU hContactMenu;
 
 HICON hIcon;
@@ -648,11 +647,6 @@ int ContactAdded(WPARAM hContact, LPARAM)
 
 int onShutdown(WPARAM, LPARAM)
 {
-	DestroyServiceFunction(hContactReturnedAction);
-	DestroyServiceFunction(hContactStillAbsentAction);
-	DestroyServiceFunction(hMissYouAction);
-	DestroyServiceFunction(hMenuMissYouClick);
-
 	IcoLib_ReleaseIcon(hIcon);
 	return 0;
 }
@@ -664,10 +658,10 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	InitOptions();
 
-	hContactReturnedAction = CreateServiceFunction("BuddyExpectator/actionReturned", ContactReturnedAction);
-	hContactStillAbsentAction = CreateServiceFunction("BuddyExpectator/actionStillAbsent", ContactStillAbsentAction);
-	hMissYouAction = CreateServiceFunction("BuddyExpectator/actionMissYou", MissYouAction);
-	hMenuMissYouClick = CreateServiceFunction("BuddyExpectator/actionMissYouClick", MenuMissYouClick);
+	CreateServiceFunction("BuddyExpectator/actionReturned", ContactReturnedAction);
+	CreateServiceFunction("BuddyExpectator/actionStillAbsent", ContactStillAbsentAction);
+	CreateServiceFunction("BuddyExpectator/actionMissYou", MissYouAction);
+	CreateServiceFunction("BuddyExpectator/actionMissYouClick", MenuMissYouClick);
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

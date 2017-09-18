@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern HINSTANCE hInst;
 extern int nCountriesCount;
 extern struct CountryListEntry *countries;
-static HANDLE hServiceIpToCountry;
 
 /************************* Bin Records ****************************/
 
@@ -304,7 +303,7 @@ void InitIpToCountry(void)
 	nDataRecordsCount=0;
 	dataRecords=NULL;
 	/* Services */
-	hServiceIpToCountry=CreateServiceFunction(MS_FLAGS_IPTOCOUNTRY,ServiceIpToCountry);
+	CreateServiceFunction(MS_FLAGS_IPTOCOUNTRY,ServiceIpToCountry);
 #ifdef BINCONV
 	mir_forkthread(BinConvThread,NULL);
 #endif
@@ -312,7 +311,5 @@ void InitIpToCountry(void)
 
 void UninitIpToCountry(void)
 {
-	mir_free(dataRecords); /* does NULL check */
-	/* Servcies */
-	DestroyServiceFunction(hServiceIpToCountry);
+	mir_free(dataRecords);
 }

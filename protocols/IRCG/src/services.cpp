@@ -63,7 +63,6 @@ void CIrcProto::InitMainMenus(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static HGENMENU hUMenuChanSettings, hUMenuWhois, hUMenuDisconnect, hUMenuIgnore;
-static HANDLE hMenuChanSettings, hMenuWhois, hMenuDisconnect, hMenuIgnore;
 
 static CIrcProto* IrcGetInstanceByHContact(MCONTACT hContact)
 {
@@ -127,7 +126,7 @@ void InitContactMenus(void)
 	mir_strcpy(d, IRC_UM_CHANSETTINGS);
 	mi.position = 500090002;
 	hUMenuChanSettings = Menu_AddContactMenuItem(&mi);
-	hMenuChanSettings = CreateServiceFunction(temp, IrcMenuChanSettings);
+	CreateServiceFunction(temp, IrcMenuChanSettings);
 
 	SET_UID(mi, 0x778eb1f6, 0x73c4, 0x4951, 0xb2, 0xca, 0xa1, 0x69, 0x94, 0x7b, 0xb7, 0x87);
 	mi.name.a = LPGEN("&WhoIs info");
@@ -135,7 +134,7 @@ void InitContactMenus(void)
 	mir_strcpy(d, IRC_UM_WHOIS);
 	mi.position = 500090001;
 	hUMenuWhois = Menu_AddContactMenuItem(&mi);
-	hMenuWhois = CreateServiceFunction(temp, IrcMenuWhois);
+	CreateServiceFunction(temp, IrcMenuWhois);
 
 	SET_UID(mi, 0x1c51ae05, 0x9eee, 0x4887, 0x88, 0x96, 0x55, 0xd2, 0xdd, 0xf9, 0x25, 0x6f);
 	mi.name.a = LPGEN("Di&sconnect");
@@ -143,7 +142,7 @@ void InitContactMenus(void)
 	mir_strcpy(d, IRC_UM_DISCONNECT);
 	mi.position = 500090001;
 	hUMenuDisconnect = Menu_AddContactMenuItem(&mi);
-	hMenuDisconnect = CreateServiceFunction(temp, IrcMenuDisconnect);
+	CreateServiceFunction(temp, IrcMenuDisconnect);
 
 	SET_UID(mi, 0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);
 	mi.name.a = LPGEN("&Add to ignore list");
@@ -151,7 +150,7 @@ void InitContactMenus(void)
 	mir_strcpy(d, IRC_UM_IGNORE);
 	mi.position = 500090002;
 	hUMenuIgnore = Menu_AddContactMenuItem(&mi);
-	hMenuIgnore = CreateServiceFunction(temp, IrcMenuIgnore);
+	CreateServiceFunction(temp, IrcMenuIgnore);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, IrcPrebuildContactMenu);
 }
@@ -162,11 +161,6 @@ void UninitContactMenus(void)
 	Menu_RemoveItem(hUMenuWhois);
 	Menu_RemoveItem(hUMenuDisconnect);
 	Menu_RemoveItem(hUMenuIgnore);
-	
-	DestroyServiceFunction(hMenuChanSettings);
-	DestroyServiceFunction(hMenuWhois);
-	DestroyServiceFunction(hMenuDisconnect);
-	DestroyServiceFunction(hMenuIgnore);
 }
 
 INT_PTR __cdecl CIrcProto::OnDoubleclicked(WPARAM, LPARAM lParam)

@@ -895,12 +895,11 @@ static INT_PTR SkinEdit_Invoke(WPARAM, LPARAM lParam)
 	return (INT_PTR)psd->hwndSkinEdit;
 }
 
-static HANDLE hSvc_invoke = 0, hSvc_fillby = 0;
 
 static int LoadModule()
 {
-	hSvc_invoke = CreateServiceFunction(MS_CLNSE_INVOKE, SkinEdit_Invoke);
-	hSvc_fillby = CreateServiceFunction(MS_CLNSE_FILLBYCURRENTSEL, SkinEdit_FillByCurrentSel);
+	CreateServiceFunction(MS_CLNSE_INVOKE, SkinEdit_Invoke);
+	CreateServiceFunction(MS_CLNSE_FILLBYCURRENTSEL, SkinEdit_FillByCurrentSel);
 	return 0;
 }
 
@@ -912,21 +911,12 @@ extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	return(LoadModule());
-}
-
-static int ShutdownProc(WPARAM, LPARAM)
-{
-	if (hSvc_invoke)
-		DestroyServiceFunction(hSvc_invoke);
-	if (hSvc_fillby)
-		DestroyServiceFunction(hSvc_fillby);
-	return 0;
+	return LoadModule();
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	return ShutdownProc(0, 0);
+	return 0;
 }
 
 BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)

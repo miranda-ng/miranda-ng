@@ -22,7 +22,6 @@ CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack;
 
-HANDLE hServiceUpload, hServiceShowManager, hServiceContactMenu, hServiceMainMenu;
 HGENMENU hMenu, hMainMenu, hSubMenu[ServerList::FTP_COUNT], hMainSubMenu[ServerList::FTP_COUNT];
 
 extern UploadDialog *uDlg;
@@ -396,10 +395,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, Shutdown);
 	HookEvent(ME_OPT_INITIALISE, Options::InitOptions);
 
-	hServiceUpload = CreateServiceFunction(MS_FTPFILE_UPLOAD, UploadService);
-	hServiceShowManager = CreateServiceFunction(MS_FTPFILE_SHOWMANAGER, ShowManagerService);
-	hServiceContactMenu = CreateServiceFunction(MS_FTPFILE_CONTACTMENU, ContactMenuService);
-	hServiceMainMenu = CreateServiceFunction(MS_FTPFILE_MAINMENU, MainMenuService);
+	CreateServiceFunction(MS_FTPFILE_UPLOAD, UploadService);
+	CreateServiceFunction(MS_FTPFILE_SHOWMANAGER, ShowManagerService);
+	CreateServiceFunction(MS_FTPFILE_CONTACTMENU, ContactMenuService);
+	CreateServiceFunction(MS_FTPFILE_MAINMENU, MainMenuService);
 
 	InitIcolib();
 	InitHotkeys();
@@ -412,9 +411,5 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	DestroyServiceFunction(hServiceUpload);
-	DestroyServiceFunction(hServiceShowManager);
-	DestroyServiceFunction(hServiceContactMenu);
-	DestroyServiceFunction(hServiceMainMenu);
 	return 0;
 }

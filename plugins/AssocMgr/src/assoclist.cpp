@@ -24,8 +24,6 @@ Foundation,  Inc.,  59 Temple Place - Suite 330,  Boston,  MA  02111-1307,  USA.
 // Options
 extern HINSTANCE hInst;
 static HANDLE hHookOptInit;
-// Services
-static HANDLE hServiceAddFile, hServiceRemoveFile, hServiceAddUrl, hServiceRemoveUrl;
 
 /************************* Assoc List *****************************/
 
@@ -943,10 +941,10 @@ void InitAssocList(void)
 	nAssocListCount = 0;
 
 	// Services
-	hServiceAddFile = CreateServiceFunction(MS_ASSOCMGR_ADDNEWFILETYPE, ServiceAddNewFileType);
-	hServiceRemoveFile = CreateServiceFunction(MS_ASSOCMGR_REMOVEFILETYPE, ServiceRemoveFileType);
-	hServiceAddUrl = CreateServiceFunction(MS_ASSOCMGR_ADDNEWURLTYPE, ServiceAddNewUrlType);
-	hServiceRemoveUrl = CreateServiceFunction(MS_ASSOCMGR_REMOVEURLTYPE, ServiceRemoveUrlType);
+	CreateServiceFunction(MS_ASSOCMGR_ADDNEWFILETYPE, ServiceAddNewFileType);
+	CreateServiceFunction(MS_ASSOCMGR_REMOVEFILETYPE, ServiceRemoveFileType);
+	CreateServiceFunction(MS_ASSOCMGR_ADDNEWURLTYPE, ServiceAddNewUrlType);
+	CreateServiceFunction(MS_ASSOCMGR_REMOVEURLTYPE, ServiceRemoveUrlType);
 
 	// Notify Shell
 	nNotifyTimerID = 0;
@@ -994,12 +992,6 @@ void UninitAssocList(void)
 {
 	// Options
 	UnhookEvent(hHookOptInit);
-
-	// Services
-	DestroyServiceFunction(hServiceAddFile);
-	DestroyServiceFunction(hServiceRemoveFile);
-	DestroyServiceFunction(hServiceAddUrl);
-	DestroyServiceFunction(hServiceRemoveUrl);
 
 	// Assoc List
 	BYTE fOnlyWhileRunning = db_get_b(NULL, "AssocMgr", "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT);

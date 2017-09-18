@@ -21,11 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-/* Menu Item */
-static HANDLE hServiceMenuCommand;
-
 /* Services */
-static HANDLE hServiceShowDlg;
 static HWND hwndSettingsDlg;
 extern HINSTANCE hInst;
 
@@ -482,20 +478,12 @@ static INT_PTR MenuItemCommand(WPARAM, LPARAM)
 void InitSettingsDlg(void)
 {
 	/* Menu Item */
-	hServiceMenuCommand = CreateServiceFunction("AutoShutdown/MenuCommand", MenuItemCommand);
+	CreateServiceFunction("AutoShutdown/MenuCommand", MenuItemCommand);
 	hMainMenuItem = hTrayMenuItem = NULL;
 	SetShutdownMenuItem(false);
 	/* Hotkey */
 	AddHotkey();
 	/* Services */
 	hwndSettingsDlg = NULL;
-	hServiceShowDlg = CreateServiceFunction(MS_AUTOSHUTDOWN_SHOWSETTINGSDIALOG, ServiceShowSettingsDialog);
-}
-
-void UninitSettingsDlg(void)
-{
-	/* Menu Item */
-	DestroyServiceFunction(hServiceMenuCommand);
-	/* Services */
-	DestroyServiceFunction(hServiceShowDlg);
+	CreateServiceFunction(MS_AUTOSHUTDOWN_SHOWSETTINGSDIALOG, ServiceShowSettingsDialog);
 }

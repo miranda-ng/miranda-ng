@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-HANDLE hTypingNotify;
-
 static HGENMENU hDisableMenu = nullptr;
 
 static MWindowList hPopupsList = nullptr;
@@ -531,7 +529,7 @@ int TN_ModuleInit()
 	mir_snwprintf(szStop, TranslateT("...has stopped typing."));
 
 	if (PluginConfig.g_bPopupAvail && ShowMenu) {
-		hTypingNotify = CreateServiceFunction("TypingNotify/EnableDisableMenuCommand", EnableDisableMenuCommand);
+		CreateServiceFunction("TypingNotify/EnableDisableMenuCommand", EnableDisableMenuCommand);
 
 		CMenuItem mi;
 		SET_UID(mi, 0xe18fd2cf, 0xcf90, 0x459e, 0xb6, 0xe6, 0x70, 0xec, 0xad, 0xc6, 0x73, 0xef);

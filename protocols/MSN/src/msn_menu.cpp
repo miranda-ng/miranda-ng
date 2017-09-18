@@ -25,8 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static HGENMENU hBlockMenuItem, hLiveSpaceMenuItem, hNetmeetingMenuItem, hChatInviteMenuItem, hOpenInboxMenuItem;
 
-HANDLE hNetMeeting, hBlockCom, hSendHotMail, hInviteChat, hViewProfile;
-
 // Block command callback function
 INT_PTR CMsnProto::MsnBlockCommand(WPARAM hContact, LPARAM)
 {
@@ -245,7 +243,7 @@ void MSN_InitContactMenu(void)
 
 	SET_UID(mi, 0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);
 	mir_strcpy(tDest, MSN_BLOCK);
-	hBlockCom = CreateServiceFunction(servicefunction, MsnMenuBlockCommand);
+	CreateServiceFunction(servicefunction, MsnMenuBlockCommand);
 	mi.position = -500050000;
 	mi.hIcolibItem = GetIconHandle(IDI_MSNBLOCK);
 	mi.name.a = LPGEN("&Block");
@@ -253,7 +251,7 @@ void MSN_InitContactMenu(void)
 
 	SET_UID(mi, 0x7f7e4c24, 0x821c, 0x450f, 0x93, 0x76, 0xbe, 0x65, 0xe9, 0x2f, 0xb6, 0xc2);
 	mir_strcpy(tDest, MSN_VIEW_PROFILE);
-	hViewProfile = CreateServiceFunction(servicefunction, MsnMenuViewProfile);
+	CreateServiceFunction(servicefunction, MsnMenuViewProfile);
 	mi.position = -500050003;
 	mi.hIcolibItem = GetIconHandle(IDI_PROFILE);
 	mi.name.a = LPGEN("View &Profile");
@@ -261,7 +259,7 @@ void MSN_InitContactMenu(void)
 
 	SET_UID(mi,0x25a007c0, 0x8dc7, 0x4284, 0x8a, 0x5e, 0x2, 0x83, 0x17, 0x5d, 0x52, 0xea);
 	mir_strcpy(tDest, "/SendHotmail");
-	hSendHotMail = CreateServiceFunction(servicefunction, MsnMenuSendHotmail);
+	CreateServiceFunction(servicefunction, MsnMenuSendHotmail);
 	mi.position = -2000010005;
 	mi.flags = CMIF_HIDDEN;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_SENDEMAIL);
@@ -277,9 +275,4 @@ void MSN_RemoveContactMenus(void)
 	Menu_RemoveItem(hLiveSpaceMenuItem);
 	Menu_RemoveItem(hChatInviteMenuItem);
 	Menu_RemoveItem(hOpenInboxMenuItem);
-
-	DestroyServiceFunction(hBlockCom);
-	DestroyServiceFunction(hSendHotMail);
-	DestroyServiceFunction(hInviteChat);
-	DestroyServiceFunction(hViewProfile);
 }

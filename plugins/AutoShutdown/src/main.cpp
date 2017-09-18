@@ -92,7 +92,6 @@ extern "C" __declspec(dllexport) int Load(void)
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	UninitOptions();
-	UninitSettingsDlg(); /* before UninitWatcher() */
 	UninitWatcher(); /* before UninitFrame() */
 	UninitFrame();
 	UninitShutdownSvc();

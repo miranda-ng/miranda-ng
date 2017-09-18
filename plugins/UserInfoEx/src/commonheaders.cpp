@@ -159,13 +159,3 @@ unsigned int hashSetting_M2(const wchar_t * key)
 #ifdef _DEBUG
 #pragma optimize( "", on )
 #endif
-
-INT_PTR myDestroyServiceFunction(const char * key) {
-	//DestroyServiceFunction always return 0 therfore we must call ServiceExists to enshure it is delete
-	if (!ServiceExists(key)) return 0;
-	DestroyServiceFunction((HANDLE)(INT_PTR)hashSetting(key));		//old hash
-	if (!ServiceExists(key)) return 0;
-	DestroyServiceFunction((HANDLE)(INT_PTR)hashSetting_M2(key));	//new MurmurHash2
-	if (!ServiceExists(key)) return 0;
-	return 1;
-}

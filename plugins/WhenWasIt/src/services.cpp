@@ -22,13 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define COMMENT_CHAR '#'
 
-HANDLE hsCheckBirthdays;
-HANDLE hsShowList;
-HANDLE hsAddBirthday;
-HANDLE hsRefreshUserDetails;
-HANDLE hsImportBirthdays;
-HANDLE hsExportBirthdays;
-
 int bShouldCheckBirthdays = 0;
 int bBirthdayFound = 0;
 
@@ -57,27 +50,12 @@ int InitServices()
 	commonData.cDlgTimeout = db_get_w(NULL, ModuleName, "DlgTimeout", POPUP_TIMEOUT);
 	commonData.notifyFor = db_get_b(NULL, ModuleName, "NotifyFor", 0);
 
-	hsCheckBirthdays = CreateServiceFunction(MS_WWI_CHECK_BIRTHDAYS, CheckBirthdaysService);
-	hsShowList = CreateServiceFunction(MS_WWI_LIST_SHOW, ShowListService);
-	hsAddBirthday = CreateServiceFunction(MS_WWI_ADD_BIRTHDAY, AddBirthdayService);
-	hsRefreshUserDetails = CreateServiceFunction(MS_WWI_REFRESH_USERDETAILS, RefreshUserDetailsService);
-	hsImportBirthdays = CreateServiceFunction(MS_WWI_IMPORT_BIRTHDAYS, ImportBirthdaysService);
-	hsExportBirthdays = CreateServiceFunction(MS_WWI_EXPORT_BIRTHDAYS, ExportBirthdaysService);
-
-	Log("%s", "Leaving function " __FUNCTION__);
-	return 0;
-}
-
-int DestroyServices()
-{
-	Log("%s", "Entering function " __FUNCTION__);
-
-	DestroyServiceFunction(hsCheckBirthdays);
-	DestroyServiceFunction(hsShowList);
-	DestroyServiceFunction(hsAddBirthday);
-	DestroyServiceFunction(hsRefreshUserDetails);
-	DestroyServiceFunction(hsImportBirthdays);
-	DestroyServiceFunction(hsExportBirthdays);
+	CreateServiceFunction(MS_WWI_CHECK_BIRTHDAYS, CheckBirthdaysService);
+	CreateServiceFunction(MS_WWI_LIST_SHOW, ShowListService);
+	CreateServiceFunction(MS_WWI_ADD_BIRTHDAY, AddBirthdayService);
+	CreateServiceFunction(MS_WWI_REFRESH_USERDETAILS, RefreshUserDetailsService);
+	CreateServiceFunction(MS_WWI_IMPORT_BIRTHDAYS, ImportBirthdaysService);
+	CreateServiceFunction(MS_WWI_EXPORT_BIRTHDAYS, ExportBirthdaysService);
 
 	Log("%s", "Leaving function " __FUNCTION__);
 	return 0;

@@ -12,7 +12,7 @@ DWORD timer_id;
 
 static SYSTEMTIME last_check, last_saved_check;
 
-HANDLE hAlarmTriggeredEvent, hAddAlarmService;
+HANDLE hAlarmTriggeredEvent;
 
 bool startup = true;
 
@@ -798,7 +798,7 @@ void InitList()
 	LoadAlarms();
 
 	hAlarmTriggeredEvent = CreateHookableEvent(ME_ALARMS_TRIGGERED);
-	hAddAlarmService = CreateServiceFunction(MS_ALARMS_ADDALARM, AddAlarmService);
+	CreateServiceFunction(MS_ALARMS_ADDALARM, AddAlarmService);
 
 	InitAlarmWin();
 
@@ -817,7 +817,6 @@ void DeinitList()
 	KillTimer(0, timer_id);
 
 	DestroyHookableEvent(hAlarmTriggeredEvent);
-	DestroyServiceFunction(hAddAlarmService);
 
 	SaveAlarms(); // we may have erased some 'cause they were once-offs that were triggeredf
 }

@@ -21,17 +21,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "services.h"
 
-HANDLE hShowHistory;
-
 int InitServices()
 {
-	hShowHistory = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowContactHistoryService);
-	return 0;
-}
-
-int DestroyServices()
-{
-	DestroyServiceFunction(hShowHistory);
+	CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowContactHistoryService);
 	return 0;
 }
 

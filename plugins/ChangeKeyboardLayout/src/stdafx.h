@@ -90,8 +90,6 @@ typedef struct
 
 extern HINSTANCE hInst;
 
-extern HANDLE hChangeLayout, hGetLayoutOfText, hChangeTextLayout;
-
 extern HICON hPopupIcon, hCopyIcon;
 
 extern LPCTSTR ptszKeybEng;

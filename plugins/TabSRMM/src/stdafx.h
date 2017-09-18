@@ -219,7 +219,6 @@ extern NEN_OPTIONS nen_options;
 extern HINSTANCE g_hInst;
 extern CSkinItem SkinItems[];
 extern TContainerData *pFirstContainer, *pLastActiveContainer;
-extern HANDLE hTypingNotify;
 extern ButtonSet g_ButtonSet;
 extern HANDLE g_hEvent;
 extern RECT rcLastStatusBarClick;

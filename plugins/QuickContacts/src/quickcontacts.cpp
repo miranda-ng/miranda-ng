@@ -44,7 +44,6 @@ int hLangpack = 0;
 HANDLE hModulesLoaded = NULL;
 HANDLE hEventAdded = NULL;
 HANDLE hHotkeyPressed = NULL;
-HANDLE hQSShowDialog = NULL;
 
 long main_dialog_open = 0;
 HWND hwndMain = NULL;
@@ -81,7 +80,7 @@ extern "C" __declspec(dllexport) int Load()
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
 
-	hQSShowDialog = CreateServiceFunction(MS_QC_SHOW_DIALOG, ShowDialog);
+	CreateServiceFunction(MS_QC_SHOW_DIALOG, ShowDialog);
 
 	// hooks
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
@@ -95,8 +94,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 	FreeContacts();
 
 	DeInitOptions();
-
-	DestroyServiceFunction(hQSShowDialog);
 
 	UnhookEvent(hModulesLoaded);
 	UnhookEvent(hEventAdded);

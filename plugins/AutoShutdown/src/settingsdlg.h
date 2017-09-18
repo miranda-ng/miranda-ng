@@ -27,5 +27,4 @@ void SetShutdownToolbarButton(bool fActive);
 
 /* Misc */
 void InitSettingsDlg(void);
-void UninitSettingsDlg(void);
 int ToolbarLoaded(WPARAM,LPARAM);

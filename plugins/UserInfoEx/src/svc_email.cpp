@@ -254,8 +254,8 @@ void SvcEMailLoadModule()
 	SvcEMailEnableExtraIcons();
 	if (db_get_b(NULL, MODNAME, SET_EXTENDED_EMAILSERVICE, TRUE)) {
 		// create own email send command
-		if (!myDestroyServiceFunction(MS_EMAIL_SENDEMAIL))
-			CreateServiceFunction(MS_EMAIL_SENDEMAIL, MenuCommand);
+		DestroyServiceFunction(MS_EMAIL_SENDEMAIL);
+		CreateServiceFunction(MS_EMAIL_SENDEMAIL, MenuCommand);
 	}
 }
 

@@ -91,7 +91,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	Skin->UnloadAeroTabs();
 	CleanTempFiles();
 	delete Skin;
-	DestroyServiceFunction(hTypingNotify);
 	delete sendLater;
 	delete sendQueue;
 	return iRet;

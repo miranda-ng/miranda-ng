@@ -113,5 +113,4 @@ void loadDBSettings(plgsettings *ps);
 
 extern HINSTANCE hI;
 extern HWND   g_hWnd;
-extern HANDLE hservosda;
 extern HANDLE hHookedInit, hProtoAck, hContactSettingChanged, hHookContactStatusChanged, hContactStatusChanged;

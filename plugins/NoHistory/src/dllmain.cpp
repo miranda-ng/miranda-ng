@@ -9,7 +9,6 @@ static int SrmmMenu_ProcessEvent(WPARAM wParam, LPARAM lParam);
 static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam);
 
 HGENMENU hMenuToggle, hMenuClear;
-HANDLE   hServiceToggle, hServiceClear;
 
 mir_cs list_cs;
 
@@ -282,16 +281,13 @@ extern "C" __declspec (dllexport) int Load()
 	HookEvent(ME_DB_EVENT_ADDED, OnDatabaseEventAdd);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
-	hServiceToggle = CreateServiceFunction(MS_NOHISTORY_TOGGLE, ServiceToggle);
-	hServiceClear = CreateServiceFunction(MS_NOHISTORY_CLEAR, ServiceClear);
+	CreateServiceFunction(MS_NOHISTORY_TOGGLE, ServiceToggle);
+	CreateServiceFunction(MS_NOHISTORY_CLEAR, ServiceClear);
 	return 0;
 }
 
 extern "C" __declspec (dllexport) int Unload(void)
 {
-	DestroyServiceFunction(hServiceToggle);
-	DestroyServiceFunction(hServiceClear);
-
 	RemoveReadEvents();
 	return 0;
 }

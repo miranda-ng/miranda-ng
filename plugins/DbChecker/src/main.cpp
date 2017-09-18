@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HINSTANCE hInst;
 int hLangpack = 0;
 bool bServiceMode, bLaunchMiranda, bShortMode, bAutoExit;
-HANDLE hService;
 
 DbToolOptions opts = { 0 };
 
@@ -82,12 +81,11 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfoEx);
 
 	CreateServiceFunction(MS_DB_CHECKPROFILE, CheckProfile);
-	hService = CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
+	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	DestroyServiceFunction(hService);
 	return 0;
 }

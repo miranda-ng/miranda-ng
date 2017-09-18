@@ -25,8 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "m_assocmgr.h"
 
-static HANDLE hServiceParseLink;
-
 static MCONTACT GetContact(wchar_t *arg, wchar_t **pemail, CMsnProto *proto)
 {
 	wchar_t* email = NULL;
@@ -143,12 +141,11 @@ void MsnLinks_Init(void)
 {
 	static const char szService[] = "MSN/ParseMsnimLink";
 
-	hServiceParseLink = CreateServiceFunction(szService, ServiceParseMsnimLink);
+	CreateServiceFunction(szService, ServiceParseMsnimLink);
 	AssocMgr_AddNewUrlTypeT("msnim:", TranslateT("MSN Link Protocol"), g_hInst, IDI_MSN, szService, 0);
 }
 
 void MsnLinks_Destroy(void)
 {
-	DestroyServiceFunction(hServiceParseLink);
 	CallService(MS_ASSOCMGR_REMOVEURLTYPE, 0, (LPARAM)"msnim:");
 }

@@ -33,7 +33,7 @@ boolean volatile Plugin_Terminated = false;
 mir_cs checkthreadCS;
 
 HGENMENU hMenuHandle = NULL;
-HANDLE hMenuService = NULL, hCheckEvent = NULL, hCheckHook = NULL, hHookModulesLoaded = NULL, hHookPreShutdown = NULL, hOptInit = NULL;
+HANDLE hCheckEvent = NULL;
 
 static HWND hTimerWnd = (HWND)NULL;
 static UINT TID = (UINT)2006;
@@ -1690,12 +1690,12 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (!(hCheckEvent = CreateHookableEvent("LotusNotify/Check"))) //check if there is another copy of plugin running
 		second = TRUE;
 
-	hCheckHook = HookEvent("LotusNotify/Check", eventCheck); //hook function to menu click event
+	HookEvent("LotusNotify/Check", eventCheck); //hook function to menu click event
 
 	if (!second) //if its first plugin instance
 	{
 		//function that will be called on menu click
-		hMenuService = CreateServiceFunction("LotusNotify/MenuCommand", PluginMenuCommand);
+		CreateServiceFunction("LotusNotify/MenuCommand", PluginMenuCommand);
 
 		CMenuItem mi;
 		SET_UID(mi, 0x4519458, 0xb55a, 0x4e22, 0xac, 0x95, 0x5e, 0xa4, 0x4d, 0x92, 0x65, 0x65);
@@ -1730,12 +1730,9 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	Skin_AddSound("LotusNotify", LPGENW("Lotus Notify"), LPGENW("New Lotus document detected"));
 
-	hOptInit = HookEvent(ME_OPT_INITIALISE, LotusNotifyOptInit); //register service to hook option call
-	assert(hOptInit);
-	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, modulesloaded); //hook event that all plugins are loaded
-	assert(hHookModulesLoaded);
-	hHookPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, preshutdown);
-	assert(hHookPreShutdown);
+	HookEvent(ME_OPT_INITIALISE, LotusNotifyOptInit); //register service to hook option call
+	HookEvent(ME_SYSTEM_MODULESLOADED, modulesloaded); //hook event that all plugins are loaded
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, preshutdown);
 
 	log(L"Load: ok");
 	return 0;
@@ -1747,12 +1744,7 @@ extern "C" int __declspec(dllexport) Unload()
 	Plugin_Terminated = true;
 	mir_cslock lck(checkthreadCS);
 
-	if (hMenuService) DestroyServiceFunction(hMenuService);
-	if (hCheckEvent) DestroyHookableEvent(hCheckEvent);
-	if (hOptInit) UnhookEvent(hOptInit);
-	if (hCheckHook) UnhookEvent(hCheckHook);
-	if (hHookModulesLoaded) UnhookEvent(hHookModulesLoaded);
-	if (hHookPreShutdown) UnhookEvent(hHookPreShutdown);
+	DestroyHookableEvent(hCheckEvent);
 
 	log(L"Unload: ok");
 	logUnregister();
