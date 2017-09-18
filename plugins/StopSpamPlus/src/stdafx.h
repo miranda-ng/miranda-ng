@@ -25,7 +25,6 @@
 typedef std::wstring tstring;
 #define PREF_TCHAR2 PREF_UTF
 
-#include "eventhooker.h"
 #include "version.h"
 #include "resource.h"
 #include "settings.h"
@@ -54,4 +53,8 @@ tstring trim(tstring const &tstr, tstring const &trimChars = L" \f\n\r\t\v");
 INT_PTR IsContactPassed(WPARAM wParam, LPARAM /*lParam*/);
 INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam);
 int OnSystemModulesLoaded(WPARAM wParam, LPARAM lParam);
+int OnDbEventAdded(WPARAM wParam, LPARAM lParam);
+int OnDbEventFilterAdd(WPARAM w, LPARAM l);
+int OnOptInit(WPARAM w, LPARAM l);
+int OnDbContactSettingchanged(WPARAM hContact, LPARAM l);
 #endif

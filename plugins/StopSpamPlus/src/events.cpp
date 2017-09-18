@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
+int OnDbEventAdded(WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(wParam);
 	MEVENT hDbEvent = (MEVENT)lParam;
@@ -46,7 +46,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 	return 0;
 }
 
-MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
+int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 {
 	MCONTACT hContact = (MCONTACT)w;
 	DBEVENTINFO *dbei = (DBEVENTINFO*)l;
@@ -161,7 +161,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 	return 1;
 }
 
-MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
+int OnOptInit(WPARAM w, LPARAM l)
 {
 	UNREFERENCED_PARAMETER(l);
 
@@ -188,7 +188,7 @@ MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 	return 0;
 }
 
-MIRANDA_HOOK_EVENT(ME_DB_CONTACT_SETTINGCHANGED, hContact, l)
+int OnDbContactSettingchanged(WPARAM hContact, LPARAM l)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)l;
 
