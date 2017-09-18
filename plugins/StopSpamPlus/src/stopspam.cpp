@@ -74,7 +74,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	if (hTempRemove)
 	{
 		DestroyServiceFunction(hTempRemove);
-		hFunc = 0;
+		hTempRemove = 0;
 	}
 	delete plSets;
 
