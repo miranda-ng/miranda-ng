@@ -27,7 +27,6 @@ using namespace std;
 
 #include "globals.h"
 #include "stopspam.h"
-#include "eventhooker.h"
 #include "version.h"
 #include "resource.h"
 #include "utilities.h"
@@ -35,3 +34,8 @@ using namespace std;
 
 extern HINSTANCE hInst;
 extern HANDLE hStopSpamLogDirH;
+
+int OnDbContactSettingChanged(WPARAM w, LPARAM l);
+int OnDbEventFilterAdd(WPARAM w, LPARAM l);
+int OnDbEventAdded(WPARAM hContact, LPARAM hDbEvent);
+int OnOptInit(WPARAM w, LPARAM l);

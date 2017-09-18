@@ -17,7 +17,7 @@
 
 #include "stdafx.h"
 
-MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, hContact, hDbEvent)
+int OnDbEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
 	DBEVENTINFO dbei = {};
 	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
@@ -70,7 +70,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, hContact, hDbEvent)
 	return 0;
 }
 
-MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
+int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 {
 	MCONTACT hContact = (MCONTACT)w;
 	if (!l) //fix potential DEP crash
@@ -297,7 +297,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 	return 1;
 }
 
-MIRANDA_HOOK_EVENT(ME_DB_CONTACT_SETTINGCHANGED, w, l)
+int OnDbContactSettingChanged(WPARAM w, LPARAM l)
 {
 	MCONTACT hContact = (MCONTACT)w;
 	DBCONTACTWRITESETTING * cws = (DBCONTACTWRITESETTING*)l;

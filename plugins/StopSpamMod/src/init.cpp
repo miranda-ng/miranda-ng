@@ -17,6 +17,8 @@
 
 #include "stdafx.h"
 
+HINSTANCE hInst;
+
 BOOL gbDosServiceExist = 0;
 BOOL gbVarsServiceExist = 0;
 
@@ -145,6 +147,10 @@ extern "C" int __declspec(dllexport) Load()
 
 	CreateServiceFunction("/RemoveTmp", (MIRANDASERVICE)RemoveTmp);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
+	HookEvent(ME_DB_EVENT_ADDED, OnDbEventAdded);
+	HookEvent(ME_DB_EVENT_FILTER_ADD, OnDbEventFilterAdd);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnDbContactSettingChanged);
+	HookEvent(ME_OPT_INITIALISE, OnOptInit);
 
 	CMenuItem mi;
 	SET_UID(mi, 0x60ce7660, 0x5a5, 0x4234, 0x99, 0xb6, 0x55, 0x21, 0xed, 0xa0, 0xb8, 0x32);
@@ -155,12 +161,10 @@ extern "C" int __declspec(dllexport) Load()
 
 	Menu_AddMainMenuItem(&mi);
 
-	miranda::EventHooker::HookAll();
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	miranda::EventHooker::UnhookAll();
 	return 0;
 }
