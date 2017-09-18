@@ -217,7 +217,7 @@ static int ContactDeleted(WPARAM wParam, LPARAM)
 {
 	HWND hwnd = Srmm_FindWindow(wParam);
 	if (hwnd)
-		SendMessage(hwnd, WM_CLOSE, 0, 0);
+		SendMessage(hwnd, DM_CLOSETAB, 0, 0);
 
 	return 0;
 }
