@@ -188,6 +188,10 @@ void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 	debugLogA("CVkProto::MarkMessagesRead (hContact)");
 	if (!IsOnline() || !hContact)
 		return;
+
+	if (!IsEmpty(ptrW(db_get_wsa(hContact, m_szModuleName, "Deactivated"))))
+		return;
+
 	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
 	if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
 		return;
