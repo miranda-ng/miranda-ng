@@ -299,13 +299,15 @@ void CSrmmWindow::OnDestroy()
 	db_set_dw(hContact, SRMMMOD, "height", wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
 
 	NotifyEvent(MSG_WINDOW_EVT_CLOSE);
-	if (m_hContact && g_dat.bDeleteTempCont)
-		if (db_get_b(m_hContact, "CList", "NotOnList", 0))
-			db_delete_contact(m_hContact);
 
 	Window_FreeIcon_IcoLib(m_hwnd);
 
 	CSuper::OnDestroy();
+
+	// a temporary contact should be destroyed after removing window from the window list to prevent recursion
+	if (m_hContact && g_dat.bDeleteTempCont)
+		if (db_get_b(m_hContact, "CList", "NotOnList", 0))
+			db_delete_contact(m_hContact);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
