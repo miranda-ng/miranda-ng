@@ -39,7 +39,6 @@ Boston, MA 02111-1307, USA.
 #include <m_assocmgr.h>
 #include <win2k.h>
 #include <m_pluginupdater.h>
-#include <m_autobackups.h>
 
 #include <m_folders.h>
 
@@ -47,7 +46,10 @@ Boston, MA 02111-1307, USA.
 #include "resource.h"
 
 #if MIRANDA_VER < 0x0A00
-#include "Compat/compat.h"
+	#include <m_system_cpp.h>
+	#include "Compat/compat.h"
+#else
+	#include <m_autobackups.h>
 #endif
 
 #include "Notifications.h"

@@ -109,7 +109,7 @@ static void ApplyUpdates(void *param)
 			else {
 				// if file name differs, we also need to backup the old file here
 				// otherwise it would be replaced by unzip
-				if ( wcsicmp(p.tszOldName, p.tszNewName)) {
+				if (_wcsicmp(p.tszOldName, p.tszNewName)) {
 					wchar_t tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
 					mir_snwprintf(tszSrcPath, L"%s\\%s", tszMirandaPath, p.tszOldName);
 					mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, p.tszOldName);
@@ -132,8 +132,10 @@ static void ApplyUpdates(void *param)
 
 	db_set_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 5);
 
+#if MIRANDA_VER >= 0x0A00
 	if (opts.bBackup)
-		CallService(MS_AB_BACKUP);
+		CallService(MS_AB_BACKUP, 0, 0);
+#endif
 
 	if (opts.bChangePlatform) {
 		wchar_t mirandaPath[MAX_PATH];
@@ -459,7 +461,7 @@ static void DlgUpdateSilent(void *param)
 			else {
 				// if file name differs, we also need to backup the old file here
 				// otherwise it would be replaced by unzip
-				if (wcsicmp(p.tszOldName, p.tszNewName)) {
+				if (_wcsicmp(p.tszOldName, p.tszNewName)) {
 					wchar_t tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
 					mir_snwprintf(tszSrcPath, L"%s\\%s", tszMirandaPath, p.tszOldName);
 					mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, p.tszOldName);
@@ -478,7 +480,7 @@ static void DlgUpdateSilent(void *param)
 #if MIRANDA_VER < 0x0A00
 	// 4) Change title of clist
 	ptrW title = db_get_wsa(NULL, "CList", "TitleText");
-	if (!wcsicmp(title, L"Miranda IM"))
+	if (!_wcsicmp(title, L"Miranda IM"))
 		db_set_ws(NULL, "CList", "TitleText", L"Miranda NG");
 #endif
 
@@ -564,6 +566,9 @@ static renameTable[] =
 	{ L"rc4.dll",                        NULL },
 	{ L"athena.dll",                     NULL },
 	{ L"skypekit.exe",                   NULL },
+	{ L"mir_app.dll",                    NULL },
+	{ L"mir_core.dll",                   NULL },
+	{ L"zlib.dll",                       NULL },
 #endif
 
 	{ L"proto_newsaggr.dll",             L"Icons\\proto_newsaggregator.dll" },
@@ -572,9 +577,6 @@ static renameTable[] =
 
 	{ L"langpack_*.txt",                 L"Languages\\*" },
 
-	{ L"mir_app.dll",                    NULL },
-	{ L"mir_core.dll",                   NULL },
-	{ L"zlib.dll",                       NULL },
 	{ L"pcre16.dll",                     NULL },
 	{ L"clist_classic.dll",              NULL },
 	{ L"chat.dll",                       NULL },
@@ -623,13 +625,13 @@ static bool isValidExtension(const wchar_t *ptszFileName)
 {
 	const wchar_t *pExt = wcsrchr(ptszFileName, '.');
 
-	return (pExt != NULL) && (!wcsicmp(pExt, L".dll") || !wcsicmp(pExt, L".exe") || !wcsicmp(pExt, L".txt"));
+	return (pExt != NULL) && (!_wcsicmp(pExt, L".dll") || !_wcsicmp(pExt, L".exe") || !_wcsicmp(pExt, L".txt"));
 }
 
 // We only scan subfolders "Plugins", "Icons", "Languages", "Libs", "Core"
 static bool isValidDirectory(const wchar_t *ptszDirName)
 {
-	return !wcsicmp(ptszDirName, L"Plugins") || !wcsicmp(ptszDirName, L"Icons") || !wcsicmp(ptszDirName, L"Languages") || !wcsicmp(ptszDirName, L"Libs") || !wcsicmp(ptszDirName, L"Core");
+	return !_wcsicmp(ptszDirName, L"Plugins") || !_wcsicmp(ptszDirName, L"Icons") || !_wcsicmp(ptszDirName, L"Languages") || !_wcsicmp(ptszDirName, L"Libs") || !_wcsicmp(ptszDirName, L"Core");
 }
 
 // Scans folders recursively
@@ -753,7 +755,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 			if (p) *p = 0;
 			p = wcsrchr(tszBuf, '\\');
 			p = (p) ? p + 1 : tszBuf;
-			wcslwr(p);
+			_wcslwr(p);
 
 			mir_snwprintf(FileInfo->File.tszDiskPath, L"%s\\Temp\\%s.zip", g_tszRoot, p);
 			mir_snwprintf(FileInfo->File.tszDownloadURL, L"%s/%s.zip", tszBaseUrl, tszBuf);
@@ -828,7 +830,7 @@ static void DoCheck(bool bSilent = true)
 #if MIRANDA_VER >= 0x0A00
 		db_set_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, time(NULL));
 #endif
-		hCheckThread = mir_forkthread(CheckUpdates);
+		hCheckThread = mir_forkthread(CheckUpdates, 0);
 	}
 }
 
@@ -943,5 +945,5 @@ void InitTimer(void *type)
 
 void CreateTimer() {
 	hTimer = CreateWaitableTimer(NULL, FALSE, NULL);
-	mir_forkthread(InitTimer);
+	mir_forkthread(InitTimer, 0);
 }

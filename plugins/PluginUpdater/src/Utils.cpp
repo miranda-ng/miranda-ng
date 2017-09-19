@@ -59,7 +59,12 @@ void InitNetlib()
 {
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.szDescriptiveName.w = TranslateT("Plugin Updater HTTP connections");
+	#if MIRANDA_VER >= 0x0A00
+		nlu.szDescriptiveName.w = TranslateT("Plugin Updater HTTP connections");
+	#else
+		nlu.cbSize = sizeof(nlu);
+		nlu.ptszDescriptiveName = TranslateT("Plugin Updater HTTP connections");
+	#endif
 	nlu.szSettingsModule = MODNAME;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 }
@@ -125,7 +130,7 @@ int Get_CRC(unsigned char* buffer, ULONG bufsize)
 
 int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 {
-	return wcsicmp(p1->m_name, p2->m_name);
+	return _wcsicmp(p1->m_name, p2->m_name);
 }
 
 bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
@@ -316,7 +321,9 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 
 void __stdcall OpenPluginOptions(void*)
 {
-	Options_Open(NULL, L"Plugins");
+	#if MIRANDA_VER >= 0x0A00
+		Options_Open(NULL, L"Plugins");
+	#endif
 }
 
 //   FUNCTION: IsRunAsAdmin()

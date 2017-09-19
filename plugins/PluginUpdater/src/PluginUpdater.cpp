@@ -111,7 +111,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	Menu_AddMainMenuItem(&mi);
 
 	InitOptions();
-#endif
 
 	// Add hotkey
 	HOTKEYDESC hkd = {};
@@ -122,14 +121,15 @@ extern "C" __declspec(dllexport) int Load(void)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;
 	Hotkey_Register(&hkd);
+#endif
 
 	InitEvents();
 
+#if MIRANDA_VER >= 0x0A00
 	// add sounds
 	Skin_AddSound("updatecompleted", LPGENW("Plugin Updater"), LPGENW("Update completed"));
 	Skin_AddSound("updatefailed",    LPGENW("Plugin Updater"), LPGENW("Update failed"));
 
-#if MIRANDA_VER >= 0x0A00
 	// Upgrade old settings
 	if (-1 == db_get_b(0, MODNAME, DB_SETTING_UPDATE_MODE, -1)) {
 		ptrW dbvUpdateURL(db_get_wsa(0, MODNAME, DB_SETTING_UPDATE_URL));

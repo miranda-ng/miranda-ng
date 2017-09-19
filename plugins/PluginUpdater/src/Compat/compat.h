@@ -16,6 +16,7 @@
 #define db_set_dw(A,B,C,D) DBWriteContactSettingDword(A,B,C,D)
 #define db_set_s(A,B,C,D)  DBWriteContactSettingString(A,B,C,D)
 #define db_set_ts(A,B,C,D) DBWriteContactSettingTString(A,B,C,D)
+#define db_set_ws(A,B,C,D) DBWriteContactSettingWString(A,B,C,D)
 
 #define db_get_sa				DBGetStringA
 #define db_get_wsa			DBGetStringW
@@ -27,6 +28,8 @@
 #define NETLIB_USER_AGENT "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)"
 
 typedef HANDLE MCONTACT;
+typedef HANDLE HNETLIBUSER;
+typedef HANDLE HNETLIBCONN;
 
 template<class T> class mir_ptr
 {
@@ -44,11 +47,12 @@ public:
 
 typedef mir_ptr<char>  ptrA;
 typedef mir_ptr<TCHAR> ptrT;
+typedef mir_ptr<WCHAR> ptrW;
 
-struct VARST : public ptrT
+struct VARSW : public ptrT
 {
-	__forceinline VARST(const TCHAR *str) :
-		ptrT( Utils_ReplaceVarsT(str))
+	__forceinline VARSW(const WCHAR *str) :
+		ptrW( Utils_ReplaceVarsT(str))
 		{}
 };
 
@@ -93,12 +97,51 @@ static iconList[] =
 	{ "plg_list",     LPGEN("Component list"),              IDI_PLGLIST }
 };
 
+__forceinline void Thread_SetName(const char*) {}
+__forceinline void Skin_PlaySound(const char*) {}
+
+__forceinline void Window_FreeIcon_IcoLib(HWND) {}
+
+__forceinline int Clist_TrayNotifyW(const char *szProto, const wchar_t *wszInfoTitle, const wchar_t *wszInfo, DWORD dwInfoFlags, UINT uTimeout)
+{
+	return 1;
+}
+
+__forceinline HNETLIBUSER Netlib_RegisterUser(NETLIBUSER *nlu)
+{
+	return (HNETLIBUSER)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)nlu);
+}
+
+__forceinline NETLIBHTTPREQUEST* Netlib_HttpTransaction(HNETLIBUSER nlu, NETLIBHTTPREQUEST *nlhr)
+{
+	return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)nlu, (LPARAM)nlhr);
+}
+
+__forceinline int Netlib_FreeHttpRequest(NETLIBHTTPREQUEST *nlhr)
+{
+	return CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhr);
+}
 
 char *bin2hex(const void *pData, size_t len, char *dest);
 char *rtrim(char *str);
-void CreatePathToFileT(TCHAR *ptszPath);
-int wildcmpit(const WCHAR *name, const WCHAR *mask);
+void CreatePathToFileW(WCHAR *ptszPath);
+int wildcmpiw(const WCHAR *name, const WCHAR *mask);
 void InitIcoLib();
+wchar_t* strdelw(wchar_t *str, size_t len);
+
+int mir_vsnwprintf(wchar_t *buffer, size_t count, const wchar_t* fmt, va_list va);
+int mir_snwprintf(WCHAR *buffer, size_t count, const WCHAR* fmt, ...);
+int mir_wstrcmpi(const wchar_t *p1, const wchar_t *p2);
+
+template <size_t _Size>
+inline int mir_snwprintf(wchar_t(&buffer)[_Size], const wchar_t* fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	int ret = mir_vsnwprintf(buffer, _Size, fmt, args);
+	va_end(args);
+	return ret;
+}
 
 #define NEWTSTR_ALLOCA(A) (A == NULL)?NULL:_tcscpy((TCHAR*)alloca((_tcslen(A)+1) *sizeof(TCHAR)), A)
 
@@ -142,11 +185,11 @@ __forceinline INT_PTR Hotkey_Register(HOTKEYDESC *hk) {
 	return CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)hk);
 }
 
-__forceinline INT_PTR CreateDirectoryTreeT(const TCHAR *ptszPath) {
-	return CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)ptszPath);
+__forceinline INT_PTR CreateDirectoryTreeW(const WCHAR *ptszPath) {
+	return CallService(MS_UTILS_CREATEDIRTREEW, 0, (LPARAM)ptszPath);
 }
 
-__forceinline TCHAR *Utils_ReplaceVarsT(const TCHAR *szData, MCONTACT hContact, REPLACEVARSARRAY *variables) {
+__forceinline WCHAR* Utils_ReplaceVarsW(const WCHAR *szData, MCONTACT hContact, REPLACEVARSARRAY *variables) {
 	REPLACEVARSDATA vars;
 	vars.cbSize = sizeof(vars);
 	vars.dwFlags = RVF_TCHAR;
