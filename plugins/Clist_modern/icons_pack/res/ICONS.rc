@@ -31,8 +31,6 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 IDI_STATUSMENU       ICON         "icon_statusmenu.ico"
 IDI_HIDEOFFLINE      ICON         "icon_hideoffline.ico"
 IDI_SHOWOFFLINE      ICON         "icon_showoffline.ico"
-IDI_BOOKMARKS        ICON         "icon_bookmarks.ico"
-IDI_DBEDITOR         ICON         "icon_dbeditor.ico"
 IDI_FINDUSER         ICON         "icon_find_user.ico"
 IDI_OPTIONS          ICON         "icon_options.ico"
 
