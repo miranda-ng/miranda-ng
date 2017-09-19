@@ -205,16 +205,13 @@ EXTERN_C MIR_APP_DLL(struct GCSessionInfoBase*) Chat_NewSession(
 	Chat users speaking, users joining and so on. See below for full
 	list of what events are possible.
 
-	IMPORTANT: For sending events you'll use the GCEVENT and GCDEST (not supported anymore,
-	see	commit e254312f9a660c83081ce2062ab14ba3c3614089) structures. A GCDEST structure pointer
-	is passed inside GCEVENT and it tells Chat what event type it is and what session
-	it is related to. The GCDEST structure and its members are ALWAYS used
-	(but the members can be NULL in some occasions). Depending on what type	of event
-	you are sending, the members of GCEVENT have different usage. Each event and how to use
-	the members are discussed below. The "AddToLog" and "time" members are always valid
-	and always mean the same. bAddToLog = TRUE means that the event is added to the disk log
-	(at least when this makes sense). This can be used by Jabber for instance, when it needs
-	to add channel history to the window, but without logging to disk.
+	IMPORTANT: For sending events you'll use the GCEVENT structure. First three members of
+	GCEVENT tell Chat what session it is related to and what event type it is. Depending on 
+	what type of event you are sending, the members of GCEVENT have different usage. 
+	Each event and how to use the members are discussed below. The "AddToLog" and "time" 
+   members are always valid and always mean the same. bAddToLog = TRUE means that the event 
+	is added to the disk log (at least when this makes sense). This can be used by Jabber for 
+	instance, when it needs to add channel history to the window, but without logging to disk.
 	The "time" member is the timestamp of the event. (Tip: use the function time(NULL) to set
 	the current time)
 
