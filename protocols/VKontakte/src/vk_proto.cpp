@@ -701,7 +701,7 @@ int CVkProto::OnContactDeleted(WPARAM hContact, LPARAM)
 	dlg.DoModal();
 
 	debugLogW(L"CVkProto::OnContactDeleted %s DeleteDialog=%d DeleteFromFriendlist=%d", pwszNick, param->bDeleteDialog,  param->bDeleteFromFriendlist);
-	if (param->bDeleteDialog || param->bDeleteFromFriendlist)
+	if (!(param->bDeleteDialog || param->bDeleteFromFriendlist))
 		return 0;
 
 	CMStringA code(FORMAT, "var userID=\"%d\";", userID);
@@ -714,7 +714,7 @@ int CVkProto::OnContactDeleted(WPARAM hContact, LPARAM)
 	code += "return 1;";
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
-		<< CHAR_PARAM("code", code));
+		<< CHAR_PARAM("code", code.c_str()));
 
 	return 0;
 }
