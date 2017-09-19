@@ -13,7 +13,7 @@ PLUGININFOEX pluginInfo = {
     "Makes easier windows manipulation: allows you to move, minimize and activate Miranda's windows as if it were a single window.",
     "Aleksey Smyrnov aka Soar",
     "i@soar.name",
-    "(c) Soar, 2010-2011",
+    "© Soar, 2010-2011",
     "http://soar.name/tag/assinglewindow/",
     UNICODE_AWARE,
     {0xF6C73B4, 0x2B2B, 0x711D, {0xFB, 0xB6, 0xBB, 0x26, 0x7D, 0xFD, 0x72, 0x08}}, // 0xF6C73B42B2B711DFBB6BB267DFD7208

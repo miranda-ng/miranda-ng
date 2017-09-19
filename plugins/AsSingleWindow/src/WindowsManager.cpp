@@ -160,7 +160,7 @@ void windowListUpdate()
     bool isRemoved = false;
     windowsList::iterator itr = pluginVars.allWindows.begin();
     while (itr != pluginVars.allWindows.end())
-        // Не удаляем КЛ впринципе, нет необходимости
+        // Не удаляем КЛ в принципе, нет необходимости
         if (! IsWindow(itr->hWnd) && itr->hWnd != pluginVars.contactListHWND)
         {
             if (itr->hWnd == pluginVars.contactListHWND)
@@ -324,7 +324,7 @@ void allWindowsActivation(HWND hWnd)
 
             switch (wndState)
             {
-                // Восстанавливаем все окна и выстаиваем на переднем плане
+                // Восстанавливаем все окна и выстраиваем на переднем плане
                 case WINDOW_STATE_NORMAL:
                     ShowWindow(itr->hWnd, SW_SHOWNA);
                     ShowWindow(itr->hWnd, SW_RESTORE);
