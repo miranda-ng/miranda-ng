@@ -113,18 +113,17 @@ int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 
 	// Check if we got our protocol, and fields are set
 	if (!gch
-		|| !gch->pDest
-		|| !gch->pDest->ptszID
-		|| !gch->pDest->pszModule
-		|| mir_strcmpi(gch->pDest->pszModule, m_szModuleName)
+		|| !gch->ptszID
+		|| !gch->pszModule
+		|| mir_strcmpi(gch->pszModule, m_szModuleName)
 		|| !(uin = getDword(GG_KEY_UIN, 0))
-		|| !(chat = gc_lookup(gch->pDest->ptszID)))
+		|| !(chat = gc_lookup(gch->ptszID)))
 		return 0;
 
 	// Window terminated (Miranda exit)
-	if (gch->pDest->iType == SESSION_TERMINATE)
+	if (gch->iType == SESSION_TERMINATE)
 	{
-		debugLogW(L"gc_event(): Terminating chat %x, id %s from chat window...", chat, gch->pDest->ptszID);
+		debugLogW(L"gc_event(): Terminating chat %x, id %s from chat window...", chat, gch->ptszID);
 		// Destroy chat entry
 		free(chat->recipients);
 		list_remove(&chats, chat, 1);
@@ -134,7 +133,7 @@ int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 			MCONTACT hNext = db_find_next(hContact);
 			DBVARIANT dbv;
 			if (!getWString(hContact, "ChatRoomID", &dbv)) {
-				if (dbv.ptszVal && !mir_wstrcmp(gch->pDest->ptszID, dbv.ptszVal))
+				if (dbv.ptszVal && !mir_wstrcmp(gch->ptszID, dbv.ptszVal))
 					db_delete_contact(hContact);
 				db_free(&dbv);
 			}
@@ -144,13 +143,12 @@ int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 	}
 
 	// Message typed / send only if online
-	if (isonline() && (gch->pDest->iType == GC_USER_MESSAGE) && gch->ptszText) {
+	if (isonline() && (gch->iType == GC_USER_MESSAGE) && gch->ptszText) {
 		wchar_t id[32];
 		UIN2IDT(uin, id);
 		DBVARIANT dbv;
 
-		GCDEST gcd = { m_szModuleName, gch->pDest->ptszID, GC_EVENT_MESSAGE };
-		GCEVENT gce = { &gcd };
+		GCEVENT gce = { m_szModuleName, gch->ptszID, GC_EVENT_MESSAGE };
 		gce.ptszUID = id;
 		gce.ptszText = gch->ptszText;
 		wchar_t* nickT;
@@ -169,7 +167,7 @@ int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 		gce.time = time(NULL);
 		gce.bIsMe = 1;
 		gce.dwFlags = GCEF_ADDTOLOG;
-		debugLogW(L"gc_event(): Sending conference message to room %s, \"%s\".", gch->pDest->ptszID, gch->ptszText);
+		debugLogW(L"gc_event(): Sending conference message to room %s, \"%s\".", gch->ptszID, gch->ptszText);
 		Chat_Event(&gce);
 		mir_free(nickT);
 		
@@ -181,13 +179,13 @@ int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 	}
 
 	// Privmessage selected
-	if (gch->pDest->iType == GC_USER_PRIVMESS)
+	if (gch->iType == GC_USER_PRIVMESS)
 	{
 		MCONTACT hContact = NULL;
 		if ((uin = _wtoi(gch->ptszUID)) && (hContact = getcontact(uin, 1, 0, NULL)))
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 	}
-	debugLogW(L"gc_event(): Unhandled event %d, chat %x, uin %d, text \"%s\".", gch->pDest->iType, chat, uin, gch->ptszText);
+	debugLogW(L"gc_event(): Unhandled event %d, chat %x, uin %d, text \"%s\".", gch->iType, chat, uin, gch->ptszText);
 
 	return 0;
 }
@@ -316,8 +314,7 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 	// Add normal group
 	Chat_AddGroup(m_szModuleName, chat->id, TranslateT("Participants"));
 
-	GCDEST gcd = { m_szModuleName, chat->id, GC_EVENT_JOIN };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, chat->id, GC_EVENT_JOIN };
 	gce.ptszUID = id;
 	gce.dwFlags = GCEF_ADDTOLOG;
 
@@ -603,9 +600,7 @@ int GGPROTO::gc_changenick(MCONTACT hContact, wchar_t *ptszNick)
 					wchar_t id[32];
 					UIN2IDT(uin, id);
 					
-					GCDEST gcd = { m_szModuleName, chat->id, GC_EVENT_NICK };
-					GCEVENT gce = { &gcd };
-					gce.pDest = &gcd;
+					GCEVENT gce = { m_szModuleName, chat->id, GC_EVENT_NICK };
 					gce.ptszUID = id;
 					gce.ptszText = ptszNick;
 

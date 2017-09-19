@@ -227,7 +227,7 @@ static int OnHandleGCMenu(WPARAM, LPARAM lParam)
 		return 1;
 
 	if (gch->dwData == 20020) { // add to highlight...
-		SESSION_INFO *si = pci->SM_FindSession(gch->pDest->ptszID, gch->pDest->pszModule);
+		SESSION_INFO *si = pci->SM_FindSession(gch->ptszID, gch->pszModule);
 		THighLightEdit the = { THighLightEdit::CMD_ADD, si, pci->UM_FindUser(si->pUsers, gch->ptszUID) };
 		HWND hwndParent = si->pDlg->m_pContainer->m_hwnd;
 		HWND hwndDlg = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDHIGHLIGHT), hwndParent, CMUCHighlight::dlgProcAdd, (LPARAM)&the);

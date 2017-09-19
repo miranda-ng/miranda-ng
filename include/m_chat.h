@@ -349,14 +349,6 @@ EXTERN_C MIR_APP_DLL(struct GCSessionInfoBase*) Chat_NewSession(
 	GC_EVENT_PART | GC_EVENT_TOPIC | GC_EVENT_ADDSTATUS | GC_EVENT_INFORMATION | GC_EVENT_QUIT | \
 	GC_EVENT_KICK | GC_EVENT_NOTICE)
 
-// The GCDEST structure. It is passed to Chat inside GCEVENT.
-struct GCDEST
-{
-	LPCSTR  pszModule;             // Name of the protocol (same as you registered with)
-	LPCTSTR ptszID;                // Unique identifier of the session, or NULL to broadcast to all sessions as specified above
-	int     iType;                 // Use GC_EVENT_* as defined above. Only one event per service call.
-};
-
 // The GCEVENT structure
 
 #define GCEF_ADDTOLOG       0x0001	 // force adding to log
@@ -365,7 +357,10 @@ struct GCDEST
 
 struct GCEVENT
 {
-	GCDEST *pDest;                 // pointer to a GCDEST structure which specifies the session to receive the event
+	LPCSTR  pszModule;             // Name of the protocol (same as you registered with)
+	LPCTSTR ptszID;                // Unique identifier of the session, or NULL to broadcast to all sessions as specified above
+	int     iType;                 // Use GC_EVENT_* as defined above. Only one event per service call.
+
 	LPCTSTR ptszText;					 //
 	LPCTSTR ptszNick;					 //
 	LPCTSTR ptszUID;					 //
@@ -487,7 +482,10 @@ EXTERN_C MIR_APP_DLL(int) Chat_GetInfo(GC_INFO*);
 
 struct GCHOOK
 {
-	GCDEST *pDest;       // pointer to a GCDEST structure which specifies from which session the hook was triggered
+	LPCSTR  pszModule;   // Name of the protocol (same as you registered with)
+	LPCTSTR ptszID;      // Unique identifier of the session, or NULL to broadcast to all sessions as specified above
+	int     iType;       // Use GC_EVENT_* as defined above. Only one event per service call.
+	
 	LPTSTR  ptszText;    // usage depends on type of event
 	LPTSTR  ptszUID;     // unique identifier, usage depends on type of event
 	LPTSTR  ptszNick;    // user nick, as displayed in a nicklist

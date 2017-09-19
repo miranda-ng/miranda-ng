@@ -82,7 +82,7 @@ wchar_t* RemoveFormatting(const wchar_t *pszWord)
 
 BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 {
-	switch (gce->pDest->iType) {
+	switch (gce->iType) {
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
 	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
 		chatApi.AddEvent(si->hContact, Skin_LoadIcon(SKINICON_EVENT_MESSAGE), GC_FAKE_EVENT, 0, TranslateT("%s wants your attention in %s"), gce->ptszNick, si->ptszName);
@@ -208,7 +208,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char *pszProtoNa
 
 BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 {
-	switch (gce->pDest->iType) {
+	switch (gce->iType) {
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
 		chatApi.ShowPopup(si->hContact, si, Skin_LoadIcon(SKINICON_EVENT_MESSAGE), si->pszModule, si->ptszName, chatApi.aFonts[16].color, TranslateT("%s says: %s"), gce->ptszNick, RemoveFormatting(gce->ptszText));
 		break;
@@ -275,10 +275,10 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 	BOOL bInactive = si->pDlg == nullptr || GetForegroundWindow() != si->pDlg->GetHwnd();
 
-	int iEvent = gce->pDest->iType;
+	int iEvent = gce->iType;
 
 	if (bHighlight) {
-		gce->pDest->iType |= GC_EVENT_HIGHLIGHT;
+		gce->iType |= GC_EVENT_HIGHLIGHT;
 		if (bInactive || !g_Settings->bSoundsFocus)
 			Skin_PlaySound("ChatHighlight");
 		if (db_get_b(si->hContact, "CList", "Hidden", 0) != 0)
@@ -492,7 +492,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 		pszNick = szTemp;
 	}
 
-	switch (gce->pDest->iType) {
+	switch (gce->iType) {
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
 		p = '*';
@@ -611,8 +611,7 @@ MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const USERINFO *
 	if (si == nullptr)
 		return FALSE;
 
-	GCDEST gcd = { si->pszModule, si->ptszID, iType };
-	GCHOOK gch = { 0 };
+	GCHOOK gch = { si->pszModule, si->ptszID, iType };
 	if (pUser != nullptr) {
 		gch.ptszUID = pUser->pszUID;
 		gch.ptszNick = pUser->pszNick;
@@ -621,7 +620,6 @@ MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const USERINFO *
 
 	gch.ptszText = (LPTSTR)pszText;
 	gch.dwData = dwItem;
-	gch.pDest = &gcd;
 	NotifyEventHooks(hevSendEvent, 0, (WPARAM)&gch);
 	return TRUE;
 }

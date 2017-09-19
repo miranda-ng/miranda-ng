@@ -27,13 +27,12 @@ void OmegleProto::UpdateChat(const wchar_t *name, const wchar_t *message, bool a
 	std::wstring smessage = message;
 	utils::text::treplace_all(&smessage, L"%", L"%%");
 
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
 	gce.time = ::time(NULL);
 	gce.ptszText = smessage.c_str();
 
 	if (name == NULL) {
-		gcd.iType = GC_EVENT_INFORMATION;
+		gce.iType = GC_EVENT_INFORMATION;
 		name = TranslateT("Server");
 		gce.bIsMe = false;
 	}
@@ -51,10 +50,10 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
 
-	if (mir_strcmp(hook->pDest->pszModule, m_szModuleName))
+	if (mir_strcmp(hook->pszModule, m_szModuleName))
 		return 0;
 
-	switch (hook->pDest->iType)
+	switch (hook->iType)
 	{
 	case GC_USER_MESSAGE:
 	{
@@ -228,8 +227,7 @@ Chat_Event(WINDOW_CLEARLOG,&gce);
 
 void OmegleProto::AddChatContact(const wchar_t *name)
 {
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
 	gce.time = DWORD(time(0));
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = name;
@@ -250,8 +248,7 @@ void OmegleProto::AddChatContact(const wchar_t *name)
 
 void OmegleProto::DeleteChatContact(const wchar_t *name)
 {
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = name;
 	gce.ptszUID = gce.ptszNick;
@@ -287,8 +284,7 @@ INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
 
 void OmegleProto::SetTopic(const wchar_t *topic)
 {
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_TOPIC };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_TOPIC };
 	gce.time = ::time(NULL);
 
 	if (topic == NULL)

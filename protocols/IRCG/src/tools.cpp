@@ -380,7 +380,6 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* 
 	const wchar_t* pszText, const wchar_t* pszStatus, const wchar_t* pszUserInfo,
 	DWORD_PTR dwItemData, bool bAddToLog, bool bIsMe, time_t timestamp)
 {
-	GCDEST gcd = { m_szModuleName, NULL, iEvent };
 	CMStringW sID;
 	CMStringW sText;
 
@@ -390,16 +389,16 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* 
 	if (pszText)
 		sText = DoColorCodes(pszText, FALSE, TRUE);
 
+	GCEVENT gce = { m_szModuleName, NULL, iEvent };
 	if (pszWindow) {
 		if (mir_wstrcmpi(pszWindow, SERVERWINDOW))
 			sID = pszWindow + (CMStringW)L" - " + m_info.sNetwork;
 		else
 			sID = pszWindow;
-		gcd.ptszID = (wchar_t*)sID.c_str();
+		gce.ptszID = (wchar_t*)sID.c_str();
 	}
-	else gcd.ptszID = NULL;
+	else gce.ptszID = NULL;
 
-	GCEVENT gce = { &gcd };
 	gce.ptszStatus = pszStatus;
 	gce.dwFlags = (bAddToLog) ? GCEF_ADDTOLOG : 0;
 	gce.ptszNick = pszNick;

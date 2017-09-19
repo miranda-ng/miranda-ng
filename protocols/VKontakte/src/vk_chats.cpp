@@ -163,8 +163,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			cu->m_bUnknown = false;
 
 			if (bNew) {
-				GCDEST gcd = { m_szModuleName, cc->m_wszId, GC_EVENT_JOIN };
-				GCEVENT gce = { &gcd };
+				GCEVENT gce = { m_szModuleName, cc->m_wszId, GC_EVENT_JOIN };
 				gce.bIsMe = uid == m_myUserId;
 				gce.ptszUID = wszId;
 				gce.ptszNick = wszNick;
@@ -182,8 +181,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			wchar_t wszId[20];
 			_itow(cu.m_uid, wszId, 10);
 
-			GCDEST gcd = { m_szModuleName, cc->m_wszId, GC_EVENT_PART };
-			GCEVENT gce = { &gcd };
+			GCEVENT gce = { m_szModuleName, cc->m_wszId, GC_EVENT_PART };
 			gce.ptszUID = wszId;
 			gce.dwFlags = GCEF_NOTNOTIFY;
 			gce.time = time(nullptr);
@@ -397,8 +395,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCWSTR 
 	wchar_t wszId[20];
 	_itow(uid, wszId, 10);
 
-	GCDEST gcd = { m_szModuleName, cc->m_wszId, bIsAction ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, cc->m_wszId, bIsAction ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
 	gce.bIsMe = (uid == m_myUserId);
 	gce.ptszUID = wszId;
 	gce.time = msgTime;
@@ -441,14 +438,14 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 	if (gch == nullptr)
 		return 0;
 
-	if (mir_strcmpi(gch->pDest->pszModule, m_szModuleName))
+	if (mir_strcmpi(gch->pszModule, m_szModuleName))
 		return 0;
 
-	CVkChatInfo *cc = GetChatById(gch->pDest->ptszID);
+	CVkChatInfo *cc = GetChatById(gch->ptszID);
 	if (cc == nullptr)
 		return 0;
 
-	switch (gch->pDest->iType) {
+	switch (gch->iType) {
 	case GC_USER_MESSAGE:
 		if (IsOnline() && mir_wstrlen(gch->ptszText) > 0) {
 			ptrW pwszBuf(mir_wstrdup(gch->ptszText));
@@ -730,12 +727,10 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 			if (wszNewNick.IsEmpty() || wszNewNick == cu->m_wszNick)
 				break;
 
-			GCDEST gcd = { m_szModuleName, cc->m_wszId, GC_EVENT_NICK };
-			GCEVENT gce = { &gcd };
-
 			wchar_t wszId[20];
 			_itow(cu->m_uid, wszId, 10);
 
+			GCEVENT gce = { m_szModuleName, cc->m_wszId, GC_EVENT_NICK };
 			gce.ptszNick = mir_wstrdup(cu->m_wszNick);
 			gce.bIsMe = (cu->m_uid == m_myUserId);
 			gce.ptszUID = wszId;

@@ -59,9 +59,8 @@ static void __stdcall OnHook(void * pi)
 	GCHOOK* gch = (GCHOOK*)pi;
 	free(gch->ptszUID);
 	free(gch->ptszText);
-	free((void*)gch->pDest->ptszID);
-	free((void*)gch->pDest->pszModule);
-	delete gch->pDest;
+	free((void*)gch->ptszID);
+	free((void*)gch->pszModule);
 	delete gch;
 }
 
@@ -78,28 +77,28 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertGuiOut(WPARAM, LPARAM lParam)
 
 	if (m_scriptingEnabled && gch) {
 		GCHOOK* gchook = new GCHOOK;
-		gchook->pDest = new GCDEST;
-
 		gchook->dwData = gch->dwData;
-		gchook->pDest->iType = gch->pDest->iType;
+		gchook->iType = gch->iType;
 		if (gch->ptszText)
 			gchook->ptszText = wcsdup(gch->ptszText);
-		else gchook->ptszText = NULL;
+		else
+			gchook->ptszText = NULL;
 
 		if (gch->ptszUID)
 			gchook->ptszUID = wcsdup(gch->ptszUID);
 		else
 			gchook->ptszUID = NULL;
 
-		if (gch->pDest->ptszID) {
-			CMStringW S = MakeWndID(gch->pDest->ptszID);
-			gchook->pDest->ptszID = wcsdup(S.c_str());
+		if (gch->ptszID) {
+			CMStringW S = MakeWndID(gch->ptszID);
+			gchook->ptszID = wcsdup(S.c_str());
 		}
-		else gchook->pDest->ptszID = NULL;
+		else gchook->ptszID = NULL;
 
-		if (gch->pDest->pszModule)
-			gchook->pDest->pszModule = _strdup(gch->pDest->pszModule);
-		else gchook->pDest->pszModule = NULL;
+		if (gch->pszModule)
+			gchook->pszModule = _strdup(gch->pszModule);
+		else
+			gchook->pszModule = NULL;
 
 		mir_forkthread(GuiOutThread, gchook);
 		return 0;

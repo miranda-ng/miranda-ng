@@ -64,13 +64,12 @@ INT_PTR CMraProto::MraChatSessionEventSendByHandle(MCONTACT hContactChatSession,
 
 	CMStringW wszID, wszUID, wszNick;
 
-	GCDEST gcd = { m_szModuleName, 0, iType };
+	GCEVENT gce = { m_szModuleName, 0, iType };
 	if (hContactChatSession) {
 		mraGetStringW(hContactChatSession, "e-mail", wszID);
-		gcd.ptszID = (LPWSTR)wszID.c_str();
+		gce.ptszID = wszID.c_str();
 	}
 
-	GCEVENT gce = { &gcd };
 	gce.dwFlags = dwFlags;
 	gce.ptszUID = wszUID;
 	gce.ptszStatus = lpwszStatus;
@@ -167,11 +166,11 @@ int CMraProto::MraChatGcEventHook(WPARAM, LPARAM lParam)
 	if (bChatExists) {
 		GCHOOK* gch = (GCHOOK*)lParam;
 
-		if (!_stricmp(gch->pDest->pszModule, m_szModuleName)) {
-			switch (gch->pDest->iType) {
+		if (!_stricmp(gch->pszModule, m_szModuleName)) {
+			switch (gch->iType) {
 			case GC_USER_MESSAGE:
 				if (gch->ptszText && mir_wstrlen(gch->ptszText)) {
-					CMStringA szEmail = gch->pDest->ptszID;
+					CMStringA szEmail = gch->ptszID;
 					MCONTACT hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, NULL);
 					BOOL bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
 

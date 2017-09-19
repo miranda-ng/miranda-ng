@@ -59,10 +59,8 @@ void CAimProto::chat_event(const char* id, const char* sn, int evt, const wchar_
 	MCONTACT hContact = contact_from_sn(sn);
 	wchar_t *nick = hContact ? (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0) : snt;
 
-	GCDEST gcd = { m_szModuleName, idt, evt };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, idt, evt };
 	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.pDest = &gcd;
 	gce.ptszNick = nick;
 	gce.ptszUID = snt;
 	gce.bIsMe = _stricmp(sn, m_username) == 0;
@@ -84,14 +82,15 @@ int CAimProto::OnGCEvent(WPARAM, LPARAM lParam)
 	GCHOOK *gch = (GCHOOK*)lParam;
 	if (!gch) return 1;
 
-	if (mir_strcmp(gch->pDest->pszModule, m_szModuleName)) return 0;
+	if (mir_strcmp(gch->pszModule, m_szModuleName))
+		return 0;
 
-	char *id = mir_u2a(gch->pDest->ptszID);
+	char *id = mir_u2a(gch->ptszID);
 	chat_list_item* item = find_chat_by_id(id);
+	if (item == NULL)
+		return 0;
 
-	if (item == NULL) return 0;
-
-	switch (gch->pDest->iType) {
+	switch (gch->iType) {
 	case GC_SESSION_TERMINATE:
 		aim_sendflap(item->hconn, 0x04, 0, NULL, item->seqno);
 		Netlib_Shutdown(item->hconn);

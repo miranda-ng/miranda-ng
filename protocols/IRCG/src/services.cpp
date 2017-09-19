@@ -473,13 +473,13 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 
 	// handle the hook
 	if (gch) {
-		if (!mir_strcmpi(gch->pDest->pszModule, m_szModuleName)) {
-			wchar_t *p1 = mir_wstrdup(gch->pDest->ptszID);
+		if (!mir_strcmpi(gch->pszModule, m_szModuleName)) {
+			wchar_t *p1 = mir_wstrdup(gch->ptszID);
 			wchar_t *p2 = wcsstr(p1, L" - ");
 			if (p2)
 				*p2 = '\0';
 
-			switch (gch->pDest->iType) {
+			switch (gch->iType) {
 			case GC_SESSION_TERMINATE:
 				FreeWindowItemData(p1, (CHANNELINFO*)gch->dwData);
 				break;

@@ -78,7 +78,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 {
-	int iEvent = gce->pDest->iType;
+	int iEvent = gce->iType;
 	if (si && (iEvent & si->iLogTrayFlags))
 		return oldDoTrayIcon(si, gce);
 	return TRUE;
@@ -129,7 +129,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 
 BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 {
-	int iEvent = gce->pDest->iType;
+	int iEvent = gce->iType;
 	if (si == nullptr || !(iEvent & si->iLogPopupFlags))
 		return true;
 
@@ -301,12 +301,12 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			params->bInactive = FALSE;
 	}
 	params->bActiveTab = params->bMustFlash = params->bMustAutoswitch = FALSE;
-	params->iEvent = gce->pDest->iType;
+	params->iEvent = gce->iType;
 
 	WPARAM wParamForHighLight = 0;
 	bool bFlagUnread = false;
 	if (bHighlight) {
-		gce->pDest->iType |= GC_EVENT_HIGHLIGHT;
+		gce->iType |= GC_EVENT_HIGHLIGHT;
 		params->sound = "ChatHighlight";
 		if (db_get_b(si->hContact, "CList", "Hidden", 0) != 0)
 			db_unset(si->hContact, "CList", "Hidden");
@@ -489,7 +489,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	/*
 	* check whether we have to log this event
 	*/
-	if (!(gce->pDest->iType & si->iDiskLogFlags))
+	if (!(gce->iType & si->iDiskLogFlags))
 		return FALSE;
 
 	return oldLogToFile(si, gce); // call kernel method

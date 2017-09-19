@@ -1297,13 +1297,12 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 						while (PrefixToStatus(sTemp[0]) != pwszNormal)
 							sTemp.Delete(0, 1);
 
-						GCDEST gcd = { m_szModuleName, sID, GC_EVENT_JOIN };
-						GCEVENT gce = { &gcd };
+						GCEVENT gce = { m_szModuleName, sID, GC_EVENT_JOIN };
 						gce.ptszUID = sTemp;
 						gce.ptszNick = sTemp;
 						gce.ptszStatus = sStat;
-						BOOL bIsMe = (!mir_wstrcmpi(gce.ptszNick, m_info.sNick)) ? TRUE : FALSE;
-						if (bIsMe) {
+						gce.bIsMe = (!mir_wstrcmpi(gce.ptszNick, m_info.sNick)) ? TRUE : FALSE;
+						if (gce.bIsMe) {
 							char BitNr = -1;
 							switch (sTemp2[0]) {
 							case '+':   BitNr = 0;   break;
@@ -1317,10 +1316,11 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 							else
 								btOwnMode = 0;
 						}
-						gce.bIsMe = bIsMe;
-						gce.time = bIsMe ? time(0) : 0;
+						gce.time = gce.bIsMe ? time(0) : 0;
 						Chat_Event(&gce);
+						
 						DoEvent(GC_EVENT_SETCONTACTSTATUS, sChanName, sTemp, NULL, NULL, NULL, ID_STATUS_ONLINE, FALSE, FALSE);
+						
 						// fix for networks like freshirc where they allow more than one prefix
 						if (PrefixToStatus(sTemp2[0]) != pwszNormal) {
 							sTemp2.Delete(0, 1);

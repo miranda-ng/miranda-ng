@@ -40,15 +40,15 @@ INT_PTR __cdecl WhatsAppProto::OnCreateGroup(WPARAM, LPARAM)
 int WhatsAppProto::onGroupChatEvent(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK*)lParam;
-	if (mir_strcmp(gch->pDest->pszModule, m_szModuleName))
+	if (mir_strcmp(gch->pszModule, m_szModuleName))
 		return 0;
 
-	std::string chat_id(T2Utf(gch->pDest->ptszID));
+	std::string chat_id(T2Utf(gch->ptszID));
 	WAChatInfo *pInfo = SafeGetChat(chat_id);
 	if (pInfo == NULL)
 		return 0;
 
-	switch (gch->pDest->iType) {
+	switch (gch->iType) {
 	case GC_USER_LOGMENU:
 		ChatLogMenuHook(pInfo, gch);
 		break;
@@ -379,9 +379,7 @@ void WhatsAppProto::onGroupMessage(const FMessage &pMsg)
 	ptrW tszUID(str2t(pMsg.remote_resource));
 	ptrW tszNick(GetChatUserNick(pMsg.remote_resource));
 
-	GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_MESSAGE };
-
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, pInfo->tszJid, GC_EVENT_MESSAGE };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszUID = tszUID;
 	gce.ptszNick = tszNick;
@@ -408,9 +406,7 @@ void WhatsAppProto::onGroupNewSubject(const std::string &gjid, const std::string
 	ptrW tszUID(str2t(author));
 	ptrW tszNick(GetChatUserNick(author));
 
-	GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_TOPIC };
-
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, pInfo->tszJid, GC_EVENT_TOPIC };
 	gce.dwFlags = GCEF_ADDTOLOG + ((ts == 0) ? GCEF_NOTNOTIFY : 0);
 	gce.ptszUID = tszUID;
 	gce.ptszNick = tszNick;
@@ -430,9 +426,7 @@ void WhatsAppProto::onGroupAddUser(const std::string &gjid, const std::string &u
 	ptrW tszUID(str2t(ujid));
 	ptrW tszNick(GetChatUserNick(ujid));
 
-	GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_JOIN };
-
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, pInfo->tszJid, GC_EVENT_JOIN };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszUID = tszUID;
 	gce.ptszNick = tszNick;
@@ -449,9 +443,7 @@ void WhatsAppProto::onGroupRemoveUser(const std::string &gjid, const std::string
 	ptrW tszUID(str2t(ujid));
 	ptrW tszNick(GetChatUserNick(ujid));
 
-	GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_PART };
-
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, pInfo->tszJid, GC_EVENT_PART };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszUID = tszUID;
 	gce.ptszNick = tszNick;
@@ -486,9 +478,7 @@ void WhatsAppProto::onGetParticipants(const std::string &gjid, const std::vector
 		ptrW ujid(str2t(curr)), nick(GetChatUserNick(curr));
 		bool bIsOwner = !mir_wstrcmp(ujid, pInfo->tszOwner);
 
-		GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_JOIN };
-
-		GCEVENT gce = { &gcd };
+		GCEVENT gce = { m_szModuleName, pInfo->tszJid, GC_EVENT_JOIN };
 		gce.ptszNick = nick;
 		gce.ptszUID = utils::removeA(ujid);
 		gce.ptszStatus = (bIsOwner) ? L"Owners" : L"Members";
@@ -519,9 +509,7 @@ void WhatsAppProto::onGroupMessageReceived(const FMessage &msg)
 	ptrW tszUID(str2t(m_szJid));
 	ptrW tszNick(str2t(m_szNick));
 
-	GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_MESSAGE };
-
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, pInfo->tszJid, GC_EVENT_MESSAGE };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszUID = tszUID;
 	gce.ptszNick = tszNick;

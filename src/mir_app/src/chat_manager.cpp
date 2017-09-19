@@ -207,7 +207,7 @@ BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool
 	LOGINFO *li = chatApi.LM_AddEvent(&si->pLog, &si->pLogEnd);
 	si->iEventCount++;
 
-	li->iType = gce->pDest->iType;
+	li->iType = gce->iType;
 	li->ptszNick = mir_wstrdup(gce->ptszNick);
 	li->ptszText = mir_wstrdup(gce->ptszText);
 	li->ptszStatus = mir_wstrdup(gce->ptszStatus);

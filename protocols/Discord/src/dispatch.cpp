@@ -141,8 +141,7 @@ void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
 		CMStringW wszTopic = pRoot["topic"].as_mstring();
 		Chat_SetStatusbarText(m_szModuleName, pUser->wszUsername, wszTopic);
 
-		GCDEST gcd = { m_szModuleName, pUser->wszUsername, GC_EVENT_TOPIC };
-		GCEVENT gce = { &gcd };
+		GCEVENT gce = { m_szModuleName, pUser->wszUsername, GC_EVENT_TOPIC };
 		gce.ptszText = wszTopic;
 		gce.time = time(0);
 		Chat_Event(&gce);
@@ -275,8 +274,7 @@ void CDiscordProto::OnCommandGuildMemberRemoved(const JSONNode &pRoot)
 		if (pUser.guildId != pGuild->id)
 			continue;
 
-		GCDEST gcd = { m_szModuleName, pUser.wszUsername, GC_EVENT_PART };
-		GCEVENT gce = { &gcd };
+		GCEVENT gce = { m_szModuleName, pUser.wszUsername, GC_EVENT_PART };
 		gce.time = time(0);
 		gce.ptszUID = wszUserId;
 		Chat_Event(&gce);
@@ -311,8 +309,7 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 				wszOldNick = ui->pszNick;
 		}
 
-		GCDEST gcd = { m_szModuleName, pUser.wszUsername, GC_EVENT_NICK };
-		GCEVENT gce = { &gcd };
+		GCEVENT gce = { m_szModuleName, pUser.wszUsername, GC_EVENT_NICK };
 		gce.time = time(0);
 		gce.ptszUID = wszUserId;
 		gce.ptszNick = wszOldNick;
@@ -421,8 +418,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 
 			ParseSpecialChars(si, wszText);
 
-			GCDEST gcd = { m_szModuleName, pUser->wszUsername, GC_EVENT_MESSAGE };
-			GCEVENT gce = { &gcd };
+			GCEVENT gce = { m_szModuleName, pUser->wszUsername, GC_EVENT_MESSAGE };
 			gce.dwFlags = GCEF_ADDTOLOG;
 			gce.ptszUID = wszUserId;
 			gce.ptszText = wszText;

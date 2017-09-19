@@ -30,13 +30,12 @@ void MinecraftDynmapProto::UpdateChat(const char *name, const char *message, con
 	ptrW tmessage(mir_a2u_cp(smessage.c_str(), CP_UTF8));
 	ptrW tname(mir_a2u_cp(name, CP_UTF8));
 
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
 	gce.time = timestamp;
 	gce.ptszText = tmessage;
 
 	if (tname == NULL) {
-		gcd.iType = GC_EVENT_INFORMATION;
+		gce.iType = GC_EVENT_INFORMATION;
 		tname = mir_wstrdup(TranslateT("Server"));
 		gce.bIsMe = false;
 	}
@@ -54,10 +53,10 @@ int MinecraftDynmapProto::OnChatEvent(WPARAM, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
 
-	if(strcmp(hook->pDest->pszModule,m_szModuleName))
+	if(strcmp(hook->pszModule,m_szModuleName))
 		return 0;
 
-	switch(hook->pDest->iType)
+	switch(hook->iType)
 	{
 	case GC_USER_MESSAGE:
 	{		
@@ -90,8 +89,7 @@ void MinecraftDynmapProto::AddChatContact(const char *name)
 {	
 	ptrW tname(mir_a2u_cp(name, CP_UTF8));
 
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
 	gce.time = DWORD(time(0));
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tname;
@@ -110,8 +108,7 @@ void MinecraftDynmapProto::DeleteChatContact(const char *name)
 {
 	ptrW tname(mir_a2u_cp(name, CP_UTF8));
 
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tname;
 	gce.ptszUID = gce.ptszNick;
@@ -146,8 +143,7 @@ void MinecraftDynmapProto::SetTopic(const char *topic)
 {		
 	ptrW ttopic(mir_a2u_cp(topic, CP_UTF8));
 
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_TOPIC };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_TOPIC };
 	gce.time = ::time(NULL);
 	gce.ptszText = ttopic;
 

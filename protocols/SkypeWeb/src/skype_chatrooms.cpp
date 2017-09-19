@@ -107,14 +107,14 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 	if (!gch)
 		return 1;
 
-	if (mir_strcmp(gch->pDest->pszModule, m_szModuleName) != 0)
+	if (mir_strcmp(gch->pszModule, m_szModuleName) != 0)
 		return 0;
 
-	_T2A chat_id(gch->pDest->ptszID);
+	_T2A chat_id(gch->ptszID);
 
-	switch (gch->pDest->iType) {
+	switch (gch->iType) {
 	case GC_USER_MESSAGE:
-		OnSendChatMessage(gch->pDest->ptszID, gch->ptszText);
+		OnSendChatMessage(gch->ptszID, gch->ptszText);
 		break;
 
 	case GC_USER_PRIVMESS:
@@ -208,9 +208,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 					if (!mir_wstrcmp(tnick_old, tnick_new))
 						break; // New nick is same, do nothing
 
-					GCDEST gcd = { m_szModuleName, gch->pDest->ptszID, GC_EVENT_NICK };
-					GCEVENT gce = { &gcd };
-
+					GCEVENT gce = { m_szModuleName, gch->ptszID, GC_EVENT_NICK };
 					gce.ptszNick = tnick_old;
 					gce.bIsMe = IsMe(user_id);
 					gce.ptszUID = gch->ptszUID;
@@ -360,13 +358,11 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 
 			CMStringA initiator = ParseUrl(xinitiator, "8:");
 			CMStringA id = ParseUrl(xId, "8:");
-
-			GCDEST gcd = { m_szModuleName, _A2T(szConversationName), !mir_strcmpi(xRole, "Admin") ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS };
-			GCEVENT gce = { &gcd };
 			ptrW tszId(mir_a2u(id));
 			ptrW tszRole(mir_a2u(xRole));
 			ptrW tszInitiator(mir_a2u(initiator));
-			gce.pDest = &gcd;
+
+			GCEVENT gce = { m_szModuleName, _A2T(szConversationName), !mir_strcmpi(xRole, "Admin") ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS };
 			gce.dwFlags = GCEF_ADDTOLOG;
 			gce.ptszNick = tszId;
 			gce.ptszUID = tszId;
@@ -399,11 +395,9 @@ void CSkypeProto::OnSendChatMessage(const wchar_t *chat_id, const wchar_t * tszM
 
 void CSkypeProto::AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading)
 {
-	GCDEST gcd = { m_szModuleName, chat_id, isAction ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
-	GCEVENT gce = { &gcd };
-
 	ptrW tnick(GetChatContactNick(_T2A(chat_id), _T2A(from), _T2A(from)));
 
+	GCEVENT gce = { m_szModuleName, chat_id, isAction ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
 	gce.bIsMe = IsMe(_T2A(from));
 	gce.ptszNick = tnick;
 	gce.time = timestamp;
@@ -418,7 +412,8 @@ void CSkypeProto::AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, 
 	}
 	else gce.ptszText = &(tszText.GetBuffer())[emoteOffset];
 
-	if (isLoading) gce.dwFlags = GCEF_NOTNOTIFY;
+	if (isLoading)
+		gce.dwFlags |= GCEF_NOTNOTIFY;
 
 	Chat_Event(&gce);
 }
@@ -464,8 +459,7 @@ void CSkypeProto::ChangeChatTopic(const char *chat_id, const char *topic, const 
 	ptrW tname(mir_a2u(initiator));
 	ptrW ttopic(mir_utf8decodeW(topic));
 
-	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_TOPIC };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, tchat_id, GC_EVENT_TOPIC };
 	gce.ptszUID = tname;
 	gce.ptszNick = tname;
 	gce.ptszText = ttopic;
@@ -530,9 +524,7 @@ void CSkypeProto::AddChatContact(const wchar_t *tchat_id, const char *id, const 
 	ptrW tnick(GetChatContactNick(_T2A(tchat_id), id, name));
 	ptrW tid(mir_a2u(id));
 
-	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
-	GCEVENT gce = { &gcd };
-	gce.pDest = &gcd;
+	GCEVENT gce = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
@@ -552,8 +544,7 @@ void CSkypeProto::RemoveChatContact(const wchar_t *tchat_id, const char *id, con
 	ptrW tinitiator(GetChatContactNick(_T2A(tchat_id), initiator, initiator));
 	ptrW tid(mir_a2u(id));
 
-	GCDEST gcd = { m_szModuleName, tchat_id, isKick ? GC_EVENT_KICK : GC_EVENT_PART };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, tchat_id, isKick ? GC_EVENT_KICK : GC_EVENT_PART };
 	if (isKick) {
 		gce.ptszUID = tid;
 		gce.ptszNick = tnick;

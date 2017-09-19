@@ -121,14 +121,14 @@ static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 
 static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 {
-	if (gce->pDest->iType & g_Settings.dwTrayIconFlags)
+	if (gce->iType & g_Settings.dwTrayIconFlags)
 		return oldDoTrayIcon(si, gce);
 	return TRUE;
 }
 
 static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 {
-	if (gce->pDest->iType & g_Settings.dwPopupFlags)
+	if (gce->iType & g_Settings.dwPopupFlags)
 		return oldDoPopup(si, gce);
 	return TRUE;
 }

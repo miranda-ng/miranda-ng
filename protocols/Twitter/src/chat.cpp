@@ -24,9 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void TwitterProto::UpdateChat(const twitter_user &update)
 {
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
-	GCEVENT gce = { &gcd };
-	gce.pDest = &gcd;
+	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
 	gce.bIsMe = (update.username == twit_.get_username());
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszUID = mir_a2u(update.username.c_str());
@@ -59,10 +57,10 @@ void TwitterProto::UpdateChat(const twitter_user &update)
 int TwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
-	if (mir_strcmp(hook->pDest->pszModule, m_szModuleName))
+	if (mir_strcmp(hook->pszModule, m_szModuleName))
 		return 0;
 
-	switch (hook->pDest->iType) {
+	switch (hook->iType) {
 	case GC_USER_MESSAGE:
 		debugLogW(L"**Chat - Outgoing message: %s", hook->ptszText);
 		{
@@ -90,28 +88,26 @@ int TwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
 // TODO: remove nick?
 void TwitterProto::AddChatContact(const char *name, const char *nick)
 {
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
-	GCEVENT gce = { &gcd };
+	ptrW wszId(mir_a2u(name));
+	ptrW wszNick(mir_a2u(nick ? nick : name));
+
+	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
 	gce.time = DWORD(time(0));
-	gce.ptszNick = mir_a2u(nick ? nick : name);
-	gce.ptszUID = mir_a2u(name);
+	gce.ptszNick = wszNick;
+	gce.ptszUID = wszId;
 	gce.ptszStatus = L"Normal";
 	Chat_Event(&gce);
-
-	mir_free(const_cast<wchar_t*>(gce.ptszNick));
-	mir_free(const_cast<wchar_t*>(gce.ptszUID));
 }
 
 void TwitterProto::DeleteChatContact(const char *name)
 {
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
-	GCEVENT gce = { &gcd };
+	ptrW wszId(mir_a2u(name));
+
+	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
 	gce.time = DWORD(time(0));
-	gce.ptszNick = mir_a2u(name);
+	gce.ptszNick = wszId;
 	gce.ptszUID = gce.ptszNick;
 	Chat_Event(&gce);
-
-	mir_free(const_cast<wchar_t*>(gce.ptszNick));
 }
 
 INT_PTR TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)

@@ -117,8 +117,7 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 		else {
 			ParseSpecialChars(si, wszText);
 
-			GCDEST gcd = { m_szModuleName, pUser->wszUsername, GC_EVENT_MESSAGE };
-			GCEVENT gce = { &gcd };
+			GCEVENT gce = { m_szModuleName, pUser->wszUsername, GC_EVENT_MESSAGE };
 			gce.dwFlags = GCEF_ADDTOLOG;
 			gce.ptszUID = wszUserId;
 			gce.ptszText = wszText;

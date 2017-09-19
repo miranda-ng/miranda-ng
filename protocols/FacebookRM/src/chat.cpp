@@ -35,8 +35,7 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 	ptrW ttext(mir_a2u_cp(smessage.c_str(), CP_UTF8));
 	ptrW tchat_id(mir_a2u(chat_id));
 
-	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_MESSAGE };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, tchat_id, GC_EVENT_MESSAGE };
 	gce.ptszText = ttext;
 	gce.time = timestamp ? timestamp : ::time(NULL);
 	if (id != NULL)
@@ -64,19 +63,19 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
 
-	if (mir_strcmp(hook->pDest->pszModule, m_szModuleName))
+	if (mir_strcmp(hook->pszModule, m_szModuleName))
 		return 0;
 
 	// Ignore for special chatrooms
-	if (!mir_wstrcmp(hook->pDest->ptszID, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM)))
+	if (!mir_wstrcmp(hook->ptszID, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM)))
 		return 0;
 
-	switch (hook->pDest->iType)
+	switch (hook->iType)
 	{
 	case GC_USER_MESSAGE:
 	{
 		std::string msg = _T2A(hook->ptszText, CP_UTF8);
-		std::string chat_id = _T2A(hook->pDest->ptszID, CP_UTF8);
+		std::string chat_id = _T2A(hook->ptszID, CP_UTF8);
 
 		if (isOnline()) {
 			debugLogA("  > Chat - Outgoing message");
@@ -169,9 +168,7 @@ void FacebookProto::AddChatContact(const char *chat_id, const chatroom_participa
 	ptrW tnick(mir_a2u_cp(user.nick.c_str(), CP_UTF8));
 	ptrW tid(mir_a2u(user.user_id.c_str()));
 
-	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
-	GCEVENT gce = { &gcd };
-	gce.pDest = &gcd;
+	GCEVENT gce = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
 	gce.dwFlags = addToLog ? GCEF_ADDTOLOG : 0;
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
@@ -208,8 +205,7 @@ void FacebookProto::RemoveChatContact(const char *chat_id, const char *id, const
 	ptrW tnick(mir_a2u_cp(name, CP_UTF8));
 	ptrW tid(mir_a2u(id));
 
-	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_PART };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, tchat_id, GC_EVENT_PART };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
@@ -418,8 +414,7 @@ void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notificat
 	ptrW idT(mir_wstrdup(_A2W(FACEBOOK_NOTIFICATIONS_CHATROOM)));
 	ptrW messageT(mir_a2u_cp(message.c_str(), CP_UTF8));
 
-	GCDEST gcd = { m_szModuleName, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_MESSAGE };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_MESSAGE };
 	gce.ptszText = messageT;
 	gce.time = notification->time ? notification->time : ::time(NULL);
 	gce.bIsMe = false;

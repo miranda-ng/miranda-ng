@@ -374,7 +374,7 @@ MIR_APP_DLL(int) Chat_Terminate(const char *szModule, const wchar_t *wszId, bool
 
 static void AddUser(GCEVENT *gce)
 {
-	SESSION_INFO *si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+	SESSION_INFO *si = chatApi.SM_FindSession(gce->ptszID, gce->pszModule);
 	if (si == nullptr)
 		return;
 
@@ -407,7 +407,7 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 
 	for (int i = 0; i < g_arSessions.getCount(); i++) {
 		SESSION_INFO *si = g_arSessions[i];
-		if (!si->bInitDone || mir_strcmpi(si->pszModule, gce->pDest->pszModule))
+		if (!si->bInitDone || mir_strcmpi(si->pszModule, gce->pszModule))
 			continue;
 
 		if (!chatApi.UM_FindUser(si->pUsers, gce->ptszUID))
@@ -443,13 +443,12 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 	bool bIsHighlighted = false, bRemoveFlag = false;
 
 	// Do different things according to type of event
-	GCDEST *gcd = gce->pDest;
-	switch (gcd->iType) {
+	switch (gce->iType) {
 	case GC_EVENT_SETCONTACTSTATUS:
-		return SM_SetContactStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, (WORD)gce->dwItemData);
+		return SM_SetContactStatus(gce->ptszID, gce->pszModule, gce->ptszUID, (WORD)gce->dwItemData);
 
 	case GC_EVENT_TOPIC:
-		if (SESSION_INFO *si = chatApi.SM_FindSession(gcd->ptszID, gcd->pszModule)) {
+		if (SESSION_INFO *si = chatApi.SM_FindSession(gce->ptszID, gce->pszModule)) {
 			wchar_t *pwszNew = RemoveFormatting(gce->ptszText);
 			if (!mir_wstrcmp(si->ptszTopic, pwszNew)) // nothing changed? exiting
 				return 0;
@@ -473,25 +472,25 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 		break;
 
 	case GC_EVENT_ADDSTATUS:
-		SM_GiveStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, gce->ptszStatus);
+		SM_GiveStatus(gce->ptszID, gce->pszModule, gce->ptszUID, gce->ptszStatus);
 		bIsHighlighted = chatApi.IsHighlighted(nullptr, gce);
 		break;
 
 	case GC_EVENT_REMOVESTATUS:
-		SM_TakeStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, gce->ptszStatus);
+		SM_TakeStatus(gce->ptszID, gce->pszModule, gce->ptszUID, gce->ptszStatus);
 		bIsHighlighted = chatApi.IsHighlighted(nullptr, gce);
 		break;
 
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_ACTION:
-		if (!gce->bIsMe && gcd->ptszID && gce->ptszText) {
-			SESSION_INFO *si = chatApi.SM_FindSession(gcd->ptszID, gcd->pszModule);
+		if (!gce->bIsMe && gce->ptszID && gce->ptszText) {
+			SESSION_INFO *si = chatApi.SM_FindSession(gce->ptszID, gce->pszModule);
 			bIsHighlighted = chatApi.IsHighlighted(si, gce);
 		}
 		break;
 
 	case GC_EVENT_NICK:
-		SM_ChangeNick(gcd->ptszID, gcd->pszModule, gce);
+		SM_ChangeNick(gce->ptszID, gce->pszModule, gce);
 		bIsHighlighted = chatApi.IsHighlighted(nullptr, gce);
 		break;
 
@@ -511,13 +510,13 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 	// Decide which window (log) should have the event
 	LPCTSTR pWnd = nullptr;
 	LPCSTR pMod = nullptr;
-	if (gcd->ptszID) {
-		pWnd = gcd->ptszID;
-		pMod = gcd->pszModule;
+	if (gce->ptszID) {
+		pWnd = gce->ptszID;
+		pMod = gce->pszModule;
 	}
-	else if (gcd->iType == GC_EVENT_NOTICE || gcd->iType == GC_EVENT_INFORMATION) {
+	else if (gce->iType == GC_EVENT_NOTICE || gce->iType == GC_EVENT_INFORMATION) {
 		SESSION_INFO *si = chatApi.GetActiveSession();
-		if (si && !mir_strcmp(si->pszModule, gcd->pszModule)) {
+		if (si && !mir_strcmp(si->pszModule, gce->pszModule)) {
 			pWnd = si->ptszID;
 			pMod = si->pszModule;
 		}
@@ -538,13 +537,13 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 		SESSION_INFO *si = chatApi.SM_FindSession(pWnd, pMod);
 
 		// fix for IRC's old style mode notifications. Should not affect any other protocol
-		if ((gcd->iType == GC_EVENT_ADDSTATUS || gcd->iType == GC_EVENT_REMOVESTATUS) && !(gce->dwFlags & GCEF_ADDTOLOG))
+		if ((gce->iType == GC_EVENT_ADDSTATUS || gce->iType == GC_EVENT_REMOVESTATUS) && !(gce->dwFlags & GCEF_ADDTOLOG))
 			return 0;
 
-		if (gcd->iType == GC_EVENT_JOIN && gce->time == 0)
+		if (gce->iType == GC_EVENT_JOIN && gce->time == 0)
 			return 0;
 
-		if (si && (si->bInitDone || gcd->iType == GC_EVENT_TOPIC || (gcd->iType == GC_EVENT_JOIN && gce->bIsMe))) {
+		if (si && (si->bInitDone || gce->iType == GC_EVENT_TOPIC || (gce->iType == GC_EVENT_JOIN && gce->bIsMe))) {
 			if (gce->ptszNick == nullptr && gce->ptszUID != nullptr) {
 				USERINFO *ui = chatApi.UM_FindUser(si->pUsers, gce->ptszUID);
 				if (ui != nullptr)
@@ -571,7 +570,7 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 	}
 
 	if (bRemoveFlag)
-		return SM_RemoveUser(gcd->ptszID, gcd->pszModule, gce->ptszUID) == 0;
+		return SM_RemoveUser(gce->ptszID, gce->pszModule, gce->ptszUID) == 0;
 
 	return GC_EVENT_ERROR;
 }
@@ -581,11 +580,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 	if (gce == nullptr)
 		return GC_EVENT_ERROR;
 
-	GCDEST *gcd = gce->pDest;
-	if (gcd == nullptr)
-		return GC_EVENT_ERROR;
-
-	if (!IsEventSupported(gcd->iType))
+	if (!IsEventSupported(gce->iType))
 		return GC_EVENT_ERROR;
 
 	return CallFunctionSync(sttEventStub, gce);

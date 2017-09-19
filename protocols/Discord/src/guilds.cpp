@@ -112,8 +112,7 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 	if (!wszTopic.IsEmpty()) {
 		Chat_SetStatusbarText(m_szModuleName, wszChannelId, wszTopic);
 
-		GCDEST gcd = { m_szModuleName, wszChannelId, GC_EVENT_TOPIC };
-		GCEVENT gce = { &gcd };
+		GCEVENT gce = { m_szModuleName, wszChannelId, GC_EVENT_TOPIC };
 		gce.time = time(0);
 		gce.ptszText = wszTopic;
 		Chat_Event(&gce);
@@ -147,8 +146,7 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 
 void CDiscordProto::ApplyUsersToChannel(CDiscordGuild *pGuild, const CDiscordUser &pUser)
 {
-	GCDEST gcd = { m_szModuleName, pUser.wszUsername, GC_EVENT_JOIN };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, pUser.wszUsername, GC_EVENT_JOIN };
 	gce.time = time(0);
 	gce.dwFlags = GCEF_SILENT;
 

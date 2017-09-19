@@ -82,7 +82,7 @@ void CDiscordProto::Chat_SendPrivateMessage(GCHOOK *gch)
 			return;
 
 		setId(hContact, DB_KEY_ID, userId);
-		setId(hContact, DB_KEY_CHANNELID, _wtoi64(gch->pDest->ptszID));
+		setId(hContact, DB_KEY_CHANNELID, _wtoi64(gch->ptszID));
 		setWString(hContact, "Nick", gch->ptszNick);
 		db_set_b(hContact, "CList", "Hidden", 1);
 		db_set_dw(hContact, "Ignore", "Mask1", 0);
@@ -94,7 +94,7 @@ void CDiscordProto::Chat_SendPrivateMessage(GCHOOK *gch)
 
 void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 {
-	CDiscordUser *pUser = FindUserByChannel(_wtoi64(gch->pDest->ptszID));
+	CDiscordUser *pUser = FindUserByChannel(_wtoi64(gch->ptszID));
 	if (pUser == nullptr)
 		return;
 
@@ -154,10 +154,10 @@ int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 	if (gch == nullptr)
 		return 0;
 
-	if (mir_strcmpi(gch->pDest->pszModule, m_szModuleName))
+	if (mir_strcmpi(gch->pszModule, m_szModuleName))
 		return 0;
 
-	switch (gch->pDest->iType) {
+	switch (gch->iType) {
 	case GC_USER_MESSAGE:
 		if (mir_wstrlen(gch->ptszText) > 0) {
 			rtrimw(gch->ptszText);
@@ -167,7 +167,7 @@ int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 				Chat_UnescapeTags(wszText);
 
 				JSONNode body; body << WCHAR_PARAM("content", wszText);
-				CMStringA szUrl(FORMAT, "/channels/%S/messages", gch->pDest->ptszID);
+				CMStringA szUrl(FORMAT, "/channels/%S/messages", gch->ptszID);
 				Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveMessage, &body));
 			}
 		}

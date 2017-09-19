@@ -797,8 +797,7 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const wchar_t *
 
 	Chat_ChangeUserId(m_szModuleName, item->jid, oldNick, newNick);
 
-	GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_NICK };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, item->jid, GC_EVENT_NICK };
 	if (jid != nullptr)
 		gce.ptszUserInfo = jid;
 	gce.time = time(0);
@@ -1033,7 +1032,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	if (!mir_wstrcmp(type, L"error"))
 		return;
 
-	GCDEST gcd = { m_szModuleName, item->jid, 0 };
+	GCEVENT gce = { m_szModuleName, item->jid, 0 };
 
 	const wchar_t *msgText = nullptr;
 
@@ -1046,7 +1045,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 		if (msgText == nullptr || msgText[0] == '\0')
 			return;
 
-		gcd.iType = GC_EVENT_TOPIC;
+		gce.iType = GC_EVENT_TOPIC;
 
 		if (resource == nullptr && (m = XmlGetChild(node, "body")) != nullptr) {
 			const wchar_t *tmpnick = XmlGetText(m);
@@ -1075,12 +1074,12 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 			return;
 
 		if (resource == nullptr)
-			gcd.iType = GC_EVENT_INFORMATION;
+			gce.iType = GC_EVENT_INFORMATION;
 		else if (wcsncmp(msgText, L"/me ", 4) == 0 && mir_wstrlen(msgText) > 4) {
 			msgText += 4;
-			gcd.iType = GC_EVENT_ACTION;
+			gce.iType = GC_EVENT_ACTION;
 		}
-		else gcd.iType = GC_EVENT_MESSAGE;
+		else gce.iType = GC_EVENT_MESSAGE;
 	}
 
 	GcInit(item);
@@ -1107,7 +1106,6 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	tszText.Replace(L"%", L"%%");
 	tszText += imgLink;
 
-	GCEVENT gce = { &gcd };
 	gce.ptszUID = resource;
 	gce.ptszNick = nick;
 	gce.time = msgTime;
@@ -1124,7 +1122,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 
 	item->bChatActive = 2;
 
-	if (gcd.iType == GC_EVENT_TOPIC)
+	if (gce.iType == GC_EVENT_TOPIC)
 		Chat_SetStatusbarText(m_szModuleName, item->jid, tszText);
 }
 

@@ -828,8 +828,7 @@ retry:
 							wchar_t id[32];
 							UIN2IDT(e->event.msg.sender, id);
 
-							GCDEST gcd = { m_szModuleName, chat, GC_EVENT_MESSAGE };
-							GCEVENT gce = { &gcd };
+							GCEVENT gce = { m_szModuleName, chat, GC_EVENT_MESSAGE };
 							time_t t = time(NULL);
 							gce.ptszUID = id;
 							wchar_t* messageT = mir_utf8decodeW(e->event.msg.message);
@@ -892,8 +891,7 @@ retry:
 						wchar_t id[32];
 						UIN2IDT(getDword(GG_KEY_UIN, 0), id);
 
-						GCDEST gcd = { m_szModuleName, chat, GC_EVENT_MESSAGE };
-						GCEVENT gce = { &gcd };
+						GCEVENT gce = { m_szModuleName, chat, GC_EVENT_MESSAGE };
 						gce.ptszUID = id;
 						wchar_t* messageT = mir_utf8decodeW(e->event.multilogon_msg.message);
 						gce.ptszText = messageT;

@@ -1085,19 +1085,17 @@ CIRCHistory *CAppletManager::CreateIRCHistoryByName(tstring strProtocol, tstring
 int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 {
 	GCEVENT *gce = (GCEVENT*)lParam;
-	GCDEST *gcd;
-
-	if (gce == NULL || (gcd = gce->pDest) == NULL) {
+	if (gce == NULL) {
 		TRACE(L"<< [%s] skipping invalid event\n");
 		return 0;
 	}
 
-	TRACE(L"<< [%s:%s] event %04X\n", toTstring(gcd->pszModule).c_str(), gcd->ptszID, gcd->iType);
+	TRACE(L"<< [%s:%s] event %04X\n", toTstring(gce->pszModule).c_str(), gce->ptszID, gce->iType);
 
 	// get the matching irc connection entry
-	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(toTstring(gcd->pszModule));
+	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(toTstring(gce->pszModule));
 	if (!pIRCCon) {
-		TRACE(L"<< [%s] connection not found, skipping event\n", toTstring(gcd->pszModule).c_str());
+		TRACE(L"<< [%s] connection not found, skipping event\n", toTstring(gce->pszModule).c_str());
 		return 0;
 	}
 
@@ -1115,23 +1113,23 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		Event.eType = EVENT_IRC_SENT;
 	else
 		Event.eType = EVENT_IRC_RECEIVED;
-	Event.iValue = gcd->iType;
+	Event.iValue = gce->iType;
 	Event.hValue = lParam;
 
 	CIRCHistory *pHistory = NULL;
-	if (gcd->ptszID) {
-		tstring strChannel = toTstring(gcd->ptszID);
+	if (gce->ptszID) {
+		tstring strChannel = toTstring(gce->ptszID);
 		tstring::size_type pos = strChannel.find('-');
 		if (pos != tstring::npos)
 			strChannel = strChannel.substr(0, pos - 1);
 		else {
-			if (mir_wstrcmpi(gcd->ptszID, L"Network log"))
+			if (mir_wstrcmpi(gce->ptszID, L"Network log"))
 				TRACE(L"\t WARNING: ignoring unknown event!\n");
 			return 0;
 		}
 		pHistory = CAppletManager::GetInstance()->GetIRCHistoryByName(pIRCCon->strProtocol, strChannel);
 		if (!pHistory) {
-			if (gcd->iType == GC_EVENT_JOIN) {
+			if (gce->iType == GC_EVENT_JOIN) {
 				pHistory = CAppletManager::GetInstance()->CreateIRCHistoryByName(pIRCCon->strProtocol, strChannel);
 				if (pHistory)
 					pHistory->LUsers.push_back(toTstring(gce->ptszNick));
@@ -1140,7 +1138,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		}
 		Event.hContact = pHistory->hContact;
 	}
-	else if (gcd->iType != GC_EVENT_INFORMATION) {
+	else if (gce->iType != GC_EVENT_INFORMATION) {
 		TRACE(L"\t WARNING: ignoring unknown event!\n");
 		return 0;
 	}
@@ -1148,8 +1146,8 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		Event.hContact = NULL;
 
 	// Ignore events from hidden chatrooms, except for join events
-	if (gcd->ptszID != NULL && db_get_b(Event.hContact, "CList", "Hidden", 0)) {
-		if (gcd->iType == GC_EVENT_JOIN && pHistory)
+	if (gce->ptszID != NULL && db_get_b(Event.hContact, "CList", "Hidden", 0)) {
+		if (gce->iType == GC_EVENT_JOIN && pHistory)
 			pHistory->LUsers.push_back(toTstring(gce->ptszNick));
 
 		TRACE(L"\t Chatroom is hidden, skipping event!\n");
@@ -1165,7 +1163,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 
 	TRACE(L"\t Handling event...\t");
 
-	switch (gcd->iType) {
+	switch (gce->iType) {
 	case GC_EVENT_INFORMATION:
 		if (CConfig::GetBoolSetting(NOTIFY_IRC_CHANNEL))
 			Event.bNotification = true;
@@ -1284,7 +1282,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		TRACE(L"OK!\n");
 		return 0;
 	}
-	if (gce->bIsMe || gcd->ptszID == NULL)
+	if (gce->bIsMe || gce->ptszID == NULL)
 		Event.bNotification = false;
 
 	// set the event's timestamp
@@ -1305,7 +1303,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		if (pHistory->LMessages.size() > CConfig::GetIntSetting(SESSION_LOGSIZE))
 			pHistory->LMessages.pop_front();
 	}
-	else if (gce->ptszNick && gcd->iType == GC_EVENT_QUIT) {
+	else if (gce->ptszNick && gce->iType == GC_EVENT_QUIT) {
 		strNick = toTstring(gce->ptszNick);
 
 		if (!CAppletManager::GetInstance()->m_LIRCHistorys.empty()) {
@@ -1325,7 +1323,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 						Event.hContact = (*iter)->hContact;
 						tstring strName = CAppletManager::GetContactDisplayname((*iter)->hContact, true);
 						Event.strDescription = strName + L" - " + Event.strValue;
-						Event.strSummary = L"(" + toTstring(gcd->pszModule) + L") " + strName;
+						Event.strSummary = L"(" + toTstring(gce->pszModule) + L") " + strName;
 						CAppletManager::GetInstance()->HandleEvent(&Event);
 						break;
 					}
@@ -1337,7 +1335,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		TRACE(L"OK!\n");
 		return 0;
 	}
-	else if (gcd->ptszID != NULL) {
+	else if (gce->ptszID != NULL) {
 		TRACE(L"OK!\n");
 		return 0;
 	}
@@ -1348,10 +1346,9 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 			strChannel = strChannel.erase(CConfig::GetIntSetting(NOTIFY_CHANNELCUTOFF_OFFSET)) + L"...";
 		}
 		Event.strDescription = strChannel + L" - " + Event.strValue;
-		Event.strSummary = L"(" + toTstring(gcd->pszModule) + L") " + pHistory->strChannel;
+		Event.strSummary = L"(" + toTstring(gce->pszModule) + L") " + pHistory->strChannel;
 	}
-	else
-		Event.strDescription = Event.strValue;
+	else Event.strDescription = Event.strValue;
 
 	TRACE(L"OK!\n");
 

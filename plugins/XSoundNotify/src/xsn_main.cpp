@@ -149,16 +149,14 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 static int ProcessChatEvent(WPARAM, LPARAM lParam)
 {
 	GCEVENT *gce = (GCEVENT*)lParam;
-	if (gce == NULL || gce->pDest == NULL)
+	if (gce == nullptr)
+		return 0;
+	if (gce->iType != GC_EVENT_MESSAGE)
 		return 0;
 
-	GCDEST *gcd = (GCDEST*)gce->pDest;
-	if (gcd->iType != GC_EVENT_MESSAGE)
-		return 0;
-
-	MCONTACT hContact = pci->FindRoom(gcd->pszModule, gcd->ptszID);
+	MCONTACT hContact = pci->FindRoom(gce->pszModule, gce->ptszID);
 	if (hContact != 0) {
-		ptrW nick(db_get_wsa(hContact, gcd->pszModule, "MyNick"));
+		ptrW nick(db_get_wsa(hContact, gce->pszModule, "MyNick"));
 		if (nick == NULL || gce->ptszText == NULL)
 			return 0;
 		if (wcsstr(gce->ptszText, nick)) {
