@@ -24,7 +24,7 @@ void CVkProto::AddFeedSpecialUser()
 	MCONTACT hContact = FindUser(VK_FEED_USER);
 	if (!bSpecialContact) {
 		if (hContact)
-			db_delete_contact(hContact);
+			DeleteContact(hContact);
 		return;
 	}
 

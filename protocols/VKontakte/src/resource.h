@@ -25,6 +25,7 @@
 #define IDI_WALL                        121
 #define IDI_MARKMESSAGESASREAD          122
 #define IDD_OPT_MENU                    122
+#define IDD_CONTACTDELETE               123
 #define IDI_KEYS                        203
 #define IDC_LOGIN                       1001
 #define IDC_PASSWORD                    1002
@@ -128,14 +129,18 @@
 #define IDC_SENDVKURLSASATTACH          1111
 #define IDC_LOADSENTATTACH              1112
 #define IDC_ADD_MES_LINK_MES_ATT        1113
+#define IDC_STATIC_TXT                  1114
+#define IDC_CH_REMOVE_FROM_FRIEND       1115
+#define IDC_CH_CLEARHISTORY             1116
 
 // Next default values for new objects
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        123
+#define _APS_NEXT_RESOURCE_VALUE        124
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1114
+#define _APS_NEXT_CONTROL_VALUE         1116
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

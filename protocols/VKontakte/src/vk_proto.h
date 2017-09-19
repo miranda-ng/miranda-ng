@@ -73,6 +73,7 @@ struct CVkProto : public PROTO<CVkProto>
 	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
+	int __cdecl OnContactDeleted(WPARAM, LPARAM);
 	void OnOAuthAuthorize(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
@@ -357,6 +358,7 @@ private:
 	void SetInvisible(MCONTACT hContact);
 	CMStringW RemoveBBC(CMStringW& wszSrc);
 	void AddVkDeactivateEvent(MCONTACT hContact, CMStringW & wszType);
+	int DeleteContact(MCONTACT hContact);
 	void InitQueue();
 	void UninitQueue();
 	void ExecuteRequest(AsyncHttpRequest*);

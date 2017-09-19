@@ -611,7 +611,7 @@ void CVkProto::LeaveChat(int chat_id, bool close_window, bool delete_chat)
 		Chat_Control(m_szModuleName, cc->m_wszId, SESSION_OFFLINE);
 
 	if (delete_chat)
-		db_delete_contact(cc->m_hContact);
+		DeleteContact(cc->m_hContact);
 	else
 		setByte(cc->m_hContact, "off", (int)true);
 	m_chats.remove(cc);
@@ -676,7 +676,7 @@ INT_PTR __cdecl CVkProto::SvcDestroyKickChat(WPARAM hContact, LPARAM)
 		<< INT_PARAM("chatid", chat_id)
 	);
 
-	db_delete_contact(hContact);
+	DeleteContact(hContact);
 
 	return 0;
 }

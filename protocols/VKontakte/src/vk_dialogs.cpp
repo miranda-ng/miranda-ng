@@ -242,3 +242,46 @@ void CVkGCCreateForm::ResetListOptions(CCtrlClc *clCList)
 	for (int i = 0; i <= FONTID_MAX; i++)
 		clCList->SetTextColor(i, GetSysColor(COLOR_WINDOWTEXT));
 }
+
+////////////////////////////////// IDD_CONTACTDELETE //////////////////////////////////////
+
+CVkContactDeleteForm::CVkContactDeleteForm(CVkProto *proto, CONTACTDELETE_FORM_PARAMS *param) :
+	CVkDlgBase(proto, IDD_CONTACTDELETE, false),
+	m_btnOk(this, IDOK),
+	m_stText(this, IDC_STATIC_TXT),
+	m_cbDeleteFromFriendlist(this, IDC_CH_REMOVE_FROM_FRIEND),
+	m_cbDeleteDialog(this, IDC_CH_CLEARHISTORY),
+	m_param(param)
+{
+	m_btnOk.OnClick = Callback(this, &CVkContactDeleteForm::btnOk_OnOk);
+}
+
+void CVkContactDeleteForm::OnInitDialog()
+{
+	CMStringW szText(FORMAT, TranslateT("You delete %s from the contact list.\nWhat needs to be done additionally?"),
+		m_param->pwszNick);
+	m_stText.SetText(szText.c_str());
+
+	szText.Format(TranslateT("Remove %s from your friend list"), m_param->pwszNick);
+	m_cbDeleteFromFriendlist.SetText(szText.c_str());
+	m_cbDeleteFromFriendlist.SetState(m_param->bDeleteFromFriendlist && m_param->bEnableDeleteFromFriendlist);
+	m_cbDeleteFromFriendlist.Enable(m_param->bEnableDeleteFromFriendlist);
+
+
+	szText.Format(TranslateT("Ñlear server history with %s"), m_param->pwszNick);
+	m_cbDeleteDialog.SetText(szText.c_str());
+	m_cbDeleteDialog.SetState(m_param->bDeleteDialog);
+
+	szText.Format(TranslateT("Deleting %s from contact list"), m_param->pwszNick);
+	SetCaption(szText.c_str());
+}
+
+void CVkContactDeleteForm::btnOk_OnOk(CCtrlButton*)
+{
+
+	m_param->bDeleteDialog = m_cbDeleteDialog.GetState() != 0;
+	m_param->bDeleteFromFriendlist = m_param->bEnableDeleteFromFriendlist
+		&& (m_cbDeleteFromFriendlist.GetState() != 0);
+
+	EndDialog(m_hwnd, 1);
+}

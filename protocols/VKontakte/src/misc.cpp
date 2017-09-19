@@ -1515,3 +1515,8 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 	db_event_add(hContact, &dbei);
 }
 
+int CVkProto::DeleteContact(MCONTACT hContact)
+{
+	setByte(hContact, "SilentDelete", 1);
+	return db_delete_contact(hContact);
+}
