@@ -49,6 +49,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 	GetEnvironmentVariable(L"PATH", ptszVal + cbPath + 1, cbSize);
 	SetEnvironmentVariable(L"PATH", ptszVal);
 
+	DeleteFile(L"mir_core.dll");
+
 	int retVal;
 	HINSTANCE hMirApp = LoadLibrary(L"mir_app.mir");
 	if (hMirApp == NULL) {
