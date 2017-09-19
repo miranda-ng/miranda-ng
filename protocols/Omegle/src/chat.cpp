@@ -220,8 +220,7 @@ void OmegleProto::SendChatMessage(std::string text)
 
 /*void OmegleProto::SendChatEvent(int type)
 {
-GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
-GCEVENT gce = { &gcd };
+GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
 Chat_Event(WINDOW_CLEARLOG,&gce);
 }*/
 

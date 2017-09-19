@@ -712,8 +712,7 @@ INT_PTR FacebookProto::VisitNotifications(WPARAM, LPARAM)
 	/*bool useChatRoom = getBool(FACEBOOK_KEY_NOTIFICATIONS_CHATROOM, DEFAULT_NOTIFICATIONS_CHATROOM);
 
 	if (useChatRoom) {
-	GCDEST gcd = { m_szModuleName, _T(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_CONTROL };
-	GCEVENT gce = { &gcd };
+	GCEVENT gce = { m_szModuleName, _T(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_CONTROL };
 	Chat_Control(WINDOW_VISIBLE);
 	}
 	else {*/
