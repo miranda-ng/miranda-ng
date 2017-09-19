@@ -205,17 +205,18 @@ EXTERN_C MIR_APP_DLL(struct GCSessionInfoBase*) Chat_NewSession(
 	Chat users speaking, users joining and so on. See below for full
 	list of what events are possible.
 
-	IMPORTANT: For sending events you'll use the GCEVENT and GCDEST structures.	A GCDEST
-	structure pointer is passed inside GCEVENT and it tells Chat what event type it is
-	and what session it is related to. The GCDEST structure and its members are ALWAYS
-	used (but the members can be NULL in some occasions). Depending on what type of event
-	you are sending, the members of GCEVENT have different usage. Each event and how to
-	use the members are discussed below. The "AddToLog" and "time" members are always valid
+	IMPORTANT: For sending events you'll use the GCEVENT and GCDEST (not supported anymore,
+	see	commit e254312f9a660c83081ce2062ab14ba3c3614089) structures. A GCDEST structure pointer
+	is passed inside GCEVENT and it tells Chat what event type it is and what session
+	it is related to. The GCDEST structure and its members are ALWAYS used
+	(but the members can be NULL in some occasions). Depending on what type	of event
+	you are sending, the members of GCEVENT have different usage. Each event and how to use
+	the members are discussed below. The "AddToLog" and "time" members are always valid
 	and always mean the same. bAddToLog = TRUE means that the event is added to the disk log
-	(at least when this makes sense). This can be used by Jabber for instance, when
-	it needs to add channel history to the window, but without logging to disk.
-	The "time" member is the timestamp of the event.(Tip. use the function time(NULL)
-	to set the current time)
+	(at least when this makes sense). This can be used by Jabber for instance, when it needs
+	to add channel history to the window, but without logging to disk.
+	The "time" member is the timestamp of the event. (Tip: use the function time(NULL) to set
+	the current time)
 
 	NOTE. It is possible to send formatted text (bold, italics, underlined, foreground color
 	and background color) to Chat by using the following identifiers in the text (pszText):
@@ -264,7 +265,7 @@ EXTERN_C MIR_APP_DLL(struct GCSessionInfoBase*) Chat_NewSession(
 #define GC_EVENT_PART			0x0002
 
 //	GC_EVENT_QUIT - "<pszNick> disconnected: pszText" (A user disconnected from the network)
-//	pszID(in GCDEST)	- Should be NULL as a disconnect event is global.
+//	pszID				- Should be NULL as a disconnect event is global.
 //	pszNick				- Display name
 //	pszUID				- Unique identifier
 //	pszText				- Optional disconnect message, can be NULL
@@ -279,14 +280,14 @@ EXTERN_C MIR_APP_DLL(struct GCSessionInfoBase*) Chat_NewSession(
 
 //	GC_EVENT_NICK - "<pszNick> is now known as <pszText>" (A user changed his name)
 //	NOTE, see GC_EVENT_CHUID also
-//	pszID(in GCDEST)	- Should be NULL as a nick change event is global.
+//	pszID				- Should be NULL as a nick change event is global.
 //	pszNick				- Old display name
 //	pszUID				- Unique identifier
 //	pszText				- New display name of the user. Color codes are not valid
 #define GC_EVENT_NICK			0x0010
 
 //	GC_EVENT_NOTICE - "Notice from <pszNick>: <pszText>" (An IRC type notice)
-//	pszID(in GCDEST)	- Should be NULL to send to the active window
+//	pszID				- Should be NULL to send to the active window
 //	pszNick				- Display name
 //	pszUID				- Unique identifier
 //	pszText				- Notice text
@@ -306,7 +307,7 @@ EXTERN_C MIR_APP_DLL(struct GCSessionInfoBase*) Chat_NewSession(
 #define GC_EVENT_TOPIC			0x0080
 
 //	GC_EVENT_INFORMATION  (Informational text) Ex a server response to a /WHO command in IRC
-//	pszID(in GCDEST)	- NULL to send to the active window
+//	pszID				- NULL to send to the active window
 //	pszText				- Information text
 #define GC_EVENT_INFORMATION	0x0100
 
