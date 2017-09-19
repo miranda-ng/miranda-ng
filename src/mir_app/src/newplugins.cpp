@@ -862,6 +862,7 @@ static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM)
 int LoadNewPluginsModuleInfos(void)
 {
 	bModuleInitialized = TRUE;
+	DeleteFile(L"mir_core.dll");
 
 	LoadPluginOptions();
 
