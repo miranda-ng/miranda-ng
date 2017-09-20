@@ -219,6 +219,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void  GatewaySendHeartbeat(void);
 	void  GatewaySendIdentify(void);
 	void  GatewaySendGuildInfo(SnowFlake id);
+	void  GatewaySendResume(void);
 
 	GatewayHandlerFunc GetHandler(const wchar_t*);
 

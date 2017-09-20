@@ -317,6 +317,15 @@ void CDiscordProto::GatewayProcess(const JSONNode &pRoot)
 		}
 		break;
 
+	case 9:  // session invalidated
+		if (pRoot["d"].as_bool()) // session can be resumed
+			GatewaySendResume();
+		else {
+			Sleep(5000); // 5 seconds - recommended timeout
+			GatewaySendIdentify();
+		}
+		break;
+
 	case 10: // hello
 		m_iHartbeatInterval = pRoot["d"]["heartbeat_interval"].as_int();
 
@@ -372,5 +381,17 @@ void CDiscordProto::GatewaySendGuildInfo(SnowFlake id)
 
 	JSONNode root;
 	root << INT_PARAM("op", 12) << payload;
+	GatewaySend(root);
+}
+
+void CDiscordProto::GatewaySendResume()
+{
+	char szRandom[40];
+	uint8_t random[16];
+	Utils_GetRandom(random, _countof(random));
+	bin2hex(random, _countof(random), szRandom);
+
+	JSONNode root;
+	root << CHAR_PARAM("token", szRandom) << CHAR_PARAM("session_id", m_szGatewaySessionId) << INT_PARAM("seq", m_iGatewaySeq);
 	GatewaySend(root);
 }
