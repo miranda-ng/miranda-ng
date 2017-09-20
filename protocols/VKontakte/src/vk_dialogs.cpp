@@ -268,7 +268,7 @@ void CVkContactDeleteForm::OnInitDialog()
 	m_cbDeleteFromFriendlist.Enable(m_param->bEnableDeleteFromFriendlist);
 
 
-	szText.Format(TranslateT("Ñlear server history with %s"), m_param->pwszNick);
+	szText.Format(TranslateT("Clear server history with %s"), m_param->pwszNick);
 	m_cbDeleteDialog.SetText(szText.c_str());
 	m_cbDeleteDialog.SetState(m_param->bDeleteDialog);
 
