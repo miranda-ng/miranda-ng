@@ -95,7 +95,8 @@ void CDiscordProto::OnCommandChannelCreated(const JSONNode &pRoot)
 		// group channel for a guild
 		CDiscordUser *pUser = ProcessGuildChannel(pGuild, pRoot);
 		if (pUser != nullptr)
-			ApplyUsersToChannel(pGuild, *pUser);
+			for (int i = 0; i < pGuild->arChatUsers.getCount(); i++)
+				AddUserToChannel(*pUser, pGuild->arChatUsers[i]);
 	}
 }
 
@@ -183,56 +184,8 @@ void CDiscordProto::OnCommandGuildCreated(const JSONNode &pRoot)
 void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
 {
 	CDiscordGuild *pGuild = FindGuild(::getId(pRoot["id"]));
-	if (pGuild == nullptr)
-		return;
-
-	// store all guild members
-	const JSONNode &pMembers = pRoot["members"];
-	for (auto it = pMembers.begin(); it != pMembers.end(); ++it) {
-		const JSONNode &m = *it;
-
-		CMStringW wszUserId = m["user"]["id"].as_mstring();
-		SnowFlake userId = _wtoi64(wszUserId);
-		CDiscordGuildMember *pm = pGuild->FindUser(userId);
-		if (pm == nullptr) {
-			pm = new CDiscordGuildMember(userId);
-			pGuild->arChatUsers.insert(pm);
-		}
-
-		pm->wszNick = m["nick"].as_mstring();
-		if (pm->wszNick.IsEmpty())
-			pm->wszNick = m["user"]["username"].as_mstring() + L"#" + m["user"]["discriminator"].as_mstring();
-
-		if (userId == pGuild->ownerId)
-			pm->wszRole = L"@owner";
-		else {
-			CDiscordRole *pRole = nullptr;
-			const JSONNode &pRoles = m["roles"];
-			for (auto itr = pRoles.begin(); itr != pRoles.end(); ++itr) {
-				SnowFlake roleId = ::getId(*itr);
-				if (pRole = pGuild->arRoles.find((CDiscordRole*)&roleId))
-					break;
-			}
-			pm->wszRole = (pRole == nullptr) ? L"@everyone" : pRole->wszName;
-		}
-		pm->iStatus = ID_STATUS_OFFLINE;
-	}
-
-	// parse online statuses
-	const JSONNode &pStatuses = pRoot["presences"];
-	for (auto it = pStatuses.begin(); it != pStatuses.end(); ++it) {
-		const JSONNode &s = *it;
-		CDiscordGuildMember *gm = pGuild->FindUser(::getId(s["user"]["id"]));
-		if (gm != nullptr)
-			gm->iStatus = StrToStatus(s["status"].as_mstring());
-	}
-
-	// append users to all chat rooms
-	for (int i = 0; i < arUsers.getCount(); i++) {
-		CDiscordUser &pUser = arUsers[i];
-		if (pUser.guildId == pGuild->id)
-			ApplyUsersToChannel(pGuild, pUser);
-	}
+	if (pGuild != nullptr)
+		ParseGuildContents(pGuild, pRoot);
 }
 
 void CDiscordProto::OnCommandGuildDeleted(const JSONNode &pRoot)
@@ -425,6 +378,8 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 			gce.time = (DWORD)StringToDate(pRoot["timestamp"].as_mstring());
 			gce.bIsMe = msg.authorId == m_ownId;
 			Chat_Event(&gce);
+
+			debugLogW(L"New channel %s message from %s: %s", si->ptszID, gce.ptszUID, gce.ptszText);
 		}
 	}
 

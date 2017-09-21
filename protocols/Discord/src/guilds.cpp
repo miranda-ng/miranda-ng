@@ -94,14 +94,16 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 
 CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JSONNode &pch)
 {
-	// filter our all channels but the text ones
-	if (pch["type"].as_int() != 0)
-		return nullptr;
-
-	CMStringW wszChannelName = pGuild->wszName + L"#" + pch["name"].as_mstring();
 	CMStringW wszChannelId = pch["id"].as_mstring();
-	CMStringW wszTopic = pch["topic"].as_mstring();
 	SnowFlake channelId = _wtoi64(wszChannelId);
+	CMStringW wszChannelName = pGuild->wszName + L"#" + pch["name"].as_mstring();
+
+	// filter our all channels but the text ones
+	if (pch["type"].as_int() != 0) {
+		return nullptr;
+	}
+
+	CMStringW wszTopic = pch["topic"].as_mstring();
 
 	GCSessionInfoBase *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChannelId, wszChannelName);
 	BuildStatusList(pGuild, wszChannelId);
@@ -144,32 +146,86 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::ApplyUsersToChannel(CDiscordGuild *pGuild, const CDiscordUser &pUser)
+void CDiscordProto::AddUserToChannel(const CDiscordUser &pChannel, const CDiscordGuildMember &pUser)
 {
-	GCEVENT gce = { m_szModuleName, pUser.wszUsername, GC_EVENT_JOIN };
+	GCEVENT gce = { m_szModuleName, pChannel.wszUsername, GC_EVENT_JOIN };
 	gce.time = time(0);
 	gce.dwFlags = GCEF_SILENT;
 
-	for (int i = 0; i < pGuild->arChatUsers.getCount(); i++) {
-		CDiscordGuildMember &m = pGuild->arChatUsers[i];
+	wchar_t wszUserId[100];
+	_i64tow_s(pUser.userId, wszUserId, _countof(wszUserId), 10);
 
-		wchar_t wszUserId[100];
-		_i64tow_s(m.userId, wszUserId, _countof(wszUserId), 10);
+	gce.ptszStatus = pUser.wszRole;
+	gce.bIsMe = (pUser.userId == m_ownId);
+	gce.ptszUID = wszUserId;
+	gce.ptszNick = pUser.wszNick;
+	Chat_Event(&gce);
 
-		gce.ptszStatus = m.wszRole;
-		gce.bIsMe = (m.userId == m_ownId);
-		gce.ptszUID = wszUserId;
-		gce.ptszNick = m.wszNick;
-		Chat_Event(&gce);
+	int flags = GC_SSE_ONLYLISTED;
+	switch (pUser.iStatus) {
+	case ID_STATUS_ONLINE: case ID_STATUS_NA: case ID_STATUS_DND:
+		flags += GC_SSE_ONLINE;
+		break;
+	default:
+		flags += GC_SSE_OFFLINE;
+	}
+	Chat_SetStatusEx(m_szModuleName, pChannel.wszUsername, flags, wszUserId);
+}
 
-		int flags = GC_SSE_ONLYLISTED;
-		switch (m.iStatus) {
-		case ID_STATUS_ONLINE: case ID_STATUS_NA: case ID_STATUS_DND:
-			flags += GC_SSE_ONLINE;
-			break;
-		default:
-			flags += GC_SSE_OFFLINE;
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::ParseGuildContents(CDiscordGuild *pGuild, const JSONNode &pRoot)
+{
+	LIST<CDiscordGuildMember> newMembers(10);
+
+	// store all guild members
+	const JSONNode &pMembers = pRoot["members"];
+	for (auto it = pMembers.begin(); it != pMembers.end(); ++it) {
+		const JSONNode &m = *it;
+
+		CMStringW wszUserId = m["user"]["id"].as_mstring();
+		SnowFlake userId = _wtoi64(wszUserId);
+		CDiscordGuildMember *pm = pGuild->FindUser(userId);
+		if (pm == nullptr) {
+			pm = new CDiscordGuildMember(userId);
+			pGuild->arChatUsers.insert(pm);
+			newMembers.insert(pm);
 		}
-		Chat_SetStatusEx(m_szModuleName, pUser.wszUsername, flags, wszUserId);
+
+		pm->wszNick = m["nick"].as_mstring();
+		if (pm->wszNick.IsEmpty())
+			pm->wszNick = m["user"]["username"].as_mstring() + L"#" + m["user"]["discriminator"].as_mstring();
+
+		if (userId == pGuild->ownerId)
+			pm->wszRole = L"@owner";
+		else {
+			CDiscordRole *pRole = nullptr;
+			const JSONNode &pRoles = m["roles"];
+			for (auto itr = pRoles.begin(); itr != pRoles.end(); ++itr) {
+				SnowFlake roleId = ::getId(*itr);
+				if (pRole = pGuild->arRoles.find((CDiscordRole*)&roleId))
+					break;
+			}
+			pm->wszRole = (pRole == nullptr) ? L"@everyone" : pRole->wszName;
+		}
+		pm->iStatus = ID_STATUS_OFFLINE;
+	}
+
+	// parse online statuses
+	const JSONNode &pStatuses = pRoot["presences"];
+	for (auto it = pStatuses.begin(); it != pStatuses.end(); ++it) {
+		const JSONNode &s = *it;
+		CDiscordGuildMember *gm = pGuild->FindUser(::getId(s["user"]["id"]));
+		if (gm != nullptr)
+			gm->iStatus = StrToStatus(s["status"].as_mstring());
+	}
+
+	for (int k = 0; k < newMembers.getCount(); k++) {
+		CDiscordGuildMember *pm = newMembers[k];
+		for (int i = 0; i < arUsers.getCount(); i++) {
+			CDiscordUser &pUser = arUsers[i];
+			if (pUser.guildId == pGuild->id)
+				AddUserToChannel(pUser, *pm);
+		}
 	}
 }
