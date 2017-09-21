@@ -17,9 +17,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+__forceinline int compareInt64(const SnowFlake i1, const SnowFlake i2)
+{
+	return (i1 == i2) ? 0 : (i1 < i2) ? -1 : 1;
+}
+
 static int compareMessages(const SnowFlake *p1, const SnowFlake *p2)
 {
-	return *p1 - *p2;
+	return compareInt64(*p1, *p2);
 }
 
 static int compareRequests(const AsyncHttpRequest *p1, const AsyncHttpRequest *p2)
@@ -29,12 +34,12 @@ static int compareRequests(const AsyncHttpRequest *p1, const AsyncHttpRequest *p
 
 int compareUsers(const CDiscordUser *p1, const CDiscordUser *p2)
 {
-	return p1->id - p2->id;
+	return compareInt64(p1->id, p2->id);
 }
 
 static int compareGuilds(const CDiscordGuild *p1, const CDiscordGuild *p2)
 {
-	return p1->id - p2->id;
+	return compareInt64(p1->id, p2->id);
 }
 
 CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :

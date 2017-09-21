@@ -321,7 +321,8 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 {
 	CMStringW wszMessageId = pRoot["id"].as_mstring();
 	CMStringW wszUserId = pRoot["author"]["id"].as_mstring();
-	CDiscordMessage msg(_wtoi64(wszMessageId), _wtoi64(wszUserId));
+	SnowFlake userId = _wtoi64(wszUserId);
+	CDiscordMessage msg(_wtoi64(wszMessageId), userId);
 
 	// try to find a sender by his channel
 	SnowFlake channelId = ::getId(pRoot["channel_id"]);
@@ -365,8 +366,29 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 
 			SESSION_INFO *si = pci->SM_FindSession(pUser->wszUsername, m_szModuleName);
 			if (si == nullptr) {
-				debugLogA("nessage to unknown channal %lld ignored", channelId);
+				debugLogA("message to unknown channel %lld ignored", channelId);
 				return;
+			}
+
+			CDiscordGuild *pGuild = FindGuild(pUser->guildId);
+			if (pGuild == nullptr) {
+				debugLogA("message to unknown guild %lld ignored", pUser->guildId);
+				return;
+			}
+
+			CDiscordGuildMember *pm = pGuild->FindUser(userId);
+			if (pm == nullptr) {
+				pm = new CDiscordGuildMember(userId);
+				pm->wszNick = pRoot["nick"].as_mstring();
+				if (pm->wszNick.IsEmpty())
+					pm->wszNick = pRoot["user"]["username"].as_mstring() + L"#" + pRoot["user"]["discriminator"].as_mstring();
+				pGuild->arChatUsers.insert(pm);
+
+				for (int i = 0; i < arUsers.getCount(); i++) {
+					CDiscordUser &pChannel = arUsers[i];
+					if (pChannel.guildId == pGuild->id)
+						AddUserToChannel(pChannel, *pm);
+				}
 			}
 
 			ParseSpecialChars(si, wszText);
