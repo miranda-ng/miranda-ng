@@ -1,6 +1,11 @@
 
 typedef __int64 SnowFlake;
 
+__forceinline int compareInt64(const SnowFlake i1, const SnowFlake i2)
+{
+	return (i1 == i2) ? 0 : (i1 < i2) ? -1 : 1;
+}
+
 class CDiscordProto;
 typedef void (CDiscordProto::*HttpCallback)(NETLIBHTTPREQUEST*, struct AsyncHttpRequest*);
 typedef void (CDiscordProto::*GatewayHandlerFunc)(const JSONNode&);

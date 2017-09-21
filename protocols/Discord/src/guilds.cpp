@@ -17,16 +17,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-int compareUsers(const CDiscordUser *p1, const CDiscordUser *p2);
-
 static int compareRoles(const CDiscordRole *p1, const CDiscordRole *p2)
 {
-	return p1->id - p2->id;
+	return compareInt64(p1->id, p2->id);
 }
 
 static int compareChatUsers(const CDiscordGuildMember *p1, const CDiscordGuildMember *p2)
 {
-	return p1->userId - p2->userId;
+	return compareInt64(p1->userId, p2->userId);
 }
 
 CDiscordGuild::CDiscordGuild(SnowFlake _id)

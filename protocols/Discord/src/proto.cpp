@@ -17,11 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-__forceinline int compareInt64(const SnowFlake i1, const SnowFlake i2)
-{
-	return (i1 == i2) ? 0 : (i1 < i2) ? -1 : 1;
-}
-
 static int compareMessages(const SnowFlake *p1, const SnowFlake *p2)
 {
 	return compareInt64(*p1, *p2);
