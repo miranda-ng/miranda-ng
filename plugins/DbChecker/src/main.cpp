@@ -58,6 +58,8 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SERVIC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static HANDLE hService; // do not remove it!
+
 static INT_PTR ServiceMode(WPARAM, LPARAM)
 {
 	bLaunchMiranda = bShortMode = bAutoExit = false;
@@ -81,11 +83,12 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfoEx);
 
 	CreateServiceFunction(MS_DB_CHECKPROFILE, CheckProfile);
-	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
+	hService = CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
+	DestroyServiceFunction(hService);
 	return 0;
 }
