@@ -103,7 +103,7 @@ void CDiscordProto::InitMenus()
 
 	mi.pszService = "/CopyId";
 	CreateProtoService(mi.pszService, &CDiscordProto::OnMenuCopyId);
-	mi.name.a = LPGEN("Copy my Discord id");
+	mi.name.a = LPGEN("Copy my Discord ID");
 	mi.position = 200002;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERONLINE);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
@@ -127,7 +127,7 @@ void CDiscordProto::InitMenus()
 	m_hMenuCreateChannel = Menu_AddContactMenuItem(&mi2, m_szModuleName);
 
 	mi2.pszService = "/CopyId";
-	mi2.name.a = LPGEN("Copy Discord id");
+	mi2.name.a = LPGEN("Copy Discord ID");
 	mi2.position = -200001002;
 	mi2.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERONLINE);
 	SET_UID(mi2, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8E);
