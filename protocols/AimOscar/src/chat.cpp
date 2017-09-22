@@ -166,8 +166,8 @@ int CAimProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 
 	if (gcmi->Type == MENU_ON_LOG) {
 		static const struct gc_item Items[] = {
-			{ TranslateT("&Invite user..."), 10, MENU_ITEM, FALSE },
-			{ TranslateT("&Leave chat session"), 20, MENU_ITEM, FALSE }
+			{ LPGENW("&Invite user..."), 10, MENU_ITEM, FALSE },
+			{ LPGENW("&Leave chat session"), 20, MENU_ITEM, FALSE }
 		};
 		Chat_AddMenuItems(gcmi->hMenu, _countof(Items), Items);
 	}
@@ -175,17 +175,17 @@ int CAimProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 		char* sn = mir_u2a(gcmi->pszUID);
 		if (!mir_strcmp(m_username, sn)) {
 			static const struct gc_item Items[] = {
-				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
-				{ TranslateT("User &history"), 20, MENU_ITEM, FALSE },
+				{ LPGENW("User &details"), 10, MENU_ITEM, FALSE },
+				{ LPGENW("User &history"), 20, MENU_ITEM, FALSE },
 				{ L"", 100, MENU_SEPARATOR, FALSE },
-				{ TranslateT("&Leave chat session"), 110, MENU_ITEM, FALSE }
+				{ LPGENW("&Leave chat session"), 110, MENU_ITEM, FALSE }
 			};
 			Chat_AddMenuItems(gcmi->hMenu, _countof(Items), Items);
 		}
 		else {
 			static const struct gc_item Items[] = {
-				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
-				{ TranslateT("User &history"), 20, MENU_ITEM, FALSE }
+				{ LPGENW("User &details"), 10, MENU_ITEM, FALSE },
+				{ LPGENW("User &history"), 20, MENU_ITEM, FALSE }
 			};
 			Chat_AddMenuItems(gcmi->hMenu, _countof(Items), Items);
 		}
