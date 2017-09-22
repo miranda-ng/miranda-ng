@@ -17,6 +17,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+INT_PTR CDiscordProto::OnMenuCopyId(WPARAM hContact, LPARAM)
+{
+	CMStringW mynick(ptrW(getWStringA(hContact, DB_KEY_NICK)));
+	mynick.AppendFormat(L"#%d", getDword(hContact, DB_KEY_DISCR));
+
+	if (OpenClipboard(nullptr)) {
+		EmptyClipboard();
+		int length = mynick.GetLength() + 1;
+		HGLOBAL hMemory = GlobalAlloc(GMEM_FIXED, length * sizeof(wchar_t));
+		mir_wstrncpy((wchar_t*)GlobalLock(hMemory), mynick, length);
+		GlobalUnlock(hMemory);
+		SetClipboardData(CF_UNICODETEXT, hMemory);
+		CloseClipboard();
+	}
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR CDiscordProto::OnMenuCreateChannel(WPARAM hContact, LPARAM)
 {
 	ENTER_STRING es = { sizeof(es), ESF_COMBO, m_szModuleName, "channel_name", TranslateT("Enter channel name"), 0, 5 };
@@ -81,6 +101,13 @@ void CDiscordProto::InitMenus()
 	mi.hIcolibItem = g_iconList[1].hIcolib;
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
+	mi.pszService = "/CopyId";
+	CreateProtoService(mi.pszService, &CDiscordProto::OnMenuCopyId);
+	mi.name.a = LPGEN("Copy my Discord id");
+	mi.position = 200002;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERONLINE);
+	Menu_AddProtoMenuItem(&mi, m_szModuleName);
+
 	// Contact menu items
 	CMenuItem mi2;
 	mi2.pszService = "/LeaveGuild";
@@ -98,6 +125,13 @@ void CDiscordProto::InitMenus()
 	mi2.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
 	SET_UID(mi2, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8D);
 	m_hMenuCreateChannel = Menu_AddContactMenuItem(&mi2, m_szModuleName);
+
+	mi2.pszService = "/CopyId";
+	mi2.name.a = LPGEN("Copy Discord id");
+	mi2.position = -200001002;
+	mi2.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERONLINE);
+	SET_UID(mi2, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8E);
+	Menu_AddContactMenuItem(&mi2, m_szModuleName);
 
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CDiscordProto::OnMenuPrebuild);
 }

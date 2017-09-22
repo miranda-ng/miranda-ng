@@ -259,6 +259,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	int __cdecl OnMenuPrebuild(WPARAM, LPARAM);
 
+	INT_PTR __cdecl OnMenuCopyId(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuCreateChannel(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuJoinGuild(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuLeaveGuild(WPARAM, LPARAM);
