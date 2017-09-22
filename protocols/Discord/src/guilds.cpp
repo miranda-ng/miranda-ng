@@ -62,12 +62,13 @@ void CDiscordProto::ProcessRole(CDiscordGuild *guild, const JSONNode &role)
 void CDiscordProto::ProcessGuild(const JSONNode &p)
 {
 	SnowFlake guildId = ::getId(p["id"]);
-	GatewaySendGuildInfo(guildId);
 
 	CDiscordGuild *pGuild = FindGuild(guildId);
 	if (pGuild == nullptr) {
 		pGuild = new CDiscordGuild(guildId);
 		arGuilds.insert(pGuild);
+
+		GatewaySendGuildInfo(guildId);
 	}
 	pGuild->ownerId = ::getId(p["owner_id"]);
 	pGuild->wszName = p["name"].as_mstring();
@@ -138,6 +139,9 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 	SnowFlake oldMsgId = getId(pUser->hContact, DB_KEY_LASTMSGID);
 	if (oldMsgId != 0 && pUser->lastMsg.id > oldMsgId)
 		RetrieveHistory(pUser->hContact, MSG_AFTER, oldMsgId, 99);
+
+	for (int i = 0; i < pGuild->arChatUsers.getCount(); i++)
+		AddUserToChannel(*pUser, pGuild->arChatUsers[i]);
 
 	return pUser;
 }
