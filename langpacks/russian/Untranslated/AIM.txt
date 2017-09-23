@@ -15,7 +15,6 @@
 [Request ambiguous.]
 [Server queue full.]
 [Not while on AOL.]
-[Field change temporarily unavailable.]
 [Invalid registration preference.]
 [Read only field.]
 [Write only field.]

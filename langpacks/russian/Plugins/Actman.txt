@@ -593,6 +593,8 @@ UTF16+сигнатура
 Показывает историю контакта или системную историю (если wParam=0)
 [Erases contact's history. hContact can be NULL(0) to empty system history]
 Удаляет историю контакта. Если hContact NULL(0), то будет удалена системная история
+[Show Global history search window. If already opened, bring it to front.]
+Открывает окно поиска по всей истории. Если окно уже открыто, выводит его на передний план.
 [Ignore all]
 Игнорировать всё
 [Ignore messages]

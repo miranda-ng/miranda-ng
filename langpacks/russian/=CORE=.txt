@@ -2075,6 +2075,10 @@ Miranda не может распознать этот профиль
 Неизвестно, будет ли изменение безопасным.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Неверный тип настройки для '%s'. Первая буква любого значения должна быть b, w, d, l, s, e, u, g, h или n.
+[Homepage]
+Сайт
+[Phone/SMS]
+Телефон/SMS
 [Chat activity]
 Активность в чате
 [You haven't filled in the search field. Please enter a search term and try again.]

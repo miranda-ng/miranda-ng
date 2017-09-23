@@ -1,6 +1,4 @@
 ﻿[&E-mail]
-[Homepage]
-[Phone/SMS]
 [Ctrl + ]
 [Alt + ]
 [Shift + ]

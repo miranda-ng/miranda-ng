@@ -1,2 +1,1 @@
 ﻿[%s gateway connection]
-[Embed]

@@ -4,7 +4,6 @@
 [Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
 [int Value]
 [Opens or activate user search dialog]
-[Show Global history search window. If already opened, bring it to front.]
 [wParam is Handle]
 [Starting or stopping radio station]
 [Start/stops the cycling through protocols]

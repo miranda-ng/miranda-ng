@@ -73,6 +73,10 @@
 Скрыть список контактов
 [Exit]
 Выход
+[Execute]
+Выполнить
+[Separator]
+Разделитель
 [Default]
 По умолчанию
 [TopToolBar background]

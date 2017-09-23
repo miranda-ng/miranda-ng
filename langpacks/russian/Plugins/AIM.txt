@@ -179,6 +179,8 @@
 Проверьте свой адрес электронной почты.
 [Service temporarily unavailable.]
 Сервис временно недоступен.
+[Field change temporarily unavailable.]
+Изменение поля временно недоступно.
 [Invalid screen name.]
 Некорректное отображаемое имя.
 [Invalid password.]
