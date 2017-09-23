@@ -24,10 +24,6 @@ struct sPluginVars {
     HWND contactListHWND;
     windowsList allWindows;
 
-    HANDLE heModulesLoaded;
-    HANDLE heOptionsLoaded;
-    HANDLE heMsgWndEvent;
-
     bool IsUpdateInProgress;
 
     struct {

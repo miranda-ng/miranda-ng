@@ -39,17 +39,14 @@ extern "C" __declspec(dllexport) int Load(void)
 	
 	::InitializeCriticalSection(&pluginVars.m_CS);
     pluginVars.IsUpdateInProgress = false;
-    pluginVars.heModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-    pluginVars.heOptionsLoaded = HookEvent(ME_OPT_INITIALISE, InitOptions);
+    HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+    HookEvent(ME_OPT_INITIALISE, InitOptions);
     
     return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-    UnhookEvent(pluginVars.heOptionsLoaded);
-    UnhookEvent(pluginVars.heModulesLoaded);
-
     ::DeleteCriticalSection(&pluginVars.m_CS);
 
     return 0;
@@ -60,7 +57,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	HWND hWndCListWindow = pcli->hwndContactList;
     windowAdd(hWndCListWindow, true);
 
-    pluginVars.heMsgWndEvent = HookEvent(ME_MSG_WINDOWEVENT, MsgWindowEvent);
+    HookEvent(ME_MSG_WINDOWEVENT, MsgWindowEvent);
 
     optionsLoad();
 
