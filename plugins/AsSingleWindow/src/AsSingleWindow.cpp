@@ -74,14 +74,12 @@ int MsgWindowEvent(WPARAM, LPARAM lParam)
 
     switch (data->uType)
     {
-        // Здесь можно отлавливать только открытие окна,
-        // т.к. закрытие может быть закрытием вкладки
-        case MSG_WINDOW_EVT_OPEN:
-            windowAdd(data->hwndWindow, false);            
-            break;
+    // Здесь можно отлавливать только открытие окна,
+    // т.к. закрытие может быть закрытием вкладки
+    case MSG_WINDOW_EVT_OPEN:
+        windowAdd(data->hwndWindow, false);
+        break;
     }
 
     return 0;
 }
-
-// end of file
