@@ -2,19 +2,20 @@
 #include "AsSingleWindow.h"
 #include "Options.h"
 #include "WindowsManager.h"
+#include "version.h"
 
 CLIST_INTERFACE *pcli;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
-	sizeof(PLUGININFOEX), // PLUGININFOEX
-    "AsSingleWindow",
-    PLUGIN_MAKE_VERSION(0, 1, 2, 1),
-    "Makes easier windows manipulation: allows you to move, minimize and activate Miranda's windows as if it were a single window.",
-    "Aleksey Smyrnov aka Soar",
-    "i@soar.name",
-    "© Soar, 2010-2011",
-    "http://soar.name/tag/assinglewindow/",
+    sizeof(PLUGININFOEX),
+    __PLUGIN_NAME,
+    PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+    __DESCRIPTION,
+    __AUTHOR,
+    __AUTHOREMAIL,
+    __COPYRIGHT,
+    __AUTHORWEB,
     UNICODE_AWARE,
     {0xF6C73B4, 0x2B2B, 0x711D, {0xFB, 0xB6, 0xBB, 0x26, 0x7D, 0xFD, 0x72, 0x08}}, // 0xF6C73B42B2B711DFBB6BB267DFD7208
 };
