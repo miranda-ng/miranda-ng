@@ -2,57 +2,11 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.6
+;  Version: 0.9.1.7
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Показывает контакты, события, статусы протоколов с расширенными функциями оформления (скины). Мультиоконная модификация, расширенная поддержка метаконтактов.
-[Transparency:]
-Прозрачность:
-[Window behavior:]
-Поведение списка:
-[List sorting:]
-Сортировка списка:
-[Status bar:]
-Панель статусов:
-[List content:]
-Содержание списка:
-[Show counts of number of contacts in a group]
-Показать количество пользователей в группах
-[Hide group counts when there are none online]
-Скрыть счётчик, если нет пользователей в сети
-[1st:]
-1-й:
-[2nd:]
-2-й:
-[3rd:]
-3-й:
-[Always on top]
-Поверх всех окон
-[Hide contact list after]
-Скрывать список после
-[seconds]
-секунд
-[Fade contact list in/out]
-Плавно скрывать список контактов
-[Transparent contact list]
-Прозрачный список контактов
-[Inactive opacity:]
-Окно неактивно:
-[Active opacity:]
-Окно активно:
-[Show avatars]
-Показывать аватары
-[Animate avatars]
-Анимация аватаров
-[Show contact time in list]
-Показывать время контакта
-[Compact mode]
-Компактный режим
-[Show protocol names]
-Показывать протоколы
-[Show status text]
-Показывать текст статуса
 [Settings]
 Настройки
 [Background color:]
@@ -123,6 +77,8 @@
 Режим статуса
 [Automatically clear this view mode after]
 Автоматически сбрасывать этот режим после
+[seconds]
+секунд
 [View mode options]
 Настройки режима вида
 [Editing view mode]
@@ -159,6 +115,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Настроить учётную запись
 [Hide account completely]
 Скрыть учётную запись
+[Show protocol names]
+Показывать протоколы
 [Show status name]
 Имя статуса
 [Show xStatus name]
@@ -213,6 +171,12 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Список контактов
 [Contact list sorting]
 Сортировка списка контактов
+[1st:]
+1-й:
+[2nd:]
+2-й:
+[3rd:]
+3-й:
 [Place offline users out of groups]
 Отключённых показывать вне групп
 [Gamma correction]
@@ -229,6 +193,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Тип выделения
 [Bring to front if covered]
 Перемещать на передний план
+[Hide contact list after]
+Скрывать список после
 [Automatically resize window to height of list]
 Автоматически изменять размер окна
 [maximum]
@@ -295,6 +261,10 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Группы
 [Draw a line alongside group names]
 Линия вдоль названий групп
+[Show counts of number of contacts in a group]
+Показать количество пользователей в группах
+[Hide group counts when there are none online]
+Скрыть счётчик, если нет пользователей в сети
 [Sort groups alphabetically]
 Сортировать группы по алфавиту
 [Quicksearch in open groups only]
@@ -369,6 +339,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Время как элемент строки
 [Appearance]
 Внешний вид
+[Always on top]
+Поверх всех окон
 [Pin to desktop]
 Прикрепить к раб. столу
 [Client area margins]
@@ -389,6 +361,14 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Сворачивать в трей
 [Translucency options]
 Настройки прозрачности списка контактов
+[Fade contact list in/out]
+Плавно скрывать список контактов
+[Transparent contact list]
+Прозрачный список контактов
+[Inactive opacity:]
+Окно неактивно:
+[Active opacity:]
+Окно активно:
 [Enable drop shadow (restart required)]
 Включить тень (нужен перезапуск)
 [Frames]
@@ -431,6 +411,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Компактный режим (показывать аватары и дополнительный текст только на выбранных контактах)
 [Draw border on avatar]
 Рамки на аватарах
+[Show avatars]
+Показывать аватары
 [Draw overlay icons]
 Значки на аватарах
 [Max size (pixels):]
@@ -453,6 +435,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 высота
 [width]
 ширина
+[Animate avatars]
+Анимация аватаров
 [Use old render method (fast, but has artifacts)]
 Старый метод отрисовки (быстрее, но могут быть "артефакты")
 [Hide icon when showing avatar]

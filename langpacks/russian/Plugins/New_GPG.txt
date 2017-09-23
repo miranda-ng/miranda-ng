@@ -153,6 +153,8 @@ ID ключа:
 Концу
 [Strip all tags in outgoing messages]
 Удалять все метки из исходящих сообщений
+[Turn on presence signing (Jabber) (required by XEP-0027)]
+Сообщать о возможности использования подписи (Jabber) (требуется XEP-0027)
 [Export keys]
 Экспорт ключей
 [Import keys]
@@ -197,16 +199,26 @@ ID ключа:
 Генерируется новый случайный ключ, пожалуйста, подождите
 [Failed to allocate memory]
 Не удалось выделить память
+[Failed to lock memory with error %d]
+Ошибка блокировки памяти с ошибкой %d
+[Failed write to clipboard with error %d]
+Ошибка записи в буфер обмена с ошибкой %d
 [Warning]
 Предупреждение
+[Wrong GPG binary location found in system.\nPlease choose another location]
+Исполняемый файл GPG не найден в системе.\nПожалуйста, укажите другое путь
 [This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
 Выбранный вами exe не GnuPG!\nС этим плагином рекомендуется использовать GnuPG v1.x.x.
 [Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
 Ваша версия GnuPG не поддерживается и может работать неправильно!\nС этим плагином рекомендуется использовать GnuPG v1.x.x.
+["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
+Каталог "GPG" найден в папке Миранды.\nЕсли предположить, что это домашний каталог GPG.\nДомашний каталог GPG выбран.
 [Info]
 Инфо
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Ваша версия GPG поддерживается. Языковые файлы найдены.\nПлагин должен работать нормально.\nНажмите ОК.
+[GPG binary does not exist.\nPlease choose another location]
+Исполняемый файл GPG не найден .\nПожалуйста, укажите другой путь
 [Please choose GPG binary location]
 Выберите директорию c GnuPG
 [Please set keyring's home directory]
@@ -221,14 +233,22 @@ ID ключа:
 Принять
 [Received key from %s]
 Получен ключ от %s
+[You must set encryption algorithm first]
+Сначала необходимо задать алгоритм шифрования
 [Key length must be of length from 1024 to 4096 bits]
 Длина ключа должна быть от 1024 до 4096 бит
+[Invalid date]
+Недопустимая дата
 [Name must contain at least 5 characters]
 Имя должно содержать не менее 5 символов
 [Name cannot contain '(' or ')']
 Имя не может содержать '(' или ')'
 [Invalid Email]
 Неверный e-mail
+[Generating new key, please wait...]
+Генерация нового ключа, пожалуйста подождите...
+[Failed to export public key.]
+Не удалось экспортировать открытый ключ.
 [GPG binary is set and valid (this is good).\n]
 Исполняемый файл GPG указан и работоспособен (это хорошо).\n
 [GPG binary unset or invalid (plugin will not work).\n]
@@ -245,6 +265,12 @@ ID ключа:
 \nGPG не будет работать, пока вы не решите указанные проблемы
 [GPG plugin problems]
 Проблемы с плагином GPG
+[ for account ]
+ для учётной записи 
+[ deleted from GPG secret keyring.\nDo you want to set another key?]
+ удаляется из секретного брелока GPG.\nХотите установить еще один ключ?
+[Own secret key warning]
+Собственное предупреждение секретного ключа
 [You didn't set a private key.\nWould you like to set it now?]
 Вы не выбрали приватный ключ.\nВы хотите сделать это сейчас?
 [Own private key warning]
@@ -253,6 +279,10 @@ ID ключа:
 Загрузить ключ для всех субконтактов?
 [Metacontact detected]
 Обнаружен метаконтакт
+[We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
+Пытаемся зашифровать с помощью недоверенного ключа. Вы хотите доверять этому ключу постоянно?
+[Something is wrong, GPG does not understand us, aborting encryption.]
+Что-то не так, GPG не понимает нас, прерываю шифрование.
 [Services]
 Службы
 [Main]
@@ -269,24 +299,58 @@ ID ключа:
 Ключ
 [Protocol]
 Протокол
+[This key is not used by any contact. Do you want to remove it from public keyring?]
+Этот ключ не используется ни одним контактом. Вы действительно хотите удалить его из открытых ключей?
+[Key info]
+Основные сведения
+[we have secret key for this public key, do not removing from GPG keyring]
+есть секретный ключ для этого открытого ключа, не удаляйте из GPG брелока
 [info]
 Инфо
+[Key removed from GPG keyring]
+Ключ удален из брелока GPG
 [Do you want to remove key from entire metacontact (all subcontacts)?]
 Вы хотите убрать ключ для метаконтакта (всех субконтактов)?
 [Export public key]
 Экспорт открытого ключа
 [.asc pubkey file]
 Файл публичного ключа (.asc )
+[Failed to open clipboard with error %d]
+Не удалось открыть буфер обмена с ошибкой %d
+[Set log file]
+Выбор файла журнала
 [LOG files]
 Файлы журнала
+[Choose gpg.exe]
+Выберите gpg.exe
+[Set home directory]
+Выбор домашней папки
+[Load Public GPG Key for ]
+Загрузить публичный ключ GPG для 
 [Turn off encryption]
 Выключить шифрование
 [This is not public or private key]
 Это не публичный или приватный ключ
+[Key already in secret keyring.]
+Ключ уже в векретном брелоке.
+[Set file containing GPG public key]
+Задать файл, содержащий открытый ключ GPG
+[GPG public key file]
+Файл открытого ключа GPG
+[There is no public or private key.]
+Это не файл открытого или закрытого ключа.
 [Turn off GPG encryption]
 Выключить шифрование GPG
 [Turn on GPG encryption]
 Включить шифрование GPG
+[Target file exists, do you want to replace it?]
+Целевой файл уже существует, хотите заменить его?
+[File transfer warning]
+Предупреждения о передаче файлов
+[encrypting file for transfer]
+шифрование файла для передачи
+[We have successfully exported all private keys.]
+Все закрытые ключи, успешно экспортировали.
 [Keys export result]
 Результат экспорта ключей
 [Keys import result]

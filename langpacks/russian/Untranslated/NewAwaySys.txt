@@ -1,3 +1,2 @@
-﻿[Configure autoaway]
-[Indefinite]
+﻿[Indefinite]
 [available autoreply only]

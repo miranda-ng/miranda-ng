@@ -323,14 +323,6 @@ JID / URL:
 Обновить
 [Node:]
 Узел:
-[Account type:]
-Тип уч. записи:
-[Login server:]
-Сервер:
-[Register account now]
-Зарегистрировать уч. запись
-[Jabber Account Information:]
-Информация об уч. записи Jabber:
 [Member Information]
 Права доступа
 [Role:]

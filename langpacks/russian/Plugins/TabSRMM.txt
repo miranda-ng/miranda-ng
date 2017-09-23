@@ -571,50 +571,6 @@ RTL по умолчанию
 Да
 [No]
 Нет
-[Message sending:]
-Отправка сообщений:
-[Window:]
-Окно сообщений:
-[Esc closes sessions (minimizes window if disabled)]
-Esc закрывает сессию (иначе - сворачивает)
-[Always pop up and activate new windows]
-Всегда открывать новое окно сообщений
-[Create new windows in minimized state]
-Создавать новые окна свёрнутыми
-[Send on Shift+Enter]
-Отправлять по Shift+Enter
-[Send message on 'Enter']
-Отправлять по "Enter"
-[Send message on double 'Enter']
-Отправлять по двойному "Enter"
-[Minimize the message window on send]
-Сворачивать окно после отправки
-[Tabs:]
-Вкладки:
-[Use tabbed interface]
-Использовать вкладки
-[Create new tabs without activating them]
-Создавать новые вкладки без активации
-[Pop up minimized window when a new tab is created]
-Открыть свёрнутое окно при создании вкладки
-[Automatically switch tabs in minimized windows]
-Автопереключение вкладок в свёрнутом окне
-[History:]
-История:
-[Notifications:]
-Уведомления:
-[Don't announce when dialog is open]
-Не уведомлять при открытом окне
-[Message events]
-Сообщения
-[File events]
-Файлы
-[URL events]
-Ссылки (URL)
-[Other events]
-Другие события
-[Send message on Ctrl+Enter (always enabled)]
-Отправлять по Ctrl+Enter (всегда включено)
 [Log]
 Журнал
 [&Copy]
@@ -1947,6 +1903,14 @@ TabSRMM: %s
 Поведение окна сообщений
 [Sending messages]
 Отправка сообщений
+[Send on Shift+Enter]
+Отправлять по Shift+Enter
+[Send message on 'Enter']
+Отправлять по "Enter"
+[Send message on double 'Enter']
+Отправлять по двойному "Enter"
+[Minimize the message window on send]
+Сворачивать окно после отправки
 [Close the message window on send]
 Закрывать окно после отправки
 [Always flash contact list and tray icon for new messages]

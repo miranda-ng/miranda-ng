@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.22
+;  Version: 0.1.3.0
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -385,6 +385,14 @@ E-mail или номер телефона:
 Введите текст, который видите
 [Wall message for %s]
 Сообщение на стену для %s
+[You delete %s from the contact list.\nWhat needs to be done additionally?]
+Вы удаляете %s списка контактов.\nЧто нужно сделать дополнительно?
+[Remove %s from your friend list]
+Удалить %s из списка друзей
+[Clear server history with %s]
+Удались историю переписки с %s на сервере
+[Deleting %s from contact list]
+Удаление %s из списка контактов
 [New news]
 Новости
 [New notifications]

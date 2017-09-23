@@ -79,8 +79,6 @@
 Новая категория
 [Delete]
 Удалить
-[Status messages:]
-Сообщения статуса:
 [Wait]
 Ждать
 [seconds before closing the status message dialog (-1=don't close)]

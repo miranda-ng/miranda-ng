@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.5.0.3
+;  Version: 0.5.1.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -53,10 +53,14 @@
 Вы действительно хотите покинуть гильдию?
 [Join guild]
 Присоединиться к гильдии
+[Copy my Discord ID]
+Копировать мой Discord ID
 [Leave guild]
 Покинуть гильдию
 [Create new channel]
 Создать новую комнату чата
+[Copy Discord ID]
+Копировать Discord ID
 [Network]
 Сеть
 [Account]

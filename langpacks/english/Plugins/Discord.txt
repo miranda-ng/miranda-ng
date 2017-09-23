@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.5.0.3
+;  Version: 0.5.1.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -34,8 +34,10 @@
 [Enter invitation code you received]
 [Do you really want to leave the guild?]
 [Join guild]
+[Copy my Discord ID]
 [Leave guild]
 [Create new channel]
+[Copy Discord ID]
 ;file \protocols\Discord\src\options.cpp
 [Network]
 [Account]
