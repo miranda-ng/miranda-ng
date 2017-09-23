@@ -27,12 +27,6 @@ bool WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
     return true;
 }
 
-static const MUUID interfaces[] = {MIID_CLIST, MIID_SRMM, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-    return interfaces;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
     return &pluginInfo;
