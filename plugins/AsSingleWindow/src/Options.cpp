@@ -122,8 +122,8 @@ void optionsUpdate(HWND hWnd)
 
 void optionsSave()
 {
-	db_get_b(0, SETTINGSNAME, "DrivenWindowPosition", pluginVars.Options.DrivenWindowPos);
-	db_get_b(0, SETTINGSNAME, "WindowsMerging", pluginVars.Options.WindowsMerging);
+	db_set_b(0, SETTINGSNAME, "DrivenWindowPosition", pluginVars.Options.DrivenWindowPos);
+	db_set_b(0, SETTINGSNAME, "WindowsMerging", pluginVars.Options.WindowsMerging);
 }
 
 // end of file
