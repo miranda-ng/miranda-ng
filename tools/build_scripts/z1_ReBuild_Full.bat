@@ -33,12 +33,6 @@ pushd ..\plugins\NotifyAnything\SendLog
 call compile%tp%.bat
 popd
 
-if /i '%tp%' == '32' (
-  %GetIt% -P Release/Libs -r -np -nd -nH -R html -e robots=off https://miranda-ng.org/distr/build/x86/
-) else if /i '%tp%' == '64' (
-  %GetIt% -P Release64/Libs -r -np -nd -nH -R html -e robots=off https://miranda-ng.org/distr/build/x64/
-)
-
 if exist Release ren Release Release32
 md Symbols%tp%
 rd /S /Q "Release%tp%\Obj" >nul
