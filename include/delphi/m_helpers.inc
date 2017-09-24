@@ -255,6 +255,7 @@ end;
 function Langpack_Register:int_ptr;
 begin
   mir_getLP(PluginInfo, hLangpack);
+  cli := Clist_GetInterface();
   result:=hLangpack;
 end;
 
@@ -409,8 +410,5 @@ procedure SET_UID(pmi:PMO_MenuItem; strguid:PAnsiChar);
 begin
    UuidFromStringA(strguid, pmi.uid);
 end;
-
-initialization
-   cli := Clist_GetInterface();
 
 {$ENDIF}
