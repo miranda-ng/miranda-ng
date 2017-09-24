@@ -123,6 +123,7 @@ function Load(): int; cdecl;
 var
   mi:TMO_MenuItem;
 begin
+  Langpack_register;
   cp := Langpack_GetDefaultCodePage;
 
   CreateServiceFunction(IMPORT_TXT_SERVICE, @ContactMenuCommand);
