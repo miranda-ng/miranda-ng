@@ -438,6 +438,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_schedule", "..\plugins\Mi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_toptoolbar", "..\plugins\MirLua\Modules\m_toptoolbar\m_toptoolbar.vcxproj", "{277E433F-7D71-4247-8AAA-CC5FB1AA7A67}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AsSingleWindow", "..\plugins\AsSingleWindow\AsSingleWindow.vcxproj", "{CE6A5A24-EA88-4E67-BDF2-22517528E43F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -2012,6 +2014,14 @@ Global
 		{277E433F-7D71-4247-8AAA-CC5FB1AA7A67}.Release|Win32.Build.0 = Release|Win32
 		{277E433F-7D71-4247-8AAA-CC5FB1AA7A67}.Release|x64.ActiveCfg = Release|x64
 		{277E433F-7D71-4247-8AAA-CC5FB1AA7A67}.Release|x64.Build.0 = Release|x64
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Debug|Win32.Build.0 = Debug|Win32
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Debug|x64.ActiveCfg = Debug|x64
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Debug|x64.Build.0 = Debug|x64
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Release|Win32.ActiveCfg = Release|Win32
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Release|Win32.Build.0 = Release|Win32
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Release|x64.ActiveCfg = Release|x64
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

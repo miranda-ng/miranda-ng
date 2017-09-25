@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32\miranda32.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -441,6 +441,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_toptoolbar", "..\plugins\MirLua\Modules\m_toptoolbar\m_toptoolbar.vcxproj", "{277E433F-7D71-4247-8AAA-CC5FB1AA7A67}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQCorp", "..\protocols\ICQCorp\ICQCorp_15.vcxproj", "{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AsSingleWindow", "..\plugins\AsSingleWindow\AsSingleWindow.vcxproj", "{CE6A5A24-EA88-4E67-BDF2-22517528E43F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -2014,6 +2016,14 @@ Global
 		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Release|Win32.Build.0 = Release|Win32
 		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Release|x64.ActiveCfg = Release|x64
 		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Release|x64.Build.0 = Release|x64
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Debug|Win32.Build.0 = Debug|Win32
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Debug|x64.ActiveCfg = Debug|x64
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Debug|x64.Build.0 = Debug|x64
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Release|Win32.ActiveCfg = Release|Win32
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Release|Win32.Build.0 = Release|Win32
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Release|x64.ActiveCfg = Release|x64
+		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
