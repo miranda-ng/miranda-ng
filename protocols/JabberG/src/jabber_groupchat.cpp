@@ -908,6 +908,9 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 
 				if (str = XmlGetAttrValue(itemNode, L"jid"))
 					r->m_tszRealJid = mir_wstrdup(str);
+
+				// XEP-0115: Entity Capabilities
+				OnProcessPresenceCapabilites(node, r);
 			}
 		}
 

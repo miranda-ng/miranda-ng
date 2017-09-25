@@ -278,7 +278,7 @@ bool CJabberProto::ListAddResource(JABBER_LIST list, const wchar_t *jid, int sta
 	if (q) {
 		const wchar_t *resource = q + 1;
 		if (*resource == 0)
-			return 0;
+			return false;
 
 		JABBER_RESOURCE_STATUS *r = LI->findResource(resource);
 		if (r != nullptr) { // Already exists, update status and statusMessage

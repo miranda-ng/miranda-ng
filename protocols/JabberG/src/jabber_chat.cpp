@@ -1016,8 +1016,10 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			MCONTACT hContact = ppro->AddToListByJID(jid, PALF_TEMPORARY);
 			ppro->setWString(hContact, "Nick", him->m_tszResourceName);
 			
-			ppro->ListAdd(LIST_VCARD_TEMP, jid, hContact);
+			JABBER_LIST_ITEM *pTmp = ppro->ListAdd(LIST_VCARD_TEMP, jid, hContact);
 			ppro->ListAddResource(LIST_VCARD_TEMP, jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
+
+			pTmp->findResource(him->m_tszResourceName)->m_pCaps = ppro->ListGetItemPtr(LIST_CHATROOM, item->jid)->findResource(him->m_tszResourceName)->m_pCaps;
 
 			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 		}

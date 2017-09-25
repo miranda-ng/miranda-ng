@@ -720,7 +720,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnProcessCompressed(HXML node, ThreadData *info);
 	void   OnProcessMessage(HXML node, ThreadData *info);
 	void   OnProcessPresence(HXML node, ThreadData *info);
-	void   OnProcessPresenceCapabilites(HXML node);
+	void   OnProcessPresenceCapabilites(HXML node, pResourceStatus &resource);
 	void   OnProcessPubsubEvent(HXML node);
 
 	void   OnProcessStreamOpening(HXML node, ThreadData *info);

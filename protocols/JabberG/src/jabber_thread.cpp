@@ -1423,70 +1423,70 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 }
 
 // XEP-0115: Entity Capabilities
-void CJabberProto::OnProcessPresenceCapabilites(HXML node)
+void CJabberProto::OnProcessPresenceCapabilites(HXML node, pResourceStatus &r)
 {
+	if (r == nullptr)
+		return;
+
+	// already filled up? ok
+	if (r->m_pCaps != nullptr)
+		return;
+
 	const wchar_t *from = XmlGetAttrValue(node, L"from");
 	if (from == nullptr)
 		return;
 
-	debugLogW(L"presence: for jid %s", from);
-
-	pResourceStatus r(ResourceInfoFromJID(from));
-	if (r == nullptr)
+	HXML n = XmlGetChildByTag(node, "c", "xmlns", JABBER_FEAT_ENTITY_CAPS);
+	if (n == nullptr)
 		return;
 
-	// XEP-0115 support
-	if (r->m_pCaps == nullptr) {
-		HXML n = XmlGetChildByTag(node, "c", "xmlns", JABBER_FEAT_ENTITY_CAPS);
-		if (n != nullptr) {
-			const wchar_t *szNode = XmlGetAttrValue(n, L"node");
-			const wchar_t *szVer = XmlGetAttrValue(n, L"ver");
-			const wchar_t *szExt = XmlGetAttrValue(n, L"ext");
-			if (szNode && szVer) {
-				const wchar_t *szHash = XmlGetAttrValue(n, L"hash");
-				if (szHash == nullptr) { // old version
-					ptrA szVerUtf(mir_utf8encodeW(szVer));
-					BYTE hashOut[MIR_SHA1_HASH_SIZE];
-					mir_sha1_hash((BYTE*)szVerUtf.get(), mir_strlen(szVerUtf), hashOut);
-					wchar_t szHashOut[MIR_SHA1_HASH_SIZE * 2 + 1];
-					bin2hexW(hashOut, _countof(hashOut), szHashOut);
-					r->m_pCaps = m_clientCapsManager.GetPartialCaps(szNode, szHashOut);
-					if (r->m_pCaps == nullptr)
-						r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szHashOut, szVer, JABBER_RESOURCE_CAPS_NONE);
+	const wchar_t *szNode = XmlGetAttrValue(n, L"node");
+	const wchar_t *szVer = XmlGetAttrValue(n, L"ver");
+	const wchar_t *szExt = XmlGetAttrValue(n, L"ext");
+	if (szNode == nullptr || szVer == nullptr)
+		return;
 
-					MCONTACT hContact = HContactFromJID(from);
-					if (hContact)
-						UpdateMirVer(hContact, r);
+	const wchar_t *szHash = XmlGetAttrValue(n, L"hash");
+	if (szHash == nullptr) { // old version
+		ptrA szVerUtf(mir_utf8encodeW(szVer));
+		BYTE hashOut[MIR_SHA1_HASH_SIZE];
+		mir_sha1_hash((BYTE*)szVerUtf.get(), mir_strlen(szVerUtf), hashOut);
+		wchar_t szHashOut[MIR_SHA1_HASH_SIZE * 2 + 1];
+		bin2hexW(hashOut, _countof(hashOut), szHashOut);
+		r->m_pCaps = m_clientCapsManager.GetPartialCaps(szNode, szHashOut);
+		if (r->m_pCaps == nullptr)
+			r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szHashOut, szVer, JABBER_RESOURCE_CAPS_NONE);
+
+		MCONTACT hContact = HContactFromJID(from);
+		if (hContact)
+			UpdateMirVer(hContact, r);
+	}
+	else {
+		r->m_pCaps = m_clientCapsManager.GetPartialCaps(szNode, szVer);
+		if (r->m_pCaps == nullptr) {
+			CMStringA szName(FORMAT, "%S#%S", szNode, szVer);
+			ptrA szValue(db_get_sa(0, "JabberCaps", szName));
+			if (szValue != 0) {
+				JSONNode root = JSONNode::parse(szValue);
+				if (root) {
+					CMStringW wszCaps = root["c"].as_mstring();
+					r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szVer, nullptr, _wtoi64(wszCaps));
+					r->m_pCaps->m_szOs = mir_wstrdup(root["o"].as_mstring());
+					r->m_pCaps->m_szOsVer = mir_wstrdup(root["ov"].as_mstring());
+					r->m_pCaps->m_szSoft = mir_wstrdup(root["s"].as_mstring());
+					r->m_pCaps->m_szSoftVer = mir_wstrdup(root["sv"].as_mstring());
+					r->m_pCaps->m_szSoftMir = mir_wstrdup(root["sm"].as_mstring());
 				}
-				else {
-					r->m_pCaps = m_clientCapsManager.GetPartialCaps(szNode, szVer);
-					if (r->m_pCaps == nullptr) {
-						CMStringA szName(FORMAT, "%S#%S", szNode, szVer);
-						ptrA szValue(db_get_sa(0, "JabberCaps", szName));
-						if (szValue != 0) {
-							JSONNode root = JSONNode::parse(szValue);
-							if (root) {
-								CMStringW wszCaps = root["c"].as_mstring();
-								r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szVer, nullptr, _wtoi64(wszCaps));
-								r->m_pCaps->m_szOs = mir_wstrdup(root["o"].as_mstring());
-								r->m_pCaps->m_szOsVer = mir_wstrdup(root["ov"].as_mstring());
-								r->m_pCaps->m_szSoft = mir_wstrdup(root["s"].as_mstring());
-								r->m_pCaps->m_szSoftVer = mir_wstrdup(root["sv"].as_mstring());
-								r->m_pCaps->m_szSoftMir = mir_wstrdup(root["sm"].as_mstring());
-							}
-						}
-					}
-
-					if (r->m_pCaps == nullptr) {
-						r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szVer, L"", JABBER_RESOURCE_CAPS_UNINIT);
-						GetResourceCapabilites(from, false);
-					}
-				}
-
-				r->m_tszCapsExt = mir_wstrdup(szExt);
 			}
 		}
+
+		if (r->m_pCaps == nullptr) {
+			r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szVer, L"", JABBER_RESOURCE_CAPS_UNINIT);
+			GetResourceCapabilites(from, false);
+		}
 	}
+
+	r->m_tszCapsExt = mir_wstrdup(szExt);
 }
 
 void CJabberProto::UpdateJidDbSettings(const wchar_t *jid)
@@ -1613,7 +1613,9 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 		ListAddResource(LIST_ROSTER, from, status, XmlGetText(XmlGetChild(node, "status")), priority);
 
 		// XEP-0115: Entity Capabilities
-		OnProcessPresenceCapabilites(node);
+		pResourceStatus r(ResourceInfoFromJID(from));
+		if (r != nullptr)
+			OnProcessPresenceCapabilites(node, r);
 
 		UpdateJidDbSettings(from);
 
