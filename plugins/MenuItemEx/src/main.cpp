@@ -271,10 +271,12 @@ void GetID(MCONTACT hContact, LPSTR szProto, LPSTR szID, size_t dwIDSize)
 			mir_snprintf(szID, dwIDSize, "%u", dbv_uniqueid.dVal);
 		else if (dbv_uniqueid.type == DBVT_WORD)
 			mir_snprintf(szID, dwIDSize, "%u", dbv_uniqueid.wVal);
-		else if (dbv_uniqueid.type == DBVT_BLOB)
-			mir_snprintf(szID, dwIDSize, "%s", dbv_uniqueid.cpbVal);
-		else
-			strncpy_s(szID, dwIDSize, (char*)dbv_uniqueid.pszVal, _TRUNCATE);
+		else if (dbv_uniqueid.type == DBVT_BLOB) {
+			CMStringA tmp(' ', dbv_uniqueid.cpbVal*2);
+			bin2hex(dbv_uniqueid.pbVal, dbv_uniqueid.cpbVal, tmp.GetBuffer());
+			strncpy_s(szID, dwIDSize, tmp, _TRUNCATE);
+		}
+		else strncpy_s(szID, dwIDSize, (char*)dbv_uniqueid.pszVal, _TRUNCATE);
 
 		db_free(&dbv_uniqueid);
 	}
