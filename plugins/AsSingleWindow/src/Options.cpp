@@ -43,7 +43,7 @@ INT_PTR CALLBACK cbOptionsDialog(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
             case PSN_APPLY:
                 optionsUpdate(hWnd);
                 optionsSave();
-                windowReposition(hWnd); // нициируем перерасчет координат
+                windowReposition(hWnd); // Инициируем перерасчет координат
                 break;
             }
         }
