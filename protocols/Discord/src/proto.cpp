@@ -120,7 +120,7 @@ DWORD_PTR CDiscordProto::GetCaps(int type, MCONTACT)
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)Translate("User ID");
 	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR)DB_KEY_EMAIL;
+		return (DWORD_PTR)DB_KEY_ID;
 	}
 	return 0;
 }
