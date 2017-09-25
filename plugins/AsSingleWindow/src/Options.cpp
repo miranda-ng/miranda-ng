@@ -1,4 +1,4 @@
-#include "stdafx.h"
+Ôªø#include "stdafx.h"
 #include "AsSingleWindow.h"
 #include "Options.h"
 #include "resource.h"
@@ -23,29 +23,35 @@ int InitOptions(WPARAM wParam, LPARAM)
 INT_PTR CALLBACK cbOptionsDialog(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg) {
-        case WM_INITDIALOG:
-            dlgProcessInit(hWnd, msg, wParam, lParam);
-            break;
-        case WM_COMMAND:
-            dlgProcessCommand(hWnd, msg, wParam, lParam);
-            break;
-        case WM_NOTIFY:
-            if (((LPNMHDR)lParam)->idFrom == 0) {
-                switch (((LPNMHDR)lParam)->code) {
-                    case PSN_RESET:
-                        optionsLoad();
-                        break;
-                    case PSN_APPLY:
-                        optionsUpdate(hWnd);
-                        optionsSave();
-                        windowReposition(hWnd); // »ÌËˆËËÛÂÏ ÔÂÂ‡Ò˜ÂÚ ÍÓÓ‰ËÌ‡Ú
-                        break;
-                }
+    case WM_INITDIALOG:
+        dlgProcessInit(hWnd, msg, wParam, lParam);
+        break;
+
+    case WM_COMMAND:
+        dlgProcessCommand(hWnd, msg, wParam, lParam);
+        break;
+
+    case WM_NOTIFY:
+        if (((LPNMHDR)lParam)->idFrom == 0)
+        {
+            switch (((LPNMHDR)lParam)->code)
+            {
+            case PSN_RESET:
+                optionsLoad();
+                break;
+
+            case PSN_APPLY:
+                optionsUpdate(hWnd);
+                optionsSave();
+                windowReposition(hWnd); // –Ω–∏—Ü–∏–∏—Ä—É–µ–º –ø–µ—Ä–µ—Ä–∞—Å—á–µ—Ç –∫–æ–æ—Ä–¥–∏–Ω–∞—Ç
+                break;
             }
-            break;
-        case WM_DESTROY:
-            // free up resources
-            break;
+        }
+        break;
+
+    case WM_DESTROY:
+        // free up resources
+        break;
     }
 
     return false;
@@ -82,6 +88,7 @@ void dlgProcessCommand(HWND hWnd, UINT, WPARAM wParam, LPARAM)
                 SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
             }
             break;
+
         case IDC_RADIO_G2_MERGEALL:
         case IDC_RADIO_G2_MERGEONE:
         case IDC_RADIO_G2_DISABLEMERGE:
@@ -122,8 +129,6 @@ void optionsUpdate(HWND hWnd)
 
 void optionsSave()
 {
-	db_get_b(0, SETTINGSNAME, "DrivenWindowPosition", pluginVars.Options.DrivenWindowPos);
-	db_get_b(0, SETTINGSNAME, "WindowsMerging", pluginVars.Options.WindowsMerging);
+	db_set_b(0, SETTINGSNAME, "DrivenWindowPosition", pluginVars.Options.DrivenWindowPos);
+	db_set_b(0, SETTINGSNAME, "WindowsMerging", pluginVars.Options.WindowsMerging);
 }
-
-// end of file

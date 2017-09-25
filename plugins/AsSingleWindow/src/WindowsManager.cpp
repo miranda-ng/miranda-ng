@@ -11,22 +11,24 @@ void sWindowInfo::saveState()
 
     switch (wndPlace.showCmd)
     {
-        case SW_HIDE:
-            this->eState = WINDOW_STATE_HIDDEN;
-            break;
-        case SW_MINIMIZE:
-        case SW_SHOWMINIMIZED:
-        case SW_SHOWMINNOACTIVE:
-            this->eState = WINDOW_STATE_MINIMIZED;
-            break;
-        case SW_MAXIMIZE:
-        case SW_RESTORE:
-        case SW_SHOW:
-        case SW_SHOWNA:
-        case SW_SHOWNOACTIVATE:
-        case SW_SHOWNORMAL:
-            this->eState = WINDOW_STATE_NORMAL;
-            break;
+    case SW_HIDE:
+        this->eState = WINDOW_STATE_HIDDEN;
+        break;
+
+    case SW_MINIMIZE:
+    case SW_SHOWMINIMIZED:
+    case SW_SHOWMINNOACTIVE:
+        this->eState = WINDOW_STATE_MINIMIZED;
+        break;
+
+    case SW_MAXIMIZE:
+    case SW_RESTORE:
+    case SW_SHOW:
+    case SW_SHOWNA:
+    case SW_SHOWNOACTIVATE:
+    case SW_SHOWNORMAL:
+        this->eState = WINDOW_STATE_NORMAL;
+        break;
     }
 }
 
@@ -34,16 +36,17 @@ void sWindowInfo::saveRect()
 {
     switch (this->eState)
     {
-        case WINDOW_STATE_HIDDEN:
-        case WINDOW_STATE_MINIMIZED:
-            WINDOWPLACEMENT wndPlace;
-            wndPlace.length = sizeof(wndPlace);
-            if (GetWindowPlacement(this->hWnd, &wndPlace))
-                this->rLastSavedPosition = wndPlace.rcNormalPosition;
-            break;
-        default:
-            GetWindowRect(this->hWnd, &this->rLastSavedPosition);
-            break;
+    case WINDOW_STATE_HIDDEN:
+    case WINDOW_STATE_MINIMIZED:
+        WINDOWPLACEMENT wndPlace;
+        wndPlace.length = sizeof(wndPlace);
+        if (GetWindowPlacement(this->hWnd, &wndPlace))
+            this->rLastSavedPosition = wndPlace.rcNormalPosition;
+        break;
+
+    default:
+        GetWindowRect(this->hWnd, &this->rLastSavedPosition);
+        break;
     }
 }
 
@@ -131,8 +134,8 @@ void windowAdd(HWND hWnd, bool IsMain)
 
     thisWindowInfo.hWnd = hWnd;
     thisWindowInfo.eState = WINDOW_STATE_NORMAL;
-    thisWindowInfo.pPrevWndProc = (WNDPROC) SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR) wndProcSync);
-    
+    thisWindowInfo.pPrevWndProc = (WNDPROC)SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)wndProcSync);
+
     pluginVars.allWindows.push_back(thisWindowInfo);
 
     if (IsMain)
@@ -161,7 +164,7 @@ void windowListUpdate()
     windowsList::iterator itr = pluginVars.allWindows.begin();
     while (itr != pluginVars.allWindows.end())
         // Не удаляем КЛ в принципе, нет необходимости
-        if (! IsWindow(itr->hWnd) && itr->hWnd != pluginVars.contactListHWND)
+        if (!IsWindow(itr->hWnd) && itr->hWnd != pluginVars.contactListHWND)
         {
             if (itr->hWnd == pluginVars.contactListHWND)
                 pluginVars.contactListHWND = 0;
@@ -172,7 +175,7 @@ void windowListUpdate()
             ++itr;
 
     if (isRemoved)
-        if (! pluginVars.allWindows.empty())
+        if (!pluginVars.allWindows.empty())
             // TODO: разобраться, почему после этого КЛ пропадает в трей
             allWindowsMoveAndSize(pluginVars.contactListHWND);
 }
@@ -199,7 +202,7 @@ void windowReposition(HWND hWnd)
                     break;
                 }
     }
-    else if (! pluginVars.allWindows.empty())
+    else if (!pluginVars.allWindows.empty())
     {
         windowsList::iterator itr = pluginVars.allWindows.begin();
         if (GetWindowRect(itr->hWnd, &prevWindowPos))
@@ -324,27 +327,29 @@ void allWindowsActivation(HWND hWnd)
 
             switch (wndState)
             {
-                // Восстанавливаем все окна и выстраиваем на переднем плане
-                case WINDOW_STATE_NORMAL:
-                    ShowWindow(itr->hWnd, SW_SHOWNA);
-                    ShowWindow(itr->hWnd, SW_RESTORE);
-                    SetWindowPos(itr->hWnd, hWnd, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW | SWP_NOACTIVATE);
-                    itr->eState = WINDOW_STATE_NORMAL;
-                    break;
-                // Прячем окна диалогов, окно КЛ - скрываем
-                case WINDOW_STATE_MINIMIZED:
-                    if (itr->hWnd != pluginVars.contactListHWND)
-                        ShowWindow(itr->hWnd, SW_MINIMIZE);
-                    else
-                        ShowWindow(itr->hWnd, SW_HIDE);
-                    itr->eState = WINDOW_STATE_MINIMIZED;
-                    break;
-                // Прячем все окна
-                case WINDOW_STATE_HIDDEN:
-                case WINDOW_STATE_CLOSED:
+            // Восстанавливаем все окна и выстраиваем на переднем плане
+            case WINDOW_STATE_NORMAL:
+                ShowWindow(itr->hWnd, SW_SHOWNA);
+                ShowWindow(itr->hWnd, SW_RESTORE);
+                SetWindowPos(itr->hWnd, hWnd, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW | SWP_NOACTIVATE);
+                itr->eState = WINDOW_STATE_NORMAL;
+                break;
+
+            // Прячем окна диалогов, окно КЛ - скрываем
+            case WINDOW_STATE_MINIMIZED:
+                if (itr->hWnd != pluginVars.contactListHWND)
+                    ShowWindow(itr->hWnd, SW_MINIMIZE);
+                else
                     ShowWindow(itr->hWnd, SW_HIDE);
-                    itr->eState = WINDOW_STATE_HIDDEN;
-                    break;
+                itr->eState = WINDOW_STATE_MINIMIZED;
+                break;
+
+            // Прячем все окна
+            case WINDOW_STATE_HIDDEN:
+            case WINDOW_STATE_CLOSED:
+                ShowWindow(itr->hWnd, SW_HIDE);
+                itr->eState = WINDOW_STATE_HIDDEN;
+                break;
             }
         }
     }
@@ -356,25 +361,28 @@ void windowChangeState(HWND hWnd, WPARAM cmd, LPARAM)
     {
         switch (cmd)
         {
-            case SC_CLOSE:
-                wndInfo->eState = WINDOW_STATE_CLOSED;
-                windowReposition(hWnd);
-                break;
-            case SC_MAXIMIZE:
-                wndInfo->eState = WINDOW_STATE_MAXIMIZED;
-                windowReposition(hWnd);
-                break;
-            case SC_MINIMIZE:
-                wndInfo->eState = WINDOW_STATE_MINIMIZED;
-                allWindowsActivation(hWnd);
-                break;
-            case SC_RESTORE:
-            case SC_MOVE:
-            case SC_SIZE:
-                wndInfo->eState = WINDOW_STATE_NORMAL;
-                allWindowsActivation(hWnd);
-                windowReposition(hWnd);
-                break;
+        case SC_CLOSE:
+            wndInfo->eState = WINDOW_STATE_CLOSED;
+            windowReposition(hWnd);
+            break;
+
+        case SC_MAXIMIZE:
+            wndInfo->eState = WINDOW_STATE_MAXIMIZED;
+            windowReposition(hWnd);
+            break;
+
+        case SC_MINIMIZE:
+            wndInfo->eState = WINDOW_STATE_MINIMIZED;
+            allWindowsActivation(hWnd);
+            break;
+
+        case SC_RESTORE:
+        case SC_MOVE:
+        case SC_SIZE:
+            wndInfo->eState = WINDOW_STATE_NORMAL;
+            allWindowsActivation(hWnd);
+            windowReposition(hWnd);
+            break;
         }
     }
 }
@@ -386,10 +394,10 @@ void windowChangeState(HWND hWnd, WindowState newState)
         wndInfo->eState = newState;
         switch (newState)
         {
-            case WINDOW_STATE_NORMAL:
-            case WINDOW_STATE_HIDDEN:
-                allWindowsActivation(hWnd);
-                break;
+        case WINDOW_STATE_NORMAL:
+        case WINDOW_STATE_HIDDEN:
+            allWindowsActivation(hWnd);
+            break;
         }
     }
 }
@@ -437,27 +445,32 @@ LRESULT CALLBACK wndProcSync(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
         switch (msg)
         {
-            case WM_SYSCOMMAND:
-                windowChangeState(hWnd, wParam, lParam);
-                break;
-            case WM_SIZE:
-                allWindowsMoveAndSize(hWnd);
-                break;
-            case WM_MOVE:
-                allWindowsMoveAndSize(hWnd);
-                break;
-            case WM_SHOWWINDOW:
-                windowChangeState(hWnd, wParam ? WINDOW_STATE_NORMAL : WINDOW_STATE_HIDDEN);
-                allWindowsMoveAndSize(hWnd);
-                break;
-            case WM_ACTIVATE:
-                if (wParam)
-                    windowActivation(hWnd, (HWND) lParam);
-                break;
-            //case WM_ACTIVATEAPP:
-            //    if (! wParam)
-            //        windowActivation(hWnd, 0);
-            //    break;
+        case WM_SYSCOMMAND:
+            windowChangeState(hWnd, wParam, lParam);
+            break;
+
+        case WM_SIZE:
+            allWindowsMoveAndSize(hWnd);
+            break;
+
+        case WM_MOVE:
+            allWindowsMoveAndSize(hWnd);
+            break;
+
+        case WM_SHOWWINDOW:
+            windowChangeState(hWnd, wParam ? WINDOW_STATE_NORMAL : WINDOW_STATE_HIDDEN);
+            allWindowsMoveAndSize(hWnd);
+            break;
+
+        case WM_ACTIVATE:
+            if (wParam)
+                windowActivation(hWnd, (HWND)lParam);
+            break;
+
+        //case WM_ACTIVATEAPP:
+        //    if (! wParam)
+        //        windowActivation(hWnd, 0);
+        //    break;
         }
 
         pluginSetDone();
@@ -486,5 +499,3 @@ bool calcNewWindowPosition(HWND hWndLeading, HWND hWndDriven, sWndCoords* wndCoo
 
     return true;
 }
-
-// end of file

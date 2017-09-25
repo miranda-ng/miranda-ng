@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef _ASSINGLEWINDOW_H
-#define _ASSINGLEWINDOW_H
-
 #include "stdafx.h"
 #include "WindowsManager.h"
 
@@ -24,10 +21,6 @@ struct sPluginVars {
     HWND contactListHWND;
     windowsList allWindows;
 
-    HANDLE heModulesLoaded;
-    HANDLE heOptionsLoaded;
-    HANDLE heMsgWndEvent;
-
     bool IsUpdateInProgress;
 
     struct {
@@ -41,7 +34,3 @@ extern PLUGININFOEX pluginInfo;
 
 int OnModulesLoaded(WPARAM, LPARAM);
 int MsgWindowEvent(WPARAM, LPARAM);
-
-#endif
-
-// end of file

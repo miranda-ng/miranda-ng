@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef WINDOWSMANAGER_H
-#define WINDOWSMANAGER_H
-
 #include "stdafx.h"
 
 enum WindowState {
@@ -56,7 +53,3 @@ bool calcNewWindowPosition(HWND, HWND, sWndCoords*, eWindowPosition);
 LRESULT CALLBACK wndProcSync(HWND, UINT, WPARAM, LPARAM);
 void allWindowsMoveAndSize(HWND);
 void allWindowsActivation(HWND);
-
-#endif WINDOWSMANAGER_H
-
-// end of file
