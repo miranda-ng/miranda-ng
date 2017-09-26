@@ -10,6 +10,7 @@ Plugins\addcontactplus.dll
 Plugins\advaimg.dll
 Plugins\aim.dll
 Plugins\alarms.dll
+Plugins\assinglewindow.dll
 Plugins\assocmgr.dll
 Plugins\authstate.dll
 Plugins\autorun.dll
