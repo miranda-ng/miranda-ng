@@ -159,8 +159,6 @@ void windowListUpdate()
 	while (itr != pluginVars.allWindows.end())
 		// Не удаляем КЛ в принципе, нет необходимости
 		if (!IsWindow(itr->hWnd) && itr->hWnd != pluginVars.contactListHWND) {
-			if (itr->hWnd == pluginVars.contactListHWND)
-				pluginVars.contactListHWND = 0;
 			itr = pluginVars.allWindows.erase(itr);
 			isRemoved = true;
 		}
