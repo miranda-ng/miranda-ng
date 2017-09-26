@@ -54,7 +54,7 @@ public:
 	
 	virtual MTValue GetValue(void *obj)
 	{
-		MTValue value;
+		MTValue value = { 0 };
 		memcpy(&value, ((char*)obj + offset), sizeof(R));
 		return value;
 	}
@@ -70,7 +70,7 @@ public:
 
 	virtual MTValue GetValue(void*)
 	{
-		MTValue value;
+		MTValue value = { 0 };
 		value.function = function;
 		return value;
 	}
