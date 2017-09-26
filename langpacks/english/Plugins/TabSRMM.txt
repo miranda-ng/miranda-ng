@@ -437,6 +437,7 @@
 [%s enables '%s' status for %s]
 [%s disables '%s' status for %s]
 ;file \plugins\TabSRMM\src\chat_main.cpp
+[Highlight user...]
 [Message Sessions]
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
