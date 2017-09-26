@@ -208,7 +208,7 @@ static void CheckUpdate()
 
 static gc_item tabItems[] =
 {
-	{ L"Highlight user...", 20020, MENU_ITEM }
+	{ LPGENW("Highlight user..."), 20020, MENU_ITEM }
 };
 
 static int OnCreateGCMenu(WPARAM, LPARAM lParam)
