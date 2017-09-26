@@ -2,32 +2,34 @@
 
 #include "stdafx.h"
 
-enum WindowState {
-    WINDOW_STATE_NORMAL,
-    WINDOW_STATE_MINIMIZED,
-    WINDOW_STATE_MAXIMIZED,
-    WINDOW_STATE_HIDDEN,
-    WINDOW_STATE_CLOSED, // not used ?
+enum WindowState
+{
+	WINDOW_STATE_NORMAL,
+	WINDOW_STATE_MINIMIZED,
+	WINDOW_STATE_MAXIMIZED,
+	WINDOW_STATE_HIDDEN,
+	WINDOW_STATE_CLOSED, // not used ?
 };
 
-enum eWindowPosition {
-    WINDOW_POSITION_LEFT = 1,
-    WINDOW_POSITION_RIGHT = 2,
+enum eWindowPosition
+{
+	WINDOW_POSITION_LEFT = 1,
+	WINDOW_POSITION_RIGHT = 2,
 };
 
-struct sWndCoords {
-    LONG x, y, width, height;
+struct sWndCoords
+{
+	LONG x, y, width, height;
 };
 
-struct sWindowInfo {
-    HWND hWnd;
-    WindowState eState;
-    WNDPROC pPrevWndProc;
-    RECT rLastSavedPosition;
+struct sWindowInfo
+{
+	HWND hWnd;
+	WindowState eState;
+	RECT rLastSavedPosition;
 
-    void saveState();
-    void saveRect();
-    //void restoreRect();
+	void saveState();
+	void saveRect();
 };
 
 // critical section tools
@@ -37,10 +39,7 @@ bool pluginIsAlreadyRunning();
 
 // system
 sWindowInfo* windowFind(HWND);
-//windowsList::iterator windowFindItr(HWND);
-//windowsList::reverse_iterator windowFindRevItr(HWND);
 void windowAdd(HWND, bool);
-//void windowRemove(HWND);
 HWND windowGetRoot(HWND);
 void windowListUpdate();
 void windowReposition(HWND);
