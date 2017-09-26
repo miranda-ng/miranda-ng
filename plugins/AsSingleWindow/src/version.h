@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME            "AsSingleWindow"
 #define __FILENAME               "AsSingleWindow.dll"
-#define __DESCRIPTION            "Makes easier windows manipulation. Allows you to move, minimize and activate Miranda's windows as if it were a single window."
+#define __DESCRIPTION            "Allows you to move, minimize and activate Miranda's windows as if it were a single window."
 #define __AUTHOR                 "Aleksey Smyrnov aka Soar"
 #define __AUTHOREMAIL            "i@soar.name"
 #define __AUTHORWEB              "https://miranda-ng.org/p/AsSingleWindow/"
