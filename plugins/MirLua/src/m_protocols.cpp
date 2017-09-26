@@ -25,7 +25,7 @@ static int lua_GetProtocol(lua_State *L)
 
 	PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(szProto);
 	if (pd)
-		MT<PROTOCOLDESCRIPTOR>::Set(L, pd);
+		MT<PROTOCOLDESCRIPTOR>::Apply(L, pd);
 	else
 		lua_pushnil(L);
 
@@ -42,7 +42,7 @@ static int lua_ProtocolIterator(lua_State *L)
 	{
 		lua_pushinteger(L, (i + 1));
 		lua_replace(L, lua_upvalueindex(1));
-		MT<PROTOCOLDESCRIPTOR>::Set(L, protos[i]);
+		MT<PROTOCOLDESCRIPTOR>::Apply(L, protos[i]);
 	}
 	else
 		lua_pushnil(L);
@@ -110,7 +110,7 @@ static int lua_GetAccount(lua_State *L)
 
 	PROTOACCOUNT *pa = Proto_GetAccount(name);
 	if (pa)
-		MT<PROTOACCOUNT>::Set(L, pa);
+		MT<PROTOACCOUNT>::Apply(L, pa);
 	else
 		lua_pushnil(L);
 
@@ -132,7 +132,7 @@ static int lua_AccountIterator(lua_State *L)
 	{
 		lua_pushinteger(L, (i + 1));
 		lua_replace(L, lua_upvalueindex(1));
-		MT<PROTOACCOUNT>::Set(L, accounts[i]);
+		MT<PROTOACCOUNT>::Apply(L, accounts[i]);
 	}
 	else
 		lua_pushnil(L);
@@ -153,8 +153,8 @@ static int lua_Accounts(lua_State *L)
 		break;
 	case LUA_TUSERDATA:
 	{
-		PROTOCOLDESCRIPTOR **pd = (PROTOCOLDESCRIPTOR**)luaL_checkudata(L, 1, MT_PROTOCOLDESCRIPTOR);
-		szProto = (*pd)->szName;
+		PROTOCOLDESCRIPTOR *pd = *(PROTOCOLDESCRIPTOR**)luaL_checkudata(L, 1, MT_PROTOCOLDESCRIPTOR);
+		szProto = pd->szName;
 		break;
 	}
 	default:
@@ -188,8 +188,8 @@ static int lua_CallService(lua_State *L)
 		break;
 	case LUA_TUSERDATA:
 	{
-		PROTOACCOUNT **pa = (PROTOACCOUNT**)luaL_checkudata(L, 1, MT_PROTOACCOUNT);
-		szModule = (*pa)->szModuleName;
+		PROTOACCOUNT *pa = *(PROTOACCOUNT**)luaL_checkudata(L, 1, MT_PROTOACCOUNT);
+		szModule = pa->szModuleName;
 		break;
 	}
 	default:
@@ -266,8 +266,8 @@ LUAMOD_API int luaopen_m_protocols(lua_State *L)
 	MT<CCSDATA>(L, "CCSDATA")
 		.Field(&CCSDATA::hContact, "hContact", LUA_TINTEGER)
 		.Field(&CCSDATA::szProtoService, "Service", LUA_TSTRINGA)
-		.Field([](CCSDATA *ccd) -> MTFieldVal { MTFieldVal tmp; tmp.userdata = (void*)ccd->wParam; return tmp; }, "wParam", LUA_TLIGHTUSERDATA)
-		.Field([](CCSDATA *ccd) -> MTFieldVal { MTFieldVal tmp; tmp.userdata = (void*)ccd->lParam; return tmp; }, "lParam", LUA_TLIGHTUSERDATA);
+		.Field(&CCSDATA::wParam, "wParam", LUA_TLIGHTUSERDATA)
+		.Field(&CCSDATA::lParam, "lParam", LUA_TLIGHTUSERDATA);
 	
 	MT<PROTORECVEVENT>(L, "PROTORECVEVENT")
 		.Field(&PROTORECVEVENT::timestamp, "Timestamp", LUA_TINTEGER)
