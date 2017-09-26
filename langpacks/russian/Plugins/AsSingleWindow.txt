@@ -1,0 +1,29 @@
+﻿#muuid {0F6C73B4-2B2B-711D-FBB6-BB267DFD7208}
+;============================================================
+;  File: AsSingleWindow.dll
+;  Plugin: AsSingleWindow
+;  Version: 0.1.2.1
+;  Authors: Aleksey Smyrnov aka Soar
+;============================================================
+[Customize]
+Тонкая настройка
+[Allows you to move, minimize and activate Miranda's windows as if it were a single window.]
+Перемещение, сворачивание и активация окон программы таким образом, словно это единое окно.
+[Windows moving]
+Перемещение окон
+[Contact list on the left]
+Список контактов слева
+[Contact list on the right]
+Список контактов справа
+[Don't merge windows]
+Не объединять окна
+[At opening one more message window]
+При открытии ещё одного окна сообщений
+[Merge windows in opening order]
+Объединить окна в порядке их открытия
+[Merge only first window]
+Объединить только первое окно
+[Don't merge windows until closing]
+Не объединять окна до закрытия
+[AsSingleWindow]
+Единое окно
