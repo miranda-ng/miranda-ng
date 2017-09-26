@@ -14,8 +14,12 @@ __forceinline UINT_PTR luaM_tomparam(lua_State *L, int idx)
 	case LUA_TLIGHTUSERDATA:
 		return (UINT_PTR)lua_touserdata(L, idx);
 	case LUA_TNUMBER:
-		if (lua_isinteger(L, idx))
-			return (UINT_PTR)lua_tointeger(L, idx);
+	{
+		lua_Integer res = 0;
+		lua_Number num = lua_tonumber(L, idx);
+		if (lua_numbertointeger(num, &res))
+			return res;
+	}
 	}
 	return NULL;
 }

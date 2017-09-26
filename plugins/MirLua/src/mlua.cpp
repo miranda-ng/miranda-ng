@@ -42,6 +42,21 @@ static int mlua_print(lua_State *L)
 			data.AppendFormat("%s", lua_tostring(L, i));
 			break;
 		default:
+			if (lua_getmetatable(L, 1))
+			{
+				if (lua_getfield(L, -1, "__tostring") == LUA_TFUNCTION)
+				{
+					lua_pushvalue(L, 1);
+					if (luaM_pcall(L, 1, 1) == LUA_OK)
+					{
+						data.AppendFormat("%s", lua_tostring(L, -1));
+						lua_pop(L, 2);
+						break;
+					}
+					lua_pop(L, 2);
+				}
+				lua_pop(L, 1);
+			}
 			data.AppendFormat("%s(0x%p)", luaL_typename(L, i), lua_topointer(L, i));
 			break;
 		}

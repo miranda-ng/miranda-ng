@@ -1,5 +1,44 @@
 #include "stdafx.h"
 
+void luaM_pushdbvt(lua_State *L, const DBVARIANT &value)
+{
+	switch (value.type)
+	{
+	case DBVT_BYTE:
+		lua_pushinteger(L, value.bVal);
+		break;
+	case DBVT_WORD:
+		lua_pushinteger(L,value.wVal);
+		break;
+	case DBVT_DWORD:
+		lua_pushnumber(L, value.dVal);
+		break;
+	case DBVT_ASCIIZ:
+		lua_pushstring(L, ptrA(mir_utf8encode(value.pszVal)));
+		break;
+	case DBVT_UTF8:
+		lua_pushstring(L, value.pszVal);
+		break;
+	case DBVT_WCHAR:
+		lua_pushstring(L, ptrA(mir_utf8encodeW(value.pwszVal)));
+		break;
+	case DBVT_BLOB:
+	{
+		lua_createtable(L, value.cpbVal, 0);
+		for (int i = 0; i < value.cpbVal; i++)
+		{
+			lua_pushinteger(L, value.pbVal[i]);
+			lua_rawseti(L, -2, i + 1);
+		}
+	}
+	break;
+	default:
+		lua_pushnil(L);
+	}
+}
+
+/***********************************************/
+
 static int db_FindFirstContact(lua_State *L)
 {
 	ObsoleteMethod(L, "Use Contacts method");
@@ -328,7 +367,7 @@ static int db_AddEvent(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 	
-	DBEVENTINFO dbei = {};
+	DBEVENTINFO dbei;
 	MakeDbEvent(L, dbei);
 	MEVENT hDbEvent = db_event_add(hContact, &dbei);
 
@@ -398,6 +437,17 @@ static int db_Modules(lua_State *L)
 	return 1;
 }
 
+static int db_DeleteModule(lua_State *L)
+{
+	MCONTACT hContact = lua_tointeger(L, 1);
+	const char *szModule = luaL_checkstring(L, 2);
+
+	INT_PTR res = db_delete_module(hContact, szModule);
+	lua_pushboolean(L, !res);
+
+	return 1;
+}
+
 static int SettingsEnumProc(const char* szSetting, LPARAM lParam)
 {
 	if (szSetting)
@@ -429,17 +479,6 @@ static int db_SettingIterator(lua_State *L)
 	return 1;
 }
 
-static int db_DeleteModule(lua_State *L)
-{
-	MCONTACT hContact = lua_tointeger(L, 1);
-	LPCSTR szModule = luaL_checkstring(L, 2);
-
-	INT_PTR res = db_delete_module(hContact, szModule);
-	lua_pushboolean(L, !res);
-
-	return 1;
-}
-
 static int db_Settings(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, 1);
@@ -458,8 +497,8 @@ static int db_Settings(lua_State *L)
 static int db_GetSetting(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, 1);
-	LPCSTR szModule = luaL_checkstring(L, 2);
-	LPCSTR szSetting = luaL_checkstring(L, 3);
+	const char *szModule = luaL_checkstring(L, 2);
+	const char *szSetting = luaL_checkstring(L, 3);
 
 	DBVARIANT dbv;
 	if (db_get(hContact, szModule, szSetting, &dbv))
@@ -468,55 +507,26 @@ static int db_GetSetting(lua_State *L)
 		return 1;
 	}
 
-	switch (dbv.type)
-	{
-	case DBVT_BYTE:
-		lua_pushinteger(L, dbv.bVal);
-		break;
-	case DBVT_WORD:
-		lua_pushinteger(L, dbv.wVal);
-		break;
-	case DBVT_DWORD:
-		lua_pushnumber(L, dbv.dVal);
-		break;
-	case DBVT_ASCIIZ:
-		lua_pushstring(L, ptrA(mir_utf8encode(dbv.pszVal)));
-		break;
-	case DBVT_UTF8:
-		lua_pushstring(L, dbv.pszVal);
-		break;
-	case DBVT_WCHAR:
-		lua_pushstring(L, ptrA(mir_utf8encodeW(dbv.pwszVal)));
-		break;
-	case DBVT_BLOB:
-	{
-		lua_createtable(L, dbv.cpbVal, 0);
-		for (int i = 0; i < dbv.cpbVal; i++)
-		{
-			lua_pushinteger(L, dbv.pbVal[i]);
-			lua_rawseti(L, -2, i + 1);
-		}
-	}
-	break;
-	default:
-		db_free(&dbv);
-		lua_pushvalue(L, 4);
-		return 1;
-	}
-	lua_pushinteger(L, dbv.type);
+	luaM_pushdbvt(L, dbv);
 	db_free(&dbv);
 
-	return 2;
+	if (lua_isnil(L, -1) && !lua_isnoneornil(L, 4))
+	{
+		lua_pop(L, 1);
+		lua_pushvalue(L, 4);
+	}
+
+	return 1;
 }
 
 static int db_WriteSetting(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, 1);
-	LPCSTR szModule = luaL_checkstring(L, 2);
-	LPCSTR szSetting = luaL_checkstring(L, 3);
+	const char *szModule = luaL_checkstring(L, 2);
+	const char *szSetting = luaL_checkstring(L, 3);
 	luaL_checkany(L, 4);
 
-	DBVARIANT dbv = { 0 };
+	DBVARIANT dbv;
 	if (lua_isnoneornil(L, 5))
 	{
 		int type = lua_type(L, 4);
@@ -646,46 +656,12 @@ static luaL_Reg databaseApi[] =
 #define MT_DBCONTACTWRITESETTING "DBCONTACTWRITESETTING"
 
 template <>
-int MT<DBCONTACTWRITESETTING>::Index(lua_State *L, DBCONTACTWRITESETTING *dbcw)
+int MT<DBCONTACTWRITESETTING>::Get(lua_State *L, DBCONTACTWRITESETTING *dbcw)
 {
 	const char *key = luaL_checkstring(L, 2);
 
 	if (mir_strcmpi(key, "Value") == 0)
-	{
-		switch (dbcw->value.type)
-		{
-		case DBVT_BYTE:
-			lua_pushinteger(L, dbcw->value.bVal);
-			break;
-		case DBVT_WORD:
-			lua_pushinteger(L, dbcw->value.wVal);
-			break;
-		case DBVT_DWORD:
-			lua_pushnumber(L, dbcw->value.dVal);
-			break;
-		case DBVT_ASCIIZ:
-			lua_pushstring(L, ptrA(mir_utf8encode(dbcw->value.pszVal)));
-			break;
-		case DBVT_UTF8:
-			lua_pushstring(L, dbcw->value.pszVal);
-			break;
-		case DBVT_WCHAR:
-			lua_pushstring(L, ptrA(mir_utf8encodeW(dbcw->value.pwszVal)));
-			break;
-		case DBVT_BLOB:
-		{
-			lua_createtable(L, dbcw->value.cpbVal, 0);
-			for (int i = 0; i < dbcw->value.cpbVal; i++)
-			{
-				lua_pushinteger(L, dbcw->value.pbVal[i]);
-				lua_rawseti(L, -2, i + 1);
-			}
-		}
-		break;
-		default:
-			lua_pushnil(L);
-		}
-	}
+		luaM_pushdbvt(L, dbcw->value);
 	else
 		lua_pushnil(L);
 
@@ -710,7 +686,7 @@ DBEVENTINFO* MT<DBEVENTINFO>::Init(lua_State *L)
 }
 
 template <>
-int MT<DBEVENTINFO>::Index(lua_State *L, DBEVENTINFO *dbei)
+int MT<DBEVENTINFO>::Get(lua_State *L, DBEVENTINFO *dbei)
 {
 	const char *key = luaL_checkstring(L, 2);
 
