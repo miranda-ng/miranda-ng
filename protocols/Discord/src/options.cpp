@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class CDiscardAccountOptions : public CProtoDlgBase<CDiscordProto>
 {
+	CCtrlCheck chkHideChats;
 	CCtrlEdit m_edGroup, m_edUserName, m_edPassword;
 	ptrW m_wszOldGroup;
 
@@ -30,10 +31,12 @@ public:
 		m_edGroup(this, IDC_GROUP),
 		m_edUserName(this, IDC_USERNAME),
 		m_edPassword(this, IDC_PASSWORD),
+		chkHideChats(this, IDC_HIDECHATS),
 		m_wszOldGroup(mir_wstrdup(ppro->m_wszDefaultGroup))
 	{
 		CreateLink(m_edGroup, ppro->m_wszDefaultGroup);
 		CreateLink(m_edUserName, ppro->m_wszEmail);
+		CreateLink(chkHideChats, ppro->m_bHideGroupchats);
 	}
 
 	virtual void OnInitDialog() override

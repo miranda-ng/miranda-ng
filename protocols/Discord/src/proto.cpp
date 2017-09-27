@@ -43,6 +43,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_wszDefaultGroup(this, DB_KEY_GROUP, DB_KEYVAL_GROUP),
 	m_wszEmail(this, DB_KEY_EMAIL, L""),
+	m_bHideGroupchats(this, DB_KEY_HIDECHATS, true),
 	arGuilds(1, compareGuilds),
 	arMarkReadQueue(1, compareUsers),
 	arOwnMessages(1, compareMessages),

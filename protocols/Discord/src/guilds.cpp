@@ -107,7 +107,7 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 	GCSessionInfoBase *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChannelId, wszChannelName);
 	BuildStatusList(pGuild, wszChannelId);
 
-	Chat_Control(m_szModuleName, wszChannelId, WINDOW_HIDDEN);
+	Chat_Control(m_szModuleName, wszChannelId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
 	Chat_Control(m_szModuleName, wszChannelId, SESSION_ONLINE);
 
 	if (!wszTopic.IsEmpty()) {

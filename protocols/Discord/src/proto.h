@@ -235,7 +235,8 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	// options
 
 	CMOption<wchar_t*> m_wszEmail;        // my own email
-	CMOption<wchar_t*> m_wszDefaultGroup; // clist group to store contacts 
+	CMOption<wchar_t*> m_wszDefaultGroup; // clist group to store contacts
+	CMOption<BYTE>     m_bHideGroupchats; // hide guild chats on startup
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// common data

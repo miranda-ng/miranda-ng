@@ -53,7 +53,9 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_MAIN                ICON                    "discord.ico"
+
 IDI_GROUPCHAT           ICON                    "groupchat.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -73,6 +75,7 @@ BEGIN
     GROUPBOX        "Contacts",IDC_STATIC,7,77,291,88
     LTEXT           "Default group:",IDC_STATIC,17,91,61,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_GROUP,84,89,123,13,ES_AUTOHSCROLL
+    CONTROL         "Hide guild chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,107,248,10
 END
 
 IDD_OPTIONS_ACCMGR DIALOGEX 0, 0, 200, 88
@@ -99,6 +102,44 @@ BEGIN
     EDITTEXT        IDC_NICK,3,18,103,12,0,WS_EX_CLIENTEDGE
 END
 
-#endif    // English (United States) resources
 
 /////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPTIONS_ACCOUNT, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPTIONS_ACCOUNT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
