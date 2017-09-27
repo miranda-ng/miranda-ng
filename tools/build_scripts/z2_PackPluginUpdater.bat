@@ -19,7 +19,7 @@ if  not exist "bin10\Release%tp%" goto EOF
 pushd "bin10\Release%tp%"
 if exist %Errors% del /F /Q %Errors%
 if exist %NoErrors% del /F /Q %NoErrors%
-for /f %%a in (..\..\z2_PackPluginUpater_x%tp%.txt) do (if not exist %%a echo %%a >> %Errors%)
+for /f %%a in (..\..\z2_PackPluginUpdater_x%tp%.txt) do (if not exist %%a echo %%a >> %Errors%)
 
 :COMPRESS
 REM Core
@@ -97,7 +97,6 @@ REM end Icons
 
 REM CRC32
 copy /y /v hashes.txt %Arch%\hash.txt
-copy /y /v ..\CRC32.exe %Arch%
 pushd %Arch%
 
 if /i '%dp%' == 'DEV_N_STABLE' (
@@ -111,7 +110,6 @@ if /i '%dp%' == 'DEV_N_STABLE' (
 for /f "tokens=1,2 delims= " %%i in (hash.txt) do call :WriteLine %%i %%j
 %ZipIt% "hashes.zip" hashes.txt
 del /f /q hash*.txt
-del /f /q CRC32.exe
 popd
 REM end CRC32
 
@@ -125,5 +123,5 @@ goto :eof
 :: END OF WORK
 
 :WriteLine
-for /F "tokens=1,2 delims=:" %%i in ('crc32.exe %~dpn1.zip') do echo %1 %2 %%j >> hashes.txt
+for /F "tokens=1,2 delims=:" %%i in ('%SourceDir%\tools\crc32.exe %~dpn1.zip') do echo %1 %2 %%j >> hashes.txt
 goto :eof

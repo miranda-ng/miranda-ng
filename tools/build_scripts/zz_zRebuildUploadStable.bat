@@ -13,9 +13,9 @@ call z1_ReBuild_Full_Stable.bat 32
 
 call z1_ReBuild_Full_Stable.bat 64
 
-call z2_PackPluginUpater.bat 32
+call z2_PackPluginUpdater.bat 32
 
-call z2_PackPluginUpater.bat 64
+call z2_PackPluginUpdater.bat 64
 
 pushd bin10
 if exist z_Errors*.txt echo There were errors! && pause
