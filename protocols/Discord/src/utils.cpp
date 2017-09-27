@@ -134,12 +134,16 @@ SnowFlake CDiscordProto::getId(MCONTACT hContact, const char *szSetting)
 
 void CDiscordProto::setId(const char *szSetting, SnowFlake iValue)
 {
-	db_set_blob(0, m_szModuleName, szSetting, &iValue, sizeof(iValue));
+	SnowFlake oldVal = getId(szSetting);
+	if (oldVal != iValue)
+		db_set_blob(0, m_szModuleName, szSetting, &iValue, sizeof(iValue));
 }
 
 void CDiscordProto::setId(MCONTACT hContact, const char *szSetting, SnowFlake iValue)
 {
-	db_set_blob(hContact, m_szModuleName, szSetting, &iValue, sizeof(iValue));
+	SnowFlake oldVal = getId(hContact, szSetting);
+	if (oldVal != iValue)
+		db_set_blob(hContact, m_szModuleName, szSetting, &iValue, sizeof(iValue));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
