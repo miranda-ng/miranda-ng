@@ -54,7 +54,7 @@ public:
 	
 	virtual MTValue GetValue(void *obj)
 	{
-		MTValue value = { 0 };
+		MTValue value = { };
 		memcpy(&value, ((char*)obj + offset), sizeof(R));
 		return value;
 	}
@@ -70,7 +70,7 @@ public:
 
 	virtual MTValue GetValue(void*)
 	{
-		MTValue value = { 0 };
+		MTValue value = { };
 		value.function = function;
 		return value;
 	}
@@ -86,11 +86,8 @@ public:
 	CMTFieldLambda(const char *name, int type, decltype(lambda) lambda)
 		: CMTField(name, type), lambda(lambda), type(type) {}
 
-	virtual MTValue GetValue(void *obj)
-	{
-		CMTValue result = { type };
-		result.Value = lambda((Obj*)obj);
-		return result;
+	virtual MTValue GetValue(void *obj) {
+		return lambda((Obj*)obj);
 	}
 };
 
