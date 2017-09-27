@@ -1509,10 +1509,10 @@ TagLib::~TagLib() {
 }
 
 
-TagLib& 
-TagLib::instance() {
-	static TagLib s;
-	return s;
+static TagLib g_hInstance;
+
+TagLib& TagLib::instance() {
+	return g_hInstance;
 }
 
 const TagInfo* 
@@ -1615,4 +1615,3 @@ TagLib::getFreeImageModel(MDMODEL model) {
 
 	return FIMD_NODATA;
 }
-

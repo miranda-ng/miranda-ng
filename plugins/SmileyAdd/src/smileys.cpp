@@ -1052,6 +1052,7 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 	}
 }
 
+static const CMStringW testString(L"Test String");
 
 SmileyLookup::SmileyLookup(const CMStringW &str, const bool regexs, const int ind, const CMStringW &smpt)
 {
@@ -1059,7 +1060,6 @@ SmileyLookup::SmileyLookup(const CMStringW &str, const bool regexs, const int in
 
 	m_ind = ind;
 	if (regexs) {
-		static const CMStringW testString(L"Test String");
 		m_pattern = _TPattern::compile(str);
 		m_valid = m_pattern != NULL;
 		if (m_valid) {

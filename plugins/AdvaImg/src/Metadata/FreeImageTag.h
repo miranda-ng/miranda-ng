@@ -382,13 +382,6 @@ private:
 	TABLEMAP _table_map;
 
 private:
-	/**
-	Constructor (private)<br>
-	This is where the tag info tables are initialized.
-	@see addMetadataModel
-	*/
-	TagLib();
-
 	/// Assignement operator (disabled)
 	void operator=(TagLib&);
 
@@ -404,6 +397,12 @@ private:
 	BOOL addMetadataModel(MDMODEL md_model, TagInfo *tag_table);
 
 public:
+	/**
+	Constructor (private)<br>
+	This is where the tag info tables are initialized.
+	@see addMetadataModel
+	*/
+	TagLib();
 	/// Destructor
 	~TagLib();
 
