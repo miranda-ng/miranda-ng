@@ -299,7 +299,7 @@ static wchar_t *parseXor(ARGUMENTSINFO *ai)
 void registerLogicTokens()
 {
 	registerIntToken(AND, parseAnd, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions") "\t(x,y, ...)\t" LPGEN("performs logical AND (x && y && ...)"));
-	registerIntToken(STR_FALSE, parseFalse, TRF_FIELD, LPGEN("Logical Expressions") "\t" LPGEN("Boolean FALSE"));
+	registerIntToken(STR_FALSE, parseFalse, TRF_FIELD, LPGEN("Logical Expressions") "\t" LPGEN("boolean FALSE"));
 	registerIntToken(FOR, parseFor, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions") "\t(w,x,y,z)\t" LPGEN("performs w, then shows z and performs y while x is TRUE"));
 	registerIntToken(IF, parseIf, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions") "\t(x,y,z)\t" LPGEN("shows y if x is TRUE, otherwise it shows z"));
 	registerIntToken(IF2, parseIf2, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions") "\t(x,y)\t" LPGEN("shows x if x is TRUE, otherwise it shows y (if(x,x,y))"));
@@ -312,6 +312,6 @@ void registerLogicTokens()
 	registerIntToken(LONGER, parseLonger, TRF_FUNCTION, LPGEN("Logical Expressions") "\t(x,y)\t" LPGEN("TRUE if x is longer than y"));
 	registerIntToken(NOT, parseNot, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions") "\t(x)\t" LPGEN("performs logical NOT (!x)"));
 	registerIntToken(OR, parseOr, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions") "\t(x,y,...)\t" LPGEN("performs logical OR (x || y || ...)"));
-	registerIntToken(STR_TRUE, parseTrue, TRF_FIELD, LPGEN("Logical Expressions") "\t" LPGEN("Boolean TRUE"));
+	registerIntToken(STR_TRUE, parseTrue, TRF_FIELD, LPGEN("Logical Expressions") "\t" LPGEN("boolean TRUE"));
 	registerIntToken(XOR, parseXor, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions") "\t(x,y)\t" LPGEN("performs logical XOR (x ^ y)"));
 }
