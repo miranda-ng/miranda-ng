@@ -35,26 +35,26 @@ int HookEventLuaStateParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param
 	return lua_tointeger(L, -1);
 }
 
-int HookEventScriptParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
+int HookEventEnvParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	CMLuaScript *script = (CMLuaScript*)obj;
+	CMLuaEnviroment *env = (CMLuaEnviroment*)obj;
 
 	int ref = param;
-	lua_rawgeti(script->L, LUA_REGISTRYINDEX, ref);
+	lua_rawgeti(env->L, LUA_REGISTRYINDEX, ref);
 
 	if (wParam)
-		lua_pushlightuserdata(script->L, (void*)wParam);
+		lua_pushlightuserdata(env->L, (void*)wParam);
 	else
-		lua_pushnil(script->L);
+		lua_pushnil(env->L);
 
 	if (lParam)
-		lua_pushlightuserdata(script->L, (void*)lParam);
+		lua_pushlightuserdata(env->L, (void*)lParam);
 	else
-		lua_pushnil(script->L);
+		lua_pushnil(env->L);
 
-	luaM_pcall(script->L, 2, 1);
+	luaM_pcall(env->L, 2, 1);
 
-	return lua_tointeger(script->L, -1);
+	return lua_tointeger(env->L, -1);
 }
 
 static int core_HookEvent(lua_State *L)
@@ -66,9 +66,9 @@ static int core_HookEvent(lua_State *L)
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
 	HANDLE res = NULL;
-	CMLuaScript *script = CMLuaScript::GetScriptFromEnviroment(L);
-	if (script)
-		res = HookEventObjParam(name, HookEventScriptParam, script, ref);
+	CMLuaEnviroment *env = CMLuaEnviroment::GetEnviroment(L);
+	if (env)
+		res = HookEventObjParam(name, HookEventEnvParam, env, ref);
 	else
 		res = HookEventObjParam(name, HookEventLuaStateParam, L, ref);
 	if (res == NULL)
@@ -95,9 +95,9 @@ static int core_HookTemporaryEvent(lua_State *L)
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
 	HANDLE res = NULL;
-	CMLuaScript *script = CMLuaScript::GetScriptFromEnviroment(L);
-	if (script)
-		res = HookEventObjParam(name, HookEventScriptParam, script, ref);
+	CMLuaEnviroment *env = CMLuaEnviroment::GetEnviroment(L);
+	if (env)
+		res = HookEventObjParam(name, HookEventEnvParam, env, ref);
 	else
 		res = HookEventObjParam(name, HookEventLuaStateParam, L, ref);
 	// event does not exists, call hook immideatelly
@@ -106,7 +106,7 @@ static int core_HookTemporaryEvent(lua_State *L)
 		lua_pushnil(L);
 		lua_pushnil(L);
 		luaM_pcall(L, 2, 1);
-		return lua_tointeger(script->L, -1);
+		return lua_tointeger(env->L, -1);
 	}
 
 	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
@@ -169,19 +169,19 @@ INT_PTR CreateServiceFunctionLuaStateParam(void *obj, WPARAM wParam, LPARAM lPar
 	return res;
 }
 
-INT_PTR CreateServiceFunctionScriptParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
+INT_PTR CreateServiceFunctionEnvParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	CMLuaScript *script = (CMLuaScript*)obj;
+	CMLuaEnviroment *env = (CMLuaEnviroment*)obj;
 
 	int ref = param;
-	lua_rawgeti(script->L, LUA_REGISTRYINDEX, ref);
+	lua_rawgeti(env->L, LUA_REGISTRYINDEX, ref);
 
-	lua_pushlightuserdata(script->L, (void*)wParam);
-	lua_pushlightuserdata(script->L, (void*)lParam);
-	luaM_pcall(script->L, 2, 1);
+	lua_pushlightuserdata(env->L, (void*)wParam);
+	lua_pushlightuserdata(env->L, (void*)lParam);
+	luaM_pcall(env->L, 2, 1);
 
-	INT_PTR res = lua_tointeger(script->L, 1);
-	lua_pushinteger(script->L, res);
+	INT_PTR res = lua_tointeger(env->L, 1);
+	lua_pushinteger(env->L, res);
 
 	return res;
 }
@@ -195,9 +195,9 @@ static int core_CreateServiceFunction(lua_State *L)
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
 	HANDLE res = NULL;
-	CMLuaScript *script = CMLuaScript::GetScriptFromEnviroment(L);
-	if (script)
-		res = CreateServiceFunctionObjParam(name, CreateServiceFunctionScriptParam, script, ref);
+	CMLuaEnviroment *env = CMLuaEnviroment::GetEnviroment(L);
+	if (env)
+		res = CreateServiceFunctionObjParam(name, CreateServiceFunctionEnvParam, env, ref);
 	else
 		res = CreateServiceFunctionObjParam(name, CreateServiceFunctionLuaStateParam, L, ref);
 	if (!res)

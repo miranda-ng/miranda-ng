@@ -1,11 +1,9 @@
 #ifndef _LUA_SCRIPT_H_
 #define _LUA_SCRIPT_H_
 
-class CMLuaScript
+class CMLuaScript : public CMLuaEnviroment
 {
 public:
-	lua_State *L;
-
 	enum Status
 	{
 		None,
@@ -14,7 +12,6 @@ public:
 	};
 
 private:
-	int id;
 	int unloadRef;
 	char *moduleName;
 	wchar_t *fileName;
@@ -24,11 +21,6 @@ private:
 public:
 	CMLuaScript(lua_State *L, const wchar_t *path);
 	~CMLuaScript();
-
-	static CMLuaScript* GetScriptFromEnviroment(lua_State *L);
-	static int GetScriptIdFromEnviroment(lua_State *L);
-
-	int GetId() const;
 
 	const char* GetModuleName() const;
 

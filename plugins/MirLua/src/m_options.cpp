@@ -44,7 +44,7 @@ public:
 void MakeOptionDialogPage(lua_State *L, OPTIONSDIALOGPAGE &odp)
 {
 	odp.hInstance = g_hInstance;
-	odp.hLangpack = CMLuaScript::GetScriptIdFromEnviroment(L);
+	odp.hLangpack = CMLuaEnviroment::GetEnviromentId(L);
 
 	lua_getfield(L, -1, "Flags");
 	odp.flags = luaL_optinteger(L, -1, ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE);

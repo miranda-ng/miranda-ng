@@ -3,7 +3,7 @@
 #define MT_SCRIPT "SCRIPT"
 
 CMLuaScript::CMLuaScript(lua_State *L, const wchar_t *path)
-	: L(L), status(None), unloadRef(LUA_NOREF)
+	: CMLuaEnviroment(L)
 {
 	mir_wstrcpy(filePath, path);
 
@@ -16,40 +16,11 @@ CMLuaScript::CMLuaScript(lua_State *L, const wchar_t *path)
 	mir_wstrncpy(name, fileName, length);
 
 	moduleName = mir_utf8encodeW(name);
-
-	MUUID muidLast = MIID_LAST;
-	id = GetPluginLangId(muidLast, 0);
 }
 
 CMLuaScript::~CMLuaScript()
 {
 	mir_free(moduleName);
-}
-
-CMLuaScript* CMLuaScript::GetScriptFromEnviroment(lua_State *L)
-{
-	if (!luaM_getenv(L))
-		return NULL;
-
-	lua_rawgeti(L, -1, NULL);
-	CMLuaScript *script = (CMLuaScript*)lua_touserdata(L, -1);
-	lua_pop(L, 3);
-
-	return script;
-}
-
-int CMLuaScript::GetScriptIdFromEnviroment(lua_State *L)
-{
-	CMLuaScript *script = GetScriptFromEnviroment(L);
-	if (script != NULL)
-		return script->GetId();
-
-	return hMLuaLangpack;
-}
-
-int CMLuaScript::GetId() const
-{
-	return id;
 }
 
 const char* CMLuaScript::GetModuleName() const
@@ -82,20 +53,7 @@ bool CMLuaScript::Load()
 		return false;
 	}
 
-	lua_createtable(L, 1, 1);
-	lua_pushlightuserdata(L, this);
-	lua_rawseti(L, -2, NULL);
-	lua_pushvalue(L, -1);
-	lua_setfield(L, -2, "_G");
-	lua_createtable(L, 0, 2);
-	lua_pushliteral(L, MT_SCRIPT);
-	lua_setfield(L, -2, "__metatable");
-	lua_getglobal(L, "_G");
-	lua_setfield(L, -2, "__index");
-	lua_setmetatable(L, -2);
-	lua_setupvalue(L, -2, 1);
-
-	if (luaM_pcall(L, 0, 1))
+	if (!CMLuaEnviroment::Load(-1))
 		return false;
 
 	status = Loaded;
@@ -154,11 +112,5 @@ void CMLuaScript::Unload()
 	lua_setfield(L, -2, moduleName);
 	lua_pop(L, 1);
 
-	KillModuleIcons(id);
-	KillModuleSounds(id);
-	KillModuleMenus(id);
-	KillModuleHotkeys(id);
-
-	KillObjectEventHooks(this);
-	KillObjectServices(this);
+	CMLuaEnviroment::Unload();
 }

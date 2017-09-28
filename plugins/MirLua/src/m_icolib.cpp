@@ -67,13 +67,12 @@ static int lua_AddIcon(lua_State *L)
 			GetModuleFileName(g_hInstance, sid.defaultFile.w, MAX_PATH);
 		}
 	}
-	else if(lua_type(L, 1) == LUA_TTABLE)
+	else if (lua_type(L, 1) == LUA_TTABLE)
 		MakeSKINICONDESC(L, sid);
 	else
 		luaL_argerror(L, 1, luaL_typename(L, 1));
 
-	int hScriptLangpack = CMLuaScript::GetScriptIdFromEnviroment(L);
-
+	int hScriptLangpack = CMLuaEnviroment::GetEnviromentId(L);
 	HANDLE res = IcoLib_AddIcon(&sid, hScriptLangpack);
 	lua_pushlightuserdata(L, res);
 
@@ -87,7 +86,6 @@ static int lua_AddIcon(lua_State *L)
 
 static int lua_GetIcon(lua_State *L)
 {
-	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	bool big = luaM_toboolean(L, 2);
 
 	HICON hIcon = NULL;
@@ -142,6 +140,7 @@ static luaL_Reg icolibApi[] =
 {
 	{ "AddIcon", lua_AddIcon },
 	{ "GetIcon", lua_GetIcon },
+	{ "GetHandle", lua_GetIconHandle },
 	{ "GetIconHandle", lua_GetIconHandle },
 	{ "RemoveIcon", lua_RemoveIcon },
 
