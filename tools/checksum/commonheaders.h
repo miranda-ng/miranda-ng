@@ -2,13 +2,15 @@
 #define WINVER 0x0700
 #define _WIN32_WINNT 0x0700
 
+#define _UNICODE
+#define UNICODE
+#include <tchar.h>
 
 #include <io.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
-#include <tchar.h>
 
 // #include <m_core.h>
 
