@@ -48,7 +48,7 @@ if "%comp%" == "bin10" (
 )
 
 call pascal%tp%.bat
-pushd ..\plugins\NotifyAnything\SendLog
+pushd ..\plugins\NotifyAnything\SendLog "%comp%"
 call compile%tp%.bat
 popd
 
