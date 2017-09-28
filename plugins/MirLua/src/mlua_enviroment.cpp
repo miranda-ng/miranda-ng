@@ -9,6 +9,17 @@ CMLuaEnviroment::CMLuaEnviroment(lua_State *L)
 	id = GetPluginLangId(muidLast, 0);
 }
 
+CMLuaEnviroment::~CMLuaEnviroment()
+{
+	KillModuleIcons(id);
+	KillModuleSounds(id);
+	KillModuleMenus(id);
+	KillModuleHotkeys(id);
+
+	KillObjectEventHooks(this);
+	KillObjectServices(this);
+}
+
 CMLuaEnviroment* CMLuaEnviroment::GetEnviroment(lua_State *L)
 {
 	if (!luaM_getenv(L))
@@ -49,23 +60,12 @@ void CMLuaEnviroment::CreateEnviromentTable()
 	lua_setmetatable(L, -2);
 }
 
-bool CMLuaEnviroment::Load(int ind)
+bool CMLuaEnviroment::Load()
 {
-	luaL_checktype(L, ind, LUA_TFUNCTION);
+	luaL_checktype(L, -1, LUA_TFUNCTION);
 
 	CreateEnviromentTable();
 	lua_setupvalue(L, -2, 1);
 
-	return luaM_pcall(L, 0, 1) == LUA_OK;
-}
-
-void CMLuaEnviroment::Unload()
-{
-	KillModuleIcons(id);
-	KillModuleSounds(id);
-	KillModuleMenus(id);
-	KillModuleHotkeys(id);
-
-	KillObjectEventHooks(this);
-	KillObjectServices(this);
+	return lua_pcall(L, 0, 1, 0) == LUA_OK;
 }

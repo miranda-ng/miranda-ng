@@ -3,7 +3,7 @@
 #define MT_SCRIPT "SCRIPT"
 
 CMLuaScript::CMLuaScript(lua_State *L, const wchar_t *path)
-	: CMLuaEnviroment(L)
+	: CMLuaEnviroment(L), status(None), unloadRef(LUA_NOREF)
 {
 	mir_wstrcpy(filePath, path);
 
@@ -18,9 +18,33 @@ CMLuaScript::CMLuaScript(lua_State *L, const wchar_t *path)
 	moduleName = mir_utf8encodeW(name);
 }
 
+CMLuaScript::CMLuaScript(const CMLuaScript &script)
+	: CMLuaEnviroment(L), status(None), unloadRef(LUA_NOREF)
+{
+	mir_wstrcpy(filePath, script.filePath);
+	fileName = mir_wstrdup(script.fileName);
+	moduleName = mir_strdup(script.moduleName);
+}
+
 CMLuaScript::~CMLuaScript()
 {
+	if (status == Loaded)
+	{
+		lua_rawgeti(L, LUA_REGISTRYINDEX, unloadRef);
+		if (lua_isfunction(L, -1))
+			luaM_pcall(L);
+		lua_pushnil(L);
+		lua_rawsetp(L, LUA_REGISTRYINDEX, this);
+		status = None;
+	}
+
+	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_LOADED");
+	lua_pushnil(L);
+	lua_setfield(L, -2, moduleName);
+	lua_pop(L, 1);
+
 	mir_free(moduleName);
+	mir_free(fileName);
 }
 
 const char* CMLuaScript::GetModuleName() const
@@ -38,7 +62,7 @@ const wchar_t* CMLuaScript::GetFileName() const
 	return fileName;
 }
 
-const CMLuaScript::Status CMLuaScript::GetStatus() const
+CMLuaScript::Status CMLuaScript::GetStatus() const
 {
 	return status;
 }
@@ -47,14 +71,15 @@ bool CMLuaScript::Load()
 {
 	status = Failed;
 
-	if (luaL_loadfile(L, _T2A(filePath)))
-	{
-		Log(lua_tostring(L, -1));
+	if (luaL_loadfile(L, _T2A(filePath))) {
+		ReportError(L);
 		return false;
 	}
 
-	if (!CMLuaEnviroment::Load(-1))
+	if (!CMLuaEnviroment::Load()) {
+		ReportError(L);
 		return false;
+	}
 
 	status = Loaded;
 
@@ -63,8 +88,7 @@ bool CMLuaScript::Load()
 
 	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_LOADED");
 	lua_getfield(L, -1, moduleName);
-	if (!lua_toboolean(L, -1))
-	{
+	if (!lua_toboolean(L, -1)) {
 		lua_pop(L, 1);
 		lua_pushvalue(L, -2);
 		lua_setfield(L, -2, moduleName);
@@ -83,8 +107,7 @@ bool CMLuaScript::Load()
 		lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Unload");
-	if (lua_isfunction(L, -1))
-	{
+	if (lua_isfunction(L, -1)) {
 		lua_pushvalue(L, -1);
 		unloadRef = luaL_ref(L, LUA_REGISTRYINDEX);
 	}
@@ -93,24 +116,4 @@ bool CMLuaScript::Load()
 	lua_pop(L, 1);
 
 	return true;
-}
-
-void CMLuaScript::Unload()
-{
-	if (status == Loaded)
-	{
-		lua_rawgeti(L, LUA_REGISTRYINDEX, unloadRef);
-		if (lua_isfunction(L, -1))
-			luaM_pcall(L);
-		lua_pushnil(L);
-		lua_rawsetp(L, LUA_REGISTRYINDEX, this);
-		status = None;
-	}
-
-	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_LOADED");
-	lua_pushnil(L);
-	lua_setfield(L, -2, moduleName);
-	lua_pop(L, 1);
-
-	CMLuaEnviroment::Unload();
 }

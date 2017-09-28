@@ -3,6 +3,7 @@
 
 #include <windows.h>
 #include <time.h>
+#include <wchar.h>
 
 #include <newpluginapi.h>
 #include <m_core.h>
@@ -91,6 +92,10 @@ LUAMOD_API int (luaopen_m_sounds)(lua_State *L);
 #define MLUA_SRMM	"m_srmm"
 LUAMOD_API int (luaopen_m_srmm)(lua_State *L);
 
+/* services */
+
+INT_PTR Call(WPARAM wParam, LPARAM lParam);
+
 /* utils */
 
 extern HNETLIBUSER hNetlib;
@@ -100,6 +105,8 @@ void Log(const wchar_t *format, ...);
 void ShowNotification(const char *caption, const char *message, int flags = 0, MCONTACT hContact = NULL);
 
 void ObsoleteMethod(lua_State *L, const char *message);
+
+void ReportError(lua_State *L);
 
 int luaM_atpanic(lua_State *L);
 int luaM_pcall(lua_State *L, int n = 0, int r = 0);

@@ -54,6 +54,21 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
+INT_PTR Call(WPARAM wParam, LPARAM lParam)
+{
+	return g_mLua->Call(wParam, lParam);
+}
+
+INT_PTR Exec(WPARAM wParam, LPARAM lParam)
+{
+	return g_mLua->Exec(wParam, lParam);
+}
+
+INT_PTR Eval(WPARAM wParam, LPARAM lParam)
+{
+	return g_mLua->Eval(wParam, lParam);
+}
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -74,6 +89,10 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	hRecvMessage = CreateHookableEvent(MODULE PSR_MESSAGE);
 	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, FilterRecvMessage);
+
+	CreateServiceFunction(MS_LUA_CALL, Call);
+	CreateServiceFunction(MS_LUA_EXEC, Exec);
+	CreateServiceFunction(MS_LUA_EVAL, Eval);
 
 	return 0;
 }

@@ -121,7 +121,7 @@ void CMLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 	evt->treeviewctrl->GetItem(&lvi);
 	lvi.iSubItem = evt->nmlvia->iSubItem;
 
-	CMLuaScript* script = (CMLuaScript*)lvi.lParam;
+	CMLuaScript *script = (CMLuaScript*)lvi.lParam;
 
 	switch (lvi.iSubItem)
 	{
@@ -130,9 +130,11 @@ void CMLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 		break;
 
 	case 2:
-		//m_scripts.DeleteItem(evt->nmlvia->iItem);
-		script->Unload();
+		lvi.lParam = (LPARAM)new CMLuaScript(*script);
+		delete script;
+		script = (CMLuaScript*)lvi.lParam;
 		script->Load();
+
 		lvi.mask = LVIF_IMAGE;
 		lvi.iSubItem = 0;
 		lvi.iImage = script->GetStatus() - 1;

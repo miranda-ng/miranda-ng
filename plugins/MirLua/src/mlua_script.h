@@ -12,14 +12,16 @@ public:
 	};
 
 private:
+	Status status;
 	int unloadRef;
+
 	char *moduleName;
 	wchar_t *fileName;
 	wchar_t filePath[MAX_PATH];
-	Status status;
 
 public:
 	CMLuaScript(lua_State *L, const wchar_t *path);
+	CMLuaScript(const CMLuaScript &script);
 	~CMLuaScript();
 
 	const char* GetModuleName() const;
@@ -27,10 +29,9 @@ public:
 	const wchar_t* GetFilePath() const;
 	const wchar_t* GetFileName() const;
 
-	const Status GetStatus() const;
+	Status GetStatus() const;
 
 	bool Load();
-	void Unload();
 };
 
 #endif //_LUA_SCRIPT_H_
