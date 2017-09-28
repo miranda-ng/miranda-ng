@@ -9,15 +9,18 @@ if /i '%tp%' == '64' set VcURL=http://download.microsoft.com/download/A/8/0/A807
 if /i '%tp%' == '32' set CompileString=..\Tools\InnoSetup5\ISCC.exe /Dptx86 /DAppVer=%MirVer% "MirandaNG.iss" 
 if /i '%tp%' == '64' set CompileString=..\Tools\InnoSetup5\ISCC.exe /DAppVer=%MirVer% "MirandaNG.iss"
 
+set comp=%2
+if "%comp%"=="" (echo "please specify target compiler folder!" && pause && goto :EOF)
+
 call a_SetVar%tp%.bat
 if not exist %ArchDistr% mkdir %ArchDistr%
 
-pushd "bin10\Symbols%tp%"
+pushd "%comp%\Symbols%tp%"
 %CompressIt% a -mx=9 "miranda-ng-debug-symbols_pdb%bit%.7z" *.pdb .\Plugins\*.pdb .\Core\*.pdb .\Libs\*.pdb
 move /Y miranda-ng-debug*.7z %ArchDistr%
 popd
 
-pushd "bin10\Release%tp%"
+pushd "%comp%\Release%tp%"
 
 if exist %ArchDistr%\miranda-ng-v0.9*%bit%.7z del /F /Q %ArchDistr%\miranda-ng-v0.9*%bit%.7z
 if exist %ArchDistr%\miranda-ng-v0.9*%bit%.exe del /F /Q %ArchDistr%\miranda-ng-v0.9*%bit%.exe

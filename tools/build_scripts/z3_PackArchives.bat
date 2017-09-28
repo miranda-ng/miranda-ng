@@ -1,12 +1,15 @@
 set tp=%1
-if  "%tp%"=="" (echo "please specify target platform 32 or 64!"&&pause&&goto :EOF)
+if "%tp%"=="" (echo "please specify target platform 32 or 64!" && pause && goto :EOF)
 if /i '%tp%' == '64' set bit=_x64
+
+set comp=%2
+if "%comp%"=="" (echo "please specify target compiler folder!" && pause && goto :EOF)
 
 call a_SetVar%tp%.bat
 
 if not exist %ArchDistr% mkdir %ArchDistr%
 
-cd bin10
+cd %comp%
 rem for /F "tokens=2" %%x in (..\build\build.no) do set ver2=%%x
 rem for /F "tokens=3" %%y in (..\build\build.no) do set ver3=%%y
 
@@ -15,7 +18,7 @@ cd Symbols%tp%
 move /Y miranda-ng-debug*.7z %ArchDistr%
 cd ../..
 
-pushd "bin10\Release%tp%"
+pushd "%comp%\Release%tp%"
 
 rem if exist %AutoCompile%\miranda-ng-v0.9*-alpha-latest%bit%.7z del /F /Q %AutoCompile%\miranda-ng-v0.9*-alpha-latest%bit%.7z
 %CompressIt% a -r -mx=9 "miranda-ng-alpha-latest%bit%.7z" Miranda%tp%.exe -i@..\..\z3_PackArchives.txt

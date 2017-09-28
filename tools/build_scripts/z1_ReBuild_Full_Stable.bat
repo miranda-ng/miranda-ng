@@ -7,11 +7,14 @@ if /i '%tp%' == '32' (
   set ptr=X64
 )
 
+set comp=%2
+if "%comp%"=="" (echo "please specify target compiler folder!" && pause && goto :EOF)
+
 call a_SetVar%tp%.bat
 call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat"
 call svn_stable_ver.bat
 
-pushd bin10
+pushd %comp%
 if not exist Logs mkdir Logs
 
 if /i '%tp%' == '32' (
@@ -50,22 +53,22 @@ del /F /S /Q "Release%tp%\*.pdb" >> nul
 md "Release%tp%\Languages"
 
 pushd "..\langpacks\tool"
-LangpackSuite.exe \q \prussian \n..\..\bin10\Release%tp%\Languages\langpack_russian.txt
-LangpackSuite.exe \q \pukrainian \n..\..\bin10\Release%tp%\Languages\langpack_ukrainian.txt
+LangpackSuite.exe \q \prussian \n..\..\%comp%\Release%tp%\Languages\langpack_russian.txt
+LangpackSuite.exe \q \pukrainian \n..\..\%comp%\Release%tp%\Languages\langpack_ukrainian.txt
 popd
 
 pushd "..\tools\lpgen"
-cscript /nologo translate.js /sourcelang:"belarusian" /release:"..\..\bin10\Release%tp%\Languages\langpack_belarusian.txt"
-cscript /nologo translate.js /sourcelang:"bulgarian" /release:"..\..\bin10\Release%tp%\langpack_bulgarian_nodupes.txt"
-copy /B "..\..\bin10\Release%tp%\langpack_bulgarian_nodupes.txt"+"..\..\langpacks\bulgarian\=DUPES=.txt" ..\..\bin10\Release%tp%\Languages\langpack_bulgarian.txt
-cscript /nologo translate.js /sourcelang:"czech" /release:"..\..\bin10\Release%tp%\Languages\langpack_czech.txt"
-cscript /nologo translate.js /sourcelang:"english_gb" /release:"..\..\bin10\Release%tp%\Languages\langpack_english_gb.txt"
-cscript /nologo translate.js /sourcelang:"french" /release:"..\..\bin10\Release%tp%\Languages\langpack_french.txt"
-cscript /nologo translate.js /sourcelang:"german" /release:"..\..\bin10\Release%tp%\Languages\langpack_german.txt"
-cscript /nologo translate.js /sourcelang:"polish" /release:"..\..\bin10\Release%tp%\Languages\langpack_polish.txt"
-cscript /nologo translate.js /sourcelang:"serbian" /release:"..\..\bin10\Release%tp%\Languages\langpack_serbian.txt"
-cscript /nologo translate.js /sourcelang:"spanish" /release:"..\..\bin10\Release%tp%\Languages\langpack_spanish.txt"
-del /f /q ..\..\bin10\Release%tp%\*_nodupes.txt
+cscript /nologo translate.js /sourcelang:"belarusian" /release:"..\..\%comp%\Release%tp%\Languages\langpack_belarusian.txt"
+cscript /nologo translate.js /sourcelang:"bulgarian" /release:"..\..\%comp%\Release%tp%\langpack_bulgarian_nodupes.txt"
+copy /B "..\..\%comp%\Release%tp%\langpack_bulgarian_nodupes.txt"+"..\..\langpacks\bulgarian\=DUPES=.txt" ..\..\%comp%\Release%tp%\Languages\langpack_bulgarian.txt
+cscript /nologo translate.js /sourcelang:"czech" /release:"..\..\%comp%\Release%tp%\Languages\langpack_czech.txt"
+cscript /nologo translate.js /sourcelang:"english_gb" /release:"..\..\%comp%\Release%tp%\Languages\langpack_english_gb.txt"
+cscript /nologo translate.js /sourcelang:"french" /release:"..\..\%comp%\Release%tp%\Languages\langpack_french.txt"
+cscript /nologo translate.js /sourcelang:"german" /release:"..\..\%comp%\Release%tp%\Languages\langpack_german.txt"
+cscript /nologo translate.js /sourcelang:"polish" /release:"..\..\%comp%\Release%tp%\Languages\langpack_polish.txt"
+cscript /nologo translate.js /sourcelang:"serbian" /release:"..\..\%comp%\Release%tp%\Languages\langpack_serbian.txt"
+cscript /nologo translate.js /sourcelang:"spanish" /release:"..\..\%comp%\Release%tp%\Languages\langpack_spanish.txt"
+del /f /q ..\..\%comp%\Release%tp%\*_nodupes.txt
 popd
 
 md "Release%tp%\Docs"
