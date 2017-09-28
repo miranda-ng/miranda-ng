@@ -43,13 +43,13 @@ protected:
 #endif
 	virtual result do_unshift(_St& _State, _To* _F2, _To* _L2, _To*& _Mid2) const;
 #ifdef MSVC
-	virtual int do_length(_St& _State, const _To* _F1, const _To* _L1, size_t _N2) const _THROW0();
+	virtual int do_length(_St& _State, const _To* _F1, const _To* _L1, size_t _N2) const noexcept;
 #else
-	virtual int do_length(const _St& _State, const _To* _F1, const _To* _L1, size_t _N2) const _THROW0();
+	virtual int do_length(const _St& _State, const _To* _F1, const _To* _L1, size_t _N2) const throw();
 #endif
-	virtual bool do_always_noconv() const _THROW0();
-	virtual int do_max_length() const _THROW0();
-	virtual int do_encoding() const _THROW0();
+	virtual bool do_always_noconv() const throw();
+	virtual int do_max_length() const throw();
+	virtual int do_encoding() const throw();
 };
 
 #endif /* MYCODECVT_H */

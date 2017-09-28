@@ -11,7 +11,18 @@ set comp=%2
 if "%comp%"=="" (echo "please specify target compiler folder!" && pause && goto :EOF)
 
 call a_SetVar%tp%.bat
-call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat"
+if "%comp%"=="bin10" (
+   call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat"
+) else if "%comp%"=="bin12" (
+   call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat"
+) else if "%comp%"=="bin15" (
+   if /i '%tp%' == '32' (
+     call "%VS141COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvars32.bat"
+   ) else if /i '%tp%' == '64' (
+     call "%VS141COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvars64.bat"
+  )
+)
+
 call svn_stable_ver.bat
 
 pushd %comp%
@@ -33,7 +44,11 @@ popd
 
 MsBuild.exe "mir_full.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\full%tp%.log;errorsonly;warningsonly;summary
 MsBuild.exe "mir_icons.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\icons%tp%.log;errorsonly;warningsonly;summary
-start /wait z1_ReBuild_w810.bat %tp%
+
+if "%comp%" == "bin10" (
+   start /wait z1_ReBuild_w810.bat %tp%
+)
+
 call pascal%tp%.bat
 pushd ..\plugins\NotifyAnything\SendLog
 call compile%tp%.bat

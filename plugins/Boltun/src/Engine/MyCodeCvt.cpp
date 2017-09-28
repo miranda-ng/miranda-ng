@@ -55,27 +55,27 @@ MyCodeCvt::result MyCodeCvt::do_unshift(_St&,
 
 #ifdef MSVC
 int MyCodeCvt::do_length(_St& _State, const _To* _F1,
-	const _To* _L1, size_t _N2) const _THROW0()
+	const _To* _L1, size_t _N2) const throw()
 #else
 int MyCodeCvt::do_length(const _St&, const _To* _F1,
-	const _To* _L1, size_t _N2) const _THROW0()
+	const _To* _L1, size_t _N2) const throw()
 #endif
 
 {
 	return (_N2 < (size_t)(_L1 - _F1)) ? (int)_N2 : (int)(_L1 - _F1);
 }
 
-bool MyCodeCvt::do_always_noconv() const _THROW0()
+bool MyCodeCvt::do_always_noconv() const throw()
 {
 	return true;
 }
 
-int MyCodeCvt::do_max_length() const _THROW0()
+int MyCodeCvt::do_max_length() const throw()
 {
 	return 2;
 }
 
-int MyCodeCvt::do_encoding() const _THROW0()
+int MyCodeCvt::do_encoding() const throw()
 {
 	return 2;
 }

@@ -4,7 +4,10 @@ rem use with param 32 or 64
 rem set target platform %tp% from first parameter
 set tp=%1
 set dp=%2
-if  "%tp%"=="" (echo "please specify target platform 32 or 64!"&&pause&&goto :EOF)
+if "%tp%"=="" (echo "please specify target platform 32 or 64!"&&pause&&goto :EOF)
+
+set comp=%3
+if "%comp%"=="" (echo "please specify target compiler folder!" && pause && goto :EOF)
 
 call a_SetVar%tp%.bat
 
@@ -13,10 +16,10 @@ if exist %Arch% rd /Q /S "%Arch%" >nul
 rem making temp dirs
 mkdir %Arch%
 
-if  not exist "bin10\Release%tp%" goto EOF
+if not exist "%comp%\Release%tp%" goto EOF
 
 :FILECHECK
-pushd "bin10\Release%tp%"
+pushd "%comp%\Release%tp%"
 if exist %Errors% del /F /Q %Errors%
 if exist %NoErrors% del /F /Q %NoErrors%
 for /f %%a in (..\..\z2_PackPluginUpdater_x%tp%.txt) do (if not exist %%a echo %%a >> %Errors%)
