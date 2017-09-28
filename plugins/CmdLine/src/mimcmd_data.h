@@ -87,6 +87,7 @@ typedef TSharedData *PSharedData;
 #define MIMCMD_VERSION     17
 #define MIMCMD_SETNICKNAME 18
 #define MIMCMD_IGNORE      19
+#define MIMCMD_LUA         20
 
 #define MIMCMD_HELP_STATUS      LPGEN("Changes account status either globally or per account.\nUsage: status <status> [<account>].\nPossible values for <status> are: offline, online, away, dnd, na, occupied, freechat, invisible, onthephone, outtolunch.\n<Account> is an optional parameter specifying the account to set the status for. If it's not specified then the command will issue a global status change.")
 #define MIMCMD_HELP_AWAYMSG     LPGEN("Changes away message either globally or per account.\nUsage: awaymsg <message> [<account>].\n<Message> is the new away message.\n<Account> is an optional parameter specifying the account to set the away message for. If not specified then the away message will be set globally.")
@@ -107,6 +108,7 @@ typedef TSharedData *PSharedData;
 #define MIMCMD_HELP_VERSION     LPGEN("Shows version information for Miranda and CmdLine plugin. If CrashDumper plugin is installed, it will use its report instead.\nUsage: version.\nThe command will print Miranda's and CmdLine's version numbers or, if CrashDumper plugin is installed, it will show Version Info report.")
 #define MIMCMD_HELP_SETNICKNAME LPGEN("Changes the user's nickname on the given protocol to the new name.\nUsage: setnickname <protocol> new_nickname.")
 #define MIMCMD_HELP_IGNORE      LPGEN("Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts")
+#define MIMCMD_HELP_LUA         LPGEN("Execute lua script via MirLua plugin.\nUsage:\n  call [<module>] <function>\n  exec \"<path>\"\n  eval \"<code>\"")
 
 #define MIMMEM_REPLY       1 //data is a PReply structure
 

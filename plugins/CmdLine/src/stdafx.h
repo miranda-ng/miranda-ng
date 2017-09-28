@@ -42,6 +42,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_crashdumper.h"
 #include "m_statusplugins.h"
 
+#include "m_lua.h"
+
 #include "version.h"
 #include "utils.h"
 #include "resource.h"

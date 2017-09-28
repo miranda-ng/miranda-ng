@@ -1610,6 +1610,40 @@ void HandleIgnoreCommand(PCommand command, TArgument *argv, int argc, PReply rep
 	else HandleWrongParametersCount(command, reply);
 }
 
+void HandleLuaCommand(PCommand command, TArgument *argv, int argc, PReply reply)
+{
+	if (argc <= 3) {
+		HandleWrongParametersCount(command, reply);
+		return;
+	}
+
+	if (_stricmp(argv[2], "call") == 0) {
+		wchar_t *result = argc == 4
+			? lua_call(NULL, _A2T(argv[3]))
+			: lua_call(_A2T(argv[3]), _A2T(argv[4]));
+		mir_strcpy(reply->message, _T2A(result));
+		mir_free(result);
+		reply->code = MIMRES_SUCCESS;
+		return;
+	}
+
+	if (_stricmp(argv[2], "exec") == 0) {
+		ptrW result(lua_exec(_A2T(argv[3])));
+		mir_strcpy(reply->message, _T2A(result));
+		reply->code = MIMRES_SUCCESS;
+		return;
+	}
+
+	if (_stricmp(argv[2], "eval") == 0) {
+		ptrW result(lua_eval(_A2T(argv[3])));
+		mir_strcpy(reply->message, _T2A(result));
+		reply->code = MIMRES_SUCCESS;
+		return;
+	}
+
+	HandleUnknownParameter(command, argv[2], reply);
+}
+
 void HandleCommand(PCommand command, TArgument *argv, int argc, PReply reply)
 {
 	switch (command->ID) {
@@ -1679,6 +1713,10 @@ void HandleCommand(PCommand command, TArgument *argv, int argc, PReply reply)
 
 	case MIMCMD_IGNORE:
 		HandleIgnoreCommand(command, argv, argc, reply);
+		return;
+
+	case MIMCMD_LUA:
+		HandleLuaCommand(command, argv, argc, reply);
 		return;
 
 	default:
