@@ -1,3 +1,4 @@
+@echo off
 set Drive=%~d0
 set SourceDir=%~dp0
 for %%a in (%SourceDir:~0,-1%) do set "SourceDir=%%a"
