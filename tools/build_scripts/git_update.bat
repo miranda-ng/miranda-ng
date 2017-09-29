@@ -7,6 +7,6 @@ git checkout %1
 
 git reset --hard
 
-git pull --rebase=true --progress -v 2>&1 > update.log
+git pull --rebase=true --progress -v
 
 echo %date% %time% > timestamp.chk

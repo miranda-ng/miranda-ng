@@ -12,18 +12,6 @@ if "%comp%"=="" (echo "please specify target compiler folder!" && pause && goto 
 
 call a_SetVar%tp%.bat
 
-if "%comp%"=="bin10" (
-   call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat"
-) else if "%comp%"=="bin12" (
-   call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat"
-) else if "%comp%"=="bin15" (
-   if /i '%tp%' == '32' (
-     call "%VS141COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvars32.bat"
-   ) else if /i '%tp%' == '64' (
-     call "%VS141COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvars64.bat"
-  )
-)
-
 if exist git_error.txt del /f /q git_error.txt
 
 pushd %comp%
@@ -40,12 +28,20 @@ pushd ..\build
 call make_ver.bat
 popd
 
+if "%comp%" == "bin10" (
+   start /min /wait z1_ReBuild_w810.bat %tp%
+)
+
+if "%comp%"=="bin10" (
+   call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat"
+) else if "%comp%"=="bin12" (
+   call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat"
+) else if "%comp%"=="bin15" (
+   call "%VS141COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvars%tp%.bat"
+)
+
 MsBuild.exe "mir_full.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\full%tp%.log;errorsonly;warningsonly;summary
 MsBuild.exe "mir_icons.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\icons%tp%.log;errorsonly;warningsonly;summary
-
-if "%comp%" == "bin10" (
-   start /wait z1_ReBuild_w810.bat %tp%
-)
 
 call pascal%tp%.bat
 pushd ..\plugins\NotifyAnything\SendLog 
@@ -126,11 +122,8 @@ copy /V /Y ..\..\redist\x%tp%\DbChecker.bat
 copy /V /Y ..\..\redist\x%tp%\bass\*.dll "Plugins\BASS"
 
 popd
+exit
 
-rem put me at the end of script
-rem getting checksum for dlls
-rem "goto :eof" here to avoid run this subroutine at the end of script, so script will run till this point, and subroutine will called only where we need it
-goto :eof
 rem the subroutine itself starts here
 :checksum
 rem change the dir to first parameter, and remember it

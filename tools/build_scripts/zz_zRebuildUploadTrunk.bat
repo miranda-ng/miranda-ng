@@ -5,9 +5,9 @@ set GIT_STATUS=%ERRORLEVEL%
 if %GIT_STATUS%==0 echo Git update success
 if not %GIT_STATUS%==0 goto :Error
 
-call z1_ReBuild_Full.bat 32 %comp%
+start /min /wait z1_ReBuild_Full.bat 32 %comp%
 
-call z1_ReBuild_Full.bat 64 %comp%
+start /min /wait z1_ReBuild_Full.bat 64 %comp%
 
 call z2_PackPluginUpdater.bat 32 DEV_N_STABLE %comp%
 
