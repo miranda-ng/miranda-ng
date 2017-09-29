@@ -7,7 +7,7 @@ if /i '%tp%' == '32' (
   set ptr=X64
 )
 
-call "%VS120COMNTOOLS%\VsDevCmd.bat"
+call "%VS141COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvars%tp%.bat"
 
 MsBuild.exe "fwin8_10.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\fwin8_10%tp%.log;errorsonly;warningsonly;summary
 
