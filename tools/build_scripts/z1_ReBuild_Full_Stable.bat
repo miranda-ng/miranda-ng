@@ -118,12 +118,9 @@ xcopy /S /V /Y "..\pre-build\%tp%" "Release%tp%"
 cd "Release%tp%"
 dir /B /S *.dll | %SourceDir%\tools\rebaser\rebaser.exe /BASE:13000000
 dir /B /S *.mir | %SourceDir%\tools\rebaser\rebaser.exe /BASE:12000000
-copy /V /Y ..\..\redist\x%tp%\msvc*.dll
 
 set hashes=%cd%\hashes.txt
 %SourceDir%\tools\checksum\checksum.exe Miranda%tp%.exe > %hashes%
-%SourceDir%\tools\checksum\checksum.exe msvcp100.dll >> %hashes%
-%SourceDir%\tools\checksum\checksum.exe msvcr100.dll >> %hashes%
 for /f "tokens=1,2 delims= " %%i in ('%SourceDir%\tools\md5.exe Languages\lang*.txt') do echo %%j %%i >> %hashes%
 
 rem get checksum  for folder(first param) and ext (second param)
