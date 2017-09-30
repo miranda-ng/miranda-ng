@@ -8,8 +8,6 @@ put %Arch%\Icons\*.zip x%tp%/Icons/
 put %Arch%\Languages\lang*.zip x%tp%/Languages/
 put %Arch%\Plugins\*.zip x%tp%/Plugins/
 put %Arch%\miranda%tp%.zip x%tp%/
-put %Arch%\msvcp100.zip x%tp%/
-put %Arch%\msvcr100.zip x%tp%/
 put %Arch%\hashes.zip x%tp%/
 
 exit

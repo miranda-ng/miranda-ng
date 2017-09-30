@@ -1,7 +1,5 @@
 dbchecker.bat
 mirandaboot.ini
-msvcp100.dll
-msvcr100.dll
 pu_stub.exe
 Core\StdAuth.dll
 Core\StdAutoAway.dll

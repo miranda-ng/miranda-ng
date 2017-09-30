@@ -13,8 +13,6 @@ put %Arch%\Icons\*.zip distr/stable/x%tp%/Icons/
 put %Arch%\Languages\lang*.zip distr/stable/x%tp%/Languages/
 put %Arch%\Plugins\*.zip distr/stable/x%tp%/Plugins/
 put %Arch%\miranda%tp%.zip distr/stable/x%tp%/
-put %Arch%\msvcp100.zip distr/stable/x%tp%/
-put %Arch%\msvcr100.zip distr/stable/x%tp%/
 put %Arch%\hashes.zip distr/stable/x%tp%/
 
 exit
