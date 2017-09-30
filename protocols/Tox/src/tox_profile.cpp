@@ -92,9 +92,6 @@ void CToxProto::SaveToxProfile(Tox *tox)
 {
 	mir_cslock locker(profileLock);
 
-	if (!toxThread)
-		return;
-
 	size_t size = tox_get_savedata_size(tox);
 	uint8_t *data = (uint8_t*)mir_calloc(size + TOX_PASS_ENCRYPTION_EXTRA_LENGTH);
 	tox_get_savedata(tox, data);
