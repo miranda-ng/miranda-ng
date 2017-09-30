@@ -57,7 +57,7 @@ begin
   PluginInfo.description:='Imports history saved in TXT files from other clients.';
   PluginInfo.author     :='Abyss';
   PluginInfo.authorEmail:='abyss.andrey@gmail.com';
-  PluginInfo.copyright  :='(C)2008 Abyss';
+  PluginInfo.copyright  :='© 2008 Abyss';
   PluginInfo.homepage   :='none';
   PluginInfo.flags      :=UNICODE_AWARE;
   PluginInfo.uuid       :=MIID_IMPORTTEXT;
