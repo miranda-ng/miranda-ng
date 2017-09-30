@@ -111,6 +111,7 @@ void CToxProto::BootstrapNodesFromJson(Tox *tox, bool isIPv6)
 
 void CToxProto::BootstrapNodes(Tox *tox)
 {
+	UpdateNodes();
 	debugLogA(__FUNCTION__": bootstraping DHT");
 	// bool isUdp = getBool("EnableUDP", 1);
 	bool isIPv6 = getBool("EnableIPv6", 0);
@@ -120,6 +121,7 @@ void CToxProto::BootstrapNodes(Tox *tox)
 
 void CToxProto::UpdateNodes()
 {
+	debugLogA(__FUNCTION__": updating nodes");
 	HttpRequest request(REQUEST_GET, "https://nodes.tox.chat/json");
 	NLHR_PTR response(request.Send(m_hNetlibUser));
 	if (!response || response->resultCode != HTTP_CODE_OK || !response->pData) {
