@@ -250,7 +250,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 
 		// Determine background color
 		// This logic trying to minimize number of background color changes
-		static COLORREF bkgColor = GetSysColor(COLOR_WINDOW);
+		COLORREF bkgColor = GetSysColor(COLOR_WINDOW);
 		COLORREF bkgColorPv = (COLORREF)SendMessage(hwnd, EM_SETBKGNDCOLOR, 0, bkgColor);
 		if (bkgColorPv != bkgColor) {
 			bkgColor = bkgColorPv;
