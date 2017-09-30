@@ -4,8 +4,8 @@ for /F "tokens=1,2,3 delims= " %%i in (build\build.no) do set MirVer=%%i.%%j.%%k
 if /i '%tp%' == '64' set bit=_x64
 if /i '%tp%' == '32' set VcPt=x86
 if /i '%tp%' == '64' set VcPt=x64
-if /i '%tp%' == '32' set VcURL=http://download.microsoft.com/download/C/6/D/C6D0FD4E-9E53-4897-9B91-836EBA2AACD3/vcredist_x86.exe
-if /i '%tp%' == '64' set VcURL=http://download.microsoft.com/download/A/8/0/A80747C3-41BD-45DF-B505-E9710D2744E0/vcredist_x64.exe
+if /i '%tp%' == '32' set VcURL=https://download.visualstudio.microsoft.com/download/pr/11100229/78c1e864d806e36f6035d80a0e80399e/VC_redist.x86.exe
+if /i '%tp%' == '64' set VcURL=https://download.visualstudio.microsoft.com/download/pr/11100230/15ccb3f02745c7b206ad10373cbca89b/VC_redist.x64.exe
 if /i '%tp%' == '32' set CompileString=..\Tools\InnoSetup5\ISCC.exe /Dptx86 /DAppVer=%MirVer% "MirandaNG.iss" 
 if /i '%tp%' == '64' set CompileString=..\Tools\InnoSetup5\ISCC.exe /DAppVer=%MirVer% "MirandaNG.iss"
 

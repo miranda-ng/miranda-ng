@@ -26,8 +26,8 @@ Tools\wget.exe --no-check-certificate -O tmp\langpack_czech.zip https://miranda-
 Tools\wget.exe --no-check-certificate -O tmp\langpack_german.zip https://miranda-ng.org/x32/Languages/langpack_german.zip
 Tools\wget.exe --no-check-certificate -O tmp\langpack_polish.zip https://miranda-ng.org/x32/Languages/langpack_polish.zip
 Tools\wget.exe --no-check-certificate -O tmp\langpack_russian.zip https://miranda-ng.org/x32/Languages/langpack_russian.zip
-Tools\wget.exe --no-check-certificate -O InnoNG_32\Installer\vcredist_x86.exe https://download.microsoft.com/download/C/6/D/C6D0FD4E-9E53-4897-9B91-836EBA2AACD3/vcredist_x86.exe
-Tools\wget.exe --no-check-certificate -O InnoNG_64\Installer\vcredist_x64.exe https://download.microsoft.com/download/A/8/0/A80747C3-41BD-45DF-B505-E9710D2744E0/vcredist_x64.exe
+Tools\wget.exe --no-check-certificate -O InnoNG_32\Installer\vcredist_x86.exe https://download.visualstudio.microsoft.com/download/pr/11100229/78c1e864d806e36f6035d80a0e80399e/VC_redist.x86.exe
+Tools\wget.exe --no-check-certificate -O InnoNG_64\Installer\vcredist_x64.exe https://download.visualstudio.microsoft.com/download/pr/11100230/15ccb3f02745c7b206ad10373cbca89b/VC_redist.x64.exe
 rem end
 
 rem Extract
