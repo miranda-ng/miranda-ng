@@ -1125,35 +1125,37 @@ void CTabBaseDlg::ReplaceIcons(LONG startAt, int fAppend, BOOL isSent)
 
 		CComPtr<IRichEditOle> ole;
 		m_log.SendMsg(EM_GETOLEINTERFACE, 0, (LPARAM)&ole);
-		while (m_log.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
-			CHARRANGE cr;
-			cr.cpMin = fi.chrgText.cpMin;
-			cr.cpMax = fi.chrgText.cpMax + 2;
-			m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&cr);
+		if (ole != nullptr) {
+			while (m_log.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
+				CHARRANGE cr;
+				cr.cpMin = fi.chrgText.cpMin;
+				cr.cpMax = fi.chrgText.cpMax + 2;
+				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&cr);
 
-			tr.chrg.cpMin = fi.chrgText.cpMin + 3;
-			tr.chrg.cpMax = fi.chrgText.cpMin + 5;
-			m_log.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-			
-			int bIconIndex = trbuffer[0] - '0';
-			if (bIconIndex >= NR_LOGICONS) {
-				fi.chrg.cpMin = fi.chrgText.cpMax + 6;
-				continue;
+				tr.chrg.cpMin = fi.chrgText.cpMin + 3;
+				tr.chrg.cpMax = fi.chrgText.cpMin + 5;
+				m_log.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+
+				int bIconIndex = trbuffer[0] - '0';
+				if (bIconIndex >= NR_LOGICONS) {
+					fi.chrg.cpMin = fi.chrgText.cpMax + 6;
+					continue;
+				}
+
+				char bDirection = trbuffer[1];
+				m_log.SendMsg(EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2);
+				COLORREF crDefault;
+				if (cf2.crBackColor != 0)
+					crDefault = cf2.crBackColor;
+				else if (bDirection == '>')
+					crDefault = (fAppend) ? m_pContainer->theme.outbg : m_pContainer->theme.oldoutbg;
+				else
+					crDefault = (fAppend) ? m_pContainer->theme.inbg : m_pContainer->theme.oldinbg;
+
+				TLogIcon theIcon(Logicons[bIconIndex], crDefault);
+				CImageDataObject::InsertBitmap(ole, theIcon.m_hBmp);
+				fi.chrg.cpMin = cr.cpMax + 6;
 			}
-			
-			char bDirection = trbuffer[1];
-			m_log.SendMsg(EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2);
-			COLORREF crDefault;
-			if (cf2.crBackColor != 0)
-				crDefault = cf2.crBackColor;
-			else if (bDirection == '>')
-				crDefault = (fAppend) ? m_pContainer->theme.outbg : m_pContainer->theme.oldoutbg;
-			else 
-				crDefault = (fAppend) ? m_pContainer->theme.inbg : m_pContainer->theme.oldinbg;
-
-			TLogIcon theIcon(Logicons[bIconIndex], crDefault);
-			CImageDataObject::InsertBitmap(ole, theIcon.m_hBmp);
-			fi.chrg.cpMin = cr.cpMax + 6;
 		}
 	}
 
