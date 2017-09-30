@@ -26,6 +26,9 @@ move /Y miranda-ng*.7z %ArchDistr%
 
 del /f /q miranda%tp%.exe
 del /f /q hashes.txt
+del /f /q *.dll
+del /f /q /s *.iobj
+del /f /q /s *.ipdb
 for /f %%a in (..\..\z3_PackArchives.txt) do del /s /q  %%a
 rd /s /q Core
 REM rd /s /q Libs

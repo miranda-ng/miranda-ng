@@ -26,7 +26,7 @@ for /f %%a in (..\..\z2_PackPluginUpdater_x%tp%.txt) do (if not exist %%a echo %
 
 :COMPRESS
 REM Core
-%ZipIt% "%Arch%\miranda%tp%.zip" "Miranda%tp%.exe" "Core\*.dll" "Plugins\Dbx_mmap.dll" "Plugins\DbChecker.dll" "Icons\Proto_MetaContacts.dll" "Libs\mir_app.mir" "Libs\mir_core.mir" "Libs\libjson.mir" "Libs\Pcre16.mir" "Libs\Zlib.mir" "Libs\libeay32.mir" "Libs\ssleay32.mir"
+%ZipIt% "%Arch%\miranda%tp%.zip" "Miranda%tp%.exe" -i@..\..\z2_PackPluginUpdater.txt
 REM end Core
 
 REM Langpacks

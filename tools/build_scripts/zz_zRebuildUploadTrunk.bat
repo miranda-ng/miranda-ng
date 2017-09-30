@@ -1,4 +1,4 @@
-set comp=bin10
+set comp=bin15
 
 call git_update.bat master
 set GIT_STATUS=%ERRORLEVEL%

@@ -28,6 +28,9 @@ if exist %ArchDistr%\miranda-ng-v0.9*%bit%.exe del /F /Q %ArchDistr%\miranda-ng-
 move /Y miranda-ng*.7z %ArchDistr%
 
 del /f /q miranda%tp%.exe
+del /f /q *.dll
+del /f /q /s *.iobj
+del /f /q /s *.ipdb
 del /f /q hashes.txt
 for /f %%a in (..\..\z3_PackArchives.txt) do del /s /q  %%a
 rd /s /q Core
