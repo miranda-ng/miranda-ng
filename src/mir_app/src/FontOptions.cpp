@@ -93,7 +93,7 @@ struct DrawTextWithEffectParam
 int __inline DrawTextWithEffect(HDC hdc, LPCTSTR lpchText, int cchText, RECT * lprc, UINT dwDTFormat, FONTEFFECT * pEffect)
 {
 	DrawTextWithEffectParam params;
-	static BYTE bIfServiceExists = ServiceExists(MS_DRAW_TEXT_WITH_EFFECT) ? 1 : 0;
+	BYTE bIfServiceExists = ServiceExists(MS_DRAW_TEXT_WITH_EFFECT) ? 1 : 0;
 
 	if (pEffect == nullptr || pEffect->effectIndex == 0)
 		return DrawText(hdc, lpchText, cchText, lprc, dwDTFormat);   // If no effect specified draw by GDI it just more careful with ClearType
