@@ -32,8 +32,11 @@
 #include "stdafx.h"
 
 // returns true on success, false on failure
-bool CImageDataObject::InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap)
+bool CImageDataObject::InsertBitmap(IRichEditOle *pRichEditOle, HBITMAP hBitmap)
 {
+	if (pRichEditOle == nullptr)
+		return false;
+
 	// Get the image data object
 	CImageDataObject *pods = new CImageDataObject;
 	CComPtr<IDataObject> lpDataObject;
