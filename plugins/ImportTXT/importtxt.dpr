@@ -58,7 +58,7 @@ begin
   PluginInfo.author     :='Abyss';
   PluginInfo.authorEmail:='abyss.andrey@gmail.com';
   PluginInfo.copyright  :='© 2008 Abyss';
-  PluginInfo.homepage   :='none';
+  PluginInfo.homepage   :='https://miranda-ng.org/p/ImportTXT/';
   PluginInfo.flags      :=UNICODE_AWARE;
   PluginInfo.uuid       :=MIID_IMPORTTEXT;
 
