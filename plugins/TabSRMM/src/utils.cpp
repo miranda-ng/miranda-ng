@@ -70,7 +70,7 @@ static wchar_t *formatting_strings_end[] = { L"b0 ", L"i0 ", L"u0 ", L"s0 ",
 const wchar_t* CTabBaseDlg::FormatRaw(const wchar_t *msg, int flags, BOOL isSent)
 {
 	bool 	clr_was_added = false, was_added;
-	static tstring message(msg);
+	tstring message(msg);
 	size_t beginmark = 0, endmark = 0, tempmark = 0, index;
 	int i, endindex;
 	wchar_t endmarker;
