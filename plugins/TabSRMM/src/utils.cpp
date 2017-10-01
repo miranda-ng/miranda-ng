@@ -73,10 +73,10 @@ void CTabBaseDlg::FormatRaw(CMStringW &msg, int flags, bool isSent)
 	if (m_dwFlags & MWF_LOG_BBCODE) {
 		beginmark = 0;
 		while (true) {
-			for (i = 0; i < NR_CODES; i++) {
+			for (i = 0; i < NR_CODES; i++)
 				if ((tempmark = msg.Find(w_bbcodes_begin[i], 0)) != -1)
 					break;
-			}
+
 			if (i >= NR_CODES)
 				break;
 
@@ -99,7 +99,7 @@ search_again:
 					if (!wcsnicmp(colorname, Utils::rtf_ctable[ii].szName, mir_wstrlen(Utils::rtf_ctable[ii].szName))) {
 						closing = beginmark + 7 + (int)mir_wstrlen(Utils::rtf_ctable[ii].szName);
 						if (endmark != -1) {
-							msg.Delete(endmark, 4);
+							msg.Delete(endmark, 8);
 							msg.Insert(endmark, L"c0 ");
 						}
 						msg.Delete(beginmark, (closing - beginmark));
@@ -144,80 +144,82 @@ invalid_code:
 				}
 				continue;
 			}
-			if (endmark != -1)
+			
+			if (endmark != -1) {
+				msg.Delete(endmark, 4);
 				msg.Insert(endmark, formatting_strings_end[i]);
+			}
+			msg.Delete(beginmark, 4);
 			msg.Insert(beginmark, L" ");
 			msg.Insert(beginmark, formatting_strings_begin[i]);
 		}
 	}
 
-	if (!(m_dwFlags & MWF_LOG_TEXTFORMAT) || msg.Find(L"://") != -1) {
-		m_bClrAdded = clr_was_added;
-		return;
-	}
+	if ((m_dwFlags & MWF_LOG_TEXTFORMAT) && msg.Find(L"://") == -1) {
+		while ((beginmark = msg.Find(L"*/_", beginmark)) != -1) {
+			endmarker = msg[beginmark];
+			if (LOWORD(flags)) {
+				if (beginmark > 0 && !iswspace(msg[beginmark - 1]) && !iswpunct(msg[beginmark - 1])) {
+					beginmark++;
+					continue;
+				}
 
-	while ((beginmark = msg.Find(L"*/_", beginmark)) != -1) {
-		endmarker = msg[beginmark];
-		if (LOWORD(flags)) {
-			if (beginmark > 0 && !iswspace(msg[beginmark - 1]) && !iswpunct(msg[beginmark - 1])) {
+				// search a corresponding endmarker which fulfills the criteria
+				INT_PTR mark = beginmark + 1;
+				while ((endmark = msg.Find(endmarker, mark)) != -1) {
+					if (iswpunct(msg[endmark + 1]) || iswspace(msg[endmark + 1]) || msg[endmark + 1] == 0 || wcschr(L"*/_", msg[endmark + 1]) != nullptr)
+						goto ok;
+					mark = endmark + 1;
+				}
+				break;
+			}
+			else {
+				if ((endmark = msg.Find(endmarker, beginmark + 1)) == -1)
+					break;
+			}
+ok:
+			if ((endmark - beginmark) < 2) {
 				beginmark++;
 				continue;
 			}
-
-			// search a corresponding endmarker which fulfills the criteria
-			INT_PTR mark = beginmark + 1;
-			while ((endmark = msg.Find(endmarker, mark)) != -1) {
-				if (iswpunct(msg[endmark + 1]) || iswspace(msg[endmark + 1]) || msg[endmark + 1] == 0 || wcschr(L"*/_", msg[endmark + 1]) != nullptr)
-					goto ok;
-				mark = endmark + 1;
-			}
-			break;
-		}
-		else {
-			if ((endmark = msg.Find(endmarker, beginmark + 1)) == -1)
-				break;
-		}
-ok:
-		if ((endmark - beginmark) < 2) {
-			beginmark++;
-			continue;
-		}
-		index = 0;
-		switch (endmarker) {
-		case '*':
 			index = 0;
-			break;
-		case '/':
-			index = 1;
-			break;
-		case '_':
-			index = 2;
-			break;
-		}
-
-		// check if the code enclosed by simple formatting tags is a valid smiley code and skip formatting if
-		// it really is one.
-		if (PluginConfig.g_SmileyAddAvail && (endmark > (beginmark + 1))) {
-			CMStringW smcode = msg.Mid(beginmark, (endmark - beginmark) + 1);
-
-			SMADD_BATCHPARSE2 smbp = { 0 };
-			smbp.cbSize = sizeof(smbp);
-			smbp.Protocolname = m_cache->getActiveProto();
-			smbp.flag = SAFL_TCHAR | SAFL_PATH | (isSent ? SAFL_OUTGOING : 0);
-			smbp.str = (wchar_t*)smcode.c_str();
-			smbp.hContact = m_hContact;
-			SMADD_BATCHPARSERES *smbpr = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smbp);
-			if (smbpr) {
-				CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smbpr);
-				beginmark = endmark + 1;
-				continue;
+			switch (endmarker) {
+			case '*':
+				index = 0;
+				break;
+			case '/':
+				index = 1;
+				break;
+			case '_':
+				index = 2;
+				break;
 			}
+
+			// check if the code enclosed by simple formatting tags is a valid smiley code and skip formatting if
+			// it really is one.
+			if (PluginConfig.g_SmileyAddAvail && (endmark > (beginmark + 1))) {
+				CMStringW smcode = msg.Mid(beginmark, (endmark - beginmark) + 1);
+
+				SMADD_BATCHPARSE2 smbp = { 0 };
+				smbp.cbSize = sizeof(smbp);
+				smbp.Protocolname = m_cache->getActiveProto();
+				smbp.flag = SAFL_TCHAR | SAFL_PATH | (isSent ? SAFL_OUTGOING : 0);
+				smbp.str = (wchar_t*)smcode.c_str();
+				smbp.hContact = m_hContact;
+				SMADD_BATCHPARSERES *smbpr = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smbp);
+				if (smbpr) {
+					CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smbpr);
+					beginmark = endmark + 1;
+					continue;
+				}
+			}
+			msg.Delete(endmark, 1);
+			msg.Insert(endmark, formatting_strings_end[index]);
+			msg.Delete(beginmark, 1);
+			msg.Insert(beginmark, formatting_strings_begin[index]);
 		}
-		msg.Insert(endmark, L"%%%");
-		msg.Insert(endmark, formatting_strings_end[index]);
-		msg.Insert(beginmark, L"%%%");
-		msg.Insert(beginmark, formatting_strings_begin[index]);
 	}
+	
 	m_bClrAdded = clr_was_added;
 }
 

@@ -432,7 +432,6 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 	BOOL skipToNext = FALSE, skipFont = FALSE;
 	struct tm event_time = { 0 };
 	BOOL isBold = FALSE, isItalic = FALSE, isUnderline = FALSE;
-	DWORD dwFormattingParams = MAKELONG(1, 0);
 
 	DBEVENTINFO dbei = { 0 };
 	if (streamData->dbei != 0)
@@ -459,7 +458,7 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 		return nullptr;
 	}
 	msg.TrimRight();
-	dat->FormatRaw(msg, dwFormattingParams, FALSE);
+	dat->FormatRaw(msg, 1, FALSE);
 
 	CMStringA str;
 	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
