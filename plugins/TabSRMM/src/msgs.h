@@ -418,7 +418,7 @@ public:
 	void  EnableSending(bool bMode) const;
 	void  FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei);
 	void  FlashTab(bool bInvertMode);
-	const wchar_t* FormatRaw(const wchar_t *msg, int flags, BOOL isSent);
+	void  FormatRaw(CMStringW&, int flags, bool isSent);
 	bool  FormatTitleBar(const wchar_t *szFormat, CMStringW &dest);
 	bool  GetAvatarVisibility();
 	void  GetClientIcon();

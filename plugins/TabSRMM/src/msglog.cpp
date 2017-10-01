@@ -102,23 +102,6 @@ __forceinline char *GetRTFFont(DWORD dwIndex)
 	return rtfFonts + (dwIndex * RTFCACHELINESIZE);
 }
 
-/*
- * remove any empty line at the end of a message to avoid some RichEdit "issues" with
- * the highlight code (individual background colors).
- * Doesn't touch the message for sure, but empty lines at the end are ugly anyway.
- */
-static void TrimMessage(wchar_t *msg)
-{
-	size_t iLen = mir_wstrlen(msg) - 1;
-	size_t i = iLen;
-
-	while (i && (msg[i] == '\r' || msg[i] == '\n')) {
-		i--;
-	}
-	if (i < iLen)
-		msg[i + 1] = '\0';
-}
-
 void TSAPI CacheLogFonts()
 {
 	HDC hdc = GetDC(nullptr);
@@ -470,15 +453,13 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.markedRead())
 		dat->m_cache->updateStats(TSessionStats::SET_LAST_RCV, mir_strlen((char *)dbei.pBlob));
 
-	wchar_t *formatted = nullptr;
-	wchar_t *msg = DbEvent_GetTextW(&dbei, CP_UTF8);
-	if (!msg) {
+	CMStringW msg(ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)));
+	if (msg.IsEmpty()) {
 		mir_free(dbei.pBlob);
 		return nullptr;
 	}
-	TrimMessage(msg);
-	formatted = const_cast<wchar_t *>(dat->FormatRaw(msg, dwFormattingParams, FALSE));
-	mir_free(msg);
+	msg.TrimRight();
+	dat->FormatRaw(msg, dwFormattingParams, FALSE);
 
 	CMStringA str;
 	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
@@ -864,7 +845,7 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 						str.AppendChar(' ');
 					}
 
-					AppendUnicodeToBuffer(str, formatted, MAKELONG(isSent, dat->m_bIsHistory));
+					AppendUnicodeToBuffer(str, msg, MAKELONG(isSent, dat->m_bIsHistory));
 					str.Append("\\b0\\ul0\\i0 ");
 					break;
 

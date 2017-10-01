@@ -28,10 +28,6 @@
 
 #include "stdafx.h"
 
-#include <string>
-
-typedef std::basic_string<wchar_t> tstring;
-
 #define MWF_LOG_BBCODE 1
 #define MWF_LOG_TEXTFORMAT 0x2000000
 #define MSGDLGFONTCOUNT 22
@@ -67,20 +63,18 @@ static wchar_t *formatting_strings_end[] = { L"b0 ", L"i0 ", L"u0 ", L"s0 ",
 // flags: loword = words only for simple  * /_ formatting
 //        hiword = bbcode support (strip bbcodes if 0)
 
-const wchar_t* CTabBaseDlg::FormatRaw(const wchar_t *msg, int flags, BOOL isSent)
+void CTabBaseDlg::FormatRaw(CMStringW &msg, int flags, bool isSent)
 {
-	bool 	clr_was_added = false, was_added;
-	tstring message(msg);
-	size_t beginmark = 0, endmark = 0, tempmark = 0, index;
+	bool clr_was_added = false, was_added;
+	int beginmark = 0, endmark = 0, tempmark = 0, index;
 	int i, endindex;
 	wchar_t endmarker;
-	message.assign(msg);
 
 	if (m_dwFlags & MWF_LOG_BBCODE) {
 		beginmark = 0;
 		while (true) {
 			for (i = 0; i < NR_CODES; i++) {
-				if ((tempmark = message.find(w_bbcodes_begin[i], 0)) != message.npos)
+				if ((tempmark = msg.Find(w_bbcodes_begin[i], 0)) != -1)
 					break;
 			}
 			if (i >= NR_CODES)
@@ -88,49 +82,49 @@ const wchar_t* CTabBaseDlg::FormatRaw(const wchar_t *msg, int flags, BOOL isSent
 
 			beginmark = tempmark;
 			endindex = i;
-			endmark = message.find(w_bbcodes_end[i], beginmark);
-			if (endindex == 4) {                                 // color
-				size_t closing = message.find_first_of(L"]", beginmark);
+			endmark = msg.Find(w_bbcodes_end[i], beginmark);
+			if (endindex == 4) { // color
+				int closing = msg.Find(L"]", beginmark);
 				was_added = false;
 
-				if (closing == message.npos) {                      // must be an invalid [color=] tag w/o closing bracket
-					message[beginmark] = ' ';
+				if (closing == -1) {                      // must be an invalid [color=] tag w/o closing bracket
+					msg.SetAt(beginmark, ' ');
 					continue;
 				}
 
-				tstring colorname = message.substr(beginmark + 7, 8);
+				CMStringW colorname = msg.Mid(beginmark + 7, 8);
 search_again:
 				bool clr_found = false;
 				for (int ii = 0; ii < Utils::rtf_ctable_size; ii++) {
-					if (!wcsnicmp((wchar_t*)colorname.c_str(), Utils::rtf_ctable[ii].szName, mir_wstrlen(Utils::rtf_ctable[ii].szName))) {
-						closing = beginmark + 7 + mir_wstrlen(Utils::rtf_ctable[ii].szName);
-						if (endmark != message.npos) {
-							message.erase(endmark, 4);
-							message.replace(endmark, 4, L"c0 ");
+					if (!wcsnicmp(colorname, Utils::rtf_ctable[ii].szName, mir_wstrlen(Utils::rtf_ctable[ii].szName))) {
+						closing = beginmark + 7 + (int)mir_wstrlen(Utils::rtf_ctable[ii].szName);
+						if (endmark != -1) {
+							msg.Delete(endmark, 4);
+							msg.Insert(endmark, L"c0 ");
 						}
-						message.erase(beginmark, (closing - beginmark));
+						msg.Delete(beginmark, (closing - beginmark));
 
 						wchar_t szTemp[5];
-						message.insert(beginmark, L"cxxx ");
+						msg.Insert(beginmark, L"cxxx ");
 						mir_snwprintf(szTemp, L"%02d", MSGDLGFONTCOUNT + 13 + ii);
-						message[beginmark + 3] = szTemp[0];
-						message[beginmark + 4] = szTemp[1];
+						msg.SetAt(beginmark + 3, szTemp[0]);
+						msg.SetAt(beginmark + 4, szTemp[1]);
 						clr_found = true;
 						if (was_added) {
 							wchar_t wszTemp[100];
 							mir_snwprintf(wszTemp, L"##col##%06u:%04u", endmark - closing, ii);
 							wszTemp[99] = 0;
-							message.insert(beginmark, wszTemp);
+							msg.Insert(beginmark, wszTemp);
 						}
 						break;
 					}
 				}
 				if (!clr_found) {
-					size_t c_closing = colorname.find_first_of(L"]", 0);
-					if (c_closing == colorname.npos)
-						c_closing = colorname.length();
+					int c_closing = colorname.Find(L"]");
+					if (c_closing == -1)
+						c_closing = colorname.GetLength();
 					const wchar_t *wszColname = colorname.c_str();
-					if (endmark != message.npos && c_closing > 2 && c_closing <= 6 && iswalnum(colorname[0]) && iswalnum(colorname[c_closing - 1])) {
+					if (endmark != -1 && c_closing > 2 && c_closing <= 6 && iswalnum(colorname[0]) && iswalnum(colorname[c_closing - 1])) {
 						Utils::RTF_ColorAdd(wszColname, c_closing);
 						if (!was_added) {
 							clr_was_added = was_added = true;
@@ -140,47 +134,47 @@ search_again:
 					}
 					else {
 invalid_code:
-						if (endmark != message.npos)
-							message.erase(endmark, 8);
-						if (closing != message.npos && closing < (size_t)endmark)
-							message.erase(beginmark, (closing - beginmark) + 1);
+						if (endmark != -1)
+							msg.Delete(endmark, 8);
+						if (closing != -1 && closing < (size_t)endmark)
+							msg.Delete(beginmark, (closing - beginmark) + 1);
 						else
-							message[beginmark] = ' ';
+							msg.SetAt(beginmark, ' ');
 					}
 				}
 				continue;
 			}
-			if (endmark != message.npos)
-				message.replace(endmark, 4, formatting_strings_end[i]);
-			message.insert(beginmark, L" ");
-			message.replace(beginmark, 4, formatting_strings_begin[i]);
+			if (endmark != -1)
+				msg.Insert(endmark, formatting_strings_end[i]);
+			msg.Insert(beginmark, L" ");
+			msg.Insert(beginmark, formatting_strings_begin[i]);
 		}
 	}
 
-	if (!(m_dwFlags & MWF_LOG_TEXTFORMAT) || message.find(L"://") != message.npos) {
+	if (!(m_dwFlags & MWF_LOG_TEXTFORMAT) || msg.Find(L"://") != -1) {
 		m_bClrAdded = clr_was_added;
-		return message.c_str();
+		return;
 	}
 
-	while ((beginmark = message.find_first_of(L"*/_", beginmark)) != message.npos) {
-		endmarker = message[beginmark];
+	while ((beginmark = msg.Find(L"*/_", beginmark)) != -1) {
+		endmarker = msg[beginmark];
 		if (LOWORD(flags)) {
-			if (beginmark > 0 && !iswspace(message[beginmark - 1]) && !iswpunct(message[beginmark - 1])) {
+			if (beginmark > 0 && !iswspace(msg[beginmark - 1]) && !iswpunct(msg[beginmark - 1])) {
 				beginmark++;
 				continue;
 			}
 
 			// search a corresponding endmarker which fulfills the criteria
 			INT_PTR mark = beginmark + 1;
-			while ((endmark = message.find(endmarker, mark)) != message.npos) {
-				if (iswpunct(message[endmark + 1]) || iswspace(message[endmark + 1]) || message[endmark + 1] == 0 || wcschr(L"*/_", message[endmark + 1]) != nullptr)
+			while ((endmark = msg.Find(endmarker, mark)) != -1) {
+				if (iswpunct(msg[endmark + 1]) || iswspace(msg[endmark + 1]) || msg[endmark + 1] == 0 || wcschr(L"*/_", msg[endmark + 1]) != nullptr)
 					goto ok;
 				mark = endmark + 1;
 			}
 			break;
 		}
 		else {
-			if ((endmark = message.find(endmarker, beginmark + 1)) == message.npos)
+			if ((endmark = msg.Find(endmarker, beginmark + 1)) == -1)
 				break;
 		}
 ok:
@@ -204,8 +198,7 @@ ok:
 		// check if the code enclosed by simple formatting tags is a valid smiley code and skip formatting if
 		// it really is one.
 		if (PluginConfig.g_SmileyAddAvail && (endmark > (beginmark + 1))) {
-			tstring smcode;
-			smcode.assign(message, beginmark, (endmark - beginmark) + 1);
+			CMStringW smcode = msg.Mid(beginmark, (endmark - beginmark) + 1);
 
 			SMADD_BATCHPARSE2 smbp = { 0 };
 			smbp.cbSize = sizeof(smbp);
@@ -220,13 +213,12 @@ ok:
 				continue;
 			}
 		}
-		message.insert(endmark, L"%%%");
-		message.replace(endmark, 4, formatting_strings_end[index]);
-		message.insert(beginmark, L"%%%");
-		message.replace(beginmark, 4, formatting_strings_begin[index]);
+		msg.Insert(endmark, L"%%%");
+		msg.Insert(endmark, formatting_strings_end[index]);
+		msg.Insert(beginmark, L"%%%");
+		msg.Insert(beginmark, formatting_strings_begin[index]);
 	}
 	m_bClrAdded = clr_was_added;
-	return message.c_str();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1171,11 +1163,8 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-			HICON		hIcon = 0;
-			UINT		uResId = 0;
-			wchar_t		temp[1024];
-			SETTEXTEX	stx = { ST_SELECTION, CP_UTF8 };
-			size_t		pos = 0;
+			UINT uResId = 0;
+			HICON hIcon = 0;
 
 			m_hwnd = hwnd;
 
@@ -1184,24 +1173,14 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_AUTOURLDETECT, TRUE, 0);
 			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETEVENTMASK, 0, ENM_LINK);
 
-			mir_snwprintf(temp, RTF_DEFAULT_HEADER, 0, 0, 0, 30 * 15);
-			tstring *str = new tstring(temp);
-
-			str->append(m_szText);
-			str->append(L"}");
-
 			TranslateDialogDefault(hwnd);
 
-			/*
-			* convert normal line breaks to rtf
-			*/
-			while ((pos = str->find(L"\n")) != str->npos) {
-				str->erase(pos, 1);
-				str->insert(pos, L"\\line ");
-			}
-
-			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETTEXTEX, (WPARAM)&stx, T2Utf(str->c_str()));
-			delete str;
+			CMStringW str(FORMAT, RTF_DEFAULT_HEADER, 0, 0, 0, 30 * 15);
+			str.Append(m_szText);
+			str.Append(L"}");
+			str.Replace(L"\n", L"\\line ");
+			SETTEXTEX stx = { ST_SELECTION, CP_UTF8 };
+			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETTEXTEX, (WPARAM)&stx, T2Utf(str));
 
 			::SetDlgItemTextW(hwnd, IDC_CAPTION, m_szTitle);
 
