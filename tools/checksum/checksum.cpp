@@ -6,7 +6,6 @@
 
 #include "commonheaders.h"
 
-
 // Return codes
 #define RESULT_OK			0
 #define RESULT_NOTFOUND		10
@@ -16,18 +15,14 @@
 #define RESULT_INVALID		50
 #define RESULT_NONE			100
 
-
-#define DEBUG_SECTIONS		1
-#define DEBUG_REALLOCS		1
-
 int debug = 0;
 
-static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, BYTE* pBase);
+static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase);
 
-static void PatchResourceEntry(PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE, BYTE* pBase)
+static void PatchResourceEntry(PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE, PBYTE pBase)
 {
-	if ( pIRDE->DataIsDirectory )
-		PatchResourcesDirectory( PIMAGE_RESOURCE_DIRECTORY(pBase + pIRDE->OffsetToDirectory), pBase);
+	if (pIRDE->DataIsDirectory)
+		PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY(pBase + pIRDE->OffsetToDirectory), pBase);
 }
 
 static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase)
@@ -35,131 +30,108 @@ static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase)
 	UINT i;
 	pIRD->TimeDateStamp = 0;
 
-	PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE = PIMAGE_RESOURCE_DIRECTORY_ENTRY(pIRD+1);
-	for ( i=0; i < pIRD->NumberOfNamedEntries; i++, pIRDE++ )
+	PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE = PIMAGE_RESOURCE_DIRECTORY_ENTRY(pIRD + 1);
+	for (i = 0; i < pIRD->NumberOfNamedEntries; i++, pIRDE++)
 		PatchResourceEntry(pIRDE, pBase);
 
-	for ( i=0; i < pIRD->NumberOfIdEntries; i++, pIRDE++ )
+	for (i = 0; i < pIRD->NumberOfIdEntries; i++, pIRDE++)
 		PatchResourceEntry(pIRDE, pBase);
 }
 
-int PEChecksum( TCHAR *filename, BYTE digest[16] )
+int PEChecksum(wchar_t *filename, BYTE digest[16])
 {
-	HANDLE hFile = INVALID_HANDLE_VALUE;
-	HANDLE hMap;
-	PBYTE ptr = 0;
-	int res = RESULT_OK;
-	DWORD filesize;
-	DWORD hsize = 0;
-
-	WORD machine = 0;
-	DWORD sections = 0;
-
-	hFile = CreateFile( filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL );
-
-	if ( hFile == INVALID_HANDLE_VALUE )
+	HANDLE hFile = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+	if (hFile == INVALID_HANDLE_VALUE)
 		return RESULT_NOTFOUND;
 
 	// check minimum and maximum size
-	filesize = GetFileSize( hFile, &hsize );
-
-	if ( !filesize || filesize == INVALID_FILE_SIZE || hsize )
-	{
-		CloseHandle( hFile );
+	DWORD hsize = 0;
+	DWORD filesize = GetFileSize(hFile, &hsize);
+	if (!filesize || filesize == INVALID_FILE_SIZE || hsize) {
+		CloseHandle(hFile);
 		return RESULT_INVALID;
 	}
 
-	if ( filesize < sizeof(IMAGE_DOS_HEADER) + sizeof(IMAGE_NT_HEADERS))
-	{
-		CloseHandle( hFile );
+	if (filesize < sizeof(IMAGE_DOS_HEADER) + sizeof(IMAGE_NT_HEADERS)) {
+		CloseHandle(hFile);
 		return RESULT_NOTPE;
 	}
 
-	hMap = CreateFileMapping( hFile, NULL, PAGE_WRITECOPY, 0, 0, NULL );
+	PBYTE ptr = nullptr;
+	HANDLE hMap = CreateFileMapping(hFile, NULL, PAGE_WRITECOPY, 0, 0, NULL);
+	if (hMap)
+		ptr = (PBYTE)MapViewOfFile(hMap, FILE_MAP_COPY, 0, 0, 0);
 
-	if ( hMap )
-		ptr = (PBYTE)MapViewOfFile( hMap, FILE_MAP_COPY, 0, 0 ,0 );
+	int res = RESULT_OK;
+	if (ptr) {
+		PIMAGE_DOS_HEADER pIDH = (PIMAGE_DOS_HEADER)ptr;
 
-	if ( ptr )
-	{
-		PIMAGE_DOS_HEADER pIDH = 0;
-		PIMAGE_NT_HEADERS pINTH = 0;
+		PIMAGE_NT_HEADERS pINTH = nullptr;
+		if (pIDH->e_magic == IMAGE_DOS_SIGNATURE)
+			pINTH = (PIMAGE_NT_HEADERS)(ptr + pIDH->e_lfanew);
 
-		pIDH = (PIMAGE_DOS_HEADER)ptr;
-
-		if ( pIDH->e_magic == IMAGE_DOS_SIGNATURE )
-			pINTH = (PIMAGE_NT_HEADERS)( ptr + pIDH->e_lfanew );
-
-		if ( !pINTH)
+		if (!pINTH)
 			res = RESULT_NOTPE;
-		else
-		if ((PBYTE)pINTH + sizeof(IMAGE_NT_HEADERS) >= ptr + filesize )
+		else if ((PBYTE)pINTH + sizeof(IMAGE_NT_HEADERS) >= ptr + filesize)
 			res = RESULT_CORRUPTED;
-		else
-		if ( pINTH->Signature != IMAGE_NT_SIGNATURE )
+		else if (pINTH->Signature != IMAGE_NT_SIGNATURE)
 			res = RESULT_NOTPE;
-		else
-		{
-			machine = pINTH->FileHeader.Machine;
+		else {
+			WORD machine = pINTH->FileHeader.Machine;
 
-#ifdef DEBUG_SECTIONS
-			if ( debug ) {
-				switch(machine) {
+			if (debug) {
+				switch (machine) {
 				case IMAGE_FILE_MACHINE_I386:
-					_ftprintf( stderr, L"Build: x86\n");
+					fwprintf(stderr, L"Build: x86\n");
 					break;
 				case IMAGE_FILE_MACHINE_AMD64:
-					_ftprintf( stderr, L"Build: x64\n");
+					fwprintf(stderr, L"Build: x64\n");
 					break;
 				case IMAGE_FILE_MACHINE_IA64:
-					_ftprintf( stderr, L"Build: IA64 :-)\n");
+					fwprintf(stderr, L"Build: IA64 :-)\n");
 					break;
 				default:
-					_ftprintf( stderr, L"Build: unknown :-(\n");
+					fwprintf(stderr, L"Build: unknown :-(\n");
 					break;
 				}
 			}
-#endif
-			sections = pINTH->FileHeader.NumberOfSections;
 
-			if ( !sections )
+			DWORD sections = pINTH->FileHeader.NumberOfSections;
+			if (!sections)
 				res = RESULT_INVALID;
-			else
-			{
+			else {
 				PIMAGE_DATA_DIRECTORY pIDD = 0;
 				PIMAGE_DEBUG_DIRECTORY pDBG = 0;
 				DWORD dbgSize = 0, dbgAddr = 0;    // debug information
 				DWORD expSize = 0, expAddr = 0;    // export table
 				DWORD resSize = 0, resAddr = 0;    // resource directory
 				DWORD relocSize = 0, relocAddr = 0; // relocation table
-				PBYTE pRealloc = 0;
-				DWORD offset;
+				PBYTE pRealloc = nullptr;
 				ULONGLONG base = 0;
 
 				// try to found correct offset independent of architectures
-				offset = pIDH->e_lfanew + pINTH->FileHeader.SizeOfOptionalHeader + sizeof(IMAGE_NT_HEADERS) - sizeof(IMAGE_OPTIONAL_HEADER);
+				DWORD offset = pIDH->e_lfanew + pINTH->FileHeader.SizeOfOptionalHeader + sizeof(IMAGE_NT_HEADERS) - sizeof(IMAGE_OPTIONAL_HEADER);
 
-				if (( machine == IMAGE_FILE_MACHINE_I386 ) &&
-					( pINTH->FileHeader.SizeOfOptionalHeader >= sizeof(IMAGE_OPTIONAL_HEADER32)) &&
-					( pINTH->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR32_MAGIC ))
+				if ((machine == IMAGE_FILE_MACHINE_I386) &&
+					(pINTH->FileHeader.SizeOfOptionalHeader >= sizeof(IMAGE_OPTIONAL_HEADER32)) &&
+					(pINTH->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR32_MAGIC))
 				{
-					pIDD = (PIMAGE_DATA_DIRECTORY)((PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS32, OptionalHeader.DataDirectory ));
-					base = *(DWORD*)((PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS32, OptionalHeader.ImageBase ));
+					pIDD = (PIMAGE_DATA_DIRECTORY)((PBYTE)pINTH + offsetof(IMAGE_NT_HEADERS32, OptionalHeader.DataDirectory));
+					base = *(DWORD*)((PBYTE)pINTH + offsetof(IMAGE_NT_HEADERS32, OptionalHeader.ImageBase));
 				}
-				else if (( machine == IMAGE_FILE_MACHINE_AMD64 ) &&
-					( pINTH->FileHeader.SizeOfOptionalHeader >= sizeof(IMAGE_OPTIONAL_HEADER64)) &&
-					( pINTH->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR64_MAGIC ))
+				else if ((machine == IMAGE_FILE_MACHINE_AMD64) &&
+					(pINTH->FileHeader.SizeOfOptionalHeader >= sizeof(IMAGE_OPTIONAL_HEADER64)) &&
+					(pINTH->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR64_MAGIC))
 				{
-					pIDD = (PIMAGE_DATA_DIRECTORY)((PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS64, OptionalHeader.DataDirectory ));
-					base = *(ULONGLONG*)((PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS64, OptionalHeader.ImageBase ));
+					pIDD = (PIMAGE_DATA_DIRECTORY)((PBYTE)pINTH + offsetof(IMAGE_NT_HEADERS64, OptionalHeader.DataDirectory));
+					base = *(ULONGLONG*)((PBYTE)pINTH + offsetof(IMAGE_NT_HEADERS64, OptionalHeader.ImageBase));
 				}
 				else res = RESULT_CORRUPTED;
 
-#ifdef DEBUG_REALLOCS
-				if ( debug )
-					_ftprintf( stderr, L"Image base is 0x%I64x \n", base );
-#endif
-				if ( pIDD ) {
+				if (debug)
+					fwprintf(stderr, L"Image base is 0x%I64x \n", base);
+
+				if (pIDD) {
 					// Debugging information entry
 					dbgAddr = pIDD[IMAGE_DIRECTORY_ENTRY_DEBUG].VirtualAddress;
 					dbgSize = pIDD[IMAGE_DIRECTORY_ENTRY_DEBUG].Size;
@@ -178,152 +150,115 @@ int PEChecksum( TCHAR *filename, BYTE digest[16] )
 				}
 
 				// verify image integrity
-				for (DWORD idx=0; idx < sections; idx++)
-				{
-					PIMAGE_SECTION_HEADER pISH = (PIMAGE_SECTION_HEADER)( ptr + offset + idx * sizeof(IMAGE_SECTION_HEADER));
-
-					if (((PBYTE)pISH + sizeof(IMAGE_SECTION_HEADER) > ptr + filesize ) || ( pISH->PointerToRawData + pISH->SizeOfRawData > filesize ))
-					{
+				for (DWORD idx = 0; idx < sections; idx++) {
+					PIMAGE_SECTION_HEADER pISH = (PIMAGE_SECTION_HEADER)(ptr + offset + idx * sizeof(IMAGE_SECTION_HEADER));
+					if (((PBYTE)pISH + sizeof(IMAGE_SECTION_HEADER) > ptr + filesize) || (pISH->PointerToRawData + pISH->SizeOfRawData > filesize)) {
 						res = RESULT_CORRUPTED;
 						break;
 					}
 
 					// erase timestamp
-					if (( dbgSize >= sizeof( IMAGE_DEBUG_DIRECTORY )) &&
-						 ( dbgAddr >= pISH->VirtualAddress ) &&
-						 ( dbgAddr + dbgSize <= pISH->VirtualAddress + pISH->SizeOfRawData ))
-					{
+					if ((dbgSize >= sizeof(IMAGE_DEBUG_DIRECTORY)) && (dbgAddr >= pISH->VirtualAddress) && (dbgAddr + dbgSize <= pISH->VirtualAddress + pISH->SizeOfRawData)) {
 						DWORD shift = dbgAddr - pISH->VirtualAddress;
-						pDBG = (PIMAGE_DEBUG_DIRECTORY)( ptr + shift + pISH->PointerToRawData );
-						pDBG->TimeDateStamp = 0;
+						pDBG = (PIMAGE_DEBUG_DIRECTORY)(ptr + shift + pISH->PointerToRawData);
+						for (int i = dbgSize / sizeof(IMAGE_DEBUG_DIRECTORY); i > 0; i--)
+							pDBG[i-1].TimeDateStamp = 0;
 
-#ifdef DEBUG_SECTIONS
-						if ( debug )
-							_ftprintf( stderr, L"Found debug section entry at 0x%08X (%d), data at 0x%08X (%d)\n", pISH->PointerToRawData + shift, dbgSize, pDBG->PointerToRawData, pDBG->SizeOfData );
-#endif
+						if (debug)
+							fwprintf(stderr, L"Found debug section entry at 0x%08X (%d), data at 0x%08X (%d)\n", pISH->PointerToRawData + shift, dbgSize, pDBG->PointerToRawData, pDBG->SizeOfData);
 					}
 
 					// erase export timestamp
-					if (( expSize >= sizeof( IMAGE_EXPORT_DIRECTORY )) &&
-						 ( expAddr >= pISH->VirtualAddress ) &&
-						 ( expAddr + expSize <= pISH->VirtualAddress + pISH->SizeOfRawData ))
-					{
+					if ((expSize >= sizeof(IMAGE_EXPORT_DIRECTORY)) && (expAddr >= pISH->VirtualAddress) && (expAddr + expSize <= pISH->VirtualAddress + pISH->SizeOfRawData)) {
 						DWORD shift = expAddr - pISH->VirtualAddress;
-						PIMAGE_EXPORT_DIRECTORY pEXP = (PIMAGE_EXPORT_DIRECTORY)( ptr + shift + pISH->PointerToRawData );
+						PIMAGE_EXPORT_DIRECTORY pEXP = (PIMAGE_EXPORT_DIRECTORY)(ptr + shift + pISH->PointerToRawData);
 
 						pEXP->TimeDateStamp = 0;
-#ifdef DEBUG_SECTIONS
-						if ( debug )
-							_ftprintf( stderr, L"Found export section entry at 0x%08X\n", pISH->PointerToRawData + shift );
-#endif
+
+						if (debug)
+							fwprintf(stderr, L"Found export section entry at 0x%08X\n", pISH->PointerToRawData + shift);
 					}
 
 					// find realocation table
-					if (( relocSize >= sizeof( IMAGE_BASE_RELOCATION )) &&
-						 ( relocAddr >= pISH->VirtualAddress ) &&
-						 ( relocAddr + relocSize <= pISH->VirtualAddress + pISH->SizeOfRawData ))
-					{
+					if ((relocSize >= sizeof(IMAGE_BASE_RELOCATION)) && (relocAddr >= pISH->VirtualAddress) && (relocAddr + relocSize <= pISH->VirtualAddress + pISH->SizeOfRawData)) {
 						DWORD shift = relocAddr - pISH->VirtualAddress;
 						pRealloc = ptr + shift + pISH->PointerToRawData;
-#ifdef DEBUG_SECTIONS
-						if ( debug )
-							_ftprintf( stderr, L"Found reallocation table entry at 0x%08X (%d)\n", pISH->PointerToRawData + shift, relocSize );
-#endif
+
+						if (debug)
+							fwprintf(stderr, L"Found reallocation table entry at 0x%08X (%d)\n", pISH->PointerToRawData + shift, relocSize);
 					}
 				}
 
-				if ( res == RESULT_OK )
-				{
+				if (res == RESULT_OK) {
 					mir_md5_state_t pms;
-					mir_md5_init( &pms );
+					mir_md5_init(&pms);
 
-					for (size_t idx=0; idx < sections; idx++)
-					{
-						PIMAGE_SECTION_HEADER pISH = (PIMAGE_SECTION_HEADER)( ptr + offset + idx * sizeof(IMAGE_SECTION_HEADER));
+					for (size_t idx = 0; idx < sections; idx++) {
+						PIMAGE_SECTION_HEADER pISH = (PIMAGE_SECTION_HEADER)(ptr + offset + idx * sizeof(IMAGE_SECTION_HEADER));
 
-						if (((PBYTE)pISH + sizeof(IMAGE_SECTION_HEADER) > ptr + filesize ) || ( pISH->PointerToRawData + pISH->SizeOfRawData > filesize ))
-						{
+						if (((PBYTE)pISH + sizeof(IMAGE_SECTION_HEADER) > ptr + filesize) || (pISH->PointerToRawData + pISH->SizeOfRawData > filesize)) {
 							res = RESULT_CORRUPTED;
 							break;
 						}
 
 						// erase debug information
-						if ( pDBG && pDBG->SizeOfData > 0 &&
-							  pDBG->PointerToRawData >= pISH->PointerToRawData &&
-							  pDBG->PointerToRawData + pDBG->SizeOfData <= pISH->PointerToRawData + pISH->SizeOfRawData )
-						{
-							ZeroMemory( ptr + pDBG->PointerToRawData, pDBG->SizeOfData );
-						}
+						if (pDBG && pDBG->SizeOfData > 0)
+							if (pDBG->PointerToRawData >= pISH->PointerToRawData && pDBG->PointerToRawData + pDBG->SizeOfData <= pISH->PointerToRawData + pISH->SizeOfRawData)
+								ZeroMemory(ptr + pDBG->PointerToRawData, pDBG->SizeOfData);
 
 						// patch resources
-						if ( resSize > 0 && resAddr >= pISH->VirtualAddress && resAddr + resSize <= pISH->VirtualAddress + pISH->SizeOfRawData )
-						{
+						if (resSize > 0 && resAddr >= pISH->VirtualAddress && resAddr + resSize <= pISH->VirtualAddress + pISH->SizeOfRawData) {
 							DWORD shift = resAddr - pISH->VirtualAddress + pISH->PointerToRawData;
-							IMAGE_RESOURCE_DIRECTORY* pIRD = (IMAGE_RESOURCE_DIRECTORY*)( ptr + shift );
+							IMAGE_RESOURCE_DIRECTORY* pIRD = (IMAGE_RESOURCE_DIRECTORY*)(ptr + shift);
 							PatchResourcesDirectory(pIRD, ptr + shift);
 						}
 
 						// rebase to zero address
-						if ( pRealloc )
-						{
+						if (pRealloc) {
 							DWORD blocklen = relocSize;
-							PWORD pw;
-							DWORD type;
-							int   len;
-							PBYTE pAddr;
-							DWORD shift;
-							DWORD addr;
 
 							PIMAGE_BASE_RELOCATION pIBR = (PIMAGE_BASE_RELOCATION)pRealloc;
-							while( pIBR )
-							{
-								if (( pIBR->VirtualAddress >= pISH->VirtualAddress ) &&
-									 ( pIBR->VirtualAddress < pISH->VirtualAddress + pISH->SizeOfRawData ) &&
-									 ( pIBR->SizeOfBlock <= blocklen ))
+							while (pIBR) {
+								if ((pIBR->VirtualAddress >= pISH->VirtualAddress) &&
+									 (pIBR->VirtualAddress < pISH->VirtualAddress + pISH->SizeOfRawData) &&
+									 (pIBR->SizeOfBlock <= blocklen))
 								{
-									shift = pIBR->VirtualAddress - pISH->VirtualAddress + pISH->PointerToRawData;
+									DWORD shift = pIBR->VirtualAddress - pISH->VirtualAddress + pISH->PointerToRawData;
 
-									len = pIBR->SizeOfBlock - sizeof(IMAGE_BASE_RELOCATION);
+									int len = pIBR->SizeOfBlock - sizeof(IMAGE_BASE_RELOCATION);
 
-									pw = (PWORD)((PBYTE)pIBR + sizeof(IMAGE_BASE_RELOCATION));
-#ifdef DEBUG_REALLOCS
-									if ( debug )
-										_ftprintf( stderr, L"Realloc block at %08X (%d)\n", pIBR->VirtualAddress, pIBR->SizeOfBlock );
-#endif
+									PWORD pw = (PWORD)((PBYTE)pIBR + sizeof(IMAGE_BASE_RELOCATION));
+									if (debug)
+										fwprintf(stderr, L"Realloc block at %08X (%d)\n", pIBR->VirtualAddress, pIBR->SizeOfBlock);
 
-									while( len > 0 )
-									{
-										type = *pw >> 12;
+									while (len > 0) {
+										DWORD type = *pw >> 12;
+										DWORD addr = (*pw & 0x0FFF);
+										PBYTE pAddr = ptr + shift + addr;
 
-										addr = ( *pw & 0x0FFF );
-
-										pAddr = ptr + shift + addr;
-
-										switch( type ) {
+										switch (type) {
 										case IMAGE_REL_BASED_HIGHLOW:
-											if ( addr + pIBR->VirtualAddress + sizeof(DWORD) >= pISH->VirtualAddress + pISH->SizeOfRawData )
-											{
+											if (addr + pIBR->VirtualAddress + sizeof(DWORD) >= pISH->VirtualAddress + pISH->SizeOfRawData) {
 												len = 0;
 												break;
 											}
-#ifdef DEBUG_REALLOCS
-											if ( debug && ( *(PDWORD)pAddr < (DWORD)base ))
-												_ftprintf( stderr, L"Realloc address is less than base\n");
-#endif
-											*(PDWORD)pAddr = (DWORD)((*(PDWORD)pAddr) - (DWORD)base );
+
+											if (debug && (*(PDWORD)pAddr < (DWORD)base))
+												fwprintf(stderr, L"Realloc address is less than base\n");
+
+											*(PDWORD)pAddr = (DWORD)((*(PDWORD)pAddr) - (DWORD)base);
 											break;
 
 										case IMAGE_REL_BASED_DIR64:
-											if ( addr + pIBR->VirtualAddress + sizeof(ULONGLONG) >= pISH->VirtualAddress + pISH->SizeOfRawData )
-											{
+											if (addr + pIBR->VirtualAddress + sizeof(ULONGLONG) >= pISH->VirtualAddress + pISH->SizeOfRawData) {
 												len = 0;
 												break;
 											}
-#ifdef DEBUG_REALLOCS
-											if ( debug && ( *(ULONGLONG*)pAddr < base ))
-												_ftprintf( stderr, L"Realloc address is less than base\n");
-#endif
-											*(ULONGLONG*)pAddr = (ULONGLONG)((*(ULONGLONG*)pAddr) - base );
+
+											if (debug && (*(ULONGLONG*)pAddr < base))
+												fwprintf(stderr, L"Realloc address is less than base\n");
+
+											*(ULONGLONG*)pAddr = (ULONGLONG)((*(ULONGLONG*)pAddr) - base);
 											break;
 
 										case IMAGE_REL_BASED_ABSOLUTE:
@@ -334,17 +269,13 @@ int PEChecksum( TCHAR *filename, BYTE digest[16] )
 										case IMAGE_REL_BASED_HIGH:
 										case IMAGE_REL_BASED_LOW:
 										case IMAGE_REL_BASED_HIGHADJ:
-#ifdef DEBUG_REALLOCS
-											if ( debug )
-												_ftprintf( stderr, L"Unexpected block type %d\n", type );
-#endif
+											if (debug)
+												fwprintf(stderr, L"Unexpected block type %d\n", type);
 											break;
 
 										default:
-#ifdef DEBUG_REALLOCS
-											if ( debug )
-												_ftprintf( stderr, L"Unknown block type %d\n", type );
-#endif
+											if (debug)
+												fwprintf(stderr, L"Unknown block type %d\n", type);
 											break;
 										}
 
@@ -354,62 +285,56 @@ int PEChecksum( TCHAR *filename, BYTE digest[16] )
 								}
 
 								blocklen -= pIBR->SizeOfBlock;
-								if ( blocklen > sizeof(IMAGE_BASE_RELOCATION))
-									pIBR = (PIMAGE_BASE_RELOCATION)((PBYTE)pIBR + pIBR->SizeOfBlock );
+								if (blocklen > sizeof(IMAGE_BASE_RELOCATION))
+									pIBR = (PIMAGE_BASE_RELOCATION)((PBYTE)pIBR + pIBR->SizeOfBlock);
 								else
 									break;
 							}
 						}
-#ifdef DEBUG_SECTIONS
-						if ( debug )
-						{
-							int i;
+
+						if (debug) {
 							BYTE digest2[16];
 							mir_md5_state_t pms2;
+							mir_md5_init(&pms2);
+							mir_md5_append(&pms2, ptr + pISH->PointerToRawData, pISH->SizeOfRawData);
+							mir_md5_finish(&pms2, digest2);
 
-							mir_md5_init( &pms2 );
-							mir_md5_append( &pms2, ptr + pISH->PointerToRawData, pISH->SizeOfRawData );
-							mir_md5_finish( &pms2, digest2 );
-
-							_ftprintf( stderr, L"%s - %08X - %d ", pISH->Name, pISH->PointerToRawData, pISH->SizeOfRawData);
-
-							for ( i = 0; i < sizeof( digest2 ) / sizeof( digest2[0] ); i++ )
-								_ftprintf( stderr, L"%02X", digest2[i] );
-							_ftprintf( stderr, L"\n");
+							fwprintf(stderr, L"%S - %08X - %d ", pISH->Name, pISH->PointerToRawData, pISH->SizeOfRawData);
+							for (int i = 0; i < sizeof(digest2) / sizeof(digest2[0]); i++)
+								fwprintf(stderr, L"%02X", digest2[i]);
+							fwprintf(stderr, L"\n");
 						}
-#endif
 
-						mir_md5_append( &pms, ptr + pISH->PointerToRawData, pISH->SizeOfRawData );
+						mir_md5_append(&pms, ptr + pISH->PointerToRawData, pISH->SizeOfRawData);
 					}
 
-					if ( res == RESULT_OK )
-						mir_md5_finish( &pms, digest );
+					if (res == RESULT_OK)
+						mir_md5_finish(&pms, digest);
 				}
 			}
 		}
 	}
 	else res = RESULT_READERROR;
 
-	if ( ptr )
-		UnmapViewOfFile( ptr );
+	if (ptr)
+		UnmapViewOfFile(ptr);
 
-	if ( hMap )
-		CloseHandle( hMap );
+	if (hMap)
+		CloseHandle(hMap);
 
-	CloseHandle( hFile );
+	CloseHandle(hFile);
 
 	return res;
 }
 
-TCHAR* trtrim( TCHAR *str )
+wchar_t* trtrim(wchar_t *str)
 {
-	if ( str == NULL )
+	if (str == NULL)
 		return NULL;
 
-	TCHAR* p = _tcschr( str, 0 );
-	while ( --p >= str )
-	{
-		switch ( *p ) {
+	wchar_t* p = _tcschr(str, 0);
+	while (--p >= str) {
+		switch (*p) {
 		case L' ': case L'\t': case L'\n': case L'\r':
 			*p = 0; break;
 		default:
@@ -420,102 +345,101 @@ TCHAR* trtrim( TCHAR *str )
 }
 
 
-int process(TCHAR *filename)
+int process(wchar_t *filename)
 {
-	int res;
-	BYTE digest[16] = {0};
+	BYTE digest[16] = { 0 };
 
-	res = PEChecksum( filename,  digest);
+	int res = PEChecksum(filename, digest);
 
-	switch(res) {
-		case RESULT_NOTFOUND:
-			_ftprintf( stderr, L"'%s'... not found!\n", filename );
-			break;
-		case RESULT_READERROR:
-			_ftprintf( stderr, L"'%s'... read error!\n", filename );
-			break;
-		case RESULT_NOTPE:
-			_ftprintf( stderr, L"'%s'... not PE type!\n", filename );
-			break;
-		case RESULT_CORRUPTED:
-			_ftprintf( stderr, L"'%s'... corrupted!\n", filename );
-			break;
-		case RESULT_OK:
-		{
-			int i;
-			_ftprintf( stdout, L"%s ", filename );
-			for ( i = 0; i < sizeof( digest ) / sizeof( digest[0] ); i++ )
-				_ftprintf( stdout, L"%02X", digest[i] );
-			_ftprintf( stdout, L"\n");
-			break;
-		}
-		default:
-			break;
+	switch (res) {
+	case RESULT_NOTFOUND:
+		fwprintf(stderr, L"'%s'... not found!\n", filename);
+		break;
+
+	case RESULT_READERROR:
+		fwprintf(stderr, L"'%s'... read error!\n", filename);
+		break;
+
+	case RESULT_NOTPE:
+		fwprintf(stderr, L"'%s'... not PE type!\n", filename);
+		break;
+
+	case RESULT_CORRUPTED:
+		fwprintf(stderr, L"'%s'... corrupted!\n", filename);
+		break;
+
+	case RESULT_OK:
+		fwprintf(stdout, L"%s ", filename);
+		for (int i = 0; i < sizeof(digest) / sizeof(digest[0]); i++)
+			fwprintf(stdout, L"%02X", digest[i]);
+		fwprintf(stdout, L"\n");
+		break;
+
+	default:
+		break;
 	}
 	return res;
 }
 
 
-int _tmain( int argc, TCHAR *argv[] )
+int _tmain(int argc, wchar_t *argv[])
 {
-	TCHAR buf[ MAX_PATH ];
+	wchar_t buf[MAX_PATH];
 	int res = 0;
 	int cnt = 0;
 	int i;
 
-	_ftprintf( stderr, L"* PE CHECKSUM TOOL * VERSION %s * by Bio (c) 2012\n\n", _VERSION_ );
+	fwprintf(stderr, L"* PE CHECKSUM TOOL * VERSION %S * by Bio (c) 2012\n\n", _VERSION_);
 
-	if ( argc > 1 )
-	{
+	if (argc > 1) {
 		WIN32_FIND_DATA ffd;
 		HANDLE hFind = INVALID_HANDLE_VALUE;
 
-		for ( i = 1; i < argc; i++ )
-		{
-			if ( !_tcscmp( argv[i], L"/debug") || !_tcscmp( argv[i], L"/DEBUG"))
-			{
+		for (i = 1; i < argc; i++) {
+			if (!wcscmp(argv[i], L"/debug") || !wcscmp(argv[i], L"/DEBUG")) {
 				debug = 1;
 				break;
 			}
 		}
 
-		_ftprintf( stderr, L"Processing ... \n");
+		fwprintf(stderr, L"Processing ... \n");
 
-		for ( i = 1; i < argc; i++ )
-		{
-			if ( !_tcscmp( argv[i], L"/stdin") || !_tcscmp( argv[i], L"/STDIN"))
-			{
-				while ( _fgetts( buf, sizeof( buf ), stdin ) != NULL )
-				{
-					trtrim( buf );
-					res = process( buf );
+		for (i = 1; i < argc; i++) {
+			if (!wcscmp(argv[i], L"/stdin") || !wcscmp(argv[i], L"/STDIN")) {
+				while (fgetws(buf, sizeof(buf), stdin) != NULL) {
+					trtrim(buf);
+					res = process(buf);
 					cnt++;
 				}
 				continue;
 			}
 
-			hFind = FindFirstFile( argv[i], &ffd );
+			wchar_t *p = wcsrchr(argv[i], '\\');
+			if (p) {
+				*p = 0;
+				SetCurrentDirectory(argv[i]);
+				*p = '\\';
+			}
 
-			while( hFind != INVALID_HANDLE_VALUE )
-			{
-				if ( ! ( ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ))
-				{
-					res = process( ffd.cFileName );
+			hFind = FindFirstFile(argv[i], &ffd);
+
+			while (hFind != INVALID_HANDLE_VALUE) {
+				if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+					res = process(ffd.cFileName);
 					cnt++;
 				}
-				if ( !FindNextFile( hFind, &ffd ))
+				if (!FindNextFile(hFind, &ffd))
 					break;
 			}
 
-			FindClose( hFind );
+			FindClose(hFind);
 		}
 
-		_ftprintf( stderr, L"%d file(s) processed.\n", cnt );
+		fwprintf(stderr, L"%d file(s) processed.\n", cnt);
 	}
-	else
-	{
-		_ftprintf( stderr, L"Usage:    checksum.exe [/debug] [/stdin] [*.dll] ... [*.exe]\n");
-		_ftprintf( stderr, L"Example:  dir /b /s | checksum.exe /stdin > hashes.txt\n");
+	else {
+		fwprintf(stderr, L"Usage:    checksum.exe [/debug] [/stdin] [*.dll] ... [*.exe]\n");
+		fwprintf(stderr, L"Example:  dir /b /s | checksum.exe /stdin > hashes.txt\n");
 		res = RESULT_NONE;
 	}
 
