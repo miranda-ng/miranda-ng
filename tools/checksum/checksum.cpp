@@ -38,6 +38,11 @@ static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase)
 		PatchResourceEntry(pIRDE, pBase);
 }
 
+__forceinline bool Contains(PIMAGE_SECTION_HEADER pISH, DWORD address, DWORD size = 0)
+{
+	return (address >= pISH->VirtualAddress && address + size <= pISH->VirtualAddress + pISH->SizeOfRawData);
+}
+
 int PEChecksum(wchar_t *filename, BYTE digest[16])
 {
 	HANDLE hFile = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
@@ -158,7 +163,7 @@ int PEChecksum(wchar_t *filename, BYTE digest[16])
 					}
 
 					// erase timestamp
-					if ((dbgSize >= sizeof(IMAGE_DEBUG_DIRECTORY)) && (dbgAddr >= pISH->VirtualAddress) && (dbgAddr + dbgSize <= pISH->VirtualAddress + pISH->SizeOfRawData)) {
+					if (dbgSize >= sizeof(IMAGE_DEBUG_DIRECTORY) && Contains(pISH, dbgAddr, dbgSize)) {
 						DWORD shift = dbgAddr - pISH->VirtualAddress;
 						pDBG = (PIMAGE_DEBUG_DIRECTORY)(ptr + shift + pISH->PointerToRawData);
 						for (int i = dbgSize / sizeof(IMAGE_DEBUG_DIRECTORY); i > 0; i--)
@@ -169,7 +174,7 @@ int PEChecksum(wchar_t *filename, BYTE digest[16])
 					}
 
 					// erase export timestamp
-					if ((expSize >= sizeof(IMAGE_EXPORT_DIRECTORY)) && (expAddr >= pISH->VirtualAddress) && (expAddr + expSize <= pISH->VirtualAddress + pISH->SizeOfRawData)) {
+					if (expSize >= sizeof(IMAGE_EXPORT_DIRECTORY) && Contains(pISH, expAddr, expSize)) {
 						DWORD shift = expAddr - pISH->VirtualAddress;
 						PIMAGE_EXPORT_DIRECTORY pEXP = (PIMAGE_EXPORT_DIRECTORY)(ptr + shift + pISH->PointerToRawData);
 						pEXP->TimeDateStamp = 0;
@@ -179,7 +184,7 @@ int PEChecksum(wchar_t *filename, BYTE digest[16])
 					}
 
 					// find realocation table
-					if ((relocSize >= sizeof(IMAGE_BASE_RELOCATION)) && (relocAddr >= pISH->VirtualAddress) && (relocAddr + relocSize <= pISH->VirtualAddress + pISH->SizeOfRawData)) {
+					if ((relocSize >= sizeof(IMAGE_BASE_RELOCATION)) && Contains(pISH, relocAddr, relocSize)) {
 						DWORD shift = relocAddr - pISH->VirtualAddress;
 						pRealloc = ptr + shift + pISH->PointerToRawData;
 
@@ -217,10 +222,7 @@ int PEChecksum(wchar_t *filename, BYTE digest[16])
 							DWORD blocklen = relocSize;
 							PIMAGE_BASE_RELOCATION pIBR = (PIMAGE_BASE_RELOCATION)pRealloc;
 							while (pIBR) {
-								if ((pIBR->VirtualAddress >= pISH->VirtualAddress) &&
-									 (pIBR->VirtualAddress < pISH->VirtualAddress + pISH->SizeOfRawData) &&
-									 (pIBR->SizeOfBlock <= blocklen))
-								{
+								if (Contains(pISH, pIBR->VirtualAddress) && pIBR->SizeOfBlock <= blocklen) {
 									DWORD shift = pIBR->VirtualAddress - pISH->VirtualAddress + pISH->PointerToRawData;
 
 									int len = pIBR->SizeOfBlock - sizeof(IMAGE_BASE_RELOCATION);
