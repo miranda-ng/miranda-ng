@@ -149,7 +149,7 @@ invalid_code:
 				msg.Delete(endmark, 4);
 				msg.Insert(endmark, formatting_strings_end[i]);
 			}
-			msg.Delete(beginmark, 4);
+			msg.Delete(beginmark, 3);
 			msg.Insert(beginmark, L" ");
 			msg.Insert(beginmark, formatting_strings_begin[i]);
 		}
