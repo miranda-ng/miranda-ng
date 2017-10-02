@@ -172,7 +172,6 @@ int PEChecksum(wchar_t *filename, BYTE digest[16])
 					if ((expSize >= sizeof(IMAGE_EXPORT_DIRECTORY)) && (expAddr >= pISH->VirtualAddress) && (expAddr + expSize <= pISH->VirtualAddress + pISH->SizeOfRawData)) {
 						DWORD shift = expAddr - pISH->VirtualAddress;
 						PIMAGE_EXPORT_DIRECTORY pEXP = (PIMAGE_EXPORT_DIRECTORY)(ptr + shift + pISH->PointerToRawData);
-
 						pEXP->TimeDateStamp = 0;
 
 						if (debug)
@@ -209,14 +208,13 @@ int PEChecksum(wchar_t *filename, BYTE digest[16])
 						// patch resources
 						if (resSize > 0 && resAddr >= pISH->VirtualAddress && resAddr + resSize <= pISH->VirtualAddress + pISH->SizeOfRawData) {
 							DWORD shift = resAddr - pISH->VirtualAddress + pISH->PointerToRawData;
-							IMAGE_RESOURCE_DIRECTORY* pIRD = (IMAGE_RESOURCE_DIRECTORY*)(ptr + shift);
+							IMAGE_RESOURCE_DIRECTORY *pIRD = (IMAGE_RESOURCE_DIRECTORY*)(ptr + shift);
 							PatchResourcesDirectory(pIRD, ptr + shift);
 						}
 
 						// rebase to zero address
 						if (pRealloc) {
 							DWORD blocklen = relocSize;
-
 							PIMAGE_BASE_RELOCATION pIBR = (PIMAGE_BASE_RELOCATION)pRealloc;
 							while (pIBR) {
 								if ((pIBR->VirtualAddress >= pISH->VirtualAddress) &&
