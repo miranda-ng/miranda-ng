@@ -27,6 +27,7 @@
 // Implementation of the option pages
 
 #include "stdafx.h"
+#include "templates.h"
 
 #define DM_GETSTATUSMASK (WM_USER + 10)
 
@@ -817,14 +818,14 @@ public:
 
 	void onClick_Modify(CCtrlButton*)
 	{
-		TemplateEditorNew teNew = { 0, 0, m_hwnd };
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_TEMPLATEEDIT), m_hwnd, DlgProcTemplateEditor, (LPARAM)&teNew);
+		CTemplateEditDlg *pDlg = new CTemplateEditDlg(FALSE, m_hwnd);
+		pDlg->Show();
 	}
 
 	void onClick_RtlModify(CCtrlButton*)
 	{
-		TemplateEditorNew teNew = { 0, TRUE, m_hwnd };
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_TEMPLATEEDIT), m_hwnd, DlgProcTemplateEditor, (LPARAM)&teNew);
+		CTemplateEditDlg *pDlg = new CTemplateEditDlg(TRUE, m_hwnd);
+		pDlg->Show();
 	}
 
 	void onChange_Combo(CCtrlCombo*)

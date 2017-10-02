@@ -9,9 +9,7 @@
 //
 #include <winres.h>
 #include "..\..\..\include\statusmodes.h"
-
-
-
+#include "..\..\..\include\chat_resource.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -450,7 +448,7 @@ BEGIN
     GROUPBOX        "Templates",IDC_STATIC,3,4,108,94
     LISTBOX         IDC_TEMPLATELIST,8,14,97,81,LBS_OWNERDRAWVARIABLE | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Preview",IDC_STATIC,117,4,249,94
-    CONTROL         "",IDC_PREVIEW,"RichEdit50W",WS_VSCROLL | WS_TABSTOP | 0x844,122,14,236,80
+    CONTROL         "",IDC_SRMM_LOG,"RichEdit50W",WS_VSCROLL | WS_TABSTOP | 0x844,122,14,236,80
     GROUPBOX        "Edit template",IDC_STATIC,3,99,363,129
     EDITTEXT        IDC_EDITTEMPLATE,11,109,344,14,ES_AUTOHSCROLL
     LTEXT           "Double click a template to edit it. Select a template from the list box and click ""Update preview"" to show a preview message.",IDC_STATIC,11,126,342,26

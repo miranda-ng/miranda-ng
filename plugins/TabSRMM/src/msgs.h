@@ -555,6 +555,47 @@ public:
 	void UpdateWindowState(UINT msg);
 };
 
+class CTemplateEditDlg : public CTabBaseDlg
+{
+	typedef CTabBaseDlg CSuper;
+
+	BOOL rtl;
+	BOOL changed;           // template in edit field is changed
+	BOOL selchanging;
+	int  inEdit;            // template currently in editor
+	BOOL updateInfo[TMPL_ERRMSG + 1];  // item states...
+
+	TTemplateSet *tSet;
+
+	CCtrlEdit edtText;
+	CCtrlButton btnResetAll, btnHelp, btnSave, btnForget, btnRevert, btnPreview;
+	CCtrlListBox listTemplates;
+
+	virtual CThumbBase* tabCreateThumb(CProxyWindow*) const override { return nullptr; }
+	virtual void tabClearLog() override {}
+	virtual void UpdateTitle() override {};
+
+public:
+	CTemplateEditDlg(BOOL rtl, HWND hwndParent);
+
+	virtual void OnInitDialog() override;
+	virtual void OnDestroy() override;
+
+	virtual INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
+
+	void onChange_Text(CCtrlEdit*);
+
+	void onClick_Forget(CCtrlButton*);
+	void onClick_Help(CCtrlButton*);
+	void onClick_Preview(CCtrlButton*);
+	void onClick_Reset(CCtrlButton*);
+	void onClick_Revert(CCtrlButton*);
+	void onClick_Save(CCtrlButton*);
+
+	void onDblClick_List(CCtrlListBox*);
+	void onSelChange_List(CCtrlListBox*);
+};
+
 #define MESSAGE_WINDOW_DATA_SIZE offsetof(_MessageWindowData, hdbEventFirst);
 
 struct RECENTINFO

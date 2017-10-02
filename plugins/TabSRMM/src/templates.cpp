@@ -33,7 +33,8 @@
 * cannot be changed and may be used at any time to "revert" to a working layout
 */
 
-char *TemplateNames[] = {
+char *TemplateNames[] =
+{
 	LPGEN("Message In"),
 	LPGEN("Message Out"),
 	LPGEN("Group In (Start)"),
@@ -44,28 +45,32 @@ char *TemplateNames[] = {
 	LPGEN("Error message")
 };
 
-TTemplateSet LTR_Default = { TRUE,
-L"%I %N  %?&r%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
-L"%I %N  %?&r%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
-L"%I %N  %?&r%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
-L"%I %N  %?&r%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
-L"%S %T%|%M",
-L"%S %T%|%M",
-L"%I %S %&r, %&T, %N %M%! ",
-L"%I%S %r, %T, %e%l%M",
-"Default LTR"
+TTemplateSet LTR_Default = 
+{
+	TRUE,
+	L"%I %N  %?&r%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
+	L"%I %N  %?&r%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
+	L"%I %N  %?&r%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
+	L"%I %N  %?&r%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
+	L"%S %T%|%M",
+	L"%S %T%|%M",
+	L"%I %S %&r, %&T, %N %M%! ",
+	L"%I%S %r, %T, %e%l%M",
+	"Default LTR"
 };
 
-TTemplateSet RTL_Default = { TRUE,
-L"%I %N  %r%n%S %T%|%M",
-L"%I %N  %r%n%S %T%|%M",
-L"%I %N  %r%n%S %T%|%M",
-L"%I %N  %r%n%S %T%|%M",
-L"%S %T%|%M",
-L"%S %T%|%M",
-L"%I%S %r, %T, %N %M%! ",
-L"%I%S %r, %T, %e%l%M",
-"Default RTL"
+TTemplateSet RTL_Default =
+{
+	TRUE,
+	L"%I %N  %r%n%S %T%|%M",
+	L"%I %N  %r%n%S %T%|%M",
+	L"%I %N  %r%n%S %T%|%M",
+	L"%I %N  %r%n%S %T%|%M",
+	L"%S %T%|%M",
+	L"%S %T%|%M",
+	L"%I%S %r, %T, %N %M%! ",
+	L"%I%S %r, %T, %e%l%M",
+	"Default RTL"
 };
 
 TTemplateSet LTR_Active, RTL_Active;
@@ -108,279 +113,262 @@ void LoadDefaultTemplates()
 	LoadTemplatesFrom(&RTL_Active, 0, 1);
 }
 
-INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+CTemplateEditDlg::CTemplateEditDlg(BOOL _rtl, HWND hwndParent) :
+	CSuper(IDD_TEMPLATEEDIT),
+	rtl(_rtl),
+	edtText(this, IDC_EDITTEMPLATE),
+	btnHelp(this, IDC_VARIABLESHELP),
+	btnSave(this, IDC_SAVETEMPLATE),
+	btnForget(this, IDC_FORGET),
+	btnRevert(this, IDC_REVERT),
+	btnPreview(this, IDC_UPDATEPREVIEW),
+	btnResetAll(this, IDC_RESETALLTEMPLATES),
+	listTemplates(this, IDC_TEMPLATELIST)
 {
-	TemplateEditorInfo *teInfo = 0;
-	TTemplateSet *tSet;
-	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	/*
-	* since this dialog needs a MessageWindowData * but has no container, we can store
-	* the extended info struct in pContainer *)
-	*/
-	if (dat) {
-		teInfo = (TemplateEditorInfo *)dat->m_pContainer;
-		tSet = teInfo->rtl ? dat->m_pContainer->rtl_templates : dat->m_pContainer->ltr_templates;
+	SetParent(hwndParent);
+
+	m_pContainer = (TContainerData*)mir_calloc(sizeof(TContainerData));
+	LoadOverrideTheme(m_pContainer);
+	tSet = rtl ? m_pContainer->rtl_templates : m_pContainer->ltr_templates;
+
+	listTemplates.OnDblClick = Callback(this, &CTemplateEditDlg::onDblClick_List);
+	listTemplates.OnSelChange = Callback(this, &CTemplateEditDlg::onSelChange_List);
+
+	edtText.OnChange = Callback(this, &CTemplateEditDlg::onChange_Text);
+	
+	btnHelp.OnClick = Callback(this, &CTemplateEditDlg::onClick_Help);
+	btnSave.OnClick = Callback(this, &CTemplateEditDlg::onClick_Save);
+	btnForget.OnClick = Callback(this, &CTemplateEditDlg::onClick_Forget);
+	btnRevert.OnClick = Callback(this, &CTemplateEditDlg::onClick_Revert);
+	btnPreview.OnClick = Callback(this, &CTemplateEditDlg::onClick_Preview);
+	btnResetAll.OnClick = Callback(this, &CTemplateEditDlg::onClick_Reset);
+}
+
+void CTemplateEditDlg::OnInitDialog()
+{
+	// set hContact to the first found contact so that we can use the Preview window properly
+	// also, set other parameters needed by the streaming function to display events
+
+	m_log.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK);
+	m_log.SendMsg(EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
+	m_log.SendMsg(EM_EXLIMITTEXT, 0, 0x80000000);
+
+	m_hContact = db_find_first();
+	m_szProto = GetContactProto(m_hContact);
+	while (m_szProto == 0 && m_hContact != 0) {
+		m_hContact = db_find_next(m_hContact);
+		m_szProto = GetContactProto(m_hContact);
 	}
-	else tSet = nullptr;
+	m_dwFlags = m_pContainer->theme.dwFlags;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			TemplateEditorNew *teNew = (TemplateEditorNew *)lParam;
-			dat = (CSrmmWindow*)mir_calloc(sizeof(CSrmmWindow));
-			dat->m_pContainer = (TContainerData*)mir_alloc(sizeof(TContainerData));
-			memset(dat->m_pContainer, 0, sizeof(TContainerData));
-			teInfo = (TemplateEditorInfo *)dat->m_pContainer;
-			memset(teInfo, 0, sizeof(TemplateEditorInfo));
-			teInfo->hContact = teNew->hContact;
-			teInfo->rtl = teNew->rtl;
-			teInfo->hwndParent = teNew->hwndParent;
+	m_cache = CContactCache::getContactCache(m_hContact);
+	m_cache->updateNick();
+	m_cache->updateUIN();
+	m_cache->updateStats(TSessionStats::INIT_TIMER);
+	GetMYUIN();
 
-			LoadOverrideTheme(dat->m_pContainer);
-			/*
-			* set hContact to the first found contact so that we can use the Preview window properly
-			* also, set other parameters needed by the streaming function to display events
-			*/
-
-			SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK);
-			SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
-			SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_EXLIMITTEXT, 0, 0x80000000);
-
-			dat->m_hContact = db_find_first();
-			dat->m_szProto = GetContactProto(dat->m_hContact);
-			while (dat->m_szProto == 0 && dat->m_hContact != 0) {
-				dat->m_hContact = db_find_next(dat->m_hContact);
-				dat->m_szProto = GetContactProto(dat->m_hContact);
-			}
-			dat->m_dwFlags = dat->m_pContainer->theme.dwFlags;
-
-			dat->m_cache = CContactCache::getContactCache(dat->m_hContact);
-			dat->m_cache->updateNick();
-			dat->m_cache->updateUIN();
-			dat->m_cache->updateStats(TSessionStats::INIT_TIMER);
-			dat->GetMYUIN();
-
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-			ShowWindow(hwndDlg, SW_SHOW);
-			SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_LIMITTEXT, (WPARAM)TEMPLATE_LENGTH - 1, 0);
-			SetWindowText(hwndDlg, TranslateT("Template set editor"));
-			Utils::enableDlgControl(hwndDlg, IDC_SAVETEMPLATE, FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_FORGET, FALSE);
-			for (int i = 0; i <= TMPL_ERRMSG; i++) {
-				SendDlgItemMessageA(hwndDlg, IDC_TEMPLATELIST, LB_ADDSTRING, 0, (LPARAM)Translate(TemplateNames[i]));
-				SendDlgItemMessage(hwndDlg, IDC_TEMPLATELIST, LB_SETITEMDATA, i, (LPARAM)i);
-			}
-			Utils::enableDlgControl(teInfo->hwndParent, IDC_MODIFY, FALSE);
-			Utils::enableDlgControl(teInfo->hwndParent, IDC_RTLMODIFY, FALSE);
-
-			SendDlgItemMessage(hwndDlg, IDC_COLOR1, CPM_SETCOLOUR, 0, M.GetDword("cc1", SRMSGDEFSET_BKGCOLOUR));
-			SendDlgItemMessage(hwndDlg, IDC_COLOR2, CPM_SETCOLOUR, 0, M.GetDword("cc2", SRMSGDEFSET_BKGCOLOUR));
-			SendDlgItemMessage(hwndDlg, IDC_COLOR3, CPM_SETCOLOUR, 0, M.GetDword("cc3", SRMSGDEFSET_BKGCOLOUR));
-			SendDlgItemMessage(hwndDlg, IDC_COLOR4, CPM_SETCOLOUR, 0, M.GetDword("cc4", SRMSGDEFSET_BKGCOLOUR));
-			SendDlgItemMessage(hwndDlg, IDC_COLOR5, CPM_SETCOLOUR, 0, M.GetDword("cc5", SRMSGDEFSET_BKGCOLOUR));
-			SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
-		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			break;
-
-		case IDC_RESETALLTEMPLATES:
-			if (MessageBox(hwndDlg, TranslateT("This will reset the template set to the default built-in templates. Are you sure you want to do this?"),
-				TranslateT("Template set editor"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-				db_set_b(0, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, "setup", 0);
-				LoadDefaultTemplates();
-				MessageBox(hwndDlg, TranslateT("Template set was successfully reset, please close and reopen all message windows. This template editor window will now close."),
-					TranslateT("Template set editor"), MB_OK);
-				DestroyWindow(hwndDlg);
-			}
-			break;
-
-		case IDC_TEMPLATELIST:
-			switch (HIWORD(wParam)) {
-				LRESULT iIndex;
-			case LBN_DBLCLK:
-				iIndex = SendDlgItemMessage(hwndDlg, IDC_TEMPLATELIST, LB_GETCURSEL, 0, 0);
-				if (iIndex != LB_ERR) {
-					SetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, tSet->szTemplates[iIndex]);
-					teInfo->inEdit = iIndex;
-					teInfo->changed = FALSE;
-					teInfo->selchanging = FALSE;
-					SetFocus(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE));
-					SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, FALSE, 0);
-				}
-				break;
-
-			case LBN_SELCHANGE:
-				iIndex = SendDlgItemMessage(hwndDlg, IDC_TEMPLATELIST, LB_GETCURSEL, 0, 0);
-				teInfo->selchanging = TRUE;
-				if (iIndex != LB_ERR) {
-					SetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, tSet->szTemplates[iIndex]);
-					teInfo->inEdit = iIndex;
-					teInfo->changed = FALSE;
-				}
-				SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
-			}
-			break;
-
-		case IDC_VARIABLESHELP:
-			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Templates");
-			break;
-
-		case IDC_EDITTEMPLATE:
-			if (HIWORD(wParam) == EN_CHANGE) {
-				if (!teInfo->selchanging) {
-					teInfo->changed = TRUE;
-					teInfo->updateInfo[teInfo->inEdit] = TRUE;
-					Utils::enableDlgControl(hwndDlg, IDC_SAVETEMPLATE, TRUE);
-					Utils::enableDlgControl(hwndDlg, IDC_FORGET, TRUE);
-					Utils::enableDlgControl(hwndDlg, IDC_TEMPLATELIST, FALSE);
-					Utils::enableDlgControl(hwndDlg, IDC_REVERT, TRUE);
-				}
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), nullptr, FALSE);
-			}
-			break;
-
-		case IDC_SAVETEMPLATE:
-			{
-				wchar_t newTemplate[TEMPLATE_LENGTH + 2];
-
-				GetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, newTemplate, _countof(newTemplate));
-				memcpy(tSet->szTemplates[teInfo->inEdit], newTemplate, sizeof(wchar_t) * TEMPLATE_LENGTH);
-				teInfo->changed = FALSE;
-				teInfo->updateInfo[teInfo->inEdit] = FALSE;
-				Utils::enableDlgControl(hwndDlg, IDC_SAVETEMPLATE, FALSE);
-				Utils::enableDlgControl(hwndDlg, IDC_FORGET, FALSE);
-				Utils::enableDlgControl(hwndDlg, IDC_TEMPLATELIST, TRUE);
-				Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), nullptr, FALSE);
-				db_set_ws(teInfo->hContact, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[teInfo->inEdit], newTemplate);
-				SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
-			}
-			break;
-
-		case IDC_FORGET:
-			teInfo->changed = FALSE;
-			teInfo->updateInfo[teInfo->inEdit] = FALSE;
-			teInfo->selchanging = TRUE;
-			SetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, tSet->szTemplates[teInfo->inEdit]);
-			SetFocus(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE));
-			InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), nullptr, FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_SAVETEMPLATE, FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_FORGET, FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_TEMPLATELIST, TRUE);
-			Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
-			teInfo->selchanging = FALSE;
-			SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
-			break;
-
-		case IDC_REVERT:
-			teInfo->changed = FALSE;
-			teInfo->updateInfo[teInfo->inEdit] = FALSE;
-			teInfo->selchanging = TRUE;
-			memcpy(tSet->szTemplates[teInfo->inEdit], LTR_Default.szTemplates[teInfo->inEdit], sizeof(wchar_t) * TEMPLATE_LENGTH);
-			SetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, tSet->szTemplates[teInfo->inEdit]);
-			db_unset(teInfo->hContact, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[teInfo->inEdit]);
-			SetFocus(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE));
-			InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), nullptr, FALSE);
-			teInfo->selchanging = FALSE;
-			Utils::enableDlgControl(hwndDlg, IDC_SAVETEMPLATE, FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_FORGET, FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_TEMPLATELIST, TRUE);
-			SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
-			break;
-
-		case IDC_UPDATEPREVIEW:
-			SendMessage(hwndDlg, DM_UPDATETEMPLATEPREVIEW, 0, 0);
-			break;
-		}
-		break;
-
-	case WM_DRAWITEM:
-		{
-			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
-			int iItem = dis->itemData;
-			SetBkMode(dis->hDC, TRANSPARENT);
-			FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_WINDOW));
-			if (dis->itemState & ODS_SELECTED) {
-				if (teInfo->updateInfo[iItem] == TRUE) {
-					HBRUSH bkg = CreateSolidBrush(RGB(255, 0, 0));
-					HBRUSH oldBkg = (HBRUSH)SelectObject(dis->hDC, bkg);
-					FillRect(dis->hDC, &dis->rcItem, bkg);
-					SelectObject(dis->hDC, oldBkg);
-					DeleteObject(bkg);
-				}
-				else FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
-
-				SetTextColor(dis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
-			}
-			else {
-				if (teInfo->updateInfo[iItem] == TRUE)
-					SetTextColor(dis->hDC, RGB(255, 0, 0));
-				else
-					SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
-			}
-			char *pszName = Translate(TemplateNames[iItem]);
-			TextOutA(dis->hDC, dis->rcItem.left, dis->rcItem.top, pszName, (int)mir_strlen(pszName));
-		}
-		return TRUE;
-
-	case DM_UPDATETEMPLATEPREVIEW:
-		{
-			int iIndex = SendDlgItemMessage(hwndDlg, IDC_TEMPLATELIST, LB_GETCURSEL, 0, 0);
-			wchar_t szTemp[TEMPLATE_LENGTH + 2];
-
-			if (teInfo->changed) {
-				memcpy(szTemp, tSet->szTemplates[teInfo->inEdit], (TEMPLATE_LENGTH * sizeof(wchar_t)));
-				GetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, tSet->szTemplates[teInfo->inEdit], TEMPLATE_LENGTH);
-			}
-
-			DBEVENTINFO dbei = {};
-			dbei.szModule = dat->m_szProto;
-			dbei.timestamp = time(nullptr);
-			dbei.eventType = (iIndex == 6) ? EVENTTYPE_STATUSCHANGE : EVENTTYPE_MESSAGE;
-			dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
-			if (dbei.eventType == EVENTTYPE_ERRMSG)
-				dbei.szModule = (char *)L"Sample error message";
-			dbei.pBlob = (iIndex == 6) ? (BYTE *)"is now offline (was online)" : (BYTE *)"The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.";
-			dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob) + 1;
-			dbei.flags = (iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0;
-			dbei.flags |= (teInfo->rtl ? DBEF_RTL : 0);
-			dat->m_lastEventTime = (iIndex == 4 || iIndex == 5) ? time(nullptr) - 1 : 0;
-			dat->m_iLastEventType = MAKELONG(dbei.flags, dbei.eventType);
-			SetDlgItemText(hwndDlg, IDC_PREVIEW, L"");
-			dat->m_dwFlags = MWF_LOG_ALL;
-			dat->m_dwFlags = (teInfo->rtl ? dat->m_dwFlags | MWF_LOG_RTL : dat->m_dwFlags & ~MWF_LOG_RTL);
-			dat->m_dwFlags = (iIndex == 0 || iIndex == 1) ? dat->m_dwFlags & ~MWF_LOG_GROUPMODE : dat->m_dwFlags | MWF_LOG_GROUPMODE;
-			mir_snwprintf(dat->m_wszMyNickname, L"My Nickname");
-			dat->StreamInEvents(0, 1, 0, &dbei);
-			SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_SETSEL, -1, -1);
-			if (teInfo->changed)
-				memcpy(tSet->szTemplates[teInfo->inEdit], szTemp, TEMPLATE_LENGTH * sizeof(wchar_t));
-		}
-		break;
-
-	case WM_DESTROY:
-		Utils::enableDlgControl(teInfo->hwndParent, IDC_MODIFY, TRUE);
-		Utils::enableDlgControl(teInfo->hwndParent, IDC_RTLMODIFY, TRUE);
-		if (dat) {
-			mir_free(dat->m_pContainer);
-			mir_free(dat);
-		}
-		db_set_dw(0, SRMSGMOD_T, "cc1", SendDlgItemMessage(hwndDlg, IDC_COLOR1, CPM_GETCOLOUR, 0, 0));
-		db_set_dw(0, SRMSGMOD_T, "cc2", SendDlgItemMessage(hwndDlg, IDC_COLOR2, CPM_GETCOLOUR, 0, 0));
-		db_set_dw(0, SRMSGMOD_T, "cc3", SendDlgItemMessage(hwndDlg, IDC_COLOR3, CPM_GETCOLOUR, 0, 0));
-		db_set_dw(0, SRMSGMOD_T, "cc4", SendDlgItemMessage(hwndDlg, IDC_COLOR4, CPM_GETCOLOUR, 0, 0));
-		db_set_dw(0, SRMSGMOD_T, "cc5", SendDlgItemMessage(hwndDlg, IDC_COLOR5, CPM_GETCOLOUR, 0, 0));
-
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-		break;
+	SendDlgItemMessage(m_hwnd, IDC_EDITTEMPLATE, EM_LIMITTEXT, (WPARAM)TEMPLATE_LENGTH - 1, 0);
+	SetWindowText(m_hwnd, TranslateT("Template set editor"));
+	Utils::enableDlgControl(m_hwnd, IDC_SAVETEMPLATE, FALSE);
+	Utils::enableDlgControl(m_hwnd, IDC_REVERT, FALSE);
+	Utils::enableDlgControl(m_hwnd, IDC_FORGET, FALSE);
+	for (int i = 0; i <= TMPL_ERRMSG; i++) {
+		SendDlgItemMessageA(m_hwnd, IDC_TEMPLATELIST, LB_ADDSTRING, 0, (LPARAM)Translate(TemplateNames[i]));
+		SendDlgItemMessage(m_hwnd, IDC_TEMPLATELIST, LB_SETITEMDATA, i, (LPARAM)i);
 	}
-	return FALSE;
+	Utils::enableDlgControl(m_hwndParent, IDC_MODIFY, FALSE);
+	Utils::enableDlgControl(m_hwndParent, IDC_RTLMODIFY, FALSE);
+
+	SendDlgItemMessage(m_hwnd, IDC_COLOR1, CPM_SETCOLOUR, 0, M.GetDword("cc1", SRMSGDEFSET_BKGCOLOUR));
+	SendDlgItemMessage(m_hwnd, IDC_COLOR2, CPM_SETCOLOUR, 0, M.GetDword("cc2", SRMSGDEFSET_BKGCOLOUR));
+	SendDlgItemMessage(m_hwnd, IDC_COLOR3, CPM_SETCOLOUR, 0, M.GetDword("cc3", SRMSGDEFSET_BKGCOLOUR));
+	SendDlgItemMessage(m_hwnd, IDC_COLOR4, CPM_SETCOLOUR, 0, M.GetDword("cc4", SRMSGDEFSET_BKGCOLOUR));
+	SendDlgItemMessage(m_hwnd, IDC_COLOR5, CPM_SETCOLOUR, 0, M.GetDword("cc5", SRMSGDEFSET_BKGCOLOUR));
+	SendDlgItemMessage(m_hwnd, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
+}
+
+void CTemplateEditDlg::OnDestroy()
+{
+	Utils::enableDlgControl(m_hwndParent, IDC_MODIFY, TRUE);
+	Utils::enableDlgControl(m_hwndParent, IDC_RTLMODIFY, TRUE);
+
+	mir_free(m_pContainer);
+
+	db_set_dw(0, SRMSGMOD_T, "cc1", SendDlgItemMessage(m_hwnd, IDC_COLOR1, CPM_GETCOLOUR, 0, 0));
+	db_set_dw(0, SRMSGMOD_T, "cc2", SendDlgItemMessage(m_hwnd, IDC_COLOR2, CPM_GETCOLOUR, 0, 0));
+	db_set_dw(0, SRMSGMOD_T, "cc3", SendDlgItemMessage(m_hwnd, IDC_COLOR3, CPM_GETCOLOUR, 0, 0));
+	db_set_dw(0, SRMSGMOD_T, "cc4", SendDlgItemMessage(m_hwnd, IDC_COLOR4, CPM_GETCOLOUR, 0, 0));
+	db_set_dw(0, SRMSGMOD_T, "cc5", SendDlgItemMessage(m_hwnd, IDC_COLOR5, CPM_GETCOLOUR, 0, 0));
+}
+
+void CTemplateEditDlg::onChange_Text(CCtrlEdit*)
+{
+	if (!selchanging) {
+		changed = TRUE;
+		updateInfo[inEdit] = TRUE;
+		Utils::enableDlgControl(m_hwnd, IDC_SAVETEMPLATE, TRUE);
+		Utils::enableDlgControl(m_hwnd, IDC_FORGET, TRUE);
+		Utils::enableDlgControl(m_hwnd, IDC_TEMPLATELIST, FALSE);
+		Utils::enableDlgControl(m_hwnd, IDC_REVERT, TRUE);
+	}
+	InvalidateRect(GetDlgItem(m_hwnd, IDC_TEMPLATELIST), nullptr, FALSE);
+}
+
+void CTemplateEditDlg::onClick_Forget(CCtrlButton*)
+{
+	changed = FALSE;
+	updateInfo[inEdit] = FALSE;
+	selchanging = TRUE;
+	SetDlgItemText(m_hwnd, IDC_EDITTEMPLATE, tSet->szTemplates[inEdit]);
+	SetFocus(GetDlgItem(m_hwnd, IDC_EDITTEMPLATE));
+	InvalidateRect(GetDlgItem(m_hwnd, IDC_TEMPLATELIST), nullptr, FALSE);
+	Utils::enableDlgControl(m_hwnd, IDC_SAVETEMPLATE, FALSE);
+	Utils::enableDlgControl(m_hwnd, IDC_FORGET, FALSE);
+	Utils::enableDlgControl(m_hwnd, IDC_TEMPLATELIST, TRUE);
+	Utils::enableDlgControl(m_hwnd, IDC_REVERT, FALSE);
+	selchanging = FALSE;
+	SendDlgItemMessage(m_hwnd, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
+}
+
+void CTemplateEditDlg::onClick_Help(CCtrlButton*)
+{
+	Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Templates");
+}
+
+void CTemplateEditDlg::onClick_Preview(CCtrlButton*)
+{
+	int iIndex = SendDlgItemMessage(m_hwnd, IDC_TEMPLATELIST, LB_GETCURSEL, 0, 0);
+	wchar_t szTemp[TEMPLATE_LENGTH + 2];
+
+	if (changed) {
+		memcpy(szTemp, tSet->szTemplates[inEdit], (TEMPLATE_LENGTH * sizeof(wchar_t)));
+		GetDlgItemText(m_hwnd, IDC_EDITTEMPLATE, tSet->szTemplates[inEdit], TEMPLATE_LENGTH);
+	}
+
+	DBEVENTINFO dbei = {};
+	dbei.szModule = m_szProto;
+	dbei.timestamp = time(nullptr);
+	dbei.eventType = (iIndex == 6) ? EVENTTYPE_STATUSCHANGE : EVENTTYPE_MESSAGE;
+	dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
+	if (dbei.eventType == EVENTTYPE_ERRMSG)
+		dbei.szModule = (char *)L"Sample error message";
+	dbei.pBlob = (iIndex == 6) ? (BYTE *)"is now offline (was online)" : (BYTE *)"The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.";
+	dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob) + 1;
+	dbei.flags = (iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0;
+	dbei.flags |= (rtl ? DBEF_RTL : 0);
+	m_lastEventTime = (iIndex == 4 || iIndex == 5) ? time(nullptr) - 1 : 0;
+	m_iLastEventType = MAKELONG(dbei.flags, dbei.eventType);
+	m_log.SetText(L"");
+	m_dwFlags = MWF_LOG_ALL;
+	m_dwFlags = (rtl ? m_dwFlags | MWF_LOG_RTL : m_dwFlags & ~MWF_LOG_RTL);
+	m_dwFlags = (iIndex == 0 || iIndex == 1) ? m_dwFlags & ~MWF_LOG_GROUPMODE : m_dwFlags | MWF_LOG_GROUPMODE;
+	mir_snwprintf(m_wszMyNickname, L"My Nickname");
+	StreamInEvents(0, 1, 0, &dbei);
+	m_log.SendMsg(EM_SETSEL, -1, -1);
+	if (changed)
+		memcpy(tSet->szTemplates[inEdit], szTemp, TEMPLATE_LENGTH * sizeof(wchar_t));
+}
+
+void CTemplateEditDlg::onClick_Reset(CCtrlButton*)
+{
+	if (MessageBox(m_hwnd, TranslateT("This will reset the template set to the default built-in templates. Are you sure you want to do this?"),
+		TranslateT("Template set editor"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+		db_set_b(0, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, "setup", 0);
+		LoadDefaultTemplates();
+		MessageBox(m_hwnd,
+			TranslateT("Template set was successfully reset, please close and reopen all message windows. This template editor window will now close."),
+			TranslateT("Template set editor"), MB_OK);
+		Close();
+	}
+}
+
+void CTemplateEditDlg::onClick_Revert(CCtrlButton*)
+{
+	changed = FALSE;
+	updateInfo[inEdit] = FALSE;
+	selchanging = TRUE;
+	memcpy(tSet->szTemplates[inEdit], LTR_Default.szTemplates[inEdit], sizeof(wchar_t) * TEMPLATE_LENGTH);
+	SetDlgItemText(m_hwnd, IDC_EDITTEMPLATE, tSet->szTemplates[inEdit]);
+	db_unset(m_hContact, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[inEdit]);
+	SetFocus(GetDlgItem(m_hwnd, IDC_EDITTEMPLATE));
+	InvalidateRect(GetDlgItem(m_hwnd, IDC_TEMPLATELIST), nullptr, FALSE);
+	selchanging = FALSE;
+	Utils::enableDlgControl(m_hwnd, IDC_SAVETEMPLATE, FALSE);
+	Utils::enableDlgControl(m_hwnd, IDC_REVERT, FALSE);
+	Utils::enableDlgControl(m_hwnd, IDC_FORGET, FALSE);
+	Utils::enableDlgControl(m_hwnd, IDC_TEMPLATELIST, TRUE);
+	SendDlgItemMessage(m_hwnd, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
+}
+void CTemplateEditDlg::onClick_Save(CCtrlButton*)
+{
+	wchar_t newTemplate[TEMPLATE_LENGTH + 2];
+
+	GetDlgItemText(m_hwnd, IDC_EDITTEMPLATE, newTemplate, _countof(newTemplate));
+	memcpy(tSet->szTemplates[inEdit], newTemplate, sizeof(wchar_t) * TEMPLATE_LENGTH);
+	changed = FALSE;
+	updateInfo[inEdit] = FALSE;
+	Utils::enableDlgControl(m_hwnd, IDC_SAVETEMPLATE, FALSE);
+	Utils::enableDlgControl(m_hwnd, IDC_FORGET, FALSE);
+	Utils::enableDlgControl(m_hwnd, IDC_TEMPLATELIST, TRUE);
+	Utils::enableDlgControl(m_hwnd, IDC_REVERT, FALSE);
+	InvalidateRect(GetDlgItem(m_hwnd, IDC_TEMPLATELIST), nullptr, FALSE);
+	db_set_ws(m_hContact, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[inEdit], newTemplate);
+	SendDlgItemMessage(m_hwnd, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
+}
+
+void CTemplateEditDlg::onDblClick_List(CCtrlListBox*)
+{
+	LRESULT iIndex = SendDlgItemMessage(m_hwnd, IDC_TEMPLATELIST, LB_GETCURSEL, 0, 0);
+	if (iIndex != LB_ERR) {
+		SetDlgItemText(m_hwnd, IDC_EDITTEMPLATE, tSet->szTemplates[iIndex]);
+		inEdit = iIndex;
+		changed = FALSE;
+		selchanging = FALSE;
+		SetFocus(GetDlgItem(m_hwnd, IDC_EDITTEMPLATE));
+		SendDlgItemMessage(m_hwnd, IDC_EDITTEMPLATE, EM_SETREADONLY, FALSE, 0);
+	}
+}
+
+void CTemplateEditDlg::onSelChange_List(CCtrlListBox*)
+{
+	LRESULT iIndex = SendDlgItemMessage(m_hwnd, IDC_TEMPLATELIST, LB_GETCURSEL, 0, 0);
+	selchanging = TRUE;
+	if (iIndex != LB_ERR) {
+		SetDlgItemText(m_hwnd, IDC_EDITTEMPLATE, tSet->szTemplates[iIndex]);
+		inEdit = iIndex;
+		changed = FALSE;
+	}
+	SendDlgItemMessage(m_hwnd, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
+}
+
+INT_PTR CTemplateEditDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	if (uMsg == WM_DRAWITEM) {
+		DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
+		int iItem = dis->itemData;
+		SetBkMode(dis->hDC, TRANSPARENT);
+		FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_WINDOW));
+		if (dis->itemState & ODS_SELECTED) {
+			if (updateInfo[iItem] == TRUE) {
+				HBRUSH bkg = CreateSolidBrush(RGB(255, 0, 0));
+				HBRUSH oldBkg = (HBRUSH)SelectObject(dis->hDC, bkg);
+				FillRect(dis->hDC, &dis->rcItem, bkg);
+				SelectObject(dis->hDC, oldBkg);
+				DeleteObject(bkg);
+			}
+			else FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
+
+			SetTextColor(dis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
+		}
+		else {
+			if (updateInfo[iItem] == TRUE)
+				SetTextColor(dis->hDC, RGB(255, 0, 0));
+			else
+				SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
+		}
+		char *pszName = Translate(TemplateNames[iItem]);
+		TextOutA(dis->hDC, dis->rcItem.left, dis->rcItem.top, pszName, (int)mir_strlen(pszName));
+	}
+
+	return CSuper::DlgProc(uMsg, wParam, lParam);
 }
