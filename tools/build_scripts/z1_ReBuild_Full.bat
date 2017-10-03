@@ -102,8 +102,8 @@ if /i '%tp%' == '32' (
 )
 
 rem xcopy /S /V /Y "..\delphi\%tp%" "Release%tp%"
-xcopy /S /V /Y "..\pre-symbols\%tp%" "Symbols%tp%"
-xcopy /S /V /Y "..\pre-build\%tp%" "Release%tp%"
+xcopy /S /V /Y "..\pre-symbols\%comp%\%tp%" "Symbols%tp%"
+xcopy /S /V /Y "..\pre-build\%comp%\%tp%" "Release%tp%"
 
 cd "Release%tp%"
 dir /B /S *.dll | %SourceDir%\tools\rebaser\rebaser.exe /BASE:13000000
