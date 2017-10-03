@@ -125,7 +125,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg) {
 	case WM_INITDIALOG:
 		m_initialized = false;
-		TranslateDialogDefault(m_hwnd);
+		TranslateDialog_LP(m_hwnd, GetPluginLangByInstance(m_hInst));
 
 		NotifyControls(&CCtrlBase::OnInit);
 		OnInitDialog();
