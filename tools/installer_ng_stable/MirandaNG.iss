@@ -143,7 +143,6 @@ Source: "Files\Settings\autoexec_sounds.ini"; DestDir: "{app}"; Components: soun
 ; Installer add-ons
 Source: "Installer\ISWin7.dll"; Flags: dontcopy 
 Source: "Installer\descctrl.dll"; Flags: dontcopy
-Source: "Installer\{#VcRedistName}"; DestDir: {tmp}; Flags: deleteafterinstall; Check: RedistIsNotInstalled
 
 [Components]
 Name: "program"; Description: "{cm:Program}"; Types: extended regular minimal custom; Flags: fixed 
@@ -191,7 +190,6 @@ Name: "{userdesktop}\{#MirGroupName}"; Filename: "{app}\{#MirName}"; WorkingDir:
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MirGroupName}"; Filename: "{app}\{#MirName}"; WorkingDir: {app}; Tasks: quicklaunchicon 
 
 [Run]
-Filename: "{tmp}\{#VcRedistName}"; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; Check: RedistIsNotInstalled(); StatusMsg: Installing Microsoft Visual C++ 2010 SP1 Redistributable Package ({#Ptf})
 Filename: "{app}\{#MirName}"; Description: "{cm:LaunchProgram,Miranda NG}"; Flags: nowait postinstall skipifsilent 
 
 [UninstallDelete]
@@ -640,12 +638,6 @@ function IsPortable: Boolean;
 begin
   if (PortTypeInstRadio.Checked) then
     Result:= True;
-end;
-
-// Visual C++ redistributable package installation check
-function RedistIsNotInstalled: Boolean;
-begin
-   Result := not RegKeyExists{#RedistRegChk};
 end;
 
 // Installation type page creation (default or portable)
