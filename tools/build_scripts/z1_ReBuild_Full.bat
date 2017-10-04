@@ -75,7 +75,6 @@ cscript /nologo translate.js /sourcelang:"spanish" /release:"..\..\%comp%\Releas
 del /f /q ..\..\%comp%\Release%tp%\*_nodupes.txt
 popd
 
-REM md "Release%tp%\Dictionaries"
 md "Release%tp%\Docs"
 md "Release%tp%\Gadgets"
 md "Release%tp%\Sounds"

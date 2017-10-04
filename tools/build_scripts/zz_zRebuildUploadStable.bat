@@ -11,6 +11,16 @@ set GIT_STATUS=%ERRORLEVEL%
 if %GIT_STATUS%==0 echo Git update success
 if not %GIT_STATUS%==0 goto :Error
 
+del /F /Q version.txt
+
+pushd build
+copy build.no.stable build.no
+copy make_ver_stable.bat make_ver.bat
+for /F "tokens=1,2,3 delims= " %%i in (build.no) do set MirVer=%%i.%%j.%%k
+popd
+
+echo v%MirVer% > version.txt
+
 start /min /wait z1_ReBuild_Full.bat 32 %comp%
 
 start /min /wait z1_ReBuild_Full.bat 64 %comp%
