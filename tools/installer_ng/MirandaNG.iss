@@ -3,18 +3,12 @@
    #define MirGroupName "Miranda NG"
    #define MirOutName "miranda-ng-alpha-latest"
    #define ArcAllow ""
-   #define VcRedistName "vcredist_x86.exe"
-   #define Ptf "x86"
-   #define RedistRegChk "(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{029DA848-1A80-34D3-BFC1-A6447BFC8E7F}')"
    #define MirPfInstDir "ExpandConstant('{pf32}')"
 #else
    #define MirName "Miranda64.exe"
    #define MirGroupName "Miranda NG x64"
    #define MirOutName "miranda-ng-alpha-latest_x64"
    #define ArcAllow "x64"
-   #define VcRedistName "vcredist_x64.exe"
-   #define Ptf "x64"
-   #define RedistRegChk "(HKLM64, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{B0037450-526D-3448-A370-CACBD87769A0}')"
    #define MirPfInstDir "ExpandConstant('{pf64}')"
 #endif
 
@@ -73,7 +67,7 @@ Source: "Files\Icons\Toolbar_icons.dll"; DestDir: "{app}\Icons"; Components: cli
 ; Core and core modules
 Source: "Files\{#MirName}"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\DbChecker.bat"; DestDir: "{app}"; Components: program; Check: IsPortable(); Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\*.dll"; DestDir: "{app}"; Components: program; Check: IsPortable(); Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\*.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\libeay32.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\libjson.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\mir_app.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
@@ -143,7 +137,6 @@ Source: "Files\Settings\autoexec_sounds.ini"; DestDir: "{app}"; Components: soun
 ; Installer add-ons
 Source: "Installer\ISWin7.dll"; Flags: dontcopy 
 Source: "Installer\descctrl.dll"; Flags: dontcopy
-Source: "Installer\{#VcRedistName}"; DestDir: {tmp}; Flags: deleteafterinstall; Check: RedistIsNotInstalled
 
 [Components]
 Name: "program"; Description: "{cm:Program}"; Types: extended regular minimal custom; Flags: fixed 
@@ -191,7 +184,6 @@ Name: "{userdesktop}\{#MirGroupName}"; Filename: "{app}\{#MirName}"; WorkingDir:
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MirGroupName}"; Filename: "{app}\{#MirName}"; WorkingDir: {app}; Tasks: quicklaunchicon 
 
 [Run]
-Filename: "{tmp}\{#VcRedistName}"; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; Check: RedistIsNotInstalled(); StatusMsg: Installing Microsoft Visual C++ 2010 SP1 Redistributable Package ({#Ptf})
 Filename: "{app}\{#MirName}"; Description: "{cm:LaunchProgram,Miranda NG}"; Flags: nowait postinstall skipifsilent 
 
 [UninstallDelete]
@@ -640,12 +632,6 @@ function IsPortable: Boolean;
 begin
   if (PortTypeInstRadio.Checked) then
     Result:= True;
-end;
-
-// Visual C++ redistributable package installation check
-function RedistIsNotInstalled: Boolean;
-begin
-   Result := not RegKeyExists{#RedistRegChk};
 end;
 
 // Installation type page creation (default or portable)
