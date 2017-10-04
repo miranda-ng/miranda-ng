@@ -5,7 +5,7 @@
    #define ArcAllow ""
    #define VcRedistName "vcredist_x86.exe"
    #define Ptf "x86"
-   #define RedistRegChk "(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}')"
+   #define RedistRegChk "(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{029DA848-1A80-34D3-BFC1-A6447BFC8E7F}')"
    #define MirPfInstDir "ExpandConstant('{pf32}')"
 #else
    #define MirName "Miranda64.exe"
@@ -14,7 +14,7 @@
    #define ArcAllow "x64"
    #define VcRedistName "vcredist_x64.exe"
    #define Ptf "x64"
-   #define RedistRegChk "(HKLM64, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{1D8E6291-B0D5-35EC-8441-6616F567A0F7}')"
+   #define RedistRegChk "(HKLM64, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{B0037450-526D-3448-A370-CACBD87769A0}')"
    #define MirPfInstDir "ExpandConstant('{pf64}')"
 #endif
 
