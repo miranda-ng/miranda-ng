@@ -2,10 +2,6 @@ set tp=%1
 if  "%tp%"=="" (echo "please specify target platform 32 or 64!"&&pause&&goto :EOF)
 for /F "tokens=1,2,3 delims= " %%i in (build\build.no) do set MirVer=%%i.%%j.%%k
 if /i '%tp%' == '64' set bit=_x64
-if /i '%tp%' == '32' set VcPt=x86
-if /i '%tp%' == '64' set VcPt=x64
-if /i '%tp%' == '32' set VcURL=https://download.visualstudio.microsoft.com/download/pr/11100229/78c1e864d806e36f6035d80a0e80399e/VC_redist.x86.exe
-if /i '%tp%' == '64' set VcURL=https://download.visualstudio.microsoft.com/download/pr/11100230/15ccb3f02745c7b206ad10373cbca89b/VC_redist.x64.exe
 if /i '%tp%' == '32' set CompileString=..\Tools\InnoSetup5\ISCC.exe /Dptx86 /DAppVer=%MirVer% "MirandaNG.iss" 
 if /i '%tp%' == '64' set CompileString=..\Tools\InnoSetup5\ISCC.exe /DAppVer=%MirVer% "MirandaNG.iss"
 
@@ -45,7 +41,6 @@ copy /V /Y MirandaNG.iss InnoNG_%tp%
 xcopy Common\* InnoNG_%tp% /I /S /V /Y
 Tools\wget.exe -O tmp\InnoSetup5.7z https://miranda-ng.org/distr/installer/InnoSetup5.7z
 Tools\wget.exe -O tmp\MNG_Sounds.7z https://miranda-ng.org/distr/addons/Sounds/MNG_Sounds.7z
-Tools\wget.exe -O InnoNG_%tp%\Installer\vcredist_%VcPt%.exe %VcURL%
 %CompressIt% x tmp\InnoSetup5.7z -y -oTools
 %CompressIt% x %ArchDistr%\miranda-ng-v%MirVer%%bit%.7z -y -oInnoNG_%tp%\Files
 %CompressIt% x tmp\MNG_Sounds.7z -y -oInnoNG_%tp%\Files

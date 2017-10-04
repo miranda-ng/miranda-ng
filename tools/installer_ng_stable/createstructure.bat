@@ -37,8 +37,6 @@ Tools\wget.exe --no-check-certificate -O tmp\langpack_czech.zip https://miranda-
 Tools\wget.exe --no-check-certificate -O tmp\langpack_german.zip https://miranda-ng.org/distr/stable/x32/Languages/langpack_german.zip
 Tools\wget.exe --no-check-certificate -O tmp\langpack_polish.zip https://miranda-ng.org/distr/stable/x32/Languages/langpack_polish.zip
 Tools\wget.exe --no-check-certificate -O tmp\langpack_russian.zip https://miranda-ng.org/distr/stable/x32/Languages/langpack_russian.zip
-Tools\wget.exe --no-check-certificate -O InnoNG_32\Installer\vcredist_x86.exe https://download.visualstudio.microsoft.com/download/pr/11100229/78c1e864d806e36f6035d80a0e80399e/VC_redist.x86.exe
-Tools\wget.exe --no-check-certificate -O InnoNG_64\Installer\vcredist_x64.exe https://download.visualstudio.microsoft.com/download/pr/11100230/15ccb3f02745c7b206ad10373cbca89b/VC_redist.x64.exe
 rem end
 
 rem Extract
