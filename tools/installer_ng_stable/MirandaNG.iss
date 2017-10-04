@@ -73,8 +73,6 @@ Source: "Files\Icons\Toolbar_icons.dll"; DestDir: "{app}\Icons"; Components: cli
 ; Core and core modules
 Source: "Files\{#MirName}"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\DbChecker.bat"; DestDir: "{app}"; Components: program; Check: IsPortable(); Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\msvcp100.dll"; DestDir: "{app}"; Components: program; Check: IsPortable(); Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\msvcr100.dll"; DestDir: "{app}"; Components: program; Check: IsPortable(); Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\libeay32.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\libjson.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\mir_app.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
