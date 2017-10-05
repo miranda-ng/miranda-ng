@@ -38,24 +38,14 @@ static int mlua_print(lua_State *L)
 			data.AppendFormat("%s", lua_toboolean(L, i) ? "true" : "false");
 			break;
 		case LUA_TNUMBER:
-		case LUA_TSTRING:
 			data.AppendFormat("%s", lua_tostring(L, i));
+		case LUA_TSTRING:
+			data.AppendFormat("'%s'", lua_tostring(L, i));
 			break;
 		default:
-			if (lua_getmetatable(L, 1))
-			{
-				if (lua_getfield(L, -1, "__tostring") == LUA_TFUNCTION)
-				{
-					lua_pushvalue(L, 1);
-					if (luaM_pcall(L, 1, 1) == LUA_OK)
-					{
-						data.AppendFormat("%s", lua_tostring(L, -1));
-						lua_pop(L, 2);
-						break;
-					}
-					lua_pop(L, 2);
-				}
-				lua_pop(L, 1);
+			if (luaL_callmeta(L, i, "__tostring")) {
+				data.AppendFormat("[[%s]]", lua_tostring(L, i));
+				break;
 			}
 			data.AppendFormat("%s(0x%p)", luaL_typename(L, i), lua_topointer(L, i));
 			break;
