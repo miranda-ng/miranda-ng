@@ -591,6 +591,8 @@ static renameTable[] =
 	{ L"langman.dll",                    NULL },
 	{ L"metacontacts.dll",               NULL },
 	{ L"modernopt.dll",                  NULL },
+	{ L"msvcp100.dll",                   NULL },
+	{ L"msvcr100.dll",                   NULL },
 	{ L"xfire.dll",                      NULL },
 	{ L"yahoo.dll",                      NULL },
 	{ L"yahoogroups.dll",                NULL },
