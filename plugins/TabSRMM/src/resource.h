@@ -205,7 +205,6 @@
 #define IDC_NOTIFYBALLOON2              1155
 #define IDC_NOTIFYPOPUP                 1155
 #define IDC_MathSubst                   1156
-#define IDC_INDENT                      1157
 #define IDC_INDENTAMOUNT                1158
 #define IDC_MSGTABS                     1159
 #define IDC_SIDEBARUP                   1160

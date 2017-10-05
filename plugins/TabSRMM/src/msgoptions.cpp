@@ -570,13 +570,19 @@ BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM, LPARAM lParam)
 
 class COptMainDlg : public CDlgBase
 {
+	CCtrlSpin   spnAvatar;
 	CCtrlButton btnHelp, btnReset;
+	CCtrlEdit   edtAvaSize;
+	CCtrlCheck  chkAvaPreserve;
 
 public:
 	COptMainDlg()
 		: CDlgBase(g_hInst, IDD_OPT_MSGDLG),
 		btnHelp(this, IDC_HELP_GENERAL),
-		btnReset(this, IDC_RESETWARNINGS)
+		btnReset(this, IDC_RESETWARNINGS),
+		spnAvatar(this, IDC_AVATARSPIN),
+		edtAvaSize(this, IDC_MAXAVATARHEIGHT),
+		chkAvaPreserve(this, IDC_PRESERVEAVATARSIZE)
 	{
 		btnHelp.OnClick = Callback(this, &COptMainDlg::onClick_Help);
 		btnReset.OnClick = Callback(this, &COptMainDlg::onClick_Reset);
@@ -586,20 +592,20 @@ public:
 	{
 		TreeViewInit(GetDlgItem(m_hwnd, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, 0, FALSE);
 
-		SetDlgItemInt(m_hwnd, IDC_MAXAVATARHEIGHT, M.GetDword("avatarheight", 100), FALSE);
-		CheckDlgButton(m_hwnd, IDC_PRESERVEAVATARSIZE, M.GetByte("dontscaleavatars", 0) ? BST_CHECKED : BST_UNCHECKED);
-		SendDlgItemMessage(m_hwnd, IDC_AVATARSPIN, UDM_SETRANGE, 0, MAKELONG(150, 0));
+		int iAvaHeight = M.GetDword("avatarheight", 100);
+		edtAvaSize.SetInt(iAvaHeight);
+		
+		chkAvaPreserve.SetState(M.GetByte("dontscaleavatars", 0));
 
-		BOOL translated;
-		SendDlgItemMessage(m_hwnd, IDC_AVATARSPIN, UDM_SETPOS, 0, GetDlgItemInt(m_hwnd, IDC_MAXAVATARHEIGHT, &translated, FALSE));
+		spnAvatar.SetRange(150);
+		spnAvatar.SetPosition(iAvaHeight);
 	}
 
 	virtual void OnApply() override
 	{
-		BOOL translated;
-		db_set_dw(0, SRMSGMOD_T, "avatarheight", GetDlgItemInt(m_hwnd, IDC_MAXAVATARHEIGHT, &translated, FALSE));
+		db_set_dw(0, SRMSGMOD_T, "avatarheight", edtAvaSize.GetInt());
 
-		db_set_b(0, SRMSGMOD_T, "dontscaleavatars", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_PRESERVEAVATARSIZE) ? 1 : 0));
+		db_set_b(0, SRMSGMOD_T, "dontscaleavatars", chkAvaPreserve.GetState());
 
 		// scan the tree view and obtain the options...
 		TreeViewToDB(GetDlgItem(m_hwnd, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, SRMSGMOD_T, nullptr);
@@ -640,6 +646,7 @@ class COptLogDlg : public CDlgBase
 {
 	CCtrlButton btnModify, btnRtlModify;
 	CCtrlCheck  chkAlwaysTrim, chkLoadUnread, chkLoadCount, chkLoadTime;
+	CCtrlSpin   spnLeft, spnRight, spnLoadCount, spnLoadTime, spnTrim;
 	CCtrlCombo 	cmbLogDisplay;
 
 	int have_ieview, have_hpp;
@@ -654,7 +661,7 @@ class COptLogDlg : public CDlgBase
 		LRESULT r = cmbLogDisplay.GetCurSel();
 		Utils::showDlgControl(m_hwnd, IDC_EXPLAINMSGLOGSETTINGS, r == 0 ? SW_HIDE : SW_SHOW);
 		Utils::showDlgControl(m_hwnd, IDC_LOGOPTIONS, r == 0 ? SW_SHOW : SW_HIDE);
-		Utils::enableDlgControl(GetDlgItem(m_hwnd, IDC_MSGLOGDIDSPLAY), r != 0);
+		cmbLogDisplay.Enable(r != 0);
 		for (int i = 0; i < _countof(__ctrls); i++)
 			Utils::enableDlgControl(m_hwnd, __ctrls[i], r == 0 ? TRUE : FALSE);
 	}
@@ -664,6 +671,11 @@ public:
 		: CDlgBase(g_hInst, IDD_OPT_MSGLOG),
 		btnModify(this, IDC_MODIFY),
 		btnRtlModify(this, IDC_RTLMODIFY),
+		spnTrim(this, IDC_TRIMSPIN),
+		spnLeft(this, IDC_INDENTSPIN),
+		spnRight(this, IDC_RINDENTSPIN),
+		spnLoadTime(this, IDC_LOADTIMESPIN),
+		spnLoadCount(this, IDC_LOADCOUNTSPIN),
 		chkLoadTime(this, IDC_LOADTIME),
 		chkLoadCount(this, IDC_LOADCOUNT),
 		chkAlwaysTrim(this, IDC_ALWAYSTRIM),
@@ -684,48 +696,45 @@ public:
 
 	virtual void OnInitDialog() override
 	{
-		DWORD maxhist = M.GetDword("maxhist", 0);
 		DWORD dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
-		BOOL translated;
 
 		switch (M.GetByte(SRMSGMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY)) {
 		case LOADHISTORY_UNREAD:
-			CheckDlgButton(m_hwnd, IDC_LOADUNREAD, BST_CHECKED);
+			chkLoadUnread.SetState(true);
 			break;
 		case LOADHISTORY_COUNT:
-			CheckDlgButton(m_hwnd, IDC_LOADCOUNT, BST_CHECKED);
+			chkLoadCount.SetState(true);
 			Utils::enableDlgControl(m_hwnd, IDC_LOADCOUNTN, true);
-			Utils::enableDlgControl(m_hwnd, IDC_LOADCOUNTSPIN, true);
+			spnLoadCount.Enable(true);
 			break;
 		case LOADHISTORY_TIME:
-			CheckDlgButton(m_hwnd, IDC_LOADTIME, BST_CHECKED);
+			chkLoadTime.SetState(true);
 			Utils::enableDlgControl(m_hwnd, IDC_LOADTIMEN, true);
-			Utils::enableDlgControl(m_hwnd, IDC_LOADTIMESPIN, true);
+			spnLoadTime.Enable(true);
 			Utils::enableDlgControl(m_hwnd, IDC_STMINSOLD, true);
 			break;
 		}
 
 		TreeViewInit(GetDlgItem(m_hwnd, IDC_LOGOPTIONS), CTranslator::TREE_LOG, dwFlags, FALSE);
 
-		SendDlgItemMessage(m_hwnd, IDC_LOADCOUNTSPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
-		SendDlgItemMessage(m_hwnd, IDC_LOADCOUNTSPIN, UDM_SETPOS, 0, db_get_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
-		SendDlgItemMessage(m_hwnd, IDC_LOADTIMESPIN, UDM_SETRANGE, 0, MAKELONG(24 * 60, 0));
-		SendDlgItemMessage(m_hwnd, IDC_LOADTIMESPIN, UDM_SETPOS, 0, db_get_w(0, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
+		spnLeft.SetRange(1000);
+		spnLeft.SetPosition(M.GetDword("IndentAmount", 20));
 
-		SetDlgItemInt(m_hwnd, IDC_INDENTAMOUNT, M.GetDword("IndentAmount", 20), FALSE);
-		SendDlgItemMessage(m_hwnd, IDC_INDENTSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
-		SendDlgItemMessage(m_hwnd, IDC_INDENTSPIN, UDM_SETPOS, 0, GetDlgItemInt(m_hwnd, IDC_INDENTAMOUNT, &translated, FALSE));
+		spnRight.SetRange(1000);
+		spnRight.SetPosition(M.GetDword("RightIndent", 20));
 
-		SetDlgItemInt(m_hwnd, IDC_RIGHTINDENT, M.GetDword("RightIndent", 20), FALSE);
-		SendDlgItemMessage(m_hwnd, IDC_RINDENTSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
-		SendDlgItemMessage(m_hwnd, IDC_RINDENTSPIN, UDM_SETPOS, 0, GetDlgItemInt(m_hwnd, IDC_RIGHTINDENT, &translated, FALSE));
-		SendMessage(m_hwnd, WM_COMMAND, MAKELONG(IDC_INDENT, 0), 0);
+		spnLoadCount.SetRange(100);
+		spnLoadCount.SetPosition(db_get_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
+		
+		spnLoadTime.SetRange(24 * 60);
+		spnLoadTime.SetPosition(db_get_w(0, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
 
-		SendDlgItemMessage(m_hwnd, IDC_TRIMSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 5));
-		SendDlgItemMessage(m_hwnd, IDC_TRIMSPIN, UDM_SETPOS, 0, maxhist);
-		Utils::enableDlgControl(m_hwnd, IDC_TRIMSPIN, maxhist != 0);
+		DWORD maxhist = M.GetDword("maxhist", 0);
+		spnTrim.SetRange(1000, 5);
+		spnTrim.SetPosition(maxhist);
+		spnTrim.Enable(maxhist != 0);
 		Utils::enableDlgControl(m_hwnd, IDC_TRIM, maxhist != 0);
-		CheckDlgButton(m_hwnd, IDC_ALWAYSTRIM, maxhist != 0);
+		chkAlwaysTrim.SetState(maxhist != 0);
 
 		cmbLogDisplay.AddString(TranslateT("Internal message log"));
 		cmbLogDisplay.SetCurSel(0);
@@ -751,23 +760,22 @@ public:
 
 	virtual void OnApply() override
 	{
-		LRESULT msglogmode = SendDlgItemMessage(m_hwnd, IDC_MSGLOGDIDSPLAY, CB_GETCURSEL, 0, 0);
+		LRESULT msglogmode = cmbLogDisplay.GetCurSel();
 		DWORD dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
 
 		dwFlags &= ~(MWF_LOG_ALL);
 
-		if (IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT))
+		if (chkLoadCount.GetState())
 			db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_COUNT);
-		else if (IsDlgButtonChecked(m_hwnd, IDC_LOADTIME))
+		else if (chkLoadTime.GetState())
 			db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_TIME);
 		else
 			db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_UNREAD);
-		db_set_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, (WORD)SendDlgItemMessage(m_hwnd, IDC_LOADCOUNTSPIN, UDM_GETPOS, 0, 0));
-		db_set_w(0, SRMSGMOD, SRMSGSET_LOADTIME, (WORD)SendDlgItemMessage(m_hwnd, IDC_LOADTIMESPIN, UDM_GETPOS, 0, 0));
+		db_set_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, spnLoadCount.GetPosition());
+		db_set_w(0, SRMSGMOD, SRMSGSET_LOADTIME, spnLoadTime.GetPosition());
 
-		BOOL translated;
-		db_set_dw(0, SRMSGMOD_T, "IndentAmount", (DWORD)GetDlgItemInt(m_hwnd, IDC_INDENTAMOUNT, &translated, FALSE));
-		db_set_dw(0, SRMSGMOD_T, "RightIndent", (DWORD)GetDlgItemInt(m_hwnd, IDC_RIGHTINDENT, &translated, FALSE));
+		db_set_dw(0, SRMSGMOD_T, "IndentAmount", spnLeft.GetPosition());
+		db_set_dw(0, SRMSGMOD_T, "RightIndent", spnRight.GetPosition());
 
 		db_set_b(0, SRMSGMOD_T, "default_ieview", 0);
 		db_set_b(0, SRMSGMOD_T, "default_hpp", 0);
@@ -788,8 +796,8 @@ public:
 		// scan the tree view and obtain the options...
 		TreeViewToDB(GetDlgItem(m_hwnd, IDC_LOGOPTIONS), CTranslator::TREE_LOG, SRMSGMOD_T, &dwFlags);
 		db_set_dw(0, SRMSGMOD_T, "mwflags", dwFlags);
-		if (IsDlgButtonChecked(m_hwnd, IDC_ALWAYSTRIM))
-			db_set_dw(0, SRMSGMOD_T, "maxhist", (DWORD)SendDlgItemMessage(m_hwnd, IDC_TRIMSPIN, UDM_GETPOS, 0, 0));
+		if (chkAlwaysTrim.GetState())
+			db_set_dw(0, SRMSGMOD_T, "maxhist", spnTrim.GetPosition());
 		else
 			db_set_dw(0, SRMSGMOD_T, "maxhist", 0);
 		PluginConfig.reloadSettings();
@@ -803,17 +811,21 @@ public:
 
 	void onChange_Trim(CCtrlCheck*)
 	{
-		Utils::enableDlgControl(m_hwnd, IDC_TRIMSPIN, IsDlgButtonChecked(m_hwnd, IDC_ALWAYSTRIM) != 0);
-		Utils::enableDlgControl(m_hwnd, IDC_TRIM, IsDlgButtonChecked(m_hwnd, IDC_ALWAYSTRIM) != 0);
+		bool bEnabled = chkAlwaysTrim.GetState();
+		spnTrim.Enable(bEnabled);
+		Utils::enableDlgControl(m_hwnd, IDC_TRIM, bEnabled);
 	}
 
 	void onChange_Load(CCtrlCheck*)
 	{
-		Utils::enableDlgControl(m_hwnd, IDC_LOADCOUNTN, IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT) != 0);
-		Utils::enableDlgControl(m_hwnd, IDC_LOADCOUNTSPIN, IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT) != 0);
-		Utils::enableDlgControl(m_hwnd, IDC_LOADTIMEN, IsDlgButtonChecked(m_hwnd, IDC_LOADTIME) != 0);
-		Utils::enableDlgControl(m_hwnd, IDC_LOADTIMESPIN, IsDlgButtonChecked(m_hwnd, IDC_LOADTIME) != 0);
-		Utils::enableDlgControl(m_hwnd, IDC_STMINSOLD, IsDlgButtonChecked(m_hwnd, IDC_LOADTIME) != 0);
+		bool bEnabled = chkLoadCount.GetState();
+		Utils::enableDlgControl(m_hwnd, IDC_LOADCOUNTN, bEnabled);
+		Utils::enableDlgControl(m_hwnd, IDC_LOADCOUNTSPIN, bEnabled);
+
+		bEnabled = chkLoadTime.GetState();
+		Utils::enableDlgControl(m_hwnd, IDC_LOADTIMEN, bEnabled);
+		spnLoadTime.Enable(bEnabled);
+		Utils::enableDlgControl(m_hwnd, IDC_STMINSOLD, bEnabled);
 	}
 
 	void onClick_Modify(CCtrlButton*)
@@ -1022,33 +1034,35 @@ public:
 
 class COptTabbedDlg : public CDlgBase
 {
-	CCtrlCheck chkCut;
-	CCtrlCombo cmbEscMode;
+	CCtrlEdit  	edtLimit;
+	CCtrlCheck  chkLimit;
+	CCtrlSpin   spnLimit;
+	CCtrlCombo  cmbEscMode;
 	CCtrlButton btnSetup;
 
 public:
 	COptTabbedDlg()
 		: CDlgBase(g_hInst, IDD_OPT_TABBEDMSG),
-		chkCut(this, IDC_CUT_TABTITLE),
+		chkLimit(this, IDC_CUT_TABTITLE),
+		edtLimit(this, IDC_CUT_TITLEMAX),
+		spnLimit(this, IDC_CUT_TITLEMAXSPIN),
 		btnSetup(this, IDC_SETUPAUTOCREATEMODES),
 		cmbEscMode(this, IDC_ESCMODE)
 	{
 		btnSetup.OnClick = Callback(this, &COptTabbedDlg::onClick_Setup);
 
-		chkCut.OnChange = Callback(this, &COptTabbedDlg::onChange_Cut);
+		chkLimit.OnChange = Callback(this, &COptTabbedDlg::onChange_Cut);
 	}
 
 	virtual void OnInitDialog() override
 	{
 		TreeViewInit(GetDlgItem(m_hwnd, IDC_TABMSGOPTIONS), CTranslator::TREE_TAB, 0, FALSE);
 
-		CheckDlgButton(m_hwnd, IDC_CUT_TABTITLE, M.GetByte("cuttitle", 0) ? BST_CHECKED : BST_UNCHECKED);
-		SendDlgItemMessage(m_hwnd, IDC_CUT_TITLEMAXSPIN, UDM_SETRANGE, 0, MAKELONG(20, 5));
-		SendDlgItemMessage(m_hwnd, IDC_CUT_TITLEMAXSPIN, UDM_SETPOS, 0, (WPARAM)db_get_w(0, SRMSGMOD_T, "cut_at", 15));
-
-		Utils::enableDlgControl(m_hwnd, IDC_CUT_TITLEMAX, IsDlgButtonChecked(m_hwnd, IDC_CUT_TABTITLE) != 0);
-		Utils::enableDlgControl(m_hwnd, IDC_CUT_TITLEMAXSPIN, IsDlgButtonChecked(m_hwnd, IDC_CUT_TABTITLE) != 0);
-
+		chkLimit.SetState(M.GetByte("cuttitle", 0));
+		spnLimit.SetRange(20, 5);
+		spnLimit.SetPosition(db_get_w(0, SRMSGMOD_T, "cut_at", 15));
+		onChange_Cut(&chkLimit);
+		
 		cmbEscMode.AddString(TranslateT("Normal - close tab, if last tab is closed also close the window"));
 		cmbEscMode.AddString(TranslateT("Minimize the window to the task bar"));
 		cmbEscMode.AddString(TranslateT("Close or hide window, depends on the close button setting above"));
@@ -1057,14 +1071,12 @@ public:
 
 	virtual void OnApply() override
 	{
-		db_set_b(0, SRMSGMOD_T, "cuttitle", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_CUT_TABTITLE));
-		db_set_w(0, SRMSGMOD_T, "cut_at", (WORD)SendDlgItemMessage(m_hwnd, IDC_CUT_TITLEMAXSPIN, UDM_GETPOS, 0, 0));
+		db_set_w(0, SRMSGMOD_T, "cut_at", spnLimit.GetPosition());
+		db_set_b(0, SRMSGMOD_T, "cuttitle", chkLimit.GetState());
+		db_set_b(0, SRMSGMOD_T, "escmode", cmbEscMode.GetCurSel());
 
-		// scan the tree view and obtain the options...
 		TreeViewToDB(GetDlgItem(m_hwnd, IDC_TABMSGOPTIONS), CTranslator::TREE_TAB, SRMSGMOD_T, nullptr);
-
-		PluginConfig.m_EscapeCloses = cmbEscMode.GetCurSel();
-		db_set_b(0, SRMSGMOD_T, "escmode", (BYTE)PluginConfig.m_EscapeCloses);
+		
 		PluginConfig.reloadSettings();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
 	}
@@ -1082,9 +1094,9 @@ public:
 
 	void onChange_Cut(CCtrlCheck*)
 	{
-		Utils::enableDlgControl(m_hwnd, IDC_CUT_TITLEMAX, IsDlgButtonChecked(m_hwnd, IDC_CUT_TABTITLE) != 0);
-		Utils::enableDlgControl(m_hwnd, IDC_CUT_TITLEMAXSPIN, IsDlgButtonChecked(m_hwnd, IDC_CUT_TABTITLE) != 0);
-	}
+		bool bEnabled = chkLimit.GetState() != 0;
+		edtLimit.Enable(bEnabled);
+		spnLimit.Enable(bEnabled);	}
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
@@ -1104,7 +1116,9 @@ public:
 class COptContainersDlg : public CDlgBase
 {
 	CCtrlButton btnHelp;
-	CCtrlCheck  chkUseAero, chkLimits, chkSingle, chkGroup, chkDefault;
+	CCtrlCombo  cmbAeroEffect;
+	CCtrlCheck  chkUseAero, chkUseAeroPeek, chkLimits, chkSingle, chkGroup, chkDefault;
+	CCtrlSpin   spnNumFlash, spnTabLimit, spnFlashDelay;
 
 	void onHelp(CCtrlButton*)
 	{
@@ -1125,7 +1139,12 @@ public:
 	COptContainersDlg()
 		: CDlgBase(g_hInst, IDD_OPT_CONTAINERS),
 		btnHelp(this, IDC_HELP_CONTAINERS),
+		spnNumFlash(this, IDC_NRFLASHSPIN),
+		spnTabLimit(this, IDC_TABLIMITSPIN),
+		spnFlashDelay(this, IDC_FLASHINTERVALSPIN),
 		chkUseAero(this, IDC_USEAERO),
+		chkUseAeroPeek(this, IDC_USEAEROPEEK),
+		cmbAeroEffect(this, IDC_AEROEFFECT),
 		chkLimits(this, IDC_LIMITTABS),
 		chkSingle(this, IDC_SINGLEWINDOWMODE),
 		chkGroup(this, IDC_CONTAINERGROUPMODE),
@@ -1139,51 +1158,50 @@ public:
 
 	virtual void OnInitDialog() override
 	{
-		CheckDlgButton(m_hwnd, IDC_CONTAINERGROUPMODE, M.GetByte("useclistgroups", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_LIMITTABS, M.GetByte("limittabs", 0) ? BST_CHECKED : BST_UNCHECKED);
+		chkGroup.SetState(M.GetByte("useclistgroups", 0));
+		chkLimits.SetState(M.GetByte("limittabs", 0));
 
-		SendDlgItemMessage(m_hwnd, IDC_TABLIMITSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 1));
-		SendDlgItemMessage(m_hwnd, IDC_TABLIMITSPIN, UDM_SETPOS, 0, (int)M.GetDword("maxtabs", 1));
-		SetDlgItemInt(m_hwnd, IDC_TABLIMIT, (int)M.GetDword("maxtabs", 1), FALSE);
-		Utils::enableDlgControl(m_hwnd, IDC_TABLIMIT, IsDlgButtonChecked(m_hwnd, IDC_LIMITTABS) != 0);
-		CheckDlgButton(m_hwnd, IDC_SINGLEWINDOWMODE, M.GetByte("singlewinmode", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_DEFAULTCONTAINERMODE, !(IsDlgButtonChecked(m_hwnd, IDC_CONTAINERGROUPMODE) || IsDlgButtonChecked(m_hwnd, IDC_LIMITTABS) || IsDlgButtonChecked(m_hwnd, IDC_SINGLEWINDOWMODE)) ? BST_CHECKED : BST_UNCHECKED);
+		spnTabLimit.SetRange(1000, 1);
+		spnTabLimit.SetPosition(M.GetDword("maxtabs", 1));
+		onChangeLimits(nullptr);
+		
+		chkSingle.SetState(M.GetByte("singlewinmode", 0));
+		chkDefault.SetState(!(chkGroup.GetState() || chkLimits.GetState() || chkSingle.GetState()));
 
-		SetDlgItemInt(m_hwnd, IDC_NRFLASH, M.GetByte("nrflash", 4), FALSE);
-		SendDlgItemMessage(m_hwnd, IDC_NRFLASHSPIN, UDM_SETRANGE, 0, MAKELONG(255, 0));
-		SendDlgItemMessage(m_hwnd, IDC_NRFLASHSPIN, UDM_SETPOS, 0, (int)M.GetByte("nrflash", 4));
+		spnNumFlash.SetRange(255);
+		spnNumFlash.SetPosition(M.GetByte("nrflash", 4));
 
-		SetDlgItemInt(m_hwnd, IDC_FLASHINTERVAL, M.GetDword("flashinterval", 1000), FALSE);
-		SendDlgItemMessage(m_hwnd, IDC_FLASHINTERVALSPIN, UDM_SETRANGE, 0, MAKELONG(10000, 500));
-		SendDlgItemMessage(m_hwnd, IDC_FLASHINTERVALSPIN, UDM_SETPOS, 0, (int)M.GetDword("flashinterval", 1000));
-		SendDlgItemMessage(m_hwnd, IDC_FLASHINTERVALSPIN, UDM_SETACCEL, 0, (int)M.GetDword("flashinterval", 1000));
-		CheckDlgButton(m_hwnd, IDC_USEAERO, M.GetByte("useAero", 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_USEAEROPEEK, M.GetByte("useAeroPeek", 1) ? BST_CHECKED : BST_UNCHECKED);
+		spnFlashDelay.SetRange(10000, 500);
+		spnFlashDelay.SetPosition(M.GetDword("flashinterval", 1000));
+
+		chkUseAero.SetState(M.GetByte("useAero", 1));
+		chkUseAeroPeek.SetState(M.GetByte("useAeroPeek", 1));
+
 		for (int i = 0; i < CSkin::AERO_EFFECT_LAST; i++)
-			SendDlgItemMessage(m_hwnd, IDC_AEROEFFECT, CB_INSERTSTRING, -1, (LPARAM)TranslateW(CSkin::m_aeroEffects[i].tszName));
-
-		SendDlgItemMessage(m_hwnd, IDC_AEROEFFECT, CB_SETCURSEL, (WPARAM)CSkin::m_aeroEffect, 0);
-		Utils::enableDlgControl(m_hwnd, IDC_AEROEFFECT, PluginConfig.m_bIsVista);
-		Utils::enableDlgControl(m_hwnd, IDC_USEAERO, PluginConfig.m_bIsVista);
-		Utils::enableDlgControl(m_hwnd, IDC_USEAEROPEEK, PluginConfig.m_bIsWin7);
+			cmbAeroEffect.InsertString(TranslateW(CSkin::m_aeroEffects[i].tszName), -1);
+		cmbAeroEffect.SetCurSel(CSkin::m_aeroEffect);
+		cmbAeroEffect.Enable(PluginConfig.m_bIsVista);
+		
+		chkUseAero.Enable(PluginConfig.m_bIsVista);
+		chkUseAeroPeek.Enable(PluginConfig.m_bIsWin7);
 		if (PluginConfig.m_bIsVista)
-			Utils::enableDlgControl(m_hwnd, IDC_AEROEFFECT, IsDlgButtonChecked(m_hwnd, IDC_USEAERO) != 0);
+			Utils::enableDlgControl(m_hwnd, IDC_AEROEFFECT, chkUseAero.GetState() != 0);
 	}
 
 	virtual void OnApply() override
 	{
-		BOOL translated;
 		bool fOldAeroState = M.getAeroState();
-		db_set_b(0, SRMSGMOD_T, "useclistgroups", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_CONTAINERGROUPMODE)));
-		db_set_b(0, SRMSGMOD_T, "limittabs", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_LIMITTABS)));
-		db_set_dw(0, SRMSGMOD_T, "maxtabs", GetDlgItemInt(m_hwnd, IDC_TABLIMIT, &translated, FALSE));
-		db_set_b(0, SRMSGMOD_T, "singlewinmode", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_SINGLEWINDOWMODE)));
-		db_set_dw(0, SRMSGMOD_T, "flashinterval", GetDlgItemInt(m_hwnd, IDC_FLASHINTERVAL, &translated, FALSE));
-		db_set_b(0, SRMSGMOD_T, "nrflash", (BYTE)(GetDlgItemInt(m_hwnd, IDC_NRFLASH, &translated, FALSE)));
-		db_set_b(0, SRMSGMOD_T, "useAero", IsDlgButtonChecked(m_hwnd, IDC_USEAERO) ? 1 : 0);
-		db_set_b(0, SRMSGMOD_T, "useAeroPeek", IsDlgButtonChecked(m_hwnd, IDC_USEAEROPEEK) ? 1 : 0);
-		CSkin::setAeroEffect(SendDlgItemMessage(m_hwnd, IDC_AEROEFFECT, CB_GETCURSEL, 0, 0));
 
+		db_set_b(0, SRMSGMOD_T, "useclistgroups", chkGroup.GetState());
+		db_set_b(0, SRMSGMOD_T, "limittabs", chkLimits.GetState());
+		db_set_dw(0, SRMSGMOD_T, "maxtabs", spnTabLimit.GetPosition());
+		db_set_b(0, SRMSGMOD_T, "singlewinmode", chkSingle.GetState());
+		db_set_dw(0, SRMSGMOD_T, "flashinterval", spnFlashDelay.GetPosition());
+		db_set_b(0, SRMSGMOD_T, "nrflash", spnNumFlash.GetPosition());
+		db_set_b(0, SRMSGMOD_T, "useAero", chkUseAero.GetState());
+		db_set_b(0, SRMSGMOD_T, "useAeroPeek", chkUseAeroPeek.GetState());
+		
+		CSkin::setAeroEffect(cmbAeroEffect.GetCurSel());
 		if (M.getAeroState() != fOldAeroState) {
 			SendMessage(PluginConfig.g_hwndHotkeyHandler, WM_DWMCOMPOSITIONCHANGED, 0, 0);	// simulate aero state change
 			SendMessage(PluginConfig.g_hwndHotkeyHandler, WM_DWMCOLORIZATIONCOLORCHANGED, 0, 0);	// simulate aero state change
@@ -1197,13 +1215,16 @@ public:
 
 class COptAdvancedDlg : public CDlgBase
 {
+	CCtrlSpin spnTimeout, spnHistSize;
 	CCtrlButton btnHelp, btnRevert;
 
 public:
 	COptAdvancedDlg()
 		: CDlgBase(g_hInst, IDD_OPTIONS_PLUS),
 		btnHelp(this, IDC_PLUS_HELP),
-		btnRevert(this, IDC_PLUS_REVERT)
+		btnRevert(this, IDC_PLUS_REVERT),
+		spnTimeout(this, IDC_TIMEOUTSPIN),
+		spnHistSize(this, IDC_HISTORYSIZESPIN)
 	{
 		btnHelp.OnClick = Callback(this, &COptAdvancedDlg::onClick_Help);
 		btnRevert.OnClick = Callback(this, &COptAdvancedDlg::onClick_Revert);
@@ -1213,22 +1234,22 @@ public:
 	{
 		TreeViewInit(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, 0, FALSE);
 
-		SendDlgItemMessage(m_hwnd, IDC_TIMEOUTSPIN, UDM_SETRANGE, 0, MAKELONG(300, SRMSGSET_MSGTIMEOUT_MIN / 1000));
-		SendDlgItemMessage(m_hwnd, IDC_TIMEOUTSPIN, UDM_SETPOS, 0, PluginConfig.m_MsgTimeout / 1000);
+		spnTimeout.SetRange(300, SRMSGSET_MSGTIMEOUT_MIN / 1000);
+		spnTimeout.SetPosition(PluginConfig.m_MsgTimeout / 1000);
 
-		SendDlgItemMessage(m_hwnd, IDC_HISTORYSIZESPIN, UDM_SETRANGE, 0, MAKELONG(255, 15));
-		SendDlgItemMessage(m_hwnd, IDC_HISTORYSIZESPIN, UDM_SETPOS, 0, (int)M.GetByte("historysize", 0));
+		spnHistSize.SetRange(255, 15);
+		spnHistSize.SetPosition(M.GetByte("historysize", 0));
 	}
 
 	virtual void OnApply() override
 	{
 		TreeViewToDB(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, SRMSGMOD_T, nullptr);
 
-		int msgTimeout = 1000 * GetDlgItemInt(m_hwnd, IDC_SECONDS, nullptr, FALSE);
+		int msgTimeout = 1000 * spnTimeout.GetPosition();
 		PluginConfig.m_MsgTimeout = msgTimeout >= SRMSGSET_MSGTIMEOUT_MIN ? msgTimeout : SRMSGSET_MSGTIMEOUT_MIN;
 		db_set_dw(0, SRMSGMOD, SRMSGSET_MSGTIMEOUT, PluginConfig.m_MsgTimeout);
 
-		db_set_b(0, SRMSGMOD_T, "historysize", (BYTE)SendDlgItemMessage(m_hwnd, IDC_HISTORYSIZESPIN, UDM_GETPOS, 0, 0));
+		db_set_b(0, SRMSGMOD_T, "historysize", spnHistSize.GetPosition());
 		PluginConfig.reloadAdv();
 	}
 
