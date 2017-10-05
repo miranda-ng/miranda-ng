@@ -20,8 +20,7 @@ cd ../..
 
 pushd "%comp%\Release%tp%"
 
-rem if exist %AutoCompile%\miranda-ng-v0.9*-alpha-latest%bit%.7z del /F /Q %AutoCompile%\miranda-ng-v0.9*-alpha-latest%bit%.7z
-%CompressIt% a -r -mx=9 "miranda-ng-alpha-latest%bit%.7z" Miranda%tp%.exe -i@..\..\z3_PackArchives.txt
+%CompressIt% a -r -mx=9 "miranda-ng-alpha-latest%bit%.7z" Miranda%tp%.exe -i@..\..\%comp%\z3_PackArchives.txt
 move /Y miranda-ng*.7z %ArchDistr%
 
 del /f /q miranda%tp%.exe
