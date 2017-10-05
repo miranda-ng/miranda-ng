@@ -2,10 +2,10 @@
 ;============================================================
 ;  File: AsSingleWindow.dll
 ;  Plugin: AsSingleWindow
-;  Version: 0.1.2.1
+;  Version: 0.1.2.2
 ;  Authors: Aleksey Smyrnov aka Soar
 ;============================================================
-[Makes easier windows manipulation. Allows you to move, minimize and activate Miranda's windows as if it were a single window.]
+[Allows you to move, minimize and activate Miranda's windows as if it were a single window.]
 ;file \plugins\AsSingleWindow\res\optionsPage.rc
 [Windows moving]
 [Contact list on the left]

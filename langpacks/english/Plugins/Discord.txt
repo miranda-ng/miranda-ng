@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.5.1.1
+;  Version: 0.5.1.2
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -12,6 +12,7 @@
 [Password:]
 [Contacts]
 [Default group:]
+[Hide guild chats on startup]
 [Nick:]
 ;file \protocols\Discord\src\dispatch.cpp
 [edited at]
