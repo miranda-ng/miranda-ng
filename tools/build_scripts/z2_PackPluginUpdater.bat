@@ -22,7 +22,7 @@ if not exist "%comp%\Release%tp%" goto EOF
 pushd "%comp%\Release%tp%"
 if exist %Errors% del /F /Q %Errors%
 if exist %NoErrors% del /F /Q %NoErrors%
-for /f %%a in (..\..\z2_PackPluginUpdater_x%tp%.txt) do (if not exist %%a echo %%a >> %Errors%)
+for /f %%a in (..\..\%comp%\z2_PackPluginUpdater_x%tp%.txt) do (if not exist %%a echo %%a >> %Errors%)
 
 :COMPRESS
 REM Core
