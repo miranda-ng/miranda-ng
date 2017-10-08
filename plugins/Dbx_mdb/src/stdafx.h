@@ -43,7 +43,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_netlib.h>
 #include <m_gui.h>
 
-#include "lmdb/lmdb.h"
+#include "mdbx/mdbx.h"
 
 #ifndef thread_local
 #	define thread_local __declspec(thread)
@@ -52,58 +52,58 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class txn_ptr
 {
-	MDB_txn *m_txn;
+	MDBX_txn *m_txn;
 public:
-	__forceinline txn_ptr(MDB_env *pEnv)
+	__forceinline txn_ptr(MDBX_env *pEnv)
 	{
-		mdb_txn_begin(pEnv, NULL, 0, &m_txn);
+		mdbx_txn_begin(pEnv, NULL, 0, &m_txn);
 	}
 
 	__forceinline ~txn_ptr()
 	{
 		if (m_txn)
-			mdb_txn_abort(m_txn);
+			mdbx_txn_abort(m_txn);
 	}
 
-	__forceinline operator MDB_txn*() const { return m_txn; }
+	__forceinline operator MDBX_txn*() const { return m_txn; }
 
 	__forceinline int commit()
 	{
-		MDB_txn *tmp = m_txn;
+		MDBX_txn *tmp = m_txn;
 		m_txn = nullptr;
-		return mdb_txn_commit(tmp);
+		return mdbx_txn_commit(tmp);
 	}
 
 	__forceinline void abort()
 	{
-		mdb_txn_abort(m_txn);
+		mdbx_txn_abort(m_txn);
 		m_txn = NULL;
 	}
 };
 
-struct CMDB_txn_ro
+struct CMDBX_txn_ro
 {
-	MDB_txn *m_txn;
+	MDBX_txn *m_txn;
 	bool bIsActive;
 	mir_cs cs;
 
-	__forceinline CMDB_txn_ro() : m_txn(nullptr), bIsActive(false) {}
+	__forceinline CMDBX_txn_ro() : m_txn(nullptr), bIsActive(false) {}
 
-	__forceinline operator MDB_txn* () { return m_txn; }
-	__forceinline MDB_txn** operator &() { return &m_txn; }
+	__forceinline operator MDBX_txn* () { return m_txn; }
+	__forceinline MDBX_txn** operator &() { return &m_txn; }
 };
 
 class txn_ptr_ro
 {
-	CMDB_txn_ro &m_txn;
+	CMDBX_txn_ro &m_txn;
 	bool bNeedReset;
 	mir_cslock lock;
 public:
-	__forceinline txn_ptr_ro(CMDB_txn_ro &txn) : m_txn(txn), bNeedReset(!txn.bIsActive), lock(m_txn.cs)
+	__forceinline txn_ptr_ro(CMDBX_txn_ro &txn) : m_txn(txn), bNeedReset(!txn.bIsActive), lock(m_txn.cs)
 	{
 		if (bNeedReset)
 		{
-			mdb_txn_renew(m_txn);
+			mdbx_txn_renew(m_txn);
 			m_txn.bIsActive = true;
 		}
 	}
@@ -111,48 +111,48 @@ public:
 	{
 		if (bNeedReset)
 		{
-			mdb_txn_reset(m_txn);
+			mdbx_txn_reset(m_txn);
 			m_txn.bIsActive = false;
 		}
 	}
-	__forceinline operator MDB_txn*() const { return m_txn; }
+	__forceinline operator MDBX_txn*() const { return m_txn; }
 };
 
 class cursor_ptr
 {
-	MDB_cursor *m_cursor;
+	MDBX_cursor *m_cursor;
 
 public:
-	__forceinline cursor_ptr(MDB_txn *_txn, MDB_dbi _dbi)
+	__forceinline cursor_ptr(MDBX_txn *_txn, MDBX_dbi _dbi)
 	{
-		if (mdb_cursor_open(_txn, _dbi, &m_cursor) != MDB_SUCCESS)
+		if (mdbx_cursor_open(_txn, _dbi, &m_cursor) != MDBX_SUCCESS)
 			m_cursor = NULL;
 	}
 
 	__forceinline ~cursor_ptr()
 	{
 		if (m_cursor)
-			mdb_cursor_close(m_cursor);
+			mdbx_cursor_close(m_cursor);
 	}
 
-	__forceinline operator MDB_cursor*() const { return m_cursor; }
+	__forceinline operator MDBX_cursor*() const { return m_cursor; }
 };
 
 class cursor_ptr_ro
 {
-	MDB_cursor *m_cursor;
+	MDBX_cursor *m_cursor;
 public:
-	__forceinline cursor_ptr_ro(MDB_cursor *cursor) : m_cursor(cursor)
+	__forceinline cursor_ptr_ro(MDBX_cursor *cursor) : m_cursor(cursor)
 	{
-		mdb_cursor_renew(mdb_cursor_txn(m_cursor), m_cursor);
+		mdbx_cursor_renew(mdbx_cursor_txn(m_cursor), m_cursor);
 	}
-	__forceinline operator MDB_cursor*() const { return m_cursor; }
+	__forceinline operator MDBX_cursor*() const { return m_cursor; }
 };
 
-#define MDB_CHECK(A,B) \
+#define MDBX_CHECK(A,B) \
 	switch (A) { \
-	case MDB_SUCCESS: break; \
-	case MDB_MAP_FULL: continue; \
+	case MDBX_SUCCESS: break; \
+	case MDBX_MAP_FULL: continue; \
 	default: return (B); }
 
 

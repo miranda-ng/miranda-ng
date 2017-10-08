@@ -33,17 +33,17 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	m_tszProfileName = mir_wstrdup(tszFileName);
 	InitDbInstance(this);
 
-	mdb_env_create(&m_pMdbEnv);
-	mdb_env_set_maxdbs(m_pMdbEnv, 10);
-	mdb_env_set_userctx(m_pMdbEnv, this);
-//	mdb_env_set_assert(m_pMdbEnv, LMDB_FailAssert);
+	mdbx_env_create(&m_pMdbEnv);
+	mdbx_env_set_maxdbs(m_pMdbEnv, 10);
+	mdbx_env_set_userctx(m_pMdbEnv, this);
+//	mdbx_env_set_assert(m_pMdbEnv, LMDBX_FailAssert);
 
 	m_codePage = Langpack_GetDefaultCodePage();
 }
 
 CDbxMdb::~CDbxMdb()
 {
-	mdb_env_close(m_pMdbEnv);
+	mdbx_env_close(m_pMdbEnv);
 
 	DestroyServiceFunction(hService);
 	UnhookEvent(hHook);
@@ -66,31 +66,28 @@ CDbxMdb::~CDbxMdb()
 
 int CDbxMdb::Load(bool bSkipInit)
 {
-	if (Map() != MDB_SUCCESS)
+	if (Map() != MDBX_SUCCESS)
 		return EGROKPRF_CANTREAD;
 
 	if (!bSkipInit) {
 		txn_ptr trnlck(m_pMdbEnv);
 
-		unsigned int defFlags = MDB_CREATE;
+		unsigned int defFlags = MDBX_CREATE;
 
-		mdb_dbi_open(trnlck, "global", defFlags | MDB_INTEGERKEY, &m_dbGlobal);
-		mdb_dbi_open(trnlck, "crypto", defFlags, &m_dbCrypto);
-		mdb_dbi_open(trnlck, "contacts", defFlags | MDB_INTEGERKEY, &m_dbContacts);
-		mdb_dbi_open(trnlck, "modules", defFlags | MDB_INTEGERKEY, &m_dbModules);
-		mdb_dbi_open(trnlck, "events", defFlags | MDB_INTEGERKEY, &m_dbEvents);
+		mdbx_dbi_open(trnlck, "global", defFlags | MDBX_INTEGERKEY, &m_dbGlobal);
+		mdbx_dbi_open(trnlck, "crypto", defFlags, &m_dbCrypto);
+		mdbx_dbi_open(trnlck, "contacts", defFlags | MDBX_INTEGERKEY, &m_dbContacts);
+		mdbx_dbi_open(trnlck, "modules", defFlags | MDBX_INTEGERKEY, &m_dbModules);
+		mdbx_dbi_open(trnlck, "events", defFlags | MDBX_INTEGERKEY, &m_dbEvents);
 
-		mdb_dbi_open(trnlck, "eventsrt", defFlags, &m_dbEventsSort);
-		mdb_set_compare(trnlck, m_dbEventsSort, DBEventSortingKey::Compare);
-
-		mdb_dbi_open(trnlck, "settings", defFlags, &m_dbSettings);
-		mdb_set_compare(trnlck, m_dbSettings, DBSettingKey::Compare);
+		mdbx_dbi_open_ex(trnlck, "eventsrt", defFlags, &m_dbEventsSort, DBEventSortingKey::Compare, nullptr);
+		mdbx_dbi_open_ex(trnlck, "settings", defFlags, &m_dbSettings, DBSettingKey::Compare, nullptr);
 
 		uint32_t keyVal = 1;
-		MDB_val key = { sizeof(keyVal), &keyVal }, data;
-		if (mdb_get(trnlck, m_dbGlobal, &key, &data) == MDB_SUCCESS) 
+		MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
+		if (mdbx_get(trnlck, m_dbGlobal, &key, &data) == MDBX_SUCCESS) 
 		{
-			const DBHeader *hdr = (const DBHeader*)data.mv_data;
+			const DBHeader *hdr = (const DBHeader*)data.iov_base;
 			if (hdr->dwSignature != DBHEADER_SIGNATURE)
 				return EGROKPRF_DAMAGED;
 			if (hdr->dwVersion != DBHEADER_VERSION)
@@ -102,38 +99,38 @@ int CDbxMdb::Load(bool bSkipInit)
 		{
 			m_header.dwSignature = DBHEADER_SIGNATURE;
 			m_header.dwVersion = DBHEADER_VERSION;
-			data.mv_data = &m_header; data.mv_size = sizeof(m_header);
-			mdb_put(trnlck, m_dbGlobal, &key, &data, 0);
+			data.iov_base = &m_header; data.iov_len = sizeof(m_header);
+			mdbx_put(trnlck, m_dbGlobal, &key, &data, 0);
 
 			keyVal = 0;
 			DBContact dbc = { 0, 0, 0 };
-			data.mv_data = &dbc; data.mv_size = sizeof(dbc);
-			mdb_put(trnlck, m_dbContacts, &key, &data, 0);
+			data.iov_base = &dbc; data.iov_len = sizeof(dbc);
+			mdbx_put(trnlck, m_dbContacts, &key, &data, 0);
 		}
 		trnlck.commit();
 
 		{
-			MDB_val key, val;
+			MDBX_val key, val;
 
-			mdb_txn_begin(m_pMdbEnv, nullptr, MDB_RDONLY, &m_txn);
+			mdbx_txn_begin(m_pMdbEnv, nullptr, MDBX_RDONLY, &m_txn);
 
-			mdb_cursor_open(m_txn, m_dbEvents, &m_curEvents);
-			if (mdb_cursor_get(m_curEvents, &key, &val, MDB_LAST) == MDB_SUCCESS)
-				m_dwMaxEventId = *(MEVENT*)key.mv_data;
+			mdbx_cursor_open(m_txn, m_dbEvents, &m_curEvents);
+			if (mdbx_cursor_get(m_curEvents, &key, &val, MDBX_LAST) == MDBX_SUCCESS)
+				m_dwMaxEventId = *(MEVENT*)key.iov_base;
 
-			mdb_cursor_open(m_txn, m_dbEventsSort, &m_curEventsSort);
-			mdb_cursor_open(m_txn, m_dbSettings, &m_curSettings);
-			mdb_cursor_open(m_txn, m_dbModules, &m_curModules);
+			mdbx_cursor_open(m_txn, m_dbEventsSort, &m_curEventsSort);
+			mdbx_cursor_open(m_txn, m_dbSettings, &m_curSettings);
+			mdbx_cursor_open(m_txn, m_dbModules, &m_curModules);
 
-			mdb_cursor_open(m_txn, m_dbContacts, &m_curContacts);
-			if (mdb_cursor_get(m_curContacts, &key, &val, MDB_LAST) == MDB_SUCCESS)
-				m_maxContactId = *(MCONTACT*)key.mv_data;
+			mdbx_cursor_open(m_txn, m_dbContacts, &m_curContacts);
+			if (mdbx_cursor_get(m_curContacts, &key, &val, MDBX_LAST) == MDBX_SUCCESS)
+				m_maxContactId = *(MCONTACT*)key.iov_base;
 
-			MDB_stat st;
-			mdb_stat(m_txn, m_dbContacts, &st);
+			MDBX_stat st;
+			mdbx_dbi_stat(m_txn, m_dbContacts, &st, sizeof(st));
 			m_contactCount = st.ms_entries;
 
-			mdb_txn_reset(m_txn);
+			mdbx_txn_reset(m_txn);
 		}
 
 
@@ -161,11 +158,11 @@ int CDbxMdb::Load(bool bSkipInit)
 
 int CDbxMdb::Create(void)
 {
-	return (Map() == MDB_SUCCESS) ? 0 : EGROKPRF_CANTREAD;
+	return (Map() == MDBX_SUCCESS) ? 0 : EGROKPRF_CANTREAD;
 }
 
-size_t iDefHeaderOffset = 16;
-BYTE bDefHeader[] = { 0xDE, 0xC0, 0xEF, 0xBE };
+size_t iDefHeaderOffset = 0;
+BYTE bDefHeader[] = { 0 };
 
 int CDbxMdb::Check(void)
 {
@@ -196,17 +193,20 @@ STDMETHODIMP_(void) CDbxMdb::SetCacheSafetyMode(BOOL bIsSet)
 
 int CDbxMdb::Map()
 {
-	unsigned int mode = MDB_NOSYNC | MDB_NOSUBDIR | /*MDB_NOLOCK |*/ MDB_NOTLS | MDB_WRITEMAP;
+	unsigned int mode = MDBX_NOSUBDIR | MDBX_NOTLS | MDBX_MAPASYNC | MDBX_WRITEMAP | MDBX_NOSYNC;
 	if (m_bReadOnly)
-		mode |= MDB_RDONLY;
-	return mdb_env_open(m_pMdbEnv, _T2A(m_tszProfileName), mode, 0664);
+		mode |= MDBX_RDONLY;
+	mdbx_env_open(m_pMdbEnv, _T2A(m_tszProfileName), mode, 0664);
+	mdbx_env_set_mapsize(m_pMdbEnv, 0x1000000);
+	return MDBX_SUCCESS;
+
 }
 
 bool CDbxMdb::Remap()
 {
-	MDB_envinfo ei;
-	mdb_env_info(m_pMdbEnv, &ei);
-	return mdb_env_set_mapsize(m_pMdbEnv, ei.me_mapsize + 0x100000) == MDB_SUCCESS;
+	MDBX_envinfo ei;
+	mdbx_env_info(m_pMdbEnv, &ei, sizeof(ei));
+	return mdbx_env_set_mapsize(m_pMdbEnv, ei.mi_mapsize + 0x100000) == MDBX_SUCCESS;
 }
 
 
@@ -233,12 +233,12 @@ EXTERN_C void __cdecl dbpanic(void *)
 }
 
 
-EXTERN_C void LMDB_FailAssert(MDB_env *env, const char *text)
+EXTERN_C void LMDBX_FailAssert(MDBX_env *env, const char *text)
 {
-	((CDbxMdb*)mdb_env_get_userctx(env))->DatabaseCorruption(_A2T(text));
+	((CDbxMdb*)mdbx_env_get_userctx(env))->DatabaseCorruption(_A2T(text));
 }
 
-EXTERN_C void LMDB_Log(const char *fmt, ...)
+EXTERN_C void LMDBX_Log(const char *fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);

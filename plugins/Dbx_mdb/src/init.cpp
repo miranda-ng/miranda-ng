@@ -98,8 +98,8 @@ MIDatabaseChecker* CheckDb(const TCHAR *profile, int *error)
 static DATABASELINK dblink =
 {
 	sizeof(DATABASELINK),
-	"dbx_lmdb",
-	L"LMDB database driver",
+	"dbx_mdbx",
+	L"LMDBx database driver",
 	makeDatabase,
 	grokHeader,
 	LoadDatabase,

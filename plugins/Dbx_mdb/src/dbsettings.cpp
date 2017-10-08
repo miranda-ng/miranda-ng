@@ -111,8 +111,8 @@ LBL_Seek:
 	memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
 
 
-	MDB_val key = { sizeof(DBSettingKey) + settingNameLen + 1, keyVal }, data;
-	if (mdb_get(trnlck, m_dbSettings, &key, &data) != MDB_SUCCESS) 
+	MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen + 1 }, data;
+	if (mdbx_get(trnlck, m_dbSettings, &key, &data) != MDBX_SUCCESS) 
 	{
 		// try to get the missing mc setting from the active sub
 		if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) 
@@ -129,7 +129,7 @@ LBL_Seek:
 		return 1;
 	}
 
-	const BYTE *pBlob = (const BYTE*)data.mv_data;
+	const BYTE *pBlob = (const BYTE*)data.iov_base;
 	if (isStatic && (pBlob[0] & DBVTF_VARIABLELENGTH) && VLT(dbv->type) != VLT(pBlob[0]))
 		return 1;
 
@@ -460,27 +460,27 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 	memcpy(&keyVal->szSettingName, dbcws->szSetting, settingNameLen + 1);
 
 
-	MDB_val key = { sizeof(DBSettingKey) + settingNameLen + 1, keyVal }, data;
+	MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen + 1 }, data;
 
 	switch (dbcwWork.value.type) {
-	case DBVT_BYTE:  data.mv_size = 2; break;
-	case DBVT_WORD:  data.mv_size = 3; break;
-	case DBVT_DWORD: data.mv_size = 5; break;
+	case DBVT_BYTE:  data.iov_len = 2; break;
+	case DBVT_WORD:  data.iov_len = 3; break;
+	case DBVT_DWORD: data.iov_len = 5; break;
 	
 	case DBVT_ASCIIZ: 
 	case DBVT_UTF8:
-		data.mv_size = 3 + dbcwWork.value.cchVal; break;
+		data.iov_len = 3 + dbcwWork.value.cchVal; break;
 
 	case DBVT_BLOB:
 	case DBVT_ENCRYPTED:
-		data.mv_size = 3 + dbcwWork.value.cpbVal; break;
+		data.iov_len = 3 + dbcwWork.value.cpbVal; break;
 	}
 
 	for (;; Remap()) {
 		txn_ptr trnlck(m_pMdbEnv);
-		MDB_CHECK(mdb_put(trnlck, m_dbSettings, &key, &data, MDB_RESERVE), 1);
+		MDBX_CHECK(mdbx_put(trnlck, m_dbSettings, &key, &data, MDBX_RESERVE), 1);
 
-		BYTE *pBlob = (BYTE*)data.mv_data;
+		BYTE *pBlob = (BYTE*)data.iov_base;
 		*pBlob++ = dbcwWork.value.type;
 		switch (dbcwWork.value.type) {
 		case DBVT_BYTE:  *pBlob = dbcwWork.value.bVal; break;
@@ -489,19 +489,19 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 
 		case DBVT_ASCIIZ:
 		case DBVT_UTF8:
-			data.mv_size = *(WORD*)pBlob = dbcwWork.value.cchVal;
+			data.iov_len = *(WORD*)pBlob = dbcwWork.value.cchVal;
 			pBlob += 2;
 			memcpy(pBlob, dbcwWork.value.pszVal, dbcwWork.value.cchVal);
 			break;
 
 		case DBVT_BLOB:
 		case DBVT_ENCRYPTED:
-			data.mv_size = *(WORD*)pBlob = dbcwWork.value.cpbVal;
+			data.iov_len = *(WORD*)pBlob = dbcwWork.value.cpbVal;
 			pBlob += 2;
 			memcpy(pBlob, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
 		}
 
-		if (trnlck.commit() == MDB_SUCCESS)
+		if (trnlck.commit() == MDBX_SUCCESS)
 			break;
 	}
 
@@ -527,13 +527,13 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteContactSetting(MCONTACT contactID, LPCSTR szM
 		keyVal->dwModuleId = GetModuleID(szModule);
 		memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
 
-		MDB_val key = { sizeof(DBSettingKey) + settingNameLen + 1, keyVal };
+		MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen + 1 };
 
 		for (;; Remap()) 
 		{
 			txn_ptr trnlck(m_pMdbEnv);
-			MDB_CHECK(mdb_del(trnlck, m_dbSettings, &key, nullptr), 1);
-			if (trnlck.commit() == MDB_SUCCESS)
+			MDBX_CHECK(mdbx_del(trnlck, m_dbSettings, &key, nullptr), 1);
+			if (trnlck.commit() == MDBX_SUCCESS)
 				break;
 		}
 	}
@@ -557,11 +557,11 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT hContact, DBSETTINGENU
 	txn_ptr_ro txn(m_txn);
 	cursor_ptr_ro cursor(m_curSettings);
 
-	MDB_val key = { sizeof(keyVal), &keyVal }, data;
+	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
-	for (int res = mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE); res == MDB_SUCCESS; res = mdb_cursor_get(cursor, &key, &data, MDB_NEXT))
+	for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT))
 	{
-		const DBSettingKey *pKey = (const DBSettingKey*)key.mv_data;
+		const DBSettingKey *pKey = (const DBSettingKey*)key.iov_base;
 		if (pKey->hContact != hContact || pKey->dwModuleId != keyVal.dwModuleId)
 			break;
 		result = pfnEnumProc(pKey->szSettingName, LPARAM(param));

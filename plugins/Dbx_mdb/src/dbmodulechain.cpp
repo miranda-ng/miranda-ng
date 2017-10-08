@@ -28,11 +28,11 @@ int CDbxMdb::InitModules()
 	txn_ptr_ro trnlck(m_txn);
 	cursor_ptr_ro cursor(m_curModules);
 
-	MDB_val key, data;
-	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) 
+	MDBX_val key, data;
+	while (mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) 
 	{
-		uint32_t iMod = *(uint32_t*)key.mv_data;
-		const char *szMod = (const char*)data.mv_data;
+		uint32_t iMod = *(uint32_t*)key.iov_base;
+		const char *szMod = (const char*)data.iov_base;
 		m_Modules[iMod] = szMod;
 	}
 	return 0;
@@ -44,12 +44,12 @@ uint32_t CDbxMdb::GetModuleID(const char *szName)
 	uint32_t iHash = mir_hashstr(szName);
 	if (m_Modules.find(iHash) == m_Modules.end())
 	{
-		MDB_val key = { sizeof(iHash), &iHash }, data = { strlen(szName) + 1, (void*)szName };
+		MDBX_val key = { &iHash, sizeof(iHash) }, data = { (void*)szName, strlen(szName) + 1 };
 
 		for (;; Remap()) {
 			txn_ptr txn(m_pMdbEnv);
-			MDB_CHECK(mdb_put(txn, m_dbModules, &key, &data, 0), -1);
-			if (txn.commit() == MDB_SUCCESS)
+			MDBX_CHECK(mdbx_put(txn, m_dbModules, &key, &data, 0), -1);
+			if (txn.commit() == MDBX_SUCCESS)
 				break;
 		}
 		m_Modules[iHash] = szName;

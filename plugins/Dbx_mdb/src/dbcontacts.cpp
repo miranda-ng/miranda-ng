@@ -100,31 +100,31 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 		}
 	}
 	{
-		MDB_val key, data;
+		MDBX_val key, data;
 		DBSettingKey keyS = { contactID, 0 };
 
 		txn_ptr txn(m_pMdbEnv);
 		cursor_ptr cursor(txn, m_dbSettings);
 
-		key.mv_size = sizeof(keyS); key.mv_data = &keyS;
+		key.iov_len = sizeof(keyS); key.iov_base = &keyS;
 
-		for (int res = mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE); res == MDB_SUCCESS; res = mdb_cursor_get(cursor, &key, &data, MDB_NEXT))
+		for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT))
 		{
-			const DBSettingKey *pKey = (const DBSettingKey*)key.mv_data;
+			const DBSettingKey *pKey = (const DBSettingKey*)key.iov_base;
 			if (pKey->hContact != contactID)
 				break;
-			mdb_cursor_del(cursor, 0);
+			mdbx_cursor_del(cursor, 0);
 		}
 
 		txn.commit();
 	}
 
-	MDB_val key = { sizeof(MCONTACT), &contactID };
+	MDBX_val key = { &contactID, sizeof(MCONTACT) };
 	for (;; Remap())
 	{
 		txn_ptr trnlck(m_pMdbEnv);
-		MDB_CHECK(mdb_del(trnlck, m_dbContacts, &key, nullptr), 1);
-		if (trnlck.commit() == MDB_SUCCESS)
+		MDBX_CHECK(mdbx_del(trnlck, m_dbContacts, &key, nullptr), 1);
+		if (trnlck.commit() == MDBX_SUCCESS)
 			break;
 	}
 
@@ -139,13 +139,13 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 
 	DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
 
-	MDB_val key = { sizeof(MCONTACT), &dwContactId };
-	MDB_val data = { sizeof(cc->dbc), &cc->dbc };
+	MDBX_val key = { &dwContactId, sizeof(MCONTACT) };
+	MDBX_val data = { &cc->dbc, sizeof(cc->dbc) };
 
 	for (;; Remap()) {
 		txn_ptr trnlck(m_pMdbEnv);
-		MDB_CHECK(mdb_put(trnlck, m_dbContacts, &key, &data, 0), 0);
-		if (trnlck.commit() == MDB_SUCCESS)
+		MDBX_CHECK(mdbx_put(trnlck, m_dbContacts, &key, &data, 0), 0);
+		if (trnlck.commit() == MDBX_SUCCESS)
 			break;
 	}
 
@@ -179,14 +179,14 @@ BOOL CDbxMdb::MetaSetDefault(DBCachedContact *cc)
 void CDbxMdb::GatherContactHistory(MCONTACT hContact, LIST<EventItem> &list)
 {
 	DBEventSortingKey keyVal = { 0, 0, hContact };
-	MDB_val key = { sizeof(keyVal), &keyVal }, data;
+	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
 	txn_ptr_ro trnlck(m_txn);
 	cursor_ptr_ro cursor(m_curEventsSort);
 
-	for (int res = mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE); res == MDB_SUCCESS; res = mdb_cursor_get(cursor, &key, &data, MDB_NEXT))
+	for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT))
 	{
-		const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.mv_data;
+		const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.iov_base;
 		if (pKey->hContact != hContact)
 			return;
 
@@ -206,22 +206,22 @@ BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		{
 			txn_ptr trnlck(m_pMdbEnv);
 			DBEventSortingKey insVal = { EI->eventId, EI->ts, ccMeta->contactID };
-			MDB_val key = { sizeof(insVal), &insVal }, data = { 1, (void*)"" };
-			mdb_put(trnlck, m_dbEventsSort, &key, &data, 0);
-			if (trnlck.commit() == MDB_SUCCESS)
+			MDBX_val key = { &insVal, sizeof(insVal) }, data = { (void*)"", 1 };
+			mdbx_put(trnlck, m_dbEventsSort, &key, &data, 0);
+			if (trnlck.commit() == MDBX_SUCCESS)
 				break;
 		}
 		ccMeta->dbc.dwEventCount++;
 		delete EI;
 	}
 
-	MDB_val keyc = { sizeof(MCONTACT), &ccMeta->contactID }, datac = { sizeof(ccMeta->dbc), &ccMeta->dbc };
+	MDBX_val keyc = { &ccMeta->contactID, sizeof(MCONTACT) }, datac = { &ccMeta->dbc, sizeof(ccMeta->dbc) };
 
 	for (;; Remap())
 	{
 		txn_ptr trnlck(m_pMdbEnv);
-		MDB_CHECK(mdb_put(trnlck, m_dbContacts, &keyc, &datac, 0), 1);
-		if (trnlck.commit() == MDB_SUCCESS)
+		MDBX_CHECK(mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0), 1);
+		if (trnlck.commit() == MDBX_SUCCESS)
 			break;
 	}
 	return 0;
@@ -240,22 +240,22 @@ BOOL CDbxMdb::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		for (;; Remap()) {
 			txn_ptr trnlck(m_pMdbEnv);
 			DBEventSortingKey insVal = { EI->eventId, EI->ts, ccMeta->contactID };
-			MDB_val key = { sizeof(insVal), &insVal }, data = { 1, (void*)"" };
-			mdb_del(trnlck, m_dbEventsSort, &key, &data);
-			if (trnlck.commit() == MDB_SUCCESS)
+			MDBX_val key = { &insVal, sizeof(insVal) }, data = { (void*)"", 1 };
+			mdbx_del(trnlck, m_dbEventsSort, &key, &data);
+			if (trnlck.commit() == MDBX_SUCCESS)
 				break;
 		}
 		ccMeta->dbc.dwEventCount--;
 		delete EI;
 	}
 
-	MDB_val keyc = { sizeof(MCONTACT), &ccMeta->contactID }, datac = { sizeof(ccMeta->dbc), &ccMeta->dbc };
+	MDBX_val keyc = { &ccMeta->contactID, sizeof(MCONTACT) }, datac = { &ccMeta->dbc, sizeof(ccMeta->dbc) };
 
 	for (;; Remap())
 	{
 		txn_ptr trnlck(m_pMdbEnv);
-		MDB_CHECK(mdb_put(trnlck, m_dbContacts, &keyc, &datac, 0), 1);
-		if (trnlck.commit() == MDB_SUCCESS)
+		MDBX_CHECK(mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0), 1);
+		if (trnlck.commit() == MDBX_SUCCESS)
 			break;
 	}
 	return 0;
@@ -296,11 +296,11 @@ void CDbxMdb::FillContacts()
 	txn_ptr_ro trnlck(m_txn);
 	cursor_ptr_ro cursor(m_curContacts);
 
-	MDB_val key, data;
-	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS)
+	MDBX_val key, data;
+	while (mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS)
 	{
-		DBCachedContact *cc = m_cache->AddContactToCache(*(MCONTACT*)key.mv_data);
-		cc->dbc = *(DBContact*)data.mv_data;
+		DBCachedContact *cc = m_cache->AddContactToCache(*(MCONTACT*)key.iov_base);
+		cc->dbc = *(DBContact*)data.iov_base;
 
 		CheckProto(cc, "");
 

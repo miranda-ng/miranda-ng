@@ -74,7 +74,7 @@ struct DBEventSortingKey
 	MEVENT hEvent;
 	uint64_t ts;
 
-	static int Compare(const MDB_val* a, const MDB_val* b);
+	static int Compare(const MDBX_val* a, const MDBX_val* b);
 };
 
 struct DBSettingKey
@@ -83,7 +83,7 @@ struct DBSettingKey
 	uint32_t dwModuleId;
 	char     szSettingName[];
 
-	static int Compare(const MDB_val*, const MDB_val*);
+	static int Compare(const MDBX_val*, const MDBX_val*);
 
 };
 
@@ -214,10 +214,10 @@ public:
 	MICryptoEngine *m_crypto;
 
 protected:
-	MDB_env *m_pMdbEnv;
-	CMDB_txn_ro m_txn;
+	MDBX_env *m_pMdbEnv;
+	CMDBX_txn_ro m_txn;
 
-	MDB_dbi  m_dbGlobal;
+	MDBX_dbi  m_dbGlobal;
 	DBHeader m_header;
 
 	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
@@ -227,8 +227,8 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// settings
 
-	MDB_dbi  m_dbSettings;
-	MDB_cursor *m_curSettings;
+	MDBX_dbi  m_dbSettings;
+	MDBX_cursor *m_curSettings;
 
 	int      m_codePage;
 	HANDLE   hService, hHook;
@@ -238,8 +238,8 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// contacts
 
-	MDB_dbi	    m_dbContacts;
-	MDB_cursor *m_curContacts;
+	MDBX_dbi	    m_dbContacts;
+	MDBX_cursor *m_curContacts;
 
 	uint32_t m_contactCount;
 	MCONTACT m_maxContactId;
@@ -249,8 +249,8 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// events
 
-	MDB_dbi	    m_dbEvents,   m_dbEventsSort;
-	MDB_cursor *m_curEvents, *m_curEventsSort;
+	MDBX_dbi	    m_dbEvents,   m_dbEventsSort;
+	MDBX_cursor *m_curEvents, *m_curEventsSort;
 	MEVENT       m_dwMaxEventId;
 
 	HANDLE   hEventAddedEvent, hEventDeletedEvent, hEventFilterAddedEvent;
@@ -260,8 +260,8 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// modules
 
-	MDB_dbi	m_dbModules;
-	MDB_cursor *m_curModules;
+	MDBX_dbi	m_dbModules;
+	MDBX_cursor *m_curModules;
 	
 	std::map<uint32_t, std::string> m_Modules;
 
@@ -279,7 +279,7 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// encryption
 
-	MDB_dbi  m_dbCrypto;
+	MDBX_dbi  m_dbCrypto;
 
 	int      InitCrypt(void);
 	CRYPTO_PROVIDER* SelectProvider();
