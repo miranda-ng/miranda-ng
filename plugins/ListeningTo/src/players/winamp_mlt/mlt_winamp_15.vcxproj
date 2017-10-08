@@ -107,6 +107,7 @@
       </HeaderFileName>
     </Midl>
     <ClCompile>
+      <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;MLT_WINAMP_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>

@@ -156,6 +156,7 @@
       </HeaderFileName>
     </Midl>
     <ClCompile>
+      <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>..\..\include;src\meanwhile\src;src;src\glib;src\glib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

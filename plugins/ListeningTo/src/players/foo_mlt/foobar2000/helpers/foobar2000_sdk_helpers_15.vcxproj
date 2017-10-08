@@ -49,6 +49,7 @@
     <ClCompile>
       <Optimization>MinSpace</Optimization>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_WIN32_WINNT=0x501;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
       <StringPooling>true</StringPooling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>
