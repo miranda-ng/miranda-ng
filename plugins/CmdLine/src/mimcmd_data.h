@@ -108,7 +108,7 @@ typedef TSharedData *PSharedData;
 #define MIMCMD_HELP_VERSION     LPGEN("Shows version information for Miranda and CmdLine plugin. If CrashDumper plugin is installed, it will use its report instead.\nUsage: version.\nThe command will print Miranda's and CmdLine's version numbers or, if CrashDumper plugin is installed, it will show Version Info report.")
 #define MIMCMD_HELP_SETNICKNAME LPGEN("Changes the user's nickname on the given protocol to the new name.\nUsage: setnickname <protocol> new_nickname.")
 #define MIMCMD_HELP_IGNORE      LPGEN("Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts")
-#define MIMCMD_HELP_LUA         LPGEN("Execute Lua script via MirLua plugin.\nUsage:\n  call [<module>] <function>\n  exec \"<path>\"\n  eval \"<code>\"")
+#define MIMCMD_HELP_LUA         LPGEN("Executes Lua script via MirLua plugin.\nUsage:\n  call [<module>] <function>\n  exec \"<path>\"\n  eval \"<code>\"")
 
 #define MIMMEM_REPLY       1 //data is a PReply structure
 
