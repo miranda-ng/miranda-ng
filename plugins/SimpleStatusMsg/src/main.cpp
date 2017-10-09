@@ -1499,30 +1499,28 @@ static int CSStatusChange(WPARAM wParam, LPARAM)
 	CSProtoCount = CallService(MS_CS_GETPROTOCOUNT, 0, 0);
 	for (int i = 0; i < CSProtoCount; ++i)
 	{
-		if (ps[i]->szName == NULL || !*ps[i]->szName) continue;
-		if (ps[i]->status == ID_STATUS_IDLE)
-			status_mode = ps[i]->lastStatus;
-		else if (ps[i]->status == ID_STATUS_CURRENT)
-			status_mode = CallProtoService(ps[i]->szName, PS_GETSTATUS, 0, 0);
+		if (ps[i]->m_szName == NULL || !*ps[i]->m_szName) continue;
+		if (ps[i]->m_status == ID_STATUS_IDLE)
+			status_mode = ps[i]->m_lastStatus;
+		else if (ps[i]->m_status == ID_STATUS_CURRENT)
+			status_mode = CallProtoService(ps[i]->m_szName, PS_GETSTATUS, 0, 0);
 		else
-			status_mode = ps[i]->status;
+			status_mode = ps[i]->m_status;
 
-		SaveStatusAsCurrent(ps[i]->szName, status_mode);
+		SaveStatusAsCurrent(ps[i]->m_szName, status_mode);
 #ifdef _DEBUG
-		log2file("CSStatusChange(): Set %s status for %s.", StatusModeToDbSetting(status_mode, ""), ps[i]->szName);
+		log2file("CSStatusChange(): Set %s status for %s.", StatusModeToDbSetting(status_mode, ""), ps[i]->m_szName);
 #endif
 
 		// TODO SaveMessageToDB also when NULL?
-		if (ps[i]->szMsg)
+		if (ps[i]->m_szMsg)
 		{
 			char buff[80];
 			bool found = false;
-
-			wchar_t *szMsgW = mir_wstrdup(ps[i]->szMsg);
-
+			wchar_t *szMsgW = mir_wstrdup(ps[i]->m_szMsg);
 
 #ifdef _DEBUG
-			log2file("CSStatusChange(): Set \"%s\" status message for %s.", ps[i]->szMsg, ps[i]->szName);
+			log2file("CSStatusChange(): Set \"%s\" status message for %s.", ps[i]->m_szMsg, ps[i]->m_szName);
 #endif
 			int max_hist_msgs = db_get_b(NULL, "SimpleStatusMsg", "MaxHist", 10);
 			for (int j = 1; j <= max_hist_msgs; j++)
@@ -1534,7 +1532,7 @@ static int CSStatusChange(WPARAM wParam, LPARAM)
 					if (!mir_wstrcmp(tszStatusMsg, szMsgW))
 					{
 						found = true;
-						mir_snprintf(szSetting, "Last%sMsg", ps[i]->szName);
+						mir_snprintf(szSetting, "Last%sMsg", ps[i]->m_szName);
 						db_set_s(NULL, "SimpleStatusMsg", szSetting, buff);
 						mir_free(tszStatusMsg);
 						break;
@@ -1546,19 +1544,19 @@ static int CSStatusChange(WPARAM wParam, LPARAM)
 
 			if (!found)
 			{
-				mir_snprintf(buff, "FCur%sMsg", ps[i]->szName);
-				mir_snprintf(szSetting, "Last%sMsg", ps[i]->szName);
+				mir_snprintf(buff, "FCur%sMsg", ps[i]->m_szName);
+				mir_snprintf(szSetting, "Last%sMsg", ps[i]->m_szName);
 				db_set_s(NULL, "SimpleStatusMsg", szSetting, buff);
 			}
 
-			mir_snprintf(szSetting, "%sMsg", ps[i]->szName);
+			mir_snprintf(szSetting, "%sMsg", ps[i]->m_szName);
 
 			db_set_ws(NULL, "SRAway", StatusModeToDbSetting(status_mode, szSetting), szMsgW);
-			msg = InsertVarsIntoMsg(szMsgW, ps[i]->szName, status_mode, NULL);
-			SaveMessageToDB(ps[i]->szName, szMsgW, TRUE);
+			msg = InsertVarsIntoMsg(szMsgW, ps[i]->m_szName, status_mode, NULL);
+			SaveMessageToDB(ps[i]->m_szName, szMsgW, TRUE);
 			mir_free(szMsgW);
 
-			SaveMessageToDB(ps[i]->szName, msg, FALSE);
+			SaveMessageToDB(ps[i]->m_szName, msg, FALSE);
 			mir_free(msg);
 		}
 	}

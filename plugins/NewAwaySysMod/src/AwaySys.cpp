@@ -285,13 +285,13 @@ int CSStatusChange(WPARAM wParam, LPARAM lParam) // CommonStatus plugins (Startu
 	LogMessage("ME_CS_STATUSCHANGEEX event:");
 
 	for (int i = 0; i < lParam; i++) {
-		LogMessage("%d: cbSize=%d, szProto=%s, status=%d, lastStatus=%d, szMsg:", 
-			i + 1, ps[i]->cbSize, ps[i]->szName ? (char*)ps[i]->szName : "NULL", ps[i]->status, ps[i]->lastStatus, ps[i]->szMsg ? ps[i]->szMsg : L"NULL");
-		if (ps[i]->status != ID_STATUS_DISABLED) {
-			if (ps[i]->status != ID_STATUS_CURRENT)
-				g_ProtoStates[ps[i]->szName].m_status = (ps[i]->status == ID_STATUS_LAST) ? ps[i]->lastStatus : ps[i]->status;
+		LogMessage("%d: szProto=%s, status=%d, lastStatus=%d, szMsg:", 
+			i + 1, ps[i]->m_szName ? (char*)ps[i]->m_szName : "NULL", ps[i]->m_status, ps[i]->m_lastStatus, ps[i]->m_szMsg ? ps[i]->m_szMsg : L"NULL");
+		if (ps[i]->m_status != ID_STATUS_DISABLED) {
+			if (ps[i]->m_status != ID_STATUS_CURRENT)
+				g_ProtoStates[ps[i]->m_szName].m_status = (ps[i]->m_status == ID_STATUS_LAST) ? ps[i]->m_lastStatus : ps[i]->m_status;
 
-			CProtoSettings(ps[i]->szName).SetMsgFormat(SMF_TEMPORARY, ps[i]->szMsg ? ps[i]->szMsg : CProtoSettings(ps[i]->szName).GetMsgFormat(GMF_LASTORDEFAULT));
+			CProtoSettings(ps[i]->m_szName).SetMsgFormat(SMF_TEMPORARY, ps[i]->m_szMsg ? ps[i]->m_szMsg : CProtoSettings(ps[i]->m_szName).GetMsgFormat(GMF_LASTORDEFAULT));
 		}
 	}
 	return 0;
