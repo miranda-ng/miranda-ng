@@ -472,7 +472,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 #ifndef _DEBUG
 	{
 		int nStatus = db_get_w(0, "CList", "Status", ID_STATUS_OFFLINE);
-		if (nStatus != ID_STATUS_OFFLINE) CallService(MS_CLIST_SETSTATUSMODE, nStatus, 0);
+		if (nStatus != ID_STATUS_OFFLINE)
+			Clist_SetStatusMode(nStatus);
 	}
 #endif
 	break;
