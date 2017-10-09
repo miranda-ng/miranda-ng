@@ -20,7 +20,6 @@
 #include "..\stdafx.h"
 
 // prototypes
-INT_PTR CALLBACK OptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

@@ -79,29 +79,29 @@ DWORD StatusModeToProtoFlag(int status)
 
 int GetActualStatus(PROTOCOLSETTINGEX *protoSetting)
 {
-	if (protoSetting->status == ID_STATUS_LAST) {
-		if ((protoSetting->lastStatus < MIN_STATUS) || (protoSetting->lastStatus > MAX_STATUS))
-			return CallProtoService(protoSetting->szName, PS_GETSTATUS, 0, 0);
-		return protoSetting->lastStatus;
+	if (protoSetting->m_status == ID_STATUS_LAST) {
+		if ((protoSetting->m_lastStatus < MIN_STATUS) || (protoSetting->m_lastStatus > MAX_STATUS))
+			return CallProtoService(protoSetting->m_szName, PS_GETSTATUS, 0, 0);
+		return protoSetting->m_lastStatus;
 	}
-	if (protoSetting->status == ID_STATUS_CURRENT)
-		return CallProtoService(protoSetting->szName, PS_GETSTATUS, 0, 0);
+	if (protoSetting->m_status == ID_STATUS_CURRENT)
+		return CallProtoService(protoSetting->m_szName, PS_GETSTATUS, 0, 0);
 
-	if ((protoSetting->status < ID_STATUS_OFFLINE) || (protoSetting->status > ID_STATUS_OUTTOLUNCH)) {
-		log_debugA("invalid status detected: %d", protoSetting->status);
+	if ((protoSetting->m_status < ID_STATUS_OFFLINE) || (protoSetting->m_status > ID_STATUS_OUTTOLUNCH)) {
+		log_debugA("invalid status detected: %d", protoSetting->m_status);
 		return 0;
 	}
-	return protoSetting->status;
+	return protoSetting->m_status;
 }
 
 wchar_t* GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
 {
-	if (ps->szMsg != NULL) {// custom message set
+	if (ps->m_szMsg != NULL) {// custom message set
 		log_infoA("CommonStatus: Status message set by calling plugin");
-		return mir_wstrdup(ps->szMsg);
+		return mir_wstrdup(ps->m_szMsg);
 	}
 
-	wchar_t *tMsg = (wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, newstatus, (LPARAM)ps->szName);
+	wchar_t *tMsg = (wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, newstatus, (LPARAM)ps->m_szName);
 	log_debugA("CommonStatus: Status message retrieved from general awaysys: %S", tMsg);
 	return tMsg;
 }
@@ -111,7 +111,7 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
 	int i, j, pstatus = 0, gstatus = 0;
 
 	for (i = 0; i < protoList->getCount(); i++)
-		if (ps[i]->szMsg != NULL && GetActualStatus(ps[i]) != ID_STATUS_OFFLINE)
+		if (ps[i]->m_szMsg != NULL && GetActualStatus(ps[i]) != ID_STATUS_OFFLINE)
 			return 0;
 
 	int count;
@@ -124,7 +124,7 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
 
 		pstatus = 0;
 		for (j = 0; j < protoList->getCount(); j++)
-			if (!mir_strcmp(protos[i]->szModuleName, ps[j]->szName))
+			if (!mir_strcmp(protos[i]->szModuleName, ps[j]->m_szName))
 				pstatus = GetActualStatus(ps[j]);
 
 		if (pstatus == 0)
@@ -170,14 +170,14 @@ static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 			memcpy(tszMsg + j, substituteStr, sizeof(wchar_t)*mir_wstrlen(substituteStr));
 		}
 
-		wchar_t *szFormattedMsg = variables_parsedup(tszMsg, ps->tszAccName, NULL);
+		wchar_t *szFormattedMsg = variables_parsedup(tszMsg, ps->m_tszAccName, NULL);
 		if (szFormattedMsg != NULL) {
 			mir_free(tszMsg);
 			tszMsg = szFormattedMsg;
 		}
 	}
-	log_debugA("CommonStatus sets status message for %s directly", ps->szName);
-	CallProtoService(ps->szName, PS_SETAWAYMSG, newstatus, (LPARAM)tszMsg);
+	log_debugA("CommonStatus sets status message for %s directly", ps->m_szName);
+	CallProtoService(ps->m_szName, PS_SETAWAYMSG, newstatus, (LPARAM)tszMsg);
 	mir_free(tszMsg);
 }
 
@@ -196,7 +196,7 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 
 	// set all status messages first
 	for (int i = 0; i < protoList->getCount(); i++) {
-		char *szProto = protoSettings[i]->szName;
+		char *szProto = protoSettings[i]->m_szName;
 		if (!Proto_GetAccount(szProto)) {
 			log_debugA("CommonStatus: %s is not loaded", szProto);
 			continue;
@@ -204,12 +204,12 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 		// some checks
 		int newstatus = GetActualStatus(protoSettings[i]);
 		if (newstatus == 0) {
-			log_debugA("CommonStatus: incorrect status for %s (%d)", szProto, protoSettings[i]->status);
+			log_debugA("CommonStatus: incorrect status for %s (%d)", szProto, protoSettings[i]->m_status);
 			continue;
 		}
 		int oldstatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 		// set last status
-		protoSettings[i]->lastStatus = oldstatus;
+		protoSettings[i]->m_lastStatus = oldstatus;
 		if (IsStatusConnecting(oldstatus)) {
 			// ignore if connecting, but it didn't came this far if it did
 			log_debugA("CommonStatus: %s is already connecting", szProto);

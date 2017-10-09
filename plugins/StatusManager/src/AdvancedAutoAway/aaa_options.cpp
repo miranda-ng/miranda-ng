@@ -121,7 +121,7 @@ static void SetDialogStatus(HWND hwndDlg, TAAAProtoSetting *sameSetting)
 
 int AAACompareSettings(const TAAAProtoSetting *p1, const TAAAProtoSetting *p2)
 {
-	return mir_strcmp(p1->szName, p2->szName);
+	return mir_strcmp(p1->m_szName, p2->m_szName);
 }
 
 static TAAAProtoSettingList optionSettings(10, AAACompareSettings);
@@ -147,7 +147,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 		{
 			for (int i = 0; i < optionSettings.getCount(); i++) {
 				TAAAProtoSetting &p = optionSettings[i];
-				int item = SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, CB_ADDSTRING, 0, (LPARAM)p.tszAccName);
+				int item = SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, CB_ADDSTRING, 0, (LPARAM)p.m_tszAccName);
 				SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, CB_SETITEMDATA, item, (LPARAM)&p);
 			}
 		}
@@ -179,7 +179,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 
 				int flags = 0;
 				if (!bSettingSame)
-					flags = CallProtoService(setting->szName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(setting->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
+					flags = CallProtoService(setting->m_szName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(setting->m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
 
 				LVITEM lvItem = { 0 };
 				lvItem.mask = LVIF_TEXT | LVIF_PARAM;
@@ -200,7 +200,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 			{
 				int flags = 0;
 				if (!bSettingSame)
-					flags = CallProtoService(setting->szName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(setting->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
+					flags = CallProtoService(setting->m_szName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(setting->m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
 
 				// clear box and add new status, loop status and check if compatible with proto
 				SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_RESETCONTENT, 0, 0);
@@ -340,7 +340,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 				WriteAutoAwaySetting(*sameSetting, SETTING_ALL);
 			else {
 				for (int i = 0; i < optionSettings.getCount(); i++)
-					WriteAutoAwaySetting(optionSettings[i], optionSettings[i].szName);
+					WriteAutoAwaySetting(optionSettings[i], optionSettings[i].m_szName);
 			}
 			AAALoadOptions(autoAwaySettings, FALSE);
 		}

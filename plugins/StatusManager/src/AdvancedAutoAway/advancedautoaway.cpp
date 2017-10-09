@@ -1,22 +1,22 @@
 /*
-    AdvancedAutoAway Plugin for Miranda-IM (www.miranda-im.org)
-    Copyright 2003-2006 P. Boon
+	 AdvancedAutoAway Plugin for Miranda-IM (www.miranda-im.org)
+	 Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	 This program is free software; you can redistribute it and/or modify
+	 it under the terms of the GNU General Public License as published by
+	 the Free Software Foundation; either version 2 of the License, or
+	 (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	 This program is distributed in the hope that it will be useful,
+	 but WITHOUT ANY WARRANTY; without even the implied warranty of
+	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	 GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	 You should have received a copy of the GNU General Public License
+	 along with this program; if not, write to the Free Software
+	 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-	
+
 	Some code is copied from Miranda's AutoAway module
 */
 
@@ -25,9 +25,9 @@
 int hAAALangpack = 0;
 
 #ifdef _DEBUG
-	#define SECS_PER_MINUTE		20 /* speedup */
+#define SECS_PER_MINUTE		20 /* speedup */
 #else
-	#define SECS_PER_MINUTE		60 /* default I believe */
+#define SECS_PER_MINUTE		60 /* default I believe */
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -36,24 +36,23 @@ TAAAProtoSettingList autoAwaySettings(10, AAACompareSettings);
 
 TAAAProtoSetting::TAAAProtoSetting(PROTOACCOUNT *pa)
 {
-	cbSize = sizeof(PROTOCOLSETTINGEX);
-	szName = pa->szModuleName;
-	tszAccName = pa->tszAccountName;
-	lastStatus = status = originalStatusMode = ID_STATUS_CURRENT;
-	szMsg = NULL;
+	m_szName = pa->szModuleName;
+	m_tszAccName = pa->tszAccountName;
+	m_lastStatus = m_status = originalStatusMode = ID_STATUS_CURRENT;
+	m_szMsg = NULL;
 	curState = ACTIVE;
 	mStatus = FALSE;
 }
 
 TAAAProtoSetting::~TAAAProtoSetting()
 {
-	free(szMsg);
+	free(m_szMsg);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 HANDLE hAAAModuleLoadedHook = NULL,
-	hStateChangedEvent = NULL;
+hStateChangedEvent = NULL;
 
 static BOOL ignoreLockKeys = FALSE;
 static BOOL ignoreSysKeys = FALSE;
@@ -66,7 +65,7 @@ HHOOK hMirandaMouseHook = NULL;
 HHOOK hMirandaKeyBoardHook = NULL;
 #pragma data_seg("Shared")
 DWORD lastInput = 0;
-POINT lastMousePos = {0};
+POINT lastMousePos = { 0 };
 HHOOK hMouseHook = NULL;
 HHOOK hKeyBoardHook = NULL;
 #pragma data_seg()
@@ -81,14 +80,11 @@ static LRESULT CALLBACK MouseHookFunction(int code, WPARAM wParam, LPARAM lParam
 static LRESULT CALLBACK KeyBoardHookFunction(int code, WPARAM wParam, LPARAM lParam);
 static LRESULT CALLBACK MirandaMouseHookFunction(int code, WPARAM wParam, LPARAM lParam);
 static LRESULT CALLBACK MirandaKeyBoardHookFunction(int code, WPARAM wParam, LPARAM lParam);
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved);
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
 
-static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD dwTime);
-extern int AutoAwayOptInitialise(WPARAM wParam,LPARAM lParam);
-extern int AutoAwayMsgOptInitialise(WPARAM wParam,LPARAM lParam);
-extern int SetStatus(WPARAM wParam, LPARAM lParam);
-extern int ShowConfirmDialog(WPARAM wParam, LPARAM lParam);
-extern char *StatusModeToDbSetting(int status,const char *suffix);
+static VOID CALLBACK AutoAwayTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
+extern int AutoAwayOptInitialise(WPARAM wParam, LPARAM lParam);
+extern char *StatusModeToDbSetting(int status, const char *suffix);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load from DB
@@ -116,7 +112,7 @@ void AAALoadOptions(TAAAProtoSettingList &loadSettings, BOOL override)
 		if ((db_get_b(NULL, AAAMODULENAME, SETTING_SAMESETTINGS, 0)) && !override)
 			protoName = SETTING_ALL;
 		else
-			protoName = loadSettings[i].szName;
+			protoName = loadSettings[i].m_szName;
 		LoadAutoAwaySetting(loadSettings[i], protoName);
 		if (!override) {
 			if (loadSettings[i].optionFlags & FLAG_MONITORMIRANDA)
@@ -167,8 +163,8 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 	log_debugA("ProcessProtoAck: ack->szModule: %s", ack->szModule);
 	for (int i = 0; i < autoAwaySettings.getCount(); i++) {
 		TAAAProtoSetting &p = autoAwaySettings[i];
-		log_debugA("chk: %s", p.szName);
-		if (!mir_strcmp(p.szName, ack->szModule)) {
+		log_debugA("chk: %s", p.m_szName);
+		if (!mir_strcmp(p.m_szName, ack->szModule)) {
 			log_debugA("ack->szModule: %s p.statusChanged: %d", ack->szModule, p.statusChanged);
 			if (!p.statusChanged)
 				p.mStatus = TRUE;
@@ -193,7 +189,7 @@ int OnAAAAccChanged(WPARAM wParam, LPARAM lParam)
 
 	case PRAC_REMOVED:
 		for (int i = 0; i < autoAwaySettings.getCount(); i++) {
-			if (!mir_strcmp(autoAwaySettings[i].szName, pa->szModuleName)) {
+			if (!mir_strcmp(autoAwaySettings[i].m_szName, pa->szModuleName)) {
 				autoAwaySettings.remove(i);
 				break;
 			}
@@ -207,11 +203,11 @@ int OnAAAAccChanged(WPARAM wParam, LPARAM lParam)
 static char* status2descr(int status)
 {
 	switch (status) {
-		case ACTIVE:        return "ACTIVE";
-		case STATUS1_SET:   return "STATUS1_SET";
-		case STATUS2_SET:   return "STATUS2_SET";
-		case SET_ORGSTATUS: return "SET_ORGSTATUS";
-		case HIDDEN_ACTIVE: return "HIDDEN_ACTIVE";
+	case ACTIVE:        return "ACTIVE";
+	case STATUS1_SET:   return "STATUS1_SET";
+	case STATUS2_SET:   return "STATUS2_SET";
+	case SET_ORGSTATUS: return "SET_ORGSTATUS";
+	case HIDDEN_ACTIVE: return "HIDDEN_ACTIVE";
 	}
 	return "ERROR";
 }
@@ -224,27 +220,27 @@ static int changeState(TAAAProtoSetting &setting, STATES newState)
 	setting.oldState = setting.curState;
 	setting.curState = newState;
 
-	log_debugA("%s state change: %s -> %s", setting.szName, status2descr(setting.oldState), status2descr(setting.curState));
+	log_debugA("%s state change: %s -> %s", setting.m_szName, status2descr(setting.oldState), status2descr(setting.curState));
 
 	NotifyEventHooks(hStateChangedEvent, 0, (LPARAM)&setting);
 	if (setting.curState != SET_ORGSTATUS && setting.curState != ACTIVE && setting.statusChanged) {
 		/* change the awaymessage */
-		if (setting.szMsg != NULL) {
-			free(setting.szMsg);
-			setting.szMsg = NULL;
+		if (setting.m_szMsg != NULL) {
+			free(setting.m_szMsg);
+			setting.m_szMsg = NULL;
 		}
 
-		if (db_get_b(NULL, AAAMODULENAME, StatusModeToDbSetting(setting.status, SETTING_MSGCUSTOM), FALSE)) {
+		if (db_get_b(NULL, AAAMODULENAME, StatusModeToDbSetting(setting.m_status, SETTING_MSGCUSTOM), FALSE)) {
 			DBVARIANT dbv;
-			if (!db_get_ws(NULL, AAAMODULENAME, StatusModeToDbSetting(setting.status, SETTING_STATUSMSG), &dbv)) {
-				setting.szMsg = wcsdup(dbv.ptszVal);
+			if (!db_get_ws(NULL, AAAMODULENAME, StatusModeToDbSetting(setting.m_status, SETTING_STATUSMSG), &dbv)) {
+				setting.m_szMsg = wcsdup(dbv.ptszVal);
 				db_free(&dbv);
 			}
 		}
 	}
-	else if (setting.szMsg != NULL) {
-		free(setting.szMsg);
-		setting.szMsg = NULL;
+	else if (setting.m_szMsg != NULL) {
+		free(setting.m_szMsg);
+		setting.m_szMsg = NULL;
 	}
 
 	return 0;
@@ -257,7 +253,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 
 	for (int i = 0; i < autoAwaySettings.getCount(); i++) {
 		TAAAProtoSetting& aas = autoAwaySettings[i];
-		aas.status = ID_STATUS_DISABLED;
+		aas.m_status = ID_STATUS_DISABLED;
 
 		BOOL bTrigger = false;
 
@@ -272,7 +268,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 		int sts1Time = aas.awayTime * SECS_PER_MINUTE;
 		int sts2Time = aas.naTime * SECS_PER_MINUTE;
 		int sts1setTime = aas.sts1setTimer == 0 ? 0 : (GetTickCount() - aas.sts1setTimer) / 1000;
-		int currentMode = CallProtoService(aas.szName, PS_GETSTATUS, 0, 0);
+		int currentMode = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
 
 		if (aas.optionFlags & FLAG_ONSAVER)
 			bTrigger |= IsScreenSaverRunning();
@@ -285,8 +281,8 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 		if (aas.curState == ACTIVE) {
 			if (((mouseStationaryTimer >= sts1Time && (aas.optionFlags & FLAG_ONMOUSE)) || bTrigger) && currentMode != aas.lv1Status && aas.statusFlags&StatusModeToProtoFlag(currentMode)) {
 				/* from ACTIVE to STATUS1_SET */
-				aas.lastStatus = aas.originalStatusMode = CallProtoService(aas.szName, PS_GETSTATUS, 0, 0);
-				aas.status = aas.lv1Status;
+				aas.m_lastStatus = aas.originalStatusMode = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
+				aas.m_status = aas.lv1Status;
 				aas.sts1setTimer = GetTickCount();
 				sts1setTime = 0;
 				aas.statusChanged = statusChanged = TRUE;
@@ -294,8 +290,8 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 			}
 			else if (mouseStationaryTimer >= sts2Time && currentMode == aas.lv1Status && currentMode != aas.lv2Status && (aas.optionFlags & FLAG_SETNA) && (aas.statusFlags & StatusModeToProtoFlag(currentMode))) {
 				/* from ACTIVE to STATUS2_SET */
-				aas.lastStatus = aas.originalStatusMode = CallProtoService(aas.szName, PS_GETSTATUS, 0, 0);
-				aas.status = aas.lv2Status;
+				aas.m_lastStatus = aas.originalStatusMode = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
+				aas.m_status = aas.lv2Status;
 				aas.statusChanged = statusChanged = TRUE;
 				changeState(aas, STATUS2_SET);
 			}
@@ -305,19 +301,19 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 			if ((mouseStationaryTimer < sts1Time && !bTrigger) && !(aas.optionFlags & FLAG_RESET)) {
 				/* from STATUS1_SET to HIDDEN_ACTIVE */
 				changeState(aas, HIDDEN_ACTIVE);
-				aas.lastStatus = CallProtoService(aas.szName, PS_GETSTATUS, 0, 0);
+				aas.m_lastStatus = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
 			}
 			else if (((mouseStationaryTimer < sts1Time) && !bTrigger) &&
-						((aas.optionFlags & FLAG_LV2ONINACTIVE) || (!(aas.optionFlags&FLAG_SETNA))) &&
-						(aas.optionFlags & FLAG_RESET)) {
+				((aas.optionFlags & FLAG_LV2ONINACTIVE) || (!(aas.optionFlags&FLAG_SETNA))) &&
+				(aas.optionFlags & FLAG_RESET)) {
 				/* from STATUS1_SET to SET_ORGSTATUS */
 				changeState(aas, SET_ORGSTATUS);
 			}
 			else if ((aas.optionFlags & FLAG_SETNA) && sts1setTime >= sts2Time) {
 				/* when set STATUS2, currentMode doesn't have to be in the selected status list (statusFlags) */
 				/* from STATUS1_SET to STATUS2_SET */
-				aas.lastStatus = CallProtoService(aas.szName, PS_GETSTATUS, 0, 0);
-				aas.status = aas.lv2Status;
+				aas.m_lastStatus = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
+				aas.m_status = aas.lv2Status;
 				aas.statusChanged = statusChanged = TRUE;
 				changeState(aas, STATUS2_SET);
 			}
@@ -332,7 +328,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 				/* from STATUS2_SET to HIDDEN_ACTIVE */
 				/* Remember: after status1 is set, and "only on inactive" is NOT set, it implies !reset. */
 				changeState(aas, HIDDEN_ACTIVE);
-				aas.lastStatus = CallProtoService(aas.szName, PS_GETSTATUS, 0, 0);
+				aas.m_lastStatus = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
 			}
 		}
 
@@ -345,19 +341,19 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 				aas.mStatus = FALSE;
 			}
 			else if ((aas.optionFlags & FLAG_SETNA) && currentMode == aas.lv1Status &&
-						currentMode != aas.lv2Status && (aas.statusFlags & StatusModeToProtoFlag(currentMode)) &&
-						(mouseStationaryTimer >= sts2Time || (sts1setTime >= sts2Time && !(aas.optionFlags & FLAG_LV2ONINACTIVE)))) {
+				currentMode != aas.lv2Status && (aas.statusFlags & StatusModeToProtoFlag(currentMode)) &&
+				(mouseStationaryTimer >= sts2Time || (sts1setTime >= sts2Time && !(aas.optionFlags & FLAG_LV2ONINACTIVE)))) {
 				/* HIDDEN_ACTIVE to STATUS2_SET */
-				aas.lastStatus = aas.originalStatusMode = CallProtoService(aas.szName, PS_GETSTATUS, 0, 0);
-				aas.status = aas.lv2Status;
+				aas.m_lastStatus = aas.originalStatusMode = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
+				aas.m_status = aas.lv2Status;
 				aas.statusChanged = statusChanged = TRUE;
 				changeState(aas, STATUS2_SET);
 			}
 		}
 		if (aas.curState == SET_ORGSTATUS) {
 			/* SET_ORGSTATUS to ACTIVE */
-			aas.lastStatus = CallProtoService(aas.szName, PS_GETSTATUS, 0, 0);
-			aas.status = aas.originalStatusMode;
+			aas.m_lastStatus = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
+			aas.m_status = aas.originalStatusMode;
 			confirm = (aas.optionFlags&FLAG_CONFIRM) ? TRUE : confirm;
 			aas.statusChanged = statusChanged = TRUE;
 			changeState(aas, ACTIVE);
@@ -369,11 +365,11 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 	if (confirm || statusChanged) {
 		TAAAProtoSettingList ps = autoAwaySettings;
 		for (int i = 0; i < ps.getCount(); i++) {
-			if (ps[i].szMsg)
-				ps[i].szMsg = wcsdup(ps[i].szMsg);
+			if (ps[i].m_szMsg)
+				ps[i].m_szMsg = wcsdup(ps[i].m_szMsg);
 
-			if (ps[i].status == ID_STATUS_DISABLED)
-				ps[i].szName = "";
+			if (ps[i].m_status == ID_STATUS_DISABLED)
+				ps[i].m_szName = "";
 		}
 
 		if (confirm)
@@ -441,13 +437,12 @@ static LRESULT CALLBACK MirandaKeyBoardHookFunction(int code, WPARAM wParam, LPA
 	if (code >= 0) {
 		if (ignoreAltCombo) {
 			if (((GetKeyState(VK_MENU) < 0) || (wParam == VK_MENU)) ||
-				 ((GetKeyState(VK_TAB) < 0) || (wParam == VK_TAB)) ||
-				 ((GetKeyState(VK_SHIFT) < 0) || (wParam == VK_SHIFT)) ||
-				 ((GetKeyState(VK_CONTROL) < 0) || (wParam == VK_CONTROL)) ||
-				 ((GetKeyState(VK_ESCAPE) < 0) || (wParam == VK_ESCAPE)) ||
-				 ((GetKeyState(VK_LWIN) < 0) || (wParam == VK_LWIN)) ||
-				((GetKeyState(VK_RWIN) < 0) || (wParam == VK_RWIN)))
-			{
+				((GetKeyState(VK_TAB) < 0) || (wParam == VK_TAB)) ||
+				((GetKeyState(VK_SHIFT) < 0) || (wParam == VK_SHIFT)) ||
+				((GetKeyState(VK_CONTROL) < 0) || (wParam == VK_CONTROL)) ||
+				((GetKeyState(VK_ESCAPE) < 0) || (wParam == VK_ESCAPE)) ||
+				((GetKeyState(VK_LWIN) < 0) || (wParam == VK_LWIN)) ||
+				((GetKeyState(VK_RWIN) < 0) || (wParam == VK_RWIN))) {
 				return CallNextHookEx(hMirandaKeyBoardHook, code, wParam, lParam);
 			}
 		}
@@ -504,13 +499,12 @@ static LRESULT CALLBACK KeyBoardHookFunction(int code, WPARAM wParam, LPARAM lPa
 	if (code >= 0) {
 		if (ignoreAltCombo) {
 			if (((GetKeyState(VK_MENU) < 0) || (wParam == VK_MENU)) ||
-				 ((GetKeyState(VK_TAB) < 0) || (wParam == VK_TAB)) ||
-				 ((GetKeyState(VK_SHIFT) < 0) || (wParam == VK_SHIFT)) ||
-				 ((GetKeyState(VK_CONTROL) < 0) || (wParam == VK_CONTROL)) ||
-				 ((GetKeyState(VK_ESCAPE) < 0) || (wParam == VK_ESCAPE)) ||
-				 ((GetKeyState(VK_LWIN) < 0) || (wParam == VK_LWIN)) ||
-				((GetKeyState(VK_RWIN) < 0) || (wParam == VK_RWIN)))
-			{
+				((GetKeyState(VK_TAB) < 0) || (wParam == VK_TAB)) ||
+				((GetKeyState(VK_SHIFT) < 0) || (wParam == VK_SHIFT)) ||
+				((GetKeyState(VK_CONTROL) < 0) || (wParam == VK_CONTROL)) ||
+				((GetKeyState(VK_ESCAPE) < 0) || (wParam == VK_ESCAPE)) ||
+				((GetKeyState(VK_LWIN) < 0) || (wParam == VK_LWIN)) ||
+				((GetKeyState(VK_RWIN) < 0) || (wParam == VK_RWIN))) {
 				return CallNextHookEx(hKeyBoardHook, code, wParam, lParam);
 			}
 		}

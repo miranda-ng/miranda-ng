@@ -93,10 +93,12 @@ extern int hKSLangpack;
 #define TRIGGER_CONNGIVEUP           0x20
 #define SETTING_TRIGGERON            "TriggerOn"
 
-struct TConnectionSettings : public PROTOCOLSETTINGEX
+struct TKSSettings : public PROTOCOLSETTINGEX
 {
-	TConnectionSettings(PROTOACCOUNT *pa);
-	~TConnectionSettings();
+	TKSSettings(PROTOACCOUNT *pa);
+	~TKSSettings();
+
+	int AssignStatus(int status, int lastStatus = 0, wchar_t *szMsg = nullptr);
 
 	int lastStatusAckTime; // the time the last status ack was received
 };

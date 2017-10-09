@@ -21,7 +21,8 @@
 
 int hKSLangpack = 0;
 
-struct TimerInfo {
+struct TimerInfo
+{
 	int timer;
 	int timeout;
 	BOOL restart;
@@ -43,12 +44,12 @@ static HANDLE hCSStatusChangeExHook = NULL;
 
 static HWND hMessageWindow = NULL;
 
-static int CompareConnections(const TConnectionSettings *p1, const TConnectionSettings *p2)
+static int CompareConnections(const TKSSettings *p1, const TKSSettings *p2)
 {
-	return mir_strcmp(p1->szName, p2->szName);
+	return mir_strcmp(p1->m_szName, p2->m_szName);
 }
 
-static OBJLIST<TConnectionSettings> connectionSettings(10, CompareConnections);
+static OBJLIST<TKSSettings> connectionSettings(10, CompareConnections);
 
 static UINT_PTR checkConnectionTimerId = 0;
 static UINT_PTR afterCheckTimerId = 0;
@@ -69,18 +70,15 @@ static int showConnectionPopups = 0;
 static int StartTimer(int timer, int timeout, BOOL restart);
 static int StopTimer(int timer);
 static void GetCurrentConnectionSettings();
-static int AssignStatus(TConnectionSettings* connSetting, int status, int lastStatus, wchar_t *szMsg);
 static int ProcessProtoAck(WPARAM wParam, LPARAM lParam);
 static VOID CALLBACK CheckConnectingTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
 static VOID CALLBACK CheckAckStatusTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
 static int StatusChange(WPARAM wParam, LPARAM lParam);
 static int CSStatusChange(WPARAM wParam, LPARAM lParam);
 static int CSStatusChangeEx(WPARAM wParam, LPARAM lParam);
-static VOID CALLBACK StatusChangeTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
 static VOID CALLBACK CheckConnectionTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
 static int StopChecking();
 static VOID CALLBACK AfterCheckTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
-static void ContinueslyCheckFunction(void *arg);
 static VOID CALLBACK CheckContinueslyTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
 INT_PTR IsProtocolEnabledService(WPARAM wParam, LPARAM lParam);
 
@@ -92,21 +90,20 @@ static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 // options.c
 extern int KeepStatusOptionsInit(WPARAM wparam, LPARAM);
 
-TConnectionSettings::TConnectionSettings(PROTOACCOUNT *pa)
+TKSSettings::TKSSettings(PROTOACCOUNT *pa)
 {
-	cbSize = sizeof(PROTOCOLSETTINGEX);
-	szName = pa->szModuleName;
-	tszAccName = pa->tszAccountName;
-	szMsg = NULL;
+	m_szName = pa->szModuleName;
+	m_tszAccName = pa->tszAccountName;
+	m_szMsg = NULL;
 
 	int iStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
-	AssignStatus(this, iStatus, iStatus, NULL);
+	AssignStatus(iStatus, iStatus, nullptr);
 }
 
-TConnectionSettings::~TConnectionSettings()
+TKSSettings::~TKSSettings()
 {
-	if (szMsg != NULL)
-		free(szMsg);
+	if (m_szMsg != NULL)
+		free(m_szMsg);
 }
 
 int KSLoadOptions()
@@ -167,13 +164,13 @@ static void GetCurrentConnectionSettings()
 
 	for (int i = 0; i < count; i++)
 		if (IsSuitableProto(protos[i]))
-			connectionSettings.insert(new TConnectionSettings(protos[i]));
+			connectionSettings.insert(new TKSSettings(protos[i]));
 }
 
 static PROTOCOLSETTINGEX** GetCurrentProtoSettingsCopy()
 {
 	mir_cslock lck(GenStatusCS);
-	PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX**)malloc(connectionSettings.getCount()*sizeof(PROTOCOLSETTINGEX *));
+	PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX**)malloc(connectionSettings.getCount() * sizeof(PROTOCOLSETTINGEX *));
 	if (ps == NULL) {
 		return NULL;
 	}
@@ -184,13 +181,12 @@ static PROTOCOLSETTINGEX** GetCurrentProtoSettingsCopy()
 			return NULL;
 		}
 
-		TConnectionSettings& cs = connectionSettings[i];
-		ps[i]->cbSize = sizeof(PROTOCOLSETTINGEX);
-		ps[i]->lastStatus = cs.lastStatus;
-		ps[i]->status = cs.status;
-		ps[i]->szMsg = NULL;
-		ps[i]->szName = cs.szName;
-		ps[i]->tszAccName = cs.tszAccName;
+		TKSSettings& cs = connectionSettings[i];
+		ps[i]->m_lastStatus = cs.m_lastStatus;
+		ps[i]->m_status = cs.m_status;
+		ps[i]->m_szMsg = NULL;
+		ps[i]->m_szName = cs.m_szName;
+		ps[i]->m_tszAccName = cs.m_tszAccName;
 	}
 
 	return ps;
@@ -199,67 +195,71 @@ static PROTOCOLSETTINGEX** GetCurrentProtoSettingsCopy()
 static void FreeProtoSettings(PROTOCOLSETTINGEX** ps)
 {
 	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		if (ps[i]->szMsg != NULL)
-			free(ps[i]->szMsg);
+		if (ps[i]->m_szMsg != NULL)
+			free(ps[i]->m_szMsg);
 		free(ps[i]);
 	}
 	free(ps);
 }
 
-static int AssignStatus(TConnectionSettings* cs, int status, int lastStatus, wchar_t *szMsg)
+int TKSSettings::AssignStatus(int iStatus, int iLastStatus, wchar_t *pwszMsg)
 {
-	if (status < MIN_STATUS || status > MAX_STATUS)
+	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
 		return -1;
+	if (iStatus != ID_STATUS_OFFLINE && m_status == ID_STATUS_DISABLED)
+		return -2;
+	if (!db_get_b(NULL, KSMODULENAME, SETTING_NOLOCKED, 0) && db_get_b(NULL, m_szName, "LockMainStatus", 0))
+		return -3;
 
 	mir_cslock lck(GenStatusCS);
 
 	char dbSetting[128];
-	mir_snprintf(dbSetting, "%s_enabled", cs->szName);
-	cs->lastStatus = lastStatus == 0 ? cs->status : lastStatus;
+	mir_snprintf(dbSetting, "%s_enabled", m_szName);
+	m_lastStatus = iLastStatus == 0 ? m_status : iLastStatus;
 	if (!db_get_b(NULL, KSMODULENAME, dbSetting, 1))
-		cs->status = ID_STATUS_DISABLED;
-	else if (status == ID_STATUS_LAST)
-		cs->status = cs->lastStatus;
+		m_status = ID_STATUS_DISABLED;
+	else if (m_status == ID_STATUS_LAST)
+		m_status = m_lastStatus;
 	else
-		cs->status = status;
+		m_status = iStatus;
 
-	log_infoA("KeepStatus: assigning status %d to %s", cs->status, cs->szName);
+	log_infoA("KeepStatus: assigning status %d to %s", m_status, m_szName);
 
-	if (szMsg != NULL && mir_wstrcmp(szMsg, cs->szMsg)) {
-		if (cs->szMsg != NULL)
-			free(cs->szMsg);
+	if (pwszMsg != NULL && mir_wstrcmp(pwszMsg, m_szMsg)) {
+		if (m_szMsg != NULL)
+			free(m_szMsg);
 
-		cs->szMsg = wcsdup(szMsg);
+		m_szMsg = wcsdup(pwszMsg);
 	}
-	else if (szMsg != cs->szMsg) {
-		if (cs->szMsg != NULL)
-			free(cs->szMsg);
+	else if (pwszMsg != m_szMsg) {
+		if (m_szMsg != NULL)
+			free(m_szMsg);
 
-		cs->szMsg = NULL;
+		m_szMsg = NULL;
 	}
 	return 0;
 }
 
-static int GetStatus(const TConnectionSettings& cs)
+static int GetStatus(const TKSSettings& cs)
 {
-	if (cs.status == ID_STATUS_CURRENT)
-		return CallProtoService(cs.szName, PS_GETSTATUS, 0, 0);
+	if (cs.m_status == ID_STATUS_CURRENT)
+		return CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0);
 
-	return cs.status;
+	return cs.m_status;
 }
 
 static int SetCurrentStatus()
 {
 	PROTOCOLSETTINGEX **ps = GetCurrentProtoSettingsCopy();
 	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		int realStatus = CallProtoService(ps[i]->szName, PS_GETSTATUS, 0, 0);
-		if (ps[i]->status == ID_STATUS_DISABLED || ps[i]->status == realStatus)	{ // ignore this proto by removing it's name (not so nice)
-			ps[i]->szName = "";
+		int realStatus = CallProtoService(ps[i]->m_szName, PS_GETSTATUS, 0, 0);
+		if (ps[i]->m_status == ID_STATUS_DISABLED || ps[i]->m_status == realStatus) { // ignore this proto by removing it's name (not so nice)
+			ps[i]->m_szName = "";
 		}
-		else if ((ps[i]->status != ID_STATUS_DISABLED) && (ps[i]->status != realStatus) && (realStatus != ID_STATUS_OFFLINE) && (db_get_b(NULL, KSMODULENAME, SETTING_FIRSTOFFLINE, FALSE))) {
+		else if ((ps[i]->m_status != ID_STATUS_DISABLED) && (ps[i]->m_status != realStatus) && (realStatus != ID_STATUS_OFFLINE) && (db_get_b(NULL, KSMODULENAME, SETTING_FIRSTOFFLINE, FALSE))) {
 			// force offline before reconnecting
-			log_infoA("KeepStatus: Setting %s offline before making a new connection attempt", ps[i]->szName);
-			CallProtoService(ps[i]->szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
+			log_infoA("KeepStatus: Setting %s offline before making a new connection attempt", ps[i]->m_szName);
+			CallProtoService(ps[i]->m_szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
 		}
 	}
 	ProcessPopup(KS_CONN_STATE_RETRY, (LPARAM)ps);
@@ -274,18 +274,15 @@ static int StatusChange(WPARAM wParam, LPARAM lParam)
 	char* szProto = (char *)lParam;
 	if (szProto == NULL) { // global status change
 		for (int i = 0; i < connectionSettings.getCount(); i++) {
-			TConnectionSettings& cs = connectionSettings[i];
-			if (GetStatus(cs) != ID_STATUS_DISABLED)
-				if (db_get_b(NULL, KSMODULENAME, SETTING_NOLOCKED, 0) ||
-					!db_get_b(NULL, cs.szName, "LockMainStatus", 0))
-					AssignStatus(&cs, wParam, 0, cs.szMsg);
+			TKSSettings& cs = connectionSettings[i];
+			cs.AssignStatus(wParam, 0, cs.m_szMsg);
 		}
 	}
 	else {
 		for (int i = 0; i < connectionSettings.getCount(); i++) {
-			TConnectionSettings& cs = connectionSettings[i];
-			if (GetStatus(cs) != ID_STATUS_DISABLED && !mir_strcmp(cs.szName, szProto))
-				AssignStatus(&cs, wParam, 0, cs.szMsg);
+			TKSSettings& cs = connectionSettings[i];
+			if (!mir_strcmp(cs.m_szName, szProto))
+				cs.AssignStatus(wParam, 0, cs.m_szMsg);
 		}
 	}
 
@@ -297,18 +294,16 @@ static int CSStatusChange(WPARAM wParam, LPARAM)
 	// the status was changed by commonstatus (old)
 	if (wParam != 0) {
 		PROTOCOLSETTING** protoSettings = *(PROTOCOLSETTING***)wParam;
-
 		if (protoSettings == NULL)
 			return -1;
 
 		for (int i = 0; i < connectionSettings.getCount(); i++) {
 			for (int j = 0; j < connectionSettings.getCount(); j++) {
-				if ((protoSettings[i]->szName == NULL) || (connectionSettings[j].szName == NULL))
+				if ((protoSettings[i]->szName == NULL) || (connectionSettings[j].m_szName == NULL))
 					continue;
 
-				if (!mir_strcmp(protoSettings[i]->szName, connectionSettings[j].szName))
-					if (GetStatus(connectionSettings[j]) != ID_STATUS_DISABLED)
-						AssignStatus(&connectionSettings[j], protoSettings[i]->status, protoSettings[i]->lastStatus, connectionSettings[j].szMsg);
+				if (!mir_strcmp(protoSettings[i]->szName, connectionSettings[j].m_szName))
+					connectionSettings[j].AssignStatus(protoSettings[i]->status, protoSettings[i]->lastStatus, connectionSettings[j].m_szMsg);
 			}
 		}
 	}
@@ -327,12 +322,11 @@ static int CSStatusChangeEx(WPARAM wParam, LPARAM)
 
 		for (int i = 0; i < connectionSettings.getCount(); i++) {
 			for (int j = 0; j < connectionSettings.getCount(); j++) {
-				if ((protoSettings[i]->szName == NULL) || (connectionSettings[j].szName == NULL))
+				if ((protoSettings[i]->m_szName == NULL) || (connectionSettings[j].m_szName == NULL))
 					continue;
-				if (!mir_strcmp(protoSettings[i]->szName, connectionSettings[j].szName)) {
-					if (GetStatus(connectionSettings[j]) != ID_STATUS_DISABLED)
-						AssignStatus(&connectionSettings[j], protoSettings[i]->status, protoSettings[i]->lastStatus, protoSettings[i]->szMsg);
-				}
+
+				if (!mir_strcmp(protoSettings[i]->m_szName, connectionSettings[j].m_szName))
+					connectionSettings[j].AssignStatus(protoSettings[i]->m_status, protoSettings[i]->m_lastStatus, protoSettings[i]->m_szMsg);
 			}
 		}
 	}
@@ -528,8 +522,8 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 
 	if (ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS) {
 		for (int i = 0; i < connectionSettings.getCount(); i++) {
-			TConnectionSettings& cs = connectionSettings[i];
-			if (!mir_strcmp(cs.szName, ack->szModule))
+			TKSSettings& cs = connectionSettings[i];
+			if (!mir_strcmp(cs.m_szName, ack->szModule))
 				cs.lastStatusAckTime = GetTickCount();
 		}
 		StartTimer(IDT_PROCESSACK, 0, FALSE);
@@ -539,17 +533,16 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 	if (ack->type == ACKTYPE_LOGIN) {
 		if (ack->lParam == LOGINERR_OTHERLOCATION) {
 			for (int i = 0; i < connectionSettings.getCount(); i++) {
-				TConnectionSettings& cs = connectionSettings[i];
-				if (!mir_strcmp(ack->szModule, cs.szName)) {
-					AssignStatus(&cs, ID_STATUS_OFFLINE, 0, NULL);
+				TKSSettings& cs = connectionSettings[i];
+				if (!mir_strcmp(ack->szModule, cs.m_szName)) {
+					cs.AssignStatus(ID_STATUS_OFFLINE);
 					if (db_get_b(NULL, KSMODULENAME, SETTING_CNCOTHERLOC, 0)) {
 						StopTimer(IDT_PROCESSACK);
-						for (int j = 0; j < connectionSettings.getCount(); j++) {
-							AssignStatus(&connectionSettings[j], ID_STATUS_OFFLINE, 0, NULL);
-						}
+						for (int j = 0; j < connectionSettings.getCount(); j++)
+							connectionSettings[j].AssignStatus(ID_STATUS_OFFLINE);
 					}
 
-					NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_OTHERLOCATION, (LPARAM)cs.szName);
+					NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_OTHERLOCATION, (LPARAM)cs.m_szName);
 					ProcessPopup(KS_CONN_STATE_OTHERLOCATION, (LPARAM)ack->szModule);
 				}
 			}
@@ -559,26 +552,26 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 			NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOGINERROR, (LPARAM)ack->szModule);
 			switch (db_get_b(NULL, KSMODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING)) {
 			case LOGINERR_CANCEL:
-			{
-				log_infoA("KeepStatus: cancel on login error (%s)", ack->szModule);
-				for (int i = 0; i < connectionSettings.getCount(); i++) {
-					TConnectionSettings& cs = connectionSettings[i];
-					if (!mir_strcmp(ack->szModule, cs.szName))
-						AssignStatus(&cs, ID_STATUS_OFFLINE, 0, NULL);
+				{
+					log_infoA("KeepStatus: cancel on login error (%s)", ack->szModule);
+					for (int i = 0; i < connectionSettings.getCount(); i++) {
+						TKSSettings& cs = connectionSettings[i];
+						if (!mir_strcmp(ack->szModule, cs.m_szName))
+							cs.AssignStatus(ID_STATUS_OFFLINE);
+					}
+					ProcessPopup(KS_CONN_STATE_LOGINERROR, (LPARAM)ack->szModule);
+					StopChecking();
 				}
-				ProcessPopup(KS_CONN_STATE_LOGINERROR, (LPARAM)ack->szModule);
-				StopChecking();
-			}
-			break;
+				break;
 
 			case LOGINERR_SETDELAY:
-			{
-				int newDelay = 1000 * db_get_dw(NULL, KSMODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY);
-				log_infoA("KeepStatus: set delay to %d on login error (%s)", newDelay / 1000, ack->szModule);
-				StartTimer(IDT_CHECKCONN, newDelay, TRUE);
-			}
-			ProcessPopup(KS_CONN_STATE_LOGINERROR, (LPARAM)ack->szModule);
-			break;
+				{
+					int newDelay = 1000 * db_get_dw(NULL, KSMODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY);
+					log_infoA("KeepStatus: set delay to %d on login error (%s)", newDelay / 1000, ack->szModule);
+					StartTimer(IDT_CHECKCONN, newDelay, TRUE);
+				}
+				ProcessPopup(KS_CONN_STATE_LOGINERROR, (LPARAM)ack->szModule);
+				break;
 
 			default:
 			case LOGINERR_NOTHING:
@@ -598,7 +591,7 @@ static VOID CALLBACK CheckConnectingTimer(HWND, UINT, UINT_PTR, DWORD)
 	StopTimer(IDT_CHECKCONNECTING);
 	//log_debugA("KeepStatus: CheckConnectingTimer");
 	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		TConnectionSettings& cs = connectionSettings[i];
+		TKSSettings& cs = connectionSettings[i];
 
 		int curStatus = GetStatus(cs);
 		if (IsStatusConnecting(curStatus)) { // connecting
@@ -606,8 +599,8 @@ static VOID CALLBACK CheckConnectingTimer(HWND, UINT, UINT_PTR, DWORD)
 			if (maxConnectingTime > 0) {
 				if ((unsigned int)maxConnectingTime <= ((GetTickCount() - cs.lastStatusAckTime) / 1000)) {
 					// set offline
-					log_infoA("KeepStatus: %s is too long connecting; setting offline", cs.szName);
-					CallProtoService(cs.szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
+					log_infoA("KeepStatus: %s is too long connecting; setting offline", cs.m_szName);
+					CallProtoService(cs.m_szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
 				}
 			}
 		}
@@ -621,10 +614,10 @@ static VOID CALLBACK CheckAckStatusTimer(HWND, UINT, UINT_PTR, DWORD)
 
 	StopTimer(IDT_PROCESSACK);
 	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		TConnectionSettings& cs = connectionSettings[i];
+		TKSSettings& cs = connectionSettings[i];
 
 		int curStatus = GetStatus(cs);
-		int newStatus = CallProtoService(cs.szName, PS_GETSTATUS, 0, 0);
+		int newStatus = CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0);
 		// ok, np
 		if (curStatus == ID_STATUS_CURRENT || curStatus == ID_STATUS_DISABLED || curStatus == newStatus || newStatus > MAX_STATUS)
 			continue;
@@ -636,15 +629,15 @@ static VOID CALLBACK CheckAckStatusTimer(HWND, UINT, UINT_PTR, DWORD)
 		}
 		// keepstatus' administration was wrong!
 		else if (newStatus != ID_STATUS_OFFLINE)
-			AssignStatus(&cs, newStatus, 0, NULL);
+			cs.AssignStatus(newStatus);
 
 		// connection lost
 		else if (newStatus == ID_STATUS_OFFLINE) {// start checking connection
 			if (!StartTimer(IDT_CHECKCONN, -1, FALSE)) { /* check if not already checking */
 				needChecking = true;
-				log_infoA("KeepStatus: connection lost! (%s)", cs.szName);
-				NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOST, (LPARAM)cs.szName);
-				ProcessPopup(KS_CONN_STATE_LOST, (LPARAM)cs.szName);
+				log_infoA("KeepStatus: connection lost! (%s)", cs.m_szName);
+				NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOST, (LPARAM)cs.m_szName);
+				ProcessPopup(KS_CONN_STATE_LOST, (LPARAM)cs.m_szName);
 			}
 		}
 	}
@@ -664,17 +657,17 @@ static VOID CALLBACK CheckConnectionTimer(HWND, UINT, UINT_PTR, DWORD)
 		hIcon = Skin_LoadIcon(SKINICON_STATUS_OFFLINE);
 
 	for (int i = 0; i < connectionSettings.getCount() && !setStatus; i++) {
-		TConnectionSettings& cs = connectionSettings[i];
-		realStatus = CallProtoService(cs.szName, PS_GETSTATUS, 0, 0);
+		TKSSettings& cs = connectionSettings[i];
+		realStatus = CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0);
 		shouldBeStatus = GetStatus(cs);
 		if (shouldBeStatus == ID_STATUS_LAST)
-			shouldBeStatus = cs.lastStatus;
+			shouldBeStatus = cs.m_lastStatus;
 		if (shouldBeStatus == ID_STATUS_DISABLED)
 			continue;
 		if ((shouldBeStatus != realStatus) && (realStatus == ID_STATUS_OFFLINE) || (realStatus < MIN_STATUS)) {
 			setStatus = true;
 			if (showConnectionPopups)
-				hIcon = Skin_LoadProtoIcon(cs.szName, ID_STATUS_OFFLINE);
+				hIcon = Skin_LoadProtoIcon(cs.m_szName, ID_STATUS_OFFLINE);
 		}
 	}
 
@@ -709,11 +702,11 @@ static int StopChecking()
 
 	BOOL isOk = TRUE;
 	for (int i = 0; i < connectionSettings.getCount() && isOk; i++) {
-		TConnectionSettings& cs = connectionSettings[i];
+		TKSSettings& cs = connectionSettings[i];
 		int curStatus = GetStatus(cs);
-		int newStatus = CallProtoService(cs.szName, PS_GETSTATUS, 0, 0);
-		if (newStatus != curStatus && curStatus != ID_STATUS_DISABLED) {
-			AssignStatus(&cs, newStatus, 0, NULL);
+		int newStatus = CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0);
+		if (newStatus != curStatus) {
+			cs.AssignStatus(newStatus);
 			isOk = FALSE;
 		}
 	}
@@ -735,11 +728,11 @@ static VOID CALLBACK AfterCheckTimer(HWND, UINT, UINT_PTR, DWORD)
 	bool setStatus = false;
 
 	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		TConnectionSettings& cs = connectionSettings[i];
-		int realStatus = CallProtoService(cs.szName, PS_GETSTATUS, 0, 0);
+		TKSSettings& cs = connectionSettings[i];
+		int realStatus = CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0);
 		int shouldBeStatus = GetStatus(cs);
 		if (shouldBeStatus == ID_STATUS_LAST) // this should never happen
-			shouldBeStatus = cs.lastStatus;
+			shouldBeStatus = cs.m_lastStatus;
 		if (shouldBeStatus == ID_STATUS_DISABLED) //  (on ignoring proto)
 			continue;
 		if ((shouldBeStatus != realStatus) && (realStatus == ID_STATUS_OFFLINE) || (realStatus < MIN_STATUS))
@@ -762,16 +755,16 @@ static void CheckContinueslyFunction(void *)
 	// do a ping, even if reconnecting
 	bool doPing = false;
 	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		TConnectionSettings& cs = connectionSettings[i];
+		TKSSettings& cs = connectionSettings[i];
 		int shouldBeStatus = GetStatus(cs);
 		if (shouldBeStatus == ID_STATUS_LAST)
-			shouldBeStatus = cs.lastStatus;
+			shouldBeStatus = cs.m_lastStatus;
 
 		if (shouldBeStatus == ID_STATUS_DISABLED)
 			continue;
 
 		if (shouldBeStatus != ID_STATUS_OFFLINE) {
-			log_debugA("CheckContinueslyFunction: %s should be %d", cs.szName, shouldBeStatus);
+			log_debugA("CheckContinueslyFunction: %s should be %d", cs.m_szName, shouldBeStatus);
 			doPing = true;
 		}
 	}
@@ -935,14 +928,14 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			memset(protoInfo, '\0', sizeof(protoInfo));
 			mir_wstrcpy(protoInfo, L"\r\n");
 			for (int i = 0; i < connectionSettings.getCount(); i++) {
-				if (mir_wstrlen(ps[i]->tszAccName) > 0 && mir_strlen(ps[i]->szName) > 0) {
+				if (mir_wstrlen(ps[i]->m_tszAccName) > 0 && mir_strlen(ps[i]->m_szName) > 0) {
 					if (db_get_b(NULL, KSMODULENAME, SETTING_PUSHOWEXTRA, TRUE)) {
-						mir_snwprintf(protoInfoLine, TranslateT("%s\t(will be set to %s)\r\n"), ps[i]->tszAccName, pcli->pfnGetStatusModeDescription(ps[i]->status, 0));
+						mir_snwprintf(protoInfoLine, TranslateT("%s\t(will be set to %s)\r\n"), ps[i]->m_tszAccName, pcli->pfnGetStatusModeDescription(ps[i]->m_status, 0));
 						mir_wstrncat(protoInfo, protoInfoLine, _countof(protoInfo) - mir_wstrlen(protoInfo) - 1);
 					}
 				}
 			}
-			hIcon = Skin_LoadProtoIcon(ps[0]->szName, SKINICON_STATUS_OFFLINE);
+			hIcon = Skin_LoadProtoIcon(ps[0]->m_szName, SKINICON_STATUS_OFFLINE);
 
 			rtrimw(protoInfo);
 			if (retryCount == (maxRetries - 1))
@@ -1061,13 +1054,12 @@ INT_PTR EnableProtocolService(WPARAM wParam, LPARAM lParam)
 
 	int ret = -2;
 	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		TConnectionSettings& cs = connectionSettings[i];
-		if (!mir_strcmp(szProto, cs.szName)) {
-			if (wParam) {
-				if (GetStatus(cs) == ID_STATUS_DISABLED)
-					AssignStatus(&cs, CallProtoService(cs.szName, PS_GETSTATUS, 0, 0), 0, NULL);
-			}
-			else AssignStatus(&cs, ID_STATUS_DISABLED, 0, NULL);
+		TKSSettings& cs = connectionSettings[i];
+		if (!mir_strcmp(szProto, cs.m_szName)) {
+			if (wParam)
+				cs.AssignStatus(CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0));
+			else
+				cs.AssignStatus(ID_STATUS_DISABLED);
 
 			ret = 0;
 			break;
@@ -1086,8 +1078,8 @@ INT_PTR IsProtocolEnabledService(WPARAM, LPARAM lParam)
 		return FALSE;
 
 	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		TConnectionSettings& cs = connectionSettings[i];
-		if (!mir_strcmp(szProto, cs.szName))
+		TKSSettings& cs = connectionSettings[i];
+		if (!mir_strcmp(szProto, cs.m_szName))
 			return GetStatus(cs) != ID_STATUS_DISABLED;
 	}
 
@@ -1097,12 +1089,12 @@ INT_PTR IsProtocolEnabledService(WPARAM, LPARAM lParam)
 INT_PTR AnnounceStatusChangeService(WPARAM, LPARAM lParam)
 {
 	PROTOCOLSETTINGEX *newSituation = (PROTOCOLSETTINGEX *)lParam;
-	log_infoA("Another plugin announced a status change to %d for %s", newSituation->status, newSituation->szName == NULL ? "all" : newSituation->szName);
+	log_infoA("Another plugin announced a status change to %d for %s", newSituation->m_status, newSituation->m_szName == NULL ? "all" : newSituation->m_szName);
 
 	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		TConnectionSettings& cs = connectionSettings[i];
-		if (!mir_strcmp(cs.szName, newSituation->szName))
-			AssignStatus(&cs, newSituation->status, newSituation->lastStatus, newSituation->szMsg);
+		TKSSettings& cs = connectionSettings[i];
+		if (!mir_strcmp(cs.m_szName, newSituation->m_szName))
+			cs.AssignStatus(newSituation->m_status, newSituation->m_lastStatus, newSituation->m_szMsg);
 	}
 
 	return 0;
@@ -1122,7 +1114,7 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lPara
 			if (ps == NULL) {
 				ps = GetCurrentProtoSettingsCopy();
 				for (int i = 0; i < connectionSettings.getCount(); i++)
-					EnableProtocolService(0, (LPARAM)ps[i]->szName);
+					EnableProtocolService(0, (LPARAM)ps[i]->m_szName);
 
 				// set proto's offline, the clist will not try to reconnect in that case
 				Clist_SetStatusMode(ID_STATUS_OFFLINE);
@@ -1135,7 +1127,7 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lPara
 			log_infoA("KeepStatus: resume from suspend state");
 			if (ps != NULL) {
 				for (int i = 0; i < connectionSettings.getCount(); i++)
-					AssignStatus(&connectionSettings[i], ps[i]->status, ps[i]->lastStatus, ps[i]->szMsg);
+					connectionSettings[i].AssignStatus(ps[i]->m_status, ps[i]->m_lastStatus, ps[i]->m_szMsg);
 				FreeProtoSettings(ps);
 				ps = NULL;
 			}
@@ -1163,12 +1155,12 @@ int OnKSAccChanged(WPARAM wParam, LPARAM lParam)
 	PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
 	switch (wParam) {
 	case PRAC_ADDED:
-		connectionSettings.insert(new TConnectionSettings(pa));
+		connectionSettings.insert(new TKSSettings(pa));
 		break;
 
 	case PRAC_REMOVED:
 		for (int i = 0; i < connectionSettings.getCount(); i++) {
-			if (!mir_strcmp(connectionSettings[i].szName, pa->szModuleName)) {
+			if (!mir_strcmp(connectionSettings[i].m_szName, pa->szModuleName)) {
 				connectionSettings.remove(i);
 				break;
 			}

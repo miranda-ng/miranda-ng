@@ -27,20 +27,17 @@ static TSettingsList startupSettings(10, SSCompareSettings);
 
 TSSSetting::TSSSetting(PROTOACCOUNT *pa)
 {
-	cbSize = sizeof(PROTOCOLSETTINGEX);
-	szName = pa->szModuleName;
-	tszAccName = pa->tszAccountName;
-	status = lastStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
-	szMsg = NULL;
+	m_szName = pa->szModuleName;
+	m_tszAccName = pa->tszAccountName;
+	m_status = m_lastStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
+	m_szMsg = NULL;
 }
 
 TSSSetting::TSSSetting(int profile, PROTOACCOUNT *pa)
 {
-	cbSize = sizeof(PROTOCOLSETTINGEX);
-
 	// copy name
-	szName = pa->szModuleName;
-	tszAccName = pa->tszAccountName;
+	m_szName = pa->szModuleName;
+	m_tszAccName = pa->tszAccountName;
 
 	// load status
 	char setting[80];
@@ -48,23 +45,23 @@ TSSSetting::TSSSetting(int profile, PROTOACCOUNT *pa)
 	int iStatus = db_get_w(NULL, SSMODULENAME, setting, 0);
 	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
 		iStatus = DEFAULT_STATUS;
-	status = iStatus;
+	m_status = iStatus;
 
 	// load last status
-	mir_snprintf(setting, "%s%s", PREFIX_LAST, szName);
+	mir_snprintf(setting, "%s%s", PREFIX_LAST, m_szName);
 	iStatus = db_get_w(NULL, SSMODULENAME, setting, 0);
 	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
 		iStatus = DEFAULT_STATUS;
-	lastStatus = iStatus;
+	m_lastStatus = iStatus;
 
-	szMsg = GetStatusMessage(profile, szName);
-	if (szMsg)
-		szMsg = wcsdup(szMsg);
+	m_szMsg = GetStatusMessage(profile, m_szName);
+	if (m_szMsg)
+		m_szMsg = wcsdup(m_szMsg);
 }
 
 TSSSetting::~TSSSetting()
 {
-	free(szMsg);
+	free(m_szMsg);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +78,7 @@ static BYTE showDialogOnStartup = 0;
 static PROTOCOLSETTINGEX* IsValidProtocol(TSettingsList& protoSettings, char* protoName)
 {
 	for (int i = 0; i < protoSettings.getCount(); i++)
-		if (!strncmp(protoSettings[i].szName, protoName, mir_strlen(protoSettings[i].szName)))
+		if (!strncmp(protoSettings[i].m_szName, protoName, mir_strlen(protoSettings[i].m_szName)))
 			return &protoSettings[i];
 
 	return NULL;
@@ -153,7 +150,7 @@ static void ProcessCommandLineOptions(TSettingsList& protoSettings)
 			char *statusDesc = cmdl;
 			int status = IsValidStatusDesc(statusDesc);
 			if (status != 0)
-				protoSetting->status = status;
+				protoSetting->m_status = status;
 		}
 	}
 }
@@ -161,15 +158,15 @@ static void ProcessCommandLineOptions(TSettingsList& protoSettings)
 static void SetLastStatusMessages(TSettingsList &ps)
 {
 	for (int i = 0; i < ps.getCount(); i++) {
-		if (ps[i].status != ID_STATUS_LAST)
+		if (ps[i].m_status != ID_STATUS_LAST)
 			continue;
 
 		char dbSetting[128];
-		mir_snprintf(dbSetting, "%s%s", PREFIX_LASTMSG, ps[i].szName);
+		mir_snprintf(dbSetting, "%s%s", PREFIX_LASTMSG, ps[i].m_szName);
 
 		DBVARIANT dbv;
-		if (ps[i].szMsg == NULL && !db_get_ws(NULL, SSMODULENAME, dbSetting, &dbv)) {
-			ps[i].szMsg = wcsdup(dbv.ptszVal); // remember this won't be freed
+		if (ps[i].m_szMsg == NULL && !db_get_ws(NULL, SSMODULENAME, dbSetting, &dbv)) {
+			ps[i].m_szMsg = wcsdup(dbv.ptszVal); // remember this won't be freed
 			db_free(&dbv);
 		}
 	}
@@ -188,7 +185,7 @@ int OnSSAccChanged(WPARAM wParam, LPARAM lParam)
 
 	case PRAC_REMOVED:
 		for (int i = 0; i < startupSettings.getCount(); i++) {
-			if (!mir_strcmp(startupSettings[i].szName, pa->szModuleName)) {
+			if (!mir_strcmp(startupSettings[i].m_szName, pa->szModuleName)) {
 				startupSettings.remove(i);
 				break;
 			}
@@ -211,8 +208,8 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 		return 0;
 
 	for (int i = 0; i < startupSettings.getCount(); i++) {
-		if (!mir_strcmp(ack->szModule, startupSettings[i].szName)) {
-			startupSettings[i].szName = "";
+		if (!mir_strcmp(ack->szModule, startupSettings[i].m_szName)) {
+			startupSettings[i].m_szName = "";
 			log_debugA("StartupStatus: %s overridden by ME_PROTO_ACK, status will not be set", ack->szModule);
 		}
 	}
@@ -229,14 +226,14 @@ static int StatusChange(WPARAM, LPARAM lParam)
 	char *szProto = (char *)lParam;
 	if (szProto == NULL) { // global status change
 		for (int i = 0; i < startupSettings.getCount(); i++) {
-			startupSettings[i].szName = "";
+			startupSettings[i].m_szName = "";
 			log_debugA("StartupStatus: all protos overridden by ME_CLIST_STATUSMODECHANGE, status will not be set");
 		}
 	}
 	else {
 		for (int i = 0; i < startupSettings.getCount(); i++) {
-			if (!mir_strcmp(startupSettings[i].szName, szProto)) {
-				startupSettings[i].szName = "";
+			if (!mir_strcmp(startupSettings[i].m_szName, szProto)) {
+				startupSettings[i].m_szName = "";
 				log_debugA("StartupStatus: %s overridden by ME_CLIST_STATUSMODECHANGE, status will not be set", szProto);
 			}
 		}
@@ -258,13 +255,13 @@ static int CSStatusChangeEx(WPARAM wParam, LPARAM)
 
 		for (int i = 0; i < startupSettings.getCount(); i++) {
 			for (int j = 0; j < startupSettings.getCount(); j++) {
-				if (ps[i]->szName == NULL || startupSettings[j].szName == NULL)
+				if (ps[i]->m_szName == NULL || startupSettings[j].m_szName == NULL)
 					continue;
 
-				if (!mir_strcmp(ps[i]->szName, startupSettings[j].szName)) {
-					log_debugA("StartupStatus: %s overridden by MS_CS_SETSTATUSEX, status will not be set", ps[i]->szName);
+				if (!mir_strcmp(ps[i]->m_szName, startupSettings[j].m_szName)) {
+					log_debugA("StartupStatus: %s overridden by MS_CS_SETSTATUSEX, status will not be set", ps[i]->m_szName);
 					// use a hack to disable this proto
-					startupSettings[j].szName = "";
+					startupSettings[j].m_szName = "";
 				}
 			}
 		}
@@ -471,8 +468,11 @@ int SSModuleLoaded(WPARAM, LPARAM)
 							height = db_get_dw(NULL, SSMODULENAME, SETTING_HEIGHT, height);
 					}
 					MoveWindow(hClist, x, y, width, height, TRUE);
-	}	}	}	}
-	
+				}
+			}
+		}
+	}
+
 	return 0;
 }
 

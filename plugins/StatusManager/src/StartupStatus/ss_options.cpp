@@ -23,7 +23,7 @@
 
 int SSCompareSettings(const TSSSetting *p1, const TSSSetting *p2)
 {
-	return mir_strcmp(p1->szName, p2->szName);
+	return mir_strcmp(p1->m_szName, p2->m_szName);
 }
 
 TSettingsList* GetCurrentProtoSettings()
@@ -36,9 +36,9 @@ TSettingsList* GetCurrentProtoSettings()
 	if (result == NULL)
 		return NULL;
 
-	for (int i=0; i < count; i++)
-		if ( IsSuitableProto(protos[i]))
-			result->insert( new TSSSetting(protos[i]));
+	for (int i = 0; i < count; i++)
+		if (IsSuitableProto(protos[i]))
+			result->insert(new TSSSetting(protos[i]));
 
 	return result;
 }
@@ -49,47 +49,48 @@ TSettingsList* GetCurrentProtoSettings()
 static char* GetStatusDesc(int status)
 {
 	switch (status) {
-		case ID_STATUS_AWAY:       return "away";
-		case ID_STATUS_NA:         return "na";
-		case ID_STATUS_DND:        return "dnd";
-		case ID_STATUS_OCCUPIED:   return "occupied";
-		case ID_STATUS_FREECHAT:   return "freechat";
-		case ID_STATUS_ONLINE:     return "online";
-		case ID_STATUS_OFFLINE:    return "offline";
-		case ID_STATUS_INVISIBLE:  return "invisible";
-		case ID_STATUS_ONTHEPHONE: return "onthephone";
-		case ID_STATUS_OUTTOLUNCH: return "outtolunch";
-		case ID_STATUS_LAST:       return "last";
+	case ID_STATUS_AWAY:       return "away";
+	case ID_STATUS_NA:         return "na";
+	case ID_STATUS_DND:        return "dnd";
+	case ID_STATUS_OCCUPIED:   return "occupied";
+	case ID_STATUS_FREECHAT:   return "freechat";
+	case ID_STATUS_ONLINE:     return "online";
+	case ID_STATUS_OFFLINE:    return "offline";
+	case ID_STATUS_INVISIBLE:  return "invisible";
+	case ID_STATUS_ONTHEPHONE: return "onthephone";
+	case ID_STATUS_OUTTOLUNCH: return "outtolunch";
+	case ID_STATUS_LAST:       return "last";
 	}
 	return "offline";
 }
 
 static char* GetCMDLArguments(TSettingsList& protoSettings)
 {
-	if ( protoSettings.getCount() == NULL )
+	if (protoSettings.getCount() == NULL)
 		return NULL;
 
 	char *cmdl, *pnt;
-	pnt = cmdl = ( char* )malloc(mir_strlen(protoSettings[0].szName) + mir_strlen(GetStatusDesc(protoSettings[0].status)) + 4);
+	pnt = cmdl = (char*)malloc(mir_strlen(protoSettings[0].m_szName) + mir_strlen(GetStatusDesc(protoSettings[0].m_status)) + 4);
 
-	for (int i=0; i < protoSettings.getCount(); i++ ) {
+	for (int i = 0; i < protoSettings.getCount(); i++) {
 		*pnt++ = '/';
-		mir_strcpy(pnt, protoSettings[i].szName);
-		pnt += mir_strlen(protoSettings[i].szName);
+		mir_strcpy(pnt, protoSettings[i].m_szName);
+		pnt += mir_strlen(protoSettings[i].m_szName);
 		*pnt++ = '=';
-		mir_strcpy(pnt, GetStatusDesc(protoSettings[i].status));
-		pnt += mir_strlen(GetStatusDesc(protoSettings[i].status));
-		if (i != protoSettings.getCount()-1) {
+		mir_strcpy(pnt, GetStatusDesc(protoSettings[i].m_status));
+		pnt += mir_strlen(GetStatusDesc(protoSettings[i].m_status));
+		if (i != protoSettings.getCount() - 1) {
 			*pnt++ = ' ';
 			*pnt++ = '\0';
-			cmdl = ( char* )realloc(cmdl, mir_strlen(cmdl) + mir_strlen(protoSettings[i+1].szName) + mir_strlen(GetStatusDesc(protoSettings[i+1].status)) + 4);
+			cmdl = (char*)realloc(cmdl, mir_strlen(cmdl) + mir_strlen(protoSettings[i + 1].m_szName) + mir_strlen(GetStatusDesc(protoSettings[i + 1].m_status)) + 4);
 			pnt = cmdl + mir_strlen(cmdl);
-	}	}
+		}
+	}
 
-	if ( db_get_b( NULL, SSMODULENAME, SETTING_SHOWDIALOG, FALSE ) == TRUE ) {
+	if (db_get_b(NULL, SSMODULENAME, SETTING_SHOWDIALOG, FALSE) == TRUE) {
 		*pnt++ = ' ';
 		*pnt++ = '\0';
-		cmdl = ( char* )realloc(cmdl, mir_strlen(cmdl) + 12);
+		cmdl = (char*)realloc(cmdl, mir_strlen(cmdl) + 12);
 		pnt = cmdl + mir_strlen(cmdl);
 		mir_strcpy(pnt, "/showdialog");
 		pnt += 11;
@@ -104,12 +105,12 @@ static char* GetCMDL(TSettingsList& protoSettings)
 	char path[MAX_PATH];
 	GetModuleFileNameA(NULL, path, MAX_PATH);
 
-	char* cmdl = ( char* )malloc(mir_strlen(path) + 4);
+	char* cmdl = (char*)malloc(mir_strlen(path) + 4);
 	mir_snprintf(cmdl, mir_strlen(path) + 4, "\"%s\" ", path);
 
 	char* args = GetCMDLArguments(protoSettings);
-	if ( args ) {
-		cmdl = ( char* )realloc(cmdl, mir_strlen(cmdl) + mir_strlen(args) + 1);
+	if (args) {
+		cmdl = (char*)realloc(cmdl, mir_strlen(cmdl) + mir_strlen(args) + 1);
 		mir_strcat(cmdl, args);
 		free(args);
 	}
@@ -121,27 +122,27 @@ static char* GetCMDL(TSettingsList& protoSettings)
 
 static wchar_t* GetLinkDescription(TSettingsList& protoSettings)
 {
-	if ( protoSettings.getCount() == 0 )
+	if (protoSettings.getCount() == 0)
 		return NULL;
 
 	CMStringW result(SHORTCUT_DESC);
-	for (int i=0; i < protoSettings.getCount(); i++) {
+	for (int i = 0; i < protoSettings.getCount(); i++) {
 		TSSSetting &p = protoSettings[i];
 
 		wchar_t *status;
-		if ( p.status == ID_STATUS_LAST)
+		if (p.m_status == ID_STATUS_LAST)
 			status = TranslateT("<last>");
-		else if (p.status == ID_STATUS_CURRENT)
+		else if (p.m_status == ID_STATUS_CURRENT)
 			status = TranslateT("<current>");
-		else if (p.status >= MIN_STATUS && p.status <= MAX_STATUS)
-			status = pcli->pfnGetStatusModeDescription(p.status, 0);
+		else if (p.m_status >= MIN_STATUS && p.m_status <= MAX_STATUS)
+			status = pcli->pfnGetStatusModeDescription(p.m_status, 0);
 		else
 			status = NULL;
 		if (status == NULL)
 			status = TranslateT("<unknown>");
 
 		result.AppendChar('\r');
-		result.Append(p.tszAccName);
+		result.Append(p.m_tszAccName);
 		result.AppendChar(':');
 		result.AppendChar(' ');
 		result.Append(status);
@@ -160,7 +161,7 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 
 	// Get a pointer to the IShellLink interface.
 	IShellLink *psl;
-	HRESULT hres = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, ( void** )&psl);
+	HRESULT hres = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (void**)&psl);
 	if (SUCCEEDED(hres)) {
 		char *args = GetCMDLArguments(protoSettings);
 		wchar_t *desc = GetLinkDescription(protoSettings);
@@ -171,12 +172,12 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 		GetModuleFileName(NULL, path, _countof(path));
 		psl->SetPath(path);
 		psl->SetDescription(desc);
-		psl->SetArguments( _A2T(args));
+		psl->SetArguments(_A2T(args));
 
 		// Query IShellLink for the IPersistFile interface for saving the
 		// shortcut in persistent storage.
 		IPersistFile *ppf;
-		hres = psl->QueryInterface(IID_IPersistFile, ( void** )&ppf);
+		hres = psl->QueryInterface(IID_IPersistFile, (void**)&ppf);
 
 		if (SUCCEEDED(hres)) {
 			// Save the link by calling IPersistFile::Save.
@@ -191,11 +192,11 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 	return hres;
 }
 
-INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static TSettingsList* optionsProtoSettings;
 
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
@@ -209,17 +210,17 @@ INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_COPY:
-			if ( OpenClipboard( hwndDlg )) {
+			if (OpenClipboard(hwndDlg)) {
 				EmptyClipboard();
 
 				char cmdl[2048];
-				GetDlgItemTextA(hwndDlg,IDC_CMDL, cmdl, _countof(cmdl));
+				GetDlgItemTextA(hwndDlg, IDC_CMDL, cmdl, _countof(cmdl));
 				HGLOBAL cmdlGlob = GlobalAlloc(GMEM_MOVEABLE, sizeof(cmdl));
 				if (cmdlGlob == NULL) {
 					CloseClipboard();
 					break;
 				}
-				LPTSTR cmdlStr = ( LPTSTR )GlobalLock(cmdlGlob);
+				LPTSTR cmdlStr = (LPTSTR)GlobalLock(cmdlGlob);
 				memcpy(cmdlStr, &cmdl, sizeof(cmdl));
 				GlobalUnlock(cmdlGlob);
 				SetClipboardData(CF_TEXT, cmdlGlob);
@@ -249,11 +250,11 @@ INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 	return 0;
 }
 
-static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static BOOL bInitDone = FALSE;
 
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		bInitDone = FALSE;
 
@@ -292,7 +293,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 				SendDlgItemMessage(hwndDlg, IDC_DOCKED, CB_SETCURSEL, (WPARAM)item, 0);
 		}
 
-		EnableWindow(GetDlgItem(hwndDlg, IDC_PROFILE), IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE)||IsDlgButtonChecked(hwndDlg, IDC_SHOWDIALOG));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_PROFILE), IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE) || IsDlgButtonChecked(hwndDlg, IDC_SHOWDIALOG));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SETPROFILEDELAY), IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_OVERRIDE), IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_DLGTIMEOUT), IsDlgButtonChecked(hwndDlg, IDC_SHOWDIALOG));
@@ -308,7 +309,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 		break;
 
 	case WM_TIMER:
-		if ( BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SETWINLOCATION) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SETWINSIZE)) {
+		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SETWINLOCATION) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SETWINSIZE)) {
 			SetDlgItemTextA(hwndDlg, IDC_CURWINSIZE, "");
 			SetDlgItemTextA(hwndDlg, IDC_CURWINLOC, "");
 			break;
@@ -324,7 +325,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 				db_get_dw(NULL, MODULE_CLIST, SETTING_XPOS, 0),
 				db_get_dw(NULL, MODULE_CLIST, SETTING_YPOS, 0));
 			SetDlgItemText(hwndDlg, IDC_CURWINLOC, text);
-	   }
+		}
 		break;
 
 	case UM_REINITPROFILES:
@@ -333,9 +334,9 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 		{
 			int defProfile;
 			int profileCount = GetProfileCount((WPARAM)&defProfile, 0);
-			for ( int i=0; i < profileCount; i++ ) {
+			for (int i = 0; i < profileCount; i++) {
 				wchar_t profileName[128];
-				if ( GetProfileName(i, (LPARAM)profileName))
+				if (GetProfileName(i, (LPARAM)profileName))
 					continue;
 
 				int item = SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_ADDSTRING, 0, (LPARAM)profileName);
@@ -347,7 +348,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 
 	case UM_REINITDOCKED:
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SETDOCKED), db_get_b(NULL, MODULE_CLIST, SETTING_TOOLWINDOW, 1));
-		if (!IsWindowEnabled(GetDlgItem(hwndDlg,IDC_SETDOCKED)))
+		if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_SETDOCKED)))
 			CheckDlgButton(hwndDlg, IDC_SETDOCKED, BST_UNCHECKED);
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_DOCKED), IsDlgButtonChecked(hwndDlg, IDC_SETDOCKED));
@@ -371,28 +372,28 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 			}
 			item = SendDlgItemMessage(hwndDlg, IDC_WINSTATE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Normal"));
 			SendDlgItemMessage(hwndDlg, IDC_WINSTATE, CB_SETITEMDATA, item, SETTING_STATE_NORMAL);
-			if ( val == SETTING_STATE_NORMAL || (val == SETTING_STATE_MINIMIZED) && db_get_b(NULL, MODULE_CLIST, SETTING_TOOLWINDOW, 0))
+			if (val == SETTING_STATE_NORMAL || (val == SETTING_STATE_MINIMIZED) && db_get_b(NULL, MODULE_CLIST, SETTING_TOOLWINDOW, 0))
 				SendDlgItemMessage(hwndDlg, IDC_WINSTATE, CB_SETCURSEL, item, 0);
 		}
 		break;
 
 	case UM_REINITWINSIZE:
 		EnableWindow(GetDlgItem(hwndDlg, IDC_WIDTH), IsDlgButtonChecked(hwndDlg, IDC_SETWINSIZE));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_HEIGHT), !db_get_b(NULL, MODULE_CLUI, SETTING_AUTOSIZE, 0)&&IsDlgButtonChecked(hwndDlg, IDC_SETWINSIZE));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_HEIGHT), !db_get_b(NULL, MODULE_CLUI, SETTING_AUTOSIZE, 0) && IsDlgButtonChecked(hwndDlg, IDC_SETWINSIZE));
 
 	case WM_COMMAND:
-		if ( HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == LBN_SELCHANGE || HIWORD(wParam) == CBN_SELCHANGE || HIWORD(wParam) == EN_CHANGE )
-			if ( bInitDone )
+		if (HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == LBN_SELCHANGE || HIWORD(wParam) == CBN_SELCHANGE || HIWORD(wParam) == EN_CHANGE)
+			if (bInitDone)
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 		switch (LOWORD(wParam)) {
 		case IDC_SETPROFILE:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_PROFILE), IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE)||IsDlgButtonChecked(hwndDlg, IDC_SHOWDIALOG));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_PROFILE), IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE) || IsDlgButtonChecked(hwndDlg, IDC_SHOWDIALOG));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SETPROFILEDELAY), IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_OVERRIDE), IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE));
 			break;
 		case IDC_SHOWDIALOG:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_PROFILE), IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE)||IsDlgButtonChecked(hwndDlg, IDC_SHOWDIALOG));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_PROFILE), IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE) || IsDlgButtonChecked(hwndDlg, IDC_SHOWDIALOG));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DLGTIMEOUT), IsDlgButtonChecked(hwndDlg, IDC_SHOWDIALOG));
 			break;
 		case IDC_SETWINSTATE:
@@ -414,11 +415,11 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 					SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
 
 				TSettingsList* ps = GetCurrentProtoSettings();
-				if ( ps ) {
-					GetProfile( defProfile, *ps );
-					for ( int i=0; i < ps->getCount(); i++ )
-						if ( (*ps)[i].szMsg != NULL )
-							(*ps)[i].szMsg = wcsdup( (*ps)[i].szMsg );
+				if (ps) {
+					GetProfile(defProfile, *ps);
+					for (int i = 0; i < ps->getCount(); i++)
+						if ((*ps)[i].m_szMsg != NULL)
+							(*ps)[i].m_szMsg = wcsdup((*ps)[i].m_szMsg);
 
 					CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CMDLOPTIONS), hwndDlg, CmdlOptionsDlgProc, (LPARAM)ps);
 				}
@@ -509,7 +510,7 @@ static int ClearDatabase(char* filter)
 			db_unset(NULL, SSMODULENAME, arSettings[i]);
 		mir_free(arSettings[i]);
 	}
-	
+
 	if (filter == NULL)
 		db_unset(NULL, "AutoAway", "Confirm");
 
@@ -554,12 +555,12 @@ INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	return 0;
 }
 
-static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static BOOL bNeedRebuildMenu = FALSE;
 	static BOOL bInitDone = FALSE;
 
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		bInitDone = false;
 
@@ -573,36 +574,36 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				defProfile = 0;
 			}
 
-			for (int i=0; i < profileCount; i++) {
+			for (int i = 0; i < profileCount; i++) {
 				PROFILEOPTIONS *ppo = new PROFILEOPTIONS;
 				ppo->ps = GetCurrentProtoSettings();
 				TSettingsList& ar = *ppo->ps;
 
-				if ( GetProfile(i, ar) == -1) {
+				if (GetProfile(i, ar) == -1) {
 					/* create an empty profile */
 					if (i == defProfile)
-						ppo->tszName = mir_wstrdup( TranslateT("default"));
+						ppo->tszName = mir_wstrdup(TranslateT("default"));
 					else
-						ppo->tszName = mir_wstrdup( TranslateT("unknown"));
+						ppo->tszName = mir_wstrdup(TranslateT("unknown"));
 				}
 				else {
-					for (int j=0; j < ar.getCount(); j++)
-						if ( ar[j].szMsg != NULL)
-							ar[j].szMsg = wcsdup( ar[j].szMsg );
+					for (int j = 0; j < ar.getCount(); j++)
+						if (ar[j].m_szMsg != NULL)
+							ar[j].m_szMsg = wcsdup(ar[j].m_szMsg);
 
 					ppo->tszName = db_get_wsa(NULL, SSMODULENAME, OptName(i, SETTING_PROFILENAME));
 					if (ppo->tszName == NULL) {
 						if (i == defProfile)
-							ppo->tszName = mir_wstrdup( TranslateT("default"));
+							ppo->tszName = mir_wstrdup(TranslateT("default"));
 						else
-							ppo->tszName = mir_wstrdup( TranslateT("unknown"));
+							ppo->tszName = mir_wstrdup(TranslateT("unknown"));
 					}
 					ppo->createTtb = db_get_b(NULL, SSMODULENAME, OptName(i, SETTING_CREATETTBBUTTON), 0);
 					ppo->showDialog = db_get_b(NULL, SSMODULENAME, OptName(i, SETTING_SHOWCONFIRMDIALOG), 0);
 					ppo->createMmi = db_get_b(NULL, SSMODULENAME, OptName(i, SETTING_CREATEMMITEM), 0);
 					ppo->inSubMenu = db_get_b(NULL, SSMODULENAME, OptName(i, SETTING_INSUBMENU), 1);
 					ppo->regHotkey = db_get_b(NULL, SSMODULENAME, OptName(i, SETTING_REGHOTKEY), 0);
-					ppo->hotKey = db_get_w(NULL, SSMODULENAME, OptName(i, SETTING_HOTKEY), MAKEWORD((char)('0'+i), HOTKEYF_CONTROL|HOTKEYF_SHIFT));
+					ppo->hotKey = db_get_w(NULL, SSMODULENAME, OptName(i, SETTING_HOTKEY), MAKEWORD((char)('0' + i), HOTKEYF_CONTROL | HOTKEYF_SHIFT));
 				}
 				arProfiles.insert(ppo);
 			}
@@ -610,7 +611,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CREATETTB), FALSE);
 
 			SendMessage(hwndDlg, UM_REINITPROFILES, 0, 0);
-			ShowWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), ServiceExists(MS_VARS_SHOWHELPEX)?SW_SHOW:SW_HIDE);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), ServiceExists(MS_VARS_SHOWHELPEX) ? SW_SHOW : SW_HIDE);
 			bInitDone = true;
 		}
 		break;
@@ -620,7 +621,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		{
 			// creates profile combo box according to 'dat'
 			SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_RESETCONTENT, 0, 0);
-			for (int i=0; i < arProfiles.getCount(); i++ ) {
+			for (int i = 0; i < arProfiles.getCount(); i++) {
 				int item = SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_ADDSTRING, 0, (LPARAM)arProfiles[i].tszName);
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_SETITEMDATA, (WPARAM)item, (LPARAM)i);
 			}
@@ -646,8 +647,8 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 
 			// fill proto list
 			TSettingsList& ar = *arProfiles[sel].ps;
-			for ( int i=0; i < ar.getCount(); i++ ) {
-				int item = SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_ADDSTRING, 0, (LPARAM)ar[i].tszAccName );
+			for (int i = 0; i < ar.getCount(); i++) {
+				int item = SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_ADDSTRING, 0, (LPARAM)ar[i].m_tszAccName);
 				SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_SETITEMDATA, (WPARAM)item, (LPARAM)&ar[i]);
 			}
 			SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_SETCURSEL, 0, 0);
@@ -658,29 +659,29 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 	case UM_SETPROTOCOL:
 		{
 			int idx = SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETCURSEL, 0, 0);
-			if ( idx != -1 ) {
+			if (idx != -1) {
 				// fill status box
-				TSSSetting* ps = ( TSSSetting* )SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETITEMDATA, idx, 0);
+				TSSSetting* ps = (TSSSetting*)SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETITEMDATA, idx, 0);
 
-				int flags = (CallProtoService(ps->szName, PS_GETCAPS, PFLAGNUM_2, 0))&~(CallProtoService(ps->szName, PS_GETCAPS, PFLAGNUM_5, 0));
+				int flags = (CallProtoService(ps->m_szName, PS_GETCAPS, PFLAGNUM_2, 0))&~(CallProtoService(ps->m_szName, PS_GETCAPS, PFLAGNUM_5, 0));
 				SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_RESETCONTENT, 0, 0);
-				for ( int i=0; i < _countof(statusModeList); i++ ) {
-					if ( (flags&statusModePf2List[i]) || (statusModeList[i] == ID_STATUS_OFFLINE)) {
+				for (int i = 0; i < _countof(statusModeList); i++) {
+					if ((flags&statusModePf2List[i]) || (statusModeList[i] == ID_STATUS_OFFLINE)) {
 						int item = SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(statusModeList[i], 0));
 						SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_SETITEMDATA, (WPARAM)item, (LPARAM)statusModeList[i]);
-						if (ps->status == statusModeList[i])
+						if (ps->m_status == statusModeList[i])
 							SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_SETCURSEL, (WPARAM)item, 0);
 					}
 				}
 
 				int item = SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_ADDSTRING, 0, (LPARAM)TranslateT("<current>"));
 				SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_SETITEMDATA, (WPARAM)item, (LPARAM)ID_STATUS_CURRENT);
-				if (ps->status == ID_STATUS_CURRENT)
+				if (ps->m_status == ID_STATUS_CURRENT)
 					SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_SETCURSEL, (WPARAM)item, 0);
 
 				item = SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_ADDSTRING, 0, (LPARAM)TranslateT("<last>"));
 				SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_SETITEMDATA, (WPARAM)item, (LPARAM)ID_STATUS_LAST);
-				if (ps->status == ID_STATUS_LAST)
+				if (ps->m_status == ID_STATUS_LAST)
 					SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_SETCURSEL, (WPARAM)item, 0);
 			}
 
@@ -693,15 +694,15 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 			// set status message
 			BOOL bStatusMsg = FALSE;
 			int idx = SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETCURSEL, 0, 0);
-			if ( idx != -1 ) {
-				TSSSetting* ps = ( TSSSetting* )SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETITEMDATA, idx, 0);
+			if (idx != -1) {
+				TSSSetting* ps = (TSSSetting*)SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETITEMDATA, idx, 0);
 
-				CheckRadioButton(hwndDlg, IDC_MIRANDAMSG, IDC_CUSTOMMSG, ps->szMsg!=NULL?IDC_CUSTOMMSG:IDC_MIRANDAMSG);
-				if (ps->szMsg != NULL)
-					SetDlgItemText(hwndDlg, IDC_STATUSMSG, ps->szMsg);
+				CheckRadioButton(hwndDlg, IDC_MIRANDAMSG, IDC_CUSTOMMSG, ps->m_szMsg != NULL ? IDC_CUSTOMMSG : IDC_MIRANDAMSG);
+				if (ps->m_szMsg != NULL)
+					SetDlgItemText(hwndDlg, IDC_STATUSMSG, ps->m_szMsg);
 
-				bStatusMsg = ( (((CallProtoService(ps->szName, PS_GETCAPS, PFLAGNUM_1, 0)&PF1_MODEMSGSEND&~PF1_INDIVMODEMSG)) &&
-					(CallProtoService(ps->szName, PS_GETCAPS, PFLAGNUM_3, 0)&Proto_Status2Flag(ps->status))) || (ps->status == ID_STATUS_CURRENT) || (ps->status == ID_STATUS_LAST));
+				bStatusMsg = ((((CallProtoService(ps->m_szName, PS_GETCAPS, PFLAGNUM_1, 0)&PF1_MODEMSGSEND&~PF1_INDIVMODEMSG)) &&
+					(CallProtoService(ps->m_szName, PS_GETCAPS, PFLAGNUM_3, 0)&Proto_Status2Flag(ps->m_status))) || (ps->m_status == ID_STATUS_CURRENT) || (ps->m_status == ID_STATUS_LAST));
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MIRANDAMSG), bStatusMsg);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMMSG), bStatusMsg);
@@ -726,38 +727,38 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		break;
 
 	case UM_DELPROFILE: {
-		// wparam == profile no
-		int i=(int)wParam;
+			// wparam == profile no
+			int i = (int)wParam;
 
-		if ( arProfiles.getCount() == 1) {
-			MessageBox(NULL, TranslateT("At least one profile must exist"), TranslateT("Status manager"), MB_OK);
+			if (arProfiles.getCount() == 1) {
+				MessageBox(NULL, TranslateT("At least one profile must exist"), TranslateT("Status manager"), MB_OK);
+				break;
+			}
+
+			arProfiles.remove(i);
+
+			int defProfile;
+			GetProfileCount((WPARAM)&defProfile, 0);
+			if (i == defProfile) {
+				MessageBox(NULL, TranslateT("Your default profile will be changed"), TranslateT("Status manager"), MB_OK);
+				db_set_w(NULL, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
+			}
+			SendMessage(hwndDlg, UM_REINITPROFILES, 0, 0);
 			break;
 		}
 
-		arProfiles.remove(i);
-
-		int defProfile;
-		GetProfileCount((WPARAM)&defProfile, 0);
-		if (i == defProfile) {
-			MessageBox(NULL, TranslateT("Your default profile will be changed"), TranslateT("Status manager"), MB_OK);
-			db_set_w(NULL, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
-		}
-		SendMessage(hwndDlg, UM_REINITPROFILES, 0, 0);
-		break;
-	}
-
 	case WM_COMMAND:
-		if ( ((HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED) || (HIWORD(wParam) == LBN_SELCHANGE)) && ((HWND)lParam == GetFocus()))
-			if ( bInitDone )
-				SendMessage(GetParent(hwndDlg),PSM_CHANGED,0,0);
+		if (((HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED) || (HIWORD(wParam) == LBN_SELCHANGE)) && ((HWND)lParam == GetFocus()))
+			if (bInitDone)
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 		switch (LOWORD(wParam)) {
 		case IDC_STATUS:
 			if (HIWORD(wParam) == LBN_SELCHANGE) {
 				int idx = SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETCURSEL, 0, 0);
-				if ( idx != -1 ) {
-					TSSSetting* ps = ( TSSSetting* )SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETITEMDATA, idx, 0);
-					ps->status = (int)SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_GETITEMDATA,
+				if (idx != -1) {
+					TSSSetting* ps = (TSSSetting*)SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETITEMDATA, idx, 0);
+					ps->m_status = (int)SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_GETITEMDATA,
 						SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_GETCURSEL, 0, 0), 0);
 				}
 				SendMessage(hwndDlg, UM_SETSTATUSMSG, 0, 0);
@@ -782,16 +783,16 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		case IDC_CUSTOMMSG:
 			{
 				int len;
-				TSSSetting* ps = ( TSSSetting* )SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETITEMDATA,
+				TSSSetting* ps = (TSSSetting*)SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETITEMDATA,
 					SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETCURSEL, 0, 0), 0);
-				if (ps->szMsg != NULL)
-					free(ps->szMsg);
+				if (ps->m_szMsg != NULL)
+					free(ps->m_szMsg);
 
-				ps->szMsg = NULL;
+				ps->m_szMsg = NULL;
 				if (IsDlgButtonChecked(hwndDlg, IDC_CUSTOMMSG)) {
 					len = SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXTLENGTH, 0, 0);
-					ps->szMsg = (wchar_t*)calloc(sizeof(wchar_t), len+1);
-					GetDlgItemText(hwndDlg, IDC_STATUSMSG, ps->szMsg, (len + 1));
+					ps->m_szMsg = (wchar_t*)calloc(sizeof(wchar_t), len + 1);
+					GetDlgItemText(hwndDlg, IDC_STATUSMSG, ps->m_szMsg, (len + 1));
 				}
 				SendMessage(hwndDlg, UM_SETSTATUSMSG, 0, 0);
 			}
@@ -801,16 +802,16 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 			if (HIWORD(wParam) == EN_CHANGE) {
 				// update the status message in memory, this is done on each character tick, not nice
 				// but it works
-				TSSSetting* ps = ( TSSSetting* )SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETITEMDATA,
+				TSSSetting* ps = (TSSSetting*)SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETITEMDATA,
 					SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETCURSEL, 0, 0), 0);
-				if (ps->szMsg != NULL) {
-					if ( *ps->szMsg )
-						free(ps->szMsg);
-					ps->szMsg = NULL;
+				if (ps->m_szMsg != NULL) {
+					if (*ps->m_szMsg)
+						free(ps->m_szMsg);
+					ps->m_szMsg = NULL;
 				}
 				int len = SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXTLENGTH, 0, 0);
-				ps->szMsg = (wchar_t*)calloc(sizeof(wchar_t), len+1);
-				GetDlgItemText(hwndDlg, IDC_STATUSMSG, ps->szMsg, (len + 1));
+				ps->m_szMsg = (wchar_t*)calloc(sizeof(wchar_t), len + 1);
+				GetDlgItemText(hwndDlg, IDC_STATUSMSG, ps->m_szMsg, (len + 1));
 			}
 			break;
 
@@ -856,7 +857,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 			break;
 
 		case IDC_VARIABLESHELP:
-			variables_showhelp(hwndDlg, IDC_STATUSMSG, VHF_INPUT|VHF_EXTRATEXT|VHF_HELP|VHF_FULLFILLSTRUCT|VHF_HIDESUBJECTTOKEN, NULL, "Protocol ID");
+			variables_showhelp(hwndDlg, IDC_STATUSMSG, VHF_INPUT | VHF_EXTRATEXT | VHF_HELP | VHF_FULLFILLSTRUCT | VHF_HIDESUBJECTTOKEN, NULL, "Protocol ID");
 			break;
 		}
 		break;
@@ -865,11 +866,11 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			char setting[128];
 			int oldCount = db_get_w(NULL, SSMODULENAME, SETTING_PROFILECOUNT, 0);
-			for (int i=0; i < oldCount; i++) {
+			for (int i = 0; i < oldCount; i++) {
 				mir_snprintf(setting, "%d_", i);
 				ClearDatabase(setting);
 			}
-			for (int i=0; i < arProfiles.getCount(); i++) {
+			for (int i = 0; i < arProfiles.getCount(); i++) {
 				PROFILEOPTIONS& po = arProfiles[i];
 				db_set_b(NULL, SSMODULENAME, OptName(i, SETTING_SHOWCONFIRMDIALOG), po.showDialog);
 				db_set_b(NULL, SSMODULENAME, OptName(i, SETTING_CREATETTBBUTTON), po.createTtb);
@@ -880,12 +881,12 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				db_set_ws(NULL, SSMODULENAME, OptName(i, SETTING_PROFILENAME), po.tszName);
 
 				TSettingsList& ar = *po.ps;
-				for (int j=0; j < ar.getCount(); j++) {
-					if ( ar[j].szMsg != NULL ) {
-						mir_snprintf(setting, "%s_%s", ar[j].szName, SETTING_PROFILE_STSMSG);
-						db_set_ws(NULL, SSMODULENAME, OptName(i, setting), ar[j].szMsg);
+				for (int j = 0; j < ar.getCount(); j++) {
+					if (ar[j].m_szMsg != NULL) {
+						mir_snprintf(setting, "%s_%s", ar[j].m_szName, SETTING_PROFILE_STSMSG);
+						db_set_ws(NULL, SSMODULENAME, OptName(i, setting), ar[j].m_szMsg);
 					}
-					db_set_w(NULL, SSMODULENAME, OptName(i, ar[j].szName), ar[j].status);
+					db_set_w(NULL, SSMODULENAME, OptName(i, ar[j].m_szName), ar[j].m_status);
 				}
 			}
 			db_set_w(NULL, SSMODULENAME, SETTING_PROFILECOUNT, (WORD)arProfiles.getCount());
@@ -906,7 +907,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 	return 0;
 }
 
-int StartupStatusOptionsInit(WPARAM wparam,LPARAM)
+int StartupStatusOptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
@@ -918,12 +919,12 @@ int StartupStatusOptionsInit(WPARAM wparam,LPARAM)
 	odp.szTab.a = LPGEN("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STARTUPSTATUS);
 	odp.pfnDlgProc = StartupStatusOptDlgProc;
-	Options_AddPage(wparam,&odp);
+	Options_AddPage(wparam, &odp);
 
 	odp.szTab.a = LPGEN("Status profiles");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STATUSPROFILES);
 	odp.pfnDlgProc = StatusProfilesOptDlgProc;
-	Options_AddPage(wparam,&odp);
+	Options_AddPage(wparam, &odp);
 	return 0;
 }
 

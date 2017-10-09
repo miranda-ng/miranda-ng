@@ -81,8 +81,7 @@ Protocol::Protocol(const char *aName, const wchar_t *descr)
 }
 
 Protocol::~Protocol()
-{
-}
+{}
 
 void Protocol::lcopystr(wchar_t *dest, wchar_t *src, size_t maxlen)
 {
@@ -161,16 +160,15 @@ void Protocol::SetStatus(int aStatus)
 		PROTOCOLSETTINGEX **pse = (PROTOCOLSETTINGEX **)mir_calloc(pCount * sizeof(PROTOCOLSETTINGEX *));
 		for (i = 0; i < pCount; i++) {
 			pse[i] = (PROTOCOLSETTINGEX *)mir_calloc(sizeof(PROTOCOLSETTINGEX));
-			pse[i]->szName = "";
+			pse[i]->m_szName = "";
 		}
 
-		pse[0]->cbSize = sizeof(PROTOCOLSETTINGEX);
-		pse[0]->status = aStatus;
-		pse[0]->szName = name;
+		pse[0]->m_status = aStatus;
+		pse[0]->m_szName = name;
 
 		wchar_t status_msg[256];
 		GetStatusMsg(aStatus, status_msg, _countof(status_msg));
-		pse[0]->szMsg = status_msg;
+		pse[0]->m_szMsg = status_msg;
 
 		CallService(MS_CS_SETSTATUSEX, (WPARAM)&pse, 0);
 
