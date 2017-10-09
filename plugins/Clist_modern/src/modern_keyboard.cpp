@@ -35,7 +35,7 @@ INT_PTR hkCloseMiranda(WPARAM, LPARAM)
 INT_PTR hkRestoreStatus(WPARAM, LPARAM)
 {
 	int nStatus = db_get_w(0, "CList", "Status", ID_STATUS_OFFLINE);
-	CallService(MS_CLIST_SETSTATUSMODE, nStatus, 0);
+	Clist_SetStatusMode(nStatus);
 
 	return 0;
 }

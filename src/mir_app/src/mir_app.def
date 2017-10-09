@@ -456,3 +456,4 @@ Srmm_SetStatusText @460
 Skin_AddSound @461
 Skin_PlaySound @462
 Skin_PlaySoundFile @463
+Clist_SetStatusMode @464

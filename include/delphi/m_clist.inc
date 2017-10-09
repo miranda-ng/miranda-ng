@@ -18,13 +18,6 @@ const
   ME_CLIST_STATUSMODECHANGE:PAnsiChar = 'CList/StatusModeChange';
 
   {
-    wParam : new_status
-    lParam : 0
-    Affect : Force a change of status mode, see statusmodes.inc
-  }
-  MS_CLIST_SETSTATUSMODE:PAnsiChar = 'CList/SetStatusMode';
-
-  {
     wParam : 0
     lParam : 0
     Affect : Get the current status mode, see notes

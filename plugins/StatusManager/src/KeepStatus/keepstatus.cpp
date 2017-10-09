@@ -1125,7 +1125,7 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lPara
 					EnableProtocolService(0, (LPARAM)ps[i]->szName);
 
 				// set proto's offline, the clist will not try to reconnect in that case
-				CallService(MS_CLIST_SETSTATUSMODE, (WPARAM)ID_STATUS_OFFLINE, 0);
+				Clist_SetStatusMode(ID_STATUS_OFFLINE);
 			}
 			break;
 

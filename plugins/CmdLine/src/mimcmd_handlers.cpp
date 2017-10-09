@@ -247,7 +247,7 @@ void HandleStatusCommand(PCommand command, TArgument *argv, int argc, PReply rep
 				}
 
 				PrettyStatusMode(old, po, sizeof(po));
-				CallService(MS_CLIST_SETSTATUSMODE, status, 0);
+				Clist_SetStatusMode(status);
 				char pn[128];
 				PrettyStatusMode(status, pn, sizeof(pn));
 

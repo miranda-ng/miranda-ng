@@ -380,7 +380,7 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhoc
 		fieldNode = XmlGetChildByTag(xNode, "field", "var", L"status-global");
 		if (fieldNode && (valueNode = XmlGetChild(fieldNode , "value"))) {
 			if ((ptszValue = XmlGetText(valueNode)) != nullptr && _wtoi(ptszValue))
-				CallService(MS_CLIST_SETSTATUSMODE, status, 0);
+				Clist_SetStatusMode(status);
 			else
 				CallProtoService(m_szModuleName, PS_SETSTATUS, status, 0);
 		}

@@ -246,12 +246,8 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 	}
 
 	if (globStatus != 0) {
-		if (!ServiceExists(MS_CLIST_SETSTATUSMODE)) {
-			log_debugA("CommonStatus: MS_CLIST_SETSTATUSMODE not available!");
-			return -1;
-		}
 		log_debugA("CommonStatus: setting global status %u", globStatus);
-		CallService(MS_CLIST_SETSTATUSMODE, globStatus, 0);
+		Clist_SetStatusMode(globStatus);
 	}
 
 	return 0;

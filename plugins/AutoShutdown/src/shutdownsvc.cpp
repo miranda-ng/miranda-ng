@@ -155,7 +155,7 @@ static DWORD ShutdownNow(BYTE shutdownType)
 
 	case SDSDT_SETMIRANDAOFFLINE:
 		/* set global status mode to offline (is remembered by Miranda on exit) */
-		CallService(MS_CLIST_SETSTATUSMODE, (WPARAM)ID_STATUS_OFFLINE, 0);
+		Clist_SetStatusMode(ID_STATUS_OFFLINE);
 		break;
 
 	case SDSDT_STANDBY:

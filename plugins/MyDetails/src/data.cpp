@@ -469,7 +469,7 @@ void ProtocolArray::SetNicks(const wchar_t *nick)
 
 void ProtocolArray::SetStatus(int aStatus)
 {
-	CallService(MS_CLIST_SETSTATUSMODE, aStatus, 0);
+	Clist_SetStatusMode(aStatus);
 }
 
 void ProtocolArray::SetStatusMsgs(const wchar_t *message)

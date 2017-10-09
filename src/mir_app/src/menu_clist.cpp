@@ -722,12 +722,11 @@ static int MenuIconsChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-static INT_PTR SetStatusMode(WPARAM wParam, LPARAM)
+MIR_APP_DLL(void) Clist_SetStatusMode(int iStatus)
 {
 	prochotkey = true;
-	Clist_MenuProcessCommand(LOWORD(wParam), MPCF_MAINMENU, 0);
+	Clist_MenuProcessCommand(iStatus, MPCF_MAINMENU, 0);
 	prochotkey = false;
-	return 0;
 }
 
 int fnGetProtocolVisibility(const char *accName)
@@ -1062,7 +1061,8 @@ HGENMENU fnGetProtocolMenu(const char* proto)
 
 static INT_PTR HotkeySetStatus(WPARAM, LPARAM lParam)
 {
-	return SetStatusMode(lParam, 0);
+	Clist_SetStatusMode(lParam);
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1101,8 +1101,6 @@ void InitCustomMenus(void)
 	CreateServiceFunction("CLISTMENUS/FreeOwnerDataMainMenu", FreeOwnerDataMainMenu);
 	CreateServiceFunction("CLISTMENUS/FreeOwnerDataContactMenu", FreeOwnerDataContactMenu);
 	CreateServiceFunction("CLISTMENUS/FreeOwnerDataStatusMenu", FreeOwnerDataStatusMenu);
-
-	CreateServiceFunction(MS_CLIST_SETSTATUSMODE, SetStatusMode);
 
 	hPreBuildContactMenuEvent = CreateHookableEvent(ME_CLIST_PREBUILDCONTACTMENU);
 	hPreBuildMainMenuEvent = CreateHookableEvent(ME_CLIST_PREBUILDMAINMENU);

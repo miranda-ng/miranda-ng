@@ -811,7 +811,7 @@ void SetStatusMessage(const char *szProto, int iInitialStatus, int iStatus, wcha
 		{
 			// not so nice...
 			UnhookEvent(h_statusmodechange);
-			CallService(MS_CLIST_SETSTATUSMODE, (WPARAM)iStatus, 0);
+			Clist_SetStatusMode(iStatus);
 			h_statusmodechange = HookEvent(ME_CLIST_STATUSMODECHANGE, ChangeStatusMessage);
 		}
 	}

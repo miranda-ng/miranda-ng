@@ -51,7 +51,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // force a change of status mode
 // wParam = new status, from statusmodes.h
 
-#define MS_CLIST_SETSTATUSMODE			"CList/SetStatusMode"
+EXTERN_C MIR_APP_DLL(void) Clist_SetStatusMode(int iStatus);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // get the current status mode

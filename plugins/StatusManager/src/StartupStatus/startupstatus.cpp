@@ -327,12 +327,8 @@ static int OnOkToExit(WPARAM, LPARAM)
 		}
 	}
 
-	if (db_get_b(NULL, SSMODULENAME, SETTING_SETPROFILE, 1) || db_get_b(NULL, SSMODULENAME, SETTING_OFFLINECLOSE, 0)) {
-		if (ServiceExists(MS_CLIST_SETSTATUSMODE))
-			CallService(MS_CLIST_SETSTATUSMODE, ID_STATUS_OFFLINE, 0);
-		else
-			log_debugA("StartupStatus: MS_CLIST_SETSTATUSMODE not available!");
-	}
+	if (db_get_b(NULL, SSMODULENAME, SETTING_SETPROFILE, 1) || db_get_b(NULL, SSMODULENAME, SETTING_OFFLINECLOSE, 0))
+		Clist_SetStatusMode(ID_STATUS_OFFLINE);
 
 	return 0;
 }

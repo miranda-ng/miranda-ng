@@ -41,7 +41,7 @@ __inline void PSSetStatus(char *szProto, WORD Status, int bNoClistSetStatusMode 
 		CallProtoService(szProto, PS_SETSTATUS, Status, 0);
 	else if (!bNoClistSetStatusMode) { // global status
 		g_fNoProcessing = true;
-		CallService(MS_CLIST_SETSTATUSMODE, Status, 0);
+		Clist_SetStatusMode(Status);
 		_ASSERT(!g_fNoProcessing && g_ProtoStates[(char*)NULL].m_status == Status);
 		g_fNoProcessing = false;
 	}
@@ -64,7 +64,7 @@ INT_PTR SetStatusMode(WPARAM wParam, LPARAM lParam) // called by GamerStatus and
 {
 	LogMessage("MS_AWAYSYS_SETSTATUSMODE called. status=%d, szMsg:\n%s", wParam, lParam ? (char*)lParam : "NULL");
 	g_fNoProcessing = true;
-	CallService(MS_CLIST_SETSTATUSMODE, wParam, 0);
+	Clist_SetStatusMode(wParam);
 
 	_ASSERT(!g_fNoProcessing && g_ProtoStates[(char*)NULL].m_status == wParam);
 	g_fNoProcessing = false;
