@@ -200,6 +200,12 @@ begin
   result := 0;
 end;
 
+function DoSetStatus(wParam:WPARAM;lParam:LPARAM):int;cdecl;
+begin
+  Clist_SetStatusMode(wParam);
+  result := 0;
+end;
+
 function OnModulesLoaded(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
   ptr:pActionLink;
@@ -248,6 +254,7 @@ begin
   CreateServiceFunction('Utils/OpenURL',@DoOpenUrl);
   CreateServiceFunction('Proto/CallContactService', @DoCallContactService);
   CreateServiceFunction('Actman/ButtonsBar/AddButton', @DoAddButton);
+  CreateServiceFunction('CList/SetStatusMode', @DoSetStatus);
 
   HookEvent(ME_SYSTEM_MODULESLOADED,@OnModulesLoaded);
 end;

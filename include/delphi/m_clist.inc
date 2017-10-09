@@ -26,6 +26,8 @@ const
   }
   MS_CLIST_GETSTATUSMODE:PAnsiChar = 'CList/GetStatusMode';
 
+function Clist_SetStatusMode(status:int) : int; stdcall; external AppDll;
+
 function Menu_BuildContactMenu(hContact:TMCONTACT) : HMENU; stdcall; external AppDll;
 
 {
