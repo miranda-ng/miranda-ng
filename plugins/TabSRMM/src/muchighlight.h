@@ -57,7 +57,6 @@ public:
 	bool match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwFlags = MATCH_NICKNAME);
 
 	static INT_PTR CALLBACK dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);		   // option page dlg proc
-	static INT_PTR CALLBACK dlgProcAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);		   // for the "add to" dialog
 
 private:
 	void    tokenize(wchar_t *tszString, wchar_t**& patterns, UINT& nr);

@@ -206,42 +206,6 @@ static void CheckUpdate()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static gc_item tabItems[] =
-{
-	{ LPGENW("Highlight user..."), 20020, MENU_ITEM }
-};
-
-static int OnCreateGCMenu(WPARAM, LPARAM lParam)
-{
-	GCMENUITEMS *gcitems = (GCMENUITEMS*)lParam;
-	if (gcitems->Type == MENU_ON_NICKLIST)
-		Chat_AddMenuItems(gcitems->hMenu, _countof(tabItems), tabItems);
-	
-	return 0;
-}
-
-static int OnHandleGCMenu(WPARAM, LPARAM lParam)
-{
-	GCHOOK *gch = (GCHOOK*)lParam;
-	if (!gch)
-		return 1;
-
-	if (gch->dwData == 20020) { // add to highlight...
-		SESSION_INFO *si = pci->SM_FindSession(gch->ptszID, gch->pszModule);
-		THighLightEdit the = { THighLightEdit::CMD_ADD, si, pci->UM_FindUser(si->pUsers, gch->ptszUID) };
-		HWND hwndParent = si->pDlg->m_pContainer->m_hwnd;
-		HWND hwndDlg = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDHIGHLIGHT), hwndParent, CMUCHighlight::dlgProcAdd, (LPARAM)&the);
-		TranslateDialogDefault(hwndDlg);
-
-		RECT rc, rcWnd;
-		GetClientRect(hwndParent, &rcWnd);
-		GetWindowRect(hwndDlg, &rc);
-		SetWindowPos(hwndDlg, HWND_TOP, (rcWnd.right - (rc.right - rc.left)) / 2, (rcWnd.bottom - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
-	}
-
-	return 0;
-}
-
 static void stubShowRoom(SESSION_INFO *si)
 {
 	ShowRoom(nullptr, si);
@@ -278,8 +242,6 @@ int Chat_Load()
 	pci->UM_CompareItem = UM_CompareItem;
 	pci->ReloadSettings();
 
-	HookEvent(ME_GC_EVENT, OnHandleGCMenu);
-	HookEvent(ME_GC_BUILDMENU, OnCreateGCMenu);
 	g_Settings.Highlight = new CMUCHighlight();
 	return 0;
 }

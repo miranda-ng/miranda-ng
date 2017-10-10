@@ -9,7 +9,6 @@
 #define IDD_OPTIONSPOPUP                405
 #define IDD_OPTIONS3                    407
 #define IDD_OPTIONS4                    408
-#define IDD_ADDHIGHLIGHT                409
 #define IDC_CHECKBOXES                  1021
 #define IDC_NICKROW2                    1023
 #define IDC_NICKROW                     1024
@@ -48,14 +47,8 @@
 #define IDC_HIGHLIGHTNICKUID            1090
 #define IDC_HIGHLIGHTNICKPATTERN        1091
 #define IDC_HIGHLIGHTTEXTENABLE         1092
-#define IDC_COMBO1                      1092
-#define IDC_ADDHIGHLIGHTNAME            1092
 #define IDC_HIGHLIGHTTEXTPATTERN        1093
-#define IDC_ADDHIGHLIGHTTITLE           1093
-#define IDC_ADDHIGHLIGHTEXPLAIN         1094
-#define IDC_HIGHLIGHTNICKUID2           1094
 #define IDC_HIGHLIGHTME                 1094
-#define IDC_ADDHIGHLIGHTEDITLIST        1095
 #define IDC_MUC_OPENLOGBASEDIR          1096
 #define IDC_1                           1200
 #define IDC_2                           1201
