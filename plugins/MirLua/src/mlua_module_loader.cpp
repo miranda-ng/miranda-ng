@@ -30,9 +30,11 @@ void CMLuaModuleLoader::LoadModules()
 	Preload(MLUA_CHAT, luaopen_m_chat);
 	Preload(MLUA_CLIST, luaopen_m_clist);
 	Preload(MLUA_DATABASE, luaopen_m_database);
-	Preload(MLUA_ICOLIB, luaopen_m_icolib);
 	Preload(MLUA_GENMENU, luaopen_m_genmenu);
 	Preload(MLUA_HOTKEYS, luaopen_m_hotkeys);
+	Preload(MLUA_HTTP, luaopen_m_http);
+	Preload(MLUA_ICOLIB, luaopen_m_icolib);
+	Preload(MLUA_JSON, luaopen_m_json);
 	Preload(MLUA_MESSAGE, luaopen_m_message);
 	Preload(MLUA_OPTIONS, luaopen_m_options);
 	Preload(MLUA_PROTOCOLS, luaopen_m_protocols);

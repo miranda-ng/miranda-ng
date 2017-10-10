@@ -76,7 +76,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_NOOPTIONS;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS;
 	nlu.szDescriptiveName.a = MODULE;
 	nlu.szSettingsModule = MODULE;
 	hNetlib = Netlib_RegisterUser(&nlu);

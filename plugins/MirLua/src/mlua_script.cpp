@@ -44,7 +44,6 @@ CMLuaScript::~CMLuaScript()
 	lua_pop(L, 1);
 
 	mir_free(moduleName);
-	mir_free(fileName);
 }
 
 const char* CMLuaScript::GetModuleName() const

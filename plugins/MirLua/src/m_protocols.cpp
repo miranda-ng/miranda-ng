@@ -64,6 +64,21 @@ static int lua_Protocols(lua_State *L)
 	return 1;
 }
 
+static int lua_RegisterProtocol(lua_State *L)
+{
+	ptrA name(mir_utf8decodeA(luaL_checkstring(L, 1)));
+
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
+	pd.szName = name;
+	pd.type = PROTOTYPE_PROTOCOL;
+	int res = Proto_RegisterModule(&pd);
+
+	lua_pushboolean(L, res == 0);
+
+	return 1;
+}
+
 static int lua_ChainSend(lua_State *L)
 {
 	MCONTACT hContact = luaL_checknumber(L, 1);
@@ -222,6 +237,7 @@ static luaL_Reg protocolsApi[] =
 {
 	{ "GetProtocol", lua_GetProtocol },
 	{ "Protocols", lua_Protocols },
+	{ "RegisterProtocol", lua_Protocols },
 
 	{ "CallSendChain", lua_ChainSend },
 	{ "CallReceiveChain", lua_ChainRecv },

@@ -72,12 +72,8 @@ static int hotkeys_MakeHotkey(lua_State *L)
 		mod = (1 << (luaL_checkoption(L, 1, NULL, mods) - 1));
 		break;
 	case LUA_TTABLE:
-		lua_pushnil(L);
-		while (lua_next(L, 1) != 0)
-		{
+		for (lua_pushnil(L); lua_next(L, 1); lua_pop(L, 1))
 			mod |= (1 << (luaL_checkoption(L, -1, NULL, mods) - 1));
-			lua_pop(L, 1);
-		}
 		break;
 	default:
 		luaL_argerror(L, 1, luaL_typename(L, 1));

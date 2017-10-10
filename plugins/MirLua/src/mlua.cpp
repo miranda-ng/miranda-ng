@@ -39,12 +39,13 @@ static int mlua_print(lua_State *L)
 			break;
 		case LUA_TNUMBER:
 			data.AppendFormat("%s", lua_tostring(L, i));
+			break;
 		case LUA_TSTRING:
 			data.AppendFormat("'%s'", lua_tostring(L, i));
 			break;
 		default:
 			if (luaL_callmeta(L, i, "__tostring")) {
-				data.AppendFormat("[[%s]]", lua_tostring(L, i));
+				data.AppendFormat("'%s'", lua_tostring(L, -1));
 				break;
 			}
 			data.AppendFormat("%s(0x%p)", luaL_typename(L, i), lua_topointer(L, i));
@@ -142,24 +143,19 @@ static int mlua_interpolate(lua_State *L)
 
 	char pattern[128];
 
-	if (lua_istable(L, 2))
-	{
-		for (lua_pushnil(L); lua_next(L, -2); lua_pop(L, 2))
-		{
+	if (lua_istable(L, 2)) {
+		for (lua_pushnil(L); lua_next(L, 2); lua_pop(L, 2)) {
 			lua_pushvalue(L, -2);
 			const char *key = lua_tostring(L, -1);
 			const char *val = lua_tostring(L, -2);
 
 			mir_snprintf(pattern, "{%s}", key);
 			string = luaL_gsub(L, string, pattern, val);
-			lua_pop(L, 1);
 		}
 	}
-	else
-	{
+	else {
 		int nargs = lua_gettop(L);
-		for (int i = 2; i <= nargs; i++)
-		{
+		for (int i = 2; i <= nargs; i++) {
 			const char *val = lua_tostring(L, i);
 
 			mir_snprintf(pattern, "{%d}", i - 1);

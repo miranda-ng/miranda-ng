@@ -11,7 +11,7 @@
 #include <m_langpack.h>
 #include <m_options.h>
 #include <m_netlib.h>
-
+#include <m_http.h>
 #include <m_clist.h>
 #include <m_hotkeys.h>
 #include <m_icolib.h>
@@ -20,7 +20,6 @@
 #include <m_chat.h>
 #include <m_protocols.h>
 #include <m_contacts.h>
-
 #include <m_folders.h>
 #include <m_popup.h>
 #include <m_toptoolbar.h>
@@ -73,7 +72,12 @@ LUAMOD_API int (luaopen_m_clist)(lua_State *L);
 #define MLUA_ICOLIB	"m_icolib"
 LUAMOD_API int (luaopen_m_icolib)(lua_State *L);
 
+#include "m_json.h"
+
 #include "m_genmenu.h"
+
+#define MLUA_HTTP	"m_http"
+LUAMOD_API int (luaopen_m_http)(lua_State *L);
 
 #define MLUA_HOTKEYS	"m_hotkeys"
 LUAMOD_API int (luaopen_m_hotkeys)(lua_State *L);
