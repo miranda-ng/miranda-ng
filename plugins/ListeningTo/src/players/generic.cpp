@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2005-2009 Ricardo Pescuma Domenecci
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "../stdafx.h"
@@ -55,10 +55,6 @@ static LRESULT CALLBACK ReceiverWndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		}
 		break;
 
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
@@ -73,18 +69,14 @@ GenericPlayer::GenericPlayer()
 	received[0] = L'\0';
 	singleton = this;
 
-	WNDCLASS wc = { 0 };
+	WNDCLASS wc = {};
 	wc.lpfnWndProc = ReceiverWndProc;
 	wc.hInstance = hInst;
 	wc.lpszClassName = MIRANDA_WINDOWCLASS;
-
 	RegisterClass(&wc);
 
-	hWnd = CreateWindow(MIRANDA_WINDOWCLASS, LPGENW("Miranda ListeningTo receiver"),
-		0, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
+	hWnd = CreateWindow(MIRANDA_WINDOWCLASS, LPGENW("Miranda ListeningTo receiver"), 0, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
 }
-
-
 
 GenericPlayer::~GenericPlayer()
 {
@@ -99,8 +91,6 @@ GenericPlayer::~GenericPlayer()
 	UnregisterClass(MIRANDA_WINDOWCLASS, hInst);
 	singleton = NULL;
 }
-
-
 
 void GenericPlayer::ProcessReceived()
 {

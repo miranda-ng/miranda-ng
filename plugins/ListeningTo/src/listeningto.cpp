@@ -329,8 +329,6 @@ int PreShutdown(WPARAM, LPARAM)
 		hTimer = NULL;
 	}
 
-	DeInitOptions();
-
 	DestroyHookableEvent(hEnableStateChangedEvent);
 	DestroyHookableEvent(hListeningInfoChangedEvent);
 

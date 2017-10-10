@@ -21,14 +21,10 @@ Boston, MA 02111-1307, USA.
 
 // Prototypes /////////////////////////////////////////////////////////////////////////////////////
 
-HANDLE hOptHook = NULL;
-
 Options opts;
 
 extern std::vector<ProtocolInfo> proto_items;
 extern HANDLE hExtraIcon;
-
-BOOL ListeningToEnabled(char *proto, BOOL ignoreGlobal = FALSE);
 
 static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 static INT_PTR CALLBACK PlayersDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -110,12 +106,7 @@ void InitOptions()
 
 	LoadOptions();
 
-	hOptHook = HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
-}
-
-void DeInitOptions()
-{
-	UnhookEvent(hOptHook);
+	HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
 }
 
 void LoadOptions()

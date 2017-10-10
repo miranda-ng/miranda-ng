@@ -33,15 +33,13 @@ WindowsMediaPlayer::WindowsMediaPlayer()
 	received[0] = '\0';
 	singleton = this;
 
-	WNDCLASS wc = { 0 };
+	WNDCLASS wc = {};
 	wc.lpfnWndProc = ReceiverWndProc;
 	wc.hInstance = hInst;
 	wc.lpszClassName = WMP_WINDOWCLASS;
-
 	RegisterClass(&wc);
 
-	hWnd = CreateWindow(WMP_WINDOWCLASS, LPGENW("Miranda ListeningTo WMP receiver"),
-		0, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
+	hWnd = CreateWindow(WMP_WINDOWCLASS, LPGENW("Miranda ListeningTo WMP receiver"), 0, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
 }
 
 WindowsMediaPlayer::~WindowsMediaPlayer()
@@ -142,28 +140,21 @@ void WindowsMediaPlayer::NewData(const WCHAR *data, size_t len)
 
 static LRESULT CALLBACK ReceiverWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch (message) {
-	case WM_COPYDATA:
-		{
-			if (!loaded)
-				return FALSE;
+	if (message == WM_COPYDATA) {
+		if (!loaded)
+			return FALSE;
 
-			if (singleton == NULL || !singleton->enabled)
-				return FALSE;
+		if (singleton == NULL || !singleton->enabled)
+			return FALSE;
 
-			COPYDATASTRUCT* pData = (PCOPYDATASTRUCT)lParam;
-			if (pData->dwData != 0x547 || pData->cbData == 0 || pData->lpData == NULL)
-				return FALSE;
+		COPYDATASTRUCT* pData = (PCOPYDATASTRUCT)lParam;
+		if (pData->dwData != 0x547 || pData->cbData == 0 || pData->lpData == NULL)
+			return FALSE;
 
-			if (singleton != NULL)
-				singleton->NewData((WCHAR *)pData->lpData, pData->cbData / 2);
+		if (singleton != NULL)
+			singleton->NewData((WCHAR *)pData->lpData, pData->cbData / 2);
 
-			return TRUE;
-		}
-
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
+		return TRUE;
 	}
 
 	return DefWindowProc(hWnd, message, wParam, lParam);
