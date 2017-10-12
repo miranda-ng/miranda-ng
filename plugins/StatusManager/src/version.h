@@ -14,4 +14,4 @@
 #define __AUTHOR                "P Boon"
 #define __AUTHOREMAIL           "unregistered@users.sourceforge.net"
 #define __AUTHORWEB             "https://miranda-ng.org/p/StatusManager/"
-#define __COPYRIGHT             "ï¿½ 2003-08 P. Boon, 2008-17 George Hazan"
+#define __COPYRIGHT             "© 2003-08 P. Boon, 2008-17 George Hazan"

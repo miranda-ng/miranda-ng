@@ -11,4 +11,4 @@
 #define __AUTHOR                   "Michal Zelinka, Robert P\xf6" "sel"
 #define __AUTHOREMAIL              "robyer@seznam.cz"
 #define __AUTHORWEB                "https://miranda-ng.org/p/Facebook/"
-#define __COPYRIGHT                "Â© 2011-17 Robert P\xf6" "sel, 2009-11 Michal Zelinka"
+#define __COPYRIGHT                "© 2011-17 Robert P\xf6" "sel, 2009-11 Michal Zelinka"
