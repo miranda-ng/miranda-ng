@@ -1455,7 +1455,12 @@ void CJabberProto::OnProcessPresenceCapabilites(HXML node, pResourceStatus &r)
 		bin2hexW(hashOut, _countof(hashOut), szHashOut);
 		r->m_pCaps = m_clientCapsManager.GetPartialCaps(szNode, szHashOut);
 		if (r->m_pCaps == nullptr)
-			r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szHashOut, szVer, JABBER_RESOURCE_CAPS_NONE);
+			GetCachedCaps(szNode, szHashOut, r);
+
+		if (r->m_pCaps == nullptr) {
+			r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szHashOut, szVer, JABBER_RESOURCE_CAPS_UNINIT);
+			RequestOldCapsInfo(r, from);
+		}
 
 		MCONTACT hContact = HContactFromJID(from);
 		if (hContact)
@@ -1463,22 +1468,8 @@ void CJabberProto::OnProcessPresenceCapabilites(HXML node, pResourceStatus &r)
 	}
 	else {
 		r->m_pCaps = m_clientCapsManager.GetPartialCaps(szNode, szVer);
-		if (r->m_pCaps == nullptr) {
-			CMStringA szName(FORMAT, "%S#%S", szNode, szVer);
-			ptrA szValue(db_get_sa(0, "JabberCaps", szName));
-			if (szValue != 0) {
-				JSONNode root = JSONNode::parse(szValue);
-				if (root) {
-					CMStringW wszCaps = root["c"].as_mstring();
-					r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szVer, nullptr, _wtoi64(wszCaps));
-					r->m_pCaps->m_szOs = mir_wstrdup(root["o"].as_mstring());
-					r->m_pCaps->m_szOsVer = mir_wstrdup(root["ov"].as_mstring());
-					r->m_pCaps->m_szSoft = mir_wstrdup(root["s"].as_mstring());
-					r->m_pCaps->m_szSoftVer = mir_wstrdup(root["sv"].as_mstring());
-					r->m_pCaps->m_szSoftMir = mir_wstrdup(root["sm"].as_mstring());
-				}
-			}
-		}
+		if (r->m_pCaps == nullptr)
+			GetCachedCaps(szNode, szVer, r);
 
 		if (r->m_pCaps == nullptr) {
 			r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szVer, L"", JABBER_RESOURCE_CAPS_UNINIT);

@@ -297,20 +297,22 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_byte.c -----------------------------------------------------------------
 
-	void   __cdecl ByteSendThread(JABBER_BYTE_TRANSFER *jbt);
-	void   __cdecl ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt);
+	void  __cdecl ByteSendThread(JABBER_BYTE_TRANSFER *jbt);
+	void  __cdecl ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt);
 
-	void   IqResultProxyDiscovery(HXML iqNode, CJabberIqInfo *pInfo);
-	void   ByteInitiateResult(HXML iqNode, CJabberIqInfo *pInfo);
-	void   ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt);
-	int    ByteSendParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen);
-	void   IqResultStreamActivate(HXML iqNode, CJabberIqInfo *pInfo);
-	int    ByteReceiveParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen);
-	int    ByteSendProxyParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen);
+	void  IqResultProxyDiscovery(HXML iqNode, CJabberIqInfo *pInfo);
+	void  ByteInitiateResult(HXML iqNode, CJabberIqInfo *pInfo);
+	void  ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt);
+	int   ByteSendParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen);
+	void  IqResultStreamActivate(HXML iqNode, CJabberIqInfo *pInfo);
+	int   ByteReceiveParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen);
+	int   ByteSendProxyParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen);
 
 	//---- jabber_caps.cpp ---------------------------------------------------------------
 
-	void AddDefaultCaps();
+	void  AddDefaultCaps();
+	void  RequestOldCapsInfo(pResourceStatus &r, const wchar_t *fullJid);
+	void  GetCachedCaps(const wchar_t *szNode, const wchar_t *szVer, class pResourceStatus &r);
 
 	JabberCapsBits GetTotalJidCapabilites(const wchar_t *jid);
 	JabberCapsBits GetResourceCapabilites(const wchar_t *jid, bool appendBestResource);
@@ -578,8 +580,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	void   MenuInit(void);
 	void   MenuUpdateSrmmIcon(JABBER_LIST_ITEM *item);
-
-	void   AuthWorker(MCONTACT hContact, char* authReqType);
 
 	void   UpdatePriorityMenu(int priority);
 

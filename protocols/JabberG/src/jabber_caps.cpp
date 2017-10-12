@@ -299,14 +299,37 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const wchar_t *jid, bool app
 		return r->m_jcbCachedCaps;
 
 	case 0:
-		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE);
-		pInfo->SetTimeout(JABBER_RESOURCE_CAPS_QUERY_TIMEOUT);
-		r->m_dwDiscoInfoRequestTime = pInfo->GetRequestTime();
-
-		m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY(JABBER_FEAT_DISCO_INFO));
+		RequestOldCapsInfo(r, fullJid);
 		break;
 	}
 	return JABBER_RESOURCE_CAPS_IN_PROGRESS;
+}
+
+void CJabberProto::RequestOldCapsInfo(pResourceStatus &r, const wchar_t *fullJid)
+{
+	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE);
+	pInfo->SetTimeout(JABBER_RESOURCE_CAPS_QUERY_TIMEOUT);
+	r->m_dwDiscoInfoRequestTime = pInfo->GetRequestTime();
+
+	m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY(JABBER_FEAT_DISCO_INFO));
+}
+
+void CJabberProto::GetCachedCaps(const wchar_t *szNode, const wchar_t *szVer, pResourceStatus &r)
+{
+	CMStringA szName(FORMAT, "%S#%S", szNode, szVer);
+	ptrA szValue(db_get_sa(0, "JabberCaps", szName));
+	if (szValue != 0) {
+		JSONNode root = JSONNode::parse(szValue);
+		if (root) {
+			CMStringW wszCaps = root["c"].as_mstring();
+			r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szVer, nullptr, _wtoi64(wszCaps));
+			r->m_pCaps->m_szOs = mir_wstrdup(root["o"].as_mstring());
+			r->m_pCaps->m_szOsVer = mir_wstrdup(root["ov"].as_mstring());
+			r->m_pCaps->m_szSoft = mir_wstrdup(root["s"].as_mstring());
+			r->m_pCaps->m_szSoftVer = mir_wstrdup(root["sv"].as_mstring());
+			r->m_pCaps->m_szSoftMir = mir_wstrdup(root["sm"].as_mstring());
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
