@@ -911,7 +911,6 @@ int StartupStatusOptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.hLangpack = hSSLangpack;
 	odp.szGroup.a = LPGEN("Status");
 	odp.szTitle.a = LPGEN("Startup status");
 	odp.flags = ODPF_BOLDGROUPS;

@@ -22,8 +22,6 @@
 
 #include "..\stdafx.h"
 
-int hAAALangpack = 0;
-
 #ifdef _DEBUG
 #define SECS_PER_MINUTE		20 /* speedup */
 #else
@@ -51,8 +49,7 @@ TAAAProtoSetting::~TAAAProtoSetting()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HANDLE hAAAModuleLoadedHook = NULL,
-hStateChangedEvent = NULL;
+HANDLE hStateChangedEvent = NULL;
 
 static BOOL ignoreLockKeys = FALSE;
 static BOOL ignoreSysKeys = FALSE;
@@ -583,15 +580,11 @@ int AAAModuleLoaded(WPARAM, LPARAM)
 
 void AdvancedAutoAwayLoad()
 {
-	MUUID muidLast = MIID_LAST;
-	hAAALangpack = GetPluginLangId(muidLast, 0);
-
-	hAAAModuleLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, AAAModuleLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, AAAModuleLoaded);
 	hStateChangedEvent = CreateHookableEvent(ME_AAA_STATECHANGED);
 }
 
 void AdvancedAutoAwayUnload()
 {
-	UnhookEvent(hAAAModuleLoadedHook);
 	DestroyHookableEvent(hStateChangedEvent);
 }

@@ -566,7 +566,6 @@ int KeepStatusOptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.hLangpack = hKSLangpack;
 	odp.szGroup.w = LPGENW("Status");
 	odp.szTitle.w = LPGENW("Keep status");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;

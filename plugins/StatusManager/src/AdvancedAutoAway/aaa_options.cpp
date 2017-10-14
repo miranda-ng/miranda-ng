@@ -518,7 +518,6 @@ int AutoAwayOptInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 1000000000;
 	odp.hInstance = hInst;
-	odp.hLangpack = hAAALangpack;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABS);
 	odp.szTitle.a = LPGEN("Auto away");
 	odp.szGroup.a = LPGEN("Status");

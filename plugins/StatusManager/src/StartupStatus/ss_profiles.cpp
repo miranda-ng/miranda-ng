@@ -55,7 +55,6 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 	CMenuItem mi;
 	mi.position = 2000100000;
 	mi.flags = CMIF_UNICODE;
-	mi.hLangpack = hSSLangpack;
 	mcount = 0;
 	int count = GetProfileCount(0, 0);
 	for (int i = 0; i < count && mcount < MAX_MMITEMS; i++) {
@@ -64,7 +63,7 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 			continue;
 
 		if (db_get_b(NULL, SSMODULENAME, OptName(i, SETTING_INSUBMENU), 1) && !mi.root) {
-			mi.root = Menu_CreateRoot(MO_STATUS, LPGENW("Status profiles"), 2000100000, 0, hSSLangpack);
+			mi.root = Menu_CreateRoot(MO_STATUS, LPGENW("Status profiles"), 2000100000);
 			Menu_ConfigureItem(mi.root, MCI_OPT_UID, "1AB30D51-BABA-4B27-9288-1A12278BAD8D");
 		}
 

@@ -19,8 +19,6 @@
 
 #include "..\stdafx.h"
 
-int hKSLangpack = 0;
-
 struct TimerInfo
 {
 	int timer;
@@ -1203,9 +1201,6 @@ int KSModuleLoaded(WPARAM, LPARAM)
 
 void KeepStatusLoad()
 {
-	MUUID muidLast = MIID_LAST;
-	hKSLangpack = GetPluginLangId(muidLast, 0);
-
 	HookEvent(ME_SYSTEM_MODULESLOADED, KSModuleLoaded);
 
 	CreateHookableEvent(ME_KS_CONNECTIONEVENT);
