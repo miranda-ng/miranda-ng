@@ -95,8 +95,6 @@ void CVkProto::AddCListEvent(bool bNews)
 CVkUserInfo* CVkProto::GetVkUserInfo(LONG iUserId, OBJLIST<CVkUserInfo> &vkUsers)
 {
 	debugLogA("CVkProto::GetVkUserInfo %d", iUserId);
-	if (iUserId == 0)
-		return nullptr;
 
 	bool bIsGroup = (iUserId < 0);
 	CVkUserInfo *vkUser = vkUsers.find((CVkUserInfo *)&iUserId);
