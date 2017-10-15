@@ -97,6 +97,7 @@ struct TKSSettings : public PROTOCOLSETTINGEX
 	~TKSSettings();
 
 	int AssignStatus(int status, int lastStatus = 0, wchar_t *szMsg = nullptr);
+	int GetStatus() const;
 
 	int lastStatusAckTime; // the time the last status ack was received
 };

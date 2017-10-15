@@ -74,14 +74,14 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				settings[count]->status = statusModeList[i];
 
 				DBVARIANT dbv;
-				if (!db_get(NULL, AAAMODULENAME, StatusModeToDbSetting(statusModeList[i], SETTING_STATUSMSG), &dbv)) {
+				if (!db_get(0, AAAMODULENAME, StatusModeToDbSetting(statusModeList[i], SETTING_STATUSMSG), &dbv)) {
 					settings[count]->msg = (char*)malloc(mir_strlen(dbv.pszVal) + 1);
 					mir_strcpy(settings[count]->msg, dbv.pszVal);
 					db_free(&dbv);
 				}
-				else settings[count]->msg = NULL;
+				else settings[count]->msg = nullptr;
 
-				settings[count]->useCustom = db_get_b(NULL, AAAMODULENAME, StatusModeToDbSetting(statusModeList[i], SETTING_MSGCUSTOM), FALSE);
+				settings[count]->useCustom = db_get_b(0, AAAMODULENAME, StatusModeToDbSetting(statusModeList[i], SETTING_MSGCUSTOM), FALSE);
 				count += 1;
 			}
 			SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETCURSEL, 0, 0);
@@ -113,7 +113,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				int i = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_GETCURSEL, 0, 0);
 				int len = SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXTLENGTH, 0, 0);
 				if (last != -1) {
-					if (settings[last]->msg == NULL)
+					if (settings[last]->msg == nullptr)
 						settings[last]->msg = (char*)malloc(len + 1);
 					else
 						settings[last]->msg = (char*)realloc(settings[last]->msg, len + 1);
@@ -121,11 +121,11 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				}
 
 				if (i != -1) {
-					if (settings[i]->msg != NULL)
+					if (settings[i]->msg != nullptr)
 						SetDlgItemTextA(hwndDlg, IDC_STATUSMSG, settings[i]->msg);
 					else {
 						ptrW msgw((wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, settings[i]->status, 0));
-						SetDlgItemText(hwndDlg, IDC_STATUSMSG, (msgw != NULL) ? msgw : L"");
+						SetDlgItemText(hwndDlg, IDC_STATUSMSG, (msgw != nullptr) ? msgw : L"");
 					}
 
 					if (settings[i]->useCustom) {
@@ -156,9 +156,9 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case PSN_APPLY:
 			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_STATUS, CBN_SELCHANGE), 0);
 			for (int i = 0; i < count; i++) {
-				db_set_b(NULL, AAAMODULENAME, StatusModeToDbSetting(settings[i]->status, SETTING_MSGCUSTOM), (BYTE)settings[i]->useCustom);
-				if ((settings[i]->useCustom) && (settings[i]->msg != NULL) && (settings[i]->msg[0] != '\0'))
-					db_set_s(NULL, AAAMODULENAME, StatusModeToDbSetting(settings[i]->status, SETTING_STATUSMSG), settings[i]->msg);
+				db_set_b(0, AAAMODULENAME, StatusModeToDbSetting(settings[i]->status, SETTING_MSGCUSTOM), (BYTE)settings[i]->useCustom);
+				if ((settings[i]->useCustom) && (settings[i]->msg != nullptr) && (settings[i]->msg[0] != '\0'))
+					db_set_s(0, AAAMODULENAME, StatusModeToDbSetting(settings[i]->status, SETTING_STATUSMSG), settings[i]->msg);
 			}
 			break;
 		}

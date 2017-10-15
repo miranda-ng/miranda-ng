@@ -5,11 +5,11 @@ bool IsSubPluginEnabled(const char *name)
 	// Check if this plugin was disabled as separate dll
 	CMStringA dllName(FORMAT, "%s.dll", name);
 	dllName.MakeLower();
-	int dllEnabled = !db_get_b(NULL, "PluginDisable", dllName);
+	int dllEnabled = !db_get_b(0, "PluginDisable", dllName);
 
 	char setting[128];
 	mir_snprintf(setting, "%s_enabled", name);
-	return db_get_b(NULL, MODULENAME, setting, dllEnabled) != 0;
+	return db_get_b(0, MODULENAME, setting, dllEnabled) != 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -35,11 +35,11 @@ void CSubPluginsOptionsDlg::OnApply()
 {
 	char setting[128];
 	mir_snprintf(setting, "%s_enabled", KSMODULENAME);
-	db_set_b(NULL, MODULENAME, setting, m_enableKeepStatus.GetState());
+	db_set_b(0, MODULENAME, setting, m_enableKeepStatus.GetState());
 	mir_snprintf(setting, "%s_enabled", SSMODULENAME);
-	db_set_b(NULL, MODULENAME, setting, m_enableStartupStatus.GetState());
+	db_set_b(0, MODULENAME, setting, m_enableStartupStatus.GetState());
 	mir_snprintf(setting, "%s_enabled", AAAMODULENAME);
-	db_set_b(NULL, MODULENAME, setting, m_enableAdvancedAutoAway.GetState());
+	db_set_b(0, MODULENAME, setting, m_enableAdvancedAutoAway.GetState());
 }
 
 int CSubPluginsOptionsDlg::OnOptionsInit(WPARAM wParam, LPARAM)

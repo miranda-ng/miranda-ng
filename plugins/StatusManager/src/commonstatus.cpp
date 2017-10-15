@@ -50,7 +50,7 @@ char *StatusModeToDbSetting(int status, const char *suffix)
 	case ID_STATUS_INVISIBLE: prefix = "Inv"; break;
 	case ID_STATUS_ONTHEPHONE: prefix = "Otp"; break;
 	case ID_STATUS_OUTTOLUNCH: prefix = "Otl"; break;
-	default: return NULL;
+	default: return nullptr;
 	}
 	mir_strcpy(str, prefix); mir_strcat(str, suffix);
 	return str;
@@ -93,7 +93,7 @@ int GetActualStatus(PROTOCOLSETTINGEX *protoSetting)
 
 wchar_t* GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
 {
-	if (ps->m_szMsg != NULL) {// custom message set
+	if (ps->m_szMsg != nullptr) {// custom message set
 		log_infoA("CommonStatus: Status message set by calling plugin");
 		return mir_wstrdup(ps->m_szMsg);
 	}
@@ -108,7 +108,7 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
 	int i, j, pstatus = 0, gstatus = 0;
 
 	for (i = 0; i < protoList->getCount(); i++)
-		if (ps[i]->m_szMsg != NULL && GetActualStatus(ps[i]) != ID_STATUS_OFFLINE)
+		if (ps[i]->m_szMsg != nullptr && GetActualStatus(ps[i]) != ID_STATUS_OFFLINE)
 			return 0;
 
 	int count;
@@ -127,7 +127,7 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
 		if (pstatus == 0)
 			pstatus = CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0);
 
-		if (db_get_b(NULL, protos[i]->szModuleName, "LockMainStatus", 0)) {
+		if (db_get_b(0, protos[i]->szModuleName, "LockMainStatus", 0)) {
 			// if proto is locked, pstatus must be the current status
 			if (pstatus != CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0))
 				return 0;
@@ -167,8 +167,8 @@ static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 			memcpy(tszMsg + j, substituteStr, sizeof(wchar_t)*mir_wstrlen(substituteStr));
 		}
 
-		wchar_t *szFormattedMsg = variables_parsedup(tszMsg, ps->m_tszAccName, NULL);
-		if (szFormattedMsg != NULL) {
+		wchar_t *szFormattedMsg = variables_parsedup(tszMsg, ps->m_tszAccName, 0);
+		if (szFormattedMsg != nullptr) {
 			mir_free(tszMsg);
 			tszMsg = szFormattedMsg;
 		}
@@ -181,7 +181,7 @@ static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 {
 	PROTOCOLSETTINGEX** protoSettings = *(PROTOCOLSETTINGEX***)wParam;
-	if (protoSettings == NULL)
+	if (protoSettings == nullptr)
 		return -1;
 
 	int globStatus = equalsGlobalStatus(protoSettings);
@@ -257,7 +257,7 @@ static INT_PTR GetProtocolCountService(WPARAM, LPARAM)
 
 bool IsSuitableProto(PROTOACCOUNT *pa)
 {
-	return (pa == NULL) ? false : (pcli->pfnGetProtocolVisibility(pa->szModuleName) != 0);
+	return (pa == nullptr) ? false : (pcli->pfnGetProtocolVisibility(pa->szModuleName) != 0);
 }
 
 int GetProtoCount()

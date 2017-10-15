@@ -24,7 +24,7 @@ wchar_t *Hlp_GetProtocolName(const char *proto) {
 
 	char protoname[256];
 	if ((!ProtoServiceExists(proto, PS_GETNAME)) || (CallProtoService(proto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname)))
-		return NULL;
+		return nullptr;
 
 	return mir_a2u(protoname);
 
@@ -34,7 +34,7 @@ wchar_t *Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem) {
 
 	int len = SendDlgItemMessage(hwndDlg, nIDDlgItem, WM_GETTEXTLENGTH, 0, 0);
 	if (len < 0)
-		return NULL;
+		return nullptr;
 
 	wchar_t *res = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
 	memset(res, 0, ((len + 1) * sizeof(wchar_t)));
@@ -47,7 +47,7 @@ wchar_t *Hlp_GetWindowText(HWND hwndDlg)
 {
 	int len = GetWindowTextLength(hwndDlg);
 	if (len < 0)
-		return NULL;
+		return nullptr;
 
 	wchar_t *res = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
 	memset(res, 0, ((len + 1) * sizeof(wchar_t)));
@@ -113,7 +113,7 @@ int AddDebugLogMessage(const wchar_t* fmt, ...)
 
 int ttoi(wchar_t *string)
 {
-	return (string == NULL) ? 0 : _wtoi(string);
+	return (string == nullptr) ? 0 : _wtoi(string);
 }
 
 wchar_t *itot(int num)

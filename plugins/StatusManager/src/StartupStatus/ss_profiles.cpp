@@ -27,19 +27,19 @@ extern int protoCount;
 static int menuprofiles[MAX_MMITEMS];
 static int mcount = 0;
 
-static PROFILECE *pce = NULL;
+static PROFILECE *pce = nullptr;
 static int pceCount = 0;
 
 static UINT_PTR releaseTtbTimerId = 0;
 
 static HANDLE hTBModuleLoadedHook;
-static HANDLE hMessageHook = NULL;
+static HANDLE hMessageHook = nullptr;
 
-static HWND hMessageWindow = NULL;
-static HKINFO *hkInfo = NULL;
+static HWND hMessageWindow = nullptr;
+static HKINFO *hkInfo = nullptr;
 static int hkiCount = 0;
 
-static HANDLE* ttbButtons = NULL;
+static HANDLE* ttbButtons = nullptr;
 static int ttbButtonCount = 0;
 
 HANDLE hTTBModuleLoadedHook;
@@ -59,10 +59,10 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 	int count = GetProfileCount(0, 0);
 	for (int i = 0; i < count && mcount < MAX_MMITEMS; i++) {
 		wchar_t profilename[128];
-		if (!db_get_b(NULL, SSMODULENAME, OptName(i, SETTING_CREATEMMITEM), 0) || GetProfileName(i, (LPARAM)profilename))
+		if (!db_get_b(0, SSMODULENAME, OptName(i, SETTING_CREATEMMITEM), 0) || GetProfileName(i, (LPARAM)profilename))
 			continue;
 
-		if (db_get_b(NULL, SSMODULENAME, OptName(i, SETTING_INSUBMENU), 1) && !mi.root) {
+		if (db_get_b(0, SSMODULENAME, OptName(i, SETTING_INSUBMENU), 1) && !mi.root) {
 			mi.root = Menu_CreateRoot(MO_STATUS, LPGENW("Status profiles"), 2000100000);
 			Menu_ConfigureItem(mi.root, MCI_OPT_UID, "1AB30D51-BABA-4B27-9288-1A12278BAD8D");
 		}
@@ -87,9 +87,9 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 {
 	int profile = (int)wParam;
 	if (profile < 0) // get default profile
-		profile = db_get_w(NULL, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
+		profile = db_get_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
 
-	int count = db_get_w(NULL, SSMODULENAME, SETTING_PROFILECOUNT, 0);
+	int count = db_get_w(0, SSMODULENAME, SETTING_PROFILECOUNT, 0);
 	if (profile >= count && count > 0)
 		return -1;
 
@@ -102,7 +102,7 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	char setting[80];
 	mir_snprintf(setting, "%d_%s", profile, SETTING_PROFILENAME);
-	if (db_get_ws(NULL, SSMODULENAME, setting, &dbv))
+	if (db_get_ws(0, SSMODULENAME, setting, &dbv))
 		return -1;
 
 	wcsncpy(buf, dbv.ptszVal, 128 - 1); buf[127] = 0;
@@ -113,9 +113,9 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 INT_PTR GetProfileCount(WPARAM wParam, LPARAM)
 {
 	int *def = (int*)wParam;
-	int count = db_get_w(NULL, SSMODULENAME, SETTING_PROFILECOUNT, 1);
+	int count = db_get_w(0, SSMODULENAME, SETTING_PROFILECOUNT, 1);
 	if (def != 0) {
-		*def = db_get_w(NULL, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
+		*def = db_get_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
 		if (*def >= count)
 			*def = 0;
 	}
@@ -131,31 +131,31 @@ wchar_t *GetStatusMessage(int profile, char *szProto)
 	for (int i = 0; i < pceCount; i++) {
 		if ((pce[i].profile == profile) && (!mir_strcmp(pce[i].szProto, szProto))) {
 			mir_snprintf(dbSetting, "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
-			if (!db_get_ws(NULL, SSMODULENAME, dbSetting, &dbv)) { // reload from db
+			if (!db_get_ws(0, SSMODULENAME, dbSetting, &dbv)) { // reload from db
 				pce[i].msg = (wchar_t*)realloc(pce[i].msg, sizeof(wchar_t)*(mir_wstrlen(dbv.ptszVal) + 1));
-				if (pce[i].msg != NULL) {
+				if (pce[i].msg != nullptr) {
 					mir_wstrcpy(pce[i].msg, dbv.ptszVal);
 				}
 				db_free(&dbv);
 			}
 			else {
-				if (pce[i].msg != NULL) {
+				if (pce[i].msg != nullptr) {
 					free(pce[i].msg);
-					pce[i].msg = NULL;
+					pce[i].msg = nullptr;
 				}
 			}
 			return pce[i].msg;
 		}
 	}
 	pce = (PROFILECE*)realloc(pce, (pceCount + 1)*sizeof(PROFILECE));
-	if (pce == NULL)
-		return NULL;
+	if (pce == nullptr)
+		return nullptr;
 
 	pce[pceCount].profile = profile;
 	pce[pceCount].szProto = _strdup(szProto);
-	pce[pceCount].msg = NULL;
+	pce[pceCount].msg = nullptr;
 	mir_snprintf(dbSetting, "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
-	if (!db_get_ws(NULL, SSMODULENAME, dbSetting, &dbv)) {
+	if (!db_get_ws(0, SSMODULENAME, dbSetting, &dbv)) {
 		pce[pceCount].msg = wcsdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -167,9 +167,9 @@ wchar_t *GetStatusMessage(int profile, char *szProto)
 int GetProfile(int profile, TSettingsList& arSettings)
 {
 	if (profile < 0) // get default profile
-		profile = db_get_w(NULL, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
+		profile = db_get_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
 
-	int count = db_get_w(NULL, SSMODULENAME, SETTING_PROFILECOUNT, 0);
+	int count = db_get_w(0, SSMODULENAME, SETTING_PROFILECOUNT, 0);
 	if (profile >= count && count > 0)
 		return -1;
 
@@ -188,7 +188,7 @@ int GetProfile(int profile, TSettingsList& arSettings)
 
 static void CALLBACK releaseTtbTimerFunction(HWND, UINT, UINT_PTR, DWORD)
 {
-	KillTimer(NULL, releaseTtbTimerId);
+	KillTimer(nullptr, releaseTtbTimerId);
 	for (int i = 0; i < ttbButtonCount; i++)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)ttbButtons[i], 0);
 }
@@ -199,19 +199,19 @@ INT_PTR LoadAndSetProfile(WPARAM iProfileNo, LPARAM)
 	int profile = (int)iProfileNo;
 	TSettingsList profileSettings(10, SSCompareSettings);
 	if (!GetProfile(profile, profileSettings)) {
-		profile = (profile >= 0) ? profile : db_get_w(NULL, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
+		profile = (profile >= 0) ? profile : db_get_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
 
 		char setting[64];
 		mir_snprintf(setting, "%d_%s", profile, SETTING_SHOWCONFIRMDIALOG);
-		if (!db_get_b(NULL, SSMODULENAME, setting, 0))
+		if (!db_get_b(0, SSMODULENAME, setting, 0))
 			CallService(MS_CS_SETSTATUSEX, (WPARAM)&profileSettings, 0);
 		else
-			ShowConfirmDialogEx((TProtoSettings*)&profileSettings, db_get_dw(NULL, SSMODULENAME, SETTING_DLGTIMEOUT, 5));
+			ShowConfirmDialogEx((TProtoSettings*)&profileSettings, db_get_dw(0, SSMODULENAME, SETTING_DLGTIMEOUT, 5));
 	}
 
 	// add timer here
 	if (hTTBModuleLoadedHook)
-		releaseTtbTimerId = SetTimer(NULL, 0, 100, releaseTtbTimerFunction);
+		releaseTtbTimerId = SetTimer(nullptr, 0, 100, releaseTtbTimerFunction);
 
 	return 0;
 }
@@ -244,7 +244,7 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM)
 
 static int UnregisterHotKeys()
 {
-	if (hkInfo != NULL) {
+	if (hkInfo != nullptr) {
 		for (int i = 0; i < hkiCount; i++) {
 			UnregisterHotKey(hMessageWindow, (int)hkInfo[i].id);
 			GlobalDeleteAtom(hkInfo[i].id);
@@ -254,8 +254,8 @@ static int UnregisterHotKeys()
 	DestroyWindow(hMessageWindow);
 
 	hkiCount = 0;
-	hkInfo = NULL;
-	hMessageWindow = NULL;
+	hkInfo = nullptr;
+	hMessageWindow = nullptr;
 
 	return 0;
 }
@@ -263,17 +263,17 @@ static int UnregisterHotKeys()
 // assumes UnregisterHotKeys was called before
 static int RegisterHotKeys()
 {
-	hMessageWindow = CreateWindowEx(0, L"STATIC", NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+	hMessageWindow = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 	SetWindowLongPtr(hMessageWindow, GWLP_WNDPROC, (LONG_PTR)MessageWndProc);
 
 	int count = GetProfileCount(0, 0);
 	for (int i = 0; i < count; i++) {
-		if (!db_get_b(NULL, SSMODULENAME, OptName(i, SETTING_REGHOTKEY), 0))
+		if (!db_get_b(0, SSMODULENAME, OptName(i, SETTING_REGHOTKEY), 0))
 			continue;
 
-		WORD wHotKey = db_get_w(NULL, SSMODULENAME, OptName(i, SETTING_HOTKEY), 0);
+		WORD wHotKey = db_get_w(0, SSMODULENAME, OptName(i, SETTING_HOTKEY), 0);
 		hkInfo = (HKINFO*)realloc(hkInfo, (hkiCount + 1)*sizeof(HKINFO));
-		if (hkInfo == NULL)
+		if (hkInfo == nullptr)
 			return -1;
 
 		char atomname[255];

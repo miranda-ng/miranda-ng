@@ -51,15 +51,15 @@ static OBJLIST<TConfirmSetting> *confirmSettings;
 
 static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static PROTOCOLSETTINGEX* protoSetting = NULL;
+	static PROTOCOLSETTINGEX* protoSetting = nullptr;
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
 		protoSetting = (PROTOCOLSETTINGEX *)lParam;
-		if (protoSetting->m_szMsg == NULL) {
+		if (protoSetting->m_szMsg == nullptr) {
 			wchar_t* smsg = GetDefaultStatusMessage(protoSetting, GetActualStatus(protoSetting));
-			if (smsg != NULL) {
+			if (smsg != nullptr) {
 				SetDlgItemText(hwndDlg, IDC_STSMSG, smsg);
 				mir_free(smsg);
 			}
@@ -81,7 +81,7 @@ static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				int len = SendDlgItemMessage(hwndDlg, IDC_STSMSG, WM_GETTEXTLENGTH, 0, 0);
 				if (len > 0) {
 					protoSetting->m_szMsg = (wchar_t*)realloc(protoSetting->m_szMsg, sizeof(wchar_t)*(len + 1));
-					if (protoSetting->m_szMsg != NULL)
+					if (protoSetting->m_szMsg != nullptr)
 						GetDlgItemText(hwndDlg, IDC_STSMSG, protoSetting->m_szMsg, len + 1);
 				}
 				SendMessage(GetParent(hwndDlg), UM_STSMSGDLGCLOSED, TRUE, 0);
@@ -140,8 +140,8 @@ static int SetStatusList(HWND hwndDlg)
 		// status message
 		if (!((!((CallProtoService((*confirmSettings)[i].m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND)&~PF1_INDIVMODEMSG)) || (!(CallProtoService((*confirmSettings)[i].m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(actualStatus))))) {
 			wchar_t *msg = GetDefaultStatusMessage(&(*confirmSettings)[i], actualStatus);
-			if (msg != NULL) {
-				wchar_t* fMsg = variables_parsedup(msg, (*confirmSettings)[i].m_tszAccName, NULL);
+			if (msg != nullptr) {
+				wchar_t* fMsg = variables_parsedup(msg, (*confirmSettings)[i].m_tszAccName, 0);
 				ListView_SetItemText(hList, lvItem.iItem, 2, fMsg);
 				mir_free(fMsg);
 				mir_free(msg);
@@ -206,13 +206,13 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			else
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_SETCURSEL, defaultProfile, 0);
 		}
-		
+
 		// start timer
 		if (timeOut > 0) {
 			wchar_t text[32];
 			mir_snwprintf(text, TranslateT("Closing in %d"), timeOut);
 			SetDlgItemText(hwndDlg, IDC_CLOSE, text);
-			SetTimer(hwndDlg, TIMER_ID, 1000, NULL);
+			SetTimer(hwndDlg, TIMER_ID, 1000, nullptr);
 		}
 		return TRUE;
 
@@ -239,14 +239,14 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				{
 					int profile = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
 					for (int i = 0; i < confirmSettings->getCount(); i++)
-						if ((*confirmSettings)[i].m_szMsg != NULL) {
+						if ((*confirmSettings)[i].m_szMsg != nullptr) {
 							free((*confirmSettings)[i].m_szMsg);
-							(*confirmSettings)[i].m_szMsg = NULL;
+							(*confirmSettings)[i].m_szMsg = nullptr;
 						}
 
 					CallService(MS_SS_GETPROFILE, (WPARAM)profile, (LPARAM)confirmSettings);
 					for (int i = 0; i < confirmSettings->getCount(); i++)
-						if ((*confirmSettings)[i].m_szMsg != NULL) // we free this later, copy to our memory space
+						if ((*confirmSettings)[i].m_szMsg != nullptr) // we free this later, copy to our memory space
 							(*confirmSettings)[i].m_szMsg = wcsdup((*confirmSettings)[i].m_szMsg);
 
 					SetStatusList(hwndDlg);
@@ -413,8 +413,8 @@ HWND ShowConfirmDialogEx(OBJLIST<PROTOCOLSETTINGEX> *params, int _timeout)
 	if (timeOut < 0)
 		timeOut = DEF_CLOSE_TIME;
 
-	if (GetWindow(win, 0) == NULL) {
-		win = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMDIALOG), NULL, ConfirmDlgProc, NULL);
+	if (GetWindow(win, 0) == nullptr) {
+		win = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMDIALOG), nullptr, ConfirmDlgProc, 0);
 		EnableWindow(win, TRUE);
 	}
 

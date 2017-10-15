@@ -23,7 +23,7 @@
 
 static LIST<void> ttbButtons(1);
 
-static IconItem iconList[] = 
+static IconItem iconList[] =
 {
 	{ LPGEN("Pressed toolbar icon"),  "StartupStatus/TtbDown", IDI_TTBDOWN },
 	{ LPGEN("Released toolbar icon"), "StartupStatus/TtbUp",   IDI_TTBUP   },
@@ -33,14 +33,14 @@ static IconItem iconList[] =
 
 void RemoveTopToolbarButtons()
 {
-	for (int i=ttbButtons.getCount()-1; i >= 0; i--)
+	for (int i = ttbButtons.getCount() - 1; i >= 0; i--)
 		CallService(MS_TTB_REMOVEBUTTON, (WPARAM)ttbButtons[i], 0);
 	ttbButtons.destroy();
 }
 
 int CreateTopToolbarButtons(WPARAM, LPARAM)
 {
-	if (iconList[0].hIcolib == NULL)
+	if (iconList[0].hIcolib == nullptr)
 		Icon_Register(hInst, "Toolbar/StartupStatus", iconList, _countof(iconList));
 
 	int profileCount = CallService(MS_SS_GETPROFILECOUNT, 0, 0);
@@ -48,15 +48,15 @@ int CreateTopToolbarButtons(WPARAM, LPARAM)
 	TTBButton ttb = { 0 };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_SS_LOADANDSETPROFILE;
-	for (int i=0; i < profileCount; i++) {
+	for (int i = 0; i < profileCount; i++) {
 		char setting[80];
 		mir_snprintf(setting, "%d_%s", i, SETTING_CREATETTBBUTTON);
-		if (!db_get_b(NULL, SSMODULENAME, setting, FALSE))
+		if (!db_get_b(0, SSMODULENAME, setting, FALSE))
 			continue;
-		
+
 		DBVARIANT dbv;
 		mir_snprintf(setting, "%d_%s", i, SETTING_PROFILENAME);
-		if (db_get(NULL, SSMODULENAME, setting, &dbv))
+		if (db_get(0, SSMODULENAME, setting, &dbv))
 			continue;
 
 		ttb.hIconHandleDn = iconList[0].hIcolib;

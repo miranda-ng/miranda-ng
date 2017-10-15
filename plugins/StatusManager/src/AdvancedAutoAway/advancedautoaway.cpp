@@ -37,7 +37,7 @@ TAAAProtoSetting::TAAAProtoSetting(PROTOACCOUNT *pa)
 	m_szName = pa->szModuleName;
 	m_tszAccName = pa->tszAccountName;
 	m_lastStatus = m_status = originalStatusMode = ID_STATUS_CURRENT;
-	m_szMsg = NULL;
+	m_szMsg = nullptr;
 	curState = ACTIVE;
 	mStatus = FALSE;
 }
@@ -49,7 +49,7 @@ TAAAProtoSetting::~TAAAProtoSetting()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HANDLE hStateChangedEvent = NULL;
+HANDLE hStateChangedEvent = nullptr;
 
 static BOOL ignoreLockKeys = FALSE;
 static BOOL ignoreSysKeys = FALSE;
@@ -58,13 +58,13 @@ static BOOL monitorMouse = TRUE;
 static BOOL monitorKeyboard = TRUE;
 static HWND confirmDialog;
 static int mouseStationaryTimer;
-HHOOK hMirandaMouseHook = NULL;
-HHOOK hMirandaKeyBoardHook = NULL;
+HHOOK hMirandaMouseHook = nullptr;
+HHOOK hMirandaKeyBoardHook = nullptr;
 #pragma data_seg("Shared")
 DWORD lastInput = 0;
 POINT lastMousePos = { 0 };
-HHOOK hMouseHook = NULL;
-HHOOK hKeyBoardHook = NULL;
+HHOOK hMouseHook = nullptr;
+HHOOK hKeyBoardHook = nullptr;
 #pragma data_seg()
 #pragma comment(linker, "/section:Shared,rws")
 DWORD lastMirandaInput = 0;
@@ -95,18 +95,18 @@ void AAALoadOptions(TAAAProtoSettingList &loadSettings, BOOL override)
 	if (!override)
 		UnhookWindowsHooks();
 	if (hAutoAwayTimer != 0)
-		KillTimer(NULL, hAutoAwayTimer);
+		KillTimer(nullptr, hAutoAwayTimer);
 
-	ignoreLockKeys = db_get_b(NULL, AAAMODULENAME, SETTING_IGNLOCK, FALSE);
-	ignoreSysKeys = db_get_b(NULL, AAAMODULENAME, SETTING_IGNSYSKEYS, FALSE);
-	ignoreAltCombo = db_get_b(NULL, AAAMODULENAME, SETTING_IGNALTCOMBO, FALSE);
-	monitorMouse = db_get_b(NULL, AAAMODULENAME, SETTING_MONITORMOUSE, TRUE);
-	monitorKeyboard = db_get_b(NULL, AAAMODULENAME, SETTING_MONITORKEYBOARD, TRUE);
+	ignoreLockKeys = db_get_b(0, AAAMODULENAME, SETTING_IGNLOCK, FALSE);
+	ignoreSysKeys = db_get_b(0, AAAMODULENAME, SETTING_IGNSYSKEYS, FALSE);
+	ignoreAltCombo = db_get_b(0, AAAMODULENAME, SETTING_IGNALTCOMBO, FALSE);
+	monitorMouse = db_get_b(0, AAAMODULENAME, SETTING_MONITORMOUSE, TRUE);
+	monitorKeyboard = db_get_b(0, AAAMODULENAME, SETTING_MONITORKEYBOARD, TRUE);
 	lastInput = lastMirandaInput = GetTickCount();
 
 	for (int i = 0; i < loadSettings.getCount(); i++) {
 		char* protoName;
-		if ((db_get_b(NULL, AAAMODULENAME, SETTING_SAMESETTINGS, 0)) && !override)
+		if ((db_get_b(0, AAAMODULENAME, SETTING_SAMESETTINGS, 0)) && !override)
 			protoName = SETTING_ALL;
 		else
 			protoName = loadSettings[i].m_szName;
@@ -119,34 +119,34 @@ void AAALoadOptions(TAAAProtoSettingList &loadSettings, BOOL override)
 		}
 	}
 
-	if (db_get_b(NULL, "Idle", "AAEnable", 0))
+	if (db_get_b(0, "Idle", "AAEnable", 0))
 		return;
 
 	HookWindowsHooks(monitorMiranda, monitorAll);
-	hAutoAwayTimer = SetTimer(NULL, 0, db_get_w(NULL, AAAMODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5) * 1000, AutoAwayTimer);
+	hAutoAwayTimer = SetTimer(nullptr, 0, db_get_w(0, AAAMODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5) * 1000, AutoAwayTimer);
 }
 
 int LoadAutoAwaySetting(TAAAProtoSetting &autoAwaySetting, char* protoName)
 {
 	char setting[128];
 	mir_snprintf(setting, "%s_OptionFlags", protoName);
-	autoAwaySetting.optionFlags = db_get_w(NULL, AAAMODULENAME, setting, FLAG_LV2ONINACTIVE | FLAG_RESET);
+	autoAwaySetting.optionFlags = db_get_w(0, AAAMODULENAME, setting, FLAG_LV2ONINACTIVE | FLAG_RESET);
 	mir_snprintf(setting, "%s_AwayTime", protoName);
-	autoAwaySetting.awayTime = db_get_w(NULL, AAAMODULENAME, setting, SETTING_AWAYTIME_DEFAULT);
+	autoAwaySetting.awayTime = db_get_w(0, AAAMODULENAME, setting, SETTING_AWAYTIME_DEFAULT);
 	mir_snprintf(setting, "%s_NATime", protoName);
-	autoAwaySetting.naTime = db_get_w(NULL, AAAMODULENAME, setting, SETTING_NATIME_DEFAULT);
+	autoAwaySetting.naTime = db_get_w(0, AAAMODULENAME, setting, SETTING_NATIME_DEFAULT);
 	mir_snprintf(setting, "%s_StatusFlags", protoName);
-	autoAwaySetting.statusFlags = db_get_w(NULL, AAAMODULENAME, setting, StatusModeToProtoFlag(ID_STATUS_ONLINE) | StatusModeToProtoFlag(ID_STATUS_FREECHAT));
+	autoAwaySetting.statusFlags = db_get_w(0, AAAMODULENAME, setting, StatusModeToProtoFlag(ID_STATUS_ONLINE) | StatusModeToProtoFlag(ID_STATUS_FREECHAT));
 
 	int flags;
-	if (db_get_b(NULL, AAAMODULENAME, SETTING_SAMESETTINGS, 0))
+	if (db_get_b(0, AAAMODULENAME, SETTING_SAMESETTINGS, 0))
 		flags = 0xFFFFFF;
 	else
 		flags = CallProtoService(protoName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(protoName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
 	mir_snprintf(setting, "%s_Lv1Status", protoName);
-	autoAwaySetting.lv1Status = db_get_w(NULL, AAAMODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_AWAY)) ? ID_STATUS_AWAY : ID_STATUS_OFFLINE);
+	autoAwaySetting.lv1Status = db_get_w(0, AAAMODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_AWAY)) ? ID_STATUS_AWAY : ID_STATUS_OFFLINE);
 	mir_snprintf(setting, "%s_Lv2Status", protoName);
-	autoAwaySetting.lv2Status = db_get_w(NULL, AAAMODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_NA)) ? ID_STATUS_NA : ID_STATUS_OFFLINE);
+	autoAwaySetting.lv2Status = db_get_w(0, AAAMODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_NA)) ? ID_STATUS_NA : ID_STATUS_OFFLINE);
 
 	return 0;
 }
@@ -222,22 +222,22 @@ static int changeState(TAAAProtoSetting &setting, STATES newState)
 	NotifyEventHooks(hStateChangedEvent, 0, (LPARAM)&setting);
 	if (setting.curState != SET_ORGSTATUS && setting.curState != ACTIVE && setting.statusChanged) {
 		/* change the awaymessage */
-		if (setting.m_szMsg != NULL) {
+		if (setting.m_szMsg != nullptr) {
 			free(setting.m_szMsg);
-			setting.m_szMsg = NULL;
+			setting.m_szMsg = nullptr;
 		}
 
-		if (db_get_b(NULL, AAAMODULENAME, StatusModeToDbSetting(setting.m_status, SETTING_MSGCUSTOM), FALSE)) {
+		if (db_get_b(0, AAAMODULENAME, StatusModeToDbSetting(setting.m_status, SETTING_MSGCUSTOM), FALSE)) {
 			DBVARIANT dbv;
-			if (!db_get_ws(NULL, AAAMODULENAME, StatusModeToDbSetting(setting.m_status, SETTING_STATUSMSG), &dbv)) {
+			if (!db_get_ws(0, AAAMODULENAME, StatusModeToDbSetting(setting.m_status, SETTING_STATUSMSG), &dbv)) {
 				setting.m_szMsg = wcsdup(dbv.ptszVal);
 				db_free(&dbv);
 			}
 		}
 	}
-	else if (setting.m_szMsg != NULL) {
+	else if (setting.m_szMsg != nullptr) {
 		free(setting.m_szMsg);
-		setting.m_szMsg = NULL;
+		setting.m_szMsg = nullptr;
 	}
 
 	return 0;
@@ -370,7 +370,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 		}
 
 		if (confirm)
-			confirmDialog = ShowConfirmDialogEx((TProtoSettings*)&ps, db_get_w(NULL, AAAMODULENAME, SETTING_CONFIRMDELAY, 5));
+			confirmDialog = ShowConfirmDialogEx((TProtoSettings*)&ps, db_get_w(0, AAAMODULENAME, SETTING_CONFIRMDELAY, 5));
 		else if (statusChanged)
 			CallService(MS_CS_SETSTATUSEX, (WPARAM)&ps, 0);
 	}
@@ -382,15 +382,15 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 static int HookWindowsHooks(int hookMiranda, int hookAll)
 {
 	if (hookMiranda) {
-		if (monitorKeyboard && hMirandaKeyBoardHook == NULL)
-			hMirandaKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, MirandaKeyBoardHookFunction, NULL, GetCurrentThreadId());
-		if (monitorMouse && hMirandaMouseHook == NULL)
-			hMirandaMouseHook = SetWindowsHookEx(WH_MOUSE, MirandaMouseHookFunction, NULL, GetCurrentThreadId());
+		if (monitorKeyboard && hMirandaKeyBoardHook == nullptr)
+			hMirandaKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, MirandaKeyBoardHookFunction, nullptr, GetCurrentThreadId());
+		if (monitorMouse && hMirandaMouseHook == nullptr)
+			hMirandaMouseHook = SetWindowsHookEx(WH_MOUSE, MirandaMouseHookFunction, nullptr, GetCurrentThreadId());
 	}
 	if (hookAll) {
-		if (monitorKeyboard && hKeyBoardHook == NULL)
+		if (monitorKeyboard && hKeyBoardHook == nullptr)
 			hKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, KeyBoardHookFunction, 0, GetCurrentThreadId());
-		if (monitorMouse && hMouseHook == NULL)
+		if (monitorMouse && hMouseHook == nullptr)
 			hMouseHook = SetWindowsHookEx(WH_MOUSE, MouseHookFunction, 0, GetCurrentThreadId());
 	}
 
@@ -404,7 +404,7 @@ static int UnhookWindowsHooks()
 	UnhookWindowsHookEx(hMirandaMouseHook);
 	UnhookWindowsHookEx(hMirandaKeyBoardHook);
 
-	hMouseHook = hKeyBoardHook = hMirandaMouseHook = hMirandaKeyBoardHook = NULL;
+	hMouseHook = hKeyBoardHook = hMirandaMouseHook = hMirandaKeyBoardHook = nullptr;
 	return 0;
 }
 
@@ -539,7 +539,7 @@ static LRESULT CALLBACK KeyBoardHookFunction(int code, WPARAM wParam, LPARAM lPa
 
 static int AutoAwayShutdown(WPARAM, LPARAM)
 {
-	KillTimer(NULL, hAutoAwayTimer);
+	KillTimer(nullptr, hAutoAwayTimer);
 
 #ifdef TRIGGERPLUGIN
 	DeInitTrigger();

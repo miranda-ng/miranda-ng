@@ -28,7 +28,7 @@ TSSSetting::TSSSetting(PROTOACCOUNT *pa)
 	m_szName = pa->szModuleName;
 	m_tszAccName = pa->tszAccountName;
 	m_status = m_lastStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
-	m_szMsg = NULL;
+	m_szMsg = nullptr;
 }
 
 TSSSetting::TSSSetting(int profile, PROTOACCOUNT *pa)
@@ -40,14 +40,14 @@ TSSSetting::TSSSetting(int profile, PROTOACCOUNT *pa)
 	// load status
 	char setting[80];
 	mir_snprintf(setting, "%d_%s", profile, pa->szModuleName);
-	int iStatus = db_get_w(NULL, SSMODULENAME, setting, 0);
+	int iStatus = db_get_w(0, SSMODULENAME, setting, 0);
 	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
 		iStatus = DEFAULT_STATUS;
 	m_status = iStatus;
 
 	// load last status
 	mir_snprintf(setting, "%s%s", PREFIX_LAST, m_szName);
-	iStatus = db_get_w(NULL, SSMODULENAME, setting, 0);
+	iStatus = db_get_w(0, SSMODULENAME, setting, 0);
 	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
 		iStatus = DEFAULT_STATUS;
 	m_lastStatus = iStatus;
@@ -79,7 +79,7 @@ static PROTOCOLSETTINGEX* IsValidProtocol(TSettingsList& protoSettings, char* pr
 		if (!strncmp(protoSettings[i].m_szName, protoName, mir_strlen(protoSettings[i].m_szName)))
 			return &protoSettings[i];
 
-	return NULL;
+	return nullptr;
 }
 
 static int IsValidStatusDesc(char* statusDesc)
@@ -133,7 +133,7 @@ static void ProcessCommandLineOptions(TSettingsList& protoSettings)
 		}
 		char *protoName = cmdl; // first protocol ?
 		PROTOCOLSETTINGEX* protoSetting = IsValidProtocol(protoSettings, protoName);
-		if (protoSetting != NULL) {
+		if (protoSetting != nullptr) {
 			while (*cmdl != '=') {
 				if (*cmdl == '\0')
 					return;
@@ -163,7 +163,7 @@ static void SetLastStatusMessages(TSettingsList &ps)
 		mir_snprintf(dbSetting, "%s%s", PREFIX_LASTMSG, ps[i].m_szName);
 
 		DBVARIANT dbv;
-		if (ps[i].m_szMsg == NULL && !db_get_ws(NULL, SSMODULENAME, dbSetting, &dbv)) {
+		if (ps[i].m_szMsg == nullptr && !db_get_ws(0, SSMODULENAME, dbSetting, &dbv)) {
 			ps[i].m_szMsg = wcsdup(dbv.ptszVal); // remember this won't be freed
 			db_free(&dbv);
 		}
@@ -202,7 +202,7 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 	if (ack->type != ACKTYPE_STATUS && ack->result != ACKRESULT_FAILED)
 		return 0;
 
-	if (!db_get_b(NULL, SSMODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0)
+	if (!db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0)
 		return 0;
 
 	for (int i = 0; i < startupSettings.getCount(); i++) {
@@ -218,11 +218,11 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 static int StatusChange(WPARAM, LPARAM lParam)
 {
 	// change by menu
-	if (!db_get_b(NULL, SSMODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0)
+	if (!db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0)
 		return 0;
 
 	char *szProto = (char *)lParam;
-	if (szProto == NULL) { // global status change
+	if (szProto == nullptr) { // global status change
 		for (int i = 0; i < startupSettings.getCount(); i++) {
 			startupSettings[i].m_szName = "";
 			log_debugA("StartupStatus: all protos overridden by ME_CLIST_STATUSMODECHANGE, status will not be set");
@@ -243,17 +243,17 @@ static int StatusChange(WPARAM, LPARAM lParam)
 static int CSStatusChangeEx(WPARAM wParam, LPARAM)
 {
 	// another status plugin made the change
-	if (!db_get_b(NULL, SSMODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0)
+	if (!db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0)
 		return 0;
 
 	if (wParam != 0) {
 		PROTOCOLSETTINGEX** ps = *(PROTOCOLSETTINGEX***)wParam;
-		if (ps == NULL)
+		if (ps == nullptr)
 			return -1;
 
 		for (int i = 0; i < startupSettings.getCount(); i++) {
 			for (int j = 0; j < startupSettings.getCount(); j++) {
-				if (ps[i]->m_szName == NULL || startupSettings[j].m_szName == NULL)
+				if (ps[i]->m_szName == nullptr || startupSettings[j].m_szName == nullptr)
 					continue;
 
 				if (!mir_strcmp(ps[i]->m_szName, startupSettings[j].m_szName)) {
@@ -270,7 +270,7 @@ static int CSStatusChangeEx(WPARAM wParam, LPARAM)
 
 static void CALLBACK SetStatusTimed(HWND, UINT, UINT_PTR, DWORD)
 {
-	KillTimer(NULL, setStatusTimerId);
+	KillTimer(nullptr, setStatusTimerId);
 	UnhookEvent(hProtoAckHook);
 	UnhookEvent(hCSStatusChangeHook);
 	UnhookEvent(hStatusChangeHook);
@@ -294,9 +294,9 @@ static int OnOkToExit(WPARAM, LPARAM)
 
 		char lastName[128], lastMsg[128];
 		mir_snprintf(lastName, "%s%s", PREFIX_LAST, pa->szModuleName);
-		db_set_w(NULL, SSMODULENAME, lastName, (WORD)CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0));
+		db_set_w(0, SSMODULENAME, lastName, (WORD)CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0));
 		mir_snprintf(lastMsg, "%s%s", PREFIX_LASTMSG, pa->szModuleName);
-		db_unset(NULL, SSMODULENAME, lastMsg);
+		db_unset(0, SSMODULENAME, lastMsg);
 
 		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG))
 			continue;
@@ -310,19 +310,19 @@ static int OnOkToExit(WPARAM, LPARAM)
 			NAS_PROTOINFO npi = { sizeof(npi) };
 			npi.szProto = pa->szModuleName;
 			CallService(MS_NAS_GETSTATE, (WPARAM)&npi, 1);
-			if (npi.szMsg == NULL) {
+			if (npi.szMsg == nullptr) {
 				npi.status = 0;
-				npi.szProto = NULL;
+				npi.szProto = nullptr;
 				CallService(MS_NAS_GETSTATE, (WPARAM)&npi, 1);
 			}
-			if (npi.szMsg != NULL) {
-				db_set_ws(NULL, SSMODULENAME, lastMsg, npi.tszMsg);
+			if (npi.szMsg != nullptr) {
+				db_set_ws(0, SSMODULENAME, lastMsg, npi.tszMsg);
 				mir_free(npi.tszMsg);
 			}
 		}
 	}
 
-	if (db_get_b(NULL, SSMODULENAME, SETTING_SETPROFILE, 1) || db_get_b(NULL, SSMODULENAME, SETTING_OFFLINECLOSE, 0))
+	if (db_get_b(0, SSMODULENAME, SETTING_SETPROFILE, 1) || db_get_b(0, SSMODULENAME, SETTING_OFFLINECLOSE, 0))
 		Clist_SetStatusMode(ID_STATUS_OFFLINE);
 
 	return 0;
@@ -331,8 +331,8 @@ static int OnOkToExit(WPARAM, LPARAM)
 static int OnShutdown(WPARAM, LPARAM)
 {
 	// set windowstate and docked for next startup
-	if (db_get_b(NULL, SSMODULENAME, SETTING_SETWINSTATE, 0)) {
-		int state = db_get_b(NULL, SSMODULENAME, SETTING_WINSTATE, SETTING_STATE_NORMAL);
+	if (db_get_b(0, SSMODULENAME, SETTING_SETWINSTATE, 0)) {
+		int state = db_get_b(0, SSMODULENAME, SETTING_WINSTATE, SETTING_STATE_NORMAL);
 		HWND hClist = pcli->hwndContactList;
 		BOOL isHidden = !IsWindowVisible(hClist);
 		switch (state) {
@@ -343,7 +343,7 @@ static int OnShutdown(WPARAM, LPARAM)
 			break;
 
 		case SETTING_STATE_MINIMIZED:
-			if (!db_get_b(NULL, MODULE_CLIST, SETTING_TOOLWINDOW, 0))
+			if (!db_get_b(0, MODULE_CLIST, SETTING_TOOLWINDOW, 0))
 				ShowWindow(hClist, SW_SHOWMINIMIZED);
 			break;
 
@@ -356,13 +356,13 @@ static int OnShutdown(WPARAM, LPARAM)
 	}
 
 	// hangup
-	if (db_get_b(NULL, SSMODULENAME, SETTING_AUTOHANGUP, 0))
+	if (db_get_b(0, SSMODULENAME, SETTING_AUTOHANGUP, 0))
 		InternetAutodialHangup(0);
 
-	int state = db_get_b(NULL, SSMODULENAME, SETTING_WINSTATE, SETTING_STATE_NORMAL);
+	int state = db_get_b(0, SSMODULENAME, SETTING_WINSTATE, SETTING_STATE_NORMAL);
 	// set windowstate and docked for next startup
-	if (db_get_b(NULL, SSMODULENAME, SETTING_SETWINSTATE, 0))
-		db_set_b(NULL, MODULE_CLIST, SETTING_WINSTATE, (BYTE)state);
+	if (db_get_b(0, SSMODULENAME, SETTING_SETWINSTATE, 0))
+		db_set_b(0, MODULE_CLIST, SETTING_WINSTATE, (BYTE)state);
 
 	if (hMessageWindow)
 		DestroyWindow(hMessageWindow);
@@ -401,7 +401,7 @@ int SSModuleLoaded(WPARAM, LPARAM)
 	HookEvent(ME_SYSTEM_OKTOEXIT, OnOkToExit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 	/* message window for poweroff */
-	hMessageWindow = CreateWindowEx(0, L"STATIC", NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+	hMessageWindow = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 	SetWindowLongPtr(hMessageWindow, GWLP_WNDPROC, (LONG_PTR)MessageWndProc);
 
 	GetProfile(-1, startupSettings);
@@ -412,39 +412,39 @@ int SSModuleLoaded(WPARAM, LPARAM)
 		return 0;// no protocols are loaded
 
 	SetLastStatusMessages(startupSettings);
-	showDialogOnStartup = (showDialogOnStartup || db_get_b(NULL, SSMODULENAME, SETTING_SHOWDIALOG, 0));
+	showDialogOnStartup = (showDialogOnStartup || db_get_b(0, SSMODULENAME, SETTING_SHOWDIALOG, 0));
 
 	// dial
-	if (showDialogOnStartup || db_get_b(NULL, SSMODULENAME, SETTING_SETPROFILE, 1))
-		if (db_get_b(NULL, SSMODULENAME, SETTING_AUTODIAL, 0))
-			InternetAutodial(0, NULL);
+	if (showDialogOnStartup || db_get_b(0, SSMODULENAME, SETTING_SETPROFILE, 1))
+		if (db_get_b(0, SSMODULENAME, SETTING_AUTODIAL, 0))
+			InternetAutodial(0, nullptr);
 
 	// set the status!
-	if (showDialogOnStartup || db_get_b(NULL, SSMODULENAME, SETTING_SHOWDIALOG, 0))
-		ShowConfirmDialogEx((TProtoSettings*)&startupSettings, db_get_dw(NULL, SSMODULENAME, SETTING_DLGTIMEOUT, 5));
-	else if (db_get_b(NULL, SSMODULENAME, SETTING_SETPROFILE, 1)) {
+	if (showDialogOnStartup || db_get_b(0, SSMODULENAME, SETTING_SHOWDIALOG, 0))
+		ShowConfirmDialogEx((TProtoSettings*)&startupSettings, db_get_dw(0, SSMODULENAME, SETTING_DLGTIMEOUT, 5));
+	else if (db_get_b(0, SSMODULENAME, SETTING_SETPROFILE, 1)) {
 		// set hooks for override
-		if (db_get_b(NULL, SSMODULENAME, SETTING_OVERRIDE, 1)) {
+		if (db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1)) {
 			hProtoAckHook = HookEvent(ME_PROTO_ACK, ProcessProtoAck);
 			hCSStatusChangeHook = HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChangeEx);
 			hStatusChangeHook = HookEvent(ME_CLIST_STATUSMODECHANGE, StatusChange);
 		}
-		setStatusTimerId = SetTimer(NULL, 0, db_get_dw(NULL, SSMODULENAME, SETTING_SETPROFILEDELAY, 500), SetStatusTimed);
+		setStatusTimerId = SetTimer(nullptr, 0, db_get_dw(0, SSMODULENAME, SETTING_SETPROFILEDELAY, 500), SetStatusTimed);
 	}
 
 	// win size and location
-	if (db_get_b(NULL, SSMODULENAME, SETTING_SETWINLOCATION, 0) || db_get_b(NULL, SSMODULENAME, SETTING_SETWINSIZE, 0)) {
+	if (db_get_b(0, SSMODULENAME, SETTING_SETWINLOCATION, 0) || db_get_b(0, SSMODULENAME, SETTING_SETWINSIZE, 0)) {
 		HWND hClist = pcli->hwndContactList;
 
 		// store in db
-		if (db_get_b(NULL, SSMODULENAME, SETTING_SETWINLOCATION, 0)) {
-			db_set_dw(NULL, MODULE_CLIST, SETTING_XPOS, db_get_dw(NULL, SSMODULENAME, SETTING_XPOS, 0));
-			db_set_dw(NULL, MODULE_CLIST, SETTING_YPOS, db_get_dw(NULL, SSMODULENAME, SETTING_YPOS, 0));
+		if (db_get_b(0, SSMODULENAME, SETTING_SETWINLOCATION, 0)) {
+			db_set_dw(0, MODULE_CLIST, SETTING_XPOS, db_get_dw(0, SSMODULENAME, SETTING_XPOS, 0));
+			db_set_dw(0, MODULE_CLIST, SETTING_YPOS, db_get_dw(0, SSMODULENAME, SETTING_YPOS, 0));
 		}
-		if (db_get_b(NULL, SSMODULENAME, SETTING_SETWINSIZE, 0)) {
-			db_set_dw(NULL, MODULE_CLIST, SETTING_WIDTH, db_get_dw(NULL, SSMODULENAME, SETTING_WIDTH, 0));
-			if (!db_get_b(NULL, MODULE_CLUI, SETTING_AUTOSIZE, 0))
-				db_set_dw(NULL, MODULE_CLIST, SETTING_HEIGHT, db_get_dw(NULL, SSMODULENAME, SETTING_HEIGHT, 0));
+		if (db_get_b(0, SSMODULENAME, SETTING_SETWINSIZE, 0)) {
+			db_set_dw(0, MODULE_CLIST, SETTING_WIDTH, db_get_dw(0, SSMODULENAME, SETTING_WIDTH, 0));
+			if (!db_get_b(0, MODULE_CLUI, SETTING_AUTOSIZE, 0))
+				db_set_dw(0, MODULE_CLIST, SETTING_HEIGHT, db_get_dw(0, SSMODULENAME, SETTING_HEIGHT, 0));
 		}
 
 		WINDOWPLACEMENT wndpl = { sizeof(wndpl) };
@@ -456,14 +456,14 @@ int SSModuleLoaded(WPARAM, LPARAM)
 					int y = rc.top;
 					int width = rc.right - rc.left;
 					int height = rc.bottom - rc.top;
-					if (db_get_b(NULL, SSMODULENAME, SETTING_SETWINLOCATION, 0)) {
-						x = db_get_dw(NULL, SSMODULENAME, SETTING_XPOS, x);
-						y = db_get_dw(NULL, SSMODULENAME, SETTING_YPOS, y);
+					if (db_get_b(0, SSMODULENAME, SETTING_SETWINLOCATION, 0)) {
+						x = db_get_dw(0, SSMODULENAME, SETTING_XPOS, x);
+						y = db_get_dw(0, SSMODULENAME, SETTING_YPOS, y);
 					}
-					if (db_get_b(NULL, SSMODULENAME, SETTING_SETWINSIZE, 0)) {
-						width = db_get_dw(NULL, SSMODULENAME, SETTING_WIDTH, width);
-						if (!db_get_b(NULL, MODULE_CLUI, SETTING_AUTOSIZE, 0))
-							height = db_get_dw(NULL, SSMODULENAME, SETTING_HEIGHT, height);
+					if (db_get_b(0, SSMODULENAME, SETTING_SETWINSIZE, 0)) {
+						width = db_get_dw(0, SSMODULENAME, SETTING_WIDTH, width);
+						if (!db_get_b(0, MODULE_CLUI, SETTING_AUTOSIZE, 0))
+							height = db_get_dw(0, SSMODULENAME, SETTING_HEIGHT, height);
 					}
 					MoveWindow(hClist, x, y, width, height, TRUE);
 				}
@@ -483,17 +483,17 @@ void StartupStatusLoad()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, SSModuleLoaded);
 
-	if (db_get_b(NULL, SSMODULENAME, SETTING_SETPROFILE, 1) ||
-		db_get_b(NULL, SSMODULENAME, SETTING_OFFLINECLOSE, 0))
-		db_set_w(NULL, "CList", "Status", (WORD)ID_STATUS_OFFLINE);
+	if (db_get_b(0, SSMODULENAME, SETTING_SETPROFILE, 1) ||
+		db_get_b(0, SSMODULENAME, SETTING_OFFLINECLOSE, 0))
+		db_set_w(0, "CList", "Status", (WORD)ID_STATUS_OFFLINE);
 
 	// docking
-	if (db_get_b(NULL, SSMODULENAME, SETTING_SETDOCKED, 0)) {
-		int docked = db_get_b(NULL, SSMODULENAME, SETTING_DOCKED, DOCKED_NONE);
+	if (db_get_b(0, SSMODULENAME, SETTING_SETDOCKED, 0)) {
+		int docked = db_get_b(0, SSMODULENAME, SETTING_DOCKED, DOCKED_NONE);
 		if (docked == DOCKED_LEFT || docked == DOCKED_RIGHT)
 			docked = -docked;
 
-		db_set_b(NULL, MODULE_CLIST, SETTING_DOCKED, (BYTE)docked);
+		db_set_b(0, MODULE_CLIST, SETTING_DOCKED, (BYTE)docked);
 	}
 
 	// Create service functions; the get functions are created here; they don't rely on commonstatus
