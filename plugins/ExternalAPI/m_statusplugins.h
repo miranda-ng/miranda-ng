@@ -35,11 +35,6 @@ typedef struct {
 // returns 0 on success
 #define MS_CS_SETSTATUSEX				"CommonStatus/SetStatusEx"
 
-// wParam = PROTOCOLSETTINGEX*** (keep it like this for compatibility)
-// lParam = timeout
-// returns hwnd
-#define MS_CS_SHOWCONFIRMDLGEX			"CommonStatus/ShowConfirmDialogEx"
-
 // wParam = 0
 // lParam = 0
 // returns the number of protocols registerd

@@ -33,9 +33,6 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam);
 int InitCommonStatus();
 int GetProtoCount();
 
-// extern
-extern INT_PTR ShowConfirmDialogEx(WPARAM wParam, LPARAM lParam);
-
 // some helpers from awaymsg.c ================================================================
 char *StatusModeToDbSetting(int status, const char *suffix)
 {
@@ -284,7 +281,6 @@ static int CreateServices()
 	hCSStatusChangedExEvent = CreateHookableEvent(ME_CS_STATUSCHANGEEX);
 
 	CreateServiceFunction(MS_CS_SETSTATUSEX, SetStatusEx);
-	CreateServiceFunction(MS_CS_SHOWCONFIRMDLGEX, ShowConfirmDialogEx);
 	CreateServiceFunction(MS_CS_GETPROTOCOUNT, GetProtocolCountService);
 	return 0;
 }

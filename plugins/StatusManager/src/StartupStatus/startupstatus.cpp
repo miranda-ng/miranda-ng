@@ -421,7 +421,7 @@ int SSModuleLoaded(WPARAM, LPARAM)
 
 	// set the status!
 	if (showDialogOnStartup || db_get_b(NULL, SSMODULENAME, SETTING_SHOWDIALOG, 0))
-		CallService(MS_CS_SHOWCONFIRMDLGEX, (WPARAM)&startupSettings, db_get_dw(NULL, SSMODULENAME, SETTING_DLGTIMEOUT, 5));
+		ShowConfirmDialogEx((TProtoSettings*)&startupSettings, db_get_dw(NULL, SSMODULENAME, SETTING_DLGTIMEOUT, 5));
 	else if (db_get_b(NULL, SSMODULENAME, SETTING_SETPROFILE, 1)) {
 		// set hooks for override
 		if (db_get_b(NULL, SSMODULENAME, SETTING_OVERRIDE, 1)) {

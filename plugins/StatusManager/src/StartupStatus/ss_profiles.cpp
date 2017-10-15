@@ -206,7 +206,7 @@ INT_PTR LoadAndSetProfile(WPARAM iProfileNo, LPARAM)
 		if (!db_get_b(NULL, SSMODULENAME, setting, 0))
 			CallService(MS_CS_SETSTATUSEX, (WPARAM)&profileSettings, 0);
 		else
-			CallService(MS_CS_SHOWCONFIRMDLGEX, (WPARAM)&profileSettings, (LPARAM)db_get_dw(NULL, SSMODULENAME, SETTING_DLGTIMEOUT, 5));
+			ShowConfirmDialogEx((TProtoSettings*)&profileSettings, db_get_dw(NULL, SSMODULENAME, SETTING_DLGTIMEOUT, 5));
 	}
 
 	// add timer here

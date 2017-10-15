@@ -370,7 +370,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 		}
 
 		if (confirm)
-			confirmDialog = (HWND)CallService(MS_CS_SHOWCONFIRMDLGEX, (WPARAM)&ps, db_get_w(NULL, AAAMODULENAME, SETTING_CONFIRMDELAY, 5));
+			confirmDialog = ShowConfirmDialogEx((TProtoSettings*)&ps, db_get_w(NULL, AAAMODULENAME, SETTING_CONFIRMDELAY, 5));
 		else if (statusChanged)
 			CallService(MS_CS_SETSTATUSEX, (WPARAM)&ps, 0);
 	}

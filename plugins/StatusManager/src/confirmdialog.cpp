@@ -206,6 +206,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			else
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_SETCURSEL, defaultProfile, 0);
 		}
+		
 		// start timer
 		if (timeOut > 0) {
 			wchar_t text[32];
@@ -400,19 +401,15 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	return 0;
 }
 
-INT_PTR ShowConfirmDialogEx(WPARAM wParam, LPARAM lParam)
+HWND ShowConfirmDialogEx(OBJLIST<PROTOCOLSETTINGEX> *params, int _timeout)
 {
-	if (wParam == 0)
-		return -1;
-
 	delete confirmSettings;
 	confirmSettings = new OBJLIST<TConfirmSetting>(10, CompareSettings);
 
-	OBJLIST<PROTOCOLSETTINGEX>& param = *(OBJLIST<PROTOCOLSETTINGEX>*)wParam;
-	for (int i = 0; i < param.getCount(); i++)
-		confirmSettings->insert(new TConfirmSetting(param[i]));
+	for (int i = 0; i < params->getCount(); i++)
+		confirmSettings->insert(new TConfirmSetting((*params)[i]));
 
-	timeOut = lParam;
+	timeOut = _timeout;
 	if (timeOut < 0)
 		timeOut = DEF_CLOSE_TIME;
 
@@ -421,5 +418,5 @@ INT_PTR ShowConfirmDialogEx(WPARAM wParam, LPARAM lParam)
 		EnableWindow(win, TRUE);
 	}
 
-	return (INT_PTR)win;
+	return win;
 }

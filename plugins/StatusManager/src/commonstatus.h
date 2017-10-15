@@ -79,7 +79,11 @@ bool IsSuitableProto(PROTOACCOUNT *pa);
 // allways returns 1
 #define MS_SA_ISSARUNNING  "SimpleAway/IsSARunning"
 
+typedef OBJLIST<PROTOCOLSETTINGEX> TProtoSettings;
+
 extern HINSTANCE hInst;
-extern OBJLIST<PROTOCOLSETTINGEX>* protoList;
+extern TProtoSettings *protoList;
+
+HWND ShowConfirmDialogEx(TProtoSettings *params, int _timeout);
 
 #endif //COMMONSTATUSHEADER
