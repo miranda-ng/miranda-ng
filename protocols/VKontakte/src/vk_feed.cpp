@@ -160,10 +160,11 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNod
 
 CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers, bool isRepost)
 {
+	if (!jnItem || jnItem["type"].as_mstring() == L"friends_recomm")
+		return nullptr;
+
 	bool bPostLink = true;
 	CVKNewsItem *vkNewsItem = new CVKNewsItem();
-	if (!jnItem)
-		return vkNewsItem;
 
 	LONG iSourceId = !jnItem["source_id"] ? jnItem["owner_id"].as_int() : jnItem["source_id"].as_int();
 	LONG iPostId = jnItem["post_id"].as_int();
@@ -221,16 +222,18 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 		const JSONNode &jnRepost = jnItem["copy_history"];
 		if (jnRepost) {
 			CVKNewsItem *vkRepost = GetVkNewsItem((*jnRepost.begin()), vkUsers, true);
-			vkRepost->wszText.Replace(L"\n", L"\n\t");
-			wszText += vkRepost->wszText;
-			wszText += L"\n";
+			if (vkRepost) {
+				vkRepost->wszText.Replace(L"\n", L"\n\t");
+				wszText += vkRepost->wszText;
+				wszText += L"\n";
 
-			wszPopupText += L"\t";
-			wszPopupText += vkRepost->wszPopupTitle;
-			wszPopupText += L"\n\t";
-			wszPopupText += vkRepost->wszPopupText;
-			vkNewsItem->bIsRepost = true;
-			delete vkRepost;
+				wszPopupText += L"\t";
+				wszPopupText += vkRepost->wszPopupTitle;
+				wszPopupText += L"\n\t";
+				wszPopupText += vkRepost->wszPopupText;
+				vkNewsItem->bIsRepost = true;
+				delete vkRepost;
+			}
 		}
 
 		const JSONNode &jnAttachments = jnItem["attachments"];
