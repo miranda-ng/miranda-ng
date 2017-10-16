@@ -149,7 +149,7 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 	pci->SM_AddCommand(m_si->ptszID, m_si->pszModule, pszRtf);
 
 	CMStringW ptszText(ptrW(mir_utf8decodeW(pszRtf)));
-	pci->DoRtfToTags(ptszText, mi->nColorCount, mi->crColors);
+	pci->DoRtfToTags(ptszText, 0, nullptr);
 	ptszText.Trim();
 	ptszText.Replace(L"%", L"%%");
 

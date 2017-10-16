@@ -97,7 +97,7 @@ extern TMUCSettings g_Settings;
 //////////////////////////////////////////////////////////////////////////////////
 
 // log.c
-char* Log_CreateRtfHeader(MODULEINFO *mi);
+char* Log_CreateRtfHeader(void);
 char* Log_CreateRTF(LOGSTREAMDATA *streamData);
 
 // options.c
@@ -122,7 +122,6 @@ int UM_CompareItem(USERINFO *u1, const wchar_t* pszNick, WORD wStatus);
 
 // tools.c
 BOOL     DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
-int      Chat_GetColorIndex(const char* pszModule, COLORREF cr);
 wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2);
 bool     IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
 char     GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex);

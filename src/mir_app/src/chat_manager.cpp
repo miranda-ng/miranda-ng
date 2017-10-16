@@ -183,7 +183,7 @@ BOOL SM_SetOffline(const char *pszModule, SESSION_INFO *si)
 	return TRUE;
 }
 
-static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO * ui)
+static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO *ui)
 {
 	if (!ui || !si)
 		return nullptr;
@@ -575,7 +575,7 @@ static void MM_FontsChanged()
 {
 	for (int i = 0; i < g_arModules.getCount(); i++) {
 		MODULEINFO *mi = g_arModules[i];
-		mi->pszHeader = chatApi.Log_CreateRtfHeader(mi);
+		mi->pszHeader = chatApi.Log_CreateRtfHeader();
 	}
 }
 
@@ -585,15 +585,6 @@ static MODULEINFO* MM_FindModule(const char *pszModule)
 		return nullptr;
 
 	return g_arModules.find((MODULEINFO*)&pszModule);
-}
-
-// stupid thing..
-static void MM_FixColors()
-{
-	for (int i = 0; i < g_arModules.getCount(); i++) {
-		MODULEINFO *mi = g_arModules[i];
-		CheckColorsInModule(mi->pszModule);
-	}
 }
 
 static BOOL MM_RemoveAll(void)
@@ -606,7 +597,6 @@ static BOOL MM_RemoveAll(void)
 		mir_free(mi->pszModule);
 		mir_free(mi->ptszModDispName);
 		mir_free(mi->pszHeader);
-		mir_free(mi->crColors);
 		mir_free(mi);
 	}
 	return TRUE;
@@ -1059,7 +1049,6 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _
 
 	chatApi.MM_AddModule = MM_AddModule;
 	chatApi.MM_FindModule = MM_FindModule;
-	chatApi.MM_FixColors = MM_FixColors;
 	chatApi.MM_FontsChanged = MM_FontsChanged;
 	chatApi.MM_IconsChanged = MM_IconsChanged;
 	chatApi.MM_RemoveAll = MM_RemoveAll;
@@ -1104,7 +1093,6 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _
 	chatApi.ShowPopup = ShowPopup;
 	chatApi.LogToFile = LogToFile;
 	chatApi.GetChatLogsFilename = GetChatLogsFilename;
-	chatApi.GetColorIndex = GetColorIndex;
 	chatApi.Log_SetStyle = Log_SetStyle;
 
 	chatApi.IsHighlighted = IsHighlighted;

@@ -327,7 +327,7 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 	cmdList = tcmdlist_append(cmdList, pszRtf, 20, FALSE);
 
 	CMStringW ptszText(ptrW(mir_utf8decodeW(pszRtf)));
-	pci->DoRtfToTags(ptszText, mi->nColorCount, mi->crColors);
+	pci->DoRtfToTags(ptszText, 0, nullptr);
 	ptszText.Trim();
 	ptszText.Replace(L"%", L"%%");
 

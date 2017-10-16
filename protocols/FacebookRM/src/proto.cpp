@@ -451,14 +451,10 @@ int FacebookProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	// Register group chat
 	GCREGISTER gcr = {};
-	gcr.dwFlags = 0; //GC_ACKMSG;
 	gcr.pszModule = m_szModuleName;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.iMaxText = FACEBOOK_MESSAGE_LIMIT;
-	gcr.nColors = 0;
-	gcr.pColors = NULL;
 	Chat_Register(&gcr);
-
 	return 0;
 }
 

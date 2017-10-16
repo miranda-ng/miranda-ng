@@ -631,7 +631,7 @@ static void AddEventToBuffer(CMStringA &str, LOGSTREAMDATA *streamData)
 	}
 }
 
-char* Log_CreateRtfHeader(MODULEINFO *mi)
+char* Log_CreateRtfHeader(void)
 {
 	// get the number of pixels per logical inch
 	if (pci->logPixelSY == 0) {
@@ -653,9 +653,6 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 
 	for (int i = 0; i < OPTIONS_FONTCOUNT; i++)
 		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(pci->aFonts[i].color), GetGValue(pci->aFonts[i].color), GetBValue(pci->aFonts[i].color));
-
-	for (int i = 0; i < mi->nColorCount; i++)
-		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(mi->crColors[i]), GetGValue(mi->crColors[i]), GetBValue(mi->crColors[i]));
 
 	for (int i = 0; i < STATUSICONCOUNT; i++)
 		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(g_Settings.nickColors[i]), GetGValue(g_Settings.nickColors[i]), GetBValue(g_Settings.nickColors[i]));
@@ -702,11 +699,11 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 	// ### RTF HEADER
 
-	if (0 == mi->pszHeader)
-		mi->pszHeader = Log_CreateRtfHeader(mi);
+	if (mi->pszHeader == nullptr)
+		mi->pszHeader = Log_CreateRtfHeader();
 
 	char *header = mi->pszHeader;
-	streamData->crCount = mi->nColorCount;
+	streamData->crCount = 0;
 
 	CMStringA str;
 	if (header)

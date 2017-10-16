@@ -382,7 +382,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	return buf.Detach();
 }
 
-char* Log_CreateRtfHeader(MODULEINFO *mi)
+char* Log_CreateRtfHeader()
 {
 	// guesstimate amount of memory for the RTF header
 	CMStringA buf;
@@ -405,9 +405,6 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 
 	for (int i = 0; i < OPTIONS_FONTCOUNT; i++)
 		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(chatApi.aFonts[i].color), GetGValue(chatApi.aFonts[i].color), GetBValue(chatApi.aFonts[i].color));
-
-	for (int i = 0; i < mi->nColorCount; i++)
-		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(mi->crColors[i]), GetGValue(mi->crColors[i]), GetBValue(mi->crColors[i]));
 
 	// new paragraph
 	buf.Append("}\\pard");

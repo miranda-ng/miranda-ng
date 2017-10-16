@@ -881,7 +881,6 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 			pci->ReloadSettings();
 			pci->MM_FontsChanged();
-			pci->MM_FixColors();
 			Chat_UpdateOptions();
 
 			PluginConfig.reloadSettings();

@@ -156,8 +156,6 @@ CIrcProto::~CIrcProto()
 ////////////////////////////////////////////////////////////////////////////////////////
 // OnModulesLoaded - performs hook registration
 
-static COLORREF crCols[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
-
 static int sttCheckPerform(const char *szSetting, LPARAM lParam)
 {
 	if (!_strnicmp(szSetting, "PERFORM:", 8)) {
@@ -194,8 +192,6 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	GCREGISTER gcr = {};
 	gcr.dwFlags = GC_CHANMGR | GC_BOLD | GC_ITALICS | GC_UNDERLINE | GC_COLOR | GC_BKGCOLOR;
-	gcr.nColors = 16;
-	gcr.pColors = colors;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);

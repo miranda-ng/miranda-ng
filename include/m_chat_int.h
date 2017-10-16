@@ -94,8 +94,6 @@ struct GCModuleInfoBase
 	bool      bChanMgr, bAckMsg;
 	
 	int       iMaxText;
-	int       nColorCount;
-	COLORREF *crColors;
 };
 
 struct COMMANDINFO
@@ -274,7 +272,6 @@ struct CHAT_MANAGER
 
 	MODULEINFO*   (*MM_AddModule)(const char *pszModule);
 	MODULEINFO*   (*MM_FindModule)(const char *pszModule);
-	void          (*MM_FixColors)();
 	void          (*MM_FontsChanged)(void);
 	void          (*MM_IconsChanged)(void);
 	BOOL          (*MM_RemoveAll)(void);
@@ -308,7 +305,7 @@ struct CHAT_MANAGER
 	MCONTACT      (*FindRoom)(const char *pszModule, const wchar_t *pszRoom);
 
 	char*         (*Log_CreateRTF)(LOGSTREAMDATA *streamData);
-	char*         (*Log_CreateRtfHeader)(MODULEINFO *mi);
+	char*         (*Log_CreateRtfHeader)(void);
 	void          (*LoadMsgDlgFont)(int i, LOGFONT *lf, COLORREF *color);
 	wchar_t*      (*MakeTimeStamp)(wchar_t *pszStamp, time_t time);
 
@@ -318,7 +315,6 @@ struct CHAT_MANAGER
 	int           (*ShowPopup)(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, wchar_t* pszRoomName, COLORREF crBkg, const wchar_t* fmt, ...);
 	BOOL          (*LogToFile)(SESSION_INFO *si, GCEVENT *gce);
 	wchar_t*      (*GetChatLogsFilename)(SESSION_INFO *si, time_t tTime);
-	int           (*GetColorIndex)(const char *pszModule, COLORREF cr);
 	char*         (*Log_SetStyle)(int style);
 
 	bool          (*IsHighlighted)(SESSION_INFO *si, GCEVENT *pszText);

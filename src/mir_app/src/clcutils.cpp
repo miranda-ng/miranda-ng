@@ -674,7 +674,7 @@ DWORD fnGetDefaultExStyle(void)
 #define DBFONTF_ITALIC     2
 #define DBFONTF_UNDERLINE  4
 
-void fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF* colour)
+void fnGetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour)
 {
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), lf, FALSE);
 	*colour = GetSysColor(COLOR_WINDOWTEXT);
@@ -698,7 +698,7 @@ void fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 	}
 }
 
-void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
+void fnGetFontSetting(int i, LOGFONT *lf, COLORREF *colour)
 {
 	cli.pfnGetDefaultFontSetting(i, lf, colour);
 

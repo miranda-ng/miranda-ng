@@ -24,12 +24,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "chat.h"
 
+static COLORREF colorTable[] =
+{
+	RGB(0,0,0), RGB(0,0,128), RGB(0,128,128), RGB(128,0,128),
+	RGB(0,128,0), RGB(128,128,0), RGB(128,0,0), RGB(128,128,128),
+	RGB(192,192,192), RGB(0,0,255), RGB(0,255,255), RGB(255,0,255), 
+	RGB(0,255,0), RGB(255,255,0), RGB(255,0,0), RGB(255,255,255)
+};
+
 class CColorChooserDlg : public CDlgBase
 {
 	CCtrlBase m_text;
 
-	GCSessionInfoBase *m_si;
-	MODULEINFO *m_pModule;
+	CSrmmBaseDialog *m_pDlg;
 
 	int  m_xPosition, m_yPosition;
 	int  iCurrentHotTrack, iRows, iColumns;
@@ -38,14 +45,14 @@ class CColorChooserDlg : public CDlgBase
 
 	int CalculateCoordinatesToButton(POINT pt)
 	{
-		int iSquareRoot = (int)sqrt(static_cast<float>(m_pModule->nColorCount));
-		int nCols = iSquareRoot * iSquareRoot < m_pModule->nColorCount ? iSquareRoot + 1 : iSquareRoot;
+		int iSquareRoot = (int)sqrt(static_cast<float>(16));
+		int nCols = iSquareRoot * iSquareRoot < 16 ? iSquareRoot + 1 : iSquareRoot;
 
 		int col = pt.x / 25;
 		int row = (pt.y - 20) / 20;
 		int pos = nCols * row + col;
 
-		if (pt.y < 20 && pos >= m_pModule->nColorCount)
+		if (pt.y < 20 && pos >= 16)
 			pos = -1;
 
 		return pos;
@@ -53,8 +60,8 @@ class CColorChooserDlg : public CDlgBase
 
 	RECT CalculateButtonToCoordinates(int buttonPosition)
 	{
-		int iSquareRoot = (int)sqrt(static_cast<float>(m_pModule->nColorCount));
-		int nCols = iSquareRoot * iSquareRoot < m_pModule->nColorCount ? iSquareRoot + 1 : iSquareRoot;
+		int iSquareRoot = (int)sqrt(static_cast<float>(16));
+		int nCols = iSquareRoot * iSquareRoot < 16 ? iSquareRoot + 1 : iSquareRoot;
 
 		int row = buttonPosition / nCols;
 		int col = buttonPosition % nCols;
@@ -69,9 +76,13 @@ class CColorChooserDlg : public CDlgBase
 	}
 
 public:
-	CColorChooserDlg(SESSION_INFO *si, BOOL bFG, HWND hwndDlg, HWND hwndTarget, HWND hwndChooser) :
+	CColorChooserDlg(CSrmmBaseDialog *pDlg, BOOL bFG, HWND hwndDlg, HWND hwndTarget, HWND hwndChooser) :
 		CDlgBase(g_hInst, IDD_COLORCHOOSER),
 		m_text(this, IDC_COLORTEXT),
+		m_pDlg(pDlg),
+		m_hwndTarget(hwndTarget),
+		m_hwndChooser(hwndChooser),
+		m_bForeground(bFG),
 		iCurrentHotTrack(-2),
 		bChoosing(false)
 	{
@@ -81,20 +92,15 @@ public:
 		m_text.UseSystemColors();
 
 		m_hwndParent = hwndDlg;
-		m_hwndTarget = hwndTarget;
-		m_pModule = chatApi.MM_FindModule(si->pszModule);
 		m_xPosition = rc.left + 3;
 		m_yPosition = IsWindowVisible(hwndChooser) ? rc.top - 1 : rc.top + 20;
-		m_bForeground = bFG;
-		m_hwndChooser = hwndChooser;
-		m_si = si;
 	}
 
 	virtual void OnInitDialog() override
 	{
-		int iSquareRoot = (int)sqrt(static_cast<float>(m_pModule->nColorCount));
+		int iSquareRoot = (int)sqrt(static_cast<float>(16));
 
-		iColumns = iSquareRoot * iSquareRoot == m_pModule->nColorCount ? iSquareRoot : iSquareRoot + 1;
+		iColumns = iSquareRoot * iSquareRoot == 16 ? iSquareRoot : iSquareRoot + 1;
 		iRows = iSquareRoot;
 
 		RECT rc;
@@ -130,7 +136,7 @@ public:
 			break;
 
 		case WM_LBUTTONUP:
-			if (iCurrentHotTrack >= 0 && iCurrentHotTrack < m_pModule->nColorCount && m_hwndTarget != nullptr) {
+			if (iCurrentHotTrack >= 0 && iCurrentHotTrack < 16 && m_hwndTarget != nullptr) {
 				CHARFORMAT2 cf;
 				cf.cbSize = sizeof(CHARFORMAT2);
 				cf.dwMask = 0;
@@ -140,20 +146,20 @@ public:
 				int ctrlId = GetDlgCtrlID(m_hwndChooser);
 
 				if (m_bForeground) {
-					m_si->pDlg->m_bFGSet = true;
-					m_si->pDlg->m_iFG = iCurrentHotTrack;
+					m_pDlg->m_bFGSet = true;
+					m_pDlg->m_iFG = colorTable[iCurrentHotTrack];
 					if (IsDlgButtonChecked(hWindow, ctrlId)) {
 						cf.dwMask = CFM_COLOR;
-						cf.crTextColor = m_pModule->crColors[iCurrentHotTrack];
+						cf.crTextColor = colorTable[iCurrentHotTrack];
 						SendMessage(m_hwndTarget, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 					}
 				}
 				else {
-					m_si->pDlg->m_bBGSet = true;
-					m_si->pDlg->m_iBG = iCurrentHotTrack;
+					m_pDlg->m_bBGSet = true;
+					m_pDlg->m_iBG = colorTable[iCurrentHotTrack];
 					if (IsDlgButtonChecked(hWindow, ctrlId)) {
 						cf.dwMask = CFM_BACKCOLOR;
-						cf.crBackColor = m_pModule->crColors[iCurrentHotTrack];
+						cf.crBackColor = colorTable[iCurrentHotTrack];
 						SendMessage(m_hwndTarget, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 					}
 				}
@@ -216,7 +222,7 @@ public:
 				// fill background
 				FillRect(hdc, &rc, GetSysColorBrush(COLOR_WINDOW));
 
-				for (int i = 0; i < m_pModule->nColorCount; i++) {
+				for (int i = 0; i < 16; i++) {
 					// decide place to draw the color block in the window
 					iThisColumn++;
 					if (iThisColumn > iColumns) {
@@ -224,7 +230,7 @@ public:
 						iThisRow++;
 					}
 
-					if (m_bForeground && m_si->pDlg->m_bFGSet && m_si->pDlg->m_iFG == i || !m_bForeground && m_si->pDlg->m_bBGSet && m_si->pDlg->m_iBG == i) {
+					if (m_bForeground && m_pDlg->m_bFGSet && m_pDlg->m_iFG == i || !m_bForeground && m_pDlg->m_bBGSet && m_pDlg->m_iBG == i) {
 						rc.top = (iThisRow - 1) * 20 + 1 + 20;
 						rc.left = (iThisColumn - 1) * 25 + 1 + 1;
 						rc.bottom = iThisRow * 20 - 1 + 20;
@@ -237,16 +243,14 @@ public:
 					rc.left = (iThisColumn - 1) * 25 + 3 + 1;
 					rc.bottom = iThisRow * 20 - 3 + 20;
 					rc.right = iThisColumn * 25 - 3;
-
 					FillRect(hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
-
-					HBRUSH hbr = CreateSolidBrush(m_pModule->crColors[i]);
 
 					rc.top = (iThisRow - 1) * 20 + 4 + 20;
 					rc.left = (iThisColumn - 1) * 25 + 4 + 1;
 					rc.bottom = iThisRow * 20 - 4 + 20;
 					rc.right = iThisColumn * 25 - 4;
 
+					HBRUSH hbr = CreateSolidBrush(colorTable[i]);
 					FillRect(hdc, &rc, hbr);
 					DeleteObject(hbr);
 				}
@@ -267,6 +271,6 @@ public:
 
 void CSrmmBaseDialog::ShowColorChooser(int iCtrlId)
 {
-	CColorChooserDlg *pDialog = new CColorChooserDlg(m_si, iCtrlId == IDC_SRMM_COLOR, m_hwnd, m_message.GetHwnd(), GetDlgItem(m_hwnd, iCtrlId));
+	CColorChooserDlg *pDialog = new CColorChooserDlg(this, iCtrlId == IDC_SRMM_COLOR, m_hwnd, m_message.GetHwnd(), GetDlgItem(m_hwnd, iCtrlId));
 	pDialog->Show();
 }

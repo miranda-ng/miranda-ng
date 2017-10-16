@@ -88,7 +88,6 @@ static int FontsChanged(WPARAM, LPARAM)
 	g_Settings->bLogIndentEnabled = (db_get_b(0, CHAT_MODULE, "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
 
 	chatApi.MM_FontsChanged();
-	chatApi.MM_FixColors();
 	Chat_UpdateOptions();
 	return 0;
 }
@@ -175,15 +174,8 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 	mi->bAckMsg = (gcr->dwFlags & GC_ACKMSG) != 0;
 	mi->bChanMgr = (gcr->dwFlags & GC_CHANMGR) != 0;
 	mi->iMaxText = gcr->iMaxText;
-	mi->nColorCount = gcr->nColors;
-	if (gcr->nColors > 0) {
-		mi->crColors = (COLORREF *)mir_alloc(sizeof(COLORREF)* gcr->nColors);
-		memcpy(mi->crColors, gcr->pColors, sizeof(COLORREF)* gcr->nColors);
-	}
+	mi->pszHeader = chatApi.Log_CreateRtfHeader();
 
-	mi->pszHeader = chatApi.Log_CreateRtfHeader(mi);
-
-	CheckColorsInModule((char*)gcr->pszModule);
 	chatApi.SetAllOffline(TRUE, gcr->pszModule);
 	return 0;
 }

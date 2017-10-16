@@ -639,7 +639,7 @@ void CChatRoomDlg::onClick_OK(CCtrlButton*)
 	if (ptszText.IsEmpty())
 		return;
 
-	DoRtfToTags(ptszText, mi->nColorCount, mi->crColors);
+	DoRtfToTags(ptszText, 0, nullptr);
 	ptszText.Trim();
 	ptszText.Replace(L"%", L"%%");
 

@@ -358,48 +358,6 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	return TRUE;
 }
 
-int GetColorIndex(const char *pszModule, COLORREF cr)
-{
-	MODULEINFO *pMod = chatApi.MM_FindModule(pszModule);
-	int i = 0;
-
-	if (!pMod || pMod->nColorCount == 0)
-		return -1;
-
-	for (i = 0; i < pMod->nColorCount; i++)
-		if (pMod->crColors[i] == cr)
-			return i;
-
-	return -1;
-}
-
-// obscure function that is used to make sure that any of the colors
-// passed by the protocol is used as fore- or background color
-// in the messagebox. THis is to vvercome limitations in the richedit
-// that I do not know currently how to fix
-
-void CheckColorsInModule(const char *pszModule)
-{
-	MODULEINFO *pMod = chatApi.MM_FindModule(pszModule);
-	if (!pMod)
-		return;
-
-	int i = 0;
-	COLORREF crFG;
-	COLORREF crBG = (COLORREF)db_get_dw(0, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
-
-	LoadMsgDlgFont(17, nullptr, &crFG);
-
-	for (i = 0; i < pMod->nColorCount; i++) {
-		if (pMod->crColors[i] == crFG || pMod->crColors[i] == crBG) {
-			if (pMod->crColors[i] == RGB(255, 255, 255))
-				pMod->crColors[i]--;
-			else
-				pMod->crColors[i]++;
-		}
-	}
-}
-
 const wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2)
 {
 	int i, j, k;

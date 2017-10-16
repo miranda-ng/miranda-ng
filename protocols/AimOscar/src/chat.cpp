@@ -18,14 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-static const COLORREF crCols[16] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 };
-
 void CAimProto::chat_register(void)
 {
 	GCREGISTER gcr = {};
 	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
-	gcr.nColors = 16;
-	gcr.pColors = (COLORREF*)crCols;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);

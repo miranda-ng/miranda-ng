@@ -451,19 +451,6 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	return TRUE;
 }
 
-int Chat_GetColorIndex(const char* pszModule, COLORREF cr)
-{
-	MODULEINFO *pMod = pci->MM_FindModule(pszModule);
-	if (!pMod || pMod->nColorCount == 0)
-		return -1;
-
-	for (int i = 0; i < pMod->nColorCount; i++)
-		if (pMod->crColors[i] == cr)
-			return i;
-
-	return -1;
-}
-
 wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2)
 {
 	int i, j, k;

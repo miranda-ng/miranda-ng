@@ -759,7 +759,7 @@ void CSrmmBaseDialog::onClick_Color(CCtrlButton *pButton)
 			return;
 		}
 		if (m_bFGSet)
-			cf.crTextColor = chatApi.MM_FindModule(m_si->pszModule)->crColors[m_iFG];
+			cf.crTextColor = m_iFG;
 	}
 	else cf.crTextColor = m_clrInputFG;
 
@@ -782,7 +782,7 @@ void CSrmmBaseDialog::onClick_BkColor(CCtrlButton *pButton)
 			return;
 		}
 		if (m_bBGSet)
-			cf.crBackColor = chatApi.MM_FindModule(m_si->pszModule)->crColors[m_iBG];
+			cf.crBackColor = m_iBG;
 	}
 	else cf.crBackColor = m_clrInputBG;
 
@@ -942,14 +942,7 @@ void CSrmmBaseDialog::RefreshButtonStatus(void)
 		return;
 
 	if (mi->bColor) {
-		int index = GetColorIndex(m_si->pszModule, cf.crTextColor);
 		bool bState = m_btnColor.IsPushed();
-
-		if (index >= 0) {
-			m_bFGSet = true;
-			m_iFG = index;
-		}
-
 		if (!bState && cf.crTextColor != m_clrInputFG)
 			m_btnColor.Push(true);
 		else if (bState && cf.crTextColor == m_clrInputFG)
@@ -957,14 +950,7 @@ void CSrmmBaseDialog::RefreshButtonStatus(void)
 	}
 
 	if (mi->bBkgColor) {
-		int index = GetColorIndex(m_si->pszModule, cf.crBackColor);
 		bool bState = m_btnBkColor.IsPushed();
-
-		if (index >= 0) {
-			m_bBGSet = true;
-			m_iBG = index;
-		}
-
 		if (!bState && cf.crBackColor != m_clrInputBG)
 			m_btnBkColor.Push(true);
 		else if (bState && cf.crBackColor == m_clrInputBG)

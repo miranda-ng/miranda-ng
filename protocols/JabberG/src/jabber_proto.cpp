@@ -200,8 +200,6 @@ CJabberProto::~CJabberProto()
 ////////////////////////////////////////////////////////////////////////////////////////
 // OnModulesLoadedEx - performs hook registration
 
-static COLORREF crCols[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
-
 int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 {
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CJabberProto::OnUserInfoInit);
@@ -212,8 +210,6 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 
 	GCREGISTER gcr = {};
 	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
-	gcr.nColors = _countof(crCols);
-	gcr.pColors = &crCols[0];
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);

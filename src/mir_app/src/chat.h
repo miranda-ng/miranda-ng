@@ -54,7 +54,7 @@ void     FreeMsgLogBitmaps(void);
 void     ValidateFilename (wchar_t *filename);
 wchar_t* MakeTimeStamp(wchar_t *pszStamp, time_t time);
 wchar_t* GetChatLogsFilename(SESSION_INFO *si, time_t tTime);
-char*    Log_CreateRtfHeader(MODULEINFO *mi);
+char*    Log_CreateRtfHeader();
 char*    Log_CreateRTF(LOGSTREAMDATA *streamData);
 char*    Log_SetStyle(int style);
 
@@ -105,8 +105,6 @@ void     UnloadChatModule(void);
 int      DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pColors);
 wchar_t *RemoveFormatting(const wchar_t* pszText);
 BOOL     DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
-int      GetColorIndex(const char *pszModule, COLORREF cr);
-void     CheckColorsInModule(const char *pszModule);
 int      GetRichTextLength(HWND hwnd);
 bool     IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
 BOOL     IsEventSupported(int eventType);

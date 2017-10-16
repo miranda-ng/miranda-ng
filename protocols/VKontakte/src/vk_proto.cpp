@@ -31,7 +31,6 @@ static int sttCompareAsyncHttpRequest(const AsyncHttpRequest *p1, const AsyncHtt
 
 LIST<CVkProto> vk_Instances(1, sttCompareProtocols);
 mir_cs csInstances;
-static COLORREF sttColors[] = { 0, 1, 2, 3, 4, 5, 6 };
 
 CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	PROTO<CVkProto>(szModuleName, pwszUserName),
@@ -109,17 +108,18 @@ int CVkProto::OnModulesLoaded(WPARAM, LPARAM)
 	GCREGISTER gcr = {};
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
-	gcr.nColors = _countof(sttColors);
-	gcr.pColors = sttColors;
 	Chat_Register(&gcr);
+	
 	CreateProtoService(PS_LEAVECHAT, &CVkProto::OnLeaveChat);
 	CreateProtoService(PS_JOINCHAT, &CVkProto::OnJoinChat);
 	HookProtoEvent(ME_GC_EVENT, &CVkProto::OnChatEvent);
 	HookProtoEvent(ME_GC_BUILDMENU, &CVkProto::OnGcMenuHook);
+	
 	// Other hooks
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CVkProto::OnProcessSrmmEvent);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CVkProto::OnDbEventRead);
 	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CVkProto::OnDbSettingChanged);
+	
 	//Sounds
 	Skin_AddSound("VKNewsFeed", m_tszUserName, LPGENW("VKontakte newsfeed & notification event"));
 
