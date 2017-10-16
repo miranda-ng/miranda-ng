@@ -483,8 +483,7 @@ void StartupStatusLoad()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, SSModuleLoaded);
 
-	if (db_get_b(0, SSMODULENAME, SETTING_SETPROFILE, 1) ||
-		db_get_b(0, SSMODULENAME, SETTING_OFFLINECLOSE, 0))
+	if (db_get_b(0, SSMODULENAME, SETTING_SETPROFILE, 1) || db_get_b(0, SSMODULENAME, SETTING_OFFLINECLOSE, 0))
 		db_set_w(0, "CList", "Status", (WORD)ID_STATUS_OFFLINE);
 
 	// docking

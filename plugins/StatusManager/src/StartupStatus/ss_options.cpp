@@ -572,6 +572,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 			if (profileCount == 0) {
 				profileCount = 1;
 				defProfile = 0;
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 
 			for (int i = 0; i < profileCount; i++) {
