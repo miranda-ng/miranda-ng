@@ -72,13 +72,6 @@ struct TAAAProtoSetting : public PROTOCOLSETTINGEX, public MZeroedObject
 
 int AAACompareSettings(const TAAAProtoSetting *p1, const TAAAProtoSetting *p2);
 
-struct AAMSGSETTING
-{
-	short useCustom;
-	int   status;
-	char* msg;
-};
-
 void AdvancedAutoAwayLoad();
 void AdvancedAutoAwayUnload();
 

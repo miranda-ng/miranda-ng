@@ -14,7 +14,6 @@
 #define IDD_OPT_KS_ACTION               120
 #define IDD_SETSTSMSGDIALOG             121
 #define IDD_OPT_STATUSPROFILES          123
-#define IDD_OPT_TABS                    126
 #define IDD_OPT_KS_ADV                  127
 #define IDD_TRG_AAASTATECHANGE          128
 #define IDI_TTBDOWN                     129

@@ -19,7 +19,14 @@
 
 #include "..\stdafx.h"
 
-extern char *StatusModeToDbSetting(int status, const char *suffix);
+struct AAMSGSETTING
+{
+	short useCustom;
+	int   status;
+	char* msg;
+};
+
+char *StatusModeToDbSetting(int status, const char *suffix);
 
 void DisableDialog(HWND hwndDlg)
 {

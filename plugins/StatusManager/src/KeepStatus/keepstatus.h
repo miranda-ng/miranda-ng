@@ -76,9 +76,6 @@
 #define IDT_CHECKCONTIN              0x08
 #define IDT_CHECKCONNECTING          0x10
 
-#define KS_ISENABLED                 WM_APP + 10
-#define KS_ENABLEITEMS               WM_APP + 11
-
 // action
 #define SETTING_ENABLECHECKING       "EnableChecking"
 // trigger

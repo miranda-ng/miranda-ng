@@ -415,102 +415,6 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Tab window procedure
-
-static INT_PTR CALLBACK DlgProcAutoAwayTabs(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			RECT rcTabs, rcOptions, rcPage;
-			bSettingSame = db_get_b(0, AAAMODULENAME, SETTING_SAMESETTINGS, FALSE);
-
-			// set tabs
-			int tabCount = 0;
-			HWND hTab = GetDlgItem(hwndDlg, IDC_TABS);
-			GetWindowRect(hTab, &rcTabs);
-			GetWindowRect(hwndDlg, &rcOptions);
-
-			// general tab
-			TCITEM tci = { 0 };
-			tci.mask = TCIF_TEXT | TCIF_PARAM;
-			tci.pszText = TranslateT("General");
-			HWND hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPT_GENAUTOAWAY), hwndDlg, DlgProcAutoAwayGeneralOpts, (LPARAM)GetParent(hwndDlg));
-			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
-
-			tci.lParam = (LPARAM)hPage;
-			GetClientRect(hPage, &rcPage);
-			MoveWindow(hPage, (rcTabs.left - rcOptions.left) + ((rcTabs.right - rcTabs.left) - (rcPage.right - rcPage.left)) / 2, 10 + (rcTabs.top - rcOptions.top) + ((rcTabs.bottom - rcTabs.top) - (rcPage.bottom - rcPage.top)) / 2, rcPage.right - rcPage.left, rcPage.bottom - rcPage.top, TRUE);
-			ShowWindow(hPage, SW_HIDE);
-			TabCtrl_InsertItem(hTab, tabCount++, &tci);
-			HWND hShow = hPage;
-
-			// rules tab
-			tci.mask = TCIF_TEXT | TCIF_PARAM;
-			tci.pszText = TranslateT("Rules");
-			hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPT_AUTOAWAY), hwndDlg, DlgProcAutoAwayRulesOpts, (LPARAM)GetParent(hwndDlg));
-			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
-
-			tci.lParam = (LPARAM)hPage;
-			GetClientRect(hPage, &rcPage);
-			MoveWindow(hPage, (rcTabs.left - rcOptions.left) + ((rcTabs.right - rcTabs.left) - (rcPage.right - rcPage.left)) / 2, 10 + (rcTabs.top - rcOptions.top) + ((rcTabs.bottom - rcTabs.top) - (rcPage.bottom - rcPage.top)) / 2, rcPage.right - rcPage.left, rcPage.bottom - rcPage.top, TRUE);
-			ShowWindow(hPage, SW_HIDE);
-			TabCtrl_InsertItem(hTab, tabCount++, &tci);
-
-			// messages tab
-			tci.mask = TCIF_TEXT | TCIF_PARAM;
-			tci.pszText = TranslateT("Status messages");
-			hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPT_AUTOAWAYMSG), hwndDlg, DlgProcAutoAwayMsgOpts, (LPARAM)GetParent(hwndDlg));
-			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
-
-			tci.lParam = (LPARAM)hPage;
-			GetClientRect(hPage, &rcPage);
-			MoveWindow(hPage, (rcTabs.left - rcOptions.left) + ((rcTabs.right - rcTabs.left) - (rcPage.right - rcPage.left)) / 2, 10 + (rcTabs.top - rcOptions.top) + ((rcTabs.bottom - rcTabs.top) - (rcPage.bottom - rcPage.top)) / 2, rcPage.right - rcPage.left, rcPage.bottom - rcPage.top, TRUE);
-			ShowWindow(hPage, SW_HIDE);
-			TabCtrl_InsertItem(hTab, tabCount++, &tci);
-
-			ShowWindow(hShow, SW_SHOW);
-		}
-		break;
-
-	case PSM_CHANGED:
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		if ((((NMHDR*)lParam)->idFrom == IDC_TABS)) {
-			if (((NMHDR*)lParam)->code == TCN_SELCHANGING) {
-				TCITEM tci;
-
-				tci.mask = TCIF_PARAM;
-				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TABS), TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_TABS)), &tci);
-				ShowWindow((HWND)tci.lParam, SW_HIDE);
-			}
-			else if (((NMHDR*)lParam)->code == TCN_SELCHANGE) {
-				TCITEM tci;
-
-				tci.mask = TCIF_PARAM;
-				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TABS), TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_TABS)), &tci);
-				ShowWindow((HWND)tci.lParam, SW_SHOW);
-			}
-		}
-		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			TCITEM tci;
-			tci.mask = TCIF_PARAM;
-			int count = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TABS));
-			for (int i = 0; i < count; i++) {
-				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TABS), i, &tci);
-				SendMessage((HWND)tci.lParam, WM_NOTIFY, 0, lParam);
-			}
-		}
-		break;
-	}
-
-	return FALSE;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Options initialization procedure
 
 int AutoAwayOptInitialise(WPARAM wParam, LPARAM)
@@ -518,11 +422,23 @@ int AutoAwayOptInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 1000000000;
 	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABS);
-	odp.szTitle.a = LPGEN("Auto away");
-	odp.szGroup.a = LPGEN("Status");
-	odp.pfnDlgProc = DlgProcAutoAwayTabs;
 	odp.flags = ODPF_BOLDGROUPS;
+	odp.szGroup.a = LPGEN("Status");
+	odp.szTitle.a = LPGEN("Auto away");
+
+	odp.szTab.a = LPGEN("General");
+	odp.pfnDlgProc = DlgProcAutoAwayGeneralOpts;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENAUTOAWAY);
+	Options_AddPage(wParam, &odp);
+
+	odp.szTab.a = LPGEN("Rules");
+	odp.pfnDlgProc = DlgProcAutoAwayRulesOpts;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AUTOAWAY);
+	Options_AddPage(wParam, &odp);
+
+	odp.szTab.a = LPGEN("Status messages");
+	odp.pfnDlgProc = DlgProcAutoAwayMsgOpts;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AUTOAWAYMSG);
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
