@@ -93,9 +93,7 @@ TKSSettings::TKSSettings(PROTOACCOUNT *pa)
 	m_szName = pa->szModuleName;
 	m_tszAccName = pa->tszAccountName;
 	m_szMsg = nullptr;
-
-	int iStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
-	AssignStatus(iStatus, iStatus, nullptr);
+	m_status = m_lastStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
 }
 
 TKSSettings::~TKSSettings()
