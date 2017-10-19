@@ -72,33 +72,6 @@ static void CB_RegisterSeparators()
 	}
 }
 
-static void CB_GetButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
-{
-	DBVARIANT  dbv = { 0 };
-	char SettingName[1024];
-	char* token = nullptr;
-
-	// modulename_buttonID, position_inIM_inCHAT_isLSide_isRSide_CanBeHidden
-
-	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonOrigID);
-
-	if (!db_get_s(hContact, MODULENAME, SettingName, &dbv)) {
-		token = strtok(dbv.pszVal, "_");
-		cbd->m_dwPosition = (DWORD)atoi(token);
-		token = strtok(nullptr, "_");
-		cbd->m_bIMButton = atoi(token) != 0;
-		token = strtok(nullptr, "_");
-		cbd->m_bChatButton = atoi(token) != 0;
-		token = strtok(nullptr, "_");
-		token = strtok(nullptr, "_");
-		cbd->m_bRSided = atoi(token) != 0;
-		token = strtok(nullptr, "_");
-		cbd->m_bCanBeHidden = atoi(token) != 0;
-
-		db_free(&dbv);
-	}
-}
-
 MIR_APP_DLL(CustomButtonData*) Srmm_GetNthButton(int i)
 {
 	return arButtonsList[i];
@@ -124,9 +97,9 @@ MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 	cbd->m_pwszText = mir_wstrdup(bbdi->pwszText);
 	cbd->m_pwszTooltip = mir_wstrdup(bbdi->pwszTooltip);
 
-	cbd->m_dwButtonOrigID = bbdi->dwButtonID;
+	cbd->m_dwButtonID = bbdi->dwButtonID;
 	cbd->m_hIcon = bbdi->hIcon;
-	cbd->m_dwPosition = bbdi->dwDefPos;
+	cbd->m_dwPosition = cbd->m_dwOrigPosition = bbdi->dwDefPos;
 	cbd->m_dwButtonCID = (bbdi->bbbFlags & BBBF_CREATEBYID) ? bbdi->dwButtonID : LastCID;
 	cbd->m_dwArrowCID = (bbdi->bbbFlags & BBBF_ISARROWBUTTON) ? cbd->m_dwButtonCID + 1 : 0;
 	cbd->m_bHidden = (bbdi->bbbFlags & BBBF_HIDDEN) != 0;
@@ -150,11 +123,30 @@ MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 	}
 
 	// download database settings
-	CB_GetButtonSettings(0, cbd);
+	char SettingName[1024];
+	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonID);
+
+	DBVARIANT dbv = { 0 };
+	if (!db_get_s(0, MODULENAME, SettingName, &dbv)) {
+		// modulename_buttonID, position_inIM_inCHAT_isLSide_isRSide_CanBeHidden
+		char *token = strtok(dbv.pszVal, "_");
+		cbd->m_dwPosition = (DWORD)atoi(token);
+		token = strtok(nullptr, "_");
+		cbd->m_bIMButton = atoi(token) != 0;
+		token = strtok(nullptr, "_");
+		cbd->m_bChatButton = atoi(token) != 0;
+		token = strtok(nullptr, "_");
+		token = strtok(nullptr, "_");
+		cbd->m_bRSided = atoi(token) != 0;
+		token = strtok(nullptr, "_");
+		cbd->m_bCanBeHidden = atoi(token) != 0;
+
+		db_free(&dbv);
+	}
 
 	arButtonsList.insert(cbd);
 
-	if (cbd->m_dwButtonCID != cbd->m_dwButtonOrigID)
+	if (cbd->m_dwButtonCID != cbd->m_dwButtonID)
 		LastCID++;
 	if (cbd->m_dwArrowCID == LastCID)
 		LastCID++;
@@ -172,7 +164,7 @@ MIR_APP_DLL(int) Srmm_GetButtonState(HWND hwndDlg, BBButton *bbdi)
 	bbdi->bbbFlags = 0;
 	for (int i = 0; i < arButtonsList.getCount(); i++) {
 		CustomButtonData *cbd = arButtonsList[i];
-		if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
+		if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonID == bbdi->dwButtonID)) {
 			tempCID = cbd->m_dwButtonCID;
 			break;
 		}
@@ -193,7 +185,7 @@ MIR_APP_DLL(int) Srmm_SetButtonState(MCONTACT hContact, BBButton *bbdi)
 	DWORD tempCID = 0;
 	for (int i = 0; i < arButtonsList.getCount(); i++) {
 		CustomButtonData *cbd = arButtonsList[i];
-		if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
+		if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonID == bbdi->dwButtonID)) {
 			tempCID = cbd->m_dwButtonCID;
 			break;
 		}
@@ -234,7 +226,7 @@ MIR_APP_DLL(int) Srmm_RemoveButton(BBButton *bbdi)
 
 		for (int i = arButtonsList.getCount() - 1; i >= 0; i--) {
 			CustomButtonData *cbd = arButtonsList[i];
-			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && cbd->m_dwButtonOrigID == bbdi->dwButtonID) {
+			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && cbd->m_dwButtonID == bbdi->dwButtonID) {
 				pFound = cbd;
 				arButtonsList.remove(i);
 			}
@@ -260,7 +252,7 @@ MIR_APP_DLL(int) Srmm_ModifyButton(BBButton *bbdi)
 
 		for (int i = 0; i < arButtonsList.getCount(); i++) {
 			cbd = arButtonsList[i];
-			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
+			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonID == bbdi->dwButtonID)) {
 				bFound = true;
 				break;
 			}
@@ -298,13 +290,13 @@ MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, DWORD idFrom, HWND hw
 		CustomButtonData *cbd = arButtonsList[i];
 		if	(cbd->m_dwButtonCID == idFrom) {
 			cbcd.pszModule = cbd->m_pszModuleName;
-			cbcd.dwButtonId = cbd->m_dwButtonOrigID;
+			cbcd.dwButtonId = cbd->m_dwButtonID;
 			hwndFrom = GetDlgItem(hwndDlg, idFrom);
 		}
 		else if (cbd->m_dwArrowCID == idFrom) {
 			bFromArrow = true;
 			cbcd.pszModule = cbd->m_pszModuleName;
-			cbcd.dwButtonId = cbd->m_dwButtonOrigID;
+			cbcd.dwButtonId = cbd->m_dwButtonID;
 			hwndFrom = GetDlgItem(hwndDlg, idFrom-1);
 		}
 	}
@@ -337,7 +329,7 @@ void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwnd
 
 		if (cbd->m_hotkey->lParam == iButtonFrom) {
 			cbcd.pszModule = cbd->m_pszModuleName;
-			cbcd.dwButtonId = cbd->m_dwButtonOrigID;
+			cbcd.dwButtonId = cbd->m_dwButtonID;
 			hwndFrom = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
 			break;
 		}
@@ -360,11 +352,10 @@ void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwnd
 
 MIR_APP_DLL(void) Srmm_ResetToolbar()
 {
-	{	mir_cslock lck(csToolBar);
-		wipeList(arButtonsList);
+	for (int i = 0; i < arButtonsList.getCount(); i++) {
+		auto *bb = arButtonsList[i];
+		bb->m_dwPosition = bb->m_dwOrigPosition;
 	}
-	LastCID = MIN_CBUTTONID;
-	dwSepCount = 0;
 }
 
 void Srmm_CreateToolbarIcons(HWND hwndDlg, int flags)
@@ -465,7 +456,7 @@ static void CB_WriteButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 
 	//modulename_buttonID, position_inIM_inCHAT_isLSide_isRSide_CanBeHidden
 
-	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonOrigID);
+	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonID);
 	mir_snprintf(SettingParameter, "%d_%u_%u_%u_%u_%u", cbd->m_dwPosition, cbd->m_bIMButton, cbd->m_bChatButton, 0, cbd->m_bRSided, cbd->m_bCanBeHidden);
 	if (!(cbd->m_opFlags & BBSF_NTBDESTRUCT))
 		db_set_s(hContact, MODULENAME, SettingName, SettingParameter);
@@ -706,7 +697,7 @@ public:
 
 		CustomButtonData *cbd = new CustomButtonData();
 		cbd->m_bSeparator = cbd->m_bHidden = cbd->m_bIMButton = true;
-		cbd->m_dwButtonOrigID = ++dwSepCount;
+		cbd->m_dwButtonID = ++dwSepCount;
 		cbd->m_pszModuleName = "Tabsrmm_sep";
 		cbd->m_iButtonWidth = 22;
 		cbd->m_opFlags = BBSF_NTBDESTRUCT;

@@ -320,10 +320,10 @@ struct CustomButtonData : public MZeroedObject
 
 	DWORD  m_dwPosition;    // default order pos of button, counted from window edge (left or right)
 
-	DWORD  m_dwButtonOrigID; // id of button used while button creation and to store button info in DB
-	ptrA   m_pszModuleName;  // module name without spaces and underline symbols (e.g. "tabsrmm")
+	DWORD  m_dwButtonID;    // id of button used while button creation and to store button info in DB
+	ptrA   m_pszModuleName; // module name without spaces and underline symbols (e.g. "tabsrmm")
 
-	DWORD  m_dwButtonCID;
+	DWORD  m_dwButtonCID;	// button's control id
 	DWORD  m_dwArrowCID;    // only use with BBBF_ISARROWBUTTON flag
 
 	ptrW   m_pwszText;      // button's text
@@ -337,6 +337,7 @@ struct CustomButtonData : public MZeroedObject
 	bool   m_bRSided;
 	BYTE   m_opFlags;
 	int    m_hLangpack;
+	DWORD  m_dwOrigPosition;
 	struct THotkeyItem *m_hotkey;
 };
 
