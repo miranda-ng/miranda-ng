@@ -23,7 +23,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "stdafx.h"
 
-HINSTANCE hInst;
+HINSTANCE g_hInst;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -42,166 +42,13 @@ PLUGININFOEX pluginInfo = {
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
-	hInst = hinstDLL;
+	g_hInst = hinstDLL;
 	return TRUE;
 }
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
-}
-
-INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg)
-	{
-		case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
-
-			if(db_get_b(NULL, MODULE_NAME, "CLState", 2))
-				CheckRadioButton(hwndDlg, IDC_CLSTATETRAY, IDC_CLSTATEOPENED, IDC_CLSTATEOPENED);
-			else
-				CheckRadioButton(hwndDlg, IDC_CLSTATETRAY, IDC_CLSTATEOPENED, IDC_CLSTATETRAY);
-
-			CheckDlgButton(hwndDlg, IDC_CLSTATEENABLE, db_get_b(NULL, MODULE_NAME, "CLEnableState", 0) ? BST_CHECKED : BST_UNCHECKED);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CLSTATETRAY), IsDlgButtonChecked(hwndDlg, IDC_CLSTATEENABLE));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CLSTATEOPENED), IsDlgButtonChecked(hwndDlg, IDC_CLSTATEENABLE));
-
-			if(db_get_b(NULL, MODULE_NAME, "CLAlign", RIGHT))
-				CheckRadioButton(hwndDlg, IDC_CLALIGNLEFT, IDC_CLALIGNRIGHT, IDC_CLALIGNRIGHT);
-			else
-				CheckRadioButton(hwndDlg, IDC_CLALIGNLEFT, IDC_CLALIGNRIGHT, IDC_CLALIGNLEFT);
-			CheckDlgButton(hwndDlg, IDC_CLSIDEENABLE, db_get_b(NULL, MODULE_NAME, "CLEnableSide", 1) ? BST_CHECKED : BST_UNCHECKED);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CLALIGNLEFT), IsDlgButtonChecked(hwndDlg, IDC_CLSIDEENABLE));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CLALIGNRIGHT), IsDlgButtonChecked(hwndDlg, IDC_CLSIDEENABLE));
-
-			CheckDlgButton(hwndDlg, IDC_CLTOPENABLE, db_get_b(NULL, MODULE_NAME, "CLEnableTop", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CLBOTTOMENABLE, db_get_b(NULL, MODULE_NAME, "CLEnableBottom", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CLWIDTHENABLE, db_get_b(NULL, MODULE_NAME, "CLEnableWidth", 0) ? BST_CHECKED : BST_UNCHECKED);
-
-			SetDlgItemInt(hwndDlg, IDC_CLTOP, db_get_dw(NULL, MODULE_NAME, "CLpixelsTop", 3), TRUE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CLTOP), IsDlgButtonChecked(hwndDlg, IDC_CLTOPENABLE));
-			SetDlgItemInt(hwndDlg, IDC_CLBOTTOM, db_get_dw(NULL, MODULE_NAME, "CLpixelsBottom", 3), TRUE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CLBOTTOM), IsDlgButtonChecked(hwndDlg, IDC_CLBOTTOMENABLE));
-			SetDlgItemInt(hwndDlg, IDC_CLSIDE, db_get_dw(NULL, MODULE_NAME, "CLpixelsSide", 3), TRUE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CLSIDE), IsDlgButtonChecked(hwndDlg, IDC_CLSIDEENABLE));
-			SetDlgItemInt(hwndDlg, IDC_CLWIDTH, db_get_dw(NULL, MODULE_NAME, "CLWidth", 180), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CLWIDTH), IsDlgButtonChecked(hwndDlg, IDC_CLWIDTHENABLE));
-
-			return TRUE;
-		}
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-				case IDC_CLALIGNLEFT:
-				case IDC_CLALIGNRIGHT:
-				case IDC_CLSTATETRAY:
-				case IDC_CLSTATEOPENED:
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					break;
-
-				case IDC_CLWIDTHENABLE:
-				{
-					EnableWindow(GetDlgItem(hwndDlg, IDC_CLWIDTH), IsDlgButtonChecked(hwndDlg, IDC_CLWIDTHENABLE));
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-				break;
-
-				case IDC_CLBOTTOMENABLE:
-				{
-					EnableWindow(GetDlgItem(hwndDlg, IDC_CLBOTTOM), IsDlgButtonChecked(hwndDlg, IDC_CLBOTTOMENABLE));
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-				break;
-
-				case IDC_CLTOPENABLE:
-				{
-					EnableWindow(GetDlgItem(hwndDlg, IDC_CLTOP), IsDlgButtonChecked(hwndDlg, IDC_CLTOPENABLE));
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-				break;
-
-				case IDC_CLSIDEENABLE:
-				{
-					BOOL value = IsDlgButtonChecked(hwndDlg, IDC_CLSIDEENABLE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_CLSIDE), value);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_CLALIGNLEFT), value);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_CLALIGNRIGHT), value);
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-				break;
-
-				case IDC_CLSTATEENABLE:
-				{
-					BOOL value = IsDlgButtonChecked(hwndDlg, IDC_CLSTATEENABLE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_CLSTATETRAY), value);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_CLSTATEOPENED), value);
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-				break;
-
-				case IDC_CLTOP:
-				case IDC_CLBOTTOM:
-				case IDC_CLSIDE:
-				case IDC_CLWIDTH:
-					if (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus())
-						return FALSE;
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					break;
-			}
-			break;
-		case WM_NOTIFY:
-			switch (((LPNMHDR)lParam)->code)
-			{
-				case PSN_APPLY:
-				{
-					/*begin uninstall old settings*/
-					if(db_get_b(NULL, MODULE_NAME, "CLEnableTop", dbERROR) == dbERROR) {
-						db_unset(NULL, MODULE_NAME, "CLEnable");
-						db_unset(NULL, MODULE_NAME, "CLuseLastWidth");
-					}
-					/*end uninstall old settings*/
-
-					if(IsDlgButtonChecked(hwndDlg, IDC_CLSTATEOPENED))
-						db_set_b(NULL, MODULE_NAME, "CLState", 2);
-					else
-						db_set_b(NULL, MODULE_NAME, "CLState", 0);
-
-					if(IsDlgButtonChecked(hwndDlg, IDC_CLALIGNLEFT))
-						db_set_b(NULL, MODULE_NAME, "CLAlign", LEFT);
-					else
-						db_set_b(NULL, MODULE_NAME, "CLAlign", RIGHT);
-
-					db_set_b(NULL, MODULE_NAME, "CLEnableState", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLSTATEENABLE));
-
-					db_set_b(NULL, MODULE_NAME, "CLEnableTop", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLTOPENABLE));
-					db_set_b(NULL, MODULE_NAME, "CLEnableBottom", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLBOTTOMENABLE));
-					db_set_b(NULL, MODULE_NAME, "CLEnableSide", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLSIDEENABLE));
-					db_set_b(NULL, MODULE_NAME, "CLEnableWidth", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLWIDTHENABLE));
-					db_set_dw(NULL, MODULE_NAME, "CLWidth", GetDlgItemInt(hwndDlg, IDC_CLWIDTH, NULL, FALSE));
-					db_set_dw(NULL, MODULE_NAME, "CLpixelsTop", GetDlgItemInt(hwndDlg, IDC_CLTOP, NULL, TRUE));
-					db_set_dw(NULL, MODULE_NAME, "CLpixelsBottom", GetDlgItemInt(hwndDlg, IDC_CLBOTTOM, NULL, TRUE));
-					db_set_dw(NULL, MODULE_NAME, "CLpixelsSide", GetDlgItemInt(hwndDlg, IDC_CLSIDE, NULL, TRUE));
-
-					return TRUE;
-				}
-			}
-			break;
-	}
-	return FALSE;
-}
-
-int OptInit(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.szGroup.a = LPGEN("Contact list");
-	odp.szTitle.a = LPGEN("Start position");
-	odp.pfnDlgProc = OptionsDlgProc;
-	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
-	return 0;
 }
 
 extern "C" __declspec(dllexport) int Load(void)
@@ -257,7 +104,7 @@ extern "C" __declspec(dllexport) int Load(void)
 			db_set_dw(NULL, "CList", "x", (WorkArea.right - clWidth - clSide));
 	}
 
-	HookEvent(ME_OPT_INITIALISE, OptInit);
+	HookEvent(ME_OPT_INITIALISE, OptInitialise);
 
 	return 0;
 }

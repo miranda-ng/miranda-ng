@@ -25,15 +25,20 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include <newpluginapi.h>
 #include <m_database.h>
+#include <m_gui.h>
 #include <m_langpack.h>
-#include <m_utils.h>
 #include <m_options.h>
+#include <m_utils.h>
 
 #include "resource.h"
 #include "version.h"
+
+extern HINSTANCE g_hInst;
 
 #define MODULE_NAME "StartPosition"
 
 #define dbERROR -999999
 #define RIGHT 1
 #define LEFT 0
+
+int OptInitialise(WPARAM wParam, LPARAM);
