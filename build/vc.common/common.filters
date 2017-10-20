@@ -16,16 +16,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ClCompile Include="*.cpp">
+    <ClCompile Include="**\*.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClInclude Include="*.h;*.hpp">
+    <ClInclude Include="**\*.h;**\*.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ResourceCompile Include="*.rc">
+    <ResourceCompile Include="**\*.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <None Include="*.def">
+    <None Include="**\*.def">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
