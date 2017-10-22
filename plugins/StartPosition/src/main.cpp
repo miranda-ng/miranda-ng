@@ -1,30 +1,32 @@
 /*
-
 StartPosition plugin for Miranda NG
 
 Copyright (C) 2005-2008 Felipe Brahm - souFrag
 ICQ#50566818
 http://www.soufrag.cl
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+Copyright (C) 2012-17 Miranda NG project (https://miranda-ng.org)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation version 2
+of the License.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
 
 HINSTANCE g_hInst;
 int hLangpack;
+StartPositionOptions spOptions;
+ClistOptions clOptions;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -56,53 +58,35 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfo);
 
 	RECT WorkArea;
-
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &WorkArea, 0);
 
-	BYTE clEnableTop = db_get_b(NULL, MODULE_NAME, "CLEnableTop", 1);
-	BYTE clEnableBottom = db_get_b(NULL, MODULE_NAME, "CLEnableBottom", 0);
-	BYTE clEnableSide = db_get_b(NULL, MODULE_NAME, "CLEnableSide", 1);
-	BYTE clEnableWidth = db_get_b(NULL, MODULE_NAME, "CLEnableWidth", 0);
+    if (spOptions.setClistStartState)
+        clOptions.state = static_cast<BYTE>(spOptions.clistState);
 
-	DWORD clTop = db_get_dw(NULL, MODULE_NAME, "CLpixelsTop", 3);
-	DWORD clBottom = db_get_dw(NULL, MODULE_NAME, "CLpixelsBottom", 3);
-	DWORD clSide = db_get_dw(NULL, MODULE_NAME, "CLpixelsSide", 3);
-	BYTE clAlign = db_get_b(NULL, MODULE_NAME, "CLAlign", RIGHT);
-	DWORD clWidth = db_get_dw(NULL, MODULE_NAME, "CLWidth", 180);
+    if (spOptions.setClistWidth && spOptions.clistWidth > 0)
+        clOptions.width = static_cast<DWORD>(spOptions.clistWidth);
+    else
+        spOptions.clistWidth = static_cast<DWORD>(clOptions.width);
 
-	BYTE clEnableState = db_get_b(NULL, MODULE_NAME, "CLEnableState", 0);
-	BYTE clState = db_get_b(NULL, MODULE_NAME, "CLState", 2);
+    if (spOptions.setTopPosition || spOptions.setBottomPosition || spOptions.setSidePosition)
+        clOptions.isDocked = false;
 
-	if(clEnableState)
-		db_set_b(NULL,"CList", "State", (BYTE)clState);
+    if (spOptions.setTopPosition)
+        clOptions.y = static_cast<DWORD>(spOptions.pixelsFromTop);
 
-	if(clEnableWidth) {
-		if(clWidth > 0)
-			db_set_dw(NULL, "CList", "Width", clWidth);
-	} else {
-		clWidth = db_get_dw(NULL, "CList", "Width", 180);
-	}
+    if (spOptions.setBottomPosition) {
+        if (spOptions.setTopPosition)
+            clOptions.height = WorkArea.bottom - WorkArea.top - spOptions.pixelsFromTop - spOptions.pixelsFromBottom;
+        else
+            clOptions.y = WorkArea.bottom - spOptions.pixelsFromBottom - clOptions.height;
+    }
 
-	if(clEnableTop || clEnableBottom || clEnableSide)
-		db_set_b(NULL,"CList", "Docked", 0);
-
-	if(clEnableTop)
-		db_set_dw(NULL, "CList", "y", clTop);
-
-	//thx ValeraVi
-	if(clEnableBottom) {
-		if(clEnableTop)
-			db_set_dw(NULL, "CList", "Height", (WorkArea.bottom - WorkArea.top - clTop - clBottom));
-		else
-			db_set_dw(NULL, "CList", "y", (WorkArea.bottom - clBottom - (int)db_get_dw(NULL, "CList", "Height", 0)));
-	}
-
-	if(clEnableSide) {
-		if(clAlign == LEFT)
-			db_set_dw(NULL, "CList", "x", (WorkArea.left + clSide));
-		else
-			db_set_dw(NULL, "CList", "x", (WorkArea.right - clWidth - clSide));
-	}
+    if (spOptions.setSidePosition) {
+        if (spOptions.clistAlign == ClistAlign::right)
+            clOptions.x = WorkArea.right - spOptions.clistWidth - spOptions.pixelsFromSide;
+        else
+            clOptions.x = WorkArea.left + spOptions.pixelsFromSide;
+    }
 
 	HookEvent(ME_OPT_INITIALISE, OptInitialise);
 

@@ -1,142 +1,135 @@
 #include "stdafx.h"
 
 
-class COptionsDlg : public CDlgBase
+StartPositionOptions::StartPositionOptions() :
+    setTopPosition(MODULE_NAME, "CLEnableTop", 1),
+    setBottomPosition(MODULE_NAME, "CLEnableBottom", 0),
+    setSidePosition(MODULE_NAME, "CLEnableSide", 1),
+    clistAlign(MODULE_NAME, "CLAlign", ClistAlign::right),
+    setClistWidth(MODULE_NAME, "CLEnableWidth", 0),
+    setClistStartState(MODULE_NAME, "CLEnableState", 0),
+    clistState(MODULE_NAME, "CLState", ClistState::normal),
+    pixelsFromTop(MODULE_NAME, "CLpixelsTop", 3),
+    pixelsFromBottom(MODULE_NAME, "CLpixelsBottom", 3),
+    pixelsFromSide(MODULE_NAME, "CLpixelsSide", 3),
+    clistWidth(MODULE_NAME, "CLWidth", 180)
+{}
+
+extern StartPositionOptions spOptions;
+
+COptionsDlg::COptionsDlg() :
+    CPluginDlgBase(g_hInst, IDD_OPTIONS, MODULE_NAME),
+    chkPositionTop(this, IDC_CLTOPENABLE),
+    edtPositionTop(this, IDC_CLTOP),
+    chkPositionBottom(this, IDC_CLBOTTOMENABLE),
+    edtPositionBottom(this, IDC_CLBOTTOM),
+    chkPositionSide(this, IDC_CLSIDEENABLE),
+    edtPositionSide(this, IDC_CLSIDE),
+    chkFromLeft(this, IDC_CLALIGNLEFT),
+    chkFromRight(this, IDC_CLALIGNRIGHT),
+    chkWidth(this, IDC_CLWIDTHENABLE),
+    edtWidth(this, IDC_CLWIDTH),
+    chkStartState(this, IDC_CLSTATEENABLE),
+    chkStartHidden(this, IDC_CLSTATETRAY),
+    chkStartNormal(this, IDC_CLSTATEOPENED)
 {
-    CCtrlCheck chkPositionTop, chkPositionBottom, chkPositionSide, chkFromLeft, chkFromRight, chkWidth;
-    CCtrlEdit edtPositionTop, edtPositionBottom, edtPositionSide, edtWidth;
-    CCtrlCheck chkStartState, chkStartMinimized, chkStartOpened;
+    CreateLink(chkPositionTop, spOptions.setTopPosition);
+    CreateLink(chkPositionBottom, spOptions.setBottomPosition);
+    CreateLink(chkPositionSide, spOptions.setSidePosition);
+    CreateLink(chkWidth, spOptions.setClistWidth);
+    CreateLink(chkStartState, spOptions.setClistStartState);
 
-public:
-    COptionsDlg() :
-        CDlgBase(g_hInst, IDD_OPTIONS),
-        chkPositionTop(this, IDC_CLTOPENABLE),
-        edtPositionTop(this, IDC_CLTOP),
-        chkPositionBottom(this, IDC_CLBOTTOMENABLE),
-        edtPositionBottom(this, IDC_CLBOTTOM),
-        chkPositionSide(this, IDC_CLSIDEENABLE),
-        edtPositionSide(this, IDC_CLSIDE),
-        chkFromLeft(this, IDC_CLALIGNLEFT),
-        chkFromRight(this, IDC_CLALIGNRIGHT),
-        chkWidth(this, IDC_CLWIDTHENABLE),
-        edtWidth(this, IDC_CLWIDTH),
-        chkStartState(this, IDC_CLSTATEENABLE),
-        chkStartMinimized(this, IDC_CLSTATETRAY),
-        chkStartOpened(this, IDC_CLSTATEOPENED)
+    CreateLink(edtPositionTop, spOptions.pixelsFromTop);
+    CreateLink(edtPositionBottom, spOptions.pixelsFromBottom);
+    CreateLink(edtPositionSide, spOptions.pixelsFromSide);
+    CreateLink(edtWidth, spOptions.clistWidth);
+
+    chkPositionTop.OnChange = Callback(this, &COptionsDlg::onCheck_PositionTop);
+    chkPositionBottom.OnChange = Callback(this, &COptionsDlg::onCheck_PositionBottom);
+    chkPositionSide.OnChange = Callback(this, &COptionsDlg::onCheck_PositionSide);
+    chkWidth.OnChange = Callback(this, &COptionsDlg::onCheck_Width);
+    chkStartState.OnChange = Callback(this, &COptionsDlg::onCheck_StartState);
+}
+
+void COptionsDlg::OnInitDialog()
+{
+    if (spOptions.clistState == ClistState::normal)
+        chkStartNormal.SetState(true);
+    else
+        chkStartHidden.SetState(true);
+
+    chkStartHidden.Enable(chkStartState.GetState());
+    chkStartNormal.Enable(chkStartState.GetState());
+
+    if (spOptions.clistAlign == ClistAlign::right)
+        chkFromRight.SetState(true);
+    else
+        chkFromLeft.SetState(true);
+        
+    chkFromLeft.Enable(chkPositionSide.GetState());
+    chkFromRight.Enable(chkPositionSide.GetState());
+
+    edtPositionTop.Enable(chkPositionTop.GetState());
+    edtPositionBottom.Enable(chkPositionBottom.GetState());
+    edtPositionSide.Enable(chkPositionSide.GetState());
+    edtWidth.Enable(chkWidth.GetState());
+}
+
+void COptionsDlg::OnApply()
+{
+    removeOldSettings();
+
+    if (chkStartNormal.GetState())
+        spOptions.clistState = ClistState::normal;
+    else
+        spOptions.clistState = ClistState::hidden;
+
+    if (chkFromRight.GetState())
+        spOptions.clistAlign = ClistAlign::right;
+    else
+        spOptions.clistAlign = ClistAlign::left;
+}
+
+void COptionsDlg::removeOldSettings()
+{
+    if (db_get_b(0, MODULE_NAME, "CLEnableTop", dbERROR) == dbERROR)
     {
-        chkPositionTop.OnChange = Callback(this, &COptionsDlg::onCheck_PositionTop);
-        chkPositionBottom.OnChange = Callback(this, &COptionsDlg::onCheck_PositionBottom);
-        chkPositionSide.OnChange = Callback(this, &COptionsDlg::onCheck_PositionSide);
-        chkWidth.OnChange = Callback(this, &COptionsDlg::onCheck_Width);
-        chkStartState.OnChange = Callback(this, &COptionsDlg::onCheck_StartState);
+        db_unset(0, MODULE_NAME, "CLEnable");
+        db_unset(0, MODULE_NAME, "CLuseLastWidth");
     }
+}
 
-    virtual void OnInitDialog() override
-    {
-        if (db_get_b(0, MODULE_NAME, "CLState", 2))
-            chkStartOpened.SetState(true);
-        else
-            chkStartMinimized.SetState(true);
+void COptionsDlg::onCheck_PositionTop(CCtrlCheck*)
+{
+    edtPositionTop.Enable(chkPositionTop.GetState());
+}
 
-        chkStartState.SetState(db_get_b(0, MODULE_NAME, "CLEnableState", 0));
-        chkStartMinimized.Enable(chkStartState.GetState());
-        chkStartOpened.Enable(chkStartState.GetState());
+void COptionsDlg::onCheck_PositionBottom(CCtrlCheck*)
+{
+    edtPositionBottom.Enable(chkPositionBottom.GetState());
+}
 
-        if (db_get_b(0, MODULE_NAME, "CLAlign", RIGHT))
-            chkFromRight.SetState(true);
-        else
-            chkFromLeft.SetState(true);
+void COptionsDlg::onCheck_PositionSide(CCtrlCheck*)
+{
+    edtPositionSide.Enable(chkPositionSide.GetState());
+    chkFromLeft.Enable(chkPositionSide.GetState());
+    chkFromRight.Enable(chkPositionSide.GetState());
+}
 
-        chkPositionSide.SetState(true);
-        chkFromLeft.Enable(chkPositionSide.GetState());
-        chkFromRight.Enable(chkPositionSide.GetState());
+void COptionsDlg::onCheck_Width(CCtrlCheck*)
+{
+    edtWidth.Enable(chkWidth.GetState());
+}
 
-        chkPositionTop.SetState(db_get_b(0, MODULE_NAME, "CLEnableTop", 1));
-        chkPositionBottom.SetState(db_get_b(0, MODULE_NAME, "CLEnableBottom", 0));
-        chkWidth.SetState(db_get_b(0, MODULE_NAME, "CLEnableWidth", 0));
-
-        edtPositionTop.SetInt(db_get_dw(0, MODULE_NAME, "CLpixelsTop", 3));
-        edtPositionTop.Enable(chkPositionTop.GetState());
-
-        edtPositionBottom.SetInt(db_get_dw(0, MODULE_NAME, "CLpixelsBottom", 3));
-        edtPositionBottom.Enable(chkPositionBottom.GetState());
-
-        edtPositionSide.SetInt(db_get_dw(0, MODULE_NAME, "CLpixelsSide", 3));
-        edtPositionSide.Enable(chkPositionSide.GetState());
-
-        edtWidth.SetInt(db_get_dw(0, MODULE_NAME, "CLWidth", 180));
-        edtWidth.Enable(chkWidth.GetState());
-    }
-
-    virtual void OnApply() override
-    {
-        removeOldSettings();
-
-        if (chkStartOpened.GetState())
-            db_set_b(0, MODULE_NAME, "CLState", 2);
-        else
-            db_set_b(0, MODULE_NAME, "CLState", 0);
-
-        if (chkFromLeft.GetState())
-            db_set_b(0, MODULE_NAME, "CLAlign", LEFT);
-        else
-            db_set_b(0, MODULE_NAME, "CLAlign", RIGHT);
-
-        db_set_b(0, MODULE_NAME, "CLEnableState", static_cast<BYTE>(chkStartState.GetState()));
-
-        db_set_b(0, MODULE_NAME, "CLEnableTop", static_cast<BYTE>(chkPositionTop.GetState()));
-        db_set_b(0, MODULE_NAME, "CLEnableBottom", static_cast<BYTE>(chkPositionBottom.GetState()));
-        db_set_b(0, MODULE_NAME, "CLEnableSide", static_cast<BYTE>(chkPositionSide.GetState()));
-        db_set_b(0, MODULE_NAME, "CLEnableWidth", static_cast<BYTE>(chkWidth.GetState()));
-        db_set_dw(0, MODULE_NAME, "CLWidth", edtWidth.GetInt());
-        db_set_dw(0, MODULE_NAME, "CLpixelsTop", edtPositionTop.GetInt());
-        db_set_dw(0, MODULE_NAME, "CLpixelsBottom", edtPositionBottom.GetInt());
-        db_set_dw(0, MODULE_NAME, "CLpixelsSide", edtPositionSide.GetInt());
-    }
-
-private:
-    void removeOldSettings()
-    {
-        if (db_get_b(0, MODULE_NAME, "CLEnableTop", dbERROR) == dbERROR)
-        {
-            db_unset(0, MODULE_NAME, "CLEnable");
-            db_unset(0, MODULE_NAME, "CLuseLastWidth");
-        }
-    }
-
-    void onCheck_PositionTop(CCtrlCheck*)
-    {
-        edtPositionTop.Enable(chkPositionTop.GetState());
-    }
-
-    void onCheck_PositionBottom(CCtrlCheck*)
-    {
-        edtPositionBottom.Enable(chkPositionBottom.GetState());
-    }
-
-    void onCheck_PositionSide(CCtrlCheck*)
-    {
-        edtPositionSide.Enable(chkPositionSide.GetState());
-        chkFromLeft.Enable(chkPositionSide.GetState());
-        chkFromRight.Enable(chkPositionSide.GetState());
-    }
-
-    void onCheck_Width(CCtrlCheck*)
-    {
-        edtWidth.Enable(chkWidth.GetState());
-    }
-
-    void onCheck_StartState(CCtrlCheck*)
-    {
-        chkStartMinimized.Enable(chkStartState.GetState());
-        chkStartOpened.Enable(chkStartState.GetState());
-    }
-
-};
+void COptionsDlg::onCheck_StartState(CCtrlCheck*)
+{
+    chkStartHidden.Enable(chkStartState.GetState());
+    chkStartNormal.Enable(chkStartState.GetState());
+}
 
 int OptInitialise(WPARAM wParam, LPARAM)
 {
-    OPTIONSDIALOGPAGE odp = { };
+    OPTIONSDIALOGPAGE odp = {};
     odp.hInstance = g_hInst;
     odp.szGroup.a = LPGEN("Contact list");
     odp.szTitle.a = LPGEN("Start position");
