@@ -36,52 +36,47 @@ const wchar_t wszQuestion[] = L"Miranda NG needs the Visual Studio runtime libra
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 {
-	wchar_t tszPath[MAX_PATH];
-	GetModuleFileName(hInstance, tszPath, _countof(tszPath));
+	wchar_t wszPath[MAX_PATH];
+	GetModuleFileNameW(hInstance, wszPath, _countof(wszPath));
 
-	wchar_t *p = wcsrchr(tszPath, '\\');
+	wchar_t *p = wcsrchr(wszPath, '\\');
 	if (p == nullptr)
 		return 4;
 
 	// if current dir isn't set
 	p[1] = 0;
-	SetCurrentDirectory(tszPath);
+	SetCurrentDirectoryW(wszPath);
 
-	wcsncat_s(tszPath, L"libs", _TRUNCATE);
-	DWORD cbPath = (DWORD)wcslen(tszPath);
+	wcsncat_s(wszPath, L"libs", _TRUNCATE);
+	SetDllDirectoryW(wszPath);
 
-	DWORD cbSize = GetEnvironmentVariable(L"PATH", nullptr, 0);
-	wchar_t *ptszVal = new wchar_t[cbSize + MAX_PATH + 2];
-	wcscpy(ptszVal, tszPath);
-	wcscat(ptszVal, L";");
-	GetEnvironmentVariable(L"PATH", ptszVal + cbPath + 1, cbSize);
-	SetEnvironmentVariable(L"PATH", ptszVal);
+	wcsncat_s(wszPath, L"\\ucrtbase.dll", _TRUNCATE);
+	LoadLibraryW(wszPath);
 
 	int retVal;
-	HINSTANCE hMirApp = LoadLibrary(L"mir_app.mir");
+	HINSTANCE hMirApp = LoadLibraryW(L"mir_app.mir");
 	if (hMirApp == nullptr) {
 		retVal = 1;
 
 		// zlib depends on runtime only. if it cannot be loaded too, we need to load a runtime
-		HINSTANCE hZlib = LoadLibrary(L"Libs\\zlib.mir");
+		HINSTANCE hZlib = LoadLibraryW(L"Libs\\zlib.mir");
 		if (hZlib == nullptr) {
-			if (IDYES == MessageBox(nullptr, wszQuestion, L"Missing runtime library", MB_ICONERROR | MB_YESNOCANCEL)) {
-				ShellExecute(nullptr, L"open", wszRuntimeUrl, NULL, NULL, SW_NORMAL);
+			if (IDYES == MessageBoxW(nullptr, wszQuestion, L"Missing runtime library", MB_ICONERROR | MB_YESNOCANCEL)) {
+				ShellExecuteW(nullptr, L"open", wszRuntimeUrl, NULL, NULL, SW_NORMAL);
 				retVal = 3;
 			}
 		}
-		else MessageBox(nullptr, L"mir_app.mir cannot be loaded", L"Fatal error", MB_ICONERROR | MB_OK);
+		else MessageBoxW(nullptr, L"mir_app.mir cannot be loaded", L"Fatal error", MB_ICONERROR | MB_OK);
 	}
 	else {
 		pfnMain fnMain = (pfnMain)GetProcAddress(hMirApp, "mir_main");
 		if (fnMain == nullptr) {
-			MessageBox(nullptr, L"invalid mir_app.mir present, program exiting", L"Fatal error", MB_ICONERROR | MB_OK);
+			MessageBoxW(nullptr, L"invalid mir_app.mir present, program exiting", L"Fatal error", MB_ICONERROR | MB_OK);
 			retVal = 2;
 		}
 		else
 			retVal = fnMain(cmdLine);
 		FreeLibrary(hMirApp);
 	}
-	delete[] ptszVal;
 	return retVal;
 }
