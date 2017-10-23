@@ -49,7 +49,7 @@ b) Update to the latest alpha version.
 c) Check the list of known bugs.
    The official buglist is available at:
    https://github.com/miranda-ng/miranda-ng/issues
-   Look here before you submit a new report, dont submit a new report if
+   Look here before you submit a new report, don't submit a new report if
    it has already been reported.
 d) Submit a bugreport.
 
