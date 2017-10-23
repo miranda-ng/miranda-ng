@@ -166,6 +166,7 @@ int LoadDefaultModules(void)
 
 void UnloadDefaultModules(void)
 {
+	UnloadChatModule();
 	UnloadAccountsModule();
 	UnloadMetacontacts();
 	UnloadNewPlugins();
@@ -173,7 +174,6 @@ void UnloadDefaultModules(void)
 	UnloadSkinSounds();
 	UnloadSkinHotkeys();
 	UnloadSrmmModule();
-	UnloadChatModule();
 	UnloadIcoLibModule();
 	UnloadUtilsModule();
 	UnloadExtraIconsModule();
