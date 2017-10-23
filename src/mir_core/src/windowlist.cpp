@@ -47,9 +47,10 @@ MIR_CORE_DLL(MWindowList) WindowList_Create(void)
 	return new TWindowList();
 }
 
-MIR_CORE_DLL(void) WindowList_Destroy(MWindowList hList)
+MIR_CORE_DLL(void) WindowList_Destroy(MWindowList &hList)
 {
 	delete hList;
+	hList = nullptr;
 }
 
 MIR_CORE_DLL(int) WindowList_Add(MWindowList hList, HWND hwnd, MCONTACT hContact)

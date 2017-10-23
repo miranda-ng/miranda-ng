@@ -132,7 +132,7 @@ EXTERN_C MIR_CORE_DLL(MWindowList) WindowList_Create(void);
 /////////////////////////////////////////////////////////////////////////////////////////
 // destroys a window list
 
-EXTERN_C MIR_CORE_DLL(void) WindowList_Destroy(MWindowList hList);
+EXTERN_C MIR_CORE_DLL(void) WindowList_Destroy(MWindowList &hList);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // adds a window to the specified window list
