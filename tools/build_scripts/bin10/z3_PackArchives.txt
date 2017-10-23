@@ -26,7 +26,6 @@ Libs\mir_core.mir
 Libs\Pcre16.mir
 Libs\ssleay32.mir
 Libs\Zlib.mir
-Icons\Proto_AIM.dll
 Icons\Proto_Facebook.dll
 Icons\Proto_GG.dll
 Icons\Proto_ICQ.dll
@@ -39,7 +38,6 @@ Icons\Toolbar_icons.dll
 Icons\xStatus_ICQ.dll
 Icons\xStatus_Jabber.dll
 Plugins\AdvaImg.dll
-Plugins\AIM.dll
 Plugins\AVS.dll
 Plugins\Clist_modern.dll
 Plugins\CrashDumper.dll
