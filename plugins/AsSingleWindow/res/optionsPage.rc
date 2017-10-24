@@ -92,45 +92,6 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,1,2,1
- PRODUCTVERSION 0,1,2,1
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "000904b0"
-        BEGIN
-            VALUE "CompanyName", "http://soar.name"
-            VALUE "FileDescription", "AsSingleWindow plugin for Miranda NG"
-            VALUE "FileVersion", "0.1.2.1"
-            VALUE "InternalName", "AsSingleWindow.dll"
-            VALUE "LegalCopyright", "Copyright © Soar, 2010-2011"
-            VALUE "OriginalFilename", "AsSingleWindow.dll"
-            VALUE "ProductName", "AsSingleWindow"
-            VALUE "ProductVersion", "0.1.2.1"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x9, 1200
-    END
-END
-
 #endif    // Английский resources
 /////////////////////////////////////////////////////////////////////////////
 
