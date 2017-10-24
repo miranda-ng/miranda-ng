@@ -89,7 +89,7 @@
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalOptions Condition="'$(VisualStudioVersion)' == '10.0'">/PDBALTPATH:%_PDB%</AdditionalOptions>
+      <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
 
