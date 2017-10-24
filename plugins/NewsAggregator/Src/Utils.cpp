@@ -464,6 +464,7 @@ LPCTSTR ClearText(CMStringW &result, const wchar_t *message)
 
 	result.Replace(L"&#163;", L"£"); //pound
 	result.Replace(L"&#178;", L"²"); //sup2
+	result.Replace(L"&#228;", L"ä"); //auml
 	result.Replace(L"&#235;", L"ë"); //euml
 	result.Replace(L"&#246;", L"ö"); //ouml
 	result.Replace(L"&#382;", L"ž"); //Latin Small Letter Z With Caron
