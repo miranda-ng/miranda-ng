@@ -15,7 +15,6 @@
 [View as tree]
 [View as list]
 [Node:]
-[Login server:]
 [Member Information]
 [Role:]
 [Set role]

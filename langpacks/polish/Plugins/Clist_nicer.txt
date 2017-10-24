@@ -18,16 +18,6 @@ Kontynuuj
 Wyłącz Mirandę
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 Mimo, że wyjątek został wyłapany i możesz kontynuować korzystanie z Mirandy, powinieneś uruchomić program ponownie najszybciej jak to możliwe. Wyjątek mógł uszkodzić wewnętrzne struktury danych i może mieć poważny wpływ na stabilność.
-[About Clist nicer]
-O Clist nicer
-[Clist nicer]
-Clist nicer
-[Copyright © 2004-2010 by the Miranda IM project, 2012-2017 by the Miranda NG project.]
-Copyright © 2004-2010 przez projekt Miranda IM, 2012-2017 przez projekt Miranda NG.
-[Version]
-Wersja
-[Support and latest version information]
-Wsparcie i informacje o ostatniej wersji
 [Delete contact]
 Usuń kontakt
 [No]
@@ -743,8 +733,6 @@ Rysuj zatopioną ramkę
 Personalizacja
 [&Options...]
 &Opcje...
-[&About the contact list...]
-&O liście kontaktów...
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 Niepogrupowane kontakty

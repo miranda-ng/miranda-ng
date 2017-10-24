@@ -102,7 +102,7 @@ EN PAUSE
 
 [performs logical AND (x && y && ...)]
 
-[Boolean FALSE]
+[boolean FALSE]
 
 [performs w, then shows z and performs y while x is TRUE]
 
@@ -128,7 +128,7 @@ EN PAUSE
 
 [performs logical OR (x || y || ...)]
 
-[Boolean TRUE]
+[boolean TRUE]
 
 [performs logical XOR (x ^ y)]
 

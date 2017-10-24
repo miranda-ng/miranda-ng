@@ -326,14 +326,6 @@ Actualiser
 JID :
 [Node:]
 
-[Account type:]
-Type de compte :
-[Login server:]
-
-[Register account now]
-Enregistrer le compte
-[Jabber Account Information:]
-Informations sur le compte Jabber :
 [Member Information]
 
 [Role:]
@@ -820,6 +812,10 @@ Détails personnels
 
 [OpenID Request]
 
+[Add contact]
+Ajouter le contact
+[Open]
+Ouvrir
 [Discovery succeeded]
 
 [Discovery failed]

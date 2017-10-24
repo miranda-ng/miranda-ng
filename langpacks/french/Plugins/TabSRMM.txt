@@ -2,16 +2,12 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.5
+;  Version: 3.5.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
 
 ;file \plugins\TabSRMM\res\chat.rc
-[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
-
-[Cancel]
-Annuler
 [Show these events]
 Afficher ces événements
 [Actions]
@@ -186,6 +182,8 @@ Erreurs
 
 [Dialog]
 Dialogue
+[Cancel]
+Annuler
 [All modes]
 Tous les modes
 [Choose modes]
@@ -490,12 +488,6 @@ Ajustement vertical du bas de l'onglet :
 Note : certains paramètres n'affecteront pas les conteneurs ouverts.
 [Tab layout tweaks]
 
-[About TabSRMM]
-À propos de TabSRMM
-[Copyright 2004-2011 by the Miranda IM project, 2012-2017 by the Miranda NG project.]
-Copyright © 2004-201 by the Miranda IM project, 2012-2017 by the Miranda NG project.
-[Support and latest version information]
-
 [Selected skin]
 
 [Rescan]
@@ -580,50 +572,6 @@ Utiliser des modèles clssiques (décochez afin d'utiliser des modèles simples)
 Oui
 [No]
 Non
-[Message sending:]
-
-[Window:]
-Fenètre :
-[Esc closes sessions (minimizes window if disabled)]
-
-[Always pop up and activate new windows]
-
-[Create new windows in minimized state]
-Créer les nouvelles fenêtres mais minimisées
-[Send on Shift+Enter]
-
-[Send message on 'Enter']
-Taper 1 fois "Entrée" pour envoyer
-[Send message on double 'Enter']
-Taper 2 fois "Entrée" pour envoyer
-[Minimize the message window on send]
-Réduire la fenêtre à l'envoi
-[Tabs:]
-
-[Use tabbed interface]
-
-[Create new tabs without activating them]
-
-[Pop up minimized window when a new tab is created]
-
-[Automatically switch tabs in minimized windows]
-
-[History:]
-
-[Notifications:]
-Notifications :
-[Don't announce when dialog is open]
-
-[Message events]
-
-[File events]
-
-[URL events]
-Liens URL
-[Other events]
-Autres événements
-[Send message on Ctrl+Enter (always enabled)]
-
 [Log]
 Journal
 [&Copy]
@@ -850,10 +798,6 @@ Afficher popups si fenêtre cachée
 Voir les popups des sessions inactives
 [Save current window position as default]
 Sauver la position actuelle de la fenêtre
-[Help]
-Aide
-[About TabSRMM...]
-À propos de TabSRMM
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol button]
 Protocole
@@ -917,8 +861,6 @@ Le sujet est '%s%s'
 [%s disables '%s' status for %s]
 
 ;file \plugins\TabSRMM\src\chat_main.cpp
-[Highlight user...]
-
 [Message Sessions]
 Sessions de message
 ;file \plugins\TabSRMM\src\chat_options.cpp
@@ -1265,8 +1207,6 @@ minutes
 [%s: message session (%u users)]
 %s : Session de message (%u usagers)
 ;file \plugins\TabSRMM\src\container.cpp
-[Version]
-Version
 [Message session...]
 Session de message...
 [Default container]
@@ -1787,6 +1727,10 @@ Historique récent
 
 [Feature enabled (used as overlay)]
 
+[Enable typing notification]
+
+[Disable typing notification]
+
 [The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
 
 [TabSRMM fatal error]
@@ -1797,11 +1741,6 @@ Historique récent
 [Message windows - all]
 
 [Message windows - group chats]
-
-;file \plugins\TabSRMM\src\muchighlight.cpp
-[Add user to highlight list]
-
-[Edit user highlight list]
 
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
@@ -1995,6 +1934,14 @@ Désactiver les popups pour les conditions suivantes
 Comportement de la fenêtre des messages
 [Sending messages]
 Envoi de messages
+[Send on Shift+Enter]
+
+[Send message on 'Enter']
+Taper 1 fois "Entrée" pour envoyer
+[Send message on double 'Enter']
+Taper 2 fois "Entrée" pour envoyer
+[Minimize the message window on send]
+Réduire la fenêtre à l'envoi
 [Close the message window on send]
 Fermer la fenêtre à l'envoi
 [Always flash contact list and tray icon for new messages]

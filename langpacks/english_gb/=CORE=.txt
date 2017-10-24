@@ -23,8 +23,6 @@ Use Windows colours
 Minimise the file transfer window
 [Minimize the message window on send]
 Minimise the message window on send
-[Message window behavior:]
-Message window behaviour:
 [Use default colors]
 Use default colours
 [Use custom colors]

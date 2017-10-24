@@ -2,57 +2,11 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.5
+;  Version: 0.9.1.7
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Паказвае кантакты, падзеі, статусы пратаколаў з пашыранымі функцыямі афармлення (скіны). Мультываконная мадыфікацыя, пашыраная падтрымка метакантактаў.
-[Transparency:]
-Празрыстасць:
-[Window behavior:]
-Паводзіны спісу:
-[List sorting:]
-Сартаванне спісу:
-[Status bar:]
-Панэль статусу:
-[List content:]
-Утрыманне спісу:
-[Show counts of number of contacts in a group]
-Паказваць колькасць кантактаў у гуртах
-[Hide group counts when there are none online]
-Хаваць лічыльнік, калі няма далучаных кантактаў
-[1st:]
-1-шы:
-[2nd:]
-2-гі:
-[3rd:]
-3-ці:
-[Always on top]
-Па-над усімі вокнамі
-[Hide contact list after]
-Хаваць спіс пасля
-[seconds]
-секунд(ы)
-[Fade contact list in/out]
-Плыўна схаваць спіс
-[Transparent contact list]
-Празрысты спіс кантактаў
-[Inactive opacity:]
-Акно неактыўнае:
-[Active opacity:]
-Вакно актыўнае:
-[Show avatars]
-Паказваць аватары
-[Animate avatars]
-Анімацыя аватараў
-[Show contact time in list]
-Паказваць час кантакту
-[Compact mode]
-Кампактны рэжым
-[Show protocol names]
-Паказваць пратаколы
-[Show status text]
-Паказваць тэкст статусу
 [Settings]
 Налады
 [Background color:]
@@ -123,6 +77,8 @@
 Рэжым статусу
 [Automatically clear this view mode after]
 Аўтаматычна скідаць гэты рэжым пасля
+[seconds]
+секунд(ы)
 [View mode options]
 Налады рэжыму выгляду
 [Editing view mode]
@@ -159,6 +115,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Наладзіць конт
 [Hide account completely]
 Схаваць конт
+[Show protocol names]
+Паказваць пратаколы
 [Show status name]
 Імя Статуса
 [Show xStatus name]
@@ -213,6 +171,12 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Спіс кантактаў
 [Contact list sorting]
 Сартаванне спісу кантактаў
+[1st:]
+1-шы:
+[2nd:]
+2-гі:
+[3rd:]
+3-ці:
 [Place offline users out of groups]
 Адключаных паказваць па-за гуртамі
 [Gamma correction]
@@ -229,6 +193,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Тып вылучэння
 [Bring to front if covered]
 Перасоўваць на пярэдні план
+[Hide contact list after]
+Хаваць спіс пасля
 [Automatically resize window to height of list]
 Аўтаматычна змяняць памер вакна
 [maximum]
@@ -295,6 +261,10 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Гурты
 [Draw a line alongside group names]
 Лінія ўздоўж назваў гуртоў
+[Show counts of number of contacts in a group]
+Паказваць колькасць кантактаў у гуртах
+[Hide group counts when there are none online]
+Хаваць лічыльнік, калі няма далучаных кантактаў
 [Sort groups alphabetically]
 Сартаваць гурты па алфавіце
 [Quicksearch in open groups only]
@@ -369,6 +339,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Час як элемент радка
 [Appearance]
 Знешні выгляд
+[Always on top]
+Па-над усімі вокнамі
 [Pin to desktop]
 Прымацаваць ды стала
 [Client area margins]
@@ -389,6 +361,14 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Схаваць у сістэмны латок
 [Translucency options]
 Налады празрыстасці
+[Fade contact list in/out]
+Плыўна схаваць спіс
+[Transparent contact list]
+Празрысты спіс кантактаў
+[Inactive opacity:]
+Акно неактыўнае:
+[Active opacity:]
+Вакно актыўнае:
 [Enable drop shadow (restart required)]
 Уключыць цень (патрэбен перазапуск)
 [Frames]
@@ -431,6 +411,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Кампактны рэжым (аватары і дадатковы тэкст толькі ў абраных кантактаў)
 [Draw border on avatar]
 Рамкі на выявах
+[Show avatars]
+Паказваць аватары
 [Draw overlay icons]
 Абразкі на аватарах
 [Max size (pixels):]
@@ -453,6 +435,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 вышыня
 [width]
 шырыня
+[Animate avatars]
+Анімацыя аватараў
 [Use old render method (fast, but has artifacts)]
 Стары метад адмалёўкі (хутчэй, але могуць быць "артэфакты")
 [Hide icon when showing avatar]
@@ -655,10 +639,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Жадаеце выдаліць '%s' з метакантакту '%s' і дадаць у '%s'?
 [Changing metacontacts (moving)]
 Змена метакантакту (перасоўванне)
-[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from https://wiki.miranda-ng.org/Download]
-
-[Error loading plugin]
-
 [Skins]
 Скіны
 [Modern contact list]

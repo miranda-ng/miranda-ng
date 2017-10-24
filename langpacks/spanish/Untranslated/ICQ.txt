@@ -599,6 +599,7 @@
 [Writing]
 [%s Custom Status]
 [Greeting card:]
+[Expand string edit]
 [ICQ xStatus]
 [ICQ Warning]
 [ICQ Error]

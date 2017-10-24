@@ -80,10 +80,6 @@ Neue Nachricht
 Neue Kategorie
 [Delete]
 Löschen
-[Status messages:]
-Statusnachrichten:
-[Configure autoaway]
-Autoantwort einstellen
 [Wait]
 Warte
 [seconds before closing the status message dialog (-1=don't close)]

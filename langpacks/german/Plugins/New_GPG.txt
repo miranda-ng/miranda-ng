@@ -154,8 +154,8 @@ Offen:
 Zu:
 [Strip all tags in outgoing messages]
 Alle Tags aus ausgehenden Nachrichten entfernen
-[Turn on presence signing (Jabber) (required by XEP 0-27)]
-Presence signing aktivieren (Jabber) (erfordert durch XEP 0-27)
+[Turn on presence signing (Jabber) (required by XEP-0027)]
+Presence signing aktivieren (Jabber) (erfordert durch XEP-0027)
 [Export keys]
 Schlüssel exportieren
 [Import keys]

@@ -2,6 +2,6 @@
 [Max connect retries:]
 [Max reconnect retries:]
 [Current version of plugin is support Tox API version %i.%i.%i which is incompatible with %s]
-[The friend number did not designate a valid friend]
+[The friend ID did not designate a valid friend]
 [This client is currently not connected to the friend]
 [An allocation error occurred while increasing the send queue size]

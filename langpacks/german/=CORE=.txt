@@ -45,8 +45,6 @@ Die letzte Nachricht als Standard verwenden
 Folgende Nachricht als Standard verwenden:
 [Use %time% for the current time, %date% for the current date]
 %time%, %date% für die aktuelle Uhrzeit oder Datum
-[Status messages:]
-Statusnachrichten:
 [Change %s message]
 '%s'-Nachricht ändern
 [Closing in %d]
@@ -248,16 +246,6 @@ Alle Protokolle gleiche Breite
 Rahmen um Protokolle
 [Show resize grip indicator]
 Ecke zur Größenänderung anzeigen
-[Ordering:]
-Anordnung:
-[Contact list:]
-Kontaktliste:
-[If window is partially covered, bring it to front]
-Bringe teils verdecktes Fenster in Vordergrund
-[Window:]
-Fenster:
-[Contact list background:]
-Kontaktlisten-Hintergrund:
 [&Main menu]
 &Hauptmenü
 [E&xit]
@@ -437,10 +425,6 @@ Untätigkeits-Einstellungen
 Untätig werden, wenn eine Vollbildanwendung aktiviert wird
 [Disable sounds on idle]
 Klänge bei Untätigkeit deaktivieren
-[Become idle if computer is left unattended for:]
-Untätig werden, wenn keine PC-Aktivität innerhalb von:
-[Idle (auto-away):]
-Untätigkeit (Automatische Abwesenheit):
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Fenster automatisch öffnen, wenn:
@@ -528,12 +512,6 @@ Benachrichtigungen anzeigen, wenn kein Nachrichtenfenster offen ist
 Im Systemtray und der Kontaktliste blinken
 [Show balloon popup]
 Ballonpopup anzeigen
-[Save the window position for each contact]
-Fenster-Position für jeden Kontakt speichern
-[Message window behavior:]
-Verhalten des Nachrichtenfensters:
-[Messaging:]
-Nachrichten:
 [Show these events only:]
 Nur folgende Ereignisse anzeigen:
 [Actions]
@@ -1077,24 +1055,6 @@ Miranda NG wird neu gestartet.\nBitte warten...
 Fehlerkonsole
 [Error notifications]
 Fehlerbenachrichtigungen
-[Headers:]
-Überschriften:
-[This font is used to display main section titles or text elements.]
-Diese Schriftart wird für die Haupttitel-Sektionen oder Textelemente verwendet.
-[Normal text:]
-Normaler Text:
-[This font is used to display most text elements or section bodies.]
-Diese Schriftart wird für die meisten Textelemente oder für Sektionen verwendet.
-[Minor notes:]
-Zusatztexte:
-[This font is used to display various additional notes.]
-Diese Schriftart wird für Zusatztexte in der Kontaktliste verwendet.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Willkommen in der Miranda-NG-Kontoverwaltung!\nHier können Sie Ihre IM-Konten einrichten.\n\nWählen Sie ein Konto aus der Liste auf der linken Seite aus, um die verfügbaren Einstellungen zu sehen.\nAnsonsten klicken Sie einfach auf das grüne Pluszeichen links unter der Liste, um ein neues IM-Konto einzurichten.
-[Event icon legend:]
-Zeichenerklärung:
-[Choose events you wish to ignore:]
-Die folgenden Ereignisse werden ignoriert:
 [Font effect]
 Texteffekt
 [Effect:]
@@ -2180,6 +2140,10 @@ Diese Veränderung ist nicht bekannt dafür, sicher zu sein.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Ungültiger Einstellungs-Typ für '%s'. Das erste Zeichen für jeden String muss b, w, d, l, s, e, u, g, h oder n sein.
 ;file \src\mir_app\src\DefaultExtraIcons.cpp
+[Homepage]
+Homepage
+[Phone/SMS]
+Telefon/SMS
 [Chat activity]
 Chat-Aktivität
 ;file \src\mir_app\src\extraicons.cpp
@@ -2229,8 +2193,6 @@ Textdateien
 Fehler beim Schreiben der Datei
 [Customize]
 Customize
-[Sample text]
-Beispieltext
 ;file \src\mir_app\src\FontService.cpp
 [Headers]
 Kopfzeilen
@@ -2580,6 +2542,8 @@ WARNUNG! Das Konto wird gelöscht. Das heißt, dass all seine Einstellungen, Kon
 Dieses Konto wurde erfolgreich aktualisiert. Um es zu aktivieren, muss Miranda neu gestartet werden.\n\nUm Miranda nun neu zu starten, klicken Sie auf "Ja", wenn Sie ein weiteres Konto aktualisieren möchten, klicken Sie auf "Nein".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Dieses Konto verwendet ein Protokoll, welches die Kontenverwaltung nicht unterstützt. Verwenden Sie bitte die Miranda NG Einstellungen, um die zugehörigen Einstellungen zu ändern.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Willkommen in der Miranda-NG-Kontoverwaltung!\nHier können Sie Ihre IM-Konten einrichten.\n\nWählen Sie ein Konto aus der Liste auf der linken Seite aus, um die verfügbaren Einstellungen zu sehen.\nAnsonsten klicken Sie einfach auf das grüne Pluszeichen links unter der Liste, um ein neues IM-Konto einzurichten.
 [Create new account]
 Neues Konto erstellen...
 [Editing account]

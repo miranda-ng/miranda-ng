@@ -2,15 +2,11 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.5
+;  Version: 3.5.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
 Изпращане и получаване на съобщения плюс модул за чат стаи за Miranda NG.
-[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
-Можете да добавяте потребители по име или идентификатор (ID). Позволена употребата на Wildcards.
-[Cancel]
-Отказ
 [Show these events]
 Показване в:
 [Actions]
@@ -177,6 +173,8 @@ Popup настройки
 Системата за уведомяване е неактивна, защото не е открита съвместима Popup приставка.
 [Dialog]
 Прозорец
+[Cancel]
+Отказ
 [All modes]
 Всички режими
 [Choose modes]
@@ -465,12 +463,6 @@ Windows Aero - настройки
 Отместване по вертикала при позиция на дъното:
 [NOTE: some settings will not affect open containers.]
 Бележка: Някой настройки няма да бъдат приложени за отворените контейнери
-[About TabSRMM]
-Относно TabSRMM
-[Copyright 2004-2011 by the Miranda IM project, 2012-2017 by the Miranda NG project.]
-Авторско право © 2004-2011 на проекта Miranda IM, 2012-2017 на проекта Miranda NG.
-[Support and latest version information]
-Поддръжка и информация за последната версия
 [Selected skin]
 Избран облик
 [Rescan]
@@ -555,50 +547,6 @@ Log status changes (само в отворените прозорци)
 Да
 [No]
 Не
-[Message sending:]
-Изпращане на съобщение:
-[Window:]
-Прозорец:
-[Esc closes sessions (minimizes window if disabled)]
-Esc затваря разговора (минимизира прозореца, ако е изключено)
-[Always pop up and activate new windows]
-Изскачане и активиране на новите прозорци
-[Create new windows in minimized state]
-Създаване на прозореца в минимизирано състояние
-[Send on Shift+Enter]
-Изпращане със SHIFT+Enter
-[Send message on 'Enter']
-Изпращане на съобщение с "Enter"
-[Send message on double 'Enter']
-Двукратно натискане на "Enter" изпраща съобщение
-[Minimize the message window on send]
-Минимизиране на прозореца след изпращане
-[Tabs:]
-Табове:
-[Use tabbed interface]
-Ползване на табове
-[Create new tabs without activating them]
-Без активиране на новосъздадените табове
-[Pop up minimized window when a new tab is created]
-Изскачане на минимизиран прозорец при създаване на нов таб
-[Automatically switch tabs in minimized windows]
-Автопревключване на табовете в минимизирани прозорци
-[History:]
-История:
-[Notifications:]
-Уведомявания:
-[Don't announce when dialog is open]
-Без обявяване на събития при отворен прозорец
-[Message events]
-Текстови събития
-[File events]
-Файлови събития
-[URL events]
-URL събития
-[Other events]
-Други събития
-[Send message on Ctrl+Enter (always enabled)]
-Изпращане на съобщение с Ctrl+Enter (винаги е включено)
 [Log]
 Дневник
 [&Copy]
@@ -811,10 +759,6 @@ Mаксимална ширина за лента с бутони
 Показване на Popups за всички активни разговори
 [Save current window position as default]
 Запис на текущата позиция на прозореца като стандартна
-[Help]
-Помощ
-[About TabSRMM...]
-Относно TabSRMM...
 [Protocol button]
 Бутон на протокола
 [Info button]
@@ -875,8 +819,6 @@ Mаксимална ширина за лента с бутони
 %s даде статут "%s" на "%s"
 [%s disables '%s' status for %s]
 %s отне статута "%s" на "%s"
-[Highlight user...]
-Отличаване на потребителя...
 [Message Sessions]
 Разговори
 [Input area background]
@@ -1195,8 +1137,6 @@ UIN
 %s: Разговор
 [%s: message session (%u users)]
 %s: Разговор (%u потребителя)
-[Version]
-Версия
 [Message session...]
 Разговор...
 [Default container]
@@ -1691,10 +1631,6 @@ TabSRMM - фатална грешка
 Прозорец за съобщения - всеки
 [Message windows - group chats]
 Прозорци за съобщения - групов чат
-[Add user to highlight list]
-Добавяне в списъка за отличаване
-[Edit user highlight list]
-Редактиране списъка за отличаване
 [Select container for %s]
 Изберете контейнер за %s
 [You cannot delete the default container]
@@ -1859,6 +1795,14 @@ TabSRMM съобщение (%s)
 Поведение на прозореца за съобщения
 [Sending messages]
 Изпращане на съобщения
+[Send on Shift+Enter]
+Изпращане със SHIFT+Enter
+[Send message on 'Enter']
+Изпращане на съобщение с "Enter"
+[Send message on double 'Enter']
+Двукратно натискане на "Enter" изпраща съобщение
+[Minimize the message window on send]
+Минимизиране на прозореца след изпращане
 [Close the message window on send]
 Затваряне на прозореца след изпращане
 [Always flash contact list and tray icon for new messages]

@@ -2,15 +2,11 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.5
+;  Version: 3.5.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
 Плагін асабістых і гуртавых гутарак для Miranda NG.
-[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
-Дадайце карыстача па яго імені ці ID. Можна выкарыстоўваць маскі.
-[Cancel]
-Скасаваць
 [Show these events]
 Паказваць элементы
 [Actions]
@@ -183,6 +179,8 @@
 Плагін усплывальных вокнаў не знойдзены. Абвесткі недасяжныя.
 [Dialog]
 Гутарка
+[Cancel]
+Скасаваць
 [All modes]
 Усе статусы
 [Choose modes]
@@ -487,12 +485,6 @@ Cтатусы для аўтаматычнага стварэння ўклада�
 Некаторыя налады не закрануць адкрытыя кантэйнеры
 [Tab layout tweaks]
 Налады выгляду ўкладак
-[About TabSRMM]
-Пра TabSRMM
-[Copyright 2004-2011 by the Miranda IM project, 2012-2017 by the Miranda NG project.]
-Аўтарскія правы 2004-2011 Miranda IM, 2012-2017 Miranda NG.
-[Support and latest version information]
-Падтрымка і інфармацыя пра апошнюю версію
 [Selected skin]
 Абраны скін
 [Rescan]
@@ -577,50 +569,6 @@ RTL па змаўчанні
 Так
 [No]
 Не
-[Message sending:]
-Адпраўка паведамленняў:
-[Window:]
-Вакно гутаркі:
-[Esc closes sessions (minimizes window if disabled)]
-Esc зачыняе сесію (інакш - згортвае)
-[Always pop up and activate new windows]
-Заўсёды адкрываць новае вакно гутаркі
-[Create new windows in minimized state]
-Ствараць новыя вокны згорнутымі
-[Send on Shift+Enter]
-Пасылаць па Shift+Enter
-[Send message on 'Enter']
-Пасылаць па "Enter"
-[Send message on double 'Enter']
-Пасылаць па падвойным "Enter"
-[Minimize the message window on send]
-Згортваць вакно пасля адпраўкі
-[Tabs:]
-Укладкі:
-[Use tabbed interface]
-Выкарыстоўваць укладкі
-[Create new tabs without activating them]
-Ствараць новыя ўкладкі без актывацыі
-[Pop up minimized window when a new tab is created]
-Адкрыць згорнутае вакно пры стварэнні ўкладкі
-[Automatically switch tabs in minimized windows]
-Аўтапераключэнне ўкладак у згорнутым вакне
-[History:]
-Гісторыя:
-[Notifications:]
-Абвесткі:
-[Don't announce when dialog is open]
-Не абвяшчаць пры адкрытым вакне
-[Message events]
-Паведамленні
-[File events]
-Файлы
-[URL events]
-Спасылкі (URL)
-[Other events]
-Іншыя падзеі
-[Send message on Ctrl+Enter (always enabled)]
-Пасылаць па Ctrl+Enter (заўсёды ўключана)
 [Log]
 Лог
 [&Copy]
@@ -847,10 +795,6 @@ Esc зачыняе сесію (інакш - згортвае)
 Паказваць для ўсіх вокнаў гутаркі, калі яны неактыўныя
 [Save current window position as default]
 Захаваць бягучую пазіцыю вакна
-[Help]
-Даведка
-[About TabSRMM...]
-Пра TabSRMM...
 [Protocol button]
 Меню кантакту
 [Info button]
@@ -911,8 +855,6 @@ Esc зачыняе сесію (інакш - згортвае)
 %s уключае статус '%s' для %s
 [%s disables '%s' status for %s]
 %s выключае статус '%s' для %s
-[Highlight user...]
-Падсвятляць удзельнікаў
 [Message Sessions]
 Гутаркі
 [Input area background]
@@ -1255,8 +1197,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 %s: гутарка
 [%s: message session (%u users)]
 %s: гутарка (%u удзельнікаў)
-[Version]
-Версія
 [Message session...]
 Гутарка...
 [Default container]
@@ -1763,6 +1703,10 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Выключана (выкарыстоўваецца як адбітак)
 [Feature enabled (used as overlay)]
 Уключана (выкарыстоўваецца як адбітак)
+[Enable typing notification]
+
+[Disable typing notification]
+
 [The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
 Не ўстаноўлены плагін службы малюнкаў (AdvaImg)\n\nTabSRMM адключаны.
 [TabSRMM fatal error]
@@ -1773,10 +1717,6 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Вокны паведамленняў - усё
 [Message windows - group chats]
 Гутаркі - чаты
-[Add user to highlight list]
-Дадаць карыстача ў спіс падсветкі
-[Edit user highlight list]
-
 [Select container for %s]
 Абярыце кантэйнер для %s
 [You cannot delete the default container]
@@ -1959,6 +1899,14 @@ tabSRMM: %s
 Паводзіны вакна паведамленняў
 [Sending messages]
 Адпраўка паведамленняў
+[Send on Shift+Enter]
+Пасылаць па Shift+Enter
+[Send message on 'Enter']
+Пасылаць па "Enter"
+[Send message on double 'Enter']
+Пасылаць па падвойным "Enter"
+[Minimize the message window on send]
+Згортваць вакно пасля адпраўкі
 [Close the message window on send]
 Зачыняць вакно пасля адпраўкі
 [Always flash contact list and tray icon for new messages]

@@ -1,6 +1,8 @@
 ﻿[OutputDebugString()]
 [Wikipedia (en)]
 [In a civil union]
+[Homepage]
+[Phone/SMS]
 [Browser: Back]
 [Browser: Forward]
 [Browser: Refresh]

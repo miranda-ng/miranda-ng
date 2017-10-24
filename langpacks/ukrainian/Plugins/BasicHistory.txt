@@ -405,8 +405,6 @@ dat (плагін mContacts)
 Фільтр:
 [Conversation started at %s]
 Розмова почалася %s
-[_files]
-файли
 [Menu]
 Меню
 [Open all]

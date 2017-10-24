@@ -405,8 +405,6 @@ Dat (мКантакты)
 Фільтр:
 [Conversation started at %s]
 Гутарка пачата ў %s
-[_files]
-_файлы
 [Menu]
 Меню
 [Open all]

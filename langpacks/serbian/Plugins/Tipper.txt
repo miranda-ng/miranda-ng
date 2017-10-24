@@ -200,12 +200,6 @@ Dodatne ikonice
 
 [Add item]
 
-[Add separator]
-
-[Move up]
-
-[Move down]
-
 [No icon]
 
 [Icon on left]
@@ -478,6 +472,16 @@ Razdvajanje linijom
 
 [Tipper]
 
+[Copy item]
+
+[Arrow up]
+
+[Arrow down]
+
+[Reload]
+
+[Apply]
+Primeni
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 Žensko

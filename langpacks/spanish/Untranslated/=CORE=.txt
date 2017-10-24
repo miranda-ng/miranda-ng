@@ -51,6 +51,8 @@
 [Authorization request from %s%s: %s]
 [You were added by %s%s]
 [Contacts: ]
+[Homepage]
+[Phone/SMS]
 [Ctrl+Search add contact]
 [Browser: Back]
 [Browser: Forward]

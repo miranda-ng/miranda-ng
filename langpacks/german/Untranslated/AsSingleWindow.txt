@@ -1,0 +1,4 @@
+﻿[Allows you to move, minimize and activate Miranda's windows as if it were a single window.]
+[Contact list on the left]
+[Contact list on the right]
+[AsSingleWindow]

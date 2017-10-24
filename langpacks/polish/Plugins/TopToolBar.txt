@@ -49,32 +49,37 @@ Szukaj/Dodaj kontakty
 Pokaż menu statusu
 [Show/hide offline contacts]
 Pokaż/ukryj rozłączone kontakty
-[Hide offline contacts]
-Ukryj rozłączone kontakty
 [Show offline contacts]
 Pokaż rozłączone kontakty
+[Hide offline contacts]
+Ukryj rozłączone kontakty
 [Enable/disable metacontacts]
 Włącz/wyłącz metakontakty
-[Disable metacontacts]
-Wyłącz metakontakty
 [Enable metacontacts]
 Włącz metakontakty
+[Disable metacontacts]
+Wyłącz metakontakty
 [Enable/disable groups]
 Włącz/wyłącz grupy
-[Enable groups]
-Włącz grupy
 [Disable groups]
 Wyłącz grupy
+[Enable groups]
+Włącz grupy
 [Enable/disable sounds]
 Włącz/wyłącz dźwięki
-[Disable sounds]
-Wyłącz dźwięki
 [Enable sounds]
 Włącz dźwięki
+[Disable sounds]
+Wyłącz dźwięki
 [Minimize contact list]
 Minimalizuj listę kontaktów
 [Exit]
 Wyjdź
+;file \plugins\TopToolBar\src\main.cpp
+[Execute]
+Wykonaj
+[Separator]
+Separator
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Domyślny

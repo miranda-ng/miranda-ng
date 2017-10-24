@@ -22,8 +22,6 @@ Port:
 
 [Ping:]
 
-[ICQ Corp]
-
 [Login Server:]
 
 [ICQ number:]

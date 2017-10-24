@@ -200,12 +200,6 @@ stavaka
 
 [Add item]
 
-[Add separator]
-
-[Move up]
-
-[Move down]
-
 [No icon]
 
 [Icon on left]
@@ -477,6 +471,16 @@ Pozadina
 [Tray title]
 
 [Tipper]
+
+[Copy item]
+
+[Arrow up]
+
+[Arrow down]
+
+[Reload]
+
+[Apply]
 
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]

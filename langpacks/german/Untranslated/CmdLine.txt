@@ -1,0 +1,1 @@
+﻿[Executes Lua script via MirLua plugin.\nUsage:\n  call [<module>] <function>\n  exec "<path>"\n  eval "<code>"]

@@ -24,6 +24,8 @@
 [It's complicated]
 [In a civil union]
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
+[Homepage]
+[Phone/SMS]
 [Browser: Back]
 [Browser: Forward]
 [Browser: Refresh]

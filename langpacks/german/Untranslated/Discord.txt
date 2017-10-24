@@ -1,0 +1,3 @@
+﻿[Hide guild chats on startup]
+[Copy my Discord ID]
+[Copy Discord ID]

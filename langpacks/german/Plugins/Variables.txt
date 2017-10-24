@@ -102,7 +102,7 @@ Konvertiert eine 32-Bit-Zahl (in Host-Byte-Reihenfolge) in IPv4-gepunktete Schre
 Logische Ausdrücke
 [performs logical AND (x && y && ...)]
 Ausführen von logischem UND (x && y && ...)
-[Boolean FALSE]
+[boolean FALSE]
 Boolesches FALSCH
 [performs w, then shows z and performs y while x is TRUE]
 Ausführen von w, dann zeigt es z an und führt y aus, während x WAHR ist
@@ -128,7 +128,7 @@ WAHR wenn x länger als y ist
 Ausführen von logischem NICHT (!x)
 [performs logical OR (x || y || ...)]
 Ausführen von logischem ODER (x || y || ...)
-[Boolean TRUE]
+[boolean TRUE]
 Boolesches WAHR
 [performs logical XOR (x ^ y)]
 Ausführen von logischem XOR (x ^ y)

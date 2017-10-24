@@ -33,8 +33,6 @@
 [&Show title]
 [&Expanded]
 [&About]
-[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from https://wiki.miranda-ng.org/Download]
-[Error loading plugin]
 [Modern contact list]
 [Avatar overlay]
 [Status overlay]

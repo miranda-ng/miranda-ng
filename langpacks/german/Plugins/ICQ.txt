@@ -1781,6 +1781,8 @@ Custom Status
 [Greeting card:]
 Grußkarte:
 ;file \protocols\IcqOscarJ\src\init.cpp
+[Expand string edit]
+
 [ICQ xStatus]
 ICQ xStatus
 ;file \protocols\IcqOscarJ\src\log.cpp

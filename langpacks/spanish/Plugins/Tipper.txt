@@ -35,8 +35,6 @@ Sombra
 Borde
 [ms]
 ms
-[Add separator]
-Añadir separador
 [Top]
 Superior
 [Center]
@@ -87,6 +85,8 @@ Visibilidad:
 Fondo
 [Dividers]
 Divisores
+[Apply]
+Aplicar
 [Female]
 Femenino
 [Male]

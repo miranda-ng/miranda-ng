@@ -2,57 +2,11 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.5
+;  Version: 0.9.1.7
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Muestra contactos, notificaciones de eventos, estatus de protocolo con modificaciones visuales de ventaja. Modificaciones MW admitidas, una mayor cooperación de metacontacto.
-[Transparency:]
-Transparencia:
-[Window behavior:]
-Comportamiento de ventana:
-[List sorting:]
-Orden de lista:
-[Status bar:]
-Barra de estado:
-[List content:]
-Contenido de la lista:
-[Show counts of number of contacts in a group]
-Mostrar recuento de número de contactos en un grupo
-[Hide group counts when there are none online]
-Ocultar cuentas de grupo cuando no hay nadie en línea
-[1st:]
-1ro:
-[2nd:]
-2do:
-[3rd:]
-3ro:
-[Always on top]
-Siempre en primer plano
-[Hide contact list after]
-Ocultar lista de contactos después
-[seconds]
-segundos
-[Fade contact list in/out]
-Desvanecer lista de contactos entrada/salida
-[Transparent contact list]
-Lista de contactos transparente
-[Inactive opacity:]
-Opacidad inactivo:
-[Active opacity:]
-Opacidad activio:
-[Show avatars]
-Mostrar avatares
-[Animate avatars]
-Animar avatares
-[Show contact time in list]
-Mostrar tiempo de contacto en la lista
-[Compact mode]
-Modo compacto
-[Show protocol names]
-Mostrar nombres de protocolo
-[Show status text]
-Mostrar texto de estado
 [Settings]
 Ajustes
 [Background color:]
@@ -121,6 +75,8 @@ Grupo
 Modo de estado
 [Automatically clear this view mode after]
 Limpiar automáticamente este modo de vista después de
+[seconds]
+segundos
 [View mode options]
 Opciones de modo de vista
 [Editing view mode]
@@ -157,6 +113,8 @@ Ajuste de opciones por cuenta
 Activar cuenta personalizadas
 [Hide account completely]
 Ocultar cuenta por completo
+[Show protocol names]
+Mostrar nombres de protocolo
 [Show status name]
 Muestrar nombre de estado
 [Show xStatus name]
@@ -211,6 +169,12 @@ No mover usuario fuera de línea al final
 Lista de contactos
 [Contact list sorting]
 Clasificación de la lista de contacto
+[1st:]
+1ro:
+[2nd:]
+2do:
+[3rd:]
+3ro:
 [Place offline users out of groups]
 Coloca los usuarios sin conexión de grupos
 [Gamma correction]
@@ -227,6 +191,8 @@ Sin selección
 Modo de selección
 [Bring to front if covered]
 Traer al frente si está cubierto
+[Hide contact list after]
+Ocultar lista de contactos después
 [Automatically resize window to height of list]
 Redimensionar automáticamente la ventana a la altura de la lista
 [maximum]
@@ -293,6 +259,10 @@ Oscurecer contactos inactivos
 Grupos
 [Draw a line alongside group names]
 Dibujar una línea al lado de los nombres de grupos
+[Show counts of number of contacts in a group]
+Mostrar recuento de número de contactos en un grupo
+[Hide group counts when there are none online]
+Ocultar cuentas de grupo cuando no hay nadie en línea
 [Sort groups alphabetically]
 Ordenar grupos alfabéticamente
 [Quicksearch in open groups only]
@@ -323,6 +293,8 @@ ms, retardo entre parpadeo del icono
 Icono de la bandeja de sistema
 [Appearance]
 Apariencia
+[Always on top]
+Siempre en primer plano
 [Pin to desktop]
 Pin de escritorio
 [Show menu bar]
@@ -337,16 +309,28 @@ Estilo de ventana de herramientas principal
 Minimizar a la bandeja
 [Translucency options]
 Opciones de translucidez
+[Fade contact list in/out]
+Desvanecer lista de contactos entrada/salida
+[Transparent contact list]
+Lista de contactos transparente
+[Inactive opacity:]
+Opacidad inactivo:
+[Active opacity:]
+Opacidad activio:
 [Frames]
 Marcos
 [Round corners]
 Esquinas redondeadas
 [Left margin:]
 Margen izquierdo:
+[Show avatars]
+Mostrar avatares
 [height]
 alto
 [width]
 ancho
+[Animate avatars]
+Animar avatares
 [Text:]
 Texto:
 [Status]

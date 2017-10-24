@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.5.1.1
+;  Version: 0.5.1.2
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -17,6 +17,8 @@
 Контакты
 [Default group:]
 Группа:
+[Hide guild chats on startup]
+Не открывать окно чата при входе в комнату чата
 [Nick:]
 Ник:
 [edited at]
@@ -54,7 +56,7 @@
 [Join guild]
 Присоединиться к гильдии
 [Copy my Discord ID]
-Копировать мой Discord ID
+Копировать Discord ID
 [Leave guild]
 Покинуть гильдию
 [Create new channel]

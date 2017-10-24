@@ -95,8 +95,8 @@
 Лагічныя выразы
 [performs logical AND (x && y && ...)]
 лагічнае І (x && y && ...)
-[Boolean FALSE]
-Лагічнае ХЛУСНЯ
+[boolean FALSE]
+лагічнае ХЛУСНЯ
 [performs w, then shows z and performs y while x is TRUE]
 выконвае w, потым паказвае z, і выконвае y, пакуль x = ПРАЎДА
 [shows y if x is TRUE, otherwise it shows z]
@@ -121,8 +121,8 @@ y, калі даўжыня радка w > x, у іншым выпадку z
 выконвае лагічнае НЯМА (!x)
 [performs logical OR (x || y || ...)]
 выконвае лагічнае ЦІ (x || y || ...)
-[Boolean TRUE]
-Лагічнае ПРАЎДА
+[boolean TRUE]
+лагічнае ПРАЎДА
 [performs logical XOR (x ^ y)]
 выконвае лагічнае выключальнае ЦІ - XOR (x ^ y)
 [Mathematical Functions]

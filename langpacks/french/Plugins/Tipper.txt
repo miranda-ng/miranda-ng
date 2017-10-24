@@ -200,12 +200,6 @@ Substitution incorrecte
 <sans nom>
 [Add item]
 
-[Add separator]
-Ajouter
-[Move up]
-
-[Move down]
-
 [No icon]
 Sans icône
 [Icon on left]
@@ -478,6 +472,16 @@ Valeurs
 
 [Tipper]
 
+[Copy item]
+
+[Arrow up]
+
+[Arrow down]
+
+[Reload]
+Recharger
+[Apply]
+Appliquer
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 Femme

@@ -325,14 +325,6 @@ JID / URL:
 JID:
 [Node:]
 Вузел:
-[Account type:]
-Тып конту:
-[Login server:]
-Сервер:
-[Register account now]
-Зарэгістраваць конт
-[Jabber Account Information:]
-Інфармацыя Jabber конта:
 [Member Information]
 Правы ўдзельніка
 [Role:]
@@ -805,6 +797,10 @@ Jabber памылка
 Каманда AdHoc
 [OpenID Request]
 Запыт OpenID
+[Add contact]
+Дадаць кантакт
+[Open]
+
 [Discovery succeeded]
 Вызначэнне завершана
 [Discovery failed]

@@ -2,57 +2,11 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.5
+;  Version: 0.9.1.7
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Показує контакти, події, статуси протоколів з розширеними функціями оформлення (скіни). Мультивіконна модифікація, розширена підтримка метаконтактів.
-[Transparency:]
-Прозорість:
-[Window behavior:]
-Поведінка вікна:
-[List sorting:]
-Впорядкування списку:
-[Status bar:]
-Панель статусів:
-[List content:]
-Вміст списку:
-[Show counts of number of contacts in a group]
-Показувати кількість користувачів у групах
-[Hide group counts when there are none online]
-Ховати лічильник, якщо нема користувачів у мережі
-[1st:]
-1-й:
-[2nd:]
-2-й:
-[3rd:]
-3-й:
-[Always on top]
-Поверх усіх вікон
-[Hide contact list after]
-Ховати список після
-[seconds]
-секунд
-[Fade contact list in/out]
-Плавно згортати/розгортати список
-[Transparent contact list]
-Прозорий список контактів
-[Inactive opacity:]
-Вікно неактивне:
-[Active opacity:]
-Вікно активне:
-[Show avatars]
-Показувати аватари
-[Animate avatars]
-Анімація аватарів
-[Show contact time in list]
-Показувати час контакту
-[Compact mode]
-Компактний режим
-[Show protocol names]
-Показувати протоколи
-[Show status text]
-Показувати текст статусу
 [Settings]
 Налаштування
 [Background color:]
@@ -123,6 +77,8 @@
 Режим статусу
 [Automatically clear this view mode after]
 Автоматично скидати цей режим після
+[seconds]
+секунд
 [View mode options]
 Налаштування режиму перегляду
 [Last message]
@@ -157,6 +113,8 @@ Ctrl+ЛКМ - увімк. фільтр за протоколом, клік по 
 Налаштувати обліковий запис
 [Hide account completely]
 Сховати обліковий запис
+[Show protocol names]
+Показувати протоколи
 [Show status name]
 Ім'я статусу
 [Show xStatus name]
@@ -211,6 +169,12 @@ Ctrl+ЛКМ - увімк. фільтр за протоколом, клік по 
 Список контактів
 [Contact list sorting]
 Впорядкування списку
+[1st:]
+1-й:
+[2nd:]
+2-й:
+[3rd:]
+3-й:
 [Place offline users out of groups]
 Відключених показувати поза групами
 [Gamma correction]
@@ -227,6 +191,8 @@ Ctrl+ЛКМ - увімк. фільтр за протоколом, клік по 
 Тип виділення
 [Bring to front if covered]
 Перемістити на передній план
+[Hide contact list after]
+Ховати список після
 [Automatically resize window to height of list]
 Автоматично змінювати розмір вікна
 [maximum]
@@ -293,6 +259,10 @@ x100 мс
 Групи
 [Draw a line alongside group names]
 Лінія вздовж назви групи
+[Show counts of number of contacts in a group]
+Показувати кількість користувачів у групах
+[Hide group counts when there are none online]
+Ховати лічильник, якщо нема користувачів у мережі
 [Sort groups alphabetically]
 Впорядкувати групи за абеткою
 [Quicksearch in open groups only]
@@ -367,6 +337,8 @@ x100 мс
 Час як елемент рядка
 [Appearance]
 Зовнішній вигляд
+[Always on top]
+Поверх усіх вікон
 [Pin to desktop]
 Прикріпити до столу
 [Client area margins]
@@ -387,6 +359,14 @@ x100 мс
 Згортати до трею
 [Translucency options]
 Прозорість
+[Fade contact list in/out]
+Плавно згортати/розгортати список
+[Transparent contact list]
+Прозорий список контактів
+[Inactive opacity:]
+Вікно неактивне:
+[Active opacity:]
+Вікно активне:
 [Enable drop shadow (restart required)]
 Увімкнути тінь (потрібен перезапуск)
 [Frames]
@@ -429,6 +409,8 @@ x100 мс
 Компактний режим (показувати аватари і додатковий текст тільки у вибраних контактів)
 [Draw border on avatar]
 Рамки на аватарах
+[Show avatars]
+Показувати аватари
 [Draw overlay icons]
 Значки на аватарах
 [Max size (pixels):]
@@ -451,6 +433,8 @@ x100 мс
 висота
 [width]
 ширина
+[Animate avatars]
+Анімація аватарів
 [Use old render method (fast, but has artifacts)]
 Старий метод відтворення (швидше; можуть бути "артефакти")
 [Hide icon when showing avatar]
@@ -651,10 +635,6 @@ xСтатус: xПовідомлення
 Хочете видалити '%s' з метаконтакту '%s' і додати до '%s'?
 [Changing metacontacts (moving)]
 Зміна метаконтакту (переміщення)
-[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from https://wiki.miranda-ng.org/Download]
-Для Clist_modern потрібен плагін AVS. Встановіть його за допомогою PluginUpdater або завантажте з https://wiki.miranda-ng.org/Download
-[Error loading plugin]
-Помилка завантаження плагіна
 [Skins]
 Скіни
 [Modern contact list]

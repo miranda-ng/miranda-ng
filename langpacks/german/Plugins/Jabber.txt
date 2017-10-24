@@ -326,14 +326,6 @@ Aktualisieren
 JID:
 [Node:]
 Knoten:
-[Account type:]
-Account-Typ:
-[Login server:]
-Loginserver:
-[Register account now]
-Konto jetzt registrieren
-[Jabber Account Information:]
-Jabber-Kontoinformationen:
 [Member Information]
 Information über Mitglied
 [Role:]
@@ -820,6 +812,10 @@ Notiz senden
 Ad-Hoc-Befehl
 [OpenID Request]
 OpenID-Anfrage
+[Add contact]
+Kontakt hinzufügen
+[Open]
+Öffnen
 [Discovery succeeded]
 Erkennung erfolgreich
 [Discovery failed]

@@ -2,57 +2,11 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.5
+;  Version: 0.9.1.7
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Изобразява контакти, уведомявания за събития, състояние на протоколите с предимство на визуалните модификации. Поддържа множество прозорци (в списъка) и работа с метаконтакти.
-[Transparency:]
-Прозрачност:
-[Window behavior:]
-Поведение на прозореца:
-[List sorting:]
-Сортиране на списъка:
-[Status bar:]
-Лента за състояние:
-[List content:]
-Съдържание на списъка:
-[Show counts of number of contacts in a group]
-Показване на броя контакти в група
-[Hide group counts when there are none online]
-Скриване на броя, когато всички са "Извън линия"
-[1st:]
-1ви:
-[2nd:]
-2ри:
-[3rd:]
-3ти:
-[Always on top]
-Винаги отгоре
-[Hide contact list after]
-Скриване на списъка след
-[seconds]
-секунди
-[Fade contact list in/out]
-Избледняване/Изсветляване на списъка
-[Transparent contact list]
-Прозрачност на списъка с контакти
-[Inactive opacity:]
-Неактивен прозорец:
-[Active opacity:]
-Активен прозорец:
-[Show avatars]
-Показване на аватари
-[Animate avatars]
-Анимирани аватари
-[Show contact time in list]
-Час на контакта в списъка
-[Compact mode]
-Компактен режим
-[Show protocol names]
-Показване името на протокола
-[Show status text]
-Показване на текст за състоянието
 [Settings]
 Настройки
 [Background color:]
@@ -119,6 +73,8 @@
 Състояние
 [Automatically clear this view mode after]
 Автоизчистване на режима за преглед след
+[seconds]
+секунди
 [View mode options]
 Настройки на режима за преглед
 [Editing view mode]
@@ -155,6 +111,8 @@
 Частни настройки на акаунта
 [Hide account completely]
 Цялостно скриване на акаунта
+[Show protocol names]
+Показване името на протокола
 [Show status name]
 Името на състоянието
 [Show xStatus name]
@@ -207,6 +165,12 @@
 Списък с контакти
 [Contact list sorting]
 Сортиране на списъка с контакти по:
+[1st:]
+1ви:
+[2nd:]
+2ри:
+[3rd:]
+3ти:
 [Gamma correction]
 Корекция на гамата
 [Default]
@@ -221,6 +185,8 @@
 Режим на маркиране
 [Bring to front if covered]
 Извеждане отпред, ако е покрит
+[Hide contact list after]
+Скриване на списъка след
 [Automatically resize window to height of list]
 Автооразмеряване към височината на списъка
 [maximum]
@@ -287,6 +253,10 @@ x100 ms
 Групи
 [Draw a line alongside group names]
 Добавяне на линия до имената на групите
+[Show counts of number of contacts in a group]
+Показване на броя контакти в група
+[Hide group counts when there are none online]
+Скриване на броя, когато всички са "Извън линия"
 [Sort groups alphabetically]
 Сортиране на групите по азбучен ред
 [Quicksearch in open groups only]
@@ -355,6 +325,8 @@ ms между две мигания
 Показване на местното време като елемент на реда
 [Appearance]
 Външен вид
+[Always on top]
+Винаги отгоре
 [Pin to desktop]
 Прилепване към работния плот
 [Thin border main window]
@@ -371,6 +343,14 @@ ms между две мигания
 Минимизиране в трея
 [Translucency options]
 Настройки за прозрачност
+[Fade contact list in/out]
+Избледняване/Изсветляване на списъка
+[Transparent contact list]
+Прозрачност на списъка с контакти
+[Inactive opacity:]
+Неактивен прозорец:
+[Active opacity:]
+Активен прозорец:
 [Frames]
 Рамки
 [Use non-layered mode]
@@ -405,6 +385,8 @@ ms между две мигания
 Компактен режим (аватарът и допълнителната информация\nсе показват само за маркираните контакти)
 [Draw border on avatar]
 Рамка на аватара
+[Show avatars]
+Показване на аватари
 [Draw overlay icons]
 Наслагване на икони
 [Round corners of avatars]
@@ -423,6 +405,8 @@ ms между две мигания
 височина
 [width]
 ширина
+[Animate avatars]
+Анимирани аватари
 [Hide icon when showing avatar]
 Скриване на иконата, когато има аватар
 [Draw icon in avatar space]

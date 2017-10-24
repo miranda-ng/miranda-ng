@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AvatarHistory.dll
 ;  Plugin: Avatar history
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [Colors]

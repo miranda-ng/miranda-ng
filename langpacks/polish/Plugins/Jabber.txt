@@ -326,14 +326,6 @@ Odśwież
 JID:
 [Node:]
 Węzeł:
-[Account type:]
-Typ konta:
-[Login server:]
-Serwer:
-[Register account now]
-Zarejestruj konto
-[Jabber Account Information:]
-Informacje o koncie Jabber:
 [Member Information]
 Informacje o użytkowniku
 [Role:]
@@ -820,6 +812,10 @@ Wyślij notatkę
 Polecenie AdHoc
 [OpenID Request]
 Zapytanie OpenID
+[Add contact]
+Dodaj kontakt
+[Open]
+Otwórz
 [Discovery succeeded]
 Odkrycie udane
 [Discovery failed]

@@ -18,16 +18,6 @@ Continuer
 Quitter Miranda
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 L'exception a été capturée et vous pouvez continuer à travailler avec Miranda, cependant vous devez redémarrer le programme dès que possible. L'exception peut avoir endommagé les structures de données internes et peut avoir un impact grave sur la stabilité.
-[About Clist nicer]
-À propos de Clist nicer
-[Clist nicer]
-Clist nicer
-[Copyright © 2004-2010 by the Miranda IM project, 2012-2017 by the Miranda NG project.]
-Copyright © 2004-2010 by the Miranda IM project, 2012-2017 by the Miranda NG project.
-[Version]
-Version
-[Support and latest version information]
-
 [Delete contact]
 Supprimer un contact
 [No]
@@ -743,8 +733,6 @@ Voir boutons supplémentaires
 Apparence
 [&Options...]
 &Paramètres...
-[&About the contact list...]
-À propos de l&a liste de contact...
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 Contacts non-groupés

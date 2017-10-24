@@ -43,8 +43,6 @@
 Використ. це повідомлення як стандартне:
 [Use %time% for the current time, %date% for the current date]
 %date% - нинішня дата; %time% - поточний час
-[Status messages:]
-Статусні повідомлення:
 [Change %s message]
 Змінити повідомлення "%s"
 [Closing in %d]
@@ -245,16 +243,6 @@
 Бордюр на панелях
 [Show resize grip indicator]
 Індикатор зміни розміру
-[Ordering:]
-Впорядкування:
-[Contact list:]
-Список контактів:
-[If window is partially covered, bring it to front]
-Якщо вікно частково перекрите, помістити його наверх
-[Window:]
-Вікно:
-[Contact list background:]
-Фон списку контактів:
 [&Main menu]
 Головне меню
 [E&xit]
@@ -431,10 +419,6 @@
 Режим очікування, якщо запущена повноекранна програма
 [Disable sounds on idle]
 Вимикати звуки при переході до режиму очікування
-[Become idle if computer is left unattended for:]
-Режим очікування, якщо комп'ютер неактивний протягом:
-[Idle (auto-away):]
-Режим очікування:
 [Automatically popup window when:]
 Відкривати вікно, якщо:
 [In background]
@@ -521,12 +505,6 @@
 Блиманням у треї та списку контактів
 [Show balloon popup]
 Підказкою в треї
-[Save the window position for each contact]
-Зберігати позицію вікна для кожного контакту
-[Message window behavior:]
-Поведінка вікна повідомлень:
-[Messaging:]
-Повідомлення:
 [Show these events only:]
 Показувати лише:
 [Actions]
@@ -1065,24 +1043,6 @@ Miranda NG перезапускається.\nЗачекайте...
 Консоль помилок
 [Error notifications]
 Сповіщення про помилки
-[Headers:]
-Заголовки:
-[This font is used to display main section titles or text elements.]
-Шрифт для заголовків основних розділів чи текстових елементів.
-[Normal text:]
-Звичайний текст:
-[This font is used to display most text elements or section bodies.]
-Шрифт для більшості текстових елементів чи розділів.
-[Minor notes:]
-Дрібний текст:
-[This font is used to display various additional notes.]
-Шрифт для додаткового тексту, приміток.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Вітаємо в менеджері облікових записів програми Miranda NG!\nТут можна налаштувати свої облікові записи мереж обміну миттєвими повідомленнями.\n\nЩоб побачити доступні можливості, виберіть обліковий запис зі списку ліворуч. Щоб створити новий обліковий запис, натисніть значок "+" унизу.
-[Event icon legend:]
-Події:
-[Choose events you wish to ignore:]
-Виберіть події, які будуть ігноруватися:
 [Font effect]
 Ефект шрифту
 [Effect:]
@@ -2157,8 +2117,6 @@ Ctrl+Знайти додає контакт
 Помилка запису файлу
 [Customize]
 Тонке налаштування
-[Sample text]
-Зразок тексту
 [Headers]
 Заголовки
 [Generic text]
@@ -2435,6 +2393,8 @@ xСтатус
 Ваш обліковий запис успішно оновлено. Для його активації необхідно перезапустити Miranda.\n\n\Щоб перезапустити програму зараз, натисніть "Так". Щоб оновити інший обліковий запис, натисніть "Ні".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Цей обліковий запис використовує застарілий протокол. Зміна особистих даних користувача відбувається в основному діалозі налаштувань.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Вітаємо в менеджері облікових записів програми Miranda NG!\nТут можна налаштувати свої облікові записи мереж обміну миттєвими повідомленнями.\n\nЩоб побачити доступні можливості, виберіть обліковий запис зі списку ліворуч. Щоб створити новий обліковий запис, натисніть значок "+" унизу.
 [Create new account]
 Створити новий запис
 [Editing account]

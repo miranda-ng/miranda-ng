@@ -35,7 +35,6 @@
 [New message]
 [New category]
 [Delete]
-[Configure autoaway]
 [Wait]
 [seconds before closing the status message dialog (-1=don't close)]
 [Store]

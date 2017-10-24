@@ -414,8 +414,6 @@ Page de code invalide
 [Conversation started at %s]
 
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-[_files]
-
 [Menu]
 Menu
 [Open all]

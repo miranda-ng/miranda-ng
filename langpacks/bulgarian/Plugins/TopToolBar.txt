@@ -47,28 +47,28 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 Меню на състоянието
 [Show/hide offline contacts]
 Показване/Скриване на контактите "Извън линия"
-[Hide offline contacts]
-Скриване на контактите "Извън линия"
 [Show offline contacts]
 Показване на контактите "Извън линия"
+[Hide offline contacts]
+Скриване на контактите "Извън линия"
 [Enable/disable metacontacts]
 Включване/Изключване на метаконтактите
-[Disable metacontacts]
-Изключване на метаконтактите
 [Enable metacontacts]
 Включване на метаконтактите
+[Disable metacontacts]
+Изключване на метаконтактите
 [Enable/disable groups]
 Включване/Изключване на групите
-[Enable groups]
-С групи
 [Disable groups]
 Без групи
+[Enable groups]
+С групи
 [Enable/disable sounds]
 Включване/Изключване на звука
-[Disable sounds]
-Изключване на звука
 [Enable sounds]
 Включване на звука
+[Disable sounds]
+Изключване на звука
 [Minimize contact list]
 Минимизиране на списъка с контакти
 [Exit]

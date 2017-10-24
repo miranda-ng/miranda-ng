@@ -652,3 +652,7 @@ Status WATrack
 Włącz WATrack
 [Disable WATrack]
 Wyłącz WATrack
+[Check unknown formats]
+
+[Check unknown file formats if player gives info.]
+

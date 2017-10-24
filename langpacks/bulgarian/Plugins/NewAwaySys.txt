@@ -35,8 +35,6 @@
 Заглавие:
 [Delete]
 Изтриване
-[Status messages:]
-Текст за състояние:
 [seconds]
 секунди
 [%s message for %s]

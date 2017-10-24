@@ -49,32 +49,37 @@
 
 [Show/hide offline contacts]
 
-[Hide offline contacts]
-
 [Show offline contacts]
+
+[Hide offline contacts]
 
 [Enable/disable metacontacts]
 
-[Disable metacontacts]
-
 [Enable metacontacts]
+
+[Disable metacontacts]
 
 [Enable/disable groups]
 
-[Enable groups]
-
 [Disable groups]
 onemogući grupe
+[Enable groups]
+
 [Enable/disable sounds]
 
-[Disable sounds]
-
 [Enable sounds]
+
+[Disable sounds]
 
 [Minimize contact list]
 
 [Exit]
 Izlaz
+;file \plugins\TopToolBar\src\main.cpp
+[Execute]
+
+[Separator]
+
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 

@@ -307,8 +307,6 @@ SMS съобщение
 Филтър:
 [Conversation started at %s]
 Начало на разговора в %s
-[_files]
-_файлове
 [Menu]
 Меню
 [Open all]

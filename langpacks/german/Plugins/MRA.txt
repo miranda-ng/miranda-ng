@@ -302,6 +302,8 @@ Dateien senden: Kann Datei %s nicht öffnen, Fehler
 [Send files: requested file: %S - not found in send files list.]
 Dateien senden: Angefragte Datei %S - nicht in Liste der gesendeten Dateien gefunden.
 ;file \protocols\MRA\src\MraIcons.cpp
+[Main icon]
+Haupticon
 [Protocols]
 Protokolle
 [MRA]

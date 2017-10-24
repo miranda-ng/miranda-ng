@@ -1755,6 +1755,8 @@ xСтатус %s
 xСтатус
 [Greeting card:]
 Паштоўка:
+[Expand string edit]
+
 [ICQ xStatus]
 xСтатус ICQ
 [ICQ Warning]

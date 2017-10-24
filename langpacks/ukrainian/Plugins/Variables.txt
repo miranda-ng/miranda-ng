@@ -95,7 +95,7 @@
 Логічні вирази
 [performs logical AND (x && y && ...)]
 логічне І (x && y && ...)
-[Boolean FALSE]
+[boolean FALSE]
 логічне БРЕХНЯ
 [performs w, then shows z and performs y while x is TRUE]
 виконує W, потім показує Z і виконує Y, поки X = ПРАВДА
@@ -121,7 +121,7 @@ Y, якщо довжина рядка W > X, інакше Z
 виконує логічне НІ (!x)
 [performs logical OR (x || y || ...)]
 виконує логічне АБО (x || y || ...)
-[Boolean TRUE]
+[boolean TRUE]
 логічне ПРАВДА
 [performs logical XOR (x ^ y)]
 виконує логічне виключне АБО - XOR (x ^ y)

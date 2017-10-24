@@ -200,12 +200,6 @@ Ungültige Ersetzung
 <Keine Beschriftung>
 [Add item]
 Objekt hinzufügen
-[Add separator]
-Trennlinie hinzufügen
-[Move up]
-Hoch
-[Move down]
-Runter
 [No icon]
 Kein Icon
 [Icon on left]
@@ -478,6 +472,16 @@ Werte
 Traytitel
 [Tipper]
 Tipper
+[Copy item]
+
+[Arrow up]
+
+[Arrow down]
+
+[Reload]
+Neu laden
+[Apply]
+Übernehmen
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 weiblich

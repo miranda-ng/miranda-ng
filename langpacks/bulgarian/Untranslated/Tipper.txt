@@ -12,4 +12,8 @@
 [Protocol lock status]
 [Contact list event]
 [Log on:]
+[Copy item]
+[Arrow up]
+[Arrow down]
+[Reload]
 [[No translation]]

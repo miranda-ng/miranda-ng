@@ -217,8 +217,8 @@ Das Profil ist verschlüsselt.
 Das Datenformat ist ungültig.
 [Unknown error]
 Unbekannter Fehler
-[The friend number did not designate a valid friend]
-Die Freundesnummer zeigt keinen gültigen Kontakt an.
+[The friend ID did not designate a valid friend]
+
 [This client is currently not connected to the friend]
 Dieser Client ist momentan nicht mit dem Freund verbunden.
 [An allocation error occurred while increasing the send queue size]

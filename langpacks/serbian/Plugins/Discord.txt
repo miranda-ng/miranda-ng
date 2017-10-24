@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.5.0.2
+;  Version: 0.5.1.2
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -17,6 +17,8 @@ E-mail:
 [Contacts]
 Kontakti
 [Default group:]
+
+[Hide guild chats on startup]
 
 [Nick:]
 Nadimak:
@@ -58,9 +60,13 @@ Sobe za razgovor
 
 [Join guild]
 
+[Copy my Discord ID]
+
 [Leave guild]
 
 [Create new channel]
+
+[Copy Discord ID]
 
 ;file \protocols\Discord\src\options.cpp
 [Network]

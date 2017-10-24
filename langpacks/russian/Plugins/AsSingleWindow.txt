@@ -2,11 +2,9 @@
 ;============================================================
 ;  File: AsSingleWindow.dll
 ;  Plugin: AsSingleWindow
-;  Version: 0.1.2.1
+;  Version: 0.1.2.2
 ;  Authors: Aleksey Smyrnov aka Soar
 ;============================================================
-[Customize]
-Тонкая настройка
 [Allows you to move, minimize and activate Miranda's windows as if it were a single window.]
 Перемещение, сворачивание и активация окон программы таким образом, словно это единое окно.
 [Windows moving]
@@ -27,3 +25,5 @@
 Не объединять окна до закрытия
 [AsSingleWindow]
 Единое окно
+[Customize]
+Тонкая настройка

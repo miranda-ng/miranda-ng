@@ -29,8 +29,6 @@ Salí a &comer
 Título:
 [Delete]
 Eliminar
-[Status messages:]
-Mensajes de estado:
 [seconds]
 segundos
 [%s message for %s]

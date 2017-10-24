@@ -95,8 +95,8 @@
 Логические выражения
 [performs logical AND (x && y && ...)]
 логическое И (x && y && ...)
-[Boolean FALSE]
-Логическое ЛОЖЬ
+[boolean FALSE]
+логическое ЛОЖЬ
 [performs w, then shows z and performs y while x is TRUE]
 выполняет w, потом показывает z, и выполняет y, пока x = ПРАВДА
 [shows y if x is TRUE, otherwise it shows z]
@@ -121,8 +121,8 @@ y, если длина строки w > x, в другом случае z
 выполняет логическое НЕТ (!x)
 [performs logical OR (x || y || ...)]
 выполняет логическое ИЛИ (x || y || ...)
-[Boolean TRUE]
-Логическое ПРАВДА
+[boolean TRUE]
+логическое ПРАВДА
 [performs logical XOR (x ^ y)]
 выполняет логическое исключающее ИЛИ - XOR (x ^ y)
 [Mathematical Functions]

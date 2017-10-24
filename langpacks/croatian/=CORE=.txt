@@ -45,8 +45,6 @@ Zadano koristi poruku kao i zadnji put.
 Zadano koristi ovu poruku
 [Use %time% for the current time, %date% for the current date]
 Koristi %time% za trenutno vrijeme, %date% za trenutni datum
-[Status messages:]
-Statusne poruke:
 [Change %s message]
 Promijeni %s poruku
 [Closing in %d]
@@ -248,16 +246,6 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [Show resize grip indicator]
 
-[Ordering:]
-
-[Contact list:]
-
-[If window is partially covered, bring it to front]
-
-[Window:]
-
-[Contact list background:]
-
 [&Main menu]
 
 [E&xit]
@@ -437,10 +425,6 @@ p&ovijest
 
 [Disable sounds on idle]
 
-[Become idle if computer is left unattended for:]
-
-[Idle (auto-away):]
-
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 
@@ -527,12 +511,6 @@ p&ovijest
 [Flash in the system tray and in the contact list]
 
 [Show balloon popup]
-
-[Save the window position for each contact]
-
-[Message window behavior:]
-
-[Messaging:]
 
 [Show these events only:]
 Prikaži samo ove događaje:
@@ -1076,24 +1054,6 @@ Otvori na o&voj poziciji
 [Error console]
 
 [Error notifications]
-
-[Headers:]
-
-[This font is used to display main section titles or text elements.]
-
-[Normal text:]
-
-[This font is used to display most text elements or section bodies.]
-
-[Minor notes:]
-
-[This font is used to display various additional notes.]
-
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-
-[Event icon legend:]
-
-[Choose events you wish to ignore:]
 
 [Font effect]
 
@@ -2180,6 +2140,10 @@ Prika&ži/sakrij popis nadimaka
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 
 ;file \src\mir_app\src\DefaultExtraIcons.cpp
+[Homepage]
+
+[Phone/SMS]
+
 [Chat activity]
 
 ;file \src\mir_app\src\extraicons.cpp
@@ -2228,8 +2192,6 @@ Prika&ži/sakrij popis nadimaka
 [Error writing file]
 
 [Customize]
-
-[Sample text]
 
 ;file \src\mir_app\src\FontService.cpp
 [Headers]
@@ -2579,6 +2541,8 @@ Prika&ži/sakrij popis nadimaka
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
 
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
+
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 
 [Create new account]
 

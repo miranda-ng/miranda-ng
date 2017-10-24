@@ -2,16 +2,12 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.5
+;  Version: 3.5.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
 
 ;file \plugins\TabSRMM\res\chat.rc
-[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
-
-[Cancel]
-
 [Show these events]
 
 [Actions]
@@ -185,6 +181,8 @@ Poruka
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
 
 [Dialog]
+
+[Cancel]
 
 [All modes]
 
@@ -490,12 +488,6 @@ Poruka
 
 [Tab layout tweaks]
 
-[About TabSRMM]
-
-[Copyright 2004-2011 by the Miranda IM project, 2012-2017 by the Miranda NG project.]
-
-[Support and latest version information]
-
 [Selected skin]
 
 [Rescan]
@@ -580,50 +572,6 @@ Poruka
 da
 [No]
 ne
-[Message sending:]
-
-[Window:]
-
-[Esc closes sessions (minimizes window if disabled)]
-
-[Always pop up and activate new windows]
-
-[Create new windows in minimized state]
-
-[Send on Shift+Enter]
-
-[Send message on 'Enter']
-
-[Send message on double 'Enter']
-
-[Minimize the message window on send]
-
-[Tabs:]
-
-[Use tabbed interface]
-
-[Create new tabs without activating them]
-
-[Pop up minimized window when a new tab is created]
-
-[Automatically switch tabs in minimized windows]
-
-[History:]
-
-[Notifications:]
-
-[Don't announce when dialog is open]
-
-[Message events]
-
-[File events]
-
-[URL events]
-
-[Other events]
-
-[Send message on Ctrl+Enter (always enabled)]
-
 [Log]
 &Zapisnik
 [&Copy]
@@ -850,10 +798,6 @@ prikaži traku izbornika
 
 [Save current window position as default]
 
-[Help]
-Pomoć
-[About TabSRMM...]
-
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol button]
 
@@ -917,8 +861,6 @@ Pomoć
 [%s disables '%s' status for %s]
 
 ;file \plugins\TabSRMM\src\chat_main.cpp
-[Highlight user...]
-
 [Message Sessions]
 
 ;file \plugins\TabSRMM\src\chat_options.cpp
@@ -1265,8 +1207,6 @@ sve datoteke
 [%s: message session (%u users)]
 
 ;file \plugins\TabSRMM\src\container.cpp
-[Version]
-
 [Message session...]
 
 [Default container]
@@ -1787,6 +1727,10 @@ drugo
 
 [Feature enabled (used as overlay)]
 
+[Enable typing notification]
+
+[Disable typing notification]
+
 [The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
 
 [TabSRMM fatal error]
@@ -1797,11 +1741,6 @@ drugo
 [Message windows - all]
 
 [Message windows - group chats]
-
-;file \plugins\TabSRMM\src\muchighlight.cpp
-[Add user to highlight list]
-
-[Edit user highlight list]
 
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
@@ -1994,6 +1933,14 @@ ikona područja obavijesti
 [Message window behavior]
 
 [Sending messages]
+
+[Send on Shift+Enter]
+
+[Send message on 'Enter']
+
+[Send message on double 'Enter']
+
+[Minimize the message window on send]
 
 [Close the message window on send]
 

@@ -102,7 +102,7 @@ konwertuje 32-bitowy numer (w porządku bajtów hosta) do IPv4 oddzielony kropka
 Wyrażenia logiczne
 [performs logical AND (x && y && ...)]
 wykonuje operację logiczną AND (x && y && ...)
-[Boolean FALSE]
+[boolean FALSE]
 wartość logiczna FAŁSZ
 [performs w, then shows z and performs y while x is TRUE]
 wykonuje "w", następnie pokazuje i wykonuje "y", podczas gdy "x" to PRAWDA
@@ -128,7 +128,7 @@ PRAWDA, jeśli "x" jest dłuższy niż "y"
 wykonuje operację logiczną NOT (!x)
 [performs logical OR (x || y || ...)]
 wykonuje operację logiczną OR (x || y || ...)
-[Boolean TRUE]
+[boolean TRUE]
 wartość logiczna PRAWDA
 [performs logical XOR (x ^ y)]
 wykonuje operację logiczną XOR (x ^ y)

@@ -302,6 +302,8 @@ Wysyłanie plików: nie można otworzyć pliku %s, błąd
 [Send files: requested file: %S - not found in send files list.]
 Wysyłanie plików: żądany plik: %S - nie został znaleziony na liście wysyłanych plików.
 ;file \protocols\MRA\src\MraIcons.cpp
+[Main icon]
+Główna ikona
 [Protocols]
 Protokoły
 [MRA]

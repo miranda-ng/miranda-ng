@@ -200,12 +200,6 @@ Nieprawidłowe zastępstwo
 <Brak etykiety>
 [Add item]
 Dodaj
-[Add separator]
-Dodaj separator
-[Move up]
-Przesuń w górę
-[Move down]
-Przesuń w dół
 [No icon]
 Brak ikony
 [Icon on left]
@@ -478,6 +472,16 @@ Wartości
 Tytuł w zasobniku
 [Tipper]
 Tipper
+[Copy item]
+
+[Arrow up]
+
+[Arrow down]
+
+[Reload]
+Odśwież
+[Apply]
+Zastosuj
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 Kobieta

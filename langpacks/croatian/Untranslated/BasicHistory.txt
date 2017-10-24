@@ -189,7 +189,6 @@
 [History Log]
 [Filter:]
 [Conversation started at %s]
-[_files]
 [Menu]
 [Open all]
 [Close all]

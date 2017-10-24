@@ -197,12 +197,6 @@
 <Без пазнакі>
 [Add item]
 Дадаць
-[Add separator]
-Дадаць падзельнік
-[Move up]
-Вышэй
-[Move down]
-Ніжэй
 [No icon]
 Без значка
 [Icon on left]
@@ -469,6 +463,16 @@ xСтатус:
 Загаловак у трэі
 [Tipper]
 Падказкі
+[Copy item]
+
+[Arrow up]
+
+[Arrow down]
+
+[Reload]
+
+[Apply]
+Ужыць
 [Female]
 Жаночы
 [Male]

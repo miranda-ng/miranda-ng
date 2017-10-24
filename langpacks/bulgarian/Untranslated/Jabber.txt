@@ -26,6 +26,7 @@
 [Room list request timed out.]
 [Please specify group chat directory first.]
 [Group chat invitation to\n%s]
+[Open]
 [Jabber Bookmarks Error]
 [Voice List]
 [Do you want to create OMEMO session with new device:]

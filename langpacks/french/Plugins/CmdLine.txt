@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CmdLine.dll
 ;  Plugin: Command line
-;  Version: 0.0.4.6
+;  Version: 0.0.4.7
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
@@ -50,6 +50,8 @@ Erreur
 [Changes the user's nickname on the given protocol to the new name.\nUsage: setnickname <protocol> new_nickname.]
 
 [Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
+
+[Executes Lua script via MirLua plugin.\nUsage:\n  call [<module>] <function>\n  exec "<path>"\n  eval "<code>"]
 
 ;file \plugins\CmdLine\src\mimcmd_handlers.cpp
 [Wrong number of parameters for command '%s'.]

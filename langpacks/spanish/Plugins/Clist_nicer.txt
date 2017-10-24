@@ -7,8 +7,6 @@
 ;============================================================
 [Copy to clipboard]
 Copiar al portapapeles
-[Version]
-Versión
 [Delete contact]
 Eliminar contacto
 [No]

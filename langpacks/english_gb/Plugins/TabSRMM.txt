@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.5
+;  Version: 3.5.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Customize the panel]
@@ -33,16 +33,6 @@ Define up to 5 colours which you can use with some variables
 Load fonts and colours provided by skin
 [You can export and import all your color and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.]
 You can export and import all your colour and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.
-[Esc closes sessions (minimizes window if disabled)]
-Esc closes sessions (minimises window if disabled)
-[Create new windows in minimized state]
-Create new windows in minimised state
-[Minimize the message window on send]
-Minimise the message window on send
-[Pop up minimized window when a new tab is created]
-Pop up minimised window when a new tab is created
-[Automatically switch tabs in minimized windows]
-Automatically switch tabs in minimised windows
 [Favorites]
 Favourites
 [Default color]
@@ -95,6 +85,8 @@ Semi transparent, custom colours
 Custom (use own gradient colours)
 [Message window behavior]
 Message window behaviour
+[Minimize the message window on send]
+Minimise the message window on send
 [New windows are minimized (the option above MUST be active)]
 New windows are minimised (the option above MUST be active)
 [Activate a minimized window when a new tab is created inside it]

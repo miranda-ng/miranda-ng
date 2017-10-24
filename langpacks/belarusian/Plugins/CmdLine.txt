@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CmdLine.dll
 ;  Plugin: Command line
-;  Version: 0.0.4.6
+;  Version: 0.0.4.7
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
@@ -49,6 +49,8 @@
 Мяняе мянушку кантакта ў пазначаным пратаколе.\nВыкарыстанне: setnickname <пратакол> новая_мянушка.
 [Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
 Уключэнне і адключэнне сцяга "ігнараваць" для паказаных кантактаў.\nВыкарыстанне:\n  ignore (block | unblock) <кантакт> [<кантакт> [<кантакт> [...]]].\nКаманда пераключыць (усталюе ці выдаліць) ігнараванне для пазначаных кантактаў.
+[Executes Lua script via MirLua plugin.\nUsage:\n  call [<module>] <function>\n  exec "<path>"\n  eval "<code>"]
+
 [Wrong number of parameters for command '%s'.]
 Няслушная колькасць параметраў для каманды '%s'
 [Unknown parameter '%s' for command '%s'.]

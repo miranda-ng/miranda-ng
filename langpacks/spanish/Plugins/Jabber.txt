@@ -247,6 +247,8 @@ Tipo
 Iconos de estado
 [Notes]
 Notas
+[Add contact]
+Añadir contacto
 [Protocols]
 Protocolos
 [Request authorization]

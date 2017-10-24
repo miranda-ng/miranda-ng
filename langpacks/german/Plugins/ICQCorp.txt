@@ -22,8 +22,6 @@ ICQ-Version:
 Miranda-Version:
 [Ping:]
 Ping:
-[ICQ Corp]
-ICQ Corp
 [Login Server:]
 Loginserver:
 [ICQ number:]

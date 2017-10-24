@@ -2,16 +2,12 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.5
+;  Version: 3.5.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
 Moduł obsługi zwykłych oraz grupowych rozmów dla Mirandy NG.
 ;file \plugins\TabSRMM\res\chat.rc
-[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
-Możesz dodać osobę wybierając imię lub ID. Znaki dozwolone i rekomendowane.
-[Cancel]
-Anuluj
 [Show these events]
 Pokaż te wydarzenia
 [Actions]
@@ -186,6 +182,8 @@ Użyj koloru wiadomości skórki dla popupów czatowych
 Nie znaleziono kompatybilnego wtyczki popup. Powiadomienia\nsystemowe nie są dostępne.
 [Dialog]
 Okno
+[Cancel]
+Anuluj
 [All modes]
 Wszystkie tryby
 [Choose modes]
@@ -490,12 +488,6 @@ Pionowe wyrównanie kart na dole:
 INFO: niektóre ustawienia przyniosą efekt po ponownym otwarciu kontenera.
 [Tab layout tweaks]
 Układ kart
-[About TabSRMM]
-O TabSRMM
-[Copyright 2004-2011 by the Miranda IM project, 2012-2017 by the Miranda NG project.]
-Copyright 2004-2011 przez projekt Miranda IM, 2012-2017 przez projekt Miranda NG.
-[Support and latest version information]
-Wsparcie i informacje o ostatniej wersji
 [Selected skin]
 Wybierz skórkę
 [Rescan]
@@ -580,50 +572,6 @@ Nie pokazuj tej wiadomości
 Tak
 [No]
 Nie
-[Message sending:]
-Wysyłanie wiadomości:
-[Window:]
-Okno:
-[Esc closes sessions (minimizes window if disabled)]
-ESC zamyka sesję (minimalizuje okno, jeśli wyłączone)
-[Always pop up and activate new windows]
-Zawsze wyskakuj i aktywuj nowe okna
-[Create new windows in minimized state]
-Twórz nowe okna w stanie zminimalizowanym
-[Send on Shift+Enter]
-Wyślij wiadomość po Shift+Enter
-[Send message on 'Enter']
-Enter wysyła wiadomość
-[Send message on double 'Enter']
-Podwójny Enter wysyła wiadomość
-[Minimize the message window on send]
-Minimalizuj okno rozmowy po wysłaniu
-[Tabs:]
-Karty:
-[Use tabbed interface]
-Używaj interfejsu kart
-[Create new tabs without activating them]
-Twórz nowe karty bez aktywowania ich
-[Pop up minimized window when a new tab is created]
-Wyświetl zminimalizowane okno, gdy tworzona jest nowa karta
-[Automatically switch tabs in minimized windows]
-Automatycznie przełączaj karty w zminimalizowanych oknach
-[History:]
-Historia:
-[Notifications:]
-Powiadomienia:
-[Don't announce when dialog is open]
-Nie ogłaszaj, gdy okno jest otwarte
-[Message events]
-Zdarzenia wiadomości
-[File events]
-Zdarzenia plików
-[URL events]
-Linki
-[Other events]
-Inne zdarzenia
-[Send message on Ctrl+Enter (always enabled)]
-Wyślij wiadomość po Ctrl+ Enter (domyślnie wył.)
 [Log]
 Dziennik
 [&Copy]
@@ -850,10 +798,6 @@ Pokazuj popupy jeżeli okno jest aktywne
 Pokazuj popupy dla wszystkich nieaktywnych sesji
 [Save current window position as default]
 Zapisz obecne położenie okna jako domyślne
-[Help]
-Pomoc
-[About TabSRMM...]
-O TabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol button]
 Przycisk protokołu
@@ -917,8 +861,6 @@ Temat to "%s%s"
 [%s disables '%s' status for %s]
 %s wyłącza status "%s" dla %s
 ;file \plugins\TabSRMM\src\chat_main.cpp
-[Highlight user...]
-Podświetlany użytkownik...
 [Message Sessions]
 Okno rozmowy
 ;file \plugins\TabSRMM\src\chat_options.cpp
@@ -1265,8 +1207,6 @@ Pokój czatowy: %s (jest %u%s użytkownik(ów))
 [%s: message session (%u users)]
 %s: Rozmowa (%u użytkowników)
 ;file \plugins\TabSRMM\src\container.cpp
-[Version]
-Wersja
 [Message session...]
 Sesja rozmowy...
 [Default container]
@@ -1787,6 +1727,10 @@ Symbol zegara (w panelu informacyjnym)
 Funkcja wyłączona (używany jako nakładka)
 [Feature enabled (used as overlay)]
 Funkcja włączona (używany jako nakładka)
+[Enable typing notification]
+
+[Disable typing notification]
+
 [The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
 Usługa obrazków (AdvaImg) nie jest zainstalowany.\n\nTabSRMM zostanie wyłączony.
 [TabSRMM fatal error]
@@ -1798,11 +1742,6 @@ Okno rozmowy - IM
 Okno rozmowy - wszystkie
 [Message windows - group chats]
 Okno rozmowy - czaty
-;file \plugins\TabSRMM\src\muchighlight.cpp
-[Add user to highlight list]
-Dodaj do listy podświetleń
-[Edit user highlight list]
-Edytuj listę wyróżnień użytkownika
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Wybierz kontener dla %s
@@ -1995,6 +1934,14 @@ Usuń popupy w następujących przypadkach:
 Zachowanie okna rozmowy
 [Sending messages]
 Wysyłanie wiadomości
+[Send on Shift+Enter]
+Wyślij wiadomość po Shift+Enter
+[Send message on 'Enter']
+Enter wysyła wiadomość
+[Send message on double 'Enter']
+Podwójny Enter wysyła wiadomość
+[Minimize the message window on send]
+Minimalizuj okno rozmowy po wysłaniu
 [Close the message window on send]
 Zamknij okno rozmowy po wysłaniu
 [Always flash contact list and tray icon for new messages]

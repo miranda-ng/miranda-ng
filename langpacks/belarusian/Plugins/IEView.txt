@@ -89,6 +89,14 @@ URL атрыманы
 
 [C++ Event Sink]
 
+[RTL On]
+
+[RTL Off]
+
+[Group On]
+
+[Group Off]
+
 [%s has joined.]
 %s увайшоў.
 [%s has left.]

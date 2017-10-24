@@ -22,8 +22,6 @@ Wersja ICQ:
 Wersja Mirandy:
 [Ping:]
 Ping:
-[ICQ Corp]
-ICQ vorp
 [Login Server:]
 Serwer:
 [ICQ number:]

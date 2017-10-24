@@ -326,14 +326,6 @@ poruke
 
 [Node:]
 
-[Account type:]
-
-[Login server:]
-
-[Register account now]
-
-[Jabber Account Information:]
-
 [Member Information]
 
 [Role:]
@@ -819,6 +811,10 @@ Statusne ikone
 [AdHoc Command]
 
 [OpenID Request]
+
+[Add contact]
+
+[Open]
 
 [Discovery succeeded]
 

@@ -317,14 +317,6 @@ JID на стаята/URL:
 JID:
 [Node:]
 Възел:
-[Account type:]
-Тип на акаунта:
-[Login server:]
-Сървър за вписване:
-[Register account now]
-Регистриране на акаунта
-[Jabber Account Information:]
-Информация за Jabber акаунт:
 [Member Information]
 Информация за потребителя
 [Role:]
@@ -749,6 +741,8 @@ Jabber грешка
 AdHoc команда
 [OpenID Request]
 OpenID заявка
+[Add contact]
+Добавяне на контакт
 [Discovery succeeded]
 Успешно откриване
 [Discovery failed]

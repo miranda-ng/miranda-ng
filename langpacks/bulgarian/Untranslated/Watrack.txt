@@ -84,3 +84,5 @@
 [You Get Error]
 [Slider Hovered]
 [Slider Pushed]
+[Check unknown formats]
+[Check unknown file formats if player gives info.]

@@ -47,28 +47,28 @@
 Відкрити меню статусів
 [Show/hide offline contacts]
 Показати/сховати відключених
-[Hide offline contacts]
-Сховати відключених
 [Show offline contacts]
 Показати відключених
+[Hide offline contacts]
+Сховати відключених
 [Enable/disable metacontacts]
 Увімк./вимк. метаконтакти
-[Disable metacontacts]
-Вимкнути метаконтакти
 [Enable metacontacts]
 Увімкнути метаконтакти
+[Disable metacontacts]
+Вимкнути метаконтакти
 [Enable/disable groups]
 Увімк./вимк. групи
-[Enable groups]
-Увімкнути групи
 [Disable groups]
 Вимкнути групи
+[Enable groups]
+Увімкнути групи
 [Enable/disable sounds]
 Увімк./вимк. звуки
-[Disable sounds]
-Вимкнути звуки
 [Enable sounds]
 Увімкнути звуки
+[Disable sounds]
+Вимкнути звуки
 [Minimize contact list]
 Сховати список контактів
 [Exit]

@@ -323,14 +323,6 @@ JID / URL:
 Оновити
 [Node:]
 Вузол:
-[Account type:]
-Тип обл. запису:
-[Login server:]
-Сервер:
-[Register account now]
-Зареєструвати обл. запис
-[Jabber Account Information:]
-Інформація обл. запису Jabber:
 [Member Information]
 Права доступу
 [Role:]
@@ -803,6 +795,8 @@ xHTML-формат повідомлень чату
 Команда AdHoc
 [OpenID Request]
 Запит OpenID
+[Add contact]
+Додати контакт
 [Discovery succeeded]
 Визначення завершено
 [Discovery failed]

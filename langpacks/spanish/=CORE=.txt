@@ -43,8 +43,6 @@ Por defecto, usar el mismo mensaje como la última vez
 Por defecto, usar este mensaje:
 [Use %time% for the current time, %date% for the current date]
 Usar %time% para la hora actual, %date% para la fecha actual
-[Status messages:]
-Mensajes de estado:
 [Change %s message]
 Cambiar %s mensaje
 [Closing in %d]
@@ -245,16 +243,6 @@ Igualar anchura de secciones
 Mostrar biseles en los paneles
 [Show resize grip indicator]
 Mostrar indicador de cambio de tamaño
-[Ordering:]
-Ordenando:
-[Contact list:]
-Lista de contactos:
-[If window is partially covered, bring it to front]
-Si la ventana está cubierta en parte, llevar a delante
-[Window:]
-Ventana:
-[Contact list background:]
-Fondo de lista de de contactos:
 [&Main menu]
 &Menú principal
 [E&xit]
@@ -431,10 +419,6 @@ Opciones de inactividad
 Pasar a inactivo si aplicación pasa a pantalla completa
 [Disable sounds on idle]
 Desactivar los sonidos en inactividad
-[Become idle if computer is left unattended for:]
-Pasar a inactivo si el equipo se deja de usar durante:
-[Idle (auto-away):]
-Inactivo (automático):
 [Automatically popup window when:]
 Ventana emergente automáticamente cuando:
 [In background]
@@ -521,12 +505,6 @@ Mostrar notificación de escritura cuando no hay diálogo de mensaje abierto
 Destellos en la bandeja del sistema y en la lista de contactos
 [Show balloon popup]
 Mostrar globo emergente
-[Save the window position for each contact]
-Guardar la posición de la ventana para cada contacto
-[Message window behavior:]
-Comportamiento de la ventana de mensaje:
-[Messaging:]
-Mensajería:
 [Show these events only:]
 Mostrar sólo estos eventos:
 [Actions]
@@ -1061,24 +1039,6 @@ Miranda NG se reinicia.\nPor favor espere...
 Consola de errores
 [Error notifications]
 Notificaciones de error
-[Headers:]
-Cabeceras
-[This font is used to display main section titles or text elements.]
-Esta fuente se utiliza para mostrar secciones de títulos principales o elementos de texto.
-[Normal text:]
-Texto normal:
-[This font is used to display most text elements or section bodies.]
-Esta fuente se utiliza para mostrar más elementos de texto o sección de cuerpos.
-[Minor notes:]
-Notas menores:
-[This font is used to display various additional notes.]
-Esta fuente se utiliza para mostrar diferentes notas complementarias.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-¡Bienvenido al gestor de cuentas de Miranda NG!\nAquí usted puede configurar sus cuentas de mensajería instantánea.\n\nSeleccione una cuenta de la lista de la izquierda para ver las opciones disponibles. Alternativamente, haga clic en el signo más debajo de la lista para configurar una nueva cuenta de MI.
-[Event icon legend:]
-Leyenda de icono de evento:
-[Choose events you wish to ignore:]
-Seleccione los eventos que desea ignorar:
 [Font effect]
 Efecto de fuente
 [Effect:]
@@ -2055,8 +2015,6 @@ Archivos de texto
 Error escribiendo archivo
 [Customize]
 Personalizar
-[Sample text]
-Texto de ejemplo
 [Headers]
 Cabeceras
 [Generic text]
@@ -2235,6 +2193,8 @@ Nuevo perfil
 Tu cuenta ha sido actualizada correctamente. Para activarla, es necesario reiniciar Miranda.\n\nSi desea reiniciar Miranda ahora, pulse Sí, si usted desea actualizar otra cuenta, presione No
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Esta cuenta utiliza protocolo heredado de plugin. Use diálogos de opciones de Miranda NG para cambiar sus preferencias.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+¡Bienvenido al gestor de cuentas de Miranda NG!\nAquí usted puede configurar sus cuentas de mensajería instantánea.\n\nSeleccione una cuenta de la lista de la izquierda para ver las opciones disponibles. Alternativamente, haga clic en el signo más debajo de la lista para configurar una nueva cuenta de MI.
 [Create new account]
 Crear nueva cuenta
 [Editing account]

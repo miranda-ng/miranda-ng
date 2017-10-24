@@ -72,6 +72,7 @@
 [Receive files: request for file %s not sent, error]
 [Send files: can't open file %s, error]
 [Send files: requested file: %S - not found in send files list.]
+[Main icon]
 [MRA]
 [NewMail]
 [Mail.ru xStatus]

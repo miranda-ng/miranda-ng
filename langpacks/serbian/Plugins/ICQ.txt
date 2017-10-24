@@ -1781,6 +1781,8 @@ Poseban status
 [Greeting card:]
 
 ;file \protocols\IcqOscarJ\src\init.cpp
+[Expand string edit]
+
 [ICQ xStatus]
 
 ;file \protocols\IcqOscarJ\src\log.cpp

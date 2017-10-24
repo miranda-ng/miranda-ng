@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AvatarHistory.dll
 ;  Plugin: Avatar history
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]

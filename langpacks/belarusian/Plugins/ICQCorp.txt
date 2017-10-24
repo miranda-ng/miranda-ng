@@ -21,8 +21,6 @@
 
 [Ping:]
 
-[ICQ Corp]
-
 [Login Server:]
 Сервер:
 [ICQ number:]

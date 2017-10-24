@@ -49,32 +49,37 @@ Kontakte suchen/hinzufügen
 Statusmenü anzeigen
 [Show/hide offline contacts]
 Offline-Kontakte anzeigen/ausblenden
-[Hide offline contacts]
-Offline-Kontakte ausblenden
 [Show offline contacts]
 Offline-Kontakte anzeigen
+[Hide offline contacts]
+Offline-Kontakte ausblenden
 [Enable/disable metacontacts]
 Metakontakte (de-)aktivieren
-[Disable metacontacts]
-Metakontakte deaktivieren
 [Enable metacontacts]
 Metakontakte aktivieren
+[Disable metacontacts]
+Metakontakte deaktivieren
 [Enable/disable groups]
 Gruppen (de-)aktivieren
-[Enable groups]
-Gruppen aktivieren
 [Disable groups]
 Gruppen deaktivieren
+[Enable groups]
+Gruppen aktivieren
 [Enable/disable sounds]
 Klänge (de-)aktivieren
-[Disable sounds]
-Klänge deaktivieren
 [Enable sounds]
 Klänge aktivieren
+[Disable sounds]
+Klänge deaktivieren
 [Minimize contact list]
 Kontaktliste minimieren
 [Exit]
 Beenden
+;file \plugins\TopToolBar\src\main.cpp
+[Execute]
+Ausführen
+[Separator]
+Trennlinie
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Standard

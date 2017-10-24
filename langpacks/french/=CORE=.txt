@@ -45,8 +45,6 @@ Par défaut, utiliser le même message que la dernière fois
 Par défaut, utiliser ce message :
 [Use %time% for the current time, %date% for the current date]
 Utiliser %time% et %date% pour l'heure et la date actuelles.
-[Status messages:]
-Messages d'état :
 [Change %s message]
 Changer le message de \"%s\"
 [Closing in %d]
@@ -248,16 +246,6 @@ Faire des sections de taille égale
 Voir les effets 3D
 [Show resize grip indicator]
 Poignée de redimension
-[Ordering:]
-
-[Contact list:]
-Liste de contacts :
-[If window is partially covered, bring it to front]
-Si la fenêtre est partiellement couverte, l'amener au premier plan
-[Window:]
-Fenètre :
-[Contact list background:]
-Arrière-plan de la liste de contacts :
 [&Main menu]
 &Menu principal
 [E&xit]
@@ -437,10 +425,6 @@ Options d'inactivité
 Devenir inactif si une application est en plein-écran
 [Disable sounds on idle]
 Désactiver les sons quand inactif
-[Become idle if computer is left unattended for:]
-Devenir inactif si l'ordinateur n'est pas utilisé pendant :
-[Idle (auto-away):]
-
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Fenêtre en popup quand :
@@ -528,12 +512,6 @@ Afficher une notification quand aucune fenêtre n'est ouverte
 Signaler dans le systray et dans la liste de contacts
 [Show balloon popup]
 Afficher un popup
-[Save the window position for each contact]
-Sauvegarder la position de la fenêtre pour chaque contact
-[Message window behavior:]
-Comportement de la fenêtre de message :
-[Messaging:]
-
 [Show these events only:]
 Voir ces évènements si :
 [Actions]
@@ -1077,24 +1055,6 @@ Miranda NG redémarre.\nVeuillez patienter...
 Erreur console
 [Error notifications]
 
-[Headers:]
-En-têtes :
-[This font is used to display main section titles or text elements.]
-Cette police est utilisée pour afficher les titres ou des éléments de texte.
-[Normal text:]
-Texte normal :
-[This font is used to display most text elements or section bodies.]
-
-[Minor notes:]
-Notes :
-[This font is used to display various additional notes.]
-
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Bienvenue dans le gestionnaire de comptes de Miranda NG!\nIci, vous pourrez configurer tous vos comptes.\n\nSélectionnez un compte parmi ceux présent à gauche afin de voir les options disponible. Vous pouvez également créer un nouveau en cliquant sur le bouton approprié sous la liste.
-[Event icon legend:]
-
-[Choose events you wish to ignore:]
-Choisir l'évènement que vous voulez ignorer :
 [Font effect]
 
 [Effect:]
@@ -2180,6 +2140,10 @@ Ce changement est connu pour être potentiellement dangereux.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 
 ;file \src\mir_app\src\DefaultExtraIcons.cpp
+[Homepage]
+
+[Phone/SMS]
+
 [Chat activity]
 
 ;file \src\mir_app\src\extraicons.cpp
@@ -2229,8 +2193,6 @@ Fichiers Texte
 Erreur d'écriture du fichier
 [Customize]
 Apparence
-[Sample text]
-Exemple
 ;file \src\mir_app\src\FontService.cpp
 [Headers]
 
@@ -2580,6 +2542,8 @@ ATTENTION! Le compte va être supprimé. Cela signifie que tous les paramètres,
 Votre compte a été mis à jour. Pour l'activer, un redémarrage de Miranda est nécessaire. \n\nSi vous voulez redémarrer Miranda maintenant, appuyez sur Oui, si vous voulez mettre à jour un autre compte, appuyez sur Non
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Bienvenue dans le gestionnaire de comptes de Miranda NG!\nIci, vous pourrez configurer tous vos comptes.\n\nSélectionnez un compte parmi ceux présent à gauche afin de voir les options disponible. Vous pouvez également créer un nouveau en cliquant sur le bouton approprié sous la liste.
 [Create new account]
 Créer un compte
 [Editing account]

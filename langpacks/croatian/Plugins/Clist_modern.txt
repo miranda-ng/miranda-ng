@@ -2,58 +2,12 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.5
+;  Version: 0.9.1.7
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 
 ;file \plugins\Clist_modern\res\resource.rc
-[Transparency:]
-
-[Window behavior:]
-
-[List sorting:]
-
-[Status bar:]
-
-[List content:]
-
-[Show counts of number of contacts in a group]
-
-[Hide group counts when there are none online]
-
-[1st:]
-
-[2nd:]
-
-[3rd:]
-
-[Always on top]
-uvijek na vrhu
-[Hide contact list after]
-
-[seconds]
-sekundi
-[Fade contact list in/out]
-fejduj kontakt listu in/out
-[Transparent contact list]
-transparentna lista kontakata
-[Inactive opacity:]
-neaktivan opacity
-[Active opacity:]
-aktivan opacity
-[Show avatars]
-
-[Animate avatars]
-
-[Show contact time in list]
-
-[Compact mode]
-
-[Show protocol names]
-
-[Show status text]
-
 [Settings]
 
 [Background color:]
@@ -124,6 +78,8 @@ aktivan opacity
 
 [Automatically clear this view mode after]
 
+[seconds]
+sekundi
 [View mode options]
 
 [Editing view mode]
@@ -159,6 +115,8 @@ aktivan opacity
 [Enable custom account settings]
 
 [Hide account completely]
+
+[Show protocol names]
 
 [Show status name]
 
@@ -214,6 +172,12 @@ pitaj prije brisanja kontakata
 lista kontakata
 [Contact list sorting]
 sortiranje liste kontakata
+[1st:]
+
+[2nd:]
+
+[3rd:]
+
 [Place offline users out of groups]
 
 [Gamma correction]
@@ -229,6 +193,8 @@ sortiranje liste kontakata
 [Selection mode]
 
 [Bring to front if covered]
+
+[Hide contact list after]
 
 [Automatically resize window to height of list]
 Automatski skaliraj prozor na visinu liste
@@ -295,6 +261,10 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 [Groups]
 
 [Draw a line alongside group names]
+
+[Show counts of number of contacts in a group]
+
+[Hide group counts when there are none online]
 
 [Sort groups alphabetically]
 
@@ -370,6 +340,8 @@ ikona područja obavijesti
 
 [Appearance]
 
+[Always on top]
+uvijek na vrhu
 [Pin to desktop]
 prikvaći na radnu površinu
 [Client area margins]
@@ -390,6 +362,14 @@ alatni stil glavnog prozora
 minimiziraj u područje obavijesti
 [Translucency options]
 opcije translucencije
+[Fade contact list in/out]
+fejduj kontakt listu in/out
+[Transparent contact list]
+transparentna lista kontakata
+[Inactive opacity:]
+neaktivan opacity
+[Active opacity:]
+aktivan opacity
 [Enable drop shadow (restart required)]
 
 [Frames]
@@ -432,6 +412,8 @@ Okviri
 
 [Draw border on avatar]
 
+[Show avatars]
+
 [Draw overlay icons]
 
 [Max size (pixels):]
@@ -453,6 +435,8 @@ Okviri
 [height]
 
 [width]
+
+[Animate avatars]
 
 [Use old render method (fast, but has artifacts)]
 
@@ -658,10 +642,6 @@ opcije
 [Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?]
 
 [Changing metacontacts (moving)]
-
-[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from https://wiki.miranda-ng.org/Download]
-
-[Error loading plugin]
 
 [Skins]
 

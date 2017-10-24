@@ -2,58 +2,12 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.5
+;  Version: 0.9.1.7
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Zeigt Kontakte, Ereignisse und Protokollstatus mit erweiterten visuellen Änderungen an. Unterstützt MW-Erweiterungen, erweiterte Unterstützung für Metakontakte.
 ;file \plugins\Clist_modern\res\resource.rc
-[Transparency:]
-Transparent:
-[Window behavior:]
-Fenster-Verhalten:
-[List sorting:]
-Sortierung:
-[Status bar:]
-Statusleiste:
-[List content:]
-Inhalt:
-[Show counts of number of contacts in a group]
-Anzahl der Kontakte in der Gruppe anzeigen
-[Hide group counts when there are none online]
-Summe der Kontakte ausblenden, wenn niemand online ist
-[1st:]
-1.:
-[2nd:]
-2.:
-[3rd:]
-3.:
-[Always on top]
-Immer im Vordergrund
-[Hide contact list after]
-Fenster verstecken nach
-[seconds]
-Sekunden
-[Fade contact list in/out]
-Ein-/Ausblenden animieren
-[Transparent contact list]
-Transparente Kontaktliste
-[Inactive opacity:]
-Deckkraft inaktiv:
-[Active opacity:]
-Deckkraft aktiv:
-[Show avatars]
-Avatare anzeigen
-[Animate avatars]
-Avatare animieren
-[Show contact time in list]
-Kontaktzeit anzeigen
-[Compact mode]
-Kompaktmodus
-[Show protocol names]
-Protokollnamen anzeigen
-[Show status text]
-Statustext anzeigen
 [Settings]
 Einstellungen
 [Background color:]
@@ -124,6 +78,8 @@ Gruppe
 Statusmodus
 [Automatically clear this view mode after]
 Diesen Kontaktfilter automatisch löschen nach
+[seconds]
+Sekunden
 [View mode options]
 Kontaktfiltereinstellungen
 [Editing view mode]
@@ -160,6 +116,8 @@ Einstellungen je Account setzen
 Aktiviere Einstellungen je Account
 [Hide account completely]
 Account nicht anzeigen
+[Show protocol names]
+Protokollnamen anzeigen
 [Show status name]
 Statusnamen anzeigen
 [Show xStatus name]
@@ -214,6 +172,12 @@ Offline-Kontakte nicht nach unten setzen
 Kontaktliste
 [Contact list sorting]
 Sortierung der Kontaktliste
+[1st:]
+1.:
+[2nd:]
+2.:
+[3rd:]
+3.:
 [Place offline users out of groups]
 Offline-Kontakte außerhalb der Gruppen
 [Gamma correction]
@@ -230,6 +194,8 @@ Keine Auswahl
 Auswahlmodus
 [Bring to front if covered]
 Nach vorne bringen, wenn verdeckt
+[Hide contact list after]
+Fenster verstecken nach
 [Automatically resize window to height of list]
 Höhe automatisch an Kontaktanzahl anpassen
 [maximum]
@@ -296,6 +262,10 @@ Inaktive Kontakte abblenden
 Gruppen
 [Draw a line alongside group names]
 Linie neben den Gruppennamen
+[Show counts of number of contacts in a group]
+Anzahl der Kontakte in der Gruppe anzeigen
+[Hide group counts when there are none online]
+Summe der Kontakte ausblenden, wenn niemand online ist
 [Sort groups alphabetically]
 Gruppen alphabetisch sortieren
 [Quicksearch in open groups only]
@@ -370,6 +340,8 @@ Zeit nur anzeigen, wenn lokale Zeit anders ist
 Kontaktzeit anzeigen
 [Appearance]
 Erscheinungsbild
+[Always on top]
+Immer im Vordergrund
 [Pin to desktop]
 An den Desktop anheften
 [Client area margins]
@@ -390,6 +362,14 @@ Schmale Titelleiste
 In Systemtray minimieren
 [Translucency options]
 Transparenz-Einstellungen
+[Fade contact list in/out]
+Ein-/Ausblenden animieren
+[Transparent contact list]
+Transparente Kontaktliste
+[Inactive opacity:]
+Deckkraft inaktiv:
+[Active opacity:]
+Deckkraft aktiv:
 [Enable drop shadow (restart required)]
 Schatten aktivieren (Neustart nötig)
 [Frames]
@@ -432,6 +412,8 @@ Rechter Rand:
 Kompaktmodus (Avatar und zusätzlichen Text nur beim ausgewählten Kontakt anzeigen)
 [Draw border on avatar]
 Rand um Avatar zeichnen
+[Show avatars]
+Avatare anzeigen
 [Draw overlay icons]
 Avatare mit Icons überlagern
 [Max size (pixels):]
@@ -454,6 +436,8 @@ Kontakticon
 Höhe
 [width]
 Breite
+[Animate avatars]
+Avatare animieren
 [Use old render method (fast, but has artifacts)]
 Nutze alte Methode (Schnell, aber mit Artefakten)
 [Hide icon when showing avatar]
@@ -659,10 +643,6 @@ Standardkontakt setzen
 Soll Kontakt '%s' aus Metakontakt '%s' entfernt und zu '%s' hinzugefügt werden?
 [Changing metacontacts (moving)]
 Ändere Metakontakte (Verschiebe)
-[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from https://wiki.miranda-ng.org/Download]
-CList Modern erfordert AVS-Plugin. Installieren Sie es über den PluginUpdater oder laden Sie es von https://wiki.miranda-ng.org/Download herunter.
-[Error loading plugin]
-Fehler beim Laden des Plugins
 [Skins]
 Skins
 [Modern contact list]

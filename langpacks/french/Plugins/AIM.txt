@@ -9,7 +9,7 @@
 Support du protocole AOL Instant Messenger (AIM) pour Miranda NG.
 ;file \protocols\AimOscar\res\aim.rc
 [AIM user details]
-
+AIM
 [Screen name:]
 
 [Display name:]

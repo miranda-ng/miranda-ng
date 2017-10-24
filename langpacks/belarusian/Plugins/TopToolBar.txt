@@ -47,32 +47,36 @@
 
 [Show/hide offline contacts]
 Паказаць/схаваць адключаных
-[Hide offline contacts]
-Схаваць адключаных
 [Show offline contacts]
 Паказаць адключаных
+[Hide offline contacts]
+Схаваць адключаных
 [Enable/disable metacontacts]
-
-[Disable metacontacts]
 
 [Enable metacontacts]
 
+[Disable metacontacts]
+
 [Enable/disable groups]
 
-[Enable groups]
-Уключыць гурты
 [Disable groups]
 Адключыць гурты
+[Enable groups]
+Уключыць гурты
 [Enable/disable sounds]
 Уключыць/Выключыць гукі
-[Disable sounds]
-Адключыць гукі
 [Enable sounds]
 Уключыць гукі
+[Disable sounds]
+Адключыць гукі
 [Minimize contact list]
 Схаваць спіс кантактаў
 [Exit]
 Выйсце
+[Execute]
+
+[Separator]
+
 [Default]
 Змаўчанні
 [TopToolBar background]

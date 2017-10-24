@@ -414,8 +414,6 @@ Filter:
 [Conversation started at %s]
 Unterhaltung begonnen am %s
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-[_files]
-_files
 [Menu]
 Menü
 [Open all]

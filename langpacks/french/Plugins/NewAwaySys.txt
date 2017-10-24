@@ -80,10 +80,6 @@ Titre :
 
 [Delete]
 Effacer
-[Status messages:]
-Messages d'état :
-[Configure autoaway]
-
 [Wait]
 
 [seconds before closing the status message dialog (-1=don't close)]

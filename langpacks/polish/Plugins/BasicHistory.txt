@@ -414,8 +414,6 @@ Filtruj:
 [Conversation started at %s]
 Rozmowa rozpoczęła się o %s
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-[_files]
-_pliki
 [Menu]
 Menu
 [Open all]

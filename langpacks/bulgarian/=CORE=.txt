@@ -43,8 +43,6 @@
 Ползване на следното съобщение като стандартно:
 [Use %time% for the current time, %date% for the current date]
 Използвайте %time% и %date% за текущ час и дата.
-[Status messages:]
-Текст за състояние:
 [Change %s message]
 Промяна на текста "%s"
 [Closing in %d]
@@ -243,16 +241,6 @@
 Разделител между панелите
 [Show resize grip indicator]
 Индикатор за ръчна промяна на размера
-[Ordering:]
-Подреждане:
-[Contact list:]
-Списък с контакти:
-[If window is partially covered, bring it to front]
-Извеждане на прозореца отпред, ако е частично покрит
-[Window:]
-Прозорец:
-[Contact list background:]
-Фон на списъка с контакти:
 [&Main menu]
 Главно меню
 [E&xit]
@@ -427,10 +415,6 @@
 Бездействащ при програма работеща на целия екран
 [Disable sounds on idle]
 Изключване на звука при бездействие
-[Become idle if computer is left unattended for:]
-Бездействащ при липса на активност на компютъра за:
-[Idle (auto-away):]
-Бездействащ (автоотсъстващ):
 [Automatically popup window when:]
 Изскачане на прозореца при състояние:
 [In background]
@@ -515,10 +499,6 @@
 Мигане на иконата в трея и списъка с контакти
 [Show balloon popup]
 Показване на балонни popup
-[Save the window position for each contact]
-Запис на позицията на прозореца поотделно за всеки контакт
-[Message window behavior:]
-Поведение на прозореца за съобщения:
 [Show these events only:]
 Показване само на следните събития:
 [Actions]
@@ -1033,24 +1013,6 @@ Copyright:
 Miranda NG се рестартира.\nМоля, изчакайте...
 [Error notifications]
 Уведомяване за грешки
-[Headers:]
-Горни колонтитули:
-[This font is used to display main section titles or text elements.]
-Шрифт за изобразяване етикети на секции или текстови елементи.
-[Normal text:]
-Нормален текст:
-[This font is used to display most text elements or section bodies.]
-Шрифт за повечето текстови елементи или съдържанието на секциите.
-[Minor notes:]
-Малки бележки:
-[This font is used to display various additional notes.]
-Шрифта за изобразяване на различни допълнителни бележки.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Добре дошли в диспечера на акаунти в Miranda NG!\nОт тук можете да настроите вашите акаунти.\n\nЗа да видите наличните опции, изберете акаунт от списъка вляво. Ако желаете да създадете нов акаунт, натиснете знака "плюс" под списъка.
-[Event icon legend:]
-Легенда на иконите за събития:
-[Choose events you wish to ignore:]
-Кои събития да бъдат игнорирани:
 [Font effect]
 Ефекти на шрифта
 [Effect:]
@@ -2089,8 +2051,6 @@ Popups за изобразяване
 Грешка при записването на файла
 [Customize]
 Персонализиране
-[Sample text]
-Примерен текст
 [Headers]
 Горни колонтитули
 [Generic text]
@@ -2373,6 +2333,8 @@ Win +\s
 Вашият акаунт е надграден успешно. Необходимо е да рестартирате Miranda NG, за да се активира.\n\nАко желаете Miranda NG да бъде рестартирана сега натиснете "Да", в противен случай - "Не".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Акаунтът изисква много стара приставка за протокола. Променете настройките на акаунта през прозореца с настройки на Miranda NG.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Добре дошли в диспечера на акаунти в Miranda NG!\nОт тук можете да настроите вашите акаунти.\n\nЗа да видите наличните опции, изберете акаунт от списъка вляво. Ако желаете да създадете нов акаунт, натиснете знака "плюс" под списъка.
 [Create new account]
 Създаване на акаунт
 [Editing account]

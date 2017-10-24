@@ -302,6 +302,8 @@ Autorizuj
 [Send files: requested file: %S - not found in send files list.]
 
 ;file \protocols\MRA\src\MraIcons.cpp
+[Main icon]
+
 [Protocols]
 
 [MRA]

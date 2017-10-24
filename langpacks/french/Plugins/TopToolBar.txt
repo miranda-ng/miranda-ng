@@ -49,32 +49,37 @@ Chercher/Ajouter des contacts
 
 [Show/hide offline contacts]
 Afficher/Cacher contacts hors-ligne
-[Hide offline contacts]
-Cacher les contacts Hors-Ligne
 [Show offline contacts]
 Montrer les contacts hors ligne
+[Hide offline contacts]
+Cacher les contacts Hors-Ligne
 [Enable/disable metacontacts]
-
-[Disable metacontacts]
 
 [Enable metacontacts]
 
-[Enable/disable groups]
+[Disable metacontacts]
 
-[Enable groups]
+[Enable/disable groups]
 
 [Disable groups]
 Désactiver les groupes
+[Enable groups]
+
 [Enable/disable sounds]
 Activer/désactiver les sons
-[Disable sounds]
-Sons désactivés
 [Enable sounds]
 
+[Disable sounds]
+Sons désactivés
 [Minimize contact list]
 Minimiser la liste de contact
 [Exit]
 Quitter
+;file \plugins\TopToolBar\src\main.cpp
+[Execute]
+Exécuter
+[Separator]
+Séparateur
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Défaut

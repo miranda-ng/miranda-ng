@@ -2,15 +2,11 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.5
+;  Version: 3.5.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
 Особисті та групові чати для Miranda NG.
-[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
-Додайте користувача за його іменем або ID. Рекомендується використовувати маски.
-[Cancel]
-Скасувати
 [Show these events]
 Показувати події
 [Actions]
@@ -183,6 +179,8 @@
 Плагін спливаючих вікон не знайдено. Сповіщення недоступні.
 [Dialog]
 Діалог
+[Cancel]
+Скасувати
 [All modes]
 Усі статуси
 [Choose modes]
@@ -487,12 +485,6 @@ ID користувача в панелі статусу
 Деякі налаштування не вплинуть на відкриті контейнери
 [Tab layout tweaks]
 Налаштування вигляду вкладок
-[About TabSRMM]
-Про TabSRMM
-[Copyright 2004-2011 by the Miranda IM project, 2012-2017 by the Miranda NG project.]
-© 2004-2011 Проект Miranda IM, 2012-2017 Проект Miranda NG.
-[Support and latest version information]
-Підтримка та інформація про найновішу версію
 [Selected skin]
 Вибраний скін
 [Rescan]
@@ -577,50 +569,6 @@ RTL за замовчанням
 Так
 [No]
 Ні
-[Message sending:]
-Повідомлення:
-[Window:]
-Вікно:
-[Esc closes sessions (minimizes window if disabled)]
-Esc закриває сесію (інакше - згортає)
-[Always pop up and activate new windows]
-Завжди відкривати нове вікно повідомлень
-[Create new windows in minimized state]
-Створювати нові вікна згорнутими
-[Send on Shift+Enter]
-Надсилати натисканням Shift+Enter
-[Send message on 'Enter']
-Надсилати натисканням Enter
-[Send message on double 'Enter']
-Надсилати подвійним натисканням Enter
-[Minimize the message window on send]
-Згортати вікно після надсилання
-[Tabs:]
-Вкладки:
-[Use tabbed interface]
-Увімкнути вкладки
-[Create new tabs without activating them]
-Створювати нові вкладки без активації
-[Pop up minimized window when a new tab is created]
-Відкривати згорнуте вікно при створенні вкладки
-[Automatically switch tabs in minimized windows]
-Автоперемикання вкладок у згорнутому вікні
-[History:]
-Історія:
-[Notifications:]
-Сповіщення:
-[Don't announce when dialog is open]
-Не сповіщати, якщо вікно відкрите
-[Message events]
-Повідомлення
-[File events]
-Файли
-[URL events]
-Посилання (URL)
-[Other events]
-Інші події
-[Send message on Ctrl+Enter (always enabled)]
-Надсилати натисканням Ctrl+Enter (завжди увімкнено)
 [Log]
 Журнал
 [&Copy]
@@ -847,10 +795,6 @@ BBCode ([b][i][u])
 Показувати для всіх вікон діалогів, якщо вони неактивні
 [Save current window position as default]
 Зберегти поточну позицію вікна
-[Help]
-Довідка
-[About TabSRMM...]
-Про плагін TabSRMM...
 [Protocol button]
 Меню контакту
 [Info button]
@@ -911,8 +855,6 @@ BBCode ([b][i][u])
 %s вмикає статус '%s' для %s
 [%s disables '%s' status for %s]
 %s вимикає статус "%s" для %s
-[Highlight user...]
-Підсвічувати користувачів...
 [Message Sessions]
 Бесіди
 [Input area background]
@@ -1255,8 +1197,6 @@ ID поточного контакту (якщо визначено). Напри
 %s - Бесіда
 [%s: message session (%u users)]
 %s - Бесіда (%u користувачів)
-[Version]
-Версія
 [Message session...]
 Бесіда...
 [Default container]
@@ -1773,10 +1713,6 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 Вікна повідомлень - усі
 [Message windows - group chats]
 Вікна повідомлень - чати
-[Add user to highlight list]
-Додати до списку підсвічування
-[Edit user highlight list]
-Редагувати список підсвічування
 [Select container for %s]
 Виберіть контейнер для %s
 [You cannot delete the default container]
@@ -1959,6 +1895,14 @@ TabSRMM: %s
 Поведінка вікна повідомлень
 [Sending messages]
 Надсилання повідомлень
+[Send on Shift+Enter]
+Надсилати натисканням Shift+Enter
+[Send message on 'Enter']
+Надсилати натисканням Enter
+[Send message on double 'Enter']
+Надсилати подвійним натисканням Enter
+[Minimize the message window on send]
+Згортати вікно після надсилання
 [Close the message window on send]
 Закривати вікно після надсилання
 [Always flash contact list and tray icon for new messages]

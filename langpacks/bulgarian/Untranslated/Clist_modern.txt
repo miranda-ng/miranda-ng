@@ -18,8 +18,6 @@
 [Use protocol smileys]
 [Row template]
 [Layered]
-[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from https://wiki.miranda-ng.org/Download]
-[Error loading plugin]
 [Menu background]
 [Status bar background]
 [Frames title bar background]

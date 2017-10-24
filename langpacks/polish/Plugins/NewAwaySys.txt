@@ -80,10 +80,6 @@ Nowy opis
 Nowa kategoria
 [Delete]
 Usuń
-[Status messages:]
-Opisy:
-[Configure autoaway]
-Skonfiguruj automatyczny status zaraz wracam
 [Wait]
 Odczekaj
 [seconds before closing the status message dialog (-1=don't close)]

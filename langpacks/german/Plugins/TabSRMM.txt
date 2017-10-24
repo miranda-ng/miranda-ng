@@ -2,16 +2,12 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.5
+;  Version: 3.5.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
 Sofortnachrichten- und Gruppenchat-Modul für Miranda NG.
 ;file \plugins\TabSRMM\res\chat.rc
-[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
-Sie können den Nutzer nach Benutzernamen oder seiner ID hinzufügen. Platzhalter sind erlaubt und empfohlen.
-[Cancel]
-Abbrechen
 [Show these events]
 Zeige diese Ereignisse
 [Actions]
@@ -186,6 +182,8 @@ Benutze das Farbschema des Nachrichtenverlaufs für Gruppenchat-Popups
 Kein kompatibles Popup-Plugin wurde gefunden. Das Ereignis-Benachrichtigungssystem ist dadurch nicht verfügbar.
 [Dialog]
 Dialog
+[Cancel]
+Abbrechen
 [All modes]
 Alle Modi
 [Choose modes]
@@ -490,12 +488,6 @@ Vertikale Ausrichtung unterer Tabs:
 HINWEIS: Einige Einstellungen haben keine Wirkung auf bereits offene Fenster.
 [Tab layout tweaks]
 Tab-Anordnung
-[About TabSRMM]
-Über TabSRMM
-[Copyright 2004-2011 by the Miranda IM project, 2012-2017 by the Miranda NG project.]
-Copyright 2004-2011 beim Miranda-IM-Projekt, 2012-2017 beim Miranda-NG-Projekt.
-[Support and latest version information]
-Support und Informationen zur neusten Version
 [Selected skin]
 Ausgewählter Skin
 [Rescan]
@@ -580,50 +572,6 @@ Diese Nachricht nicht wieder zeigen
 Ja
 [No]
 Nein
-[Message sending:]
-Nachrichten senden:
-[Window:]
-Fenster:
-[Esc closes sessions (minimizes window if disabled)]
-Esc schließt Sitzungen, anstatt sie zu minimieren
-[Always pop up and activate new windows]
-Neue Fenster immer öffnen und aktivieren
-[Create new windows in minimized state]
-Neue Fenster minimiert erzeugen
-[Send on Shift+Enter]
-Umschalt+Enter sendet Nachricht
-[Send message on 'Enter']
-'Enter' sendet Nachricht
-[Send message on double 'Enter']
-2-mal Enter sendet Nachricht
-[Minimize the message window on send]
-Nachrichtenfenster beim Senden minimieren
-[Tabs:]
-Tabs:
-[Use tabbed interface]
-Chatfenster mit Tabs verwenden
-[Create new tabs without activating them]
-Neue Tabs erzeugen, ohne sie zu aktivieren
-[Pop up minimized window when a new tab is created]
-Minimierte Fenster öffnen, wenn neuer Tab erzeugt wird
-[Automatically switch tabs in minimized windows]
-Tabs in minimierten Fenstern automatisch wechseln
-[History:]
-Verlauf:
-[Notifications:]
-Benachrichtigungen:
-[Don't announce when dialog is open]
-Keine Benachrichtigung, wenn Dialog offen
-[Message events]
-Nachrichten-Ereignisse
-[File events]
-Datei-Ereignisse
-[URL events]
-URL-Ereignisse
-[Other events]
-Sonstige Ereignisse
-[Send message on Ctrl+Enter (always enabled)]
-Strg+Enter sendet Nachricht (immer aktiviert)
 [Log]
 Verlauf
 [&Copy]
@@ -850,10 +798,6 @@ Popups anzeigen, wenn Fenster aktiv
 Popups für alle inaktiven Sitzungen
 [Save current window position as default]
 Aktuelle Fensterposition als Standard
-[Help]
-Hilfe
-[About TabSRMM...]
-Über TabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol button]
 Protokoll-Schaltfläche
@@ -917,8 +861,6 @@ Das Thema ist '%s%s'
 [%s disables '%s' status for %s]
 %s deaktiviert '%s' Status für %s
 ;file \plugins\TabSRMM\src\chat_main.cpp
-[Highlight user...]
-Benutzer hervorheben...
 [Message Sessions]
 Nachrichtensitzungen
 ;file \plugins\TabSRMM\src\chat_options.cpp
@@ -1265,8 +1207,6 @@ Minute
 [%s: message session (%u users)]
 %s: Nachrichtensitzung (%u Benutzer)
 ;file \plugins\TabSRMM\src\container.cpp
-[Version]
-Version
 [Message session...]
 Nachrichtensitzung...
 [Default container]
@@ -1787,6 +1727,10 @@ Uhrsymbol (für die Uhr im Infopanel)
 Funktion deaktiviert (als Overlay)
 [Feature enabled (used as overlay)]
 Funktion aktiviert (als Overlay)
+[Enable typing notification]
+
+[Disable typing notification]
+
 [The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
 Das Bilddiensteplugin (AdvaImg) ist nicht richtig installiert.\n\nTabSRMM wird deaktiviert.
 [TabSRMM fatal error]
@@ -1798,11 +1742,6 @@ Nachrichtenfenster - Instant Messaging
 Nachrichtenfenster - Alle
 [Message windows - group chats]
 Nachrichtenfenster - Gruppenchats
-;file \plugins\TabSRMM\src\muchighlight.cpp
-[Add user to highlight list]
-Füge Benutzer zur Hervorhebungsliste hinzu
-[Edit user highlight list]
-Benutzerhervorhebungsliste bearbeiten
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Container für %s auswählen
@@ -1995,6 +1934,14 @@ Entferne Popups unter den folgenden Bedingungen
 Verhalten des Nachrichtenfensters
 [Sending messages]
 Nachrichten senden
+[Send on Shift+Enter]
+Umschalt+Enter sendet Nachricht
+[Send message on 'Enter']
+'Enter' sendet Nachricht
+[Send message on double 'Enter']
+2-mal Enter sendet Nachricht
+[Minimize the message window on send]
+Nachrichtenfenster beim Senden minimieren
 [Close the message window on send]
 Nachrichtenfenster beim Senden schließen
 [Always flash contact list and tray icon for new messages]

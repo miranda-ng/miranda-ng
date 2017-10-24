@@ -141,7 +141,7 @@ ID ключа:
 Кінець
 [Strip all tags in outgoing messages]
 Видаляти всі мітки з вихідних повідомлень
-[Turn on presence signing (Jabber) (required by XEP 0-27)]
+[Turn on presence signing (Jabber) (required by XEP-0027)]
 Увімкнути підпис повідомлень присутності (Jabber)
 [Export keys]
 Експорт ключів

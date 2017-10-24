@@ -144,7 +144,6 @@
 [History Log]
 [Filter:]
 [Conversation started at %s]
-[_files]
 [Open all]
 [Close all]
 [History task]
