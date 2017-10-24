@@ -1,56 +1,47 @@
-////////////////////////////////////////////////////////////////////////////////
-// Gadu-Gadu Plugin for Miranda NG
+// Microsoft Visual C++ generated resource script.
 //
-// Copyright (c) 2010-2012 Bartosz Bia³ek
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-////////////////////////////////////////////////////////////////////////////////
-
 #ifdef APSTUDIO_INVOKED
 #error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
 
-#include <windows.h>
 #include "..\src\version.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+#include "afxres.h"
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION __FILEVERSION_STRING
  PRODUCTVERSION __FILEVERSION_STRING
- FILEFLAGSMASK 0x3fL
+ FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
 #else
  FILEFLAGS 0x0L
 #endif
- FILEOS 0x40004L
- FILETYPE 0x1L
+ FILEOS 0x4L
+ FILETYPE 0x2L
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "Comments", "Licensed under the terms of the GNU General Public License"
-            VALUE "CompanyName", "Bartosz Bia³ek, Adam Strzelecki"
-            VALUE "FileDescription", "Gadu-Gadu Protocol Plugin for Miranda NG"
+            VALUE "Author", __AUTHOR
+            VALUE "FileDescription", __DESCRIPTION
             VALUE "FileVersion", __VERSION_STRING
-            VALUE "InternalName", "gg"
-            VALUE "LegalCopyright", "Copyright © 2009-2012 Bartosz Bia³ek, 2003-2009 Adam Strzelecki"
-            VALUE "OriginalFilename", "gg.dll"
-            VALUE "ProductName", "Gadu-Gadu Protocol Plugin for Miranda NG"
-            VALUE "ProductVersion", __VERSION_STRING
+            VALUE "InternalName", __PLUGIN_NAME
+            VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "ProductName", __PLUGIN_NAME
         END
     END
     BLOCK "VarFileInfo"
@@ -58,3 +49,6 @@ BEGIN
         VALUE "Translation", 0x0, 1200
     END
 END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////

@@ -7,11 +7,14 @@
 
 #include "../../include/m_version.h"
 
-#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION MIRANDA_VERSION_FILEVERSION
@@ -50,4 +53,5 @@ BEGIN
     END
 END
 
-#endif    // !_MAC
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////

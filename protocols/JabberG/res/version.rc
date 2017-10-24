@@ -1,53 +1,54 @@
+// Microsoft Visual C++ generated resource script.
+//
 #ifdef APSTUDIO_INVOKED
 #error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
 
 #include "..\src\version.h"
-#include "winres.h"
 
+#define APSTUDIO_READONLY_SYMBOLS
+#include "afxres.h"
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 #ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
 #endif //_WIN32
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION __FILEVERSION_STRING
  PRODUCTVERSION __FILEVERSION_STRING
- FILEFLAGSMASK 0x3fL
+ FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
 #else
  FILEFLAGS 0x0L
 #endif
- FILEOS 0x40004L
+ FILEOS 0x4L
  FILETYPE 0x2L
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "040904b0"
+        BLOCK "000004b0"
         BEGIN
-            VALUE "Comments", "\0"
-            VALUE "CompanyName", "Miranda\0"
-            VALUE "FileDescription", "Jabber Protocol Plugin for Miranda NG\0"
+            VALUE "Author", __AUTHOR
+            VALUE "FileDescription", __DESCRIPTION
             VALUE "FileVersion", __VERSION_STRING
-            VALUE "InternalName", "jabber\0"
-            VALUE "LegalCopyright", "Copyright (c) 2002-04 Santithorn Bunchua, 2005 George Hazan \0"
-            VALUE "LegalTrademarks", "\0"
-            VALUE "OriginalFilename", "jabber.dll\0"
-            VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "Jabber Protocol Plugin for Miranda NG\0"
-            VALUE "ProductVersion", __VERSION_STRING
-            VALUE "SpecialBuild", "\0"
+            VALUE "InternalName", __PLUGIN_NAME
+            VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "ProductName", __PLUGIN_NAME
         END
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x409, 1200
+        VALUE "Translation", 0x0, 1200
     END
 END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////

@@ -7,11 +7,14 @@
 
 #include "../include/m_version.h"
 
-#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION MIRANDA_VERSION_FILEVERSION
@@ -23,7 +26,7 @@ VS_VERSION_INFO VERSIONINFO
  FILEFLAGS 0x0L
 #endif
  FILEOS 0x40004L
- FILETYPE 0x1L
+ FILETYPE 0x2L
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
@@ -34,10 +37,10 @@ BEGIN
             VALUE "CompanyName", "Miranda NG Team\0"
             VALUE "FileDescription", "Miranda NG\0"
             VALUE "FileVersion", MIRANDA_VERSION_DISPLAY
-            VALUE "InternalName", "miranda32\0"
+            VALUE "InternalName", "mir_app\0"
             VALUE "LegalCopyright", "Copyright © 2000-11 Miranda IM, 2012-17 Miranda NG project. This software is released under the terms of the GNU General Public License.\0"
             VALUE "LegalTrademarks", "\0"
-            VALUE "OriginalFilename", "miranda32.exe\0"
+            VALUE "OriginalFilename", "mir_app.mir\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "Miranda NG\0"
             VALUE "ProductVersion", MIRANDA_VERSION_DISPLAY
@@ -50,4 +53,5 @@ BEGIN
     END
 END
 
-#endif    // !_MAC
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////

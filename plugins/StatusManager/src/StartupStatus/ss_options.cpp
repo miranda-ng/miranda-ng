@@ -562,7 +562,7 @@ INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 class CSSAdvancedOptDlg : public CDlgBase
 {
-	bool bNeedRebuildMenu = false;
+	bool bNeedRebuildMenu;
 
 	OBJLIST<PROFILEOPTIONS> arProfiles;
 
@@ -673,7 +673,8 @@ public:
 		edtStatusMsg(this, IDC_STATUSMSG),
 		lstStatus(this, IDC_STATUS),
 		lstAccount(this, IDC_PROTOCOL),
-		arProfiles(5)
+		arProfiles(5),
+		bNeedRebuildMenu(false)
 	{
 		btnAdd.OnClick = Callback(this, &CSSAdvancedOptDlg::onClick_Add);
 		btnHelp.OnClick = Callback(this, &CSSAdvancedOptDlg::onClick_Help);

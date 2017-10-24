@@ -1,38 +1,54 @@
+// Microsoft Visual C++ generated resource script.
+//
+#ifdef APSTUDIO_INVOKED
+#error this file is not editable by Microsoft Visual C++
+#endif //APSTUDIO_INVOKED
 
+#include "..\src\version.h"
 
+#define APSTUDIO_READONLY_SYMBOLS
 #include "afxres.h"
-#include "..\src\Version.h"
+#undef APSTUDIO_READONLY_SYMBOLS
 
-// https://msdn.microsoft.com/en-us/library/windows/desktop/aa381058%28v=vs.85%29.aspx
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION __FILEVERSION_STRING
-PRODUCTVERSION __FILEVERSION_STRING
-FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __FILEVERSION_STRING
+ FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
-FILEFLAGS VS_FF_DEBUG
+ FILEFLAGS 0x1L
 #else
-FILEFLAGS 0x0L
+ FILEFLAGS 0x0L
 #endif
-FILEOS VOS_NT
-FILETYPE VFT_DLL
-FILESUBTYPE VFT2_UNKNOWN
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
 BEGIN
-	BLOCK "StringFileInfo"
-	BEGIN
-		BLOCK "04090000"
-		BEGIN
-			VALUE "FileDescription", __DESCRIPTION_DLL
-			VALUE "FileVersion", __VERSION_STRING_DOTS
-			VALUE "InternalName", __PLUGIN_NAME
-			VALUE "LegalCopyright", __COPYRIGHT
-			VALUE "CompanyName", __AUTHORWEB
-			VALUE "OriginalFilename", __FILENAME
-			VALUE "ProductName", __PLUGIN_NAME
-		END
-	END
-	BLOCK "VarFileInfo"
-	BEGIN
-		VALUE "Translation", 0x0409, 0
-	END
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Author", __AUTHOR
+            VALUE "FileVersion", __VERSION_STRING
+            VALUE "InternalName", __PLUGIN_NAME
+            VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "OriginalFilename", __FILENAME
+            VALUE "ProductName", __PLUGIN_NAME
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
 END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
