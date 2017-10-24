@@ -7,8 +7,6 @@
 ;============================================================
 [IM and group chat module for Miranda NG.]
 ;file \plugins\TabSRMM\res\chat.rc
-[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
-[Cancel]
 [Show these events]
 [Actions]
 [Messages]
@@ -97,6 +95,7 @@
 [Use the message log color theme for group chat popups]
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
 [Dialog]
+[Cancel]
 [All modes]
 [Choose modes]
 [Message log view mode (does not affect open windows)]
@@ -437,7 +436,6 @@
 [%s enables '%s' status for %s]
 [%s disables '%s' status for %s]
 ;file \plugins\TabSRMM\src\chat_main.cpp
-[Highlight user...]
 [Message Sessions]
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
@@ -888,9 +886,6 @@
 [Message windows - IM]
 [Message windows - all]
 [Message windows - group chats]
-;file \plugins\TabSRMM\src\muchighlight.cpp
-[Add user to highlight list]
-[Edit user highlight list]
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 [You cannot delete the default container]
