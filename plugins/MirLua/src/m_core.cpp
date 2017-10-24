@@ -342,6 +342,8 @@ void __cdecl ThreadFunc(void *p)
 
 static int core_ForkThread(lua_State *L)
 {
+	luaL_checktype(L, 1, LUA_TFUNCTION);
+
 	core_ForkThreadParam *p = new core_ForkThreadParam();
 
 	p->L = lua_newthread(L);
