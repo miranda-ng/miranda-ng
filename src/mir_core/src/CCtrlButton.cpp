@@ -38,7 +38,8 @@ BOOL CCtrlButton::OnCommand(HWND, WORD, WORD idCode)
 
 void CCtrlButton::Click()
 {
-	::SendMessage(m_parentWnd->GetHwnd(), WM_COMMAND, MAKELONG(m_idCtrl, BN_CLICKED), 0);
+	if (Enabled())
+		::SendMessage(m_parentWnd->GetHwnd(), WM_COMMAND, MAKELONG(m_idCtrl, BN_CLICKED), 0);
 }
 
 bool CCtrlButton::IsPushed() const
@@ -48,5 +49,6 @@ bool CCtrlButton::IsPushed() const
 
 void CCtrlButton::Push(bool bPushed)
 {
-	::SendMessage(m_hwnd, BM_SETCHECK, (bPushed) ? BST_CHECKED : BST_UNCHECKED, 0);
+	if (Enabled())
+		::SendMessage(m_hwnd, BM_SETCHECK, (bPushed) ? BST_CHECKED : BST_UNCHECKED, 0);
 }
