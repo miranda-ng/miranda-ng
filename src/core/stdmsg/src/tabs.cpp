@@ -561,7 +561,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (LOWORD(wParam) == IDOK) {
 			CMsgDialog *pDlg = (g_Settings.bTabsEnable) ? (CMsgDialog*)m_tab.GetActivePage() : m_pEmbed;
 			if (pDlg != nullptr) {
-				pDlg->m_btnOk.OnClick(&pDlg->m_btnOk);
+				pDlg->m_btnOk.Click();
 				return TRUE;
 			}
 		}

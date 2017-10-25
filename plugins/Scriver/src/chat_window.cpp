@@ -713,18 +713,18 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 		if (wParam == 0x4e && isCtrl && !isAlt) { // ctrl-n (nicklist)
 			if (m_btnNickList.Enabled())
-				m_btnNickList.OnClick(&m_btnNickList);
+				m_btnNickList.Click();
 			return TRUE;
 		}
 
 		if (wParam == 0x48 && isCtrl && !isAlt) { // ctrl-h (history)
-			m_btnHistory.OnClick(&m_btnHistory);
+			m_btnHistory.Click();
 			return TRUE;
 		}
 
 		if (wParam == 0x4f && isCtrl && !isAlt) { // ctrl-o (options)
 			if (m_btnChannelMgr.Enabled())
-				m_btnChannelMgr.OnClick(&m_btnChannelMgr);
+				m_btnChannelMgr.Click();
 			return TRUE;
 		}
 

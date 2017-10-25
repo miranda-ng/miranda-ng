@@ -126,7 +126,7 @@ bool CTabBaseDlg::DM_GenericHotkeysCheck(MSG *message)
 		return true;
 
 	case TABSRMM_HK_HISTORY:
-		m_btnHistory.OnClick(&m_btnHistory);
+		m_btnHistory.Click();
 		return true;
 
 	case TABSRMM_HK_CONTAINEROPTIONS:

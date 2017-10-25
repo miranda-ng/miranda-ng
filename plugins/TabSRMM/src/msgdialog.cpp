@@ -1898,7 +1898,7 @@ LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (wParam == 0x03 && isCtrl) // Ctrl+C
 			return WMCopyHandler(msg, wParam, lParam);
 		if (wParam == 0x11 && isCtrl) // Ctrl+Q
-			m_btnQuote.OnClick(&m_btnQuote);
+			m_btnQuote.Click();
 		break;
 
 	case WM_SYSKEYUP:
@@ -1997,15 +1997,15 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			switch (wParam) {
 			case 0x02:               // bold
 				if (m_SendFormat)
-					m_btnBold.OnClick(&m_btnBold);
+					m_btnBold.Click();
 				return 0;
 			case 0x09:
 				if (m_SendFormat)
-					m_btnItalic.OnClick(&m_btnItalic);
+					m_btnItalic.Click();
 				return 0;
 			case 21:
 				if (m_SendFormat)
-					m_btnUnderline.OnClick(&m_btnUnderline);
+					m_btnUnderline.Click();
 				return 0;
 			case 0x0b:
 				m_message.SetText(L"");
