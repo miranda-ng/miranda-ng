@@ -79,6 +79,7 @@
 #include <m_string.h>
 #include <m_db_int.h>
 #include <m_netlib.h>
+#include <m_srmm_int.h>
 
 #include <m_ieview.h>
 #include <m_metacontacts.h>

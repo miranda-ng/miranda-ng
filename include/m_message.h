@@ -278,8 +278,6 @@ EXTERN_C MIR_APP_DLL(void) Srmm_RedrawToolbarIcons(HWND hwndDlg);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // toolbar button clicked event
 
-EXTERN_C MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, DWORD idFrom, HWND hwndFrom, BOOL code);
-
 // wParam = (HANDLE)hContact;
 // lParam = (CustomButtonClickData*) pointer to the click data;
 // catch to show a popup menu, etc.
@@ -300,66 +298,5 @@ struct CustomButtonClickData
 	MCONTACT hContact;
 	DWORD    flags;       // BBCF_ flags
 };
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// toolbar button internal representation
-
-#define MIN_CBUTTONID      4000
-#define MAX_CBUTTONID      5000
-
-#define BBSF_IMBUTTON		(1<<0)
-#define BBSF_CHATBUTTON		(1<<1)
-#define BBSF_CANBEHIDDEN	(1<<2)
-#define BBSF_NTBSWAPED		(1<<3)
-#define BBSF_NTBDESTRUCT	(1<<4)
-
-struct CustomButtonData : public MZeroedObject
-{
-	~CustomButtonData()
-	{}
-
-	DWORD  m_dwPosition;    // default order pos of button, counted from window edge (left or right)
-
-	DWORD  m_dwButtonID;    // id of button used while button creation and to store button info in DB
-	ptrA   m_pszModuleName; // module name without spaces and underline symbols (e.g. "tabsrmm")
-
-	DWORD  m_dwButtonCID;	// button's control id
-	DWORD  m_dwArrowCID;    // only use with BBBF_ISARROWBUTTON flag
-
-	ptrW   m_pwszText;      // button's text
-	ptrW   m_pwszTooltip;   // button's tooltip
-
-	int    m_iButtonWidth;  // must be 22 for regular button and 33 for button with arrow
-	HANDLE m_hIcon;         // Handle to icolib registred icon
-
-	bool   m_bIMButton, m_bChatButton;
-	bool   m_bCanBeHidden, m_bCantBeHidden, m_bHidden, m_bAutoHidden, m_bSeparator, m_bDisabled, m_bPushButton;
-	bool   m_bRSided;
-	BYTE   m_opFlags;
-	int    m_hLangpack;
-	DWORD  m_dwOrigPosition;
-	struct THotkeyItem *m_hotkey;
-};
-
-// gets the required button or NULL, if i is out of boundaries
-EXTERN_C MIR_APP_DLL(CustomButtonData*) Srmm_GetNthButton(int i);
-
-// retrieves total number of toolbar buttons
-EXTERN_C MIR_APP_DLL(int) Srmm_GetButtonCount(void);
-
-// these messages are sent to the message windows if toolbar buttons are changed
-#define WM_CBD_FIRST   (WM_USER+0x600)
-
-// wParam = 0 (ignored)
-// lParam = (CustomButtonData*)pointer to button or null if any button can be changed
-#define WM_CBD_UPDATED (WM_CBD_FIRST+1)
-
-// wParam = button id
-// lParam = (CustomButtonData*)pointer to button
-#define WM_CBD_REMOVED (WM_CBD_FIRST+2)
-
-// wParam = 0 (ignored)
-// lParam = 0 (ignored)
-#define WM_CBD_LOADICONS (WM_CBD_FIRST+3)
 
 #endif // M_MESSAGE_H__
