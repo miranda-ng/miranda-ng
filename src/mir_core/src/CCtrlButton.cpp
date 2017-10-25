@@ -36,6 +36,11 @@ BOOL CCtrlButton::OnCommand(HWND, WORD, WORD idCode)
 	return FALSE;
 }
 
+void CCtrlButton::Click()
+{
+	::SendMessage(m_parentWnd->GetHwnd(), WM_COMMAND, MAKELONG(m_idCtrl, BN_CLICKED), 0);
+}
+
 bool CCtrlButton::IsPushed() const
 {
 	return ::SendMessage(m_hwnd, BM_GETCHECK, 0, 0) == BST_CHECKED;

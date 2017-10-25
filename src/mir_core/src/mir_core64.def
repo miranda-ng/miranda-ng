@@ -1051,3 +1051,4 @@ CallFunctionSync @1170
 ?Resize@CDlgBase@@QEAAXXZ @1239 NONAME
 Utils_IsRtl @1240
 HookTemporaryEvent @1241
+?Click@CCtrlButton@@QEAAXXZ @1242 NONAME

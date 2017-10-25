@@ -571,6 +571,7 @@ public:
 
 	CCallback<CCtrlButton> OnClick;
 
+	void Click();
 	bool IsPushed() const;
 	void Push(bool bPushed);
 };
