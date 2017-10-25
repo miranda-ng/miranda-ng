@@ -36,7 +36,12 @@ static int SortButtons(const CustomButtonData *p1, const CustomButtonData *p2)
 {
 	if (p1->m_bRSided != p2->m_bRSided)
 		return (p2->m_bRSided) ? -1 : 1;
-	return p1->m_dwPosition - p2->m_dwPosition;
+	if (p1->m_dwPosition != p2->m_dwPosition)
+		return p1->m_dwPosition - p2->m_dwPosition;
+	int res = mir_strcmp(p1->m_pszModuleName, p2->m_pszModuleName);
+	if (res != 0)
+		return res;
+	return p1->m_dwButtonID - p2->m_dwButtonID;
 }
 
 static LIST<CustomButtonData> arButtonsList(1, SortButtons);
@@ -103,15 +108,16 @@ MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 	cbd->m_dwButtonCID = (bbdi->bbbFlags & BBBF_CREATEBYID) ? bbdi->dwButtonID : LastCID;
 	cbd->m_dwArrowCID = (bbdi->bbbFlags & BBBF_ISARROWBUTTON) ? cbd->m_dwButtonCID + 1 : 0;
 	cbd->m_bHidden = (bbdi->bbbFlags & BBBF_HIDDEN) != 0;
-	cbd->m_bRSided = (bbdi->bbbFlags & BBBF_ISRSIDEBUTTON) != 0;
-	cbd->m_bCanBeHidden = (bbdi->bbbFlags & BBBF_CANBEHIDDEN) != 0;
-	cbd->m_bCantBeHidden = (bbdi->bbbFlags & BBBF_CANTBEHIDDEN) != 0;
 	cbd->m_bSeparator = (bbdi->bbbFlags & BBBF_ISSEPARATOR) != 0;
-	cbd->m_bChatButton = (bbdi->bbbFlags & BBBF_ISCHATBUTTON) != 0;
-	cbd->m_bIMButton = (bbdi->bbbFlags & BBBF_ISIMBUTTON) != 0;
+	
 	cbd->m_bDisabled = (bbdi->bbbFlags & BBBF_DISABLED) != 0;
 	cbd->m_bPushButton = (bbdi->bbbFlags & BBBF_ISPUSHBUTTON) != 0;
 	cbd->m_hLangpack = _hLang;
+
+	cbd->m_dwOrigFlags.bit1 = cbd->m_bRSided = (bbdi->bbbFlags & BBBF_ISRSIDEBUTTON) != 0;
+	cbd->m_dwOrigFlags.bit2 = cbd->m_bIMButton = (bbdi->bbbFlags & BBBF_ISIMBUTTON) != 0; 
+	cbd->m_dwOrigFlags.bit3 = cbd->m_bChatButton = (bbdi->bbbFlags & BBBF_ISCHATBUTTON) != 0;
+	cbd->m_dwOrigFlags.bit4 = cbd->m_bCanBeHidden = (bbdi->bbbFlags & BBBF_CANBEHIDDEN) != 0;
 
 	if (bbdi->pszHotkey) {
 		for (int i = 0; i < hotkeys.getCount(); i++) {
@@ -353,8 +359,12 @@ void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwnd
 MIR_APP_DLL(void) Srmm_ResetToolbar()
 {
 	for (int i = 0; i < arButtonsList.getCount(); i++) {
-		auto *bb = arButtonsList[i];
-		bb->m_dwPosition = bb->m_dwOrigPosition;
+		CustomButtonData *cbd = arButtonsList[i];
+		cbd->m_dwPosition = cbd->m_dwOrigPosition;
+		cbd->m_bRSided = cbd->m_dwOrigFlags.bit1;
+		cbd->m_bIMButton = cbd->m_dwOrigFlags.bit2;
+		cbd->m_bChatButton = cbd->m_dwOrigFlags.bit3;
+		cbd->m_bCanBeHidden = cbd->m_dwOrigFlags.bit4;
 	}
 }
 
@@ -554,14 +564,6 @@ class CSrmmToolbarOptions : public CDlgBase
 
 	void BuildMenuObjectsTree()
 	{
-		HTREEITEM hti;
-		int iImage = 0;
-
-		TVINSERTSTRUCT tvis;
-		tvis.hParent = nullptr;
-		tvis.hInsertAfter = TVI_LAST;
-		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_SELECTEDIMAGE | TVIF_IMAGE;
-
 		m_toolBar.DeleteAllItems();
 
 		m_hImgl = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
@@ -573,8 +575,13 @@ class CSrmmToolbarOptions : public CDlgBase
 			return;
 
 		bool bPrevSide = false;
-		mir_cslock lck(csToolBar);
 
+		TVINSERTSTRUCT tvis;
+		tvis.hParent = nullptr;
+		tvis.hInsertAfter = TVI_LAST;
+		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_SELECTEDIMAGE | TVIF_IMAGE;
+
+		mir_cslock lck(csToolBar);
 		for (int i = 0; i < arButtonsList.getCount(); i++) {
 			CustomButtonData *cbd = arButtonsList[i];
 
@@ -589,8 +596,8 @@ class CSrmmToolbarOptions : public CDlgBase
 				tvis2.itemex.state = TVIS_BOLD;
 				tvis2.itemex.iImage = tvis.item.iSelectedImage = -1;
 				tvis2.itemex.uStateEx = TVIS_EX_DISABLED;
-				tvis.hInsertAfter = hti = m_toolBar.InsertItem(&tvis2);
-				m_toolBar.SetItemState(hti, 0x3000, TVIS_STATEIMAGEMASK);
+				tvis.hInsertAfter = m_toolBar.InsertItem(&tvis2);
+				m_toolBar.SetItemState(tvis.hInsertAfter, 0x3000, TVIS_STATEIMAGEMASK);
 			}
 
 			tvis.item.lParam = (LPARAM)cbd;
@@ -601,11 +608,10 @@ class CSrmmToolbarOptions : public CDlgBase
 			}
 			else {
 				tvis.item.pszText = TranslateW(cbd->m_pwszTooltip);
-				iImage = ImageList_AddIcon(m_hImgl, IcoLib_GetIconByHandle(cbd->m_hIcon));
-				tvis.item.iImage = tvis.item.iSelectedImage = iImage;
+				tvis.item.iImage = tvis.item.iSelectedImage = ImageList_AddIcon(m_hImgl, IcoLib_GetIconByHandle(cbd->m_hIcon));
 			}
 			cbd->m_opFlags = 0;
-			hti = m_toolBar.InsertItem(&tvis);
+			HTREEITEM hti = m_toolBar.InsertItem(&tvis);
 
 			m_toolBar.SetCheckState(hti, (cbd->m_bIMButton || cbd->m_bChatButton));
 			if (cbd->m_bCantBeHidden)
@@ -683,8 +689,8 @@ public:
 		WindowList_Broadcast(g_hWindowList, WM_CBD_REMOVED, 0, 0);
 
 		Srmm_ResetToolbar();
-		NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);
-		
+		qsort(arButtonsList.getArray(), arButtonsList.getCount(), sizeof(void*), sstSortButtons);
+
 		BuildMenuObjectsTree();
 		NotifyChange();
 	}
