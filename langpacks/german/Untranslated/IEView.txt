@@ -2,7 +2,3 @@
 [IID_IOleInPlaceObject failed.]
 [Failed to Advise]
 [C++ Event Sink]
-[RTL On]
-[RTL Off]
-[Group On]
-[Group Off]

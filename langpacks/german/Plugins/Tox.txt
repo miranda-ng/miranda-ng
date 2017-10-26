@@ -218,7 +218,7 @@ Das Datenformat ist ungültig.
 [Unknown error]
 Unbekannter Fehler
 [The friend ID did not designate a valid friend]
-
+Die Freundes-ID zeigt keinen gültigen Kontakt an.
 [This client is currently not connected to the friend]
 Dieser Client ist momentan nicht mit dem Freund verbunden.
 [An allocation error occurred while increasing the send queue size]

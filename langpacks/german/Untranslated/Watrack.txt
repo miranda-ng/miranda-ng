@@ -1,2 +1,0 @@
-﻿[Check unknown formats]
-[Check unknown file formats if player gives info.]

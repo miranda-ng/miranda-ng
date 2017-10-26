@@ -392,13 +392,13 @@ Geben Sie den Text ein, den Sie sehen
 [Wall message for %s]
 Pinnwandnachricht für %s
 [You delete %s from the contact list.\nWhat needs to be done additionally?]
-
+Sie haben %s aus Ihrer Kontaktliste gelöscht.
 [Remove %s from your friend list]
-
+%s aus Ihrer Freundesliste entfernen
 [Clear server history with %s]
-
+Serververlauf mit %s löschen
 [Deleting %s from contact list]
-
+%s aus Ihrer Kontaktliste löschen
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [New news]
 Neue Neuigkeiten

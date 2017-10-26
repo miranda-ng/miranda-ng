@@ -19,7 +19,7 @@ Kontakte
 [Default group:]
 Standardgruppe:
 [Hide guild chats on startup]
-
+Gilden-Chats beim Start verbergen
 [Nick:]
 Nick:
 ;file \protocols\Discord\src\dispatch.cpp
@@ -61,13 +61,13 @@ Möchten Sie diese Gilde wirklich verlassen?
 [Join guild]
 Gilde beitreten
 [Copy my Discord ID]
-
+Meine Discord-ID kopieren
 [Leave guild]
 Gilde verlassen
 [Create new channel]
 Neuen Channel erstellen
 [Copy Discord ID]
-
+Discord-ID kopieren
 ;file \protocols\Discord\src\options.cpp
 [Network]
 Netzwerk

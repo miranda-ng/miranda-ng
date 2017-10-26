@@ -1782,7 +1782,7 @@ Custom Status
 Grußkarte:
 ;file \protocols\IcqOscarJ\src\init.cpp
 [Expand string edit]
-
+Textfeld ausdehnen
 [ICQ xStatus]
 ICQ xStatus
 ;file \protocols\IcqOscarJ\src\log.cpp

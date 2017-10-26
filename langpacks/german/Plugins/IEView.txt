@@ -95,13 +95,13 @@ Ergebnis
 
 ;file \plugins\IEView\src\ieview_main.cpp
 [RTL On]
-
+RTL an
 [RTL Off]
-
+RTL aus
 [Group On]
-
+Gruppierung an
 [Group Off]
-
+Gruppierung aus
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 %s ist beigetreten.

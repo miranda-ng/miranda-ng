@@ -1728,9 +1728,9 @@ Funktion deaktiviert (als Overlay)
 [Feature enabled (used as overlay)]
 Funktion aktiviert (als Overlay)
 [Enable typing notification]
-
+Tippbenachrichtigungen aktivieren
 [Disable typing notification]
-
+Tippbenachrichtigungen deaktivieren
 [The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
 Das Bilddiensteplugin (AdvaImg) ist nicht richtig installiert.\n\nTabSRMM wird deaktiviert.
 [TabSRMM fatal error]

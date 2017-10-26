@@ -653,6 +653,6 @@ WATrack aktivieren
 [Disable WATrack]
 WATrack deaktivieren
 [Check unknown formats]
-
+Unbekannte Formate überprüfen
 [Check unknown file formats if player gives info.]
-
+Unbekannte Formate überprüfen, falls der Player Informationen angibt.

@@ -6,26 +6,26 @@
 ;  Authors: Aleksey Smyrnov aka Soar
 ;============================================================
 [Allows you to move, minimize and activate Miranda's windows as if it were a single window.]
-
+Erlaubt es Ihnen, die Fenster von Miranda NG als ein einzelnes Fenster zu verschieben, minimieren und aktivieren.
 ;file \plugins\AsSingleWindow\res\optionsPage.rc
 [Windows moving]
 Fensterbewegung
 [Contact list on the left]
-
+Kontaktliste links
 [Contact list on the right]
-
+Kontaktliste rechts
 [Don't merge windows]
-Fenster nicht verknüpfen
+Fenster nicht verschmelzen
 [At opening one more message window]
-Nach dem öffnen des Ereignis-Fenster
+Beim Öffnen weiterer Nachrichtenfenster
 [Merge windows in opening order]
-Fenster nach Öffnungsreihenfolge vers.
+Fenster in Öffnungsreihenfolge verschm.
 [Merge only first window]
-Nur das erste Fenster verschmelzen
+Nur erstes Fenster verschmelzen
 [Don't merge windows until closing]
-Fenster nicht verknüpfen bis zum Fokus
+Fenster bis zum Schließen nicht verschm.
 ;file \plugins\AsSingleWindow\src\Options.cpp
 [AsSingleWindow]
-
+AsSingleWindow
 [Customize]
 Customize

@@ -52,7 +52,7 @@ Zeigt die Versions von Miranda und dem CmdLine Plugin. Wenn das Plugin CrashDump
 [Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
 Ignoriert oder entfernt Ignorieren für die angegebenen Kontakte.\nVerwendung:\n  ignore (block | unblock) <Kontakt> [<Kontakt> [...]]]. Ignoriert oder entfernt Ignorieren für die angegebenen Kontakte.
 [Executes Lua script via MirLua plugin.\nUsage:\n  call [<module>] <function>\n  exec "<path>"\n  eval "<code>"]
-
+Führt ein Lua-Skript aus.\nVerwendung:\n  call [<Modul>] <Funktion>\n  exec "<Pfad>"\n  eval "<Code>"
 ;file \plugins\CmdLine\src\mimcmd_handlers.cpp
 [Wrong number of parameters for command '%s'.]
 Fahlsche Anzahl an Parametern für Befehl '%s'.

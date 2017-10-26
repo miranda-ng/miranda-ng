@@ -473,11 +473,11 @@ Traytitel
 [Tipper]
 Tipper
 [Copy item]
-
+Eintrag kopieren
 [Arrow up]
-
+Pfeil hoch
 [Arrow down]
-
+Pfeil runter
 [Reload]
 Neu laden
 [Apply]
