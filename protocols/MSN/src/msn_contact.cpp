@@ -228,13 +228,13 @@ bool CMsnProto::MSN_RefreshContactList(void)
 
 	if (MyOptions.netId != NETID_SKYPE)
 	{
-		// Get your own profile info
-		if (!MSN_SharingFindMembership()) return false;
+		// Get your own profile info (does not work anymore, byrdr died)
+		//MSN_SharingFindMembership();
 
 		if (m_iDesiredStatus == ID_STATUS_OFFLINE) return false;
 
-		// Get "classic" MSN contacts
-		if (!MSN_ABFind("ABFindContactsPaged", NULL)) return false;
+		// Get "classic" MSN contacts (does not work anymore, byrdr died)
+		// MSN_ABFind("ABFindContactsPaged", NULL);
 
 		// Get Skype contacts on linked profiles
 		if (!MSN_ABRefreshClist()) return false;
@@ -251,8 +251,8 @@ bool CMsnProto::MSN_RefreshContactList(void)
 		// Populate Contact list on MSN network to get status updates of contacts
 		MSN_CreateContList();
 
-		// Read my own profile from SOAP AB
-		MSN_StoreGetProfile();
+		// Read my own profile from SOAP AB (does not work anymore, byrdr died)
+		//MSN_StoreGetProfile();
 	}
 	else
 	{

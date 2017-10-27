@@ -585,7 +585,7 @@ void CMsnProto::MSN_ProcessNLN(const char *userStatus, const char *wlid, char *u
 			cont->cap2 = end && *end == ':' ? strtoul(end + 1, NULL, 10) : 0;
 		}
 
-		MSN_SetMirVer(hContact, cont->places.find((MsnPlace*)&szInst));
+		if (szInst) MSN_SetMirVer(hContact, cont->places.find((MsnPlace*)&szInst));
 
 		char *pszUrl, *pszAvatarHash;
 		if (cmdstring && *cmdstring && mir_strcmp(cmdstring, "0") &&

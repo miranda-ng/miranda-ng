@@ -87,6 +87,7 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 
 	case ERR_DETAILED_ERR_IN_PAYLOAD:
 	case ERR_LIST_UNAVAILABLE:
+	case ERR_INVALID_USER:
 		char* tErrWords[4];
 		if (sttDivideWords(cmdString, _countof(tErrWords), tErrWords) == _countof(tErrWords))
 			HReadBuffer(info, 0).surelyRead(atol(tErrWords[3]));

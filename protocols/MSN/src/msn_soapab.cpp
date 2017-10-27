@@ -903,6 +903,7 @@ bool CMsnProto::MSN_ABRefreshClist(unsigned int nTry)
 						int lstId = LIST_FL;
 						if (mir_strcmpi(ezxml_txt(ezxml_child(cont, "isBlocked")), "true") == 0) lstId = LIST_BL;
 						else if (mir_strcmp(ezxml_txt(ezxml_child(cont, "contactState")), "2") == 0) lstId = LIST_PL;
+						else if (mir_strcmp(szEmail, "echo123") == 0) lstId = LIST_LL; /* Seems to be dead */
 						Lists_Add(lstId, netId, szEmail, NULL, pszNickname);
 						char szWLId[128];
 						mir_snprintf(szWLId, sizeof(szWLId), "%d:%s", netId, szEmail);
