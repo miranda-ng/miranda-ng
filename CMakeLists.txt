@@ -9,3 +9,4 @@ link_directories("${PROJECT_BINARY_DIR}/libs/zlib")
 
 add_subdirectory(libs)
 add_subdirectory(src)
+add_subdirectory(plugins)
