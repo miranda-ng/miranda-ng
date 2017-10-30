@@ -111,6 +111,10 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 		return 1;
 
+	case 999:
+		MSN_ShowError("Unknown error (999) occured, logging off");
+		return 1;
+
 	default:
 		debugLogA("Unprocessed error: %s", cmdString);
 		if (errorCode >= 500) //all these errors look fatal-ish
