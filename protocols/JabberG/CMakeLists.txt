@@ -1,0 +1,7 @@
+file(GLOB SOURCES "src/*.h" "src/*.cpp" "res/*.rc")
+set(TARGET Jabber)
+include_directories(${CMAKE_SOURCE_DIR}/libs/libaxolotl/src)
+include(${CMAKE_SOURCE_DIR}/cmake/plugin.cmake)
+target_link_libraries(${TARGET} Zlib libaxolotl libeay32.lib ssleay32.lib)
+add_subdirectory(jabber_xstatus)
+add_subdirectory(proto_jabber)

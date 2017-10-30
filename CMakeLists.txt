@@ -10,3 +10,4 @@ set(COMMON_LIBS winmm.lib Wtsapi32.lib netapi32.lib pdh.lib shlwapi.lib Strmiids
 add_subdirectory(libs)
 add_subdirectory(src)
 add_subdirectory(plugins)
+add_subdirectory(protocols)
