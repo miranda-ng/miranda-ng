@@ -32,21 +32,7 @@
 #define MWF_LOG_TEXTFORMAT 0x2000000
 #define MSGDLGFONTCOUNT 22
 
-static TRTFColorTable _rtf_ctable[] =
-{
-	{ L"red", RGB(255, 0, 0), ID_FONT_RED },
-	{ L"blue", RGB(0, 0, 255), ID_FONT_BLUE },
-	{ L"green", RGB(0, 255, 0), ID_FONT_GREEN },
-	{ L"magenta", RGB(255, 0, 255), ID_FONT_MAGENTA },
-	{ L"yellow", RGB(255, 255, 0), ID_FONT_YELLOW },
-	{ L"cyan", RGB(0, 255, 255), ID_FONT_CYAN },
-	{ L"black", 0, ID_FONT_BLACK },
-	{ L"white", RGB(255, 255, 255), ID_FONT_WHITE },
-	{ L"", 0, 0 }
-};
-
-int				Utils::rtf_ctable_size = 0;
-TRTFColorTable* Utils::rtf_ctable = 0;
+OBJLIST<TRTFColorTable> Utils::rtf_clrs(10);
 
 MWindowList CWarning::hWindowList = 0;
 
@@ -95,9 +81,10 @@ void CTabBaseDlg::FormatRaw(CMStringW &msg, int flags, bool isSent)
 				CMStringW colorname = msg.Mid(beginmark + 7, 8);
 search_again:
 				bool clr_found = false;
-				for (int ii = 0; ii < Utils::rtf_ctable_size; ii++) {
-					if (!wcsnicmp(colorname, Utils::rtf_ctable[ii].szName, mir_wstrlen(Utils::rtf_ctable[ii].szName))) {
-						closing = beginmark + 7 + (int)mir_wstrlen(Utils::rtf_ctable[ii].szName);
+				for (int ii = 0; ii < Utils::rtf_clrs.getCount(); ii++) {
+					auto &rtfc = Utils::rtf_clrs[ii];
+					if (!wcsnicmp(colorname, rtfc.szName, mir_wstrlen(rtfc.szName))) {
+						closing = beginmark + 7 + (int)mir_wstrlen(rtfc.szName);
 						if (endmark != -1) {
 							msg.Delete(endmark, 8);
 							msg.Insert(endmark, L"c0 ");
@@ -427,14 +414,22 @@ int CTabBaseDlg::FindRTLLocale()
 /////////////////////////////////////////////////////////////////////////////////////////
 // init default color table. the table may grow when using custom colors via bbcodes
 
+static TRTFColorTable _rtf_ctable[] =
+{
+	{ L"red", RGB(255, 0, 0), ID_FONT_RED },
+	{ L"blue", RGB(0, 0, 255), ID_FONT_BLUE },
+	{ L"green", RGB(0, 255, 0), ID_FONT_GREEN },
+	{ L"magenta", RGB(255, 0, 255), ID_FONT_MAGENTA },
+	{ L"yellow", RGB(255, 255, 0), ID_FONT_YELLOW },
+	{ L"cyan", RGB(0, 255, 255), ID_FONT_CYAN },
+	{ L"black", 0, ID_FONT_BLACK },
+	{ L"white", RGB(255, 255, 255), ID_FONT_WHITE }
+};
+
 void Utils::RTF_CTableInit()
 {
-	int iSize = sizeof(TRTFColorTable) * RTF_CTABLE_DEFSIZE;
-
-	rtf_ctable = (TRTFColorTable *)mir_alloc(iSize);
-	memset(rtf_ctable, 0, iSize);
-	memcpy(rtf_ctable, _rtf_ctable, iSize);
-	rtf_ctable_size = RTF_CTABLE_DEFSIZE;
+	for (int i = 0; i < _countof(_rtf_ctable); i++)
+		rtf_clrs.insert(new TRTFColorTable(_rtf_ctable[i]));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -442,16 +437,17 @@ void Utils::RTF_CTableInit()
 
 void Utils::RTF_ColorAdd(const wchar_t *tszColname, size_t length)
 {
-	wchar_t *stopped;
+	TRTFColorTable *p = new TRTFColorTable;
 
-	rtf_ctable_size++;
-	rtf_ctable = (TRTFColorTable *)mir_realloc(rtf_ctable, sizeof(TRTFColorTable) * rtf_ctable_size);
+	wchar_t *stopped;
 	COLORREF clr = wcstol(tszColname, &stopped, 16);
-	mir_snwprintf(rtf_ctable[rtf_ctable_size - 1].szName, length + 1, L"%06x", clr);
-	rtf_ctable[rtf_ctable_size - 1].menuid = 0;
+	mir_snwprintf(p->szName, length + 1, L"%06x", clr);
+	p->menuid = 0;
 
 	clr = wcstol(tszColname, &stopped, 16);
-	rtf_ctable[rtf_ctable_size - 1].clr = (RGB(GetBValue(clr), GetGValue(clr), GetRValue(clr)));
+	p->clr = (RGB(GetBValue(clr), GetGValue(clr), GetRValue(clr)));
+
+	rtf_clrs.insert(p);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

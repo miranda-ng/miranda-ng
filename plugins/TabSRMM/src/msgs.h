@@ -412,7 +412,7 @@ public:
 	void  AdjustBottomAvatarDisplay();
 	void  CalcDynamicAvatarSize(BITMAP *bminfo);
 	void  CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int code);
-	BOOL  DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pColors) const;
+	BOOL  DoRtfToTags(CMStringW &pszText) const;
 	void  DrawStatusIcons(HDC hDC, const RECT &rc, int gap);
 	void  EnableSendButton(bool bMode) const;
 	void  EnableSending(bool bMode) const;

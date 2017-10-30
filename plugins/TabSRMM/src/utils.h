@@ -104,8 +104,7 @@ public:
 	}
 
 public:
-	static	TRTFColorTable*		rtf_ctable;
-	static	int					rtf_ctable_size;
+	static OBJLIST<TRTFColorTable> rtf_clrs;
 };
 
 __forceinline LRESULT _dlgReturn(HWND hWnd, LRESULT result)

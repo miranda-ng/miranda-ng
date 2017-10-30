@@ -486,9 +486,6 @@ int SplitmsgShutdown(void)
 	UnloadIcons();
 	FreeTabConfig();
 
-	if (Utils::rtf_ctable)
-		mir_free(Utils::rtf_ctable);
-
 	UnloadTSButtonModule();
 	return 0;
 }

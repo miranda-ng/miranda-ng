@@ -557,8 +557,8 @@ void CTabBaseDlg::DM_InitRichEdit()
 		LOGFONTA lf = m_pContainer->theme.logFonts[MSGFONTID_MESSAGEAREA];
 		inputcharcolor = m_pContainer->theme.fontColors[MSGFONTID_MESSAGEAREA];
 
-		for (int i = 0; i < Utils::rtf_ctable_size; i++)
-			if (Utils::rtf_ctable[i].clr == inputcharcolor)
+		for (int i = 0; i < Utils::rtf_clrs.getCount(); i++)
+			if (Utils::rtf_clrs[i].clr == inputcharcolor)
 				inputcharcolor = RGB(GetRValue(inputcharcolor), GetGValue(inputcharcolor), GetBValue(inputcharcolor) == 0 ? GetBValue(inputcharcolor) + 1 : GetBValue(inputcharcolor) - 1);
 
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;

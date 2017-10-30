@@ -215,6 +215,7 @@ static void stubShowRoom(SESSION_INFO *si)
 int Chat_Load()
 {
 	CheckUpdate();
+	Utils::RTF_CTableInit();
 
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Message Sessions") L"/" LPGENW("Group chats"), FONTMODE_ALTER };
 	pci = Chat_GetInterface(&data);

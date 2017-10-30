@@ -38,8 +38,6 @@ static const UINT addControls[] = { IDC_ADD, IDC_CANCELADD };
 static const UINT btnControls[] = { IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER, IDC_ADD, IDC_CANCELADD };
 static const UINT errorControls[] = { IDC_STATICERRORICON, IDC_STATICTEXT, IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER };
 
-static COLORREF rtfDefColors[] = { RGB(255, 0, 0), RGB(0, 0, 255), RGB(0, 255, 0), RGB(255, 0, 255), RGB(255, 255, 0), RGB(0, 255, 255), 0, RGB(255, 255, 255) };
-
 struct
 {
 	int id;
@@ -617,9 +615,6 @@ void CSrmmWindow::OnInitDialog()
 {
 	CTabBaseDlg::OnInitDialog();
 
-	if (Utils::rtf_ctable == 0)
-		Utils::RTF_CTableInit();
-
 	m_cache->setWindowData(this);
 
 	m_szProto = const_cast<char *>(m_cache->getProto());
@@ -1107,7 +1102,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton*)
 		return;
 
 	if (final_sendformat)
-		DoRtfToTags(decoded, _countof(rtfDefColors), rtfDefColors);
+		DoRtfToTags(decoded);
 	decoded.TrimRight();
 
 	T2Utf utfResult(decoded);
@@ -1208,8 +1203,8 @@ void CSrmmWindow::onClick_Color(CCtrlButton *pButton)
 
 	if (iSelection == ID_FONT_DEFAULTCOLOR) {
 		cf.crTextColor = M.GetDword(FONTMODULE, "Font16Col", 0);
-		for (int i = 0; i < Utils::rtf_ctable_size; i++)
-			if (Utils::rtf_ctable[i].clr == cf.crTextColor)
+		for (int i = 0; i < Utils::rtf_clrs.getCount(); i++)
+			if (Utils::rtf_clrs[i].clr == cf.crTextColor)
 				cf.crTextColor = RGB(GetRValue(cf.crTextColor), GetGValue(cf.crTextColor), GetBValue(cf.crTextColor) == 0 ? GetBValue(cf.crTextColor) + 1 : GetBValue(cf.crTextColor) - 1);
 
 		m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
@@ -1217,8 +1212,8 @@ void CSrmmWindow::onClick_Color(CCtrlButton *pButton)
 	}
 	
 	for (int i = 0; i < RTF_CTABLE_DEFSIZE; i++) {
-		if (Utils::rtf_ctable[i].menuid == iSelection) {
-			cf.crTextColor = Utils::rtf_ctable[i].clr;
+		if (Utils::rtf_clrs[i].menuid == iSelection) {
+			cf.crTextColor = Utils::rtf_clrs[i].clr;
 			m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 		}
 	}

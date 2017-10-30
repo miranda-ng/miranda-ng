@@ -827,7 +827,16 @@ static void CreateColorMap(CMStringW &Text, int iCount, COLORREF *pSrc, int *pDs
 // convert rich edit code to bbcode (if wanted). Otherwise, strip all RTF formatting
 // tags and return plain text
 
-BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pColors) const
+static int RtfColorToIndex(int iNumColors, int *pIndex, int iCol)
+{
+	for (int i = 0; i < iNumColors; i++)
+		if (pIndex[i] == iCol)
+			return i;
+
+	return -1;
+}
+
+BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText) const
 {
 	if (pszText.IsEmpty())
 		return FALSE;
@@ -837,7 +846,11 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pCol
 
 	// create an index of colors in the module and map them to
 	// corresponding colors in the RTF color table
+	int iNumColors = Utils::rtf_clrs.getCount();
 	int *pIndex = (int*)_alloca(iNumColors * sizeof(int));
+	COLORREF *pColors = (COLORREF*)_alloca(iNumColors * sizeof(COLORREF));
+	for (int i = 0; i < iNumColors; i++)
+		pColors[i] = Utils::rtf_clrs[i].clr;
 	CreateColorMap(pszText, iNumColors, pColors, pIndex);
 
 	// scan the file for rtf commands and remove or parse them
@@ -867,22 +880,22 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pCol
 
 			if (!wcsncmp(p, L"\\cf", 3)) { // foreground color
 				int iCol = _wtoi(p + 3);
-				int iInd = -1;
-				for (int i = 0; i < iNumColors; i++)
-					if (pIndex[i] == iCol) {
-						iInd = i;
-						break;
-					}
+				int iInd = RtfColorToIndex(iNumColors, pIndex, iCol);
 
-				if (iCol && !isChat())
-					res.AppendFormat((iInd >= 0) ? (bInsideColor ? L"[/color][color=%s]" : L"[color=%s]") : (bInsideColor ? L"[/color]" : L""), Utils::rtf_ctable[iInd].szName);
+				if (iCol > 0) {
+					if (!isChat())
+						res.AppendFormat((iInd >= 0) ? (bInsideColor ? L"[/color][color=%s]" : L"[color=%s]") : (bInsideColor ? L"[/color]" : L""), Utils::rtf_clrs[iInd].szName);
+					// else
+					//		res.AppendFormat((iInd >= 0) ? L"%%c%02u" : L"%%C", iInd);					
+				}
 
 				bInsideColor = iInd >= 0;
 			}
 			else if (!wcsncmp(p, L"\\highlight", 10)) { //background color
-				wchar_t szTemp[20];
-				int iCol = _wtoi(p + 10);
-				mir_snwprintf(szTemp, L"%d", iCol);
+				/* if (isChat()) {
+					int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 10));
+					res.AppendFormat((iInd >= 0) ? L"%%f%02u" : L"%%F", iInd);
+				} */
 			}
 			else if (!wcsncmp(p, L"\\line", 5)) { // soft line break;
 				res.AppendChar('\n');

@@ -351,8 +351,10 @@ static void Build_RTF_Header(CMStringA &str, CTabBaseDlg *dat)
 	}
 
 	// bbcode colors...
-	for (i = 0; i < Utils::rtf_ctable_size; i++)
-		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(Utils::rtf_ctable[i].clr), GetGValue(Utils::rtf_ctable[i].clr), GetBValue(Utils::rtf_ctable[i].clr));
+	for (i = 0; i < Utils::rtf_clrs.getCount(); i++) {
+		auto &p = Utils::rtf_clrs[i];
+		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(p.clr), GetGValue(p.clr), GetBValue(p.clr));
+	}
 
 	// paragraph header
 	str.AppendFormat("}");
@@ -1083,8 +1085,8 @@ void CTabBaseDlg::ReplaceIcons(LONG startAt, int fAppend, BOOL isSent)
 			m_log.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)L"");
 			UINT length = (unsigned int)_wtol(&trbuffer[7]);
 			int index = _wtol(&trbuffer[14]);
-			if (length > 0 && length < 20000 && index >= RTF_CTABLE_DEFSIZE && index < Utils::rtf_ctable_size) {
-				cf2.crTextColor = Utils::rtf_ctable[index].clr;
+			if (length > 0 && length < 20000 && index >= RTF_CTABLE_DEFSIZE && index < Utils::rtf_clrs.getCount()) {
+				cf2.crTextColor = Utils::rtf_clrs[index].clr;
 				cr.cpMin = fi.chrgText.cpMin;
 				cr.cpMax = cr.cpMin + length;
 				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&cr);
