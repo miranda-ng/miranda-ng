@@ -21,10 +21,12 @@ void CSkypeProto::PollingThread(void*)
 {
 	debugLogA(__FUNCTION__ ": entering");
 
-	int nErrors = 0;
-	while (!m_bThreadsTerminated) {
+	while (true) {
 		m_hPollingEvent.Wait();
-		nErrors = 0;
+		if (m_bThreadsTerminated)
+			break;
+
+		int nErrors = 0;
 
 		PollRequest *request = new PollRequest(li);
 
@@ -40,17 +42,8 @@ void CSkypeProto::PollingThread(void*)
 
 			if (response->resultCode == 200) {
 				nErrors = 0;
-
-				if (response->pData) {
-					char *pData = mir_strdup(response->pData);
-					if (pData != NULL) {
-						ForkThread(&CSkypeProto::ParsePollData, pData);
-					}
-					else {
-						debugLogA(__FUNCTION__ ": memory overflow !!!");
-						break;
-					}
-				}
+				if (response->pData)
+					ParsePollData(response->pData);
 			}
 			else {
 				nErrors++;
@@ -58,12 +51,8 @@ void CSkypeProto::PollingThread(void*)
 				if (response->pData) {
 					JSONNode root = JSONNode::parse(response->pData);
 					const JSONNode &error = root["errorCode"];
-					if (error != NULL) {
-						int errorCode = error.as_int();
-						if (errorCode == 729) {
-							break;
-						}
-					}
+					if (error && error.as_int() == 729)
+						break;
 				}
 			}
 			m_pollingConnection = response->nlc;
@@ -80,11 +69,9 @@ void CSkypeProto::PollingThread(void*)
 	debugLogA(__FUNCTION__ ": leaving");
 }
 
-void CSkypeProto::ParsePollData(void *pData)
+void CSkypeProto::ParsePollData(const char *szData)
 {
 	debugLogA(__FUNCTION__);
-
-	ptrA szData((char*)pData); // memory must be freed in any case
 
 	JSONNode data = JSONNode::parse(szData);
 	if (!data) return;

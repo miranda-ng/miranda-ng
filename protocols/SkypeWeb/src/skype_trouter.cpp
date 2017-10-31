@@ -118,12 +118,12 @@ void CSkypeProto::TRouterThread(void*)
 {
 	debugLogA(__FUNCTION__": entering");
 
-	int errors = 0;
-
-	while (!m_bThreadsTerminated) {
-
+	while (true) {
 		m_hTrouterEvent.Wait();
-		errors = 0;
+		if (m_bThreadsTerminated)
+			break;
+
+		int errors = 0;
 
 		TrouterPollRequest *request = new TrouterPollRequest(TRouter.socketIo, TRouter.connId, TRouter.st, TRouter.se, TRouter.sig, TRouter.instance, TRouter.ccid, TRouter.sessId);
 

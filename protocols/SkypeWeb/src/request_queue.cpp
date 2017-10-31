@@ -26,6 +26,11 @@ RequestQueue::RequestQueue(HNETLIBUSER _nlu) :
 
 RequestQueue::~RequestQueue()
 {
+	if (hRequestQueueThread) {
+		WaitForSingleObject(hRequestQueueThread, INFINITE);
+		hRequestQueueThread = nullptr;
+	}
+
 	requests.destroy();
 }
 
@@ -92,8 +97,11 @@ unsigned int RequestQueue::WorkerThread(void *arg)
 {
 	RequestQueue *queue = (RequestQueue*)arg;
 
-	while (!queue->isTerminated) {
+	while (true) {
 		queue->hRequestQueueEvent.Wait();
+		if (queue->isTerminated)
+			break;
+
 		while (true) {
 			RequestQueueItem *item = NULL;
 			{

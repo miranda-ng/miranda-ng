@@ -23,9 +23,9 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	m_InviteDialogs(1),
 	m_GCCreateDialogs(1),
 	m_OutMessages(3, PtrKeySortT),
-	m_bThreadsTerminated(0),
-	m_TrouterConnection(0),
-	m_pollingConnection(0),
+	m_bThreadsTerminated(false),
+	m_TrouterConnection(nullptr),
+	m_pollingConnection(nullptr),
 	m_opts(this),
 	Contacts(this)
 {
@@ -60,25 +60,25 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 CSkypeProto::~CSkypeProto()
 {
 	requestQueue->Stop();
-	delete requestQueue;
+	delete requestQueue; requestQueue = nullptr;
 
 	UnInitNetwork();
 	UninitPopups();
 
 	if (m_hPollingThread) {
-		TerminateThread(m_hPollingThread, NULL);
+		WaitForSingleObject(m_hPollingThread, INFINITE);
 		m_hPollingThread = NULL;
 	}
 
 	if (m_hTrouterThread) {
-		TerminateThread(m_hTrouterThread, NULL);
+		WaitForSingleObject(m_hTrouterThread, INFINITE);
 		m_hTrouterThread = NULL;
 	}
 
 	SkypeUnsetTimer();
 }
 
-int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
+int CSkypeProto::OnExit()
 {
 	debugLogA(__FUNCTION__);
 
@@ -299,7 +299,7 @@ int CSkypeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam
 		return OnInitStatusMenu();
 
 	case EV_PROTO_ONEXIT:
-		return OnPreShutdown(wParam, lParam);
+		return OnExit();
 	}
 
 	return 1;

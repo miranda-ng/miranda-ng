@@ -25,8 +25,6 @@ struct CSkypeProto : public PROTO < CSkypeProto >
 {
 	friend CSkypeOptionsMain;
 	friend CSkypeGCCreateDlg;
-	//friend CSkypeChatroom;
-	//friend ChatUser;
 
 public:
 
@@ -77,7 +75,7 @@ public:
 	// events
 	static int	OnModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnDbEventRead(WPARAM, LPARAM);
-	int __cdecl OnPreShutdown(WPARAM, LPARAM);
+	int __cdecl OnExit();
 	//search
 	void __cdecl SearchBasicThread(void* id);
 
@@ -362,7 +360,7 @@ private:
 
 	//polling
 	void __cdecl PollingThread     (void*);
-	void __cdecl ParsePollData     (void *pData);
+	void __cdecl ParsePollData     (const char*);
 	void ProcessEndpointPresence   (const JSONNode &node);
 	void ProcessUserPresence       (const JSONNode &node);
 	void ProcessNewMessage         (const JSONNode &node);
