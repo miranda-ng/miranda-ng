@@ -349,7 +349,8 @@ public:
 	STDMETHOD(SetExtent)(DWORD dwDrawAspect, SIZEL *psizel)
 	{
 		HRESULT hr = ISmileyBase::SetExtent(dwDrawAspect, psizel);
-		if (hr == S_OK) m_rectExt = m_sizeExtent;
+		if (hr == S_OK)
+			m_rectExt = m_sizeExtent;
 		return hr;
 	}
 };

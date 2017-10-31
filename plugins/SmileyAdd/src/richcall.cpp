@@ -72,24 +72,21 @@ static void SetPosition(HWND hwnd)
 
 		TextRange->SetRange(reObj.cp, reObj.cp);
 
-		BOOL res;
-		POINT pt;
 		RECT rect;
-		hr = TextRange->GetPoint(tomStart | TA_BOTTOM | TA_RIGHT, &pt.x, &pt.y);
-		if (hr == S_OK) {
-			res = ScreenToClient(hwnd, &pt);
+		POINT pt;
+		if (S_OK == TextRange->GetPoint(tomStart | TA_BOTTOM | TA_RIGHT, &pt.x, &pt.y)) {
+			ScreenToClient(hwnd, &pt);
 			rect.bottom = pt.y;
 			rect.right = pt.x;
 		}
-		else rect.right = rect.bottom = -1;
+		else rect.bottom = -1;
 
-		hr = TextRange->GetPoint(tomStart | TA_TOP | TA_LEFT, &pt.x, &pt.y);
-		if (hr == S_OK) {
-			res = ScreenToClient(hwnd, &pt);
+		if (S_OK == TextRange->GetPoint(tomStart | TA_TOP | TA_LEFT, &pt.x, &pt.y)) {
+			ScreenToClient(hwnd, &pt);
 			rect.top = pt.y;
 			rect.left = pt.x;
 		}
-		else rect.left = rect.top = -1;
+		else rect.top = -1;
 
 		igsc->SetPosition(hwnd, &rect);
 	}

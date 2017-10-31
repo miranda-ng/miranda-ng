@@ -110,26 +110,26 @@ void ISmileyBase::SetHint(wchar_t *smltxt)
 void ISmileyBase::SetPosition(HWND hwnd, LPCRECT lpRect)
 {
 	m_hwnd = hwnd;
-	if (lpRect == NULL || (lpRect->top == -1 && lpRect->bottom == -1)) {
+	if (lpRect == NULL || lpRect->top == -1 || lpRect->bottom == -1) {
 		m_visible = false;
+		return;
+	}
+
+	m_visible = true;
+	m_dirAniAllow = true;
+	m_orect.left = lpRect->left;
+	m_orect.right = lpRect->left + m_sizeExtent.cx;
+	if (lpRect->top == -1) {
+		m_orect.top = lpRect->bottom - m_sizeExtent.cy;
+		m_orect.bottom = lpRect->bottom;
+	}
+	else if (lpRect->bottom == -1) {
+		m_orect.top = lpRect->top;
+		m_orect.bottom = lpRect->top + m_sizeExtent.cy;
 	}
 	else {
-		m_visible = true;
-		m_dirAniAllow = true;
-		m_orect.left = lpRect->left;
-		m_orect.right = lpRect->left + m_sizeExtent.cx;
-		if (lpRect->top == -1) {
-			m_orect.top = lpRect->bottom - m_sizeExtent.cy;
-			m_orect.bottom = lpRect->bottom;
-		}
-		else if (lpRect->bottom == -1) {
-			m_orect.top = lpRect->top;
-			m_orect.bottom = lpRect->top + m_sizeExtent.cy;
-		}
-		else {
-			m_orect.top = lpRect->bottom - m_sizeExtent.cy;
-			m_orect.bottom = lpRect->bottom;
-		}
+		m_orect.top = lpRect->bottom - m_sizeExtent.cy;
+		m_orect.bottom = lpRect->bottom;
 	}
 }
 
