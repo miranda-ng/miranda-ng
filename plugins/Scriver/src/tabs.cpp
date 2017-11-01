@@ -997,6 +997,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			}
 		}
 		break;
+	
 	case WM_DESTROY:
 		char szSettingName[64];
 

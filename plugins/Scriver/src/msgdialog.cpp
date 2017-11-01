@@ -1207,7 +1207,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			m_hwndIeview = nullptr;
 		}
 
-		m_pParent->iSplitterY = SPLITTER_HEIGHT + 1;
 		SendMessage(m_hwnd, DM_GETAVATAR, 0, 0);
 		SetDialogToType();
 		{
