@@ -27,8 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CSplitter::CSplitter(CDlgBase *wnd, int idCtrl)
 	: CCtrlBase(wnd, idCtrl),
-	m_iPosition(0),
-	m_iCount(0)
+	m_iPosition(0)
 {
 }
 
@@ -70,12 +69,7 @@ LRESULT CSplitter::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			OnChange(this);
-
-			if (m_iCount == 3) {
-				m_iCount = 0;
-				PostMessage(m_parentWnd->GetHwnd(), WM_SIZE, 0, 0);
-			}
-			else m_iCount++;
+			PostMessage(m_parentWnd->GetHwnd(), WM_SIZE, 0, 0);
 		}
 		return 0;
 

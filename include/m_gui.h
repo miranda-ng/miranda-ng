@@ -614,7 +614,7 @@ protected:
 	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	virtual void OnInit() override;
 
-	int m_iPosition, m_iCount;
+	int m_iPosition;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

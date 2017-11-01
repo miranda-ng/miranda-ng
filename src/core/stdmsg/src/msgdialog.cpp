@@ -434,8 +434,6 @@ void CSrmmWindow::OnSplitterMoved(CSplitter *pSplitter)
 	GetWindowRect(m_message.GetHwnd(), &rc);
 	if (rc.bottom - rc.top + (m_splitterPos - oldSplitterY) < m_minEditBoxSize.cy)
 		m_splitterPos = oldSplitterY + m_minEditBoxSize.cy - (rc.bottom - rc.top);
-	if (rcLog.bottom - rcLog.top - (m_splitterPos - oldSplitterY) < m_minEditBoxSize.cy)
-		m_splitterPos = oldSplitterY - m_minEditBoxSize.cy + (rcLog.bottom - rcLog.top);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
