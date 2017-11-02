@@ -1,0 +1,7 @@
+file(GLOB SOURCES "src/*.h" "include/*.h" "src/*.cpp" "res/*.rc")
+set(TARGET Tox)
+include_directories("include")
+include(${CMAKE_SOURCE_DIR}/cmake/plugin.cmake)
+target_link_libraries(${TARGET} libjson Winmm.lib dnsapi.lib comctl32.lib)
+add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND "make_ver.bat x86 ${CMAKE_BINARY_DIR}/Libs")
+add_subdirectory(proto_tox)
