@@ -1,4 +1,9 @@
-file(GLOB SOURCES "src/*.h" "src/*.cpp" "src/mir_core.def")
+file(GLOB SOURCES "src/*.h" "src/*.cpp")
+if(CMAKE_CL_64)
+	list(APPEND SOURCES "src/mir_core64.def")
+else()
+	list(APPEND SOURCES "src/mir_core.def")
+endif()
 set(TARGET mir_core)
 include(${CMAKE_SOURCE_DIR}/cmake/lib.cmake)
 
