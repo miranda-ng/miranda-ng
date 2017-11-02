@@ -228,7 +228,7 @@ struct StatusIconClickData
 struct BBButton
 {
 	const char    *pszModuleName;  // module name without spaces and underline symbols (e.g. "tabsrmm")
-	DWORD          dwButtonID;     // your button ID, will be combined with pszModuleName for storing settings, etc...
+	int            dwButtonID;     // your button ID, will be combined with pszModuleName for storing settings, etc...
 
 	const wchar_t *pwszText;       // button's text, might be NULL
 	const wchar_t *pwszTooltip;    // button's tooltip, might be NULL

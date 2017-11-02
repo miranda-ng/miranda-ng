@@ -78,7 +78,7 @@ EXTERN_C MIR_APP_DLL(CustomButtonData*) Srmm_GetNthButton(int i);
 EXTERN_C MIR_APP_DLL(int) Srmm_GetButtonCount(void);
 
 // emulates a click on a toolbar button
-EXTERN_C MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, DWORD idFrom, HWND hwndFrom, BOOL code);
+EXTERN_C MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, int idFrom, HWND hwndFrom, BOOL code);
 
 // these messages are sent to the message windows if toolbar buttons are changed
 #define WM_CBD_FIRST   (WM_USER+0x600)

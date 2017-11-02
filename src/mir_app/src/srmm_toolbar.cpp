@@ -46,8 +46,8 @@ static int SortButtons(const CustomButtonData *p1, const CustomButtonData *p2)
 
 static LIST<CustomButtonData> arButtonsList(1, SortButtons);
 
-DWORD LastCID = MIN_CBUTTONID;
-DWORD dwSepCount = 0;
+int LastCID = MIN_CBUTTONID;
+int dwSepCount = 0;
 
 static mir_cs csToolBar;
 static HANDLE hHookToolBarLoadedEvt, hHookButtonPressedEvt;
@@ -69,7 +69,7 @@ static void CB_RegisterSeparators()
 {
 	BBButton bbd = {};
 	bbd.pszModuleName = "Tabsrmm_sep";
-	for (DWORD i = 0; dwSepCount > i; i++) {
+	for (int i = 0; dwSepCount > i; i++) {
 		bbd.bbbFlags = BBBF_ISSEPARATOR | BBBF_ISIMBUTTON;
 		bbd.dwButtonID = i + 1;
 		bbd.dwDefPos = 410 + i;
@@ -285,7 +285,7 @@ MIR_APP_DLL(int) Srmm_ModifyButton(BBButton *bbdi)
 	return 0;
 }
 
-MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, DWORD idFrom, HWND hwndDlg, BOOL code)
+MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, int idFrom, HWND hwndDlg, BOOL code)
 {
 	bool bFromArrow = false;
 	HWND hwndFrom = nullptr;
@@ -686,7 +686,6 @@ public:
 	void btnResetClicked(void*)
 	{
 		db_delete_module(0, MODULENAME);
-		WindowList_Broadcast(g_hWindowList, WM_CBD_REMOVED, 0, 0);
 
 		Srmm_ResetToolbar();
 		qsort(arButtonsList.getArray(), arButtonsList.getCount(), sizeof(void*), sstSortButtons);
