@@ -403,7 +403,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						//retNon = IDNONE;
 						SetDlgItemText(hDlg, IDNONE, LPGENW("None"));
 						retCancel = IDNO;
-						SetDlgItemText(hDlg, IDCANCEL, LPGENW("No"));
+						SetDlgItemText(hDlg, IDCANCEL, LPGENW("Cancel"));
 						rcCancel.right = rcDlg.right - rcDlg.left - 10;
 						rcCancel.left = rcCancel.right - caWidth;
 						rcNone.right = rcCancel.left - 5;
