@@ -25,11 +25,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <windows.h>
 
 #include <newpluginapi.h>
-#include <m_database.h>
 #include <m_gui.h>
 #include <m_langpack.h>
 #include <m_options.h>
-#include <m_utils.h>
+#include <m_plugin.h>
 
 #include "resource.h"
 #include "version.h"
@@ -39,10 +38,6 @@ extern HINSTANCE g_hInst;
 #define MODULE_NAME "StartPosition"
 #define CLIST_MODULE_NAME "CList"
 
-#define dbERROR -999999
-#define RIGHT 1
-#define LEFT 0
-
+class StartPositionPlugin;
 #include "options.h"
-
-extern int OptInitialise(WPARAM wParam, LPARAM);
+#include "startposition.h"

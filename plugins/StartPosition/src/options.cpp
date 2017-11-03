@@ -15,10 +15,9 @@ StartPositionOptions::StartPositionOptions() :
     clistWidth(MODULE_NAME, "CLWidth", 180)
 {}
 
-extern StartPositionOptions spOptions;
-
-COptionsDlg::COptionsDlg() :
+COptionsDlg::COptionsDlg(StartPositionPlugin* instance) :
     CPluginDlgBase(g_hInst, IDD_OPTIONS, MODULE_NAME),
+    m_plugin(instance),
     chkPositionTop(this, IDC_CLTOPENABLE),
     edtPositionTop(this, IDC_CLTOP),
     chkPositionBottom(this, IDC_CLBOTTOMENABLE),
@@ -33,16 +32,16 @@ COptionsDlg::COptionsDlg() :
     chkStartHidden(this, IDC_CLSTATETRAY),
     chkStartNormal(this, IDC_CLSTATEOPENED)
 {
-    CreateLink(chkPositionTop, spOptions.setTopPosition);
-    CreateLink(chkPositionBottom, spOptions.setBottomPosition);
-    CreateLink(chkPositionSide, spOptions.setSidePosition);
-    CreateLink(chkWidth, spOptions.setClistWidth);
-    CreateLink(chkStartState, spOptions.setClistStartState);
+    CreateLink(chkPositionTop, m_plugin->spOptions.setTopPosition);
+    CreateLink(chkPositionBottom, m_plugin->spOptions.setBottomPosition);
+    CreateLink(chkPositionSide, m_plugin->spOptions.setSidePosition);
+    CreateLink(chkWidth, m_plugin->spOptions.setClistWidth);
+    CreateLink(chkStartState, m_plugin->spOptions.setClistStartState);
 
-    CreateLink(edtPositionTop, spOptions.pixelsFromTop);
-    CreateLink(edtPositionBottom, spOptions.pixelsFromBottom);
-    CreateLink(edtPositionSide, spOptions.pixelsFromSide);
-    CreateLink(edtWidth, spOptions.clistWidth);
+    CreateLink(edtPositionTop, m_plugin->spOptions.pixelsFromTop);
+    CreateLink(edtPositionBottom, m_plugin->spOptions.pixelsFromBottom);
+    CreateLink(edtPositionSide, m_plugin->spOptions.pixelsFromSide);
+    CreateLink(edtWidth, m_plugin->spOptions.clistWidth);
 
     chkPositionTop.OnChange = Callback(this, &COptionsDlg::onCheck_PositionTop);
     chkPositionBottom.OnChange = Callback(this, &COptionsDlg::onCheck_PositionBottom);
@@ -53,7 +52,7 @@ COptionsDlg::COptionsDlg() :
 
 void COptionsDlg::OnInitDialog()
 {
-    if (spOptions.clistState == ClistState::normal)
+    if (m_plugin->spOptions.clistState == ClistState::normal)
         chkStartNormal.SetState(true);
     else
         chkStartHidden.SetState(true);
@@ -61,7 +60,7 @@ void COptionsDlg::OnInitDialog()
     chkStartHidden.Enable(chkStartState.GetState());
     chkStartNormal.Enable(chkStartState.GetState());
 
-    if (spOptions.clistAlign == ClistAlign::right)
+    if (m_plugin->spOptions.clistAlign == ClistAlign::right)
         chkFromRight.SetState(true);
     else
         chkFromLeft.SetState(true);
@@ -80,23 +79,20 @@ void COptionsDlg::OnApply()
     removeOldSettings();
 
     if (chkStartNormal.GetState())
-        spOptions.clistState = ClistState::normal;
+        m_plugin->spOptions.clistState = ClistState::normal;
     else
-        spOptions.clistState = ClistState::hidden;
+        m_plugin->spOptions.clistState = ClistState::hidden;
 
     if (chkFromRight.GetState())
-        spOptions.clistAlign = ClistAlign::right;
+        m_plugin->spOptions.clistAlign = ClistAlign::right;
     else
-        spOptions.clistAlign = ClistAlign::left;
+        m_plugin->spOptions.clistAlign = ClistAlign::left;
 }
 
 void COptionsDlg::removeOldSettings()
 {
-    if (db_get_b(0, MODULE_NAME, "CLEnableTop", dbERROR) == dbERROR)
-    {
-        db_unset(0, MODULE_NAME, "CLEnable");
-        db_unset(0, MODULE_NAME, "CLuseLastWidth");
-    }
+    m_plugin->delSetting("CLEnable");
+    m_plugin->delSetting("CLuseLastWidth");
 }
 
 void COptionsDlg::onCheck_PositionTop(CCtrlCheck*)
@@ -125,16 +121,4 @@ void COptionsDlg::onCheck_StartState(CCtrlCheck*)
 {
     chkStartHidden.Enable(chkStartState.GetState());
     chkStartNormal.Enable(chkStartState.GetState());
-}
-
-int OptInitialise(WPARAM wParam, LPARAM)
-{
-    OPTIONSDIALOGPAGE odp = {};
-    odp.hInstance = g_hInst;
-    odp.szGroup.a = LPGEN("Contact list");
-    odp.szTitle.a = LPGEN("Start position");
-    odp.pDialog = new COptionsDlg;
-    odp.flags = ODPF_BOLDGROUPS;
-    Options_AddPage(wParam, &odp);
-    return 0;
 }
