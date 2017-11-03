@@ -212,10 +212,8 @@ static int OptionsInitialize(WPARAM wParam, LPARAM)
 
 static INT_PTR NoSoundMenuCommand(WPARAM, LPARAM)
 {
-	if (db_get_b(NULL, "Skin", "UseSound", 1))
-		db_set_b(NULL, "Skin", "UseSound", 0);
-	//	else
-	//		db_set_b(NULL,"Skin","UseSound",1);
+	bool useSound = db_get_b(0, "Skin", "UseSound", true);
+	db_set_b(0, "Skin", "UseSound", !useSound);
 
 	return 0;
 }
