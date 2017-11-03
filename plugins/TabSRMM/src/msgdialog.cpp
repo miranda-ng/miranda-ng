@@ -3001,13 +3001,17 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case WM_CLOSE:
-		// esc handles error controls if we are in error state (error controls visible)
-		if (wParam == 0 && lParam == 0 && m_dwFlags & MWF_ERRORSTATE) {
-			DM_ErrorDetected(MSGERROR_CANCEL, 0);
-			return TRUE;
-		}
-
+		// usual close, not forced
 		if (wParam == 0 && lParam == 0) {
+			// esc handles error controls if we are in error state (error controls visible)
+			if (m_dwFlags & MWF_ERRORSTATE) {
+				DM_ErrorDetected(MSGERROR_CANCEL, 0);
+				return TRUE;
+			}
+			
+			if (GetCapture() != nullptr)
+				return TRUE;
+
 			if (PluginConfig.m_EscapeCloses == 1) {
 				SendMessage(m_pContainer->m_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 				return TRUE;

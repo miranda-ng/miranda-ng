@@ -2309,6 +2309,9 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CLOSE:
 		if (wParam == 0 && lParam == 0) {
+			if (GetCapture() != nullptr)
+				return TRUE;
+
 			if (PluginConfig.m_EscapeCloses == 1) {
 				SendMessage(m_pContainer->m_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 				return TRUE;
