@@ -1,9 +1,6 @@
 /*
 A small Miranda plugin, by bidyut, updated by Maat.
-
-Original plugin idea Anders Nilsson.
-His plugin NoSound can be found at:
-http://anders.nilsson.net/programs/miranda
+Original plugin idea (NoSound) by Anders Nilsson.
 
 Miranda can be found here:
 https://miranda-ng.org/
@@ -12,8 +9,6 @@ https://miranda-ng.org/
 #include "stdafx.h"
 
 HINSTANCE hInst;
-
-static HANDLE hEventSoundSettingChange, hEventStatusModeChange, hEventOptionsInitialize, hAckEvent;
 HGENMENU noSoundMenu;
 int hLangpack;
 
@@ -200,7 +195,7 @@ static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM, LPARA
 	}
 	return FALSE;
 }
-//Called when the user opened the options dialog
+
 static int OptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
@@ -229,7 +224,6 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	//The menu item - begin
 	if (!db_get_b(NULL, MODNAME, "HideMenu", 1)) {
 		CreateServiceFunction(MODNAME "/MenuCommand", NoSoundMenuCommand);
 
@@ -242,20 +236,15 @@ extern "C" __declspec(dllexport) int Load(void)
 		mi.pszService = MODNAME "/MenuCommand";
 		noSoundMenu = Menu_AddMainMenuItem(&mi);
 	}
-	//The menu item - end
 
-	//The hooks
-	hAckEvent = HookEvent(ME_PROTO_ACK, ProtoAck);
-	hEventSoundSettingChange = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SoundSettingChanged);
-	hEventOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
+	HookEvent(ME_PROTO_ACK, ProtoAck);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SoundSettingChanged);
+	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	UnhookEvent(hEventSoundSettingChange);
-	UnhookEvent(hEventOptionsInitialize);
-	UnhookEvent(hAckEvent);
 	return 0;
 }
