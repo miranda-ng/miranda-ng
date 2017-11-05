@@ -1,0 +1,6 @@
+file(GLOB SOURCES "src/*.h" "src/*.c" "src/WIN32-Code/*.c")
+set(TARGET libevent)
+include_directories("include" "src/compat")
+include(${CMAKE_SOURCE_DIR}/cmake/lib.cmake)
+set_target_properties(${TARGET} PROPERTIES COMPILE_DEFINITIONS "EVENT__NEED_DLLIMPORT")
+target_link_libraries(${TARGET} libeay32.lib ssleay32.lib)

@@ -1,0 +1,5 @@
+file(GLOB SOURCES "src/*.h" "src/*.cpp" "res/*.rc")
+set(TARGET Discord)
+include(${CMAKE_SOURCE_DIR}/cmake/plugin.cmake)
+target_link_libraries(${TARGET} Zlib libjson)
+add_subdirectory(proto_discord)

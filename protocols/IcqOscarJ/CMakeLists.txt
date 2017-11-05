@@ -1,0 +1,5 @@
+file(GLOB SOURCES "src/*.h" "src/*.cpp" "res/*.rc")
+set(TARGET ICQ)
+include(${CMAKE_SOURCE_DIR}/cmake/plugin.cmake)
+add_subdirectory(proto_icq)
+add_subdirectory(icq_xstatus)
