@@ -25,4 +25,10 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <DelayLoadDLLs>api-ms-win-crt-convert-l1-1-0.dll;api-ms-win-crt-runtime-l1-1-0.dll;api-ms-win-crt-string-l1-1-0.dll;mir_app.mir;mir_core.mir;VCRUNTIME140.dll</DelayLoadDLLs>
+      <ModuleDefinitionFile>src/assocmgr.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
 </Project>

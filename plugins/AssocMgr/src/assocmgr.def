@@ -1,0 +1,4 @@
+LIBRARY AssocMgr.dll
+
+EXPORTS
+WaitForDDE    @1

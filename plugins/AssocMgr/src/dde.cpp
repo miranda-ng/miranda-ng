@@ -182,39 +182,31 @@ static HANDLE StartupMainProcess(wchar_t *pszDatabasePath)
 	return pi.hProcess;
 }
 
-#ifdef __cplusplus
-extern "C" {
-#endif 
+// entry point for RunDll32, this is also WaitForDDEW
+EXTERN_C __declspec(dllexport) void CALLBACK WaitForDDE(HWND, HINSTANCE, wchar_t *pszCmdLine, int)
+{
+	HANDLE pHandles[2];
+	DWORD dwTick;
 
-	// entry point for RunDll32, this is also WaitForDDEW
-	__declspec(dllexport) void CALLBACK WaitForDDE(HWND, HINSTANCE, wchar_t *pszCmdLine, int)
-	{
-		HANDLE pHandles[2];
-		DWORD dwTick;
-
-		/* wait for dde window to be available (avoiding race condition) */
-		pHandles[0] = CreateEvent(NULL, TRUE, FALSE, WNDCLASS_DDEMSGWINDOW);
-		if (pHandles[0] != NULL) {
-			pHandles[1] = StartupMainProcess(pszCmdLine); /* obeys nCmdShow using GetStartupInfo() */
-			if (pHandles[1] != NULL) {
-				dwTick = GetTickCount();
-				/* either process terminated or dde window created */
-				if (WaitForMultipleObjects(_countof(pHandles), pHandles, FALSE, DDEMESSAGETIMEOUT) == WAIT_OBJECT_0) {
-					dwTick = GetTickCount() - dwTick;
-					if (dwTick < DDEMESSAGETIMEOUT)
-						WaitForInputIdle(pHandles[1], DDEMESSAGETIMEOUT - dwTick);
-				}
-				CloseHandle(pHandles[1]);
+	/* wait for dde window to be available (avoiding race condition) */
+	pHandles[0] = CreateEvent(NULL, TRUE, FALSE, WNDCLASS_DDEMSGWINDOW);
+	if (pHandles[0] != NULL) {
+		pHandles[1] = StartupMainProcess(pszCmdLine); /* obeys nCmdShow using GetStartupInfo() */
+		if (pHandles[1] != NULL) {
+			dwTick = GetTickCount();
+			/* either process terminated or dde window created */
+			if (WaitForMultipleObjects(_countof(pHandles), pHandles, FALSE, DDEMESSAGETIMEOUT) == WAIT_OBJECT_0) {
+				dwTick = GetTickCount() - dwTick;
+				if (dwTick < DDEMESSAGETIMEOUT)
+					WaitForInputIdle(pHandles[1], DDEMESSAGETIMEOUT - dwTick);
 			}
-			CloseHandle(pHandles[0]);
+			CloseHandle(pHandles[1]);
 		}
-		/* shell called WaitForInputIdle() on us to detect when dde is ready,
-		 * we are ready now: exit helper process */
+		CloseHandle(pHandles[0]);
 	}
-
-#ifdef __cplusplus
+	/* shell called WaitForInputIdle() on us to detect when dde is ready,
+		* we are ready now: exit helper process */
 }
-#endif
 
 /************************* Misc ***********************************/
 

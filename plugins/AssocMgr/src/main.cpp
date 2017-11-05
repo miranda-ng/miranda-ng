@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+#pragma comment(lib, "delayimp.lib")
+
 HINSTANCE hInst;
 static HANDLE hHookModulesLoaded;
 int hLangpack;
@@ -38,6 +40,25 @@ PLUGININFOEX pluginInfo = {
 	// {52685CD7-0EC7-44c1-A1A6-381612418202}
 	{0x52685cd7, 0xec7, 0x44c1, {0xa1, 0xa6, 0x38, 0x16, 0x12, 0x41, 0x82, 0x2}}
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// if we run here, we're running from the command prompt
+
+static bool bPathSet = false;
+
+FARPROC WINAPI myDliHook(unsigned dliNotify, PDelayLoadInfo)
+{
+	if (dliNotify == dliNotePreLoadLibrary && !bPathSet) {
+		bPathSet = true;
+		SetCurrentDirectoryW(L"Libs");
+		LoadLibraryW(L"ucrtbase.dll");
+	}
+	return NULL;
+}
+
+PfnDliHook  __pfnDliNotifyHook2 = &myDliHook;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
