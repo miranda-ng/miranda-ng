@@ -42,7 +42,7 @@ var trunk=FSO.GetFolder(FSO.GetParentFolderName(FSO.GetParentFolderName(scriptpa
 //text string for make path output into templates.
 var trunkPath=new String(trunk);
 //path to sln file
-var slnfile=trunk+"\\bin10\\mir_full.sln"
+var slnfile=trunk+"\\bin15\\mir_full.sln"
 //core path
 var core=FSO.BuildPath(trunk,"src");
 //langpack folder "\langpacks\english\" in trunk folder
