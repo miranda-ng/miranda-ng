@@ -1616,7 +1616,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 			ComboBox_AddString(comboType, TranslateT("Delete"));
 			ComboBox_AddString(comboType, TranslateT("Export and Delete"));
 			ComboBox_AddString(comboType, TranslateT("Import"));
-			ComboBox_AddString(comboType, TranslateT("Import and Marge"));
+			ComboBox_AddString(comboType, TranslateT("Import and Merge"));
 			ComboBox_SetCurSel(comboType, to->type);
 
 			Edit_LimitText(GetDlgItem(hwndDlg, IDC_EVENT_TIME), 6);
