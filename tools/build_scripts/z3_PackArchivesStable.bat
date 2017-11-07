@@ -47,7 +47,6 @@ Tools\wget.exe -O tmp\MNG_Sounds.7z https://miranda-ng.org/distr/addons/Sounds/M
 popd
 rem end
 
-copy /V /Y ..\..\redist\x%tp%\"%comp%"\*.dll %StableInstDir%\InnoNG_%tp%\Files
 copy /V /Y Languages\langpack_czech.txt %StableInstDir%\InnoNG_%tp%\Files\Languages
 copy /V /Y Languages\langpack_german.txt %StableInstDir%\InnoNG_%tp%\Files\Languages
 copy /V /Y Languages\langpack_polish.txt %StableInstDir%\InnoNG_%tp%\Files\Languages

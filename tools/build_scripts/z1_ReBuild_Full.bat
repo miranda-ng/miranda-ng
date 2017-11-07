@@ -89,7 +89,7 @@ copy /V /Y ..\plugins\RemovePersonalSettings\docs\RemovePersonalSettings.ini "Re
 if /i '%tp%' == '32' (
   md "Release32\Plugins\Importtxt"
   copy /V /Y ..\plugins\ImportTXT\importtxt\*.ini "Release32\Plugins\Importtxt\"
-  copy /V /Y ..\redist\pcre3.dll "Release32\Libs"
+  copy /V /Y %SourceDir%\tools\build_scripts\redist\pcre3.dll "Release32\Libs"
 )
 
 rem xcopy /S /V /Y "..\delphi\%tp%" "Release%tp%"
@@ -109,8 +109,8 @@ call :checksum Plugins dll
 call :checksum Icons dll
 
 copy /V /Y ..\..\docs\mirandaboot.ini
-copy /V /Y ..\..\redist\x%tp%\DbChecker.bat
-copy /V /Y ..\..\redist\x%tp%\bass\*.dll "Plugins\BASS"
+copy /V /Y %SourceDir%\tools\build_scripts\redist\x%tp%\DbChecker.bat
+copy /V /Y %SourceDir%\tools\build_scripts\redist\x%tp%\bass\*.dll "Plugins\BASS"
 
 popd
 exit
