@@ -28,15 +28,7 @@ pushd ..\build
 call make_ver.bat
 popd
 
-if "%comp%" == "bin10" (
-   start /min /wait z1_ReBuild_w810.bat %tp%
-)
-
-if "%comp%"=="bin10" (
-   call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat"
-) else if "%comp%"=="bin12" (
-   call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat"
-) else if "%comp%"=="bin15" (
+if "%comp%"=="bin15" (
    call "%VS141COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvars%tp%.bat"
 )
 

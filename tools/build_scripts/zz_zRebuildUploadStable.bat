@@ -2,7 +2,7 @@
 echo WARNING!!! You are about to compile and upload STABLE versions of Miranda NG! Are you absolutely sure?!
 pause
 
-set comp=bin10
+set comp=bin15
 
 for /F "tokens=1,2,3 delims= " %%i in (build/build.no.stable) do set Branch=%%i_%%j_%%k
 
