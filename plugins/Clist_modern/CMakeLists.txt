@@ -1,4 +1,5 @@
 file(GLOB SOURCES "src/*.h" "src/*.cpp" "res/*.rc")
 set(TARGET Clist_modern)
 include(${CMAKE_SOURCE_DIR}/cmake/plugin.cmake)
+target_link_libraries(${TARGET} comctl32.lib UxTheme.lib)
 add_subdirectory(icons_pack)
