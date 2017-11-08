@@ -540,7 +540,7 @@ DWORD_PTR __cdecl CJabberProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAG_MAXCONTACTSPERPACKET:
 		wchar_t szClientJid[JABBER_MAX_JID_LEN];
 		if (GetClientJID(hContact, szClientJid, _countof(szClientJid))) {
-			JabberCapsBits jcb = GetResourceCapabilites(szClientJid, true);
+			JabberCapsBits jcb = GetResourceCapabilities(szClientJid);
 			return ((~jcb & JABBER_CAPS_ROSTER_EXCHANGE) ? 0 : 50);
 		}
 	}
@@ -598,7 +598,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 					mir_snwprintf(tmp, L"%s/%s", szBareJid, r->m_tszResourceName);
 
 					if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO) {
-						XmlNodeIq iq5(AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
+						XmlNodeIq iq5(AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT, -1, r));
 						iq5 << XQUERY(JABBER_FEAT_DISCO_INFO);
 						m_ThreadInfo->send(iq5);
 					}
@@ -768,7 +768,7 @@ int __cdecl CJabberProto::SendContacts(MCONTACT hContact, int, int nContacts, MC
 	if (!GetClientJID(hContact, szClientJid, _countof(szClientJid)))
 		return 0;
 
-	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, true);
+	JabberCapsBits jcb = GetResourceCapabilities(szClientJid);
 	if (~jcb & JABBER_CAPS_ROSTER_EXCHANGE)
 		return 0;
 
@@ -809,10 +809,10 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescri
 	if (item->ft != nullptr)
 		return 0;
 
-	JabberCapsBits jcb = GetResourceCapabilites(item->jid, true);
+	JabberCapsBits jcb = GetResourceCapabilities(item->jid);
 	if (jcb == JABBER_RESOURCE_CAPS_IN_PROGRESS) {
 		Sleep(600);
-		jcb = GetResourceCapabilites(item->jid, true);
+		jcb = GetResourceCapabilities(item->jid);
 	}
 
 	// fix for very smart clients, like gajim
@@ -972,7 +972,7 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const c
 	if (r)
 		r->m_bMessageSessionActive = true;
 
-	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, true);
+	JabberCapsBits jcb = GetResourceCapabilities(szClientJid);
 
 	if (jcb & JABBER_RESOURCE_CAPS_ERROR)
 		jcb = JABBER_RESOURCE_CAPS_NONE;
@@ -1226,7 +1226,7 @@ int __cdecl CJabberProto::UserIsTyping(MCONTACT hContact, int type)
 	if (item == nullptr)
 		return 0;
 
-	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, true);
+	JabberCapsBits jcb = GetResourceCapabilities(szClientJid);
 	if (jcb & JABBER_RESOURCE_CAPS_ERROR)
 		jcb = JABBER_RESOURCE_CAPS_NONE;
 

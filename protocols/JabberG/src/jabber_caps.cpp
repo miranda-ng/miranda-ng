@@ -119,7 +119,7 @@ void CJabberProto::AddDefaultCaps()
 
 void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
 {
-	pResourceStatus r(ResourceInfoFromJID(pInfo->GetFrom()));
+	pResourceStatus r((JABBER_RESOURCE_STATUS*)pInfo->GetUserData());
 
 	HXML query = pInfo->GetChildNode();
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT && query) {
@@ -196,7 +196,7 @@ void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
 	}
 }
 
-JabberCapsBits CJabberProto::GetTotalJidCapabilites(const wchar_t *jid)
+JabberCapsBits CJabberProto::GetTotalJidCapabilities(const wchar_t *jid)
 {
 	if (jid == nullptr)
 		return JABBER_RESOURCE_CAPS_NONE;
@@ -212,7 +212,8 @@ JabberCapsBits CJabberProto::GetTotalJidCapabilites(const wchar_t *jid)
 
 	// get bare jid info only if where is no resources
 	if (!item || (item && !item->arResources.getCount())) {
-		jcbToReturn = GetResourceCapabilites(szBareJid, false);
+		pResourceStatus r(ResourceInfoFromJID(szBareJid));
+		jcbToReturn = GetResourceCapabilities(szBareJid, r);
 		if (jcbToReturn & JABBER_RESOURCE_CAPS_ERROR)
 			jcbToReturn = JABBER_RESOURCE_CAPS_NONE;
 	}
@@ -221,7 +222,8 @@ JabberCapsBits CJabberProto::GetTotalJidCapabilites(const wchar_t *jid)
 		for (int i = 0; i < item->arResources.getCount(); i++) {
 			wchar_t szFullJid[JABBER_MAX_JID_LEN];
 			mir_snwprintf(szFullJid, L"%s/%s", szBareJid, item->arResources[i]->m_tszResourceName);
-			JabberCapsBits jcb = GetResourceCapabilites(szFullJid, false);
+			pResourceStatus r(item->arResources[i]);
+			JabberCapsBits jcb = GetResourceCapabilities(szFullJid, r);
 			if (!(jcb & JABBER_RESOURCE_CAPS_ERROR))
 				jcbToReturn |= jcb;
 		}
@@ -229,15 +231,17 @@ JabberCapsBits CJabberProto::GetTotalJidCapabilites(const wchar_t *jid)
 	return jcbToReturn;
 }
 
-JabberCapsBits CJabberProto::GetResourceCapabilites(const wchar_t *jid, bool appendBestResource)
+JabberCapsBits CJabberProto::GetResourceCapabilities(const wchar_t *jid)
 {
 	wchar_t fullJid[JABBER_MAX_JID_LEN];
-	if (appendBestResource)
-		GetClientJID(jid, fullJid, _countof(fullJid));
-	else
-		wcsncpy_s(fullJid, jid, _TRUNCATE);
+	GetClientJID(jid, fullJid, _countof(fullJid));
 
 	pResourceStatus r(ResourceInfoFromJID(fullJid));
+	return GetResourceCapabilities(fullJid, r);
+}
+
+JabberCapsBits CJabberProto::GetResourceCapabilities(const wchar_t *jid, pResourceStatus &r)
+{
 	if (r == nullptr)
 		return JABBER_RESOURCE_CAPS_ERROR;
 
@@ -253,7 +257,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const wchar_t *jid, bool app
 
 		if (jcbMainCaps == JABBER_RESOURCE_CAPS_UNINIT) {
 			// send disco#info query
-			CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE);
+			CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE, -1, r);
 			pInfo->SetTimeout(JABBER_RESOURCE_CAPS_QUERY_TIMEOUT);
 			pCaps->SetCaps(JABBER_RESOURCE_CAPS_IN_PROGRESS, pInfo->GetIqId());
 			r->m_dwDiscoInfoRequestTime = pInfo->GetRequestTime();
@@ -299,7 +303,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const wchar_t *jid, bool app
 		return r->m_jcbCachedCaps;
 
 	case 0:
-		RequestOldCapsInfo(r, fullJid);
+		RequestOldCapsInfo(r, jid);
 		break;
 	}
 	return JABBER_RESOURCE_CAPS_IN_PROGRESS;
@@ -307,7 +311,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const wchar_t *jid, bool app
 
 void CJabberProto::RequestOldCapsInfo(pResourceStatus &r, const wchar_t *fullJid)
 {
-	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE);
+	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE, -1, r);
 	pInfo->SetTimeout(JABBER_RESOURCE_CAPS_QUERY_TIMEOUT);
 	r->m_dwDiscoInfoRequestTime = pInfo->GetRequestTime();
 
@@ -546,7 +550,7 @@ CJabberClientPartialCaps* CJabberClientCapsManager::SetClientCaps(const wchar_t 
 	
 	CJabberClientPartialCaps *res = pClient->SetPartialCaps(szHash, szVer, jcbCaps, nIqId);
 	lck.unlock();
-	ppro->debugLogW(L"CAPS: set caps %I64x for: %s, %s", jcbCaps, szNode, szVer);
+	ppro->debugLogW(L"CAPS: set caps %I64x for: %s#%s => [%s]", jcbCaps, szHash, szNode, szVer);
 	return res;
 }
 

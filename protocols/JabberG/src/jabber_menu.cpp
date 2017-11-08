@@ -410,7 +410,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	if (jid == nullptr)
 		return 0;
 
-	JabberCapsBits jcb = GetTotalJidCapabilites(jid);
+	JabberCapsBits jcb = GetTotalJidCapabilities(jid);
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
 	if (item == nullptr)
 		return 0;
@@ -971,7 +971,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 			if (r && r->m_bMessageSessionActive) {
 				r->m_bMessageSessionActive = FALSE;
 
-				if (GetResourceCapabilites(jid, true) & JABBER_CAPS_CHATSTATES)
+				if (GetResourceCapabilities(jid) & JABBER_CAPS_CHATSTATES)
 					m_ThreadInfo->send(XmlNode(L"message") << XATTR(L"to", jid) << XATTR(L"type", L"chat") << XATTRID(SerialNext()) << XCHILDNS(L"gone", JABBER_FEAT_CHATSTATES));
 			}
 		}

@@ -318,7 +318,7 @@ int CJabberProto::RemoveFeatures(LPCTSTR szFeatures)
 
 LPTSTR CJabberProto::GetResourceFeatures(LPCTSTR jid)
 {
-	JabberCapsBits jcb = GetResourceCapabilites(jid, true);
+	JabberCapsBits jcb = GetResourceCapabilities(jid);
 	if (jcb & JABBER_RESOURCE_CAPS_ERROR)
 		return nullptr;
 

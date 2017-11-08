@@ -314,8 +314,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void  RequestOldCapsInfo(pResourceStatus &r, const wchar_t *fullJid);
 	void  GetCachedCaps(const wchar_t *szNode, const wchar_t *szVer, class pResourceStatus &r);
 
-	JabberCapsBits GetTotalJidCapabilites(const wchar_t *jid);
-	JabberCapsBits GetResourceCapabilites(const wchar_t *jid, bool appendBestResource);
+	JabberCapsBits GetTotalJidCapabilities(const wchar_t *jid);
+	JabberCapsBits GetResourceCapabilities(const wchar_t *jid);
+	JabberCapsBits GetResourceCapabilities(const wchar_t *jid, pResourceStatus &r);
 
 	//---- jabber_captcha.cpp ------------------------------------------------------------
 
@@ -329,10 +330,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus &user, TJabberGcLogInfoType type);
 	void   GcQuit(JABBER_LIST_ITEM* jid, int code, HXML reason);
 
-	void   FilterList(HWND hwndList);
-	void   ResetListOptions(HWND hwndList);
-	void   InviteUser(wchar_t *room, wchar_t *pUser, wchar_t *text);
-
 	void   AdminSet(const wchar_t *to, const wchar_t *ns, const wchar_t *szItem, const wchar_t *itemVal, const wchar_t *var, const wchar_t *varVal);
 	void   AdminGet(const wchar_t *to, const wchar_t *ns, const wchar_t *var, const wchar_t *varVal, JABBER_IQ_HANDLER foo);
 	void   AdminSetReason(const wchar_t *to, const wchar_t *ns, const wchar_t *szItem, const wchar_t *itemVal, const wchar_t *var, const wchar_t *varVal, const wchar_t *rsn);
@@ -341,6 +338,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   DeleteMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const wchar_t* jid);
 
 	//---- jabber_omemo.cpp --------------------------------------------------------------
+	
 	void OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime);
 	void OmemoPutMessageToOutgoingQueue(MCONTACT hContact, int, const char* pszSrc);
 	void OmemoPutMessageToIncommingQueue(HXML node, LPCTSTR jid, time_t msgTime);
@@ -379,7 +377,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnIqResultServiceDiscoveryInfo(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultServiceDiscoveryItems(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultServiceDiscoveryRootInfo(HXML iqNode, CJabberIqInfo *pInfo);
-	void   OnIqResultServiceDiscoveryRoot(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultServiceDiscoveryRootItems(HXML iqNode, CJabberIqInfo *pInfo);
 	BOOL   SendInfoRequest(CJabberSDNode *pNode, HXML parent);
 	BOOL   SendBothRequests(CJabberSDNode *pNode, HXML parent);
@@ -389,8 +386,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	BOOL   SyncTree(HTREELISTITEM hIndex, CJabberSDNode *pNode);
 	void   ServiceDiscoveryShowMenu(CJabberSDNode *node, HTREELISTITEM hItem, POINT pt);
 
-	int    SetupServiceDiscoveryDlg(wchar_t* jid);
-
 	void   OnIqResultCapsDiscoInfo(HXML iqNode, CJabberIqInfo *pInfo);
 
 	void   RegisterAgent(HWND hwndDlg, wchar_t* jid);
@@ -399,8 +394,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	int    FileReceiveParse(filetransfer *ft, char* buffer, int datalen);
 	int    FileSendParse(HNETLIBCONN s, filetransfer *ft, char* buffer, int datalen);
-
-	void   UpdateChatUserStatus(wchar_t* chat_jid, wchar_t* jid, wchar_t* nick, int role, int affil, int status, BOOL update_nick);
 
 	void   GroupchatJoinRoomByJid(HWND hwndParent, wchar_t *jid);
 

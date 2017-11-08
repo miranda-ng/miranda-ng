@@ -1256,7 +1256,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 		else if (!mir_wstrcmp(ptszXmlns, JABBER_FEAT_MESSAGE_EVENTS)) {
 
 			// set events support only if we discovered caps and if events not already set
-			JabberCapsBits jcbCaps = GetResourceCapabilites(from, true);
+			JabberCapsBits jcbCaps = GetResourceCapabilities(from);
 			if (jcbCaps & JABBER_RESOURCE_CAPS_ERROR)
 				jcbCaps = JABBER_RESOURCE_CAPS_NONE;
 			// FIXME: disabled due to expired XEP-0022 and problems with bombus delivery checks
@@ -1473,7 +1473,7 @@ void CJabberProto::OnProcessPresenceCapabilites(HXML node, pResourceStatus &r)
 
 		if (r->m_pCaps == nullptr) {
 			r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szVer, L"", JABBER_RESOURCE_CAPS_UNINIT);
-			GetResourceCapabilites(from, false);
+			GetResourceCapabilities(from, r);
 		}
 	}
 

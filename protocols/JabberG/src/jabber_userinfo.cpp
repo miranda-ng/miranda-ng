@@ -275,7 +275,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 
 	// caps
 	mir_snwprintf(buf, L"%s/%s", item->jid, r->m_tszResourceName);
-	JabberCapsBits jcb = ppro->GetResourceCapabilites(buf, TRUE);
+	JabberCapsBits jcb = ppro->GetResourceCapabilities(buf, r);
 
 	if (!(jcb & JABBER_RESOURCE_CAPS_ERROR)) {
 		HTREEITEM htiCaps = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), nullptr, TranslateT("Client capabilities"), sttInfoLineId(resource, INFOLINE_CAPS));
