@@ -144,7 +144,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				ske_RedrawCompleteWindow();
 				Sync(CLUIFrames_OnClistResize_mod, 0, 0);
 
-				RECT rc = { 0 };
+				RECT rc = {};
 				GetWindowRect(pcli->hwndContactList, &rc);
 				Sync(CLUIFrames_OnMoving, pcli->hwndContactList, &rc);
 
@@ -170,7 +170,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		if (wParam == IDC_PREVIEW) {
 			// TODO:Draw hPreviewBitmap here
 			HBRUSH hbr = CreateSolidBrush(GetSysColor(COLOR_3DFACE));
-			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
+			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT*)lParam;
 			int mWidth = dis->rcItem.right - dis->rcItem.left;
 			int mHeight = dis->rcItem.bottom - dis->rcItem.top;
 			HDC memDC = CreateCompatibleDC(dis->hDC);
@@ -182,8 +182,8 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			DeleteObject(hbr);
 			if (hPreviewBitmap) {
 				// variables
-				BITMAP bmp = { 0 };
-				GetObject(hPreviewBitmap, sizeof(BITMAP), &bmp);
+				BITMAP bmp = {};
+				GetObject(hPreviewBitmap, sizeof(bmp), &bmp);
 
 				// GetSize
 				float xScale = 1, yScale = 1;
@@ -225,7 +225,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			break;
 
 		case IDC_TREE1:
-			NMTREEVIEW *nmtv = (NMTREEVIEW *)lParam;
+			NMTREEVIEW *nmtv = (NMTREEVIEW*)lParam;
 			if (nmtv == nullptr)
 				return 0;
 
@@ -253,7 +253,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					EnableWindow(GetDlgItem(hwndDlg, IDC_BUTTON_INFO), TRUE);
 					if (hPreviewBitmap)
 						InvalidateRect(GetDlgItem(hwndDlg, IDC_PREVIEW), nullptr, TRUE);
-					else { //prepare text
+					else { // prepare text
 						HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_TREE1));
 						if (hti == 0)
 							return 0;
@@ -309,63 +309,60 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	return 0;
 }
 
-int SearchSkinFiles(HWND hwndDlg, wchar_t * Folder)
+int SearchSkinFiles(HWND hwndDlg, wchar_t *Folder)
 {
-	struct _wfinddata_t fd = { 0 };
 	wchar_t mask[MAX_PATH];
-	long hFile;
 	mir_snwprintf(mask, L"%s\\*.msf", Folder);
-	//fd.attrib = _A_SUBDIR;
-	hFile = _wfindfirst(mask, &fd);
+
+	struct _wfinddata_t fd = {};
+	intptr_t hFile = _wfindfirst(mask, &fd);
 	if (hFile != -1) {
 		do {
 			AddSkinToList(hwndDlg, Folder, fd.name);
 		} while (!_wfindnext(hFile, &fd));
 		_findclose(hFile);
 	}
+
 	mir_snwprintf(mask, L"%s\\*", Folder);
 	hFile = _wfindfirst(mask, &fd);
 
 	do {
-		if (fd.attrib&_A_SUBDIR && !(mir_wstrcmpi(fd.name, L".") == 0 || mir_wstrcmpi(fd.name, L"..") == 0)) {//Next level of subfolders
+		if (fd.attrib & _A_SUBDIR && !(mir_wstrcmpi(fd.name, L".") == 0 || mir_wstrcmpi(fd.name, L"..") == 0)) { //Next level of subfolders
 			wchar_t path[MAX_PATH];
 			mir_snwprintf(path, L"%s\\%s", Folder, fd.name);
 			SearchSkinFiles(hwndDlg, path);
 		}
 	} while (!_wfindnext(hFile, &fd));
+	
 	_findclose(hFile);
-
 	return 0;
 }
 
 HTREEITEM FillAvailableSkinList(HWND hwndDlg)
 {
-	//long hFile;
-	HTREEITEM res = (HTREEITEM)-1;
-	int attrib;
-
 	TreeView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_TREE1));
 	AddSkinToList(hwndDlg, TranslateT("Default Skin"), L"%Default Skin%");
-	attrib = GetFileAttributes(SkinsFolder);
+	int attrib = GetFileAttributes(SkinsFolder);
 	if (attrib != INVALID_FILE_ATTRIBUTES && (attrib & FILE_ATTRIBUTE_DIRECTORY))
 		SearchSkinFiles(hwndDlg, SkinsFolder);
-	{
-		wchar_t skinfull[MAX_PATH];
-		ptrW skinfile(db_get_wsa(0, SKIN, "SkinFile"));
-		if (skinfile) {
-			PathToAbsoluteW(skinfile, skinfull);
-			res = AddSkinToListFullName(hwndDlg, skinfull);
-		}
+
+	HTREEITEM res = (HTREEITEM)-1;
+	wchar_t skinfull[MAX_PATH];
+	ptrW skinfile(db_get_wsa(0, SKIN, "SkinFile"));
+	if (skinfile) {
+		PathToAbsoluteW(skinfile, skinfull);
+		res = AddSkinToListFullName(hwndDlg, skinfull);
 	}
+
 	return res;
 }
-HTREEITEM AddSkinToListFullName(HWND hwndDlg, wchar_t * fullName)
+
+HTREEITEM AddSkinToListFullName(HWND hwndDlg, wchar_t *fullName)
 {
-	wchar_t path[MAX_PATH] = { 0 };
-	wchar_t file[MAX_PATH] = { 0 };
-	wchar_t *buf;
+	wchar_t path[MAX_PATH] = {}, file[MAX_PATH] = {};
 	mir_wstrncpy(path, fullName, _countof(path));
-	buf = path + mir_wstrlen(path);
+	
+	wchar_t *buf = path + mir_wstrlen(path);
 	while (buf > path) {
 		if (*buf == '\\') {
 			*buf = '\0';
@@ -378,11 +375,10 @@ HTREEITEM AddSkinToListFullName(HWND hwndDlg, wchar_t * fullName)
 	return AddSkinToList(hwndDlg, path, file);
 }
 
-
-HTREEITEM AddSkinToList(HWND hwndDlg, wchar_t * path, wchar_t* file)
+HTREEITEM AddSkinToList(HWND hwndDlg, wchar_t *path, wchar_t *file)
 {
 	wchar_t fullName[MAX_PATH], defskinname[MAX_PATH];
-	SkinListData *sd = (SkinListData *)mir_alloc(sizeof(SkinListData));
+	SkinListData *sd = (SkinListData*)mir_alloc(sizeof(SkinListData));
 	if (!sd)
 		return 0;
 
@@ -401,7 +397,7 @@ HTREEITEM AddSkinToList(HWND hwndDlg, wchar_t * path, wchar_t* file)
 	return AddItemToTree(GetDlgItem(hwndDlg, IDC_TREE1), sd->Name, sd);
 }
 
-HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, wchar_t * Caption, void * data)
+HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, wchar_t *Caption, void *data)
 {
 	HTREEITEM tmp = nullptr;
 	if (Parent)
@@ -438,7 +434,7 @@ HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, wchar_t * Caption, void * data
 HTREEITEM AddItemToTree(HWND hTree, wchar_t *itemName, void *data)
 {
 	HTREEITEM cItem = nullptr;
-	//Insert item node
+	// Insert item node
 	cItem = FindChild(hTree, 0, itemName, data);
 	if (!cItem) {
 		TVINSERTSTRUCT tvis = { 0 };
@@ -449,7 +445,7 @@ HTREEITEM AddItemToTree(HWND hTree, wchar_t *itemName, void *data)
 		return TreeView_InsertItem(hTree, &tvis);
 	}
 
-	mir_free(data); //need to free otherwise memory leak
+	mir_free(data); // need to free otherwise memory leak
 	return cItem;
 }
 
@@ -467,7 +463,7 @@ INT_PTR SvcActiveSkin(WPARAM, LPARAM)
 
 INT_PTR SvcApplySkin(WPARAM, LPARAM lParam)
 {
-	ske_LoadSkinFromIniFile((wchar_t *)lParam, FALSE);
+	ske_LoadSkinFromIniFile((wchar_t*)lParam, FALSE);
 	ske_LoadSkinFromDB();
 	Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 	Sync(CLUIFrames_OnClistResize_mod, 0, 0);
