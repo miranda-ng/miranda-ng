@@ -1835,9 +1835,10 @@ static int ske_enumdb_SkinObjectsProc(const char *szSetting, LPARAM)
 	return 0;
 }
 
-static int ske_SortTextGlyphObjectFunc(void * first, void * second)
+static int ske_SortTextGlyphObjectFunc(void *first, void *second)
 {
-	return mir_strcmp(((GLYPHTEXT*)(((int*)first)[0]))->szGlyphTextID, ((GLYPHTEXT*)(((int*)second)[0]))->szGlyphTextID);
+	GLYPHTEXT *p1 = *(GLYPHTEXT**)first, *p2 = *(GLYPHTEXT**)second;
+	return mir_strcmp(p1->szGlyphTextID, p2->szGlyphTextID);
 }
 
 static void ske_LinkSkinObjects(SKINOBJECTSLIST * pObjectList)
@@ -1866,7 +1867,7 @@ static void ske_LinkSkinObjects(SKINOBJECTSLIST * pObjectList)
 					globj->plTextList->sortFunc = ske_SortTextGlyphObjectFunc;
 				}
 				List_Insert(globj->plTextList, (void*)glText, globj->plTextList->realCount);
-				qsort(globj->plTextList->items, globj->plTextList->realCount, sizeof(void*), (int(*)(const void*, const void*))globj->plTextList->sortFunc);
+				qsort(globj->plTextList->items, globj->plTextList->realCount, sizeof(GLYPHTEXT*), (int(*)(const void*, const void*))globj->plTextList->sortFunc);
 				pObjectList->pTextList->items[i] = nullptr;
 			}
 			else {
