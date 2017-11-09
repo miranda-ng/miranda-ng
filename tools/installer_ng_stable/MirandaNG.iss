@@ -444,7 +444,7 @@ de.BlindClist=Kontaktliste für Blinde
 de.NicerClist=Nicer-Kontaktliste
 de.ModernClist=Moderne Kontaktliste
 de.MessageWin=Nachrichtensitzungen
-de.StdMsg=StdMsg-Plugin
+de.StdMsg=Standard-Nachrichtenplugin
 de.Scriver=Scriver-Nachrichtenplugin
 de.Tabsrmm=TabSRMM-Nachrichtenplugin
 de.Dbx_Mmap=Dbx_mmap-Datenbanktreiber
@@ -606,6 +606,9 @@ const
   DRIVE_REMOTE = 4;      // The drive is a remote (network) drive.
   DRIVE_CDROM = 5;       // The drive is a CD-ROM drive.
   DRIVE_RAMDISK = 6;     // The drive is a RAM disk.
+
+  // don't forget to increment it after adding new components!
+  COMPONENTS_COUNT = 20; // Index of the first language
 
 // Default installation check
 function IsDefault: Boolean;
@@ -876,15 +879,15 @@ begin
   if CurPageID = wpSelectComponents then
   begin
     if ActiveLanguage = 'en' then
-      WizardForm.ComponentsList.Checked[25]:= True
+      WizardForm.ComponentsList.Checked[COMPONENTS_COUNT+4]:= True
     else if ActiveLanguage = 'ru' then
-      WizardForm.ComponentsList.Checked[21]:= True
+      WizardForm.ComponentsList.Checked[COMPONENTS_COUNT+0]:= True
     else if ActiveLanguage = 'cz' then
-      WizardForm.ComponentsList.Checked[22]:= True
+      WizardForm.ComponentsList.Checked[COMPONENTS_COUNT+1]:= True
     else if ActiveLanguage = 'pl' then
-      WizardForm.ComponentsList.Checked[23]:= True
+      WizardForm.ComponentsList.Checked[COMPONENTS_COUNT+2]:= True
     else if ActiveLanguage = 'de' then
-      WizardForm.ComponentsList.Checked[24]:= True;
+      WizardForm.ComponentsList.Checked[COMPONENTS_COUNT+3]:= True;
   end;
 end;
 
