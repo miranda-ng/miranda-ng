@@ -289,7 +289,7 @@ void CTemplateEditDlg::onClick_Revert(CCtrlButton*)
 	selchanging = TRUE;
 	memcpy(tSet->szTemplates[inEdit], LTR_Default.szTemplates[inEdit], sizeof(wchar_t) * TEMPLATE_LENGTH);
 	SetDlgItemText(m_hwnd, IDC_EDITTEMPLATE, tSet->szTemplates[inEdit]);
-	db_unset(m_hContact, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[inEdit]);
+	db_unset(0, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[inEdit]);
 	SetFocus(GetDlgItem(m_hwnd, IDC_EDITTEMPLATE));
 	InvalidateRect(GetDlgItem(m_hwnd, IDC_TEMPLATELIST), nullptr, FALSE);
 	selchanging = FALSE;
@@ -312,7 +312,7 @@ void CTemplateEditDlg::onClick_Save(CCtrlButton*)
 	Utils::enableDlgControl(m_hwnd, IDC_TEMPLATELIST, TRUE);
 	Utils::enableDlgControl(m_hwnd, IDC_REVERT, FALSE);
 	InvalidateRect(GetDlgItem(m_hwnd, IDC_TEMPLATELIST), nullptr, FALSE);
-	db_set_ws(m_hContact, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[inEdit], newTemplate);
+	db_set_ws(0, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[inEdit], newTemplate);
 	SendDlgItemMessage(m_hwnd, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
 }
 
