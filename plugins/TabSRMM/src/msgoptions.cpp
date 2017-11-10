@@ -649,7 +649,7 @@ class COptLogDlg : public CDlgBase
 	CCtrlSpin   spnLeft, spnRight, spnLoadCount, spnLoadTime, spnTrim;
 	CCtrlCombo 	cmbLogDisplay;
 
-	int have_ieview, have_hpp;
+	bool have_ieview, have_hpp;
 
 	// configure the option page - hide most of the settings here when either IEView
 	// or H++ is set as the global message log viewer. Showing these options may confuse
@@ -661,9 +661,9 @@ class COptLogDlg : public CDlgBase
 		LRESULT r = cmbLogDisplay.GetCurSel();
 		Utils::showDlgControl(m_hwnd, IDC_EXPLAINMSGLOGSETTINGS, r == 0 ? SW_HIDE : SW_SHOW);
 		Utils::showDlgControl(m_hwnd, IDC_LOGOPTIONS, r == 0 ? SW_SHOW : SW_HIDE);
-		cmbLogDisplay.Enable(r != 0);
+
 		for (int i = 0; i < _countof(__ctrls); i++)
-			Utils::enableDlgControl(m_hwnd, __ctrls[i], r == 0 ? TRUE : FALSE);
+			Utils::enableDlgControl(m_hwnd, __ctrls[i], r == 0);
 	}
 
 public:
@@ -690,8 +690,8 @@ public:
 		chkAlwaysTrim.OnChange = Callback(this, &COptLogDlg::onChange_Trim);
 		chkLoadTime.OnChange = chkLoadCount.OnChange = chkLoadUnread.OnChange = Callback(this, &COptLogDlg::onChange_Load);
 
-		have_ieview = ServiceExists(MS_IEVIEW_WINDOW);
-		have_hpp = ServiceExists("History++/ExtGrid/NewWindow");
+		have_ieview = ServiceExists(MS_IEVIEW_WINDOW) != 0;
+		have_hpp = ServiceExists("History++/ExtGrid/NewWindow") != 0;
 	}
 
 	virtual void OnInitDialog() override
