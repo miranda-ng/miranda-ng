@@ -598,7 +598,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 					mir_snwprintf(tmp, L"%s/%s", szBareJid, r->m_tszResourceName);
 
 					if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO) {
-						XmlNodeIq iq5(AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT, -1, r));
+						XmlNodeIq iq5(AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
 						iq5 << XQUERY(JABBER_FEAT_DISCO_INFO);
 						m_ThreadInfo->send(iq5);
 					}

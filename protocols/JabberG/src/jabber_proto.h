@@ -124,7 +124,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int  __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int  __cdecl OnPrebuildContactMenu(WPARAM, LPARAM);
-	int  __cdecl OnMsgUserTyping(WPARAM, LPARAM);
 	int  __cdecl OnProcessSrmmIconClick(WPARAM, LPARAM);
 	int  __cdecl OnProcessSrmmEvent(WPARAM, LPARAM);
 	int  __cdecl OnReloadIcons(WPARAM, LPARAM);
@@ -592,9 +591,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen);
 	void   ResolveTransportNicks(const wchar_t *jid);
 	void   SetServerStatus(int iNewStatus);
-	void   FormatMirVer(pResourceStatus &resource, CMStringW&);
+	void   FormatMirVer(const pResourceStatus &resource, CMStringW&);
 	void   UpdateMirVer(JABBER_LIST_ITEM *item);
-	void   UpdateMirVer(MCONTACT hContact, pResourceStatus &resource);
+	void   UpdateMirVer(MCONTACT hContact, const pResourceStatus&);
 	void   UpdateSubscriptionInfo(MCONTACT hContact, JABBER_LIST_ITEM *item);
 	void   SetContactOfflineStatus(MCONTACT hContact);
 	void   InitPopups(void);

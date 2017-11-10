@@ -83,13 +83,21 @@ pResourceStatus CJabberProto::ResourceInfoFromJID(const wchar_t *jid)
 	if (jid == nullptr)
 		return nullptr;
 
-	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_VCARD_TEMP, jid);
+	const wchar_t *p = wcschr(jid, '/');
+
+	JABBER_LIST_ITEM *item = nullptr;
+	if (p) {
+		wchar_t szJid[JABBER_MAX_JID_LEN];
+		JabberStripJid(jid, szJid, _countof(szJid));
+		item = ListGetItemPtr(LIST_CHATROOM, szJid);
+	}
+	if (item == nullptr)
+		item = ListGetItemPtr(LIST_VCARD_TEMP, jid);
 	if (item == nullptr)
 		item = ListGetItemPtr(LIST_ROSTER, jid);
 	if (item == nullptr)
 		return nullptr;
 
-	const wchar_t *p = wcschr(jid, '/');
 	if (p == nullptr)
 		return item->getTemp();
 

@@ -119,7 +119,9 @@ void CJabberProto::AddDefaultCaps()
 
 void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
 {
-	pResourceStatus r((JABBER_RESOURCE_STATUS*)pInfo->GetUserData());
+	pResourceStatus r(ResourceInfoFromJID(pInfo->GetFrom()));
+	if (r == nullptr)
+		return;
 
 	HXML query = pInfo->GetChildNode();
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT && query) {
@@ -139,60 +141,56 @@ void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
 			}
 		}
 
-		// no XEP-0115 support?
-		if (r) {
-			CJabberClientPartialCaps *pCaps = r->m_pCaps;
-			if (pCaps == nullptr) {
-				r->m_jcbCachedCaps = jcbCaps;
-				r->m_dwDiscoInfoRequestTime = -1;
-				return;
-			}
-
-			HXML identity;
-			for (int i = 1; (identity = XmlGetNthChild(query, L"identity", i)) != nullptr; i++) {
-				const wchar_t *identityName = XmlGetAttrValue(identity, L"name");
-				if (identityName)
-					pCaps->SetVer(identityName);
-			}
-
-			HXML xform;
-			for (int i = 1; (xform = XmlGetNthChild(query, L"x", i)) != nullptr; i++) {
-				wchar_t *szFormTypeValue = XPath(xform, L"field[@var='FORM_TYPE']/value");
-				if (!mir_wstrcmp(szFormTypeValue, L"urn:xmpp:dataforms:softwareinfo")) {
-					JSONNode root;
-					if (pCaps->m_szOs = mir_wstrdup(XPath(xform, L"field[@var='os']/value")))
-						root.push_back(JSONNode("o", _T2A(pCaps->m_szOs).get()));
-					if (pCaps->m_szOsVer = mir_wstrdup(XPath(xform, L"field[@var='os_version']/value")))
-						root.push_back(JSONNode("ov", _T2A(pCaps->m_szOsVer).get()));
-					if (pCaps->m_szSoft = mir_wstrdup(XPath(xform, L"field[@var='software']/value")))
-						root.push_back(JSONNode("s", _T2A(pCaps->m_szSoft).get()));
-					if (pCaps->m_szSoftVer = mir_wstrdup(XPath(xform, L"field[@var='software_version']/value")))
-						root.push_back(JSONNode("sv", _T2A(pCaps->m_szSoftVer).get()));
-					if (pCaps->m_szSoftMir = mir_wstrdup(XPath(xform, L"field[@var='x-miranda-core-version']/value")))
-						root.push_back(JSONNode("sm", _T2A(pCaps->m_szSoftMir).get()));
-					root.push_back(JSONNode("c",  CMStringA(FORMAT, "%lld", jcbCaps)));
-
-					CMStringA szName(FORMAT, "%S#%S", pCaps->GetNode(), pCaps->GetHash());
-					json_string szValue = root.write();
-					db_set_s(0, "JabberCaps", szName, szValue.c_str());
-				}
-			}
-
-			pCaps->SetCaps(jcbCaps, pInfo->GetIqId());
-
-			UpdateMirVer(pInfo->GetHContact(), r);
+		// no XEP-0115 support? store info & exit
+		CJabberClientPartialCaps *pCaps = r->m_pCaps;
+		if (pCaps == nullptr) {
+			r->m_jcbCachedCaps = jcbCaps;
+			r->m_dwDiscoInfoRequestTime = -1;
+			return;
 		}
+
+		HXML identity;
+		for (int i = 1; (identity = XmlGetNthChild(query, L"identity", i)) != nullptr; i++) {
+			const wchar_t *identityName = XmlGetAttrValue(identity, L"name");
+			if (identityName)
+				pCaps->SetVer(identityName);
+		}
+
+		HXML xform;
+		for (int i = 1; (xform = XmlGetNthChild(query, L"x", i)) != nullptr; i++) {
+			wchar_t *szFormTypeValue = XPath(xform, L"field[@var='FORM_TYPE']/value");
+			if (!mir_wstrcmp(szFormTypeValue, L"urn:xmpp:dataforms:softwareinfo")) {
+				JSONNode root;
+				if (pCaps->m_szOs = mir_wstrdup(XPath(xform, L"field[@var='os']/value")))
+					root.push_back(JSONNode("o", _T2A(pCaps->m_szOs).get()));
+				if (pCaps->m_szOsVer = mir_wstrdup(XPath(xform, L"field[@var='os_version']/value")))
+					root.push_back(JSONNode("ov", _T2A(pCaps->m_szOsVer).get()));
+				if (pCaps->m_szSoft = mir_wstrdup(XPath(xform, L"field[@var='software']/value")))
+					root.push_back(JSONNode("s", _T2A(pCaps->m_szSoft).get()));
+				if (pCaps->m_szSoftVer = mir_wstrdup(XPath(xform, L"field[@var='software_version']/value")))
+					root.push_back(JSONNode("sv", _T2A(pCaps->m_szSoftVer).get()));
+				if (pCaps->m_szSoftMir = mir_wstrdup(XPath(xform, L"field[@var='x-miranda-core-version']/value")))
+					root.push_back(JSONNode("sm", _T2A(pCaps->m_szSoftMir).get()));
+				root.push_back(JSONNode("c",  CMStringA(FORMAT, "%lld", jcbCaps)));
+
+				CMStringA szName(FORMAT, "%S#%S", pCaps->GetNode(), pCaps->GetHash());
+				json_string szValue = root.write();
+				db_set_s(0, "JabberCaps", szName, szValue.c_str());
+			}
+		}
+
+		pCaps->SetCaps(jcbCaps, pInfo->GetIqId());
+
+		UpdateMirVer(pInfo->GetHContact(), r);
 
 		JabberUserInfoUpdate(pInfo->GetHContact());
 	}
 	else {
-		if (r) {
-			if (!r->m_pCaps) { // no XEP-0115 support?
-				r->m_jcbCachedCaps = JABBER_RESOURCE_CAPS_NONE;
-				r->m_dwDiscoInfoRequestTime = -1;
-			}
-			else r->m_pCaps->SetCaps(JABBER_RESOURCE_CAPS_ERROR);
+		if (!r->m_pCaps) { // no XEP-0115 support?
+			r->m_jcbCachedCaps = JABBER_RESOURCE_CAPS_NONE;
+			r->m_dwDiscoInfoRequestTime = -1;
 		}
+		else r->m_pCaps->SetCaps(JABBER_RESOURCE_CAPS_ERROR);
 	}
 }
 
@@ -257,7 +255,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilities(const wchar_t *jid, pResour
 
 		if (jcbMainCaps == JABBER_RESOURCE_CAPS_UNINIT) {
 			// send disco#info query
-			CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE, -1, r);
+			CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE);
 			pInfo->SetTimeout(JABBER_RESOURCE_CAPS_QUERY_TIMEOUT);
 			pCaps->SetCaps(JABBER_RESOURCE_CAPS_IN_PROGRESS, pInfo->GetIqId());
 			r->m_dwDiscoInfoRequestTime = pInfo->GetRequestTime();
@@ -311,7 +309,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilities(const wchar_t *jid, pResour
 
 void CJabberProto::RequestOldCapsInfo(pResourceStatus &r, const wchar_t *fullJid)
 {
-	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE, -1, r);
+	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE);
 	pInfo->SetTimeout(JABBER_RESOURCE_CAPS_QUERY_TIMEOUT);
 	r->m_dwDiscoInfoRequestTime = pInfo->GetRequestTime();
 

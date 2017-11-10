@@ -277,17 +277,13 @@ void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 
 	debugLogW(L"JabberUpdateMirVer: for jid %s", item->jid);
 
-	pResourceStatus p(nullptr);
 	if (item->resourceMode == RSMODE_LASTSEEN)
-		p = item->m_pLastSeenResource;
+		UpdateMirVer(hContact, pResourceStatus(item->m_pLastSeenResource));
 	else if (item->resourceMode == RSMODE_MANUAL)
-		p = item->m_pManualResource;
-
-	if (p)
-		UpdateMirVer(hContact, p);
+		UpdateMirVer(hContact, pResourceStatus(item->m_pManualResource));
 }
 
-void CJabberProto::FormatMirVer(pResourceStatus &resource, CMStringW &res)
+void CJabberProto::FormatMirVer(const pResourceStatus &resource, CMStringW &res)
 {
 	res.Empty();
 	if (resource == nullptr)
@@ -338,10 +334,13 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMStringW &res)
 			res.AppendFormat(L" [%s]", resource->m_tszResourceName);
 }
 
-void CJabberProto::UpdateMirVer(MCONTACT hContact, pResourceStatus &resource)
+void CJabberProto::UpdateMirVer(MCONTACT hContact, const pResourceStatus &r)
 {
+	if (r == nullptr)
+		return;
+
 	CMStringW tszMirVer;
-	FormatMirVer(resource, tszMirVer);
+	FormatMirVer(r, tszMirVer);
 	if (!tszMirVer.IsEmpty())
 		setWString(hContact, "MirVer", tszMirVer);
 
@@ -350,8 +349,8 @@ void CJabberProto::UpdateMirVer(MCONTACT hContact, pResourceStatus &resource)
 		return;
 
 	wchar_t szFullJid[JABBER_MAX_JID_LEN];
-	if (resource->m_tszResourceName && !wcschr(jid, '/'))
-		mir_snwprintf(szFullJid, L"%s/%s", jid, resource->m_tszResourceName);
+	if (r->m_tszResourceName && !wcschr(jid, '/'))
+		mir_snwprintf(szFullJid, L"%s/%s", jid, r->m_tszResourceName);
 	else
 		mir_wstrncpy(szFullJid, jid, _countof(szFullJid));
 	setWString(hContact, DBSETTING_DISPLAY_UID, szFullJid);
