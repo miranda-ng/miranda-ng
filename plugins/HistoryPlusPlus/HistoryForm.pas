@@ -2533,6 +2533,7 @@ begin
   end
   else
   begin
+    tPanel := [];
     if GetDBBool(hppDBName, 'ShowSessions', False) then
       include(tPanel, hpSessions);
     if GetDBBool(hppDBName, 'ShowBookmarks', False) then
