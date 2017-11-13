@@ -654,6 +654,11 @@ char* Log_CreateRtfHeader(void)
 	for (int i = 0; i < OPTIONS_FONTCOUNT; i++)
 		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(pci->aFonts[i].color), GetGValue(pci->aFonts[i].color), GetBValue(pci->aFonts[i].color));
 
+	for (int i = 0; i < Utils::rtf_clrs.getCount(); i++) {
+		COLORREF clr = Utils::rtf_clrs[i].clr;
+		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(clr), GetGValue(clr), GetBValue(clr));
+	}
+
 	for (int i = 0; i < STATUSICONCOUNT; i++)
 		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(g_Settings.nickColors[i]), GetGValue(g_Settings.nickColors[i]), GetBValue(g_Settings.nickColors[i]));
 

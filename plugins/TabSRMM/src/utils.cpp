@@ -416,13 +416,22 @@ int CTabBaseDlg::FindRTLLocale()
 
 static TRTFColorTable _rtf_ctable[] =
 {
-	{ L"red", RGB(255, 0, 0), ID_FONT_RED },
-	{ L"blue", RGB(0, 0, 255), ID_FONT_BLUE },
-	{ L"green", RGB(0, 255, 0), ID_FONT_GREEN },
-	{ L"magenta", RGB(255, 0, 255), ID_FONT_MAGENTA },
-	{ L"yellow", RGB(255, 255, 0), ID_FONT_YELLOW },
-	{ L"cyan", RGB(0, 255, 255), ID_FONT_CYAN },
 	{ L"black", 0, ID_FONT_BLACK },
+	{ L"", RGB(0,0,128), -1 },
+	{ L"", RGB(0,128,128), -1 },
+	{ L"", RGB(128,0,128), -1 },
+	{ L"", RGB(0,128,0), -1 },
+	{ L"", RGB(128,128,0), -1 },
+	{ L"", RGB(128,0,0), -1 },
+	{ L"", RGB(128,128,128), -1 },
+
+	{ L"", RGB(192,192,192), -1 },
+	{ L"blue", RGB(0, 0, 255), ID_FONT_BLUE },
+	{ L"cyan", RGB(0, 255, 255), ID_FONT_CYAN },
+	{ L"magenta", RGB(255, 0, 255), ID_FONT_MAGENTA },
+	{ L"green", RGB(0, 255, 0), ID_FONT_GREEN },
+	{ L"yellow", RGB(255, 255, 0), ID_FONT_YELLOW },
+	{ L"red", RGB(255, 0, 0), ID_FONT_RED },
 	{ L"white", RGB(255, 255, 255), ID_FONT_WHITE }
 };
 

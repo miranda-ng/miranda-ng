@@ -885,17 +885,23 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText) const
 				if (iCol > 0) {
 					if (!isChat())
 						res.AppendFormat((iInd >= 0) ? (bInsideColor ? L"[/color][color=%s]" : L"[color=%s]") : (bInsideColor ? L"[/color]" : L""), Utils::rtf_clrs[iInd].szName);
-					// else
-					//		res.AppendFormat((iInd >= 0) ? L"%%c%02u" : L"%%C", iInd);					
+					else {
+						MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
+						if (mi && mi->bColor)
+							res.AppendFormat((iInd >= 0) ? L"%%c%u" : L"%%C", iInd);
+					}
 				}
 
 				bInsideColor = iInd >= 0;
 			}
-			else if (!wcsncmp(p, L"\\highlight", 10)) { //background color
-				/* if (isChat()) {
-					int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 10));
-					res.AppendFormat((iInd >= 0) ? L"%%f%02u" : L"%%F", iInd);
-				} */
+			else if (!wcsncmp(p, L"\\highlight", 10)) { // background color
+				if (isChat()) {
+					MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
+					if (mi && mi->bBkgColor) {
+						int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 10));
+						res.AppendFormat((iInd >= 0) ? L"%%f%u" : L"%%F", iInd);
+					}
+				}
 			}
 			else if (!wcsncmp(p, L"\\line", 5)) { // soft line break;
 				res.AppendChar('\n');
@@ -978,6 +984,13 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText) const
 		case '{': // other RTF control characters
 		case '}':
 			p++;
+			break;
+
+		case '%': // double % for stupid chat engine
+			if (isChat())
+				res.Append(L"%%");
+			else 
+				res.AppendChar(*p++);
 			break;
 
 		default: // other text that should not be touched

@@ -641,7 +641,6 @@ void CChatRoomDlg::onClick_OK(CCtrlButton*)
 
 	DoRtfToTags(ptszText);
 	ptszText.Trim();
-	ptszText.Replace(L"%", L"%%");
 
 	if (mi->bAckMsg) {
 		m_message.Enable(false);
