@@ -375,92 +375,96 @@ INT_PTR __cdecl CIrcProto::OnChangeNickMenuCommand(WPARAM, LPARAM)
 	return 0;
 }
 
-static void DoChatFormatting(wchar_t* pszText)
+static int mapSrmm2irc[] = { 1, 2, 10, 6, 3, 7, 5, 14, 15, 12, 11, 13, 9, 8, 4, 0 };
+
+static wchar_t* DoPrintColor(wchar_t *pDest, int iFG, int iBG)
 {
-	wchar_t* p1 = pszText;
-	int iFG = -1;
-	int iRemoveChars;
+	*pDest = 3;
+	if (iFG == -1) {
+		if (iBG == -1)
+			pDest[1] = 0;
+		else
+			mir_snwprintf(pDest+1, 49, L",%d", iBG);
+	}
+	else {
+		if (iBG == -1)
+			mir_snwprintf(pDest+1, 49, L"%d", iFG);
+		else
+			mir_snwprintf(pDest+1, 49, L"%d,%d", iFG, iBG);
+	}
+
+	return pDest;
+}
+
+static void DoChatFormatting(CMStringW &wszText)
+{
+	int iFG = -1, iBG = -1;
 	wchar_t InsertThis[50];
 
-	while (*p1 != '\0') {
-		iRemoveChars = 0;
-		InsertThis[0] = 0;
+	for (int i = 0; i < wszText.GetLength(); i++) {
+		if (wszText[i] != '%')
+			continue;
 
-		if (*p1 == '%') {
-			switch (p1[1]) {
-			case 'B':
-			case 'b':
-				mir_wstrcpy(InsertThis, L"\002");
-				iRemoveChars = 2;
-				break;
-			case 'I':
-			case 'i':
-				mir_wstrcpy(InsertThis, L"\026");
-				iRemoveChars = 2;
-				break;
-			case 'U':
-			case 'u':
-				mir_wstrcpy(InsertThis, L"\037");
-				iRemoveChars = 2;
-				break;
-			case 'c':
-				{
-					mir_wstrcpy(InsertThis, L"\003");
-					iRemoveChars = 2;
+		switch (wszText[i + 1]) {
+		case 'B':
+		case 'b':
+			wszText.Delete(i, 2);
+			wszText.Insert(i, L"\002");
+			break;
+		case 'I':
+		case 'i':
+			wszText.Delete(i, 2);
+			wszText.Insert(i, L"\026");
+			break;
+		case 'U':
+		case 'u':
+			wszText.Delete(i, 2);
+			wszText.Insert(i, L"\037");
+			break;
 
-					wchar_t szTemp[3];
-					mir_wstrncpy(szTemp, p1 + 2, 3);
-					iFG = _wtoi(szTemp);
-				}
-				break;
-			case 'C':
-				if (p1[2] == '%' && p1[3] == 'F') {
-					mir_wstrcpy(InsertThis, L"\x0399,99");
-					iRemoveChars = 4;
-				}
-				else {
-					mir_wstrcpy(InsertThis, L"\x0399");
-					iRemoveChars = 2;
-				}
-				iFG = -1;
-				break;
-			case 'f':
-				if (p1 - 3 >= pszText && p1[-3] == '\003')
-					mir_wstrcpy(InsertThis, L",");
-				else if (iFG >= 0)
-					mir_snwprintf(InsertThis, L"\x03%u,", iFG);
-				else
-					mir_wstrcpy(InsertThis, L"\x0399,");
+		case 'c':
+			wszText.Delete(i, 2);
+			iFG = _wtoi(wszText.GetString() + i);
+			wszText.Delete(i, (iFG < 10) ? 1 : 2);
 
-				iRemoveChars = 2;
-				break;
+			iFG = (iFG < 0 || iFG >= _countof(mapSrmm2irc)) ? -1 : mapSrmm2irc[iFG];
+			wszText.Insert(i, DoPrintColor(InsertThis, iFG, iBG));
+			break;
 
-			case 'F':
-				if (iFG >= 0)
-					mir_snwprintf(InsertThis, L"\x03%u,99", iFG);
-				else
-					mir_wstrcpy(InsertThis, L"\x0399,99");
-				iRemoveChars = 2;
-				break;
-
-			case '%':
-				mir_wstrcpy(InsertThis, L"%");
-				iRemoveChars = 2;
-				break;
-
-			default:
-				iRemoveChars = 2;
-				break;
+		case 'C':
+			if (wszText[i + 2] == '%' && wszText[i + 3] == 'F') {
+				wszText.Delete(i, 4);
+				iBG = -1;
 			}
+			else wszText.Delete(i, 2);
+			iFG = -1;
+			wszText.Insert(i, DoPrintColor(InsertThis, iFG, iBG));
+			break;
 
-			memmove(p1 + mir_wstrlen(InsertThis), p1 + iRemoveChars, sizeof(wchar_t)*(mir_wstrlen(p1) - iRemoveChars + 1));
-			memcpy(p1, InsertThis, sizeof(wchar_t)*mir_wstrlen(InsertThis));
-			if (iRemoveChars || mir_wstrlen(InsertThis))
-				p1 += mir_wstrlen(InsertThis);
-			else
-				p1++;
+		case 'f':
+			wszText.Delete(i, 2);
+			iBG = _wtoi(wszText.GetString() + i);
+			wszText.Delete(i, (iBG < 10) ? 1 : 2);
+
+			iBG = (iBG < 0 || iBG >= _countof(mapSrmm2irc)) ? -1 : mapSrmm2irc[iBG];
+			wszText.Insert(i, DoPrintColor(InsertThis, iFG, iBG));
+			break;
+
+		case 'F':
+			wszText.Delete(i, 2);
+			iBG = -1;
+			wszText.Insert(i, DoPrintColor(InsertThis, iFG, iBG));
+			break;
+
+		case '%':
+			wszText.Delete(i, 1);
+			i++;
+			break;
+
+		default:
+			wszText.Delete(i, 2);
+			break;
 		}
-		else p1++;
 	}
 }
 
@@ -486,11 +490,9 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 
 			case GC_USER_MESSAGE:
 				if (gch && gch->ptszText && *gch->ptszText) {
-					wchar_t* pszText = new wchar_t[mir_wstrlen(gch->ptszText) + 1000];
-					mir_wstrcpy(pszText, gch->ptszText);
-					DoChatFormatting(pszText);
-					PostIrcMessageWnd(p1, NULL, pszText);
-					delete[]pszText;
+					CMStringW wszText(gch->ptszText);
+					DoChatFormatting(wszText);
+					PostIrcMessageWnd(p1, NULL, wszText);
 				}
 				break;
 

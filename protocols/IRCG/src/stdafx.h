@@ -461,7 +461,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	void      SetChatTimer(UINT_PTR &nIDEvent, UINT uElapse, TIMERPROC lpTimerFunc);
 
 	void      ClearUserhostReasons(int type);
-	void      DoUserhostWithReason(int type, CMStringW reason, bool bSendCommand, CMStringW userhostparams, ...);
+	void      DoUserhostWithReason(int type, CMStringW reason, bool bSendCommand, const wchar_t *userhostparams, ...);
 	CMStringW GetNextUserhostReason(int type);
 	CMStringW PeekAtReasons(int type);
 

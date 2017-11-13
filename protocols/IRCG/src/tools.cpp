@@ -231,30 +231,49 @@ wchar_t* __stdcall my_strstri(const wchar_t* s1, const wchar_t* s2)
 	return nullptr;
 }
 
-wchar_t* __stdcall DoColorCodes(const wchar_t* text, bool bStrip, bool bReplacePercent)
+static int mapIrc2srmm[] = { 15, 0, 1, 4, 14, 6, 3, 5, 13, 12, 2, 10, 9, 11, 7, 8 };
+
+static const wchar_t* DoEnterNumber(const wchar_t *text, int &res)
+{
+	if (*text >= '0' && *text <= '9') {
+		res = text[0] - '0';
+		text++;
+
+		if (*text >= '0' && *text <= '9') {
+			res *= 10;
+			res += text[0] - '0';
+			text++;
+		}
+
+		res = (res >= 0 && res < _countof(mapIrc2srmm)) ? mapIrc2srmm[res] : -1;
+	}
+	else res = -1;
+
+	return text;
+}
+
+wchar_t* __stdcall DoColorCodes(const wchar_t *text, bool bStrip, bool bReplacePercent)
 {
 	static wchar_t szTemp[4000]; szTemp[0] = '\0';
 	wchar_t* p = szTemp;
 	bool bBold = false;
 	bool bUnderline = false;
 	bool bItalics = false;
+	int iFG = -1, iBG = -1;
 
 	if (!text)
 		return szTemp;
 
 	while (*text != '\0') {
-		int iFG = -1;
-		int iBG = -1;
-
 		switch (*text) {
-		case '%': //escape
+		case '%': // escape
 			*p++ = '%';
 			if (bReplacePercent)
 				*p++ = '%';
 			text++;
 			break;
 
-		case 2: //bold
+		case 2: // bold
 			if (!bStrip) {
 				*p++ = '%';
 				*p++ = bBold ? 'B' : 'b';
@@ -263,17 +282,16 @@ wchar_t* __stdcall DoColorCodes(const wchar_t* text, bool bStrip, bool bReplaceP
 			text++;
 			break;
 
-		case 15: //reset
+		case 15: // reset
 			if (!bStrip) {
 				*p++ = '%';
 				*p++ = 'r';
 			}
-			bUnderline = false;
-			bBold = false;
+			bUnderline = bItalics = bBold = false;
 			text++;
 			break;
 
-		case 22: //italics
+		case 22: // italics
 			if (!bStrip) {
 				*p++ = '%';
 				*p++ = bItalics ? 'I' : 'i';
@@ -291,77 +309,41 @@ wchar_t* __stdcall DoColorCodes(const wchar_t* text, bool bStrip, bool bReplaceP
 			text++;
 			break;
 
-		case 3: //colors
-			text++;
+		case 3: // colors
+			int iOldBG, iOldFG;
+			iOldBG = iBG, iOldFG = iFG;
 
-			// do this if the colors should be reset to default
-			if (*text <= 47 || *text >= 58 || *text == '\0') {
-				if (!bStrip) {
-					*p++ = '%';
-					*p++ = 'C';
-					*p++ = '%';
-					*p++ = 'F';
-				}
-				break;
-			}
-			else { // some colors should be set... need to find out who
-				wchar_t buf[3];
-
-				// fix foreground index
-				if (text[1] > 47 && text[1] < 58 && text[1] != '\0')
-					mir_wstrncpy(buf, text, 3);
-				else
-					mir_wstrncpy(buf, text, 2);
-				text += mir_wstrlen(buf);
-				iFG = _wtoi(buf);
-
-				// fix background color
-				if (*text == ',' && text[1] > 47 && text[1] < 58 && text[1] != '\0') {
-					text++;
-
-					if (text[1] > 47 && text[1] < 58 && text[1] != '\0')
-						mir_wstrncpy(buf, text, 3);
-					else
-						mir_wstrncpy(buf, text, 2);
-					text += mir_wstrlen(buf);
-					iBG = _wtoi(buf);
-				}
-			}
-
-			if (iFG >= 0 && iFG != 99)
-			while (iFG > 15)
-				iFG -= 16;
-			if (iBG >= 0 && iBG != 99)
-			while (iBG > 15)
-				iBG -= 16;
+			text = DoEnterNumber(text + 1, iFG);
+			if (*text == ',')
+				text = DoEnterNumber(text + 1, iBG);
+			else
+				iBG = -1;
 
 			// create tag for chat.dll
 			if (!bStrip) {
 				wchar_t buf[10];
-				if (iFG >= 0 && iFG != 99) {
+				if (iFG != iOldFG) {
 					*p++ = '%';
-					*p++ = 'c';
-
-					mir_snwprintf(buf, L"%02u", iFG);
-					for (int i = 0; i < 2; i++)
-						*p++ = buf[i];
+					if (iFG == -1)
+						*p++ = 'C';
+					else {
+						*p++ = 'c';
+						mir_snwprintf(buf, L"%02u", iFG);
+						*p++ = buf[0];
+						*p++ = buf[1];
+					}
 				}
-				else if (iFG == 99) {
-					*p++ = '%';
-					*p++ = 'C';
-				}
 
-				if (iBG >= 0 && iBG != 99) {
+				if (iBG != iOldBG) {
 					*p++ = '%';
-					*p++ = 'f';
-
-					mir_snwprintf(buf, L"%02u", iBG);
-					for (int i = 0; i < 2; i++)
-						*p++ = buf[i];
-				}
-				else if (iBG == 99) {
-					*p++ = '%';
-					*p++ = 'F';
+					if (iBG == -1)
+						*p++ = 'F';
+					else {
+						*p++ = 'f';
+						mir_snwprintf(buf, L"%02u", iBG);
+						*p++ = buf[0];
+						*p++ = buf[1];
+					}
 				}
 			}
 			break;
@@ -601,7 +583,7 @@ void CIrcProto::FindLocalIP(HNETLIBCONN hConn) // inspiration from jabber
 	}
 }
 
-void CIrcProto::DoUserhostWithReason(int type, CMStringW reason, bool bSendCommand, CMStringW userhostparams, ...)
+void CIrcProto::DoUserhostWithReason(int type, CMStringW reason, bool bSendCommand, const wchar_t *userhostparams, ...)
 {
 	wchar_t temp[4096];
 	CMStringW S = L"";
@@ -616,10 +598,12 @@ void CIrcProto::DoUserhostWithReason(int type, CMStringW reason, bool bSendComma
 		S = L"USERHOST";
 		break;
 	}
+	S.AppendChar(' ');
+	S.Append(userhostparams);
 
 	va_list ap;
 	va_start(ap, userhostparams);
-	mir_vsnwprintf(temp, _countof(temp), (S + L" " + userhostparams).c_str(), ap);
+	mir_vsnwprintf(temp, _countof(temp), S.c_str(), ap);
 	va_end(ap);
 
 	// Add reason
